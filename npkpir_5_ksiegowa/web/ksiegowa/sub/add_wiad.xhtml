@@ -20,7 +20,9 @@
                     <h:inputText value="#{DokDAO.selDokument.idDok}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij"/>
                     <h:inputText value="#{DokDAO.selDokument.dataWyst}" required="true" requiredMessage="imie - uzupełnij" converter="DateConv">
                     </h:inputText>
-                    <h:inputText value="#{DokDAO.selDokument.kontr}" required="true" requiredMessage="nazwisko - uzupełnij"/>
+                    <h:selectOneMenu value="#{DokDAO.selDokument.kontr}" required="false" requiredMessage="kontrahent - uzupełnij" converter="KontrConv">
+                        <f:selectItems value="#{KontrDAO.kluczDOKjsf}"/>
+                    </h:selectOneMenu>
                     <h:inputText value="#{DokDAO.selDokument.rodzTrans}" required="true" requiredMessage="hasło - uzupełnij"/>
                     <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="hasło - uzupełnij"/>
                     <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij"/>
