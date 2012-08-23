@@ -62,7 +62,7 @@ public class Dok implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "kontr")
-    private String kontr;
+    private Kontr kontr;
     @Column(name = "data_wyst")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataWyst;
@@ -110,11 +110,11 @@ public class Dok implements Serializable {
         this.idDok = idDok;
     }
 
-    public String getKontr() {
+    public Kontr getKontr() {
         return kontr;
     }
 
-    public void setKontr(String kontr) {
+    public void setKontr(Kontr kontr) {
         this.kontr = kontr;
     }
 

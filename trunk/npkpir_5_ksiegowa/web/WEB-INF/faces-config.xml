@@ -32,4 +32,10 @@
         converter.DateConv  
     </converter-class>  
 </converter>  
+<converter>  
+    <converter-id>KontrConv</converter-id>  
+    <converter-class>  
+        converter.KontrConv  
+    </converter-class>  
+</converter>  
 </faces-config>
