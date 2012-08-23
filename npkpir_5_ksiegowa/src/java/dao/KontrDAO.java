@@ -29,9 +29,9 @@ public class KontrDAO implements Serializable{
     //tablica obiektów
     private static HashMap<String,Kontr> kontrHashTable;
     //tablica kluczy do obiektów
-    private static List<String> kluczUZjsf;
+    private static List<String> kluczDOKjsf;
     //tablica obiektów
-    private static List<Kontr> obiektUZjsf;
+    private static List<Kontr> obiektDOKjsf;
     private static Kontr kontrObject;
     private String kontrString;
     private Kontr selKontrahent;
@@ -40,8 +40,8 @@ public class KontrDAO implements Serializable{
     public KontrDAO() {
         kontrHashTable = new HashMap<String, Kontr>();
         downloadedKontr = new ArrayList<Kontr>();
-        kluczUZjsf = new ArrayList<String>();
-        obiektUZjsf = new ArrayList<Kontr>();
+        kluczDOKjsf = new ArrayList<String>();
+        obiektDOKjsf = new ArrayList<Kontr>();
         selKontrahent = new Kontr();
        
     }
@@ -55,13 +55,13 @@ public class KontrDAO implements Serializable{
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
             downloadedKontr.addAll(c);
-            System.out.println("Pobrano z bazy danych."+c.toString());
+            System.out.println("Pobrano Kontr z bazy danych."+c.toString());
             Iterator it;
             it =  c.iterator();
             while(it.hasNext()){
             Kontr tmp = (Kontr) it.next();
-            kluczUZjsf.add(tmp.getNip().toString());
-            obiektUZjsf.add(tmp);
+            kluczDOKjsf.add(tmp.getNip().toString());
+            obiektDOKjsf.add(tmp);
             kontrHashTable.put(tmp.getNip().toString(),tmp);
             }
     }
@@ -76,12 +76,12 @@ public class KontrDAO implements Serializable{
     }
     
     //tabela indeksow
-    public List<String> getKluczUZjsf() {
-        return kluczUZjsf;
+    public List<String> getKluczDOKjsf() {
+        return kluczDOKjsf;
     }
     //tabela obiektow
-     public List<Kontr> getObiektUZjsf() {
-        return obiektUZjsf;
+     public List<Kontr> getObiektDOKjsf() {
+        return obiektDOKjsf;
     }
     //String to Object
     public Kontr getKontrObject(String selectedKey){
@@ -106,8 +106,8 @@ public class KontrDAO implements Serializable{
 
     public void refresh(){
         downloadedKontr.clear();
-        kluczUZjsf.clear();
-        obiektUZjsf.clear();
+        kluczDOKjsf.clear();
+        obiektDOKjsf.clear();
         kontrHashTable.clear();
         Collection c = null;    
         try {
@@ -121,8 +121,8 @@ public class KontrDAO implements Serializable{
             it =  c.iterator();
             while(it.hasNext()){
             Kontr tmp = (Kontr) it.next();
-            kluczUZjsf.add(tmp.getNip().toString());
-            obiektUZjsf.add(tmp);
+            kluczDOKjsf.add(tmp.getNip().toString());
+            obiektDOKjsf.add(tmp);
             kontrHashTable.put(tmp.getNip().toString(),tmp);
             }
     }
