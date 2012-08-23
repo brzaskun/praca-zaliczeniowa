@@ -4,8 +4,10 @@
  */
 package view;
 
+import dao.UzDAO;
 import entity.Uz;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -16,7 +18,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name="UzytkownikView")
 @SessionScoped
 public class UzView implements Serializable{
-    
+ 
     private Uz selUzytkownik;
     private boolean  dodajUz;
     private boolean edytujUz;
@@ -26,6 +28,7 @@ public class UzView implements Serializable{
         selUzytkownik = new Uz();
         setDodajUz(false);
         setEdytujUz(false);
+ 
     }
 
     public UzView(Uz selUzytkownik) {
@@ -46,6 +49,9 @@ public class UzView implements Serializable{
     }
 
     public void setDodajUz(boolean dodajUz) {
+        if(dodajUz==true){
+            setEdytujUz(false);
+        }
         this.dodajUz = dodajUz;
     }
 
@@ -54,11 +60,11 @@ public class UzView implements Serializable{
     }
 
     public void setEdytujUz(boolean edytujUz) {
+        if(edytujUz==true){
+            setDodajUz(false);
+        }
         this.edytujUz = edytujUz;
     }
 
-   
-
-  
-   
+ 
 }

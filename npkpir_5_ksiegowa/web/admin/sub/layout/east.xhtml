@@ -7,12 +7,17 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="east" size="175" header="Opcje" collapsible="true">
- <p:panel header="Opcje">
+        <h:form id="formeast">
+ <p:panel header="Opcje" id="paneleast">
                 <p:growl id="msg" showDetail="true"/>
              
-               
-            </p:panel>
-
+                <h:outputText value="#{UzytkownikView.dodajUz}"/>
+                <br/>
+                <h:outputText value="#{UzytkownikView.edytujUz}"/>
+                <br/>
+                <h:outputText value="#{UzDAO.selUzytkownik.logi}"/>
+                </p:panel>
+        </h:form>
     </p:layoutUnit>
 </ui:composition>   
 
