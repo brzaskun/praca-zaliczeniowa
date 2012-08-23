@@ -35,7 +35,7 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.nazw}" />
             </p:column>
-            <p:column id="kwaColumn" headerText="haslo">  
+            <p:column id="kwaColumn" headerText="haslo" width="50">  
                 <f:facet name="header">  
                     <h:outputText value="haslo" />  
                 </f:facet> 
@@ -54,8 +54,8 @@
                 <h:outputText value="#{wpis.log}" />
             </p:column>
              <p:column id="editColumn" headerText="usuń">
-                 <h:commandButton  action="#{UzDAO.edit()}" actionListener="#{UzytkownikView.setEdytujUz(true)}" value="Edyt" >
-                    <f:setPropertyActionListener target="#{UzDAO.selUzytkownik}" value="#{wpis}"/>
+                 <h:commandButton  action="#{UzDAO.dodajEdytuj()}" actionListener="#{UzytkownikView.setEdytujUz(true)}"  value="Edyt" >
+                    <f:setPropertyActionListener target="#{UzDAO.selUzytkownik}" value="#{wpis}" />
                 </h:commandButton>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń">
@@ -64,9 +64,7 @@
                 </h:commandButton>
             </p:column>
         </p:dataTable>
-          <br />
-          <h:commandButton actionListener="#{UzytkownikView.setDodajUz(true)}" value="Dodaj" rendered="#{not UzytkownikView.isDodajUz()}"/>
-          <h:commandButton actionListener="#{UzytkownikView.setDodajUz(false)}" value="Wroc" rendered="#{UzytkownikView.isDodajUz()}"/>
+          
     </p:outputPanel>
 </ui:composition>   
 

@@ -8,11 +8,7 @@ import entity.Uz;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,7 +16,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import session.UzFacade;
-import view.UzView;
 
 /**
  *
@@ -42,7 +37,6 @@ public class UzDAO implements Serializable{
     private static Uz uzObject;
     private String uzString;
     private Uz selUzytkownik;
-    private UzView uzView;
     
     
     public UzDAO() {
@@ -51,7 +45,7 @@ public class UzDAO implements Serializable{
         kluczUZjsf = new ArrayList<String>();
         obiektUZjsf = new ArrayList<Uz>();
         selUzytkownik = new Uz();
-        uzView = new UzView();
+       
     }
     
     @PostConstruct
@@ -111,7 +105,7 @@ public class UzDAO implements Serializable{
     public void setSelUzytkownik(Uz selUzytkownik) {
         this.selUzytkownik = selUzytkownik;
     }
- 
+
     public void refresh(){
         downloadedUz.clear();
         kluczUZjsf.clear();
@@ -137,7 +131,7 @@ public class UzDAO implements Serializable{
     
      public void dodajNowyWpis(){
         try {
-            System.out.println("Wpis do bazy zaczynam");
+            System.out.println("Wpis do bazy zaczynam "+selUzytkownik.getLogi()+" "+selUzytkownik.getImie());
             sformatuj();
             haszuj();
             uzFacade.create(selUzytkownik);
@@ -156,6 +150,7 @@ public class UzDAO implements Serializable{
         selUzytkownik.setLogi(selUzytkownik.getLogi().toLowerCase());
         selUzytkownik.setImie(selUzytkownik.getImie().substring(0,1).toUpperCase()+selUzytkownik.getImie().substring(1).toLowerCase());
         selUzytkownik.setNazw(selUzytkownik.getNazw().substring(0,1).toUpperCase()+selUzytkownik.getNazw().substring(1).toLowerCase());
+        System.out.println("sformatowane "+selUzytkownik.getLogi());
     }
     
     public void haszuj() throws NoSuchAlgorithmException{
@@ -186,6 +181,10 @@ public class UzDAO implements Serializable{
      public void edit(){
         try {
             sformatuj();
+            if(selUzytkownik.getHaslo().length()!=64){
+                System.out.println("Ustawianie hasła domyślnego");
+                selUzytkownik.setHaslo("haslo");
+            }
             uzFacade.edit(selUzytkownik);
             refresh();
             FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany", selUzytkownik.getLogi());
@@ -196,5 +195,15 @@ public class UzDAO implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
      }
-}
+      public void dodajEdytuj(){
+          Uz obecny = null;
+          obecny = uzFacade.find(selUzytkownik.getLogi());
+          if(obecny!=null){
+              edit();
+          } else {
+              dodajNowyWpis();
+          }
+      }
+    
+    }
 

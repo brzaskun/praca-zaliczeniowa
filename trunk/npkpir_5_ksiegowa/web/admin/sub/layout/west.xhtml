@@ -9,16 +9,17 @@
     <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
         <h:form>
             <p:menu id="menuWest">  
-                <p:submenu label="Ajax Menuitems">  
-                    <p:menuitem value="Nowy" actionListener="#{UzytkownikView.setDodajUz(true)}" update=":dodWiad,menuWest" icon="ui-icon-circle-plus" rendered="#{not UzytkownikView.isDodajUz()}"/>
-                    <p:menuitem value="Schowaj" actionListener="#{UzytkownikView.setDodajUz(false)}" update=":dodWiad,menuWest" icon="ui-icon-circle-minus" rendered="#{UzytkownikView.isDodajUz()}"/>  
+                <p:submenu label="Czynności">  
+                    <p:menuitem value="Nowy" actionListener="#{UzytkownikView.setDodajUz(true)}" update=":dodWiad,menuWest,:formeast:paneleast" icon="ui-icon-circle-plus" rendered="#{not UzytkownikView.isDodajUz()}"/>
+                    <p:menuitem value="Schowaj" actionListener="#{UzytkownikView.setDodajUz(false)}" update=":dodWiad,menuWest,:formeast:paneleast" icon="ui-icon-circle-minus" rendered="#{UzytkownikView.isDodajUz()}"/>  
                     <p:menuitem value="Update" actionListener="#{UzytkownikView.setEdytujUz(false)}" update=":dodWiad" icon="ui-icon-arrowrefresh-1-w"/>  
                 </p:submenu>  
                 <p:submenu label="Navigations">  
                     <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>  
-                    <p:menuitem value="Internal" outcome="/mobile/index" icon="ui-icon-star"/>  
+                    <p:menuitem value="księgowa" action="ksiegowa" icon="ui-icon-star"/>  
                 </p:submenu>  
             </p:menu>
+            <h:link outcome="ksiegowa">ksiegowa</h:link>
         </h:form>
 
     </p:layoutUnit>

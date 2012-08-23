@@ -5,7 +5,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:panel rendered="#{UzytkownikView.dodajUz==true}">
+    <p:panel>
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
          <h:form id="tabelaform">
              <h:messages id="mess_add" tooltip="true" />
@@ -27,7 +27,7 @@
                 <f:selectItems value="#{Uprawnienia.upr}"/>
             </h:selectOneMenu>
             <h:inputText value="#{UzDAO.selUzytkownik.log}" required="true" requiredMessage="login - uzupełnij"/>
-            <p:commandButton action="#{UzDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>
+            <p:commandButton action="#{UzDAO.dodajEdytuj()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik,:formeast:paneleast"/>
         </p:panelGrid>
          </h:form>
     </p:panel>
