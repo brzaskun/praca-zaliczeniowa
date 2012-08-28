@@ -18,19 +18,26 @@ public class KontrConv  implements Converter{
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Kontr kontr = new Kontr();
+        try {
+        Kontr kontr = new Kontr("8765463212","22-087","Szczecin","Minala","Min","Pokonia 34");
+        System.out.println("utworzono nowegokontrahenta"+kontr.toString());
         KontrDAO kontrDAO = new KontrDAO();
         kontr = kontrDAO.getKontrObject(value);
         return kontr;
+        } catch (Exception e){
+            System.out.println("Blad konvertera "+e.toString());
+        return null;
+        }
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         KontrDAO kontrDAO = new KontrDAO();
-        String wyraz = "8765463212";
+        String wyraz = kontrDAO.getKontrString((Kontr) value);
         return wyraz;
     }
 
-      
+   
+    
     
 }

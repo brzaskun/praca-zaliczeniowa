@@ -15,6 +15,16 @@
                 </p:panelGrid>
             </h:form>
         </p:panel>
+<p:panel header="Opcje">
+                <p:growl id="msg" showDetail="true"/>
+                <p:dataTable var="mimi" value="#{KontrDAO.kontrHashTable}">
+                    <p:column>
+                        <h:outputText value="#{mimi.toString()}"/>
+                    </p:column>
+                 
+                </p:dataTable>
+            </p:panel>
+        
 
     </p:layoutUnit>
 </ui:composition>   
