@@ -43,6 +43,7 @@ public class KontrDAO implements Serializable{
         kluczDOKjsf = new ArrayList<String>();
         obiektDOKjsf = new ArrayList<Kontr>();
         selKontrahent = new Kontr();
+        kontrFacade = new KontrFacade();
        
     }
     
@@ -52,7 +53,7 @@ public class KontrDAO implements Serializable{
         try {
             c = kontrFacade.findAll();
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
+                System.out.println("Blad w pobieraniu Kontrahentow. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
             downloadedKontr.addAll(c);
             System.out.println("Pobrano Kontr z bazy danych."+c.toString());
@@ -64,6 +65,7 @@ public class KontrDAO implements Serializable{
             obiektDOKjsf.add(tmp);
             kontrHashTable.put(tmp.getNip().toString(),tmp);
             }
+             System.out.println("W hasztable jest."+kontrHashTable.toString());
     }
     
     //hashtable z indeksami
@@ -85,6 +87,13 @@ public class KontrDAO implements Serializable{
     }
     //String to Object
     public Kontr getKontrObject(String selectedKey){
+        System.out.println("Klucz do wyszukania kontrahenta: "+selectedKey);
+        refresh();
+        if(kontrHashTable.size()==0){
+           System.out.println("Hashlista kont pusta");
+        }System.out.println("Hashlista niepusta?"+kontrHashTable.toString());
+        Kontr pobrano = kontrHashTable.get(selectedKey);
+        System.out.println("Zlaneziono obiekt: "+pobrano.getNip()+" "+pobrano.getMiasto());
         return kontrHashTable.get(selectedKey);
     }
     //Object to String
@@ -105,6 +114,7 @@ public class KontrDAO implements Serializable{
     }
 
     public void refresh(){
+
         downloadedKontr.clear();
         kluczDOKjsf.clear();
         obiektDOKjsf.clear();
@@ -113,10 +123,10 @@ public class KontrDAO implements Serializable{
         try {
             c = kontrFacade.findAll();
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
+                System.out.println("Blad w odswiezaniu Kontrahentow bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
             downloadedKontr.addAll(c);
-            System.out.println("Pobrano z bazy danych."+c.toString());
+            System.out.println("Odsiwezono kontrahentow z bazy danych."+c.toString());
             Iterator it;
             it =  c.iterator();
             while(it.hasNext()){

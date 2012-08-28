@@ -132,11 +132,13 @@ public class Kontr implements Serializable {
 
     @Override
     public boolean equals(Object object) {
+        System.out.println("dostalem object"+object.toString());
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Kontr)) {
             return false;
         }
         Kontr other = (Kontr) object;
+        System.out.println("porownuje obiekty"+this.nip+" "+other.nip);
         if ((this.nip == null && other.nip != null) || (this.nip != null && !this.nip.equals(other.nip))) {
             return false;
         }

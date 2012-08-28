@@ -61,7 +61,7 @@ public class DokDAO implements Serializable{
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
             downloadedDok.addAll(c);
-            System.out.println("Pobrano z bazy danych."+c.toString());
+            System.out.println("Pobrano Dokument z bazy danych."+c.toString());
             Iterator it;
             it =  c.iterator();
             while(it.hasNext()){

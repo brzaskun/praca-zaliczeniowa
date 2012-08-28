@@ -20,8 +20,8 @@
                     <h:inputText value="#{DokDAO.selDokument.idDok}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij"/>
                     <h:inputText value="#{DokDAO.selDokument.dataWyst}" required="true" requiredMessage="imie - uzupełnij" converter="DateConv">
                     </h:inputText>
-                    <h:selectOneMenu value="#{DokDAO.selDokument.kontr}" required="false" requiredMessage="kontrahent - uzupełnij" converter="KontrConv">
-                        <f:selectItems value="#{KontrDAO.kluczDOKjsf}"/>
+                    <h:selectOneMenu value="#{DokDAO.selDokument.kontr}" required="true" requiredMessage="kontrahent - uzupełnij" converter="KontrConv">
+                        <f:selectItems var="kontr" value="#{KontrDAO.kontrHashTable}" />
                     </h:selectOneMenu>
                     <h:inputText value="#{DokDAO.selDokument.rodzTrans}" required="true" requiredMessage="hasło - uzupełnij"/>
                     <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="hasło - uzupełnij"/>
@@ -55,7 +55,7 @@
                 <h:outputLabel value="kwota"/>
                 <h:outputText  value="#{DokDAO.selDokument.idDok}"/>
                 <h:outputText  value="#{DokDAO.selDokument.dataWyst}"/>
-                <h:outputText  value="#{DokDAO.selDokument.kontr}"/>
+                <h:outputText  value="#{DokDAO.selDokument.kontr.nip}"/>
                 <h:outputText  value="#{DokDAO.selDokument.rodzTrans}"/>
                 <h:outputText  value="#{DokDAO.selDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokDAO.selDokument.opis}"/>
