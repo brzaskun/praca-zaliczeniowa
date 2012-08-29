@@ -18,6 +18,11 @@ import javax.faces.bean.RequestScoped;
 public class KlDAO implements Serializable{
     private static int klientId;
 
+    public KlDAO() {
+
+    }
+
+    
     public int getKlientId() {
         return klientId;
     }
@@ -27,10 +32,8 @@ public class KlDAO implements Serializable{
     }
     
     public Kl toObject(){
-        Kl kl;
-        kl = new Kl();
-        kl=kl.getKlList().get(klientId);
-        return kl;
+        Kl kl = new Kl();
+        return kl.getKlList().get(klientId);
     }
     
 }

@@ -10,38 +10,48 @@
          <h:form id="tabelaform">
              <h:messages id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
-            <h:outputLabel value="nr kolejny"/>
             <h:outputLabel value="data wyst"/>
             <h:outputLabel value="kontrahent"/>
             <h:outputLabel value="rodzaj trans"/>
             <h:outputLabel value="nr wł"/>
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
-            <h:inputText value="#{DokDAO.selDokument.idDok}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.dataWyst}" required="true" requiredMessage="imie - uzupełnij" converter="DateConv">
-            </h:inputText>
-            <h:inputText value="#{KlDAO.klientId}" required="true" requiredMessage="nazwisko - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.rodzTrans}" required="true" requiredMessage="hasło - uzupełnij" />
+            <h:outputLabel value="kolumna"/>
+            <h:inputText value="#{DokDAO.selDokument.dataWyst}" required="true" requiredMessage="imie - uzupełnij" converter="DateConv" accesskey="s"/>
+            <h:inputText value="#{KlDAO.klientId}" required="true" requiredMessage="nazwisko - uzupełnij" />
+            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" >
+                <f:selectItems value="#{Trans.transList}"/>
+            </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="hasło - uzupełnij"/>
             <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij"/>
             <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij"/>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" >
+                <f:selectItems value="#{Kolumna.kolumnList}"/>
+            </h:selectOneMenu>
             
-            <h:outputLabel value="kolumna"/>
             <h:outputLabel value="k m-c"/>
             <h:outputLabel value="k rok"/>
             <h:outputLabel value="v m-c"/>
             <h:outputLabel value="v rok"/>
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
-            <h:inputText value="#{DokDAO.selDokument.pkpirKol}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.pkpirM}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.pkpirR}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.vatM}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.vatR}" required="true" requiredMessage="login - uzupełnij"/>
+            <h:outputLabel value=""/>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" >
+                <f:selectItems value="#{Mce.mceList}"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" >
+                <f:selectItems value="#{Roki.rokiList}"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" >
+                <f:selectItems value="#{Mce.mceList}"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" >
+                <f:selectItems value="#{Roki.rokiList}"/>
+            </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.uwagi}" required="true" requiredMessage="login - uzupełnij"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>   
         </p:panelGrid>
-               
+                 
          </h:form>
     </p:panel>
     <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">

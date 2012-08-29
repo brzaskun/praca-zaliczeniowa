@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:outputPanel id="wrapper">
-        <p:dataTable  var="wpis" value="#{DokDAO.obiektDOKjsf}" id="uzytkownicyLista" editable="true"
+        <p:dataTable  var="wpis" value="#{DokDAO.obiektDOKjsf}" id="uzytkownicyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="8"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
@@ -69,7 +69,7 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-            <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}">  
+            <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}"  >  
                 <f:facet name="header">  
                     <h:outputText value="k m-c" />  
                 </f:facet> 
