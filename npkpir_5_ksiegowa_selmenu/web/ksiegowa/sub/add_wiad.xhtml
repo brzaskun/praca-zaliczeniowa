@@ -17,15 +17,15 @@
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
-            <h:inputText value="#{DokDAO.selDokument.dataWyst}" required="true" requiredMessage="imie - uzupełnij" converter="DateConv" accesskey="s"/>
-            <h:inputText value="#{KlDAO.klientId}" required="true" requiredMessage="nazwisko - uzupełnij" />
+            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd/mm/yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1"/> 
+            <h:inputText value="#{KlDAO.klientId}" required="true" requiredMessage="nip klienta - uzupełnij" tabindex="2"/>
             <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" >
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="hasło - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij"/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" >
+            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="3"/>
+            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="4"/>
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="5"/>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="6">
                 <f:selectItems value="#{Kolumna.kolumnList}"/>
             </h:selectOneMenu>
             
@@ -36,20 +36,20 @@
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" >
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="7">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" >
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="8">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" >
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="9">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" >
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="10">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.uwagi}" required="true" requiredMessage="login - uzupełnij"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>   
+            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="11"/>
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="12"/>   
         </p:panelGrid>
                  
          </h:form>

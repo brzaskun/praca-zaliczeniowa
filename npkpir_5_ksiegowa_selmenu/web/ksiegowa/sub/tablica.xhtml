@@ -14,7 +14,7 @@
                       rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
                       rowKey="#{wpis.idDok}" selection="#{DokDAO.selDokument}" selectionMode="single"> 
             <f:facet name="header">  
-                <h:outputText value="Wykaz użytkowników" />  
+                <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
 
             <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.idDok}" filterMatchMode="contains" sortBy="#{wpis.idDok}">  
