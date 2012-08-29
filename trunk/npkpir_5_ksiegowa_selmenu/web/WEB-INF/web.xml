@@ -6,7 +6,7 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>pepper-grinder</param-value>
+        <param-value>glass-x</param-value>
     </context-param>
     <context-param>
         <description>czas i data lokalna</description>
