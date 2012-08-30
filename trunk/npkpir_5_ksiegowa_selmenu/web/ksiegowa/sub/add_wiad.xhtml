@@ -17,15 +17,17 @@
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
-            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd/mm/yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1"/> 
-            <h:inputText value="#{KlDAO.klientId}" required="true" requiredMessage="nip klienta - uzupełnij" tabindex="2"/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" >
+            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd/mm/yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1"/>
+            <p:inputText id="klientPole" value="wybierz kontr" onfocus="dlg.show();" tabindex="2"/>
+            <p:autoComplete id="acForce" forceSelection="true" value="#{KlDAO.klientNip}"   /><!--do zrobienia -->
+                    completeMethod="#{autoCompleteBean.complete}"/>  
+            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="5">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="3"/>
-            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="4"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="5"/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="6">
+            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="6"/>
+            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="7"/>
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="8"/>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="9">
                 <f:selectItems value="#{Kolumna.kolumnList}"/>
             </h:selectOneMenu>
             
@@ -36,23 +38,56 @@
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="7">
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="10">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="8">
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="11">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="9">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="12">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="10">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="13">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="11"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="12"/>   
+            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="14"/>
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="15"/>   
         </p:panelGrid>
-                 
          </h:form>
+           <p:dialog header="Enter FirstName" widgetVar="dlg" resizable="true">  
+                <h:form id="form">  
+                    <h:panelGrid columns="2" style="margin-bottom:10px">  
+                        <p:dataTable  var="wpisKontr" value="#{KlEmbedded.klList}" id="klienciLista" editable="true" 
+                         paginator="true" paginatorAlwaysVisible="true" rows="8"
+                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
+                         rowKey="#{wpisKontr.NIP}" selection="#{KlDAO.selectedKontr}" selectionMode="single"> 
+                        <f:facet name="header">  
+                            <h:outputText value="Wykaz kontrahentów" />  
+                        </f:facet>
+                            <p:column id="kontridColumn" headerText="nr kolejny" width="60">  
+                                <f:facet name="header">  
+                                    <h:outputText value="nr kolejny" />  
+                                </f:facet> 
+                                <h:outputText value="#{wpisKontr.id}" />
+                            </p:column>
+                            <p:column id="kontrnipColumn" headerText="NIP" filterBy="#{wpisKontr.NIP}" filterMatchMode="contains" sortBy="#{wpisKontr.NIP}"  width="120">  
+                                <f:facet name="header">  
+                                    <h:outputText value="NIP" />  
+                                </f:facet> 
+                                <h:outputText value="#{wpisKontr.NIP}" />
+                            </p:column>
+                            <p:column id="kontrnazwaColumn" headerText="nazwa" filterBy="#{wpisKontr.npelna}" filterMatchMode="contains" sortBy="#{wpisKontr.npelna}">  
+                                <f:facet name="header">  
+                                    <h:outputText value="nazwa" />  
+                                </f:facet> 
+                                <h:outputText value="#{wpisKontr.npelna}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>  
+                    <p:commandButton id="submitButton" value="Ok" oncomplete="dlg.hide();" tabindex="4"/>  
+                </h:form>  
+            </p:dialog>  
     </p:panel>
     <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
         <h:outputLabel value="Ostatnio wprowadzony:"/>
@@ -64,13 +99,6 @@
             <h:outputLabel value="nr wł"/>
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
-            <h:outputLabel value="kolumna"/>
-            <h:outputLabel value="k m-c"/>
-            <h:outputLabel value="k rok"/>
-            <h:outputLabel value="v m-c"/>
-            <h:outputLabel value="v rok"/>
-            <h:outputLabel value="uwagi"/>
-            <br/>
             <h:outputText  value="#{DokDAO.selDokument.idDok}"/>
             <h:outputText  value="#{DokDAO.selDokument.dataWyst}"/>
             <h:outputText  value="#{DokDAO.selDokument.kontr}"/>
@@ -78,6 +106,12 @@
             <h:outputText  value="#{DokDAO.selDokument.nrWlDk}"/>
             <h:outputText  value="#{DokDAO.selDokument.opis}"/>
             <h:outputText  value="#{DokDAO.selDokument.kwota}"/>
+            <h:outputLabel value="kolumna"/>
+            <h:outputLabel value="k m-c"/>
+            <h:outputLabel value="k rok"/>
+            <h:outputLabel value="v m-c"/>
+            <h:outputLabel value="v rok"/>
+            <h:outputLabel value="uwagi"/>
             <h:outputText  value="#{DokDAO.selDokument.pkpirKol}"/>
             <h:outputText  value="#{DokDAO.selDokument.pkpirM}"/>
             <h:outputText  value="#{DokDAO.selDokument.pkpirR}"/>

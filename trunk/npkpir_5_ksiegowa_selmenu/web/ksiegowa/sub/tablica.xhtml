@@ -17,7 +17,7 @@
                 <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
 
-            <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.idDok}" filterMatchMode="contains" sortBy="#{wpis.idDok}">  
+            <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.idDok}" filterMatchMode="contains" sortBy="#{wpis.idDok}"  width="60">  
                 <f:facet name="header">  
                     <h:outputText value="nr kolejny" />  
                 </f:facet> 
@@ -69,25 +69,25 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-            <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}"  >  
+            <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}"  width="60" filterMaxLength="2">  
                 <f:facet name="header">  
                     <h:outputText value="k m-c" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirM}" />
             </p:column>
-            <p:column id="pkpirRokColumn" headerText="k rok" filterBy="#{wpis.pkpirR}" filterMatchMode="contains" sortBy="#{wpis.pkpirR}">  
+            <p:column id="pkpirRokColumn" headerText="k rok" filterBy="#{wpis.pkpirR}" filterMatchMode="contains" sortBy="#{wpis.pkpirR}" width="60" filterMaxLength="4">  
                 <f:facet name="header">  
                     <h:outputText value="k rok" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirR}" />
             </p:column>
-            <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}">  
+            <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
                 <f:facet name="header">  
                     <h:outputText value="v m-c" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.vatM}" />
             </p:column>
-            <p:column id="vatRokColumn" headerText="v rok" filterBy="#{wpis.vatR}" filterMatchMode="contains" sortBy="#{wpis.vatR}">  
+            <p:column id="vatRokColumn" headerText="v rok" filterBy="#{wpis.vatR}" filterMatchMode="contains" sortBy="#{wpis.vatR}" width="60" filterMaxLength="4">  
                 <f:facet name="header">  
                     <h:outputText value="v rok" />  
                 </f:facet> 

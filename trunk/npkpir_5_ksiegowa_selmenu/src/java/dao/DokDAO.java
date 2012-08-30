@@ -5,7 +5,7 @@
 package dao;
 
 import entity.Dok;
-import entity.Kl;
+import embeddable.Kl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -140,7 +140,7 @@ public class DokDAO implements Serializable{
         try {
             System.out.println("Wpis do bazy zaczynam");
             sformatuj();
-            Kl kl = klDAO.toObject();
+            Kl kl = klDAO.getSelectedKontr();
             selDokument.setKontr(kl);
             dokFacade.create(selDokument);
             refresh();
