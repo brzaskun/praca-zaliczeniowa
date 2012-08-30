@@ -6,6 +6,8 @@ package dao;
 
 import embeddable.Kl;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -16,22 +18,14 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean(name="KlDAO")
 @RequestScoped
 public class KlDAO implements Serializable{
-    private static String klientNip;
+   
     private static Kl selectedKontr;
 
     public KlDAO() {
 
     }
-
-    
-    public String getKlientId() {
-        return klientNip;
-    }
-
-    public void setKlientId(String klientNip) {
-        KlDAO.klientNip = klientNip;
-    }
-
+   
+  
     public  Kl getSelectedKontr() {
         return selectedKontr;
     }
@@ -39,13 +33,17 @@ public class KlDAO implements Serializable{
     public void setSelectedKontr(Kl selectedKontr) {
         KlDAO.selectedKontr = selectedKontr;
     }
-    
-    
-    
-    public Kl toObject(){
+
+       
+     public List<Kl> complete(String query) {  
+        List<Kl> results = new ArrayList<Kl>();  
         Kl kl = new Kl();
-        return kl.getKlList().get(Integer.parseInt(klientNip));
-    }
-    
+         for(Kl p : kl.getKlList()) {  
+            if(p.getNIP().startsWith(query)) {
+                 results.add(p);
+             }  
+        }  
+        return results;  
+    }  
     
 }
