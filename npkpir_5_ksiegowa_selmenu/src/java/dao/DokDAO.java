@@ -43,6 +43,8 @@ public class DokDAO implements Serializable{
     private Dok selDokument;
     private DokView dokView;
     private KlDAO klDAO;
+    private Kl selectedKontr;
+    private static String klientNip;
     
     
     public DokDAO() {
@@ -53,6 +55,7 @@ public class DokDAO implements Serializable{
         selDokument = new Dok();
         dokView = new DokView();
         klDAO = new KlDAO();
+        selectedKontr = new Kl();
     }
     
     @PostConstruct
@@ -112,6 +115,22 @@ public class DokDAO implements Serializable{
     public void setSelDokument(Dok selDokument) {
         this.selDokument = selDokument;
     }
+
+    public Kl getSelectedKontr() {
+        return selectedKontr;
+    }
+
+    public void setSelectedKontr(Kl selectedKontr) {
+        this.selectedKontr = selectedKontr;
+    }
+
+    public String getKlientNip() {
+        return klientNip;
+    }
+
+    public void setKlientNip(String klientNip) {
+        DokDAO.klientNip = klientNip;
+    }
  
     public void refresh(){
         downloadedDok.clear();
@@ -140,8 +159,8 @@ public class DokDAO implements Serializable{
         try {
             System.out.println("Wpis do bazy zaczynam");
             sformatuj();
-            Kl kl = klDAO.getSelectedKontr();
-            selDokument.setKontr(kl);
+            Kl kl = new Kl();
+            selDokument.setKontr(selectedKontr);
             dokFacade.create(selDokument);
             refresh();
             FacesMessage msg = new FacesMessage("Nowy dokument zachowany", selDokument.getIdDok().toString());
@@ -159,7 +178,7 @@ public class DokDAO implements Serializable{
         //selDokument.setImie(selDokument.getImie().substring(0,1).toUpperCase()+selDokument.getImie().substring(1).toLowerCase());
         //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
     }
-    
+   
     
      public void destroy() {
         try {

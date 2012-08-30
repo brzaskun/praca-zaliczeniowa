@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel rendered="#{DokumentView.dodajDok==true}">
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
-         <h:form id="tabelaform">
+        
              <h:messages id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
             <h:outputLabel value="data wyst"/>
@@ -18,16 +18,30 @@
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
             <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd/mm/yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1"/>
-            <p:inputText id="klientPole" value="wybierz kontr" onfocus="dlg.show();" tabindex="2"/>
-            <p:autoComplete id="acForce" forceSelection="true" value="#{KlDAO.klientNip}"   /><!--do zrobienia -->
-                    completeMethod="#{autoCompleteBean.complete}"/>  
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="5">
+           <p:autoComplete id="acForce" forceSelection="true" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
+                                        var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
+                                        minQueryLength="3" maxResults="5" maxlength="10" tabindex="4" converterMessage="Nieudana konwersja Klient" >
+                   <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane kontrahenta"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="modelNo" value="#{p.npelna}" />  
+                                    <h:outputText value="Number " />  
+                                    <h:outputText id="year" value="#{p.NIP}" />  
+                                </h:panelGrid>  
+                            </f:facet>  
+
+           </p:autoComplete>
+
+            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="6">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="6"/>
-            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="7"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="8"/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="9">
+            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="7"/>
+            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="8"/>
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="9"/>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="10">
                 <f:selectItems value="#{Kolumna.kolumnList}"/>
             </h:selectOneMenu>
             
@@ -38,56 +52,23 @@
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="10">
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="11">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="11">
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="12">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="12">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="13">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="13">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="14">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="14"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="15"/>   
+            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="15"/>
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="16"/>   
         </p:panelGrid>
-         </h:form>
-           <p:dialog header="Enter FirstName" widgetVar="dlg" resizable="true">  
-                <h:form id="form">  
-                    <h:panelGrid columns="2" style="margin-bottom:10px">  
-                        <p:dataTable  var="wpisKontr" value="#{KlEmbedded.klList}" id="klienciLista" editable="true" 
-                         paginator="true" paginatorAlwaysVisible="true" rows="8"
-                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
-                         rowKey="#{wpisKontr.NIP}" selection="#{KlDAO.selectedKontr}" selectionMode="single"> 
-                        <f:facet name="header">  
-                            <h:outputText value="Wykaz kontrahentów" />  
-                        </f:facet>
-                            <p:column id="kontridColumn" headerText="nr kolejny" width="60">  
-                                <f:facet name="header">  
-                                    <h:outputText value="nr kolejny" />  
-                                </f:facet> 
-                                <h:outputText value="#{wpisKontr.id}" />
-                            </p:column>
-                            <p:column id="kontrnipColumn" headerText="NIP" filterBy="#{wpisKontr.NIP}" filterMatchMode="contains" sortBy="#{wpisKontr.NIP}"  width="120">  
-                                <f:facet name="header">  
-                                    <h:outputText value="NIP" />  
-                                </f:facet> 
-                                <h:outputText value="#{wpisKontr.NIP}" />
-                            </p:column>
-                            <p:column id="kontrnazwaColumn" headerText="nazwa" filterBy="#{wpisKontr.npelna}" filterMatchMode="contains" sortBy="#{wpisKontr.npelna}">  
-                                <f:facet name="header">  
-                                    <h:outputText value="nazwa" />  
-                                </f:facet> 
-                                <h:outputText value="#{wpisKontr.npelna}" />
-                            </p:column>
-                        </p:dataTable>
-                    </h:panelGrid>  
-                    <p:commandButton id="submitButton" value="Ok" oncomplete="dlg.hide();" tabindex="4"/>  
-                </h:form>  
-            </p:dialog>  
+         
+          
     </p:panel>
     <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
         <h:outputLabel value="Ostatnio wprowadzony:"/>
