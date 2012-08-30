@@ -5,6 +5,8 @@
     Description:
         Purpose of the stylesheet follows.
 */
+body { /*font-size: 10pt !important*/
+}
 
 root { 
     display: block;

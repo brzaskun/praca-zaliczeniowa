@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Embeddable;
 import javax.persistence.Id;
@@ -15,41 +16,33 @@ import javax.persistence.Id;
  *
  * @author Osito
  */
+@ManagedBean(name="KlEmbedded")
 @Embeddable
 @SessionScoped
 public class Kl implements Serializable{
     @Id
-    private int Id;
     private String NIP;
     private String npelna;
     private static final List<Kl> klList;
 
     static{
         klList = new ArrayList<Kl>();
-        klList.add(new Kl(0, "8511005008","Klient1"));
-        klList.add(new Kl(1, "8511005018","Klient2"));
-        klList.add(new Kl(2, "8511005108","Klient3"));
-        klList.add(new Kl(3, "8511001008","Klient4"));
-        klList.add(new Kl(4, "8511015008","Klient5"));
+        klList.add(new Kl("8511005008","Klient1"));
+        klList.add(new Kl("8511005018","Klient2"));
+        klList.add(new Kl("8511005108","Klient3"));
+        klList.add(new Kl("8511001008","Klient4"));
+        klList.add(new Kl("8511015008","Klient5"));
     }
     
     public Kl() {
     }
 
-    public Kl(int Id, String NIP, String npelna) {
-        this.Id = Id;
+    public Kl(String NIP, String npelna) {
         this.NIP = NIP;
         this.npelna = npelna;
     }
 
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-
+    
     public String getNIP() {
         return NIP;
     }
@@ -94,7 +87,7 @@ public class Kl implements Serializable{
 
     @Override
     public String toString() {
-        return "Kl{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + '}';
+        return "Kl{" + ", NIP=" + NIP + ", npelna=" + npelna + '}';
     }
 
     
