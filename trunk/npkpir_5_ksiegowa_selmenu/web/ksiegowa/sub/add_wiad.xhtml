@@ -8,7 +8,7 @@
     <p:panel rendered="#{DokumentView.dodajDok==true}">
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
         
-             <h:messages id="mess_add" tooltip="true" />
+            <p:growl id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
             <h:outputLabel value="data wyst"/>
             <h:outputLabel value="kontrahent"/>
@@ -17,55 +17,52 @@
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
-            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd/mm/yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1"/>
-           <p:autoComplete id="acForce" forceSelection="true" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
-                                        var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
-                                        minQueryLength="3" maxResults="5" maxlength="10" tabindex="4" converterMessage="Nieudana konwersja Klient" >
-                   <f:facet name="itemtip">  
-                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
-                                    <f:facet name="header">  
-                                        <h:outputText value="Dane kontrahenta"/>
-                                    </f:facet>  
-                                    <h:outputText value="Nazwa: " />  
-                                    <h:outputText id="modelNo" value="#{p.npelna}" />  
-                                    <h:outputText value="Number " />  
-                                    <h:outputText id="year" value="#{p.NIP}" />  
-                                </h:panelGrid>  
-                            </f:facet>  
+            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd-mm-yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1">
+            </p:calendar>
+            <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
+                            var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
+                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true">
+                <f:facet name="itemtip">  
+                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                        <f:facet name="header">  
+                            <h:outputText value="Dane kontrahenta"/>
+                        </f:facet>  
+                        <h:outputText value="Nazwa: " />  
+                        <h:outputText id="npelna" value="#{p.npelna}" />  
+                        <h:outputText value="Number " />  
+                        <h:outputText id="nip" value="#{p.NIP}" />  
+                    </h:panelGrid>  
+                </f:facet>  
+            </p:autoComplete>
 
-           </p:autoComplete>
-
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="6">
+            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="3">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="nd własny dokumentu - uzupełnij" tabindex="7"/>
-            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="login - uzupełnij" tabindex="8"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="login - uzupełnij" tabindex="9"/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="10">
+            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="4"/>
+            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="5"/>
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="6">
+                <f:convertNumber pattern="### ###,##" />
+            </h:inputText>
+            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="7">
                 <f:selectItems value="#{Kolumna.kolumnList}"/>
             </h:selectOneMenu>
-            
-            <h:outputLabel value="k m-c"/>
-            <h:outputLabel value="k rok"/>
+    
             <h:outputLabel value="v m-c"/>
             <h:outputLabel value="v rok"/>
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirM}" tabindex="11">
+            <h:outputLabel value=""/>
+            <h:outputLabel value=""/>
+       
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="10">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirR}" tabindex="12">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="11">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="13">
-                <f:selectItems value="#{Mce.mceList}"/>
-            </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="14">
-                <f:selectItems value="#{Roki.rokiList}"/>
-            </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="15"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="16"/>   
+            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="12"/>
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
         </p:panelGrid>
          
           

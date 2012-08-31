@@ -6,6 +6,8 @@ package dao;
 
 import entity.Dok;
 import embeddable.Kl;
+import embeddable.Pod;
+import embeddable.WpisSet;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +30,8 @@ import view.DokView;
 @ManagedBean(name="DokDAO")
 @RequestScoped
 public class DokDAO implements Serializable{
-     @EJB
+    private WpisSet wpisSet;
+    @EJB
     private DokFacade dokFacade;
     //tablica wciagnieta z bazy danych
     private static List<Dok> downloadedDok;
@@ -45,6 +48,7 @@ public class DokDAO implements Serializable{
     private KlDAO klDAO;
     private Kl selectedKontr;
     private static String klientNip;
+    private Pod pod;
     
     
     public DokDAO() {
@@ -56,6 +60,9 @@ public class DokDAO implements Serializable{
         dokView = new DokView();
         klDAO = new KlDAO();
         selectedKontr = new Kl();
+        pod = new Pod();
+        wpisSet = new WpisSet();
+        
     }
     
     @PostConstruct
@@ -156,10 +163,15 @@ public class DokDAO implements Serializable{
     }
     
      public void dodajNowyWpis(){
+            if(selectedKontr.getNIP().equals("nowy klient")){
+                
+            }
         try {
             System.out.println("Wpis do bazy zaczynam");
             sformatuj();
             Kl kl = new Kl();
+            selDokument.setPkpirR(String.valueOf(wpisSet.getRokWpisu()));
+            selDokument.setPkpirM(String.valueOf(wpisSet.getMiesiacWpisu()));
             selDokument.setKontr(selectedKontr);
             dokFacade.create(selDokument);
             refresh();

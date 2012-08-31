@@ -41,8 +41,9 @@ public class KlDAO implements Serializable{
          for(Kl p : kl.getKlList()) {  
             if(p.getNIP().startsWith(query)) {
                  results.add(p);
-             }  
+             }
         }  
+         results.add(new Kl(999999999,"nowy klient","nowy klient"));
         return results;  
     }  
     

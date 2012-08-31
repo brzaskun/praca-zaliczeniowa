@@ -23,7 +23,7 @@ public class Trans implements Serializable{
     static{
         transList = new ArrayList<String>();
         transList.add("zakup");
-        transList.add("środek trw");
+        transList.add("srodek trw");
         transList.add("sprzedaż");
     }
     
