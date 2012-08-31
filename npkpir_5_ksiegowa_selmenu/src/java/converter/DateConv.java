@@ -16,7 +16,7 @@ public static final String CONVERTER_ID = "converter.DateConv";
    
   public DateConv() {  
     setTimeZone(TimeZone.getTimeZone("UTC+4"));  
-    setPattern("dd/MM/yyyy");  
+    setPattern("dd-MM-yyyy");  
   }  
     
 } 

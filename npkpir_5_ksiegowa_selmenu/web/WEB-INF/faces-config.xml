@@ -38,4 +38,10 @@
             converter.KlientConv  
         </converter-class> 
     </converter>
+     <converter>
+        <converter-id>PodConv</converter-id>  
+        <converter-class>  
+            converter.PodConv  
+        </converter-class> 
+    </converter>
 </faces-config>

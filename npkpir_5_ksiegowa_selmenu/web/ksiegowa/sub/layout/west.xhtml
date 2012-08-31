@@ -7,21 +7,26 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
-        <h:form>
-<!--            <p:menu id="menuWest">  
-                <p:submenu label="Ajax Menuitems">  
-                    <p:menuitem value="Nowy" actionListener="{UzytkownikView.setDodajUz(true)}" update=":dodWiad,menuWest" icon="ui-icon-circle-plus" rendered="{not UzytkownikView.isDodajUz()}"/>
-                    <p:menuitem value="Schowaj" actionListener="{UzytkownikView.setDodajUz(false)}" update=":dodWiad,menuWest" icon="ui-icon-circle-minus" rendered="{UzytkownikView.isDodajUz()}"/>  
-                    <p:menuitem value="Update" actionListener="{UzytkownikView.setEdytujUz(false)}" update=":dodWiad" icon="ui-icon-arrowrefresh-1-w"/>  
-                </p:submenu>  
-                <p:submenu label="Navigations">  
-                    <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>  
-                    <p:menuitem value="Internal" outcome="/mobile/index" icon="ui-icon-star"/>  
-                </p:submenu>  
-            </p:menu>-->
-
+        <h:form id="westKsiegowa">
+            <h:messages id="westmsg"/>
+            <p:panel menuTitle="Dane" header="Dane">
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisSet.podatnikWpisu}" valueChangeListener="#{WpisSet.podatnikWpisu}" immediate="true" converter="PodConv">
+                    <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisSet.rokWpisu}" valueChangeListener="#{WpisSet.rokWpisu}" immediate="true">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisSet.miesiacWpisu}" valueChangeListener="#{WpisSet.miesiacWpisu}" immediate="true">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="Ok" update="westKsiegowa"></p:commandButton>
+                <h:outputText value="#{WpisSet.podatnikWpisu.npelna}"/>
+                <br />
+                <h:outputText value="#{WpisSet.rokWpisu}"/>
+            <br/>
+            <h:outputText value="#{WpisSet.miesiacWpisu}"/>
+            </p:panel>
         </h:form>
-
     </p:layoutUnit>
 </ui:composition>   
 

@@ -9,9 +9,9 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{DokDAO.obiektDOKjsf}" id="uzytkownicyLista" editable="true" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="8"
+                      paginator="true" paginatorAlwaysVisible="true" rows="4"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
+                      rowsPerPageTemplate="4,12,16,20,50" resizableColumns="true"
                       rowKey="#{wpis.idDok}" selection="#{DokDAO.selDokument}" selectionMode="single"> 
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
