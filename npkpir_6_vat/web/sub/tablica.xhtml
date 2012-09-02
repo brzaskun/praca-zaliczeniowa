@@ -27,7 +27,9 @@
                 <f:facet name="header">  
                     <h:outputText value="data" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.dataK}"/>
+                <h:outputText value="#{wpis.dataK}">
+                    <f:convertDateTime dateStyle="medium"  />
+                </h:outputText>
             </p:column>
             <p:column id="kltColumn" headerText="klient" filterBy="#{wpis.podatnik.npelna}" filterMatchMode="contains" sortBy="#{wpis.podatnik.npelna}">  
                 <f:facet name="header">  
@@ -35,19 +37,19 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.podatnik.npelna}" />
             </p:column>
-            <p:column id="kwaColumn" headerText="księgowa" filterBy="#{wpis.wprowadzil.logi}" filterMatchMode="exact" sortBy="#{wpis.wprowadzil.logi}">  
+            <p:column id="kwaColumn" headerText="księgowa" filterBy="#{wpis.wprowadzil.logi}" filterMatchMode="contains" sortBy="#{wpis.wprowadzil.logi}">  
                 <f:facet name="header">  
                     <h:outputText value="ksiegowa" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.wprowadzil.logi}" />
             </p:column>
-            <p:column id="nrdokColumn" headerText="nr_dok" filterBy="#{wpis.nrWlDk}" filterMatchMode="exact" sortBy="#{wpis.nrWlDk}">  
+            <p:column id="nrdokColumn" headerText="nr_dok" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
                 <f:facet name="header">  
                     <h:outputText value="nr_dok" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWlDk}" />
             </p:column>
-            <p:column id="statusColumn" headerText="status" filterBy="#{wpis.status}" filterMatchMode="startsWith" sortBy="#{wpis.status}">  
+            <p:column id="statusColumn" headerText="status" filterBy="#{wpis.status}" filterMatchMode="contains" sortBy="#{wpis.status}">  
                 <f:facet name="header">  
                     <h:outputText value="status" />  
                 </f:facet> 
