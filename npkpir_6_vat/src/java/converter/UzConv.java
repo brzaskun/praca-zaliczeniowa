@@ -4,7 +4,8 @@
  */
 package converter;
 
-import embeddable.Pod;
+import dao.UzDAO;
+import entity.Uz;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -14,17 +15,18 @@ import javax.faces.convert.ConverterException;
  *
  * @author Osito
  */
-public class PodConv implements javax.faces.convert.Converter{
+public class UzConv implements javax.faces.convert.Converter{
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        Pod pod = new Pod();
+        UzDAO uzDAO = new UzDAO();
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {  
                 String number = submittedValue;  
   
-                for (Pod p : pod.getPodList()) {  
-                    if (p.getNIP().equals(number)) {  
+                for (Uz p : uzDAO.getTabelatestowa()) {  
+                    if (p.getLogi().equals(number)) {  
                         return p;  
                     }  
                 }  
@@ -41,7 +43,7 @@ public class PodConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Pod) value).getNIP());  
+            return String.valueOf(((Uz) value).getLogi());  
         }  
     }  
     

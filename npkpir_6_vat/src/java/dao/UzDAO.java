@@ -43,7 +43,13 @@ public class UzDAO implements Serializable{
     private String uzString;
     private Uz selUzytkownik;
     private UzView uzView;
+    private static final List<Uz> tabelatestowa;
     
+    static{
+        tabelatestowa = new ArrayList<Uz>();
+        tabelatestowa.add(new Uz("nazwamoja","loginmoj","haslotojelogi","mail","log","upr","koncowka"));
+        tabelatestowa.add(new Uz("xwwxwamoja","lxwxwinmoj","cwcwwcjelogi","mail","log","upr","koncowka"));
+    }
     
     public UzDAO() {
         uzHashTable = new HashMap<String, Uz>();
@@ -52,6 +58,7 @@ public class UzDAO implements Serializable{
         obiektUZjsf = new ArrayList<Uz>();
         selUzytkownik = new Uz();
         uzView = new UzView();
+
     }
     
     @PostConstruct
@@ -111,7 +118,12 @@ public class UzDAO implements Serializable{
     public void setSelUzytkownik(Uz selUzytkownik) {
         this.selUzytkownik = selUzytkownik;
     }
+
+    public  List<Uz> getTabelatestowa() {
+        return tabelatestowa;
+    }
  
+    
     public void refresh(){
         downloadedUz.clear();
         kluczUZjsf.clear();
@@ -196,5 +208,7 @@ public class UzDAO implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
      }
+     
+     
 }
 

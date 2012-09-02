@@ -4,10 +4,10 @@
  */
 package dao;
 
-import entity.Dok;
 import embeddable.Kl;
 import embeddable.Pod;
 import embeddable.WpisSet;
+import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,7 +72,7 @@ public class DokDAO implements Serializable{
             c = dokFacade.findAll();
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
-            }
+    }
             downloadedDok.addAll(c);
             System.out.println("Pobrano z bazy danych."+c.toString());
             Iterator it;
@@ -170,6 +170,8 @@ public class DokDAO implements Serializable{
             System.out.println("Wpis do bazy zaczynam");
             sformatuj();
             Kl kl = new Kl();
+            selDokument.setWprowadzil(wpisSet.getWprowadzil());
+            selDokument.setPodatnik(wpisSet.getPodatnikWpisu());
             selDokument.setPkpirR(String.valueOf(wpisSet.getRokWpisu()));
             selDokument.setPkpirM(String.valueOf(wpisSet.getMiesiacWpisu()));
             selDokument.setKontr(selectedKontr);

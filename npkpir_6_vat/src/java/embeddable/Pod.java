@@ -20,7 +20,7 @@ import javax.persistence.Id;
 @Embeddable
 @SessionScoped
 public class Pod implements Serializable{
-    @Id
+    
     private int Id;
     private String NIP;
     private String npelna;
@@ -98,7 +98,7 @@ public class Pod implements Serializable{
 
     @Override
     public String toString() {
-        return "Kl{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + '}';
+        return "Pod{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + '}';
     }
 
     
