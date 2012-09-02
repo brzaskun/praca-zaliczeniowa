@@ -20,7 +20,7 @@ import javax.persistence.Id;
 @Embeddable
 @SessionScoped
 public class Kl implements Serializable{
-    @Id
+    
     private int Id;
     private String NIP;
     private String npelna;

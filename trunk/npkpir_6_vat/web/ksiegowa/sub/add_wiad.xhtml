@@ -40,8 +40,8 @@
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="4"/>
             <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="5"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="6">
-                <f:convertNumber pattern="### ###,##" />
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="6" onblur="dlg1.show()">
+                <f:convertNumber pattern="###,##" />
             </h:inputText>
             <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="7">
                 <f:selectItems value="#{Kolumna.kolumnList}"/>
@@ -62,7 +62,7 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="12"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
         </p:panelGrid>
          
           

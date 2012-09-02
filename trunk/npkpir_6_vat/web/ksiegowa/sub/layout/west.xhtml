@@ -10,6 +10,9 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
+                <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisSet.wprowadzil}" valueChangeListener="#{WpisSet.wprowadzil}" immediate="true" converter="UzConv">
+                    <f:selectItems value="#{UzDAO.tabelatestowa}" var="w" itemLabel="#{w.logi}"/>
+                </p:selectOneMenu>
                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisSet.podatnikWpisu}" valueChangeListener="#{WpisSet.podatnikWpisu}" immediate="true" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
                 </p:selectOneMenu>
@@ -20,6 +23,8 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
                 <p:commandButton value="Ok" update="westKsiegowa"></p:commandButton>
+                <h:outputText value="#{WpisSet.wprowadzil.logi}"/>
+                <br />
                 <h:outputText value="#{WpisSet.podatnikWpisu.npelna}"/>
                 <br />
                 <h:outputText value="#{WpisSet.rokWpisu}"/>

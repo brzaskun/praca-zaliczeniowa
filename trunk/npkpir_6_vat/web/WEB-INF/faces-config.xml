@@ -44,4 +44,10 @@
             converter.PodConv  
         </converter-class> 
     </converter>
+     <converter>
+        <converter-id>UzConv</converter-id>  
+        <converter-class>  
+            converter.UzConv  
+        </converter-class> 
+    </converter>
 </faces-config>

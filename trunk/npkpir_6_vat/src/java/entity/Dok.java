@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Kl;
+import embeddable.Pod;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -57,8 +59,22 @@ public class Dok implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nr_wl_dk")
     private String nrWlDk;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "kontr")
     private Kl kontr;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "podatnik")
+    private Pod podatnik;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "wpr")
+    @OneToOne
+    private Uz wprowadzil;
     @Column(name = "data_wyst")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataWyst;
@@ -201,6 +217,22 @@ public class Dok implements Serializable {
 
     public void setPkpirKol(String pkpirKol) {
         this.pkpirKol = pkpirKol;
+    }
+
+    public Pod getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Pod podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public Uz getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(Uz wprowadzil) {
+        this.wprowadzil = wprowadzil;
     }
  
 

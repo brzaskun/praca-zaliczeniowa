@@ -4,9 +4,8 @@
  */
 package embeddable;
 
+import entity.Uz;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -21,6 +20,7 @@ public class WpisSet implements Serializable{
     private static Pod podatnikWpisu;
     private static Integer rokWpisu;
     private static Integer miesiacWpisu;
+    private static Uz wprowadzil;
 
     public Pod getPodatnikWpisu() {
         return podatnikWpisu;
@@ -44,6 +44,14 @@ public class WpisSet implements Serializable{
 
     public void setMiesiacWpisu(Integer miesiacWpisu) {
         WpisSet.miesiacWpisu = miesiacWpisu;
+    }
+
+    public Uz getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(Uz wprowadzil) {
+        WpisSet.wprowadzil = wprowadzil;
     }
 
     
