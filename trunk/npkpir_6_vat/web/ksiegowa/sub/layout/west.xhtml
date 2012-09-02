@@ -31,6 +31,15 @@
             <br/>
             <h:outputText value="#{WpisSet.miesiacWpisu}"/>
             </p:panel>
+           <p:panel header="linki">
+            <h:form>
+                <p:panelGrid columns="1">
+                 <h:link outcome="home">home</h:link>
+                <h:link outcome="admin">admin</h:link>
+                <h:link outcome="ksiegowa">ksiegowa</h:link>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
         </h:form>
     </p:layoutUnit>
 </ui:composition>   

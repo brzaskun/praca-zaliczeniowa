@@ -8,20 +8,20 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:outputPanel id="wrapper">    
-        <p:dataTable  var="wpis" value="#{NwpisView.wpsLista}" id="wpisyLista" editable="true"
+        <p:dataTable  var="wpis" value="#{DokDAO.obiektDOKjsf}" id="wpisyLista" editable="true"
                       paginator="true" paginatorAlwaysVisible="true" rows="8"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
-                      rowKey="#{wpis.id}" selection="#{NwpisView.selWpis}" selectionMode="single">
+                      rowKey="#{wpis.idDok}" >
             <f:facet name="header">  
                 <h:outputText value="Wykaz wpisów" />  
             </f:facet>
 
-            <p:column id="idColumn" headerText="id" sortBy="#{wpis.id}">  
+            <p:column id="idColumn" headerText="id" sortBy="#{wpis.idDok}">  
                 <f:facet name="header">  
                     <h:outputText value="id" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.id}" />
+                <h:outputText value="#{wpis.idDok}" />
             </p:column>
             <p:column id="dataColumn" headerText="data" sortBy="#{wpis.dataK}" >  
                 <f:facet name="header">  
@@ -29,23 +29,23 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.dataK}"/>
             </p:column>
-            <p:column id="kltColumn" headerText="klient" filterBy="#{wpis.klt}" filterMatchMode="contains" sortBy="#{wpis.klt}">  
+            <p:column id="kltColumn" headerText="klient" filterBy="#{wpis.podatnik.npelna}" filterMatchMode="contains" sortBy="#{wpis.podatnik.npelna}">  
                 <f:facet name="header">  
                     <h:outputText value="klient" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.klt}" />
+                <h:outputText value="#{wpis.podatnik.npelna}" />
             </p:column>
-            <p:column id="kwaColumn" headerText="księgowa" filterBy="#{wpis.kwa.logi}" filterMatchMode="exact" sortBy="#{wpis.kwa.logi}">  
+            <p:column id="kwaColumn" headerText="księgowa" filterBy="#{wpis.wprowadzil.logi}" filterMatchMode="exact" sortBy="#{wpis.wprowadzil.logi}">  
                 <f:facet name="header">  
                     <h:outputText value="ksiegowa" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.kwa.logi}" />
+                <h:outputText value="#{wpis.wprowadzil.logi}" />
             </p:column>
-            <p:column id="nrdokColumn" headerText="nr_dok" filterBy="#{wpis.nrDok}" filterMatchMode="exact" sortBy="#{wpis.nrDok}">  
+            <p:column id="nrdokColumn" headerText="nr_dok" filterBy="#{wpis.nrWlDk}" filterMatchMode="exact" sortBy="#{wpis.nrWlDk}">  
                 <f:facet name="header">  
                     <h:outputText value="nr_dok" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.nrDok.nrWlDk}" />
+                <h:outputText value="#{wpis.nrWlDk}" />
             </p:column>
             <p:column id="statusColumn" headerText="status" filterBy="#{wpis.status}" filterMatchMode="startsWith" sortBy="#{wpis.status}">  
                 <f:facet name="header">  

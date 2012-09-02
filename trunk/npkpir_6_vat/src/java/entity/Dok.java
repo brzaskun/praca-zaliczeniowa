@@ -75,6 +75,9 @@ public class Dok implements Serializable {
     @Column(name = "wpr")
     @OneToOne
     private Uz wprowadzil;
+    @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dataK;
     @Column(name = "data_wyst")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataWyst;
@@ -105,6 +108,9 @@ public class Dok implements Serializable {
     @Size(max = 65)
     @Column(name = "pkpir_kol")
     private String pkpirKol;
+    @Size(max = 65)
+    @Column(name = "status")
+    private String status;
 
     public Dok() {
     }
@@ -233,6 +239,22 @@ public class Dok implements Serializable {
 
     public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getDataK() {
+        return dataK;
+    }
+
+    public void setDataK(Date dataK) {
+        this.dataK = dataK;
     }
  
 
