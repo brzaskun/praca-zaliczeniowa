@@ -17,12 +17,17 @@
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
-            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd-mm-yyyy" id="popupCal" accesskey="s" converter="DateConv" tabindex="1">
-                <p:watermark for="popupCal" value="dd-mm-rrrr" /> 
+            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd-mm-yyyy" id="popupCal" accesskey="s"  
+                        tabindex="1" required="true" requiredMessage="Wprowadź datę dokumentu."
+                        converterMessage="Bąd w dacie" autocomplete="true" showWeek="true" immediate="true" maxlength="10">
+                <p:watermark for="popupCal" value="dd-mm-rrrr" />
+                 <f:convertDateTime pattern="dd-mm-yyyy"></f:convertDateTime>
             </p:calendar>
             <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
                             var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
-                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true">
+                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true"
+                            >
+                <f:validateLength minimum="10"/>
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
