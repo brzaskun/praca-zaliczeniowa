@@ -175,6 +175,7 @@ public class DokDAO implements Serializable{
             selDokument.setPkpirR(String.valueOf(wpisSet.getRokWpisu()));
             selDokument.setPkpirM(String.valueOf(wpisSet.getMiesiacWpisu()));
             selDokument.setKontr(selectedKontr);
+            selDokument.setStatus("bufor");
             dokFacade.create(selDokument);
             refresh();
             FacesMessage msg = new FacesMessage("Nowy dokument zachowany", selDokument.getIdDok().toString());

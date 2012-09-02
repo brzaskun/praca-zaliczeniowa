@@ -14,13 +14,18 @@
                     <p:menuitem value="Schowaj" actionListener="#{UzytkownikView.setDodajUz(false)}" update=":dodWiad,menuWest" icon="ui-icon-circle-minus" rendered="#{UzytkownikView.isDodajUz()}"/>  
                     <p:menuitem value="Update" actionListener="#{UzytkownikView.setEdytujUz(false)}" update=":dodWiad" icon="ui-icon-arrowrefresh-1-w"/>  
                 </p:submenu>  
-                <p:submenu label="Navigations">  
-                    <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>  
-                    <p:menuitem value="Internal" outcome="/mobile/index" icon="ui-icon-star"/>  
-                </p:submenu>  
+              
             </p:menu>
         </h:form>
-
+  <p:panel header="linki">
+            <h:form>
+                <p:panelGrid columns="1">
+                 <h:link outcome="home">home</h:link>
+                <h:link outcome="admin">admin</h:link>
+                <h:link outcome="ksiegowa">ksiegowa</h:link>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
     </p:layoutUnit>
 </ui:composition>   
 
