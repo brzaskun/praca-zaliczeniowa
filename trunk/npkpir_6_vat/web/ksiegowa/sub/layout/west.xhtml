@@ -22,7 +22,7 @@
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisSet.miesiacWpisu}" valueChangeListener="#{WpisSet.miesiacWpisu}" immediate="true">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
-                <p:commandButton value="Ok" update="westKsiegowa"></p:commandButton>
+                <p:commandButton value="Ok" update="westKsiegowa,:form:dokumentyLista"></p:commandButton>
                 <h:outputText value="#{WpisSet.wprowadzil.logi}"/>
                 <br />
                 <h:outputText value="#{WpisSet.podatnikWpisu.npelna}"/>

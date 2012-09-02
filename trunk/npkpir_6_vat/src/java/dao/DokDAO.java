@@ -41,6 +41,8 @@ public class DokDAO implements Serializable{
     private static List<String> kluczDOKjsf;
     //tablica obiektów
     private static List<Dok> obiektDOKjsf;
+    //tablica obiektw danego klienta
+    private static List<Dok> obiektDOKjsfSel;
     private static Dok dokObject;
     private String dokString;
     private Dok selDokument;
@@ -51,11 +53,13 @@ public class DokDAO implements Serializable{
     private Pod pod;
     
     
+    
     public DokDAO() {
         dokHashTable = new HashMap<String, Dok>();
         downloadedDok = new ArrayList<Dok>();
         kluczDOKjsf = new ArrayList<String>();
         obiektDOKjsf = new ArrayList<Dok>();
+        obiektDOKjsfSel = new ArrayList<Dok>();
         selDokument = new Dok();
         dokView = new DokView();
         klDAO = new KlDAO();
@@ -81,6 +85,9 @@ public class DokDAO implements Serializable{
             Dok tmp = (Dok) it.next();
             kluczDOKjsf.add(tmp.getIdDok().toString());
             obiektDOKjsf.add(tmp);
+            if(tmp.getPodatnik().equals(wpisSet.getPodatnikWpisu())){
+            obiektDOKjsfSel.add(tmp);
+            }
             dokHashTable.put(tmp.getIdDok().toString(),tmp);
             }
     }
@@ -137,6 +144,14 @@ public class DokDAO implements Serializable{
 
     public void setKlientNip(String klientNip) {
         DokDAO.klientNip = klientNip;
+    }
+
+    public List<Dok> getObiektDOKjsfSel() {
+        return obiektDOKjsfSel;
+    }
+
+    public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
+        DokDAO.obiektDOKjsfSel = obiektDOKjsfSel;
     }
  
     public void refresh(){
