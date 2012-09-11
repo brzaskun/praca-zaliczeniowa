@@ -22,6 +22,10 @@ public class WpisSet implements Serializable{
     private static Integer miesiacWpisu;
     private static Uz wprowadzil;
 
+    public WpisSet() {
+    }
+
+       
     public Pod getPodatnikWpisu() {
         return podatnikWpisu;
     }
