@@ -10,16 +10,18 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisSet.wprowadzil}" valueChangeListener="#{WpisSet.wprowadzil}" immediate="true" converter="UzConv">
+                <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisSet.wprowadzil}" immediate="true" converter="UzConv" effect="">
                     <f:selectItems value="#{UzDAO.tabelatestowa}" var="w" itemLabel="#{w.logi}"/>
+                    <f:ajax listener="#{WpisSet.setPodatnikWpisu(w)}" render=":form:dokumentyLista" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisSet.podatnikWpisu}" valueChangeListener="#{WpisSet.podatnikWpisu}" immediate="true" converter="PodConv">
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisSet.podatnikWpisu}" immediate="true" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
+                    <f:ajax listener="#{WpisSet.setPodatnikWpisu(p)}" render=":form:dokumentyLista" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisSet.rokWpisu}" valueChangeListener="#{WpisSet.rokWpisu}" immediate="true">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisSet.rokWpisu}" immediate="true">
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisSet.miesiacWpisu}" valueChangeListener="#{WpisSet.miesiacWpisu}" immediate="true">
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisSet.miesiacWpisu}" immediate="true">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
                 <p:commandButton value="Ok" update="westKsiegowa,:form:dokumentyLista"></p:commandButton>
