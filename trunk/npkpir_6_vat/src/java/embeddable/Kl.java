@@ -24,18 +24,19 @@ public class Kl implements Serializable{
     private int Id;
     private String NIP;
     private String npelna;
-    private static final List<Kl> klList;
+    private static List<Kl> klList;
 
     static{
         klList = new ArrayList<Kl>();
+       
+    }
+    
+    public Kl() {
         klList.add(new Kl(120, "8511005008","Klient1"));
         klList.add(new Kl(123, "8511005018","Klient2"));
         klList.add(new Kl(124, "8511005108","Klient3"));
         klList.add(new Kl(135, "8511001008","Klient4"));
         klList.add(new Kl(136, "8511015008","Klient5"));
-    }
-    
-    public Kl() {
     }
 
     public Kl(int Id, String NIP, String npelna) {

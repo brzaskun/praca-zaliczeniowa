@@ -43,7 +43,7 @@ public class KlDAO implements Serializable{
                  results.add(p);
              }
         }  
-         results.add(new Kl(999999999,"nowy klient","nowy klient"));
+         results.add(new Kl(9999999,"nowy klient","nowy klient"));
         return results;  
     }  
     

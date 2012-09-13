@@ -14,8 +14,8 @@
             <h:outputLabel value="kontrahent"/>
             <h:outputLabel value="rodzaj trans"/>
             <h:outputLabel value="nr wł"/>
-            <h:outputLabel value="opis"/>
-            <h:outputLabel value="kwota"/>
+            <h:outputLabel id="ooo" value="opis"/>
+            <h:outputLabel id="aba" value="kwota"/>
             <h:outputLabel value="kolumna"/>
             <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd-mm-yyyy" id="popupCal" accesskey="s"  
                         tabindex="1" required="true" requiredMessage="Wprowadź datę dokumentu."
@@ -26,22 +26,23 @@
             <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
                             var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
                             minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true"
-                            >
+                            queryDelay="10" onblur="if(nipek=='nowyklient'){alert('lolo')}else{dlg.show()};">
                 <f:validateLength minimum="10"/>
                 <f:facet name="itemtip">  
-                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                    <h:panelGrid  columns="2" cellpadding="5" width="400" >  
                         <f:facet name="header">  
                             <h:outputText value="Dane kontrahenta"/>
                         </f:facet>  
                         <h:outputText value="Nazwa: " />  
                         <h:outputText id="npelna" value="#{p.npelna}" />  
                         <h:outputText value="Number " />  
-                        <h:outputText id="nip" value="#{p.NIP}" />  
+                        <h:outputText id="nipek" value="#{p.NIP}" />
                     </h:panelGrid>  
-                </f:facet>  
+                </f:facet>
             </p:autoComplete>
+          
 
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="3">
+            <h:selectOneMenu id="inputChange" value="#{DokDAO.selDokument.rodzTrans}" tabindex="3">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="4"/>
@@ -68,7 +69,19 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="12"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13">
+                <f:ajax execute="@form"/>
+            </p:commandButton>
+              <p:dialog id="picture" widgetVar="dlg" header="Picture of the Day" width="425"  
+                      resizable="false" showEffect="clip" hideEffect="clip">  
+                <p:panelGrid columns="2">
+                    <h:outputText value="nazwa pełna"/>
+                    <h:inputText value="#{DokDAO.selectedKontr.npelna}"/>
+                    <h:outputText value="nip"/>
+                    <h:inputText value="#{DokDAO.selectedKontr.NIP}" />
+                </p:panelGrid>
+            <p:commandButton id="submitButton" value="Submit" oncomplete="dlg.hide();"/>  
+            </p:dialog>  
         </p:panelGrid>
          
           
