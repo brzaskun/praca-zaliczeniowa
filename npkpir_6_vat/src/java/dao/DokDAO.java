@@ -158,6 +158,7 @@ public class DokDAO implements Serializable{
         downloadedDok.clear();
         kluczDOKjsf.clear();
         obiektDOKjsf.clear();
+        obiektDOKjsfSel.clear();
         dokHashTable.clear();
         Collection c = null;    
         try {
@@ -173,13 +174,19 @@ public class DokDAO implements Serializable{
             Dok tmp = (Dok) it.next();
             kluczDOKjsf.add(tmp.getIdDok().toString());
             obiektDOKjsf.add(tmp);
+            if(tmp.getPodatnik().equals(wpisSet.getPodatnikWpisu())){
+            obiektDOKjsfSel.add(tmp);
+            }
             dokHashTable.put(tmp.getIdDok().toString(),tmp);
             }
     }
     
      public void dodajNowyWpis(){
-            if(selectedKontr.getNIP().equals("nowy klient")){
-                
+         try {
+            if(selectedKontr.getNpelna().isEmpty()){}
+         } catch (Exception e) {
+            FacesMessage msg = new FacesMessage("Dodano nowego klienta");
+            FacesContext.getCurrentInstance().addMessage(null, msg);    
             }
         try {
             System.out.println("Wpis do bazy zaczynam");
@@ -192,7 +199,6 @@ public class DokDAO implements Serializable{
             selDokument.setKontr(selectedKontr);
             selDokument.setStatus("bufor");
             dokFacade.create(selDokument);
-            refresh();
             FacesMessage msg = new FacesMessage("Nowy dokument zachowany", selDokument.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
@@ -200,6 +206,7 @@ public class DokDAO implements Serializable{
             FacesMessage msg = new FacesMessage("Dokytkownik nie utworzony", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+         refresh();
     }
    
     public void sformatuj(){
