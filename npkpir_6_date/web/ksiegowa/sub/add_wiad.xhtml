@@ -17,10 +17,13 @@
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
             <h:outputLabel value="kolumna"/>
-            <p:calendar value="#{DokDAO.selDokument.dataWyst}" pattern="dd-MM-yyyy" id="popupCal" accesskey="s"  
-                        tabindex="1" required="true" requiredMessage="Wprowadź datę dokumentu."
-                        converterMessage="Bąd w dacie" autocomplete="true" showWeek="true" immediate="true" maxlength="10" converter="DateConv">
-            </p:calendar>
+            <h:inputText id="dataPole" value="#{DokDAO.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" 
+                          immediate="true">
+                <f:ajax event="keyup" execute="@this" render="dataPole"/>
+                
+            </h:inputText>
+
+            
             <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
                             var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
                             minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true"
