@@ -7,9 +7,6 @@ package entity;
 import embeddable.Kl;
 import embeddable.Pod;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,10 +19,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import embeddable.WpisSet;
 
 /**
  *
@@ -116,7 +113,10 @@ public class Dok implements Serializable {
     @Column(name = "status")
     private String status;
 
+    private WpisSet wpisSet;
+    
     public Dok() {
+        wpisSet = new WpisSet();
     }
 
     public Dok(Long idDok) {
@@ -146,10 +146,12 @@ public class Dok implements Serializable {
     }
 
     public void setDataWyst(String dataWyst) {
+        Integer rok = wpisSet.getRokWpisu();
+        String mc = wpisSet.getMiesiacWpisu();
         if(dataWyst.equals("-")){
-           dataWyst="2012-";
-        } else if (dataWyst.equals("2012--")){
-            dataWyst="2012-08-";
+           dataWyst=rok+"-";
+        } else if (dataWyst.equals(rok+"--")){
+            dataWyst=rok+"-"+mc+"-";
         }
             this.dataWyst = dataWyst;
     }

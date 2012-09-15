@@ -47,4 +47,15 @@ public class KlDAO implements Serializable{
         return results;  
     }  
     
+     public List<Kl> completeNazwa(String query) {  
+        List<Kl> results = new ArrayList<Kl>();  
+        Kl kl = new Kl();
+         for(Kl p : kl.getKlList()) {  
+            if(p.getNpelna().startsWith(query)) {
+                 results.add(p);
+             }
+        }  
+         results.add(new Kl(999999999,"nowy klient","nowy klient"));
+        return results;  
+    }  
 }

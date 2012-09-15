@@ -11,23 +11,23 @@
             <p:growl id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
             <h:outputLabel value="data wyst"/>
-            <h:outputLabel value="kontrahent"/>
+            <h:outputLabel value="kontrahent_a"/>
+            <h:outputLabel value="kontrahent_n"/>
             <h:outputLabel value="rodzaj trans"/>
             <h:outputLabel value="nr wł"/>
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
-            <h:outputLabel value="kolumna"/>
+            
             <h:inputText id="dataPole" value="#{DokDAO.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" 
                           immediate="true">
                 <f:ajax event="keyup" execute="@this" render="dataPole"/>
-                
             </h:inputText>
-
             
-            <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
-                            var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
-                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="2" forceSelection="true"
-                            >
+            
+            <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.completeNazwa}"
+                            var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv"
+                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
+                            effect="clip">
                 <f:validateLength minimum="10"/>
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -39,36 +39,54 @@
                         <h:outputText value="Number " />  
                         <h:outputText id="nip" value="#{p.NIP}" />  
                     </h:panelGrid>  
-                </f:facet>  
+                </f:facet>
+                <f:ajax event="blur" execute="@this"  />
             </p:autoComplete>
-
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="3">
+            <p:autoComplete id="acForce1" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
+                            var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
+                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
+                            effect="clip">
+                <f:validateLength minimum="10"/>
+                <f:facet name="itemtip">  
+                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                        <f:facet name="header">  
+                            <h:outputText value="Dane kontrahenta"/>
+                        </f:facet>  
+                        <h:outputText value="Nazwa: " />  
+                        <h:outputText id="npelnax" value="#{p.npelna}" />  
+                        <h:outputText value="Number " />  
+                        <h:outputText id="nipx" value="#{p.NIP}" />  
+                    </h:panelGrid>  
+                </f:facet>
+                <f:ajax event="blur" execute="@this"  />
+            </p:autoComplete>
+            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="4">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="4"/>
-            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="5"/>
-            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="6" onblur="dlg1.show()">
+            <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="5"/>
+            <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="6"/>
+            <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()">
                 <f:convertNumber pattern="###,##" />
             </h:inputText>
-            <h:selectOneMenu value="#{DokDAO.selDokument.pkpirKol}" tabindex="7">
-                <f:selectItems value="#{Kolumna.kolumnList}"/>
-            </h:selectOneMenu>
-    
+           
+            <h:outputLabel value="kolumna"/>
             <h:outputLabel value="v m-c"/>
             <h:outputLabel value="v rok"/>
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            <h:outputLabel value=""/>
-       
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="10">
+            
+        <h:selectOneMenu id="kolumnaPkpir" value="#{DokDAO.selDokument.pkpirKol}" tabindex="8">
+                <f:selectItems value="#{Kolumna.kolumnList}"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="9">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="11">
+            <h:selectOneMenu value="#{DokDAO.selDokument.vatR}" tabindex="10">
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
-            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="12"/>
+            <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="11"/>
             <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
         </p:panelGrid>
          

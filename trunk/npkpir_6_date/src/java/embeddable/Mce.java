@@ -18,28 +18,29 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class Mce implements Serializable{
 
-    private static final List<Integer> mceList;
+    private static final List<String> mceList;
 
     static{
-        mceList = new ArrayList<Integer>();
-        mceList.add(new Integer(1));
-        mceList.add(new Integer(2));
-        mceList.add(new Integer(3));
-        mceList.add(new Integer(4));
-        mceList.add(new Integer(5));
-        mceList.add(new Integer(6));
-        mceList.add(new Integer(7));
-        mceList.add(new Integer(8));
-        mceList.add(new Integer(9));
-        mceList.add(new Integer(10));
-        mceList.add(new Integer(11));
-        mceList.add(new Integer(12));
+        mceList = new ArrayList<String>();
+        mceList.add("01");
+        mceList.add("02");
+        mceList.add("03");
+        mceList.add("04");
+        mceList.add("05");
+        mceList.add("06");
+        mceList.add("07");
+        mceList.add("08");
+        mceList.add("09");
+        mceList.add("10");
+        mceList.add("11");
+        mceList.add("12");
+        
     }
     
     public Mce() {
     }
 
-    public List<Integer> getMceList() {
+    public List<String> getMceList() {
         return mceList;
     }
     
