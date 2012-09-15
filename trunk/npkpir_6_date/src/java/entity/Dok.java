@@ -7,6 +7,9 @@ package entity;
 import embeddable.Kl;
 import embeddable.Pod;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -78,9 +81,10 @@ public class Dok implements Serializable {
     @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataK;
+    @Size(max = 10)
     @Column(name = "data_wyst")
-    @Temporal(TemporalType.DATE)
-    private Date dataWyst;
+//    @Temporal(TemporalType.DATE)
+    private String dataWyst;
     @Size(max = 45)
     @Column(name = "rodz_trans")
     private String rodzTrans;
@@ -137,12 +141,17 @@ public class Dok implements Serializable {
     }
 
     
-    public Date getDataWyst() {
+    public String getDataWyst() {
         return dataWyst;
     }
 
-    public void setDataWyst(Date dataWyst) {
-        this.dataWyst = dataWyst;
+    public void setDataWyst(String dataWyst) {
+        if(dataWyst.equals("-")){
+           dataWyst="2012-";
+        } else if (dataWyst.equals("2012--")){
+            dataWyst="2012-08-";
+        }
+            this.dataWyst = dataWyst;
     }
 
     public String getNrWlDk() {

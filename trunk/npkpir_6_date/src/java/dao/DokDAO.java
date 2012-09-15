@@ -9,8 +9,12 @@ import embeddable.Pod;
 import embeddable.WpisSet;
 import entity.Dok;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import session.DokFacade;
 import view.DokView;
 
@@ -236,5 +241,47 @@ public class DokDAO implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
      }
+     
+     public void autoDate() throws ParseException{
+        DateFormat formatter;
+        Date date = null;
+        try {
+            String str_date = "11-07-2007";
+            formatter = new SimpleDateFormat("dd-MM-yyyy");
+            date = (Date) formatter.parse(str_date);
+            System.out.println("Today is " + date);
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+        }
+        System.out.println("Pobrano is ") ;
+        if(selDokument.getDataWyst().toString().equals("-")){
+            DateFormat formatter1;
+            Date date1 = null;
+            String str_date1 = "11-07-2007";
+            formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+            date1 = (Date) formatter1.parse(str_date1);
+            
+        }
+        FacesMessage msg = new FacesMessage("Pobrano is ");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+    }
+     
+      public void autoData(){
+        DateFormat formatter;
+        Date date = null;
+        try {
+            String str_date = "11-07-2007";
+            formatter = new SimpleDateFormat("dd-MM-yyyy");
+            date = (Date) formatter.parse(str_date);
+            System.out.println("Today is " + date);
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+        }
+        System.out.println("ValueChangeListener aktywny ") ;
+        FacesMessage msg = new FacesMessage("ValueChangeListener aktywny ");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+    }
 }
 
