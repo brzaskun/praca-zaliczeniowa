@@ -18,6 +18,7 @@
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisSet.rokWpisu}" valueChangeListener="#{WpisSet.rokWpisu}" immediate="true">
                     <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:param name="rokWpisu" value="2012" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisSet.miesiacWpisu}" valueChangeListener="#{WpisSet.miesiacWpisu}" immediate="true">
                     <f:selectItems value="#{Mce.mceList}"/>
