@@ -21,6 +21,13 @@ public class WpisSet implements Serializable{
     private static Integer rokWpisu;
     private static String miesiacWpisu;
     private static Uz wprowadzil;
+   
+
+    public WpisSet() {
+        
+    }
+    
+    
 
     public Pod getPodatnikWpisu() {
         return podatnikWpisu;
@@ -55,5 +62,5 @@ public class WpisSet implements Serializable{
     }
 
     
-    
+
 }
