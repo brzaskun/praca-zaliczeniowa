@@ -23,8 +23,10 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import org.primefaces.context.RequestContext;
 import session.DokFacade;
 import view.DokView;
 
@@ -56,6 +58,8 @@ public class DokDAO implements Serializable{
     private Kl selectedKontr;
     private static String klientNip;
     private Pod pod;
+    private HtmlInputText kontrahentNazwa;
+    private HtmlInputText kontrahentNIP;
     
     
     
@@ -71,8 +75,7 @@ public class DokDAO implements Serializable{
         selectedKontr = new Kl();
         pod = new Pod();
         wpisSet = new WpisSet();
-        
-    }
+     }
     
     @PostConstruct
     public void init(){
@@ -158,7 +161,25 @@ public class DokDAO implements Serializable{
     public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
         DokDAO.obiektDOKjsfSel = obiektDOKjsfSel;
     }
+
+    public HtmlInputText getKontrahentNazwa() {
+        return kontrahentNazwa;
+    }
+
+    public void setKontrahentNazwa(HtmlInputText kontrahentNazwa) {
+        this.kontrahentNazwa = kontrahentNazwa;
+    }
+
+    public HtmlInputText getKontrahentNIP() {
+        return kontrahentNIP;
+    }
+
+    public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
+        this.kontrahentNIP = kontrahentNIP;
+    }
  
+    
+    
     public void refresh(){
         downloadedDok.clear();
         kluczDOKjsf.clear();
@@ -209,9 +230,24 @@ public class DokDAO implements Serializable{
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage("Dokytkownik nie utworzony", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            
         }
     }
    
+     /**
+     *zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
+     */
+    public void reset(AjaxBehaviorEvent e){
+        Kl pepe = (Kl) kontrahentNazwa.getValue();
+        if(pepe.getNpelna()!=null){
+        kontrahentNazwa.setSize(28);
+        kontrahentNIP.setSize(5);
+        kontrahentNazwa.setValue(new Kl(2222,"pipi","pipi"));
+        kontrahentNIP.setValue(new Kl(2222,"pipi","pipi"));
+        kontrahentNIP.setReadonly(true);
+        }
+      }
+    
     public void sformatuj(){
         //String formatka=null;
         //selDokument.setLogi(selDokument.getIdDok().toLowerCase());

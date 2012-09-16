@@ -5,30 +5,27 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:panel>
+    <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
         
             <p:growl id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
             <h:outputLabel value="data wyst"/>
-            <h:outputLabel value="kontrahent_a"/>
-            <h:outputLabel value="kontrahent_n"/>
+            <h:outputLabel value="kontrahent"/>
             <h:outputLabel value="rodzaj trans"/>
             <h:outputLabel value="nr wł"/>
             <h:outputLabel value="opis"/>
             <h:outputLabel value="kwota"/>
-            
+            <h:outputLabel value="kolumna"/>
             <h:inputText id="dataPole" value="#{DokDAO.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" 
                           immediate="true">
                 <f:ajax event="keyup" execute="@this" render="dataPole"/>
             </h:inputText>
-            
-            
+            <h:panelGroup id="dwadoWprowadzania">
             <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.completeNazwa}"
                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv"
                             minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
-                            effect="clip">
-                <f:validateLength minimum="10"/>
+                            effect="clip" immediate="true"  binding="#{DokDAO.kontrahentNazwa}">
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -38,15 +35,14 @@
                         <h:outputText id="npelna" value="#{p.npelna}" />  
                         <h:outputText value="Number " />  
                         <h:outputText id="nip" value="#{p.NIP}" />  
-                    </h:panelGrid>  
+                    </h:panelGrid>
                 </f:facet>
-                <f:ajax event="blur" execute="@this"  />
+            <f:ajax event="blur" execute="@this" listener="#{DokDAO.reset}"/>    
             </p:autoComplete>
-            <p:autoComplete id="acForce1" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
+              <p:autoComplete id="acForcex" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"
                             var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
                             minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
-                            effect="clip">
-                <f:validateLength minimum="10"/>
+                            effect="clip" immediate="true"  binding="#{DokDAO.kontrahentNIP}">
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -56,11 +52,15 @@
                         <h:outputText id="npelnax" value="#{p.npelna}" />  
                         <h:outputText value="Number " />  
                         <h:outputText id="nipx" value="#{p.NIP}" />  
-                    </h:panelGrid>  
+                    </h:panelGrid>
                 </f:facet>
-                <f:ajax event="blur" execute="@this"  />
+            <f:ajax event="blur" execute="@this" listener="#{DokDAO.reset}"/>    
             </p:autoComplete>
-            <h:selectOneMenu value="#{DokDAO.selDokument.rodzTrans}" tabindex="4">
+           
+           
+            </h:panelGroup>
+            
+            <h:selectOneMenu id="rodzajTrans" value="#{DokDAO.selDokument.rodzTrans}" tabindex="4">
                 <f:selectItems value="#{Trans.transList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="5"/>
@@ -68,18 +68,18 @@
             <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()">
                 <f:convertNumber pattern="###,##" />
             </h:inputText>
-           
-            <h:outputLabel value="kolumna"/>
+           <h:selectOneMenu id="kolumnaPkpir" value="#{DokDAO.selDokument.pkpirKol}" tabindex="8">
+                <f:selectItems value="#{Kolumna.kolumnList}"/>
+            </h:selectOneMenu>
+            
             <h:outputLabel value="v m-c"/>
             <h:outputLabel value="v rok"/>
             <h:outputLabel value="uwagi"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
-            
-        <h:selectOneMenu id="kolumnaPkpir" value="#{DokDAO.selDokument.pkpirKol}" tabindex="8">
-                <f:selectItems value="#{Kolumna.kolumnList}"/>
-            </h:selectOneMenu>
+            <h:outputLabel value=""/>
+        
             <h:selectOneMenu value="#{DokDAO.selDokument.vatM}" tabindex="9">
                 <f:selectItems value="#{Mce.mceList}"/>
             </h:selectOneMenu>
@@ -87,7 +87,10 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.uwagi}" tabindex="11"/>
-            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"/>   
+            <p:commandButton action="#{DokDAO.dodajNowyWpis()}" value="Dodaj" update=":form:dokumentyLista,mess_add,:dodWiad:ostatniUzytkownik" tabindex="13"
+                             >   
+                
+            </p:commandButton>
         </p:panelGrid>
          
           
