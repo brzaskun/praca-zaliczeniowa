@@ -19,6 +19,9 @@ import javax.faces.bean.SessionScoped;
 public class Kolmn implements Serializable{
 
     private static final List<String> kolumnList;
+    private static final List<String> kolumnPrzychody;
+    private static final List<String> kolumnKoszty;
+    private static final List<String> kolumnST;
 
     static{
         kolumnList = new ArrayList<String>();
@@ -29,6 +32,21 @@ public class Kolmn implements Serializable{
         kolumnList.add("wynagrodzenia");
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
+        
+        kolumnPrzychody = new ArrayList<String>();
+        kolumnPrzychody.add("przych. sprz");
+        kolumnPrzychody.add("pozost. przych.");
+       
+        kolumnKoszty = new ArrayList<String>();
+        kolumnKoszty.add("zakup tow.imat.");
+        kolumnKoszty.add("koszty ub.zak.");
+        kolumnKoszty.add("wynagrodzenia");
+        kolumnKoszty.add("poz. koszty");
+        
+        kolumnST = new ArrayList<String>();
+        kolumnST.add("inwestycje");
+        kolumnKoszty.add("uwagi");
+       
     }
     
     public Kolmn() {
@@ -37,5 +55,18 @@ public class Kolmn implements Serializable{
     public List<String> getKolumnList() {
         return kolumnList;
     }
+
+    public List<String> getKolumnPrzychody() {
+        return kolumnPrzychody;
+    }
+
+    public List<String> getKolumnKoszty() {
+        return kolumnKoszty;
+    }
+
+    public  List<String> getKolumnST() {
+        return kolumnST;
+    }
+    
     
 }

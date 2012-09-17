@@ -55,7 +55,7 @@
                         <h:outputText id="nipx" value="#{p.NIP}" />  
                     </h:panelGrid>
                 </f:facet>
-            <f:ajax event="blur" execute="@this" listener="#{DokDAO.reset}"/>    
+                  <f:ajax event="blur" execute="@this" listener="#{DokDAO.reset}"/>    
             </p:autoComplete>
            
            
@@ -63,14 +63,15 @@
             
             <h:selectOneMenu id="rodzajTrans" value="#{DokDAO.selDokument.rodzTrans}" tabindex="4">
                 <f:selectItems value="#{Trans.transList}"/>
+                <f:ajax event="blur" execute="@this" listener="#{DokDAO.podepnijListe}"  render=":dodWiad:kolumnaPkpir"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokDAO.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="5"/>
             <h:inputText value="#{DokDAO.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="6"/>
             <h:inputText value="#{DokDAO.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()">
                 <f:convertNumber pattern="###,##" />
             </h:inputText>
-           <h:selectOneMenu id="kolumnaPkpir" value="#{DokDAO.selDokument.pkpirKol}" tabindex="8">
-                <f:selectItems value="#{Kolumna.kolumnList}"/>
+            <h:selectOneMenu id="kolumnaPkpir" value="#{DokDAO.selDokument.pkpirKol}" tabindex="8" binding="#{DokDAO.pkpirLista}">
+               
             </h:selectOneMenu>
             
             <h:outputLabel value="v m-c"/>
