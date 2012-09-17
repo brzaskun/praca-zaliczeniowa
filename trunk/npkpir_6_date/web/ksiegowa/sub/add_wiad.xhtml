@@ -37,6 +37,7 @@
                         <h:outputText id="nip" value="#{p.NIP}" />  
                     </h:panelGrid>
                 </f:facet>
+            <f:param name="passedValue" value="#{p}" />
             <f:ajax event="blur" execute="@this" listener="#{DokDAO.reset}"/>    
             </p:autoComplete>
               <p:autoComplete id="acForcex" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.complete}"

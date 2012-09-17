@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -239,21 +240,13 @@ public class DokDAO implements Serializable{
      *zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void reset(AjaxBehaviorEvent e){
-        Object olo = e.getSource();
-        UIComponent olo1 = e.getComponent();
-        Kl pepe = (Kl) kontrahentNazwa.getSubmittedValue();
-        if(pepe.getNpelna()!=null){
-        kontrahentNazwa.setSize(28);
-        kontrahentNIP.setSize(5);
-        kontrahentNazwa.setValue(new Kl(2222,"pipi","pipi"));
-        kontrahentNIP.setValue(new Kl(2222,"pipi","pipi"));
+        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+ 	String ktNazwa = params.get("dodWiad:acForce_input");
+        String ktNIP = params.get("dodWiad:acForcex_input");
+        if(ktNazwa.length()>0){
         kontrahentNIP.setReadonly(true);
         }
-        if(pepe.getNIP()!=null){
-        kontrahentNazwa.setSize(28);
-        kontrahentNIP.setSize(5);
-        kontrahentNazwa.setValue(new Kl(2222,"pipi","pipi"));
-        kontrahentNIP.setValue(new Kl(2222,"pipi","pipi"));
+        if(ktNIP.length()>0){
         kontrahentNazwa.setReadonly(true);
         }
       }
