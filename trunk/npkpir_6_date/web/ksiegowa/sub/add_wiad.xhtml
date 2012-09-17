@@ -25,7 +25,7 @@
             <p:autoComplete id="acForce" value="#{DokDAO.selectedKontr}" completeMethod="#{KlDAO.completeNazwa}"
                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv"
                             minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
-                            effect="clip" immediate="true"  binding="#{DokDAO.kontrahentNazwa}">
+                            effect="clip" immediate="true"  binding="#{DokDAO.kontrahentNazwa}" >
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
