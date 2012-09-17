@@ -23,6 +23,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -238,13 +239,22 @@ public class DokDAO implements Serializable{
      *zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void reset(AjaxBehaviorEvent e){
-        Kl pepe = (Kl) kontrahentNazwa.getValue();
+        Object olo = e.getSource();
+        UIComponent olo1 = e.getComponent();
+        Kl pepe = (Kl) kontrahentNazwa.getSubmittedValue();
         if(pepe.getNpelna()!=null){
         kontrahentNazwa.setSize(28);
         kontrahentNIP.setSize(5);
         kontrahentNazwa.setValue(new Kl(2222,"pipi","pipi"));
         kontrahentNIP.setValue(new Kl(2222,"pipi","pipi"));
         kontrahentNIP.setReadonly(true);
+        }
+        if(pepe.getNIP()!=null){
+        kontrahentNazwa.setSize(28);
+        kontrahentNIP.setSize(5);
+        kontrahentNazwa.setValue(new Kl(2222,"pipi","pipi"));
+        kontrahentNIP.setValue(new Kl(2222,"pipi","pipi"));
+        kontrahentNazwa.setReadonly(true);
         }
       }
     
