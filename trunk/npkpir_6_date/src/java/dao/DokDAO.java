@@ -5,6 +5,7 @@
 package dao;
 
 import embeddable.Kl;
+import embeddable.Kolmn;
 import embeddable.Pod;
 import embeddable.WpisSet;
 import entity.Dok;
@@ -24,11 +25,12 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
+import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import org.primefaces.context.RequestContext;
+import javax.faces.model.SelectItem;
 import session.DokFacade;
 import view.DokView;
 
@@ -62,6 +64,7 @@ public class DokDAO implements Serializable{
     private Pod pod;
     private HtmlInputText kontrahentNazwa;
     private HtmlInputText kontrahentNIP;
+    private HtmlSelectOneListbox pkpirLista;
     
     
     
@@ -77,6 +80,7 @@ public class DokDAO implements Serializable{
         selectedKontr = new Kl();
         pod = new Pod();
         wpisSet = new WpisSet();
+        pkpirLista = new HtmlSelectOneListbox();
      }
     
     @PostConstruct
@@ -179,6 +183,14 @@ public class DokDAO implements Serializable{
     public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
         this.kontrahentNIP = kontrahentNIP;
     }
+
+    public HtmlSelectOneListbox getPkpirLista() {
+        return pkpirLista;
+    }
+
+    public void setPkpirLista(HtmlSelectOneListbox pkpirLista) {
+        this.pkpirLista = pkpirLista;
+    }
  
     
     
@@ -249,6 +261,37 @@ public class DokDAO implements Serializable{
         if(ktNIP.length()>0){
         kontrahentNazwa.setReadonly(true);
         }
+      }
+    
+    /**
+     *wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
+     * czy to transakcja zakupu czy sprzedazy
+     */
+    public void podepnijListe(AjaxBehaviorEvent e){
+        pkpirLista.getChildren().clear();
+        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+ 	String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
+        List valueList = new ArrayList();
+        UISelectItems ulista = new UISelectItems();
+        Kolmn k = new Kolmn();
+        List dopobrania = new ArrayList();
+        if(transakcjiRodzaj.equals("zakup")){
+        dopobrania = k.getKolumnKoszty();
+        } else if (transakcjiRodzaj.equals("srodek trw")){
+        dopobrania = k.getKolumnST();
+        } else {
+        dopobrania = k.getKolumnPrzychody();
+        }
+        Iterator it;
+        it = dopobrania.iterator();
+        while(it.hasNext()){
+        String poz = (String) it.next();
+        SelectItem selectItem = new SelectItem(poz, poz);
+        valueList.add(selectItem);
+        }
+        ulista.setValue(valueList);
+        pkpirLista.getChildren().add(ulista);
+      
       }
     
     public void sformatuj(){
