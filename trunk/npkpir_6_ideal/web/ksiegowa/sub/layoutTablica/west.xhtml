@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
+    <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
@@ -24,21 +24,24 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
                 <p:commandButton value="Ok" update="westKsiegowa,:form:dokumentyLista"></p:commandButton>
-                <h:outputText value="#{WpisSet.wprowadzil.logi}"/>
-                <br />
-                <h:outputText value="#{WpisSet.podatnikWpisu.npelna}"/>
-                <br />
-                <h:outputText value="#{WpisSet.rokWpisu}"/>
-            <br/>
-            <h:outputText value="#{WpisSet.miesiacWpisu}"/>
             </p:panel>
+           <p:panelGrid menuTitle="Aktualnie:" columns="1">
+                <h:outputText value="Wprowadzajacy:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisSet.wprowadzil.logi}"/>
+                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisSet.podatnikWpisu.npelna}"/>
+                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisSet.rokWpisu}"/>
+                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisSet.miesiacWpisu}"/>
+            </p:panelGrid>
            <p:panel header="linki">
-            <h:form>
+             <h:form>
                 <p:panelGrid columns="1">
                  <h:link outcome="home">home</h:link>
                 <h:link outcome="admin">admin</h:link>
-                <h:link outcome="ksiegowa">wpisywanie</h:link>
-                <h:link outcome="tablica">tablica</h:link>
+                <h:link outcome="manager">manager</h:link>
+                <h:link outcome="ksiegowa">ksiegowa</h:link>
                 </p:panelGrid>
             </h:form>
         </p:panel>
