@@ -6,12 +6,13 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
+    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true" resizable="true">
         <p:panel header="linki">
             <h:form>
                 <p:panelGrid columns="1">
                  <h:link outcome="home">home</h:link>
                 <h:link outcome="admin">admin</h:link>
+                <h:link outcome="manager">manager</h:link>
                 <h:link outcome="ksiegowa">ksiegowa</h:link>
                 </p:panelGrid>
             </h:form>

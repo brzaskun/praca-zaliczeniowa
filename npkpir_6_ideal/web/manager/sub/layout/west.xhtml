@@ -7,18 +7,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
-        <h:form>
-            <p:menu id="menuWest">  
-                <p:submenu label="Ajax Menuitems">  
-                    <p:menuitem value="Nowy" actionListener="#{UzytkownikView.setDodajUz(true)}" update=":dodWiad,menuWest" icon="ui-icon-circle-plus" rendered="#{not UzytkownikView.isDodajUz()}"/>
-                    <p:menuitem value="Schowaj" actionListener="#{UzytkownikView.setDodajUz(false)}" update=":dodWiad,menuWest" icon="ui-icon-circle-minus" rendered="#{UzytkownikView.isDodajUz()}"/>  
-                    <p:menuitem value="Update" actionListener="#{UzytkownikView.setEdytujUz(false)}" update=":dodWiad" icon="ui-icon-arrowrefresh-1-w"/>  
-                </p:submenu>  
-              
-            </p:menu>
-        </h:form>
-  <p:panel header="linki">
-            <h:form>
+        <p:panel header="linki">
+             <h:form>
                 <p:panelGrid columns="1">
                  <h:link outcome="home">home</h:link>
                 <h:link outcome="admin">admin</h:link>

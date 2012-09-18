@@ -47,8 +47,8 @@ public class UzDAO implements Serializable{
     
     static{
         tabelatestowa = new ArrayList<Uz>();
-        tabelatestowa.add(new Uz("nazwamoja","loginmoj","haslotojelogi","mail","log","upr","koncowka"));
-        tabelatestowa.add(new Uz("xwwxwamoja","lxwxwinmoj","cwcwwcjelogi","mail","log","upr","koncowka"));
+        tabelatestowa.add(new Uz("nazwamoja","loginmoj","Renata","mail","log","upr","koncowka"));
+        tabelatestowa.add(new Uz("xwwxwamoja","lxwxwinmoj","Malgosia","mail","log","upr","koncowka"));
     }
     
     public UzDAO() {

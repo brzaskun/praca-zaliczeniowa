@@ -31,3 +31,7 @@ border-style: none !important;
 border-color: inherit;
 padding: 4px 10px;
 }
+
+.ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
+    width: 300px;
+}
