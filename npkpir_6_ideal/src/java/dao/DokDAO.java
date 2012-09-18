@@ -30,7 +30,9 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeListener;
 import javax.faces.model.SelectItem;
+import org.primefaces.event.RowEditEvent;
 import session.DokFacade;
 import view.DokView;
 
@@ -308,12 +310,13 @@ public class DokDAO implements Serializable{
             System.out.println("Nie usnieto "+selDokument.getIdDok()+" "+e.toString());
         }
     }
-     public void edit(){
+     public void edit(RowEditEvent ex){
         try {
-            sformatuj();
+            
+            //sformatuj();
             dokFacade.edit(selDokument);
-            refresh();
-            FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany", selDokument.getIdDok().toString());
+            //refresh();
+            FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany "+ex.getObject().toString(), selDokument.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());

@@ -291,8 +291,10 @@ public class Dok implements Serializable {
 
     @Override
     public String toString() {
-        return idDok+"" ;
+        return "Dok{" + "idDok=" + idDok + ", kontr=" + kontr + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst + ", opis=" + opis + ", kwota=" + kwota + ", pkpirM=" + pkpirM + ", pkpirKol=" + pkpirKol + '}';
     }
+
+    
 
     
 }

@@ -13,7 +13,6 @@
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="8,16,24,32,50" resizableColumns="true" rendered="#{WpisSet.pokazTablice}"
                       rowKey="#{wpis.idDok}" selection="#{DokDAO.selDokument}" selectionMode="single"> 
-            <p:ajax event="rowEdit" update=":form:messages" listener="#{DokDAO.edit}" />
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
@@ -60,16 +59,9 @@
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor >  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwota}">
-                            <f:convertNumber type="currency" currencyCode="PLN"/>
-                        </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwota}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
+                <h:outputText value="#{wpis.kwota}">
+                    <f:convertNumber type="currency" currencyCode="PLN"/>
+                </h:outputText>
             </p:column>
             <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}">  
                 <f:facet name="header">  
@@ -108,7 +100,9 @@
                 <h:outputText value="#{wpis.uwagi}" />
             </p:column>
              <p:column id="editColumn" headerText="edytuj">
-                 <p:rowEditor />  
+                 <h:commandButton  action="#{DokDAO.edit()}" actionListener="#{DokumentView.setEdytujUz(true)}" value="Edyt" >
+                     <f:setPropertyActionListener target="#{DokDAO.selDokument}" value="#{wpis}"/>
+                </h:commandButton>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń">
                 <h:commandButton  action="#{DokDAO.destroy()}" value="Usuń" >
