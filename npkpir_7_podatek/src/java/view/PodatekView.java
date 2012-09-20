@@ -10,8 +10,10 @@ import entity.Dok;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 /**
@@ -71,6 +73,8 @@ public class PodatekView implements Serializable{
     
     
     public void sprawozdaniePodatkowe(){
+        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+ 	String ktNazwa = params.get("dodWiad:acForce_input");
         DokDAO dokDAO = new DokDAO();
         dokDAO.refresh();
         Iterator it;
