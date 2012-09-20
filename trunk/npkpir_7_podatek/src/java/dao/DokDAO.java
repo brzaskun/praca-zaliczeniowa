@@ -90,6 +90,7 @@ public class DokDAO implements Serializable{
     
     @PostConstruct
     public void init(){
+        if(wpisSet.getPodatnikWpisu()!=null){
         Collection c = null;
         try {
             c = dokFacade.findAll();
@@ -100,7 +101,7 @@ public class DokDAO implements Serializable{
         System.out.println("Pobrano z bazy danych." + c.toString());
         Iterator it;
         it = c.iterator();
-        while (it.hasNext()&&wpisSet.getPodatnikWpisu()!=null) {
+        while (it.hasNext()) {
             Dok tmp = (Dok) it.next();
             kluczDOKjsf.add(tmp.getIdDok().toString());
             obiektDOKjsf.add(tmp);
@@ -118,6 +119,7 @@ public class DokDAO implements Serializable{
             if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
                 obiektDOKmrjsfSel.add(tmpx);
             }
+        }
         }
     }
            
