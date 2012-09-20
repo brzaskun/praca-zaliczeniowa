@@ -6,17 +6,17 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-<!--    <p:outputPanel>
+    <p:outputPanel>
         <h:form>
         <p:panelGrid columns="2">
             <h:outputLabel value="Przychody:"/>
-            <h:outputText value="{PodatekView.przychody}"/>
+            <h:outputText value="#{PodatekView.przychody}"/>
             <h:outputLabel value="Koszty:"/>
-            <h:outputText value="{PodatekView.przychody}"/>
-            <p:commandButton action="{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update="@this"/>
+            <h:outputText value="#{PodatekView.przychody}"/>
+            <p:commandButton action="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update="@this"/>
         </p:panelGrid>
         </h:form>
-    </p:outputPanel>-->
+    </p:outputPanel>
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{DokDAO.obiektDOKjsfSel}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="8"
@@ -25,6 +25,7 @@
                       rowKey="#{wpis.idDok}" selection="#{DokDAO.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.kwota ge 5000 ? 'old' : null}"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokDAO.edit}" />
+            <f:param value="#{DokDAO.obiektDOKjsfSel}" id="tablicaAktualna"/>
             
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
@@ -123,7 +124,7 @@
                  <p:rowEditor />  
             </p:column>
             <p:column id="deleteColumn" headerText="usuń">
-                <p:commandButton actionListener="#{DokDAO.destroy(wpis)}" id="delete" image="ui-icon ui-icon-trash" update="@form"/>
+                <p:commandButton actionListener="#{DokDAO.destroy(wpis)}" id="delete" image="ui-icon ui-icon-trash" update="@form" />
             </p:column>
         </p:dataTable>
     </p:outputPanel>

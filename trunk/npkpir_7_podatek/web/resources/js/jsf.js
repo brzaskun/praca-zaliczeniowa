@@ -25,4 +25,6 @@ function orientujsie(){
     alert('bobo');
     //document.getElementById('rodzajTrans').focus();
 }
+
+
 }
