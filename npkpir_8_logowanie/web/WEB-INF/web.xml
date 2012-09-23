@@ -40,7 +40,7 @@
     <security-role>
         <role-name>Manager</role-name>
     </security-role>
-     <security-role>
+    <security-role>
         <role-name>Bookkeeper</role-name>
     </security-role>
     <security-role>
@@ -65,15 +65,15 @@
             <role-name>Administrator</role-name>
         </auth-constraint>
     </security-constraint>
-     <security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>Bookkeeper Area</web-resource-name>
             <url-pattern>/faces/ksiegowa/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>Bookkeeper</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
+            <role-name>Bookkeeper</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -83,9 +83,9 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
-            <role-name>Bookkeeper</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
+            <role-name>Bookkeeper</role-name>
         </auth-constraint>
     </security-constraint>
     <error-page>
