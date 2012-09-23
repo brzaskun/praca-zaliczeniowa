@@ -21,7 +21,7 @@ import session.DokFacade;
  *
  * @author Osito
  */
-@Named
+@Named(value="DokDAO")
 public class DokDAO implements Serializable{
    
    
@@ -87,8 +87,7 @@ public class DokDAO implements Serializable{
         }
     }
     
-    @DenyAll
-     public void destroy(Dok selDokument) {
+    public void destroy(Dok selDokument) {
         try {
         dokFacade.remove(selDokument);
         } catch (Exception e) {
