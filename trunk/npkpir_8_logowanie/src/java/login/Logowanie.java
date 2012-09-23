@@ -81,8 +81,8 @@ public class Logowanie implements Serializable{
             //Add the welcome message to the faces context
             return navto;
         } catch (ServletException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An Error Occured: Login failed", null));
-            e.printStackTrace();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         return "failure";
     }

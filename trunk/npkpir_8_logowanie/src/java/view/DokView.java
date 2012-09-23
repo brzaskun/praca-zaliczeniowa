@@ -9,6 +9,7 @@ import embeddable.Kl;
 import embeddable.Kolmn;
 import entity.Dok;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.RolesAllowed;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -27,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -241,44 +245,8 @@ public class DokView implements Serializable{
         }
         }
     }
-    
-//     public void refresh(){
-//        kluczDOKjsf.clear();
-//        obiektDOKjsf.clear();
-//        dokHashTable.clear();
-//        obiektDOKjsfSel.clear();
-//        obiektDOKmrjsfSel.clear();
-//        Collection c = null;
-//        try {
-//             c = dokDAO.getDownloadedDok();
-//        } catch (Exception e) {
-//            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
-//        }
-//        Iterator it;
-//        it = c.iterator();
-//        while (it.hasNext()) {
-//            Dok tmp = (Dok) it.next();
-//            kluczDOKjsf.add(tmp.getIdDok().toString());
-//            obiektDOKjsf.add(tmp);
-//            dokHashTable.put(tmp.getIdDok().toString(), tmp);
-//            if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-//                obiektDOKjsfSel.add(tmp);
-//            }
-//            dokHashTable.put(tmp.getIdDok().toString(), tmp);
-//        }
-//        Iterator itx;
-//        itx = obiektDOKjsfSel.iterator();
-//        while (itx.hasNext()) {
-//            Dok tmpx = (Dok) itx.next();
-//            String m = wpisView.getMiesiacWpisu();
-//            Integer r = wpisView.getRokWpisu();
-//            if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-//                obiektDOKmrjsfSel.add(tmpx);
-//            }
-//        }
-//
-//    }
-      public void edit(RowEditEvent ex){
+
+    public void edit(RowEditEvent ex){
         try {
             //sformatuj();
             dokDAO.edit(selDokument);
@@ -324,7 +292,11 @@ public class DokView implements Serializable{
         selDokument.setDataWyst(dataWyst);
      }
      
+     
       public void destroy(Dok selDokument) {
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+ //       Principal principal = request.getUserPrincipal();
+//        if(request.isUserInRole("Administrator")){
         try {
         obiektDOKjsfSel.remove(selDokument);
         obiektDOKmrjsfSel.remove(selDokument);
@@ -334,5 +306,10 @@ public class DokView implements Serializable{
         }
           FacesMessage msg = new FacesMessage("Dokument usunięty", selDokument.getIdDok().toString());
           FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+//    } else {
+//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
+//          FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//     }
+}
 }

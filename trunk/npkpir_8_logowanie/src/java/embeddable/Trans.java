@@ -24,7 +24,7 @@ public class Trans implements Serializable{
         transList = new ArrayList<String>();
         transList.add("zakup");
         transList.add("srodek trw");
-        transList.add("sprzedaż");
+        transList.add("sprzedaz");
     }
     
     public Trans() {
