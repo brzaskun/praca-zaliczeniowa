@@ -9,7 +9,7 @@
     <role-name>Manager</role-name>
     <group-name>Manager</group-name>
   </security-role-mapping>
-   <security-role-mapping>
+  <security-role-mapping>
     <role-name>Bookkeeper</role-name>
     <group-name>Bookkeeper</group-name>
   </security-role-mapping>
