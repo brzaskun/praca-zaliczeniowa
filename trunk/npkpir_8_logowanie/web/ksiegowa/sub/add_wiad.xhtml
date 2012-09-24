@@ -17,7 +17,7 @@
             <h:outputLabel value="opis" style="font-weight: 700"/>
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
-            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10">
+            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" style="width: 80px">
                 <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole"/>
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
@@ -56,7 +56,7 @@
                         <h:outputText value="Number " />  
                         <h:outputText id="nipx" value="#{p.NIP}" />  
                         <h:outputText value="Kolumna " />  
-                        <h:outputText id="klumnax" value="#{p.pkpirKolumna}" />  
+                        <h:outputText id="klumnax" value="#{p.pkpirKolumna}"/>  
                     </h:panelGrid>
                 </f:facet>
             </p:autoComplete>
@@ -64,7 +64,7 @@
            
             </h:panelGroup>
             
-            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}" tabindex="4" immediate="true">
+            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}" tabindex="4" immediate="true" style="width: 120px">
                 <f:selectItems value="#{Trans.transList}"/>
                 <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir"/>
             </h:selectOneMenu>
@@ -73,7 +73,7 @@
             <h:inputText value="#{DokumentView.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()">
                 <f:convertNumber pattern="###,##" />
             </h:inputText>
-            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}" tabindex="7" binding="#{DokumentView.pkpirLista}">
+            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}" tabindex="7" binding="#{DokumentView.pkpirLista}" style="min-width: 150px">
             </h:selectOneMenu>
             
             <h:outputLabel value="v m-c" style="font-weight: 700"/>
