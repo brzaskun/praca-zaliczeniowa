@@ -23,24 +23,26 @@ public class Kl implements Serializable{
     private int Id;
     private String NIP;
     private String npelna;
+    private String pkpirKolumna;
     private static final List<Kl> klList;
 
     static{
         klList = new ArrayList<Kl>();
-        klList.add(new Kl(120, "8511005008","Klient1"));
-        klList.add(new Kl(123, "8511005018","Klient2"));
-        klList.add(new Kl(124, "8511005108","Klient3"));
-        klList.add(new Kl(135, "8511001008","Klient4"));
-        klList.add(new Kl(136, "8511015008","Klient5"));
+        klList.add(new Kl(120, "8511005008","Klient1","zakup tow.i mat."));
+        klList.add(new Kl(123, "8511005018","Klient2","poz. koszty"));
+        klList.add(new Kl(124, "8511005108","Klient3","poz. koszty"));
+        klList.add(new Kl(135, "8511001008","Klient4","zakup tow.i mat."));
+        klList.add(new Kl(136, "8511015008","Klient5","przych. sprz"));
     }
     
     public Kl() {
     }
 
-    public Kl(int Id, String NIP, String npelna) {
+    public Kl(int Id, String NIP, String npelna, String pkpirKolumna) {
         this.Id = Id;
         this.NIP = NIP;
         this.npelna = npelna;
+        this.pkpirKolumna = pkpirKolumna;
     }
 
     public int getId() {
@@ -65,6 +67,14 @@ public class Kl implements Serializable{
 
     public void setNpelna(String npelna) {
         this.npelna = npelna;
+    }
+
+    public String getPkpirKolumna() {
+        return pkpirKolumna;
+    }
+
+    public void setPkpirKolumna(String pkpirKolumna) {
+        this.pkpirKolumna = pkpirKolumna;
     }
 
     public List<Kl> getKlList() {
@@ -93,16 +103,10 @@ public class Kl implements Serializable{
         return true;
     }
 
-    
-
     @Override
     public String toString() {
-        return "Kl{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + '}';
+        return "Kl{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + ", pkpirKolumna=" + pkpirKolumna + '}';
     }
-
-    
-    
-    
-    
+  
     
 }
