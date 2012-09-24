@@ -8,9 +8,6 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisView.wprowadzil}" valueChangeListener="#{WpisView.wprowadzil}" immediate="true" converter="UzConv">
-                    <f:selectItems value="#{UzDAO.tabelatestowa}" var="w" itemLabel="#{w.logi}"/>
-                </p:selectOneMenu>
                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" valueChangeListener="#{WpisView.podatnikWpisu}" immediate="true" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
                     <f:ajax event="keyup" execute="@form"/>
@@ -25,8 +22,6 @@
                 <h:commandButton value="Ok" update="@all"/>
             </p:panel>
             <p:panelGrid  columns="1" style="margin-left: 15%">
-                <h:outputText value="Wprowadzajacy:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.wprowadzil.logi}"/>
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu.npelna}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>

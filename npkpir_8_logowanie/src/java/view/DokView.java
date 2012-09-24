@@ -9,6 +9,7 @@ import embeddable.Kl;
 import embeddable.Kolmn;
 import entity.Dok;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -258,11 +260,14 @@ public class DokView implements Serializable{
       
           
      public void dodajNowyWpis(){
-        try {
+         try {
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
             selDokument.setPkpirM(wpisView.getMiesiacWpisu());
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
-            selDokument.setWprowadzil(wpisView.getWprowadzil());
             selDokument.setStatus("bufor");
             dokDAO.dodajNowyWpis(selDokument);
             FacesMessage msg = new FacesMessage("Nowy dokument zachowany", selDokument.getIdDok().toString());

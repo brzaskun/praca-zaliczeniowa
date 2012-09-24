@@ -28,9 +28,9 @@
     </p:outputPanel>
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{DokumentView.obiektDOKjsfSel}" id="dokumentyLista" editable="true" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="8"
+                      paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="8,16,24,32,50" resizableColumns="true"
+                      rowsPerPageTemplate="12,18,24,32,50" resizableColumns="true"
                       rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokumentView.edit}" />

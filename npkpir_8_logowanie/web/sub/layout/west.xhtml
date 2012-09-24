@@ -7,9 +7,6 @@
     <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
              <h:form id="westIndex">
                 <p:panel menuTitle="Dane" header="Parametry">
-                    <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisView.wprowadzil}" valueChangeListener="#{WpisView.wprowadzil}" immediate="true" converter="UzConv">
-                        <f:selectItems value="#{UzDAO.tabelatestowa}" var="w" itemLabel="#{w.logi}"/>
-                    </p:selectOneMenu>
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" valueChangeListener="#{WpisView.podatnikWpisu}" immediate="true" converter="PodConv">
                         <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
                     </p:selectOneMenu>

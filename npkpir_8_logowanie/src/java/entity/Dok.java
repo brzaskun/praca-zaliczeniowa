@@ -69,10 +69,8 @@ public class Dok implements Serializable {
     private Pod podatnik;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "wpr")
-    @OneToOne
-    private Uz wprowadzil;
+    private String wprowadzil;
     @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataK;
@@ -233,11 +231,11 @@ public class Dok implements Serializable {
         this.podatnik = podatnik;
     }
 
-    public Uz getWprowadzil() {
+    public String getWprowadzil() {
         return wprowadzil;
     }
 
-    public void setWprowadzil(Uz wprowadzil) {
+    public void setWprowadzil(String wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
 
