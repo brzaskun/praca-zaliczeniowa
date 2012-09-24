@@ -22,9 +22,10 @@
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.completeNazwa}"
-                            var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv"
-                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
-                            effect="clip" immediate="true"  binding="#{DokumentView.kontrahentNazwa}" >
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" immediate="true"
+                            minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
+                            effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
+                <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}"/>
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -34,15 +35,17 @@
                         <h:outputText id="npelna" value="#{p.npelna}" />  
                         <h:outputText value="Number " />  
                         <h:outputText id="nip" value="#{p.NIP}" />  
+                        <h:outputText value="Kolumna " />  
+                        <h:outputText id="klumna" value="#{p.pkpirKolumna}" /> 
                     </h:panelGrid>
                 </f:facet>
             <f:param name="passedValue" value="#{p}" />
-            <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}"/>    
             </p:autoComplete>
                 <p:autoComplete id="acForcex" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.complete}"
-                            var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv"
-                            minQueryLength="3" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
-                            effect="clip" immediate="true"  binding="#{DokumentView.kontrahentNIP}">
+                                var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv" immediate="true"
+                            minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient" tabindex="3" forceSelection="true" 
+                            effect="clip" binding="#{DokumentView.kontrahentNIP}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
+                <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}"/>    
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -52,17 +55,18 @@
                         <h:outputText id="npelnax" value="#{p.npelna}" />  
                         <h:outputText value="Number " />  
                         <h:outputText id="nipx" value="#{p.NIP}" />  
+                        <h:outputText value="Kolumna " />  
+                        <h:outputText id="klumnax" value="#{p.pkpirKolumna}" />  
                     </h:panelGrid>
                 </f:facet>
-                  <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}"/>    
             </p:autoComplete>
            
            
             </h:panelGroup>
             
-            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}" tabindex="4">
+            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}" tabindex="4" immediate="true">
                 <f:selectItems value="#{Trans.transList}"/>
-                <f:ajax event="blur" execute="@this" listener="#{DokumentView.podepnijListe}"  render=":dodWiad:kolumnaPkpir"/>
+                <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="5"/>
             <h:inputText value="#{DokumentView.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="6"/>

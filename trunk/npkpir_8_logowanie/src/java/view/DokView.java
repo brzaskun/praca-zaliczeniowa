@@ -26,9 +26,11 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -45,6 +47,7 @@ public class DokView implements Serializable{
     private Dok selDokument;
     @Inject
     private Kl selectedKontr;
+    private static Kl przekazKontr;
     private String dataWystawienia;
     private HashMap<String,Dok> dokHashTable;
     //tablica kluczy do obiektów
@@ -145,6 +148,14 @@ public class DokView implements Serializable{
       
     }
 
+    public Kl getPrzekazKontr() {
+        return przekazKontr;
+    }
+
+    public void setPrzekazKontr(Kl przekazKontr) {
+        this.przekazKontr = przekazKontr;
+    }
+
    
     
     public DokView() {
@@ -175,6 +186,11 @@ public class DokView implements Serializable{
         } else {
         dopobrania = k.getKolumnPrzychody();
         }
+        /*dodajemy na poczatek zwyczajawa kolumne klienta*/
+        String kol = przekazKontr.getPkpirKolumna();
+        SelectItem selectI = new SelectItem(kol, kol);
+        valueList.add(selectI);
+        /**/
         Iterator it;
         it = dopobrania.iterator();
         while(it.hasNext()){
@@ -270,9 +286,6 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             dokDAO.dodajNowyWpis(selDokument);
-            FacesMessage msg = new FacesMessage("Nowy dokument zachowany", selDokument.getIdDok().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            //PodatekView.sprawozdaniePodatkowe();
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage("Dokument nie utworzony DokView", e.getStackTrace().toString());
@@ -313,4 +326,9 @@ public class DokView implements Serializable{
 //        }
 //     }
 }
+      public void przekazKontrahenta(ValueChangeEvent e){
+        AutoComplete anAutoComplete = (AutoComplete)e.getComponent();
+        String aSelection = anAutoComplete.getValue().toString();
+        przekazKontr = (Kl) anAutoComplete.getValue();
+      }
 }

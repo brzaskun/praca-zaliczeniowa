@@ -30,6 +30,7 @@ public class Kolmn implements Serializable{
         kolumnList.add("zakup tow.i mat.");
         kolumnList.add("koszty ub.zak.");
         kolumnList.add("wynagrodzenia");
+        kolumnList.add("poz. koszty");
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
         
