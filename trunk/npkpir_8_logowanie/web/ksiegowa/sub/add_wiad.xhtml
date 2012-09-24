@@ -10,13 +10,13 @@
         
             <p:growl id="mess_add" tooltip="true" />
          <p:panelGrid columns="7" >
-            <h:outputLabel value="data wyst"/>
-            <h:outputLabel value="kontrahent"/>
-            <h:outputLabel value="rodzaj trans"/>
-            <h:outputLabel value="nr wł"/>
-            <h:outputLabel value="opis"/>
-            <h:outputLabel value="kwota"/>
-            <h:outputLabel value="kolumna"/>
+             <h:outputLabel value="data wyst" style="font-weight: 700"/>
+            <h:outputLabel value="kontrahent" style="font-weight: 700"/>
+            <h:outputLabel value="rodzaj trans" style="font-weight: 700"/>
+            <h:outputLabel value="nr wł" style="font-weight: 700"/>
+            <h:outputLabel value="opis" style="font-weight: 700"/>
+            <h:outputLabel value="kwota" style="font-weight: 700"/>
+            <h:outputLabel value="kolumna" style="font-weight: 700"/>
             <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10">
                 <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole"/>
             </h:inputText>
@@ -72,9 +72,9 @@
             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}" tabindex="7" binding="#{DokumentView.pkpirLista}">
             </h:selectOneMenu>
             
-            <h:outputLabel value="v m-c"/>
-            <h:outputLabel value="v rok"/>
-            <h:outputLabel value="uwagi"/>
+            <h:outputLabel value="v m-c" style="font-weight: 700"/>
+            <h:outputLabel value="v rok" style="font-weight: 700"/>
+            <h:outputLabel value="uwagi" style="font-weight: 700"/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
             <h:outputLabel value=""/>
@@ -98,13 +98,13 @@
     <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
         <h:outputLabel value="Ostatnio wprowadzony:"/>
         <p:panelGrid columns="7">
-            <h:outputLabel value="nr kolejny"/>
-            <h:outputLabel value="data wyst"/>
-            <h:outputLabel value="kontrahent"/>
-            <h:outputLabel value="rodzaj trans"/>
-            <h:outputLabel value="nr wł"/>
-            <h:outputLabel value="opis"/>
-            <h:outputLabel value="kwota"/>
+            <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
+            <h:outputLabel value="data wyst" style="font-weight: 600"/>
+            <h:outputLabel value="kontrahent" style="font-weight: 600"/>
+            <h:outputLabel value="rodzaj trans" style="font-weight: 600"/>
+            <h:outputLabel value="nr wł" style="font-weight: 600"/>
+            <h:outputLabel value="opis" style="font-weight: 600"/>
+            <h:outputLabel value="kwota" style="font-weight: 600"/>
             <h:outputText  value="#{DokumentView.selDokument.idDok}"/>
             <h:outputText  value="#{DokumentView.selDokument.dataWyst}">
                 <f:convertDateTime parent="dd/mm/yyyy"/>
@@ -114,12 +114,12 @@
             <h:outputText  value="#{DokumentView.selDokument.nrWlDk}"/>
             <h:outputText  value="#{DokumentView.selDokument.opis}"/>
             <h:outputText  value="#{DokumentView.selDokument.kwota}"/>
-            <h:outputLabel value="kolumna"/>
-            <h:outputLabel value="k m-c"/>
-            <h:outputLabel value="k rok"/>
-            <h:outputLabel value="v m-c"/>
-            <h:outputLabel value="v rok"/>
-            <h:outputLabel value="uwagi"/>
+            <h:outputLabel value="kolumna" style="font-weight: 600"/>
+            <h:outputLabel value="k m-c" style="font-weight: 600"/>
+            <h:outputLabel value="k rok" style="font-weight: 600"/>
+            <h:outputLabel value="v m-c" style="font-weight: 600"/>
+            <h:outputLabel value="v rok" style="font-weight: 600"/>
+            <h:outputLabel value="uwagi" style="font-weight: 600"/>
             <h:outputLabel value=""/>
             <h:outputText  value="#{DokumentView.selDokument.pkpirKol}"/>
             <h:outputText  value="#{DokumentView.selDokument.pkpirM}"/>

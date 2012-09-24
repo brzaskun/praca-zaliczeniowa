@@ -4,14 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="250" header="Opcje" collapsible="true" resizable="true">
-        <p:panel header="linki">
-            <h:form id="westIndex">
-                <p:panelGrid columns="1">
-                 <h:link outcome="home">home</h:link>
-                <h:link outcome="admin">admin</h:link>
-                <h:link outcome="manager">manager</h:link>
-                </p:panelGrid>
+    <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
+             <h:form id="westIndex">
                 <p:panel menuTitle="Dane" header="Parametry">
                     <p:selectOneMenu id="ksiegowaWpisu" value="#{WpisView.wprowadzil}" valueChangeListener="#{WpisView.wprowadzil}" immediate="true" converter="UzConv">
                         <f:selectItems value="#{UzDAO.tabelatestowa}" var="w" itemLabel="#{w.logi}"/>
@@ -29,7 +23,6 @@
                     <h:commandButton action="/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true" value="Ok"/>
                 </p:panel>
             </h:form>
-        </p:panel>
-    </p:layoutUnit>
+          </p:layoutUnit>
 </ui:composition>   
 
