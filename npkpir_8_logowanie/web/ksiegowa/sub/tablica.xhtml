@@ -8,13 +8,21 @@
         
         <p:panelGrid columns="4">
             <h:outputLabel value="Przychody:"/>
-            <h:outputLabel value="#{PodatekView.przychody}"/>
+            <h:outputLabel value="#{PodatekView.przychody}">
+                <f:convertNumber locale="PL"/>
+            </h:outputLabel>
             <h:outputLabel value="Koszty:"/>
-            <h:outputLabel value="#{PodatekView.koszty}"/>
+            <h:outputLabel value="#{PodatekView.koszty}">
+                <f:convertNumber locale="PL"/>
+            </h:outputLabel>
             <h:outputLabel value="Dochód:"/>
-            <h:outputLabel value="#{PodatekView.dochód}"/>
+            <h:outputLabel value="#{PodatekView.dochód}">
+                <f:convertNumber locale="PL"/>
+            </h:outputLabel>
             <h:outputLabel value="Podatek:"/>
-            <h:outputLabel value="#{PodatekView.podatek}"/>
+            <h:outputLabel value="#{PodatekView.podatek}">
+                <f:convertNumber locale="PL"/>
+            </h:outputLabel>
         </p:panelGrid>
         <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" update="@form"/>
     </p:outputPanel>
@@ -73,10 +81,10 @@
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor >  
+                <p:cellEditor>  
                     <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwota}">
-                            <f:convertNumber type="currency" currencyCode="PLN"/>
+                        <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
+                            <f:convertNumber  locale="PL"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  

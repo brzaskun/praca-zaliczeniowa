@@ -5,11 +5,18 @@
     Description:
         Purpose of the stylesheet follows.
 */
-body { /*font-size: 10pt !important*/
+body { 
+    font-size: 9pt !important;
+    font-weight: 500;
 }
 
 root { 
     display: block;
+}
+
+:focus
+{ 
+    background-color: #ccffff;
 }
 
 .old{
@@ -18,17 +25,14 @@ root {
     color:#000000 !important;
 }
 
+
 .ui-panelgrid td {
-border-width: 0px;
-border-style: none !important;
-border-color: inherit;
+border-width: 1px;
 padding: 4px 10px;
 }
 
 .ui-panelgrid tr {
-border-width: 0px;
-border-style: none !important;
-border-color: inherit;
+border-width: 1px;
 padding: 4px 10px;
 }
 

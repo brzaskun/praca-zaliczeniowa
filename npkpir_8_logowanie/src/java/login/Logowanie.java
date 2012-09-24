@@ -52,6 +52,10 @@ public class Logowanie implements Serializable{
    
  
     public String login(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
         String message = "";
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
