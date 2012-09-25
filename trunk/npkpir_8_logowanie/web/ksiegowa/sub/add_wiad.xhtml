@@ -17,7 +17,7 @@
             <h:outputLabel value="opis" style="font-weight: 700"/>
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
-            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" style="width: 80px">
+            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}" tabindex="1" accesskey="s" maxlength="10" style="width: 120px">
                 <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole"/>
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
@@ -69,8 +69,11 @@
                 <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" tabindex="5"/>
-            <h:inputText value="#{DokumentView.selDokument.opis}" required="true" requiredMessage="brak opisu - uzupełnij" tabindex="6"/>
-            <h:inputText value="#{DokumentView.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()">
+            <p:autoComplete value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
+                            var="p" itemLabel="#{p}" itemValue="#{p}" 
+                            minQueryLength="3" maxResults="10" maxlength="20" tabindex="6" 
+                            effect="clip" autocomplete="true"  valueChangeListener="#{Opis.dodajOpis}"/>
+            <h:inputText value="#{DokumentView.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" tabindex="7" onblur="dlg1.show()" style="width: 120px">
                 <f:convertNumber pattern="###,##" />
             </h:inputText>
             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}" tabindex="7" binding="#{DokumentView.pkpirLista}" style="min-width: 150px">
