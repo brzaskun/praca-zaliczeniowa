@@ -8,10 +8,13 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="title">Default Title</ui:insert></title>
-        <h:outputStylesheet name="css/style.css"/>
+        <h:outputStylesheet id="template" name="#{CSSView.css}"/>
         <h:outputScript name="js/jsf.js"/>
+ 
         </h:head>
     <h:body>
-            <ui:insert name="body">Default Body</ui:insert>
+        <ui:insert name="body"> 
+            
+        </ui:insert>
     </h:body>
 </html>

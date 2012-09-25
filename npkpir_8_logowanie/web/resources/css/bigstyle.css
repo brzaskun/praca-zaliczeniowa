@@ -6,8 +6,8 @@
         Purpose of the stylesheet follows.
 */
 body { 
-    font-size: 9pt !important;
-    font-weight: 500;
+    font-size: 12pt !important;
+    font-weight: 400;
 }
 
 root { 
@@ -25,12 +25,6 @@ root {
     color:#000000 !important;
 }
 
-.ui-widget {
-    font-size: 110%;
- }
-.ui-widget .ui-widget {
-    font-size: 100%;
- }
 
 .ui-panelgrid td {
 border-width: 1px;
