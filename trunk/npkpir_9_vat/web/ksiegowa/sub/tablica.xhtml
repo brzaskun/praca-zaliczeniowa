@@ -29,6 +29,7 @@
         <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" update="@form"/>
     </p:outputPanel>
     <p:outputPanel id="wrapper">
+        
         <p:dataTable  var="wpis" value="#{DokumentView.obiektDOKjsfSel}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -40,13 +41,14 @@
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
-
+            
             <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.idDok}" filterMatchMode="contains" sortBy="#{wpis.idDok}"  width="60">  
                 <f:facet name="header">  
                     <h:outputText value="nr kolejny" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.idDok}" />
             </p:column>
+                
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
                 <f:facet name="header">  
                     <h:outputText value="data wyst" />  
