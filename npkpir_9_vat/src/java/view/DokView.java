@@ -17,12 +17,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resources;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -31,6 +38,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.autocomplete.AutoComplete;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -43,6 +51,7 @@ public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNazwa;
     private HtmlInputText kontrahentNIP;
+    private org.primefaces.component.panelgrid.PanelGrid grid1;
     @Inject
     private Dok selDokument;
     @Inject
@@ -68,6 +77,19 @@ public class DokView implements Serializable{
     @Inject
     private Kolmn k; 
     
+    private String opis;
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+    
+    
+    
+    
     public HtmlSelectOneMenu getPkpirLista() {
         return pkpirLista;
     }
@@ -78,6 +100,14 @@ public class DokView implements Serializable{
 
     public HtmlInputText getKontrahentNazwa() {
         return kontrahentNazwa;
+    }
+
+    public org.primefaces.component.panelgrid.PanelGrid getGrid1() {
+        return grid1;
+    }
+
+    public void setGrid1(org.primefaces.component.panelgrid.PanelGrid grid1) {
+        this.grid1 = grid1;
     }
 
     public void setKontrahentNazwa(HtmlInputText kontrahentNazwa) {
@@ -164,8 +194,11 @@ public class DokView implements Serializable{
         obiektDOKjsf = new ArrayList<Dok>();
         obiektDOKjsfSel = new ArrayList<Dok>();
         obiektDOKmrjsfSel = new ArrayList<Dok>();
+        opis="ewidencja opis";
+        
     }
     
+   
     
     
     /**
@@ -200,6 +233,22 @@ public class DokView implements Serializable{
         }
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
+         FacesContext facesCtx = FacesContext.getCurrentInstance();
+         ELContext elContext = facesCtx.getELContext();
+         HtmlInputText ew = new HtmlInputText();
+         HtmlInputText ew1 = new HtmlInputText();
+         HtmlOutputText ot = new HtmlOutputText();
+         final String binding = "#{DokumentView.opis}";
+         ExpressionFactory ef = ExpressionFactory.newInstance();
+         ValueExpression ve2 = ef.createValueExpression(elContext,binding, String.class);
+         ew.setValueExpression("value",ve2);
+         ot.setValue(opis);
+          grid1 = getGrid1();
+          grid1.getChildren().add(ot);
+          grid1.getChildren().add(ew);
+          grid1.getChildren().add(ew1);
+          RequestContext ctx = null; 
+          ctx.getCurrentInstance().update("dodWiad:grid1");
       
       }
       
@@ -258,6 +307,7 @@ public class DokView implements Serializable{
         }
         }
         }
+         
     }
 
     public void edit(RowEditEvent ex){
@@ -331,4 +381,8 @@ public class DokView implements Serializable{
         String aSelection = anAutoComplete.getValue().toString();
         przekazKontr = (Kl) anAutoComplete.getValue();
       }
+      
+      public void generujEvat(){
+         
+        }
 }
