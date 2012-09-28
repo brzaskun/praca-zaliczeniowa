@@ -64,7 +64,7 @@
             </h:panelGroup>
             
             <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}"  immediate="true" style="width: 120px">
-                <f:selectItems value="#{Trans.transList}"/>
+                <f:selectItems value="#{Trans.transListView}"/>
                 <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir" global="false"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" />
@@ -100,9 +100,6 @@
             </p:panelGrid>
             <p:panel header="ewidencja vat"/>
             <p:panelGrid id="grid1" columns="3" binding="#{DokumentView.grid1}">
-                <h:outputText value="rodzaj ewidencji"/>
-                <h:outputText value="netto"/>
-                <h:outputText value="vat"/>
             </p:panelGrid>
           
     </p:panel>

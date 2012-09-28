@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resources;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
@@ -28,8 +27,6 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlPanelGrid;
-import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -75,7 +72,10 @@ public class DokView implements Serializable{
     private DokDAO dokDAO;
     
     @Inject
-    private Kolmn k; 
+    private Kolmn kolumna; 
+    
+    @Inject
+    private EVatView evat;
     
     private String opis;
 
@@ -206,50 +206,77 @@ public class DokView implements Serializable{
      * czy to transakcja zakupu czy sprzedazy
      */
       public void podepnijListe(AjaxBehaviorEvent e){
-        pkpirLista.getChildren().clear();
-        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
- 	String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
-        List valueList = new ArrayList();
-        UISelectItems ulista = new UISelectItems();
-        List dopobrania = new ArrayList();
-        if(transakcjiRodzaj.equals("zakup")){
-        dopobrania = k.getKolumnKoszty();
-        } else if (transakcjiRodzaj.equals("srodek trw")){
-        dopobrania = k.getKolumnST();
-        } else {
-        dopobrania = k.getKolumnPrzychody();
-        }
-        /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-        String kol = przekazKontr.getPkpirKolumna();
-        SelectItem selectI = new SelectItem(kol, kol);
-        valueList.add(selectI);
-        /**/
-        Iterator it;
-        it = dopobrania.iterator();
-        while(it.hasNext()){
-        String poz = (String) it.next();
-        SelectItem selectItem = new SelectItem(poz, poz);
-        valueList.add(selectItem);
-        }
-        ulista.setValue(valueList);
-        pkpirLista.getChildren().add(ulista);
-         FacesContext facesCtx = FacesContext.getCurrentInstance();
-         ELContext elContext = facesCtx.getELContext();
-         HtmlInputText ew = new HtmlInputText();
-         HtmlInputText ew1 = new HtmlInputText();
-         HtmlOutputText ot = new HtmlOutputText();
-         final String binding = "#{DokumentView.opis}";
-         ExpressionFactory ef = ExpressionFactory.newInstance();
-         ValueExpression ve2 = ef.createValueExpression(elContext,binding, String.class);
-         ew.setValueExpression("value",ve2);
-         ot.setValue(opis);
+          pkpirLista.getChildren().clear();
+          Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+          String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
+          List valueList = new ArrayList();
+          UISelectItems ulista = new UISelectItems();
+          List dopobrania = new ArrayList();
+          if (transakcjiRodzaj.equals("zakup")) {
+              dopobrania = kolumna.getKolumnKoszty();
+          } else if (transakcjiRodzaj.equals("srodek trw")) {
+              dopobrania = kolumna.getKolumnST();
+          } else {
+              dopobrania = kolumna.getKolumnPrzychody();
+          }
+          /*dodajemy na poczatek zwyczajawa kolumne klienta*/
+          String kol = przekazKontr.getPkpirKolumna();
+          SelectItem selectI = new SelectItem(kol, kol);
+          valueList.add(selectI);
+          /**/
+          Iterator it;
+          it = dopobrania.iterator();
+          while (it.hasNext()) {
+              String poz = (String) it.next();
+              SelectItem selectItem = new SelectItem(poz, poz);
+              valueList.add(selectItem);
+          }
+          ulista.setValue(valueList);
+          pkpirLista.getChildren().add(ulista);
+          /*wyswietlamy ewidencje VAT*/
+          FacesContext facesCtx = FacesContext.getCurrentInstance();
+          ELContext elContext = facesCtx.getELContext();
+          List opisewidencji = new ArrayList();
+          if (transakcjiRodzaj.equals("zakup")) {
+              opisewidencji = evat.getZakupVList();
+          } else if (transakcjiRodzaj.equals("srodek trw")) {
+              opisewidencji = evat.getSrodkitrwaleVList();
+          } else {
+              opisewidencji = evat.getSprzedazVList();
+          }
           grid1 = getGrid1();
-          grid1.getChildren().add(ot);
-          grid1.getChildren().add(ew);
-          grid1.getChildren().add(ew1);
-          RequestContext ctx = null; 
+          grid1.getChildren().clear();
+          RequestContext ctx = null;
           ctx.getCurrentInstance().update("dodWiad:grid1");
-      
+          Iterator itx;
+          List naglowekewidencji = evat.getNaglowekVList();
+          itx = naglowekewidencji.iterator();
+          while(itx.hasNext()){
+          HtmlOutputText ot = new HtmlOutputText();
+          ot.setValue((String) itx.next());
+          grid1.getChildren().add(ot);
+          }
+          ExpressionFactory ef = ExpressionFactory.newInstance();
+          itx = opisewidencji.iterator();
+          int i=0;
+          while (itx.hasNext()) {
+              String poz = (String) itx.next();
+              HtmlOutputText otX = new HtmlOutputText();
+              otX.setValue(poz);
+              grid1.getChildren().add(otX);
+              HtmlInputText ew = new HtmlInputText();
+              final String binding = "#{DokumentView.opis"+i+"}";
+              ValueExpression ve2 = ef.createValueExpression(binding, String.class);
+              ew.setValueExpression("value", ve2);
+              grid1.getChildren().add(ew);
+              HtmlInputText ewX = new HtmlInputText();
+              final String bindingX = "#{DokumentView.mopis"+i+"}";
+              ValueExpression ve2X = ef.createValueExpression(bindingX, String.class);
+              ewX.setValueExpression("value", ve2X);
+              grid1.getChildren().add(ewX);
+          }
+          ctx.getCurrentInstance().update("dodWiad:grid1");
+
       }
       
         /**

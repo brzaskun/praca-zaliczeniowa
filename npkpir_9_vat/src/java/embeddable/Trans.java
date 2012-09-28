@@ -30,8 +30,11 @@ public class Trans implements Serializable{
     public Trans() {
     }
 
-    public List<String> getTransList() {
+    public static List<String> getTransList() {
         return transList;
     }
     
+    public List<String> getTransListView() {
+        return transList;
+    }
 }
