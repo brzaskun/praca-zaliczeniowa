@@ -4,10 +4,12 @@
  */
 package entity;
 
+import embeddable.EVatwpis;
 import embeddable.Kl;
 import embeddable.Pod;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -108,7 +110,10 @@ public class Dok implements Serializable {
     @Size(max = 65)
     @Column(name = "status")
     private String status;
-   
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "evat")
+    private List<EVatwpis> ewidencjaVAT;
     
     public Dok() {
     }
@@ -254,6 +259,16 @@ public class Dok implements Serializable {
     public void setDataK(Date dataK) {
         this.dataK = dataK;
     }
+
+    public List<EVatwpis> getEwidencjaVAT() {
+        return ewidencjaVAT;
+    }
+
+    public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
+        this.ewidencjaVAT = ewidencjaVAT;
+    }
+
+   
  
 
     @Override
