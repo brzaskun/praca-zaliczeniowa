@@ -15,6 +15,8 @@ import embeddable.Kl;
 import embeddable.Kolmn;
 import entity.Dok;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -452,6 +454,8 @@ public class DokView implements Serializable{
         Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
  	String tmp = params.get("dodWiad:kwotaPkpir");
         netto1= Double.parseDouble(tmp);
+        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
+        vat1 = Double.parseDouble(tmp1.multiply(BigDecimal.valueOf(0.23)).toString());
          RequestContext ctx = null;
           ctx.getCurrentInstance().update("dodWiad:grid1");
     }
