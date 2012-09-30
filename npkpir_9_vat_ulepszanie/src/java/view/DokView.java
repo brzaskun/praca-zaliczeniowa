@@ -460,21 +460,16 @@ public class DokView implements Serializable{
         /**
      *zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
-    public void reset(AjaxBehaviorEvent e){
-//        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-// 	String ktNazwa = params.get("dodWiad:acForce_input");
-//        String ktNIP = params.get("dodWiad:acForcex_input");
-//        if(ktNazwa.length()>0){
-//        //kontrahentNIP.setReadonly(true);
-//        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
-//        }
-//        if(ktNIP.length()>0&&ktNazwa.length()==0){
-//        //kontrahentNazwa.setReadonly(true);
-//        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
-//        }
-       
-      }
-    
+   
+    public void dokumentProstuSchowajEwidencje(){
+          netto1 = 0;
+          vat1 = 0;
+          selDokument.setEwidencjaVAT(null);
+          grid1 = getGrid1();
+          grid1.getChildren().clear();
+          RequestContext ctx = null;
+          ctx.getCurrentInstance().update("dodWiad:grid1");
+    }
     public void sformatuj(){
         //String formatka=null;
         //selDokument.setLogi(selDokument.getIdDok().toLowerCase());
@@ -573,7 +568,11 @@ public class DokView implements Serializable{
                 }
                 i++;
             }
-            selDokument.setEwidencjaVAT(el);
+            if(!selDokument.isDokumentProsty()){
+                selDokument.setEwidencjaVAT(el);
+            } else {
+                selDokument.setEwidencjaVAT(null);
+            }
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -592,6 +591,9 @@ public class DokView implements Serializable{
     }
     
      public void ustawDate(AjaxBehaviorEvent e){
+        selDokument.setDokumentProsty(false);
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("dodWiad:dokumentprosty");
         String dataWyst = selDokument.getDataWyst();
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();

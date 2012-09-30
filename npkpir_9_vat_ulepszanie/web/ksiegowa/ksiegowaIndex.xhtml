@@ -19,7 +19,7 @@
                                  <p:panelGrid columns="2">
                                 <p:selectOneMenu value="#{CSSView.css}">
                                     <f:selectItems value="#{CSSView.cssList}"/>
-                                    <p:ajax event="keyup" update="@all"/>
+                                    <p:ajax event="keyup" update="@all" global="false"/>
                                 </p:selectOneMenu>
                                 <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
                                 </p:panelGrid>
