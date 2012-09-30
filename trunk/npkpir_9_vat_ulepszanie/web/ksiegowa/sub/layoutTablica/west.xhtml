@@ -8,20 +8,22 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" valueChangeListener="#{WpisView.podatnikWpisu}" immediate="true" converter="PodConv">
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
-                    <f:ajax event="keyup" execute="@form"/>
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" valueChangeListener="#{WpisView.rokWpisu}" immediate="true">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" valueChangeListener="#{WpisView.miesiacWpisu}" immediate="true">
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" update="@all"/>
+                <h:commandButton value="Ok" update="@all" rendered="false"/>
             </p:panel>
-            <p:panelGrid  columns="1" style="margin-left: 15%">
+            <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu.npelna}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
