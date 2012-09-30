@@ -467,11 +467,14 @@ public class DokView implements Serializable{
  	String ktNazwa = params.get("dodWiad:acForce_input");
         String ktNIP = params.get("dodWiad:acForcex_input");
         if(ktNazwa.length()>0){
-        kontrahentNIP.setReadonly(true);
+        //kontrahentNIP.setReadonly(true);
+        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
         }
         if(ktNIP.length()>0){
-        kontrahentNazwa.setReadonly(true);
+        //kontrahentNazwa.setReadonly(true);
+        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
         }
+       
       }
     
     public void sformatuj(){
@@ -628,7 +631,5 @@ public class DokView implements Serializable{
         przekazKontr = (Kl) anAutoComplete.getValue();
       }
       
-      public void generujEvat(){
-         
-        }
+ 
 }

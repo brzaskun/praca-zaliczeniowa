@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
-         <p:focus context="polawprowadzania"/>
+            <p:focus id="focus" context="polawprowadzania"/>
             <p:growl id="mess_add" tooltip="true" />
          <p:panelGrid id="polawprowadzania" columns="7" >
             
@@ -19,14 +19,14 @@
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
             <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"  accesskey="s" maxlength="10" style="width: 120px">
-                <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole" global="false"/>
+                <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole" global="false" />
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.completeNazwa}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" immediate="true"
                             minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
                             effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
-                <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}" global="false"/>
+                    <p:ajax event="blur"  listener="#{DokumentView.reset}" global="false" onsuccess="orientujsie()"/>
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -46,7 +46,7 @@
                                 var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv" immediate="true"
                             minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
                             effect="clip" binding="#{DokumentView.kontrahentNIP}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
-                <f:ajax event="blur" execute="@this" listener="#{DokumentView.reset}" global="false"/>    
+                    <p:ajax event="blur" listener="#{DokumentView.reset}" global="false" onsuccess="orientujsie()"/>    
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
