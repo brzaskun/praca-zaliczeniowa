@@ -22,11 +22,11 @@
                 <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole" global="false" />
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
-                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.completeNazwa}"
+                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" immediate="true"
                             minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
-                            effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
-                    <p:ajax event="blur"  listener="#{DokumentView.reset}" global="false" onsuccess="orientujsie()"/>
+                            effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" >
+                    <p:ajax event="blur"  listener="#{DokumentView.reset}" global="false" />
                 <f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                         <f:facet name="header">  
@@ -42,25 +42,7 @@
                 </f:facet>
             <f:param name="passedValue" value="#{p}" />
             </p:autoComplete>
-                <p:autoComplete id="acForcex" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.complete}"
-                                var="p" itemLabel="#{p.NIP}" itemValue="#{p}" converter="KlientConv" immediate="true"
-                            minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
-                            effect="clip" binding="#{DokumentView.kontrahentNIP}" valueChangeListener="#{DokumentView.przekazKontrahenta}">
-                    <p:ajax event="blur" listener="#{DokumentView.reset}" global="false" onsuccess="orientujsie()"/>    
-                <f:facet name="itemtip">  
-                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
-                        <f:facet name="header">  
-                            <h:outputText value="Dane kontrahenta"/>
-                        </f:facet>  
-                        <h:outputText value="Nazwa: " />  
-                        <h:outputText id="npelnax" value="#{p.npelna}" />  
-                        <h:outputText value="Number " />  
-                        <h:outputText id="nipx" value="#{p.NIP}" />  
-                        <h:outputText value="Kolumna " />  
-                        <h:outputText id="klumnax" value="#{p.pkpirKolumna}"/>  
-                    </h:panelGrid>
-                </f:facet>
-            </p:autoComplete>
+                
             </h:panelGroup>
             
             <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}"  immediate="true" style="width: 120px">
