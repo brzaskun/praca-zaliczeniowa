@@ -8,7 +8,6 @@ import dao.DokDAO;
 import dao.EVDAO;
 import dao.EVatOpisDAO;
 import entity.EVatOpis;
-import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVidencja;
 import embeddable.Kl;
@@ -16,7 +15,6 @@ import embeddable.Kolmn;
 import entity.Dok;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -463,17 +461,17 @@ public class DokView implements Serializable{
      *zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void reset(AjaxBehaviorEvent e){
-        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
- 	String ktNazwa = params.get("dodWiad:acForce_input");
-        String ktNIP = params.get("dodWiad:acForcex_input");
-        if(ktNazwa.length()>0){
-        //kontrahentNIP.setReadonly(true);
-        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
-        }
-        if(ktNIP.length()>0){
-        //kontrahentNazwa.setReadonly(true);
-        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
-        }
+//        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+// 	String ktNazwa = params.get("dodWiad:acForce_input");
+//        String ktNIP = params.get("dodWiad:acForcex_input");
+//        if(ktNazwa.length()>0){
+//        //kontrahentNIP.setReadonly(true);
+//        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
+//        }
+//        if(ktNIP.length()>0&&ktNazwa.length()==0){
+//        //kontrahentNazwa.setReadonly(true);
+//        RequestContext.getCurrentInstance().update("dodWiad:dwadoWprowadzania");
+//        }
        
       }
     

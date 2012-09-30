@@ -38,10 +38,20 @@ public class KlDAO implements Serializable{
      public List<Kl> complete(String query) {  
         List<Kl> results = new ArrayList<Kl>();  
         Kl kl = new Kl();
-         for(Kl p : kl.getKlList()) {  
-            if(p.getNIP().startsWith(query)) {
+        try{
+            String q = query.substring(0,1);
+            int i = Integer.parseInt(q);
+            for(Kl p : kl.getKlList()) {  
+             if(p.getNIP().startsWith(query)) {
                  results.add(p);
              }
+            }
+        } catch (NumberFormatException e){
+            for(Kl p : kl.getKlList()) {
+            if(p.getNpelna().startsWith(query)) {
+                 results.add(p);
+             }
+            }
         }  
          results.add(new Kl(999999999,"nowy klient","nowy klient","nowa klumna","nowa ewid"));
         return results;  
