@@ -4,6 +4,7 @@
  */
 package dao;
 
+import embeddable.ERodzajZakupu;
 import embeddable.EVLista;
 import embeddable.EVPozycja;
 import embeddable.EVidencja;
@@ -20,24 +21,16 @@ import javax.inject.Named;
  */
 @Named(value="EVDAO")
 public class EVDAO implements Serializable{
-    @Inject
-    private EVidencja eVidencja;
-    @Inject
-    private EVLista eVLista;
-    @Inject
-    private EVPozycja eVPozycja;
-    @Inject
-    private Trans trans;
-            
+              
     private static final List<EVidencja> wykazEwidencji;
     
     static{
         wykazEwidencji = new ArrayList<EVidencja>();
-        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(0), EVPozycja.getPoleDeklaracji().get(7),Trans.getTransList().get(0),false));
-        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(1), EVPozycja.getPoleDeklaracji().get(6),Trans.getTransList().get(1),false));
-        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(2), EVPozycja.getPoleDeklaracji().get(5),Trans.getTransList().get(2),false));
-        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(3), EVPozycja.getPoleDeklaracji().get(4),Trans.getTransList().get(2),false));
-        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(4), EVPozycja.getPoleDeklaracji().get(3),Trans.getTransList().get(2),false));
+        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(0), EVPozycja.getPoleDeklaracji().get(7),Trans.getTransList().get(0),ERodzajZakupu.getRodzajZakupu().get(0),false));
+        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(1), EVPozycja.getPoleDeklaracji().get(6),Trans.getTransList().get(1),ERodzajZakupu.getRodzajZakupu().get(0),false));
+        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(2), EVPozycja.getPoleDeklaracji().get(5),Trans.getTransList().get(2),ERodzajZakupu.getRodzajZakupu().get(0),false));
+        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(3), EVPozycja.getPoleDeklaracji().get(4),Trans.getTransList().get(2),ERodzajZakupu.getRodzajZakupu().get(0),false));
+        wykazEwidencji.add(new EVidencja(EVLista.getVList().get(4), EVPozycja.getPoleDeklaracji().get(3),Trans.getTransList().get(2),ERodzajZakupu.getRodzajZakupu().get(0),false));
     }
 
     public static List<EVidencja> getWykazEwidencji() {

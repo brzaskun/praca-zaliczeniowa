@@ -114,6 +114,8 @@ public class Dok implements Serializable {
     @NotNull
     @Column(name = "evat")
     private List<EVatwpis> ewidencjaVAT;
+    @Column(name = "dokprosty")
+    boolean dokumentProsty;
     
     public Dok() {
     }
@@ -266,6 +268,14 @@ public class Dok implements Serializable {
 
     public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
         this.ewidencjaVAT = ewidencjaVAT;
+    }
+
+    public boolean isDokumentProsty() {
+        return dokumentProsty;
+    }
+
+    public void setDokumentProsty(boolean dokumentProsty) {
+        this.dokumentProsty = dokumentProsty;
     }
 
    

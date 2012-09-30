@@ -27,19 +27,25 @@ root {
 
 .ui-widget {
     font-size: 110%;
- }
+}
 .ui-widget .ui-widget {
     font-size: 100%;
- }
+}
 
 .ui-panelgrid td {
-border-width: 1px;
-padding: 4px 10px;
+    
+    border-width: 1px !important;
+    padding: 4px 10px;
 }
 
 .ui-panelgrid tr {
-border-width: 1px;
-padding: 4px 10px;
+    
+    border-width: 1px !important;
+    padding: 4px 10px;
+}
+
+.ui-panel {
+    border-style: none !important;
 }
 
 .ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
