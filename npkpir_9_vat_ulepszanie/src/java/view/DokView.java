@@ -653,13 +653,5 @@ public class DokView implements Serializable{
           
       }
  
-      public void obliczPodatekAutomatycznie(ActionEvent e){
-          FacesContext facesContext = FacesContext.getCurrentInstance();
-          Application application = facesContext.getApplication();
-          ValueBinding binding = application.createValueBinding("#{PodatekView}");
-          PodatekView podatekView = (PodatekView)binding.getValue(facesContext);
-          podatekView.sprawozdaniePodatkowe();
-          RequestContext ctx = null;
-          ctx.getCurrentInstance().update("form:prezentacjaPodatku");
-      }
+      
 }
