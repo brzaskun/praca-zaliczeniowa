@@ -37,6 +37,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -637,12 +638,12 @@ public class DokView implements Serializable{
           RequestContext ctx = null;
           ctx.getCurrentInstance().update("form:dokumentyLista");
           ctx.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-//          FacesContext facesContext = FacesContext.getCurrentInstance();
-//          Application application = facesContext.getApplication();
-//          ValueBinding binding = application.createValueBinding("#{podatekView}");
-//          PodatekView podatekView = (PodatekView)binding.getValue(facesContext);
-//          podatekView.sprawozdaniePodatkowe();
-//          ctx.getCurrentInstance().update("form:prezentacjaPodatku");
+          FacesContext facesContext = FacesContext.getCurrentInstance();
+          Application application = facesContext.getApplication();
+          ValueBinding binding = application.createValueBinding("#{PodatekView}");
+          PodatekView podatekView = (PodatekView)binding.getValue(facesContext);
+          podatekView.sprawozdaniePodatkowe();
+          ctx.getCurrentInstance().update("form:prezentacjaPodatku");
       }
       
       public void aktualizujWestWpisWidok(AjaxBehaviorEvent e){
@@ -652,4 +653,13 @@ public class DokView implements Serializable{
           
       }
  
+      public void obliczPodatekAutomatycznie(ActionEvent e){
+          FacesContext facesContext = FacesContext.getCurrentInstance();
+          Application application = facesContext.getApplication();
+          ValueBinding binding = application.createValueBinding("#{PodatekView}");
+          PodatekView podatekView = (PodatekView)binding.getValue(facesContext);
+          podatekView.sprawozdaniePodatkowe();
+          RequestContext ctx = null;
+          ctx.getCurrentInstance().update("form:prezentacjaPodatku");
+      }
 }
