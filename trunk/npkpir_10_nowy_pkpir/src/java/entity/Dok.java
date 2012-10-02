@@ -89,6 +89,14 @@ public class Dok implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private Double kwota;
+    @Size(max = 65)
+    @Column(name = "pkpir_kol")
+    private String pkpirKol;
+    @Column(name = "kwotaX")
+    private Double kwotaX;
+    @Size(max = 65)
+    @Column(name = "pkpir_kolX")
+    private String pkpirKolX;
     @Size(max = 45)
     @Column(name = "uwagi")
     private String uwagi;
@@ -105,9 +113,6 @@ public class Dok implements Serializable {
     @Column(name = "vat_r")
     private String vatR;
     @Size(max = 65)
-    @Column(name = "pkpir_kol")
-    private String pkpirKol;
-    @Size(max = 65)
     @Column(name = "status")
     private String status;
     @Basic(optional = false)
@@ -116,6 +121,8 @@ public class Dok implements Serializable {
     private List<EVatwpis> ewidencjaVAT;
     @Column(name = "dokprosty")
     boolean dokumentProsty;
+    @Column(name = "dodkolumna")
+    boolean dodatkowaKolumna;
     
     public Dok() {
     }
@@ -276,6 +283,30 @@ public class Dok implements Serializable {
 
     public void setDokumentProsty(boolean dokumentProsty) {
         this.dokumentProsty = dokumentProsty;
+    }
+
+    public Double getKwotaX() {
+        return kwotaX;
+    }
+
+    public void setKwotaX(Double kwotaX) {
+        this.kwotaX = kwotaX;
+    }
+
+    public String getPkpirKolX() {
+        return pkpirKolX;
+    }
+
+    public void setPkpirKolX(String pkpirKolX) {
+        this.pkpirKolX = pkpirKolX;
+    }
+
+    public boolean isDodatkowaKolumna() {
+        return dodatkowaKolumna;
+    }
+
+    public void setDodatkowaKolumna(boolean dodatkowaKolumna) {
+        this.dodatkowaKolumna = dodatkowaKolumna;
     }
 
    

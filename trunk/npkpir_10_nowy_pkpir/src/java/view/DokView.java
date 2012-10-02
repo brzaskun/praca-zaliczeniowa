@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -33,10 +34,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.UISelectOne;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.behavior.Behavior;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -45,6 +51,9 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.autocomplete.AutoComplete;
+import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
+import org.primefaces.component.panel.Panel;
+import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -58,7 +67,8 @@ public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNazwa;
     private HtmlInputText kontrahentNIP;
-    private org.primefaces.component.panelgrid.PanelGrid grid1;
+    private PanelGrid grid1;
+    private PanelGrid grid2;
     @Inject
     private Dok selDokument;
     @Inject
@@ -158,14 +168,23 @@ public class DokView implements Serializable{
         return kontrahentNazwa;
     }
 
-    public org.primefaces.component.panelgrid.PanelGrid getGrid1() {
+    public PanelGrid getGrid1() {
         return grid1;
     }
 
-    public void setGrid1(org.primefaces.component.panelgrid.PanelGrid grid1) {
+    public void setGrid1(PanelGrid grid1) {
         this.grid1 = grid1;
     }
 
+    public PanelGrid getGrid2() {
+        return grid2;
+    }
+
+    public void setGrid2(PanelGrid grid2) {
+        this.grid2 = grid2;
+    }
+
+    
     public void setKontrahentNazwa(HtmlInputText kontrahentNazwa) {
         this.kontrahentNazwa = kontrahentNazwa;
     }
@@ -451,12 +470,88 @@ public class DokView implements Serializable{
           ctx.getCurrentInstance().update("dodWiad:grid1");
 
    }
-    
+   
+   public void wygenerujNowaKolumnePkpir(){
+       /*wyswietlamy ewidencje VAT*/
+          Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+          String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
+          List valueList = new ArrayList();
+          UISelectItems ulista = new UISelectItems();
+          List dopobrania = new ArrayList();
+          if (transakcjiRodzaj.equals("zakup")) {
+              dopobrania = kolumna.getKolumnKoszty();
+          } else if (transakcjiRodzaj.equals("srodek trw")) {
+              dopobrania = kolumna.getKolumnST();
+          } else {
+              dopobrania = kolumna.getKolumnPrzychody();
+          }
+          Iterator it;
+          it = dopobrania.iterator();
+          while (it.hasNext()) {
+              String poz = (String) it.next();
+              SelectItem selectItem = new SelectItem(poz, poz);
+              valueList.add(selectItem);
+          }
+          ulista.setValue(valueList);
+          FacesContext facesCtx = FacesContext.getCurrentInstance();
+          ELContext elContext = facesCtx.getELContext();
+          grid2 = getGrid2();
+          grid2.getChildren().clear();
+          ExpressionFactory ef = ExpressionFactory.newInstance();
+          RequestContext ctx = null;
+          ctx.getCurrentInstance().update("dodWiad:grid2");
+              HtmlInputText ew = new HtmlInputText();
+              final String binding = "#{DokumentView.selDokument.kwotaX}";
+              ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
+              ew.setValueExpression("value", ve2);
+              ew.setStyle("width: 120px");
+              NumberConverter nc = new NumberConverter();
+              nc.setPattern("###,##");
+              ew.setConverter(nc);
+              ew.setId("kwotaPkpirX");
+              org.primefaces.component.behavior.ajax.AjaxBehavior dragStart = new org.primefaces.component.behavior.ajax.AjaxBehavior();
+              dragStart.setGlobal(false);
+              MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
+              dragStart.addAjaxBehaviorListener( new AjaxBehaviorListenerImpl(me));
+              dragStart.setUpdate(":dodWiad:grid1");
+              ew.addClientBehavior("blur", dragStart);
+              grid2.getChildren().add(ew);
+              final String bindingX = "#{DokumentView.selDokument.pkpirKolX}";
+              ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
+              HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
+              htmlSelectOneMenu.setValueExpression("value", ve2X);
+              htmlSelectOneMenu.setStyle("min-width: 150px");
+              htmlSelectOneMenu.getChildren().add(ulista);
+              grid2.getChildren().add(htmlSelectOneMenu);
+          ctx.getCurrentInstance().update("dodWiad:grid2");
+  }
+   
     public void przeniesKwotaDoNetto(AjaxBehaviorEvent e){
         Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
  	String tmp = params.get("dodWiad:kwotaPkpir");
+        tmp = tmp.replace(",",".");
         netto1= Double.parseDouble(tmp);
         BigDecimal tmp1 = BigDecimal.valueOf(netto1);
+        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
+        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+        vat1 = Double.parseDouble(tmp1.toString());
+         RequestContext ctx = null;
+          ctx.getCurrentInstance().update("dodWiad:grid1");
+    }
+   
+    public void przeniesKwotaDoNettoX(AjaxBehaviorEvent e){
+        Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+ 	String tmp = params.get("dodWiad:kwotaPkpir");
+        String tmpX = params.get("dodWiad:kwotaPkpirX");
+        tmp = tmp.replace(",",".");
+        netto1= Double.parseDouble(tmp);
+        if(!tmpX.equals("")){
+            tmpX = tmpX.replace(",",".");
+            netto1= netto1+Double.parseDouble(tmpX);
+        }
+        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
+        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+        netto1 = Double.parseDouble(tmp1.toString());
         tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
         vat1 = Double.parseDouble(tmp1.toString());
