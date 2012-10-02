@@ -23,6 +23,10 @@
             <from-outcome>tablica</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>obroty</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>manager</from-outcome>
             <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>

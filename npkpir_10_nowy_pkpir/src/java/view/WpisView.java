@@ -22,6 +22,8 @@ public class WpisView implements Serializable{
     private static Integer rokWpisu;
     private static String miesiacWpisu;
     private static Uz wprowadzil;
+    private static String miesiacOd;
+    private static String miesiacDo;
    
    
    
@@ -58,6 +60,22 @@ public class WpisView implements Serializable{
 
     public void setWprowadzil(Uz wprowadzil) {
         WpisView.wprowadzil = wprowadzil;
+    }
+
+    public String getMiesiacOd() {
+        return miesiacOd;
+    }
+
+    public void setMiesiacOd(String miesiacOd) {
+        WpisView.miesiacOd = miesiacOd;
+    }
+
+    public String getMiesiacDo() {
+        return miesiacDo;
+    }
+
+    public void setMiesiacDo(String miesiacDo) {
+        WpisView.miesiacDo = miesiacDo;
     }
 
    
