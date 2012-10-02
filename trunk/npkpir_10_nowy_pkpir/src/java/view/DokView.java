@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -84,6 +85,8 @@ public class DokView implements Serializable{
     private List<Dok> obiektDOKjsfSel;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
+     //tablica obiektów danego klienta z określonego roku i miesiecy
+    private List<Dok> obiektDOKmrjsfSelX;
    
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -357,6 +360,14 @@ public class DokView implements Serializable{
         this.opis4 = opis4;
     }
 
+    public List<Dok> getObiektDOKmrjsfSelX() {
+        return obiektDOKmrjsfSelX;
+    }
+
+    public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
+        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
+    }
+
     
    
     
@@ -366,10 +377,78 @@ public class DokView implements Serializable{
         obiektDOKjsf = new ArrayList<Dok>();
         obiektDOKjsfSel = new ArrayList<Dok>();
         obiektDOKmrjsfSel = new ArrayList<Dok>();
+        obiektDOKmrjsfSelX = new ArrayList<Dok>();
         opis="ewidencja opis";
         
     }
     
+    @PostConstruct
+    public void init() {
+        if (wpisView.getPodatnikWpisu() != null) {
+            Collection c = null;
+            try {
+                c = dokDAO.getDownloadedDok();
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+            }
+            if (c != null) {
+                Iterator it;
+                it = c.iterator();
+                while (it.hasNext()) {
+                    Dok tmp = (Dok) it.next();
+                    kluczDOKjsf.add(tmp.getIdDok().toString());
+                    obiektDOKjsf.add(tmp);
+                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                        obiektDOKjsfSel.add(tmp);
+                    }
+                    dokHashTable.put(tmp.getIdDok().toString(), tmp);
+                }
+                Iterator itx;
+                itx = obiektDOKjsfSel.iterator();
+                while (itx.hasNext()) {
+                    Dok tmpx = (Dok) itx.next();
+                    String m = wpisView.getMiesiacWpisu();
+                    Integer r = wpisView.getRokWpisu();
+                    if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
+                        obiektDOKmrjsfSel.add(tmpx);
+                    }
+                }
+                if (wpisView.getMiesiacOd() != null) {
+                obiektDOKmrjsfSelX.clear();
+                Iterator itxX;
+                itxX = obiektDOKjsfSel.iterator();
+                    Integer r = wpisView.getRokWpisu();
+                    String mOd = wpisView.getMiesiacOd();
+                    Integer mOdI = Integer.parseInt(mOd);
+                    String mDo = wpisView.getMiesiacDo();
+                    Integer mDoI = Integer.parseInt(mDo);
+                    Map<Integer, String> mapa;
+                    mapa = new HashMap<Integer, String>();
+                    mapa.put(1, "01");
+                    mapa.put(2, "02");
+                    mapa.put(3, "03");
+                    mapa.put(4, "04");
+                    mapa.put(5, "05");
+                    mapa.put(6, "06");
+                    mapa.put(7, "07");
+                    mapa.put(8, "08");
+                    mapa.put(9, "09");
+                    mapa.put(10, "10");
+                    mapa.put(11, "11");
+                    mapa.put(12, "12");
+                    while (itxX.hasNext()) {
+                        Dok tmpx = (Dok) itxX.next();
+                    for (int i = mOdI; i <= mDoI; i++) {
+                        if (tmpx.getPkpirM().equals(mapa.get(i)) && tmpx.getPkpirR().equals(r.toString())) {
+                            obiektDOKmrjsfSelX.add(tmpx);
+                        }
+                    }
+                }
+                }
+            }
+        }
+    }
+
 
     /**
      *wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
@@ -578,42 +657,7 @@ public class DokView implements Serializable{
         //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
     }
     
-    @PostConstruct
-    public void init(){
-        if(wpisView.getPodatnikWpisu()!=null){
-        Collection c = null;
-        try {
-            c = dokDAO.getDownloadedDok();
-        } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
-        }
-        if(c!=null){
-        Iterator it;
-        it = c.iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            kluczDOKjsf.add(tmp.getIdDok().toString());
-            obiektDOKjsf.add(tmp);
-            if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                obiektDOKjsfSel.add(tmp);
-            }
-            dokHashTable.put(tmp.getIdDok().toString(), tmp);
-        }
-        Iterator itx;
-        itx = obiektDOKjsfSel.iterator();
-        while (itx.hasNext()) {
-            Dok tmpx = (Dok) itx.next();
-            String m = wpisView.getMiesiacWpisu();
-            Integer r = wpisView.getRokWpisu();
-            if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-                obiektDOKmrjsfSel.add(tmpx);
-            }
-        }
-        }
-        }
-         
-    }
-
+ 
     public void edit(RowEditEvent ex){
         try {
             //sformatuj();
@@ -742,6 +786,13 @@ public class DokView implements Serializable{
           PodatekView podatekView = (PodatekView)binding.getValue(facesContext);
           podatekView.sprawozdaniePodatkowe();
           ctx.getCurrentInstance().update("form:prezentacjaPodatku");
+      }
+      
+       public void aktualizujObroty(AjaxBehaviorEvent e){
+          obiektDOKmrjsfSelX.clear();
+          RequestContext ctx = null;
+          ctx.getCurrentInstance().update("formX");
+          ctx.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
       }
       
       public void aktualizujWestWpisWidok(AjaxBehaviorEvent e){
