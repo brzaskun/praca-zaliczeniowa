@@ -9,14 +9,12 @@
         <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
             <p:focus id="focus" context="polawprowadzania"/>
             <p:growl id="mess_add" tooltip="true" />
-            <p:panelGrid id="polawprowadzania" columns="8" >
+            <p:panelGrid id="polawprowadzania" columns="6" >
                 <h:outputLabel value="data wyst" style="font-weight: 700"/>
                 <h:outputLabel value="kontrahent" style="font-weight: 700"/>
                 <h:outputLabel value="rodzaj trans" style="font-weight: 700"/>
                 <h:outputLabel value="nr wł" style="font-weight: 700"/>
                 <h:outputLabel value="opis" style="font-weight: 700"/>
-                <h:outputLabel value="kwota" style="font-weight: 700"/>
-                <h:outputLabel value="kolumna" style="font-weight: 700"/>
                 <h:outputLabel value="dok.prosty" style="font-weight: 700"/>
                 <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"  accesskey="s" maxlength="10" style="width: 120px">
                     <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole" global="false" />
@@ -54,6 +52,14 @@
                                 effect="clip" autocomplete="true"  valueChangeListener="#{Opis.dodajOpis}">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:autoComplete>
+                 <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
+                    <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+                </h:selectBooleanCheckbox>
+            </p:panelGrid>
+            <p:panelGrid columns="3">
+                <h:outputLabel value="kwota" style="font-weight: 700"/>
+                <h:outputLabel value="kolumna" style="font-weight: 700"/>
+                <h:outputLabel value="dod.kolumna" style="font-weight: 700"/>
                 <h:inputText id="kwotaPkpir" value="#{DokumentView.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" 
                              style="width: 120px">
                     <f:convertNumber pattern="###,##" />
@@ -61,14 +67,20 @@
                 </h:inputText>
                 <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}"  binding="#{DokumentView.pkpirLista}" style="min-width: 150px">
                 </h:selectOneMenu>
-                <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
-                    <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+                <h:selectBooleanCheckbox id="dodatkowakolumna" value="#{DokumentView.selDokument.dodatkowaKolumna}">
+                    <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
                 </h:selectBooleanCheckbox>
             </p:panelGrid>
-                <p:panel >
+            
+            <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
+            </p:panelGrid>
+                
+             <p:panel >
                     <p:panelGrid id="grid1" columns="3" binding="#{DokumentView.grid1}">
                     </p:panelGrid>
-                </p:panel>    
+                </p:panel>
+             
+             
             <p:panelGrid columns="4">
                     <h:outputLabel value="v m-c" style="font-weight: 700"/>
                     <h:outputLabel value="v rok" style="font-weight: 700"/>
@@ -86,7 +98,7 @@
                     <p:commandButton  action="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik" global="false"/>   
             </p:panelGrid>
          <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument">
-            <p:panelGrid columns="13">
+            <p:panelGrid columns="15">
                 <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
                 <h:outputLabel value="data wyst" style="font-weight: 600"/>
                 <h:outputLabel value="kontrahent" style="font-weight: 600"/>
@@ -95,6 +107,8 @@
                 <h:outputLabel value="opis" style="font-weight: 600"/>
                 <h:outputLabel value="kwota" style="font-weight: 600"/>
                 <h:outputLabel value="kolumna" style="font-weight: 600"/>
+                <h:outputLabel value="kwota2" style="font-weight: 600"/>
+                <h:outputLabel value="kolumna2" style="font-weight: 600"/>
                 <h:outputLabel value="k m-c" style="font-weight: 600"/>
                 <h:outputLabel value="k rok" style="font-weight: 600"/>
                 <h:outputLabel value="v m-c" style="font-weight: 600"/>
@@ -110,6 +124,8 @@
                 <h:outputText  value="#{DokumentView.selDokument.opis}"/>
                 <h:outputText  value="#{DokumentView.selDokument.kwota}"/>
                 <h:outputText  value="#{DokumentView.selDokument.pkpirKol}"/>
+                <h:outputText  value="#{DokumentView.selDokument.kwotaX}"/>
+                <h:outputText  value="#{DokumentView.selDokument.pkpirKolX}"/>
                 <h:outputText  value="#{DokumentView.selDokument.pkpirM}"/>
                 <h:outputText  value="#{DokumentView.selDokument.pkpirR}"/>
                 <h:outputText  value="#{DokumentView.selDokument.vatM}"/>
