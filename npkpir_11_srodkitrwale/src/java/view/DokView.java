@@ -116,6 +116,10 @@ public class DokView implements Serializable{
     
     
     private EVatwpis eVatwpis;
+    
+    
+
+    
 
     public DokDAO getDokDAO() {
         return dokDAO;
@@ -442,12 +446,17 @@ public class DokView implements Serializable{
         }
     }
 
-
+    public void srodkiwyswietl(){
+         wpisView.setSrodkTrw(true);
+         RequestContext ctx = null;
+          ctx.getCurrentInstance().update("dodWiad:panelek");
+    }
     /**
      *wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
      */
       public void podepnijListe(AjaxBehaviorEvent e){
+          
           pkpirLista.getChildren().clear();
           Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
           String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
@@ -458,11 +467,13 @@ public class DokView implements Serializable{
               dopobrania = kolumna.getKolumnKoszty();
           } else if (transakcjiRodzaj.equals("srodek trw")) {
               dopobrania = kolumna.getKolumnST();
+              wpisView.setSrodkTrw(true);
+              
           } else {
               dopobrania = kolumna.getKolumnPrzychody();
           }
           /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-          String kol = przekazKontr.getPkpirKolumna();
+              String kol = przekazKontr.getPkpirKolumna();
           SelectItem selectI = new SelectItem(kol, kol);
           valueList.add(selectI);
           /**/
@@ -476,6 +487,8 @@ public class DokView implements Serializable{
           ulista.setValue(valueList);
           pkpirLista.getChildren().add(ulista);
           podepnijEwidencjeVat();
+          
+          
       }
       
    public void podepnijEwidencjeVat(){
@@ -489,6 +502,7 @@ public class DokView implements Serializable{
               opisewidencji = evat.getZakupVList();
           } else if (transakcjiRodzaj.equals("srodek trw")) {
               opisewidencji = evat.getSrodkitrwaleVList();
+              
           } else {
               opisewidencji = evat.getSprzedazVList();
           }

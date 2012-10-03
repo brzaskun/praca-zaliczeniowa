@@ -15,13 +15,13 @@
                         <ui:include src="sub/layoutIndex/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutIndex/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                             <h:form> 
-                                 <p:panelGrid columns="2">
-                                <p:selectOneMenu value="#{CSSView.css}">
-                                    <f:selectItems value="#{CSSView.cssList}"/>
-                                    <p:ajax event="keyup" update="@all" global="false"/>
-                                </p:selectOneMenu>
-                                <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
+                            <h:form> 
+                                <p:panelGrid columns="2">
+                                    <p:selectOneMenu value="#{CSSView.css}">
+                                        <f:selectItems value="#{CSSView.cssList}"/>
+                                        <p:ajax event="keyup" update="@all" global="false"/>
+                                    </p:selectOneMenu>
+                                    <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
                                 </p:panelGrid>
                             </h:form>
                             <h:form id="form">
@@ -30,12 +30,11 @@
 
                             <h:form id="dodWiad">
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
-                            </h:form><!--
-                            <h:form id="editUzyt">
-                                <ui:include src="sub/edit_wiad.xhtml"/>  edytowanie danych klienta
                             </h:form>
-                            -->                        </p:layoutUnit>
-                      
+                            <h:form id="srodki">
+                                <ui:include src="sub/srodkitrwale.xhtml"/>  <!--dodawanie srodkow trwalych-->
+                            </h:form>
+                        </p:layoutUnit>
                     </p:layout>
                 </f:view>
             </h:body>
