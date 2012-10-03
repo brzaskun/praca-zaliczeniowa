@@ -1,0 +1,29 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+    <p:panel header="Ewidencja środków trwałych" rendered="#{WpisView.srodkTrw}">
+    <p:focus id="focus" context="panelekX"/>
+    <p:panelGrid columns="2" id="panelekX" rendered="#{WpisView.srodkTrw}">
+        <h:outputText value="Wartość netto" rendered="#{WpisView.srodkTrw}"/>
+        <h:inputText value="#{SrodkiTrwaleView.selectedSTR.wartoscPoczatkowa}" rendered="#{WpisView.srodkTrw}"/>
+         <h:outputText value="Nazwa środka" rendered="#{WpisView.srodkTrw}"/>
+         <h:inputText value="#{SrodkiTrwaleView.selectedSTR.nazwaSrodka}" rendered="#{WpisView.srodkTrw}"/>
+         <p:commandButton actionListener="#{SrodkiTrwaleView.dodajSrodekTrwaly()}" value="Wprowadz" update=":srodki:panelekXA" global="false" rendered="#{WpisView.srodkTrw}" type=""/>
+    </p:panelGrid>
+    </p:panel>
+     <p:panel header="Wprowadzony srodek trwaly">
+    
+    <p:panelGrid columns="2" id="panelekXA" >
+         <h:outputText value="Wartość netto"/>
+         <h:outputText value="#{SrodkiTrwaleView.selectedSTR.wartoscPoczatkowa}"/>
+         <h:outputText value="Nazwa środka"/>
+         <h:outputText value="#{SrodkiTrwaleView.selectedSTR.nazwaSrodka}"/>
+    </p:panelGrid>
+    </p:panel>
+</ui:composition>   
+

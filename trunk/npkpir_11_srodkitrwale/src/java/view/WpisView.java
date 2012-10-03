@@ -24,7 +24,15 @@ public class WpisView implements Serializable{
     private static Uz wprowadzil;
     private static String miesiacOd;
     private static String miesiacDo;
-   
+    private boolean srodkTrw;
+
+    public boolean isSrodkTrw() {
+        return srodkTrw;
+    }
+
+    public void setSrodkTrw(boolean srodkTrw) {
+        this.srodkTrw = srodkTrw;
+    }
    
    
     public WpisView() {
