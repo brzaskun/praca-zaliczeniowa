@@ -4,11 +4,10 @@
  */
 package view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 
 /**
@@ -17,7 +16,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean(name="CSSView")
 @SessionScoped
-public class CSSView {
+public class CSSView implements Serializable{
     public String css;
     public List<String> cssList;
 
