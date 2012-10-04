@@ -14,6 +14,7 @@ import embeddable.EVidencja;
 import embeddable.Kl;
 import embeddable.Kolmn;
 import entity.Dok;
+import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,6 +35,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
@@ -118,16 +120,8 @@ public class DokView implements Serializable{
     
     private EVatwpis eVatwpis;
     
-    private STRView sTRView;
-
-    public STRView getsTRView() {
-        return sTRView;
-    }
-
-    public void setsTRView(STRView sTRView) {
-        this.sTRView = sTRView;
-    }
-
+    @Inject
+    private SrodekTrw selectedSTR;       
     
     
     public DokDAO getDokDAO() {
@@ -477,9 +471,6 @@ public class DokView implements Serializable{
               dopobrania = kolumna.getKolumnKoszty();
           } else if (transakcjiRodzaj.equals("srodek trw")) {
               dopobrania = kolumna.getKolumnST();
-              wpisView.setSrodkTrw(true);
-               RequestContext ctx = null;
-                ctx.getCurrentInstance().update("srodki:lolo");
           } else {
               dopobrania = kolumna.getKolumnPrzychody();
           }
@@ -820,5 +811,4 @@ public class DokView implements Serializable{
           
       }
  
-      
 }

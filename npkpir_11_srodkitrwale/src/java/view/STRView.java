@@ -9,10 +9,8 @@ import entity.SrodekTrw;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
@@ -21,11 +19,11 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean(name="SrodkiTrwaleView")
-@RequestScoped
+@ViewScoped
 public class STRView implements Serializable{
     @Inject
     private STRDAO sTRDAO;
-    @Inject
+    
     private SrodekTrw selectedSTR;
 
     private Integer ilesrodkow;
@@ -33,9 +31,20 @@ public class STRView implements Serializable{
     private boolean pokazSTR;
     
     
+    
     public STRView() {
+        selectedSTR = new SrodekTrw();
     }
 
+    public boolean isPokazSTR() {
+        return pokazSTR;
+    }
+
+    public void setPokazSTR(boolean pokazSTR) {
+        this.pokazSTR = pokazSTR;
+    }
+
+    
     
     public Integer getIlesrodkow() {
         return ilesrodkow;
