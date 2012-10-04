@@ -6,7 +6,9 @@ package bean;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -14,18 +16,18 @@ import javax.faces.context.FacesContext;
  * @author Osito
  */
 @ManagedBean(name="Bean")
-@SessionScoped
+@ViewScoped
 public class Bean {
 
-   private boolean pokaz;
+   private boolean warunek;
    private String pole;
 
-    public boolean isPokaz() {
-        return pokaz;
+    public boolean isWarunek() {
+        return warunek;
     }
 
-    public void setPokaz(boolean pokaz) {
-        this.pokaz = pokaz;
+    public void setWarunek(boolean warunek) {
+        this.warunek = warunek;
     }
 
     public String getPole() {
