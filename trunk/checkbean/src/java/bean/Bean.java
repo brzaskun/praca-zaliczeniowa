@@ -4,9 +4,10 @@
  */
 package bean;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -37,5 +38,10 @@ public class Bean {
    
     
     public Bean() {
+    }
+    
+    public void metoda(){
+         FacesMessage msg = new FacesMessage("Nowy srodek zachowany");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }
