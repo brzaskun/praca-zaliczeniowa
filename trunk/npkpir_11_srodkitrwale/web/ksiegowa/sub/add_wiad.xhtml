@@ -16,6 +16,7 @@
                 <h:outputLabel value="nr wł" style="font-weight: 700"/>
                 <h:outputLabel value="opis" style="font-weight: 700"/>
                 <h:outputLabel value="dok.prosty" style="font-weight: 700"/>
+               
                 <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"  accesskey="s" maxlength="10" style="width: 120px">
                     <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole" global="false" />
                 </h:inputText>
@@ -55,12 +56,13 @@
                  <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                     <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
                 </h:selectBooleanCheckbox>
+                
             </p:panelGrid>
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="4">
                 <h:outputLabel value="kwota" style="font-weight: 700"/>
                 <h:outputLabel value="kolumna" style="font-weight: 700"/>
                 <h:outputLabel value="dod.kolumna" style="font-weight: 700"/>
-               
+                 <h:outputLabel value="ew.STRW" style="font-weight: 700"/>
                 <h:inputText id="kwotaPkpir" value="#{DokumentView.selDokument.kwota}" required="true" requiredMessage="brak kwoty - uzupełnij" 
                              style="width: 120px">
                     <f:convertNumber pattern="###,##" />
@@ -71,7 +73,9 @@
                 <h:selectBooleanCheckbox id="dodatkowakolumna" value="#{DokumentView.selDokument.dodatkowaKolumna}">
                     <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
                 </h:selectBooleanCheckbox>
-               
+                 <h:selectBooleanCheckbox  value="#{SrodkiTrwaleView.pokazSTR}" >
+                        <p:ajax event="click" update=":srodki:lolo"/>
+                 </h:selectBooleanCheckbox>
             </p:panelGrid>
             
             <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">

@@ -9,17 +9,17 @@
 
     <p:panel id="lolo">
         <p:focus id="focus" context="panelekX" />
-        <p:panel header="Wprowadzanie srodkow trwalych">
+        <p:panel header="Wprowadzanie srodkow trwalych" rendered="#{SrodkiTrwaleView.pokazSTR}">
             <p:panelGrid columns="2" id="panelekX" >
                 <h:outputText value="Wartość netto" />
                 <h:inputText value="#{SrodkiTrwaleView.selectedSTR.wartoscPoczatkowa}" />
                 <h:outputText value="Nazwa środka" />
                 <h:inputText value="#{SrodkiTrwaleView.selectedSTR.nazwaSrodka}" />
-                <p:commandButton  actionListener="#{SrodkiTrwaleView.dodajSrodekTrwaly()}" value="Wprowadz" update=":dodWiad:mess_add :srodki:panelekXA" />
+               <p:commandButton  action="#{SrodkiTrwaleView.dodajSrodekTrwaly()}" value="Wprowadz" update=":dodWiad:mess_add :srodki:panelekXA" />
             </p:panelGrid>
         </p:panel>
-        <p:panel header="Ewidencja środków trwałych" >
-            <p:panelGrid columns="2" id="panelekXA" >
+        <p:panel header="Ewidencja środków trwałych"  >
+            <p:panelGrid columns="2" id="panelekXA" rendered="#{SrodkiTrwaleView.pokazSTR}">
                 <h:outputText value="Ilesrodkow"/>
                 <h:outputText value="#{SrodkiTrwaleView.selectedSTR.wartoscPoczatkowa}"/>
                 <h:outputText value="Nazwa środka"/>
@@ -28,6 +28,7 @@
                 <h:outputText value="#{SrodkiTrwaleView.ile()}"/>
             </p:panelGrid>
         </p:panel>
+        
     </p:panel>
 </ui:composition>   
 
