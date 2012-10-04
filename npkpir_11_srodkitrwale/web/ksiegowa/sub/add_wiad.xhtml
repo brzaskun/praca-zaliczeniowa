@@ -43,7 +43,7 @@
                 </h:panelGroup>
                 <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}"  immediate="true" style="width: 120px">
                     <f:selectItems value="#{Trans.transListView}"/>
-                    <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir :srodki" global="false"/>
+                    <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir :srodki:lolo" global="false"/>
                 </h:selectOneMenu>
                 <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="brak nr własnego dokumentu - uzupełnij" />
                 <p:autoComplete value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
