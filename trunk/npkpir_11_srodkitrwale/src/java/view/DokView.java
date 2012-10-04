@@ -4,6 +4,7 @@
  */
 package view;
 
+
 import dao.DokDAO;
 import dao.EVDAO;
 import dao.EVatOpisDAO;
@@ -117,10 +118,18 @@ public class DokView implements Serializable{
     
     private EVatwpis eVatwpis;
     
-    
+    private STRView sTRView;
+
+    public STRView getsTRView() {
+        return sTRView;
+    }
+
+    public void setsTRView(STRView sTRView) {
+        this.sTRView = sTRView;
+    }
 
     
-
+    
     public DokDAO getDokDAO() {
         return dokDAO;
     }
@@ -376,7 +385,8 @@ public class DokView implements Serializable{
         obiektDOKmrjsfSel = new ArrayList<Dok>();
         obiektDOKmrjsfSelX = new ArrayList<Dok>();
         opis="ewidencja opis";
-        
+      
+       
     }
     
     @PostConstruct
@@ -468,7 +478,8 @@ public class DokView implements Serializable{
           } else if (transakcjiRodzaj.equals("srodek trw")) {
               dopobrania = kolumna.getKolumnST();
               wpisView.setSrodkTrw(true);
-              
+               RequestContext ctx = null;
+                ctx.getCurrentInstance().update("srodki:lolo");
           } else {
               dopobrania = kolumna.getKolumnPrzychody();
           }

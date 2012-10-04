@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Umorzenie;
+import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 
@@ -13,7 +14,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class SrodekTrw {
+public class SrodekTrw implements Serializable{
     private Integer nrkolejnywpisu;
     private String nazwaSrodka;
     private String nrKlasyfikacji;
@@ -30,7 +31,11 @@ public class SrodekTrw {
 
     public SrodekTrw() {
     }
-    
+
+    public SrodekTrw(String nazwaSrodka, double wartoscPoczatkowa) {
+        this.nazwaSrodka = nazwaSrodka;
+        this.wartoscPoczatkowa = wartoscPoczatkowa;
+    }
     
     
     public Integer getNrkolejnywpisu() {

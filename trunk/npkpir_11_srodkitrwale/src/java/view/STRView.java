@@ -10,9 +10,11 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -26,9 +28,23 @@ public class STRView implements Serializable{
     @Inject
     private SrodekTrw selectedSTR;
 
+    private Integer ilesrodkow;
+    
+    private boolean pokazSTR;
+    
+    
     public STRView() {
     }
+
     
+    public Integer getIlesrodkow() {
+        return ilesrodkow;
+    }
+
+    public void setIlesrodkow(Integer ilesrodkow) {
+        this.ilesrodkow = ilesrodkow;
+    }
+     
     
     public STRDAO getsTRDAO() {
         return sTRDAO;
@@ -47,8 +63,16 @@ public class STRView implements Serializable{
     }
     
     public void dodajSrodekTrwaly(){
+          sTRDAO.getEwidencjaSrodkowTrwalych().add(selectedSTR);
+         RequestContext ctx = null;
+         ctx.getCurrentInstance().update("srodki:panelekXA");
         FacesMessage msg = new FacesMessage("Nowy srodek zachowany", selectedSTR.getNazwaSrodka());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-       
    }
+    
+    public int ile(){
+        return sTRDAO.getEwidencjaSrodkowTrwalych().size();
+    }
+    
+   
 }
