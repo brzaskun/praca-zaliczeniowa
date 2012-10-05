@@ -36,6 +36,7 @@ public class PodatekView implements Serializable{
     public PodatekView() {
         przychody = BigDecimal.valueOf(0);
         koszty = BigDecimal.valueOf(0);
+        inwestycje = BigDecimal.valueOf(0);
     }
 
     
