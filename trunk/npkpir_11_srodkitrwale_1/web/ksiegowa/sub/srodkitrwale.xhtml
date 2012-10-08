@@ -1,0 +1,54 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <p:panel id="lolo">
+        <p:focus id="focus" context="panelekX" />
+        <p:panel header="Wprowadzanie srodkow trwalych" rendered="#{SrodkiTrwaleView.pokazSTR}">
+            <p:panelGrid columns="6" id="panelekX" >
+                <h:outputText value="Nazwa środka" />
+                <h:inputText value="#{DokumentView.selectedSTR.nazwaSrodka}" >
+                    <f:validateLength minimum="10"/>
+                </h:inputText>
+                <h:outputText value="datazakupu" />
+                <h:inputText id="dataZakupu" value="#{DokumentView.selectedSTR.datazakupu}" />
+                <h:outputText value="dataprzekazania" />
+                <h:inputText id="dataPrzekazania" value="#{DokumentView.selectedSTR.dataprzekazania}" />
+                <h:outputText value="Wartość netto" />
+                <h:inputText id="wartoscSTR" value="#{DokumentView.selectedSTR.wartoscPoczatkowa}" />
+                <h:outputText value="kwotaVat" />
+                <h:inputText id="kwotaVat" value="#{DokumentView.selectedSTR.kwotaVat}" />
+                <h:outputText value="nrKlasyfikacji" />
+                <h:inputText value="#{DokumentView.selectedSTR.nrKlasyfikacji}" />
+                <h:outputText value="stawkaAmortyzacji" />
+                <h:inputText id="stawkaAmortyzacji" value="#{DokumentView.selectedSTR.stawkaAmortyzacji}">
+                    <p:ajax event="blur" global="false" listener="#{DokumentView.wyliczAmortyzacje()}"/>
+                </h:inputText>
+                <p:commandButton  action="#{DokumentView.dodajSTR()}" value="Wprowadz" update=":dodWiad:mess_add :srodki:panelekXA" />
+            </p:panelGrid>
+        </p:panel>
+        <p:panel header="Ewidencja środków trwałych"  >
+            <p:panelGrid columns="4" id="panelekXA" rendered="#{SrodkiTrwaleView.pokazSTR}">
+                <h:outputText value="Wartość pocz."/>
+                <h:outputText value="#{SrodkiTrwaleView.selectedSTR.wartoscPoczatkowa}"/>
+                 <h:outputText value="Data Zakupu"/>
+                 <h:outputText value="#{SrodkiTrwaleView.selectedSTR.datazakupu}"/>
+                <h:outputText value="Nazwa środka"/>
+                <h:outputText value="#{SrodkiTrwaleView.selectedSTR.nazwaSrodka}"/>
+                <h:outputText value="rocznaKwotaOdpisu" />
+                <h:outputText value="#{SrodkiTrwaleView.selectedSTR.rocznaKwotaOdpisu}" />
+                <h:outputText value="miesiecznaKwotaOdpisu" />
+                <h:outputText value="#{SrodkiTrwaleView.selectedSTR.miesiecznaKwotaOdpisu}"/>
+                <h:outputText value="Ile"/>
+                <h:outputText value="#{SrodkiTrwaleView.ile()}"/>
+            </p:panelGrid>
+        </p:panel>
+        
+    </p:panel>
+</ui:composition>   
+
