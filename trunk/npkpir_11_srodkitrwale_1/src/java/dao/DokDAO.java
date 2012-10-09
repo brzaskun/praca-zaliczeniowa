@@ -88,7 +88,7 @@ public class DokDAO implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Dokument nie uwtorzony DAO", e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Dokument nie uwtorzony DAO"+e.getStackTrace().toString(),"");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             
         }

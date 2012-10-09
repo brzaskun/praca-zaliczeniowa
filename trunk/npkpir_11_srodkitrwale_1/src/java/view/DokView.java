@@ -831,16 +831,17 @@ public class DokView implements Serializable{
         String tmp = params.get("dodWiad:kwotaPkpir");
         tmp = tmp.replace(",", ".");
         Double tmpX = Double.parseDouble(tmp);
-        selectedSTR.setWartoscPoczatkowa(tmpX);
+        selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
+        selectedSTR.setNetto(tmpX);
         BigDecimal tmp1 = BigDecimal.valueOf(tmpX);
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
         tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
         Double vat = Double.parseDouble(tmp1.toString());
-        selectedSTR.setKwotaVat(vat);
+        selectedSTR.setVat(vat);
         String tmpD = params.get("dodWiad:dataPole");
-        selectedSTR.setDatazakupu(tmpD);
-        selectedSTR.setDataprzekazania(tmpD);
+        selectedSTR.setDatazak(tmpD);
+        selectedSTR.setDataprzek(tmpD);
         RequestContext ctx = null;
         ctx.getCurrentInstance().update("srodki:lolo");
     }
@@ -856,7 +857,7 @@ public class DokView implements Serializable{
     }
     
     public void wyliczAmortyzacje(){
-        if(selectedSTR.getRocznaKwotaOdpisu()==0) {
+        if(selectedSTR.getOdpisrok()==0) {
         
         }
     }
