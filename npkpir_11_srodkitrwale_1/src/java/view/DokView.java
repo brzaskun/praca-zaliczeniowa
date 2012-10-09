@@ -13,6 +13,7 @@ import embeddable.EVatwpis;
 import embeddable.EVidencja;
 import embeddable.Kl;
 import embeddable.Kolmn;
+import embeddable.Pod;
 import entity.Dok;
 import entity.SrodekTrw;
 import java.io.Serializable;
@@ -831,7 +832,6 @@ public class DokView implements Serializable{
         String tmp = params.get("dodWiad:kwotaPkpir");
         tmp = tmp.replace(",", ".");
         Double tmpX = Double.parseDouble(tmp);
-        selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
         selectedSTR.setNetto(tmpX);
         BigDecimal tmp1 = BigDecimal.valueOf(tmpX);
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
@@ -851,6 +851,9 @@ public class DokView implements Serializable{
         Application application = facesContext.getApplication();
         ValueBinding binding = application.createValueBinding("#{SrodkiTrwaleView}");
         STRView sTRView = (STRView) binding.getValue(facesContext);
+        Pod podatnik = wpisView.getPodatnikWpisu();
+        String name = podatnik.getNpelna();
+        selectedSTR.setPodatnik(podatnik);
         sTRView.dodajSrodekTrwaly(selectedSTR);
         RequestContext ctx = null;
         ctx.getCurrentInstance().update("srodki:panelekXA"); 
