@@ -9,13 +9,14 @@ import entity.Uz;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Osito
  */
 @ManagedBean(name="WpisView")
-@RequestScoped
+@SessionScoped
 public class WpisView implements Serializable{
 
     private static Pod podatnikWpisu;
