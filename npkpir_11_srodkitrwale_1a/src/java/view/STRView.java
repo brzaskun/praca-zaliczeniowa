@@ -9,15 +9,11 @@ import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
@@ -37,6 +33,7 @@ public class STRView implements Serializable{
     
     private boolean pokazSTR;
     
+     
     
     
     public STRView() {
@@ -109,6 +106,10 @@ public class STRView implements Serializable{
     public int ile(){
         return sTRDAO.getdownloadedSTR().size();
     }
-    
+     public void aktualizujTabele(AjaxBehaviorEvent e) {
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("formSTR:srodkiLista");
+        ctx.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+    }
    
 }
