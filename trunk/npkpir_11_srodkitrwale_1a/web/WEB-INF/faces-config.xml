@@ -27,6 +27,10 @@
             <from-outcome>obroty</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>srodki</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaSrodki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>manager</from-outcome>
             <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>
