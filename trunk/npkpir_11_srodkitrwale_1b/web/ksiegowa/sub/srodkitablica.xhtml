@@ -7,9 +7,9 @@
     <p:outputPanel id="wrapper">
          <p:growl id="mess_add" tooltip="false" />
         <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="12"
+                      paginator="true" paginatorAlwaysVisible="true" rows="6"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,18,24,32,50" 
+                      rowsPerPageTemplate="6,12,18,24,32,50" 
                       rowKey="#{wpis.id}" selection="#{STRTableView.selectedSTR}" selectionMode="single"> 
                         
             <f:facet name="header">  
@@ -31,11 +31,25 @@
                     <f:convertDateTime dateStyle="medium"  />
                 </h:outputText>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.podatnik.npelna}" filterMatchMode="contains" sortBy="#{wpis.podatnik.npelna}">  
+            <p:column id="data2Column" headerText="data przek" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" >  
                 <f:facet name="header">  
-                    <h:outputText value="kontrahent" />  
+                    <h:outputText value="data przek" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.podatnik.npelna}"  />
+                <h:outputText value="#{wpis.dataprzek}">
+                    <f:convertDateTime dateStyle="medium"  />
+                </h:outputText>
+            </p:column>
+            <p:column id="nazwaColumn" headerText="nazwa" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}">  
+                <f:facet name="header">  
+                    <h:outputText value="nazwa" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.nazwa}"  />
+            </p:column>
+             <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" sortBy="#{wpis.kst}">  
+                <f:facet name="header">  
+                    <h:outputText value="KŚT" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.kst}"  />
             </p:column>
             <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
                 <f:facet name="header">  
@@ -43,17 +57,46 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.netto}" />
             </p:column>
-            <p:column id="umorzColumn" headerText="planowane odpis" filterBy="#{wpis.umorzPlan}" filterMatchMode="contains" sortBy="#{wpis.umorzPlan}">  
+            <p:column id="vatColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
                 <f:facet name="header">  
-                    <h:outputText value="planowane odpis" />  
+                    <h:outputText value="vat" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.umorzPlan}" />
+                <h:outputText value="#{wpis.vat}" />
+            </p:column>
+            <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterMatchMode="contains" sortBy="#{wpis.stawka}">  
+                <f:facet name="header">  
+                    <h:outputText value="odpis stawka" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.stawka}%" />
+            </p:column>
+            <p:column id="odpisrokColumn" headerText="odpis rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" sortBy="#{wpis.odpisrok}">  
+                <f:facet name="header">  
+                    <h:outputText value="odpis rok" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.odpisrok}" />
             </p:column>
             <p:column id="amortColumn" headerText="zaksięgowane odpisy" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" sortBy="#{wpis.umorzWyk}">  
                 <f:facet name="header">  
                     <h:outputText value="zaksięgowane odpisy" />  
                 </f:facet> 
-                 <h:outputText value="#{wpis.umorzWyk}" />
+                <p:dataTable var="subwpis" value="#{wpis.umorzWyk}"
+                              paginator="true" paginatorAlwaysVisible="true" rows="6"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="6,12,18,24,32,50">
+                    <p:column id="SubColumn1" headerText="id" >  
+                        <h:outputText value="#{subwpis.nrUmorzenia}" />
+                    </p:column>
+                      <p:column id="SubColumn2" headerText="rok" >  
+                        <h:outputText value="#{subwpis.rokUmorzenia}" />
+                    </p:column>
+                    <p:column id="SubColumn3" headerText="mc" >  
+                        <h:outputText value="#{subwpis.mcUmorzenia}" />
+                    </p:column>
+                    <p:column id="SubColumn4" headerText="kwota" >  
+                        <h:outputText value="#{subwpis.kwota}" />
+                    </p:column>
+
+                </p:dataTable>
             </p:column>
             <f:facet name="footer">
                 <p:commandButton id="generujodpisy"  action="#{STRTableView.generujodpisy()}" value="Generuj odpisy za rok" update=":formSTR:mess_add" global="false"/>  

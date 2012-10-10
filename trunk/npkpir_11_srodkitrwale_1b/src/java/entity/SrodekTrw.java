@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Pod;
+import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -76,7 +77,7 @@ public class SrodekTrw implements Serializable {
     private List<Double> umorzPlan;
     @Lob
     @Column(name = "umorzWyk")
-    private List<Double> umorzWyk;
+    private List<Umorzenie> umorzWyk;
     @Column(name = "odpisrok")
     private Double odpisrok;
     @Column(name = "stawka")
@@ -177,11 +178,11 @@ public class SrodekTrw implements Serializable {
         this.umorzPlan = umorzPlan;
     }
 
-    public List<Double> getUmorzWyk() {
+    public List<Umorzenie> getUmorzWyk() {
         return umorzWyk;
     }
 
-    public void setUmorzWyk(List<Double> umorzWyk) {
+    public void setUmorzWyk(List<Umorzenie> umorzWyk) {
         this.umorzWyk = umorzWyk;
     }
 

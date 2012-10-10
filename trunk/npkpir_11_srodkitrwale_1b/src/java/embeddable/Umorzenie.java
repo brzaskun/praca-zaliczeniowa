@@ -18,7 +18,7 @@ import javax.persistence.Embeddable;
 public class Umorzenie implements Serializable{
     private Integer nrUmorzenia;
     private Integer rokUmorzenia;
-    private String mcUmorzenia;
+    private Integer mcUmorzenia;
     private BigDecimal kwota;
 
     public Integer getNrUmorzenia() {
@@ -37,11 +37,11 @@ public class Umorzenie implements Serializable{
         this.rokUmorzenia = rokUmorzenia;
     }
 
-    public String getMcUmorzenia() {
+    public Integer getMcUmorzenia() {
         return mcUmorzenia;
     }
 
-    public void setMcUmorzenia(String mcUmorzenia) {
+    public void setMcUmorzenia(Integer mcUmorzenia) {
         this.mcUmorzenia = mcUmorzenia;
     }
 
