@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:outputPanel id="wrapper">
+         <p:growl id="mess_add" tooltip="false" />
+        <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" 
+                      paginator="true" paginatorAlwaysVisible="true" rows="12"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="12,18,24,32,50" 
+                      rowKey="#{wpis.id}" selection="#{STRTableView.selectedSTR}" selectionMode="single"> 
+                        
+            <f:facet name="header">  
+                <h:outputText value="Wykaz dokumentów" />  
+            </f:facet>
+            
+            <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.nrsrodka}" filterMatchMode="contains" sortBy="#{wpis.nrsrodka}"  width="60">  
+                <f:facet name="header">  
+                    <h:outputText value="nr kolejny" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.nrsrodka}" />
+            </p:column>
+                
+            <p:column id="dataColumn" headerText="data zak" filterBy="#{wpis.datazak}" filterMatchMode="contains" sortBy="#{wpis.datazak}" >  
+                <f:facet name="header">  
+                    <h:outputText value="data zak" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.datazak}">
+                    <f:convertDateTime dateStyle="medium"  />
+                </h:outputText>
+            </p:column>
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.podatnik.npelna}" filterMatchMode="contains" sortBy="#{wpis.podatnik.npelna}">  
+                <f:facet name="header">  
+                    <h:outputText value="kontrahent" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.podatnik.npelna}"  />
+            </p:column>
+            <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
+                <f:facet name="header">  
+                    <h:outputText value="kwota" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.netto}" />
+            </p:column>
+            <p:column id="umorzColumn" headerText="planowane odpis" filterBy="#{wpis.umorzPlan}" filterMatchMode="contains" sortBy="#{wpis.umorzPlan}">  
+                <f:facet name="header">  
+                    <h:outputText value="planowane odpis" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.umorzPlan}" />
+            </p:column>
+            <p:column id="amortColumn" headerText="zaksięgowane odpisy" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" sortBy="#{wpis.umorzWyk}">  
+                <f:facet name="header">  
+                    <h:outputText value="zaksięgowane odpisy" />  
+                </f:facet> 
+                 <h:outputText value="#{wpis.umorzWyk}" />
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton id="generujodpisy"  action="#{STRTableView.generujodpisy()}" value="Generuj odpisy za rok" update=":formSTR:mess_add" global="false"/>  
+            </f:facet>
+        </p:dataTable>
+    </p:outputPanel>
+</ui:composition>   
+
