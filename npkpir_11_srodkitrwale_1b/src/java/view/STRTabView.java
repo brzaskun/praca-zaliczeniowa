@@ -5,8 +5,10 @@
 package view;
 
 import dao.STRDAO;
+import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.convert.BigDecimalConverter;
 import javax.inject.Inject;
 
 /**
@@ -206,27 +209,42 @@ public class STRTabView implements Serializable{
     }
 
     
-  public void generujodpisy(){
-            Map<Integer, String> mapa;
-                    mapa = new HashMap<Integer, String>();
-                    mapa.put(1, "01");
-                    mapa.put(2, "02");
-                    mapa.put(3, "03");
-                    mapa.put(4, "04");
-                    mapa.put(5, "05");
-                    mapa.put(6, "06");
-                    mapa.put(7, "07");
-                    mapa.put(8, "08");
-                    mapa.put(9, "09");
-                    mapa.put(10, "10");
-                    mapa.put(11, "11");
-                    mapa.put(12, "12");
-             Integer rok = wpisView.getRokWpisu();
-             String mc = wpisView.getMiesiacWpisu();
-             List<SrodekTrw> lista = null;
-             lista.addAll(obiektDOKjsfSel);
-             
-     }
+    public void generujodpisy() {
+        List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
+        lista.addAll(obiektDOKjsfSel);
+        Iterator it;
+        it = lista.iterator();
+        while (it.hasNext()) {
+            SrodekTrw srodek = (SrodekTrw) it.next();
+            List<Double> planowane = new ArrayList<Double>();
+            planowane.addAll(srodek.getUmorzPlan());
+            List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
+            Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
+            Integer mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7));
+            Iterator itX;
+            itX = planowane.iterator();
+            int i = 1;
+            while (itX.hasNext()) {
+                Double kwotaodpisMC = (Double) itX.next();
+                Umorzenie odpisZaDanyOkres = new Umorzenie();
+                odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
+                odpisZaDanyOkres.setRokUmorzenia(rokOd);
+                odpisZaDanyOkres.setMcUmorzenia(mcOd);
+                odpisZaDanyOkres.setNrUmorzenia(i);
+                i++;
+                if (mcOd == 12) {
+                    rokOd++;
+                    mcOd = 1;
+                } else {
+                    mcOd++;
+                }
+                umorzenia.add(odpisZaDanyOkres);
+            }
+            srodek.setUmorzWyk(umorzenia);
+            sTRDAO.edit(srodek);
+        }
+
+    }
     
   
 }
