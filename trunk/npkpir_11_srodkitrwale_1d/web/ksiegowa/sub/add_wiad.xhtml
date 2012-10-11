@@ -105,6 +105,7 @@
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
                     <p:commandButton id="wprowadzenieNowego" action="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik" global="false"/>   
+                     
             </p:panelGrid>
          <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument">
             <p:panelGrid columns="15">

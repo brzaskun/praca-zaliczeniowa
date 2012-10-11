@@ -27,7 +27,11 @@
                             <h:form id="form">
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                             </h:form>
-
+                            <p:panel header="Ksiegowania automatyczne">
+                                <h:form>
+                                    <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":form:messages" global="false"/>  
+                                </h:form>
+                            </p:panel>
                             <h:form id="dodWiad">
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
                             </h:form>
