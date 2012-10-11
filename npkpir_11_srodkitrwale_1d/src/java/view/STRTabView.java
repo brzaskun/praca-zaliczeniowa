@@ -20,9 +20,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -233,7 +235,7 @@ public class STRTabView implements Serializable{
             planowane.addAll(srodek.getUmorzPlan());
             List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
             Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
-            Integer mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7));
+            Integer mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7))+1;
             Iterator itX;
             itX = planowane.iterator();
             int i = 1;
@@ -257,6 +259,8 @@ public class STRTabView implements Serializable{
             srodek.setUmorzWyk(umorzenia);
             sTRDAO.edit(srodek);
         }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane","");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void generujamodokumenty() {
@@ -290,13 +294,17 @@ public class STRTabView implements Serializable{
                 }
             }
             if (mcOd == 12) {
+                amoDokDAO.dodajNowyWpis(amoDok);
                 rokOd++;
                 mcOd = 1;
-                amoDokDAO.dodajNowyWpis(amoDok);
+                
             } else {
-                mcOd++;
                 amoDokDAO.dodajNowyWpis(amoDok);
+                mcOd++;
+                
             }
         }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokumenty amortyzacyjne wygenerowane","");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

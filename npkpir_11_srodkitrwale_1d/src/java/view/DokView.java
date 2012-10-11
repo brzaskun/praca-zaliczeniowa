@@ -5,6 +5,7 @@
 package view;
 
 
+import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVDAO;
 import dao.EVatOpisDAO;
@@ -14,6 +15,8 @@ import embeddable.EVidencja;
 import embeddable.Kl;
 import embeddable.Kolmn;
 import embeddable.Pod;
+import embeddable.Umorzenie;
+import entity.Amodok;
 import entity.Dok;
 import entity.SrodekTrw;
 import java.io.Serializable;
@@ -72,6 +75,9 @@ public class DokView implements Serializable{
     private Dok selDokument;
     @Inject
     private Kl selectedKontr;
+    @Inject
+    private AmoDokDAO amoDokDAO;
+    
     private static Kl przekazKontr;
     private String dataWystawienia;
     private HashMap<String,Dok> dokHashTable;
@@ -736,6 +742,75 @@ public class DokView implements Serializable{
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
+            sprawdzCzyNieDuplikat(selDokument);
+            dokDAO.dodajNowyWpis(selDokument);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        }
+    }
+    
+    public void dodajNowyWpisAutomatyczny() {
+         Map<Integer, String> mapa;
+                    mapa = new HashMap<Integer, String>();
+                    mapa.put(1, "01");
+                    mapa.put(2, "02");
+                    mapa.put(3, "03");
+                    mapa.put(4, "04");
+                    mapa.put(5, "05");
+                    mapa.put(6, "06");
+                    mapa.put(7, "07");
+                    mapa.put(8, "08");
+                    mapa.put(9, "09");
+                    mapa.put(10, "10");
+                    mapa.put(11, "11");
+                    mapa.put(12, "12");
+            double kwotaumorzenia = 0.0;
+            List<Amodok> lista = new ArrayList<Amodok>();
+            lista.addAll(amoDokDAO.getAmoDokList());
+            Amodok amodok = null;
+            Iterator itx;
+            itx = lista.iterator();
+            while(itx.hasNext()){
+                Amodok tmp = (Amodok) itx.next();
+                Integer mctmp = tmp.getMc();
+                String mc = mapa.get(mctmp);
+                Integer rok = tmp.getRok();
+                if(wpisView.getRokWpisu().equals(rok)&&wpisView.getMiesiacWpisu().equals(mc)){
+                    amodok = tmp;
+                    break;
+                }
+            }
+            List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
+            umorzenia.addAll(amodok.getUmorzenia());
+            Iterator it;
+            it = umorzenia.iterator();
+            while(it.hasNext()){
+                Umorzenie tmp = (Umorzenie) it.next();
+                kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
+            }
+        try {
+            selDokument.setEwidencjaVAT(null);
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            selDokument.setPkpirM(wpisView.getMiesiacWpisu());
+            selDokument.setPkpirR(wpisView.getRokWpisu().toString());
+            selDokument.setVatM(wpisView.getMiesiacWpisu());
+            selDokument.setVatR(wpisView.getRokWpisu().toString());
+            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            selDokument.setStatus("bufor");
+            String data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+            selDokument.setDataWyst(data);
+            selDokument.setKontr(new Kl(111111111,"wlasny","wlasny","kolumna","ewid"));
+            selDokument.setRodzTrans("amortyzacja");
+            selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
+            selDokument.setOpis("umorzenie za miesiac");
+            selDokument.setKwota(kwotaumorzenia);
+            selDokument.setPkpirKol("poz. koszty");
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodajNowyWpis(selDokument);
         } catch (Exception e) {

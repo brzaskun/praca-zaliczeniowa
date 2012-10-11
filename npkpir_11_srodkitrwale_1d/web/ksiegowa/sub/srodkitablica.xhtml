@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:outputPanel id="wrapper">
-         <p:growl id="mess_add" tooltip="false" />
+        <p:growl id="mess_add" tooltip="true" />
         <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="6"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -13,7 +13,7 @@
                       rowKey="#{wpis.id}" selection="#{STRTableView.selectedSTR}" selectionMode="single"> 
                         
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów" />  
+                <h:outputText value="Ewidencja srodkow trwalych" />  
             </f:facet>
             
             <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.nrsrodka}" filterMatchMode="contains" sortBy="#{wpis.nrsrodka}"  width="60">  
@@ -74,7 +74,13 @@
                     <h:outputText value="odpis rok" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.odpisrok}" />
-            </p:column>
+           </p:column>
+<!--             <p:column id="umplan" headerText="odpis plan" filterBy="{wpis.umorzPlan}" filterMatchMode="contains" sortBy="{wpis.umorzPlan}">  
+                <f:facet name="header">  
+                    <h:outputText value="odpis plan" />  
+                </f:facet> 
+                <h:outputText value="{wpis.umorzPlan}" />
+            </p:column>-->
             <p:column id="amortColumn" headerText="zaksięgowane odpisy" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" sortBy="#{wpis.umorzWyk}">  
                 <f:facet name="header">  
                     <h:outputText value="zaksięgowane odpisy" />  
@@ -102,8 +108,8 @@
                 </p:dataTable>
             </p:column>
             <f:facet name="footer">
-                <p:commandButton id="generujodpisy"  action="#{STRTableView.generujodpisy()}" value="Generuj odpisy za rok" update=":formSTR:mess_add" global="false"/>  
-                <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" update=":formSTR:mess_add" global="false"/>  
+                <p:commandButton id="generujodpisy"  action="#{STRTableView.generujodpisy()}" value="Generuj odpisy za rok" update="@form" global="false"/>  
+                <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" update="@form" global="true  "/>  
             </f:facet>
         </p:dataTable>
     </p:outputPanel>
@@ -116,7 +122,7 @@
                       rowKey="#{wpis.id}" selection="#{AmodokView.selected}" selectionMode="single"> 
                         
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów amo" />  
+                <h:outputText value="Wykaz dokumentów amortyzacji" />  
             </f:facet>
             
              <p:column id="Column0" headerText="nr kolejny" filterBy="#{wpis.id}" filterMatchMode="contains" sortBy="#{wpis.id}"  width="60">  

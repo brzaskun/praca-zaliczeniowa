@@ -95,7 +95,7 @@ public class STRView implements Serializable{
         STR.setOdpismc(odpismiesiac);
        
         Double opm = STR.getOdpismc();
-        Double max = STR.getOdpisrok();
+        Double max = STR.getNetto();
         Double nar = 0.0;
         List<Double> listaplanum = new ArrayList<Double>();
         while(max-nar>0){
