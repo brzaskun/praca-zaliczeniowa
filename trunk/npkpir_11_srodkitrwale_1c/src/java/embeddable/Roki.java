@@ -24,16 +24,16 @@ public class Roki implements Serializable{
         rokiList = new ArrayList<Integer>();
         rokiList.add(new Integer(2012));
         rokiList.add(new Integer(2013));
-        rokiList.add(new Integer(2014));
-        rokiList.add(new Integer(2015));
-        rokiList.add(new Integer(2016));
-        rokiList.add(new Integer(2017));
-        rokiList.add(new Integer(2018));
-        rokiList.add(new Integer(2019));
-        rokiList.add(new Integer(2020));
-        rokiList.add(new Integer(2021));
-        rokiList.add(new Integer(2022));
-        rokiList.add(new Integer(2023));
+//        rokiList.add(new Integer(2014));
+//        rokiList.add(new Integer(2015));
+//        rokiList.add(new Integer(2016));
+//        rokiList.add(new Integer(2017));
+//        rokiList.add(new Integer(2018));
+//        rokiList.add(new Integer(2019));
+//        rokiList.add(new Integer(2020));
+//        rokiList.add(new Integer(2021));
+//        rokiList.add(new Integer(2022));
+//        rokiList.add(new Integer(2023));
     }
     
     public Roki() {

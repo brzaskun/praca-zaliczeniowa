@@ -12,9 +12,7 @@
         <p:panel header="Wprowadzanie srodkow trwalych" rendered="#{SrodkiTrwaleView.pokazSTR}">
             <p:panelGrid columns="6" id="panelekX" >
                 <h:outputText value="Nazwa środka" />
-                <h:inputText value="#{DokumentView.selectedSTR.nazwa}" >
-                    <f:validateLength minimum="10"/>
-                </h:inputText>
+                <h:inputText value="#{DokumentView.selectedSTR.nazwa}" />
                 <h:outputText value="datazakupu" />
                 <h:inputText id="dataZakupu" value="#{DokumentView.selectedSTR.datazak}" />
                 <h:outputText value="dataprzekazania" />
