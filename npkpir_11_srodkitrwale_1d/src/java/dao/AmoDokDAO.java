@@ -65,8 +65,8 @@ public class AmoDokDAO {
         try {
             amodokFacade.create(selected);
             System.out.println("Nowy dokument amortyzacji zachowany"+selected.getId()+" "+selected.getMc());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument amortyzacji zachowany", selected.getPodatnik().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument amortyzacji zachowany", selected.getPodatnik().toString());
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println("Nie utworzono srodka "+e.toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"AmoDokument nie uwtorzony DAO"+e.toString(),"");
