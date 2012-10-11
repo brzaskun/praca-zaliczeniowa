@@ -4,8 +4,12 @@
  */
 package view;
 
+import dao.AmoDokDAO;
 import dao.STRDAO;
+import embeddable.Pod;
+import embeddable.Roki;
 import embeddable.Umorzenie;
+import entity.Amodok;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,7 +23,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.convert.BigDecimalConverter;
 import javax.inject.Inject;
 
 /**
@@ -31,6 +34,8 @@ import javax.inject.Inject;
 public class STRTabView implements Serializable{
     @Inject
     private STRDAO sTRDAO;
+    @Inject
+    private AmoDokDAO amoDokDAO;
     
     private SrodekTrw selectedSTR;
 
@@ -71,6 +76,14 @@ public class STRTabView implements Serializable{
         this.sTRDAO = sTRDAO;
     }
 
+    public AmoDokDAO getAmoDokDAO() {
+        return amoDokDAO;
+    }
+
+    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
+        this.amoDokDAO = amoDokDAO;
+    }
+    
     public SrodekTrw getSelectedSTR() {
         return selectedSTR;
     }
@@ -231,6 +244,7 @@ public class STRTabView implements Serializable{
                 odpisZaDanyOkres.setRokUmorzenia(rokOd);
                 odpisZaDanyOkres.setMcUmorzenia(mcOd);
                 odpisZaDanyOkres.setNrUmorzenia(i);
+                odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
                 i++;
                 if (mcOd == 12) {
                     rokOd++;
@@ -243,8 +257,46 @@ public class STRTabView implements Serializable{
             srodek.setUmorzWyk(umorzenia);
             sTRDAO.edit(srodek);
         }
-
     }
-    
-  
+
+    public void generujamodokumenty() {
+        List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
+        lista.addAll(obiektDOKjsfSel);
+        Pod pod = wpisView.getPodatnikWpisu();
+        String nazwapod = pod.getNpelna();
+        amoDokDAO.destroyPod(pod);
+        Integer rokOd = 2012;
+        Integer mcOd = 1;
+        Roki roki = new Roki();
+        int ostatni = roki.getRokiList().size();
+        while (rokOd < roki.getRokiList().get(ostatni-1)) {
+            Amodok amoDok = new Amodok();
+            amoDok.setPodatnik(pod);
+            amoDok.setRok(rokOd);
+            amoDok.setMc(mcOd);
+            Iterator it;
+            it = lista.iterator();
+            while (it.hasNext()) {
+                SrodekTrw srodek = (SrodekTrw) it.next();
+                List<Umorzenie> umorzeniaWyk = new ArrayList<Umorzenie>();
+                umorzeniaWyk.addAll(srodek.getUmorzWyk());
+                Iterator itX;
+                itX = umorzeniaWyk.iterator();
+                while (itX.hasNext()) {
+                    Umorzenie umAkt = (Umorzenie) itX.next();
+                    if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
+                        amoDok.getUmorzenia().add(umAkt);
+                    }
+                }
+            }
+            if (mcOd == 12) {
+                rokOd++;
+                mcOd = 1;
+                amoDokDAO.dodajNowyWpis(amoDok);
+            } else {
+                mcOd++;
+                amoDokDAO.dodajNowyWpis(amoDok);
+            }
+        }
+    }
 }

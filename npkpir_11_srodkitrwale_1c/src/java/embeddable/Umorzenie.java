@@ -16,11 +16,20 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class Umorzenie implements Serializable{
+    private String nazwaSrodka;
     private Integer nrUmorzenia;
     private Integer rokUmorzenia;
     private Integer mcUmorzenia;
     private BigDecimal kwota;
 
+    public String getNazwaSrodka() {
+        return nazwaSrodka;
+    }
+
+    public void setNazwaSrodka(String nazwaSrodka) {
+        this.nazwaSrodka = nazwaSrodka;
+    }
+    
     public Integer getNrUmorzenia() {
         return nrUmorzenia;
     }
