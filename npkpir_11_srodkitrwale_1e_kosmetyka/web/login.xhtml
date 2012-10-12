@@ -3,23 +3,31 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
    <h:head>
       <title>Witaj</title>
    </h:head>
    
    <h:body style="background-color: #FFFFFF">
-      <h:form>
-          <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 10% 0% 0% 40%; width: 150px">
+      <h:form id="formlog1">
+          <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 30%; width: 600px; border-style: none" >
+           <p:messages id="logowanie"  autoUpdate="true" style="width: 150px"/>
+           <p:panelGrid columns="2" style="border-style: none">
+            <h:link outcome="pomoclogowanie" value="pomoc" />
+            <h:link outcome="zapomnialemhasla" value="zapomnialem hasla"/>
+           </p:panelGrid>
+          </p:panel>
+          <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 2% 0% 0% 40%; width: 150px">
           <h:outputLabel value="Prosze wpisac nazwe i haslo uzytkownika"/>
-        <p:panelGrid columns="2">
+        <p:panelGrid id="logowaniepanel" columns="2">
             <h:outputText value="Nazwa"/>
             <h:inputText value="#{Logowanie.uzytk}" accesskey="s"/>
             <h:outputText value="Hasło"/>
             <h:inputSecret value="#{Logowanie.haslo}"/>
         </p:panelGrid>
           <br/>
-        <h:commandButton value="Zaloguj" action="#{Logowanie.login()}"/>
+          <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie"/>
           </p:panel>
       </h:form>
        <p:graphicImage url="/resources/images/ninja.png" style="margin-left: 20%" />
