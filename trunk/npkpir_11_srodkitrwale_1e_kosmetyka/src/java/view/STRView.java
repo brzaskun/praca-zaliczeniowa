@@ -119,7 +119,9 @@ public class STRView implements Serializable{
         } catch (Exception e) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy srodek nie zachowany", selectedSTR.getNazwa());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
+        } finally {
+          setPokazSTR(false);
+      }
    }
     
     public int ile(){

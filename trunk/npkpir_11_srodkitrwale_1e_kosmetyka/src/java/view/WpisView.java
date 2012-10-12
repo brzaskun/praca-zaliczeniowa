@@ -86,5 +86,7 @@ public class WpisView implements Serializable{
         WpisView.miesiacDo = miesiacDo;
     }
 
-   
+   public String dalejpozalogowaniu(){
+       return "ksiegowa";
+   }
 }
