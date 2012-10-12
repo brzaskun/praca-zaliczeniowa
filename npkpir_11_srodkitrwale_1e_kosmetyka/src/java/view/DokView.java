@@ -39,7 +39,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
@@ -47,6 +46,7 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -57,6 +57,7 @@ import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import serialclone.SerialClone;
 
 /**
  *
@@ -73,6 +74,8 @@ public class DokView implements Serializable{
     private PanelGrid grid2;
     @Inject
     private Dok selDokument;
+    @Inject
+    private Dok wysDokument;
     @Inject
     private Kl selectedKontr;
     @Inject
@@ -125,6 +128,26 @@ public class DokView implements Serializable{
     @Inject
     private SrodekTrw selectedSTR;       
     /*Środki trwałe*/
+    private boolean renderujostatniowprowadzonydokument;
+
+    public Dok getWysDokument() {
+        return wysDokument;
+    }
+
+    public void setWysDokument(Dok wysDokument) {
+        this.wysDokument = wysDokument;
+    }
+
+   
+    
+    public boolean isRenderujostatniowprowadzonydokument() {
+        return renderujostatniowprowadzonydokument;
+    }
+
+    public void setRenderujostatniowprowadzonydokument(boolean renderujostatniowprowadzonydokument) {
+        this.renderujostatniowprowadzonydokument = renderujostatniowprowadzonydokument;
+    }
+    
 
     public SrodekTrw getSelectedSTR() {
         return selectedSTR;
@@ -375,6 +398,7 @@ public class DokView implements Serializable{
     }
 
     public DokView() {
+        wysDokument = new Dok();
         dokHashTable = new HashMap<String, Dok>();
         kluczDOKjsf = new ArrayList<String>();
         obiektDOKjsf = new ArrayList<Dok>();
@@ -744,15 +768,27 @@ public class DokView implements Serializable{
             selDokument.setStatus("bufor");
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodajNowyWpis(selDokument);
+            setRenderujostatniowprowadzonydokument(true);
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+        } finally {
+            grid1 = getGrid1();
+            grid1.getChildren().clear();
+            grid2 = getGrid2();
+            grid2.getChildren().clear();
+            wysDokument = SerialClone.clone(selDokument);
+            selDokument = null;
+            setRenderujostatniowprowadzonydokument(true);
+            RequestContext ctx = null;
+            ctx.getCurrentInstance().update("@all");
         }
+        
     }
     
-    public void dodajNowyWpisAutomatyczny() {
+    public String dodajNowyWpisAutomatyczny() {
          Map<Integer, String> mapa;
                     mapa = new HashMap<Integer, String>();
                     mapa.put(1, "01");
@@ -819,6 +855,7 @@ public class DokView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
         }
+        return "ksiegowa";
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
@@ -934,7 +971,28 @@ public class DokView implements Serializable{
         ctx.getCurrentInstance().update("srodki:panelekXA"); 
     }
     
-    public void wyliczAmortyzacje(){
-        
+    public void resetujFormularzDokumentow(ActionEvent e){
+        setRenderujostatniowprowadzonydokument(false);
     }
+    
+   public static void main(String[] args){
+       List<String> lista = new ArrayList<String>();
+       List<String> lkopia = new ArrayList<String>();
+       List<String> ckopia = new ArrayList<String>();
+       String oryginal = "pierwotne";
+       String oryginal2 = "dwiergotnie";
+       lista.add(oryginal);
+       lista.add(oryginal2);
+       lkopia = lista;
+       oryginal = "zmiana";
+       lista.set(0, oryginal);
+       System.out.println("oryginal: "+lista.get(0));
+       System.out.println(" - kopia : "+lkopia.get(0));
+       ckopia = SerialClone.clone(lista);
+       oryginal = "ponowna zmiana";
+       lista.set(0, oryginal);
+       System.out.println("oryginal: "+lista.get(0));
+       System.out.println(" - kopia : "+lkopia.get(0));
+       System.out.println("clone: "+ckopia.get(0));
+   }
 }
