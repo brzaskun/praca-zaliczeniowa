@@ -749,7 +749,19 @@ public class DokView implements Serializable{
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+         } finally {
+            grid1 = getGrid1();
+            grid1.getChildren().clear();
+            grid2 = getGrid2();
+            grid2.getChildren().clear();
+            //wysDokument = SerialClone.clone(selDokument);
+            RequestContext ctx = null;
+            ctx.getCurrentInstance().update("@all");
         }
+    }
+    
+    public String odswiezstrone(){
+        return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
     }
     
     public void dodajNowyWpisAutomatyczny() {
