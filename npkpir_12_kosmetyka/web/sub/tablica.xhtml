@@ -6,25 +6,25 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:outputPanel id="wrapper">    
-        <h:form id="westIndex">
+    <h:form id="westIndex">
             <p:panel menuTitle="Dane" header="Parametry" style="width: 300px; margin-left: 40%">
-                <h:outputText value="W celu rozpoczęcia wpisywania dokumentów proszę wybrac parametry podatnika"/>
+                <f:facet name="header">
+                    <h:outputText value="W celu rozpoczęcia wpisywania dokumentów proszę wybrac parametry podatnika"/>
+                </f:facet>
                 <p:graphicImage url="/resources/images/ksiegi.jpg"/>
                 <p></p>
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" valueChangeListener="#{WpisView.podatnikWpisu}" immediate="true" converter="PodConv" height="300">
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv" height="300">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
                 </p:selectOneMenu>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" valueChangeListener="#{WpisView.rokWpisu}" immediate="true">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" valueChangeListener="#{WpisView.miesiacWpisu}" immediate="true">
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
-                <h:commandButton accesskey="s" action="/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true"  value="Ok"/>
+                <br/>
+                <p:commandButton action="/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true" value="wybierz" accesskey="s"/>
             </p:panel>
         </h:form>
-    </p:outputPanel>
-</ui:composition>   
-
+</ui:composition>  
