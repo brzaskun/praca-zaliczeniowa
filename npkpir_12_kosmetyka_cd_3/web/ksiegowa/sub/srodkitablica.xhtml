@@ -3,7 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:outputPanel id="wrapper">
         <p:growl id="mess_add" tooltip="true" />
         <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" 
@@ -43,19 +44,42 @@
             </p:column>
             <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
              
-                <h:outputText value="#{wpis.netto}" />
+                <h:outputText value="#{wpis.netto}">
+                     <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
+                </h:outputText>
             </p:column>
             <p:column id="vatColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
               
-                <h:outputText value="#{wpis.vat}" />
+                <h:outputText value="#{wpis.vat}" >
+                     <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
+                </h:outputText>
             </p:column>
             <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterMatchMode="contains" sortBy="#{wpis.stawka}">  
                
-                <h:outputText value="#{wpis.stawka}%" />
+                <h:outputText value="#{wpis.stawka}%" >
+                         <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                maxIntegerDigits="5"
+                                type="number"/>
+                </h:outputText>
             </p:column>
             <p:column id="odpisrokColumn" headerText="odpis rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" sortBy="#{wpis.odpisrok}">  
               
-                <h:outputText value="#{wpis.odpisrok}" />
+                <h:outputText value="#{wpis.odpisrok}" >
+                     <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
+                </h:outputText>
            </p:column>
 <!--             <p:column id="umplan" headerText="odpis plan" filterBy="{wpis.umorzPlan}" filterMatchMode="contains" sortBy="{wpis.umorzPlan}">  
                 <f:facet name="header">  
@@ -151,6 +175,8 @@
             </p:column>
            
         </p:dataTable>
+          
     </p:outputPanel>
+   
 </ui:composition>   
 

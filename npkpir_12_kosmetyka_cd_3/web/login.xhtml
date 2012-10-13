@@ -35,9 +35,9 @@
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2">
                         <h:outputText value="Nazwa"/>
-                        <h:inputText value="#{Logowanie.uzytk}" accesskey="s"/>
+                        <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" requiredMessage="Wpisz login!" autocomplete="true"/>
                         <h:outputText value="Hasło"/>
-                        <h:inputSecret value="#{Logowanie.haslo}"/>
+                        <h:inputSecret value="#{Logowanie.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true" />
                     </p:panelGrid>
                     <br/>
                     <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
