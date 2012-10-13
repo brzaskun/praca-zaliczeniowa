@@ -37,8 +37,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
@@ -55,7 +53,6 @@ import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import serialclone.SerialClone;
 
 /**
@@ -71,6 +68,8 @@ public class DokView implements Serializable{
 
     private PanelGrid grid1;
     private PanelGrid grid2;
+    private PanelGrid grid3;
+    
     @Inject
     private Dok selDokument;
     @Inject
@@ -120,10 +119,14 @@ public class DokView implements Serializable{
     private boolean pokazSTR;
     private String test;
    
-
+    private String nazwaSTR;
+    private String dataPrzSTR;
+    private String symbolKST;
+    private String stawkaKST;
    
 
     public DokView() {
+        setPokazSTR(false);
         opis = "ewidencja opis";
         setWysDokument(null);
     }
@@ -237,6 +240,54 @@ public class DokView implements Serializable{
         eVatOpisDAO.dodajNowyWpis(eVO);
         ctx.getCurrentInstance().update("dodWiad:grid1");
 
+    }
+    
+     public void wygenerujSTRKolumne() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        ELContext elContext = facesCtx.getELContext();
+        grid3 = getGrid3();
+        grid3.getChildren().clear();
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("dodWiad:grid3");
+        ExpressionFactory ef = ExpressionFactory.newInstance();
+            HtmlOutputText ot = new HtmlOutputText();
+            ot.setValue("nazwa Srodka");
+            grid3.getChildren().add(ot);
+            HtmlInputText ew = new HtmlInputText();
+            final String binding = "#{DokumentView.nazwaSTR}";
+            ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
+            ew.setValueExpression("value", ve2);
+            grid3.getChildren().add(ew);
+            
+            HtmlOutputText ot1 = new HtmlOutputText();
+            ot1.setValue("data przyjecia");
+            grid3.getChildren().add(ot1);
+            HtmlInputText ew1 = new HtmlInputText();
+            final String binding1 = "#{DokumentView.dataPrzSTR}";
+            ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
+            ew1.setValueExpression("value", ve1);
+            grid3.getChildren().add(ew1);
+            
+            HtmlOutputText ot3 = new HtmlOutputText();
+            ot3.setValue("symbol KST");
+            grid3.getChildren().add(ot3);
+            HtmlInputText ew3 = new HtmlInputText();
+            final String binding3 = "#{DokumentView.symbolKST}";
+            ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
+            ew3.setValueExpression("value", ve3);
+            grid3.getChildren().add(ew3);
+            
+            HtmlOutputText ot4 = new HtmlOutputText();
+            ot4.setValue("stawka amort");
+            grid3.getChildren().add(ot4);
+            HtmlInputText ew4 = new HtmlInputText();
+            final String binding4 = "#{DokumentView.stawkaKST}";
+            ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
+            ew4.setValueExpression("value", ve4);
+            grid3.getChildren().add(ew4);
+            
+        ctx.getCurrentInstance().update("dodWiad:grid3");
     }
 
     public void wygenerujNowaKolumnePkpir() {
@@ -415,8 +466,10 @@ public class DokView implements Serializable{
             grid2.getChildren().clear();
             wysDokument = SerialClone.clone(selDokument);
             selDokument = new Dok();
+            STRView.setPokazSTRS(false);
             RequestContext ctx = null;
             ctx.getCurrentInstance().update("@all");
+            ctx.getCurrentInstance().update("srodki");
         }
     }
   
@@ -820,6 +873,46 @@ public class DokView implements Serializable{
 
     public void setTest(String test) {
         this.test = test;
+    }
+
+    public PanelGrid getGrid3() {
+        return grid3;
+    }
+
+    public void setGrid3(PanelGrid grid3) {
+        this.grid3 = grid3;
+    }
+
+    public String getNazwaSTR() {
+        return nazwaSTR;
+    }
+
+    public void setNazwaSTR(String nazwaSTR) {
+        this.nazwaSTR = nazwaSTR;
+    }
+
+    public String getDataPrzSTR() {
+        return dataPrzSTR;
+    }
+
+    public void setDataPrzSTR(String dataPrzSTR) {
+        this.dataPrzSTR = dataPrzSTR;
+    }
+
+    public String getSymbolKST() {
+        return symbolKST;
+    }
+
+    public void setSymbolKST(String symbolKST) {
+        this.symbolKST = symbolKST;
+    }
+
+    public String getStawkaKST() {
+        return stawkaKST;
+    }
+
+    public void setStawkaKST(String stawkaKST) {
+        this.stawkaKST = stawkaKST;
     }
     
 }
