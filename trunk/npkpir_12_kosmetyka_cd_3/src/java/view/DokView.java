@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -441,6 +442,7 @@ public class DokView implements Serializable{
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
+            selDokument.setOpis(selDokument.getOpis().toLowerCase());
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodajNowyWpis(selDokument);
         } catch (Exception e) {
@@ -534,7 +536,17 @@ public class DokView implements Serializable{
             selDokument.setVatR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
-            String data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+            String data;
+            if(wpisView.getMiesiacWpisu().equals("01")||wpisView.getMiesiacWpisu().equals("03")
+                    ||wpisView.getMiesiacWpisu().equals("05")||wpisView.getMiesiacWpisu().equals("07")
+                    ||wpisView.getMiesiacWpisu().equals("08")||wpisView.getMiesiacWpisu().equals("10")
+                    ||wpisView.getMiesiacWpisu().equals("12")){ 
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+            } else if (wpisView.getMiesiacWpisu().equals("02")){
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+            } else {
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+            }
             selDokument.setDataWyst(data);
             selDokument.setKontr(new Kl(111111111,"wlasny","wlasny","kolumna","ewid"));
             selDokument.setRodzTrans("amortyzacja");

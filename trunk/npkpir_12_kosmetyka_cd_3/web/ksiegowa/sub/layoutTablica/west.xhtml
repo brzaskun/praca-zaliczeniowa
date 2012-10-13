@@ -10,16 +10,16 @@
             <p:panel menuTitle="Dane" header="Dane">
                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" update="@all" rendered="false"/>
             </p:panel>

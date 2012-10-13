@@ -4,11 +4,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
             <p:focus id="focus" context="polawprowadzania"/>
-            <p:growl id="mess_add" tooltip="false" />
+            <p:growl id="mess_add" tooltip="true" />
             <p:panelGrid id="polawprowadzania" columns="5" >
                 <h:outputLabel value="data wyst" style="font-weight: 700"/>
                 <h:outputLabel value="kontrahent" style="font-weight: 700"/>
@@ -21,10 +22,11 @@
                 </h:inputText>
                 <h:panelGroup id="dwadoWprowadzania">
                     <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.complete}"
-                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" immediate="true"
+                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
                                     minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
                                     effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
                                     required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100">
+
                         <f:ajax event="blur" execute="@this" global="false"/>
                             <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -42,11 +44,13 @@
                         <f:param name="passedValue" value="#{p}" />
                     </p:autoComplete>
                 </h:panelGroup>
-                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}"  immediate="true" style="width: 120px">
+                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.rodzTrans}"   style="width: 120px">
                     <f:selectItems value="#{Trans.transListView}"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir " global="false"/>
                 </h:selectOneMenu>
-                <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="Brak nr własnego dokumentu - uzupełnij" />
+                <h:inputText value="#{DokumentView.selDokument.nrWlDk}" required="true" requiredMessage="Brak nr własnego dokumentu - uzupełnij" >
+                    <f:validateLength minimum="3"/>
+                </h:inputText>
                 <p:autoComplete value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
                                 var="p" itemLabel="#{p}" itemValue="#{p}" 
                                 minQueryLength="2" maxResults="10" maxlength="20" 
@@ -138,7 +142,13 @@
                 <h:outputText  value="#{DokumentView.wysDokument.rodzTrans}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
-                <h:outputText  value="#{DokumentView.wysDokument.kwota}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.kwota}">
+                    <f:convertNumber maxFractionDigits="2"
+                       groupingUsed="true"
+                       currencySymbol="zł"
+                       maxIntegerDigits="7"
+                       type="currency"/>
+                </h:outputText>
                 <h:outputText  value="#{DokumentView.wysDokument.pkpirKol}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.kwotaX}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.pkpirKolX}"/>
@@ -186,5 +196,6 @@
         </p:panel>
     </p:panel>
     </p:panel>
+    <ft:trace/>
 </ui:composition>   
 

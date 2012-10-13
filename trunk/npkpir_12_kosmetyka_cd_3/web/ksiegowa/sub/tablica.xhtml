@@ -3,7 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
     
     <p:outputPanel>
@@ -89,7 +90,11 @@
                 <p:cellEditor>  
                     <f:facet name="output">  
                         <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
-                            <f:convertNumber  locale="PL"/>
+                            <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  
@@ -141,5 +146,6 @@
             </p:column>
         </p:dataTable>
     </p:outputPanel>
+    
 </ui:composition>   
 
