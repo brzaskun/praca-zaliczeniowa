@@ -414,18 +414,12 @@ public class DokView implements Serializable{
             grid2 = getGrid2();
             grid2.getChildren().clear();
             wysDokument = SerialClone.clone(selDokument);
+            selDokument = new Dok();
             RequestContext ctx = null;
             ctx.getCurrentInstance().update("@all");
         }
     }
-    
-    public String odswiezstrone(){
-        if(pokazSTR){
-            return "/ksiegowa/ksiegowaIndexSrodki.xhtml?faces-redirect=true";
-        } else {
-            return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
-        }
-    }
+  
     
     public void dodajNowyWpisAutomatyczny() {
          Map<Integer, String> mapa;
