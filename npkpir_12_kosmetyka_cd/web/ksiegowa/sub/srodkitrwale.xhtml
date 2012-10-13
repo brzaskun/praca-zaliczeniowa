@@ -25,7 +25,7 @@
                 <h:inputText value="#{DokumentView.selectedSTR.kst}" />
                 <h:outputText value="stawkaAmortyzacji" />
                 <h:inputText id="stawkaAmortyzacji" value="#{DokumentView.selectedSTR.stawka}"/>
-                <p:commandButton action="#{SrodkiTrwaleView.wrocdopkpir()}" actionListener="#{DokumentView.dodajSTR()}" value="Wprowadz" update=":srodki:panelekXA" />
+                <p:commandButton actionListener="#{DokumentView.dodajSTR()}" value="Wprowadz" update=":dodWiad:mess_add,:srodki:panelekXA" />
             </p:panelGrid>
         </p:panel>
         <p:panel header="Ostatnio wprowadzony środek trwały"  >
