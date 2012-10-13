@@ -26,8 +26,7 @@
                                     minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
                                     effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
                                     required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100">
-                        <p:ajax event="blur"  listener="#{DokumentView.reset}" global="false" />
-                        <f:facet name="itemtip">  
+                            <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
                                     <h:outputText value="Dane kontrahenta"/>
@@ -76,7 +75,7 @@
                 <h:selectBooleanCheckbox id="dodatkowakolumna" value="#{DokumentView.selDokument.dodatkowaKolumna}">
                     <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
                 </h:selectBooleanCheckbox>
-                <h:selectBooleanCheckbox  value="#{DokumentView.pokazSTR}" >
+                <h:selectBooleanCheckbox  value="#{SrodkiTrwaleView.pokazSTR}" >
                      <p:ajax event="click" global="false" listener="#{DokumentView.przekazDaneDoSTR}"/>
                  </h:selectBooleanCheckbox>
             </p:panelGrid>
