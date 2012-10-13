@@ -104,7 +104,7 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <p:commandButton id="wprowadzenieNowego" action="#{DokumentView.odswiezstrone()}" actionListener="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik" global="false"/>   
+                    <p:commandButton id="wprowadzenieNowego" actionListener="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik, @form" global="false"/>   
                      
             </p:panelGrid>
          <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument">
@@ -124,26 +124,26 @@
                 <h:outputLabel value="v m-c" style="font-weight: 600"/>
                 <h:outputLabel value="v rok" style="font-weight: 600"/>
                 <h:outputLabel value="uwagi" style="font-weight: 600"/>
-                <h:outputText  value="#{DokumentView.selDokument.idDok}"/>
-                <h:outputText  value="#{DokumentView.selDokument.dataWyst}">
+                <h:outputText  value="#{DokumentView.wysDokument.idDok}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.dataWyst}">
                     <f:convertDateTime parent="dd/mm/yyyy"/>
                 </h:outputText>
-                <h:outputText  value="#{DokumentView.selDokument.kontr.npelna}"/>
-                <h:outputText  value="#{DokumentView.selDokument.rodzTrans}"/>
-                <h:outputText  value="#{DokumentView.selDokument.nrWlDk}"/>
-                <h:outputText  value="#{DokumentView.selDokument.opis}"/>
-                <h:outputText  value="#{DokumentView.selDokument.kwota}"/>
-                <h:outputText  value="#{DokumentView.selDokument.pkpirKol}"/>
-                <h:outputText  value="#{DokumentView.selDokument.kwotaX}"/>
-                <h:outputText  value="#{DokumentView.selDokument.pkpirKolX}"/>
-                <h:outputText  value="#{DokumentView.selDokument.pkpirM}"/>
-                <h:outputText  value="#{DokumentView.selDokument.pkpirR}"/>
-                <h:outputText  value="#{DokumentView.selDokument.vatM}"/>
-                <h:outputText  value="#{DokumentView.selDokument.vatR}"/>
-                <h:outputText  value="#{DokumentView.selDokument.uwagi}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.kontr.npelna}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.rodzTrans}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.kwota}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirKol}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.kwotaX}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirKolX}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirM}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.pkpirR}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.vatM}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.vatR}"/>
+                <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
             </p:panelGrid>
             <p:outputPanel id="wrapper">
-                <p:dataTable value="#{DokumentView.selDokument.ewidencjaVAT}"
+                <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}"
                              var="p">
                     <p:column id="idColumn" headerText="nazwa">  
                         <f:facet name="header">  
