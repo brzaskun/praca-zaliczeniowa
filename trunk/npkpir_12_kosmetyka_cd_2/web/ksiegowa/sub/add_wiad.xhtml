@@ -76,18 +76,23 @@
                 <h:selectBooleanCheckbox id="dodatkowakolumna" value="#{DokumentView.selDokument.dodatkowaKolumna}">
                     <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
                 </h:selectBooleanCheckbox>
-                <h:selectBooleanCheckbox  value="#{SrodkiTrwaleView.pokazSTR}" >
-                     <p:ajax event="click" global="false" listener="#{DokumentView.przekazDaneDoSTR}"/>
+                <h:selectBooleanCheckbox  value="#{DokumentView.pokazSTR}" >
+                    <p:ajax event="click" listener="#{DokumentView.wygenerujSTRKolumne}" global="false" />
                  </h:selectBooleanCheckbox>
             </p:panelGrid>
-            
+            <!--dodatkowa kolumna pkpir-->
             <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
             </p:panelGrid>
-                
+            <!--pola ewidencji SRODKOW TRWALYCH-->
              <p:panel >
-                    <p:panelGrid id="grid1" columns="3" binding="#{DokumentView.grid1}">
-                    </p:panelGrid>
-                </p:panel>
+                   <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
+                   </p:panelGrid>
+             </p:panel>
+            <!--pola ewidencji VAT-->
+             <p:panel >
+                   <p:panelGrid id="grid1" columns="3" binding="#{DokumentView.grid1}">
+                   </p:panelGrid>
+             </p:panel>
              
              
             <p:panelGrid columns="4">

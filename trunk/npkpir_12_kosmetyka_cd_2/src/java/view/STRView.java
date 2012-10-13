@@ -34,7 +34,7 @@ public class STRView implements Serializable{
 
     private Integer ilesrodkow;
     
-    private boolean pokazSTR;
+    private static boolean pokazSTR;
     
      
     
@@ -51,7 +51,9 @@ public class STRView implements Serializable{
         this.pokazSTR = pokazSTR;
     }
 
-    
+     public static void setPokazSTRS(boolean pokazSTR) {
+        STRView.pokazSTR = pokazSTR;
+    }
     
     public Integer getIlesrodkow() {
         return ilesrodkow;
@@ -122,18 +124,12 @@ public class STRView implements Serializable{
          
    }
     
-    public String wrocdopkpir(){
-        return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
-    }
+    
     
     public int ile(){
         return sTRDAO.getdownloadedSTR().size();
     }
-     public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext ctx = null;
-        ctx.getCurrentInstance().update("formSTR:srodkiLista");
-        ctx.getCurrentInstance().update("westSrodki:westSrodkiWidok");
-    }
+    
    
      public static void main(String[] args){
         Double opm = 9.33;
