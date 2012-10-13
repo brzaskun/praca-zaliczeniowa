@@ -458,20 +458,41 @@ public class DokView implements Serializable{
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-
-         } finally {
+         } 
+         if(pokazSTR){
+            try {
+                   selectedSTR.setNetto(selDokument.getKwota());
+                   BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getKwota());
+                   tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+                   tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
+                   tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+                   Double vat = Double.parseDouble(tmp1.toString());
+                   selectedSTR.setVat(vat);
+                   selectedSTR.setDatazak(selDokument.getDataWyst());
+                   selectedSTR.setDataprzek(dataPrzSTR);
+                   selectedSTR.setStawka(Double.parseDouble(stawkaKST));
+                   selectedSTR.setKst(symbolKST);
+                   selectedSTR.setNazwa(nazwaSTR);
+                   dodajSTR();
+                   
+            } catch (Exception e){
+                
+            }
+         }
+            setPokazSTR(false);
             grid1 = getGrid1();
             grid1.getChildren().clear();
             grid2 = getGrid2();
             grid2.getChildren().clear();
+            grid3 = getGrid3();
+            grid3.getChildren().clear();
             wysDokument = SerialClone.clone(selDokument);
             selDokument = new Dok();
-            STRView.setPokazSTRS(false);
             RequestContext ctx = null;
-            ctx.getCurrentInstance().update("@all");
-            ctx.getCurrentInstance().update("srodki");
-        }
+            ctx.getCurrentInstance().update("@form");
     }
+
+  
   
     
     public void dodajNowyWpisAutomatyczny() {
@@ -539,10 +560,9 @@ public class DokView implements Serializable{
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-
         }
     }
-
+    
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = null;
         tmp = dokDAO.znajdzDuplikat(selD);
@@ -600,24 +620,24 @@ public class DokView implements Serializable{
 
     }
  
-    public void przekazDaneDoSTR(AjaxBehaviorEvent e){
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String tmp = params.get("dodWiad:kwotaPkpir");
-        tmp = tmp.replace(",", ".");
-        Double tmpX = Double.parseDouble(tmp);
-        selectedSTR.setNetto(tmpX);
-        BigDecimal tmp1 = BigDecimal.valueOf(tmpX);
-        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        Double vat = Double.parseDouble(tmp1.toString());
-        selectedSTR.setVat(vat);
-        String tmpD = params.get("dodWiad:dataPole");
-        selectedSTR.setDatazak(tmpD);
-        selectedSTR.setDataprzek(tmpD);
-        RequestContext ctx = null;
-        ctx.getCurrentInstance().update("srodki:lolo");
-    }
+//    public void przekazDaneDoSTR(AjaxBehaviorEvent e){
+//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//        String tmp = params.get("dodWiad:kwotaPkpir");
+//        tmp = tmp.replace(",", ".");
+//        Double tmpX = Double.parseDouble(tmp);
+//        selectedSTR.setNetto(tmpX);
+//        BigDecimal tmp1 = BigDecimal.valueOf(tmpX);
+//        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+//        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
+//        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+//        Double vat = Double.parseDouble(tmp1.toString());
+//        selectedSTR.setVat(vat);
+//        String tmpD = params.get("dodWiad:dataPole");
+//        selectedSTR.setDatazak(tmpD);
+//        selectedSTR.setDataprzek(tmpD);
+//        RequestContext ctx = null;
+//        ctx.getCurrentInstance().update("srodki:lolo");
+//    }
     
     public void dodajSTR(){
        FacesContext facesContext = FacesContext.getCurrentInstance();

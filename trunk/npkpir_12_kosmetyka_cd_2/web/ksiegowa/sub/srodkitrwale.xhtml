@@ -9,7 +9,7 @@
 
     <p:panel id="lolo">
         <p:focus id="focus" context="panelekX" />
-        <p:panel header="Wprowadzanie srodkow trwalych" rendered="#{SrodkiTrwaleView.pokazSTR}">
+        <p:panel header="Wprowadzanie srodkow trwalych" >
             <p:panelGrid columns="6" id="panelekX" >
                 <h:outputText value="Nazwa środka" />
                 <h:inputText value="#{DokumentView.selectedSTR.nazwa}" />
@@ -28,7 +28,7 @@
                 <p:commandButton action="#{DokumentView.dodajSTR()}" value="Wprowadz" update=":dodWiad:mess_add,:srodki:panelekXA" />
             </p:panelGrid>
         </p:panel>
-        <p:panel header="Ostatnio wprowadzony środek trwały" rendered="#{SrodkiTrwaleView.pokazSTR}" >
+        <p:panel header="Ostatnio wprowadzony środek trwały"  >
             <p:panelGrid columns="4" id="panelekXA" >
                 <h:outputText value="Wartość pocz."/>
                 <h:outputText value="#{SrodkiTrwaleView.selectedSTR.netto}"/>
