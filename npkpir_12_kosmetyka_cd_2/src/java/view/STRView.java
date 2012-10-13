@@ -30,31 +30,9 @@ public class STRView implements Serializable{
     @Inject
     private STRDAO sTRDAO;
     
-    private SrodekTrw selectedSTR;
-
     private Integer ilesrodkow;
     
-    private static boolean pokazSTR;
-    
-     
-    
-    
-    public STRView() {
-        selectedSTR = new SrodekTrw();
-    }
-
-    public boolean isPokazSTR() {
-        return pokazSTR;
-    }
-
-    public void setPokazSTR(boolean pokazSTR) {
-        this.pokazSTR = pokazSTR;
-    }
-
-     public static void setPokazSTRS(boolean pokazSTR) {
-        STRView.pokazSTR = pokazSTR;
-    }
-    
+        
     public Integer getIlesrodkow() {
         return ilesrodkow;
     }
@@ -72,14 +50,7 @@ public class STRView implements Serializable{
         this.sTRDAO = sTRDAO;
     }
 
-    public SrodekTrw getSelectedSTR() {
-        return selectedSTR;
-    }
-
-    public void setSelectedSTR(SrodekTrw selectedSTR) {
-        this.selectedSTR = selectedSTR;
-    }
-    
+  
     public void dodajSrodekTrwaly(SrodekTrw STR){
       try { 
         Double netto = STR.getNetto();
@@ -112,13 +83,12 @@ public class STRView implements Serializable{
         }
         STR.setUmorzPlan(listaplanum);
         sTRDAO.dodajNowyWpis(STR);
-        setSelectedSTR(STR);
         RequestContext ctx = null;
         ctx.getCurrentInstance().update("srodki:panelekXA");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy srodek zachowany", selectedSTR.getNazwa());
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy srodek zachowany", STR.getNazwa());
         FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy srodek nie zachowany", selectedSTR.getNazwa());
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy srodek nie zachowany", STR.getNazwa());
         FacesContext.getCurrentInstance().addMessage(null, msg);
         }
          

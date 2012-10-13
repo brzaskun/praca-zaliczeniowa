@@ -47,24 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SrodekTrw implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "datawy")
-    private Double datawy;
-    @Size(max = 255)
-    @Column(name = "dataprzek")
-    private String dataprzek;
-    @Size(max = 255)
-    @Column(name = "datazak")
-    private String datazak;
-    @Column(name = "vat")
-    private Double vat;
-    @Column(name = "odpismc")
-    private Double odpismc;
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @Size(max = 255)
-    @Column(name = "KST")
-    private String kst;
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -90,6 +73,24 @@ public class SrodekTrw implements Serializable {
     @Lob
     @Column(name = "podatnik")
     private Pod podatnik;
+     @Column(name = "datawy")
+    private Double datawy;
+    @Size(max = 255)
+    @Column(name = "dataprzek")
+    private String dataprzek;
+    @Size(max = 255)
+    @Column(name = "datazak")
+    private String datazak;
+    @Column(name = "vat")
+    private Double vat;
+    @Column(name = "odpismc")
+    private Double odpismc;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @Size(max = 255)
+    @Column(name = "KST")
+    private String kst;
 
     public SrodekTrw() {
     }
