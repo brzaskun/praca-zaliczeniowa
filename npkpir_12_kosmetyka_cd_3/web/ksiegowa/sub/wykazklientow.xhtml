@@ -1,0 +1,26 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <p:panel id="panelDodawaniaDokumentu">
+        <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
+            <p:focus id="focus" context="polawprowadzania"/>
+            <p:growl id="mess_add" tooltip="true" />
+            <p:panelGrid id="polawprowadzania" columns="3" >
+                <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
+                <h:outputLabel value="nip" style="font-weight: 700"/>
+                <h:outputLabel value="miejscowość" style="font-weight: 700"/>
+                
+                <h:inputText id="nazwaPole" value="#{KlView.selected.npelna}" accesskey="s" maxlength="10" style="width: 120px" />
+                <h:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="10" style="width: 120px" />
+                <h:inputText id="miejscowoscPole" value="#{KlView.selected.miejscowosc}"   maxlength="10" style="width: 120px" />
+                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" update="@form"/>
+            </p:panelGrid>
+        </p:panel>
+    </p:panel>
+    <ft:trace/>
+</ui:composition>   
