@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -393,22 +392,22 @@ public class DokView implements Serializable{
         try {
             ArrayList<EVidencja> ew = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
             EVatOpis eVO = eVatOpisDAO.getDownloadedEVatOpis().get(0);
-            List<String> pobierzOpisy = new ArrayList<String>();
+            List<String> pobierzOpisy = new ArrayList<>();
             pobierzOpisy.add(eVO.getOpis1());
             pobierzOpisy.add(eVO.getOpis2());
             pobierzOpisy.add(eVO.getOpis3());
             pobierzOpisy.add(eVO.getOpis4());
-            List<Double> pobierzNetto = new ArrayList<Double>();
+            List<Double> pobierzNetto = new ArrayList<>();
             pobierzNetto.add(netto1);
             pobierzNetto.add(netto2);
             pobierzNetto.add(netto3);
             pobierzNetto.add(netto4);
-            List<Double> pobierzVat = new ArrayList<Double>();
+            List<Double> pobierzVat = new ArrayList<>();
             pobierzVat.add(vat1);
             pobierzVat.add(vat2);
             pobierzVat.add(vat3);
             pobierzVat.add(vat4);
-            List<EVatwpis> el = new ArrayList<EVatwpis>();
+            List<EVatwpis> el = new ArrayList<>();
             int i = 0;
             while (i < EVDAO.getWykazEwidencji().size()) {
                 int j = 0;
@@ -463,7 +462,7 @@ public class DokView implements Serializable{
                    selectedSTR.setDataprzek(dataPrzSTR);
                    selectedSTR.setStawka(Double.parseDouble(stawkaKST));
                    selectedSTR.setKst(symbolKST);
-                   selectedSTR.setNazwa(nazwaSTR);
+                   selectedSTR.setNazwa(nazwaSTR.toLowerCase());
                    dodajSTR();
                    
             } catch (Exception e){

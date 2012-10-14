@@ -5,6 +5,7 @@
 package view;
 
 import dao.AmoDokDAO;
+import dao.KlienciDAO;
 import dao.STRDAO;
 import embeddable.Pod;
 import embeddable.Roki;
