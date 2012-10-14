@@ -69,7 +69,7 @@ public class KlienciDAO implements Serializable{
      public void dodajNowyWpis(Klienci selectedKlient){
         try {
             klienciFacade.create(selectedKlient);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy klient zachowany", selectedKlient.getNpelna().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy klient zachowany: "+selectedKlient.getNpelna().toString(),"");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println("Nie utworzono Klienta "+e.toString());
