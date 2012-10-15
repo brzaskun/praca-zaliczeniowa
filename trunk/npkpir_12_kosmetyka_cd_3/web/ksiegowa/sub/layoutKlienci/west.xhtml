@@ -37,14 +37,16 @@
            <p:panel header="linki">
          <h:form>
                 <p:panelGrid columns="1">
-                <h:link outcome="tablica">tablica</h:link>
-                <h:link outcome="obroty">obroty</h:link>
-                <h:link outcome="srodki">srodki</h:link>
-                 <h:link accesskey="s" outcome="ksiegowa">wpisywanie</h:link>
+                    <h:link outcome="tablica" title="wyświetlanie wpisów">tablica</h:link>
+                <h:link outcome="obroty" title="wykaz obrotów z kontrahentami">obroty</h:link>
+                <h:link outcome="srodki" title="przeglądanie ewidencji środków trwałych">srodki</h:link>
+                <h:link accesskey="s" outcome="ksiegowa" title="księgowanie dokumentów">wpisywanie</h:link>
                 </p:panelGrid>
             </h:form>
         </p:panel>
-            
+        </h:form>
+         <h:form>
+            <p:commandButton value="plik" action="#{KlView.pobierzklientazPliku()}" update="@all"/>
         </h:form>
         </p:layoutUnit>
 </ui:composition>   

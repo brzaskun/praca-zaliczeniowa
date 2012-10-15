@@ -29,6 +29,7 @@ public class EVatView implements Serializable{
     private List<String> sprzedazVList;
     private List<String> zakupVList;
     private List<String> srodkitrwaleVList;
+    private List<String> listadostepnychewidencji;
 
     static{
         naglowekVList = new ArrayList<String>();
@@ -38,20 +39,22 @@ public class EVatView implements Serializable{
    }
 
     public EVatView() {
-        zakupVList = new ArrayList<String>();
-        srodkitrwaleVList = new ArrayList<String>();
-        sprzedazVList = new ArrayList<String>();
+        zakupVList = new ArrayList<>();
+        srodkitrwaleVList = new ArrayList<>();
+        sprzedazVList = new ArrayList<>();
+        listadostepnychewidencji = new ArrayList<>();
     }
     
     
     
     @PostConstruct
     public void init(){
-        ArrayList<EVidencja> listadostepnychewidencji = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
+        ArrayList<EVidencja> tmp = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
         Iterator it;
-        it = listadostepnychewidencji.iterator();
+        it = tmp.iterator();
         while (it.hasNext()){
             EVidencja up = (EVidencja) it.next();
+            listadostepnychewidencji.add(up.getNazwaEwidencji());
             if(up.getTransAkcja().equals("zakup")){
                 zakupVList.add(up.getNazwaEwidencji());
             } else if (up.getTransAkcja().equals("srodek trw")) {
@@ -78,6 +81,14 @@ public class EVatView implements Serializable{
 
     public List<String> getSrodkitrwaleVList() {
         return srodkitrwaleVList;
+    }
+
+    public List<String> getListadostepnychewidencji() {
+        return listadostepnychewidencji;
+    }
+
+    public void setListadostepnychewidencji(List<String> listadostepnychewidencji) {
+        this.listadostepnychewidencji = listadostepnychewidencji;
     }
     
    
