@@ -14,10 +14,6 @@ root {
     display: block;
 }
 
-:focus
-{ 
-    background-color: #ccffff;
-}
 
 .old{
     background-color:#6CE26C !important;
@@ -51,3 +47,4 @@ root {
 .ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
     width: 300px;
 }
+

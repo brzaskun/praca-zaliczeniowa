@@ -2,6 +2,7 @@
 package view;
 
 import dao.KlienciDAO;
+import embeddable.PanstwaSymb1;
 import entity.Klienci;
 import java.io.IOException;
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class KlView implements Serializable{
     private KlienciDAO klDAO;
     @Inject
     private Klienci selected;
+    @Inject PanstwaSymb1 ps1;
     
     private Integer ilesrodkow;
 
@@ -61,19 +63,30 @@ public class KlView implements Serializable{
     }
 
   
-//    public void dodajKlienta(){
-//      try { 
-//        klDAO.dodajNowyWpis(selected);
-//        RequestContext ctx = null;
-//        ctx.getCurrentInstance().update("formX:");
-//        } catch (Exception e) {
-//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy srodek nie zachowany", "");
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//         
-//   }
-//    
-     public void dodajKlienta() throws IOException{
+    public void dodajKlienta(){
+      try {
+        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selected.getNpelna().substring(2).toLowerCase());
+        selected.setNpelna(formatka);
+        formatka = selected.getNskrocona().toUpperCase();
+        selected.setNskrocona(formatka);
+        formatka = selected.getUlica().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selected.getUlica().substring(2).toLowerCase());
+        selected.setUlica(formatka);
+        String kraj = selected.getKrajnazwa();
+        String symbol = ps1.getWykazPanstwSX().get(kraj);
+        selected.setKrajkod(symbol);
+        klDAO.dodajNowyWpis(selected);
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("formX:");
+        } catch (Exception e) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy klient nie zachowany", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+         
+   }
+    
+     public void pobierzklientazPliku() throws IOException{
           readLargerTextFile(FILE_NAME);
     
    }

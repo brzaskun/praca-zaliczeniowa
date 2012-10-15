@@ -114,7 +114,7 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <p:commandButton id="wprowadzenieNowego" actionListener="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik, @form" global="false"/>   
+                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodajNowyWpis()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik, @form" global="false"/>   
                      
             </p:panelGrid>
          <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument">
@@ -196,6 +196,6 @@
         </p:panel>
     </p:panel>
     </p:panel>
-    <ft:trace/>
+    
 </ui:composition>   
 
