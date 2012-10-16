@@ -29,6 +29,7 @@
         </p:panelGrid>
         <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" update="@form"/>
     </p:outputPanel>
+  
     <p:outputPanel id="wrapper">
         
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
@@ -38,6 +39,7 @@
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}"
                       > 
+          
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
                         
             <f:facet name="header">  
@@ -141,8 +143,9 @@
              <p:column id="editColumn" headerText="edytuj">
                  <p:rowEditor />  
             </p:column>
+            
             <p:column id="deleteColumn" headerText="usuń">
-                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" id="delete" image="ui-icon ui-icon-trash" update="@form" />
+                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" image="ui-icon ui-icon-trash" type="submit" />
             </p:column>
         </p:dataTable>
     </p:outputPanel>

@@ -91,6 +91,9 @@ public class SrodekTrw implements Serializable {
     @Size(max = 255)
     @Column(name = "KST")
     private String kst;
+    @Size(max = 255)
+    @Column(name = "typ")
+    private String typ;
 
     public SrodekTrw() {
     }
@@ -225,6 +228,14 @@ public class SrodekTrw implements Serializable {
 
     public void setPodatnik(Pod podatnik) {
         this.podatnik = podatnik;
+    }
+
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
     }
 
    
