@@ -65,6 +65,7 @@ public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNazwa;
     private HtmlInputText kontrahentNIP;
+    private HtmlSelectOneMenu srodkitrwalewyposazenie;
 
     private PanelGrid grid1;
     private PanelGrid grid2;
@@ -123,6 +124,7 @@ public class DokView implements Serializable{
     private String dataPrzSTR;
     private String symbolKST;
     private String stawkaKST;
+    private String typKST;
    
 
     public DokView() {
@@ -279,6 +281,21 @@ public class DokView implements Serializable{
             ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
             ew4.setValueExpression("value", ve4);
             grid3.getChildren().add(ew4);
+            
+            UISelectItems ulista = new UISelectItems();
+            List valueList = new ArrayList();
+            SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
+            valueList.add(selectItem);
+            selectItem = new SelectItem("wyposazenie", "wyposazenie");
+            valueList.add(selectItem);
+            ulista.setValue(valueList);
+            final String bindingX = "#{DokumentView.typKST}";
+            ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
+            HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
+            htmlSelectOneMenu.setValueExpression("value", ve2X);
+            htmlSelectOneMenu.setStyle("min-width: 150px");
+            htmlSelectOneMenu.getChildren().add(ulista);
+            grid3.getChildren().add(htmlSelectOneMenu);
             
         RequestContext.getCurrentInstance().update("dodWiad:grid3");
     }
@@ -463,6 +480,7 @@ public class DokView implements Serializable{
                    selectedSTR.setStawka(Double.parseDouble(stawkaKST));
                    selectedSTR.setKst(symbolKST);
                    selectedSTR.setNazwa(nazwaSTR.toLowerCase());
+                   selectedSTR.setTyp(typKST);
                    dodajSTR();
                    
             } catch (Exception e){
@@ -554,7 +572,12 @@ public class DokView implements Serializable{
             selDokument.setKwota(kwotaumorzenia);
             selDokument.setPkpirKol("poz. koszty");
             sprawdzCzyNieDuplikat(selDokument);
+            if(selDokument.getKwota()>0){
             dokDAO.dodajNowyWpis(selDokument);
+            } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);    
+            }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
@@ -899,5 +922,22 @@ public class DokView implements Serializable{
     public void setStawkaKST(String stawkaKST) {
         this.stawkaKST = stawkaKST;
     }
+
+    public HtmlSelectOneMenu getSrodkitrwalewyposazenie() {
+        return srodkitrwalewyposazenie;
+    }
+
+    public void setSrodkitrwalewyposazenie(HtmlSelectOneMenu srodkitrwalewyposazenie) {
+        this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
+    }
+
+    public String getTypKST() {
+        return typKST;
+    }
+
+    public void setTypKST(String typKST) {
+        this.typKST = typKST;
+    }
+    
     
 }

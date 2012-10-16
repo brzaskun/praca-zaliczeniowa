@@ -53,6 +53,8 @@ public class DokTabView implements Serializable{
     private DokDAO dokDAO;
     @Inject
     private Dok selDokument;
+    
+    private static Dok dokdoUsuniecia;
 
    
 
@@ -150,18 +152,24 @@ public class DokTabView implements Serializable{
         }
     }
 
-      public void destroy(Dok selDokument) {
+      public void destroy(Dok selDok) {
+          dokdoUsuniecia = new Dok();
+          dokdoUsuniecia = selDok;
+          
+    }
+      
+         public void destroy2() {
 //        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //       Principal principal = request.getUserPrincipal();
 //        if(request.isUserInRole("Administrator")){
         try {
-            obiektDOKjsfSel.remove(selDokument);
-            obiektDOKmrjsfSel.remove(selDokument);
-            dokDAO.destroy(selDokument);
+            obiektDOKjsfSel.remove(dokdoUsuniecia);
+            obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+            dokDAO.destroy(dokdoUsuniecia);
         } catch (Exception e) {
-            System.out.println("Nie usnieto " + selDokument.getIdDok() + " " + e.toString());
+            System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", selDokument.getIdDok().toString());
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
 //    } else {
 //            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
@@ -266,6 +274,14 @@ public class DokTabView implements Serializable{
 
     public void setSelDokument(Dok selDokument) {
         this.selDokument = selDokument;
+    }
+
+    public Dok getDokdoUsuniecia() {
+        return dokdoUsuniecia;
+    }
+
+    public  void setDokdoUsuniecia(Dok dokdoUsuniecia) {
+        DokTabView.dokdoUsuniecia = dokdoUsuniecia;
     }
  
     

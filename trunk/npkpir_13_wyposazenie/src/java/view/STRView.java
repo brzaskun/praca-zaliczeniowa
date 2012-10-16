@@ -50,7 +50,7 @@ public class STRView implements Serializable{
         this.sTRDAO = sTRDAO;
     }
 
-  
+  //tutaj oblicza ilosc odpisow
     public void dodajSrodekTrwaly(SrodekTrw STR){
       try { 
         Double netto = STR.getNetto();
@@ -65,12 +65,17 @@ public class STRView implements Serializable{
         Double odpisrok = Double.parseDouble(tmp1.toString());
         Double odpismiesiac = Double.parseDouble(tmp2.toString());
         STR.setOdpisrok(odpisrok);
-        STR.setOdpismc(odpismiesiac);
-       
+        if(stawkaamortyzacji==100){
+            STR.setOdpismc(odpisrok);
+        } else {
+            STR.setOdpismc(odpismiesiac);
+        }
+        //oblicza planowane umorzenia
         Double opm = STR.getOdpismc();
         Double max = STR.getNetto();
         Double nar = 0.0;
         List<Double> listaplanum = new ArrayList<Double>();
+        
         while(max-nar>0){
             Double odp = (max-nar)>opm ? opm : max-nar;
             DecimalFormat df2 = new DecimalFormat("###.##");
@@ -92,7 +97,18 @@ public class STRView implements Serializable{
          
    }
     
-    
+       public void aktualizujTabele(AjaxBehaviorEvent e) {
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("formSTR:srodkiLista");
+        ctx.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+    }
+   
+          public void aktualizujTabele2(AjaxBehaviorEvent e) {
+        RequestContext ctx = null;
+        ctx.getCurrentInstance().update("formSTR:dokumUmorzenieLista");
+        ctx.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+    }
+   
     
     public int ile(){
         return sTRDAO.getdownloadedSTR().size();

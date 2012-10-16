@@ -9,16 +9,16 @@
             <p:panel menuTitle="Dane" header="Dane">
                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv">
                     <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
-                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele2}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele2}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele2}" />
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" update="@all" rendered="false"/>
             </p:panel>
@@ -36,8 +36,8 @@
                      <h:link accesskey="s" outcome="ksiegowa" title="księgowanie dokumentów">wpisywanie</h:link>
                     <h:link outcome="obroty">obroty</h:link>
                      <h:link outcome="tablica">tablica</h:link>
-                      <h:link outcome="srodkidok">umorzenie</h:link>
-                       <h:link outcome="wyposazenie">wyposazenie</h:link>
+                      <h:link outcome="srodki">srodki</h:link>
+                      <h:link outcome="wyposazenie">wyposazenie</h:link>
                 </p:panelGrid>
             </h:form>
         </p:panel>

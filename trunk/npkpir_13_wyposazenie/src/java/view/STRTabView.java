@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -57,6 +58,8 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKmrjsfSel;
      //tablica obiektów danego klienta z określonego roku i miesiecy
     private List<SrodekTrw> obiektDOKmrjsfSelX;
+    //wyposazenie
+    private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
     
 
    
@@ -69,6 +72,7 @@ public class STRTabView implements Serializable{
         obiektDOKjsfSel = new ArrayList<SrodekTrw>();
         obiektDOKmrjsfSel = new ArrayList<SrodekTrw>();
         obiektDOKmrjsfSelX = new ArrayList<SrodekTrw>();
+        obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
     }
 
     public STRDAO getsTRDAO() {
@@ -151,6 +155,15 @@ public class STRTabView implements Serializable{
         this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
 
+    public List<SrodekTrw> getObiektDOKmrjsfSelWyposazenie() {
+        return obiektDOKmrjsfSelWyposazenie;
+    }
+
+    public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
+        this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
+    }
+
+    
  
     
        @PostConstruct
@@ -173,7 +186,12 @@ public class STRTabView implements Serializable{
                     kluczDOKjsf.add(tmp.getId().toString());
                     obiektDOKjsf.add(tmp);
                     if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        obiektDOKjsfSel.add(tmp);
+                         if(tmp.getTyp().equals("wyposazenie")){
+                             obiektDOKmrjsfSelWyposazenie.add(tmp);
+                            
+                        } else {
+                             obiektDOKjsfSel.add(tmp);
+                         }
                     }
                     dokHashTable.put(tmp.getId().toString(), tmp);
                 }
@@ -184,8 +202,11 @@ public class STRTabView implements Serializable{
                     String m = wpisView.getMiesiacWpisu();
                     Integer r = wpisView.getRokWpisu();
                     //if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-                   
+                  
+                     
+                 
                         obiektDOKmrjsfSel.add(tmpx);
+                  
                 //}
             }
                 if (wpisView.getMiesiacOd() != null) {
@@ -224,7 +245,7 @@ public class STRTabView implements Serializable{
         }
     }
 
-    
+    //przyporzadkowuje planowane odpisy do konkretnych miesiecy
     public void generujodpisy() {
         List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
         lista.addAll(obiektDOKjsfSel);
@@ -236,7 +257,12 @@ public class STRTabView implements Serializable{
             planowane.addAll(srodek.getUmorzPlan());
             List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
             Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
-            Integer mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7))+1;
+            Integer mcOd;
+            if(srodek.getStawka()==100){
+                mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7));
+            } else {
+                mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7))+1;
+            }
             Iterator itX;
             itX = planowane.iterator();
             int i = 1;
@@ -270,6 +296,7 @@ public class STRTabView implements Serializable{
         Pod pod = wpisView.getPodatnikWpisu();
         String nazwapod = pod.getNpelna();
         amoDokDAO.destroyPod(pod);
+         RequestContext.getCurrentInstance().update("formSTR:umorzeniaTablica");
         Integer rokOd = 2012;
         Integer mcOd = 1;
         Roki roki = new Roki();
@@ -307,5 +334,6 @@ public class STRTabView implements Serializable{
         }
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokumenty amortyzacyjne wygenerowane","");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        RequestContext.getCurrentInstance().update("formSTR:dokumUmorzenieLista");
     }
 }
