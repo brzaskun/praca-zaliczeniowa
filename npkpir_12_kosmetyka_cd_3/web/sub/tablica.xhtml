@@ -8,6 +8,11 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <h:form id="westIndex">
+          <p:ajaxStatus>
+                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
+                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                    <f:facet name="error">An error has occurred!</f:facet>
+                </p:ajaxStatus>
             <p:focus id="focus" context="panelwyboru"/>
             <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 300px; margin-left: 40%">
                 <f:facet name="header">
