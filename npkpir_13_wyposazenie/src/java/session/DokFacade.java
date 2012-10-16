@@ -40,5 +40,23 @@ public class DokFacade extends AbstractFacade<Dok> {
             System.out.println("Znaleziono duplikat - DokFacade");
             return wynik;
         }
-   
+    
+//      public Dok poprzednik(Integer rok, Integer mc) throws Exception{
+//        String mcS;
+//        if(mc<9){
+//            mcS="0"+mc;
+//        } else {
+//            mcS = String.valueOf(mc);
+//        }
+//        Dok wynik = null;
+//        try {
+//        wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR",rok).setParameter("pkpirM",mcS).setParameter("opis","umorzenie za miesiac").getSingleResult();
+//        } catch (Exception e){
+//            System.out.println("Nie znaleziono duplikatu - DokFacade");
+//            return null;
+//        }
+//            System.out.println("Znaleziono poprzednika - DokFacade");
+//            return wynik;
+//        }
+//   
 }

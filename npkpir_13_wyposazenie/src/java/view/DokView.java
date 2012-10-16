@@ -82,6 +82,8 @@ public class DokView implements Serializable{
     
     private static Kl przekazKontr;
     private String dataWystawienia;
+    
+    private static final Map<Integer, String> mapa;
    
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
@@ -126,6 +128,21 @@ public class DokView implements Serializable{
     private String stawkaKST;
     private String typKST;
    
+    static{
+         mapa = new HashMap<Integer, String>();
+                    mapa.put(1, "01");
+                    mapa.put(2, "02");
+                    mapa.put(3, "03");
+                    mapa.put(4, "04");
+                    mapa.put(5, "05");
+                    mapa.put(6, "06");
+                    mapa.put(7, "07");
+                    mapa.put(8, "08");
+                    mapa.put(9, "09");
+                    mapa.put(10, "10");
+                    mapa.put(11, "11");
+                    mapa.put(12, "12");
+    }
 
     public DokView() {
         setPokazSTR(false);
@@ -503,23 +520,10 @@ public class DokView implements Serializable{
   
     
     public void dodajNowyWpisAutomatyczny() {
-         Map<Integer, String> mapa;
-                    mapa = new HashMap<Integer, String>();
-                    mapa.put(1, "01");
-                    mapa.put(2, "02");
-                    mapa.put(3, "03");
-                    mapa.put(4, "04");
-                    mapa.put(5, "05");
-                    mapa.put(6, "06");
-                    mapa.put(7, "07");
-                    mapa.put(8, "08");
-                    mapa.put(9, "09");
-                    mapa.put(10, "10");
-                    mapa.put(11, "11");
-                    mapa.put(12, "12");
             double kwotaumorzenia = 0.0;
             List<Amodok> lista = new ArrayList<Amodok>();
             lista.addAll(amoDokDAO.getAmoDokList());
+            Amodok amodokPoprzedni = null;
             Amodok amodok = null;
             Iterator itx;
             itx = lista.iterator();
@@ -532,6 +536,13 @@ public class DokView implements Serializable{
                     amodok = tmp;
                     break;
                 }
+                amodokPoprzedni = tmp;
+            }
+         try {
+            if(amodokPoprzedni!=null){
+                if(amodokPoprzedni.getZaksiegowane()!=true&&amodokPoprzedni.getUmorzenia().size()>0){
+                    throw new Exception();
+                }
             }
             List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
             umorzenia.addAll(amodok.getUmorzenia());
@@ -541,7 +552,7 @@ public class DokView implements Serializable{
                 Umorzenie tmp = (Umorzenie) it.next();
                 kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
             }
-        try {
+     
             selDokument.setEwidencjaVAT(null);
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -574,17 +585,39 @@ public class DokView implements Serializable{
             sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getKwota()>0){
             dokDAO.dodajNowyWpis(selDokument);
+            amodok.setZaksiegowane(true);
+            amoDokDAO.edit(amodok);
             } else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);    
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Nie ma odpisu w porzednim miesiącu!!","");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
     
+//    public void sprawdzczyjestwpisuprzedni() throws Exception{
+//        Integer rok = wpisView.getRokWpisu();
+//        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+//        if(mc==1){
+//            rok--;
+//            mc=12;
+//        } else {
+//            mc--;
+//        }
+//       Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
+//        if (tmp == null) {
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);
+//            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
+//            RequestContext.getCurrentInstance().update("messageserror");
+//            throw new Exception();
+//        } else {
+//            System.out.println("Nie znaleziono duplikatu");
+//        }
+//    }
+//    
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = dokDAO.znajdzDuplikat(selD);
         if (tmp != null) {
