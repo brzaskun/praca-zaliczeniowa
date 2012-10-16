@@ -14,6 +14,11 @@
         
         </h:head>
     <h:body>
+          <p:ajaxStatus>
+                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
+                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                    <f:facet name="error">An error has occurred!</f:facet>
+                </p:ajaxStatus>
         <ui:insert name="body"> 
             
         </ui:insert>
