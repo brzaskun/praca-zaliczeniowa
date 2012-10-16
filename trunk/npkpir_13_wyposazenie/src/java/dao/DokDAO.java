@@ -110,5 +110,12 @@ public class DokDAO implements Serializable{
             System.out.println(e.getStackTrace().toString());
         }
      }
+//    
+//     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
+//        Dok tmp = null;
+//        tmp = dokFacade.poprzednik(rok,mc);
+//        return tmp;
+//        }
+    
 }
 

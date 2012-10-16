@@ -69,7 +69,7 @@ public class AmoDokDAO {
 //            FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println("Nie utworzono srodka "+e.toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"AmoDokument nie uwtorzony DAO"+e.toString(),"");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"AmoDokument nie uwtorzony błąd bazy"+e.toString(),"");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             
         }
