@@ -26,10 +26,8 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
                 <br/>
-                <p:commandButton action="/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true" value="wybierz" accesskey="s" onclick="pbAjax.start();"/>
-                <p:progressBar widgetVar="pbAjax" ajax="true" value="#{Progress.progress}" labelTemplate="{value}%" styleClass="animated">  
-                    <p:ajax event="complete" listener="#{Progress.onComplete}" update=":form:messages" />  
-                </p:progressBar> 
+                <p:commandButton action="/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true" value="wybierz" accesskey="s" />
+              
             </p:panel>
         </h:form>
     <ft:trace/>
