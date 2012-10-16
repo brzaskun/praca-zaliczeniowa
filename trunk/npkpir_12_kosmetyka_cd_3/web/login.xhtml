@@ -13,6 +13,11 @@
     <h:body style="background-color: #FFFFFF">
         <f:view>
             <h:form id="formlog1">
+                  <p:ajaxStatus>
+                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
+                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                    <f:facet name="error">An error has occurred!</f:facet>
+                </p:ajaxStatus>
                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 30%; width: 600px; border-style: none" >
                     <p:messages id="logowanie"  autoUpdate="true" style="width: 150px"/>
                     <h:dataTable  var="loc">
