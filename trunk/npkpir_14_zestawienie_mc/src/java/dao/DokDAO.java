@@ -4,13 +4,14 @@
  */
 package dao;
 
+import embeddable.Pod;
 import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.security.DenyAll;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -116,6 +117,17 @@ public class DokDAO implements Serializable{
 //        tmp = dokFacade.poprzednik(rok,mc);
 //        return tmp;
 //        }
-    
+     public List<Dok> zwrocBiezacegoKlienta(Pod pod){
+        List<Dok> lista = new ArrayList<>();
+        Iterator it;
+        it = downloadedDok.iterator();
+        while(it.hasNext()){
+            Dok tmp = (Dok) it.next();
+            if(tmp.getPodatnik().equals(tmp.getPodatnik())){
+                lista.add(tmp);
+            }
+        }
+        return lista;
+    }
 }
 

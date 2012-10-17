@@ -42,6 +42,8 @@ public class DokTabView implements Serializable{
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<Dok> obiektDOKjsfSel;
+    //tablica obiektw danego klienta
+    private List<Dok> obiektDOKjsfSelRok;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
      //tablica obiektów danego klienta z określonego roku i miesiecy
@@ -59,12 +61,13 @@ public class DokTabView implements Serializable{
    
 
     public DokTabView() {
-        dokHashTable = new HashMap<String, Dok>();
-        kluczDOKjsf = new ArrayList<String>();
-        obiektDOKjsf = new ArrayList<Dok>();
-        obiektDOKjsfSel = new ArrayList<Dok>();
-        obiektDOKmrjsfSel = new ArrayList<Dok>();
-        obiektDOKmrjsfSelX = new ArrayList<Dok>();
+        dokHashTable = new HashMap<>();
+        kluczDOKjsf = new ArrayList<>();
+        obiektDOKjsf = new ArrayList<>();
+        obiektDOKjsfSel = new ArrayList<>();
+        obiektDOKjsfSelRok = new ArrayList<>();
+        obiektDOKmrjsfSel = new ArrayList<>();
+        obiektDOKmrjsfSelX = new ArrayList<>();
     }
 
     @PostConstruct
@@ -72,24 +75,24 @@ public class DokTabView implements Serializable{
         if (wpisView.getPodatnikWpisu() != null) {
             Collection c = null;
             try {
-                c = dokDAO.getDownloadedDok();
+                c = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
                 Iterator it;
                 it = c.iterator();
-                int j=1;
+                int j=0;
                 while (it.hasNext()) {
                     Dok tmp = (Dok) it.next();
                     tmp.setNrWpkpir(j);
-                    j++;
                     kluczDOKjsf.add(tmp.getIdDok().toString());
                     obiektDOKjsf.add(tmp);
                     if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
                         obiektDOKjsfSel.add(tmp);
                     }
                     dokHashTable.put(tmp.getIdDok().toString(), tmp);
+                    j++;
                 }
                 Iterator itx;
                 itx = obiektDOKjsfSel.iterator();
@@ -97,6 +100,9 @@ public class DokTabView implements Serializable{
                     Dok tmpx = (Dok) itx.next();
                     String m = wpisView.getMiesiacWpisu();
                     Integer r = wpisView.getRokWpisu();
+                    if (tmpx.getPodatnik().equals(wpisView.getPodatnikWpisu())&& tmpx.getPkpirR().equals(r.toString())) {
+                        obiektDOKjsfSelRok.add(tmpx);
+                    }
                     if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
 
                         obiektDOKmrjsfSel.add(tmpx);
@@ -112,7 +118,7 @@ public class DokTabView implements Serializable{
                     String mDo = wpisView.getMiesiacDo();
                     Integer mDoI = Integer.parseInt(mDo);
                     Map<Integer, String> mapa;
-                    mapa = new HashMap<Integer, String>();
+                    mapa = new HashMap<>();
                     mapa.put(1, "01");
                     mapa.put(2, "02");
                     mapa.put(3, "03");
@@ -180,7 +186,7 @@ public class DokTabView implements Serializable{
 
     public void aktualizujTabele(AjaxBehaviorEvent e) {
         RequestContext ctx = null;
-        ctx.getCurrentInstance().update("form:dokumentyLista");
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
         ctx.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();
@@ -283,6 +289,15 @@ public class DokTabView implements Serializable{
     public  void setDokdoUsuniecia(Dok dokdoUsuniecia) {
         DokTabView.dokdoUsuniecia = dokdoUsuniecia;
     }
+
+    public List<Dok> getObiektDOKjsfSelRok() {
+        return obiektDOKjsfSelRok;
+    }
+
+    public void setObiektDOKjsfSelRok(List<Dok> obiektDOKjsfSelRok) {
+        this.obiektDOKjsfSelRok = obiektDOKjsfSelRok;
+    }
  
+    
     
 }
