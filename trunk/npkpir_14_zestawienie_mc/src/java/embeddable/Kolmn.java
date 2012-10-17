@@ -19,6 +19,7 @@ import javax.inject.Named;
 public class Kolmn implements Serializable{
 
     private static final List<String> kolumnList;
+    private static final List<String> kolumnZest;
     private static final List<String> kolumnPrzychody;
     private static final List<String> kolumnKoszty;
     private static final List<String> kolumnST;
@@ -33,6 +34,15 @@ public class Kolmn implements Serializable{
         kolumnList.add("poz. koszty");
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
+        
+        kolumnZest = new ArrayList<String>();
+        kolumnZest.add("przych. sprz");
+        kolumnZest.add("pozost. przych.");
+        kolumnZest.add("zakup tow.i mat.");
+        kolumnZest.add("koszty ub.zak.");
+        kolumnZest.add("wynagrodzenia");
+        kolumnZest.add("poz. koszty");
+        kolumnZest.add("inwestycje");
         
         kolumnPrzychody = new ArrayList<String>();
         kolumnPrzychody.add("przych. sprz");
@@ -67,6 +77,10 @@ public class Kolmn implements Serializable{
 
     public  List<String> getKolumnST() {
         return kolumnST;
+    }
+
+    public List<String> getKolumnZest() {
+        return kolumnZest;
     }
     
     
