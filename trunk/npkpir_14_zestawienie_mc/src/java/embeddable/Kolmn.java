@@ -28,7 +28,7 @@ public class Kolmn implements Serializable{
         kolumnList = new ArrayList<String>();
         kolumnList.add("przych. sprz");
         kolumnList.add("pozost. przych.");
-        kolumnList.add("zakup tow.i mat.");
+        kolumnList.add("zakup tow. i mat.");
         kolumnList.add("koszty ub.zak.");
         kolumnList.add("wynagrodzenia");
         kolumnList.add("poz. koszty");
@@ -38,7 +38,7 @@ public class Kolmn implements Serializable{
         kolumnZest = new ArrayList<String>();
         kolumnZest.add("przych. sprz");
         kolumnZest.add("pozost. przych.");
-        kolumnZest.add("zakup tow.i mat.");
+        kolumnZest.add("zakup tow. i mat.");
         kolumnZest.add("koszty ub.zak.");
         kolumnZest.add("wynagrodzenia");
         kolumnZest.add("poz. koszty");
@@ -49,7 +49,7 @@ public class Kolmn implements Serializable{
         kolumnPrzychody.add("pozost. przych.");
        
         kolumnKoszty = new ArrayList<String>();
-        kolumnKoszty.add("zakup tow.imat.");
+        kolumnKoszty.add("zakup tow. i mat.");
         kolumnKoszty.add("koszty ub.zak.");
         kolumnKoszty.add("wynagrodzenia");
         kolumnKoszty.add("poz. koszty");
