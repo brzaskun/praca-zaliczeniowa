@@ -110,6 +110,31 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
+             <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
+                <f:facet name="header">  
+                    <h:outputText value="kwota" />  
+                </f:facet> 
+                <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
+                            <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
+                        </h:outputText>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
+                    </f:facet>  
+                </p:cellEditor>
+            </p:column>
+            <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
+                <f:facet name="header">  
+                    <h:outputText value="kolumna" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.pkpirKolX}" />
+            </p:column>
             <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}"  width="60" filterMaxLength="2">  
                 <f:facet name="header">  
                     <h:outputText value="k m-c" />  
