@@ -123,7 +123,20 @@ public class DokDAO implements Serializable{
         it = downloadedDok.iterator();
         while(it.hasNext()){
             Dok tmp = (Dok) it.next();
-            if(tmp.getPodatnik().equals(tmp.getPodatnik())){
+            if(tmp.getPodatnik().equals(pod)){
+                lista.add(tmp);
+            }
+        }
+        return lista;
+    }
+     
+      public List<Dok> zwrocBiezacegoKlientaRok(Pod pod,Integer rok){
+        List<Dok> lista = new ArrayList<>();
+        Iterator it;
+        it = downloadedDok.iterator();
+        while(it.hasNext()){
+            Dok tmp = (Dok) it.next();
+            if(tmp.getPodatnik().equals(pod)&&tmp.getPkpirR().equals(rok.toString())){
                 lista.add(tmp);
             }
         }
