@@ -28,16 +28,22 @@ root {
     font-size: 100%;
 }
 
+#zestawienieroczne.td {
+    
+    border-width: 0px !important;
+    padding: 1px 0px !important;
+}
+
 .ui-panelgrid td {
     
-    border-width: 1px !important;
-    padding: 4px 10px;
+    border-width: 0px !important;
+    padding: 4px 10px !important;
 }
 
 .ui-panelgrid tr {
     
     border-width: 1px !important;
-    padding: 4px 10px;
+    padding: 0px !important;
 }
 
 .ui-panel {
