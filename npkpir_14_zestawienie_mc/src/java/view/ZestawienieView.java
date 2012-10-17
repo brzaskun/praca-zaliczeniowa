@@ -42,6 +42,10 @@ public class ZestawienieView {
     List<Double> listopad;
     List<Double> grudzien;
     
+    List<Double> Ipolrocze;
+    List<Double> IIpolrocze;
+    List<Double> rok;
+    
     private List<Dok> lista;
 
     public ZestawienieView() {
@@ -1046,7 +1050,16 @@ public class ZestawienieView {
                 }
             }
         }
-       
+        
+    Ipolrocze = new ArrayList<>();   
+    IIpolrocze = new ArrayList<>();
+    rok = new ArrayList<>();
+    
+    for(int i = 0;i<7;i++){
+        Ipolrocze.add(styczen.get(i)+luty.get(i)+marzec.get(i)+kwiecien.get(i)+maj.get(i)+czerwiec.get(i));
+        IIpolrocze.add(lipiec.get(i)+sierpien.get(i)+wrzesien.get(i)+pazdziernik.get(i)+listopad.get(i)+grudzien.get(i));
+        rok.add(Ipolrocze.get(i)+IIpolrocze.get(i));
+    }
     }
 
     public DokDAO getDokDAO() {
@@ -1170,6 +1183,30 @@ public class ZestawienieView {
         this.grudzien = grudzien;
     }
 
-  
+    public List<Double> getIpolrocze() {
+        return Ipolrocze;
+    }
+
+    public void setIpolrocze(List<Double> Ipolrocze) {
+        this.Ipolrocze = Ipolrocze;
+    }
+
+    public List<Double> getIIpolrocze() {
+        return IIpolrocze;
+    }
+
+    public void setIIpolrocze(List<Double> IIpolrocze) {
+        this.IIpolrocze = IIpolrocze;
+    }
+
+    public List<Double> getRok() {
+        return rok;
+    }
+
+    public void setRok(List<Double> rok) {
+        this.rok = rok;
+    }
+
+    
     
 }

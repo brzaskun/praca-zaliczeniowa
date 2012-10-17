@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <p:panelGrid columns="7">
+    <p:panelGrid columns="8">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" style="width: 130px;"> 
             <p:column headerText="kolumny" id="przychsprz" width="120">  
                 <h:outputText value="#{wpis}" />
@@ -69,6 +69,17 @@
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.czerwiec}" id="dokumentyczerwiec" style="width: 130px;"> 
             <p:column headerText="czerwiec" id="idColumn" width="120">  
+                <h:outputText value="#{wpis}" >
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol="zł"
+                                     maxIntegerDigits="7"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable  var="wpis" value="#{ZestawienieView.ipolrocze}" id="dokumentyIpolrocze" style="width: 130px;"> 
+            <p:column headerText="I półrocze" id="idColumn" width="120">  
                 <h:outputText value="#{wpis}" >
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -142,6 +153,33 @@
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{ZestawienieView.grudzien}" id="dokumentygrudzien" style="width: 130px;"> 
             <p:column headerText="grudzień" id="idColumn" width="120">  
+                <h:outputText value="#{wpis}" >
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol="zł"
+                                     maxIntegerDigits="7"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+          <p:dataTable  var="wpis" value="#{ZestawienieView.IIpolrocze}" id="dokumentyIIpolrocze" style="width: 130px;"> 
+            <p:column headerText="II półrocze" id="idColumn" width="120">  
+                <h:outputText value="#{wpis}" >
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol="zł"
+                                     maxIntegerDigits="7"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+          <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" style="width: 130px;"> 
+            <p:column headerText="kolumny" id="przychsprz" width="120">  
+                <h:outputText value="#{wpis}" />
+            </p:column>
+        </p:dataTable>
+        <p:dataTable  var="wpis" value="#{ZestawienieView.rok}" id="dokumentyrok" style="width: 130px;"> 
+            <p:column headerText="rok" id="idColumn" width="120">  
                 <h:outputText value="#{wpis}" >
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
