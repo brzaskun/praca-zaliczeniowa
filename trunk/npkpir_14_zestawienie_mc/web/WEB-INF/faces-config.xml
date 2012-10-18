@@ -39,6 +39,10 @@
             <from-outcome>srodkidok</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaSrodki2.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>ewidencja</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaSrodkiRokAkt.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>wyposazenie</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaWyposazenie.xhtml?faces-redirect=true</to-view-id>
