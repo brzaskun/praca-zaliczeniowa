@@ -9,6 +9,7 @@ import dao.KlienciDAO;
 import dao.STRDAO;
 import embeddable.Pod;
 import embeddable.Roki;
+import embeddable.STRtabela;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.SrodekTrw;
@@ -60,19 +61,22 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKmrjsfSelX;
     //wyposazenie
     private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
+    //srodki trwale wykaz rok biezacy
+    private List<STRtabela> strtabela;
     
 
    
     
     public STRTabView() {
         selectedSTR = new SrodekTrw();
-         dokHashTable = new HashMap<String, SrodekTrw>();
+        dokHashTable = new HashMap<String, SrodekTrw>();
         kluczDOKjsf = new ArrayList<String>();
         obiektDOKjsf = new ArrayList<SrodekTrw>();
         obiektDOKjsfSel = new ArrayList<SrodekTrw>();
         obiektDOKmrjsfSel = new ArrayList<SrodekTrw>();
         obiektDOKmrjsfSelX = new ArrayList<SrodekTrw>();
         obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
+        strtabela = new ArrayList<>();
     }
 
     public STRDAO getsTRDAO() {
@@ -163,6 +167,16 @@ public class STRTabView implements Serializable{
         this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
     }
 
+    public List<STRtabela> getStrtabela() {
+        return strtabela;
+    }
+
+    public void setStrtabela(List<STRtabela> strtabela) {
+        this.strtabela = strtabela;
+    }
+
+   
+    
     
  
     
@@ -336,4 +350,78 @@ public class STRTabView implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
         RequestContext.getCurrentInstance().update("formSTR:dokumUmorzenieLista");
     }
+    
+    public void generujTabeleRokBiezacy(){
+        List<SrodekTrw> lista = new ArrayList<>();
+        lista.addAll(obiektDOKjsfSel);
+        Iterator it;
+        it = lista.iterator();
+        while (it.hasNext()) {
+            SrodekTrw str = (SrodekTrw) it.next();
+            STRtabela strdocelowy = new STRtabela();
+            strdocelowy.setId(str.getId());
+            strdocelowy.setNazwa(str.getNazwa());
+            strdocelowy.setKst(str.getKst());
+            strdocelowy.setOdpisrok(str.getOdpisrok());
+            strdocelowy.setSymbol(str.getSymbol());
+            strdocelowy.setDatazak(str.getDatazak());
+            strdocelowy.setDataprzek(str.getDataprzek());
+            strdocelowy.setDatawy(str.getDatawy());
+            strdocelowy.setNetto(str.getNetto());
+            strdocelowy.setPodatnik(str.getPodatnik());
+            List<Double> miesiace = new ArrayList<>();
+            Iterator itX;
+            itX = str.getUmorzWyk().iterator();
+            BigDecimal umnar = new BigDecimal(0);
+            while (itX.hasNext()) {
+                Umorzenie um = (Umorzenie) itX.next();
+                if (um.getRokUmorzenia().equals(wpisView.getRokWpisu())) {
+                    Integer mc = um.getMcUmorzenia();
+                    switch (mc) {
+                        case 1:
+                            strdocelowy.setStyczen(um.getKwota().doubleValue());
+                            break;
+                        case 2:
+                            strdocelowy.setLuty(um.getKwota().doubleValue());
+                            break;
+                        case 3:
+                            strdocelowy.setMarzec(um.getKwota().doubleValue());
+                            break;
+                        case 4:
+                            strdocelowy.setKwiecien(um.getKwota().doubleValue());
+                            break;
+                        case 5:
+                            strdocelowy.setMaj(um.getKwota().doubleValue());
+                            break;
+                        case 6:
+                            strdocelowy.setCzerwiec(um.getKwota().doubleValue());
+                            break;
+                        case 7:
+                            strdocelowy.setLipiec(um.getKwota().doubleValue());
+                            break;
+                        case 8:
+                            strdocelowy.setSierpien(um.getKwota().doubleValue());
+                            break;
+                        case 9:
+                            strdocelowy.setWrzesien(um.getKwota().doubleValue());
+                            break;
+                        case 10:
+                            strdocelowy.setPazdziernik(um.getKwota().doubleValue());
+                            break;
+                        case 11:
+                            strdocelowy.setListopad(um.getKwota().doubleValue());
+                            break;
+                        case 12:
+                            strdocelowy.setGrudzien(um.getKwota().doubleValue());
+                            break;
+                    }
+                } else if (um.getRokUmorzenia()<wpisView.getRokWpisu()) {
+                    umnar = umnar.add(um.getKwota());
+                }
+            }
+            strdocelowy.setUmorzeniaDo(umnar);
+            strtabela.add(strdocelowy);            
+        }
+    }
+            
 }
