@@ -82,7 +82,9 @@
                   <p:commandButton id="generujtabele"  action="#{STRTableView.generujTabeleRokBiezacy()}" value="Generuj tabele" update="@form" global="false" ajax="false"/>  
             </f:facet>
         </p:dataTable>
-          
+         <p:commandButton value="Print" type="button">
+                        <p:printer target="dokumsrodkiListaRoks" />
+                    </p:commandButton>  
     </p:outputPanel>
 </ui:composition>   
 
