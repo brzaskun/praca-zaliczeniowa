@@ -165,12 +165,12 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.uwagi}" />
             </p:column>
-             <p:column id="editColumn" headerText="edytuj">
+            <p:column id="editColumn" headerText="edytuj">
                  <p:rowEditor />  
             </p:column>
             
             <p:column id="deleteColumn" headerText="usuń">
-                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" image="ui-icon ui-icon-trash" type="submit" />
+                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
             </p:column>
         </p:dataTable>
     </p:outputPanel>

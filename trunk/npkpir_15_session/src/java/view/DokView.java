@@ -149,9 +149,7 @@ public class DokView implements Serializable{
         opis = "ewidencja opis";
         setWysDokument(null);
     }
-
  
-  
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
@@ -255,7 +253,7 @@ public class DokView implements Serializable{
 
     }
     
-     public void wygenerujSTRKolumne() {
+    public void wygenerujSTRKolumne() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
@@ -421,7 +419,6 @@ public class DokView implements Serializable{
         //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
     }
 
-   
     public void dodajNowyWpis() {
         try {
             ArrayList<EVidencja> ew = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
@@ -515,9 +512,6 @@ public class DokView implements Serializable{
             selDokument = new Dok();
             RequestContext.getCurrentInstance().update("@form");
     }
-
-  
-  
     
     public void dodajNowyWpisAutomatyczny() {
             double kwotaumorzenia = 0.0;
@@ -644,15 +638,11 @@ public class DokView implements Serializable{
         selDokument.setDataWyst(dataWyst);
     }
 
-  
-
     public void przekazKontrahenta(ValueChangeEvent e) {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
         String aSelection = anAutoComplete.getValue().toString();
         przekazKontr = (Kl) anAutoComplete.getValue();
     }
-
-   
    
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
@@ -660,7 +650,6 @@ public class DokView implements Serializable{
 
     }
  
-    
     public void dodajSTR(){
        FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();
@@ -673,7 +662,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("srodki:panelekXA"); 
     }
     
-     public boolean isPokazSTR() {
+    public boolean isPokazSTR() {
         return pokazSTR;
     }
 

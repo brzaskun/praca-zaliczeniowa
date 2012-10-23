@@ -6,6 +6,7 @@ package session;
 
 import entity.Uz;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author Osito
  */
+@Named
 @Stateless
 public class UzFacade extends AbstractFacade<Uz> {
     @PersistenceContext(unitName = "npkpir_PU")

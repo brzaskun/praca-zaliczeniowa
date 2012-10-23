@@ -15,7 +15,7 @@ import javax.faces.convert.ConverterException;
  *
  * @author Osito
  */
-public class UzConv implements javax.faces.convert.Converter{
+public abstract class UzConv implements javax.faces.convert.Converter{
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         UzDAO uzDAO = new UzDAO();
@@ -25,8 +25,8 @@ public class UzConv implements javax.faces.convert.Converter{
             try {  
                 String number = submittedValue;  
   
-                for (Uz p : uzDAO.getTabelatestowa()) {  
-                    if (p.getLogi().equals(number)) {  
+                for (Uz p : uzDAO.getDownloadedUz()) {  
+                    if (p.getLogin().equals(number)) {  
                         return p;  
                     }  
                 }  
@@ -43,7 +43,7 @@ public class UzConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Uz) value).getLogi());  
+            return String.valueOf(((Uz) value).getLogin());  
         }  
     }  
     

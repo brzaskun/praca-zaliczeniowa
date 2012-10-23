@@ -25,63 +25,65 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Uz.findAll", query = "SELECT u FROM Uz u"),
-    @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazw = :nazw"),
-    @NamedQuery(name = "Uz.findByImie", query = "SELECT u FROM Uz u WHERE u.imie = :imie"),
-    @NamedQuery(name = "Uz.findByLogi", query = "SELECT u FROM Uz u WHERE u.logi = :logi"),
+    @NamedQuery(name = "Uz.findByLogin", query = "SELECT u FROM Uz u WHERE u.login = :login"),
+    @NamedQuery(name = "Uz.findByAdrmail", query = "SELECT u FROM Uz u WHERE u.adrmail = :adrmail"),
     @NamedQuery(name = "Uz.findByHaslo", query = "SELECT u FROM Uz u WHERE u.haslo = :haslo"),
-    @NamedQuery(name = "Uz.findByAdrma", query = "SELECT u FROM Uz u WHERE u.adrma = :adrma"),
-    @NamedQuery(name = "Uz.findByLog", query = "SELECT u FROM Uz u WHERE u.log = :log"),
-    @NamedQuery(name = "Uz.findByUpr", query = "SELECT u FROM Uz u WHERE u.upr = :upr")})
+    @NamedQuery(name = "Uz.findByImie", query = "SELECT u FROM Uz u WHERE u.imie = :imie"),
+    @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazw = :nazw"),
+    @NamedQuery(name = "Uz.findByUprawnienia", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia")})
 public class Uz implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "imie")
-    private String imie;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nazw")
-    private String nazw;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "logi")
-    private String logi;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 255)
+    @Column(name = "login")
+    private String login;
+    @Size(max = 255)
+    @Column(name = "adrmail")
+    private String adrmail;
+    @Size(max = 255)
     @Column(name = "haslo")
     private String haslo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "adrma")
-    private String adrma;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "log")
-    private String log;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "upr")
-    private String upr;
+    @Size(max = 255)
+    @Column(name = "imie")
+    private String imie;
+    @Size(max = 255)
+    @Column(name = "nazw")
+    private String nazw;
+    @Size(max = 255)
+    @Column(name = "uprawnienia")
+    private String uprawnienia;
 
     public Uz() {
     }
 
-  
-    public Uz(String imie, String nazw, String logi, String haslo, String adrma, String log, String upr) {
-        this.imie = imie;
-        this.nazw = nazw;
-        this.logi = logi;
+    public Uz(String login) {
+        this.login = login;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getAdrmail() {
+        return adrmail;
+    }
+
+    public void setAdrmail(String adrmail) {
+        this.adrmail = adrmail;
+    }
+
+    public String getHaslo() {
+        return haslo;
+    }
+
+    public void setHaslo(String haslo) {
         this.haslo = haslo;
-        this.adrma = adrma;
-        this.log = log;
-        this.upr = upr;
     }
 
     public String getImie() {
@@ -100,65 +102,29 @@ public class Uz implements Serializable {
         this.nazw = nazw;
     }
 
-    public String getLogi() {
-        return logi;
+    public String getUprawnienia() {
+        return uprawnienia;
     }
 
-    public void setLogi(String logi) {
-        this.logi = logi;
+    public void setUprawnienia(String uprawnienia) {
+        this.uprawnienia = uprawnienia;
     }
-
-    public String getHaslo() {
-        return haslo;
-    }
-
-    public void setHaslo(String haslo) {
-        this.haslo = haslo;
-    }
-
-    public String getAdrma() {
-        return adrma;
-    }
-
-    public void setAdrma(String adrma) {
-        this.adrma = adrma;
-    }
-
-    public String getLog() {
-        return log;
-    }
-
-    public void setLog(String log) {
-        this.log = log;
-    }
-
-    public String getUpr() {
-        return upr;
-    }
-
-    public void setUpr(String upr) {
-        this.upr = upr;
-    }
-
-   
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + (this.logi != null ? this.logi.hashCode() : 0);
+        int hash = 0;
+        hash += (login != null ? login.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Uz)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Uz other = (Uz) obj;
-        if ((this.logi == null) ? (other.logi != null) : !this.logi.equals(other.logi)) {
+        Uz other = (Uz) object;
+        if ((this.login == null && other.login != null) || (this.login != null && !this.login.equals(other.login))) {
             return false;
         }
         return true;
@@ -166,11 +132,7 @@ public class Uz implements Serializable {
 
     @Override
     public String toString() {
-        return  logi ;
+        return "entity.Uz[ login=" + login + " ]";
     }
-
-    
-
-   
     
 }
