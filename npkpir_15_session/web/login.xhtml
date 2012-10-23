@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -46,6 +45,7 @@
                     </p:panelGrid>
                     <br/>
                     <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
+                    <p:commandButton value="Wyloguj" action="#{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>
                 </p:panel>
             </h:form>
             <p:graphicImage url="/resources/images/ninja.png" style="margin-left: 20%" />

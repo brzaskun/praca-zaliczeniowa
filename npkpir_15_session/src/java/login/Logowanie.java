@@ -10,7 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +26,7 @@ public class Logowanie implements Serializable{
     private String haslo;
  
     public Logowanie(){
-         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if(session != null){
             session.invalidate();
         }
@@ -52,10 +51,6 @@ public class Logowanie implements Serializable{
    
  
     public String login(){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if(session != null){
-            session.invalidate();
-        }
         String message = "";
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -82,7 +77,6 @@ public class Logowanie implements Serializable{
                 navto = "Guest";
             }
             message = message+(" Jest "+request.isUserInRole("Guest") +" pojest "+principal.getName());
-            //Add the welcome message to the faces context
             return navto;
         } catch (ServletException e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
@@ -91,11 +85,11 @@ public class Logowanie implements Serializable{
         return "failure";
     }
  
-    public void logout(ActionEvent e){
+    public void logout(){
      HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if(session != null){
             session.invalidate();
         }
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/index.xhtml");
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
     }
 }

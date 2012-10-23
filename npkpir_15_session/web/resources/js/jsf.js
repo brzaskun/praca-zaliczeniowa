@@ -26,3 +26,19 @@ $(document).ready(function() {
         $(this).css({'background-color' : '#DFD8D1'});
     });
 });
+
+
+$(window).bind('beforeunload', function(){
+    document.getElementById("ft:wt").click();
+    alert("Good Bye");
+});
+
+
+//$(document).ready(function() {
+//    $('form').submit(function() {
+//        $(this).find('input[type="submit"]').attr('disabled', true);
+//        $(this).find('a[data-submit], a.submit').click(function() {
+//            return false;
+//        });
+//    })
+//});

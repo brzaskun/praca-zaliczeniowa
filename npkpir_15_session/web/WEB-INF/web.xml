@@ -92,4 +92,8 @@
         <error-code>403</error-code>
         <location>/faces/AccessDenied.xhtml</location>
     </error-page>
+     <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/faces/AccessDenied.xhtml</location>
+    </error-page>
 </web-app>

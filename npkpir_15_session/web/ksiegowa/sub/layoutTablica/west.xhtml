@@ -21,7 +21,7 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" update="@all" rendered="false"/>
+                <h:commandButton value="Ok" update="@all" rendered="true"/>
             </p:panel>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -32,15 +32,15 @@
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
            <p:panel header="linki">
-             <h:form>
                 <p:panelGrid columns="1">
                      <h:link accesskey="s" outcome="ksiegowa" title="księgowanie dokumentów">wpisywanie</h:link>
                     <h:link outcome="obroty">obroty</h:link>
                     <h:link outcome="srodki">srodki</h:link>
                     <h:link outcome="klienci">klienci</h:link>
                     <h:link outcome="zestawienie">zestawienie</h:link>
+                    <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" update="@all"/>
                 </p:panelGrid>
-            </h:form>
+            
         </p:panel>
             
         </h:form>
