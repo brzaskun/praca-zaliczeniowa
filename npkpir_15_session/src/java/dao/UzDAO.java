@@ -57,13 +57,7 @@ public class UzDAO implements Serializable{
 
   
      public void dodajNowyWpis(Uz selUzytkownik){
-        try {
             uzFacade.create(selUzytkownik);
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage("Uzytkownik nie utworzony DAO", e.getStackTrace().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
     }
    
      public void destroy(Uz selUzytkownik) {
