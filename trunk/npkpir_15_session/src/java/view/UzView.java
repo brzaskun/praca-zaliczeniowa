@@ -35,6 +35,7 @@ public class UzView implements Serializable{
     private static Uz uzObject;
     private String uzString;
     private Uz selUzytkownik;
+    private String confPassword;
        
    
     public UzView() {
@@ -75,20 +76,32 @@ public class UzView implements Serializable{
         this.selUzytkownik = selUzytkownik;
     }
 
+    public String getConfPassword() {
+        return confPassword;
+    }
+
+    public void setConfPassword(String confPassword) {
+        this.confPassword = confPassword;
+    }
+
 
      public void dodajNowyWpis(){
-        try {
-            System.out.println("Wpis do bazy zaczynam");
-            sformatuj();
-            haszuj();
-            uzDAO.dodajNowyWpis(selUzytkownik);
-            FacesMessage msg = new FacesMessage("Nowy uzytkownik zachowany View", selUzytkownik.getLogin());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage("Uzytkownik nie utworzony View", e.getStackTrace().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
+         System.out.println("Wpis do bazy zaczynam");
+         selUzytkownik.setUprawnienia("Noobie");
+         selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
+         sformatuj();
+         if (validateData()) {
+             try {
+                 haszuj();
+                 uzDAO.dodajNowyWpis(selUzytkownik);
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejestracja udana. Administrator musi teraz nadac Ci uprawnienia. Nastąpi to w ciągu najbliższej godziny. Dopiero wtedy będzie możliwe zalogowanie się.", selUzytkownik.getLogin());
+                 FacesContext.getCurrentInstance().addMessage(null, msg);
+             } catch (Exception e) {
+                 System.out.println(e.getStackTrace().toString());
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim loginie już istnieje. Wprowadź inny login.", e.getStackTrace().toString());
+                 FacesContext.getCurrentInstance().addMessage(null, msg);
+             }
+         }
     }
    
     public void sformatuj(){
@@ -135,4 +148,23 @@ public class UzView implements Serializable{
         }
      }
      
+    private boolean validateData() {
+        boolean toReturn = true;
+        FacesContext ctx = FacesContext.getCurrentInstance();
+
+//        // check emailConfirm is same as email
+//        if (!emailConfirm.equals(person.getEmail())) {
+//            ctx.addMessage("registerForm:emailConfirm",
+//                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    msg.getMessage("errorEmailConfirm"), null));
+//            toReturn = false;
+//        }
+        // check passwordConfirm is same as password
+        if (!confPassword.equals(selUzytkownik.getHaslo())) {
+            ctx.addMessage("registerForm:passwordConfirm",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"Hasła nie pasuja. Sprawdź.", null));
+            toReturn = false;
+        }
+        return toReturn;
+    }
 }

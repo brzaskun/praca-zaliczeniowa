@@ -28,13 +28,27 @@
                 <f:facet name="header">  
                     <h:outputText value="imie" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.imie}"/>
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.imie}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <h:inputText value="#{wpis.imie}" />
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column id="kltColumn" headerText="nazwisko" filterBy="#{wpis.nazw}" filterMatchMode="contains" sortBy="#{wpis.nazw}">  
                 <f:facet name="header">  
                     <h:outputText value="nazwisko" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.nazw}" />
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nazw}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <h:inputText value="#{wpis.nazw}" />
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column id="kwaColumn" headerText="haslo">  
                 <f:facet name="header">  
@@ -51,9 +65,23 @@
                         <h:outputText value="#{wpis.uprawnienia}" />
                     </f:facet>
                     <f:facet name="input">  
-                        <h:inputText value="#{wpis.uprawnienia}" />
+                        <h:selectOneMenu value="#{wpis.uprawnienia}">
+                            <f:selectItems value="#{Uprawnienia.upr}"/>
+                        </h:selectOneMenu>
                     </f:facet>
                 </p:cellEditor>
+            </p:column>
+              <p:column id="emailColumn" headerText="email">  
+                <f:facet name="header">  
+                    <h:outputText value="email" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.email}" />
+            </p:column>
+            <p:column id="firmaColumn" headerText="firma">  
+                <f:facet name="header">  
+                    <h:outputText value="firma" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.firma}" />
             </p:column>
             <p:column id="editColumn" headerText="edytuj">
                 <p:rowEditor />  

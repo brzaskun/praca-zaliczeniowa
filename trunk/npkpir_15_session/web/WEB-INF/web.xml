@@ -43,6 +43,9 @@
     <security-role>
         <role-name>Bookkeeper</role-name>
     </security-role>
+     <security-role>
+        <role-name>Noobie</role-name>
+    </security-role>
     <security-role>
         <role-name>Guest</role-name>
     </security-role>
@@ -82,6 +85,19 @@
             <url-pattern>/faces/guest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>Guest</role-name>
+            <role-name>Manager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>Bookkeeper</role-name>
+        </auth-constraint>
+    </security-constraint>
+     <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Noobie Area</web-resource-name>
+            <url-pattern>/faces/noobie/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Noobie</role-name>
             <role-name>Guest</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>

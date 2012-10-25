@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Uz.findAll", query = "SELECT u FROM Uz u"),
     @NamedQuery(name = "Uz.findByLogin", query = "SELECT u FROM Uz u WHERE u.login = :login"),
-    @NamedQuery(name = "Uz.findByAdrmail", query = "SELECT u FROM Uz u WHERE u.adrmail = :adrmail"),
+    @NamedQuery(name = "Uz.findByAdrmail", query = "SELECT u FROM Uz u WHERE u.email = :email"),
     @NamedQuery(name = "Uz.findByHaslo", query = "SELECT u FROM Uz u WHERE u.haslo = :haslo"),
     @NamedQuery(name = "Uz.findByImie", query = "SELECT u FROM Uz u WHERE u.imie = :imie"),
     @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazw = :nazw"),
@@ -40,9 +41,6 @@ public class Uz implements Serializable {
     @Column(name = "login")
     private String login;
     @Size(max = 255)
-    @Column(name = "adrmail")
-    private String adrmail;
-    @Size(max = 255)
     @Column(name = "haslo")
     private String haslo;
     @Size(max = 255)
@@ -52,8 +50,15 @@ public class Uz implements Serializable {
     @Column(name = "nazw")
     private String nazw;
     @Size(max = 255)
+    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Nieprawidłowy adres email")//if the field contains email address consider using this annotation to enforce field validation
+    @Column(name = "email")
+    private String email;
+    @Size(max = 255)
     @Column(name = "uprawnienia")
     private String uprawnienia;
+    @Size(max = 11)
+    @Column(name = "firma")
+    private String firma;
 
     public Uz() {
     }
@@ -70,14 +75,7 @@ public class Uz implements Serializable {
         this.login = login;
     }
 
-    public String getAdrmail() {
-        return adrmail;
-    }
-
-    public void setAdrmail(String adrmail) {
-        this.adrmail = adrmail;
-    }
-
+  
     public String getHaslo() {
         return haslo;
     }
@@ -110,6 +108,23 @@ public class Uz implements Serializable {
         this.uprawnienia = uprawnienia;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

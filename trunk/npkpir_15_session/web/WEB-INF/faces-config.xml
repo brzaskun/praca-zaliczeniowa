@@ -19,6 +19,10 @@
             <to-view-id>/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>rejestruj</from-outcome>
+            <to-view-id>/rejestruj.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>tablica</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -78,6 +82,10 @@
             <from-outcome>Bookkeeper</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Noobie</from-outcome>
+            <to-view-id>/noobie/noobie.xhtml</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>Guest</from-outcome>
             <to-view-id>/guest/guestIndex.xhtml</to-view-id>
@@ -94,11 +102,8 @@
         </locale-config>
     </application>
     <application>
-	  <resource-bundle>
-		<base-name>boundle.messages</base-name>
-		<var>msgs</var>
-	   </resource-bundle>
-     </application>
+        <message-bundle>boundle/messages</message-bundle>
+    </application>
     <converter>  
         <converter-id>DateConv</converter-id>  
         <converter-class>  
@@ -123,6 +128,10 @@
             converter.UzConv  
         </converter-class> 
     </converter>
-    
+    <!--........................... Custom Validators .....................-->
+   <validator>
+     <validator-id>passwordValidator</validator-id>
+     <validator-class>validator.PasswordValidator</validator-class>
+   </validator>
    
 </faces-config>

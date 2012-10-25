@@ -21,11 +21,11 @@ public class Uprawnienia implements Serializable{
 
     static {
         upr = new ArrayList<String>();
-        upr.add("administrator");
-        upr.add("kierownik");
-        upr.add("księgowa");
+        upr.add("Administrator");
+        upr.add("Manager");
+        upr.add("Bookkeeper");
         upr.add("klient");
-        upr.add("gość");
+        upr.add("Guest");
     }
 
     public List<String> getUpr() {
