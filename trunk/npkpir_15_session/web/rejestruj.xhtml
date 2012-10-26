@@ -37,7 +37,7 @@
                         <h:outputText value="email"/>
                         <h:inputText value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true"/>
                         <h:outputText value="nip firmy"/>
-                        <h:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip firmy!" autocomplete="true" maxlength="11">
+                        <h:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip firmy!" autocomplete="true" maxlength="10">
                             <f:validateLength minimum="10"/>
                         </h:inputText>
                         <h:outputText value="hasło"/>
