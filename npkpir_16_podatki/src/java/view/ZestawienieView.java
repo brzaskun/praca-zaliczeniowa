@@ -5,7 +5,11 @@
 package view;
 
 import dao.DokDAO;
+import dao.PitDAO;
 import entity.Dok;
+import entity.Pitpoz;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,9 +27,16 @@ import javax.inject.Inject;
  */
 @ManagedBean(name="ZestawienieView")
 @RequestScoped
-public class ZestawienieView {
+public class ZestawienieView implements Serializable{
     @Inject
     private DokDAO dokDAO;
+    @Inject
+    private PitDAO pitDAO;
+    //bieżący pit
+    private Pitpoz pitpoz;
+    //sumowanie poprzednich pitów jeżeli są zachowane
+    private Pitpoz narPitpoz;
+    
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     
@@ -47,6 +58,9 @@ public class ZestawienieView {
     List<Double> rok;
     
     private List<Dok> lista;
+    private List<Pitpoz> pobierzPity;
+    private List<List> zebranieMcy;
+    private List<String> biezacyPit;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -62,6 +76,9 @@ public class ZestawienieView {
         pazdziernik = Arrays.asList(new Double[7]);
         listopad = Arrays.asList(new Double[7]);
         grudzien = Arrays.asList(new Double[7]);
+        pobierzPity = new ArrayList<>();
+        zebranieMcy = new ArrayList<>();
+        biezacyPit = Arrays.asList(new String[18]);
     }
   
     
@@ -1049,6 +1066,19 @@ public class ZestawienieView {
                     }
                 }
             }
+            pobierzPity();
+//            zebranieMcy.add(styczen);
+//            zebranieMcy.add(luty);
+//            zebranieMcy.add(marzec);
+//            zebranieMcy.add(kwiecien);
+//            zebranieMcy.add(maj);
+//            zebranieMcy.add(czerwiec);
+//            zebranieMcy.add(lipiec);
+//            zebranieMcy.add(sierpien);
+//            zebranieMcy.add(wrzesien);
+//            zebranieMcy.add(pazdziernik);
+//            zebranieMcy.add(listopad);
+//            zebranieMcy.add(grudzien);
         }
         
     Ipolrocze = new ArrayList<>();   
@@ -1062,6 +1092,230 @@ public class ZestawienieView {
     }
     }
 
+    public void obliczPit(){
+        pitpoz = new Pitpoz();
+        pitpoz.setPodatnik(wpisView.getPodatnikWpisu());
+        pitpoz.setPkpirR(wpisView.getRokWpisu().toString());
+        pitpoz.setPkpirM(wpisView.getMiesiacWpisu());
+        pitpoz.setPrzychody(obliczprzychod());
+        pitpoz.setKoszty(obliczkoszt());
+        pitpoz.setWynik(pitpoz.getPrzychody().subtract(pitpoz.getKoszty()));
+        pitpoz.setStrata(BigDecimal.ZERO);
+        pitDAO.dodajNowyWpis(pitpoz);
+
+    }
+    
+    private BigDecimal obliczprzychod() {
+        BigDecimal suma = new BigDecimal(0);
+        String selekcja = wpisView.getMiesiacWpisu();
+        switch(selekcja){
+            case "01":
+                for(int i = 0;i<1;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "02":
+                for(int i = 0;i<2;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "03":
+                for(int i = 0;i<3;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "04":
+                for(int i = 0;i<4;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "05":
+                for(int i = 0;i<5;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "06":
+                for(int i = 0;i<6;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "07":
+                for(int i = 0;i<7;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "08":
+                for(int i = 0;i<8;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "09":
+                for(int i = 0;i<9;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "10":
+                for(int i = 0;i<10;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "11":
+                for(int i = 0;i<11;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+            case "12":
+                for(int i = 0;i<12;i++){
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                }
+                break;
+        }
+        return suma;
+    }
+    
+    private BigDecimal obliczkoszt() {
+        BigDecimal suma = new BigDecimal(0);
+        String selekcja = wpisView.getMiesiacWpisu();
+        switch(selekcja){
+            case "01":
+                for(int i = 0;i<1;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "02":
+                for(int i = 0;i<2;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "03":
+                for(int i = 0;i<3;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "04":
+                for(int i = 0;i<4;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "05":
+                for(int i = 0;i<5;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "06":
+                for(int i = 0;i<6;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "07":
+                for(int i = 0;i<7;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "08":
+                for(int i = 0;i<8;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "09":
+                for(int i = 0;i<9;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "10":
+                for(int i = 0;i<10;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "11":
+                for(int i = 0;i<11;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+            case "12":
+                for(int i = 0;i<12;i++){
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(2).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(3).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(4).toString())));
+                suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(5).toString())));
+                }
+                break;
+        }
+        return suma;
+    }
+    
+    public void pobierzPity(){
+        try{
+        pobierzPity.addAll(pitDAO.getDownloaded());
+        } catch (Exception e){}
+        narPitpoz = new Pitpoz();
+        narPitpoz = pobierzPity.get(0);
+        biezacyPit.set(0,narPitpoz.getPodatnik().getNpelna().toString());
+        biezacyPit.set(1,narPitpoz.getPkpirR());
+        biezacyPit.set(2,narPitpoz.getPkpirM());
+        biezacyPit.set(3,narPitpoz.getPrzychody().toString());
+        biezacyPit.set(4,narPitpoz.getKoszty().toString());
+        biezacyPit.set(5,narPitpoz.getWynik().toString());
+        biezacyPit.set(6,narPitpoz.getStrata().toString());
+        biezacyPit.set(7,narPitpoz.getZus51().toString());        
+        biezacyPit.set(8,narPitpoz.getPodstawa().toString());        
+        biezacyPit.set(9,narPitpoz.getPodatek().toString());
+        biezacyPit.set(10,narPitpoz.getZus52().toString());
+        biezacyPit.set(11,narPitpoz.getPododpoczrok().toString());
+        biezacyPit.set(12,narPitpoz.getNalzalodpoczrok().toString());
+        biezacyPit.set(13,narPitpoz.getNaleznazal().toString());        
+        biezacyPit.set(14,narPitpoz.getDozaplaty().toString());        
+        biezacyPit.set(15,narPitpoz.getTerminwplaty().toString());
+        biezacyPit.set(16,narPitpoz.getPrzelano().toString());        
+        biezacyPit.set(17,"true");        
+   
+    }
+    
     public DokDAO getDokDAO() {
         return dokDAO;
     }
@@ -1070,6 +1324,14 @@ public class ZestawienieView {
         this.dokDAO = dokDAO;
     }
 
+    public PitDAO getPitDAO() {
+        return pitDAO;
+    }
+
+    public void setPitDAO(PitDAO pitDAO) {
+        this.pitDAO = pitDAO;
+    }
+    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -1205,6 +1467,46 @@ public class ZestawienieView {
 
     public void setRok(List<Double> rok) {
         this.rok = rok;
+    }
+
+    public Pitpoz getPitpoz() {
+        return pitpoz;
+    }
+
+    public void setPitpoz(Pitpoz pitpoz) {
+        this.pitpoz = pitpoz;
+    }
+
+    public Pitpoz getNarPitpoz() {
+        return narPitpoz;
+    }
+
+    public void setNarPitpoz(Pitpoz narPitpoz) {
+        this.narPitpoz = narPitpoz;
+    }
+
+    public List<Pitpoz> getPobierzPity() {
+        return pobierzPity;
+    }
+
+    public void setPobierzPity(List<Pitpoz> pobierzPity) {
+        this.pobierzPity = pobierzPity;
+    }
+
+    public List<List> getZebranieMcy() {
+        return zebranieMcy;
+    }
+
+    public void setZebranieMcy(List<List> zebranieMcy) {
+        this.zebranieMcy = zebranieMcy;
+    }
+
+    public List<String> getBiezacyPit() {
+        return biezacyPit;
+    }
+
+    public void setBiezacyPit(List<String> biezacyPit) {
+        this.biezacyPit = biezacyPit;
     }
 
     

@@ -54,3 +54,8 @@ root {
     width: 300px;
 }
 
+
+
+.ui-datatable .ui-datatable-data td {
+    vertical-align : central;
+}
