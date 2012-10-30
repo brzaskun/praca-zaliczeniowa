@@ -17,6 +17,11 @@
                             <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
                             <h:form id="form">
+                                <p:ajaxStatus>
+                                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
+                                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                                    <f:facet name="error">An error has occurred!</f:facet>
+                                </p:ajaxStatus>
                                 <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/dodpodatnik.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
