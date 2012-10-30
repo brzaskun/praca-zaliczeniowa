@@ -1,0 +1,80 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:outputPanel id="wrapper">    
+        <h:outputText value="tu sie dodaje podatnika"/>
+        <p:focus for="wprowadzaniepodatnika"/>
+        <p:panelGrid id="wprowadzaniepodatnika" columns="4">
+            <h:outputLabel value="nip"/>
+            <h:inputText value="#{podatnikView.selected.nip}" maxlength="10"/>
+            <h:outputLabel value="nazwa pełna"/>
+            <h:inputText value="#{podatnikView.selected.nazwapelna}"/>
+            <h:outputLabel value="nazwisko"/>
+            <h:inputText value="#{podatnikView.selected.nazwisko}"/>
+            <h:outputLabel value="imię"/>
+            <h:inputText value="#{podatnikView.selected.imie}"/>
+            <h:outputLabel value="pesel"/>
+            <h:inputText value="#{podatnikView.selected.pesel}" maxlength="11"/>
+            <h:outputLabel value="regon"/>
+            <h:inputText value="#{podatnikView.selected.regon}" maxlength="9"/>
+            <h:outputLabel value="telefon"/>
+            <p:inputMask value="#{podatnikView.selected.telefonkontaktowy}" mask="999-999-999"/>
+            <h:outputLabel value="fax"/>
+            <p:inputMask value="#{podatnikView.selected.fax}" mask="99-999-99-99"/>
+            <h:outputLabel value="email"/>
+            <h:inputText value="#{podatnikView.selected.email}"/>
+            <h:outputLabel value="data urodzenia"/>
+            <p:inputMask value="#{podatnikView.selected.dataurodzenia}" mask="9999-99-99"/>
+            <h:outputLabel value="województwo"/>
+            <h:inputText value="#{podatnikView.selected.wojewodztwo}"/>
+            <h:outputLabel value="powiat"/>
+            <h:inputText value="#{podatnikView.selected.powiat}"/>
+            <h:outputLabel value="gmina"/>
+            <h:inputText value="#{podatnikView.selected.gmina}"/>
+            <h:outputLabel value="miejscowość"/>
+            <h:inputText value="#{podatnikView.selected.miejscowosc}"/>
+            <h:outputLabel value="kod pocztowy"/>
+            <p:inputMask value="#{podatnikView.selected.kodpocztowy}" mask="99-999"/>
+            <h:outputLabel value="poczta"/>
+            <h:inputText value="#{podatnikView.selected.poczta}"/>
+            <h:outputLabel value="ulica"/>
+            <h:inputText value="#{podatnikView.selected.ulica}"/>
+            <h:outputLabel value="nr domu"/>
+            <h:inputText value="#{podatnikView.selected.nrdomu}"/>
+            <h:outputLabel value="nr lokalu"/>
+            <h:inputText value="#{podatnikView.selected.nrlokalu}"/>
+            <h:outputLabel value="nr lokalu"/>
+            <h:inputText value="#{podatnikView.selected.nrlokalu}"/>
+            <h:outputLabel value="rodzaj opodatkowania pod.doch"/>
+            <h:selectOneMenu value="#{podatnikView.selected.podatekdochodowy}">
+                <f:selectItem itemValue="ryczałt"/>
+                <f:selectItem itemValue="podatek liniowy"/>
+                <f:selectItem itemValue="zasady ogólne"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="dochodowy okres?"/>
+            <h:selectOneMenu value="#{podatnikView.selected.dochokres}">
+                <f:selectItem itemValue="miesiąc"/>
+                <f:selectItem itemValue="kwartał"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="vat okres"/>
+            <h:selectOneMenu value="#{podatnikView.selected.vatokres}">
+                <f:selectItem itemValue="miesiąc"/>
+                <f:selectItem itemValue="kwartał"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="vat metoda kasowa"/>
+            <h:selectOneMenu value="#{podatnikView.selected.metodakasowa}">
+                <f:selectItem itemValue="tak"/>
+                <f:selectItem itemValue="nie"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="urząd skarbowy"/>
+            <h:inputText value="#{podatnikView.selected.urzadskarbowy}" style="width: 400px"/>
+        </p:panelGrid>
+    </p:outputPanel>
+</ui:composition>   
+
