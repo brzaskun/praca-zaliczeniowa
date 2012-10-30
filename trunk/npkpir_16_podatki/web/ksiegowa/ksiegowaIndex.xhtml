@@ -10,6 +10,7 @@
         <ui:define name="body">
             <h:body> 
                 <f:view contentType="text/html">
+
                     <p:layout fullPage="true">
                         <ui:include src="sub/layoutIndex/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutIndex/south.xhtml"/>   <!-- panel poludniowy-->
@@ -33,9 +34,14 @@
                                 </h:form>
                             </p:panel>
                             <h:form id="dodWiad">
+                                <p:ajaxStatus>
+                                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
+                                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                                    <f:facet name="error">An error has occurred!</f:facet>
+                                </p:ajaxStatus>
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
                             </h:form>
-                           
+
                         </p:layoutUnit>
                     </p:layout>
                 </f:view>

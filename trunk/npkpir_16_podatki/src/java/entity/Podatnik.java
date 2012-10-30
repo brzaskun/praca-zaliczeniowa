@@ -77,7 +77,6 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "EMAIL")
     private String email;
-    @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{3})$", message="Nieprawidłowy numer telefonu, winien być: xxx-xxx-xxx")
     @Size(max = 255)
     @Column(name = "FAX")
     private String fax;
@@ -117,6 +116,7 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "POWIAT")
     private String powiat;
+    @Pattern(regexp="[\\d]{3}[-]{1,1}[\\d]{3}[-]{1,1}[\\d]{3}", message="Nieprawidłowy numer telefonu, winien być: xxx-xxx-xxx")
     @Size(max = 255)
     @Column(name = "TELEFONKONTAKTOWY")
     private String telefonkontaktowy;

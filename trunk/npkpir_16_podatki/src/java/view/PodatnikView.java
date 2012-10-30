@@ -22,8 +22,10 @@ import mail.Mail;
 public class PodatnikView {
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
     private Podatnik selected;
 
+    
     public Podatnik getSelected() {
         return selected;
     }
@@ -51,6 +53,12 @@ public class PodatnikView {
     public void sformatuj(){
         String formatka=null;
         selected.setNazwapelna(selected.getNazwapelna().toUpperCase());
+        selected.setWojewodztwo(selected.getWojewodztwo().substring(0,1).toUpperCase()+selected.getWojewodztwo().substring(1).toLowerCase());
+        selected.setGmina(selected.getGmina().substring(0,1).toUpperCase()+selected.getGmina().substring(1).toLowerCase());
+        selected.setUlica(selected.getUlica().substring(0,1).toUpperCase()+selected.getUlica().substring(1).toLowerCase());
+        selected.setPowiat(selected.getPowiat().substring(0,1).toUpperCase()+selected.getPowiat().substring(1).toLowerCase());
+        selected.setMiejscowosc(selected.getMiejscowosc().substring(0,1).toUpperCase()+selected.getMiejscowosc().substring(1).toLowerCase());
+        selected.setPoczta(selected.getPoczta().substring(0,1).toUpperCase()+selected.getPoczta().substring(1).toLowerCase());
         selected.setImie(selected.getImie().substring(0,1).toUpperCase()+selected.getImie().substring(1).toLowerCase());
         selected.setNazwisko(selected.getNazwisko().substring(0,1).toUpperCase()+selected.getNazwisko().substring(1).toLowerCase());
         
