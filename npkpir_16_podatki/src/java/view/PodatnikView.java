@@ -6,12 +6,27 @@ package view;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import java.io.Serializable;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import mail.Mail;
+import org.primefaces.component.panelgrid.PanelGrid;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -19,13 +34,73 @@ import mail.Mail;
  */
 @ManagedBean
 @RequestScoped
-public class PodatnikView {
+public class PodatnikView implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
     private Podatnik selected;
+    private String pojemnik;
+    private List<String> pojList;
+    private PanelGrid grid;
+    private String[] listka;
+    private List<String> listkakopia;
+    
+  
+    public PodatnikView() {
+        listka = new String[50] ;
+        listka[0]="zero";
+        listka[1]="jeden";
+        listka[2]="dwa";
+    }
+
+    public List<String> getListkakopia() {
+        return listkakopia;
+    }
+
+    public void setListkakopia(List<String> listkakopia) {
+        this.listkakopia = listkakopia;
+    }
 
     
+    
+    public String[] getListka() {
+        return listka;
+    }
+
+    public void setListka(String[] listka) {
+        this.listka = listka;
+    }
+
+   
+
+   
+    public List<String> getPojList() {
+        return pojList;
+    }
+
+    public void setPojList(List<String> pojList) {
+        this.pojList = pojList;
+    }
+    
+    
+    public PanelGrid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(PanelGrid grid) {
+        this.grid = grid;
+    }
+
+    
+
+    public String getPojemnik() {
+        return pojemnik;
+    }
+
+    public void setPojemnik(String pojemnik) {
+        this.pojemnik = pojemnik;
+    }
+
     public Podatnik getSelected() {
         return selected;
     }
@@ -64,4 +139,39 @@ public class PodatnikView {
         
     }
     
+    public void dodajrzad(ActionEvent e){
+        UIComponent wywolaneprzez = (UIComponent) e.getSource();
+        //wywolaneprzez.setRendered(false);
+        System.out.println("Form: "
+                + wywolaneprzez.getNamingContainer().getClientId());
+        System.out.println("Rodzic: "
+                +(wywolaneprzez = wywolaneprzez.getParent()));
+        System.out.println("Klientid: "+wywolaneprzez.getClientId());
+        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        UIComponent nowyinput = new HtmlInputText();
+        UIComponent nowyinput1 = new HtmlInputText();
+        //nowyinput.setId("nowyinput");
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        ExpressionFactory ef = ExpressionFactory.newInstance();
+        int rozmiar = 0;
+        for(int i=0;i<listka.length;i++){
+            if(listka[i]!=null){
+                rozmiar++;
+            }
+        }
+        int rozmiarS = rozmiar+1;
+        final String binding = "#{podatnikView.listka["+rozmiar+"]}";
+        final String bindingS = "#{podatnikView.listka["+rozmiarS+"]}";
+        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
+        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
+        nowyinput.setValueExpression("value", ve);
+        nowyinput1.setValueExpression("value", ve1);
+        grid = getGrid();
+        grid.getChildren().add(nowyinput);
+        grid.getChildren().add(nowyinput1);
+        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        
+        listkakopia = Arrays.asList(listka);
+        System.out.println("To jest listka: "+listkakopia.toString());
+    }
 }

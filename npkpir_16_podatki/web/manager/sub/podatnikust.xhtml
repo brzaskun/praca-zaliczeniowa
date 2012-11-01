@@ -1,0 +1,29 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:outputPanel id="wrapper">    
+        <h:outputText value="tu sie parametryzuje podatnika"/>
+        <p:focus for="parametrypodatnika"/>
+        <p:panelGrid id="parametrypodatnika" columns="2" binding="#{podatnikView.grid}">
+            <h:outputLabel value="nazwa pełna"/>
+             <h:selectOneMenu value="#{podatnikView.selected.nazwapelna}" >
+                 <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}"/>
+            </h:selectOneMenu>
+            <p:commandButton id="butonek" value="dodaj" actionListener="#{podatnikView.dodajrzad}" update="@form"/>
+            <br/>
+        </p:panelGrid>
+        <ui:repeat id="ekran" value="#{podatnikView.listkakopia}" var="loop">
+                <h:outputText value="#{loop}" />
+                <br/>
+           </ui:repeat>
+       
+    </p:outputPanel>
+    
+</ui:composition>   
+

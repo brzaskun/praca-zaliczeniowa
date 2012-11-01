@@ -61,6 +61,10 @@
          <navigation-case>
             <from-outcome>dodpodatnika</from-outcome>
             <to-view-id>/manager/managerPodatnik.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>managerPodUstaw
+        <navigation-case>
+            <from-outcome>parampodatnika</from-outcome>
+            <to-view-id>/manager/managerPodUstaw.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
@@ -134,6 +138,12 @@
         <converter-id>UzConv</converter-id>  
         <converter-class>  
             converter.UzConv  
+        </converter-class> 
+    </converter>
+    <converter>
+        <converter-id>PodatConv</converter-id>  
+        <converter-class>  
+            converter.PodatConv  
         </converter-class> 
     </converter>
     <!--........................... Custom Validators .....................-->
