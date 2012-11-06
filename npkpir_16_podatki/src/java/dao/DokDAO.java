@@ -35,6 +35,7 @@ public class DokDAO implements Serializable{
     public List<Dok> getDownloadedDok() {
         return downloadedDok;
     }
+   
 
     public void setDownloadedDok(List<Dok> downloadedDok) {
         DokDAO.downloadedDok = downloadedDok;

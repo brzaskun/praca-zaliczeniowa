@@ -6,30 +6,34 @@ package converter;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
+import view.PodatnikView;
 
 /**
  *
  * @author Osito
  */
 public class PodatConv implements javax.faces.convert.Converter{
-    @Inject
-    private PodatnikDAO podatnikDAO;
-    
+       
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        
+        List<Podatnik> value;
+        PodatnikDAO podatnikDAO = new PodatnikDAO();
+        List<Podatnik> lista = new ArrayList<>();
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {  
                 String number = submittedValue;  
   
-                for (Podatnik p : podatnikDAO.getDownloaded()) {  
+                for (Podatnik p : lista) {  
                     if (p.getNazwapelna() .equals(number)) {  
                         return p;  
                     }  
@@ -43,7 +47,6 @@ public class PodatConv implements javax.faces.convert.Converter{
         return null;  
     }  
   
-    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  

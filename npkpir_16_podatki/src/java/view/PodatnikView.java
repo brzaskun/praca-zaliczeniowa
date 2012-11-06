@@ -4,25 +4,33 @@
  */
 package view;
 
+import dao.DokDAO;
 import dao.PodatnikDAO;
+import embeddable.Parametr;
+import embeddable.Pod;
+import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.MethodExpressionActionListener;
 import javax.inject.Inject;
 import mail.Mail;
 import org.primefaces.component.panelgrid.PanelGrid;
@@ -33,26 +41,79 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class PodatnikView implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
     private Podatnik selected;
+    @Inject private Pod selectedPod;
+    private static ArrayList<Podatnik> listapodatnikow;
     private String pojemnik;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
     private List<String> listkakopia;
+    @Inject
+    private Parametr parametr;
+   
+    private static List<Podatnik> li;
+    @Inject
+    private DokDAO dokDAO;
+
+    public  List<Podatnik> getLi() {
+        return li;
+    }
+
+    public void setLi(List<Podatnik> li) {
+        PodatnikView.li = li;
+    }
     
-  
+    
     public PodatnikView() {
-        listka = new String[50] ;
+        li = new ArrayList<>();
+        listapodatnikow = new ArrayList<>();
+        listka = new String[3] ;
         listka[0]="zero";
         listka[1]="jeden";
         listka[2]="dwa";
     }
+    
+    @PostConstruct
+    public void init(){
+        Collection c;
+        c = podatnikDAO.getDownloaded();
+        li.addAll(c);
+    }
+    
 
+    public ArrayList<Podatnik> getListapodatnikow() {
+        return listapodatnikow;
+    }
+
+    public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
+        this.listapodatnikow = listapodatnikow;
+    }
+
+    public Pod getSelectedPod() {
+        return selectedPod;
+    }
+
+    public void setSelectedPod(Pod selectedPod) {
+        this.selectedPod = selectedPod;
+    }
+    
+    
+    
+    public Parametr getParametr() {
+        return parametr;
+    }
+
+    public void setParametr(Parametr parametr) {
+        this.parametr = parametr;
+    }
+    
+    
     public List<String> getListkakopia() {
         return listkakopia;
     }
@@ -139,8 +200,9 @@ public class PodatnikView implements Serializable{
         
     }
     
-    public void dodajrzad(ActionEvent e){
-        UIComponent wywolaneprzez = (UIComponent) e.getSource();
+    public void dodajrzadwzor(ActionEvent e){
+        UIComponent wywolaneprzez = getGrid();
+        
         //wywolaneprzez.setRendered(false);
         System.out.println("Form: "
                 + wywolaneprzez.getNamingContainer().getClientId());
@@ -148,9 +210,64 @@ public class PodatnikView implements Serializable{
                 +(wywolaneprzez = wywolaneprzez.getParent()));
         System.out.println("Klientid: "+wywolaneprzez.getClientId());
         RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        UIComponent output = new HtmlOutputText();
         UIComponent nowyinput = new HtmlInputText();
         UIComponent nowyinput1 = new HtmlInputText();
-        //nowyinput.setId("nowyinput");
+        HtmlCommandButton button = new HtmlCommandButton();
+        
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        ExpressionFactory ef = ExpressionFactory.newInstance();
+        int rozmiar = 0;
+        for(int i=0;i<listka.length;i++){
+            if(listka[i]!=null){
+                rozmiar++;
+            }
+        }
+        int rozmiarS = rozmiar+1;
+        final String bindingO = "parametr w okresie";
+        final String binding = "#{podatnikView.listka["+rozmiar+"]}";
+        final String bindingS = "#{podatnikView.listka["+rozmiarS+"]}";
+        ValueExpression veO = ef.createValueExpression(elContext, bindingO, String.class);
+        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
+        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
+        button.setValue("dodaj");
+        FacesContext context = FacesContext.getCurrentInstance();
+        MethodExpression actionListener = context.getApplication().getExpressionFactory()
+    .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[] {ActionEvent.class});
+        button.addActionListener(new MethodExpressionActionListener(actionListener));
+        
+        final String bindingB3 = "@form";
+        button.getAttributes().put("update", bindingB3);
+        output.setValueExpression("value", veO);
+        nowyinput.setValueExpression("value", ve);
+        nowyinput1.setValueExpression("value", ve1);
+        grid = getGrid();
+        grid.getChildren().add(output);
+        grid.getChildren().add(nowyinput);
+        grid.getChildren().add(nowyinput1);
+        grid.getChildren().add(button);
+        
+        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        listkakopia = Arrays.asList(listka);
+        List<String> nowalista = new ArrayList();
+        for (String c : listkakopia)  {
+            if(c!=null){
+                nowalista.add(c);
+            }
+        }
+        System.out.println("To jest listka: "+listkakopia.toString());
+        System.out.println("To jest listka: "+nowalista.toString());
+    }
+    
+      public void dodajrzad(ActionEvent e){
+        UIComponent wywolaneprzez = getGrid();
+        
+        //wywolaneprzez.setRendered(false);
+        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        HtmlOutputText output = new HtmlOutputText();
+        UIComponent nowyinput = new HtmlInputText();
+        UIComponent nowyinput1 = new HtmlInputText();
+        HtmlCommandButton button = new HtmlCommandButton();
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         ExpressionFactory ef = ExpressionFactory.newInstance();
         int rozmiar = 0;
@@ -164,14 +281,63 @@ public class PodatnikView implements Serializable{
         final String bindingS = "#{podatnikView.listka["+rozmiarS+"]}";
         ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
         ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
+        button.setValue("dodaj");
+        FacesContext context = FacesContext.getCurrentInstance();
+        MethodExpression actionListener = context.getApplication().getExpressionFactory()
+    .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[] {ActionEvent.class});
+        button.addActionListener(new MethodExpressionActionListener(actionListener));
+        
+        final String bindingB3 = "@form";
+        button.getAttributes().put("update", bindingB3);
+        output.setValue("parametr w okresie");
         nowyinput.setValueExpression("value", ve);
         nowyinput1.setValueExpression("value", ve1);
         grid = getGrid();
+        grid.getChildren().add(output);
         grid.getChildren().add(nowyinput);
         grid.getChildren().add(nowyinput1);
-        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+        grid.getChildren().add(button);
         
+        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
         listkakopia = Arrays.asList(listka);
-        System.out.println("To jest listka: "+listkakopia.toString());
+        List<String> nowalista = new ArrayList();
+        for (String c : listkakopia)  {
+            if(c!=null){
+                nowalista.add(c);
+            }
+        }
+        
     }
+     public void dodajdoch(){
+         selected=podatnikDAO.find(pojemnik);
+         List<Parametr> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getPodatekdochodowy());
+         } catch (Exception e){}
+         if(sprawdzmce(parametr, lista)==0){
+         lista.add(parametr);
+         selected.setPodatekdochodowy(lista);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } else {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametr. Pokrywaja sie daty.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+     
+     private int sprawdzmce(Parametr nowe, List<Parametr> stare){
+         int rozmiar = stare.size();
+         Parametr ostatniparametr = stare.get(rozmiar-1);
+         Integer old_mcDo = Integer.parseInt(ostatniparametr.getMcDo());
+         Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
+         Integer new_mcOd = Integer.parseInt(nowe.getMcOd());
+         Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+         if(old_mcDo<new_mcOd){
+            return 0;
+         } else {
+            return 1;
+         }
+     }
 }
+
