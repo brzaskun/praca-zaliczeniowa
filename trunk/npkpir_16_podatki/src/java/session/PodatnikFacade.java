@@ -27,4 +27,8 @@ public class PodatnikFacade extends AbstractFacade<Podatnik> {
         super(Podatnik.class);
     }
     
+    public Podatnik findNP(String np){
+        Podatnik tmp = (Podatnik) em.createNamedQuery("Podatnik.findByNazwapelna").setParameter("nazwapelna",np).getSingleResult();
+        return tmp;
+    }
 }

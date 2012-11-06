@@ -23,16 +23,23 @@ public class PodatnikDAO implements Serializable{
     private PodatnikFacade podatnikFacade;
     //tablica wciagnieta z bazy danych
     private static List<Podatnik> downloaded;
+    private static List<Podatnik> down2;
   
    
     public PodatnikDAO() {
         downloaded = new ArrayList<Podatnik>();
+        down2 = new ArrayList<Podatnik>();
     }
+
+   
+    
     
     public  List<Podatnik> getDownloaded() {
         return downloaded;
     }
-
+     public static List<Podatnik> getDownloadedS() {
+        return downloaded;
+    }
         public void setDownloaded(List<Podatnik> downloaded) {
         dao.PodatnikDAO.downloaded = downloaded;
     }
@@ -74,5 +81,7 @@ public class PodatnikDAO implements Serializable{
         }
      }
      
-     
+     public Podatnik find(String np){
+         return podatnikFacade.findNP(np);
+     }
 }

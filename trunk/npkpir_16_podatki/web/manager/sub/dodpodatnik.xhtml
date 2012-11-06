@@ -55,12 +55,7 @@
             <h:inputText value="#{podatnikView.selected.nrdomu}" required="true" requiredMessage="Nr domu - jest wymagany, uzupełnij!"/>
             <h:outputLabel value="nr lokalu"/>
             <h:inputText value="#{podatnikView.selected.nrlokalu}"/>
-            <h:outputLabel value="rodzaj opodatkowania pod.doch"/>
-            <h:selectOneMenu value="#{podatnikView.selected.podatekdochodowy}" >
-                <f:selectItem itemValue="ryczałt"/>
-                <f:selectItem itemValue="podatek liniowy"/>
-                <f:selectItem itemValue="zasady ogólne"/>
-            </h:selectOneMenu>
+          
             <h:outputLabel value="dochodowy okres?"/>
             <h:selectOneMenu value="#{podatnikView.selected.dochokres}" >
                 <f:selectItem itemValue="miesiąc"/>

@@ -4,7 +4,9 @@
  */
 package entity;
 
+import embeddable.Parametr;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -110,9 +112,9 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "POCZTA")
     private String poczta;
-    @Size(max = 255)
+    @Lob
     @Column(name = "PODATEKDOCHODOWY")
-    private String podatekdochodowy;
+    private List<Parametr> podatekdochodowy;
     @Size(max = 255)
     @Column(name = "POWIAT")
     private String powiat;
@@ -276,14 +278,14 @@ public class Podatnik implements Serializable {
         this.poczta = poczta;
     }
 
-    public String getPodatekdochodowy() {
+    public List<Parametr> getPodatekdochodowy() {
         return podatekdochodowy;
     }
 
-    public void setPodatekdochodowy(String podatekdochodowy) {
+    public void setPodatekdochodowy(List<Parametr> podatekdochodowy) {
         this.podatekdochodowy = podatekdochodowy;
     }
-
+    
     public String getPowiat() {
         return powiat;
     }
