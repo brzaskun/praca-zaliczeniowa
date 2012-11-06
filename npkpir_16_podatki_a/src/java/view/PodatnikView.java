@@ -54,8 +54,12 @@ public class PodatnikView implements Serializable{
     private PanelGrid grid;
     private String[] listka;
     private List<String> listkakopia;
+    private List<String> miesiacepoweryfikacji;
+    
     @Inject
     private Parametr parametr;
+    @Inject
+    private Parametr ostatniparametr;
    
     private static List<Podatnik> li;
     @Inject
@@ -71,6 +75,7 @@ public class PodatnikView implements Serializable{
     
     
     public PodatnikView() {
+        miesiacepoweryfikacji = new ArrayList<>();
         li = new ArrayList<>();
         listapodatnikow = new ArrayList<>();
         listka = new String[3] ;
@@ -84,6 +89,7 @@ public class PodatnikView implements Serializable{
         Collection c;
         c = podatnikDAO.getDownloaded();
         li.addAll(c);
+      
     }
     
 
@@ -314,30 +320,94 @@ public class PodatnikView implements Serializable{
          try{
              lista.addAll(selected.getPodatekdochodowy());
          } catch (Exception e){}
-         if(sprawdzmce(parametr, lista)==0){
+         if(sprawdzrokdoch(parametr, lista)==0){
          lista.add(parametr);
          selected.setPodatekdochodowy(lista);
          podatnikDAO.edit(selected);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr do podatnika.", selected.getNazwapelna());
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr pod.dochodowy do podatnika.", selected.getNazwapelna());
          FacesContext.getCurrentInstance().addMessage(null, msg);
          } else {
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametr. Pokrywaja sie daty.", selected.getNazwapelna());
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru pod.doch. Niedopasowane okresy.", selected.getNazwapelna());
          FacesContext.getCurrentInstance().addMessage(null, msg);
          }
      }
      
-     private int sprawdzmce(Parametr nowe, List<Parametr> stare){
-         int rozmiar = stare.size();
-         Parametr ostatniparametr = stare.get(rozmiar-1);
-         Integer old_mcDo = Integer.parseInt(ostatniparametr.getMcDo());
+     private int sprawdzrokdoch(Parametr nowe, List<Parametr> stare){
+         if(stare.size()==0){
+            Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+            parametr.setMcOd("01");
+            parametr.setMcDo("12");
+            parametr.setRokDo(new_rokOd.toString());
+             return 0;
+         } else {
+         Parametr ostatniparametr = stare.get(stare.size()-1);
          Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
-         Integer new_mcOd = Integer.parseInt(nowe.getMcOd());
          Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
-         if(old_mcDo<new_mcOd){
+         if(old_rokDo==new_rokOd-1){
+            parametr.setMcOd("01");
+            parametr.setMcDo("12");
+            parametr.setRokDo(new_rokOd.toString());
             return 0;
          } else {
             return 1;
          }
+         }
      }
+     
+     public void usundoch(){
+         List<Parametr> tmp = new ArrayList<>();
+         tmp.addAll(selected.getPodatekdochodowy());
+         tmp.remove(tmp.size()-1);
+         selected.setPodatekdochodowy(tmp);
+         podatnikDAO.edit(selected);
+     }
+     
+     public void dodajvat(){
+         selected=podatnikDAO.find(pojemnik);
+         List<Parametr> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getVatokres());
+         } catch (Exception e){}
+         if(sprawdzvat(parametr, lista)==0){
+         lista.add(parametr);
+         selected.setVatokres(lista);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } else {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+     
+      private int sprawdzvat(Parametr nowe, List<Parametr> stare){
+         if(stare.size()==0){
+            Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+            parametr.setMcOd("01");
+            parametr.setMcDo("");
+            parametr.setRokDo("");
+             return 0
+         } else {
+         ostatniparametr = stare.get(stare.size()-1);
+         Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
+         Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+         if(old_rokDo==new_rokOd-1){
+            Integer tmp = Integer.parseInt(nowe.getMcOd())-1;
+            ostatniparametr.setMcDo(tmp.toString());
+            ostatniparametr.setRokDo(nowe.getRokOd());
+            parametr.setRokDo(new_rokOd.toString());
+            return 0;
+         } else {
+            return 1;
+         }
+         }
+     }
+     
+     public String przejdzdoStrony(){
+           selected=podatnikDAO.find(pojemnik);
+           return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
+     }
+     
+     
 }
 

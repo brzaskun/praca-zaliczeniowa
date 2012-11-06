@@ -128,9 +128,9 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "URZADSKARBOWY")
     private String urzadskarbowy;
-    @Size(max = 255)
+    @Lob
     @Column(name = "VATOKRES")
-    private String vatokres;
+    private List<Parametr> vatokres;
     @Size(max = 255)
     @Column(name = "WOJEWODZTWO")
     private String wojewodztwo;
@@ -318,13 +318,14 @@ public class Podatnik implements Serializable {
         this.urzadskarbowy = urzadskarbowy;
     }
 
-    public String getVatokres() {
+    public List<Parametr> getVatokres() {
         return vatokres;
     }
 
-    public void setVatokres(String vatokres) {
+    public void setVatokres(List<Parametr> vatokres) {
         this.vatokres = vatokres;
     }
+
 
     public String getWojewodztwo() {
         return wojewodztwo;

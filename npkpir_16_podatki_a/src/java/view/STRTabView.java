@@ -232,20 +232,6 @@ public class STRTabView implements Serializable{
                     Integer mOdI = Integer.parseInt(mOd);
                     String mDo = wpisView.getMiesiacDo();
                     Integer mDoI = Integer.parseInt(mDo);
-                    Map<Integer, String> mapa;
-                    mapa = new HashMap<Integer, String>();
-                    mapa.put(1, "01");
-                    mapa.put(2, "02");
-                    mapa.put(3, "03");
-                    mapa.put(4, "04");
-                    mapa.put(5, "05");
-                    mapa.put(6, "06");
-                    mapa.put(7, "07");
-                    mapa.put(8, "08");
-                    mapa.put(9, "09");
-                    mapa.put(10, "10");
-                    mapa.put(11, "11");
-                    mapa.put(12, "12");
                     while (itxX.hasNext()) {
                         SrodekTrw tmpx = (SrodekTrw) itxX.next();
                         for (int i = mOdI; i <= mDoI; i++) {
