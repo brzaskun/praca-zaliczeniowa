@@ -6,35 +6,76 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:messages />
-    <p:focus for="parametrypodatnika"/>
-    <h:outputLabel value="nazwa pełna:"/>
-    <h:selectOneMenu value="#{podatnikView.pojemnik}" style="width: 150px">
-        <f:selectItem itemLabel="wybierz podatnika"/>
-        <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
-    </h:selectOneMenu>
-
-    <ui:repeat value="#{podatnikView.selected.podatekdochodowy}" var="loop">
-        <h:outputText value="#{loop.mcOd}" />
-         <h:outputText value="#{loop.rokOd}" />
-          <h:outputText value="#{loop.mcDo}" />
-           <h:outputText value="#{loop.rokDo}" />
-            <h:outputText value="#{loop.parametr}" />
+   
+    <h:outputLabel value="Nazwa pełna: #{podatnikView.pojemnik}" style="font-size: 18px; font-weight: bold;"/>
+    <br/><br/>
+    <h:form id="form1" >
+        <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
+        <p:growl showDetail="true"/>
+        <p:focus for="parametrypodatnika"/><br/>
+        <h:outputText value="dane historyczne"/><br/>
+        <p:panelGrid columns="4" style="width: 500px">
+            <ui:repeat value="#{podatnikView.selected.podatekdochodowy}" var="loop">
+                <h:outputText value="od: " />
+                <h:outputText value="#{loop.mcOd}-" />
+                <h:outputText value="#{loop.rokOd}" />
+                <h:outputText value="  do: " />
+                <h:outputText value="#{loop.mcDo}-" />
+                <h:outputText value="#{loop.rokDo}" />
+                <h:outputText value=" rodzaj opodatkowania: " />
+                <h:outputText value="#{loop.parametr}" />
+                <br/>
+            </ui:repeat>
+        </p:panelGrid>
+        <h:outputText value="wybierz parametry aktualne"/><br/>
+        <p:panelGrid id="parametrypodatnika" columns="4" >
+            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+            <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                <f:selectItem itemValue="zasady ogólne"/> 
+                <f:selectItem itemValue="podatek liniowy"/>
+                <f:selectItem itemValue="ryczałt"/>
+            </h:selectOneMenu>
+        </p:panelGrid>
         <br/>
-    </ui:repeat>
-    <p:panelGrid id="parametrypodatnika" columns="9" binding="#{podatnikView.grid}">
-        <h:outputText value="miesiac Od:"/><h:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-        <h:outputText value="rok Od:"/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-        <h:outputText value="miesiac Do:"/><h:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-        <h:outputText value="rok Do:"/><h:selectOneMenu value="#{podatnikView.parametr.rokDo}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-        <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
-            <f:selectItem itemValue="ryczałt"/>
-            <f:selectItem itemValue="podatek liniowy"/>
-            <f:selectItem itemValue="zasady ogólne"/>
-        </h:selectOneMenu>
-
-    </p:panelGrid>
-    <p:commandButton action="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit"/>
+        <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+        <p:commandButton action="#{podatnikView.usundoch()}" value="usun parametr" update="@form" type="submit"/>
+        <p:commandButton action="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit"/>
+        </p:panelGrid>
+    </h:form>
+    <br/><br/>
+    <h:form id="form2" >
+        <h:outputText value="Wybór formy rozliczen podatkiem vat" style="font-size: 15px"/>
+        <p:growl showDetail="true"/>
+        <p:focus for="parametryp1"/><br/>
+        <h:outputText value="dane historyczne"/><br/>
+        <p:panelGrid columns="4" style="width: 500px">
+            <ui:repeat value="#{podatnikView.selected.vatokres}" var="loop">
+                <h:outputText value="od: " />
+                <h:outputText value="#{loop.mcOd}-" />
+                <h:outputText value="#{loop.rokOd}" />
+                <h:outputText value="  do: " />
+                <h:outputText value="#{loop.mcDo}-" />
+                <h:outputText value="#{loop.rokDo}" />
+                <h:outputText value=" rodzaj rozliczeń: " />
+                <h:outputText value="#{loop.parametr}" />
+                <br/>
+            </ui:repeat>
+        </p:panelGrid>
+        <h:outputText value="wybierz parametry aktualne"/><br/>
+        <p:panelGrid id="parametryp1" columns="5" >
+            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+            <h:outputText value="miesiąc od: "/><h:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+            <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                <f:selectItem itemValue="miesięczne"/> 
+                <f:selectItem itemValue="kwartalne"/>
+            </h:selectOneMenu>
+        </p:panelGrid>
+        <br/>
+        <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+        <p:commandButton action="#{podatnikView.usunvat()}" value="usun parametr" update="@form" type="submit"/>
+        <p:commandButton action="#{podatnikView.dodajvat()}" value="dodaj parametr" update="@form" type="submit"/>
+        </p:panelGrid>
+    </h:form>
 
 </ui:composition>   
 

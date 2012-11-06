@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
+    <p:layoutUnit position="west" size="250" header="Opcje" collapsible="true">
         <p:panel header="linki">
             <h:form>
                 <p:panelGrid columns="1">
@@ -15,7 +15,17 @@
                     <h:link outcome="manager">manager</h:link>
                     <h:link accesskey="s" outcome="ksiegowa" title="księgowanie dokumentów">wpisywanie</h:link>
                     <h:link outcome="dodpodatnika" title="wpisywanie podatnikow">dodpodatnika</h:link>
-                    <h:link outcome="parampodatnika" title="parametryzowanie podatnika">parampodatnika</h:link>
+                    <h:outputText value="parametryzowanie podatnika"/>
+                    <h:form id="westManager">
+                        <h:messages id="westmsg"/>
+                        <p:panel menuTitle="Dane" header="Dane">
+                            <h:selectOneMenu value="#{podatnikView.pojemnik}" style="width: 150px">
+                                <f:selectItem itemLabel="wybierz podatnika"/>
+                                <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
+                            </h:selectOneMenu>
+                            <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
+                        </p:panel>
+                    </h:form>
                 </p:panelGrid>
             </h:form>
         </p:panel>

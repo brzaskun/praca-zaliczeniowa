@@ -13,6 +13,7 @@ import embeddable.EVatwpis;
 import embeddable.EVidencja;
 import embeddable.Kl;
 import embeddable.Kolmn;
+import embeddable.Mce;
 import embeddable.Pod;
 import embeddable.Umorzenie;
 import entity.Amodok;
@@ -82,9 +83,7 @@ public class DokView implements Serializable{
     
     private static Kl przekazKontr;
     private String dataWystawienia;
-    
-    private static final Map<Integer, String> mapa;
-   
+  
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -128,21 +127,7 @@ public class DokView implements Serializable{
     private String stawkaKST;
     private String typKST;
    
-    static{
-         mapa = new HashMap<Integer, String>();
-                    mapa.put(1, "01");
-                    mapa.put(2, "02");
-                    mapa.put(3, "03");
-                    mapa.put(4, "04");
-                    mapa.put(5, "05");
-                    mapa.put(6, "06");
-                    mapa.put(7, "07");
-                    mapa.put(8, "08");
-                    mapa.put(9, "09");
-                    mapa.put(10, "10");
-                    mapa.put(11, "11");
-                    mapa.put(12, "12");
-    }
+   
 
     public DokView() {
         setPokazSTR(false);
@@ -524,7 +509,7 @@ public class DokView implements Serializable{
             while(itx.hasNext()){
                 Amodok tmp = (Amodok) itx.next();
                 Integer mctmp = tmp.getMc();
-                String mc = mapa.get(mctmp);
+                String mc = Mce.getMapamcy().get(mctmp);
                 Integer rok = tmp.getRok();
                 if(wpisView.getRokWpisu().equals(rok)&&wpisView.getMiesiacWpisu().equals(mc)){
                     amodok = tmp;

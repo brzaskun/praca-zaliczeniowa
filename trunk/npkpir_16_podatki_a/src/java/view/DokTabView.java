@@ -6,6 +6,7 @@ package view;
 
 
 import dao.DokDAO;
+import embeddable.Mce;
 import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -117,24 +118,10 @@ public class DokTabView implements Serializable{
                     Integer mOdI = Integer.parseInt(mOd);
                     String mDo = wpisView.getMiesiacDo();
                     Integer mDoI = Integer.parseInt(mDo);
-                    Map<Integer, String> mapa;
-                    mapa = new HashMap<>();
-                    mapa.put(1, "01");
-                    mapa.put(2, "02");
-                    mapa.put(3, "03");
-                    mapa.put(4, "04");
-                    mapa.put(5, "05");
-                    mapa.put(6, "06");
-                    mapa.put(7, "07");
-                    mapa.put(8, "08");
-                    mapa.put(9, "09");
-                    mapa.put(10, "10");
-                    mapa.put(11, "11");
-                    mapa.put(12, "12");
                     while (itxX.hasNext()) {
                         Dok tmpx = (Dok) itxX.next();
                         for (int i = mOdI; i <= mDoI; i++) {
-                            if (tmpx.getPkpirM().equals(mapa.get(i)) && tmpx.getPkpirR().equals(r.toString())) {
+                            if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i)) && tmpx.getPkpirR().equals(r.toString())) {
                                 obiektDOKmrjsfSelX.add(tmpx);
                             }
                         }

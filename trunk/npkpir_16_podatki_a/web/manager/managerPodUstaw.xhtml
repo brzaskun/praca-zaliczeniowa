@@ -11,10 +11,10 @@
             <h:body> 
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                            <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
+                        <!--                       
+                        -->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
                             <h:form id="formularz">
                                 <p:ajaxStatus>
@@ -22,12 +22,11 @@
                                     <f:facet name="success"><h:outputText value="" /></f:facet>
                                     <f:facet name="error">An error has occurred!</f:facet>
                                 </p:ajaxStatus>
-                                <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
-                                <ui:include src="sub/podatnikust.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
-                           
+                            <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
+                            <ui:include src="sub/podatnikust.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                         </p:layoutUnit>
-                                 <ui:include src="sub/layout/east.xhtml"/>  <!--  panel wschodni-->
+                        <ui:include src="sub/layout/east.xhtml"/>  <!--  panel wschodni-->
                     </p:layout>
                 </f:view>
             </h:body>
