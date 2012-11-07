@@ -293,8 +293,8 @@ public class STRTabView implements Serializable{
     public void generujamodokumenty() {
         List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
         lista.addAll(obiektDOKjsfSel);
-        Pod pod = wpisView.getPodatnikWpisu();
-        String nazwapod = pod.getNpelna();
+        String pod = wpisView.getPodatnikWpisu();
+        String nazwapod = pod;
         amoDokDAO.destroyPod(pod);
          RequestContext.getCurrentInstance().update("formSTR:umorzeniaTablica");
         Integer rokOd = 2012;

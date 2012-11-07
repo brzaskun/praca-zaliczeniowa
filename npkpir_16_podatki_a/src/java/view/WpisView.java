@@ -18,7 +18,7 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class WpisView implements Serializable{
 
-    private static Pod podatnikWpisu;
+    private static String podatnikWpisu;
     private static Integer rokWpisu;
     private static String miesiacWpisu;
     private static Uz wprowadzil;
@@ -38,13 +38,15 @@ public class WpisView implements Serializable{
     public WpisView() {
     }
 
-    public Pod getPodatnikWpisu() {
+    public String getPodatnikWpisu() {
         return podatnikWpisu;
     }
 
-    public void setPodatnikWpisu(Pod podatnikWpisu) {
+    public void setPodatnikWpisu(String podatnikWpisu) {
         WpisView.podatnikWpisu = podatnikWpisu;
     }
+
+   
     
     public Integer getRokWpisu() {
         return rokWpisu;

@@ -55,9 +55,9 @@ public class Pitpoz implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Lob
+    @Size(max = 255)
     @Column(name = "podatnik")
-    private Pod podatnik;
+    private String podatnik;
     @Size(max = 255)
     @Column(name = "pkpir_r")
     private String pkpirR;
@@ -167,13 +167,15 @@ public class Pitpoz implements Serializable {
         this.podatek = podatek;
     }
 
-    public Pod getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(Pod podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+   
 
     public BigDecimal getPododpoczrok() {
         return pododpoczrok;

@@ -7,8 +7,8 @@
     <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
         <h:form id="westSrodki">
             <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv">
-                    <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" >
+                    <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}"/>
                     <p:ajax event="change" listener="#{SrodkiTrwaleView.aktualizujTabele}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
@@ -24,7 +24,7 @@
             </p:panel>
             <p:panelGrid id="westSrodkiWidok" columns="1" style="margin-left: 15%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.podatnikWpisu.npelna}"/>
+                <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.rokWpisu}"/>
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>

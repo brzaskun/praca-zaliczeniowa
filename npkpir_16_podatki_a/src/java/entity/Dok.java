@@ -73,7 +73,7 @@ public class Dok implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "podatnik")
-    private Pod podatnik;
+    private String podatnik;
     @Basic(optional = false)
     @NotNull
     @Column(name = "wpr")
@@ -250,13 +250,15 @@ public class Dok implements Serializable {
         this.pkpirKol = pkpirKol;
     }
 
-    public Pod getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(Pod podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+   
 
     public String getWprowadzil() {
         return wprowadzil;

@@ -14,7 +14,7 @@ import java.util.List;
 public class STRtabela {
 
     private Integer id;
-    private Pod podatnik;
+    private String podatnik;
     private String symbol;
     private String nazwa;
     private Double datawy;
@@ -45,13 +45,15 @@ public class STRtabela {
         this.id = id;
     }
 
-    public Pod getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(Pod podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+  
 
     public String getSymbol() {
         return symbol;
