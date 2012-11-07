@@ -1066,7 +1066,7 @@ public class ZestawienieView implements Serializable{
                     }
                 }
             }
-            pobierzPity();
+//            pobierzPity();
 //            zebranieMcy.add(styczen);
 //            zebranieMcy.add(luty);
 //            zebranieMcy.add(marzec);
@@ -1295,7 +1295,7 @@ public class ZestawienieView implements Serializable{
         } catch (Exception e){}
         narPitpoz = new Pitpoz();
         narPitpoz = pobierzPity.get(0);
-        biezacyPit.set(0,narPitpoz.getPodatnik().getNpelna().toString());
+        biezacyPit.set(0,narPitpoz.getPodatnik());
         biezacyPit.set(1,narPitpoz.getPkpirR());
         biezacyPit.set(2,narPitpoz.getPkpirM());
         biezacyPit.set(3,narPitpoz.getPrzychody().toString());

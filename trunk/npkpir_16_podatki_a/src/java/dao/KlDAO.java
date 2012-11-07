@@ -36,7 +36,7 @@ public class KlDAO implements Serializable{
 
        
      public List<Kl> complete(String query) {  
-        List<Kl> results = new ArrayList<Kl>();  
+        List<Kl> results = new ArrayList<>();  
         Kl kl = new Kl();
         try{
             String q = query.substring(0,1);
@@ -58,7 +58,7 @@ public class KlDAO implements Serializable{
     }  
     
      public List<Kl> completeNazwa(String query) {  
-        List<Kl> results = new ArrayList<Kl>();  
+        List<Kl> results = new ArrayList<>();  
         Kl kl = new Kl();
          for(Kl p : kl.getKlList()) {  
             if(p.getNpelna().startsWith(query)) {

@@ -70,9 +70,8 @@ public class SrodekTrw implements Serializable {
     private String symbol;
     @Column(name = "netto")
     private Double netto;
-    @Lob
     @Column(name = "podatnik")
-    private Pod podatnik;
+    private String podatnik;
      @Column(name = "datawy")
     private Double datawy;
     @Size(max = 255)
@@ -222,13 +221,15 @@ public class SrodekTrw implements Serializable {
         this.netto = netto;
     }
 
-    public Pod getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(Pod podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+  
 
     public String getTyp() {
         return typ;

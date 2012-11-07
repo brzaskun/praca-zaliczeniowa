@@ -27,11 +27,11 @@ public class Kl implements Serializable{
     private String npelna;
     private String pkpirKolumna;
     private String evat;
-    private static List<Kl> klList;
+    private static final List<Kl> klList;
        
 
     static{
-        klList = new ArrayList<Kl>();
+        klList = new ArrayList<>();
         klList.add(new Kl(120, "8511005008","Klient1","zakup tow.i mat.","zakup 23%"));
         klList.add(new Kl(123, "8511005018","Klient2","poz. koszty","zakup 23%"));
         klList.add(new Kl(124, "8511005108","Klient3","poz. koszty","zakup 23%"));

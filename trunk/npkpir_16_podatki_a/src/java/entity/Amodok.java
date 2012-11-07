@@ -51,9 +51,8 @@ public class Amodok implements Serializable {
     private List<Umorzenie> umorzenia;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @Lob
     @Column(name = "podatnik")
-    private Pod podatnik;
+    private String podatnik;
 
     public Amodok() {
         umorzenia = new ArrayList<Umorzenie>();
@@ -102,15 +101,13 @@ public class Amodok implements Serializable {
         this.zaksiegowane = zaksiegowane;
     }
 
-    public Pod getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(Pod podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-
-   
 
     @Override
     public int hashCode() {

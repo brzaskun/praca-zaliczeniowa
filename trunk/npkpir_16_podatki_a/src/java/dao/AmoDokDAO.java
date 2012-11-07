@@ -83,7 +83,7 @@ public class AmoDokDAO {
         }
     }
     
-     public void destroyPod(Pod pod) {
+     public void destroyPod(String pod) {
         List<Amodok> lista = new ArrayList<Amodok>();
         lista.addAll(amoDokList);
         Iterator it;

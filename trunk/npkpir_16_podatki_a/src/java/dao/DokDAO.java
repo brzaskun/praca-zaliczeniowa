@@ -6,6 +6,7 @@ package dao;
 
 import embeddable.Pod;
 import entity.Dok;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public class DokDAO implements Serializable{
     //tablica wciagnieta z bazy danych
     private static List<Dok> downloadedDok;
     //tablica obiektów
-
+   
     public List<Dok> getDownloadedDok() {
         return downloadedDok;
     }
@@ -118,7 +119,7 @@ public class DokDAO implements Serializable{
 //        tmp = dokFacade.poprzednik(rok,mc);
 //        return tmp;
 //        }
-     public List<Dok> zwrocBiezacegoKlienta(Pod pod){
+     public List<Dok> zwrocBiezacegoKlienta(String pod){
         List<Dok> lista = new ArrayList<>();
         Iterator it;
         it = downloadedDok.iterator();
@@ -131,7 +132,7 @@ public class DokDAO implements Serializable{
         return lista;
     }
      
-      public List<Dok> zwrocBiezacegoKlientaRok(Pod pod,Integer rok){
+      public List<Dok> zwrocBiezacegoKlientaRok(String pod,Integer rok){
         List<Dok> lista = new ArrayList<>();
         Iterator it;
         it = downloadedDok.iterator();

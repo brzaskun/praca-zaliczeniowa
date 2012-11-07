@@ -20,8 +20,8 @@
                 </f:facet>
                 <p:graphicImage url="/resources/images/ksiegi.jpg"/>
                 <p></p>
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" converter="PodConv" height="300">
-                    <f:selectItems value="#{PodatnicyEmbedded.podList}" var="p" itemLabel="#{p.npelna}"/>
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" height="300">
+                    <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>

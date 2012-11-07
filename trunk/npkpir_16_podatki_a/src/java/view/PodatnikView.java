@@ -6,9 +6,9 @@ package view;
 
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Pod;
-import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
@@ -41,7 +40,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class PodatnikView implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -60,7 +59,7 @@ public class PodatnikView implements Serializable{
     private Parametr parametr;
     @Inject
     private Parametr ostatniparametr;
-   
+   //tak sie sklada ze to jest glowna lista z podatnikami :)
     private static List<Podatnik> li;
     @Inject
     private DokDAO dokDAO;
@@ -380,29 +379,34 @@ public class PodatnikView implements Serializable{
          }
      }
      
-      private int sprawdzvat(Parametr nowe, List<Parametr> stare){
-         if(stare.size()==0){
-            Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
-            parametr.setMcOd("01");
+      private int sprawdzvat(Parametr nowe, List<Parametr> stare) {
+        if (stare.size() == 0) {
             parametr.setMcDo("");
             parametr.setRokDo("");
-             return 0
-         } else {
-         ostatniparametr = stare.get(stare.size()-1);
-         Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
-         Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
-         if(old_rokDo==new_rokOd-1){
-            Integer tmp = Integer.parseInt(nowe.getMcOd())-1;
-            ostatniparametr.setMcDo(tmp.toString());
-            ostatniparametr.setRokDo(nowe.getRokOd());
-            parametr.setRokDo(new_rokOd.toString());
             return 0;
-         } else {
-            return 1;
-         }
-         }
-     }
+        } else {
+            ostatniparametr = stare.get(stare.size() - 1);
+            Integer old_rokDo = Integer.parseInt(nowe.getRokOd());
+            Integer old_mcOd = Integer.parseInt(nowe.getMcOd());
+            if (old_mcOd == 1) {
+                old_mcOd = 12;
+                old_rokDo--;
+            } else {
+                old_mcOd--;
+            }
+            ostatniparametr.setRokDo(old_rokDo.toString());
+            ostatniparametr.setMcDo(Mce.getMapamcy().get(old_mcOd));
+            return 0;
+        } 
+}
      
+      public void usunvat(){
+         List<Parametr> tmp = new ArrayList<>();
+         tmp.addAll(selected.getVatokres());
+         tmp.remove(tmp.size()-1);
+         selected.setVatokres(tmp);
+         podatnikDAO.edit(selected);
+     }
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(pojemnik);
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
