@@ -6,6 +6,7 @@ package view;
 
 import dao.DokDAO;
 import dao.PitDAO;
+import embeddable.Mce;
 import entity.Dok;
 import entity.Pitpoz;
 import java.io.Serializable;
@@ -1066,7 +1067,7 @@ public class ZestawienieView implements Serializable{
                     }
                 }
             }
-//            pobierzPity();
+            pobierzPity();
 //            zebranieMcy.add(styczen);
 //            zebranieMcy.add(luty);
 //            zebranieMcy.add(marzec);
@@ -1294,7 +1295,7 @@ public class ZestawienieView implements Serializable{
         pobierzPity.addAll(pitDAO.getDownloaded());
         } catch (Exception e){}
         narPitpoz = new Pitpoz();
-        narPitpoz = pobierzPity.get(0);
+        narPitpoz = pobierzPity.get(Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
         biezacyPit.set(0,narPitpoz.getPodatnik());
         biezacyPit.set(1,narPitpoz.getPkpirR());
         biezacyPit.set(2,narPitpoz.getPkpirM());
