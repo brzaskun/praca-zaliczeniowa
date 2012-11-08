@@ -69,7 +69,7 @@ public class ZUSDAO implements Serializable{
         try {
         zUSFacade.remove(selected);
         } catch (Exception e) {
-            System.out.println("Nie usnieto stawki ZUS"+selected.getRok()+selected.getMiesiac()+ "+e.toString()");
+            System.out.println("Nie usnieto stawki ZUS"+selected.getZusstawkiPK().getRok()+selected.getZusstawkiPK().getMiesiac()+ "+e.toString()");
         }
     }
      public void edit(Zusstawki selected){
