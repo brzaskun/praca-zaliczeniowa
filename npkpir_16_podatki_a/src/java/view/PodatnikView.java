@@ -9,6 +9,7 @@ import dao.PodatnikDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Pod;
+import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
@@ -40,7 +43,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class PodatnikView implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
