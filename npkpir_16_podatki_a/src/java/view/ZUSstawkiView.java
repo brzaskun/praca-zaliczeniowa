@@ -32,6 +32,7 @@ public class ZUSstawkiView implements Serializable{
     private ZUSDAO zusDAO;
     @Inject
     private Zusstawki selected;
+    
     private List<Zusstawki> listapobranychstawek;
 
     public ZUSstawkiView() {
@@ -48,10 +49,9 @@ public class ZUSstawkiView implements Serializable{
     
      public void dodajzus(){
          try{
-         listapobranychstawek.add(selected);
-          RequestContext.getCurrentInstance().update(":formzus");
          zusDAO.dodajNowyWpis(selected);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika za m-c:", selected.getMiesiac());
+          listapobranychstawek.add(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika za m-c:", selected.getZusstawkiPK().getMiesiac());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
          } catch (Exception e) {
@@ -66,10 +66,9 @@ public class ZUSstawkiView implements Serializable{
       public void usunzus(){
         int index = listapobranychstawek.size()-1;
         selected = listapobranychstawek.get(index);
-        listapobranychstawek.remove(index);
         zusDAO.destroy(selected);
-        
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getMiesiac());
+        listapobranychstawek.remove(index);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getZusstawkiPK().getMiesiac());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
       
      }

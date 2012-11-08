@@ -5,18 +5,13 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-import javax.persistence.Basic;
+import javax.annotation.PostConstruct;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,26 +23,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zusstawki.findAll", query = "SELECT z FROM Zusstawki z"),
-    @NamedQuery(name = "Zusstawki.findById", query = "SELECT z FROM Zusstawki z WHERE z.id = :id"),
-    @NamedQuery(name = "Zusstawki.findByMiesiac", query = "SELECT z FROM Zusstawki z WHERE z.miesiac = :miesiac"),
-    @NamedQuery(name = "Zusstawki.findByRok", query = "SELECT z FROM Zusstawki z WHERE z.rok = :rok"),
+    @NamedQuery(name = "Zusstawki.findByRok", query = "SELECT z FROM Zusstawki z WHERE z.zusstawkiPK.rok = :rok"),
+    @NamedQuery(name = "Zusstawki.findByMiesiac", query = "SELECT z FROM Zusstawki z WHERE z.zusstawkiPK.miesiac = :miesiac"),
     @NamedQuery(name = "Zusstawki.findByZus51", query = "SELECT z FROM Zusstawki z WHERE z.zus51 = :zus51"),
     @NamedQuery(name = "Zusstawki.findByZus52", query = "SELECT z FROM Zusstawki z WHERE z.zus52 = :zus52"),
     @NamedQuery(name = "Zusstawki.findByZus53", query = "SELECT z FROM Zusstawki z WHERE z.zus53 = :zus53")})
 public class Zusstawki implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
-    @Size(max = 255)
-    @Column(name = "miesiac")
-    private String miesiac;
-    @Size(max = 255)
-    @Column(name = "rok")
-    private String rok;
+    @EmbeddedId
+    protected ZusstawkiPK zusstawkiPK;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "zus51")
     private Double zus51;
     @Column(name = "zus52")
@@ -58,32 +43,25 @@ public class Zusstawki implements Serializable {
     public Zusstawki() {
     }
 
-    public Zusstawki(Integer id) {
-        this.id = id;
+    @PostConstruct
+    public void init(){
+        zusstawkiPK = new ZusstawkiPK();
+    }
+    
+    public Zusstawki(ZusstawkiPK zusstawkiPK) {
+        this.zusstawkiPK = zusstawkiPK;
     }
 
-    public Integer getId() {
-        return id;
+    public Zusstawki(String rok, String miesiac) {
+        this.zusstawkiPK = new ZusstawkiPK(rok, miesiac);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public ZusstawkiPK getZusstawkiPK() {
+        return zusstawkiPK;
     }
 
-    public String getMiesiac() {
-        return miesiac;
-    }
-
-    public void setMiesiac(String miesiac) {
-        this.miesiac = miesiac;
-    }
-
-    public String getRok() {
-        return rok;
-    }
-
-    public void setRok(String rok) {
-        this.rok = rok;
+    public void setZusstawkiPK(ZusstawkiPK zusstawkiPK) {
+        this.zusstawkiPK = zusstawkiPK;
     }
 
     public Double getZus51() {
@@ -110,12 +88,10 @@ public class Zusstawki implements Serializable {
         this.zus53 = zus53;
     }
 
-   
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (zusstawkiPK != null ? zusstawkiPK.hashCode() : 0);
         return hash;
     }
 
@@ -126,7 +102,7 @@ public class Zusstawki implements Serializable {
             return false;
         }
         Zusstawki other = (Zusstawki) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.zusstawkiPK == null && other.zusstawkiPK != null) || (this.zusstawkiPK != null && !this.zusstawkiPK.equals(other.zusstawkiPK))) {
             return false;
         }
         return true;
@@ -134,7 +110,7 @@ public class Zusstawki implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Zusstawki[ id=" + id + " ]";
+        return "entity.Zusstawki[ zusstawkiPK=" + zusstawkiPK + " ]";
     }
     
 }

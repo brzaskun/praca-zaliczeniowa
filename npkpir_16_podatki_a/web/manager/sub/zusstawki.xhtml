@@ -15,8 +15,8 @@
         <p:panelGrid columns="1" style="width: 700px">
             <p:dataList value="#{zUSstawkiView.listapobranychstawek}"  var="loop" itemType="disc">
                 <h:outputText value="rok-miesiąc: " />
-                <h:outputText value="#{loop.rok}-" />
-                <h:outputText value="#{loop.miesiac}" />
+                <h:outputText value="#{loop.zusstawkiPK.rok}-" />
+                <h:outputText value="#{loop.zusstawkiPK.miesiac}" />
                 <h:outputText value=" kwota zus51: " />
                 <h:outputText value="#{loop.zus51}" />
                 <h:outputText value=" kwota zus52: " />
@@ -29,8 +29,8 @@
         <br/>
         <h:outputText value="wybierz parametry aktualne"/><br/>
         <p:panelGrid id="parametryzus" columns="2" >
-            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zUSstawkiView.selected.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-            <h:outputText value="miesiac : "/><h:selectOneListbox value="#{zUSstawkiView.selected.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></h:selectOneListbox>
+            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zUSstawkiView.selected.zusstawkiPK.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+            <h:outputText value="miesiac : "/><h:selectOneListbox value="#{zUSstawkiView.selected.zusstawkiPK.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></h:selectOneListbox>
             <h:outputText value="kwota zus51: "/><h:inputText value="#{zUSstawkiView.selected.zus51}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota zus52: "/><h:inputText value="#{zUSstawkiView.selected.zus52}"><f:convertNumber  /></h:inputText>
             <h:outputText value="kwota zus53: "/><h:inputText value="#{zUSstawkiView.selected.zus53}"><f:convertNumber /></h:inputText>
