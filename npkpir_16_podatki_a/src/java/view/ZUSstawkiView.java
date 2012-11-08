@@ -53,15 +53,13 @@ public class ZUSstawkiView implements Serializable{
          zusDAO.dodajNowyWpis(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika za m-c:", selected.getMiesiac());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
-          RequestContext.getCurrentInstance().update(":formzus");
+       
          } catch (Exception e) {
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Wystapil błąd.", "");
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
-          RequestContext.getCurrentInstance().update(":formzus");
+       
          }
         
-         RequestContext.getCurrentInstance().update(":formzus");
-         
      }
 
      
@@ -73,7 +71,7 @@ public class ZUSstawkiView implements Serializable{
         
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getMiesiac());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
-        RequestContext.getCurrentInstance().update(":formzus");
+      
      }
     
     
