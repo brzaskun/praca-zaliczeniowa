@@ -134,6 +134,9 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "WOJEWODZTWO")
     private String wojewodztwo;
+    @Lob
+    @Column(name = "zusparametr")
+    private List<Zusstawki> zusparametr;
 
     public Podatnik() {
     }
@@ -335,6 +338,15 @@ public class Podatnik implements Serializable {
         this.wojewodztwo = wojewodztwo;
     }
 
+    public List<Zusstawki> getZusparametr() {
+        return zusparametr;
+    }
+
+    public void setZusparametr(List<Zusstawki> zusparametr) {
+        this.zusparametr = zusparametr;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

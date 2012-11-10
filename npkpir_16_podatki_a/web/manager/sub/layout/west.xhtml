@@ -19,7 +19,7 @@
                     <h:outputText value="parametryzowanie podatnika"/>
                     <h:form id="westManager">
                         <p:panel menuTitle="Dane" header="Dane">
-                            <h:selectOneMenu value="#{podatnikView.pojemnik}" style="width: 150px">
+                            <h:selectOneMenu value="#{WpisView.podatnikWpisu}" style="width: 150px">
                                 <f:selectItem itemLabel="wybierz podatnika"/>
                                 <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
                             </h:selectOneMenu>

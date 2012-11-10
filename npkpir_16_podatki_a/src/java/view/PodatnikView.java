@@ -6,16 +6,20 @@ package view;
 
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Pod;
-import entity.Dok;
 import entity.Podatnik;
+import entity.Zusstawki;
+import entity.ZusstawkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -23,6 +27,7 @@ import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -43,7 +48,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class PodatnikView implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -57,6 +62,8 @@ public class PodatnikView implements Serializable{
     private String[] listka;
     private List<String> listkakopia;
     private List<String> miesiacepoweryfikacji;
+    private Integer rokdlazus;
+    @Inject private Zusstawki zusstawki;
     
     @Inject
     private Parametr parametr;
@@ -66,7 +73,11 @@ public class PodatnikView implements Serializable{
     private static List<Podatnik> li;
     @Inject
     private DokDAO dokDAO;
-
+    @Inject 
+    private ZUSDAO zusDAO;
+    @ManagedProperty(value="#{wpisView}")
+    private WpisView wpisView;
+    
     public  List<Podatnik> getLi() {
         return li;
     }
@@ -84,6 +95,7 @@ public class PodatnikView implements Serializable{
         listka[0]="zero";
         listka[1]="jeden";
         listka[2]="dwa";
+       
     }
     
     @PostConstruct
@@ -91,16 +103,47 @@ public class PodatnikView implements Serializable{
         Collection c;
         c = podatnikDAO.getDownloaded();
         li.addAll(c);
+        wpisView = new WpisView();
+        pojemnik = wpisView.getPodatnikWpisu();
+        selected=podatnikDAO.find(pojemnik);
       
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    
+    
+    public ZUSDAO getZusDAO() {
+        return zusDAO;
+    }
+
+    public void setZusDAO(ZUSDAO zusDAO) {
+        this.zusDAO = zusDAO;
+    }
+
+    
+    public Zusstawki getZusstawki() {
+        return zusstawki;
+    }
+
+    public void setZusstawki(Zusstawki zusstawki) {
+        this.zusstawki = zusstawki;
     }
     
 
+    
     public ArrayList<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
 
     public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
-        this.listapodatnikow = listapodatnikow;
+        PodatnikView.listapodatnikow = listapodatnikow;
     }
 
     public Pod getSelectedPod() {
@@ -109,6 +152,14 @@ public class PodatnikView implements Serializable{
 
     public void setSelectedPod(Pod selectedPod) {
         this.selectedPod = selectedPod;
+    }
+
+    public Integer getRokdlazus() {
+        return rokdlazus;
+    }
+
+    public void setRokdlazus(Integer rokdlazus) {
+        this.rokdlazus = rokdlazus;
     }
     
     
@@ -391,6 +442,11 @@ public class PodatnikView implements Serializable{
             ostatniparametr = stare.get(stare.size() - 1);
             Integer old_rokDo = Integer.parseInt(nowe.getRokOd());
             Integer old_mcOd = Integer.parseInt(nowe.getMcOd());
+            Integer sumOld = Integer.parseInt(ostatniparametr.getMcOd())+Integer.parseInt(ostatniparametr.getRokOd());
+            Integer sumNew = Integer.parseInt(nowe.getMcOd())+Integer.parseInt(nowe.getRokOd());
+            if(sumOld>=sumNew){
+                return 1;
+            }
             if (old_mcOd == 1) {
                 old_mcOd = 12;
                 old_rokDo--;
@@ -410,6 +466,71 @@ public class PodatnikView implements Serializable{
          selected.setVatokres(tmp);
          podatnikDAO.edit(selected);
      }
+      
+       public void dodajzus(){
+         try{
+         selected=podatnikDAO.find(pojemnik);
+         List<Zusstawki> tmp = new ArrayList<>();
+         try{
+         tmp.addAll(selected.getZusparametr());
+         } catch (Exception e){}
+         sprawdzzus(tmp);
+         tmp.add(zusstawki);
+         selected.setZusparametr(tmp);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } catch (Exception e) {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+     
+      private void sprawdzzus(List tmp) throws Exception{
+          Iterator it;
+          it = tmp.iterator();
+          while(it.hasNext()){
+              Zusstawki tmpx = (Zusstawki) it.next();
+              if(tmpx.getZusstawkiPK().equals(zusstawki.getZusstawkiPK())){
+                  throw new Exception("Blad");
+              }
+          }
+      }
+     
+      public void usunzus(){
+         selected=podatnikDAO.find(pojemnik);
+         List<Zusstawki> tmp = new ArrayList<>();
+         tmp.addAll(selected.getZusparametr());
+         tmp.remove(tmp.size()-1);
+         selected.setZusparametr(tmp);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+     }
+      
+      public void pobierzzus(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String rokzus = params.get("form3:rokzus");
+        String mczus = params.get("form3:miesiaczus");
+        List<Zusstawki> tmp;
+        tmp = new ArrayList<>();
+        Collection c;
+        c = zusDAO.getDownloaded();
+        tmp.addAll(c);
+        ZusstawkiPK key = new ZusstawkiPK();
+            key.setRok(rokzus);
+            key.setMiesiac(mczus);
+        Iterator it;
+        it = tmp.iterator();
+        while(it.hasNext()){
+            Zusstawki tmpX = (Zusstawki) it.next();
+            if(tmpX.getZusstawkiPK().equals(key)){
+                zusstawki = tmpX;
+                break;
+            }
+        }
+    }
+      
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(pojemnik);
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
