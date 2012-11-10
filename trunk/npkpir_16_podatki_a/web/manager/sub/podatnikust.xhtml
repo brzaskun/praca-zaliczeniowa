@@ -9,13 +9,15 @@
    
     <h:outputLabel value="Nazwa pełna: #{podatnikView.pojemnik}" style="font-size: 18px; font-weight: bold;"/>
     <br/><br/>
+    <p:accordionPanel id="akordeon">  
+    <p:tab title="Wybór opodatkowania podatkiem dochodowym">  
     <h:form id="form1" >
         <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
         <p:growl showDetail="true"/>
         <p:focus for="parametrypodatnika"/><br/>
         <h:outputText value="dane historyczne"/><br/>
         <p:panelGrid columns="4" style="width: 500px">
-            <ui:repeat value="#{podatnikView.selected.podatekdochodowy}" var="loop">
+            <p:dataList value="#{podatnikView.selected.podatekdochodowy}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                 <h:outputText value="od: " />
                 <h:outputText value="#{loop.mcOd}-" />
                 <h:outputText value="#{loop.rokOd}" />
@@ -25,7 +27,7 @@
                 <h:outputText value=" rodzaj opodatkowania: " />
                 <h:outputText value="#{loop.parametr}" />
                 <br/>
-            </ui:repeat>
+        </p:dataList>
         </p:panelGrid>
         <h:outputText value="wybierz parametry aktualne"/><br/>
         <p:panelGrid id="parametrypodatnika" columns="4" >
@@ -43,13 +45,15 @@
         </p:panelGrid>
     </h:form>
     <br/><br/>
+    </p:tab>
+     <p:tab title="Wybór formy rozliczen podatkiem vat">  
     <h:form id="form2" >
         <h:outputText value="Wybór formy rozliczen podatkiem vat" style="font-size: 15px"/>
         <p:growl showDetail="true"/>
         <p:focus for="parametryp1"/><br/>
         <h:outputText value="dane historyczne"/><br/>
         <p:panelGrid columns="4" style="width: 500px">
-            <ui:repeat value="#{podatnikView.selected.vatokres}" var="loop">
+            <p:dataList value="#{podatnikView.selected.vatokres}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                 <h:outputText value="od: " />
                 <h:outputText value="#{loop.mcOd}-" />
                 <h:outputText value="#{loop.rokOd}" />
@@ -59,7 +63,7 @@
                 <h:outputText value=" rodzaj rozliczeń: " />
                 <h:outputText value="#{loop.parametr}" />
                 <br/>
-            </ui:repeat>
+         </p:dataList>
         </p:panelGrid>
         <h:outputText value="wybierz parametry aktualne"/><br/>
         <p:panelGrid id="parametryp1" columns="5" >
@@ -77,17 +81,15 @@
         </p:panelGrid>
     </h:form>
     <br/><br/>
-    <h:form id="form3a">
-            <h:selectOneMenu value="#{podatnikView.rokdlazus}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-        <p:commandButton value="ok"/>
-    </h:form>
+     </p:tab>
+     <p:tab title="Wykaz kwot ZUS za rok podatkowy" id="tab3">  
     <h:form id="form3" >
         <h:outputText value="Wykaz kwot ZUS za rok podatkowy" style="font-size: 15px"/>
         <p:growl showDetail="true"/>
         <p:focus for="parametryp2"/><br/>
         <h:outputText value="dane historyczne"/><br/>
         <p:panelGrid columns="4" style="width: 800px">
-            <ui:repeat value="#{podatnikView.selected.zusparametr}" var="loop">
+            <p:dataList value="#{podatnikView.selected.zusparametr}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                 <h:outputText value="rok/miesiac " />
                 <h:outputText value="#{loop.zusstawkiPK.rok}/" />
                 <h:outputText value="#{loop.zusstawkiPK.miesiac}" />
@@ -100,7 +102,7 @@
                 <h:outputText value=" kwota zus53: " />
                 <h:outputText value="#{loop.zus53}" />
                 <br/>
-            </ui:repeat>
+            </p:dataList>
         </p:panelGrid>
         <h:outputText value="wybierz parametry aktualne"/><br/>
         <p:panelGrid id="parametryp2" columns="4" >
@@ -118,6 +120,7 @@
           <p:commandButton action="#{podatnikView.pobierzzus()}" value="pobierz parametr" update="@form"/>
         </p:panelGrid>
     </h:form>
-  
+    </p:tab>
+    </p:accordionPanel>
 </ui:composition>   
 

@@ -20,7 +20,7 @@ public class PitKolumn implements Serializable{
 
     private static final List<String> kolumnList;
   
-
+    
     static{
         kolumnList = new ArrayList<String>();
         kolumnList.add("podatnik");
@@ -50,6 +50,7 @@ public class PitKolumn implements Serializable{
     public List<String> getKolumnList() {
         return kolumnList;
     }
- 
+
+   
     
 }

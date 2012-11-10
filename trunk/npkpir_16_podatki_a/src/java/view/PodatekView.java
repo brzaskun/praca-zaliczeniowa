@@ -4,8 +4,10 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import embeddable.Kolmn;
 import entity.Dok;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -16,6 +18,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -26,17 +29,55 @@ import javax.faces.bean.RequestScoped;
 public class PodatekView implements Serializable{
     @ManagedProperty(value="#{DokTabView.obiektDOKmrjsfSel}")
     private ArrayList<Dok> oDOK;
-   
+    @Inject
+    PodatnikDAO podatnikDAO;
+    @ManagedProperty(value="#{wpisView}")
+    private WpisView wpisView;
     private BigDecimal przychody;
     private BigDecimal koszty;
     private BigDecimal inwestycje;
     private BigDecimal dochód;
     private BigDecimal podatek;
+    private String opodatkowanie;
+    private String rokmiesiac;
 
     public PodatekView() {
         przychody = BigDecimal.valueOf(0);
         koszty = BigDecimal.valueOf(0);
         inwestycje = BigDecimal.valueOf(0);
+    }
+
+    public String getOpodatkowanie() {
+        return opodatkowanie;
+    }
+
+    public void setOpodatkowanie(String opodatkowanie) {
+        this.opodatkowanie = opodatkowanie;
+    }
+
+    
+    public PodatnikDAO getPodatnikDAO() {
+        return podatnikDAO;
+    }
+
+    public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
+        this.podatnikDAO = podatnikDAO;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public String getRokmiesiac() {
+        return rokmiesiac;
+    }
+
+    public void setRokmiesiac(String rokmiesiac) {
+        this.rokmiesiac = rokmiesiac;
     }
 
     
@@ -111,7 +152,30 @@ public class PodatekView implements Serializable{
         
         dochód = (przychody.subtract(koszty));
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
-        podatek = (dochód.multiply(BigDecimal.valueOf(0.18)));
-        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+        wpisView = new WpisView();
+        String poszukiwany = wpisView.getPodatnikWpisu();
+        Podatnik selected=podatnikDAO.find(poszukiwany);
+        int index = selected.getPodatekdochodowy().size()-1;
+        opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
+        rokmiesiac = selected.getPodatekdochodowy().get(index).getRokOd();
+        String rodzajop = opodatkowanie;
+        Double stawka = 0.0;
+        switch (rodzajop){
+            case "zasady ogólne" :
+                stawka = .50;
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
+            case "podatek liniowy" :
+                stawka = .19;
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
+            case "ryczałt" :
+                stawka = .05;
+                podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
+        }
     }
 }

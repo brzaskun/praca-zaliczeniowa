@@ -6,11 +6,15 @@ package view;
 
 import dao.DokDAO;
 import dao.PitDAO;
+import dao.PodatnikDAO;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Pitpoz;
+import entity.Podatnik;
+import entity.Zusstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,6 +37,8 @@ public class ZestawienieView implements Serializable{
     private DokDAO dokDAO;
     @Inject
     private PitDAO pitDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -61,7 +67,8 @@ public class ZestawienieView implements Serializable{
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
     private List<List> zebranieMcy;
-    private List<String> biezacyPit;
+    @Inject
+    private Pitpoz biezacyPit;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -79,8 +86,7 @@ public class ZestawienieView implements Serializable{
         grudzien = Arrays.asList(new Double[7]);
         pobierzPity = new ArrayList<>();
         zebranieMcy = new ArrayList<>();
-        biezacyPit = Arrays.asList(new String[18]);
-    }
+     }
   
     
    
@@ -1067,19 +1073,19 @@ public class ZestawienieView implements Serializable{
                     }
                 }
             }
-            pobierzPity();
-//            zebranieMcy.add(styczen);
-//            zebranieMcy.add(luty);
-//            zebranieMcy.add(marzec);
-//            zebranieMcy.add(kwiecien);
-//            zebranieMcy.add(maj);
-//            zebranieMcy.add(czerwiec);
-//            zebranieMcy.add(lipiec);
-//            zebranieMcy.add(sierpien);
-//            zebranieMcy.add(wrzesien);
-//            zebranieMcy.add(pazdziernik);
-//            zebranieMcy.add(listopad);
-//            zebranieMcy.add(grudzien);
+            //pobierzPity();
+            zebranieMcy.add(styczen);
+            zebranieMcy.add(luty);
+            zebranieMcy.add(marzec);
+            zebranieMcy.add(kwiecien);
+            zebranieMcy.add(maj);
+            zebranieMcy.add(czerwiec);
+            zebranieMcy.add(lipiec);
+            zebranieMcy.add(sierpien);
+            zebranieMcy.add(wrzesien);
+            zebranieMcy.add(pazdziernik);
+            zebranieMcy.add(listopad);
+            zebranieMcy.add(grudzien);
         }
         
     Ipolrocze = new ArrayList<>();   
@@ -1092,17 +1098,69 @@ public class ZestawienieView implements Serializable{
         rok.add(Ipolrocze.get(i)+IIpolrocze.get(i));
     }
     }
-
+    //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit(){
-        pitpoz = new Pitpoz();
-        pitpoz.setPodatnik(wpisView.getPodatnikWpisu());
-        pitpoz.setPkpirR(wpisView.getRokWpisu().toString());
-        pitpoz.setPkpirM(wpisView.getMiesiacWpisu());
-        pitpoz.setPrzychody(obliczprzychod());
-        pitpoz.setKoszty(obliczkoszt());
-        pitpoz.setWynik(pitpoz.getPrzychody().subtract(pitpoz.getKoszty()));
-        pitpoz.setStrata(BigDecimal.ZERO);
-        pitDAO.dodajNowyWpis(pitpoz);
+        biezacyPit = new Pitpoz();
+        biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
+        biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
+        biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
+        biezacyPit.setPrzychody(obliczprzychod());
+        biezacyPit.setKoszty(obliczkoszt());
+        biezacyPit.setWynik(biezacyPit.getPrzychody().subtract(biezacyPit.getKoszty()));
+        biezacyPit.setStrata(BigDecimal.ZERO);
+        String poszukiwany = wpisView.getPodatnikWpisu();
+        Podatnik selected=podatnikDAO.find(poszukiwany);
+        Iterator it;
+        it = selected.getZusparametr().iterator();
+        while(it.hasNext()){
+            Zusstawki tmpX = (Zusstawki) it.next();
+             if(tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
+                    &&tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())){
+                if(tmpX.getZus51ch()!=null){
+                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
+                } else {
+                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                }
+                biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52()));
+                break;
+             }
+        }
+        BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+        tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
+        biezacyPit.setPodstawa(tmp);
+        int index = selected.getPodatekdochodowy().size()-1;
+        String opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
+        String rodzajop = opodatkowanie;
+        Double stawka = 0.0;
+        BigDecimal podatek = BigDecimal.ZERO;
+        BigDecimal dochód = biezacyPit.getWynik();
+        BigDecimal przychody = biezacyPit.getPrzychody();
+        switch (rodzajop){
+            case "zasady ogólne" :
+                stawka = .50;
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                break;
+            case "podatek liniowy" :
+                stawka = .19;
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                break;
+            case "ryczałt" :
+                stawka = .05;
+                podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                break;
+        }
+        biezacyPit.setPodatek(podatek);
+        BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
+        tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+        if(tmpX.signum()==-1){
+            biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+        } else {
+        biezacyPit.setPododpoczrok(tmpX);
+        }
+        
+        biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok());
+        biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
+        //pitDAO.dodajNowyWpis(pitpoz);
 
     }
     
@@ -1295,26 +1353,20 @@ public class ZestawienieView implements Serializable{
         pobierzPity.addAll(pitDAO.getDownloaded());
         } catch (Exception e){}
         narPitpoz = new Pitpoz();
-        narPitpoz = pobierzPity.get(Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
-        biezacyPit.set(0,narPitpoz.getPodatnik());
-        biezacyPit.set(1,narPitpoz.getPkpirR());
-        biezacyPit.set(2,narPitpoz.getPkpirM());
-        biezacyPit.set(3,narPitpoz.getPrzychody().toString());
-        biezacyPit.set(4,narPitpoz.getKoszty().toString());
-        biezacyPit.set(5,narPitpoz.getWynik().toString());
-        biezacyPit.set(6,narPitpoz.getStrata().toString());
-        biezacyPit.set(7,narPitpoz.getZus51().toString());        
-        biezacyPit.set(8,narPitpoz.getPodstawa().toString());        
-        biezacyPit.set(9,narPitpoz.getPodatek().toString());
-        biezacyPit.set(10,narPitpoz.getZus52().toString());
-        biezacyPit.set(11,narPitpoz.getPododpoczrok().toString());
-        biezacyPit.set(12,narPitpoz.getNalzalodpoczrok().toString());
-        biezacyPit.set(13,narPitpoz.getNaleznazal().toString());        
-        biezacyPit.set(14,narPitpoz.getDozaplaty().toString());        
-        biezacyPit.set(15,narPitpoz.getTerminwplaty().toString());
-        biezacyPit.set(16,narPitpoz.getPrzelano().toString());        
-        biezacyPit.set(17,"true");        
-   
+        int index=0;
+        Iterator it;
+        it = pobierzPity.iterator();
+        while(it.hasNext()){
+            Pitpoz tmpX = (Pitpoz) it.next();
+            if(tmpX.getPkpirR().equals(wpisView.getRokWpisu().toString())
+                    &&tmpX.getPkpirM().equals(wpisView.getMiesiacWpisu())){
+                index = tmpX.getId()-1;
+                break;
+            }
+        }
+        //narPitpoz = pobierzPity.get(Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
+        narPitpoz = pobierzPity.get(index);
+        biezacyPit = narPitpoz;
     }
     
     public DokDAO getDokDAO() {
@@ -1502,14 +1554,23 @@ public class ZestawienieView implements Serializable{
         this.zebranieMcy = zebranieMcy;
     }
 
-    public List<String> getBiezacyPit() {
+    public Pitpoz getBiezacyPit() {
         return biezacyPit;
     }
 
-    public void setBiezacyPit(List<String> biezacyPit) {
+    public void setBiezacyPit(Pitpoz biezacyPit) {
         this.biezacyPit = biezacyPit;
     }
 
+    public PodatnikDAO getPodatnikDAO() {
+        return podatnikDAO;
+    }
+
+    public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
+        this.podatnikDAO = podatnikDAO;
+    }
+
+  
     
     
 }

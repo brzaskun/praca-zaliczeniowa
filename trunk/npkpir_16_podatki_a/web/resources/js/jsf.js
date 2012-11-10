@@ -7,6 +7,12 @@ function orientujsie(){
     document.getElementById("dodWiad:rodzajTrans").focus();
 }
 
+function openwindow(){
+    alert("test");
+     my_window = window.open("", "mywindow1", "status=1,width=350,height=150");
+    my_window.document.write('<h1>Popup Test!</h1>');
+}
+
 function stopRKey(evt) { 
   var evt = (evt) ? evt : ((event) ? event : null); 
   var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 

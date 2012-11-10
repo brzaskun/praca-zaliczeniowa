@@ -62,7 +62,7 @@ public class PodatnikView implements Serializable{
     private String[] listka;
     private List<String> listkakopia;
     private List<String> miesiacepoweryfikacji;
-    private Integer rokdlazus;
+
     @Inject private Zusstawki zusstawki;
     
     @Inject
@@ -105,7 +105,9 @@ public class PodatnikView implements Serializable{
         li.addAll(c);
         wpisView = new WpisView();
         pojemnik = wpisView.getPodatnikWpisu();
+        try{
         selected=podatnikDAO.find(pojemnik);
+        } catch (Exception e){}
       
     }
 
@@ -154,15 +156,6 @@ public class PodatnikView implements Serializable{
         this.selectedPod = selectedPod;
     }
 
-    public Integer getRokdlazus() {
-        return rokdlazus;
-    }
-
-    public void setRokdlazus(Integer rokdlazus) {
-        this.rokdlazus = rokdlazus;
-    }
-    
-    
     
     public Parametr getParametr() {
         return parametr;
@@ -510,8 +503,8 @@ public class PodatnikView implements Serializable{
       
       public void pobierzzus(){
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String rokzus = params.get("form3:rokzus");
-        String mczus = params.get("form3:miesiaczus");
+        String rokzus = params.get("akordeon:form3:rokzus");
+        String mczus = params.get("akordeon:form3:miesiaczus");
         List<Zusstawki> tmp;
         tmp = new ArrayList<>();
         Collection c;
@@ -533,6 +526,8 @@ public class PodatnikView implements Serializable{
       
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(pojemnik);
+           //sprawdazic
+           RequestContext.getCurrentInstance().execute("openwindow()");
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
      }
      
