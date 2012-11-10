@@ -13,7 +13,7 @@
     <h:body style="background-color: #FFFFFF">
         <f:view>
             <h:form id="formlog1">
-                  <p:ajaxStatus>
+                <p:ajaxStatus>
                     <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
                     <f:facet name="success"><h:outputText value="" /></f:facet>
                     <f:facet name="error">An error has occurred!</f:facet>
@@ -22,19 +22,19 @@
                     <p:messages id="logowanie"  autoUpdate="true" style="width: 150px"/>
                     <p:panelGrid columns="3" var="loc" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 0%; width: 600px; border-style: none" >
                         <p:column>
-                                <h:link outcome="pomoclogowanie" value="pomoc" />
+                            <h:link outcome="pomoclogowanie" value="pomoc" />
                         </p:column>
                         <p:column>
-                                <h:link outcome="zapomnialemhasla" value="zapomnialem hasla"/>
+                            <h:link outcome="zapomnialemhasla" value="zapomnialem hasla"/>
                         </p:column>
-                         <p:column>
-                                <h:link outcome="rejestruj" value="zarejestruj się"/>
+                        <p:column>
+                            <h:link outcome="rejestruj" value="zarejestruj się"/>
                         </p:column>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 2% 0% 0% 40%; width: 150px">
                     <f:facet name="header">
-                    <h:outputLabel value="Prosze wpisać nazwę i haslo uzytkownika"/>
+                        <h:outputLabel value="Prosze wpisać nazwę i haslo uzytkownika"/>
                     </f:facet>
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2">
@@ -44,8 +44,10 @@
                         <h:inputSecret value="#{Logowanie.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true" />
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
-                    <p:commandButton value="Wyloguj" action="#{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>
+                    <p:panelGrid columns="2">
+                        <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
+                        <p:commandButton value="Wyloguj" action="#{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>
+                    </p:panelGrid>
                 </p:panel>
             </h:form>
             <p:graphicImage url="/resources/images/ninja.png" style="margin-left: 20%" />

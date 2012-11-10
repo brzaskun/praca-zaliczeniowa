@@ -62,6 +62,10 @@
             <from-outcome>zusstawki</from-outcome>
             <to-view-id>/manager/managerZUSstawki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>podstawki</from-outcome>
+            <to-view-id>/manager/managerPodstawki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>dodpodatnika</from-outcome>
             <to-view-id>/manager/managerPodatnik.xhtml?faces-redirect=true</to-view-id>
