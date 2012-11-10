@@ -4,7 +4,7 @@
  */
 package dao;
 
-import entity.Pitpoz;
+import entity.Podstawki;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,30 +14,37 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import session.PitpozFacade;
+import session.PodstawkiFacade;
 
 /**
  *
  * @author Osito
  */
-@Named(value="PitDAO")
-public class PitDAO implements Serializable{
+@Named
+public class PodStawkiDAO implements Serializable{
     @Inject
-    private PitpozFacade pitpozFacade;
+    private PodstawkiFacade podstawkiFacade;
     //tablica wciagnieta z bazy danych
-    private static List<Pitpoz> downloaded;
+    private static List<Podstawki> downloaded;
+    private static List<Podstawki> down2;
   
    
-    public PitDAO() {
+    public PodStawkiDAO() {
         downloaded = new ArrayList<>();
-    }
-    
-    public  List<Pitpoz> getDownloaded() {
-        return downloaded;
+        down2 = new ArrayList<>();
     }
 
-    public void setDownloaded(List<Pitpoz> downloaded) {
-        PitDAO.downloaded = downloaded;
+   
+    
+    
+    public  List<Podstawki> getDownloaded() {
+        return downloaded;
+    }
+     public static List<Podstawki> getDownloadedS() {
+        return downloaded;
+    }
+        public void setDownloaded(List<Podstawki> downloaded) {
+        dao.PodStawkiDAO.downloaded = downloaded;
     }
 
     
@@ -47,7 +54,7 @@ public class PitDAO implements Serializable{
     public void init(){
         Collection c = null;    
         try {
-            c = pitpozFacade.findAll();
+            c = podstawkiFacade.findAll();
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
@@ -56,29 +63,29 @@ public class PitDAO implements Serializable{
     }
 
   
-     public void dodajNowyWpis(Pitpoz selected){
-            pitpozFacade.create(selected);
+     public void dodajNowyWpis(Podstawki selected){
+            podstawkiFacade.create(selected);
     }
    
-     public void destroy(Pitpoz selected) {
+     public void destroy(Podstawki selected) {
         try {
-        pitpozFacade.remove(selected);
+        podstawkiFacade.remove(selected);
         } catch (Exception e) {
-            System.out.println("Nie usunieto DAO"+selected.getId()+" "+e.toString());
+            System.out.println("Nie usnieto danych podatkowych DAO"+e.toString());
         }
     }
-     public void edit(Pitpoz selected){
+     public void edit(Podstawki selected){
         try {
-            pitpozFacade.edit(selected);
+            podstawkiFacade.edit(selected);
         } catch (Exception e) {
             System.out.println(e.toString());
-            FacesMessage msg = new FacesMessage("PIT nie zedytowany DAO", e.toString());
+            FacesMessage msg = new FacesMessage("Dane podatkowe nie zedytowane DAO", e.toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
      }
      
-     public Pitpoz find(String rok, String mc, String pod){
-         return pitpozFacade.find(rok,mc,pod);
+     public Podstawki find(Integer rok){
+        return podstawkiFacade.findyear(rok);
      }
+   
 }
-

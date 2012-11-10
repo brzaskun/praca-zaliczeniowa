@@ -4,7 +4,7 @@
  */
 package session;
 
-import entity.Pitpoz;
+import entity.Podstawki;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author Osito
  */
 @Stateless
-public class PitpozFacade extends AbstractFacade<Pitpoz> {
+public class PodstawkiFacade extends AbstractFacade<Podstawki> {
     @PersistenceContext(unitName = "npkpir_PU")
     private EntityManager em;
 
@@ -23,12 +23,12 @@ public class PitpozFacade extends AbstractFacade<Pitpoz> {
         return em;
     }
 
-    public PitpozFacade() {
-        super(Pitpoz.class);
+    public PodstawkiFacade() {
+        super(Podstawki.class);
     }
     
-    public Pitpoz find(String rok, String mc, String pod){
-        Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
+    public Podstawki findyear(Integer rok){
+        Podstawki tmp = (Podstawki) em.createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();
         return tmp;
     }
 }

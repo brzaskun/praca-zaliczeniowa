@@ -4,10 +4,12 @@
  */
 package view;
 
+import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import embeddable.Kolmn;
 import entity.Dok;
 import entity.Podatnik;
+import entity.Podstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -31,6 +33,8 @@ public class PodatekView implements Serializable{
     private ArrayList<Dok> oDOK;
     @Inject
     PodatnikDAO podatnikDAO;
+    @Inject
+    PodStawkiDAO podstawkiDAO;
     @ManagedProperty(value="#{wpisView}")
     private WpisView wpisView;
     private BigDecimal przychody;
@@ -129,6 +133,14 @@ public class PodatekView implements Serializable{
     public void setoDOK(ArrayList<Dok> oDOK) {
         this.oDOK = oDOK;
     }
+
+    public PodStawkiDAO getPodstawkiDAO() {
+        return podstawkiDAO;
+    }
+
+    public void setPodstawkiDAO(PodStawkiDAO podstawkiDAO) {
+        this.podstawkiDAO = podstawkiDAO;
+    }
     
     
     
@@ -159,20 +171,22 @@ public class PodatekView implements Serializable{
         opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
         rokmiesiac = selected.getPodatekdochodowy().get(index).getRokOd();
         String rodzajop = opodatkowanie;
+        Podstawki tmpY = podstawkiDAO.find(Integer.parseInt(rokmiesiac));
         Double stawka = 0.0;
         switch (rodzajop){
             case "zasady ogólne" :
-                stawka = .50;
+                stawka = tmpY.getStawka1();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
                         podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "podatek liniowy" :
-                stawka = .19;
+                stawka = tmpY.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                         podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt" :
-                stawka = .05;
+                stawka = tmpY.getStawkaryczalt1();
                 podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
                         podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
