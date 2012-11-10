@@ -10,6 +10,10 @@
     <p:outputPanel>
         
         <p:panelGrid id="prezentacjaPodatku" columns="4">
+            <h:outputLabel value="rok: "/>
+            <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
+            <h:outputLabel value="rodzaj opodatkowania: "/>
+            <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
             <h:outputLabel value="Przychody:"/>
             <h:outputLabel value="#{PodatekView.przychody}">
                 <f:convertNumber locale="PL"/>

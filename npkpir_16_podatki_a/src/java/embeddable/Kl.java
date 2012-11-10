@@ -32,10 +32,10 @@ public class Kl implements Serializable{
 
     static{
         klList = new ArrayList<>();
-        klList.add(new Kl(120, "8511005008","Klient1","zakup tow.i mat.","zakup 23%"));
+        klList.add(new Kl(120, "8511005008","Klient1","zakup tow. i mat.","zakup 23%"));
         klList.add(new Kl(123, "8511005018","Klient2","poz. koszty","zakup 23%"));
         klList.add(new Kl(124, "8511005108","Klient3","poz. koszty","zakup 23%"));
-        klList.add(new Kl(135, "8511001008","Klient4","zakup tow.i mat.","zakup 23%"));
+        klList.add(new Kl(135, "8511001008","Klient4","zakup tow. i mat.","zakup 23%"));
         klList.add(new Kl(136, "8511015008","Klient5","przych. sprz","zakup 23%"));
     }
     

@@ -6,20 +6,28 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:form>
     <p:panelGrid id="zestawieniepit" columns="2" >
-        <p:panelGrid id="zestawieniepit1" columns="1" >
-        <c:forEach var="var1" items="#{pitKolumn.kolumnList}">
-            <h:outputLabel value="#{var1}" style="height: 35px;"/>
-        </c:forEach>
-        </p:panelGrid>
-        <p:panelGrid id="zestawieniepit2" columns="1" >
-        <c:forEach var="var2" items="#{ZestawienieView.biezacyPit}">
-        <h:outputText value="#{var2}" />
-        </c:forEach>
-        </p:panelGrid>
-    </p:panelGrid>
-<!--     <p:commandButton value="Print" type="button">
-                        <p:printer target="zestawienieroczne" />
-                    </p:commandButton>-->
+        <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
+        <h:outputText value="pkpirR"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
+        <h:outputText value="pkpirM"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
+        <h:outputText value="przychody"/><h:inputText value="#{ZestawienieView.biezacyPit.przychody}"><f:convertNumber/></h:inputText>
+        <h:outputText value="koszty"/><h:inputText value="#{ZestawienieView.biezacyPit.koszty}"><f:convertNumber/></h:inputText>
+        <h:outputText value="wynik"/><h:inputText value="#{ZestawienieView.biezacyPit.wynik}"><f:convertNumber/></h:inputText>
+        <h:outputText value="strata z lat ub"/><h:inputText value="#{ZestawienieView.biezacyPit.strata}"><f:convertNumber/></h:inputText>
+        <h:outputText value="ZUS 51"/><h:inputText value="#{ZestawienieView.biezacyPit.zus51}"><f:convertNumber/></h:inputText>
+        <h:outputText value="podstawa opod."/><h:inputText value="#{ZestawienieView.biezacyPit.podstawa}"><f:convertNumber/></h:inputText>
+        <h:outputText value="podatek"/><h:inputText value="#{ZestawienieView.biezacyPit.podatek}"><f:convertNumber/></h:inputText>
+        <h:outputText value="ZUS 52"/><h:inputText value="#{ZestawienieView.biezacyPit.zus52}"><f:convertNumber/></h:inputText>
+        <h:outputText value="podatek należny od pocz rok"/><h:inputText value="#{ZestawienieView.biezacyPit.pododpoczrok}"><f:convertNumber/></h:inputText>
+        <h:outputText value="zaliczki za pop.m-ce"/><h:inputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}"><f:convertNumber/></h:inputText>
+        <h:outputText value="należna zal. za m-c"/><h:inputText value="#{ZestawienieView.biezacyPit.naleznazal}"><f:convertNumber/></h:inputText>
+        <h:outputText value="do zapłaty"/><h:inputText value="#{ZestawienieView.biezacyPit.dozaplaty}"><f:convertNumber/></h:inputText>
+        <h:outputText value="termin płatności"/><h:inputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
+        <h:outputText value="przelano"/><h:inputText value="#{ZestawienieView.biezacyPit.przelano}"/>
+        <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
+       </p:panelGrid>
+                <p:commandButton value="oblicz pit"  action="#{ZestawienieView.obliczPit()}" update="@form"/>
+    </h:form>
 </ui:composition>   
 
