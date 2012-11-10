@@ -76,6 +76,48 @@
         <p:commandButton action="#{podatnikView.dodajvat()}" value="dodaj parametr" update="@form" type="submit"/>
         </p:panelGrid>
     </h:form>
-
+    <br/><br/>
+    <h:form id="form3a">
+            <h:selectOneMenu value="#{podatnikView.rokdlazus}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+        <p:commandButton value="ok"/>
+    </h:form>
+    <h:form id="form3" >
+        <h:outputText value="Wykaz kwot ZUS za rok podatkowy" style="font-size: 15px"/>
+        <p:growl showDetail="true"/>
+        <p:focus for="parametryp2"/><br/>
+        <h:outputText value="dane historyczne"/><br/>
+        <p:panelGrid columns="4" style="width: 800px">
+            <ui:repeat value="#{podatnikView.selected.zusparametr}" var="loop">
+                <h:outputText value="rok/miesiac " />
+                <h:outputText value="#{loop.zusstawkiPK.rok}/" />
+                <h:outputText value="#{loop.zusstawkiPK.miesiac}" />
+                <h:outputText value=" kwota zus51/ch: " />
+                <h:outputText value="#{loop.zus51ch}" />
+                <h:outputText value=" kwota zus51/bch: " />
+                <h:outputText value="#{loop.zus51bch}" />
+                <h:outputText value=" kwota zus52: " />
+                <h:outputText value="#{loop.zus52}" />
+                <h:outputText value=" kwota zus53: " />
+                <h:outputText value="#{loop.zus53}" />
+                <br/>
+            </ui:repeat>
+        </p:panelGrid>
+        <h:outputText value="wybierz parametry aktualne"/><br/>
+        <p:panelGrid id="parametryp2" columns="4" >
+            <h:outputText value="rok: "/><h:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+            <h:outputText value="miesiąc: "/><h:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.miesiac}" id="miesiaczus"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+             <h:outputText value="kwota zus51 z chor.: "/><h:inputText value="#{podatnikView.zusstawki.zus51ch}"><f:convertNumber /></h:inputText>
+            <h:outputText value="kwota zus51 bez chor.: "/><h:inputText value="#{podatnikView.zusstawki.zus51bch}"><f:convertNumber /></h:inputText>
+            <h:outputText value="kwota zus52: "/><h:inputText value="#{podatnikView.zusstawki.zus52}"><f:convertNumber  /></h:inputText>
+            <h:outputText value="kwota zus53: "/><h:inputText value="#{podatnikView .zusstawki.zus53}"><f:convertNumber /></h:inputText>
+        </p:panelGrid>
+        <br/>
+        <p:panelGrid columns="3" style="column-width: 350px; width: 500px">
+        <p:commandButton action="#{podatnikView.usunzus()}" value="usun parametr" update="@form" type="submit"/>
+        <p:commandButton action="#{podatnikView.dodajzus()}" value="dodaj parametr" update="@form" type="submit"/>
+          <p:commandButton action="#{podatnikView.pobierzzus()}" value="pobierz parametr" update="@form"/>
+        </p:panelGrid>
+    </h:form>
+  
 </ui:composition>   
 
