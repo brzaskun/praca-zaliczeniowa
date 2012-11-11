@@ -10,11 +10,8 @@ import embeddable.Mce;
 import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -35,10 +32,6 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean(name="DokTabView")
 @RequestScoped
 public class DokTabView implements Serializable{
-   
-    private HashMap<String,Dok> dokHashTable;
-    //tablica kluczy do obiektów
-    private List<String> kluczDOKjsf;
     //tablica obiektów
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
@@ -47,8 +40,11 @@ public class DokTabView implements Serializable{
     private List<Dok> obiektDOKjsfSelRok;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
-     //tablica obiektów danego klienta z określonego roku i miesiecy
+    //tablica obiektów danego klienta z określonego roku i miesiecy
     private List<Dok> obiektDOKmrjsfSelX;
+    //dokumenty o tym samym okresie vat
+    private List<Dok> dokvatmc;
+    
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -62,50 +58,50 @@ public class DokTabView implements Serializable{
    
 
     public DokTabView() {
-        dokHashTable = new HashMap<>();
-        kluczDOKjsf = new ArrayList<>();
-        obiektDOKjsf = new ArrayList<>();
+        //dokumenty podatnika
         obiektDOKjsfSel = new ArrayList<>();
+        //dokumenty podatnika z roku
         obiektDOKjsfSelRok = new ArrayList<>();
+        //dokumenty podatnika z miesiaca
         obiektDOKmrjsfSel = new ArrayList<>();
+        //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = new ArrayList<>();
+        //dekumenty o tym samym okresie vat
+        dokvatmc = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
-            Collection c = null;
             try {
-                c = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-            if (c != null) {
-                Iterator it;
-                it = c.iterator();
-                int j=0;
-                while (it.hasNext()) {
-                    Dok tmp = (Dok) it.next();
-                    tmp.setNrWpkpir(j);
-                    kluczDOKjsf.add(tmp.getIdDok().toString());
-                    obiektDOKjsf.add(tmp);
-                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        obiektDOKjsfSel.add(tmp);
-                    }
-                    dokHashTable.put(tmp.getIdDok().toString(), tmp);
-                    j++;
-                }
+                String m = wpisView.getMiesiacWpisu();
+                Integer m1 = Integer.parseInt(m);
+                String mn = Mce.getMapamcy().get(m1);
                 Iterator itx;
                 itx = obiektDOKjsfSel.iterator();
+                int inu=1;
                 while (itx.hasNext()) {
                     Dok tmpx = (Dok) itx.next();
-                    String m = wpisView.getMiesiacWpisu();
+                   
                     Integer r = wpisView.getRokWpisu();
-                    if (tmpx.getPodatnik().equals(wpisView.getPodatnikWpisu())&& tmpx.getPkpirR().equals(r.toString())) {
+                    if (tmpx.getPkpirR().equals(r.toString())) {
+                        tmpx.setNrWpkpir(inu);
                         obiektDOKjsfSelRok.add(tmpx);
+                        inu++;
                     }
-                    if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-
+                }
+                Iterator ity;
+                ity = obiektDOKjsfSelRok.iterator();
+                while(ity.hasNext()){
+                    Dok tmpx = (Dok) ity.next();
+                    if (tmpx.getVatM().equals(mn)) {
+                        dokvatmc.add(tmpx);
+                    }
+                    if (tmpx.getPkpirM().equals(m)) {
                         obiektDOKmrjsfSel.add(tmpx);
                     }
                 }
@@ -129,7 +125,7 @@ public class DokTabView implements Serializable{
                 }
             }
         }
-    }
+
 
      public void edit(RowEditEvent ex) {
         try {
@@ -172,48 +168,30 @@ public class DokTabView implements Serializable{
     }
 
     public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext ctx = null;
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        ctx.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();
         ValueBinding binding = application.createValueBinding("#{PodatekView}");
         PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
         podatekView.sprawozdaniePodatkowe();
-        ctx.getCurrentInstance().update("form:prezentacjaPodatku");
+        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
     }
 
     public void aktualizujObroty(AjaxBehaviorEvent e) {
         obiektDOKmrjsfSelX.clear();
-        RequestContext ctx = null;
-        ctx.getCurrentInstance().update("formX");
-        ctx.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+        RequestContext.getCurrentInstance().update("formX");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
 
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
         RequestContext ctx = null;
-        ctx.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
-        ctx.getCurrentInstance().update("westWpis:westWpisWidok");
+        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
+        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
 
     }
 
-    public HashMap<String, Dok> getDokHashTable() {
-        return dokHashTable;
-    }
-
-    public void setDokHashTable(HashMap<String, Dok> dokHashTable) {
-        this.dokHashTable = dokHashTable;
-    }
-
-    public List<String> getKluczDOKjsf() {
-        return kluczDOKjsf;
-    }
-
-    public void setKluczDOKjsf(List<String> kluczDOKjsf) {
-        this.kluczDOKjsf = kluczDOKjsf;
-    }
-
-    public List<Dok> getObiektDOKjsf() {
+   public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
     }
 
@@ -283,6 +261,14 @@ public class DokTabView implements Serializable{
 
     public void setObiektDOKjsfSelRok(List<Dok> obiektDOKjsfSelRok) {
         this.obiektDOKjsfSelRok = obiektDOKjsfSelRok;
+    }
+
+    public List<Dok> getDokvatmc() {
+        return dokvatmc;
+    }
+
+    public void setDokvatmc(List<Dok> dokvatmc) {
+        this.dokvatmc = dokvatmc;
     }
  
     

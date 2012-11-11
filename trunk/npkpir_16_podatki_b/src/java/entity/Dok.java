@@ -6,7 +6,6 @@ package entity;
 
 import embeddable.EVatwpis;
 import embeddable.Kl;
-import embeddable.Pod;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -85,6 +83,10 @@ public class Dok implements Serializable {
     @Column(name = "data_wyst")
 //    @Temporal(TemporalType.DATE)
     private String dataWyst;
+    @Size(max = 10)
+    @Column(name = "data_sprzedazy")
+//    @Temporal(TemporalType.DATE)
+    private String dataSprz;
     @Size(max = 45)
     @Column(name = "rodz_trans")
     private String rodzTrans;
@@ -324,6 +326,15 @@ public class Dok implements Serializable {
         this.dodatkowaKolumna = dodatkowaKolumna;
     }
 
+    public String getDataSprz() {
+        return dataSprz;
+    }
+
+    public void setDataSprz(String dataSprz) {
+        this.dataSprz = dataSprz;
+    }
+
+    
    
  
 

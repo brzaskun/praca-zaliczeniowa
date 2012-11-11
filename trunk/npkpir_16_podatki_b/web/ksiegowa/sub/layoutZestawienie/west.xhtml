@@ -37,11 +37,17 @@
            <p:panel header="linki">
          <h:form>
                 <p:panelGrid columns="1">
-                <h:link outcome="tablica">tablica</h:link>
-                <h:link outcome="obroty">obroty</h:link>
-                <h:link outcome="srodki">srodki</h:link>
-                  <h:link outcome="klienci">klienci</h:link>
-                  <h:link outcome="pity">pit</h:link>
+                      <p:menu >
+                    <p:menuitem value="tablica"  outcome="tablica" icon="ui-icon-circle-arrow-e" />        
+                    <p:menuitem value="ksiegowa"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="obroty"  outcome="obroty" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="zestawienie"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="pity"  outcome="pity" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  
+                      </p:menu>
+             
                 </p:panelGrid>
             </h:form>
         </p:panel>

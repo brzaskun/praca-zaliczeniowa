@@ -81,7 +81,7 @@ public class DokView implements Serializable{
     
     private static Kl przekazKontr;
     private String dataWystawienia;
-  
+    private String dataSprzedazy;
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -104,6 +104,8 @@ public class DokView implements Serializable{
     private String opis4;
     private double netto4;
     private double vat4;
+    private String opizw;
+    
     @Inject
     private EVatView evat;
     @Inject
@@ -227,6 +229,22 @@ public class DokView implements Serializable{
             ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
             ewX.setValueExpression("value", ve2X);
             grid1.getChildren().add(ewX);
+            if(transakcjiRodzaj.equals("zakup")||transakcjiRodzaj.equals("srodek trw")){
+            UISelectItems ulista = new UISelectItems();
+            List valueList = new ArrayList();
+            SelectItem selectItem = new SelectItem("sprz.op", "sprz.op");
+            valueList.add(selectItem);
+            selectItem = new SelectItem("sprzed.op.izw.", "sprzed.op.izw.");
+            valueList.add(selectItem);
+            ulista.setValue(valueList);
+            final String bindingY = "#{DokumentView.opizw}";
+            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
+            HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
+            htmlSelectOneMenu.setValueExpression("value", ve2Y);
+            htmlSelectOneMenu.setStyle("min-width: 150px");
+            htmlSelectOneMenu.getChildren().add(ulista);
+            grid1.getChildren().add(htmlSelectOneMenu);
+            }
             i++;
         }
         eVatOpisDAO.clear();
@@ -434,7 +452,7 @@ public class DokView implements Serializable{
                         eVatwpis.setEwidencja(eVidencja);
                         eVatwpis.setNetto(pobierzNetto.get(j));
                         eVatwpis.setVat(pobierzVat.get(j));
-                        eVatwpis.setEstawka("zw");
+                        eVatwpis.setEstawka(opizw);
                         el.add(eVatwpis);
                         eVidencja = null;
                     }
@@ -619,6 +637,7 @@ public class DokView implements Serializable{
             dataWyst = rok + "-" + mc + "-";
         }
         selDokument.setDataWyst(dataWyst);
+        selDokument.setDataSprz(dataWyst);
     }
 
     public void przekazKontrahenta(ValueChangeEvent e) {
@@ -943,6 +962,23 @@ public class DokView implements Serializable{
     public void setTypKST(String typKST) {
         this.typKST = typKST;
     }
+
+    public String getOpizw() {
+        return opizw;
+    }
+
+    public void setOpizw(String opizw) {
+        this.opizw = opizw;
+    }
+
+    public String getDataSprzedazy() {
+        return dataSprzedazy;
+    }
+
+    public void setDataSprzedazy(String dataSprzedazy) {
+        this.dataSprzedazy = dataSprzedazy;
+    }
+    
     
     
 }

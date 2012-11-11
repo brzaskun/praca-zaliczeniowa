@@ -20,7 +20,7 @@ import session.PitpozFacade;
  *
  * @author Osito
  */
-@Named(value="PitDAO")
+@Named
 public class PitDAO implements Serializable{
     @Inject
     private PitpozFacade pitpozFacade;
