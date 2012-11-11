@@ -36,17 +36,20 @@ public class EVatView implements Serializable{
         naglowekVList.add("rodzaj ewidencji");
         naglowekVList.add("netto");
         naglowekVList.add("vat");
+        naglowekVList.add("op/zw");
    }
 
     public EVatView() {
+        //kategorie do generowania
         zakupVList = new ArrayList<>();
         srodkitrwaleVList = new ArrayList<>();
         sprzedazVList = new ArrayList<>();
+        //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = new ArrayList<>();
     }
     
     
-    
+    //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
     public void init(){
         ArrayList<EVidencja> tmp = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();

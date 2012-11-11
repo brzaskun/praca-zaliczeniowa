@@ -9,7 +9,6 @@ import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.Mce;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -24,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -50,6 +50,8 @@ public class ZestawienieView implements Serializable{
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
     private Pitpoz narPitpoz;
+    //lista pitow
+    private List<Pitpoz> listapit;
     
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -97,6 +99,7 @@ public class ZestawienieView implements Serializable{
         grudzien = Arrays.asList(new Double[7]);
         pobierzPity = new ArrayList<>();
         zebranieMcy = new ArrayList<>();
+        listapit = new ArrayList<>();
      }
   
     
@@ -1210,6 +1213,9 @@ public class ZestawienieView implements Serializable{
     }
     
     public void zachowajPit() {
+         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        FacesContext facesCtx = FacesContext.getCurrentInstance();
+        if(biezacyPit.getWynik()!=null){
         try {
             Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik());
             pitDAO.destroy(find);
@@ -1220,6 +1226,11 @@ public class ZestawienieView implements Serializable{
             pitDAO.dodajNowyWpis(biezacyPit);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT za m-c:", biezacyPit.getPkpirM());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        
+    } else {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak danych do PIT za m-c:", biezacyPit.getPkpirM());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
@@ -1249,6 +1260,17 @@ public class ZestawienieView implements Serializable{
         }
         
     }
+    
+     public void usun(){
+        listapit.addAll(pitDAO.getDownloaded());
+        int index = listapit.size()-1;
+        Pitpoz selected = listapit.get(index);
+        pitDAO.destroy(selected);
+        listapit.remove(index);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getPkpirM());
+         FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
+      
+     }
     
     private BigDecimal obliczprzychod() {
         BigDecimal suma = new BigDecimal(0);

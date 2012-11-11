@@ -41,7 +41,7 @@
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
-                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}"
+                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
@@ -50,9 +50,9 @@
                 <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
             
-            <p:column id="idColumn" headerText="nr kolejny" filterBy="#{wpis.nrWpkpir}" filterMatchMode="contains" sortBy="#{wpis.nrWpkpir}"  width="60">  
+            <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <f:facet name="header">  
-                    <h:outputText value="nr kolejny" />  
+                    <h:outputText value="lp" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
@@ -61,9 +61,14 @@
                 <f:facet name="header">  
                     <h:outputText value="data wyst" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.dataWyst}">
-                    <f:convertDateTime dateStyle="medium"  />
-                </h:outputText>
+                 <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.dataWyst}"><f:convertDateTime dateStyle="medium"  /></h:outputText>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.dataWyst}"/>
+                    </f:facet>  
+                </p:cellEditor>
             </p:column>
             <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <f:facet name="header">  
@@ -81,13 +86,27 @@
                 <f:facet name="header">  
                     <h:outputText value="nr wł" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.nrWlDk}" />
+                <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nrWlDk}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nrWlDk}"/>
+                    </f:facet>  
+                </p:cellEditor>
             </p:column>
             <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" >  
                 <f:facet name="header">  
                     <h:outputText value="opis" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.opis}" />
+                 <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.opis}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.opis}"/>
+                    </f:facet>  
+                </p:cellEditor>
             </p:column>
             <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}">  
                 <f:facet name="header">  
@@ -114,44 +133,24 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-             <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
-                <f:facet name="header">  
-                    <h:outputText value="kwota" />  
-                </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
-                            <f:convertNumber maxFractionDigits="2"
-                                groupingUsed="true"
-                                currencySymbol="zł"
-                                maxIntegerDigits="7"
-                                type="currency"/>
-                        </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
+             
+            <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw">  
+                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" style="width: 400px;" emptyMessage="dokument bez vat" >
+                    <p:column id="SubColumn1" >  
+                        <h:outputText value="#{subwpis.ewidencja.nazwaEwidencji}" />
+                    </p:column>
+                    <p:column id="SubColumn1a"  >  
+                        <h:outputText value="#{subwpis.netto}" />
+                    </p:column>
+                      <p:column id="SubColumn2">  
+                        <h:outputText value="#{subwpis.vat}" />
+                    </p:column>
+                    <p:column id="SubColumn3" >  
+                        <h:outputText value="#{subwpis.estawka}" />
+                    </p:column>
+                </p:dataTable>
             </p:column>
-            <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
-                <f:facet name="header">  
-                    <h:outputText value="kolumna" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.pkpirKolX}" />
-            </p:column>
-            <p:column id="pkpirMcColumn" headerText="k m-c" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}"  width="60" filterMaxLength="2">  
-                <f:facet name="header">  
-                    <h:outputText value="k m-c" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.pkpirM}" />
-            </p:column>
-            <p:column id="pkpirRokColumn" headerText="k rok" filterBy="#{wpis.pkpirR}" filterMatchMode="contains" sortBy="#{wpis.pkpirR}" width="60" filterMaxLength="4">  
-                <f:facet name="header">  
-                    <h:outputText value="k rok" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.pkpirR}" />
-            </p:column>
-            <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
+             <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
                 <f:facet name="header">  
                     <h:outputText value="v m-c" />  
                 </f:facet> 
@@ -175,6 +174,31 @@
             
             <p:column id="deleteColumn" headerText="usuń">
                 <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+            </p:column>
+            <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
+                <f:facet name="header">  
+                    <h:outputText value="kwota" />  
+                </f:facet> 
+                <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
+                            <f:convertNumber maxFractionDigits="2"
+                                groupingUsed="true"
+                                currencySymbol="zł"
+                                maxIntegerDigits="7"
+                                type="currency"/>
+                        </h:outputText>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
+                    </f:facet>  
+                </p:cellEditor>
+            </p:column>
+            <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
+                <f:facet name="header">  
+                    <h:outputText value="kolumna" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.pkpirKolX}" />
             </p:column>
         </p:dataTable>
     </p:outputPanel>

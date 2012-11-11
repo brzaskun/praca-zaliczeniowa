@@ -85,7 +85,7 @@ public class ZobowiazanieDAO implements Serializable{
         }
      }
      
-     public Zobowiazanie find(String rok, String mc){
+     public Zobowiazanie find(String rok, String mc) throws Exception{
         return zobowiazanieFacade.find(rok, mc);
      }
    
