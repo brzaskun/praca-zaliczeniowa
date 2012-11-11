@@ -87,11 +87,11 @@ public class Pitpoz implements Serializable {
     @Column(name = "dozaplaty")
     private BigDecimal dozaplaty;
     @Column(name = "terminwplaty")
-    private BigDecimal terminwplaty;
+    private String terminwplaty;
     @Column(name = "przelano")
-    private BigDecimal przelano;
+    private boolean przelano;
     @Column(name = "zamkniety")
-    private Boolean zamkniety;
+    private boolean zamkniety;
   
 
     public Pitpoz() {
@@ -191,14 +191,6 @@ public class Pitpoz implements Serializable {
         this.podstawa = podstawa;
     }
 
-    public BigDecimal getPrzelano() {
-        return przelano;
-    }
-
-    public void setPrzelano(BigDecimal przelano) {
-        this.przelano = przelano;
-    }
-
     public BigDecimal getPrzychody() {
         return przychody;
     }
@@ -215,23 +207,7 @@ public class Pitpoz implements Serializable {
         this.strata = strata;
     }
 
-    public BigDecimal getTerminwplaty() {
-        return terminwplaty;
-    }
-
-    public void setTerminwplaty(BigDecimal terminwplaty) {
-        this.terminwplaty = terminwplaty;
-    }
-
-    public Boolean getZamkniety() {
-        return zamkniety;
-    }
-
-    public void setZamkniety(Boolean zamkniety) {
-        this.zamkniety = zamkniety;
-    }
-
-    public BigDecimal getZus51() {
+   public BigDecimal getZus51() {
         return zus51;
     }
 
@@ -255,6 +231,31 @@ public class Pitpoz implements Serializable {
         this.wynik = wynik;
     }
 
+    public String getTerminwplaty() {
+        return terminwplaty;
+    }
+
+    public void setTerminwplaty(String terminwplaty) {
+        this.terminwplaty = terminwplaty;
+    }
+
+    public boolean isPrzelano() {
+        return przelano;
+    }
+
+    public void setPrzelano(boolean przelano) {
+        this.przelano = przelano;
+    }
+
+    public boolean isZamkniety() {
+        return zamkniety;
+    }
+
+    public void setZamkniety(boolean zamkniety) {
+        this.zamkniety = zamkniety;
+    }
+
+    
     
     @Override
     public int hashCode() {
