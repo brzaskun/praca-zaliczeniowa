@@ -8,11 +8,13 @@ import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
+import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
+import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,6 +31,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -75,6 +78,8 @@ public class ZestawienieView implements Serializable{
     private Pitpoz biezacyPit;
     @Inject
     private PodStawkiDAO podstawkiDAO;
+    @Inject
+    private ZobowiazanieDAO zobowiazanieDAO;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -1191,6 +1196,17 @@ public class ZestawienieView implements Serializable{
            FacesContext.getCurrentInstance().addMessage(null, msg);  
            biezacyPit = new Pitpoz();
         }
+        try {
+        Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
+        biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok()+"-"+data.getZobowiazaniePK().getMc()+"-"+data.getPitday());
+        }  catch (Exception e){
+           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych dat zobowiazan!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
+           FacesContext.getCurrentInstance().addMessage(null, msg);  
+            biezacyPit = new Pitpoz();
+            RequestContext.getCurrentInstance().update("formpit:");
+        }
+        
+        
     }
     
     public void zachowajPit() {
@@ -1646,6 +1662,14 @@ public class ZestawienieView implements Serializable{
 
     public void setPodstawkiDAO(PodStawkiDAO podstawkiDAO) {
         this.podstawkiDAO = podstawkiDAO;
+    }
+
+    public ZobowiazanieDAO getZobowiazanieDAO() {
+        return zobowiazanieDAO;
+    }
+
+    public void setZobowiazanieDAO(ZobowiazanieDAO zobowiazanieDAO) {
+        this.zobowiazanieDAO = zobowiazanieDAO;
     }
 
   
