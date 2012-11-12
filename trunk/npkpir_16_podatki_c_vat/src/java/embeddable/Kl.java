@@ -120,7 +120,7 @@ public class Kl implements Serializable{
 
     @Override
     public String toString() {
-        return "Kl{" + "Id=" + Id + ", NIP=" + NIP + ", npelna=" + npelna + ", pkpirKolumna=" + pkpirKolumna + ", evat=" + evat + '}';
+        return npelna;
     }
 
     

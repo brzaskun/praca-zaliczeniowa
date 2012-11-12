@@ -5,6 +5,8 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -26,6 +28,22 @@ public class EVatViewPola implements Serializable{
     private String opizw;
     private String nazwaewidencji;
 
+    private static final List<String> opispol;
+    
+    static{
+        opispol = new ArrayList<>();
+        opispol.add("id");
+        opispol.add("dataWyst");
+        opispol.add("dataSprz");
+        opispol.add("nrWlDk");
+        opispol.add("kontr");
+        opispol.add("opis");
+        opispol.add("netto");
+        opispol.add("vat");
+        opispol.add("opizw");
+    }
+    
+    
     public EVatViewPola() {
     }
 
@@ -107,6 +125,10 @@ public class EVatViewPola implements Serializable{
 
     public void setNazwaewidencji(String nazwaewidencji) {
         this.nazwaewidencji = nazwaewidencji;
+    }
+
+    public static List<String> getOpispol() {
+        return opispol;
     }
 
    
