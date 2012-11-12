@@ -147,18 +147,23 @@ public class VatView implements Serializable{
           dataTable.setResizableColumns(true);
           dataTable.setVar("var");
           dataTable.setValue(lista.get(nazwapj));
+          //tak trzeba opisac kazda kolumne :)
+          ArrayList<String> opisykolumn = new ArrayList<>();
+          opisykolumn.addAll(EVatViewPola.getOpispol());
           
-          
-          
+          Iterator itx;
+          itx = opisykolumn.iterator();
+          while(itx.hasNext()){
+          String wstawka = (String) itx.next();    
           Column column = new Column();
-          column.setHeaderText("pierwsza kolumna");
-          
+          column.setHeaderText(wstawka);
+          final String binding = "#{var."+wstawka+"}";
+          ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
           HtmlOutputText ot = new HtmlOutputText();
-          ot.setValue("kotek");
-
+          ot.setValueExpression("value", ve);
           column.getChildren().add(ot);
-          
           dataTable.getChildren().add(column);
+          }
           
           tab.getChildren().add(dataTable);
           
