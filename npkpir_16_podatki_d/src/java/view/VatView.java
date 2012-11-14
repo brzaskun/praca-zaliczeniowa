@@ -4,7 +4,6 @@
  */
 package view;
 
-import com.sun.faces.taglib.html_basic.OutputTextTag;
 import dao.EVDAO;
 import embeddable.EVLista;
 import embeddable.EVatViewPola;
@@ -12,14 +11,14 @@ import embeddable.EVatwpis;
 import embeddable.EVidencja;
 import entity.Dok;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
@@ -28,17 +27,14 @@ import javax.el.ValueExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.column.Column;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.outputpanel.OutputPanel;
+import org.primefaces.component.separator.Separator;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 
@@ -126,10 +122,13 @@ public class VatView implements Serializable{
            }
            listatmp.add(wierszogolny);
            
-           EVatwpis ew = new EVatwpis();
-           ew = sumaewidencji.get(nazwaewidencji);
-           ew.setNetto(ew.getNetto()+wierszogolny.getNetto());
-           ew.setVat(ew.getVat()+wierszogolny.getVat());
+           EVatwpis ew = sumaewidencji.get(nazwaewidencji);
+           BigDecimal suma = BigDecimal.ZERO;
+           suma = BigDecimal.valueOf(ew.getNetto()+wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN);
+           ew.setNetto(suma.doubleValue());
+           BigDecimal suma2 = BigDecimal.ZERO;
+           suma2 = BigDecimal.valueOf(ew.getVat()+wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN);
+           ew.setVat(suma2.doubleValue());
            sumaewidencji.put(nazwaewidencji, ew);
            listaewidencji.put(nazwaewidencji, listatmp);
         }
@@ -178,74 +177,53 @@ public class VatView implements Serializable{
           column.getChildren().add(ot);
           dataTable.getChildren().add(column);
           }
-          
+          Separator sep = new Separator();
+          CommandButton button = new CommandButton();
+          button.setValue("Drukuj");
+          button.setType("button");
+          String tablican = "$(PrimeFaces.escapeClientId('form:akordeon:tablica"+i+"')).jqprint();";
+          button.setOnclick(tablican);
           tab.getChildren().add(dataTable);
-          
+          tab.getChildren().add(sep);
+          tab.getChildren().add(button);
           akordeon.getChildren().add(tab);
+         
           i++;
           }
          
-          RequestContext.getCurrentInstance().update("form:akordeon");
+          //generowanie podsumowania
+          List<EVatwpis> suma2 = new ArrayList<>();
+          suma2.addAll(sumaewidencji.values());
+          Tab tab = new Tab();
+          tab.setId("tabekdsuma");
+          tab.setTitle("podsumowanie ewidencji");
+          DataTable dataTable = new DataTable();
+          dataTable.setId("tablicasuma");
+          dataTable.setResizableColumns(true);
+          dataTable.setVar("var");
+          dataTable.setValue(suma2);
+          List<String> opisykolumny = new ArrayList<>();
+          opisykolumny.add("ewidencja");
+          opisykolumny.add("netto");
+          opisykolumny.add("vat");
+          Iterator ity = opisykolumny.iterator();
+          while(ity.hasNext()){
+          String wstawka = (String) ity.next();
+          Column column = new Column();
+          column.setHeaderText(wstawka);
+          final String binding = "#{var."+wstawka+"}";
+          ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
+          HtmlOutputText ot = new HtmlOutputText();
+          ot.setValueExpression("value", ve);
+          column.getChildren().add(ot);
+          dataTable.getChildren().add(column);
+          }
+          tab.getChildren().add(dataTable);
           
-//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//        FacesContext facesCtx = FacesContext.getCurrentInstance();
-//        ELContext elContext = facesCtx.getELContext();
-//        grid3 = getGrid3();
-//        grid3.getChildren().clear();
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
-//        ExpressionFactory ef = ExpressionFactory.newInstance();
-//            HtmlOutputText ot = new HtmlOutputText();
-//            ot.setValue("nazwa Srodka");
-//            grid3.getChildren().add(ot);
-//            HtmlInputText ew = new HtmlInputText();
-//            final String binding = "#{DokumentView.nazwaSTR}";
-//            ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-//            ew.setValueExpression("value", ve2);
-//            grid3.getChildren().add(ew);
-//            
-//            HtmlOutputText ot1 = new HtmlOutputText();
-//            ot1.setValue("data przyjecia");
-//            grid3.getChildren().add(ot1);
-//            HtmlInputText ew1 = new HtmlInputText();
-//            final String binding1 = "#{DokumentView.dataPrzSTR}";
-//            ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
-//            ew1.setValueExpression("value", ve1);
-//            grid3.getChildren().add(ew1);
-//            
-//            HtmlOutputText ot3 = new HtmlOutputText();
-//            ot3.setValue("symbol KST");
-//            grid3.getChildren().add(ot3);
-//            HtmlInputText ew3 = new HtmlInputText();
-//            final String binding3 = "#{DokumentView.symbolKST}";
-//            ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
-//            ew3.setValueExpression("value", ve3);
-//            grid3.getChildren().add(ew3);
-//            
-//            HtmlOutputText ot4 = new HtmlOutputText();
-//            ot4.setValue("stawka amort");
-//            grid3.getChildren().add(ot4);
-//            HtmlInputText ew4 = new HtmlInputText();
-//            final String binding4 = "#{DokumentView.stawkaKST}";
-//            ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
-//            ew4.setValueExpression("value", ve4);
-//            grid3.getChildren().add(ew4);
-//            
-//            UISelectItems ulista = new UISelectItems();
-//            List valueList = new ArrayList();
-//            SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
-//            valueList.add(selectItem);
-//            selectItem = new SelectItem("wyposazenie", "wyposazenie");
-//            valueList.add(selectItem);
-//            ulista.setValue(valueList);
-//            final String bindingX = "#{DokumentView.typKST}";
-//            ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-//            HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
-//            htmlSelectOneMenu.setValueExpression("value", ve2X);
-//            htmlSelectOneMenu.setStyle("min-width: 150px");
-//            htmlSelectOneMenu.getChildren().add(ulista);
-//            grid3.getChildren().add(htmlSelectOneMenu);
-//            
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+          akordeon.getChildren().add(tab);
+          
+          RequestContext.getCurrentInstance().update("form:akordeon");
+         
     }
     
     

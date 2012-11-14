@@ -74,6 +74,11 @@ public class EVidencja implements Serializable{
         this.rodzajZakupu = rodzajZakupu;
     }
 
+    @Override
+    public String toString() {
+        return nazwaEwidencji;
+    }
+
     
     
 

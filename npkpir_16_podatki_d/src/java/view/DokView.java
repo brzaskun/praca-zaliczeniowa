@@ -113,7 +113,7 @@ public class DokView implements Serializable{
     @Inject
     private EVidencja eVidencja;
     private EVatwpis eVatwpis;
-    private String wielkoscopisuewidencji;
+    private static String wielkoscopisuewidencji;
     /* Rozliczenia vat*/
     /*Środki trwałe*/
     @Inject
