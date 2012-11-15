@@ -11,13 +11,13 @@ import dao.EVDAO;
 import dao.EVatOpisDAO;
 import embeddable.EVatwpis;
 import embeddable.EVidencja;
-import embeddable.Kl;
 import embeddable.Kolmn;
 import embeddable.Mce;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatOpis;
+import entity.Klienci;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -75,11 +75,11 @@ public class DokView implements Serializable{
     @Inject
     private Dok wysDokument;
     @Inject
-    private Kl selectedKontr;
+    private Klienci selectedKontr;
     @Inject
     private AmoDokDAO amoDokDAO;
     
-    private static Kl przekazKontr;
+    private static Klienci przekazKontr;
     private String dataWystawienia;
     private String dataSprzedazy;
     /*pkpir*/
@@ -155,9 +155,11 @@ public class DokView implements Serializable{
             dopobrania = kolumna.getKolumnPrzychody();
         }
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
+        if(przekazKontr.getPkpirKolumna()!=null){
         String kol = przekazKontr.getPkpirKolumna();
         SelectItem selectI = new SelectItem(kol, kol);
         valueList.add(selectI);
+        }
         /**/
         Iterator it;
         it = dopobrania.iterator();
@@ -584,7 +586,7 @@ public class DokView implements Serializable{
                 data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
             }
             selDokument.setDataWyst(data);
-            selDokument.setKontr(new Kl(111111111,"wlasny","wlasny","kolumna","ewid"));
+            selDokument.setKontr(new Klienci("111111111","wlasny"));
             selDokument.setRodzTrans("amortyzacja");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
             selDokument.setOpis("umorzenie za miesiac");
@@ -655,7 +657,7 @@ public class DokView implements Serializable{
 
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
-        przekazKontr = (Kl) anAutoComplete.getValue();
+        przekazKontr = (Klienci) anAutoComplete.getValue();
     }
     
      public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {
@@ -775,15 +777,15 @@ public class DokView implements Serializable{
     public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
         this.kontrahentNIP = kontrahentNIP;
     }
-    
-    public Kl getSelectedKontr() {
+
+    public Klienci getSelectedKontr() {
         return selectedKontr;
     }
 
-    public void setSelectedKontr(Kl selectedKontr) {
+    public void setSelectedKontr(Klienci selectedKontr) {
         this.selectedKontr = selectedKontr;
     }
-
+  
     public Dok getSelDokument() {
         return selDokument;
     }
@@ -809,13 +811,14 @@ public class DokView implements Serializable{
       
     }
 
-    public Kl getPrzekazKontr() {
+    public static Klienci getPrzekazKontr() {
         return przekazKontr;
     }
 
-    public void setPrzekazKontr(Kl przekazKontr) {
-        this.przekazKontr = przekazKontr;
+    public static void setPrzekazKontr(Klienci przekazKontr) {
+        DokView.przekazKontr = przekazKontr;
     }
+
 
     public double getNetto1() {
         return netto1;

@@ -53,7 +53,7 @@ public class KlienciDAO implements Serializable{
         }
         if(c.size()>0){
         downloadedKlienci.addAll(c);
-        System.out.println("Pobrano z bazy danych." + c.toString());
+        System.out.println("Pobrano z bazy danych.");
         }
     }
            

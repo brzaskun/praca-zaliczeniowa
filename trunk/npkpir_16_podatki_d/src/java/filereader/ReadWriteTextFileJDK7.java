@@ -1,11 +1,8 @@
 package filereader;
 
-import dao.KlienciDAO;
 import dao.STRDAO;
-import embeddable.Kl;
 import entity.Klienci;
 import entity.SrodekTrw;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import javax.inject.Inject;
 import javax.inject.Named;
 import session.STRFacade;
 
@@ -64,7 +60,7 @@ public class ReadWriteTextFileJDK7 implements Serializable{
   }
 
     public void log(Object aMsg) {
-        Kl klient = new Kl();
+        Klienci klient = new Klienci();
         Klienci klientX = new Klienci();
         SrodekTrw str = new SrodekTrw();
 //        KlienciDAO kDAO = new KlienciDAO();
@@ -94,7 +90,7 @@ public class ReadWriteTextFileJDK7 implements Serializable{
             przechowalnia = tmp;
             try {
                 magazyn.setDwa(przechowalnia);
-                klient.setNIP(przechowalnia);
+                klient.setNip(przechowalnia);
                 klientX.setNip(przechowalnia);
                 str.setSymbol(tmp);
             } catch (Exception e) {

@@ -138,7 +138,7 @@ public class VatView implements Serializable{
     }
     
     
-      public void wygeneruj(HashMap lista) {
+      public void wygeneruj(HashMap lista) throws Exception {
           FacesContext facesCtx = FacesContext.getCurrentInstance();
           ELContext elContext = facesCtx.getELContext();
           ExpressionFactory ef = ExpressionFactory.newInstance();
@@ -181,7 +181,7 @@ public class VatView implements Serializable{
           CommandButton button = new CommandButton();
           button.setValue("Drukuj");
           button.setType("button");
-          String tablican = "$(PrimeFaces.escapeClientId('form:akordeon:tablica"+i+"')).jqprint();";
+          String tablican = "$(PrimeFaces.escapeClientId('form:akordeon:tablica"+i+"')).jqprint();return false;;;";
           button.setOnclick(tablican);
           tab.getChildren().add(dataTable);
           tab.getChildren().add(sep);

@@ -4,11 +4,12 @@
  */
 package converter;
 
-import embeddable.Kl;
+import entity.Klienci;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import view.KlView;
 
 /**
  *
@@ -16,15 +17,15 @@ import javax.faces.convert.ConverterException;
  */
 public class KlientConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        Kl kl = new Kl();
+        Klienci kl = new Klienci();
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {  
                 String number = submittedValue;  
   
-                for (Kl p : kl.getKlList()) {  
-                    if (p.getNIP().equals(number)) {  
+                for (Klienci p : KlView.getKl()) {  
+                    if (p.getNip().equals(number)) {  
                         return p;  
                     }  
                 }  
@@ -41,7 +42,7 @@ public class KlientConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Kl) value).getNIP());  
+            return String.valueOf(((Klienci) value).getNip());  
         }  
     }  
     

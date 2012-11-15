@@ -5,7 +5,6 @@
 package entity;
 
 import embeddable.EVatwpis;
-import embeddable.Kl;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -66,7 +65,7 @@ public class Dok implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "kontr")
-    private Kl kontr;
+    private Klienci kontr;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -154,14 +153,16 @@ public class Dok implements Serializable {
     public void setNrWpkpir(int nrWpkpir) {
         this.nrWpkpir = nrWpkpir;
     }
-    
-    public Kl getKontr() {
+
+    public Klienci getKontr() {
         return kontr;
     }
 
-    public void setKontr(Kl kontr) {
+    public void setKontr(Klienci kontr) {
         this.kontr = kontr;
     }
+    
+   
 
     
     public String getDataWyst() {
