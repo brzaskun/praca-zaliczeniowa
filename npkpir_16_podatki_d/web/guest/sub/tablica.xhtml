@@ -48,21 +48,19 @@
                 <f:facet name="header" >
                     <h:outputText value="kwota netto" /> 
                 </f:facet> 
-                <h:outputText value="#{subwpis.netto}" />
+                <h:outputText value="#{subwpis.netto}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
             </p:column>
             <p:column id="SubColumn2">  
                 <f:facet name="header">  
                     <h:outputText value="kwota vat" />  
                 </f:facet> 
-                <h:outputText value="#{subwpis.vat}" />
+                <h:outputText value="#{subwpis.vat}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
             </p:column>
-            <p:column id="SubColumn3" > 
-                <f:facet name="header">  
-                    <h:outputText value="stawka vat" />  
-                </f:facet> 
-                <h:outputText value="#{subwpis.estawka}" />
-            </p:column>
-        </p:dataTable>
+            </p:dataTable>
     </p:dialog>  
   
     <p:outputPanel id="wrapper">
@@ -146,12 +144,8 @@
                 </f:facet> 
                 <p:cellEditor>  
                     <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
-                            <f:convertNumber maxFractionDigits="2"
-                                groupingUsed="true"
-                                currencySymbol="zł"
-                                maxIntegerDigits="7"
-                                type="currency"/>
+                        <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  
@@ -171,12 +165,8 @@
                 </f:facet> 
                 <p:cellEditor>  
                     <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
-                            <f:convertNumber maxFractionDigits="2"
-                                groupingUsed="true"
-                                currencySymbol="zł"
-                                maxIntegerDigits="7"
-                                type="currency"/>
+                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  

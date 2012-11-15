@@ -141,15 +141,13 @@
                     <h:outputText  value="#{DokumentView.wysDokument.rodzTrans}"/>
                     <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                     <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
-                    <h:outputText  value="#{DokumentView.wysDokument.kwota}">
-                        <f:convertNumber maxFractionDigits="2"
-                                         groupingUsed="true"
-                                         currencySymbol="zł"
-                                         maxIntegerDigits="7"
-                                         type="currency"/>
+                    <h:outputText  value="#{DokumentView.wysDokument.kwota}"  style="float: right;">
+                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     <h:outputText  value="#{DokumentView.wysDokument.pkpirKol}"/>
-                    <h:outputText  value="#{DokumentView.wysDokument.kwotaX}"/>
+                    <h:outputText  value="#{DokumentView.wysDokument.kwotaX}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                     <h:outputText  value="#{DokumentView.wysDokument.pkpirKolX}"/>
                     <h:outputText  value="#{DokumentView.wysDokument.pkpirM}"/>
                     <h:outputText  value="#{DokumentView.wysDokument.pkpirR}"/>
@@ -182,13 +180,18 @@
                             <f:facet name="header">  
                                 <h:outputText value="netto"/>  
                             </f:facet> 
-                            <h:outputText value="#{p.netto}" />
+                            <h:outputText value="#{p.netto}"  style="float: right;" >
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                                
                         </p:column>
                         <p:column id="idColumn3" headerText="vat">  
                             <f:facet name="header">  
                                 <h:outputText value="vat"/>  
                             </f:facet> 
-                            <h:outputText value="#{p.vat}" />
+                            <h:outputText value="#{p.vat}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                         </p:column>
                         <p:column id="idColumn4" headerText="op/zw">  
                             <f:facet name="header">  

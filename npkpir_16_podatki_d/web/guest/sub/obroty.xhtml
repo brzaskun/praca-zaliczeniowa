@@ -41,8 +41,8 @@
                 <h:outputText value="#{wpis.opis}" />
             </p:column>
             <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}">  
-                    <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; text-justify: distribute">
-                         <f:convertNumber  locale="PL"/>
+                    <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; float: right;">
+                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                      </h:outputText>
             </p:column>
                                  
