@@ -18,16 +18,13 @@
                         <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
                             <h:form id="form">
-                                <p:ajaxStatus>
-                                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                                    <f:facet name="error">An error has occurred!</f:facet>
-                                </p:ajaxStatus>
+                               
                          <p:panel>
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
                                 <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol znajdujący sie obok opisu kolumny."/> <br/>
-                                <h:outputText value="Można wyszukiwać poszczególne dokumenty wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną."/>
+                                <h:outputText value="Można wyszukiwać poszczególne dokumenty wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną."/><br/>
+                                <h:outputText value="Po kliknięciu myszą na dany dokument pojawi się okienko z informacją o VAT."/>
                             </f:facet>
                                 </p:panel>
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->

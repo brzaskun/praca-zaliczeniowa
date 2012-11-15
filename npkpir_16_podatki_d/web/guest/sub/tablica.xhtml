@@ -33,6 +33,37 @@
         </p:panelGrid>
         <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" update="@form"/>
     </p:outputPanel>
+    
+    <p:dialog header="Szczegóły ewidencji VAT" widgetVar="Dialog" resizable="false"  
+              showEffect="explode" hideEffect="explode">  
+
+        <p:dataTable id="display" var="subwpis" value="#{DokTabView.selDokument.ewidencjaVAT}" style="width: 600px;" emptyMessage="dokument bez vat" >
+            <p:column id="SubColumn1" >  
+                <f:facet name="header">  
+                    <h:outputText value="nazwa ewidencji" />  
+                </f:facet> 
+                <h:outputText value="#{subwpis.ewidencja.nazwaEwidencji}" />
+            </p:column>
+            <p:column id="SubColumn1a" >  
+                <f:facet name="header" >
+                    <h:outputText value="kwota netto" /> 
+                </f:facet> 
+                <h:outputText value="#{subwpis.netto}" />
+            </p:column>
+            <p:column id="SubColumn2">  
+                <f:facet name="header">  
+                    <h:outputText value="kwota vat" />  
+                </f:facet> 
+                <h:outputText value="#{subwpis.vat}" />
+            </p:column>
+            <p:column id="SubColumn3" > 
+                <f:facet name="header">  
+                    <h:outputText value="stawka vat" />  
+                </f:facet> 
+                <h:outputText value="#{subwpis.estawka}" />
+            </p:column>
+        </p:dataTable>
+    </p:dialog>  
   
     <p:outputPanel id="wrapper">
         
@@ -45,7 +76,8 @@
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
-                        
+            <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" />           
+            
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
             </f:facet>
@@ -133,43 +165,7 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-             
-            <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw">  
-                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" style="width: 400px;" emptyMessage="dokument bez vat" >
-                    <p:column id="SubColumn1" >  
-                        <h:outputText value="#{subwpis.ewidencja.nazwaEwidencji}" />
-                    </p:column>
-                    <p:column id="SubColumn1a"  >  
-                        <h:outputText value="#{subwpis.netto}" />
-                    </p:column>
-                      <p:column id="SubColumn2">  
-                        <h:outputText value="#{subwpis.vat}" />
-                    </p:column>
-                    <p:column id="SubColumn3" >  
-                        <h:outputText value="#{subwpis.estawka}" />
-                    </p:column>
-                </p:dataTable>
-            </p:column>
-             <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
-                <f:facet name="header">  
-                    <h:outputText value="v m-c" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.vatM}" />
-            </p:column>
-            <p:column id="vatRokColumn" headerText="v rok" filterBy="#{wpis.vatR}" filterMatchMode="contains" sortBy="#{wpis.vatR}" width="60" filterMaxLength="4">  
-                <f:facet name="header">  
-                    <h:outputText value="v rok" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.vatR}" />
-            </p:column>
-            <p:column id="uwagaColumn" headerText="uwagi" filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}">  
-                <f:facet name="header">  
-                    <h:outputText value="uwagi" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.uwagi}" />
-            </p:column>
-          
-            <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
+         <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
@@ -194,7 +190,19 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKolX}" />
             </p:column>
+            <p:column id="uwagaColumn" headerText="uwagi" filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}">  
+                <f:facet name="header">  
+                    <h:outputText value="uwagi" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.uwagi}" />
+            </p:column>
+          
+           
         </p:dataTable>
+        
+        
+        
+        
     </p:outputPanel>
     
 </ui:composition>   
