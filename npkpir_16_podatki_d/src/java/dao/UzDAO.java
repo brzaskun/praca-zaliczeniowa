@@ -78,5 +78,8 @@ public class UzDAO implements Serializable{
      }
      
      
+    public Uz find(String np){
+         return uzFacade.findNP(np);
+     }
 }
 

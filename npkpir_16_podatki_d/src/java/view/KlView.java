@@ -10,7 +10,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -34,6 +37,7 @@ public class KlView implements Serializable{
     @Inject
     private Klienci selected;
     @Inject PanstwaSymb1 ps1;
+    private static ArrayList<Klienci> kl;
     
     private Integer ilesrodkow;
 
@@ -62,6 +66,21 @@ public class KlView implements Serializable{
         this.klDAO = klDAO;
     }
 
+    public KlView() {
+        kl = new ArrayList<>();
+    }
+
+    public static ArrayList<Klienci> getKl() {
+        return kl;
+    }
+
+    
+    
+    
+    @PostConstruct
+    private void init(){
+        kl.addAll(klDAO.getdownloadedKlienci());
+    }
   
     public void dodajKlienta(){
       try {
@@ -93,7 +112,7 @@ public class KlView implements Serializable{
     
     public void readLargerTextFile(String aFileName) throws IOException {
     Path path = Paths.get(aFileName);
-    try (Scanner scanner =  new Scanner(path, ENCODING.name())){
+    try (Scanner scanner =  new Scanner(path, "Windows-1250")){
       int i = 0;
       while (scanner.hasNextLine()){
         String tmp = String.valueOf(scanner.nextLine());
@@ -103,14 +122,48 @@ public class KlView implements Serializable{
             break;
         } else if(tmp.contains("nazwa")){
             i++;
+            tmp = tmp.replace("\"","");
+            tmp = tmp.replace("'","");
             selected.setNpelna(tmp.substring(8));
             break;
-        } else if (tmp.contains("nip")) {
+        } else if (tmp.contains("miejscowosc")) {
+            i++;
+            selected.setMiejscowosc(tmp.substring(14));
+            break;
+        } else if (tmp.contains("ulica")) {
+            i++;
+            selected.setUlica(tmp.substring(8));
+            break;
+        } else if (tmp.contains("dom")) {
+            i++;
+            selected.setDom(tmp.substring(6));
+            break;
+        }else if (tmp.contains("lokal")) {
+            i++;
+            selected.setLokal(tmp.substring(8));
+            break;
+        }else if (tmp.contains("kodpocz")) {
+            i++;
+            selected.setKodpocztowy(tmp.substring(10));
+            break;
+        }else if (tmp.contains("nip")) {    
             i++;
             tmp = tmp.replace("-","");
             selected.setNip(tmp.substring(6));
             break;
-        } else {
+        }else if (tmp.contains("pesel")) {
+            i++;
+            selected.setPesel(tmp.substring(8));
+            break;
+        }else if (tmp.contains("krajKod")) {
+            i++;
+            selected.setKrajkod(tmp.substring(10));
+            break;
+        }else if (tmp.contains("krajNazwa")) {
+            i++;
+            selected.setKrajnazwa(tmp.substring(12));
+            break;
+        }else {
             i++;
             break;
         }
@@ -123,6 +176,26 @@ public class KlView implements Serializable{
     }
   }
   
-  
+   public List<Klienci> complete(String query) {  
+        List<Klienci> results = new ArrayList<>();  
+        Klienci kl = new Klienci();
+        try{
+            String q = query.substring(0,1);
+            int i = Integer.parseInt(q);
+            for(Klienci p : klDAO.getdownloadedKlienci()) {  
+             if(p.getNip().startsWith(query)) {
+                 results.add(p);
+             }
+            }
+        } catch (NumberFormatException e){
+            for(Klienci p : klDAO.getdownloadedKlienci()) {
+            if(p.getNpelna().startsWith(query)) {
+                 results.add(p);
+             }
+            }
+        }  
+
+        return results;  
+    }  
  
 }

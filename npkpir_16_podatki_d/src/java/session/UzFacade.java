@@ -29,4 +29,8 @@ public class UzFacade extends AbstractFacade<Uz> {
         super(Uz.class);
     }
     
+    public Uz findNP(String np){
+        Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login",np).getSingleResult();
+        return tmp;
+    }
 }

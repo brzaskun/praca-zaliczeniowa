@@ -4,16 +4,20 @@
  */
 package login;
 
+import dao.PodatnikDAO;
+import dao.UzDAO;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import view.GuestView;
+import view.WpisView;
 
 /**
  *
@@ -25,6 +29,11 @@ public class Logowanie implements Serializable{
  
     private String uzytk;
     private String haslo;
+    @Inject
+    UzDAO uzDAO;
+    @Inject
+    PodatnikDAO podatnikDAO;
+    
  
     public Logowanie(){
          HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -48,7 +57,25 @@ public class Logowanie implements Serializable{
     public void setHaslo(String haslo) {
         this.haslo = haslo;
     }
- 
+
+    public UzDAO getUzDAO() {
+        return uzDAO;
+    }
+
+    public void setUzDAO(UzDAO uzDAO) {
+        this.uzDAO = uzDAO;
+    }
+
+    public PodatnikDAO getPodatnikDAO() {
+        return podatnikDAO;
+    }
+
+    public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
+        this.podatnikDAO = podatnikDAO;
+    }
+
+    
+    
    
  
     public String login(){
@@ -78,6 +105,10 @@ public class Logowanie implements Serializable{
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Bookkeeper";
             }else if(request.isUserInRole("Guest")){
+                String nip = uzDAO.find(uzytk).getFirma();
+                String firma = podatnikDAO.findN(nip).getNazwapelna();
+                GuestView.setPodatnikString(firma);
+                WpisView.setPodatnikWpisuS(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
             } else if(request.isUserInRole("Noobie")){
@@ -99,6 +130,6 @@ public class Logowanie implements Serializable{
         if(session != null){
             session.invalidate();
         }
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/index.xhtml");
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
     }
 }

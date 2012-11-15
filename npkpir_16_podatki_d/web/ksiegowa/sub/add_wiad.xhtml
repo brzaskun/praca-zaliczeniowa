@@ -21,9 +21,9 @@
                     <f:ajax event="keyup" execute="@this" listener="#{DokumentView.ustawDate}" render="dataPole :dodWiad:dataSPole" global="false" />
                 </h:inputText>
                 <h:panelGroup id="dwadoWprowadzania">
-                    <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlDAO.complete}"
+                    <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
-                                    minQueryLength="1" maxResults="5" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
+                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
                                     effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
                                     required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100">
 
@@ -36,7 +36,7 @@
                                 <h:outputText value="Nazwa: " />  
                                 <h:outputText id="npelna" value="#{p.npelna}" />  
                                 <h:outputText value="Number " />  
-                                <h:outputText id="nip" value="#{p.NIP}" />  
+                                <h:outputText id="nip" value="#{p.nip}" />  
                                 <h:outputText value="Kolumna " />  
                                 <h:outputText id="klumna" value="#{p.pkpirKolumna}" /> 
                             </h:panelGrid>

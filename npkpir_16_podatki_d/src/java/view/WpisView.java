@@ -46,6 +46,9 @@ public class WpisView implements Serializable{
         WpisView.podatnikWpisu = podatnikWpisu;
     }
 
+    public static void setPodatnikWpisuS(String podatnikWpisu) {
+        WpisView.podatnikWpisu = podatnikWpisu;
+    }
    
     
     public Integer getRokWpisu() {

@@ -10,6 +10,18 @@
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gdokumenty</from-outcome>
+            <to-view-id>/guest/guestIndex.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gobroty</from-outcome>
+            <to-view-id>/guest/ksiegowaKontrahenci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gtablica</from-outcome>
+            <to-view-id>/guest/guestTablica.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>

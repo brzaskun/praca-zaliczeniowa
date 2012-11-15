@@ -191,5 +191,6 @@ public class PodatekView implements Serializable{
                         podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
         }
+        rokmiesiac = rokmiesiac+"/"+selected.getPodatekdochodowy().get(index).getMcOd();
     }
 }

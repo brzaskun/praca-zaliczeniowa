@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class EVatViewPola implements Serializable{
     private String dataWyst;
     private String dataSprz;
     private String nrWlDk;
-    private Kl kontr;
+    private Klienci kontr;
     private String opis;
     private double netto;
     private double vat;
@@ -79,14 +80,15 @@ public class EVatViewPola implements Serializable{
         this.nrWlDk = nrWlDk;
     }
 
-    public Kl getKontr() {
+    public Klienci getKontr() {
         return kontr;
     }
 
-    public void setKontr(Kl kontr) {
+    public void setKontr(Klienci kontr) {
         this.kontr = kontr;
     }
 
+   
     public String getOpis() {
         return opis;
     }

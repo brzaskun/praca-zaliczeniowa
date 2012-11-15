@@ -84,4 +84,10 @@ public class PodatnikDAO implements Serializable{
      public Podatnik find(String np){
          return podatnikFacade.findNP(np);
      }
+     
+     public Podatnik findN(String np){
+         return podatnikFacade.findNPN(np);
+     }
+     
+     
 }
