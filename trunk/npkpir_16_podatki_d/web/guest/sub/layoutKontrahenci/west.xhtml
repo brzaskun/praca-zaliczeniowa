@@ -7,11 +7,7 @@
     <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
-            <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" >
-                    <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujObroty}" />
-                </p:selectOneMenu>
+            <p:panel menuTitle="Dane za okres" header="Dane za okres:">
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
@@ -30,7 +26,7 @@
                 <h:commandButton value="Ok" update="@all :formX:dokumentyLista" rendered="true" actionListener="#{DokumentView.aktualizujObroty}"/>
             </p:panel>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
-                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="Moja firma:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.rokWpisu}"/>
@@ -45,11 +41,11 @@
                 <p:panelGrid columns="1">
                      <p:menu >
                         <p:menuitem value="dokumenty"  outcome="gtablica" icon="ui-icon-circle-arrow-e" />    
-                        <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+<!--                        <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="zestawienie"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="pity"  outcome="pity" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  -->
                     </p:menu> 
                 </p:panelGrid>
             </h:form>
