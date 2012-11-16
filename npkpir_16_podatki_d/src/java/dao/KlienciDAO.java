@@ -82,6 +82,8 @@ public class KlienciDAO implements Serializable{
     public void destroy(Klienci selectedKlient) {
         try {
         klienciFacade.remove(selectedKlient);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Klient usunięty DAO", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println("Nie usnieto "+selectedKlient.getNpelna()+" "+e.toString());
         }
@@ -91,8 +93,12 @@ public class KlienciDAO implements Serializable{
     public void edit(Klienci selectedKlient){
         try {
             klienciFacade.edit(selectedKlient);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Klient zedytowany DAO", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Klient nie zedytowany DAO", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         }
      }
     

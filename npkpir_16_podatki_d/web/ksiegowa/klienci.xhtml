@@ -11,6 +11,17 @@
         <ui:define name="body">
             
             <h:body> 
+                 <h:form>
+                    <p:growl id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć wybranego kontrahenta?"  
+                                     header="Rozpoczęcie usuwania kontrahenta" severity="alert" widgetVar="confirmation">  
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formY:tabelaKontr" oncomplete="confirmation.hide()"  
+                                         actionListener="#{KlView.destroy2}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
             
                     <p:layout fullPage="true">
@@ -28,11 +39,8 @@
                                 <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
                                 </p:panelGrid>
                             </h:form>
-                            <h:form id="formX">
-                                
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/wykazklientow.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form>
                         </p:layoutUnit>
                         
                     </p:layout>

@@ -147,12 +147,16 @@ public class DokView implements Serializable{
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
-        if (transakcjiRodzaj.equals("zakup")) {
-            dopobrania = kolumna.getKolumnKoszty();
-        } else if (transakcjiRodzaj.equals("srodek trw")) {
-            dopobrania = kolumna.getKolumnST();
-        } else {
-            dopobrania = kolumna.getKolumnPrzychody();
+        switch (transakcjiRodzaj) {
+            case "zakup":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            case "srodek trw":
+                dopobrania = kolumna.getKolumnST();
+                break;
+            default:
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
         }
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
         if(przekazKontr.getPkpirKolumna()!=null){
