@@ -20,6 +20,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -38,6 +39,9 @@ public class KlView implements Serializable{
     private Klienci selected;
     @Inject PanstwaSymb1 ps1;
     private static ArrayList<Klienci> kl;
+    private ArrayList<Klienci> kl1;
+    
+    private static Klienci doUsuniecia;
     
     private Integer ilesrodkow;
 
@@ -73,6 +77,18 @@ public class KlView implements Serializable{
     public static ArrayList<Klienci> getKl() {
         return kl;
     }
+    
+    public ArrayList<Klienci> getKl1() {
+        return kl;
+    }
+
+    public Klienci getDoUsuniecia() {
+        return doUsuniecia;
+    }
+
+    public void setDoUsuniecia(Klienci doUsuniecia) {
+        this.doUsuniecia = doUsuniecia;
+    }
 
     
     
@@ -80,6 +96,8 @@ public class KlView implements Serializable{
     @PostConstruct
     private void init(){
         kl.addAll(klDAO.getdownloadedKlienci());
+        kl1 = kl;
+        
     }
   
     public void dodajKlienta(){
@@ -198,4 +216,45 @@ public class KlView implements Serializable{
         return results;  
     }  
  
+     public void edit(RowEditEvent ex) {
+        try {
+            //sformatuj();
+            klDAO.edit(selected);
+            //refresh();
+            FacesMessage msg = new FacesMessage("Klient zedytowany DAO" + ex.getObject().toString(), selected.getNpelna().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage("Klient nie zedytowany DAO", e.getStackTrace().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+      public void destroy(Klienci selDok) {
+          doUsuniecia = new Klienci();
+          doUsuniecia = selDok;
+          
+    }
+      
+         public void destroy2() {
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //       Principal principal = request.getUserPrincipal();
+//        if(request.isUserInRole("Administrator")){
+        try {
+            kl.remove(doUsuniecia);
+            kl1.remove(doUsuniecia);
+            klDAO.destroy(doUsuniecia);
+        } catch (Exception e) {
+            System.out.println("Nie usnieto klienta View" + doUsuniecia.getNpelna() + " " + e.toString());
+        }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Klient usunięty View", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    } else {
+//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
+//          FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//     }
+    }
+   
+   
 }
