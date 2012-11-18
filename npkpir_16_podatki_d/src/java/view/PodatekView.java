@@ -109,6 +109,9 @@ public class PodatekView implements Serializable{
         selectedZob.setZus51ods(0.0);
         selectedZob.setZus52ods(0.0);
         selectedZob.setZus53ods(0.0);
+        selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
+        selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus51ods());
+        selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
         
         List<ZobKwota> zobKwota = new ArrayList<>();
         zobKwota.add(selectedZob);
@@ -129,6 +132,9 @@ public class PodatekView implements Serializable{
             selectedZob.setZus51ods(odsetki(dataod, datatmp51,selectedZob.getZus51().toString()));
             selectedZob.setZus52ods(odsetki(dataod, datatmp52,selectedZob.getZus52().toString()));
             selectedZob.setZus53ods(odsetki(dataod, datatmp53,selectedZob.getZus52().toString()));
+            selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
+            selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus51ods());
+            selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
         }

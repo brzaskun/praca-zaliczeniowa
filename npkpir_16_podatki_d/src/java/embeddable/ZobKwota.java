@@ -32,12 +32,15 @@ public class ZobKwota implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date zus51zapl;
     private Double zus51ods;
+    private Double zus51suma;
     private Double zus52;
     private Double zus52ods;
+    private Double zus52suma;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date zus52zapl;
     private Double zus53;
     private Double zus53ods;
+    private Double zus53suma;
     private String terminzuz;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date zus53zapl;
@@ -204,6 +207,32 @@ public class ZobKwota implements Serializable {
         this.zus53ods = zus53ods;
     }
 
+    public Double getZus51suma() {
+        return zus51suma;
+    }
+
+    public void setZus51suma(Double zus51suma) {
+        this.zus51suma = zus51suma;
+    }
+
+    public Double getZus52suma() {
+        return zus52suma;
+    }
+
+    public void setZus52suma(Double zus52suma) {
+        this.zus52suma = zus52suma;
+    }
+
+    public Double getZus53suma() {
+        return zus53suma;
+    }
+
+    public void setZus53suma(Double zus53suma) {
+        this.zus53suma = zus53suma;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
