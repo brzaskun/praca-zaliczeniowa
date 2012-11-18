@@ -23,6 +23,10 @@
             <to-view-id>/guest/guestTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gzobow</from-outcome>
+            <to-view-id>/guest/guestZobowiazania.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

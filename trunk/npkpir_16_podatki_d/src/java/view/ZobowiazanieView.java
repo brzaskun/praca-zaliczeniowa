@@ -73,6 +73,8 @@ public class ZobowiazanieView implements Serializable{
         return listapobranychstawek;
     }
 
+  
+    
     public void setListapobranychstawek(List<Zobowiazanie> listapobranychstawek) {
         this.listapobranychstawek = listapobranychstawek;
     }
