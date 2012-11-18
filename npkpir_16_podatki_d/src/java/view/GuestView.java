@@ -5,18 +5,13 @@
 package view;
 
 import dao.PodatnikDAO;
-import embeddable.Pod;
 import entity.Podatnik;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import login.Logowanie;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -30,6 +25,10 @@ public class GuestView implements Serializable{
     private static Podatnik podatnik;
     @Inject
     PodatnikDAO podDAO;
+
+    public GuestView() {
+        podatnik = new Podatnik();
+    }
     
     @PostConstruct
     private void init(){

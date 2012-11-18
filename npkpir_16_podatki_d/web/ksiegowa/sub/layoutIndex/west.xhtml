@@ -6,7 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
        <h:form id="westWpis">
-            <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
                  <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" >
                     <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}"/>
