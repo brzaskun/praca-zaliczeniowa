@@ -40,16 +40,16 @@
         <p:panelGrid id="dokumentyLista" >
             <f:facet name="header">
                 <p:row>
-                    <p:column colspan="2">
+                    <p:column colspan="4">
                         <h:outputText value="Nazwa firmy: "/><br/>
                     </p:column>
-                    <p:column colspan="6" >
+                    <p:column colspan="3" >
                         <h:outputText value="#{PodatekView.selected.nazwapelna}" style="font-weight: bold;"/>
                     </p:column>
                     <p:column/>
                 </p:row>
                 <p:row>
-                    <p:column colspan="6">
+                    <p:column colspan="8">
                         <h:outputText value="Wykaz zobowiązań z tytułu ZUS" />  
                     </p:column>
                 </p:row>
@@ -58,7 +58,7 @@
                 <p:column colspan="4">
                     <h:outputText value="Rok-Mc" />  
                 </p:column>
-                <p:column colspan="2">
+                <p:column colspan="4">
                     <h:outputText value="#{PodatekView.selectedZob.rok}-#{PodatekView.selectedZob.miesiac}"/>
                 </p:column>
             </p:row>
@@ -66,7 +66,7 @@
                 <p:column colspan="4">
                     <h:outputText value="Termin " />  
                 </p:column>
-                <p:column colspan="2">
+                <p:column colspan="4">
                     <h:outputText value="do #{PodatekView.selectedZob.terminzuz}-go"/>
                 </p:column>
             </p:row>
@@ -89,6 +89,12 @@
                 <p:column>
                     <h:outputText value="#{PodatekView.selectedZob.zus51ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
+                 <p:column >
+                    <h:outputText value="razem" />
+                </p:column> 
+                <p:column>
+                    <h:outputText value="#{PodatekView.selectedZob.zus51suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
             </p:row>
             <p:row>
                 <p:column>
@@ -108,6 +114,12 @@
                 </p:column> 
                 <p:column>
                     <h:outputText value="#{PodatekView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                <p:column >
+                    <h:outputText value="razem" />
+                </p:column> 
+                <p:column>
+                    <h:outputText value="#{PodatekView.selectedZob.zus52suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <p:row>
@@ -129,10 +141,16 @@
                 <p:column>
                     <h:outputText value="#{PodatekView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
+                <p:column >
+                    <h:outputText value="razem" />
+                </p:column> 
+                <p:column>
+                    <h:outputText value="#{PodatekView.selectedZob.zus53suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
             </p:row>
             <f:facet name="footer">
                 <p:row>
-                    <p:column colspan="6">
+                    <p:column colspan="8">
                         <p:commandButton value ="przelicz odsetki" update=":form:formZob:dokumentyLista" action="#{PodatekView.przeliczodsetki()}"/>
                     </p:column>
                 </p:row>
