@@ -5,10 +5,12 @@
 package view;
 
 import dao.OdsetkiDAO;
+import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import entity.Odsetki;
+import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
@@ -48,6 +50,8 @@ public class PlatnosciView implements Serializable{
     PlatnosciDAO platnosciDAO;
     @Inject
     OdsetkiDAO odsetkiDAO;
+    @Inject
+    PitDAO pitDAO;
     @Inject
     private Podatnik selected;
     private static Platnosci selectedZob;
@@ -94,6 +98,7 @@ public class PlatnosciView implements Serializable{
     public void nowezobowiazanie(){
         List<Zusstawki> listapobrana = selected.getZusparametr();
         Zusstawki zusstawki = new Zusstawki();
+        Pitpoz pitpoz = new Pitpoz();
         Iterator it;
         it = listapobrana.iterator();
         while(it.hasNext()){
@@ -106,6 +111,10 @@ public class PlatnosciView implements Serializable{
         selectedZob.setZus51(zusstawki.getZus51ch());
         selectedZob.setZus52(zusstawki.getZus52());
         selectedZob.setZus53(zusstawki.getZus53());
+        selectedZob.setPit4(zusstawki.getPit4());
+        //pobierz PIT-5
+        pitpoz = pitDAO.find(selectedZob.getPlatnosciPK().getRok(),selectedZob.getPlatnosciPK().getMiesiac(),selected.getNazwapelna());
+        selectedZob.setPit5(pitpoz.getNaleznazal().doubleValue());
         List<Zobowiazanie> terminy = new ArrayList<>();
         terminy.addAll(zv.getDownloaded());
         Zobowiazanie termin = new Zobowiazanie();
@@ -119,12 +128,21 @@ public class PlatnosciView implements Serializable{
             }
         }
         selectedZob.setTerminzuz(termin.getZusday1());
+        selectedZob.setTerminzpit4(termin.getPitday());
+        selectedZob.setTerminzpit5(termin.getPitday());
+        selectedZob.setTerminzvat(termin.getVatday());
         selectedZob.setZus51ods(0.0);
         selectedZob.setZus52ods(0.0);
         selectedZob.setZus53ods(0.0);
+        selectedZob.setPit4ods(0.0);
+        selectedZob.setPit5ods(0.0);
+        selectedZob.setVatods(0.0);
         selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
         selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus51ods());
         selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
+        selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
+        selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
+        //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
         }
    
 
@@ -153,17 +171,52 @@ public class PlatnosciView implements Serializable{
                 platnosciDAO.dodajNowyWpis(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("form:formZob:wiad");
+                RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
             } else {
                 platnosciDAO.edit(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("form:formZob:wiad");
+                RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
             }
         } catch (Exception e){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("form:formZob:wiad");
+            RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
+        }
+    }
+    
+    public void przeliczodsetkiPIT4(int opcja){
+        String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzpit4();
+        Date datatmp51 = selectedZob.getPit4zapl();
+        Date dataod;
+        Date datado;
+        try {
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            dataod = (Date) formatter.parse(datatmp);
+            selectedZob.setPit4ods(odsetki(dataod, datatmp51,selectedZob.getPit4().toString()));
+            selectedZob.setPit5ods(odsetki(dataod, datatmp51,selectedZob.getPit5().toString()));
+            selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
+            selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+        }
+        try{
+            if(opcja==1){
+                platnosciDAO.dodajNowyWpis(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            } else {
+                platnosciDAO.edit(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            }
+        } catch (Exception e){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
         }
     }
   
@@ -290,6 +343,22 @@ public class PlatnosciView implements Serializable{
 
     public void setEdytujplatnosc(boolean edytujplatnosc) {
         this.edytujplatnosc = edytujplatnosc;
+    }
+
+    public OdsetkiDAO getOdsetkiDAO() {
+        return odsetkiDAO;
+    }
+
+    public void setOdsetkiDAO(OdsetkiDAO odsetkiDAO) {
+        this.odsetkiDAO = odsetkiDAO;
+    }
+
+    public PitDAO getPitDAO() {
+        return pitDAO;
+    }
+
+    public void setPitDAO(PitDAO pitDAO) {
+        this.pitDAO = pitDAO;
     }
     
     
