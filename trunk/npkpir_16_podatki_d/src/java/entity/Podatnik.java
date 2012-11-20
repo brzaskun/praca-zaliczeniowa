@@ -5,7 +5,6 @@
 package entity;
 
 import embeddable.Parametr;
-import embeddable.ZobKwota;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -138,10 +137,7 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "zusparametr")
     private List<Zusstawki> zusparametr;
-    @Lob
-    @Column(name = "zobowiazania")
-    private List<ZobKwota> zobowiazania;
-
+    
     public Podatnik() {
     }
 
@@ -350,13 +346,7 @@ public class Podatnik implements Serializable {
         this.zusparametr = zusparametr;
     }
 
-    public List<ZobKwota> getZobowiazania() {
-        return zobowiazania;
-    }
-
-    public void setZobowiazania(List<ZobKwota> zobowiazania) {
-        this.zobowiazania = zobowiazania;
-    }
+   
 
     
     

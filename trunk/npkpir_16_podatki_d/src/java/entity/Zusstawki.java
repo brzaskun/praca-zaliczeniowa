@@ -43,6 +43,7 @@ public class Zusstawki implements Serializable {
     private Double zus53;
 
     public Zusstawki() {
+        zusstawkiPK = new ZusstawkiPK();
     }
 
     @PostConstruct
