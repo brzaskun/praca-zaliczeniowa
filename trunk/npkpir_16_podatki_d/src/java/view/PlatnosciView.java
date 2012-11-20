@@ -4,9 +4,11 @@
  */
 package view;
 
+import dao.OdsetkiDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
+import entity.Odsetki;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
@@ -14,6 +16,7 @@ import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +46,8 @@ public class PlatnosciView implements Serializable{
     PodatnikDAO podatnikDAO;
     @Inject
     PlatnosciDAO platnosciDAO;
+    @Inject
+    OdsetkiDAO odsetkiDAO;
     @Inject
     private Podatnik selected;
     private static Platnosci selectedZob;
@@ -162,22 +167,74 @@ public class PlatnosciView implements Serializable{
         }
     }
   
-    private Double odsetki(Date dataod, Date datado, String podstawa){
-            if(datado!=null){
-                BigDecimal odsetki = new BigDecimal(".13");
-                odsetki = odsetki.divide(new BigDecimal("365"),20,RoundingMode.HALF_EVEN);
-                long x=datado.getTime(); 
-                long y=dataod.getTime(); 
-                Long wynik=Math.abs(x-y); 
-                wynik=wynik/(1000*60*60*24);
-                BigDecimal kwota = odsetki.multiply(new BigDecimal(podstawa)).multiply(new BigDecimal(wynik.toString())).setScale(0, RoundingMode.HALF_EVEN);
-                return kwota.doubleValue();
-            } else {
-                return 0.0;
+    private Double odsetki(Date dataod, Date datadotmp, String podstawa) {
+        Boolean wymuszonykoniec = false;
+        Date dataDozwiersza = new Date();
+        BigDecimal kwota = new BigDecimal(BigInteger.ZERO);
+        BigDecimal odsetki = new BigDecimal(BigInteger.ZERO);
+        Date datado = new Date();
+        String stawka;
+        while (dataod.getTime() < datadotmp.getTime()) {
+            Odsetki odsetkiwiersz = zwrocokres(dataod);
+            dataDozwiersza = odsetkiwiersz.getDatadoD();
+            if(dataDozwiersza==null){
+                dataDozwiersza = datadotmp;
+                wymuszonykoniec=true;
             }
-}
+            //obliczanie nie konczy sie na jednymwierszu wiec trzeba przestawic daty od i do
+            if(dataDozwiersza.getTime()<datadotmp.getTime()){
+                datado = dataDozwiersza;
+            } else {
+                datado = datadotmp;
+            }
+            odsetki = new BigDecimal(odsetkiwiersz.getStopaodsetek().replace(",", "."));
+                //te 20 to zaokraglenie
+                odsetki = odsetki.divide(new BigDecimal("36500"), 20, RoundingMode.HALF_EVEN);
+                long x = datado.getTime();
+                long y = dataod.getTime();
+                Long wynik = Math.abs(x - y);
+                if(datado.equals(datadotmp)){
+                    wynik = (wynik / (1000 * 60 * 60 * 24))+1;
+                } else {
+                    wynik = (wynik / (1000 * 60 * 60 * 24))+2;
+                }
+                kwota = kwota.add(odsetki.multiply(new BigDecimal(podstawa)).multiply(new BigDecimal(wynik.toString())).setScale(2, RoundingMode.HALF_EVEN));
+                if(wymuszonykoniec==false){
+                dataod = new Date(dataDozwiersza.getTime()+(1000*60*60*24));
+                } else {
+                    dataod = datadotmp;
+                }                
+        }
+        kwota = kwota.setScale(0, RoundingMode.HALF_EVEN);
+        return kwota.doubleValue();
+    }
     
-   
+   private Odsetki zwrocokres(Date dataod){
+       List<Odsetki> lista = new ArrayList<>();
+        lista.addAll(odsetkiDAO.getDownloaded());
+        Iterator it;
+        it = lista.iterator();
+        while(it.hasNext()){
+            Odsetki tmp = (Odsetki) it.next();
+            try{
+            if((dataod.getTime()>=tmp.getDataodD().getTime())&&(dataod.getTime()<=tmp.getDatadoD().getTime())){
+                return tmp;
+            }
+            } catch (Exception e){
+                break;
+            }
+        }
+        return lista.get(lista.size()-1);
+   }
+    
+    private long roznicaDni(Date date_od, Date date_do){ 
+                long x=date_do.getTime(); 
+                long y=date_od.getTime(); 
+                long wynik=Math.abs(x-y); 
+                wynik=wynik/(1000*60*60*24); 
+                System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
+                return wynik;
+     }
     
     public PodatnikDAO getPodatnikDAO() {
         return podatnikDAO;
