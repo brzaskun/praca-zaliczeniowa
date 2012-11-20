@@ -67,7 +67,8 @@
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <p:panelGrid id="parametryp1" columns="7" >
                     <h:outputText value="data od: "/><p:calendar value="#{odsetkiView.selected.dataodD}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
-                    <h:outputText value="stawka: "/><h:inputText value="#{odsetkiView.selected.stopaodsetek}" maxlength="2" required="false"/>
+                    <h:outputText value="stawka: "/><h:inputText value="#{odsetkiView.selected.stopaodsetek}" maxlength="4" required="false">
+                    </h:inputText>
                 </p:panelGrid>
                 <br/>
                 <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
