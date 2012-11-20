@@ -27,6 +27,7 @@
                             </h:selectOneMenu>
                             <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
                         </p:panel>
+                         <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" update="@all"/>
                     </h:form>
                 </p:panelGrid>
             </h:form>

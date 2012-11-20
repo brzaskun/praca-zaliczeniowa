@@ -36,6 +36,7 @@
     </script>
 
     <h:form id="formZob">
+        <p:growl id="wiad" showDetail="true"/>
         <p:focus for="dokumentyLista"/>
         <p:panelGrid id="dokumentyLista" >
             <f:facet name="header">
@@ -44,7 +45,7 @@
                         <h:outputText value="Nazwa firmy: "/><br/>
                     </p:column>
                     <p:column colspan="3" >
-                        <h:outputText value="#{PodatekView.selected.nazwapelna}" style="font-weight: bold;"/>
+                        <h:outputText value="#{PlatnosciView.selected.nazwapelna}" style="font-weight: bold;"/>
                     </p:column>
                     <p:column/>
                 </p:row>
@@ -59,7 +60,7 @@
                     <h:outputText value="Rok-Mc" />  
                 </p:column>
                 <p:column colspan="4">
-                    <h:outputText value="#{PodatekView.selectedZob.rok}-#{PodatekView.selectedZob.miesiac}"/>
+                    <h:outputText value="#{PlatnosciView.selectedZob.platnosciPK.rok}-#{PlatnosciView.selectedZob.platnosciPK.miesiac}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -67,7 +68,7 @@
                     <h:outputText value="Termin " />  
                 </p:column>
                 <p:column colspan="4">
-                    <h:outputText value="do #{PodatekView.selectedZob.terminzuz}-go"/>
+                    <h:outputText value="do #{PlatnosciView.selectedZob.terminzuz}-go"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -75,25 +76,25 @@
                     <h:outputText value="ZUS51" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus51}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                <p:column > 
+                <p:column rowspan="3" > 
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PodatekView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
                 </p:column>
-                <p:column >
+                <p:column rowspan="3">
                     <h:outputText value="odsetki" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus51ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                 <p:column >
+                <p:column  rowspan="3">
                     <h:outputText value="razem" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus51suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <p:row>
@@ -101,25 +102,16 @@
                     <h:outputText value="ZUS52" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus52}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
-                 <p:column > 
-                    <h:outputText  value="zapłacono dnia " />
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PodatekView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
                 </p:column>
-                <p:column >
-                    <h:outputText value="odsetki" />
-                </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                <p:column >
-                    <h:outputText value="razem" />
-                </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus52suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <p:row>
@@ -127,31 +119,25 @@
                     <h:outputText value="ZUS53" />  
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus53}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
-                 <p:column > 
-                    <h:outputText  value="zapłacono dnia " />
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PodatekView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
                 </p:column>
-                <p:column >
-                    <h:outputText value="odsetki" />
-                </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                <p:column >
-                    <h:outputText value="razem" />
-                </p:column> 
                 <p:column>
-                    <h:outputText value="#{PodatekView.selectedZob.zus53suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <f:facet name="footer">
                 <p:row>
-                    <p:column colspan="8">
-                        <p:commandButton value ="przelicz odsetki" update=":form:formZob:dokumentyLista" action="#{PodatekView.przeliczodsetki()}"/>
+                    <p:column colspan="4">
+                        <p:commandButton value ="przelicz odsetki" update=":form:formZob:dokumentyLista, :form:formZob:wiad" action="#{PlatnosciView.przeliczodsetki(1)}" rendered="#{!PlatnosciView.edytujplatnosc}"/>
+                    </p:column>
+                    <p:column colspan="4">
+                        <p:commandButton value ="ponownie przelicz odsetki" update=":form:formZob:dokumentyLista, :form:formZob:wiad" action="#{PlatnosciView.przeliczodsetki(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                 </p:row>
             </f:facet>
