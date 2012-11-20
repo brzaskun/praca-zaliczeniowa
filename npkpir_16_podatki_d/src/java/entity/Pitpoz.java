@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pitpoz.findAll", query = "SELECT p FROM Pitpoz p"),
+    @NamedQuery(name = "Pitpoz.findByKey", query = "SELECT p FROM Pitpoz p WHERE p.podatnik = :podatnik AND p.pkpirR = :rok AND p.pkpirM = :miesiac"),
     @NamedQuery(name = "Pitpoz.findById", query = "SELECT p FROM Pitpoz p WHERE p.id = :id"),
     @NamedQuery(name = "Pitpoz.findByDozaplaty", query = "SELECT p FROM Pitpoz p WHERE p.dozaplaty = :dozaplaty"),
     @NamedQuery(name = "Pitpoz.findByKoszty", query = "SELECT p FROM Pitpoz p WHERE p.koszty = :koszty"),
