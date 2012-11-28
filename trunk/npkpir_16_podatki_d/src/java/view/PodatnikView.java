@@ -364,7 +364,7 @@ public class PodatnikView implements Serializable{
          try{
              lista.addAll(selected.getPodatekdochodowy());
          } catch (Exception e){}
-         if(sprawdzrokdoch(parametr, lista)==0){
+         if(sprawdzrok(parametr, lista)==0){
          lista.add(parametr);
          selected.setPodatekdochodowy(lista);
          podatnikDAO.edit(selected);
@@ -376,7 +376,7 @@ public class PodatnikView implements Serializable{
          }
      }
      
-     private int sprawdzrokdoch(Parametr nowe, List<Parametr> stare){
+     private int sprawdzrok(Parametr nowe, List<Parametr> stare){
          if(stare.size()==0){
             Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
             parametr.setMcOd("01");
@@ -529,6 +529,29 @@ public class PodatnikView implements Serializable{
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
      }
      
-     
+      public void dodajremanent(){
+         selected=podatnikDAO.find(pojemnik);
+         List<Parametr> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getRemanent());
+         } catch (Exception e){}
+         if(sprawdzrok(parametr, lista)==0){
+         lista.add(parametr);
+         selected.setRemanent(lista);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr remanent do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } else {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru remanent. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+        public void usunremanent(){
+         List<Parametr> tmp = new ArrayList<>();
+         tmp.addAll(selected.getRemanent());
+         tmp.remove(tmp.size()-1);
+         selected.setRemanent(tmp);
+         podatnikDAO.edit(selected);
+     }
 }
 

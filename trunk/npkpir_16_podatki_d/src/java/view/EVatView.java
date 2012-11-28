@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public class EVatView implements Serializable{
     @Inject
     private EVDAO eVDAO;
-    
+   
     private static final List<String> naglowekVList;
     private List<String> sprzedazVList;
     private List<String> zakupVList;
@@ -70,6 +70,7 @@ public class EVatView implements Serializable{
         
     }
     
+    
     public List<String> getNaglowekVList() {
         return naglowekVList;
     }
@@ -93,6 +94,7 @@ public class EVatView implements Serializable{
     public void setListadostepnychewidencji(List<String> listadostepnychewidencji) {
         this.listadostepnychewidencji = listadostepnychewidencji;
     }
-    
+
+  
    
 }
