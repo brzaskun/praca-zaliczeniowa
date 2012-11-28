@@ -137,6 +137,11 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "zusparametr")
     private List<Zusstawki> zusparametr;
+    @Lob
+    @Column(name = "remanent")
+    private List<Parametr> remanent;
+
+    
     
     public Podatnik() {
     }
@@ -344,6 +349,14 @@ public class Podatnik implements Serializable {
 
     public void setZusparametr(List<Zusstawki> zusparametr) {
         this.zusparametr = zusparametr;
+    }
+
+    public List<Parametr> getRemanent() {
+        return remanent;
+    }
+
+    public void setRemanent(List<Parametr> remanent) {
+        this.remanent = remanent;
     }
 
    

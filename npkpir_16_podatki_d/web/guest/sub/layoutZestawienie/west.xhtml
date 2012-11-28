@@ -4,10 +4,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="240" header="Zmień przeglądany okres" collapsible="true" resizable="true">
+    <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
         <h:form id="westKsiegowa">
-            <h:messages id="westmsg"/>
-            <p:panelGrid menuTitle="Dane" header="Zmień okres" columns="1" style="margin-left: 25%">
+             <p:panelGrid menuTitle="Dane" header="Zmień okres" columns="1" style="margin-left: 25%">
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -16,13 +15,7 @@
                 </p:selectOneMenu>
                   </p:column>
                     <p:column>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{guestView.aktualizujTabele}" />
-                </p:selectOneMenu>
-                    </p:column>
-                    <p:column>
-                <h:commandButton value="Ok" update="@all" rendered="true" style="margin-left: 15%"/>
+                        <h:commandButton value="Ok" style="margin-left: 15%" type="submit"/>
                      </p:column>
             </p:panelGrid>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 25%">
@@ -30,27 +23,25 @@
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.rokWpisu}"/>
-                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+               
             </p:panelGrid>
-            <p:panel header="Tu możesz sprawdzić:">
+           <p:panel header="linki">
+             <h:form>
                 <p:panelGrid columns="1">
-                    <p:menu >
-                        <p:menuitem value="obroty"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="moje podatki"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
-<!--                    <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+                     <p:menu >
+                        <p:menuitem value="dokumenty"  outcome="gtablica" icon="ui-icon-circle-arrow-e" />
+                         <p:menuitem value="obroty"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
+<!--                        <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="zestawienie"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="pity"  outcome="pity" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  -->
                     </p:menu> 
-                    <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" update="@all" style="margin-left: 25%"/>
                 </p:panelGrid>
-
-            </p:panel>
-
+            </h:form>
+        </p:panel>
+            
         </h:form>
-    </p:layoutUnit>
+        </p:layoutUnit>
 </ui:composition>   
 
