@@ -4,8 +4,8 @@
  */
 package view;
 
-import dao.EVDAO;
-import embeddable.EVidencja;
+import dao.EvewidencjaDAO;
+import entity.Evewidencja;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,12 +23,13 @@ import javax.inject.Inject;
 @SessionScoped
 public class EVatView implements Serializable{
     @Inject
-    private EVDAO eVDAO;
+    private EvewidencjaDAO eVDAO;
    
     private static final List<String> naglowekVList;
     private List<String> sprzedazVList;
     private List<String> zakupVList;
     private List<String> srodkitrwaleVList;
+    private List<String> wdtVList;
     private List<String> listadostepnychewidencji;
 
     static{
@@ -44,6 +45,7 @@ public class EVatView implements Serializable{
         zakupVList = new ArrayList<>();
         srodkitrwaleVList = new ArrayList<>();
         sprzedazVList = new ArrayList<>();
+        wdtVList = new ArrayList<>();
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = new ArrayList<>();
     }
@@ -52,22 +54,26 @@ public class EVatView implements Serializable{
     //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
     public void init(){
-        ArrayList<EVidencja> tmp = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
+        ArrayList<Evewidencja> tmp =  (ArrayList<Evewidencja>) eVDAO.getDownloaded();
         Iterator it;
         it = tmp.iterator();
         while (it.hasNext()){
-            EVidencja up = (EVidencja) it.next();
-            listadostepnychewidencji.add(up.getNazwaEwidencji());
-            if(up.getTransAkcja().equals("zakup")){
-                zakupVList.add(up.getNazwaEwidencji());
-            } else if (up.getTransAkcja().equals("srodek trw")) {
-                srodkitrwaleVList.add(up.getNazwaEwidencji());
-            } else {
-                sprzedazVList.add(up.getNazwaEwidencji());
+            Evewidencja up =  (Evewidencja) it.next();
+            listadostepnychewidencji.add(up.getNazwa());
+            switch(up.getTransakcja()) {
+                case "zakup" : 
+                    zakupVList.add(up.getNazwa());
+                    break;
+                case "srodek trw" : 
+                    srodkitrwaleVList.add(up.getNazwa());
+                    break;
+                case "WDT" : 
+                    wdtVList.add(up.getNazwa());
+                    break;
+                default : 
+                    sprzedazVList.add(up.getNazwa());
             }
-            
         }
-        
     }
     
     
@@ -95,6 +101,14 @@ public class EVatView implements Serializable{
         this.listadostepnychewidencji = listadostepnychewidencji;
     }
 
-  
+    public List<String> getWdtVList() {
+        return wdtVList;
+    }
+
+    public void setWdtVList(List<String> wdtVList) {
+        this.wdtVList = wdtVList;
+    }
+
+   
    
 }

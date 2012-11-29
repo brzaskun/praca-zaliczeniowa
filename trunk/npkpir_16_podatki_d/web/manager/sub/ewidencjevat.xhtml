@@ -14,7 +14,7 @@
            <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             editable="true" resizableColumns="true" paginatorPosition="top">
+                             editable="true" resizableColumns="true" paginatorPosition="top" >
                     <p:column headerText="nazwa ewidencji"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
                     <p:column headerText="pole w deklaracji"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
                     <p:column headerText="rodzaj transkacji"><h:outputText id="in3" value="#{loop.transakcja}"/></p:column>
@@ -29,10 +29,22 @@
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nową deklarację"/><br/>
                 <p:panelGrid id="parametr" columns="2" >
-                    <h:outputText value="nazwa ewidencji"/><h:inputText value="#{evewidencjaView.selected.nazwa}" style="width: 400px;"/>
-                    <h:outputText value="pole w deklaracji"/><h:inputText value="#{evewidencjaView.selected.pole}"/>
-                    <h:outputText value="rodzaj transkacji"/><h:inputText value="#{evewidencjaView.selected.transakcja}"/>
-                    <h:outputText value="rodzaj zakupu"/><h:inputText value="#{evewidencjaView.selected.rodzajzakupu}"/>
+                    <h:outputText value="nazwa ewidencji"/>
+                    <h:selectOneMenu value="#{evewidencjaView.selected.nazwa}" style="width: 400px;">
+                        <f:selectItems value="#{evopisView.lista}"/>
+                    </h:selectOneMenu>
+                    <h:outputText value="pole w deklaracji"/>
+                    <h:selectOneMenu value="#{evewidencjaView.selected.pole}" style="width: 400px;">
+                        <f:selectItems value="#{evpozycjaView.lista}"/>
+                    </h:selectOneMenu>
+                    <h:outputText value="rodzaj transkacji"/>
+                    <h:selectOneMenu value="#{evewidencjaView.selected.transakcja}" style="width: 400px;">
+                        <f:selectItems value="#{Trans.transListView}"/>
+                    </h:selectOneMenu>
+                    <h:outputText value="rodzaj zakupu"/>
+                    <h:selectOneMenu value="#{evewidencjaView.selected.rodzajzakupu}" style="width: 400px;">
+                        <f:selectItems value="#{eRodzajZakupu.rodzajZakupuView}"/>
+                    </h:selectOneMenu>
                 </p:panelGrid>
                  <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form :akordeon:form0:" type="submit"/>
             </h:form>
@@ -67,9 +79,9 @@
             <h:form id="form2" >
                 <h:outputText value="Nazwy pól deklaracji VAT" style="font-size: 15px"/>
            <p:growl id="msg1" showDetail="true"/>
-                <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" 
-                             pageLinks="12" rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}"
-                             editable="true" resizableColumns="true" paginatorPosition="top">
+                <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
+                            rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}"
+                             editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nrpolanetto}" sortOrder="ascending">
                     <p:column headerText="nazwa pola"><h:outputText id="in1" value="#{loop.nazwapola}"/></p:column>
                     <p:column headerText="nr pola netto"><h:outputText id="in2" value="#{loop.nrpolanetto}"/></p:column>
                     <p:column headerText="nr pola vat"><h:outputText id="in3" value="#{loop.nrpolavat}"/></p:column>

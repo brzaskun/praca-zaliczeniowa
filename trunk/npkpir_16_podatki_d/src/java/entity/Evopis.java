@@ -84,7 +84,7 @@ public class Evopis implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Evopis[ lp=" + lp + " ]";
+        return opis ;
     }
     
 }

@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.Evewidencja;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Inject;
@@ -18,12 +19,12 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class EVatwpis implements Serializable {
     @Inject
-    private EVidencja ewidencja;
+    private Evewidencja ewidencja;
     private double netto;
     private double vat;
     private String estawka;
 
-    public EVatwpis(EVidencja ewidencja, double netto, double vat, String estawka) {
+    public EVatwpis(Evewidencja ewidencja, double netto, double vat, String estawka) {
         this.ewidencja = ewidencja;
         this.netto = netto;
         this.vat = vat;
@@ -33,16 +34,15 @@ public class EVatwpis implements Serializable {
     public EVatwpis() {
     }
 
-    
-    
-    public EVidencja getEwidencja() {
+    public Evewidencja getEwidencja() {
         return ewidencja;
     }
 
-    public void setEwidencja(EVidencja ewidencja) {
+    public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
     }
 
+  
     public double getNetto() {
         return netto;
     }
