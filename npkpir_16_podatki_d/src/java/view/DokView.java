@@ -7,16 +7,16 @@ package view;
 
 import dao.AmoDokDAO;
 import dao.DokDAO;
-import dao.EVDAO;
 import dao.EVatOpisDAO;
+import dao.EvewidencjaDAO;
 import embeddable.EVatwpis;
-import embeddable.EVidencja;
 import embeddable.Kolmn;
 import embeddable.Mce;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatOpis;
+import entity.Evewidencja;
 import entity.Klienci;
 import entity.SrodekTrw;
 import java.io.Serializable;
@@ -111,7 +111,9 @@ public class DokView implements Serializable{
     @Inject
     private EVatOpisDAO eVatOpisDAO;
     @Inject
-    private EVidencja eVidencja;
+    private Evewidencja eVidencja;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
     private EVatwpis eVatwpis;
     private static String wielkoscopisuewidencji;
     /* Rozliczenia vat*/
@@ -186,14 +188,20 @@ public class DokView implements Serializable{
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
         List opisewidencji = new ArrayList();
-        if (transakcjiRodzaj.equals("zakup")) {
-            opisewidencji = evat.getZakupVList();
-        } else if (transakcjiRodzaj.equals("srodek trw")) {
-            opisewidencji = evat.getSrodkitrwaleVList();
-
-        } else {
-            opisewidencji = evat.getSprzedazVList();
+        switch (transakcjiRodzaj) {
+            case ("zakup"):
+                opisewidencji = evat.getZakupVList();
+                break;
+            case("srodek trw"):
+                opisewidencji = evat.getSrodkitrwaleVList();
+                break;
+            case("WDT"):
+                opisewidencji = evat.getWdtVList();
+                break;
+            default:
+                opisewidencji = evat.getSprzedazVList();
         }
+        
         grid1 = getGrid1();
         grid1.getChildren().clear();
         RequestContext ctx = null;
@@ -204,16 +212,16 @@ public class DokView implements Serializable{
         //dodawanie naglowka: rodzaj ewidencji atto vat op/zw
         while (itx.hasNext()) {
             String tmp = (String) itx.next();
-            if(transakcjiRodzaj.equals("sprzedaz")&&tmp.equals("op/zw")){
+            if (transakcjiRodzaj.equals("sprzedaz") && tmp.equals("op/zw")) {
             } else {
-            HtmlOutputText ot = new HtmlOutputText();
-            ot.setValue((String) tmp);
-            grid1.getChildren().add(ot);
+                HtmlOutputText ot = new HtmlOutputText();
+                ot.setValue((String) tmp);
+                grid1.getChildren().add(ot);
             }
-            
+
         }
         //usuwanie ostatniego opisu jak jest sprzedaz
-        
+
         Integer tmpw = grid1.getChildCount();
         wielkoscopisuewidencji = tmpw.toString();
         ExpressionFactory ef = ExpressionFactory.newInstance();
@@ -229,7 +237,7 @@ public class DokView implements Serializable{
             } else if (opis2 == null) {
                 setOpis2(poz);
             } else if (opis3 == null) {
-               setOpis3(poz);
+                setOpis3(poz);
             } else {
                 setOpis4(poz);
             }
@@ -247,21 +255,21 @@ public class DokView implements Serializable{
             ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
             ewX.setValueExpression("value", ve2X);
             grid1.getChildren().add(ewX);
-            if(transakcjiRodzaj.equals("zakup")||transakcjiRodzaj.equals("srodek trw")){
-            UISelectItems ulista = new UISelectItems();
-            List valueList = new ArrayList();
-            SelectItem selectItem = new SelectItem("sprz.op", "sprz.op");
-            valueList.add(selectItem);
-            selectItem = new SelectItem("sprzed.op.izw.", "sprzed.op.izw.");
-            valueList.add(selectItem);
-            ulista.setValue(valueList);
-            final String bindingY = "#{DokumentView.opizw}";
-            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
-            HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
-            htmlSelectOneMenu.setValueExpression("value", ve2Y);
-            htmlSelectOneMenu.setStyle("min-width: 150px");
-            htmlSelectOneMenu.getChildren().add(ulista);
-            grid1.getChildren().add(htmlSelectOneMenu);
+            if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
+                UISelectItems ulista = new UISelectItems();
+                List valueList = new ArrayList();
+                SelectItem selectItem = new SelectItem("sprz.op", "sprz.op");
+                valueList.add(selectItem);
+                selectItem = new SelectItem("sprzed.op.izw.", "sprzed.op.izw.");
+                valueList.add(selectItem);
+                ulista.setValue(valueList);
+                final String bindingY = "#{DokumentView.opizw}";
+                ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
+                HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
+                htmlSelectOneMenu.setValueExpression("value", ve2Y);
+                htmlSelectOneMenu.setStyle("min-width: 150px");
+                htmlSelectOneMenu.getChildren().add(ulista);
+                grid1.getChildren().add(htmlSelectOneMenu);
             }
             i++;
         }
@@ -272,7 +280,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
 
     }
-    
+
     public void wygenerujSTRKolumne() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();
@@ -441,7 +449,7 @@ public class DokView implements Serializable{
 
     public void dodajNowyWpis() {
         try {
-            ArrayList<EVidencja> ew = (ArrayList<EVidencja>) EVDAO.getWykazEwidencji();
+            ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
             EVatOpis eVO = eVatOpisDAO.getDownloadedEVatOpis().get(0);
             List<String> pobierzOpisy = new ArrayList<>();
             pobierzOpisy.add(eVO.getOpis1());
@@ -460,11 +468,11 @@ public class DokView implements Serializable{
             pobierzVat.add(vat4);
             List<EVatwpis> el = new ArrayList<>();
             int i = 0;
-            while (i < EVDAO.getWykazEwidencji().size()) {
+            while (i < evewidencjaDAO.getDownloaded().size()) {
                 int j = 0;
                 while (j < 4 && (pobierzOpisy.get(j) != null)) {
                     String op = pobierzOpisy.get(j);
-                    String naz = ew.get(i).getNazwaEwidencji();
+                    String naz = ew.get(i).getNazwa();
                     if (naz.equals(op)) {
                         eVidencja = ew.get(i);
                         eVatwpis = new EVatwpis();
@@ -726,11 +734,11 @@ public class DokView implements Serializable{
         this.eVatwpis = eVatwpis;
     }
     
-    public EVidencja geteVidencja() {
+    public Evewidencja geteVidencja() {
         return eVidencja;
     }
 
-    public void seteVidencja(EVidencja eVidencja) {
+    public void seteVidencja(Evewidencja eVidencja) {
         this.eVidencja = eVidencja;
     }
     

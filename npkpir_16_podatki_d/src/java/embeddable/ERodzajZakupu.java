@@ -7,19 +7,19 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Embeddable;
 
 /**
  *
  * @author Osito
  */
-@Named
+@ManagedBean
 @Embeddable
 public class ERodzajZakupu implements Serializable {
     private static final List<String> rodzajZakupu;
     static{
-        rodzajZakupu = new ArrayList<String>();
+        rodzajZakupu = new ArrayList<>();
         rodzajZakupu.add("opodatkowane");
         rodzajZakupu.add("opodatkowane i zwolnione");
         rodzajZakupu.add("zwolnione");
@@ -29,6 +29,8 @@ public class ERodzajZakupu implements Serializable {
     public static List<String> getRodzajZakupu() {
         return rodzajZakupu;
     }
-    
+    public List<String> getRodzajZakupuView() {
+        return rodzajZakupu;
+    }
     
 }

@@ -96,7 +96,7 @@ public class Evpozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Evpozycja[ nazwapola=" + nazwapola + " ]";
+        return nazwapola;
     }
     
 }

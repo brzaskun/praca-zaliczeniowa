@@ -27,4 +27,7 @@ public class EvewidencjaFacade extends AbstractFacade<Evewidencja> {
         super(Evewidencja.class);
     }
     
+    public Evewidencja findByName(String nazwa){
+        return (Evewidencja) em.createNamedQuery("Evewidencja.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+    }
 }

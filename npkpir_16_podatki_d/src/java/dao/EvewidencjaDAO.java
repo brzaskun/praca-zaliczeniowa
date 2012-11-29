@@ -25,6 +25,7 @@ public class EvewidencjaDAO {
   @Inject private EvewidencjaFacade evewidencjaFacade;
 
     private static List<Evewidencja> downloaded;
+    
 
     public EvewidencjaFacade getevewidencjaFacade() {
         return evewidencjaFacade;
@@ -38,6 +39,14 @@ public class EvewidencjaDAO {
         EvewidencjaDAO.downloaded = downloaded;
     }
 
+    public EvewidencjaFacade getEvewidencjaFacade() {
+        return evewidencjaFacade;
+    }
+
+    public void setEvewidencjaFacade(EvewidencjaFacade evewidencjaFacade) {
+        this.evewidencjaFacade = evewidencjaFacade;
+    }
+    
   
     public EvewidencjaDAO() {
         downloaded = new ArrayList<Evewidencja>();
@@ -92,4 +101,14 @@ public class EvewidencjaDAO {
    public void edit(Evewidencja sel){
             evewidencjaFacade.edit(sel);
      }
+   
+    public Evewidencja znajdzponazwie(String nazwa) throws Exception{
+        Evewidencja tmp = new Evewidencja();
+        try {
+            tmp = evewidencjaFacade.findByName(nazwa);
+            return tmp;
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
 }

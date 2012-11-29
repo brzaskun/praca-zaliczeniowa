@@ -4,12 +4,12 @@
  */
 package view;
 
-import dao.EVDAO;
+import dao.EvewidencjaDAO;
 import embeddable.EVLista;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
-import embeddable.EVidencja;
 import entity.Dok;
+import entity.Evewidencja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,6 +57,8 @@ public class VatView implements Serializable{
     private Dok selected;
     @Inject
     private EVLista eVLista;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
     
     //elementy niezbedne do generowania ewidencji vat
     private AccordionPanel akordeon;
@@ -92,7 +94,7 @@ public class VatView implements Serializable{
                         wiersz.setKontr(tmp.getKontr());
                         wiersz.setNrWlDk(tmp.getNrWlDk());
                         wiersz.setOpis(tmp.getOpis());
-                        wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwaEwidencji());
+                        wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
                         wiersz.setNetto(ewidwiersz.getNetto());
                         wiersz.setVat(ewidwiersz.getVat());
                         wiersz.setOpizw(ewidwiersz.getEstawka());
@@ -117,7 +119,7 @@ public class VatView implements Serializable{
                  listatmp.addAll(c);
            } catch (Exception e){
                 listaewidencji.put(nazwaewidencji,new ArrayList<EVatViewPola>());
-                EVidencja nowaEv = EVDAO.znajdzponazwie(nazwaewidencji);
+                Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
                 sumaewidencji.put(nazwaewidencji, new EVatwpis(nowaEv, 0.0,0.0,wierszogolny.getOpizw()));
            }
            listatmp.add(wierszogolny);

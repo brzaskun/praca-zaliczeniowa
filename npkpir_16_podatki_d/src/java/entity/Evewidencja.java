@@ -46,6 +46,8 @@ public class Evewidencja implements Serializable {
     @Size(max = 255)
     @Column(name = "transakcja")
     private String transakcja;
+    @Column(name = "tylkoNetto")
+    private Boolean tylkoNetto;
 
     public Evewidencja() {
     }
@@ -86,6 +88,15 @@ public class Evewidencja implements Serializable {
         this.transakcja = transakcja;
     }
 
+    public Boolean getTylkoNetto() {
+        return tylkoNetto;
+    }
+
+    public void setTylkoNetto(Boolean tylkoNetto) {
+        this.tylkoNetto = tylkoNetto;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
