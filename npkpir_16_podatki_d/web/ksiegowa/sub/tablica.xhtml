@@ -133,7 +133,7 @@
             <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw">  
                 <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" style="width: 400px;" emptyMessage="dokument bez vat" >
                     <p:column id="SubColumn1" >  
-                        <h:outputText value="#{subwpis.ewidencja.nazwaEwidencji}" />
+                        <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                     </p:column>
                     <p:column id="SubColumn1a"  >  
                         <h:outputText value="#{subwpis.netto}" style="float: right;">

@@ -66,7 +66,7 @@
             </p:row>
             <p:row>
                 <p:column colspan="4">
-                    <h:outputText value="Termin " />  
+                    <h:outputText value="Data zapłaty zobowiązania w formacie rrrr/mm/dd" />  
                 </p:column>
                 <p:column colspan="4">
                     <h:outputText value="do #{PlatnosciView.selectedZob.terminzuz}-go"/>
@@ -83,7 +83,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd"/>
                 </p:column>
                 <p:column rowspan="3">
                     <h:outputText value="odsetki" />
@@ -106,7 +106,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.zus52}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -123,7 +123,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.zus53}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -175,7 +175,7 @@
             </p:row>
             <p:row>
                 <p:column colspan="4">
-                    <h:outputText value="Termin " />  
+                    <h:outputText value="Data zapłaty zobowiązania w formacie rrrr/mm/dd" />  
                 </p:column>
                 <p:column colspan="4">
                     <h:outputText value="do #{PlatnosciView.selectedZob.terminzpit4}-go"/>
@@ -192,7 +192,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.pit4zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.pit4zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd"/>
                 </p:column>
                 <p:column rowspan="2">
                     <h:outputText value="odsetki" />
@@ -215,7 +215,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.pit5}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.pit5zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.pit5zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" />
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.pit5ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -267,7 +267,7 @@
             </p:row>
             <p:row>
                 <p:column colspan="4">
-                    <h:outputText value="Termin " />  
+                    <h:outputText value="Data zapłaty zobowiązania w formacie rrrr/mm/dd" />  
                 </p:column>
                 <p:column colspan="4">
                     <h:outputText value="do #{PlatnosciView.selectedZob.terminzvat}-go"/>
@@ -284,7 +284,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.vatzapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.vatzapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="odsetki" />

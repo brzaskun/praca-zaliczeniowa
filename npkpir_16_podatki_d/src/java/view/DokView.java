@@ -44,11 +44,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.AjaxBehaviorListener;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.autocomplete.AutoComplete;
+import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
@@ -150,6 +152,9 @@ public class DokView implements Serializable{
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
         switch (transakcjiRodzaj) {
+            case "ryczałt":
+                dopobrania = kolumna.getKolumnRyczalt();
+                break;
             case "zakup":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
@@ -198,6 +203,9 @@ public class DokView implements Serializable{
             case("WDT"):
                 opisewidencji = evat.getWdtVList();
                 break;
+            case("WNT"):
+                opisewidencji = evat.getWntVList();
+                break;
             default:
                 opisewidencji = evat.getSprzedazVList();
         }
@@ -212,7 +220,7 @@ public class DokView implements Serializable{
         //dodawanie naglowka: rodzaj ewidencji atto vat op/zw
         while (itx.hasNext()) {
             String tmp = (String) itx.next();
-            if (transakcjiRodzaj.equals("sprzedaz") && tmp.equals("op/zw")) {
+            if ((transakcjiRodzaj.equals("sprzedaz")||transakcjiRodzaj.equals("ryczałt")) && tmp.equals("op/zw")) {
             } else {
                 HtmlOutputText ot = new HtmlOutputText();
                 ot.setValue((String) tmp);
@@ -380,10 +388,10 @@ public class DokView implements Serializable{
         nc.setPattern("###,##");
         ew.setConverter(nc);
         ew.setId("kwotaPkpirX");
-        org.primefaces.component.behavior.ajax.AjaxBehavior dragStart = new org.primefaces.component.behavior.ajax.AjaxBehavior();
+        AjaxBehavior dragStart = new AjaxBehavior();
         dragStart.setGlobal(false);
         MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
-        dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me));
+        dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
         dragStart.setUpdate(":dodWiad:grid1");
         ew.addClientBehavior("blur", dragStart);
         grid2.getChildren().add(ew);
