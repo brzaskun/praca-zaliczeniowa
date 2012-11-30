@@ -39,12 +39,12 @@ $(window).bind('beforeunload', function(){
     alert("Good Bye");
 });
 
-
-//$(document).ready(function() {
-//    $('form').submit(function() {
-//        $(this).find('input[type="submit"]').attr('disabled', true);
-//        $(this).find('a[data-submit], a.submit').click(function() {
-//            return false;
-//        });
-//    })
-//});
+ function validate(){
+        txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
+        if (txt<10) {
+            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
+            document.getElementById("dodWiad:dataPole").focus();
+            return false
+        }else{
+            return true
+        }};

@@ -23,9 +23,10 @@ public class Kolmn implements Serializable{
     private static final List<String> kolumnPrzychody;
     private static final List<String> kolumnKoszty;
     private static final List<String> kolumnST;
+    private static final List<String> kolumnRyczalt;
 
     static{
-        kolumnList = new ArrayList<String>();
+        kolumnList = new ArrayList<>();
         kolumnList.add("przych. sprz");
         kolumnList.add("pozost. przych.");
         kolumnList.add("zakup tow. i mat.");
@@ -35,7 +36,7 @@ public class Kolmn implements Serializable{
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
         
-        kolumnZest = new ArrayList<String>();
+        kolumnZest = new ArrayList<>();
         kolumnZest.add("przych. sprz");
         kolumnZest.add("pozost. przych.");
         kolumnZest.add("zakup tow. i mat.");
@@ -44,20 +45,25 @@ public class Kolmn implements Serializable{
         kolumnZest.add("poz. koszty");
         kolumnZest.add("inwestycje");
         
-        kolumnPrzychody = new ArrayList<String>();
+        kolumnPrzychody = new ArrayList<>();
         kolumnPrzychody.add("przych. sprz");
         kolumnPrzychody.add("pozost. przych.");
        
-        kolumnKoszty = new ArrayList<String>();
+        kolumnKoszty = new ArrayList<>();
         kolumnKoszty.add("zakup tow. i mat.");
         kolumnKoszty.add("koszty ub.zak.");
         kolumnKoszty.add("wynagrodzenia");
         kolumnKoszty.add("poz. koszty");
         
-        kolumnST = new ArrayList<String>();
+        kolumnST = new ArrayList<>();
         kolumnST.add("inwestycje");
         kolumnST.add("uwagi");
        
+        kolumnRyczalt = new ArrayList<>();
+        kolumnRyczalt.add("17%");
+        kolumnRyczalt.add("8.5%");
+        kolumnRyczalt.add("5.5%");
+        kolumnRyczalt.add("3%");
     }
     
     public Kolmn() {
@@ -81,6 +87,10 @@ public class Kolmn implements Serializable{
 
     public List<String> getKolumnZest() {
         return kolumnZest;
+    }
+
+    public List<String> getKolumnRyczalt() {
+        return kolumnRyczalt;
     }
     
     

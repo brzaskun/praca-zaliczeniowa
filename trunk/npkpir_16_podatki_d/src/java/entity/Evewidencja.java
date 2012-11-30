@@ -119,7 +119,7 @@ public class Evewidencja implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Evewidencja[ nazwa=" + nazwa + " ]";
+        return nazwa;
     }
     
 }

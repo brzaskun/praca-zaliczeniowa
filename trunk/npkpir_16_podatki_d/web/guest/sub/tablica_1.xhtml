@@ -8,19 +8,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:form id="westIndex">
-          <p:ajaxStatus>
-                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                    <f:facet name="error">An error has occurred!</f:facet>
-                </p:ajaxStatus>
-            <p:focus id="focus" context="panelwyboru"/>
-            <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 300px; margin-left: 40%">
+                    <p:focus id="focus" context="panelwyboru"/>
+            <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 400px; margin-left: 40%; margin-top: 3%">
                 <f:facet name="header">
-                    <h:outputText value="W celu rozpoczęcia wpisywania dokumentów proszę wybrac parametry"/>
+                    <h:outputText value="W celu rozpoczęcia przeglądania zestawień i dokumentów proszę wybrac rok i miesiąc" style="display: block; text-align: center"/>
                 </f:facet>
-                <p:graphicImage url="/resources/images/ksiegi.jpg"/>
+                <p:graphicImage url="/resources/images/ksiegi.jpg" style="margin-left: 15%"/>
                 <p></p>
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="3" style="float: right">
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>

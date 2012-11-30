@@ -25,6 +25,7 @@ public class Trans implements Serializable{
         transList.add("zakup");
         transList.add("srodek trw");
         transList.add("sprzedaz");
+        transList.add("ryczałt");
         transList.add("WDT");
         transList.add("WNT");
         transList.add("import usług");

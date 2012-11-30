@@ -5,7 +5,6 @@
 package view;
 
 import dao.EvewidencjaDAO;
-import embeddable.EVLista;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import entity.Dok;
@@ -55,8 +54,7 @@ public class VatView implements Serializable{
 
     @Inject
     private Dok selected;
-    @Inject
-    private EVLista eVLista;
+   
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
     
@@ -253,14 +251,7 @@ public class VatView implements Serializable{
         this.selected = selected;
     }
 
-    public EVLista geteVLista() {
-        return eVLista;
-    }
-
-    public void seteVLista(EVLista eVLista) {
-        this.eVLista = eVLista;
-    }
-
+   
     public List<EVatViewPola> getListadokvatprzetworzona() {
         return listadokvatprzetworzona;
     }

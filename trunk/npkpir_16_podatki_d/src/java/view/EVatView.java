@@ -30,6 +30,7 @@ public class EVatView implements Serializable{
     private List<String> zakupVList;
     private List<String> srodkitrwaleVList;
     private List<String> wdtVList;
+    private List<String> wntVList;
     private List<String> listadostepnychewidencji;
 
     static{
@@ -46,6 +47,7 @@ public class EVatView implements Serializable{
         srodkitrwaleVList = new ArrayList<>();
         sprzedazVList = new ArrayList<>();
         wdtVList = new ArrayList<>();
+        wntVList = new ArrayList<>();
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = new ArrayList<>();
     }
@@ -69,6 +71,9 @@ public class EVatView implements Serializable{
                     break;
                 case "WDT" : 
                     wdtVList.add(up.getNazwa());
+                    break;
+                case "WNT" : 
+                    wntVList.add(up.getNazwa());
                     break;
                 default : 
                     sprzedazVList.add(up.getNazwa());
@@ -107,6 +112,14 @@ public class EVatView implements Serializable{
 
     public void setWdtVList(List<String> wdtVList) {
         this.wdtVList = wdtVList;
+    }
+
+    public List<String> getWntVList() {
+        return wntVList;
+    }
+
+    public void setWntVList(List<String> wntVList) {
+        this.wntVList = wntVList;
     }
 
    
