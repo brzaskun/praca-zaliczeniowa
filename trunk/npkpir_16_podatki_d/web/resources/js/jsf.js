@@ -59,3 +59,7 @@ $(window).bind('beforeunload', function(){
         }else{
             return true
         }};
+    
+    function wyloguj(){
+        window.location.href = "../login.xhtml";
+    }
