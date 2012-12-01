@@ -4,11 +4,17 @@
  */
 package embeddable;
 
+import dao.PodatnikDAO;
+import dao.UzDAO;
+import entity.Podatnik;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import view.WpisView;
 
 /**
  *
@@ -18,10 +24,13 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class Trans implements Serializable{
 
+    @Inject private PodatnikDAO podatnikDAO;
     private static final List<String> transList;
+    private static final List<String> transListZO;
+    private static final List<String> transListRY;
 
     static{
-        transList = new ArrayList<String>();
+        transList = new ArrayList<>();
         transList.add("zakup");
         transList.add("srodek trw");
         transList.add("sprzedaz");
@@ -29,6 +38,20 @@ public class Trans implements Serializable{
         transList.add("WDT");
         transList.add("WNT");
         transList.add("import usług");
+        transListZO = new ArrayList<>();
+        transListZO.add("zakup");
+        transListZO.add("srodek trw");
+        transListZO.add("sprzedaz");
+        transListZO.add("WDT");
+        transListZO.add("WNT");
+        transListZO.add("import usług");
+        transListRY = new ArrayList<>();
+        transListRY.add("ryczałt");
+        transListRY.add("zakup");
+        transListRY.add("srodek trw");
+        transListRY.add("WDT");
+        transListRY.add("WNT");
+        transListRY.add("import usług");
     }
     
     public Trans() {
@@ -39,6 +62,12 @@ public class Trans implements Serializable{
     }
     
     public List<String> getTransListView() {
-        return transList;
+        Podatnik tmp = podatnikDAO.find(WpisView.getPodatnikWpisuS());
+        int index = tmp.getPodatekdochodowy().size()-1;
+        if (tmp.getPodatekdochodowy().get(index).getParametr().equals("ryczałt")){
+            return transListRY;
+        } else {
+            return transListZO;
+        }
     }
 }

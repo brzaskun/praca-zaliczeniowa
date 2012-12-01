@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "evopis")
+@Table(name = "evopis",uniqueConstraints = {@UniqueConstraint(columnNames={"opis"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evopis.findAll", query = "SELECT e FROM Evopis e"),

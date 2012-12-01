@@ -22,6 +22,7 @@ import session.EVatOpisFacade;
  * @author Osito
  */
 @Named
+//pomaga przenosci opisy bo inaczej nie chca sie zachowac. scopy nie pasuja
 public class EVatOpisDAO implements Serializable{
     @Inject
     private EVatOpisFacade eVatOpisFacade;

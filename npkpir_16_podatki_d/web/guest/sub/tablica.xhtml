@@ -42,7 +42,7 @@
                 <f:facet name="header">  
                     <h:outputText value="nazwa ewidencji" />  
                 </f:facet> 
-                <h:outputText value="#{subwpis.ewidencja.nazwaEwidencji}" />
+                <h:outputText value="#{subwpis.ewidencja.nazwa}" />
             </p:column>
             <p:column id="SubColumn1a" >  
                 <f:facet name="header" >
@@ -91,20 +91,13 @@
                 <f:facet name="header">  
                     <h:outputText value="data wyst" />  
                 </f:facet> 
-                 <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.dataWyst}"><f:convertDateTime dateStyle="medium"  /></h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.dataWyst}"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 4  00px">  
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
-                 <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
+                <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
             </p:column>
 <!--            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="{wpis.rodzTrans}" filterMatchMode="contains" sortBy="{wpis.rodzTrans}">  
                 <f:facet name="header">  
@@ -116,42 +109,21 @@
                 <f:facet name="header">  
                     <h:outputText value="nr wł" />  
                 </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.nrWlDk}"/>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.nrWlDk}"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" >  
                 <f:facet name="header">  
                     <h:outputText value="opis" />  
                 </f:facet> 
-                 <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.opis}"/>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.opis}"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}">  
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwota}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}">  
                 <f:facet name="header">  
@@ -163,16 +135,9 @@
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
                 <f:facet name="header">  
@@ -189,7 +154,9 @@
           
            
         </p:dataTable>
-        
+        <p:commandButton value="Zachowaj w pdf" ajax="false" actionListener="#{sesjaView.dodajwydruk()}">
+            <p:dataExporter type="pdf" target="form:dokumentyLista" fileName="dokumenty"  encoding="UTF-8" preProcessor="#{pdf.preProcessPDF}" />
+        </p:commandButton>
         
         
         

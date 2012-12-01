@@ -4,13 +4,19 @@
  */
 package listener;
 
-import java.security.Principal;
-import javax.faces.context.FacesContext;
+import dao.SesjaDAO;
+import entity.Sesja;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import view.GuestView;
+import view.SesjaView;
+import view.WpisView;
 
 /**
  * Web application lifecycle listener.
@@ -19,14 +25,28 @@ import javax.servlet.http.HttpSessionListener;
  */
 @WebListener()
 public class NewServletListener implements HttpSessionListener {
-
+    @Inject
+    private Sesja sesja;
+    @Inject
+    private SesjaDAO sesjaDAO;
+   
+            
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        System.out.println("Sesja utworzona " + se.getSession().getId());
+        String sessionId = se.getSession().getId();
+        System.out.println("Sesja utworzona " + sessionId );
+        SesjaView.setNrsesji(sessionId);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         System.out.println("Sesja zlikwidowana "+se.getSession().getId());
+        try{
+        sesja = sesjaDAO.find(SesjaView.getNrsesji());
+        Calendar calendar = Calendar.getInstance();
+        sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
+        sesjaDAO.edit(sesja);
+        } catch (Exception e){}
+        
     }
 }

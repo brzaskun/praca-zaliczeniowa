@@ -54,6 +54,7 @@ import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
+import org.primefaces.extensions.component.inputnumber.InputNumber;
 import serialclone.SerialClone;
 
 /**
@@ -379,22 +380,44 @@ public class DokView implements Serializable{
         grid2.getChildren().clear();
         ExpressionFactory ef = ExpressionFactory.newInstance();
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
-        HtmlInputText ew = new HtmlInputText();
-        final String binding = "#{DokumentView.selDokument.kwotaX}";
-        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-        ew.setValueExpression("value", ve2);
-        ew.setStyle("width: 120px");
-        NumberConverter nc = new NumberConverter();
-        nc.setPattern("###,##");
-        ew.setConverter(nc);
-        ew.setId("kwotaPkpirX");
-        AjaxBehavior dragStart = new AjaxBehavior();
-        dragStart.setGlobal(false);
-        MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
-        dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
-        dragStart.setUpdate(":dodWiad:grid1");
-        ew.addClientBehavior("blur", dragStart);
-        grid2.getChildren().add(ew);
+//            HtmlInputText ew = new HtmlInputText();
+//            final String binding = "#{DokumentView.selDokument.kwotaX}";
+//            ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
+//            ew.setValueExpression("value", ve2);
+//            ew.setStyle("width: 120px");
+//            NumberConverter nc = new NumberConverter();
+//            nc.setPattern("###,##");
+//            ew.setConverter(nc);
+//            ew.setId("kwotaPkpirX");
+//            AjaxBehavior dragStart = new AjaxBehavior();
+//            dragStart.setGlobal(false);
+//            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
+//            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
+//            dragStart.setUpdate(":dodWiad:grid1");
+//            ew.addClientBehavior("blur", dragStart);
+//            grid2.getChildren().add(ew);
+        //generowanie tego nowego roszerzenia
+            InputNumber ew = new InputNumber();
+            final String binding = "#{DokumentView.selDokument.kwotaX}";
+            ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
+            ew.setValueExpression("value", ve2);
+            ew.setStyle("width: 120px");
+            NumberConverter nc = new NumberConverter();
+            nc.setPattern("###,##");
+            ew.setConverter(nc);
+            ew.setId("kwotaPkpirX");
+            AjaxBehavior dragStart = new AjaxBehavior();
+            dragStart.setGlobal(false);
+            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
+            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
+            dragStart.setUpdate(":dodWiad:grid1");
+            ew.addClientBehavior("blur", dragStart);
+            ew.setSymbol(" zł");
+            ew.setSymbolPosition("s");
+            ew.setDecimalSeparator(".");
+            ew.setDecimalPlaces("2");
+            ew.setThousandSeparator(" ");
+            grid2.getChildren().add(ew);
         final String bindingX = "#{DokumentView.selDokument.pkpirKolX}";
         ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
         HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
@@ -407,7 +430,7 @@ public class DokView implements Serializable{
 
     public void przeniesKwotaDoNetto(AjaxBehaviorEvent e) {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String tmp = params.get("dodWiad:kwotaPkpir");
+        String tmp = params.get("dodWiad:kwotaPkpir_hinput");
         tmp = tmp.replace(",", ".");
         netto1 = Double.parseDouble(tmp);
         BigDecimal tmp1 = BigDecimal.valueOf(netto1);
@@ -419,8 +442,8 @@ public class DokView implements Serializable{
 
     public void przeniesKwotaDoNettoX(AjaxBehaviorEvent e) {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String tmp = params.get("dodWiad:kwotaPkpir");
-        String tmpX = params.get("dodWiad:kwotaPkpirX");
+        String tmp = params.get("dodWiad:kwotaPkpir_hinput");
+        String tmpX = params.get("dodWiad:kwotaPkpirX_hinput");
         tmp = tmp.replace(",", ".");
         netto1 = Double.parseDouble(tmp);
         if (!tmpX.equals("")) {
@@ -511,6 +534,7 @@ public class DokView implements Serializable{
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodajNowyWpis(selDokument);
+            
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany", e.getStackTrace().toString());
