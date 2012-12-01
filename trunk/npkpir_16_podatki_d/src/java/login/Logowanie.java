@@ -5,9 +5,14 @@
 package login;
 
 import dao.PodatnikDAO;
+import dao.SesjaDAO;
 import dao.UzDAO;
+import entity.Sesja;
 import java.io.Serializable;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import view.GuestView;
+import view.SesjaView;
 import view.WpisView;
 
 /**
@@ -33,6 +39,11 @@ public class Logowanie implements Serializable{
     UzDAO uzDAO;
     @Inject
     PodatnikDAO podatnikDAO;
+    @Inject
+    private Sesja sesja;
+    @Inject
+    private SesjaDAO sesjaDAO;
+    
     
  
     public Logowanie(){
@@ -42,42 +53,7 @@ public class Logowanie implements Serializable{
         }
     }
 
-    public String getUzytk() {
-        return uzytk;
-    }
-
-    public void setUzytk(String uzytk) {
-        this.uzytk = uzytk;
-    }
-
-    public String getHaslo() {
-        return haslo;
-    }
-
-    public void setHaslo(String haslo) {
-        this.haslo = haslo;
-    }
-
-    public UzDAO getUzDAO() {
-        return uzDAO;
-    }
-
-    public void setUzDAO(UzDAO uzDAO) {
-        this.uzDAO = uzDAO;
-    }
-
-    public PodatnikDAO getPodatnikDAO() {
-        return podatnikDAO;
-    }
-
-    public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
-        this.podatnikDAO = podatnikDAO;
-    }
-
-    
-    
    
- 
     public String login(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if(session != null){
@@ -115,7 +91,21 @@ public class Logowanie implements Serializable{
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Noobie";
             }
-            message = message+(" Jest "+request.isUserInRole("Guest") +" pojest "+principal.getName());
+            SesjaView.setUzytk(uzytk);
+            String sessionId = SesjaView.getNrsesji();
+            System.out.println("Sesja przeniesiona Logowanie" + sessionId );
+            sesja.setNrsesji(sessionId);
+            sesja.setUzytkownik(SesjaView.getUzytk());
+            sesja.setIloscdokumentow(0);
+            sesja.setIloscmaili(0);
+            sesja.setIloscwydrukow(0);
+            Calendar calendar = Calendar.getInstance();
+            sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
+                try {
+                    sesjaDAO.dodajNowyWpis(sesja);
+                } catch (Exception e) {
+                    sesjaDAO.edit(sesja);
+                }
             //Add the welcome message to the faces context
             return navto;
         } catch (ServletException e) {
@@ -132,4 +122,53 @@ public class Logowanie implements Serializable{
         }
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
     }
+    
+     public String getUzytk() {
+        return uzytk;
+    }
+
+    public void setUzytk(String uzytk) {
+        this.uzytk = uzytk;
+    }
+
+    public String getHaslo() {
+        return haslo;
+    }
+
+    public void setHaslo(String haslo) {
+        this.haslo = haslo;
+    }
+
+    public UzDAO getUzDAO() {
+        return uzDAO;
+    }
+
+    public void setUzDAO(UzDAO uzDAO) {
+        this.uzDAO = uzDAO;
+    }
+
+    public PodatnikDAO getPodatnikDAO() {
+        return podatnikDAO;
+    }
+
+    public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
+        this.podatnikDAO = podatnikDAO;
+    }
+
+    public Sesja getSesja() {
+        return sesja;
+    }
+
+    public void setSesja(Sesja sesja) {
+        this.sesja = sesja;
+    }
+
+    public SesjaDAO getSesjaDAO() {
+        return sesjaDAO;
+    }
+
+    public void setSesjaDAO(SesjaDAO sesjaDAO) {
+        this.sesjaDAO = sesjaDAO;
+    }
+
 }

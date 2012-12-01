@@ -9,12 +9,9 @@ import entity.Podatnik;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
-import view.PodatnikView;
 
 /**
  *

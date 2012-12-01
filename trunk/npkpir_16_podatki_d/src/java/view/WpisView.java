@@ -42,6 +42,10 @@ public class WpisView implements Serializable{
         return podatnikWpisu;
     }
 
+    public static String getPodatnikWpisuS() {
+        return podatnikWpisu;
+    }
+     
     public void setPodatnikWpisu(String podatnikWpisu) {
         WpisView.podatnikWpisu = podatnikWpisu;
     }

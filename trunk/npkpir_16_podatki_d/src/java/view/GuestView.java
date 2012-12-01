@@ -23,6 +23,7 @@ import org.primefaces.context.RequestContext;
 public class GuestView implements Serializable{
     private static String podatnikString;
     private static Podatnik podatnik;
+    
     @Inject
     PodatnikDAO podDAO;
 
@@ -64,5 +65,7 @@ public class GuestView implements Serializable{
     public void setPodDAO(PodatnikDAO podDAO) {
         this.podDAO = podDAO;
     }
- 
+
+     
+    
 }

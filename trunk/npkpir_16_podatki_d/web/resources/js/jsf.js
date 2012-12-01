@@ -41,9 +41,20 @@ $(window).bind('beforeunload', function(){
 
  function validate(){
         txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
-        if (txt<10) {
+        if (txt>0&&txt<10) {
             alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
             document.getElementById("dodWiad:dataPole").focus();
+            return false
+        }else{
+            return true
+        }};
+ 
+ function validateK(){
+        document.getElementById("dodWiad:acForce_hinput").focus();
+        txt = parseInt(document.getElementById("dodWiad:acForce_hinput").value.length,10);
+        if (txt<3) {
+            alert("Nie wybra\u0142eś klienta!");
+            document.getElementById("dodWiad:acForce_input").focus();
             return false
         }else{
             return true
