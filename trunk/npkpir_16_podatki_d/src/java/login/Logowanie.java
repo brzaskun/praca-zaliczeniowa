@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import view.GuestView;
 import view.SesjaView;
 import view.WpisView;
@@ -99,6 +100,9 @@ public class Logowanie implements Serializable{
             sesja.setIloscdokumentow(0);
             sesja.setIloscmaili(0);
             sesja.setIloscwydrukow(0);
+            HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();  
+            String ip = httpServletRequest.getRemoteAddr();  
+            sesja.setIp(ip);
             Calendar calendar = Calendar.getInstance();
             sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
                 try {
