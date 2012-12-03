@@ -61,5 +61,10 @@ $(window).bind('beforeunload', function(){
         }};
     
     function wyloguj(){
-        window.location.href = "../login.xhtml";
+        document.getElementById("templateform:wyloguj").click();
+        if (document.getElementById("form:westIndex:panelwyboru")){
+            window.location.href = "login.xhtml";
+        } else {
+            window.location.href = "../login.xhtml";
+        }
     }

@@ -14,13 +14,16 @@
         <h:outputScript library="js" name="jsf.js"/>
     </h:head>
     <h:body>
-        <p:idleMonitor timeout="200000"   
+        <p:idleMonitor timeout="5000"   
                        onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
 
         <p:dialog header="Upłynął czas sesji" resizable="false"  
                   widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
             <h:outputText value="Zostałeś wylogowany" />  
         </p:dialog>
+        <h:form id="templateform">
+             <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" update="@all" />
+        </h:form>
         <ui:insert name="body"> 
         </ui:insert>
     </h:body>
