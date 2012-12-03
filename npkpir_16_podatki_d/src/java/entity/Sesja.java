@@ -66,6 +66,8 @@ public class Sesja implements Serializable {
     @Column(name = "wylogowanie")
     @Temporal(TemporalType.TIMESTAMP)
     private Date wylogowanie;
+    @Column(name = "ip")
+    private String ip;
 
     public Sesja() {
     }
@@ -138,7 +140,15 @@ public class Sesja implements Serializable {
         this.wylogowanie = wylogowanie;
     }
 
-   
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    
 
     @Override
     public int hashCode() {
