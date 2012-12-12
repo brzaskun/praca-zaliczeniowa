@@ -15,11 +15,10 @@
                <h:outputText value="data płatności"/>  
                <h:outputText value="kwota wpłacona"/>  
                <h:inputText value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" tabindex="1"/>
-               <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.rozrachunek.kwotawplacona}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" >  
-                    <f:convertNumber />
-                </pe:inputNumber>
+               <h:inputText value="#{DokumentView.rozrachunek.kwotawplacona}" tabindex="2"/>
            </p:panelGrid>
        <br/>
+        <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;"/>
        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3"/>
     </p:dialog>  
     <p:outputPanel id="wrapper">
@@ -120,7 +119,7 @@
             </p:column>
              
             
-            <p:column id="platnosci" headerText="data planosci - kwota - pozostalo ">  
+            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł ">  
                 <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
@@ -136,6 +135,7 @@
                           </h:outputText>
                     </p:column>
                 </p:dataTable>
+               
             </p:column>
              <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
                 <f:facet name="header">  

@@ -44,6 +44,7 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -755,11 +756,23 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:dataTPole");
     }
     
-    public void zaksiegujPlatnosc(AjaxBehaviorEvent e){
+    public void zaksiegujPlatnosc(ActionEvent e){
         ArrayList<Rozrachunek> lista = new ArrayList<>();
+        double zostalo = 0;
+        double kwota = 0;
         try{
         lista.addAll(selDokument.getRozrachunki());
+        zostalo = lista.get(lista.size()-1).getDorozliczenia();
         } catch (Exception ee){}
+        if(zostalo==0){
+                kwota = selDokument.getKwota();
+                try{
+                kwota = kwota + selDokument.getKwotaX();
+                } catch (Exception el){}
+        } else {
+            kwota = zostalo;
+        }
+        rozrachunek.setDorozliczenia(kwota-rozrachunek.getKwotawplacona()); 
         lista.add(rozrachunek);
         selDokument.setRozrachunki(lista);
         try{
@@ -772,6 +785,16 @@ public class DokView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     }
+    
+     public void usunostatniRozrachunek(ActionEvent e){
+        ArrayList<Rozrachunek> lista = new ArrayList<>();
+        try{
+        lista.addAll(selDokument.getRozrachunki());
+        } catch (Exception ee){}
+        lista.remove(lista.get(lista.size()-1));
+        selDokument.setRozrachunki(lista);
+        dokDAO.edit(selDokument);
+     }
     
     public boolean isPokazSTR() {
         return pokazSTR;
