@@ -45,7 +45,7 @@ public class ZUSstawkiView implements Serializable{
     
      public void dodajzus(){
          try{
-         zusDAO.dodajNowyWpis(selected);
+         zusDAO.dodaj(selected);
           listapobranychstawek.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika za m-c:", selected.getZusstawkiPK().getMiesiac());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);

@@ -45,7 +45,7 @@ public class PodStawkiView implements Serializable{
     
      public void dodaj(){
          try{
-         podStawkiDAO.dodajNowyWpis(selected);
+         podStawkiDAO.dodaj(selected);
           listapobranychstawek.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr podatkowy za rok:", selected.getRok().toString() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);

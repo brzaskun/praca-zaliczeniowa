@@ -168,7 +168,7 @@ public class PlatnosciView implements Serializable{
         }
         try{
             if(opcja==1){
-                platnosciDAO.dodajNowyWpis(selectedZob);
+                platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
@@ -203,7 +203,7 @@ public class PlatnosciView implements Serializable{
         }
         try{
             if(opcja==1){
-                platnosciDAO.dodajNowyWpis(selectedZob);
+                platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");

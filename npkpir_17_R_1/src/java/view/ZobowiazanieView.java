@@ -45,7 +45,7 @@ public class ZobowiazanieView implements Serializable{
     
      public void dodaj(){
          try{
-         zobowiazanieDAO.dodajNowyWpis(selected);
+         zobowiazanieDAO.dodaj(selected);
          listapobranychstawek.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().toString().concat(selected.getZobowiazaniePK().getMc()) );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);

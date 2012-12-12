@@ -1219,11 +1219,11 @@ public class ZestawienieView implements Serializable{
         try {
             Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik());
             pitDAO.destroy(find);
-            pitDAO.dodajNowyWpis(biezacyPit);
+            pitDAO.dodaj(biezacyPit);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT za m-c:", biezacyPit.getPkpirM());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            pitDAO.dodajNowyWpis(biezacyPit);
+            pitDAO.dodaj(biezacyPit);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT za m-c:", biezacyPit.getPkpirM());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

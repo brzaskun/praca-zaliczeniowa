@@ -5,7 +5,9 @@
 package entity;
 
 import embeddable.EVatwpis;
+import embeddable.Rozrachunek;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -14,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -34,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
+    @NamedQuery(name = "Dok.findByTerminPlatnosci", query = "SELECT d FROM Dok d WHERE d.terminPlatnosci = :terminPlatnosci"),
     @NamedQuery(name = "Dok.findByNrWlDk", query = "SELECT d FROM Dok d WHERE d.nrWlDk = :nrWlDk"),
     @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzTrans = :rodzTrans"),
     @NamedQuery(name = "Dok.findByOpis", query = "SELECT d FROM Dok d WHERE d.opis = :opis"),
@@ -45,7 +49,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
     @NamedQuery(name = "Dok.findByPkpirKol", query = "SELECT d FROM Dok d WHERE d.pkpirKol = :pkpirKol"),
     @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr AND d.nrWlDk = :nrWlDk AND d.kwota = :kwota"),
-    @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis")})
+    @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis"),
+    @NamedQuery(name = "Dok.findByRozliczony", query = "SELECT d FROM Dok d WHERE d.rozliczony = :rozliczony"),
+})
     
 public class Dok implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -129,6 +135,16 @@ public class Dok implements Serializable {
     boolean dokumentProsty;
     @Column(name = "dodkolumna")
     boolean dodatkowaKolumna;
+    @Column(name = "rozliczony")
+    private Boolean rozliczony;
+    @Size(max = 10)
+    @Column(name = "termin_platnosci")
+//    @Temporal(TemporalType.DATE)
+    private String terminPlatnosci;
+    @Lob
+    @Column(name = "rozrachunki")
+    private ArrayList<Rozrachunek> rozrachunki;
+    
     
     public Dok() {
     }
@@ -333,6 +349,30 @@ public class Dok implements Serializable {
 
     public void setDataSprz(String dataSprz) {
         this.dataSprz = dataSprz;
+    }
+
+    public Boolean getRozliczony() {
+        return rozliczony;
+    }
+
+    public void setRozliczony(Boolean rozliczony) {
+        this.rozliczony = rozliczony;
+    }
+
+    public ArrayList<Rozrachunek> getRozrachunki() {
+        return rozrachunki;
+    }
+
+    public void setRozrachunki(ArrayList<Rozrachunek> rozrachunki) {
+        this.rozrachunki = rozrachunki;
+    }
+
+    public String getTerminPlatnosci() {
+        return terminPlatnosci;
+    }
+
+    public void setTerminPlatnosci(String terminPlatnosci) {
+        this.terminPlatnosci = terminPlatnosci;
     }
 
     

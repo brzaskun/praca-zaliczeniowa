@@ -4,47 +4,36 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     
     
-    <p:outputPanel>
-        
-        <p:panelGrid id="prezentacjaPodatku" columns="4">
-            <h:outputLabel value="rok: "/>
-            <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
-            <h:outputLabel value="rodzaj opodatkowania: "/>
-            <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
-            <h:outputLabel value="Przychody:"/>
-            <h:outputLabel value="#{PodatekView.przychody}">
-                <f:convertNumber locale="PL"/>
-            </h:outputLabel>
-            <h:outputLabel value="Koszty:"/>
-            <h:outputLabel value="#{PodatekView.koszty}">
-                <f:convertNumber locale="PL"/>
-            </h:outputLabel>
-            <h:outputLabel value="Dochód:"/>
-            <h:outputLabel value="#{PodatekView.dochód}">
-                <f:convertNumber locale="PL"/>
-            </h:outputLabel>
-            <h:outputLabel value="Podatek:"/>
-            <h:outputLabel value="#{PodatekView.podatek}">
-                <f:convertNumber locale="PL"/>
-            </h:outputLabel>
-        </p:panelGrid>
-        <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" />
-    </p:outputPanel>
-  
+   <p:dialog header="Szczegóły płatności" widgetVar="Dialog" resizable="false"  
+              showEffect="explode" hideEffect="explode">  
+       <p:focus context="display"/>
+           <p:panelGrid id="display" style="width: 400px;" columns="2" >
+               <h:outputText value="data płatności"/>  
+               <h:outputText value="kwota wpłacona"/>  
+               <h:inputText value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" tabindex="1"/>
+               <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.rozrachunek.kwotawplacona}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" >  
+                    <f:convertNumber />
+                </pe:inputNumber>
+           </p:panelGrid>
+       <br/>
+       <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3"/>
+    </p:dialog>  
     <p:outputPanel id="wrapper">
         
-        <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
+        <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
-                      rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
+                      rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
+            <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" /> 
                         
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
@@ -129,23 +118,22 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-             <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw">  
-                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" style="width: 400px;" emptyMessage="dokument bez vat" >
+             
+            
+            <p:column id="platnosci" headerText="data planosci - kwota - pozostalo ">  
+                <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
-                        <h:outputText value="#{subwpis.ewidencja.nazwa}" />
+                        <h:outputText value="#{subwpis.dataplatnosci}" />
                     </p:column>
                     <p:column id="SubColumn1a"  >  
-                        <h:outputText value="#{subwpis.netto}" style="float: right;">
+                        <h:outputText value="#{subwpis.kwotawplacona}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                       <p:column id="SubColumn2">  
-                          <h:outputText value="#{subwpis.vat}" style="float: right;">
+                          <h:outputText value="#{subwpis.dorozliczenia}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                           </h:outputText>
-                    </p:column>
-                    <p:column id="SubColumn3" >  
-                        <h:outputText value="#{subwpis.estawka}" />
                     </p:column>
                 </p:dataTable>
             </p:column>

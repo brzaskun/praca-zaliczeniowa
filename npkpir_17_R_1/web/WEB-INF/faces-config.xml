@@ -43,6 +43,10 @@
             <to-view-id>/rejestruj.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>niezaplacone</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>tablica</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

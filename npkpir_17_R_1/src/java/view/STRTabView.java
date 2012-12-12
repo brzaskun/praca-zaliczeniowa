@@ -5,9 +5,7 @@
 package view;
 
 import dao.AmoDokDAO;
-import dao.KlienciDAO;
 import dao.STRDAO;
-import embeddable.Pod;
 import embeddable.Roki;
 import embeddable.STRtabela;
 import embeddable.Umorzenie;
@@ -20,7 +18,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -69,12 +66,12 @@ public class STRTabView implements Serializable{
     
     public STRTabView() {
         selectedSTR = new SrodekTrw();
-        dokHashTable = new HashMap<String, SrodekTrw>();
-        kluczDOKjsf = new ArrayList<String>();
-        obiektDOKjsf = new ArrayList<SrodekTrw>();
-        obiektDOKjsfSel = new ArrayList<SrodekTrw>();
-        obiektDOKmrjsfSel = new ArrayList<SrodekTrw>();
-        obiektDOKmrjsfSelX = new ArrayList<SrodekTrw>();
+        dokHashTable = new HashMap<>();
+        kluczDOKjsf = new ArrayList<>();
+        obiektDOKjsf = new ArrayList<>();
+        obiektDOKjsfSel = new ArrayList<>();
+        obiektDOKmrjsfSel = new ArrayList<>();
+        obiektDOKmrjsfSelX = new ArrayList<>();
         obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
         strtabela = new ArrayList<>();
     }
@@ -185,7 +182,7 @@ public class STRTabView implements Serializable{
         if (wpisView.getPodatnikWpisu() != null) {
             Collection c = null;
             try {
-                c = sTRDAO.getdownloadedSTR();
+                c = sTRDAO.getDownloaded();
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
@@ -247,15 +244,15 @@ public class STRTabView implements Serializable{
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
     public void generujodpisy() {
-        List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
+        List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         Iterator it;
         it = lista.iterator();
         while (it.hasNext()) {
             SrodekTrw srodek = (SrodekTrw) it.next();
-            List<Double> planowane = new ArrayList<Double>();
+            List<Double> planowane = new ArrayList<>();
             planowane.addAll(srodek.getUmorzPlan());
-            List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
+            List<Umorzenie> umorzenia = new ArrayList<>();
             Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
             Integer mcOd;
             if(srodek.getStawka()==100){
@@ -291,11 +288,11 @@ public class STRTabView implements Serializable{
     }
 
     public void generujamodokumenty() {
-        List<SrodekTrw> lista = new ArrayList<SrodekTrw>();
+        List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         String pod = wpisView.getPodatnikWpisu();
         String nazwapod = pod;
-        amoDokDAO.destroyPod(pod);
+        amoDokDAO.destroy(pod);
          RequestContext.getCurrentInstance().update("formSTR:umorzeniaTablica");
         Integer rokOd = 2012;
         Integer mcOd = 1;
@@ -310,7 +307,7 @@ public class STRTabView implements Serializable{
             it = lista.iterator();
             while (it.hasNext()) {
                 SrodekTrw srodek = (SrodekTrw) it.next();
-                List<Umorzenie> umorzeniaWyk = new ArrayList<Umorzenie>();
+                List<Umorzenie> umorzeniaWyk = new ArrayList<>();
                 umorzeniaWyk.addAll(srodek.getUmorzWyk());
                 Iterator itX;
                 itX = umorzeniaWyk.iterator();
@@ -318,16 +315,16 @@ public class STRTabView implements Serializable{
                     Umorzenie umAkt = (Umorzenie) itX.next();
                     if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
                         amoDok.getUmorzenia().add(umAkt);
-                    }
+                    } 
                 }
             }
             if (mcOd == 12) {
-                amoDokDAO.dodajNowyWpis(amoDok);
+                amoDokDAO.dodaj(amoDok);
                 rokOd++;
                 mcOd = 1;
                 
             } else {
-                amoDokDAO.dodajNowyWpis(amoDok);
+                amoDokDAO.dodaj(amoDok);
                 mcOd++;
                 
             }

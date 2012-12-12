@@ -48,7 +48,7 @@ public class OdsetkiView implements Serializable{
          selected.setDataod(ndX);
         } catch (Exception e){}
          if(sprawdz()==0){
-         odsetkiDAO.dodajNowyWpis(selected);
+         odsetkiDAO.dodaj(selected);
          lista.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno odsetki od daty:", selected.getDataod() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
@@ -75,7 +75,7 @@ public class OdsetkiView implements Serializable{
            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
            String ndX = formatterX.format(ostatniparametr.getDatadoD());
            ostatniparametr.setDatado(ndX);
-           odsetkiDAO.dodajNowyWpis(ostatniparametr);
+           odsetkiDAO.dodaj(ostatniparametr);
            lista.add(ostatniparametr);
            return 0;
         }

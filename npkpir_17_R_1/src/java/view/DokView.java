@@ -12,6 +12,7 @@ import dao.EvewidencjaDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
 import embeddable.Mce;
+import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
@@ -44,7 +45,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.AjaxBehaviorListener;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -133,6 +133,9 @@ public class DokView implements Serializable{
     private String stawkaKST;
     private String typKST;
    
+    //edycja platnosci
+    @Inject
+    private Rozrachunek rozrachunek;
    
 
     public DokView() {
@@ -285,7 +288,7 @@ public class DokView implements Serializable{
         //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
         eVatOpisDAO.clear();
         EVatOpis eVO = new EVatOpis(opis1, opis2, opis3, opis4);
-        eVatOpisDAO.dodajNowyWpis(eVO);
+        eVatOpisDAO.dodaj(eVO);
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
 
     }
@@ -478,10 +481,10 @@ public class DokView implements Serializable{
         //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
     }
 
-    public void dodajNowyWpis() {
+    public void dodaj() {
         try {
             ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
-            EVatOpis eVO = eVatOpisDAO.getDownloadedEVatOpis().get(0);
+            EVatOpis eVO = (EVatOpis) eVatOpisDAO.getDownloaded().get(0);
             List<String> pobierzOpisy = new ArrayList<>();
             pobierzOpisy.add(eVO.getOpis1());
             pobierzOpisy.add(eVO.getOpis2());
@@ -532,6 +535,17 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
+            //dodaje zaplate faktury gdy faktura jest uregulowana
+            if(selDokument.getRozliczony()==true){
+                Double kwota = selDokument.getKwota();
+                try{
+                kwota = kwota + selDokument.getKwotaX();
+                } catch (Exception e){}
+                Rozrachunek rozrachunek = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0);
+                ArrayList<Rozrachunek> lista = new ArrayList<>();
+                lista.add(rozrachunek);
+                selDokument.setRozrachunki(lista);
+            }
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
@@ -577,7 +591,7 @@ public class DokView implements Serializable{
     public void dodajNowyWpisAutomatyczny() {
             double kwotaumorzenia = 0.0;
             List<Amodok> lista = new ArrayList<Amodok>();
-            lista.addAll(amoDokDAO.getAmoDokList());
+            lista.addAll(amoDokDAO.getDownloaded());
             Amodok amodokPoprzedni = null;
             Amodok amodok = null;
             Iterator itx;
@@ -733,6 +747,30 @@ public class DokView implements Serializable{
         selectedSTR.setPodatnik(podatnik);
         sTRView.dodajSrodekTrwaly(selectedSTR);
         RequestContext.getCurrentInstance().update("srodki:panelekXA"); 
+    }
+    
+    public void skopiujdoTerminuPlatnosci(AjaxBehaviorEvent e){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        selDokument.setTerminPlatnosci(params.get("dodWiad:dataPole"));
+        RequestContext.getCurrentInstance().update("dodWiad:dataTPole");
+    }
+    
+    public void zaksiegujPlatnosc(AjaxBehaviorEvent e){
+        ArrayList<Rozrachunek> lista = new ArrayList<>();
+        try{
+        lista.addAll(selDokument.getRozrachunki());
+        } catch (Exception ee){}
+        lista.add(rozrachunek);
+        selDokument.setRozrachunki(lista);
+        try{
+        dokDAO.edit(selDokument);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Płatność zachowana" +selDokument, null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception ex) {
+            System.out.println(ex.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Płatność niezachowana " + ex.getStackTrace().toString(),null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
     }
     
     public boolean isPokazSTR() {
@@ -1057,6 +1095,14 @@ public class DokView implements Serializable{
 
     public void setWielkoscopisuewidencji(String wielkoscopisuewidencji) {
         this.wielkoscopisuewidencji = wielkoscopisuewidencji;
+    }
+
+    public Rozrachunek getRozrachunek() {
+        return rozrachunek;
+    }
+
+    public void setRozrachunek(Rozrachunek rozrachunek) {
+        this.rozrachunek = rozrachunek;
     }
     
     

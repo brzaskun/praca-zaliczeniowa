@@ -134,7 +134,7 @@ public class AmodokViev {
         if (wpisView.getPodatnikWpisu() != null) {
             Collection c = null;
             try {
-                c = amoDokDAO.getAmoDokList();
+                c = amoDokDAO.getDownloaded();
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
