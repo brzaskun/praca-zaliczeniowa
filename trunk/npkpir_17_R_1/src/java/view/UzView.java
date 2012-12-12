@@ -86,7 +86,7 @@ public class UzView implements Serializable{
     }
 
 
-     public void dodajNowyWpis(){
+     public void dodaj(){
          System.out.println("Wpis do bazy zaczynam");
          selUzytkownik.setUprawnienia("Noobie");
          selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());

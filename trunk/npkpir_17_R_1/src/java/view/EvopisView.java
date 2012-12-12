@@ -9,13 +9,10 @@ import entity.Evopis;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
@@ -56,7 +53,7 @@ public class EvopisView {
                     throw new Exception();
                 }
             }
-            eopisDAO.dodajNowyWpis(selected);
+            eopisDAO.dodaj(selected);
             lista.add(selected);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka opis już istnieje", "");

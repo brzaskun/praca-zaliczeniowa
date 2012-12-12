@@ -53,7 +53,7 @@ public class EvewidencjaView {
                     throw new Exception();
                 }
             }
-            eewidencjaDAO.dodajNowyWpis(selected);
+            eewidencjaDAO.dodaj(selected);
             lista.add(selected);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");

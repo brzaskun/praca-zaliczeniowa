@@ -53,7 +53,7 @@ public class EvpozycjaView {
                     throw new Exception();
                 }
             }
-            epozycjaDAO.dodajNowyWpis(selected);
+            epozycjaDAO.dodaj(selected);
             lista.add(selected);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");

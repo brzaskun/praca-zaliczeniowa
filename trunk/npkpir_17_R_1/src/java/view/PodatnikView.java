@@ -220,11 +220,11 @@ public class PodatnikView implements Serializable{
         this.selected = selected;
     }
     
-     public void dodajNowyWpis(){
+     public void dodaj(){
          System.out.println("Wpis do bazy zaczynam");
          sformatuj();
              try {
-                 podatnikDAO.dodajNowyWpis(selected);
+                 podatnikDAO.dodaj(selected);
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika.", selected.getNazwapelna());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
                  Mail.nadajMail(selected.getEmail(), selected.getNazwapelna());

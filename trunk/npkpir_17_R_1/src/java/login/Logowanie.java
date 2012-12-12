@@ -106,7 +106,7 @@ public class Logowanie implements Serializable{
             Calendar calendar = Calendar.getInstance();
             sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
                 try {
-                    sesjaDAO.dodajNowyWpis(sesja);
+                    sesjaDAO.dodaj(sesja);
                 } catch (Exception e) {
                     sesjaDAO.edit(sesja);
                 }

@@ -4,7 +4,6 @@
  */
 package view;
 
-
 import dao.DokDAO;
 import embeddable.Mce;
 import entity.Dok;
@@ -29,10 +28,11 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Osito
  */
-@ManagedBean(name="DokTabView")
+@ManagedBean(name = "DokTabView")
 @RequestScoped
-public class DokTabView implements Serializable{
+public class DokTabView implements Serializable {
     //tablica obiektów
+
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<Dok> obiektDOKjsfSel;
@@ -44,19 +44,17 @@ public class DokTabView implements Serializable{
     private List<Dok> obiektDOKmrjsfSelX;
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
-    
+    //dokumenty niezaplacone
+    private List<Dok> niezaplacone;
     /*pkpir*/
-    @ManagedProperty(value="#{WpisView}")
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
     @Inject
     private Dok selDokument;
-    
     private static Dok dokdoUsuniecia;
-
-   
-
+    
     public DokTabView() {
         //dokumenty podatnika
         obiektDOKjsfSel = new ArrayList<>();
@@ -68,8 +66,10 @@ public class DokTabView implements Serializable{
         obiektDOKmrjsfSelX = new ArrayList<>();
         //dekumenty o tym samym okresie vat
         dokvatmc = new ArrayList<>();
+        //dokumenty niezaplacone
+        niezaplacone = new ArrayList<>();
     }
-
+    
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
@@ -78,61 +78,63 @@ public class DokTabView implements Serializable{
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-                String m = wpisView.getMiesiacWpisu();
-                Integer m1 = Integer.parseInt(m);
-                String mn = Mce.getMapamcy().get(m1);
-                Iterator itx;
-                itx = obiektDOKjsfSel.iterator();
-                int inu=1;
-                int inus=1;
-                while (itx.hasNext()) {
-                    Dok tmpx = (Dok) itx.next();
-                   
-                    Integer r = wpisView.getRokWpisu();
-                    if (tmpx.getPkpirR().equals(r.toString())) {
-                        
-                        obiektDOKjsfSelRok.add(tmpx);
-                       
-                    }
+            String m = wpisView.getMiesiacWpisu();
+            Integer m1 = Integer.parseInt(m);
+            String mn = Mce.getMapamcy().get(m1);
+            Iterator itx;
+            itx = obiektDOKjsfSel.iterator();
+            int inu = 1;
+            int inus = 1;
+            while (itx.hasNext()) {
+                Dok tmpx = (Dok) itx.next();
+                
+                Integer r = wpisView.getRokWpisu();
+                if (tmpx.getPkpirR().equals(r.toString())) {
+                    
+                    obiektDOKjsfSelRok.add(tmpx);
+                    
                 }
-                Iterator ity;
-                ity = obiektDOKjsfSelRok.iterator();
-                while(ity.hasNext()){
-                    Dok tmpx = (Dok) ity.next();
-                    if (tmpx.getVatM().equals(mn)) {
-                        tmpx.setNrWpkpir(inu);
-                        dokvatmc.add(tmpx);
-                        inu++;
-                    }
-                    if (tmpx.getPkpirM().equals(m)) {
-                        tmpx.setNrWpkpir(inus);
-                        obiektDOKmrjsfSel.add(tmpx);
-                        inus++;
-                    }
+            }
+            Iterator ity;
+            ity = obiektDOKjsfSelRok.iterator();
+            while (ity.hasNext()) {
+                Dok tmpx = (Dok) ity.next();
+                if (tmpx.getVatM().equals(mn)) {
+                    tmpx.setNrWpkpir(inu);
+                    dokvatmc.add(tmpx);
+                    inu++;
                 }
-                if (wpisView.getMiesiacOd() != null) {
-                    obiektDOKmrjsfSelX.clear();
-                    Iterator itxX;
-                    itxX = obiektDOKjsfSel.iterator();
-                    Integer r = wpisView.getRokWpisu();
-                    String mOd = wpisView.getMiesiacOd();
-                    Integer mOdI = Integer.parseInt(mOd);
-                    String mDo = wpisView.getMiesiacDo();
-                    Integer mDoI = Integer.parseInt(mDo);
-                    while (itxX.hasNext()) {
-                        Dok tmpx = (Dok) itxX.next();
-                        for (int i = mOdI; i <= mDoI; i++) {
-                            if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i)) && tmpx.getPkpirR().equals(r.toString())) {
-                                obiektDOKmrjsfSelX.add(tmpx);
-                            }
+                if (tmpx.getPkpirM().equals(m)) {
+                    tmpx.setNrWpkpir(inus);
+                    obiektDOKmrjsfSel.add(tmpx);
+                    if (tmpx.getRozliczony() == false) {
+                        niezaplacone.add(tmpx);
+                    }
+                    inus++;
+                }
+            }
+            if (wpisView.getMiesiacOd() != null) {
+                obiektDOKmrjsfSelX.clear();
+                Iterator itxX;
+                itxX = obiektDOKjsfSel.iterator();
+                Integer r = wpisView.getRokWpisu();
+                String mOd = wpisView.getMiesiacOd();
+                Integer mOdI = Integer.parseInt(mOd);
+                String mDo = wpisView.getMiesiacDo();
+                Integer mDoI = Integer.parseInt(mDo);
+                while (itxX.hasNext()) {
+                    Dok tmpx = (Dok) itxX.next();
+                    for (int i = mOdI; i <= mDoI; i++) {
+                        if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i)) && tmpx.getPkpirR().equals(r.toString())) {
+                            obiektDOKmrjsfSelX.add(tmpx);
                         }
                     }
                 }
             }
         }
-
-
-     public void edit(RowEditEvent ex) {
+    }
+    
+    public void edit(RowEditEvent ex) {
         try {
             //sformatuj();
             dokDAO.edit(selDokument);
@@ -144,14 +146,14 @@ public class DokTabView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-
-      public void destroy(Dok selDok) {
-          dokdoUsuniecia = new Dok();
-          dokdoUsuniecia = selDok;
-          
+    
+    public void destroy(Dok selDok) {
+        dokdoUsuniecia = new Dok();
+        dokdoUsuniecia = selDok;
+        
     }
-      
-         public void destroy2() {
+    
+    public void destroy2() {
 //        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //       Principal principal = request.getUserPrincipal();
 //        if(request.isUserInRole("Administrator")){
@@ -170,7 +172,7 @@ public class DokTabView implements Serializable{
 //        }
 //     }
     }
-
+    
     public void aktualizujTabele(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
@@ -181,100 +183,105 @@ public class DokTabView implements Serializable{
         podatekView.sprawozdaniePodatkowe();
         RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
     }
-
+    
     public void aktualizujObroty(AjaxBehaviorEvent e) {
         obiektDOKmrjsfSelX.clear();
         RequestContext.getCurrentInstance().update("formX");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
-
+    
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
         RequestContext ctx = null;
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-
+        
     }
-
-   public List<Dok> getObiektDOKjsf() {
+    
+    public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
     }
-
+    
     public void setObiektDOKjsf(List<Dok> obiektDOKjsf) {
         this.obiektDOKjsf = obiektDOKjsf;
     }
-
+    
     public List<Dok> getObiektDOKjsfSel() {
         return obiektDOKjsfSel;
     }
-
+    
     public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
         this.obiektDOKjsfSel = obiektDOKjsfSel;
     }
-
+    
     public List<Dok> getObiektDOKmrjsfSel() {
         return obiektDOKmrjsfSel;
     }
-
+    
     public void setObiektDOKmrjsfSel(List<Dok> obiektDOKmrjsfSel) {
         this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
     }
-
+    
     public List<Dok> getObiektDOKmrjsfSelX() {
         return obiektDOKmrjsfSelX;
     }
-
+    
     public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
         this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public DokDAO getDokDAO() {
         return dokDAO;
     }
-
+    
     public void setDokDAO(DokDAO dokDAO) {
         this.dokDAO = dokDAO;
     }
-
+    
     public Dok getSelDokument() {
         return selDokument;
     }
-
+    
     public void setSelDokument(Dok selDokument) {
         this.selDokument = selDokument;
     }
-
+    
     public Dok getDokdoUsuniecia() {
         return dokdoUsuniecia;
     }
-
-    public  void setDokdoUsuniecia(Dok dokdoUsuniecia) {
+    
+    public void setDokdoUsuniecia(Dok dokdoUsuniecia) {
         DokTabView.dokdoUsuniecia = dokdoUsuniecia;
     }
-
+    
     public List<Dok> getObiektDOKjsfSelRok() {
         return obiektDOKjsfSelRok;
     }
-
+    
     public void setObiektDOKjsfSelRok(List<Dok> obiektDOKjsfSelRok) {
         this.obiektDOKjsfSelRok = obiektDOKjsfSelRok;
     }
-
+    
     public List<Dok> getDokvatmc() {
         return dokvatmc;
     }
-
+    
     public void setDokvatmc(List<Dok> dokvatmc) {
         this.dokvatmc = dokvatmc;
     }
- 
     
+    public List<Dok> getNiezaplacone() {
+        return niezaplacone;
+    }
     
+    public void setNiezaplacone(List<Dok> niezaplacone) {
+        this.niezaplacone = niezaplacone;
+    }
 }

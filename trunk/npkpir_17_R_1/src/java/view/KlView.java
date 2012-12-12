@@ -95,7 +95,7 @@ public class KlView implements Serializable{
     
     @PostConstruct
     private void init(){
-        kl.addAll(klDAO.getdownloadedKlienci());
+        kl.addAll(klDAO.getDownloaded());
         kl1 = kl;
         
     }
@@ -113,7 +113,7 @@ public class KlView implements Serializable{
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
-        klDAO.dodajNowyWpis(selected);
+        klDAO.dodaj(selected);
         RequestContext ctx = null;
         ctx.getCurrentInstance().update("formX:");
         } catch (Exception e) {
@@ -187,7 +187,7 @@ public class KlView implements Serializable{
         }
         }
         if(i==27){
-           klDAO.dodajNowyWpis(selected);
+           klDAO.dodaj(selected);
            i=0;
         }
       }      
@@ -197,16 +197,17 @@ public class KlView implements Serializable{
    public List<Klienci> complete(String query) {  
         List<Klienci> results = new ArrayList<>();  
         Klienci kl = new Klienci();
+        List<Klienci> lista = klDAO.getDownloaded();
         try{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
-            for(Klienci p : klDAO.getdownloadedKlienci()) {  
+            for(Klienci p : lista) {  
              if(p.getNip().startsWith(query)) {
                  results.add(p);
              }
             }
         } catch (NumberFormatException e){
-            for(Klienci p : klDAO.getdownloadedKlienci()) {
+            for(Klienci p : lista) {
             if(p.getNpelna().startsWith(query)) {
                  results.add(p);
              }
