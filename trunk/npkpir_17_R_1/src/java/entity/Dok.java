@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
+    @NamedQuery(name = "Dok.findByTermin30", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin30"),
+    @NamedQuery(name = "Dok.findByTermin90", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin90"),
+    @NamedQuery(name = "Dok.findByTermin150", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin150"),
     @NamedQuery(name = "Dok.findByTerminPlatnosci", query = "SELECT d FROM Dok d WHERE d.terminPlatnosci = :terminPlatnosci"),
     @NamedQuery(name = "Dok.findByNrWlDk", query = "SELECT d FROM Dok d WHERE d.nrWlDk = :nrWlDk"),
     @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzTrans = :rodzTrans"),
@@ -144,6 +147,15 @@ public class Dok implements Serializable {
     @Lob
     @Column(name = "rozrachunki")
     private ArrayList<Rozrachunek> rozrachunki;
+    @Size(max = 10)
+    @Column(name = "termin_30")
+    private String termin30;
+    @Size(max = 10)
+    @Column(name = "termin_90")
+    private String termin90;
+    @Size(max = 10)
+    @Column(name = "termin_150")
+    private String termin150;
     
     
     public Dok() {
@@ -373,6 +385,30 @@ public class Dok implements Serializable {
 
     public void setTerminPlatnosci(String terminPlatnosci) {
         this.terminPlatnosci = terminPlatnosci;
+    }
+
+    public String getTermin30() {
+        return termin30;
+    }
+
+    public void setTermin30(String termin30) {
+        this.termin30 = termin30;
+    }
+
+    public String getTermin90() {
+        return termin90;
+    }
+
+    public void setTermin90(String termin90) {
+        this.termin90 = termin90;
+    }
+
+    public String getTermin150() {
+        return termin150;
+    }
+
+    public void setTermin150(String termin150) {
+        this.termin150 = termin150;
     }
 
     

@@ -5,7 +5,6 @@
 package embeddable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

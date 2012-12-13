@@ -24,10 +24,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -536,6 +543,7 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
+            dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
             if(selDokument.getRozliczony()==true){
                 Double kwota = selDokument.getKwota();
@@ -587,6 +595,26 @@ public class DokView implements Serializable{
             wysDokument = SerialClone.clone(selDokument);
             selDokument = new Dok();
             RequestContext.getCurrentInstance().update("@form");
+    }
+    //dodaje wyliczone daty platnosci dla obliczenia pozniej czy trzeba stornowac
+    public void dodajdatydlaStorno() throws ParseException{
+        String data = selDokument.getTerminPlatnosci();
+        Calendar c = Calendar.getInstance();
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date terminplatnosci = (Date) formatter.parse(data);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 30);
+        String nd30 = formatter.format(c.getTime());
+        selDokument.setTermin30(nd30);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 90);
+        String nd90 = formatter.format(c.getTime());
+        selDokument.setTermin90(nd90);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 150);
+        String nd150 = formatter.format(c.getTime());
+        selDokument.setTermin150(nd150);
     }
     
     public void dodajNowyWpisAutomatyczny() {
@@ -1128,6 +1156,74 @@ public class DokView implements Serializable{
         this.rozrachunek = rozrachunek;
     }
     
+    public static void main(String[] args) throws ParseException{
+        String data = "2012-02-02";
+        Calendar c = Calendar.getInstance();
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date terminplatnosci = (Date) formatter.parse(data);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 30);
+        String nd30 = formatter.format(c.getTime());
+//        selDokument.setTermin30(nd30);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 90);
+        String nd90 = formatter.format(c.getTime());
+      //  selDokument.setTermin90(nd90);
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 150);
+        String nd150 = formatter.format(c.getTime());
+        //selDokument.setTermin150(nd150);
+    }
     
-    
+//    public static void main(String[] args) {
+//        addDays("2008-03-08");
+//        addDays("2009-03-07");
+//        addDays("2010-03-13");
+//    }
+//
+//    public static void addDays(String dateString) {
+//        System.out.println("Got dateString: " + dateString);
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//
+//        Calendar calendar = Calendar.getInstance();
+//        try {
+//            calendar.setTime(sdf.parse(dateString));
+//            Date day1 = calendar.getTime();
+//            System.out.println("  day1 = " + sdf.format(day1));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day2 = calendar.getTime();
+//            System.out.println("  day2 = " + sdf.format(day2));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day3 = calendar.getTime();
+//            System.out.println("  day3 = " + sdf.format(day3));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day4 = calendar.getTime();
+//            System.out.println("  day4 = " + sdf.format(day4));
+//
+//            // Skipping a few days ahead:
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
+//            Date day5 = calendar.getTime();
+//            System.out.println("  day5 = " + sdf.format(day5));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day6 = calendar.getTime();
+//            System.out.println("  day6 = " + sdf.format(day6));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day7 = calendar.getTime();
+//            System.out.println("  day7 = " + sdf.format(day7));
+//
+//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+//            Date day8 = calendar.getTime();
+//            System.out.println("  day8 = " + sdf.format(day8));
+//
+//        } catch (Exception e) {
+//        }
+//    }
 }
