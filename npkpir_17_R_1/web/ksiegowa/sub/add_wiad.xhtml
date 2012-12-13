@@ -79,7 +79,7 @@
                 <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}">
                     <p:ajax event="click" listener="#{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false"/>
                 </h:selectBooleanCheckbox>
-                <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px"/>
+                    <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci"/>
             </p:panelGrid>
             <p:panelGrid columns="3">
                
