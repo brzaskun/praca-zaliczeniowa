@@ -112,6 +112,8 @@ public class Dok implements Serializable {
     @Size(max = 65)
     @Column(name = "pkpir_kolX")
     private String pkpirKolX;
+    @Column(name = "netto")
+    private Double netto;
     @Size(max = 45)
     @Column(name = "uwagi")
     private String uwagi;
@@ -409,6 +411,14 @@ public class Dok implements Serializable {
 
     public void setTermin150(String termin150) {
         this.termin150 = termin150;
+    }
+
+    public Double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(Double netto) {
+        this.netto = netto;
     }
 
     

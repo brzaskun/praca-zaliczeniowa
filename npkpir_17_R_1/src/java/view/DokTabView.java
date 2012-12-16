@@ -85,14 +85,14 @@ public class DokTabView implements Serializable {
             itx = obiektDOKjsfSel.iterator();
             int inu = 1;
             int inus = 1;
+            Integer r = wpisView.getRokWpisu();
             while (itx.hasNext()) {
                 Dok tmpx = (Dok) itx.next();
-                
-                Integer r = wpisView.getRokWpisu();
                 if (tmpx.getPkpirR().equals(r.toString())) {
-                    
                     obiektDOKjsfSelRok.add(tmpx);
-                    
+                     if (tmpx.getRozliczony() == false) {
+                        niezaplacone.add(tmpx);
+                    }
                 }
             }
             Iterator ity;
@@ -107,9 +107,7 @@ public class DokTabView implements Serializable {
                 if (tmpx.getPkpirM().equals(m)) {
                     tmpx.setNrWpkpir(inus);
                     obiektDOKmrjsfSel.add(tmpx);
-                    if (tmpx.getRozliczony() == false) {
-                        niezaplacone.add(tmpx);
-                    }
+                   
                     inus++;
                 }
             }
@@ -117,7 +115,6 @@ public class DokTabView implements Serializable {
                 obiektDOKmrjsfSelX.clear();
                 Iterator itxX;
                 itxX = obiektDOKjsfSel.iterator();
-                Integer r = wpisView.getRokWpisu();
                 String mOd = wpisView.getMiesiacOd();
                 Integer mOdI = Integer.parseInt(mOd);
                 String mDo = wpisView.getMiesiacDo();
