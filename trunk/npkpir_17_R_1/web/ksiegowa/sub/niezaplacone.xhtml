@@ -84,12 +84,12 @@
                 </f:facet> 
                 <p:cellEditor>  
                     <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <h:outputText value="#{wpis.netto}" style="padding-left: 20%; font-weight: 700; float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwota}" style="width:100%;"/>
+                        <p:inputText value="#{wpis.netto}" style="width:100%;"/>
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
@@ -143,13 +143,7 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.uwagi}" />
             </p:column>
-            <p:column id="editColumn" headerText="edytuj">
-                 <p:rowEditor />  
-            </p:column>
-            
-            <p:column id="deleteColumn" headerText="usuń">
-                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
-            </p:column>
+          
             <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
@@ -165,12 +159,7 @@
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
-            <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
-                <f:facet name="header">  
-                    <h:outputText value="kolumna" />  
-                </f:facet> 
-                <h:outputText value="#{wpis.pkpirKolX}" />
-            </p:column>
+           
         </p:dataTable>
     </p:outputPanel>
     

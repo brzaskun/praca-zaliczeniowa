@@ -543,6 +543,11 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
+            if(selDokument.getKwotaX()!=null){
+                selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
+            } else {
+                selDokument.setNetto(selDokument.getKwota());
+            }
             dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
             if(selDokument.getRozliczony()==true){
@@ -598,24 +603,44 @@ public class DokView implements Serializable{
     }
     //dodaje wyliczone daty platnosci dla obliczenia pozniej czy trzeba stornowac
     public void dodajdatydlaStorno() throws ParseException{
-        String data = selDokument.getTerminPlatnosci();
+        String dataWyst = selDokument.getDataWyst();
+        String dataPlat = selDokument.getTerminPlatnosci();
         Calendar c = Calendar.getInstance();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date terminplatnosci = (Date) formatter.parse(data);
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 30);
-        String nd30 = formatter.format(c.getTime());
-        selDokument.setTermin30(nd30);
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 90);
-        String nd90 = formatter.format(c.getTime());
-        selDokument.setTermin90(nd90);
+        Date datawystawienia = (Date) formatter.parse(dataWyst);
+        Date terminplatnosci = (Date) formatter.parse(dataPlat);
+       if(roznicaDni(datawystawienia,terminplatnosci)==true){
+         c.setTime(terminplatnosci);
+         c.add(Calendar.DAY_OF_MONTH, 30);
+         String nd30 = formatter.format(c.getTime());
+         selDokument.setTermin30(nd30);
+         selDokument.setTermin90("");
+        } else {
+          c.setTime(terminplatnosci);
+          c.add(Calendar.DAY_OF_MONTH, 90);
+          String nd90 = formatter.format(c.getTime());
+          selDokument.setTermin90(nd90);
+          selDokument.setTermin30("");
+         }
         c.setTime(terminplatnosci);
         c.add(Calendar.DAY_OF_MONTH, 150);
         String nd150 = formatter.format(c.getTime());
         selDokument.setTermin150(nd150);
     }
+    
+     private boolean roznicaDni(Date date_od, Date date_do){ 
+                long x=date_do.getTime(); 
+                long y=date_od.getTime(); 
+                long wynik=Math.abs(x-y); 
+                wynik=wynik/(1000*60*60*24); 
+                System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
+                if(wynik<=60){
+                    return true;
+                } else {
+                    return false;
+                }
+     }
     
     public void dodajNowyWpisAutomatyczny() {
             double kwotaumorzenia = 0.0;
