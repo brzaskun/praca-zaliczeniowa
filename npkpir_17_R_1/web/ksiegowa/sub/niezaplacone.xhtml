@@ -143,24 +143,28 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.uwagi}" />
             </p:column>
-          
-            <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
-                <f:facet name="header">  
-                    <h:outputText value="kwota" />  
-                </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; float: right;">
-                           <f:convertNumber minFractionDigits="2" locale="PL"/>
+            
+            <p:column id="storno" headerText="data storno - kwota storno -  pozostalo do rozl ">  
+                <p:dataTable var="subwpis" value="#{wpis.storno}" style="width: 400px;" emptyMessage="dokument bez storna" >
+                    <p:column id="SubColumn1" >  
+                        <h:outputText value="#{subwpis.dataplatnosci}" />
+                    </p:column>
+                    <p:column id="SubColumn1a"  >  
+                        <h:outputText value="#{subwpis.kwotawplacona}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
+                    </p:column>
+                      <p:column id="SubColumn2">  
+                          <h:outputText value="#{subwpis.dorozliczenia}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                          </h:outputText>
+                    </p:column>
+                </p:dataTable>
+               
             </p:column>
            
         </p:dataTable>
+        <p:commandButton action="#{stornoDokView.stornodokumentow()}" value="ustaldzien"/>
     </p:outputPanel>
     
 </ui:composition>   
