@@ -6,6 +6,7 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class Mce implements Serializable{
     private static final List<String> mceList;
     private static final Map<Integer, String> mapamcy;
     private static final Map<String,Integer> mapamcyX;
+    private static final Map<String,Integer> mapamcyCalendar;
 
     static{
         mceList = new ArrayList<>();
@@ -66,6 +68,20 @@ public class Mce implements Serializable{
         mapamcyX.put("10",10);
         mapamcyX.put("11",11);
         mapamcyX.put("12",12);
+        
+        mapamcyCalendar = new HashMap<>();
+        mapamcyCalendar.put("01",Calendar.JANUARY);
+        mapamcyCalendar.put("02",Calendar.FEBRUARY);
+        mapamcyCalendar.put("03",Calendar.MARCH);
+        mapamcyCalendar.put("04",Calendar.APRIL);
+        mapamcyCalendar.put("05",Calendar.MAY);
+        mapamcyCalendar.put("06",Calendar.JUNE);
+        mapamcyCalendar.put("07",Calendar.JULY);
+        mapamcyCalendar.put("08",Calendar.AUGUST);
+        mapamcyCalendar.put("09",Calendar.SEPTEMBER);
+        mapamcyCalendar.put("10",Calendar.OCTOBER);
+        mapamcyCalendar.put("11",Calendar.NOVEMBER);
+        mapamcyCalendar.put("12",Calendar.DECEMBER);
     }
     
     public Mce() {
@@ -81,6 +97,10 @@ public class Mce implements Serializable{
 
     public static Map<String, Integer> getMapamcyX() {
         return mapamcyX;
+    }
+
+    public static Map<String, Integer> getMapamcyCalendar() {
+        return mapamcyCalendar;
     }
     
     

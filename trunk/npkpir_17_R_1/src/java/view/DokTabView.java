@@ -94,11 +94,6 @@ public class DokTabView implements Serializable {
                         niezaplacone.add(tmpx);
                     }
                 }
-            }
-            Iterator ity;
-            ity = obiektDOKjsfSelRok.iterator();
-            while (ity.hasNext()) {
-                Dok tmpx = (Dok) ity.next();
                 if (tmpx.getVatM().equals(mn)) {
                     tmpx.setNrWpkpir(inu);
                     dokvatmc.add(tmpx);
@@ -169,30 +164,30 @@ public class DokTabView implements Serializable {
 //        }
 //     }
     }
-    
-    public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Application application = facesContext.getApplication();
-        ValueBinding binding = application.createValueBinding("#{PodatekView}");
-        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
-        podatekView.sprawozdaniePodatkowe();
-        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
-    }
-    
-    public void aktualizujObroty(AjaxBehaviorEvent e) {
-        obiektDOKmrjsfSelX.clear();
-        RequestContext.getCurrentInstance().update("formX");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-    }
-    
-    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
-        RequestContext ctx = null;
-        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
-        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-        
-    }
+    //usun jak wciaz dziala bez nich
+//    public void aktualizujTabele(AjaxBehaviorEvent e) {
+//        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+//        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+//        FacesContext facesContext = FacesContext.getCurrentInstance();
+//        Application application = facesContext.getApplication();
+//        ValueBinding binding = application.createValueBinding("#{PodatekView}");
+//        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
+//        podatekView.sprawozdaniePodatkowe();
+//        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
+//    }
+//    
+//    public void aktualizujObroty(AjaxBehaviorEvent e) {
+//        obiektDOKmrjsfSelX.clear();
+//        RequestContext.getCurrentInstance().update("formX");
+//        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+//    }
+//    
+//    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
+//        RequestContext ctx = null;
+//        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
+//        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
+//        
+//    }
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;

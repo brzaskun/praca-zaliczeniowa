@@ -158,6 +158,9 @@ public class Dok implements Serializable {
     @Size(max = 10)
     @Column(name = "termin_150")
     private String termin150;
+    @Lob
+    @Column(name = "storno")
+    private ArrayList<Rozrachunek> storno;
     
     
     public Dok() {
@@ -419,6 +422,14 @@ public class Dok implements Serializable {
 
     public void setNetto(Double netto) {
         this.netto = netto;
+    }
+
+    public ArrayList<Rozrachunek> getStorno() {
+        return storno;
+    }
+
+    public void setStorno(ArrayList<Rozrachunek> storno) {
+        this.storno = storno;
     }
 
     
