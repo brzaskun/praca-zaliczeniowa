@@ -6,6 +6,7 @@ package entity;
 
 import embeddable.EVatwpis;
 import embeddable.Rozrachunek;
+import embeddable.Stornodoch;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -160,7 +161,7 @@ public class Dok implements Serializable {
     private String termin150;
     @Lob
     @Column(name = "storno")
-    private ArrayList<Rozrachunek> storno;
+    private ArrayList<Stornodoch> storno;
     
     
     public Dok() {
@@ -424,13 +425,15 @@ public class Dok implements Serializable {
         this.netto = netto;
     }
 
-    public ArrayList<Rozrachunek> getStorno() {
+    public ArrayList<Stornodoch> getStorno() {
         return storno;
     }
 
-    public void setStorno(ArrayList<Rozrachunek> storno) {
+    public void setStorno(ArrayList<Stornodoch> storno) {
         this.storno = storno;
     }
+
+   
 
     
    

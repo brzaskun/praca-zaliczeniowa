@@ -4,10 +4,7 @@
  */
 package entity;
 
-import embeddable.Storno;
-import embeddable.Umorzenie;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -44,12 +41,12 @@ public class StornoDok implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "mc")
-    private Integer mc;
+    private String mc;
     @Column(name = "rok")
     private Integer rok;
     @Lob
-    @Column(name = "dokumentstorno")
-    private List<Storno> dokumentstrono;
+    @Column(name = "dokument")
+    private List<Dok> dokument;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
     @Column(name = "podatnik")
@@ -58,11 +55,11 @@ public class StornoDok implements Serializable {
     public StornoDok() {
     }
 
-    public StornoDok(Integer id, Integer mc, Integer rok, List<Storno> dokumentstrono, Boolean zaksiegowane, String podatnik) {
+    public StornoDok(Integer id, String mc, Integer rok, List<Dok> dokument, Boolean zaksiegowane, String podatnik) {
         this.id = id;
         this.mc = mc;
         this.rok = rok;
-        this.dokumentstrono = dokumentstrono;
+        this.dokument = dokument;
         this.zaksiegowane = zaksiegowane;
         this.podatnik = podatnik;
     }
@@ -75,11 +72,11 @@ public class StornoDok implements Serializable {
         this.id = id;
     }
 
-    public Integer getMc() {
+    public String getMc() {
         return mc;
     }
 
-    public void setMc(Integer mc) {
+    public void setMc(String mc) {
         this.mc = mc;
     }
 
@@ -91,12 +88,12 @@ public class StornoDok implements Serializable {
         this.rok = rok;
     }
 
-    public List<Storno> getDokumentstrono() {
-        return dokumentstrono;
+    public List<Dok> getDokument() {
+        return dokument;
     }
 
-    public void setDokumentstrono(List<Storno> dokumentstrono) {
-        this.dokumentstrono = dokumentstrono;
+    public void setDokument(List<Dok> dokument) {
+        this.dokument = dokument;
     }
 
     public Boolean getZaksiegowane() {
@@ -139,7 +136,7 @@ public class StornoDok implements Serializable {
 
     @Override
     public String toString() {
-        return "StornoDok{" + "id=" + id + ", mc=" + mc + ", rok=" + rok + ", dokumentstrono=" + dokumentstrono + ", zaksiegowane=" + zaksiegowane + ", podatnik=" + podatnik + '}';
+        return "StornoDok{" + "id=" + id + ", mc=" + mc + ", rok=" + rok + ", dokumentstrono=" + dokument    + ", zaksiegowane=" + zaksiegowane + ", podatnik=" + podatnik + '}';
     }
 
    
