@@ -85,6 +85,12 @@ public class StornoDokView implements Serializable {
     }
 
     public String stornodokumentow() throws ParseException {
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+        StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+        } catch (Exception x){
         stornonadzien = ustaldzienmiesiaca();
         String termin;
         Double wystornowac;
@@ -118,16 +124,17 @@ public class StornoDokView implements Serializable {
                 if (wystornowane.size() == 0) {
                     //jezeli nie bylo storna to wyksieguj
                     ArrayList<Stornodoch> storno = new ArrayList<>();
-                    storno.add(new Stornodoch(stornonadzien, -wyst, -wyst, true));
+                    storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));
                     tmp.setStorno(storno);
                     dokDAO.edit(tmp);
                     System.out.println("Udalo sie");
                     stornodokument(tmp);
                 } else {
-                    if (wyst < tmp.getNetto()) {
-                        doplacono = tmp.getNetto() - wyst;
+                    if ((-wyst) < tmp.getNetto()) {
                         ArrayList<Stornodoch> storno = tmp.getStorno();
-                        storno.add(new Stornodoch(stornonadzien, doplacono, -wyst, true));
+                        double roznica = storno.get(storno.size()-1).getDorozliczenia();
+                        doplacono = roznica-wyst;
+                        storno.add(new Stornodoch(stornonadzien, -doplacono, wyst, true));
                         tmp.setStorno(storno);
                         dokDAO.edit(tmp);
                         System.out.println("Udalo sie");
@@ -136,7 +143,8 @@ public class StornoDokView implements Serializable {
                 }
             }
         }
-       return "/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true";
+    }
+        return "/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true";
     }
 
     public String ustaldzienmiesiaca() {
