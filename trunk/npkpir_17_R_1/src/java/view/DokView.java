@@ -818,14 +818,14 @@ public class DokView implements Serializable{
         zostalo = lista.get(lista.size()-1).getDorozliczenia();
         } catch (Exception ee){}
         if(zostalo==0){
-                kwota = selDokument.getKwota();
+                kwota = -selDokument.getKwota();
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception el){}
         } else {
             kwota = zostalo;
         }
-        rozrachunek.setDorozliczenia(kwota-rozrachunek.getKwotawplacona()); 
+        rozrachunek.setDorozliczenia(kwota+rozrachunek.getKwotawplacona()); 
         lista.add(rozrachunek);
         selDokument.setRozrachunki(lista);
         try{
