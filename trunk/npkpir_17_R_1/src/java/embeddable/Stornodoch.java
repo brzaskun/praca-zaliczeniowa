@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 @Named
-public class Rozrachunek implements Serializable {
+public class Stornodoch implements Serializable {
     @Column(name = "dataplatnosci")
     private String dataplatnosci;
     @Column(name = "kwotawplacona")
@@ -25,15 +25,15 @@ public class Rozrachunek implements Serializable {
     @Column(name = "ujetowstorno")
     private boolean ujetowstorno;
 
-    public Rozrachunek() {
+    public Stornodoch() {
     }
 
     
-    public Rozrachunek(String dataplatnosci, Double kwotawplacona, Double dorozliczenia) {
+    public Stornodoch(String dataplatnosci, Double kwotawplacona, Double dorozliczenia, boolean ujetowstorno) {
         this.dataplatnosci = dataplatnosci;
         this.kwotawplacona = kwotawplacona;
         this.dorozliczenia = dorozliczenia;
-        this.ujetowstorno = false;
+        this.ujetowstorno = ujetowstorno;
     }
 
     

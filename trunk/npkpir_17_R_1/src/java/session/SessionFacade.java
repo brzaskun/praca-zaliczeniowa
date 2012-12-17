@@ -13,6 +13,7 @@ import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Podstawki;
 import entity.Sesja;
+import entity.StornoDok;
 import entity.Uz;
 import entity.Zobowiazanie;
 import java.util.ArrayList;
@@ -120,5 +121,10 @@ public class SessionFacade<T> {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
         }
+    }
+
+    public StornoDok findStornoDok(Integer rok, String mc, String podatnik) {
+        StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik",podatnik).getSingleResult();
+        return tmp;
     }
 }

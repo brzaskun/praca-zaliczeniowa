@@ -164,7 +164,7 @@
             </p:column>
            
         </p:dataTable>
-        <p:commandButton action="#{stornoDokView.stornodokumentow()}" value="ustaldzien"/>
+        <p:commandButton action="#{stornoDokView.stornodokumentow()}" update=":form:dokumentyLista" ajax="false" value="ustaldzien" />
     </p:outputPanel>
     
 </ui:composition>   
