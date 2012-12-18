@@ -23,6 +23,7 @@
                             <p:panel header="Ksiegowania automatyczne">
                                 <h:form>
                                     <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":form:messages" global="false"/>  
+                                    <p:commandButton id="wprowadzenieStorno" action="#{DokumentView.dodajNowyWpisAutomatycznyStorno()}" value="Storno p.doch" update=":form:messages" global="false"/>  
                                 </h:form>
                             </p:panel>
                             <h:form id="dodWiad">

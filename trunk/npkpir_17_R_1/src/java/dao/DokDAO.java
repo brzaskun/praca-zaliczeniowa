@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -35,12 +36,12 @@ public class DokDAO extends DAO implements Serializable {
         return tmp;
     }
 
-//    
-//     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
-//        Dok tmp = null;
-//        tmp = dokFacade.poprzednik(rok,mc);
-//        return tmp;
-//        }
+    
+     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
+        Dok tmp = null;
+        tmp = dokFacade.poprzednik(rok,mc);
+        return tmp;
+        }
 
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
         List<Dok> lista = new ArrayList<>();
@@ -55,6 +56,12 @@ public class DokDAO extends DAO implements Serializable {
         return lista;
     }
 
+    /**
+     *
+     * @param pod
+     * @param rok
+     * @return
+     */
     public List<Dok> zwrocBiezacegoKlientaRok(String pod, Integer rok) {
         List<Dok> lista = new ArrayList<>();
         Iterator it;
@@ -67,5 +74,6 @@ public class DokDAO extends DAO implements Serializable {
         }
         return lista;
     }
+    private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
     
 }

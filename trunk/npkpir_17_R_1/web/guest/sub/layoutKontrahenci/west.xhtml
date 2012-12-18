@@ -11,19 +11,19 @@
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujObroty}" />
                 </p:selectOneMenu><br/>
                 <p:outputLabel for="miesiacOd" value="Od"/>
                 <p:selectOneMenu id="miesiacOd" value="#{WpisView.miesiacOd}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujObroty}" />
                 </p:selectOneMenu><br/>
                 <p:outputLabel for="miesiacDo" value="Do"/>
                 <p:selectOneMenu id="miesiacDo" value="#{WpisView.miesiacDo}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujObroty}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" rendered="true" actionListener="#{DokumentView.aktualizujObroty}"/>
+                <h:commandButton value="Ok" rendered="true" actionListener="#{DokTabView.aktualizujObroty}"/>
             </p:panel>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
                 <h:outputText value="Moja firma:" style="text-shadow: #6374AB 1px -1px 1px"/>

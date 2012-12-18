@@ -6,6 +6,7 @@ package view;
 
 import dao.DokDAO;
 import embeddable.Mce;
+import embeddable.Rozrachunek;
 import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
@@ -46,6 +48,8 @@ public class DokTabView implements Serializable {
     private List<Dok> dokvatmc;
     //dokumenty niezaplacone
     private List<Dok> niezaplacone;
+    //dokumenty zaplacone
+    private List<Dok> zaplacone;
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -68,6 +72,8 @@ public class DokTabView implements Serializable {
         dokvatmc = new ArrayList<>();
         //dokumenty niezaplacone
         niezaplacone = new ArrayList<>();
+        //dokumenty zaplacone
+        zaplacone = new ArrayList<>();
     }
     
     @PostConstruct
@@ -90,26 +96,30 @@ public class DokTabView implements Serializable {
                 Dok tmpx = (Dok) itx.next();
                 if (tmpx.getPkpirR().equals(r.toString())) {
                     obiektDOKjsfSelRok.add(tmpx);
-                     if (tmpx.getRozliczony() == false) {
+                    if (tmpx.getRozliczony() == false) {
                         niezaplacone.add(tmpx);
+                    } else {
+                        //pobiera tylko przelewowe
+                        if(tmpx.getRozrachunki()!=null){
+                            zaplacone.add(tmpx);
+                        }
                     }
+                    if (tmpx.getPkpirM().equals(m)) {
+                    tmpx.setNrWpkpir(inus);
+                    obiektDOKmrjsfSel.add(tmpx);
+                    inus++;
                 }
-                if (tmpx.getVatM().equals(mn)) {
+                    if (tmpx.getVatM().equals(mn)) {
                     tmpx.setNrWpkpir(inu);
                     dokvatmc.add(tmpx);
                     inu++;
                 }
-                if (tmpx.getPkpirM().equals(m)) {
-                    tmpx.setNrWpkpir(inus);
-                    obiektDOKmrjsfSel.add(tmpx);
-                   
-                    inus++;
                 }
             }
             if (wpisView.getMiesiacOd() != null) {
                 obiektDOKmrjsfSelX.clear();
                 Iterator itxX;
-                itxX = obiektDOKjsfSel.iterator();
+                itxX = obiektDOKjsfSelRok.iterator();
                 String mOd = wpisView.getMiesiacOd();
                 Integer mOdI = Integer.parseInt(mOd);
                 String mDo = wpisView.getMiesiacDo();
@@ -117,7 +127,7 @@ public class DokTabView implements Serializable {
                 while (itxX.hasNext()) {
                     Dok tmpx = (Dok) itxX.next();
                     for (int i = mOdI; i <= mDoI; i++) {
-                        if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i)) && tmpx.getPkpirR().equals(r.toString())) {
+                        if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i))) {
                             obiektDOKmrjsfSelX.add(tmpx);
                         }
                     }
@@ -165,29 +175,35 @@ public class DokTabView implements Serializable {
 //     }
     }
     //usun jak wciaz dziala bez nich
-//    public void aktualizujTabele(AjaxBehaviorEvent e) {
-//        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-//        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-//        FacesContext facesContext = FacesContext.getCurrentInstance();
-//        Application application = facesContext.getApplication();
-//        ValueBinding binding = application.createValueBinding("#{PodatekView}");
-//        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
-//        podatekView.sprawozdaniePodatkowe();
-//        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
-//    }
-//    
-//    public void aktualizujObroty(AjaxBehaviorEvent e) {
-//        obiektDOKmrjsfSelX.clear();
-//        RequestContext.getCurrentInstance().update("formX");
-//        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-//    }
-//    
-//    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
-//        RequestContext ctx = null;
-//        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
-//        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-//        
-//    }
+    public void aktualizujTabele(AjaxBehaviorEvent e) {
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Application application = facesContext.getApplication();
+        ValueBinding binding = application.createValueBinding("#{PodatekView}");
+        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
+        podatekView.sprawozdaniePodatkowe();
+        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
+    }
+    
+    public void aktualizujObrotyX(ActionEvent e) {
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+    }
+     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) {
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+     }
+     public void aktualizujObroty(AjaxBehaviorEvent e) {
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+    }
+    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
+        RequestContext ctx = null;
+        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
+        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
+        
+    }
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
@@ -276,4 +292,13 @@ public class DokTabView implements Serializable {
     public void setNiezaplacone(List<Dok> niezaplacone) {
         this.niezaplacone = niezaplacone;
     }
+
+    public List<Dok> getZaplacone() {
+        return zaplacone;
+    }
+
+    public void setZaplacone(List<Dok> zaplacone) {
+        this.zaplacone = zaplacone;
+    }
+    
 }
