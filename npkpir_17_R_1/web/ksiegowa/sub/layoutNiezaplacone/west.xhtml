@@ -17,6 +17,10 @@
                     <f:param name="rokWpisu" value="2012" />
                     <p:ajax event="change" listener="#{DokTabView.aktualizujNiezaplacone}" />
                 </p:selectOneMenu>
+                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujNiezaplacone}" />
+                </p:selectOneMenu>
                 <h:commandButton value="Ok" />
             </p:panel>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
