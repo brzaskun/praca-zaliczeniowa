@@ -82,7 +82,9 @@
             </p:column>
             
         </p:dataTable>
-        <p:commandButton action="#{stornoDokView.usunstornodokumentow()}" value="usundokument" ajax="false"/>
+        <br/>
+        <h:outputLabel value="Jeżeli usunięcie dokumentu jest nieskuteczne należy sprawdzic czy nie ma dokumentu późniejszego"/><br/>
+        <p:commandButton action="/ksiegowa/ksiegowaDokStorno.xhtml?faces-redirect=true" actionListener="#{stornoDokView.usunstornodokumentow}" value="usundokument"/>
     </p:outputPanel>
     
 </ui:composition>   

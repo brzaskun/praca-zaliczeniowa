@@ -20,8 +20,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
@@ -84,7 +86,7 @@ public class StornoDokView implements Serializable {
         }
     }
 
-    public String stornodokumentow() throws ParseException {
+    public String stornodokumentow(ActionEvent xe) throws ParseException {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -124,7 +126,7 @@ public class StornoDokView implements Serializable {
                 if (wystornowane.size() == 0) {
                     //jezeli nie bylo storna to wyksieguj
                     ArrayList<Stornodoch> storno = new ArrayList<>();
-                    storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));
+                    storno.add(new Stornodoch(stornonadzien, -wyst, -wyst, true));
                     tmp.setStorno(storno);
                     dokDAO.edit(tmp);
                     System.out.println("Udalo sie");
@@ -142,8 +144,8 @@ public class StornoDokView implements Serializable {
                     }
                 }
             }
-        }
     }
+        }
         return "/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true";
     }
 
@@ -194,15 +196,44 @@ public class StornoDokView implements Serializable {
         stornoDokDAO.edit(stornoDok);
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
-
-    public void usunstornodokumentow() {
-        //trzeba jeszcze dac makro usuwania zapisow z dokumentow!!!!
+    
+    public void usunstornodokumentow(ActionEvent xf) throws Exception {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
-        //stornoDokDAO.destroy(tmp);
-        RequestContext.getCurrentInstance().update("form:dokumentyLista_s");
+        try {
+            Integer mci = Integer.parseInt(mc)+1;
+            String mcn = Mce.getMapamcy().get(mci);
+            StornoDok tmp = stornoDokDAO.find(rok, mcn, podatnik);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", tmp.getMc().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            RequestContext.getCurrentInstance().update("super:super");
+        } catch (Exception x){
+        StornoDok stornodok = stornoDokDAO.find(rok, mc, podatnik);
+        ArrayList<Dok> dokumentystorno = (ArrayList<Dok>) stornodok.getDokument();
+        Iterator it;
+        it = dokumentystorno.iterator();
+        while(it.hasNext()){
+            Dok tmp = dokDAO.znajdzDuplikat((Dok) it.next());
+            if(tmp!=null){
+                ArrayList<Stornodoch> stornodoch = tmp.getStorno();
+                String data = stornodoch.get(stornodoch.size()-1).getDataplatnosci();
+                    String r = data.substring(0,4);
+                    String m = data.substring(5, 7);
+                    if(r.equals(rok.toString())&&m.equals(mc)){
+                        stornodoch.remove(stornodoch.size()-1);
+                        tmp.setStorno(stornodoch);
+                        dokDAO.edit(tmp);
+                    } else {
+                         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", stornodok.getMc().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        RequestContext.getCurrentInstance().update("form:messages");
+                }
+            }
+        }
+        stornoDokDAO.destroy(stornodok);
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        }
     }
 
     public StornoDok getStornoDok() {

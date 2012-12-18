@@ -146,4 +146,5 @@ public class SessionFacade<T> {
             return wynik;
         }
    
+    
 }

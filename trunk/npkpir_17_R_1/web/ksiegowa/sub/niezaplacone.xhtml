@@ -16,7 +16,7 @@
                <h:outputText value="kwota wpłacona"/>  
                <h:inputText value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" tabindex="1"/>
                <h:inputText value="#{DokumentView.rozrachunek.kwotawplacona}" tabindex="2"/>
-               <h:outputText value="dokument rozliczony"/>  
+               <h:outputText value="odhacz jeżeli dokument jest rozliczony"/>  
                <h:selectBooleanCheckbox value="#{DokumentView.rozliczony}" tabindex="3"/>
            </p:panelGrid>
        <br/>
@@ -30,7 +30,7 @@
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
                       rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
-                      rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                      emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
@@ -166,7 +166,9 @@
             </p:column>
            
         </p:dataTable>
-        <p:commandButton action="#{stornoDokView.stornodokumentow()}" update=":form:dokumentyLista" ajax="false" value="ustaldzien" />
+        <br/>
+        <h:outputLabel value="Strono na miesiac i rok wybrany w panelu po lewej"/><br/>
+        <p:commandButton action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.stornodokumentow}"  value="generuj strono" />
     </p:outputPanel>
     
 </ui:composition>   

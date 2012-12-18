@@ -5,9 +5,11 @@
 package view;
 
 import dao.DokDAO;
+import dao.StornoDokDAO;
 import embeddable.Mce;
 import embeddable.Rozrachunek;
 import entity.Dok;
+import entity.StornoDok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,6 +60,8 @@ public class DokTabView implements Serializable {
     @Inject
     private Dok selDokument;
     private static Dok dokdoUsuniecia;
+    @Inject
+    private StornoDokDAO stornoDokDAO;
     
     public DokTabView() {
         //dokumenty podatnika
@@ -159,6 +163,10 @@ public class DokTabView implements Serializable {
 //        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //       Principal principal = request.getUserPrincipal();
 //        if(request.isUserInRole("Administrator")){
+        if(sprawdzczyniemarozrachunkow()==true){
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw rozrachunki, proszę", dokdoUsuniecia.getIdDok().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
         try {
             obiektDOKjsfSel.remove(dokdoUsuniecia);
             obiektDOKmrjsfSel.remove(dokdoUsuniecia);
@@ -174,6 +182,23 @@ public class DokTabView implements Serializable {
 //        }
 //     }
     }
+    }
+    
+    
+    private boolean sprawdzczyniemarozrachunkow(){
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+        StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+            return true;
+        } catch (Exception x){
+            return false;
+        }
+        
+    }
+    
+    
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
