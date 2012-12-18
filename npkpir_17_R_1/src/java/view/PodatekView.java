@@ -146,7 +146,7 @@ public class PodatekView implements Serializable{
         rokmiesiac = rokmiesiac+"/"+selected.getPodatekdochodowy().get(index).getMcOd();
     }
     
-    
+       
      public String getOpodatkowanie() {
         return opodatkowanie;
     }

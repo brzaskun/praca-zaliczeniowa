@@ -21,7 +21,7 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" rendered="true"/>
+                <h:commandButton value="Ok" />
             </p:panel>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -37,6 +37,7 @@
                         <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="tablica"  outcome="tablica" icon="ui-icon-circle-arrow-e"/> 
                         <p:menuitem value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="dokstorno"  outcome="dokstorno" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="obroty"  outcome="obroty" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  

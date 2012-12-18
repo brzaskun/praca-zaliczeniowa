@@ -22,6 +22,9 @@ public abstract class DAO<T> {
     @Inject
     private SessionFacade sessionFacade;
     private Class<T> entityClass;
+    /**
+     *
+     */
     protected ArrayList<T> downloaded;
 
     protected DAO(Class<T> entityClass) {
@@ -43,6 +46,10 @@ public abstract class DAO<T> {
         }
     }
 
+    /**
+     *
+     * @param selected
+     */
     public void dodaj(T selected) {
         try {
             sessionFacade.create(selected);
@@ -52,6 +59,10 @@ public abstract class DAO<T> {
         }
     }
 
+    /**
+     *
+     * @param selected
+     */
     public void destroy(T selected) {
         try {
             sessionFacade.remove(selected);
@@ -61,6 +72,10 @@ public abstract class DAO<T> {
         }
     }
 
+    /**
+     *
+     * @param selected
+     */
     public void edit(T selected) {
         try {
             sessionFacade.edit(selected);
@@ -70,10 +85,18 @@ public abstract class DAO<T> {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<T> getDownloaded() {
         return downloaded;
     }
 
+    /**
+     *
+     * @param downloaded
+     */
     public void setDownloaded(ArrayList<T> downloaded) {
         this.downloaded = downloaded;
     }

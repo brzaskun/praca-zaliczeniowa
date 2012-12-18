@@ -9,6 +9,7 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
+import dao.StornoDokDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
 import embeddable.Mce;
@@ -20,12 +21,12 @@ import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.SrodekTrw;
+import entity.StornoDok;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -144,7 +144,9 @@ public class DokView implements Serializable{
     //edycja platnosci
     @Inject
     private Rozrachunek rozrachunek;
-   
+   //automatyczne ksiegowanie Storna
+    @Inject private StornoDokDAO stornoDokDAO;
+    private boolean rozliczony;
 
     public DokView() {
         setPokazSTR(false);
@@ -705,6 +707,7 @@ public class DokView implements Serializable{
             selDokument.setOpis("umorzenie za miesiac");
             selDokument.setKwota(kwotaumorzenia);
             selDokument.setPkpirKol("poz. koszty");
+            selDokument.setRozliczony(true);
             sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getKwota()>0){
             dokDAO.dodaj(selDokument);
@@ -723,27 +726,95 @@ public class DokView implements Serializable{
         }
     }
     
-//    public void sprawdzczyjestwpisuprzedni() throws Exception{
-//        Integer rok = wpisView.getRokWpisu();
-//        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-//        if(mc==1){
-//            rok--;
-//            mc=12;
-//        } else {
-//            mc--;
+    public void dodajNowyWpisAutomatycznyStorno() {
+            double kwotastorno = 0.0;
+            ArrayList<Dok> lista = new ArrayList<Dok>();
+            Integer rok = wpisView.getRokWpisu();
+            String mc = wpisView.getMiesiacWpisu();
+            String podatnik = wpisView.getPodatnikWpisu();
+            StornoDok tmp = new StornoDok();
+            try {
+                tmp = stornoDokDAO.find(rok, mc, podatnik);
+                lista = (ArrayList<Dok>) tmp.getDokument();
+            Iterator itx;
+            itx = lista.iterator();
+            while(itx.hasNext()){
+                Dok tmpx = (Dok) itx.next();
+                kwotastorno = kwotastorno+tmpx.getStorno().get(tmpx.getStorno().size()-1).getKwotawplacona();
+            }
+            
+            selDokument.setEwidencjaVAT(null);
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            selDokument.setPkpirM(wpisView.getMiesiacWpisu());
+            selDokument.setPkpirR(wpisView.getRokWpisu().toString());
+            selDokument.setVatM("");
+            selDokument.setVatR("");
+            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            selDokument.setStatus("bufor");
+            String data;
+            if(wpisView.getMiesiacWpisu().equals("01")||wpisView.getMiesiacWpisu().equals("03")
+                    ||wpisView.getMiesiacWpisu().equals("05")||wpisView.getMiesiacWpisu().equals("07")
+                    ||wpisView.getMiesiacWpisu().equals("08")||wpisView.getMiesiacWpisu().equals("10")
+                    ||wpisView.getMiesiacWpisu().equals("12")){ 
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+            } else if (wpisView.getMiesiacWpisu().equals("02")){
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+            } else {
+                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+            }
+            selDokument.setDataWyst(data);
+            selDokument.setKontr(new Klienci("111111111","wlasny"));
+            selDokument.setRodzTrans("storno niezapłaconych faktur");
+            selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
+            selDokument.setOpis("storno za miesiac");
+            selDokument.setKwota(kwotastorno);
+            selDokument.setPkpirKol("poz. koszty");
+            selDokument.setRozliczony(true);
+            //sprawdzCzyNieDuplikat(selDokument);
+            if(selDokument.getKwota()!=0){
+            sprawdzCzyNieDuplikat(selDokument);
+            dokDAO.dodaj(selDokument);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument storno zachowany", selDokument.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            tmp.setZaksiegowane(true);
+            stornoDokDAO.edit(tmp);
+            } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota storno wynosi 0zł. Dokument nie został zaksiegowany", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);    
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd!!","");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
-//       Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
-//        if (tmp == null) {
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);
-//            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
-//            RequestContext.getCurrentInstance().update("messageserror");
-//            throw new Exception();
-//        } else {
-//            System.out.println("Nie znaleziono duplikatu");
-//        }
-//    }
-//    
-    public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
+    }
+    }
+    //zaimplementowac!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void sprawdzczyjestwpisuprzedni() throws Exception{
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        if(mc==1){
+            rok--;
+            mc=12;
+        } else {
+            mc--;
+        }
+       Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
+        if (tmp == null) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);
+            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
+            RequestContext.getCurrentInstance().update("messageserror");
+            throw new Exception();
+        } else {
+            System.out.println("Nie znaleziono duplikatu");
+        }
+    }
+    
+    
+    public void sprawdzCzyNieDuplikat(Dok selD) throws Exception{
         Dok tmp = dokDAO.znajdzDuplikat(selD);
         if (tmp != null) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany", null);
@@ -825,8 +896,12 @@ public class DokView implements Serializable{
         } else {
             kwota = zostalo;
         }
+        int pozostalo = (int) (kwota+rozrachunek.getKwotawplacona());
         rozrachunek.setDorozliczenia(kwota+rozrachunek.getKwotawplacona()); 
         lista.add(rozrachunek);
+        if(pozostalo==0&&rozliczony==true){
+            selDokument.setRozliczony(rozliczony);
+        }
         selDokument.setRozrachunki(lista);
         try{
         dokDAO.edit(selDokument);
@@ -1180,6 +1255,16 @@ public class DokView implements Serializable{
     public void setRozrachunek(Rozrachunek rozrachunek) {
         this.rozrachunek = rozrachunek;
     }
+
+    public boolean isRozliczony() {
+        return rozliczony;
+    }
+
+    public void setRozliczony(boolean rozliczony) {
+        this.rozliczony = rozliczony;
+    }
+    
+    
     
     public static void main(String[] args) throws ParseException{
         String data = "2012-02-02";

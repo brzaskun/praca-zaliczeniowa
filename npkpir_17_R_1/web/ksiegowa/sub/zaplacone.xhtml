@@ -6,35 +6,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    
-    
-   <p:dialog header="Szczegóły płatności" widgetVar="Dialog" resizable="false"  
-              showEffect="explode" hideEffect="explode">  
-       <p:focus context="display"/>
-           <p:panelGrid id="display" style="width: 400px;" columns="2" >
-               <h:outputText value="data płatności"/>  
-               <h:outputText value="kwota wpłacona"/>  
-               <h:inputText value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" tabindex="1"/>
-               <h:inputText value="#{DokumentView.rozrachunek.kwotawplacona}" tabindex="2"/>
-               <h:outputText value="dokument rozliczony"/>  
-               <h:selectBooleanCheckbox value="#{DokumentView.rozliczony}" tabindex="3"/>
-           </p:panelGrid>
-       <br/>
-        <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;"/>
-       <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3"/>
-    </p:dialog>  
+  
     <p:outputPanel id="wrapper">
         
-        <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
+        <p:dataTable  var="wpis" value="#{DokTabView.zaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
                       rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
-          
-            <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
-            <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" /> 
                         
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
@@ -166,7 +147,7 @@
             </p:column>
            
         </p:dataTable>
-        <p:commandButton action="#{stornoDokView.stornodokumentow()}" update=":form:dokumentyLista" ajax="false" value="ustaldzien" />
+       
     </p:outputPanel>
     
 </ui:composition>   
