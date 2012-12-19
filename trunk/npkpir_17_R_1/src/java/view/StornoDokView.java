@@ -4,6 +4,7 @@
  */
 package view;
 
+import com.sun.org.apache.xml.internal.utils.ListingErrorHandler;
 import dao.DokDAO;
 import dao.StornoDokDAO;
 import embeddable.Mce;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -139,9 +141,23 @@ public class StornoDokView implements Serializable {
                 } catch (Exception ex) {
                 }
                 if (rozrachunki.isEmpty()) {
-                    wyst = tmp.getNetto();
+                    wyst = -tmp.getNetto();
                 } else {
-                    wyst = rozrachunki.get((rozrachunki.size() - 1)).getDorozliczenia();
+                    //SPRAWDZIC DATE
+                    ListIterator ita;
+                    ita = rozrachunki.listIterator(rozrachunki.size());
+                    while(ita.hasPrevious()){
+                        Rozrachunek tmpx = (Rozrachunek) ita.previous();
+                        String data = tmpx.getDataplatnosci();
+                        String r = data.substring(0, 4);
+                        String m = data.substring(5, 7);
+                        Integer mcs = Integer.parseInt(m);
+                        Integer mcp = Integer.parseInt(mc);
+                        if (r.equals(rok.toString()) && (mcs<=mcp)) {
+                            wyst = tmpx.getDorozliczenia();
+                            break;
+                        }
+                    }
                 }
                 ArrayList<Stornodoch> wystornowane = new ArrayList<>();
                 try {
@@ -152,7 +168,7 @@ public class StornoDokView implements Serializable {
                 if (wystornowane.size() == 0) {
                     //jezeli nie bylo storna to wyksieguj
                     ArrayList<Stornodoch> storno = new ArrayList<>();
-                    storno.add(new Stornodoch(stornonadzien, -wyst, -wyst, true));
+                    storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));
                     tmp.setStorno(storno);
                     dokDAO.edit(tmp);
                     System.out.println("Udalo sie");

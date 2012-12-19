@@ -556,9 +556,9 @@ public class DokView implements Serializable{
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception e){}
-                Rozrachunek rozrachunek = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0);
+                Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, wpisView.getWprowadzil().getLogin(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
-                lista.add(rozrachunek);
+                lista.add(rozrachunekx);
                 selDokument.setRozrachunki(lista);
             }
             sprawdzCzyNieDuplikat(selDokument);
@@ -668,7 +668,7 @@ public class DokView implements Serializable{
                     throw new Exception();
                 }
             }
-            List<Umorzenie> umorzenia = new ArrayList<Umorzenie>();
+            List<Umorzenie> umorzenia = new ArrayList<>();
             umorzenia.addAll(amodok.getUmorzenia());
             Iterator it;
             it = umorzenia.iterator();
@@ -689,15 +689,22 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             String data;
-            if(wpisView.getMiesiacWpisu().equals("01")||wpisView.getMiesiacWpisu().equals("03")
-                    ||wpisView.getMiesiacWpisu().equals("05")||wpisView.getMiesiacWpisu().equals("07")
-                    ||wpisView.getMiesiacWpisu().equals("08")||wpisView.getMiesiacWpisu().equals("10")
-                    ||wpisView.getMiesiacWpisu().equals("12")){ 
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
-            } else if (wpisView.getMiesiacWpisu().equals("02")){
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
-            } else {
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+            switch (wpisView.getMiesiacWpisu()) {
+                case "01":
+                case "03":
+                case "05":
+                case "07":
+                case "08":
+                case "10":
+                case "12":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+                    break;
+                case "02":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+                    break;
+                default:
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+                    break;
             }
             selDokument.setDataWyst(data);
             selDokument.setKontr(new Klienci("111111111","wlasny"));
@@ -727,7 +734,7 @@ public class DokView implements Serializable{
     
     public void dodajNowyWpisAutomatycznyStorno() {
             double kwotastorno = 0.0;
-            ArrayList<Dok> lista = new ArrayList<Dok>();
+            ArrayList<Dok> lista = new ArrayList<>();
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
@@ -754,15 +761,22 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             String data;
-            if(wpisView.getMiesiacWpisu().equals("01")||wpisView.getMiesiacWpisu().equals("03")
-                    ||wpisView.getMiesiacWpisu().equals("05")||wpisView.getMiesiacWpisu().equals("07")
-                    ||wpisView.getMiesiacWpisu().equals("08")||wpisView.getMiesiacWpisu().equals("10")
-                    ||wpisView.getMiesiacWpisu().equals("12")){ 
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
-            } else if (wpisView.getMiesiacWpisu().equals("02")){
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
-            } else {
-                data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+            switch (wpisView.getMiesiacWpisu()) {
+                case "01":
+                case "03":
+                case "05":
+                case "07":
+                case "08":
+                case "10":
+                case "12":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+                    break;
+                case "02":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+                    break;
+                default:
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+                    break;
             }
             selDokument.setDataWyst(data);
             selDokument.setKontr(new Klienci("111111111","wlasny"));
@@ -901,7 +915,12 @@ public class DokView implements Serializable{
             kwota = zostalo;
         }
         int pozostalo = (int) (kwota+rozrachunek.getKwotawplacona());
-        rozrachunek.setDorozliczenia(kwota+rozrachunek.getKwotawplacona()); 
+        rozrachunek.setDorozliczenia(kwota+rozrachunek.getKwotawplacona());
+         HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+        rozrachunek.setWprowadzil(principal.getName());
+        rozrachunek.setDatawprowadzenia(new Date());
         lista.add(rozrachunek);
         if(pozostalo==0&&rozliczony==true){
             selDokument.setRozliczony(rozliczony);
