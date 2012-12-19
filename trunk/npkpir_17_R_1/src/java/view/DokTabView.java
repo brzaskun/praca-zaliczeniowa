@@ -10,6 +10,7 @@ import embeddable.Mce;
 import embeddable.Rozrachunek;
 import entity.Dok;
 import entity.StornoDok;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -62,6 +64,8 @@ public class DokTabView implements Serializable {
     private static Dok dokdoUsuniecia;
     @Inject
     private StornoDokDAO stornoDokDAO;
+    private boolean button;
+    
     
     public DokTabView() {
         //dokumenty podatnika
@@ -78,11 +82,22 @@ public class DokTabView implements Serializable {
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
+        
     }
     
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
+            Integer rok = wpisView.getRokWpisu();
+             String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+          try {
+                StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+                setButton(false);
+            } catch (Exception ef) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
+                setButton(true);
+            }
             try {
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
             } catch (Exception e) {
@@ -215,9 +230,23 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
-     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) {
+     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+        RequestContext.getCurrentInstance().update("form:labelstorno");
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+          try {
+                StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+                setButton(false);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
+            } catch (Exception ef) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
+                setButton(true);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
+            }
+       
      }
      public void aktualizujObroty(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
@@ -229,6 +258,8 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
         
     }
+    
+   
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
@@ -325,5 +356,16 @@ public class DokTabView implements Serializable {
     public void setZaplacone(List<Dok> zaplacone) {
         this.zaplacone = zaplacone;
     }
+
+    public boolean isButton() {
+        return button;
+    }
+
+    public void setButton(boolean button) {
+        this.button = button;
+    }
+
+  
+    
     
 }

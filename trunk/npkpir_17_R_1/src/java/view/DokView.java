@@ -91,8 +91,7 @@ public class DokView implements Serializable{
     private AmoDokDAO amoDokDAO;
     
     private static Klienci przekazKontr;
-    private String dataWystawienia;
-    private String dataSprzedazy;
+
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -839,8 +838,13 @@ public class DokView implements Serializable{
         }
         selDokument.setDataWyst(dataWyst);
         selDokument.setDataSprz(dataWyst);
+        selDokument.setVatM(mc);
+        RequestContext.getCurrentInstance().update("dodWiad:vatm");
+        selDokument.setVatR(rok.toString());
+        RequestContext.getCurrentInstance().update("dodWiad:vatr");
     }
-
+    
+   
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
         przekazKontr = (Klienci) anAutoComplete.getValue();
@@ -924,6 +928,7 @@ public class DokView implements Serializable{
         dokDAO.edit(selDokument);
      }
     
+   
     public boolean isPokazSTR() {
         return pokazSTR;
     }
@@ -1037,14 +1042,6 @@ public class DokView implements Serializable{
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
-    }
-
-    public String getDataWystawienia() {
-        return dataWystawienia;
-    }
-
-    public void setDataWystawienia(String dataWyst) {
-      
     }
 
     public static Klienci getPrzekazKontr() {
@@ -1232,14 +1229,6 @@ public class DokView implements Serializable{
         this.opizw = opizw;
     }
 
-    public String getDataSprzedazy() {
-        return dataSprzedazy;
-    }
-
-    public void setDataSprzedazy(String dataSprzedazy) {
-        this.dataSprzedazy = dataSprzedazy;
-    }
-
     public String getWielkoscopisuewidencji() {
         return wielkoscopisuewidencji;
     }
@@ -1263,7 +1252,8 @@ public class DokView implements Serializable{
     public void setRozliczony(boolean rozliczony) {
         this.rozliczony = rozliczony;
     }
-    
+
+   
     
     
     public static void main(String[] args) throws ParseException{

@@ -22,10 +22,16 @@
        <br/>
         <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;"/>
        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3"/>
-    </p:dialog>  
+    </p:dialog>
+    <p:panel>
+        <f:facet name="header">
+            <p:outputLabel value="Ostatnio wprowadzono storno za miesiąc #{stornoDokView.policzdokumentystorno()}"/>
+        </f:facet>
+   </p:panel>
     <p:outputPanel id="wrapper">
         
-        <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
+        
+           <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
@@ -37,7 +43,7 @@
             <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" /> 
                         
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów" />  
+                <h:outputText value="Wykaz dokumentów niezapłaconych" />  
             </f:facet>
             
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
@@ -167,9 +173,13 @@
            
         </p:dataTable>
         <br/>
-        <h:outputLabel value="Strono na miesiac i rok wybrany w panelu po lewej"/><br/>
-        <p:commandButton action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.stornodokumentow}"  value="generuj strono" />
+        <p:commandButton id="stornobutton" action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.stornodokumentow}"  value="generuj strono" rendered="#{DokTabView.button}"/>
     </p:outputPanel>
+    <p:panel>
+        <f:facet name="footer">
+            <p:outputLabel id="labelstorno" value="Tu wprowadzasz płatności i generujesz dokument strono za miesiac #{WpisView.miesiacWpisu} i rok #{WpisView.rokWpisu}"/>
+        </f:facet>
+   </p:panel>
     
 </ui:composition>   
 

@@ -79,7 +79,8 @@
                 <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}">
                     <p:ajax event="click" listener="#{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false"/>
                 </h:selectBooleanCheckbox>
-                    <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci"/>
+                    <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" onblur="validateTermin()">
+                    </h:inputText>
             </p:panelGrid>
             <p:panelGrid columns="3">
                
@@ -119,8 +120,8 @@
                 <h:outputLabel value=""/>
 
                 <h:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 120px" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste"/>
-                <h:selectOneMenu value="#{DokumentView.selDokument.vatM}">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
+                    <f:selectItems id="vatr" value="#{Mce.mceList}"/>
                 </h:selectOneMenu>
                 <h:selectOneMenu value="#{DokumentView.selDokument.vatR}" >
                     <f:selectItems value="#{Roki.rokiList}"/>

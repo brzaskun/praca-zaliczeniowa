@@ -59,6 +59,17 @@ $(window).bind('beforeunload', function(){
         }else{
             return true
         }};
+ 
+ function validateTermin(){
+            txt = parseInt(document.getElementById("dodWiad:dataTPole").value.length,10);
+        if (txt>=0&&txt<10) {
+            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
+            document.getElementById("dodWiad:dataTPole").focus();
+            return false
+        }else{
+            return true
+        }};
+ 
     
     function wyloguj(){
         document.getElementById("templateform:wyloguj").click();

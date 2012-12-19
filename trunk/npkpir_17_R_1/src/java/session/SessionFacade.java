@@ -128,6 +128,11 @@ public class SessionFacade<T> {
         return tmp;
     }
     
+     public List<StornoDok> findStornoDok(Integer rok, String podatnik) {
+        List<StornoDok> tmp =  em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik",podatnik).getResultList();
+        return tmp;
+    }
+    
      public Dok poprzednik(Integer rok, Integer mc) throws Exception{
         String mcS;
         if(mc<9){
