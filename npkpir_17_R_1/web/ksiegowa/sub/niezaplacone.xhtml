@@ -109,7 +109,7 @@
             </p:column>
              
             
-            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł ">  
+            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł - wprowadzil  - data">  
                 <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
@@ -123,6 +123,14 @@
                           <h:outputText value="#{subwpis.dorozliczenia}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                           </h:outputText>
+                    </p:column>
+                     <p:column id="SubColumn3" >  
+                         <h:outputText value="#{subwpis.wprowadzil}" />
+                    </p:column>
+                    <p:column id="SubColumn4" >  
+                         <h:outputText value="#{subwpis.datawprowadzenia}" >
+                             <f:convertDateTime locale="PL"/>
+                         </h:outputText>
                     </p:column>
                 </p:dataTable>
                
