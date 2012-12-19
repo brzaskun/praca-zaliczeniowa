@@ -185,6 +185,8 @@ public class StornoDokView implements Serializable {
                         stornodokument(tmp);
                     }
                 }
+            } else {
+                //trzeba zeby wprowadzal dokument pusty jednak!!!
             }
     }
         }

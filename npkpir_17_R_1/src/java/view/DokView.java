@@ -146,7 +146,9 @@ public class DokView implements Serializable{
    //automatyczne ksiegowanie Storna
     @Inject private StornoDokDAO stornoDokDAO;
     private boolean rozliczony;
-
+    @Inject
+    private StornoDok stornoDok;
+    
     public DokView() {
         setPokazSTR(false);
         opis = "ewidencja opis";
@@ -899,6 +901,17 @@ public class DokView implements Serializable{
     }
     
     public void zaksiegujPlatnosc(ActionEvent e){
+        //pobieranie daty zeby zobaczyc czy nie ma juz dokumentu storno z ta data 
+        String data = rozrachunek.getDataplatnosci();
+        Integer r = Integer.parseInt(data.substring(0,4));
+        String m = data.substring(5, 7);
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            stornoDok = stornoDokDAO.find(r, m, podatnik);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument storno. Za późno wprowadzasz te płatność", stornoDok.getMc().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        RequestContext.getCurrentInstance().update("form:messages");
+        } catch (Exception ec){
         ArrayList<Rozrachunek> lista = new ArrayList<>();
         double zostalo = 0;
         double kwota = 0;
@@ -909,7 +922,7 @@ public class DokView implements Serializable{
         if(zostalo==0){
                 kwota = -selDokument.getKwota();
                 try{
-                kwota = kwota + selDokument.getKwotaX();
+                kwota = kwota - selDokument.getKwotaX();
                 } catch (Exception el){}
         } else {
             kwota = zostalo;
@@ -936,7 +949,7 @@ public class DokView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     }
-    
+    }
      public void usunostatniRozrachunek(ActionEvent e){
         ArrayList<Rozrachunek> lista = new ArrayList<>();
         try{
