@@ -11,6 +11,7 @@ import embeddable.Rozrachunek;
 import embeddable.Stornodoch;
 import entity.Dok;
 import entity.StornoDok;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,13 +20,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -49,6 +53,9 @@ public class StornoDokView implements Serializable {
     @Inject
     private StornoDokDAO stornoDokDAO;
     private StornoDok selected;
+    private boolean button;
+    
+    
 
     public StornoDokView() {
         lista = new ArrayList<>();
@@ -56,7 +63,7 @@ public class StornoDokView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
         String mc = wpisView.getMiesiacWpisu();
         Integer rok = wpisView.getRokWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -86,12 +93,31 @@ public class StornoDokView implements Serializable {
         }
     }
 
+    public String policzdokumentystorno() throws IOException{
+        Integer rok = wpisView.getRokWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        List<StornoDok> listax = stornoDokDAO.find(rok, podatnik);
+        String result;
+        if(listax.size()>0){
+            StornoDok ostatnidokumnetstoro = listax.get(listax.size()-1);
+            String miesiac = ostatnidokumnetstoro.getMc();
+            result = miesiac;
+        } else {
+            result = "  - za żaden miesiąc. Rok pusty.";
+        }
+        return result;
+    }
+     
+    
     public String stornodokumentow(ActionEvent xe) throws ParseException {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
         StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokumenty za okres wystornowane. Wygenerowano dokument storno. Usuń go wpierw.", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        RequestContext.getCurrentInstance().update("form:messages");
         } catch (Exception x){
         stornonadzien = ustaldzienmiesiaca();
         String termin;
@@ -284,6 +310,15 @@ public class StornoDokView implements Serializable {
         this.selected = selected;
     }
 
+    public boolean isButton() {
+        return button;
+    }
+
+    public void setButton(boolean button) {
+        this.button = button;
+    }
+
+    
     public static void main(String[] args) {
         //
         // Get a calendar instance

@@ -8,6 +8,7 @@ import entity.Sesja;
 import entity.StornoDok;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
 
@@ -24,6 +25,10 @@ public class StornoDokDAO extends DAO implements Serializable {
    
   public StornoDok find(Integer rok, String mc, String podatnik){
          return stornoFacade.findStornoDok(rok,mc,podatnik);
+     }
+  
+  public List<StornoDok> find(Integer rok, String podatnik){
+         return stornoFacade.findStornoDok(rok,podatnik);
      }
       
 }

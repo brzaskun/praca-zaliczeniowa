@@ -7,6 +7,7 @@ package view;
 import embeddable.*;
 import entity.Uz;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -36,6 +37,14 @@ public class WpisView implements Serializable{
    
    
     public WpisView() {
+    }
+    
+    @PostConstruct
+    private void init(){
+        if(miesiacDo==null&&miesiacWpisu!=null){
+            miesiacDo = miesiacWpisu;
+            miesiacOd = miesiacWpisu;
+        }
     }
 
     public String getPodatnikWpisu() {
