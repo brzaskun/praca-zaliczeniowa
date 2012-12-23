@@ -1,0 +1,45 @@
+/* 
+    Document   : style.css
+    Created on : 2012-08-09, 16:49:54
+    Author     : Osito
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body { 
+    font-size: 12pt !important;
+    font-weight: 400;
+}
+
+root { 
+    display: block;
+}
+
+:focus
+{ 
+    background-color: #ccffff;
+}
+
+.old{
+    background-color:#6CE26C !important;
+    background-image:none !important;
+    color:#000000 !important;
+}
+
+
+.ui-panelgrid td {
+border-width: 1px;
+padding: 4px 10px;
+}
+
+.ui-panelgrid tr {
+border-width: 1px;
+padding: 4px 10px;
+}
+
+
+.ui-panel {
+    border-style: none !important;
+}
+.ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
+    width: 300px;
+}
