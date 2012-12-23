@@ -48,7 +48,7 @@
                         <f:param name="passedValue" value="#{p}" />
                     </p:autoComplete>
                 </h:panelGroup>
-                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.selDokument.typdokumentu}"   style="width: 120px;" required="true">
+                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
                     <f:selectItems value="#{rodzajedokView.lista}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir :dodWiad:numerwlasny" global="false" oncomplete="aktywujopis()"/>
                 </h:selectOneMenu>
@@ -59,7 +59,7 @@
                                 minQueryLength="2" maxResults="10" maxlength="20" 
                                 effect="clip" autocomplete="true"  valueChangeListener="#{Opis.dodajOpis}"
                                 required="true" requiredMessage="Brak opisu transakcji - uzupełnij"
-                                queryDelay="100">
+                                queryDelay="100" onblur="validateOpis()">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:autoComplete>
 

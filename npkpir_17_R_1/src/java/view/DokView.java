@@ -156,6 +156,8 @@ public class DokView implements Serializable{
     private StornoDok stornoDok;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    //przechowuje ostatni dokumnet
+    private static String typdokumentu;
     
     public DokView() {
         setPokazSTR(false);
@@ -207,8 +209,9 @@ public class DokView implements Serializable{
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
         podepnijEwidencjeVat(transakcjiRodzaj);
+        try{
         wygenerujnumerkolejny();
-       
+        } catch (Exception ef){}
     }
 
     public void podepnijEwidencjeVat(String transakcjiRodzaj) {
@@ -342,6 +345,9 @@ public class DokView implements Serializable{
                     break;
                 case "r":
                     nowynumer = nowynumer.concat(wpisView.getRokWpisu().toString()).concat(separator);
+                    break;
+                case "s":
+                    nowynumer = nowynumer.concat(elementyold[i]).concat(separator);
                     break;
             }
          }
@@ -592,6 +598,7 @@ public class DokView implements Serializable{
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
+            selDokument.setTypdokumentu(typdokumentu);
             selDokument.setRodzTrans(RodzajedokView.getRodzajedokMapS().get(selDokument.getTypdokumentu()));
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             if(selDokument.getKwotaX()!=null){
@@ -837,6 +844,7 @@ public class DokView implements Serializable{
             selDokument.setKwota(kwotastorno);
             selDokument.setPkpirKol("poz. koszty");
             selDokument.setRozliczony(true);
+            selDokument.setTypdokumentu(typdokumentu);
             //sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getKwota()!=0){
             sprawdzCzyNieDuplikat(selDokument);
@@ -1332,6 +1340,14 @@ public class DokView implements Serializable{
 
     public void setRozliczony(boolean rozliczony) {
         this.rozliczony = rozliczony;
+    }
+
+    public String getTypdokumentu() {
+        return typdokumentu;
+    }
+
+    public void setTypdokumentu(String typdokumentu) {
+        DokView.typdokumentu = typdokumentu;
     }
 
    
