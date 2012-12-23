@@ -76,4 +76,17 @@ public class DokDAO extends DAO implements Serializable {
     }
     private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
     
+    public Dok find(String typdokumentu, String podatnik, Integer rok){
+        List<Dok> lista = new ArrayList<>();
+        Iterator it;
+        it = zwrocBiezacegoKlientaRok(podatnik,rok).iterator();
+        while (it.hasNext()) {
+            Dok tmp = (Dok) it.next();
+            if (tmp.getTypdokumentu().equals(typdokumentu)) {
+                lista.add(tmp);
+            }
+        }
+        Dok wynik = lista.get(lista.size()-1);
+        return wynik;
+    }
 }

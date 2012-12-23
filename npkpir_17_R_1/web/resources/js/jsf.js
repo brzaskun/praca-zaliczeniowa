@@ -79,3 +79,7 @@ $(window).bind('beforeunload', function(){
             window.location.href = "../login.xhtml";
         }
     }
+
+function aktywujopis(){
+    document.getElementById("dodWiad:numerwlasny").focus();
+}

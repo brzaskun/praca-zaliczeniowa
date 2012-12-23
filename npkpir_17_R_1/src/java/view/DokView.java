@@ -9,6 +9,7 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
+import dao.RodzajedokDAO;
 import dao.StornoDokDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
@@ -20,6 +21,7 @@ import entity.Dok;
 import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.StornoDok;
 import java.io.Serializable;
@@ -32,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +59,10 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.security.auth.message.callback.PrivateKeyCallback;
 import javax.servlet.http.HttpServletRequest;
+
+
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
@@ -148,6 +154,8 @@ public class DokView implements Serializable{
     private boolean rozliczony;
     @Inject
     private StornoDok stornoDok;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     
     public DokView() {
         setPokazSTR(false);
@@ -159,10 +167,11 @@ public class DokView implements Serializable{
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
      */
-    public void podepnijListe(AjaxBehaviorEvent e) {
+        public void podepnijListe(AjaxBehaviorEvent e) {
         pkpirLista.getChildren().clear();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
+        String skrot = params.get("dodWiad:rodzajTrans");
+        String transakcjiRodzaj = RodzajedokView.getRodzajedokMapS().get(skrot);
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
@@ -194,17 +203,16 @@ public class DokView implements Serializable{
             SelectItem selectItem = new SelectItem(poz, poz);
             valueList.add(selectItem);
         }
+        selDokument.setNrWlDk("");
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
-        podepnijEwidencjeVat();
-
-
+        podepnijEwidencjeVat(transakcjiRodzaj);
+        wygenerujnumerkolejny();
+       
     }
 
-    public void podepnijEwidencjeVat() {
+    public void podepnijEwidencjeVat(String transakcjiRodzaj) {
         /*wyswietlamy ewidencje VAT*/
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
         List opisewidencji = new ArrayList();
@@ -302,6 +310,45 @@ public class DokView implements Serializable{
         eVatOpisDAO.dodaj(eVO);
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
 
+    }
+    
+    public void wygenerujnumerkolejny(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String skrot = params.get("dodWiad:rodzajTrans");
+        String nowynumer = "";
+        Rodzajedok rodzajdok = rodzajedokDAO.find(skrot);
+        String wzorzec = rodzajdok.getWzorzec();
+        //odnajdywanie podzielnika;
+        String separator = null;
+                if(wzorzec.contains("/")){
+                    separator = "/";
+                }
+         String[] elementy;
+         elementy = wzorzec.split(separator);
+         Dok ostatnidokument = dokDAO.find(skrot,wpisView.getPodatnikWpisu() , wpisView.getRokWpisu());
+         String[] elementyold;
+         elementyold  = ostatnidokument.getNrWlDk().split(separator);
+         for(int i = 0; i<elementy.length;i++){
+             String typ = elementy[i];
+            switch (typ) {
+                case "n":
+                    String tmp = elementyold[i];
+                    Integer tmpI = Integer.parseInt(tmp);
+                    tmpI++;
+                    nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
+                    break;
+                case "m":
+                    nowynumer = nowynumer.concat(wpisView.getMiesiacWpisu()).concat(separator);
+                    break;
+                case "r":
+                    nowynumer = nowynumer.concat(wpisView.getRokWpisu().toString()).concat(separator);
+                    break;
+            }
+         }
+         if(nowynumer.endsWith(separator)){
+          nowynumer = nowynumer.substring(0,nowynumer.lastIndexOf(separator));
+         }
+         selDokument.setNrWlDk(nowynumer);
     }
 
     public void wygenerujSTRKolumne() {
@@ -545,6 +592,7 @@ public class DokView implements Serializable{
             selDokument.setPkpirR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
+            selDokument.setRodzTrans(RodzajedokView.getRodzajedokMapS().get(selDokument.getTypdokumentu()));
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             if(selDokument.getKwotaX()!=null){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
@@ -558,7 +606,7 @@ public class DokView implements Serializable{
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception e){}
-                Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, wpisView.getWprowadzil().getLogin(),new Date());
+                Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
                 lista.add(rozrachunekx);
                 selDokument.setRozrachunki(lista);
@@ -711,6 +759,7 @@ public class DokView implements Serializable{
             selDokument.setDataWyst(data);
             selDokument.setKontr(new Klienci("111111111","wlasny"));
             selDokument.setRodzTrans("amortyzacja");
+            selDokument.setTypdokumentu("AMO");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
             selDokument.setOpis("umorzenie za miesiac");
             selDokument.setKwota(kwotaumorzenia);
@@ -1288,31 +1337,31 @@ public class DokView implements Serializable{
    
     
     
-    public static void main(String[] args) throws ParseException{
-        String data = "2012-02-02";
-        Calendar c = Calendar.getInstance();
-        DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date terminplatnosci = (Date) formatter.parse(data);
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 30);
-        String nd30 = formatter.format(c.getTime());
-//        selDokument.setTermin30(nd30);
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 90);
-        String nd90 = formatter.format(c.getTime());
-      //  selDokument.setTermin90(nd90);
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 150);
-        String nd150 = formatter.format(c.getTime());
-        //selDokument.setTermin150(nd150);
-    }
-    
-//    public static void main(String[] args) {
-//        addDays("2008-03-08");
+//    public static void main(String[] args) throws ParseException{
+//        String data = "2012-02-02";
+//        Calendar c = Calendar.getInstance();
+//        DateFormat formatter;
+//        formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        Date terminplatnosci = (Date) formatter.parse(data);
+//        c.setTime(terminplatnosci);
+//        c.add(Calendar.DAY_OF_MONTH, 30);
+//        String nd30 = formatter.format(c.getTime());
+////        selDokument.setTermin30(nd30);
+//        c.setTime(terminplatnosci);
+//        c.add(Calendar.DAY_OF_MONTH, 90);
+//        String nd90 = formatter.format(c.getTime());
+//      //  selDokument.setTermin90(nd90);
+//        c.setTime(terminplatnosci);
+//        c.add(Calendar.DAY_OF_MONTH, 150);
+//        String nd150 = formatter.format(c.getTime());
+//        //selDokument.setTermin150(nd150);
+//    }
+      public static void main(String[] args) {
+         Map<String, Object> lolo =  FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+          //        addDays("2008-03-08");
 //        addDays("2009-03-07");
 //        addDays("2010-03-13");
-//    }
+    }
 //
 //    public static void addDays(String dateString) {
 //        System.out.println("Got dateString: " + dateString);

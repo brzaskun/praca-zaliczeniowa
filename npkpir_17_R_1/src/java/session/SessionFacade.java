@@ -12,11 +12,11 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Podstawki;
+import entity.Rodzajedok;
 import entity.Sesja;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Zobowiazanie;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -151,5 +151,9 @@ public class SessionFacade<T> {
             return wynik;
         }
    
-    
+    public Rodzajedok findRodzajedok(String skrot){
+        Rodzajedok wynik = null;
+        wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot",skrot).getSingleResult();
+        return wynik;
+    }
 }

@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 import session.SessionFacade;
 
 /**
@@ -37,12 +38,12 @@ public abstract class DAO<T> {
         try {
             c = sessionFacade.findAll(entityClass);
         } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. DAO 29" + e.toString());
+            System.out.println("Blad w pobieraniu z bazy danych. DAO" + e.toString());
         }
         if (c.size() > 0) {
             downloaded = new ArrayList<>();
             downloaded.addAll(c);
-            System.out.println("Pobrano z bazy danych. DAO 29 elementow:" + c.size());
+            System.out.println("Pobrano z bazy danych. DAO elementow:" + c.size());
         }
     }
 
@@ -56,6 +57,7 @@ public abstract class DAO<T> {
             System.out.println("Dodano wpis " + selected);
         } catch (Exception e) {
             System.out.println("Nie dodano wpisu " + selected + " " + e.toString());
+            throw new PersistenceException();
         }
     }
 
