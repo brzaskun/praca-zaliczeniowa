@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Dok.findAll", query = "SELECT d FROM Dok d"),
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
+    @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.typdokumentu = :typdokumentu"),
     @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
     @NamedQuery(name = "Dok.findByTermin30", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin30"),
@@ -64,6 +65,11 @@ public class Dok implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_dok")
     private Long idDok;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "typdokumentu")
+    private String typdokumentu;
     @Size(max = 10)
     @Column(name = "nrWpkpir")
     private int nrWpkpir;
@@ -431,6 +437,14 @@ public class Dok implements Serializable {
 
     public void setStorno(ArrayList<Stornodoch> storno) {
         this.storno = storno;
+    }
+
+    public String getTypdokumentu() {
+        return typdokumentu;
+    }
+
+    public void setTypdokumentu(String typdokumentu) {
+        this.typdokumentu = typdokumentu;
     }
 
    

@@ -71,7 +71,7 @@ public class Trans implements Serializable{
             return transListZO;
         }
         } catch (Exception e){
-            return transListZO;
+            return transList;
         }
     }
 }
