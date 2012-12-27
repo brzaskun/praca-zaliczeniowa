@@ -156,7 +156,7 @@
             </h:form>
             <br/><br/>
         </p:tab>
-        <p:tab title="Aktywne ewidencje VAT podatnika">  
+        <p:tab title="Aktywne ewidencje VAT podatnika nie zrobioooonee!!!!!!!!!!!!!!!!!!!!! ktos zapomnial">  
             <h:form id="form5" >
                 <h:outputText value="Wybierz aktywne ewidencje podatnika" style="font-size: 15px"/>
                 <p:growl showDetail="true"/>
@@ -184,6 +184,34 @@
                 <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
                     <p:commandButton action="#{podatnikView.usunremanent()}" value="usun parametr" update="@form" type="submit"/>
                     <p:commandButton action="#{podatnikView.dodajremanent()}" value="dodaj parametr" update="@form" type="submit"/>
+                </p:panelGrid>
+            </h:form>
+            <br/><br/>
+        </p:tab>
+         <p:tab title="Aktywne dokumenty księgowe">  
+            <h:form id="form6" >
+                <h:outputText value="Wybierz aktywne dokumenty ksiegowe podatnika" style="font-size: 15px"/>
+                <p:growl showDetail="true"/>
+                <p:focus for="parametrypodatnika4"/><br/>
+                <h:outputText value="dokumenty księgowe"/><br/>
+                <p:panelGrid columns="4" style="width: 500px">
+                    <p:dataTable id="parametrypodatnika4" value="#{rodzajedokPodView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" emptyMessage="Nie ma listy dokumentów. Coś poszło nie tak. Panikuj." selectionMode="single" selection="#{rodzajedokPodView.selected}" rowKey="#{loop.skrot}" >
+                        <p:column headerText="tak/nie">
+                            <h:selectBooleanCheckbox value="#{loop.wybrany}" valueChangeListener="#{rodzajedokPodView.dodaj(loop)}" onchange="submit();"/>
+                        </p:column>
+                        <p:column headerText="skrót">
+                            <h:outputText value="#{loop.skrot}" />
+                        </p:column>
+                        <p:column headerText="nazwa pelna">
+                            <h:outputText value="#{loop.nazwa}" />
+                        </p:column>
+                        <p:column headerText="rodzaj transakcji">
+                            <h:outputText value="#{loop.rodzajtransakcji}" />
+                        </p:column>
+                        <p:column headerText="wzorzec:">
+                            <h:outputText value="#{loop.wzorzec}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panelGrid>
             </h:form>
             <br/><br/>

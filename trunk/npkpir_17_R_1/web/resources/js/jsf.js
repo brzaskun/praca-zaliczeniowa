@@ -69,9 +69,12 @@ $(window).bind('beforeunload', function(){
             alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
             document.getElementById("dodWiad:dataPole").focus();
             return false;
-        } else {
+        } else if (txt==10){
             check_form("dodWiad:dataPole");
-        }};
+        } else {
+        return true;
+        }
+    };
  
  function validateK(){
         document.getElementById("dodWiad:acForce_hinput").focus();
