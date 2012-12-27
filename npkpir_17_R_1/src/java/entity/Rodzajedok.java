@@ -46,6 +46,8 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "wzorzec")
     private String wzorzec;
+    @Column(name = "wybrany")
+    private boolean wybrany;
 
     public Rodzajedok() {
     }
@@ -85,6 +87,16 @@ public class Rodzajedok implements Serializable {
     public void setWzorzec(String wzorzec) {
         this.wzorzec = wzorzec;
     }
+
+    public boolean isWybrany() {
+        return wybrany;
+    }
+
+    public void setWybrany(boolean wybrany) {
+        this.wybrany = wybrany;
+    }
+
+    
 
     @Override
     public int hashCode() {
