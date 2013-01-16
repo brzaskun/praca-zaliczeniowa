@@ -92,6 +92,9 @@ public class Logowanie implements Serializable{
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Noobie";
             }
+            if (haslo.equals("haslo")){
+                navto = "nowehaslo";
+            }
             SesjaView.setUzytk(uzytk);
             String sessionId = SesjaView.getNrsesji();
             System.out.println("Sesja przeniesiona Logowanie" + sessionId );
