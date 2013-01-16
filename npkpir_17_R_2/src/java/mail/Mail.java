@@ -20,27 +20,11 @@ import javax.mail.internet.MimeMessage;
 
 @Named
 public class Mail {
-
+    private static Session session;
+    
     public static void nadajMail(String adres, String login) {
 
-        final String username = "teleputa@wp.pl";
-        final String password = "Teleputa";
-
-        Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.wp.pl");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-        Session session;
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+        logintoMail();
 
         try {
 
@@ -66,26 +50,9 @@ public class Mail {
     }
     
       public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
-
-        final String username = "teleputa@wp.pl";
-        final String password = "Teleputa";
-
-        Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.wp.pl");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-        Session session;
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
+       
+        logintoMail();
+        
         try {
 
             Message message = new MimeMessage(session);
@@ -108,5 +75,58 @@ public class Mail {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+      
+       public static void resetowaniehasla(String adres, String login) {
+       
+        logintoMail();
+        
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("teleputa@wp.pl"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
+            message.setText("Szanowny Kliencie,"
+                    + "\n\nAdministrator własnie zresetował ci hasło"
+                    + "\nw naszym serwisie"
+                    + "\nNowe hasło brzmi po prostu - 'haslo'"
+                    + "\nTeraz powinieneś zalogować się do naszego serwisu http://213.136.236.104:8080"
+                    + "\nużywając swojego loginu: "+login+" i hasła nadanego przez administratora"
+                    + "\noraz zmienić je niezwłocznie(!!!) na swoje własne."
+                    + "\n\nZ poważaniem"
+                    + "\n\nObsługa serwisu");
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+      
+      
+    private static void logintoMail(){
+        final String username = "teleputa@wp.pl";
+        final String password = "Teleputa";
+
+        Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.wp.pl");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+        
+        session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
     }
 }

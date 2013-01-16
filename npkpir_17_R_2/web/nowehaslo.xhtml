@@ -22,35 +22,17 @@
                 
                   <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 34%; width: 600px; border-style: none" >
                     <p:messages id="logowanie"  autoUpdate="true" />
-                    <p:panelGrid columns="3" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 0%; width: 600px; border-style: none" >
-                       <p:column>
-                            <h:link outcome="failure" value="powrót do logowania"/>
-                        </p:column>
-                       
-                    </p:panelGrid>
                 </p:panel>
                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 2% 0% 0% 40%; width: 150px">
                     <f:facet name="header">
-                    <h:outputLabel value="Prosze podać dane rejestracyjne"/>
+                    <h:outputLabel value="Prosze podać wybrane nowe hasło do logowania"/>
                     </f:facet>
                     <p:focus id="focus" context="rejestrowaniepanel"/>
                     <p:panelGrid id="rejestrowaniepanel" columns="2">
-                        <h:outputText value="imię"/>
-                        <h:inputText value="#{UzView.selUzytkownik.imie}" accesskey="s" required="true" requiredMessage="Wpisz imię!" autocomplete="true"/>
-                        <h:outputText value="nazwisko"/>
-                        <h:inputText value="#{UzView.selUzytkownik.nazw}"  required="true" requiredMessage="Wpisz nazwisko!" autocomplete="true"/>
                         <h:outputText value="login"/>
-                        <h:inputText value="#{UzView.selUzytkownik.login}" required="true" requiredMessage="Wpisz login!" autocomplete="true">
-                            <f:validateLength minimum="6"/>
-                        </h:inputText>
-                        <h:outputText value="email"/>
-                        <h:inputText value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true"/>
-                        <h:outputText value="nip firmy"/>
-                        <h:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip twojej firmy!" autocomplete="true" maxlength="10">
-                            <f:validateLength minimum="10"/>
-                        </h:inputText>
+                        <h:inputText value="#{UzView.login}" required="true" requiredMessage="Wpisz login!" autocomplete="true"/>
                         <h:outputText value="hasło"/>
-                        <h:inputSecret id="haslo" value="#{UzView.selUzytkownik.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true">
+                        <h:inputSecret id="haslo" value="#{UzView.firstPassword}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true">
                             <f:validateLength minimum="6"/>
                         </h:inputSecret>
                         <h:outputText value="potwierdz hasło"/>
@@ -59,7 +41,7 @@
                         </h:inputSecret>
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton value="Zrejestruj" action="#{UzView.dodaj()}" ajax="false"/>
+                    <p:commandButton value="Zrejestruj" action="#{UzView.dodajnowe()}" ajax="false"/>
                 </p:panel>
             </h:form>
         </f:view>

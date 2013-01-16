@@ -20,6 +20,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import mail.Mail;
+import msg.Msg;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -37,6 +38,8 @@ public class UzView implements Serializable{
     private String uzString;
     private Uz selUzytkownik;
     private String confPassword;
+    private String login;
+    private String firstPassword;
        
    
     public UzView() {
@@ -59,32 +62,7 @@ public class UzView implements Serializable{
             obiektUZjsf.add(tmp);
             }
     }
-    //tabela obiektow
-     public List<Uz> getObiektUZjsf() {
-        return obiektUZjsf;
-    }
-   
-
-    public UzDAO getUzDAO() {
-        return uzDAO;
-    }
-
-    public Uz getSelUzytkownik() {
-        return selUzytkownik;
-    }
-
-    public void setSelUzytkownik(Uz selUzytkownik) {
-        this.selUzytkownik = selUzytkownik;
-    }
-
-    public String getConfPassword() {
-        return confPassword;
-    }
-
-    public void setConfPassword(String confPassword) {
-        this.confPassword = confPassword;
-    }
-
+      
 
      public void dodaj(){
          System.out.println("Wpis do bazy zaczynam");
@@ -106,6 +84,33 @@ public class UzView implements Serializable{
              }
          }
     }
+     
+     public String dodajnowe(){
+         System.out.println("Wpis do bazy zaczynam");
+         try {
+            selUzytkownik = uzDAO.find(login);
+            selUzytkownik.setHaslo(firstPassword);
+        } catch (Exception e) {
+            Msg.msg("e","Podany login: '"+login+"' nie istnieje","formlog1:logowanie");
+            login = null;
+            return "failure";
+        }
+         if (validateData()) {
+             try {
+                 haszuj();
+                 uzDAO.edit(selUzytkownik);
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reset hasła udany.", selUzytkownik.getLogin());
+                 FacesContext.getCurrentInstance().addMessage(null, msg);
+                 return "failure";
+                 
+             } catch (Exception e) {
+                 System.out.println(e.getStackTrace().toString());
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
+                 FacesContext.getCurrentInstance().addMessage(null, msg);
+             }
+         }
+         return "failure";
+     }
    
     public void sformatuj(){
         String formatka=null;
@@ -171,4 +176,47 @@ public class UzView implements Serializable{
         }
         return toReturn;
     }
+    
+     //tabela obiektow
+     public List<Uz> getObiektUZjsf() {
+        return obiektUZjsf;
+    }
+   
+
+    public UzDAO getUzDAO() {
+        return uzDAO;
+    }
+
+    public Uz getSelUzytkownik() {
+        return selUzytkownik;
+    }
+
+    public void setSelUzytkownik(Uz selUzytkownik) {
+        this.selUzytkownik = selUzytkownik;
+    }
+
+    public String getConfPassword() {
+        return confPassword;
+    }
+
+    public void setConfPassword(String confPassword) {
+        this.confPassword = confPassword;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getFirstPassword() {
+        return firstPassword;
+    }
+
+    public void setFirstPassword(String firstPassword) {
+        this.firstPassword = firstPassword;
+    }
+
 }
