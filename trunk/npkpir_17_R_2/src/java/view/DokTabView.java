@@ -7,7 +7,6 @@ package view;
 import dao.DokDAO;
 import dao.StornoDokDAO;
 import embeddable.Mce;
-import embeddable.Rozrachunek;
 import entity.Dok;
 import entity.StornoDok;
 import java.io.IOException;
@@ -26,7 +25,6 @@ import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
