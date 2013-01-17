@@ -22,6 +22,10 @@
             <from-outcome>gtablica</from-outcome>
             <to-view-id>/guest/guestTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gksiega</from-outcome>
+            <to-view-id>/guest/guestKsiega.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gzestawienie</from-outcome>
             <to-view-id>/guest/guestZestawienie.xhtml?faces-redirect=true</to-view-id>

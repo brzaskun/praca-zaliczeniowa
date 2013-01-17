@@ -58,6 +58,15 @@ root {
 
 .ui-datatable .ui-datatable-data td {
     vertical-align : central;
+    word-break: break-all;
 }
 
- 
+.ui-datatable thead th {
+   white-space:normal !important;
+}
+
+@page {
+    size: landscape;
+    object-fit: scale-down;
+    width: 50%;
+}

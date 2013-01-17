@@ -9,26 +9,28 @@
     
     <p:outputPanel>
         <h:outputText value="Wstępne wyliczenie wyniku za wyświetlany miesiąc"/>
-        <p:panelGrid id="prezentacjaPodatku" columns="12">
-            <h:outputLabel value="okres: "/>
+        <p:panelGrid id="prezentacjaPodatku" columns="4">
+            <h:outputLabel value="okres: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
-            <h:outputLabel value="rodzaj opodatkowania: "/>
+            <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
-            <h:outputLabel value="Przychody:"/>
-            <h:outputLabel value="#{PodatekView.przychody}">
-                <f:convertNumber locale="PL"/>
+        </p:panelGrid>
+        <p:panelGrid id="prezentacjaPodatku1" columns="8">
+            <h:outputLabel value="Przychody:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.przychody}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Koszty:"/>
-            <h:outputLabel value="#{PodatekView.koszty}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Koszty:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.koszty}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Wynik podatkowy:"/>
-            <h:outputLabel value="#{PodatekView.dochód}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.dochód}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Zaliczka za m-c:"/>
-            <h:outputLabel value="#{PodatekView.podatek}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.podatek}" style="font-size: large;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
         </p:panelGrid>
         <h:commandButton action="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" />
