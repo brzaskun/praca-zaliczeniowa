@@ -4,39 +4,12 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <script type="text/javascript">
-        PrimeFaces.locales['pl'] = {
-            closeText: 'Zamknij',
-            prevText: 'Poprzedni',
-            nextText: 'Nast\u0119pny',
-            currentText: 'Bie\u017cący',
-            monthNames: ['Stycze\u0144','Luty','Marzec','Kwiecie\u0144','Maj','Czerwiec','Lipiec','Sierpie\u0144','Wrzesie\u0144','Pa\u017adziernik','Listopad','Grudzie\u0144'],
-            monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Pa\u017a','Lis','Gru'],
-            dayNames: ['Niedziela','Poniedzia\u0142ek','Wtorek','\u015aroda','Czwartek','Pi\u0105tek','Sobota'],
-            dayNamesShort: ['Nie','Pon','Wt','\u015ar','Czw','Pt','So'],
-            dayNamesMin: ['N','P','W','\u015a','Cz','P','S'],
-            weekHeader: 'Tydzie\u0144',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: 'r',
-            timeOnlyTitle: 'Tylko czas',
-            timeText: 'Czas',
-            hourText: 'Godzina',
-            minuteText: 'Minuta',
-            secondText: 'Sekunda',
-            currentText: 'Teraz',
-            ampm: false,
-            month: 'Miesi\u0105c',
-            week: 'Tydzie\u0144',
-            day: 'Dzie\u0144',
-            allDayText: 'Ca\u0142y dzie\u0144'
-        };
-    </script>
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">
         <p:tab id="tab" title="Wykaz zobowiązań z tytułu ZUS">
     <h:form id="formZob">
+        <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
         <p:growl id="wiad" showDetail="true"/>
         <p:focus for="dokumentyLista"/>
         <p:panelGrid id="dokumentyLista" >
@@ -83,7 +56,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus51zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd" />
                 </p:column>
                 <p:column rowspan="3">
                     <h:outputText value="odsetki" />
@@ -106,7 +79,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.zus52}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -123,7 +96,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.zus53}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -192,7 +165,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.pit4zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.pit4zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10" alt="wpisz datę w formacie rrrr/mm/dd"/>
                 </p:column>
                 <p:column rowspan="2">
                     <h:outputText value="odsetki" />
@@ -215,7 +188,7 @@
                     <h:outputText value="#{PlatnosciView.selectedZob.pit5}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.pit5zapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10" />
+                    <p:calendar value="#{PlatnosciView.selectedZob.pit5zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10" />
                 </p:column>
                 <p:column>
                     <h:outputText value="#{PlatnosciView.selectedZob.pit5ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
@@ -284,7 +257,7 @@
                     <h:outputText  value="zapłacono dnia " />
                 </p:column>
                 <p:column>
-                    <p:calendar value="#{PlatnosciView.selectedZob.vatzapl}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" maxlength="10"/>
+                    <p:calendar value="#{PlatnosciView.selectedZob.vatzapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10"/>
                 </p:column>
                 <p:column>
                     <h:outputText value="odsetki" />

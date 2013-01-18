@@ -30,6 +30,10 @@
             <from-outcome>gzestawienie</from-outcome>
             <to-view-id>/guest/guestZestawienie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gniezaplacone</from-outcome>
+            <to-view-id>/guest/guestNiezaplacone.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gzobow</from-outcome>
             <to-view-id>/guest/guestZobowiazania.xhtml?faces-redirect=true</to-view-id>

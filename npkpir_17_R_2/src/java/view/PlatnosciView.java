@@ -71,6 +71,7 @@ public class PlatnosciView implements Serializable{
         try{
         selected = podatnikDAO.find(nazwapodatnika);
         } catch (Exception e){}
+        pokazzobowiazania();
     }
     
     public void pokazzobowiazania(){
