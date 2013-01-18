@@ -39,10 +39,8 @@
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem value="tablica"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="obroty"  outcome="obroty" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
-                </p:menu> 
+                </p:menu>
+                      <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
             </h:form>
         </p:panel>

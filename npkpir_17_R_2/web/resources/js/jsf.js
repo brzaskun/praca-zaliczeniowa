@@ -40,6 +40,7 @@ $(window).bind('beforeunload', function(){
 });
 
  function check_form(param){
+     if(document.getElementById(param).value){
             var date_array = document.getElementById(param).value.split('-');
             var day = date_array[2];
             // Attention! Javascript consider months in the range 0 - 11
@@ -61,11 +62,11 @@ $(window).bind('beforeunload', function(){
                return false;
             }
       return true;
-}
+}};
 
  function validate(){
         txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
-        if (txt>0&&txt<10) {
+        if (txt>1&&txt<10) {
             alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
             document.getElementById("dodWiad:dataPole").focus();
             return false;
