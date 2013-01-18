@@ -40,6 +40,7 @@ public class STRTabView implements Serializable{
     private AmoDokDAO amoDokDAO;
     
     private SrodekTrw selectedSTR;
+    private static SrodekTrw dokdoUsuniecia;
 
    
     @ManagedProperty(value="#{WpisView}")
@@ -76,107 +77,6 @@ public class STRTabView implements Serializable{
         strtabela = new ArrayList<>();
     }
 
-    public STRDAO getsTRDAO() {
-        return sTRDAO;
-    }
-
-    public void setsTRDAO(STRDAO sTRDAO) {
-        this.sTRDAO = sTRDAO;
-    }
-
-    public AmoDokDAO getAmoDokDAO() {
-        return amoDokDAO;
-    }
-
-    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
-        this.amoDokDAO = amoDokDAO;
-    }
-    
-    public SrodekTrw getSelectedSTR() {
-        return selectedSTR;
-    }
-
-    public void setSelectedSTR(SrodekTrw selectedSTR) {
-        this.selectedSTR = selectedSTR;
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public HashMap<String, SrodekTrw> getDokHashTable() {
-        return dokHashTable;
-    }
-
-    public void setDokHashTable(HashMap<String, SrodekTrw> dokHashTable) {
-        this.dokHashTable = dokHashTable;
-    }
-
-    public List<String> getKluczDOKjsf() {
-        return kluczDOKjsf;
-    }
-
-    public void setKluczDOKjsf(List<String> kluczDOKjsf) {
-        this.kluczDOKjsf = kluczDOKjsf;
-    }
-
-    public List<SrodekTrw> getObiektDOKjsf() {
-        return obiektDOKjsf;
-    }
-
-    public void setObiektDOKjsf(List<SrodekTrw> obiektDOKjsf) {
-        this.obiektDOKjsf = obiektDOKjsf;
-    }
-
-    public List<SrodekTrw> getObiektDOKjsfSel() {
-        return obiektDOKjsfSel;
-    }
-
-    public void setObiektDOKjsfSel(List<SrodekTrw> obiektDOKjsfSel) {
-        this.obiektDOKjsfSel = obiektDOKjsfSel;
-    }
-
-    public List<SrodekTrw> getObiektDOKmrjsfSel() {
-        return obiektDOKmrjsfSel;
-    }
-
-    public void setObiektDOKmrjsfSel(List<SrodekTrw> obiektDOKmrjsfSel) {
-        this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
-    }
-
-    public List<SrodekTrw> getObiektDOKmrjsfSelX() {
-        return obiektDOKmrjsfSelX;
-    }
-
-    public void setObiektDOKmrjsfSelX(List<SrodekTrw> obiektDOKmrjsfSelX) {
-        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
-    }
-
-    public List<SrodekTrw> getObiektDOKmrjsfSelWyposazenie() {
-        return obiektDOKmrjsfSelWyposazenie;
-    }
-
-    public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
-        this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
-    }
-
-    public List<STRtabela> getStrtabela() {
-        return strtabela;
-    }
-
-    public void setStrtabela(List<STRtabela> strtabela) {
-        this.strtabela = strtabela;
-    }
-
-   
-    
-    
- 
-    
        @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
@@ -406,5 +306,133 @@ public class STRTabView implements Serializable{
             strtabela.add(strdocelowy);            
         }
     }
-            
+    
+     public void destroy(SrodekTrw selDok) {
+        dokdoUsuniecia = new SrodekTrw();
+        dokdoUsuniecia = selDok;
+        
+    }
+    
+    public void destroy2() {
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //       Principal principal = request.getUserPrincipal();
+//        if(request.isUserInRole("Administrator")){
+//        if(sprawdzczyniemarozrachunkow()==true){
+//             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw rozrachunki, proszę", dokdoUsuniecia.getIdDok().toString());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//        } else {
+        try {
+            obiektDOKjsfSel.remove(dokdoUsuniecia);
+            sTRDAO.destroy(dokdoUsuniecia);
+        } catch (Exception e) {
+            System.out.println("Nie usnieto " + dokdoUsuniecia.getNazwa() + " " + e.toString());
+        }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    } else {
+//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
+//          FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//     }
+//    }
+    }
+    
+    
+     public STRDAO getsTRDAO() {
+        return sTRDAO;
+    }
+
+    public void setsTRDAO(STRDAO sTRDAO) {
+        this.sTRDAO = sTRDAO;
+    }
+
+    public AmoDokDAO getAmoDokDAO() {
+        return amoDokDAO;
+    }
+
+    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
+        this.amoDokDAO = amoDokDAO;
+    }
+    
+    public SrodekTrw getSelectedSTR() {
+        return selectedSTR;
+    }
+
+    public void setSelectedSTR(SrodekTrw selectedSTR) {
+        this.selectedSTR = selectedSTR;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public HashMap<String, SrodekTrw> getDokHashTable() {
+        return dokHashTable;
+    }
+
+    public void setDokHashTable(HashMap<String, SrodekTrw> dokHashTable) {
+        this.dokHashTable = dokHashTable;
+    }
+
+    public List<String> getKluczDOKjsf() {
+        return kluczDOKjsf;
+    }
+
+    public void setKluczDOKjsf(List<String> kluczDOKjsf) {
+        this.kluczDOKjsf = kluczDOKjsf;
+    }
+
+    public List<SrodekTrw> getObiektDOKjsf() {
+        return obiektDOKjsf;
+    }
+
+    public void setObiektDOKjsf(List<SrodekTrw> obiektDOKjsf) {
+        this.obiektDOKjsf = obiektDOKjsf;
+    }
+
+    public List<SrodekTrw> getObiektDOKjsfSel() {
+        return obiektDOKjsfSel;
+    }
+
+    public void setObiektDOKjsfSel(List<SrodekTrw> obiektDOKjsfSel) {
+        this.obiektDOKjsfSel = obiektDOKjsfSel;
+    }
+
+    public List<SrodekTrw> getObiektDOKmrjsfSel() {
+        return obiektDOKmrjsfSel;
+    }
+
+    public void setObiektDOKmrjsfSel(List<SrodekTrw> obiektDOKmrjsfSel) {
+        this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
+    }
+
+    public List<SrodekTrw> getObiektDOKmrjsfSelX() {
+        return obiektDOKmrjsfSelX;
+    }
+
+    public void setObiektDOKmrjsfSelX(List<SrodekTrw> obiektDOKmrjsfSelX) {
+        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
+    }
+
+    public List<SrodekTrw> getObiektDOKmrjsfSelWyposazenie() {
+        return obiektDOKmrjsfSelWyposazenie;
+    }
+
+    public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
+        this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
+    }
+
+    public List<STRtabela> getStrtabela() {
+        return strtabela;
+    }
+
+    public void setStrtabela(List<STRtabela> strtabela) {
+        this.strtabela = strtabela;
+    }
+
+   
 }

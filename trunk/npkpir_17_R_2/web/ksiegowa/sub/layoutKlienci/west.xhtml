@@ -46,7 +46,8 @@
                         <p:menuitem value="zestawienie"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="pity"  outcome="pity" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  
-                    </p:menu> 
+                    </p:menu>
+                      <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
             </h:form>
         </p:panel>

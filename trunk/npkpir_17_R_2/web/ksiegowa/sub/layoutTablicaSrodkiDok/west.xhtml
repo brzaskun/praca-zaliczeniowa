@@ -33,13 +33,15 @@
            <p:panel header="linki">
              <h:form>
                 <p:panelGrid columns="1">
-                     <h:link accesskey="s" outcome="ksiegowa" title="księgowanie dokumentów">wpisywanie</h:link>
-                    <h:link outcome="obroty">obroty</h:link>
-                     <h:link outcome="tablica">tablica</h:link>
-                      <h:link outcome="srodki">srodki</h:link>
-                      <h:link outcome="ewidencja">ewidencja</h:link>
-                      <h:link outcome="wyposazenie">wyposazenie</h:link>
-                      
+                    <p:menu >
+                        <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
+                        <p:menuitem value="tablica"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem value="umorzenie"  outcome="srodkidok" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem value="ewidencja"  outcome="ewidencja" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem value="wyposazenie"  outcome="wyposazenie" icon="ui-icon-circle-arrow-e"/> 
+                    </p:menu> 
+                    <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
             </h:form>
         </p:panel>
