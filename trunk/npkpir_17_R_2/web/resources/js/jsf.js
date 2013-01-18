@@ -117,3 +117,32 @@ $(window).bind('beforeunload', function(){
 function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
 }
+
+ PrimeFaces.locales['pl'] = {
+            closeText: 'Zamknij',
+            prevText: 'Poprzedni',
+            nextText: 'Nast\u0119pny',
+            currentText: 'Bie\u017cący',
+            monthNames: ['Stycze\u0144','Luty','Marzec','Kwiecie\u0144','Maj','Czerwiec','Lipiec','Sierpie\u0144','Wrzesie\u0144','Pa\u017adziernik','Listopad','Grudzie\u0144'],
+            monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Pa\u017a','Lis','Gru'],
+            dayNames: ['Niedziela','Poniedzia\u0142ek','Wtorek','\u015aroda','Czwartek','Pi\u0105tek','Sobota'],
+            dayNamesShort: ['Nie','Pon','Wt','\u015ar','Czw','Pt','So'],
+            dayNamesMin: ['N','P','W','\u015a','Cz','P','S'],
+            weekHeader: 'Tydzie\u0144',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: 'r',
+            timeOnlyTitle: 'Tylko czas',
+            timeText: 'Czas',
+            hourText: 'Godzina',
+            minuteText: 'Minuta',
+            secondText: 'Sekunda',
+            currentText: 'Teraz',
+            ampm: false,
+            month: 'Miesi\u0105c',
+            week: 'Tydzie\u0144',
+            day: 'Dzie\u0144',
+            allDayText: 'Ca\u0142y dzie\u0144'
+ };
+            
