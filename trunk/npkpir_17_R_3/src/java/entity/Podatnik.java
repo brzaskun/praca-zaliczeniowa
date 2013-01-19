@@ -140,6 +140,9 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "remanent")
     private List<Parametr> remanent;
+    @Lob
+    @Column(name="dokumentyksiegowe")
+    private List<Rodzajedok> dokumentyksiegowe;
 
     
     
@@ -357,6 +360,14 @@ public class Podatnik implements Serializable {
 
     public void setRemanent(List<Parametr> remanent) {
         this.remanent = remanent;
+    }
+
+    public List<Rodzajedok> getDokumentyksiegowe() {
+        return dokumentyksiegowe;
+    }
+
+    public void setDokumentyksiegowe(List<Rodzajedok> dokumentyksiegowe) {
+        this.dokumentyksiegowe = dokumentyksiegowe;
     }
 
    

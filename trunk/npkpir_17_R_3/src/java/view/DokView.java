@@ -9,6 +9,7 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
+import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.StornoDokDAO;
 import embeddable.EVatwpis;
@@ -21,6 +22,7 @@ import entity.Dok;
 import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.StornoDok;
@@ -38,6 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -95,6 +98,8 @@ public class DokView implements Serializable{
     private Klienci selectedKontr;
     @Inject
     private AmoDokDAO amoDokDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     
     private static Klienci przekazKontr;
 
@@ -157,6 +162,7 @@ public class DokView implements Serializable{
     private StornoDok stornoDok;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private static String typdokumentu;
     
@@ -166,6 +172,13 @@ public class DokView implements Serializable{
         setWysDokument(null);
     }
  
+    @PostConstruct
+    private void init(){
+        rodzajedokKlienta = new ArrayList<>();
+        String pod = wpisView.getPodatnikWpisu();
+        Podatnik podX = podatnikDAO.find(pod);
+        rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
+    }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
@@ -174,7 +187,16 @@ public class DokView implements Serializable{
         pkpirLista.getChildren().clear();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
-        String transakcjiRodzaj = RodzajedokView.getRodzajedokMapS().get(skrot);
+        Iterator itd;
+        itd = rodzajedokKlienta.iterator();
+        String transakcjiRodzaj="";
+        while (itd.hasNext()){
+            Rodzajedok temp = (Rodzajedok) itd.next();
+            if(temp.getSkrot().equals(skrot)){
+                transakcjiRodzaj = temp.getRodzajtransakcji();
+                break;
+            }
+        }
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
@@ -610,7 +632,17 @@ public class DokView implements Serializable{
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setTypdokumentu(typdokumentu);
-            selDokument.setRodzTrans(RodzajedokView.getRodzajedokMapS().get(selDokument.getTypdokumentu()));
+            Iterator itd;
+            itd = rodzajedokKlienta.iterator();
+            String transakcjiRodzaj="";
+            while (itd.hasNext()){
+            Rodzajedok temp = (Rodzajedok) itd.next();
+            if(temp.getSkrot().equals(typdokumentu)){
+                transakcjiRodzaj = temp.getRodzajtransakcji();
+                break;
+            }
+        }
+            selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             if(selDokument.getKwotaX()!=null){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
@@ -1370,6 +1402,14 @@ public class DokView implements Serializable{
 
     public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
         this.umorzeniepoczatkowe = umorzeniepoczatkowe;
+    }
+
+    public List<Rodzajedok> getRodzajedokKlienta() {
+        return rodzajedokKlienta;
+    }
+
+    public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
+        this.rodzajedokKlienta = rodzajedokKlienta;
     }
 
    
