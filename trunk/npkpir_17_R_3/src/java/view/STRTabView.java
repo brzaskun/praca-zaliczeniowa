@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -41,6 +42,7 @@ public class STRTabView implements Serializable{
     
     private SrodekTrw selectedSTR;
     private static SrodekTrw dokdoUsuniecia;
+    private static boolean napewnousunac;
 
    
     @ManagedProperty(value="#{WpisView}")
@@ -218,7 +220,9 @@ public class STRTabView implements Serializable{
                         amoDok.getUmorzenia().add(umAkt);
                     } 
                 }
-            }
+              srodek.setUmorzeniezaksiegowane(Boolean.TRUE);
+              sTRDAO.edit(srodek);
+           }
             if (mcOd == 12) {
                 amoDokDAO.dodaj(amoDok);
                 rokOd++;
@@ -304,7 +308,8 @@ public class STRTabView implements Serializable{
                     umnar = umnar.add(um.getKwota());
                 }
             }
-            strdocelowy.setUmorzeniaDo(umnar);
+            
+            strdocelowy.setUmorzeniaDo(umnar.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
             strtabela.add(strdocelowy);            
         }
     }
@@ -324,13 +329,19 @@ public class STRTabView implements Serializable{
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
 //        } else {
         try {
+            if(dokdoUsuniecia.isUmorzeniezaksiegowane()==true&&napewnousunac==false)
+            {
+                throw new Exception();
+            }
             obiektDOKjsfSel.remove(dokdoUsuniecia);
             sTRDAO.destroy(dokdoUsuniecia);
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            System.out.println("Nie usnieto " + dokdoUsuniecia.getNazwa() + " " + e.toString());
+            Msg.msg("e","Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach",":formSTR:mess_add");
+            System.out.println("Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach");
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+       
 //    } else {
 //            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
 //          FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -434,6 +445,14 @@ public class STRTabView implements Serializable{
 
     public void setStrtabela(List<STRtabela> strtabela) {
         this.strtabela = strtabela;
+    }
+
+    public boolean isNapewnousunac() {
+        return napewnousunac;
+    }
+
+    public void setNapewnousunac(boolean napewnousunac) {
+        STRTabView.napewnousunac = napewnousunac;
     }
 
    

@@ -15,11 +15,13 @@
                     <p:growl id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Usunąć wybrany środek trwały?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
-
+<h:outputLabel for="powerusun" value="twarde usuwanie"/>
+                        <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
+                        <p:separator/>
                         <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:srodkiLista" oncomplete="confirmation.hide()"  
                                          actionListener="#{STRTableView.destroy2()}" />  
                         <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
-
+                        
                     </p:confirmDialog>  
                 </h:form>
                 <f:view contentType="text/html">

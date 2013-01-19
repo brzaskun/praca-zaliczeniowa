@@ -686,6 +686,7 @@ public class DokView implements Serializable{
                    selectedSTR.setNazwa(nazwaSTR.toLowerCase());
                    selectedSTR.setTyp(typKST);
                    selectedSTR.setUmorzeniepoczatkowe(umorzeniepoczatkowe);
+                   selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
                    dodajSTR();
                    
             } catch (Exception e){
