@@ -711,7 +711,7 @@ public class DokView implements Serializable{
                     return false;
                 }
      }
-    
+    //generowanie dokumentu amortyzacji
     public void dodajNowyWpisAutomatyczny() {
             double kwotaumorzenia = 0.0;
             List<Amodok> lista = new ArrayList<Amodok>();
@@ -731,6 +731,8 @@ public class DokView implements Serializable{
                 }
                 amodokPoprzedni = tmp;
             }
+            boolean temp = amodokPoprzedni.getZaksiegowane();
+            List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
          try {
             if(amodokPoprzedni!=null){
                 if(amodokPoprzedni.getZaksiegowane()!=true&&amodokPoprzedni.getUmorzenia().size()>0){

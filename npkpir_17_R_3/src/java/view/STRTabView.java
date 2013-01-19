@@ -187,13 +187,13 @@ public class STRTabView implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void generujamodokumenty() {
+    public String generujamodokumenty() {
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         String pod = wpisView.getPodatnikWpisu();
         String nazwapod = pod;
         amoDokDAO.destroy(pod);
-         RequestContext.getCurrentInstance().update("formSTR:umorzeniaTablica");
+         RequestContext.getCurrentInstance().update("formSTR:dokumsrodkiLista");
         Integer rokOd = 2012;
         Integer mcOd = 1;
         Roki roki = new Roki();
@@ -203,6 +203,7 @@ public class STRTabView implements Serializable{
             amoDok.setPodatnik(pod);
             amoDok.setRok(rokOd);
             amoDok.setMc(mcOd);
+            amoDok.setZaksiegowane(Boolean.FALSE);
             Iterator it;
             it = lista.iterator();
             while (it.hasNext()) {
@@ -231,7 +232,8 @@ public class STRTabView implements Serializable{
         }
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokumenty amortyzacyjne wygenerowane","");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        RequestContext.getCurrentInstance().update("formSTR:dokumUmorzenieLista");
+        RequestContext.getCurrentInstance().update("formSTR:dokumsrodkiLista");
+        return "/ksiegowa/ksiegowaSrodki2.xhtml?faces-redirect=true";
     }
     
     public void generujTabeleRokBiezacy(){
