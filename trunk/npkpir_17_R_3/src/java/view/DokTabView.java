@@ -7,6 +7,7 @@ package view;
 import dao.DokDAO;
 import dao.StornoDokDAO;
 import embeddable.Mce;
+import embeddable.Stornodoch;
 import entity.Dok;
 import entity.StornoDok;
 import java.io.IOException;
@@ -176,8 +177,10 @@ public class DokTabView implements Serializable {
 //        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //       Principal principal = request.getUserPrincipal();
 //        if(request.isUserInRole("Administrator")){
-        if(sprawdzczyniemarozrachunkow()==true){
-             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw rozrachunki, proszę", dokdoUsuniecia.getIdDok().toString());
+        String temp = dokdoUsuniecia.getTypdokumentu();
+        boolean tempX = sprawdzczyniemarozrachunkow(dokdoUsuniecia);
+        if((sprawdzczyniemarozrachunkow(dokdoUsuniecia)==true)&&(!dokdoUsuniecia.getTypdokumentu().equals("AMO"))){
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
         try {
@@ -194,18 +197,21 @@ public class DokTabView implements Serializable {
 //          FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
 //     }
-    }
-    }
+    }}
+
+
     
-    
-    private boolean sprawdzczyniemarozrachunkow(){
-        Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
+    private boolean sprawdzczyniemarozrachunkow(Dok dok){
+        ArrayList<Stornodoch> temp = new ArrayList<>();
         try {
-        StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
-            return true;
-        } catch (Exception x){
+            temp = dok.getStorno();
+            if (temp.size()>0){
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (Exception e){
             return false;
         }
         

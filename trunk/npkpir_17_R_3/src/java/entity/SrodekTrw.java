@@ -57,7 +57,7 @@ public class SrodekTrw implements Serializable {
     private Integer nrsrodka;
     @Lob
     @Column(name = "umorzPlan")
-    private List<Double> umorzPlan;
+    private List umorzPlan;
     @Lob
     @Column(name = "umorzWyk")
     private List<Umorzenie> umorzWyk;

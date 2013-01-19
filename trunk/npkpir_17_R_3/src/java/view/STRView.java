@@ -81,12 +81,12 @@ public class STRView implements Serializable {
 
             while (max - nar > 0) {
                 Double odp = (max - nar) > opm ? opm : max - nar;
-                DecimalFormat df2 = new DecimalFormat("###.##");
-                double tmp = odp.doubleValue();
-                String tmpX = df2.format(tmp);
-                tmpX = tmpX.replace(",", ".");
-                odp = Double.valueOf(tmpX);
-                listaplanum.add(odp);
+//                DecimalFormat df2 = new DecimalFormat("###.##");
+//                double tmp = odp.doubleValue();
+//                String tmpX = df2.format(tmp);
+//                tmpX = tmpX.replace(",", ".");
+//                odp = Double.valueOf(tmpX);
+                listaplanum.add(odp.doubleValue());
                 nar = nar + odp;
             }
             STR.setUmorzPlan(listaplanum);

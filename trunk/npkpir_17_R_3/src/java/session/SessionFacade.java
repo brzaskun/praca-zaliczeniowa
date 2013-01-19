@@ -5,6 +5,7 @@
 package session;
 
 import embeddable.Mce;
+import entity.Amodok;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Pitpoz;
@@ -155,5 +156,10 @@ public class SessionFacade<T> {
         Rodzajedok wynik = null;
         wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot",skrot).getSingleResult();
         return wynik;
+    }
+    
+    public List<Amodok> findAmodok(String podatnik){
+        List<Amodok> tmp = em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return tmp;
     }
 }
