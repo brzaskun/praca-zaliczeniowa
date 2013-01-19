@@ -85,7 +85,7 @@ public class RodzajedokView implements Serializable{
     public List<Rodzajedok> getLista() {
         return lista;
     }
-
+    
     public void setLista(List<Rodzajedok> lista) {
         this.lista = lista;
     }

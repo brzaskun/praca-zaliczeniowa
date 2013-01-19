@@ -49,7 +49,7 @@
                     </p:autoComplete>
                 </h:panelGroup>
                 <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
-                    <f:selectItems value="#{rodzajedokView.lista}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
+                    <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir :dodWiad:numerwlasny" global="false" oncomplete="aktywujopis()"/>
                 </h:selectOneMenu>
                 <h:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" >

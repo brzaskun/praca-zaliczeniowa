@@ -7,7 +7,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:outputLabel value="Nazwa pełna: #{podatnikView.pojemnik}" style="font-size: 18px; font-weight: bold;"/>
+    <h:outputLabel value="Nazwa pełna: #{podatnikView.nazwaWybranegoPodatnika}" style="font-size: 18px; font-weight: bold;"/>
     <br/><br/>
     <p:accordionPanel id="akordeon">  
         <p:tab title="Wybór opodatkowania podatkiem dochodowym">  
@@ -187,6 +187,57 @@
                 </p:panelGrid>
             </h:form>
             <br/><br/>
+        </p:tab>
+        <p:tab title="Aktywne dokumenty ksiegowe podatnika"> 
+            <h:form id="form6" >
+                 <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
+        <p:growl id="messages" showDetail="true"/>
+       
+        <h:outputText value="stworzone dokumenty"/><br/>
+        <p:panelGrid columns="1" style="width: 900px">
+            <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" selectionMode="single" rowKey="#{loop.skrot}">
+                <p:column headerText="skrót">
+                <h:outputText value="#{loop.skrot}" />
+                </p:column>
+                <p:column headerText="nazwa pelna">
+                <h:outputText value="#{loop.nazwa}" />
+                </p:column>
+                <p:column headerText="rodzaj transakcji">
+                <h:outputText value="#{loop.rodzajtransakcji}" />
+                </p:column>
+                <p:column headerText="wzorzec">
+                <h:outputText value="#{loop.wzorzec}" />
+                </p:column>
+                 <p:column id="deleteColumn" headerText="usuń">
+                <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+            </p:column>
+                <br/>
+            </p:dataTable>
+        </p:panelGrid>
+          </h:form>
+           <h:form id="form7" > 
+                <p:focus for="parametryDokKsi"/><br/>
+        <br/>
+        <h:outputText value="pobierz dokument z katalogu głównych"/><br/>
+        <br/><br/>
+        <h:outputText value="lub jeśli tam nie ma wpisz nowy dokument"/><br/>
+        <p:panelGrid id="parametryDokKsi" columns="2" >
+              <h:outputText value="skrót: " />
+              <h:inputText value="#{podatnikView.selectedDokKsi.skrot}" />
+                <h:outputText value=" nazwa pelna: " />
+                <h:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
+                <h:outputText value=" rodzaj transakcji: " />
+                <h:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
+                    <f:selectItems value="#{Trans.transListView}"/>
+                </h:selectOneMenu>
+                <h:outputText value=" wzorzec: " />
+                <h:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
+        </p:panelGrid>
+        <br/>
+        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+            <p:commandButton action="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update="@form"  type="submit" />
+        </p:panelGrid>
+            </h:form>
         </p:tab>
     </p:accordionPanel>
 </ui:composition>   

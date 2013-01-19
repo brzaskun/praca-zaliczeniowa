@@ -6,17 +6,20 @@ package view;
 
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import dao.RodzajedokDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Pod;
 import entity.Podatnik;
+import entity.Rodzajedok;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +39,10 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import mail.Mail;
+import msg.Msg;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 
@@ -53,8 +58,12 @@ public class PodatnikView implements Serializable{
     @Inject
     private Podatnik selected;
     @Inject private Pod selectedPod;
+    @Inject private Rodzajedok selectedDokKsi;
+    @ManagedProperty(value = "#{rodzajedokView}")
+    private RodzajedokView rodzajedokView;
     private static ArrayList<Podatnik> listapodatnikow;
-    private String pojemnik;
+    //
+    private String nazwaWybranegoPodatnika;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
@@ -102,123 +111,15 @@ public class PodatnikView implements Serializable{
         c = podatnikDAO.getDownloaded();
         li.addAll(c);
         wpisView = new WpisView();
-        pojemnik = wpisView.getPodatnikWpisu();
+        nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try{
-        selected=podatnikDAO.find(pojemnik);
+        selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         pobierzogolneDokKsi();
         } catch (Exception e){}
-      
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    
-    
-    public ZUSDAO getZusDAO() {
-        return zusDAO;
-    }
-
-    public void setZusDAO(ZUSDAO zusDAO) {
-        this.zusDAO = zusDAO;
-    }
-
-    
-    public Zusstawki getZusstawki() {
-        return zusstawki;
-    }
-
-    public void setZusstawki(Zusstawki zusstawki) {
-        this.zusstawki = zusstawki;
-    }
-    
-
-    
-    public ArrayList<Podatnik> getListapodatnikow() {
-        return listapodatnikow;
-    }
-
-    public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
-        PodatnikView.listapodatnikow = listapodatnikow;
-    }
-
-    public Pod getSelectedPod() {
-        return selectedPod;
-    }
-
-    public void setSelectedPod(Pod selectedPod) {
-        this.selectedPod = selectedPod;
-    }
-
-    
-    public Parametr getParametr() {
-        return parametr;
-    }
-
-    public void setParametr(Parametr parametr) {
-        this.parametr = parametr;
-    }
-    
-    
-    public List<String> getListkakopia() {
-        return listkakopia;
-    }
-
-    public void setListkakopia(List<String> listkakopia) {
-        this.listkakopia = listkakopia;
-    }
-
-    
-    
-    public String[] getListka() {
-        return listka;
-    }
-
-    public void setListka(String[] listka) {
-        this.listka = listka;
+       
     }
 
    
-
-   
-    public List<String> getPojList() {
-        return pojList;
-    }
-
-    public void setPojList(List<String> pojList) {
-        this.pojList = pojList;
-    }
-    
-    
-    public PanelGrid getGrid() {
-        return grid;
-    }
-
-    public void setGrid(PanelGrid grid) {
-        this.grid = grid;
-    }
-
-    
-
-    public String getPojemnik() {
-        return pojemnik;
-    }
-
-    public void setPojemnik(String pojemnik) {
-        this.pojemnik = pojemnik;
-    }
-
-    public Podatnik getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Podatnik selected) {
-        this.selected = selected;
-    }
     
      public void dodaj(){
          System.out.println("Wpis do bazy zaczynam");
@@ -359,7 +260,7 @@ public class PodatnikView implements Serializable{
         
     }
      public void dodajdoch(){
-         selected=podatnikDAO.find(pojemnik);
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Parametr> lista = new ArrayList<>();
          try{
              lista.addAll(selected.getPodatekdochodowy());
@@ -407,7 +308,7 @@ public class PodatnikView implements Serializable{
      }
      
      public void dodajvat(){
-         selected=podatnikDAO.find(pojemnik);
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Parametr> lista = new ArrayList<>();
          try{
              lista.addAll(selected.getVatokres());
@@ -460,7 +361,7 @@ public class PodatnikView implements Serializable{
       
        public void dodajzus(){
          try{
-         selected=podatnikDAO.find(pojemnik);
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Zusstawki> tmp = new ArrayList<>();
          try{
          tmp.addAll(selected.getZusparametr());
@@ -489,7 +390,7 @@ public class PodatnikView implements Serializable{
       }
      
       public void usunzus(){
-         selected=podatnikDAO.find(pojemnik);
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Zusstawki> tmp = new ArrayList<>();
          tmp.addAll(selected.getZusparametr());
          tmp.remove(tmp.size()-1);
@@ -523,14 +424,14 @@ public class PodatnikView implements Serializable{
     }
       
      public String przejdzdoStrony(){
-           selected=podatnikDAO.find(pojemnik);
+           selected=podatnikDAO.find(nazwaWybranegoPodatnika);
            //sprawdazic
            RequestContext.getCurrentInstance().execute("openwindow()");
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
      }
      
       public void dodajremanent(){
-         selected=podatnikDAO.find(pojemnik);
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Parametr> lista = new ArrayList<>();
          try{
              lista.addAll(selected.getRemanent());
@@ -553,5 +454,195 @@ public class PodatnikView implements Serializable{
          selected.setRemanent(tmp);
          podatnikDAO.edit(selected);
      }
+        
+      public void dodajDokKsi(){
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Rodzajedok> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getDokumentyksiegowe());
+         } catch (Exception e){}
+         try{
+         lista.add(selectedDokKsi);
+         selected.setDokumentyksiegowe(lista);
+         podatnikDAO.edit(selected);
+         Msg.msg("i","Dodano nowy wzor dokumentu","akordeon:form6:pDokKsi");
+         } catch (Exception ex) {
+         Msg.msg("e","Niedodano nowego wzoru dokumentu, wystąpił błąd","akordeon:form6:pDokKsi");
+         } 
+        
+     }
+
+     
+      public void usunDokKsi(Rodzajedok rodzajDokKsi){
+        selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Rodzajedok> tmp = new ArrayList<>();
+         tmp.addAll(selected.getDokumentyksiegowe());
+         tmp.remove(rodzajDokKsi);
+         selected.setDokumentyksiegowe(tmp);
+         podatnikDAO.edit(selected);
+         Msg.msg("i","Usunięto wzor dokumentu","akordeon:form6:pDokKsi");
+     }
+     
+      
+      public void pobierzogolneDokKsi(){
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Rodzajedok> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getDokumentyksiegowe());
+         } catch (Exception e){}
+         List<Rodzajedok> ogolna = new ArrayList<>();
+         try{
+             ogolna.addAll(rodzajedokView.getLista());
+         } catch (Exception e){}
+         Iterator it;
+         it = ogolna.iterator();
+         while(it.hasNext()){
+             Rodzajedok tmp = (Rodzajedok) it.next();
+             if(!lista.contains(tmp)){
+                 lista.add(tmp);
+             }
+         }
+         try{
+         selected.setDokumentyksiegowe(lista);
+         podatnikDAO.edit(selected);
+         } catch (Exception ex) {
+         } 
+        
+     }
+ 
+      
+     
+     public void updateDokKsi(ValueChangeListener ex){
+         RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+     }
+        
+      public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    
+    
+    public ZUSDAO getZusDAO() {
+        return zusDAO;
+    }
+
+    public void setZusDAO(ZUSDAO zusDAO) {
+        this.zusDAO = zusDAO;
+    }
+
+    
+    public Zusstawki getZusstawki() {
+        return zusstawki;
+    }
+
+    public void setZusstawki(Zusstawki zusstawki) {
+        this.zusstawki = zusstawki;
+    }
+    
+
+    
+    public ArrayList<Podatnik> getListapodatnikow() {
+        return listapodatnikow;
+    }
+
+    public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
+        PodatnikView.listapodatnikow = listapodatnikow;
+    }
+
+    public Pod getSelectedPod() {
+        return selectedPod;
+    }
+
+    public void setSelectedPod(Pod selectedPod) {
+        this.selectedPod = selectedPod;
+    }
+
+    
+    public Parametr getParametr() {
+        return parametr;
+    }
+
+    public void setParametr(Parametr parametr) {
+        this.parametr = parametr;
+    }
+    
+    
+    public List<String> getListkakopia() {
+        return listkakopia;
+    }
+
+    public void setListkakopia(List<String> listkakopia) {
+        this.listkakopia = listkakopia;
+    }
+
+    
+    
+    public String[] getListka() {
+        return listka;
+    }
+
+    public void setListka(String[] listka) {
+        this.listka = listka;
+    }
+
+   
+
+   
+    public List<String> getPojList() {
+        return pojList;
+    }
+
+    public void setPojList(List<String> pojList) {
+        this.pojList = pojList;
+    }
+    
+    
+    public PanelGrid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(PanelGrid grid) {
+        this.grid = grid;
+    }
+
+    
+
+    public String getNazwaWybranegoPodatnika() {
+        return nazwaWybranegoPodatnika;
+    }
+
+    public void setNazwaWybranegoPodatnika(String nazwaWybranegoPodatnika) {
+        this.nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
+    }
+
+    public Podatnik getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Podatnik selected) {
+        this.selected = selected;
+    }
+
+    public Rodzajedok getSelectedDokKsi() {
+        return selectedDokKsi;
+    }
+
+    public void setSelectedDokKsi(Rodzajedok selectedDokKsi) {
+        this.selectedDokKsi = selectedDokKsi;
+    }
+
+    public RodzajedokView getRodzajedokView() {
+        return rodzajedokView;
+    }
+
+    public void setRodzajedokView(RodzajedokView rodzajedokView) {
+        this.rodzajedokView = rodzajedokView;
+    }
+    
+    
 }
 
