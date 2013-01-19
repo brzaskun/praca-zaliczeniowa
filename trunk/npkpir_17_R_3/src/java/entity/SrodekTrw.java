@@ -95,7 +95,11 @@ public class SrodekTrw implements Serializable {
     private String typ;
     @Column(name = "umorzeniepoczatkowe")
     private Double umorzeniepoczatkowe;
-
+    @Column (name = "umorzeniezaksiegowane")
+    private boolean umorzeniezaksiegowane;
+            
+            
+            
     public SrodekTrw() {
     }
 
@@ -247,6 +251,14 @@ public class SrodekTrw implements Serializable {
 
     public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
         this.umorzeniepoczatkowe = umorzeniepoczatkowe;
+    }
+
+    public boolean isUmorzeniezaksiegowane() {
+        return umorzeniezaksiegowane;
+    }
+
+    public void setUmorzeniezaksiegowane(boolean umorzeniezaksiegowane) {
+        this.umorzeniezaksiegowane = umorzeniezaksiegowane;
     }
 
     
