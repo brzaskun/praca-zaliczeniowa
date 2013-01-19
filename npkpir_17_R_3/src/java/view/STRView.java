@@ -49,7 +49,7 @@ public class STRView implements Serializable {
         this.sTRDAO = sTRDAO;
     }
 
-    //tutaj oblicza ilosc odpisow
+    //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
     public void dodajSrodekTrwaly(SrodekTrw STR) {
         try {
             Double netto = STR.getNetto();
@@ -81,11 +81,15 @@ public class STRView implements Serializable {
 
             while (max - nar > 0) {
                 Double odp = (max - nar) > opm ? opm : max - nar;
-//                DecimalFormat df2 = new DecimalFormat("###.##");
-//                double tmp = odp.doubleValue();
-//                String tmpX = df2.format(tmp);
-//                tmpX = tmpX.replace(",", ".");
-//                odp = Double.valueOf(tmpX);
+                if((max - nar) < opm){
+                    DecimalFormat df2 = new DecimalFormat("###.##");
+                    double tmp = odp.doubleValue();
+                    String tmpX = df2.format(tmp);
+                    tmpX = tmpX.replace(",", ".");
+                    odp = Double.valueOf(tmpX);
+                    listaplanum.add(odp.doubleValue());
+                    break;
+                }
                 listaplanum.add(odp.doubleValue());
                 nar = nar + odp;
             }

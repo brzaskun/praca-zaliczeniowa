@@ -4,7 +4,6 @@
  */
 package entity;
 
-import embeddable.Pod;
 import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -95,6 +95,8 @@ public class SrodekTrw implements Serializable {
     private String typ;
     @Column(name = "umorzeniepoczatkowe")
     private Double umorzeniepoczatkowe;
+    @Basic(optional = false)
+    @NotNull
     @Column (name = "umorzeniezaksiegowane")
     private boolean umorzeniezaksiegowane;
             
