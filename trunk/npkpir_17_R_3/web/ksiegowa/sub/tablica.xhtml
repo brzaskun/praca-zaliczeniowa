@@ -7,31 +7,33 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
     
-    <p:outputPanel>
-        
+   <p:outputPanel>
+        <h:outputText value="Wstępne wyliczenie wyniku za wyświetlany miesiąc"/>
         <p:panelGrid id="prezentacjaPodatku" columns="4">
-            <h:outputLabel value="rok: "/>
+            <h:outputLabel value="okres: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
-            <h:outputLabel value="rodzaj opodatkowania: "/>
+            <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
-            <h:outputLabel value="Przychody:"/>
-            <h:outputLabel value="#{PodatekView.przychody}">
-                <f:convertNumber locale="PL"/>
+        </p:panelGrid>
+        <p:panelGrid id="prezentacjaPodatku1" columns="8">
+            <h:outputLabel value="Przychody:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.przychody}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Koszty:"/>
-            <h:outputLabel value="#{PodatekView.koszty}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Koszty:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.koszty}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Dochód:"/>
-            <h:outputLabel value="#{PodatekView.dochód}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.dochód}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-            <h:outputLabel value="Podatek:"/>
-            <h:outputLabel value="#{PodatekView.podatek}">
-                <f:convertNumber locale="PL"/>
+            <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.podatek}" style="font-size: large;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
         </p:panelGrid>
-        <h:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe}" value="Oblicz" />
+        <h:commandButton action="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" />
     </p:outputPanel>
   
     <p:outputPanel id="wrapper">
@@ -112,16 +114,9 @@
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.kwota}" style="padding-left: 20%; font-weight: 700; float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwota}" style="width:100%;"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}">  
                 <f:facet name="header">  
@@ -178,16 +173,9 @@
                 <f:facet name="header">  
                     <h:outputText value="kwota" />  
                 </f:facet> 
-                <p:cellEditor>  
-                    <f:facet name="output">  
                         <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; float: right;">
                            <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.kwotaX}" style="width:100%"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
             <p:column id="pkpirKolColumnX" headerText="kolumna" filterBy="#{wpis.pkpirKolX}" filterMatchMode="contains" sortBy="#{wpis.pkpirKolX}">  
                 <f:facet name="header">  

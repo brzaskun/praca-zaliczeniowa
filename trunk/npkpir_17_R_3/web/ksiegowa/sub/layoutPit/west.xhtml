@@ -10,7 +10,8 @@
        <h:form id="westWpis">
             
             <p:panel menuTitle="Dane" header="Dane">
-                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" >
+                <p:panelGrid columns="1" style="margin-left: 0%">
+                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
                     <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}"/>
                     <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
                 </p:selectOneMenu>
@@ -24,9 +25,9 @@
                     <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" rendered="false"/>
-
+</p:panelGrid>
             </p:panel >
-                 <p:panelGrid id="westWpisWidok" columns="1" style="margin-left: 15%">
+                 <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
