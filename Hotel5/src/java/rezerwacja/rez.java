@@ -4,9 +4,15 @@
  */
 package rezerwacja;
 
+import entity.Hotel;
 import java.io.Serializable;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import session.HotelFacade;
 
 /**
  *
@@ -16,5 +22,14 @@ import javax.inject.Named;
 @Stateless
 public class rez implements Serializable {
     
+    @PersistenceContext
+    EntityManager em;
+    @EJB
+    private HotelFacade hotelFacade;
+    
+    public Hotel[] getHotel(){
+        List<Hotel> hotele = hotelFacade.findAll();
+        return hotele.toArray(new Hotel[hotele.size()]);
+    }
     
 }
