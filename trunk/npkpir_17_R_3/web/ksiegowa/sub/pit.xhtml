@@ -7,22 +7,45 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <p:panelGrid columns="2" >
-        <h:form id="formpi" style="width: 500px" >
+    <p:panelGrid columns="4" style="width: 600px">
+        <h:form id="formpi" style="width: 400px" >
             <h:outputText value="wprowadzone PIT-y: "/><br/>
-            <p:dataList value="#{pitDAO.downloaded}" var="loop" >
-                <h:outputText value="okres rozliczeniowy: "/>
+            <p:dataTable value="#{pitDAO.downloaded}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}">
+                <p:ajax event="rowSelect" update=":formpi2:zestawieniepitview" global="false"/>
+                <p:column headerText="okres rozliczeniowy: ">
                 <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/><br/>
-                <h:outputText value="należna zaliczka: "/>
+                </p:column>
+                <p:column headerText="należna zaliczka: ">
                 <h:outputText value="#{loop.naleznazal}"/>
-            </p:dataList>
-            <br/>
+                </p:column>
+            </p:dataTable>
             <p:commandButton value="usun pit"  action="#{ZestawienieView.usun()}" update="@form" style="width: 120px"/>
         </h:form>
-        <h:form id="formpit">
-            <p:growl showDetail="true"/>
-            <br/><br/>
-            <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px">
+        <h:form id="formpi2">
+            <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 300px; height: 670px;">
+                <h:outputText value="podatnik"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
+                <h:outputText value="pkpirR"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
+                <h:outputText value="pkpirM"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
+                <h:outputText value="przychody narast.."/><h:outputText value="#{ZestawienieView.biezacyPit.przychody}"><f:convertNumber/></h:outputText>
+                <h:outputText value="koszty narast."/><h:outputText value="#{ZestawienieView.biezacyPit.koszty}"><f:convertNumber/></h:outputText>
+                <h:outputText value="wynik od pocz. rok"/><h:outputText value="#{ZestawienieView.biezacyPit.wynik}"><f:convertNumber/></h:outputText>
+                <h:outputText value="strata z lat ub"/><h:outputText value="#{ZestawienieView.biezacyPit.strata}"><f:convertNumber/></h:outputText>
+                <h:outputText value="ZUS 51"/><h:outputText value="#{ZestawienieView.biezacyPit.zus51}"><f:convertNumber/></h:outputText>
+                <h:outputText value="podstawa opod."/><h:outputText value="#{ZestawienieView.biezacyPit.podstawa}"><f:convertNumber/></h:outputText>
+                <h:outputText value="podatek"/><h:outputText value="#{ZestawienieView.biezacyPit.podatek}"><f:convertNumber/></h:outputText>
+                <h:outputText value="ZUS 52"/><h:outputText value="#{ZestawienieView.biezacyPit.zus52}"><f:convertNumber/></h:outputText>
+                <h:outputText value="podatek należny od pocz rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pododpoczrok}"><f:convertNumber/></h:outputText>
+                <h:outputText value="zaliczki za pop.m-ce"/><h:outputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}"><f:convertNumber/></h:outputText>
+                <h:outputText value="należna zal. za m-c"/><h:outputText value="#{ZestawienieView.biezacyPit.naleznazal}"><f:convertNumber/></h:outputText>
+                <h:outputText value="do zapłaty"/><h:outputText value="#{ZestawienieView.biezacyPit.dozaplaty}"><f:convertNumber/></h:outputText>
+                <h:outputText value="termin płatności"/><h:outputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
+                <h:outputText value="przelano"/><h:outputText value="#{ZestawienieView.biezacyPit.przelano}"/>
+                <h:outputText value="zamknięty"/><h:outputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
+            </p:panelGrid>
+            </h:form>
+          <h:form id="formpit">
+            <p:growl showDetail="true"/>  
+            <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px; width: 400px;">
                 <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
                 <h:outputText value="pkpirR"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
                 <h:outputText value="pkpirM"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
