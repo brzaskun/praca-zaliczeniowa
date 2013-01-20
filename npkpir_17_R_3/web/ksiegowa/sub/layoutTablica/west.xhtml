@@ -8,7 +8,8 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" >
+                <p:panelGrid columns="1" style="margin-left: 0%">
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
                     <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
@@ -22,8 +23,9 @@
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" />
+                </p:panelGrid>
             </p:panel>
-            <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
+            <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -45,7 +47,8 @@
                         <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="zestawienie"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="pity"  outcome="pity" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="zamkniecie"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu> 
                     <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
