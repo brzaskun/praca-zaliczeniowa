@@ -6,12 +6,6 @@ package dao;
 
 import entity.SrodekTrw;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -32,7 +26,9 @@ public class STRDAO extends DAO implements Serializable{
         super(SrodekTrw.class);
     }
     
-   
+   public boolean findSTR(String podatnik, Double netto, String numer){
+       return strFacade.findSTR(podatnik, netto, numer);
+   }
 //    
 //    public SrodekTrw znajdzDuplikat(SrodekTrw selD) throws Exception{
 //        SrodekTrw tmp = null;

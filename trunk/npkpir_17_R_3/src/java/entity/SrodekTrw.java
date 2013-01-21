@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SrodekTrw.findByOdpisrok", query = "SELECT s FROM SrodekTrw s WHERE s.odpisrok = :odpisrok"),
     @NamedQuery(name = "SrodekTrw.findByStawka", query = "SELECT s FROM SrodekTrw s WHERE s.stawka = :stawka"),
     @NamedQuery(name = "SrodekTrw.findBySymbol", query = "SELECT s FROM SrodekTrw s WHERE s.symbol = :symbol"),
+    @NamedQuery(name = "SrodekTrw.findSTR", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik AND s.netto = :netto AND s.nrwldokzak = :nrwldokzak"),
     @NamedQuery(name = "SrodekTrw.findByNetto", query = "SELECT s FROM SrodekTrw s WHERE s.netto = :netto")})
 
 public class SrodekTrw implements Serializable {
@@ -80,6 +81,9 @@ public class SrodekTrw implements Serializable {
     @Size(max = 255)
     @Column(name = "datazak")
     private String datazak;
+    @Size(max = 255)
+    @Column(name = "nrwldokzak")
+    private String nrwldokzak;
     @Column(name = "vat")
     private Double vat;
     @Column(name = "odpismc")
@@ -263,7 +267,16 @@ public class SrodekTrw implements Serializable {
         this.umorzeniezaksiegowane = umorzeniezaksiegowane;
     }
 
-    
+  
+    public String getNrwldokzak() {
+        return nrwldokzak;
+    }
+
+    public void setNrwldokzak(String nrwldokzak) {
+        this.nrwldokzak = nrwldokzak;
+    }
+
+      
    
 
     @Override

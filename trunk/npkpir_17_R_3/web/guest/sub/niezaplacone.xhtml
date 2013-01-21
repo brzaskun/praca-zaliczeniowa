@@ -173,11 +173,10 @@
            
         </p:dataTable>
         <br/>
-        <p:commandButton id="stornobutton" action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.stornodokumentow}"  value="generuj strono" rendered="#{DokTabView.button}"/>
     </p:outputPanel>
     <p:panel>
         <f:facet name="footer">
-            <p:outputLabel id="labelstorno" value="Tu wprowadzasz płatności i generujesz dokument strono za miesiac #{WpisView.miesiacWpisu} i rok #{WpisView.rokWpisu}"/>
+            <p:outputLabel id="labelstorno" value="Tu wprowadzasz płatności za miesiac #{WpisView.miesiacWpisu} i rok #{WpisView.rokWpisu}"/>
         </f:facet>
    </p:panel>
     

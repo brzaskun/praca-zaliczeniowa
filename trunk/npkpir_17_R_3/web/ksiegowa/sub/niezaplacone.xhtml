@@ -29,7 +29,7 @@
         </f:facet>
    </p:panel>
     <p:outputPanel id="wrapper">
-        
+        <p:growl id="niezaplaconech"/>
         
            <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
@@ -182,6 +182,7 @@
         </p:dataTable>
         <br/>
         <p:commandButton id="stornobutton" action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.stornodokumentow}"  value="generuj strono" rendered="#{DokTabView.button}"/>
+        <p:commandButton id="stornobutton1" action="/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true" actionListener="#{stornoDokView.usunstornodokumentow}"  value="usuń strono" rendered="#{!DokTabView.button}" update=":form:niezaplaconech"/>
     </p:outputPanel>
     <p:panel>
         <f:facet name="footer">
