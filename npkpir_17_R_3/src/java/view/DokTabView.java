@@ -5,6 +5,7 @@
 package view;
 
 import dao.DokDAO;
+import dao.STRDAO;
 import dao.StornoDokDAO;
 import embeddable.Mce;
 import embeddable.Stornodoch;
@@ -63,9 +64,10 @@ public class DokTabView implements Serializable {
     private static Dok dokdoUsuniecia;
     @Inject
     private StornoDokDAO stornoDokDAO;
+    @Inject
+    private STRDAO sTRDAO;
     private boolean button;
-    
-    
+
     public DokTabView() {
         //dokumenty podatnika
         obiektDOKjsfSel = new ArrayList<>();
@@ -81,16 +83,16 @@ public class DokTabView implements Serializable {
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
-        
+
     }
-    
+
     @PostConstruct
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
             Integer rok = wpisView.getRokWpisu();
-             String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
-          try {
+            String mc = wpisView.getMiesiacWpisu();
+            String podatnik = wpisView.getPodatnikWpisu();
+            try {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
                 setButton(false);
             } catch (Exception ef) {
@@ -118,20 +120,20 @@ public class DokTabView implements Serializable {
                         niezaplacone.add(tmpx);
                     } else {
                         //pobiera tylko przelewowe
-                        if(tmpx.getRozrachunki()!=null){
+                        if (tmpx.getRozrachunki() != null) {
                             zaplacone.add(tmpx);
                         }
                     }
                     if (tmpx.getPkpirM().equals(m)) {
-                    tmpx.setNrWpkpir(inus);
-                    obiektDOKmrjsfSel.add(tmpx);
-                    inus++;
-                }
+                        tmpx.setNrWpkpir(inus);
+                        obiektDOKmrjsfSel.add(tmpx);
+                        inus++;
+                    }
                     if (tmpx.getVatM().equals(mn)) {
-                    tmpx.setNrWpkpir(inu);
-                    dokvatmc.add(tmpx);
-                    inu++;
-                }
+                        tmpx.setNrWpkpir(inu);
+                        dokvatmc.add(tmpx);
+                        inu++;
+                    }
                 }
             }
             if (wpisView.getMiesiacOd() != null) {
@@ -153,7 +155,7 @@ public class DokTabView implements Serializable {
             }
         }
     }
-    
+
     public void edit(RowEditEvent ex) {
         try {
             //sformatuj();
@@ -166,58 +168,62 @@ public class DokTabView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
+
     public void destroy(Dok selDok) {
         dokdoUsuniecia = new Dok();
         dokdoUsuniecia = selDok;
-        
+
     }
-    
+
     public void destroy2() {
 //        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         //       Principal principal = request.getUserPrincipal();
 //        if(request.isUserInRole("Administrator")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        boolean tempX = sprawdzczyniemarozrachunkow(dokdoUsuniecia);
-        if((sprawdzczyniemarozrachunkow(dokdoUsuniecia)==true)&&(!dokdoUsuniecia.getTypdokumentu().equals("AMO"))){
-             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("AMO"))) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw środek z ewidencji", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-        try {
-            obiektDOKjsfSel.remove(dokdoUsuniecia);
-            obiektDOKmrjsfSel.remove(dokdoUsuniecia);
-            dokDAO.destroy(dokdoUsuniecia);
-        } catch (Exception e) {
-            System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
-        }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+            try {
+                obiektDOKjsfSel.remove(dokdoUsuniecia);
+                obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                dokDAO.destroy(dokdoUsuniecia);
+            } catch (Exception e) {
+                System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
+            }
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 //    } else {
 //            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
 //          FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
 //     }
-    }}
+        }
+    }
 
-
-    
-    private boolean sprawdzczyniemarozrachunkow(Dok dok){
+    private boolean sprawdzczyniemarozrachunkow(Dok dok) {
         ArrayList<Stornodoch> temp = new ArrayList<>();
         try {
             temp = dok.getStorno();
-            if (temp.size()>0){
+            if (temp.size() > 0) {
                 return true;
             } else {
                 return false;
             }
-            
-        } catch (Exception e){
+
+        } catch (Exception e) {
             return false;
         }
-        
+
     }
-    
-    
+
+    private boolean sprawdzczytoniesrodek(Dok dok) {
+        return sTRDAO.findSTR(dok.getPodatnik(), dok.getNetto(), dok.getNrWlDk());
+    }
+
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
@@ -229,126 +235,127 @@ public class DokTabView implements Serializable {
         podatekView.sprawozdaniePodatkowe();
         RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
     }
-    
+
     public void aktualizujObrotyX(ActionEvent e) {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
-     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
+
+    public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
         RequestContext.getCurrentInstance().update("form:labelstorno");
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-          try {
-                StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
-                setButton(false);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
-            } catch (Exception ef) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
-                setButton(true);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
-            }
-       
-     }
-     public void aktualizujObroty(AjaxBehaviorEvent e) {
+        try {
+            StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+            setButton(false);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
+        } catch (Exception ef) {
+            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
+            setButton(true);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
+        }
+
+    }
+
+    public void aktualizujObroty(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
+
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
         RequestContext ctx = null;
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-        
+
     }
-    
-   
-    
+
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
     }
-    
+
     public void setObiektDOKjsf(List<Dok> obiektDOKjsf) {
         this.obiektDOKjsf = obiektDOKjsf;
     }
-    
+
     public List<Dok> getObiektDOKjsfSel() {
         return obiektDOKjsfSel;
     }
-    
+
     public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
         this.obiektDOKjsfSel = obiektDOKjsfSel;
     }
-    
+
     public List<Dok> getObiektDOKmrjsfSel() {
         return obiektDOKmrjsfSel;
     }
-    
+
     public void setObiektDOKmrjsfSel(List<Dok> obiektDOKmrjsfSel) {
         this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
     }
-    
+
     public List<Dok> getObiektDOKmrjsfSelX() {
         return obiektDOKmrjsfSelX;
     }
-    
+
     public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
         this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
-    
+
     public WpisView getWpisView() {
         return wpisView;
     }
-    
+
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+
     public DokDAO getDokDAO() {
         return dokDAO;
     }
-    
+
     public void setDokDAO(DokDAO dokDAO) {
         this.dokDAO = dokDAO;
     }
-    
+
     public Dok getSelDokument() {
         return selDokument;
     }
-    
+
     public void setSelDokument(Dok selDokument) {
         this.selDokument = selDokument;
     }
-    
+
     public Dok getDokdoUsuniecia() {
         return dokdoUsuniecia;
     }
-    
+
     public void setDokdoUsuniecia(Dok dokdoUsuniecia) {
         DokTabView.dokdoUsuniecia = dokdoUsuniecia;
     }
-    
+
     public List<Dok> getObiektDOKjsfSelRok() {
         return obiektDOKjsfSelRok;
     }
-    
+
     public void setObiektDOKjsfSelRok(List<Dok> obiektDOKjsfSelRok) {
         this.obiektDOKjsfSelRok = obiektDOKjsfSelRok;
     }
-    
+
     public List<Dok> getDokvatmc() {
         return dokvatmc;
     }
-    
+
     public void setDokvatmc(List<Dok> dokvatmc) {
         this.dokvatmc = dokvatmc;
     }
-    
+
     public List<Dok> getNiezaplacone() {
         return niezaplacone;
     }
-    
+
     public void setNiezaplacone(List<Dok> niezaplacone) {
         this.niezaplacone = niezaplacone;
     }
@@ -368,8 +375,4 @@ public class DokTabView implements Serializable {
     public void setButton(boolean button) {
         this.button = button;
     }
-
-  
-    
-    
 }

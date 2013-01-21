@@ -687,6 +687,7 @@ public class DokView implements Serializable{
                    selectedSTR.setTyp(typKST);
                    selectedSTR.setUmorzeniepoczatkowe(umorzeniepoczatkowe);
                    selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+                   selectedSTR.setNrwldokzak(selDokument.getNrWlDk());
                    dodajSTR();
                    
             } catch (Exception e){
@@ -838,6 +839,7 @@ public class DokView implements Serializable{
     }
     
     public void dodajNowyWpisAutomatycznyStorno() {
+            selDokument = new Dok();
             double kwotastorno = 0.0;
             ArrayList<Dok> lista = new ArrayList<>();
             Integer rok = wpisView.getRokWpisu();

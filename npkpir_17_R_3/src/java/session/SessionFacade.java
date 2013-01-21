@@ -15,6 +15,7 @@ import entity.Podatnik;
 import entity.Podstawki;
 import entity.Rodzajedok;
 import entity.Sesja;
+import entity.SrodekTrw;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Zobowiazanie;
@@ -125,41 +126,62 @@ public class SessionFacade<T> {
     }
 
     public StornoDok findStornoDok(Integer rok, String mc, String podatnik) {
-        StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik",podatnik).getSingleResult();
+        StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getSingleResult();
         return tmp;
     }
-    
-     public List<StornoDok> findStornoDok(Integer rok, String podatnik) {
-        List<StornoDok> tmp =  em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik",podatnik).getResultList();
+
+    public List<StornoDok> findStornoDok(Integer rok, String podatnik) {
+        List<StornoDok> tmp = em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();
         return tmp;
     }
-    
-     public Dok poprzednik(Integer rok, Integer mc) throws Exception{
+
+    public Dok poprzednik(Integer rok, Integer mc) throws Exception {
         String mcS;
-        if(mc<9){
-            mcS="0"+mc;
+        if (mc < 9) {
+            mcS = "0" + mc;
         } else {
             mcS = String.valueOf(mc);
         }
         Dok wynik = null;
         try {
-        wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR",rok).setParameter("pkpirM",mcS).setParameter("opis","umorzenie za miesiac").getSingleResult();
-        } catch (Exception e){
+            wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR", rok).setParameter("pkpirM", mcS).setParameter("opis", "umorzenie za miesiac").getSingleResult();
+        } catch (Exception e) {
             System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;
         }
-            System.out.println("Znaleziono poprzednika - DokFacade");
-            return wynik;
-        }
-   
-    public Rodzajedok findRodzajedok(String skrot){
-        Rodzajedok wynik = null;
-        wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot",skrot).getSingleResult();
+        System.out.println("Znaleziono poprzednika - DokFacade");
         return wynik;
     }
-    
-    public List<Amodok> findAmodok(String podatnik){
+
+    public Rodzajedok findRodzajedok(String skrot) {
+        Rodzajedok wynik = null;
+        wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot", skrot).getSingleResult();
+        return wynik;
+    }
+
+    public List<Amodok> findAmodok(String podatnik) {
         List<Amodok> tmp = em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         return tmp;
+    }
+
+    public Dok findStornoDok(String rok, String mc, String podatnik) {
+        Dok wynik = null;
+        try {
+            wynik = (Dok) em.createNamedQuery("Dok.findStornoDok").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", podatnik).setParameter("opis", "storno za miesiac").getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Nie znaleziono storno dok - DokFacade");
+            return null;
+        }
+        System.out.println("Znaleziono storno dok - DokFacade");
+        return wynik;
+    }
+
+    public boolean findSTR(String podatnik, Double netto, String numer) {
+        try {
+            em.createNamedQuery("SrodekTrw.findSTR").setParameter("podatnik", podatnik).setParameter("netto", netto).setParameter("podatnik", podatnik).setParameter("nrwldokzak", numer).getSingleResult();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

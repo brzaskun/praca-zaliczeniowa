@@ -89,4 +89,9 @@ public class DokDAO extends DAO implements Serializable {
         Dok wynik = lista.get(lista.size()-1);
         return wynik;
     }
+    
+    public void destroyStornoDok(String rok, String mc, String podatnik) {
+        Dok tmp = (Dok) dokFacade.findStornoDok(rok, mc, podatnik);
+        dokFacade.remove(tmp);
+    }
 }
