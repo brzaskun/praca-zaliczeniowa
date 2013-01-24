@@ -68,6 +68,8 @@ public class DokTabView implements Serializable {
     private STRDAO sTRDAO;
     private boolean button;
     private List<Dok> filteredList;
+    private List<Dok> filteredListniezapl;
+    private List<Dok> filteredListzapl;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -86,6 +88,8 @@ public class DokTabView implements Serializable {
         zaplacone = new ArrayList<>();
         //lista porzechowujaca przefiltrowane widoki
         filteredList = new ArrayList<>();
+        filteredListniezapl = new ArrayList<>();
+        filteredListzapl = new ArrayList<>();
 
     }
 
@@ -156,6 +160,9 @@ public class DokTabView implements Serializable {
                     }
                 }
             }
+            filteredList.addAll(obiektDOKmrjsfSelX);
+            filteredListniezapl.addAll(niezaplacone);
+            filteredListzapl.addAll(zaplacone);
         }
     }
 
@@ -391,6 +398,22 @@ public class DokTabView implements Serializable {
 
     public void setFilteredList(List<Dok> filteredList) {
         this.filteredList = filteredList;
+    }
+
+    public List<Dok> getFilteredListniezapl() {
+        return filteredListniezapl;
+    }
+
+    public void setFilteredListniezapl(List<Dok> filteredListniezapl) {
+        this.filteredListniezapl = filteredListniezapl;
+    }
+
+    public List<Dok> getFilteredListzapl() {
+        return filteredListzapl;
+    }
+
+    public void setFilteredListzapl(List<Dok> filteredListzapl) {
+        this.filteredListzapl = filteredListzapl;
     }
     
     
