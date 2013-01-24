@@ -188,16 +188,47 @@ public class PlatnosciView implements Serializable{
     
     public void przeliczodsetkiPIT4(int opcja){
         String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzpit4();
-        Date datatmp51 = selectedZob.getPit4zapl();
+        Date datatmpPIT4 = selectedZob.getPit4zapl();
         Date dataod;
         Date datado;
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             dataod = (Date) formatter.parse(datatmp);
-            selectedZob.setPit4ods(odsetki(dataod, datatmp51,selectedZob.getPit4().toString()));
-            selectedZob.setPit5ods(odsetki(dataod, datatmp51,selectedZob.getPit5().toString()));
+            selectedZob.setPit4ods(odsetki(dataod, datatmpPIT4,selectedZob.getPit4().toString()));
             selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
+        } catch (ParseException e) {
+            System.out.println("Exception :" + e);
+        }
+        try{
+            if(opcja==1){
+                platnosciDAO.dodaj(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            } else {
+                platnosciDAO.edit(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            }
+        } catch (Exception e){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+        }
+    }
+    
+    public void przeliczodsetkiPIT5(int opcja){
+        String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzpit4();
+        Date datatmpPIT5 = selectedZob.getPit5zapl();
+        Date dataod;
+        Date datado;
+        try {
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            dataod = (Date) formatter.parse(datatmp);
+            selectedZob.setPit5ods(odsetki(dataod, datatmpPIT5,selectedZob.getPit5().toString()));
             selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
