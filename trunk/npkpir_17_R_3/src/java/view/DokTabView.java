@@ -67,6 +67,7 @@ public class DokTabView implements Serializable {
     @Inject
     private STRDAO sTRDAO;
     private boolean button;
+    private List<Dok> filteredList;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -83,6 +84,8 @@ public class DokTabView implements Serializable {
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
+        //lista porzechowujaca przefiltrowane widoki
+        filteredList = new ArrayList<>();
 
     }
 
@@ -381,4 +384,14 @@ public class DokTabView implements Serializable {
     public void setButton(boolean button) {
         this.button = button;
     }
+
+    public List<Dok> getFilteredList() {
+        return filteredList;
+    }
+
+    public void setFilteredList(List<Dok> filteredList) {
+        this.filteredList = filteredList;
+    }
+    
+    
 }
