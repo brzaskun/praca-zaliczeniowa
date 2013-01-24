@@ -41,7 +41,7 @@ public class Zamknietemiesiace implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "podatnik")
-    private int podatnik;
+    private String podatnik;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -66,13 +66,15 @@ public class Zamknietemiesiace implements Serializable {
         this.id = id;
     }
 
-    public int getPodatnik() {
+    public String getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(int podatnik) {
+    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+   
 
     public ArrayList<Okresrozliczeniowy> getOkres() {
         return okres;

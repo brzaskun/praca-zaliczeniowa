@@ -6,6 +6,7 @@ package dao;
 
 import entity.Zamknietemiesiace;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -24,5 +25,11 @@ public class ZamknietemiesiaceDAO extends DAO implements Serializable{
         super(Zamknietemiesiace.class);
     }
    
-   
+   public Zamknietemiesiace findZM(String podatnik){
+       try {
+         return  zamknietemiesiaceFacade.findZM(podatnik);
+       } catch (Exception e){
+        return null;
+       }
+   }
 }

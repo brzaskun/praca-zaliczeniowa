@@ -18,6 +18,7 @@ import entity.Sesja;
 import entity.SrodekTrw;
 import entity.StornoDok;
 import entity.Uz;
+import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -182,6 +183,14 @@ public class SessionFacade<T> {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+    
+    public Zamknietemiesiace findZM(String podatnik){
+          try {
+            return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
     }
 }
