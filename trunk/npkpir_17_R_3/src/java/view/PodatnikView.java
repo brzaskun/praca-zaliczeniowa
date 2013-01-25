@@ -6,7 +6,6 @@ package view;
 
 import dao.DokDAO;
 import dao.PodatnikDAO;
-import dao.RodzajedokDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -19,7 +18,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
-import mail.Mail;
 import msg.Msg;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
@@ -126,14 +123,14 @@ public class PodatnikView implements Serializable{
          sformatuj();
              try {
                  podatnikDAO.dodaj(selected);
-                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika.", selected.getNazwapelna());
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika-klienta.", selected.getNazwapelna());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
-                 Mail.nadajMail(selected.getEmail(), selected.getNazwapelna());
                  
              } catch (Exception e) {
                  System.out.println(e.getStackTrace().toString());
-                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim NIP już istnieje.", e.getStackTrace().toString());
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim NIP już istnieje.Probuje edycji", e.getStackTrace().toString());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
+                 podatnikDAO.edit(selected);
              }
     }
    

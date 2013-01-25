@@ -37,4 +37,4 @@
   </jsp-config>
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>
-</glassfish-web-app>
+  </glassfish-web-app>

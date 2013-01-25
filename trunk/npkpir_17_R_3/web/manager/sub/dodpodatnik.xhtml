@@ -16,7 +16,7 @@
                 <f:validateLength minimum="10"/>
             </h:inputText>
             <h:outputLabel value="nazwa pełna"/>
-            <h:inputText value="#{podatnikView.selected.nazwapelna}" required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!"/>
+            <h:inputText value="#{podatnikView.selected.nazwapelna}" required="true" requiredMessage="Nazwa pełna - jest wymagana, uzupełnij!" maxlength="11"/>
             <h:outputLabel value="nazwisko"/>
             <h:inputText value="#{podatnikView.selected.nazwisko}" required="true" requiredMessage="Nazwisko - jest wymagane, uzupełnij!"/>
             <h:outputLabel value="imię"/>
@@ -69,7 +69,7 @@
             <h:outputLabel value="urząd skarbowy"/>
             <h:inputText value="#{podatnikView.selected.urzadskarbowy}" style="width: 400px" required="true" requiredMessage="Urząd - jest wymagany, uzupełnij!"/>
         </p:panelGrid>
-        <p:commandButton action="#{podatnikView.dodajNowyWpis()}" value="dodaj podatnika" update="@form" type="submit"/>
+        <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit"/>
     </p:outputPanel>
 </ui:composition>   
 

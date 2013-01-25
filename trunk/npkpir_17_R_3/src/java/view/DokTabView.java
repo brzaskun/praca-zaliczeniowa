@@ -200,6 +200,7 @@ public class DokTabView implements Serializable {
             try {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                filteredList.remove(dokdoUsuniecia);
                 dokDAO.destroy(dokdoUsuniecia);
             } catch (Exception e) {
                 System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
