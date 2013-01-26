@@ -32,19 +32,19 @@
                         </p:column>
                     </p:panelGrid>
                 </p:panel>
-                <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 2% 0% 0% 40%; width: 150px">
+                <p:panel style="margin: 2% 0% 0% 40%; width: 362px">
                     <f:facet name="header">
-                        <h:outputLabel value="Prosze wpisać nazwę i haslo uzytkownika"/>
+                        <h:outputLabel value="Prosze wpisać login i hasło uzytkownika"/>
                     </f:facet>
                     <p:focus id="focus" context="logowaniepanel"/>
-                    <p:panelGrid id="logowaniepanel" columns="2">
+                    <p:panelGrid id="logowaniepanel" columns="2" style="margin: 0% 0% 0% 3%">
                         <h:outputText value="login"/>
                         <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" requiredMessage="Wpisz login!" autocomplete="true"/>
                         <h:outputText value="hasło"/>
                         <h:inputSecret value="#{Logowanie.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true" />
                     </p:panelGrid>
                     <br/>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="2" style="margin: 0% 0% 0% 10%">
                         <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
                         <p:commandButton value="Wyloguj" action="#{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>
                     </p:panelGrid>

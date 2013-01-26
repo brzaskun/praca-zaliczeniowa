@@ -32,11 +32,11 @@ public class Mail {
             message.setFrom(new InternetAddress("teleputa@wp.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
-            message.setSubject("Potwierdzenie rejestracji w serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman");
             message.setText("Szanowny Kliencie,"
                     + "\n\nWłaśnie zarejestrowałeś się w naszym serwisie z loginem: \n    "+login
-                    + "\nZe względów bezpieczeństwa Twoje konto wymaga jeszcze aktywacji dokonanej przez administratora."
-                    + "\nMoże to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością."
+                    + "\nZe względów bezpieczeństwa Twoje konto wymaga jeszcze aktywacji przez administratora."
+                    + "\nMoże to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową."
                     + "\n\nZ poważaniem"
                     + "\n\nObsługa serwisu");
 
@@ -63,8 +63,9 @@ public class Mail {
             message.setText("Szanowny Kliencie,"
                     + "\n\nAdministrator własnie nadał ci uprawnienia "+uprawnienia
                     + "\nw naszym serwisie z loginem: \n    "+login+"."
-                    + "\nOd teraz możesz logować się do naszego serwisu http://213.136.236.104:8080"
+                    + "\nOd teraz możesz logować się do naszego serwisu pod adresem http://213.136.236.104:8080"
                     + "\nużywając wybranego loginu: "+login+" i wybranego hasła."
+                    + "\n\nW przypadku zagubienia hasła wybierz odpowiednią opcję na stronie serwisu."
                     + "\n\nZ poważaniem"
                     + "\n\nObsługa serwisu");
 
@@ -93,7 +94,7 @@ public class Mail {
                     + "\nw naszym serwisie"
                     + "\nNowe hasło brzmi po prostu - 'haslo'"
                     + "\nTeraz powinieneś zalogować się do naszego serwisu http://213.136.236.104:8080"
-                    + "\nużywając swojego loginu: "+login+" i hasła nadanego przez administratora"
+                    + "\nużywając swojego loginu: "+login+" i nowego hasła nadanego przez administratora"
                     + "\noraz zmienić je niezwłocznie(!!!) na swoje własne."
                     + "\n\nZ poważaniem"
                     + "\n\nObsługa serwisu");
