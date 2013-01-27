@@ -518,6 +518,7 @@ public class PodatnikView implements Serializable{
          selected.setFax("000000000");
      }
      
+     
      public void updateDokKsi(ValueChangeListener ex){
          RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
      }
