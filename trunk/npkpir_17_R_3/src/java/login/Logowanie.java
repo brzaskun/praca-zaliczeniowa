@@ -138,7 +138,9 @@ public class Logowanie implements Serializable{
         wpisView.setWprowadzil(wprowadzil);
         wpisView.setRokWpisu(wpis.getRokWpisu());
         wpisView.setMiesiacWpisu(wpis.getMiesiacWpisu());
+        if(!wprowadzil.getUprawnienia().equals("Guest")){
         wpisView.setPodatnikWpisu(wpis.getPodatnikWpisu());
+        }
     }
     
      public String getUzytk() {
