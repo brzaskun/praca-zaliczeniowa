@@ -4,12 +4,14 @@
  */
 package view;
 
-import embeddable.*;
+import dao.WpisDAO;
 import entity.Uz;
+import entity.Wpis;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -26,18 +28,10 @@ public class WpisView implements Serializable{
     private static String miesiacOd;
     private static String miesiacDo;
     private boolean srodkTrw;
+    
+    @Inject private Wpis wpis;
+    @Inject private WpisDAO wpisDAO;
 
-    public boolean isSrodkTrw() {
-        return srodkTrw;
-    }
-
-    public void setSrodkTrw(boolean srodkTrw) {
-        this.srodkTrw = srodkTrw;
-    }
-   
-   
-    public WpisView() {
-    }
     
     @PostConstruct
     private void init(){
@@ -47,6 +41,18 @@ public class WpisView implements Serializable{
         }
     }
 
+    public void wpisAktualizuj(){
+        findWpis();
+    }
+    
+    private void findWpis(){
+        wpis = wpisDAO.find(wprowadzil.getLogin());
+        wpis.setPodatnikWpisu(podatnikWpisu);
+        wpis.setMiesiacWpisu(miesiacWpisu);
+        wpis.setRokWpisu(rokWpisu);
+        wpisDAO.edit(wpis);
+    }
+    
     public String getPodatnikWpisu() {
         return podatnikWpisu;
     }
@@ -62,7 +68,6 @@ public class WpisView implements Serializable{
     public static void setPodatnikWpisuS(String podatnikWpisu) {
         WpisView.podatnikWpisu = podatnikWpisu;
     }
-   
     
     public Integer getRokWpisu() {
         return rokWpisu;
@@ -104,5 +109,11 @@ public class WpisView implements Serializable{
         WpisView.miesiacDo = miesiacDo;
     }
 
-   
+    public boolean isSrodkTrw() {
+        return srodkTrw;
+    }
+
+    public void setSrodkTrw(boolean srodkTrw) {
+        this.srodkTrw = srodkTrw;
+    }
 }

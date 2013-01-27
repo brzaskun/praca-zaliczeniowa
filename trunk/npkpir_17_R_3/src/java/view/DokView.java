@@ -26,6 +26,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.StornoDok;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -982,12 +983,16 @@ public class DokView implements Serializable{
         }
     }
    
-    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
-        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-
+    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVATzest.xhtml");
     }
  
+    public void aktualizujPit(AjaxBehaviorEvent e) throws IOException {
+       FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaPit.xhtml");
+        
+    }
+
+    
     public void dodajSTR(){
        FacesContext facesContext = FacesContext.getCurrentInstance();
         Application application = facesContext.getApplication();

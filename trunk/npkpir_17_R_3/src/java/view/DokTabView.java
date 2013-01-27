@@ -160,9 +160,11 @@ public class DokTabView implements Serializable {
                     }
                 }
             }
+            try{
             filteredList.addAll(obiektDOKmrjsfSelX);
             filteredListniezapl.addAll(niezaplacone);
             filteredListzapl.addAll(zaplacone);
+            } catch (Exception e){}
         }
     }
 
@@ -236,15 +238,8 @@ public class DokTabView implements Serializable {
     }
 
     //usun jak wciaz dziala bez nich
-    public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Application application = facesContext.getApplication();
-        ValueBinding binding = application.createValueBinding("#{PodatekView}");
-        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
-        podatekView.sprawozdaniePodatkowe();
-        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
+        public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaTablica.xhtml");
     }
 
     public void aktualizujObrotyX(ActionEvent e) {

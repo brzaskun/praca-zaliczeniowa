@@ -15,9 +15,9 @@ import entity.Podatnik;
 import entity.Podstawki;
 import entity.Rodzajedok;
 import entity.Sesja;
-import entity.SrodekTrw;
 import entity.StornoDok;
 import entity.Uz;
+import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import java.util.List;
@@ -69,6 +69,11 @@ public class SessionFacade<T> {
 
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
+        return tmp;
+    }
+    
+    public List<Pitpoz> findPitpodatnik(String rok, String pod) {
+        List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
 
@@ -191,6 +196,17 @@ public class SessionFacade<T> {
             return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public Wpis findWpis(String login) {
+        try {
+            return (Wpis) em.createNamedQuery("Wpis.findByWprowadzil").setParameter("wprowadzil", login).getSingleResult();
+        } catch (Exception e) {
+            Wpis wpis = new Wpis();
+            wpis.setWprowadzil(login);
+            getEntityManager().persist(wpis);
+            return wpis;
         }
     }
 }

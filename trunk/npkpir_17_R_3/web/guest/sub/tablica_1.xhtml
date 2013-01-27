@@ -28,7 +28,7 @@
                 </p:selectOneMenu>
                     </p:column>
                     <p:column>
-                <p:commandButton action="/guest/guestTablica.xhtml?faces-redirect=true" value="wybierz" accesskey="s" image="ui-icon-clock" style="height: 30px"/>
+                <p:commandButton action="/guest/guestTablica.xhtml?faces-redirect=true" value="wybierz" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" image="ui-icon-clock" style="height: 30px"/>
                     </p:column>
                 </p:panelGrid>
               <f:facet name="footer">
