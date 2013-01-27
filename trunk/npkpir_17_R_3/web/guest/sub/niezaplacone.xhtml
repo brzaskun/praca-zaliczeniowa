@@ -25,8 +25,8 @@
     </p:dialog>
     <p:panel>
         <f:facet name="header">
-            <p:outputLabel value="Ostatnio wprowadzono storno za miesiąc #{stornoDokView.policzdokumentystorno()}"/><br/>
-            <p:outputLabel value="Moża księgować jedynie płatności późniejsze niż #{stornoDokView.policzdokumentystorno()}/#{WpisView.rokWpisu}"/>
+            <h:outputText value="Ostatnio wprowadzono storno za miesiąc #{stornoDokView.policzdokumentystorno()}"/><br/>
+            <h:outputText value="Moża księgować jedynie płatności późniejsze niż #{stornoDokView.policzdokumentystorno()}/#{WpisView.rokWpisu}"/>
         </f:facet>
    </p:panel>
     <p:outputPanel id="wrapper">
@@ -176,7 +176,7 @@
     </p:outputPanel>
     <p:panel>
         <f:facet name="footer">
-            <p:outputLabel id="labelstorno" value="Tu wprowadzasz płatności za miesiac #{WpisView.miesiacWpisu} i rok #{WpisView.rokWpisu}"/>
+            <h:outputText id="labelstorno" value="Tu wprowadzasz płatności za miesiac #{WpisView.miesiacWpisu} i rok #{WpisView.rokWpisu}"/>
         </f:facet>
    </p:panel>
     
