@@ -6,10 +6,12 @@ package view;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
@@ -36,9 +38,8 @@ public class GuestView implements Serializable{
         podatnik = podDAO.find(podatnikString);
     }
 
-     public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("guestTablica.xhtml");
     }
 
     public static String getPodatnikString() {
