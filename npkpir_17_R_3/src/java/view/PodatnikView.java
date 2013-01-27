@@ -507,7 +507,16 @@ public class PodatnikView implements Serializable{
         
      }
  
-      
+     public void peseldataurodzenia(){
+         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+         String skrot = params.get("form:pesel");
+         String tmp = "19"+skrot.substring(0,2)+"-"+skrot.substring(2,4)+"-"+skrot.substring(4,6);
+         selected.setDataurodzenia(tmp);
+     } 
+     
+     public void wypelnijfax(){
+         selected.setFax("000000000");
+     }
      
      public void updateDokKsi(ValueChangeListener ex){
          RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
