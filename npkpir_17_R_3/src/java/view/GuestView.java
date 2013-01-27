@@ -39,7 +39,9 @@ public class GuestView implements Serializable{
     }
 
      public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("guestTablica.xhtml");
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+        
     }
 
     public static String getPodatnikString() {
