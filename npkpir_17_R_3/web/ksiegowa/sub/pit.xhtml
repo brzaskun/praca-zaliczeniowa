@@ -10,7 +10,7 @@
     <p:panelGrid columns="4" style="width: 600px">
         <h:form id="formpi" style="width: 400px" >
             <h:outputText value="wprowadzone PIT-y: "/><br/>
-            <p:dataTable value="#{pitDAO.downloaded}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}">
+            <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}">
                 <p:ajax event="rowSelect" update=":formpi2:zestawieniepitview" global="false"/>
                 <p:column headerText="okres rozliczeniowy: ">
                 <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/><br/>

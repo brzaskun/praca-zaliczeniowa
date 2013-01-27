@@ -7,27 +7,27 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="200" header="Opcje" collapsible="true" resizable="true">
-       <h:form id="westWpis">
+        <h:form id="westWpis">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
                 <p:panelGrid columns="1" style="margin-left: 0%">
-                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
-                    <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
-                </p:selectOneMenu>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                    <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
-                </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                    <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
-                </p:selectOneMenu>
-                <h:commandButton value="Ok" rendered="false"/>
-</p:panelGrid>
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
+                        <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                        <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:param name="rokWpisu" value="2012" />
+                        <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <f:selectItems value="#{Mce.mceList}"/>
+                        <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    </p:selectOneMenu>
+                    <h:commandButton value="Ok" rendered="false"/>
+                </p:panelGrid>
             </p:panel >
-                 <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
+            <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -35,16 +35,16 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
-           <p:panel header="linki">
-         <h:form>
+        </h:form>
+        <p:panel header="linki">
+            <h:form>
                 <p:panelGrid columns="1">
-                     <p:menu >
+                    <p:menu >
                         <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="tablica"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  
-                        
                         <p:menuitem value="obroty"  outcome="obroty" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="srodki"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="klienci" outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
@@ -53,12 +53,9 @@
                         <p:menuitem value="vatzestawienie"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="zamkniecie"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu> 
-             
                 </p:panelGrid>
             </h:form>
         </p:panel>
-            
-        </h:form>
-        </p:layoutUnit>
+    </p:layoutUnit>
 </ui:composition>   
 

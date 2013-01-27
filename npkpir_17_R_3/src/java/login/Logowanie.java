@@ -7,12 +7,14 @@ package login;
 import dao.PodatnikDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
+import dao.WpisDAO;
 import entity.Sesja;
+import entity.Uz;
+import entity.Wpis;
 import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -21,7 +23,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import view.GuestView;
 import view.SesjaView;
 import view.WpisView;
@@ -36,14 +37,13 @@ public class Logowanie implements Serializable{
  
     private String uzytk;
     private String haslo;
-    @Inject
-    UzDAO uzDAO;
-    @Inject
-    PodatnikDAO podatnikDAO;
-    @Inject
-    private Sesja sesja;
-    @Inject
-    private SesjaDAO sesjaDAO;
+    @Inject UzDAO uzDAO;
+    @Inject PodatnikDAO podatnikDAO;
+    @Inject private Sesja sesja;
+    @Inject private SesjaDAO sesjaDAO;
+    @Inject private WpisDAO wpisDAO;
+    @Inject private Wpis wpis;
+    private WpisView wpisView;
     
     
  
@@ -113,13 +113,13 @@ public class Logowanie implements Serializable{
                 } catch (Exception e) {
                     sesjaDAO.edit(sesja);
                 }
-            //Add the welcome message to the faces context
+            findWpis();
             return navto;
         } catch (ServletException e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            return "failure";
         }
-        return "failure";
     }
  
     public void logout(){
@@ -128,6 +128,17 @@ public class Logowanie implements Serializable{
             session.invalidate();
         }
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
+    }
+    
+    //wyszukuje dane wybranego podatnika i miesiaca, zeby je wyswietlic
+     private void findWpis(){
+        wpisView = new WpisView();
+        wpis = wpisDAO.find(uzytk);
+        Uz wprowadzil = uzDAO.find(uzytk);
+        wpisView.setWprowadzil(wprowadzil);
+        wpisView.setRokWpisu(wpis.getRokWpisu());
+        wpisView.setMiesiacWpisu(wpis.getMiesiacWpisu());
+        wpisView.setPodatnikWpisu(wpis.getPodatnikWpisu());
     }
     
      public String getUzytk() {

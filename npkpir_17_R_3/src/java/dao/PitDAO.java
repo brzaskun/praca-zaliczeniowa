@@ -6,6 +6,7 @@ package dao;
 
 import entity.Pitpoz;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -26,5 +27,9 @@ public class PitDAO extends DAO implements Serializable {
 
     public Pitpoz find(String rok, String mc, String pod) {
         return pitpozFacade.findPitpoz(rok, mc, pod);
+    }
+    
+    public List<Pitpoz> findPitPod(String rok, String pod) {
+        return pitpozFacade.findPitpodatnik(rok,pod);
     }
 }
