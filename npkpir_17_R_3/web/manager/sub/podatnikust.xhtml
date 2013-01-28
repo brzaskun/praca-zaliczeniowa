@@ -34,8 +34,11 @@
                     <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
                     <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
                         <f:selectItem itemValue="zasady ogólne"/> 
+                        <f:selectItem itemValue="zasady ogólne bez VAT"/>
                         <f:selectItem itemValue="podatek liniowy"/>
+                        <f:selectItem itemValue="podatek liniowy bez VAT"/>
                         <f:selectItem itemValue="ryczałt"/>
+                        <f:selectItem itemValue="ryczałt bez VAT"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
                 <br/>
