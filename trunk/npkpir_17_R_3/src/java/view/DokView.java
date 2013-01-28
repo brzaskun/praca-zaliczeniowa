@@ -984,9 +984,13 @@ public class DokView implements Serializable{
     }
    
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVATzest.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZestawienieRok.xhtml");
     }
  
+    public void aktualizujVAT(AjaxBehaviorEvent e) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVATzest.xhtml");
+    }
+    
     public void aktualizujPit(AjaxBehaviorEvent e) throws IOException {
        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaPit.xhtml");
         
