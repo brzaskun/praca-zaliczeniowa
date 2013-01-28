@@ -90,7 +90,7 @@ public class PlatnosciView implements Serializable{
             RequestContext.getCurrentInstance().update("form:formZob");
         } catch (Exception e) {
            nowezobowiazanie();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe płatnosci.", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe daty przelewów.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("form:formZob:wiad");
         }
