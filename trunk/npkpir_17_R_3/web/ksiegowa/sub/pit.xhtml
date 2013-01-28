@@ -13,54 +13,54 @@
             <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}">
                 <p:ajax event="rowSelect" update=":formpi2:zestawieniepitview" global="false"/>
                 <p:column headerText="okres rozliczeniowy: ">
-                <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/><br/>
+                    <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/><br/>
                 </p:column>
                 <p:column headerText="należna zaliczka: ">
-                <h:outputText value="#{loop.naleznazal}"/>
+                    <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                 </p:column>
             </p:dataTable>
             <p:commandButton value="usun pit"  action="#{ZestawienieView.usun()}" update="@form" style="width: 120px"/>
         </h:form>
         <h:form id="formpi2">
-            <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 300px; height: 670px;">
+            <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
                 <h:outputText value="podatnik"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
                 <h:outputText value="pkpirR"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
                 <h:outputText value="pkpirM"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
-                <h:outputText value="przychody narast.."/><h:outputText value="#{ZestawienieView.biezacyPit.przychody}"><f:convertNumber/></h:outputText>
-                <h:outputText value="koszty narast."/><h:outputText value="#{ZestawienieView.biezacyPit.koszty}"><f:convertNumber/></h:outputText>
-                <h:outputText value="wynik od pocz. rok"/><h:outputText value="#{ZestawienieView.biezacyPit.wynik}"><f:convertNumber/></h:outputText>
-                <h:outputText value="strata z lat ub"/><h:outputText value="#{ZestawienieView.biezacyPit.strata}"><f:convertNumber/></h:outputText>
-                <h:outputText value="ZUS 51"/><h:outputText value="#{ZestawienieView.biezacyPit.zus51}"><f:convertNumber/></h:outputText>
-                <h:outputText value="podstawa opod."/><h:outputText value="#{ZestawienieView.biezacyPit.podstawa}"><f:convertNumber/></h:outputText>
-                <h:outputText value="podatek"/><h:outputText value="#{ZestawienieView.biezacyPit.podatek}"><f:convertNumber/></h:outputText>
-                <h:outputText value="ZUS 52"/><h:outputText value="#{ZestawienieView.biezacyPit.zus52}"><f:convertNumber/></h:outputText>
-                <h:outputText value="podatek należny od pocz rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pododpoczrok}"><f:convertNumber/></h:outputText>
-                <h:outputText value="zaliczki za pop.m-ce"/><h:outputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}"><f:convertNumber/></h:outputText>
-                <h:outputText value="należna zal. za m-c"/><h:outputText value="#{ZestawienieView.biezacyPit.naleznazal}"><f:convertNumber/></h:outputText>
-                <h:outputText value="do zapłaty"/><h:outputText value="#{ZestawienieView.biezacyPit.dozaplaty}"><f:convertNumber/></h:outputText>
+                <h:outputText value="przychody narast.."/><h:outputText value="#{ZestawienieView.biezacyPit.przychody}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="koszty narast."/><h:outputText value="#{ZestawienieView.biezacyPit.koszty}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="wynik od pocz. rok"/><h:outputText value="#{ZestawienieView.biezacyPit.wynik}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="strata z lat ub"/><h:outputText value="#{ZestawienieView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="ZUS 51"/><h:outputText value="#{ZestawienieView.biezacyPit.zus51}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="podstawa opod."/><h:outputText value="#{ZestawienieView.biezacyPit.podstawa}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="podatek"/><h:outputText value="#{ZestawienieView.biezacyPit.podatek}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="ZUS 52"/><h:outputText value="#{ZestawienieView.biezacyPit.zus52}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="podatek należny od pocz rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pododpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="zaliczki za pop.m-ce"/><h:outputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="należna zal. za m-c"/><h:outputText value="#{ZestawienieView.biezacyPit.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                <h:outputText value="do zapłaty"/><h:outputText value="#{ZestawienieView.biezacyPit.dozaplaty}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                 <h:outputText value="termin płatności"/><h:outputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
                 <h:outputText value="przelano"/><h:outputText value="#{ZestawienieView.biezacyPit.przelano}"/>
                 <h:outputText value="zamknięty"/><h:outputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
             </p:panelGrid>
-            </h:form>
-          <h:form id="formpit">
+        </h:form>
+        <h:form id="formpit">
             <p:growl showDetail="true"/>  
             <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px; width: 400px;">
                 <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
                 <h:outputText value="pkpirR"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
                 <h:outputText value="pkpirM"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
-                <h:outputText value="przychody narast.."/><h:inputText value="#{ZestawienieView.biezacyPit.przychody}"><f:convertNumber/></h:inputText>
-                <h:outputText value="koszty narast."/><h:inputText value="#{ZestawienieView.biezacyPit.koszty}"><f:convertNumber/></h:inputText>
-                <h:outputText value="wynik od pocz. rok"/><h:inputText value="#{ZestawienieView.biezacyPit.wynik}"><f:convertNumber/></h:inputText>
-                <h:outputText value="strata z lat ub"/><h:inputText value="#{ZestawienieView.biezacyPit.strata}"><f:convertNumber/></h:inputText>
-                <h:outputText value="ZUS 51"/><h:inputText value="#{ZestawienieView.biezacyPit.zus51}"><f:convertNumber/></h:inputText>
-                <h:outputText value="podstawa opod."/><h:inputText value="#{ZestawienieView.biezacyPit.podstawa}"><f:convertNumber/></h:inputText>
-                <h:outputText value="podatek"/><h:inputText value="#{ZestawienieView.biezacyPit.podatek}"><f:convertNumber/></h:inputText>
-                <h:outputText value="ZUS 52"/><h:inputText value="#{ZestawienieView.biezacyPit.zus52}"><f:convertNumber/></h:inputText>
-                <h:outputText value="podatek należny od pocz rok"/><h:inputText value="#{ZestawienieView.biezacyPit.pododpoczrok}"><f:convertNumber/></h:inputText>
-                <h:outputText value="zaliczki za pop.m-ce"/><h:inputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}"><f:convertNumber/></h:inputText>
-                <h:outputText value="należna zal. za m-c"/><h:inputText value="#{ZestawienieView.biezacyPit.naleznazal}"><f:convertNumber/></h:inputText>
-                <h:outputText value="do zapłaty"/><h:inputText value="#{ZestawienieView.biezacyPit.dozaplaty}"><f:convertNumber/></h:inputText>
+                <h:outputText value="przychody narast.."/><h:inputText value="#{ZestawienieView.biezacyPit.przychody}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="koszty narast."/><h:inputText value="#{ZestawienieView.biezacyPit.koszty}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="wynik od pocz. rok"/><h:inputText value="#{ZestawienieView.biezacyPit.wynik}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="strata z lat ub"/><h:inputText value="#{ZestawienieView.biezacyPit.strata}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="ZUS 51"/><h:inputText value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="podstawa opod."/><h:inputText value="#{ZestawienieView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="podatek"/><h:inputText value="#{ZestawienieView.biezacyPit.podatek}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="ZUS 52"/><h:inputText value="#{ZestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="podatek należny od pocz rok"/><h:inputText value="#{ZestawienieView.biezacyPit.pododpoczrok}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="zaliczki za pop.m-ce"/><h:inputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="należna zal. za m-c"/><h:inputText value="#{ZestawienieView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
+                <h:outputText value="do zapłaty"/><h:inputText value="#{ZestawienieView.biezacyPit.dozaplaty}" style=" font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:inputText>
                 <h:outputText value="termin płatności"/><h:inputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
                 <h:outputText value="przelano"/><h:inputText value="#{ZestawienieView.biezacyPit.przelano}"/>
                 <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
