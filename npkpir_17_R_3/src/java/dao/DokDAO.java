@@ -44,16 +44,7 @@ public class DokDAO extends DAO implements Serializable {
         }
 
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
-        List<Dok> lista = new ArrayList<>();
-        Iterator it;
-        it = downloaded.iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            if (tmp.getPodatnik().equals(pod)) {
-                lista.add(tmp);
-            }
-        }
-        return lista;
+        return dokFacade.findDokPod(pod);
     }
 
     /**

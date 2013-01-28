@@ -209,4 +209,8 @@ public class SessionFacade<T> {
             return wpis;
         }
     }
+
+    public List<Dok> findDokPod(String pod) {
+        return em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList();
+    }
 }
