@@ -166,6 +166,9 @@ public class DokView implements Serializable{
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private static String typdokumentu;
+    //przechowuje wprowadzanego podatnika;
+    private Podatnik podX;
+    private boolean opodatkowanieryczalt;
     
     public DokView() {
         setPokazSTR(false);
@@ -177,8 +180,9 @@ public class DokView implements Serializable{
     private void init(){
         rodzajedokKlienta = new ArrayList<>();
         String pod = wpisView.getPodatnikWpisu();
-        Podatnik podX = podatnikDAO.find(pod);
+        podX = podatnikDAO.find(pod);
         rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
+        opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
     }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
@@ -203,6 +207,9 @@ public class DokView implements Serializable{
         List dopobrania = new ArrayList();
         switch (transakcjiRodzaj) {
             case "ryczałt":
+                dopobrania = kolumna.getKolumnRyczalt();
+                break;
+            case "ryczałt bez VAT":
                 dopobrania = kolumna.getKolumnRyczalt();
                 break;
             case "zakup":
@@ -239,6 +246,7 @@ public class DokView implements Serializable{
     }
 
     public void podepnijEwidencjeVat(String transakcjiRodzaj) {
+        if(opodatkowanieryczalt==false){
         /*wyswietlamy ewidencje VAT*/
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
@@ -336,7 +344,7 @@ public class DokView implements Serializable{
         EVatOpis eVO = new EVatOpis(opis1, opis2, opis3, opis4);
         eVatOpisDAO.dodaj(eVO);
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
-
+        }
     }
     
     public void wygenerujnumerkolejny(){
@@ -619,7 +627,9 @@ public class DokView implements Serializable{
                 }
                 i++;
             }
-            if (!selDokument.isDokumentProsty()) {
+            if (opodatkowanieryczalt==true) {
+                selDokument.setEwidencjaVAT(null);
+            } else if (!selDokument.isDokumentProsty())  {
                 selDokument.setEwidencjaVAT(el);
             } else {
                 selDokument.setEwidencjaVAT(null);
