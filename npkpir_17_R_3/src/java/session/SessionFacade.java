@@ -15,6 +15,7 @@ import entity.Podatnik;
 import entity.Podstawki;
 import entity.Rodzajedok;
 import entity.Sesja;
+import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
@@ -212,5 +213,9 @@ public class SessionFacade<T> {
 
     public List<Dok> findDokPod(String pod) {
         return em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList();
+    }
+
+    public Srodkikst findSrodekkst(String nazwa) {
+        return (Srodkikst) em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
 }

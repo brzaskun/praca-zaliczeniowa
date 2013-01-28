@@ -11,6 +11,7 @@ import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
@@ -25,6 +26,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
+import entity.Srodkikst;
 import entity.StornoDok;
 import java.io.IOException;
 import java.io.Serializable;
@@ -37,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
-import javax.security.auth.message.callback.PrivateKeyCallback;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -152,6 +152,7 @@ public class DokView implements Serializable{
     private String stawkaKST;
     private String typKST;
     private Double umorzeniepoczatkowe;
+    @Inject private Srodkikst srodekkategoria;
    
     //edycja platnosci
     @Inject
@@ -169,6 +170,8 @@ public class DokView implements Serializable{
     //przechowuje wprowadzanego podatnika;
     private Podatnik podX;
     private boolean opodatkowanieryczalt;
+    //pobieram wykaz KŚT
+    @Inject private SrodkikstDAO srodkikstDAO;
     
     public DokView() {
         setPokazSTR(false);
@@ -311,15 +314,25 @@ public class DokView implements Serializable{
             ValueExpression ve = ef.createValueExpression(elContext, bindingA, String.class);
             otX.setValueExpression("value", ve);
             grid1.getChildren().add(otX);
-            HtmlInputText ew = new HtmlInputText();
+            InputNumber ew = new InputNumber();
             final String binding = "#{DokumentView.netto" + i + "}";
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
             ew.setValueExpression("value", ve2);
+            ew.setSymbol(" zł");
+            ew.setSymbolPosition("s");
+            ew.setDecimalPlaces(".");
+            ew.setThousandSeparator(" ");
+            ew.setDecimalPlaces("2");
             grid1.getChildren().add(ew);
-            HtmlInputText ewX = new HtmlInputText();
+            InputNumber ewX = new InputNumber();
             final String bindingX = "#{DokumentView.vat" + i + "}";
             ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
             ewX.setValueExpression("value", ve2X);
+            ewX.setSymbol(" zł");
+            ewX.setSymbolPosition("s");
+            ewX.setDecimalPlaces(".");
+            ewX.setThousandSeparator(" ");
+            ewX.setDecimalPlaces("2");
             grid1.getChildren().add(ewX);
             if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
                 UISelectItems ulista = new UISelectItems();
@@ -422,7 +435,33 @@ public class DokView implements Serializable{
             final String binding3 = "#{DokumentView.symbolKST}";
             ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
             ew3.setValueExpression("value", ve3);
+            ew3.setId("symbolKST");
             grid3.getChildren().add(ew3);
+            
+//            HtmlOutputText ot4 = new HtmlOutputText();
+//            ot4.setValue("wybierz kategoria");
+//            grid3.getChildren().add(ot4);
+            
+//            "id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
+//                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
+//                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
+//                                    effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
+//                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK()">
+//             "                               
+//            AutoComplete autoComplete = new AutoComplete();
+//            final String bindingY = "#{DokumentView.srodekkategoria}";
+//            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
+//            autoComplete.setValueExpression("value", ve2Y);
+//            autoComplete.setVar("p");
+//            autoComplete.setItemLabel("#{p.nazwa}");
+//            autoComplete.setItemValue("#{p.nazwa}");
+//            autoComplete.setMinQueryLength(3);
+//            FacesContext context = FacesContext.getCurrentInstance();
+//            MethodExpression actionListener = context.getApplication().getExpressionFactory()
+//    .createMethodExpression(context.getELContext(), "#{srodkikstView.complete}", null, new Class[] {ActionEvent.class});
+//            autoComplete.setCompleteMethod(actionListener);
+//            grid3.getChildren().add(autoComplete);
+//            
             
             HtmlOutputText ot4 = new HtmlOutputText();
             ot4.setValue("stawka amort");
@@ -431,32 +470,38 @@ public class DokView implements Serializable{
             final String binding4 = "#{DokumentView.stawkaKST}";
             ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
             ew4.setValueExpression("value", ve4);
+            ew4.setId("stawkaKST");
             grid3.getChildren().add(ew4);
             
             HtmlOutputText ot5 = new HtmlOutputText();
             ot5.setValue("dotychczasowe umorzenie");
             grid3.getChildren().add(ot5);
-            HtmlInputText ew5 = new HtmlInputText();
+            InputNumber ew5 = new InputNumber();
             final String binding5 = "#{DokumentView.umorzeniepoczatkowe}";
             ValueExpression ve5 = ef.createValueExpression(elContext, binding5, String.class);
             ew5.setValueExpression("value", ve5);
+            ew5.setSymbol(" zł");
+            ew5.setSymbolPosition("s");
+            ew5.setDecimalPlaces(".");
+            ew5.setThousandSeparator(" ");
+            ew5.setDecimalPlaces("2");
             grid3.getChildren().add(ew5);
             umorzeniepoczatkowe = 0.0;
             
-            UISelectItems ulista = new UISelectItems();
-            List valueList = new ArrayList();
+            UISelectItems ulistaX = new UISelectItems();
+            List valueListX = new ArrayList();
             SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
-            valueList.add(selectItem);
+            valueListX.add(selectItem);
             selectItem = new SelectItem("wyposazenie", "wyposazenie");
-            valueList.add(selectItem);
-            ulista.setValue(valueList);
+            valueListX.add(selectItem);
+            ulistaX.setValue(valueListX);
             final String bindingX = "#{DokumentView.typKST}";
             ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-            HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
-            htmlSelectOneMenu.setValueExpression("value", ve2X);
-            htmlSelectOneMenu.setStyle("min-width: 150px");
-            htmlSelectOneMenu.getChildren().add(ulista);
-            grid3.getChildren().add(htmlSelectOneMenu);
+            HtmlSelectOneMenu htmlSelectOneMenuX = new HtmlSelectOneMenu();
+            htmlSelectOneMenuX.setValueExpression("value", ve2X);
+            htmlSelectOneMenuX.setStyle("min-width: 150px");
+            htmlSelectOneMenuX.getChildren().add(ulistaX);
+            grid3.getChildren().add(htmlSelectOneMenuX);
             
         RequestContext.getCurrentInstance().update("dodWiad:grid3");
     }
@@ -1085,7 +1130,17 @@ public class DokView implements Serializable{
         dokDAO.edit(selDokument);
      }
     
-   
+   public void skopiujSTR(){
+       Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+       Srodkikst tmp = new Srodkikst();
+       tmp.setNazwa(params.get("dodWiad:acForce1_input"));
+       tmp = srodkikstDAO.finsStr(tmp.getNazwa());
+       symbolKST = tmp.getSymbol();
+       stawkaKST = tmp.getStawka();
+       RequestContext.getCurrentInstance().update("dodWiad:symbolKST");
+       RequestContext.getCurrentInstance().update("dodWiad:stawkaKST");
+   }
+     
     public boolean isPokazSTR() {
         return pokazSTR;
     }
@@ -1432,6 +1487,14 @@ public class DokView implements Serializable{
 
     public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
         this.rodzajedokKlienta = rodzajedokKlienta;
+    }
+
+    public Srodkikst getSrodekkategoria() {
+        return srodekkategoria;
+    }
+
+    public void setSrodekkategoria(Srodkikst srodekkategoria) {
+        this.srodekkategoria = srodekkategoria;
     }
 
    
