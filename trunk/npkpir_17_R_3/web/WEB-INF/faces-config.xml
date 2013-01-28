@@ -204,9 +204,11 @@
     </converter>  
     <converter>
         <converter-id>KlientConv</converter-id>  
-        <converter-class>  
-            converter.KlientConv  
-        </converter-class> 
+        <converter-class>converter.KlientConv</converter-class> 
+    </converter>
+     <converter>
+        <converter-id>SrodkiConv</converter-id>  
+        <converter-class>converter.SrodkiConv</converter-class> 
     </converter>
      <converter>
         <converter-id>PodConv</converter-id>  

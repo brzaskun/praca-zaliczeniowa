@@ -12,7 +12,7 @@
    
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
-            <p:focus id="focus" context="polawprowadzania"/>
+            
             <p:growl id="mess_add" />
             <pe:spotlight blocked="false" widgetVar="firstSpotlight" style="border:1px solid red;margin:5px;padding:10px;">
             <p:panelGrid id="polawprowadzania" columns="5" >
@@ -47,6 +47,7 @@
                         </f:facet>
                         <f:param name="passedValue" value="#{p}" />
                     </p:autoComplete>
+                    
                 </h:panelGroup>
                 <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
                     <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
@@ -103,9 +104,33 @@
             </p:panelGrid>
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel >
+                <h:outputText value="wyszukiwarka"/>
+                <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                    var="p" itemLabel="#{p.nazwa}" itemValue="#{p}"  converter="SrodkiConv"
+                                    minQueryLength="3" maxResults="15" maxlength="15" effect="clip"  
+                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" style="width: 250px;" >
+<!--                                    valueChangeListener="{DokumentView.skopiujSTR}">-->
+                        <f:ajax event="blur" execute="@this" />
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane kontrahenta"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna1" value="#{p.nazwa}" />  
+                                <h:outputText value="Stawka " />  
+                                <h:outputText id="nip1" value="#{p.stawka}" />  
+                                <h:outputText value="KŚT " />  
+                                <h:outputText id="klumna1" value="#{p.symbol}" /> 
+                            </h:panelGrid>
+                        </f:facet>
+                        <f:param name="passedValue" value="#{p}" />
+                    </p:autoComplete>
                 <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
                 </p:panelGrid>
+                 
             </p:panel>
+            
             <!--pola ewidencji VAT-->
             <p:panel>
                 <p:panelGrid id="grid1" columns="#{DokumentView.wielkoscopisuewidencji}" binding="#{DokumentView.grid1}">
@@ -242,6 +267,6 @@
             </p:panel>
         </p:panel>
     </p:panel>
-
+ 
 </ui:composition>   
 
