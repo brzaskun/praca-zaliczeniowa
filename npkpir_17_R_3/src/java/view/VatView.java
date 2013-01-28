@@ -72,7 +72,6 @@ public class VatView implements Serializable{
     
     @PostConstruct
     private void init() throws Exception{
-        dokTabView = new DokTabView();
         listadokvat.addAll(dokTabView.getDokvatmc());
         Iterator it;
         it = listadokvat.iterator();

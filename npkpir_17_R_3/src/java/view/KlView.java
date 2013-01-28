@@ -187,7 +187,9 @@ public class KlView implements Serializable{
         }
         }
         if(i==27){
+            try{
            klDAO.dodaj(selected);
+            } catch (Exception es){}
            i=0;
         }
       }      

@@ -9,26 +9,18 @@
             <h:outputText value="Ewidencja VAT podatnika: #{WpisView.podatnikWpisu}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            
             <h:body> 
-               
-                
                 <f:view contentType="text/html">
-            
                     <p:layout fullPage="true">
-                                      
-                        <ui:include src="sub/layoutZestawienie/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutZestawienie/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutZestawienie/west.xhtml"/>   <!-- panel zachodni-->
+                        <ui:include src="sub/layoutVATZestawienie/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutVATZestawienie/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutVATZestawienie/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                         
                             <h:form id="form">
-                                
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/vatzest.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
                         </p:layoutUnit>
-                        
                     </p:layout>
                 </f:view>
             </h:body>
