@@ -172,6 +172,7 @@ public class DokView implements Serializable{
     private boolean opodatkowanieryczalt;
     //pobieram wykaz KŚT
     @Inject private SrodkikstDAO srodkikstDAO;
+    private static String przechowajdatejakdodaje;
     
     public DokView() {
         setPokazSTR(false);
@@ -763,6 +764,24 @@ public class DokView implements Serializable{
     }
     //dodaje wyliczone daty platnosci dla obliczenia pozniej czy trzeba stornowac
     public void dodajdatydlaStorno() throws ParseException{
+        String data;
+            switch (wpisView.getMiesiacWpisu()) {
+                case "01":
+                case "03":
+                case "05":
+                case "07":
+                case "08":
+                case "10":
+                case "12":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+                    break;
+                case "02":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+                    break;
+                default:
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+                    break;
+            }
         String dataWyst = selDokument.getDataWyst();
         String dataPlat = selDokument.getTerminPlatnosci();
         Calendar c = Calendar.getInstance();
@@ -770,6 +789,7 @@ public class DokView implements Serializable{
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datawystawienia = (Date) formatter.parse(dataWyst);
         Date terminplatnosci = (Date) formatter.parse(dataPlat);
+        Date dataujeciawkosztach = (Date) formatter.parse(data);
        if(roznicaDni(datawystawienia,terminplatnosci)==true){
          c.setTime(terminplatnosci);
          c.add(Calendar.DAY_OF_MONTH, 30);
@@ -777,7 +797,7 @@ public class DokView implements Serializable{
          selDokument.setTermin30(nd30);
          selDokument.setTermin90("");
         } else {
-          c.setTime(terminplatnosci);
+          c.setTime(dataujeciawkosztach);
           c.add(Calendar.DAY_OF_MONTH, 90);
           String nd90 = formatter.format(c.getTime());
           selDokument.setTermin90(nd90);
@@ -795,7 +815,7 @@ public class DokView implements Serializable{
                 long wynik=Math.abs(x-y); 
                 wynik=wynik/(1000*60*60*24); 
                 System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
-                if(wynik<=60){
+                if(wynik<=61){
                     return true;
                 } else {
                     return false;
@@ -1020,6 +1040,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:vatm");
         selDokument.setVatR(rok.toString());
         RequestContext.getCurrentInstance().update("dodWiad:vatr");
+        przechowajdatejakdodaje = dataWyst;
     }
     
    
@@ -1141,6 +1162,20 @@ public class DokView implements Serializable{
        RequestContext.getCurrentInstance().update("dodWiad:stawkaKST");
    }
      
+   public void przekierowanieWpisKLienta() throws IOException{
+       FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
+   }
+   
+   public void przekierowanieWpis() throws IOException{
+       FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+   }
+   
+   public void przekierowanieWpisKLientacd() throws IOException{
+       FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+       selDokument.setDataWyst(przechowajdatejakdodaje);
+       RequestContext.getCurrentInstance().update("dodWiad:dataPole");
+   }
+   
     public boolean isPokazSTR() {
         return pokazSTR;
     }
