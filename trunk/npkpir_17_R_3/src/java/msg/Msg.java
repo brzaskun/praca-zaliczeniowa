@@ -34,4 +34,16 @@ public class Msg implements Serializable {
           FacesContext.getCurrentInstance().addMessage(null, msg);
           RequestContext.getCurrentInstance().update(updateelement);
     }
+    
+    public static void msg(String severitylevel,String messagetext){
+          Severity sl = null;
+          switch (severitylevel){
+              case "i": sl = FacesMessage.SEVERITY_INFO;
+                  break;
+              case "e": sl = FacesMessage.SEVERITY_ERROR;
+                  break;
+          }
+          FacesMessage msg = new FacesMessage(sl,messagetext, null);
+          FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }
