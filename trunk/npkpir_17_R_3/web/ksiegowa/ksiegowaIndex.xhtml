@@ -28,7 +28,9 @@
                             <h:form id="dodWiad">
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
                             </h:form>
-
+                            <h:form>
+                                <h:commandButton accesskey="n" actionListener="#{DokumentView.przekierowanieWpisKLienta}" style="visibility: false"/>
+                            </h:form>
                         </p:layoutUnit>
                     </p:layout>
                 </f:view>

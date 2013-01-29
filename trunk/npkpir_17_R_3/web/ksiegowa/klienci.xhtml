@@ -41,6 +41,9 @@
                             </h:form>
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/wykazklientow.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                                <h:form>
+                                    <h:commandButton accesskey="n" actionListener="#{DokumentView.przekierowanieWpisKLientacd}" style="visibility: false"/>
+                            </h:form>
                         </p:layoutUnit>
                         
                     </p:layout>
