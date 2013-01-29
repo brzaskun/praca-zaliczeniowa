@@ -16,9 +16,10 @@ import java.util.Scanner;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -27,7 +28,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean(name="KlView")
-@ViewScoped
+@RequestScoped
 public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
@@ -46,53 +47,6 @@ public class KlView implements Serializable{
     private Integer ilesrodkow;
 
     
-    public Klienci getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Klienci selected) {
-        this.selected = selected;
-    }
-    
-    public Integer getIlesrodkow() {
-        return ilesrodkow;
-    }
-
-    public void setIlesrodkow(Integer ilesrodkow) {
-        this.ilesrodkow = ilesrodkow;
-    }
-
-    public KlienciDAO getKlDAO() {
-        return klDAO;
-    }
-
-    public void setKlDAO(KlienciDAO klDAO) {
-        this.klDAO = klDAO;
-    }
-
-    public KlView() {
-        kl = new ArrayList<>();
-    }
-
-    public static ArrayList<Klienci> getKl() {
-        return kl;
-    }
-    
-    public ArrayList<Klienci> getKl1() {
-        return kl;
-    }
-
-    public Klienci getDoUsuniecia() {
-        return doUsuniecia;
-    }
-
-    public void setDoUsuniecia(Klienci doUsuniecia) {
-        this.doUsuniecia = doUsuniecia;
-    }
-
-    
-    
-    
     @PostConstruct
     private void init(){
         kl.addAll(klDAO.getDownloaded());
@@ -110,12 +64,18 @@ public class KlView implements Serializable{
         formatka = selected.getUlica().substring(0, 1).toUpperCase();
         formatka = formatka.concat(selected.getUlica().substring(2).toLowerCase());
         selected.setUlica(formatka);
+        try {
+            selected.getKrajnazwa();
+        } catch (Exception e){
+            selected.setKrajnazwa("Polska");
+        }
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
         klDAO.dodaj(selected);
-        RequestContext ctx = null;
-        ctx.getCurrentInstance().update("formX:");
+        RequestContext.getCurrentInstance().update("formX:");
+        RequestContext.getCurrentInstance().update("formY:tabelaKontr");
+        Msg.msg("i","Dodano nowego klienta","formX:mess_add");
         } catch (Exception e) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy klient nie zachowany", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -240,24 +200,67 @@ public class KlView implements Serializable{
     }
       
          public void destroy2() {
-//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        //       Principal principal = request.getUserPrincipal();
-//        if(request.isUserInRole("Administrator")){
         try {
             kl.remove(doUsuniecia);
             kl1.remove(doUsuniecia);
             klDAO.destroy(doUsuniecia);
+            RequestContext.getCurrentInstance().update("formY:");
+            Msg.msg("i","Usunięto wskazanego klienta","formX:mess_add");
         } catch (Exception e) {
             System.out.println("Nie usnieto klienta View" + doUsuniecia.getNpelna() + " " + e.toString());
+            Msg.msg("i","Nie usunięto klienta. Wystąpił błąd","formX:mess_add");
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Klient usunięty View", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-//    } else {
-//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
-//          FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//     }
+      
     }
    
+    public void dodajpustegomaila(){
+        selected.setEmail("niema@maila.pl");
+        RequestContext.getCurrentInstance().update("formX:emailpole");
+    }
+         
+    public Klienci getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Klienci selected) {
+        this.selected = selected;
+    }
+    
+    public Integer getIlesrodkow() {
+        return ilesrodkow;
+    }
+
+    public void setIlesrodkow(Integer ilesrodkow) {
+        this.ilesrodkow = ilesrodkow;
+    }
+
+    public KlienciDAO getKlDAO() {
+        return klDAO;
+    }
+
+    public void setKlDAO(KlienciDAO klDAO) {
+        this.klDAO = klDAO;
+    }
+
+    public KlView() {
+        kl = new ArrayList<>();
+    }
+
+    public static ArrayList<Klienci> getKl() {
+        return kl;
+    }
+    
+    public ArrayList<Klienci> getKl1() {
+        return kl;
+    }
+
+    public Klienci getDoUsuniecia() {
+        return doUsuniecia;
+    }
+
+    public void setDoUsuniecia(Klienci doUsuniecia) {
+        this.doUsuniecia = doUsuniecia;
+    }
+
    
 }
