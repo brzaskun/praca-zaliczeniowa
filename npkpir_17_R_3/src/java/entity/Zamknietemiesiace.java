@@ -17,7 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -38,16 +38,12 @@ public class Zamknietemiesiace implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "podatnik")
-    private String podatnik;
-    @Basic(optional = false)
-    @NotNull
     @Lob
     @Column(name = "zamkniete")
-    private ArrayList<Okresrozliczeniowy> okres;
-    
+    private ArrayList<Okresrozliczeniowy> zamkniete;
+    @Size(max = 255)
+    @Column(name = "podatnik")
+    private String podatnik;
 
     public Zamknietemiesiace() {
     }
@@ -55,8 +51,6 @@ public class Zamknietemiesiace implements Serializable {
     public Zamknietemiesiace(Integer id) {
         this.id = id;
     }
-
-  
 
     public Integer getId() {
         return id;
@@ -66,6 +60,15 @@ public class Zamknietemiesiace implements Serializable {
         this.id = id;
     }
 
+    public ArrayList<Okresrozliczeniowy> getZamkniete() {
+        return zamkniete;
+    }
+
+    public void setZamkniete(ArrayList<Okresrozliczeniowy> zamkniete) {
+        this.zamkniete = zamkniete;
+    }
+
+  
     public String getPodatnik() {
         return podatnik;
     }
@@ -73,18 +76,6 @@ public class Zamknietemiesiace implements Serializable {
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-
-   
-
-    public ArrayList<Okresrozliczeniowy> getOkres() {
-        return okres;
-    }
-
-    public void setOkres(ArrayList<Okresrozliczeniowy> okres) {
-        this.okres = okres;
-    }
-
-    
 
     @Override
     public int hashCode() {

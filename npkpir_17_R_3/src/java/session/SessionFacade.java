@@ -193,11 +193,7 @@ public class SessionFacade<T> {
     }
     
     public Zamknietemiesiace findZM(String podatnik){
-          try {
             return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public Wpis findWpis(String login) {

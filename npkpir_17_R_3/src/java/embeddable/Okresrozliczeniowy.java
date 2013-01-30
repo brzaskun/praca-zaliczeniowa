@@ -16,6 +16,7 @@ public class Okresrozliczeniowy implements Serializable {
     private String rok;
     private String miesiac;
     private boolean zamkniety;
+    private boolean edytuj;
 
     public String getRok() {
         return rok;
@@ -39,6 +40,14 @@ public class Okresrozliczeniowy implements Serializable {
 
     public void setZamkniety(boolean zamkniety) {
         this.zamkniety = zamkniety;
+    }
+
+    public boolean isEdytuj() {
+        return edytuj;
+    }
+
+    public void setEdytuj(boolean edytuj) {
+        this.edytuj = edytuj;
     }
     
     
