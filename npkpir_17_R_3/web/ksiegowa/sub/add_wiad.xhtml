@@ -104,12 +104,12 @@
             </p:panelGrid>
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel >
-                <h:outputText value="wyszukiwarka"/>
-                <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
-                                    var="p" itemLabel="#{p.nazwa}" itemValue="#{p}"  converter="SrodkiConv"
+<!--                <h:outputText value="wyszukiwarka"/>
+                <p:autoComplete id="acForce1" value="{DokumentView.srodekkategoria}" completeMethod="{srodkikstView.complete}"
+                                    var="p" itemLabel="{p.nazwa}" itemValue="{p}"  converter="SrodkiConv"
                                     minQueryLength="3" maxResults="15" maxlength="15" effect="clip"  
                                     queryDelay="100" style="width: 250px;" >
-<!--                                    valueChangeListener="{DokumentView.skopiujSTR}">-->
+                                    valueChangeListener="{DokumentView.skopiujSTR}">
                         <f:ajax event="blur" execute="@this" />
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -117,15 +117,15 @@
                                     <h:outputText value="Dane kontrahenta"/>
                                 </f:facet>  
                                 <h:outputText value="Nazwa: " />  
-                                <h:outputText id="npelna1" value="#{p.nazwa}" />  
+                                <h:outputText id="npelna1" value="{p.nazwa}" />  
                                 <h:outputText value="Stawka " />  
-                                <h:outputText id="nip1" value="#{p.stawka}" />  
+                                <h:outputText id="nip1" value="{p.stawka}" />  
                                 <h:outputText value="KŚT " />  
-                                <h:outputText id="klumna1" value="#{p.symbol}" /> 
+                                <h:outputText id="klumna1" value="{p.symbol}" /> 
                             </h:panelGrid>
                         </f:facet>
-                        <f:param name="passedValue" value="#{p}" />
-                    </p:autoComplete>
+                        <f:param name="passedValue" value="{p}" />
+                    </p:autoComplete>-->
                 <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
                 </p:panelGrid>
           
