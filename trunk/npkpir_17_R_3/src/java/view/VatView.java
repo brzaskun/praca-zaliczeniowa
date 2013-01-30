@@ -234,11 +234,7 @@ public class VatView implements Serializable {
             
         }
         tab.getChildren().add(dataTable);
-
         akordeon.getChildren().add(tab);
-
-        RequestContext.getCurrentInstance().update("form:akordeon");
-
     }
 
     public DokTabView getDokTabView() {

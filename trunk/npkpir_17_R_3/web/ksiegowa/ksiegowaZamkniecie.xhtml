@@ -16,10 +16,10 @@
                         <ui:include src="sub/layoutZamkniecie/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutZamkniecie/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                            <h:form> 
-                                
+                            <h:form id="form"> 
+                                <ui:include src="sub/zamkniecie.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->    
                             </h:form >
-                            <ui:include src="sub/zamkniecie.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            
                         </p:layoutUnit>
                     </p:layout>
                 </f:view>

@@ -26,10 +26,6 @@ public class ZamknietemiesiaceDAO extends DAO implements Serializable{
     }
    
    public Zamknietemiesiace findZM(String podatnik){
-       try {
          return  zamknietemiesiaceFacade.findZM(podatnik);
-       } catch (Exception e){
-        return null;
-       }
    }
 }
