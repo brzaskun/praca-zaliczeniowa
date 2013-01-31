@@ -17,16 +17,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -188,9 +187,7 @@ public class DokTabView implements Serializable {
     }
 
     public void destroy2() {
-//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        //       Principal principal = request.getUserPrincipal();
-//        if(request.isUserInRole("Administrator")){
+        if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
         if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("AMO"))) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
@@ -209,11 +206,9 @@ public class DokTabView implements Serializable {
             }
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-//    } else {
-//            FacesMessage msg = new FacesMessage("Nie masz uprawnien do usuniecia dokumentu", selDokument.getIdDok().toString());
-//          FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//     }
+        }
+    } else {
+            Msg.msg("e","Dokument w księgach, nie można usunąć");
         }
     }
 
