@@ -5,6 +5,7 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
@@ -17,6 +18,7 @@ public class Okresrozliczeniowy implements Serializable {
     private String miesiac;
     private boolean zamkniety;
     private boolean edytuj;
+
 
     public String getRok() {
         return rok;
