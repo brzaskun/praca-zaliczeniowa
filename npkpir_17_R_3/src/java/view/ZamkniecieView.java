@@ -4,16 +4,19 @@
  */
 package view;
 
+import dao.DokDAO;
 import dao.ZamknietemiesiaceDAO;
 import embeddable.Mce;
 import embeddable.Okresrozliczeniowy;
 import embeddable.Roki;
+import entity.Dok;
 import entity.Zamknietemiesiace;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
@@ -25,29 +28,32 @@ import javax.inject.Inject;
 @RequestScoped
 public class ZamkniecieView implements Serializable {
 
-    private static List<Integer> lata;
-    private static List<String> miesiace;
     private String podatnik;
     @Inject private Zamknietemiesiace zamknietemiesiace;
     @Inject private Roki roki;
     @Inject private Mce mce;
     private ArrayList<Okresrozliczeniowy> mapaokresow;
     private ArrayList<Okresrozliczeniowy> mapaokresowPobrane;
+    private ArrayList<Okresrozliczeniowy> mapaokresowZmiany;
     @Inject private ZamknietemiesiaceDAO zDAO ;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
+    @Inject DokDAO dokDAO;
+     
     
 
     public ZamkniecieView() {
-        lata = new ArrayList<>();
-        miesiace = new ArrayList<>();
         mapaokresow = new ArrayList<>();
         mapaokresowPobrane = new ArrayList<>();
-        
+        mapaokresowZmiany = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         //Wrzucalistemiesiecy
+        List<Integer> lata = new ArrayList<>();
         lata.addAll(roki.getRokiList());
+        List<String> miesiace = new ArrayList<>();
         miesiace.addAll(mce.getMceList());
         for (Integer tmp : lata){
             for (String tmpx : miesiace){
@@ -59,12 +65,13 @@ public class ZamkniecieView implements Serializable {
         }
          //wyszukiewani aktualnych okresow u podatnika, jak nie ma kopiowanie okresow
         try {
-            zamknietemiesiace = zDAO.findZM("TECHBUD");
+            //pobieram cały rekord dlatego potem moge go zachowac
+            zamknietemiesiace = zDAO.findZM(wpisView.getPodatnikWpisu());
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
         //przenoszenie danych od podatnika do tabeli tymczasowej
         } catch (Exception ex){
             //tworzenie archiwum dla podatnika
-            zamknietemiesiace.setPodatnik("TECHBUD");
+            zamknietemiesiace.setPodatnik(wpisView.getPodatnikWpisu());
             zamknietemiesiace.setZamkniete(new ArrayList<Okresrozliczeniowy>());
             zamknietemiesiace.setZamkniete(mapaokresow);
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
@@ -74,7 +81,28 @@ public class ZamkniecieView implements Serializable {
     }
 
     public void zapisokresy(){
+        zaksiegujDokumenty();
+        zamknietemiesiace.setZamkniete(mapaokresowPobrane);
         zDAO.edit(zamknietemiesiace);
+    }
+    
+    private void zaksiegujDokumenty(){
+        List<Okresrozliczeniowy> roznice = new ArrayList<>();
+        for(Okresrozliczeniowy pozycjaNowa : mapaokresowPobrane){
+           if(pozycjaNowa.isZamkniety()==true){
+               ksieguj(wpisView.getPodatnikWpisu(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "ksiegi");
+           } else {
+               ksieguj(wpisView.getPodatnikWpisu(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "bufor");
+           }
+        }
+    }
+    
+    private void ksieguj(String podatnik, String rok, String mc, String stan){
+        List<Dok> lista = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, Integer.parseInt(rok),mc);
+        for(Dok dokument : lista){
+            dokument.setStatus(stan);
+            dokDAO.edit(dokument);
+        }
     }
    
     public ArrayList<Okresrozliczeniowy> getMapaokresowPobrane() {
@@ -85,5 +113,13 @@ public class ZamkniecieView implements Serializable {
         this.mapaokresowPobrane = mapaokresowPobrane;
     }
 
-  
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    
  }
