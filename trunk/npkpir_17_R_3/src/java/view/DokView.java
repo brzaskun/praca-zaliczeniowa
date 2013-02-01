@@ -324,6 +324,7 @@ public class DokView implements Serializable{
             ew.setDecimalPlaces(".");
             ew.setThousandSeparator(" ");
             ew.setDecimalPlaces("2");
+            ew.setMinValue("-10000000");
             grid1.getChildren().add(ew);
             InputNumber ewX = new InputNumber();
             final String bindingX = "#{DokumentView.vat" + i + "}";
@@ -334,6 +335,7 @@ public class DokView implements Serializable{
             ewX.setDecimalPlaces(".");
             ewX.setThousandSeparator(" ");
             ewX.setDecimalPlaces("2");
+            ewX.setMinValue("-10000000");
             grid1.getChildren().add(ewX);
             if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
                 UISelectItems ulista = new UISelectItems();
@@ -510,7 +512,9 @@ public class DokView implements Serializable{
     public void wygenerujNowaKolumnePkpir() {
         /*wyswietlamy ewidencje VAT*/
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String transakcjiRodzaj = params.get("dodWiad:rodzajTrans");
+        String nazwadok = params.get("dodWiad:rodzajTrans");
+        Rodzajedok rodzaj = rodzajedokDAO.find(nazwadok);
+        String transakcjiRodzaj = rodzaj.getRodzajtransakcji();
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
@@ -572,6 +576,7 @@ public class DokView implements Serializable{
             ew.setDecimalSeparator(".");
             ew.setDecimalPlaces("2");
             ew.setThousandSeparator(" ");
+            ew.setMinValue("-10000000");
             grid2.getChildren().add(ew);
         final String bindingX = "#{DokumentView.selDokument.pkpirKolX}";
         ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
@@ -1073,6 +1078,11 @@ public class DokView implements Serializable{
     
     public void aktualizujPit(AjaxBehaviorEvent e) throws IOException {
        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaPit.xhtml");
+        
+    }
+
+    public String aktualizujPop() throws IOException {
+       return "/manager/managerTerminy.xhtml";
         
     }
 
