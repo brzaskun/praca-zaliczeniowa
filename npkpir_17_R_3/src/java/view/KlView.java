@@ -158,6 +158,7 @@ public class KlView implements Serializable{
   
    public List<Klienci> complete(String query) {  
         List<Klienci> results = new ArrayList<>();  
+        results.add(new Klienci("1111111111", "nowy klient"));
         Klienci kl = new Klienci();
         List<Klienci> lista = klDAO.getDownloaded();
         try{
