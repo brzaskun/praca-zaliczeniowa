@@ -77,11 +77,16 @@ $(window).bind('beforeunload', function(){
  function validateK(){
         document.getElementById("dodWiad:acForce_hinput").focus();
         txt = parseInt(document.getElementById("dodWiad:acForce_hinput").value.length,10);
+        tekst = document.getElementById("dodWiad:acForce_input").value;
         if (txt<3) {
-            alert("Nie wybra\u0142eś klienta!");
             document.getElementById("dodWiad:acForce_input").focus();
             return false
         }else{
+            if(tekst == "nowy klient"){
+                document.getElementById("dodWiad:acForce_input").value = "";
+                document.getElementById("dodWiad:acForce_input").focus();
+                window.open('kliencipopup.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
+            }
             return true;
         }};
  
@@ -146,4 +151,7 @@ function aktywujopis(){
             day: 'Dzie\u0144',
             allDayText: 'Ca\u0142y dzie\u0144'
  };
-            
+  
+function oknoklientanowego(){
+    window.open("kliencipopup.xhtml?redirect=true","",'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+}

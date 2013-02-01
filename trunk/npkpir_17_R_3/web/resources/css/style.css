@@ -70,3 +70,9 @@ root {
     object-fit: scale-down;
     width: 50%;
 }
+
+#popup {
+    width: 150px;
+    height: 150px;
+    overflow: no-display;
+}

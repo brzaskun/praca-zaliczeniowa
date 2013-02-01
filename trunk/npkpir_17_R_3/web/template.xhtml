@@ -23,9 +23,7 @@
                   widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
             <h:outputText value="Zostałeś wylogowany" />  
         </p:dialog>
-        <h:form id="templateform">
-             <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
-        </h:form>
+       
         <ui:insert name="body"> 
         </ui:insert>
     </h:body>
