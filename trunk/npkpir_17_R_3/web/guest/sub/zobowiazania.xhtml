@@ -47,7 +47,7 @@
                     <h:outputText value="ZUS51" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus51}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column rowspan="3" > 
                     <h:outputText  value="zapłaciłem dnia " />
@@ -59,13 +59,13 @@
                     <h:outputText value="odsetki" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus51ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51ods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column  rowspan="3">
                     <h:outputText value="razem" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus51suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus51suma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <p:row>
@@ -73,16 +73,16 @@
                     <h:outputText value="ZUS52" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus52}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
                     <p:calendar value="#{PlatnosciView.selectedZob.zus52zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10"/>
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus52ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52ods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus52suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus52suma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <p:row>
@@ -90,16 +90,16 @@
                     <h:outputText value="ZUS53" />  
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus53}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
                     <p:calendar value="#{PlatnosciView.selectedZob.zus53zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10"/>
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus53ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53ods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.zus53suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.zus53suma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <f:facet name="footer">
@@ -108,7 +108,7 @@
                         <p:commandButton value ="zapisz zobowiązania" update="@form" action="#{PlatnosciView.przeliczodsetki(1)}" rendered="#{!PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                     <p:column colspan="4">
-                        <p:commandButton value ="ponownie zapisz" update="@form" action="#{PlatnosciView.przeliczodsetki(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
+                        <p:commandButton value ="zapisz" update="@form" action="#{PlatnosciView.przeliczodsetki(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                 </p:row>
             </f:facet>
@@ -153,16 +153,16 @@
                     <h:outputText value="PIT5" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit5}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit5}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
                     <p:calendar value="#{PlatnosciView.selectedZob.pit5zapl}" pattern="yyyy/MM/dd" locale="pl" title="kliknij, aby wybrać dzień przelewu płatności" maxlength="10" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit5ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit5ods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit5suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit5suma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <f:facet name="footer">
@@ -171,7 +171,7 @@
                         <p:commandButton value ="zapisz zobowiązania" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT5(1)}" rendered="#{!PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                     <p:column colspan="4">
-                        <p:commandButton value ="ponownie zapisz" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT5(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
+                        <p:commandButton value ="zapisz" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT5(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                 </p:row>
             </f:facet>
@@ -216,7 +216,7 @@
                     <h:outputText value="PIT4" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit4}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit4}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column rowspan="2" > 
                     <h:outputText  value="zapłacono dnia " />
@@ -228,13 +228,13 @@
                     <h:outputText value="odsetki" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit4ods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit4ods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column  rowspan="2">
                     <h:outputText value="razem" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.pit4suma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.pit4suma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                  </p:row>
                   <f:facet name="footer">
@@ -243,7 +243,7 @@
                         <p:commandButton value ="zapisz zobowiązania" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT4(1)}" rendered="#{!PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                     <p:column colspan="4">
-                        <p:commandButton value ="ponownie zapisz" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT4(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
+                        <p:commandButton value ="zapisz" update="@form" action="#{PlatnosciView.przeliczodsetkiPIT4(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                 </p:row>
             </f:facet>
@@ -288,7 +288,7 @@
                     <h:outputText value="VAT" />  
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.vat}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.vat}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                  <p:column> 
                     <h:outputText  value="zapłacono dnia " />
@@ -300,13 +300,13 @@
                     <h:outputText value="odsetki" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.vatods}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.vatods}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                  <p:column>
                     <h:outputText value="razem" />
                 </p:column> 
                 <p:column>
-                    <h:outputText value="#{PlatnosciView.selectedZob.vatsuma}" style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{PlatnosciView.selectedZob.vatsuma}" style="float: right; font-weight: bolder"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
             </p:row>
             <f:facet name="footer">
@@ -315,7 +315,7 @@
                         <p:commandButton value ="zapisz zobowiązania" update="@form" action="#{PlatnosciView.przeliczodsetki(1)}" rendered="#{!PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                     <p:column colspan="4">
-                        <p:commandButton value ="ponownie zapisz" update="@form" action="#{PlatnosciView.przeliczodsetki(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
+                        <p:commandButton value ="zapisz" update="@form" action="#{PlatnosciView.przeliczodsetki(2)}" rendered="#{PlatnosciView.edytujplatnosc}"/>
                     </p:column>
                 </p:row>
             </f:facet>
