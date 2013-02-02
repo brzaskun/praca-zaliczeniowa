@@ -5,6 +5,7 @@
 package view;
 
 import dao.RodzajedokDAO;
+import entity.Dok;
 import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -30,6 +33,7 @@ public class RodzajedokView implements Serializable{
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private Rodzajedok selected;
+    private static Rodzajedok doUsuniecia;
     private static HashMap<String, String> rodzajedokMap;
     
     private List<Rodzajedok> lista;
@@ -62,6 +66,7 @@ public class RodzajedokView implements Serializable{
          lista.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowy rodzaj dokumentu:", selected.getNazwa());
          FacesContext.getCurrentInstance().addMessage("form:messages" , msg);
+         
        
          } catch (Exception e) {
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno nowego rodzaju dokumentu. Sprawdz czy skrót się nie powtarza.", "");
@@ -70,18 +75,29 @@ public class RodzajedokView implements Serializable{
          }
         
      }
-
      
-      public void usun(){
-        int index = lista.size()-1;
-        selected = lista.get(index);
-        rodzajedokDAO.destroy(selected);
-        lista.remove(index);
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametru podatkowego za rok:", selected.getNazwa());
-        FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
-      
-     }
+    public void destroy(Rodzajedok selDok) {
+        doUsuniecia = selDok;
+    }
+     
+    public void destroy2() {
+            try {
+                lista.remove(doUsuniecia);
+                rodzajedokDAO.destroy(doUsuniecia);
+                RequestContext.getCurrentInstance().update("form:dokLista");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+             
+            } catch (Exception e) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wzorzec NIE usunięty", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                System.out.println("Nie usnieto wzorca dokumenty");
+            }
+            
+        }
 
+
+    
     public List<Rodzajedok> getLista() {
         return lista;
     }

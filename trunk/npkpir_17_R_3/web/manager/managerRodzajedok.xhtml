@@ -8,21 +8,24 @@
             <h:outputText value="Zmiana paramerów danych klienta"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:body> 
+            <h:body>
+                 <h:form>
+                    <p:growl id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć wybrany wzorzec?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokLista" oncomplete="confirmation.hide()"  
+                                         actionListener="#{rodzajedokView.destroy2()}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">
-                        <!--                       
-                        -->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                            <h:form id="formularz">
-<!--                                <p:ajaxStatus>
-                                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                                    <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
-                                </p:ajaxStatus>-->
-                            </h:form>
                             <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
                             <ui:include src="sub/rodzajedok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                         </p:layoutUnit>

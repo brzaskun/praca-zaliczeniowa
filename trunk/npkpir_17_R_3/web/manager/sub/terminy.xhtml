@@ -9,25 +9,35 @@
     <p:accordionPanel id="akordeon">  
         <p:tab title="Terminy płatności zobowiązań">  
             <h:form id="formzob" >
-                <h:outputText value="Terminy płatności zobowiązań" style="font-size: 15px"/>
+                <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
+                    <br/>
                 <p:growl id="msgzus" showDetail="true"/>
                 <p:focus for="parametryzob"/><br/>
-                <h:outputText value="dane historyczne"/><br/>
                 <p:panelGrid columns="1" style="width: 900px">
-                    <p:dataList value="#{zobowiazanieView.listapobranychstawek}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                        <h:outputText value="rok-miesiąc: " />
-                        <h:outputText value="#{loop.zobowiazaniePK.rok}-" />
+                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                         <f:facet name="header">
+                    <h:outputText value="Lista wprowadzonych terminów"/>
+                </f:facet>
+                        <p:column headerText="rok">
+                        <h:outputText value="#{loop.zobowiazaniePK.rok}" />
+                        </p:column>
+                        <p:column headerText="miesiac">
                         <h:outputText value="#{loop.zobowiazaniePK.mc}" />
-                        <h:outputText value=" data pit: " />
+                        </p:column>
+                        <p:column headerText="Termin PIT">
                         <h:outputText value="#{loop.pitday}" />
-                        <h:outputText value=" data vat: " />
+                        </p:column>
+                        <p:column headerText="Termin VAT">
                         <h:outputText value="#{loop.vatday}" />
-                        <h:outputText value=" data zus ind: " />
+                        </p:column>
+                        <p:column headerText="ZUS bez prac">
                         <h:outputText value="#{loop.zusday1}" />
-                        <h:outputText value=" data zus prac: " />
+                        </p:column>
+                        <p:column headerText="ZUS z prac">
                         <h:outputText value="#{loop.zusaday2}" />
+                        </p:column>
                         <br/>
-                    </p:dataList>
+                    </p:dataTable>
                 </p:panelGrid>
                 <br/>
                 <h:outputText value="wybierz parametry aktualne"/><br/>
@@ -44,28 +54,36 @@
                     <p:commandButton action="#{zobowiazanieView.usun()}" value="usun parametr" update="@form" type="submit" />
                     <p:commandButton action="#{zobowiazanieView.dodaj()}" value="dodaj parametr" update="@form"  type="submit" />
                 </p:panelGrid>
+                </p:panel>
             </h:form>
         </p:tab>
         <p:tab title="Stawki odsetek od zobowiązań">  
-
+            
             <h:form id="form2" >
-                <h:outputText value="Stawki odsetek od zobowiązań" style="font-size: 15px"/>
+                 <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
+                    <br/>
                 <p:growl showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
-                <h:outputText value="dane historyczne"/><br/>
                 <p:panelGrid id="historia" columns="4" style="width: 500px">
-                    <p:dataList value="#{odsetkiView.lista}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                        <h:outputText value="od: " />
+                    <p:dataTable value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                         <f:facet name="header">
+                    <h:outputText value="Lista wprowadzonych stóp odsetek"/>
+                </f:facet>
+                        <p:column headerText="data od">
                         <h:outputText value="#{loop.dataod}" />
-                        <h:outputText value="  do: " />
+                        </p:column>
+                        <p:column headerText="data do">
                         <h:outputText value="#{loop.datado}" />
-                        <h:outputText value=" stawka odsetek: " />
+                        </p:column>
+                        <p:column headerText="stopa proc.">
                         <h:outputText value="#{loop.stopaodsetek}" />
+                        </p:column>
                         <br/>
-                    </p:dataList>
+                    </p:dataTable>
                 </p:panelGrid>
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <p:panelGrid id="parametryp1" columns="7" >
+                    
                     <h:outputText value="data od: "/><p:calendar value="#{odsetkiView.selected.dataodD}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
                     <h:outputText value="stawka: "/><h:inputText value="#{odsetkiView.selected.stopaodsetek}" maxlength="4" required="false">
                     </h:inputText>
@@ -75,8 +93,9 @@
                     <p:commandButton action="#{odsetkiView.usun()}" value="usun parametr" update="@form" type="submit"/>
                     <p:commandButton action="#{odsetkiView.dodaj()}" value="dodaj parametr" update="@form" type="submit"/>
                 </p:panelGrid>
+                 </p:panel>
             </h:form>
-
+            
         </p:tab>
 
     </p:accordionPanel>
