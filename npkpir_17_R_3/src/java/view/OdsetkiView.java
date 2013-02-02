@@ -89,6 +89,13 @@ public class OdsetkiView implements Serializable{
         selected = lista.get(index);
         odsetkiDAO.destroy(selected);
         lista.remove(index);
+        index = lista.size()-1;
+        selected = lista.get(index);
+        selected.setDatadoD(null);
+        selected.setDatado(null);
+        odsetkiDAO.edit(selected);
+        lista.remove(index);
+        lista.add(selected);
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametru odsetek:", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

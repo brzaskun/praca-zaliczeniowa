@@ -10,10 +10,13 @@
     <h:form id="formzus" >
         <p:growl id="msgzus" showDetail="true"/>
         <p:focus for="parametryzus"/><br/>
-        <p:panel header="Dane wprowadzone" style="width: 700px;">
+        <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
             <br/>
         <p:panelGrid columns="1" style="width: 1200px">
             <p:dataTable value="#{podStawkiView.listapobranychstawek}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                 <f:facet name="header">
+                    <h:outputText value="Lista wprowadzonych stawek"/>
+                </f:facet>
                 <p:column headerText="rok">
                 <h:outputText value="#{loop.rok}" />
                  </p:column>

@@ -8,25 +8,39 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
    
     <h:form id="form" >
-        <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
+        <h:outputText value="Rodzaje dokumentów księgowych dla WSZYSTKICH naszych klientów" style="font-size: 15px"/>
         <p:growl id="messages" showDetail="true"/>
-        <p:focus for="parametryzus"/><br/>
-        <h:outputText value="stworzone dokumenty"/><br/>
+        <br/>
+        
         <p:panelGrid columns="1" style="width: 900px">
-            <p:dataList value="#{rodzajedokView.lista}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                <h:outputText value="skrót: " />
-                <h:outputText value="#{loop.skrot}-" />
-                <h:outputText value=" nazwa pelna: " />
+            <p:dataTable id="dokLista" value="#{rodzajedokView.lista}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrot}" selectionMode="single">
+                <f:facet name="header">
+                    <h:outputText value="Lista utworzonych dokumentów"/>
+                </f:facet>
+                <p:column headerText="skrót">
+                <h:outputText value="#{loop.skrot}" />
+                </p:column>
+                <p:column headerText="nazwa pełna">
                 <h:outputText value="#{loop.nazwa}" />
-                <h:outputText value=" rodzaj transakcji: " />
+                </p:column>
+                <p:column headerText="rodzaj transakcji">
                 <h:outputText value="#{loop.rodzajtransakcji}" />
-                <h:outputText value=" wzorzec: " />
+                </p:column>
+                <p:column headerText="zastosowany wzorzec">
                 <h:outputText value="#{loop.wzorzec}" />
+                </p:column>
+                <p:column id="deleteColumn" headerText="usuń" >
+                    <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+            </p:column>
                 <br/>
-            </p:dataList>
+            </p:dataTable>
         </p:panelGrid>
         <br/>
+         </h:form>
+        <h:form>
         <h:outputText value="wybierz parametry aktualne"/><br/>
+         <p:focus for="parametryzus"/><br/>
         <p:panelGrid id="parametryzus" columns="2" >
               <h:outputText value="skrót: " />
               <h:inputText value="#{rodzajedokView.selected.skrot}" />
@@ -41,11 +55,8 @@
         </p:panelGrid>
         <br/>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-            <p:commandButton action="#{rodzajedokView.usun()}" value="usun parametr" update="@form" type="submit" />
-            <p:commandButton action="#{rodzajedokView.dodaj()}" value="dodaj parametr" update="@form"  type="submit" />
+            <p:commandButton action="#{rodzajedokView.dodaj()}" value="dodaj parametr" update=":form:"  type="submit" />
         </p:panelGrid>
     </h:form>
-   
-
 </ui:composition>   
 

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package beanek;
+package webservice;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,6 +24,8 @@ import javax.xml.ws.Holder;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.bind.DatatypeConverter;
+import javax.xml.ws.WebServiceRef;
+import service.GateService;
 
 /**
  *
@@ -31,6 +33,8 @@ import javax.xml.bind.DatatypeConverter;
  */
 @ManagedBean
 public class beanek {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
+    private GateService service;
     private byte[] dok;
     private String lang;
     private String signT;
@@ -46,18 +50,29 @@ public class beanek {
     
 
     public beanek() {
-        id = new Holder<String>();
-        stat = new Holder<Integer>();
-        opis = new Holder<String>();
-        upo = new Holder<String>();
+        id = new Holder<>();
+        stat = new Holder<>();
+        opis = new Holder<>();
+        upo = new Holder<>();
+        lang = "pl";
+        signT = "PIT";
     }
-    
+     
+    private void requestUPO(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        service.GateServicePortType port = service.getGateServiceSOAP12Port();
+        port.requestUPO(refId, language, upo, status, statusOpis);
+    }
+
+    private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        service.GateServicePortType port = service.getGateServiceSOAP12Port();
+        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
+    }
     
     public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException{
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse("c:/uslugi/Deklaracja.xml");
+        Document doc = builder.parse("c:/uslugi/testvat1.xml");
         StringWriter stringWriter = new StringWriter(); 
         Transformer transformer = TransformerFactory.newInstance().newTransformer(); 
         transformer.transform(new DOMSource(doc), new StreamResult(stringWriter)); 
@@ -78,23 +93,7 @@ public class beanek {
         opisMB = opis.value;
     }
 
-    private static void requestUPO(java.lang.String refId, java.lang.String language, Holder<String> upo, Holder<Integer> status, Holder<String> statusOpis) {
-        https.bramka_e_deklaracje_mf_gov.GateService service = new https.bramka_e_deklaracje_mf_gov.GateService();
-        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.requestUPO(refId, language, upo, status, statusOpis);
-    }
-
-    private static void sendDocument(byte[] document, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-        https.bramka_e_deklaracje_mf_gov.GateService service = new https.bramka_e_deklaracje_mf_gov.GateService();
-        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.sendDocument(document, refId, status, statusOpis);
-    }
-
-    private static void sendUnsignDocument(byte[] document, String language, String signatureType, Holder<String> refId, Holder<Integer> status, Holder<String> statusOpis) {
-        https.bramka_e_deklaracje_mf_gov.GateService service = new https.bramka_e_deklaracje_mf_gov.GateService();
-        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
-    }
+    
 
     public String getIdMB() {
         return idMB;
@@ -155,4 +154,6 @@ public class beanek {
       e.getMessage();
     }
   }
+
+   
 }

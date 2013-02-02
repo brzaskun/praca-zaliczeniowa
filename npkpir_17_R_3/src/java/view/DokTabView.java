@@ -183,7 +183,6 @@ public class DokTabView implements Serializable {
     public void destroy(Dok selDok) {
         dokdoUsuniecia = new Dok();
         dokdoUsuniecia = selDok;
-
     }
 
     public void destroy2() {
