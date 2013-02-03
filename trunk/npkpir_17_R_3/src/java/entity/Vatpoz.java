@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.Daneteleadresowe;
 import embeddable.EVatwpis;
 import embeddable.PozycjeSzczegoloweVAT;
 import java.io.Serializable;
@@ -76,6 +77,10 @@ public class Vatpoz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nazwaurzedu")
     private String nazwaurzedu;
+    @Basic(optional = true)
+    @Lob
+    @Column(name = "adres")
+    private Daneteleadresowe adres;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -172,6 +177,14 @@ public class Vatpoz implements Serializable {
         this.nazwaurzedu = nazwaurzedu;
     }
 
+    public Daneteleadresowe getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Daneteleadresowe adres) {
+        this.adres = adres;
+    }
+    
     public PozycjeSzczegoloweVAT getPozycjeszczegolowe() {
         return pozycjeszczegolowe;
     }
