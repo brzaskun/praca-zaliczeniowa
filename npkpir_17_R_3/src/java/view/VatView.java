@@ -4,14 +4,13 @@
  */
 package view;
 
-import com.sun.faces.facelets.Facelet;
-import com.sun.faces.facelets.FaceletFactory;
 import dao.EvewidencjaDAO;
+import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import entity.Dok;
 import entity.Evewidencja;
-import java.io.IOException;
+import entity.Ewidencjevat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,7 +21,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
@@ -31,15 +29,9 @@ import javax.el.ValueExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
-import javax.faces.el.ValueBinding;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.FacesListener;
-import javax.faces.render.Renderer;
 import javax.inject.Inject;
 import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.column.Column;
@@ -47,7 +39,6 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.component.tabview.Tab;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -69,6 +60,7 @@ public class VatView implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     //elementy niezbedne do generowania ewidencji vat
     private AccordionPanel akordeon;
+    @Inject EwidencjeVatDAO ewidencjeVatDAO;
 
     public VatView() {
         listadokvat = new ArrayList<>();
@@ -109,13 +101,8 @@ public class VatView implements Serializable {
             }
         }
         //rozdziela zapisy na poszczególne ewidencje
-        Set<String> zbiorewidencji = new HashSet<>();
-        Iterator ity;
-        ity = listadokvatprzetworzona.iterator();
-
-        while (ity.hasNext()) {
+        for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
             ArrayList<EVatViewPola> listatmp = new ArrayList<>();
-            EVatViewPola wierszogolny = (EVatViewPola) ity.next();
             //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
             String nazwaewidencji = wierszogolny.getNazwaewidencji();
 
@@ -128,19 +115,29 @@ public class VatView implements Serializable {
                 sumaewidencji.put(nazwaewidencji, new EVatwpis(nowaEv, 0.0, 0.0, wierszogolny.getOpizw()));
             }
             listatmp.add(wierszogolny);
-
             EVatwpis ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal suma = BigDecimal.ZERO;
-            suma = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal suma = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN);
             ew.setNetto(suma.doubleValue());
-            BigDecimal suma2 = BigDecimal.ZERO;
-            suma2 = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal suma2 = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN);
             ew.setVat(suma2.doubleValue());
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
         }
 
         wygeneruj(listaewidencji);
+        //zachowaj wygenerowane ewidencje do bazy danych
+        try {
+            Ewidencjevat pobrane = ewidencjeVatDAO.find(dokTabView.getWpisView().getRokWpisu().toString(), dokTabView.getWpisView().getMiesiacWpisu(), dokTabView.getWpisView().getPodatnikWpisu());
+            pobrane.setEwidencje(sumaewidencji);
+            ewidencjeVatDAO.edit(pobrane);
+        } catch (Exception e) {
+            Ewidencjevat zrzucane = new Ewidencjevat();
+            zrzucane.setPodatnik(dokTabView.getWpisView().getPodatnikWpisu());
+            zrzucane.setRok(dokTabView.getWpisView().getRokWpisu().toString());
+            zrzucane.setMiesiac(dokTabView.getWpisView().getMiesiacWpisu());
+            zrzucane.setEwidencje(sumaewidencji);
+            ewidencjeVatDAO.dodaj(zrzucane);
+        }
         System.out.println("lolo");
     }
 
