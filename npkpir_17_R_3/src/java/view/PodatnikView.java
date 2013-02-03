@@ -452,6 +452,31 @@ public class PodatnikView implements Serializable{
          podatnikDAO.edit(selected);
      }
         
+         public void dodajkwoteautoryzujaca(){
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Parametr> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getKwotaautoryzujaca());
+         } catch (Exception e){}
+         if(sprawdzrok(parametr, lista)==0){
+         lista.add(parametr);
+         selected.setKwotaautoryzujaca(lista);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota autoryzująca do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } else {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru kwota autoryzujaca. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+        public void usunkwoteautoryzujaca(){
+         List<Parametr> tmp = new ArrayList<>();
+         tmp.addAll(selected.getKwotaautoryzujaca());
+         tmp.remove(tmp.size()-1);
+         selected.setKwotaautoryzujaca(tmp);
+         podatnikDAO.edit(selected);
+     }
+        
       public void dodajDokKsi(){
          selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          List<Rodzajedok> lista = new ArrayList<>();

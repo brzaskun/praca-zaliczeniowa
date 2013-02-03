@@ -23,4 +23,8 @@ public class EvpozycjaDAO extends DAO implements Serializable {
     public EvpozycjaDAO() {
         super(Evpozycja.class);
     }
+    
+    public Evpozycja find(String nazwapola){
+        return evpozycjaFacade.findEvpozycjaByName(nazwapola);
+    }
 }

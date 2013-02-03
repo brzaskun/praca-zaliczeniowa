@@ -4,16 +4,32 @@
  */
 package deklaracjaVAT7_13;
 
+import java.util.Collection;
+import java.util.List;
+import javax.faces.bean.ManagedProperty;
+import view.Vat7DKView;
+
 /**
  *
  * @author Osito
  */
 class PozycjeSzczegolowe {
     
+    private List<String> listapozycji;
+    @ManagedProperty(value="#{Vat7DKView}")
+    private Vat7DKView vat7DKView;
+    
     static String PozycjeSzczegolowe;
 
     public PozycjeSzczegolowe() {
-        PozycjeSzczegolowe = "<ns:PozycjeSzczegolowe><ns:P_22>-5219</ns:P_22><ns:P_23>-2163</ns:P_23><ns:P_35>8754</ns:P_35><ns:P_36>7218</ns:P_36><ns:P_39>-2309</ns:P_39><ns:P_40>-3530</ns:P_40><ns:P_41>5587</ns:P_41><ns:P_42>8563</ns:P_42><ns:P_43>200562088</ns:P_43><ns:P_45>-7643</ns:P_45><ns:P_46>-817</ns:P_46><ns:P_47>731510240</ns:P_47><ns:P_55>2183</ns:P_55><ns:P_56>163844412</ns:P_56><ns:P_58>2042156017</ns:P_58><ns:P_60>1198931530</ns:P_60><ns:P_61>1198931530</ns:P_61><ns:P_63>779946733</ns:P_63><ns:P_65>1272998241</ns:P_65><ns:P_66>1</ns:P_66><ns:P_68>1</ns:P_68><ns:P_69>1</ns:P_69><ns:P_73>1</ns:P_73><ns:P_74>1</ns:P_74></ns:PozycjeSzczegolowe>";
+        listapozycji.addAll((Collection) vat7DKView.getLista());
+        PozycjeSzczegolowe = "</ns:PozycjeSzczegolowe>";
+        int i = 0;
+        int j = 20;
+        for(String p : listapozycji){
+            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P"+j+listapozycji.get(i)+"</ns:P_"+j+">");
+        }
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</ns:PozycjeSzczegolowe>");
     }
     
     public String getPozycjeSzczegolowe() {

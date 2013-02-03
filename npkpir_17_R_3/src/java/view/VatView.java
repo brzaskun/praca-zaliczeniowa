@@ -128,14 +128,16 @@ public class VatView implements Serializable {
         //zachowaj wygenerowane ewidencje do bazy danych
         try {
             Ewidencjevat pobrane = ewidencjeVatDAO.find(dokTabView.getWpisView().getRokWpisu().toString(), dokTabView.getWpisView().getMiesiacWpisu(), dokTabView.getWpisView().getPodatnikWpisu());
-            pobrane.setEwidencje(sumaewidencji);
+            pobrane.setEwidencje(listaewidencji);
+            pobrane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.edit(pobrane);
         } catch (Exception e) {
             Ewidencjevat zrzucane = new Ewidencjevat();
             zrzucane.setPodatnik(dokTabView.getWpisView().getPodatnikWpisu());
             zrzucane.setRok(dokTabView.getWpisView().getRokWpisu().toString());
             zrzucane.setMiesiac(dokTabView.getWpisView().getMiesiacWpisu());
-            zrzucane.setEwidencje(sumaewidencji);
+            zrzucane.setEwidencje(listaewidencji);
+            zrzucane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.dodaj(zrzucane);
         }
         System.out.println("lolo");
