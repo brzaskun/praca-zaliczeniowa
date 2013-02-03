@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.Amodok;
 import entity.Dok;
 import entity.Evewidencja;
+import entity.Ewidencjevat;
 import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
@@ -18,6 +19,7 @@ import entity.Sesja;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Uz;
+import entity.Vatpoz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
@@ -73,11 +75,21 @@ public class SessionFacade<T> {
         return tmp;
     }
     
+     public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
+        Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiacc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
+        return tmp;
+    }
+    
     public List<Pitpoz> findPitpodatnik(String rok, String pod) {
         List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
 
+    public List<Vatpoz> findVatpodatnik(String rok, String pod) {
+        List<Vatpoz> tmp = em.createQuery("SELECT p FROM Vatpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
+        return tmp;
+    }
+    
     public Uz findUzNP(String np) {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
         return tmp;

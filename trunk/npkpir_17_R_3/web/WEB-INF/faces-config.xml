@@ -95,6 +95,10 @@
             <to-view-id>/ksiegowa/ksiegowaPit.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>vaty</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVAT.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>obroty</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

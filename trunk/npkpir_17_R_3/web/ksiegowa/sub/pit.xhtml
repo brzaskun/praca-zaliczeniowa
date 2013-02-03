@@ -9,8 +9,10 @@
 
     <p:panelGrid columns="4" style="width: 600px">
         <h:form id="formpi" style="width: 400px" >
-            <h:outputText value="wprowadzone PIT-y: "/><br/>
-            <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}">
+
+            <p:panel header="wprowadzone PIT-y: " /><br/>
+
+            <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{ZestawienieView.biezacyPit}" rowKey="#{loop.pkpirM}" sortBy="#{loop.pkpirM}" >
                 <p:ajax event="rowSelect" update=":formpi2:zestawieniepitview" global="false"/>
                 <p:column headerText="okres rozliczeniowy: ">
                     <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/><br/>
@@ -22,6 +24,7 @@
             <p:commandButton value="usun pit"  action="#{ZestawienieView.usun()}" update="@form" style="width: 120px"/>
         </h:form>
         <h:form id="formpi2">
+            <p:panel header="przegląd wybranego PIT-u" style="margin-left: 50px;width: 350px"/><br/>
             <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
                 <h:outputText value="podatnik"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
                 <h:outputText value="pkpirR"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
@@ -44,7 +47,8 @@
             </p:panelGrid>
         </h:form>
         <h:form id="formpit">
-            <p:growl showDetail="true"/>  
+            <p:growl showDetail="true"/>
+            <p:panel header="dane nowego PIT-u" style="margin-left: 50px;width: 400px"/><br/>
             <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px; width: 400px;">
                 <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
                 <h:outputText value="pkpirR"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
