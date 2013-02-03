@@ -6,6 +6,7 @@ package entity;
 
 import embeddable.EVatwpis;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -60,8 +61,13 @@ public class Ewidencjevat implements Serializable {
     @NotNull
     @Lob
     @Column(name = "ewidencje")
-    private HashMap<String, EVatwpis> ewidencje;
-
+    private HashMap<String, ArrayList> ewidencje;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "sumaewidencji")
+    private HashMap<String, EVatwpis> sumaewidencji;
+    
     public Ewidencjevat() {
     }
 
@@ -69,12 +75,13 @@ public class Ewidencjevat implements Serializable {
         this.id = id;
     }
 
-    public Ewidencjevat(Integer id, String podatnik, String rok, String miesiac, HashMap<String, EVatwpis> ewidencje) {
+    public Ewidencjevat(Integer id, String podatnik, String rok, String miesiac, HashMap<String, ArrayList> ewidencje,HashMap<String, EVatwpis> sumaewidencji) {
         this.id = id;
         this.podatnik = podatnik;
         this.rok = rok;
         this.miesiac = miesiac;
         this.ewidencje = ewidencje;
+        this.sumaewidencji = sumaewidencji;
     }
 
     public Integer getId() {
@@ -109,12 +116,21 @@ public class Ewidencjevat implements Serializable {
         this.miesiac = miesiac;
     }
 
-    public HashMap<String, EVatwpis> getEwidencje() {
+    public HashMap<String, ArrayList> getEwidencje() {
         return ewidencje;
     }
 
-    public void setEwidencje(HashMap<String, EVatwpis> ewidencje) {
+    public void setEwidencje(HashMap<String, ArrayList> ewidencje) {
         this.ewidencje = ewidencje;
+    }
+
+   
+    public HashMap<String, EVatwpis> getSumaewidencji() {
+        return sumaewidencji;
+    }
+
+    public void setSumaewidencji(HashMap<String, EVatwpis> sumaewidencji) {
+        this.sumaewidencji = sumaewidencji;
     }
 
     

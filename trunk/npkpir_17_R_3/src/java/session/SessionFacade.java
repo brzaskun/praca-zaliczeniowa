@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.Amodok;
 import entity.Dok;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Pitpoz;
 import entity.Platnosci;
@@ -70,13 +71,17 @@ public class SessionFacade<T> {
         return (Evewidencja) em.createNamedQuery("Evewidencja.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
 
+    public Evpozycja findEvpozycjaByName(String nazwapola) {
+        return (Evpozycja) em.createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
+    }
+    
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
     
      public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
-        Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiacc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
+        Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiac AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
     
@@ -86,7 +91,7 @@ public class SessionFacade<T> {
     }
 
     public List<Vatpoz> findVatpodatnik(String rok, String pod) {
-        List<Vatpoz> tmp = em.createQuery("SELECT p FROM Vatpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
+        List<Vatpoz> tmp = em.createQuery("SELECT p FROM Vatpoz p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
     

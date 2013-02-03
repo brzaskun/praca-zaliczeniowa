@@ -145,7 +145,7 @@ public class Podatnik implements Serializable {
     private List<Rodzajedok> dokumentyksiegowe;
     @Lob
     @Column(name = "kwotaautoryzujaca")
-    private List<String> kwotaautoryzujaca;
+    private List<Parametr> kwotaautoryzujaca;
 
     
     
@@ -373,17 +373,16 @@ public class Podatnik implements Serializable {
         this.dokumentyksiegowe = dokumentyksiegowe;
     }
 
-    public List<String> getKwotaautoryzujaca() {
+    public List<Parametr> getKwotaautoryzujaca() {
         return kwotaautoryzujaca;
     }
 
-    public void setKwotaautoryzujaca(List<String> kwotaautoryzujaca) {
+    public void setKwotaautoryzujaca(List<Parametr> kwotaautoryzujaca) {
         this.kwotaautoryzujaca = kwotaautoryzujaca;
     }
 
+    
    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
