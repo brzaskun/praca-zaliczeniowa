@@ -37,6 +37,17 @@ public class Vat7DKView implements Serializable {
     private void init(){
         lista = (List<Vatpoz>) vatDAO.findVatPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
     }
+    
+    public void oblicz(){
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        selected.setPodatnik(podatnik);
+        selected.setRok(rok);
+        selected.setMiesiac(mc);
+        selected.setKodurzedu("kodurzedu");
+                
+    }
 
     public List<Vatpoz> getLista() {
         return lista;

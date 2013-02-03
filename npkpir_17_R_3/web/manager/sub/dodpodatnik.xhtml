@@ -72,7 +72,19 @@
                 <f:selectItem itemValue="nie"/>
             </h:selectOneMenu>
             <h:outputLabel value="urząd skarbowy"/>
-            <h:inputText id="urzadskarbowy" value="#{podatnikView.selected.urzadskarbowy}" style="width: 400px" required="true" requiredMessage="Urząd - jest wymagany, uzupełnij!"/>
+            <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{podatnikView.selected.urzadskarbowy}"
+                            forceSelection="true" maxResults="15" size="50" minQueryLength="3" effect="clip" var="p"
+                            itemLabel="#{p}" itemValue="#{p}">
+                            <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane wybranego urzędu"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p}" />  
+                            </h:panelGrid>
+                        </f:facet>
+            </p:autoComplete>
         </p:panelGrid>
         <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit"/>
     </p:outputPanel>
