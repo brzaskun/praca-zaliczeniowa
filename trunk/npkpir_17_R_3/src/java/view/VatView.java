@@ -116,9 +116,9 @@ public class VatView implements Serializable {
             }
             listatmp.add(wierszogolny);
             EVatwpis ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal suma = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal suma = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN);
             ew.setNetto(suma.doubleValue());
-            BigDecimal suma2 = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal suma2 = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN);
             ew.setVat(suma2.doubleValue());
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);

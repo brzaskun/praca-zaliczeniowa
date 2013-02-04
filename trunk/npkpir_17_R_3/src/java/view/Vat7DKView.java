@@ -70,6 +70,7 @@ public class Vat7DKView implements Serializable {
             String nrpolavat = evpozycjaDAO.find(nazpola).getNrpolavat();
             String netto = String.valueOf(ew.getNetto());
             String vat = String.valueOf(ew.getVat());
+            sumujpola(nrpolanetto, netto, vat);
             String zrobnionenetto = "selected.getPozycjeszczegolowe().setPole"+nrpolanetto+"("+netto+")";
             String cyfra = "1";
             Class[] paramString = new Class[1];	
@@ -107,6 +108,10 @@ public class Vat7DKView implements Serializable {
         //dodac sumowanie        
     }
 
+    private void sumujpola(String numerpolanetto, String netto, String vat){
+        
+    }
+    
     public List<Vatpoz> getLista() {
         return lista;
     }
