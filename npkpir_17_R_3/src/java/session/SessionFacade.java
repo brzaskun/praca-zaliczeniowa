@@ -6,6 +6,7 @@ package session;
 
 import embeddable.Mce;
 import entity.Amodok;
+import entity.Deklaracjevat;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Evpozycja;
@@ -20,7 +21,6 @@ import entity.Sesja;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Uz;
-import entity.Vatpoz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
@@ -90,10 +90,8 @@ public class SessionFacade<T> {
         return tmp;
     }
 
-    public List<Vatpoz> findVatpodatnik(String rok, String pod) {
-        List<Vatpoz> tmp = em.createQuery("SELECT p FROM Vatpoz p WHERE p.rok = :rok AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("podatnik", pod).getResultList();
-        return tmp;
-    }
+    
+  
     
     public Uz findUzNP(String np) {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
@@ -230,5 +228,9 @@ public class SessionFacade<T> {
 
     public Srodkikst findSrodekkst(String nazwa) {
         return (Srodkikst) em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+    }
+
+    public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
+        return (Deklaracjevat) em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
     }
 }

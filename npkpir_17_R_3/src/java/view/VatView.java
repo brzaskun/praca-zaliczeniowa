@@ -72,26 +72,22 @@ public class VatView implements Serializable {
     @PostConstruct
     private void init() throws Exception {
         listadokvat.addAll(dokTabView.getDokvatmc());
-        Iterator it;
-        it = listadokvat.iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            if (tmp.getEwidencjaVAT() != null) {
+        for (Dok zaksiegowanafaktura : listadokvat){
+            if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
                 List<EVatwpis> ewidencja = new ArrayList<>();
-                ewidencja.addAll(tmp.getEwidencjaVAT());
-                Iterator itx;
-                itx = ewidencja.iterator();
-                while (itx.hasNext()) {
-                    EVatwpis ewidwiersz = (EVatwpis) itx.next();
+                ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
+                for (EVatwpis ewidwiersz : ewidencja){
                     if (ewidwiersz.getNetto() > 0) {
                         EVatViewPola wiersz = new EVatViewPola();
-                        wiersz.setId(tmp.getNrWpkpir());
-                        wiersz.setDataSprz(tmp.getDataSprz());
-                        wiersz.setDataWyst(tmp.getDataWyst());
-                        wiersz.setKontr(tmp.getKontr());
-                        wiersz.setNrWlDk(tmp.getNrWlDk());
-                        wiersz.setOpis(tmp.getOpis());
+                        wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
+                        wiersz.setDataSprz(zaksiegowanafaktura.getDataSprz());
+                        wiersz.setDataWyst(zaksiegowanafaktura.getDataWyst());
+                        wiersz.setKontr(zaksiegowanafaktura.getKontr());
+                        wiersz.setNrWlDk(zaksiegowanafaktura.getNrWlDk());
+                        wiersz.setOpis(zaksiegowanafaktura.getOpis());
                         wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
+                        wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
+                        wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
                         wiersz.setNetto(ewidwiersz.getNetto());
                         wiersz.setVat(ewidwiersz.getVat());
                         wiersz.setOpizw(ewidwiersz.getEstawka());
@@ -105,7 +101,6 @@ public class VatView implements Serializable {
             ArrayList<EVatViewPola> listatmp = new ArrayList<>();
             //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
             String nazwaewidencji = wierszogolny.getNazwaewidencji();
-
             try {
                 Collection c = listaewidencji.get(nazwaewidencji);
                 listatmp.addAll(c);
@@ -116,10 +111,10 @@ public class VatView implements Serializable {
             }
             listatmp.add(wierszogolny);
             EVatwpis ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal suma = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN);
-            ew.setNetto(suma.doubleValue());
-            BigDecimal suma2 = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN);
-            ew.setVat(suma2.doubleValue());
+            BigDecimal sumanetto = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN);
+            ew.setNetto(sumanetto.doubleValue());
+            BigDecimal sumavat = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN);
+            ew.setVat(sumavat.doubleValue());
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
         }

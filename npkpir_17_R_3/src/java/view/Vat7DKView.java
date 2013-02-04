@@ -4,20 +4,21 @@
  */
 package view;
 
-import dao.EvpozycjaDAO;
+import dao.DeklaracjevatDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
-import dao.VatDAO;
+import deklaracjaVAT7_13.VAT713;
 import embeddable.Daneteleadresowe;
 import embeddable.EVatwpis;
+import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.TKodUS;
+import embeddable.Vatpoz;
+import entity.Deklaracjevat;
 import entity.Podatnik;
-import entity.Vatpoz;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +30,13 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author Osito
+ * @author Osito 
  */
 @ManagedBean
 @RequestScope
 public class Vat7DKView implements Serializable {
-    private List<Vatpoz> lista;
-    @Inject private VatDAO vatDAO;
+    @Inject private Deklaracjevat pobranadeklaracja;
+    @Inject private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private Vatpoz selected;
@@ -44,18 +45,16 @@ public class Vat7DKView implements Serializable {
     @Inject PodatnikDAO podatnikDAO;
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
     @Inject private TKodUS tKodUS;
-    @Inject EvpozycjaDAO evpozycjaDAO;
+    @Inject private DeklaracjevatDAO deklaracjevatDAO;
+    
+    
+    
 
     public Vat7DKView() {
-        lista = new ArrayList<>();
     }
     
     
     
-    @PostConstruct
-    private void init(){
-        lista = (List<Vatpoz>) vatDAO.findVatPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
-    }
     
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
         String rok = wpisView.getRokWpisu().toString();
@@ -65,14 +64,10 @@ public class Vat7DKView implements Serializable {
         HashMap<String, EVatwpis> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         Collection <EVatwpis> wyciagnieteewidencje =  sumaewidencji.values();
         for (EVatwpis ew : wyciagnieteewidencje){
-            String nazpola = ew.getEwidencja().getPole();
-            String nrpolanetto = evpozycjaDAO.find(nazpola).getNrpolanetto();
-            String nrpolavat = evpozycjaDAO.find(nazpola).getNrpolavat();
+            String nrpolanetto = ew.getEwidencja().getNrpolanetto();
+            String nrpolavat = ew.getEwidencja().getNrpolavat();
             String netto = String.valueOf(ew.getNetto());
             String vat = String.valueOf(ew.getVat());
-            sumujpola(nrpolanetto, netto, vat);
-            String zrobnionenetto = "selected.getPozycjeszczegolowe().setPole"+nrpolanetto+"("+netto+")";
-            String cyfra = "1";
             Class[] paramString = new Class[1];	
             paramString[0] = String.class;
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole"+nrpolanetto, paramString);
@@ -82,13 +77,16 @@ public class Vat7DKView implements Serializable {
                 met.invoke(pozycjeSzczegoloweVAT, new String(vat));
             }
         }
+        
+        //a gdzie sumy????
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         selected.setPodatnik(podatnik);
         selected.setRok(rok);
-        selected.setMiesiac(mc);
+        String mcx = String.valueOf(Integer.parseInt(mc));
+        selected.setMiesiac(mcx);
         selected.setKodurzedu(tKodUS.getLista().get(pod.getUrzadskarbowy()));
         selected.setNazwaurzedu(pod.getUrzadskarbowy());
-        //selected.getCelzlozenia() jezeli jest deklaracja to korekta
+       
         adres.setNIP(pod.getNip());
         adres.setImiePierwsze(pod.getImie());
         adres.setNazwisko(pod.getNazwisko());
@@ -103,31 +101,34 @@ public class Vat7DKView implements Serializable {
         adres.setKodPocztowy(pod.getKodpocztowy());
         adres.setPoczta(pod.getPoczta());
         selected.setAdres(adres);
+        String kwotaautoryzujaca = null;
+        List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
+        for(Parametr par : listakwotaautoryzujaca){
+            if(par.getRokOd().equals(rok)){
+                kwotaautoryzujaca = par.getParametr();
+                break;
+            }
+        }
+        selected.setKwotaautoryzacja(kwotaautoryzujaca);
+        stworzdeklaracje();
         RequestContext.getCurrentInstance().update("vat7:");
-        //dodac kwota atoryzujaca z formularza
-        //dodac sumowanie        
+               
     }
 
-    private void sumujpola(String numerpolanetto, String netto, String vat){
-        
+    private void stworzdeklaracje() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+         try{
+            pobranadeklaracja =  deklaracjevatDAO.findDeklaracje(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+            selected.setCelzlozenia("2");
+        } catch (Exception e){
+            selected.setCelzlozenia("1");
+        }
+        VAT713 vat713 = new VAT713(selected);
+        String wiersz = vat713.getWiersz();
+        System.out.println(wiersz);
+        nowadeklaracja.setDeklaracja(wiersz);
     }
     
-    public List<Vatpoz> getLista() {
-        return lista;
-    }
-
-    public void setLista(List<Vatpoz> lista) {
-        this.lista = lista;
-    }
-
-    public VatDAO getVatDAO() {
-        return vatDAO;
-    }
-
-    public void setVatDAO(VatDAO vatDAO) {
-        this.vatDAO = vatDAO;
-    }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }

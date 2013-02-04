@@ -28,6 +28,8 @@ public class EVatViewPola implements Serializable{
     private double vat;
     private String opizw;
     private String nazwaewidencji;
+    private String nrpolanetto;
+    private String nrpolavat;
 
     private static final List<String> opispol;
     
@@ -133,7 +135,21 @@ public class EVatViewPola implements Serializable{
         return opispol;
     }
 
-   
-    
+    public String getNrpolanetto() {
+        return nrpolanetto;
+    }
+
+    public void setNrpolanetto(String nrpolanetto) {
+        this.nrpolanetto = nrpolanetto;
+    }
+
+    public String getNrpolavat() {
+        return nrpolavat;
+    }
+
+    public void setNrpolavat(String nrpolavat) {
+        this.nrpolavat = nrpolavat;
+    }
+
     
 }

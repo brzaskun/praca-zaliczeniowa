@@ -5,7 +5,9 @@
 package view;
 
 import dao.EvewidencjaDAO;
+import dao.EvpozycjaDAO;
 import entity.Evewidencja;
+import entity.Evpozycja;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,8 +29,8 @@ public class EvewidencjaView {
 
     @Inject
     private Evewidencja selected;
-    @Inject
-    private EvewidencjaDAO eewidencjaDAO;
+    @Inject private EvewidencjaDAO eewidencjaDAO;
+    @Inject private EvpozycjaDAO evpozycjaDAO;
     private static List<Evewidencja> lista;
 
     public EvewidencjaView() {
@@ -44,6 +46,11 @@ public class EvewidencjaView {
     }
 
     public void dodaj() {
+        Evpozycja ewodszukana = evpozycjaDAO.find(selected.getPole());
+        selected.setNrpolanetto(ewodszukana.getNrpolanetto());
+        try{
+        selected.setNrpolavat(ewodszukana.getNrpolanetto());
+        } catch (Exception e){}
         Iterator it;
         it = lista.iterator();
         try {

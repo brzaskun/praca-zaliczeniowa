@@ -27,8 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evewidencja.findAll", query = "SELECT e FROM Evewidencja e"),
     @NamedQuery(name = "Evewidencja.findByNazwa", query = "SELECT e FROM Evewidencja e WHERE e.nazwa = :nazwa"),
     @NamedQuery(name = "Evewidencja.findByPole", query = "SELECT e FROM Evewidencja e WHERE e.pole = :pole"),
+    @NamedQuery(name = "Evewidencja.findByNrpolanetto", query = "SELECT e FROM Evewidencja e WHERE e.nrpolanetto = :nrpolanetto"),
+    @NamedQuery(name = "Evewidencja.findByNrpolavat", query = "SELECT e FROM Evewidencja e WHERE e.nrpolavat = :nrpolavat"),
     @NamedQuery(name = "Evewidencja.findByRodzajzakupu", query = "SELECT e FROM Evewidencja e WHERE e.rodzajzakupu = :rodzajzakupu"),
-    @NamedQuery(name = "Evewidencja.findByTransakcja", query = "SELECT e FROM Evewidencja e WHERE e.transakcja = :transakcja")})
+    @NamedQuery(name = "Evewidencja.findByTransakcja", query = "SELECT e FROM Evewidencja e WHERE e.transakcja = :transakcja"),
+    @NamedQuery(name = "Evewidencja.findByTylkoNetto", query = "SELECT e FROM Evewidencja e WHERE e.tylkoNetto = :tylkoNetto")})
 public class Evewidencja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,20 +43,33 @@ public class Evewidencja implements Serializable {
     @Size(max = 255)
     @Column(name = "pole")
     private String pole;
+    @Size(max = 2)
+    @Column(name = "nrpolanetto")
+    private String nrpolanetto;
+    @Size(max = 2)
+    @Column(name = "nrpolavat")
+    private String nrpolavat;
     @Size(max = 255)
     @Column(name = "rodzajzakupu")
     private String rodzajzakupu;
     @Size(max = 255)
     @Column(name = "transakcja")
     private String transakcja;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "tylkoNetto")
-    private Boolean tylkoNetto;
+    private boolean tylkoNetto;
 
     public Evewidencja() {
     }
 
     public Evewidencja(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public Evewidencja(String nazwa, boolean tylkoNetto) {
+        this.nazwa = nazwa;
+        this.tylkoNetto = tylkoNetto;
     }
 
     public String getNazwa() {
@@ -72,6 +88,22 @@ public class Evewidencja implements Serializable {
         this.pole = pole;
     }
 
+    public String getNrpolanetto() {
+        return nrpolanetto;
+    }
+
+    public void setNrpolanetto(String nrpolanetto) {
+        this.nrpolanetto = nrpolanetto;
+    }
+
+    public String getNrpolavat() {
+        return nrpolavat;
+    }
+
+    public void setNrpolavat(String nrpolavat) {
+        this.nrpolavat = nrpolavat;
+    }
+
     public String getRodzajzakupu() {
         return rodzajzakupu;
     }
@@ -88,15 +120,14 @@ public class Evewidencja implements Serializable {
         this.transakcja = transakcja;
     }
 
-    public Boolean getTylkoNetto() {
+    public boolean getTylkoNetto() {
         return tylkoNetto;
     }
 
-    public void setTylkoNetto(Boolean tylkoNetto) {
+    public void setTylkoNetto(boolean tylkoNetto) {
         this.tylkoNetto = tylkoNetto;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,7 +150,7 @@ public class Evewidencja implements Serializable {
 
     @Override
     public String toString() {
-        return nazwa;
+        return pole;
     }
     
 }

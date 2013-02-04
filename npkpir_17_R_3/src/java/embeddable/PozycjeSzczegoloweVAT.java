@@ -7,7 +7,6 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
 import javax.persistence.Embeddable;
 
     
@@ -61,7 +60,7 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     String pole60;
     String pole61;
     String pole62;
-    String pole66;
+    String pole63;
     String pole64;
     String pole65;
     
@@ -112,9 +111,10 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         lista.add(pole60);
         lista.add(pole61);
         lista.add(pole62);
-        lista.add(pole66);
+        lista.add(pole63);
         lista.add(pole64);
         lista.add(pole65);
+        
     }
     
     public String getPole20() {
@@ -461,12 +461,12 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         this.pole62 = pole62;
     }
 
-    public String getPole66() {
-        return pole66;
+    public String getPole63() {
+        return pole63;
     }
 
-    public void setPole66(String pole66) {
-        this.pole66 = pole66;
+    public void setPole63(String pole63) {
+        this.pole63 = pole63;
     }
 
     public String getPole64() {
