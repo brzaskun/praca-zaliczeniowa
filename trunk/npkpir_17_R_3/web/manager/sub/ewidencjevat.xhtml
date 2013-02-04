@@ -16,9 +16,12 @@
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
                              editable="true" resizableColumns="true" paginatorPosition="top" >
                     <p:column headerText="nazwa ewidencji"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
-                    <p:column headerText="pole w deklaracji"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
-                    <p:column headerText="rodzaj transkacji"><h:outputText id="in3" value="#{loop.transakcja}"/></p:column>
-                    <p:column headerText="rodzaj zakupu"><h:outputText id="in4" value="#{loop.rodzajzakupu}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
+                    <p:column headerText="nr pola netto"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
+                    <p:column headerText="nr pola vat"><h:outputText id="in4" value="#{loop.nrpolavat}"/></p:column>
+                    <p:column headerText="rodzaj transkacji"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
+                    <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
+                    <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto}"/></p:column>
                     <p:column id="deleteColumn" headerText="usuń">
                         <p:commandButton action="#{evewidencjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
@@ -72,7 +75,7 @@
             <h:form>
                 <p:growl id="msg1" showDetail="true"/>
                 <p:focus for="parametr"/><br/>
-                <h:outputText value="dodaj nową stawkę"/><br/>
+                <h:outputText value="dodaj nowy opis transakcji"/><br/>
                 <p:panelGrid id="parametr" columns="1" >
                     <h:inputText value="#{evopisView.selected.opis}"/>
                     <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form :akordeon:form1:" type="submit"/>
@@ -98,7 +101,7 @@
             <h:form>
                 <p:growl id="msg1" showDetail="true"/>
                 <p:focus for="parametr"/><br/>
-                <h:outputText value="dodaj nową stawkę"/><br/>
+                <h:outputText value="dodaj nowy opis pola deklaracji"/><br/>
                 <p:panelGrid id="parametr" columns="2" >
                     <h:outputText value="nazwapola"/><h:inputText value="#{evpozycjaView.selected.nazwapola}" style="width: 400px;"/>
                     <h:outputText value="nr pola netto"/><h:inputText value="#{evpozycjaView.selected.nrpolanetto}"/>

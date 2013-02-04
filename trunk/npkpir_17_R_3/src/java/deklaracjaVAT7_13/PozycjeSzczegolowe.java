@@ -4,7 +4,13 @@
  */
 package deklaracjaVAT7_13;
 
+import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.Vatpoz;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedProperty;
 import view.Vat7DKView;
@@ -15,19 +21,25 @@ import view.Vat7DKView;
  */
 class PozycjeSzczegolowe {
     
-    private List<String> listapozycji;
-    @ManagedProperty(value="#{Vat7DKView}")
-    private Vat7DKView vat7DKView;
-    
     static String PozycjeSzczegolowe;
 
-    public PozycjeSzczegolowe() {
-        listapozycji.addAll((Collection) vat7DKView.getLista());
+    public PozycjeSzczegolowe(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        List<String> lista = new ArrayList<>();
+        PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
+        for(int i = 20;i<66;i++){
+            Class[] noparams = {};	
+            Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPole"+i, noparams);
+            Object ob = met.invoke(pozycjelista, null);
+            String wynik = ob.toString();
+            lista.add(wynik);
+        }
         PozycjeSzczegolowe = "</ns:PozycjeSzczegolowe>";
         int i = 0;
         int j = 20;
-        for(String p : listapozycji){
-            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P"+j+listapozycji.get(i)+"</ns:P_"+j+">");
+        for(String p : lista){
+            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P"+j+">"+lista.get(i)+"</ns:P_"+j+">");
+            i++;
+            j++;
         }
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</ns:PozycjeSzczegolowe>");
     }
