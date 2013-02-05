@@ -64,56 +64,100 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     String pole64;
     String pole65;
     
-    List<String> lista;
+    Integer poleI20;
+    Integer poleI21;
+    Integer poleI22;
+    Integer poleI23;
+    Integer poleI24;
+    Integer poleI25;
+    Integer poleI26;
+    Integer poleI27;
+    Integer poleI28;
+    Integer poleI29;
+    Integer poleI30;
+    Integer poleI31;
+    Integer poleI32;
+    Integer poleI33;
+    Integer poleI34;
+    Integer poleI35;
+    Integer poleI36;
+    Integer poleI37;
+    Integer poleI38;
+    Integer poleI39;
+    Integer poleI40;
+    Integer poleI41;
+    Integer poleI42;
+    Integer poleI43;
+    Integer poleI44;
+    Integer poleI45;
+    Integer poleI46;
+    Integer poleI47;
+    Integer poleI48;
+    Integer poleI49;
+    Integer poleI50;
+    Integer poleI51;
+    Integer poleI52;
+    Integer poleI53;
+    Integer poleI54;
+    Integer poleI55;
+    Integer poleI56;
+    Integer poleI57;
+    Integer poleI58;
+    Integer poleI59;
+    Integer poleI60;
+    Integer poleI61;
+    Integer poleI62;
+    Integer poleI63;
+    Integer poleI64;
+    Integer poleI65;
 
     public PozycjeSzczegoloweVAT() {
-        lista = new ArrayList<>();
-        lista.add(pole20);
-        lista.add(pole21);
-        lista.add(pole22);
-        lista.add(pole23);
-        lista.add(pole24);
-        lista.add(pole25);
-        lista.add(pole26);
-        lista.add(pole27);
-        lista.add(pole28);
-        lista.add(pole29);
-        lista.add(pole30);
-        lista.add(pole31);
-        lista.add(pole32);
-        lista.add(pole33);
-        lista.add(pole34);
-        lista.add(pole35);
-        lista.add(pole36);
-        lista.add(pole37);
-        lista.add(pole38);
-        lista.add(pole39);
-        lista.add(pole40);
-        lista.add(pole41);
-        lista.add(pole42);
-        lista.add(pole43);
-        lista.add(pole44);
-        lista.add(pole45);
-        lista.add(pole46);
-        lista.add(pole47);
-        lista.add(pole48);
-        lista.add(pole49);
-        lista.add(pole50);
-        lista.add(pole51);
-        lista.add(pole52);
-        lista.add(pole53);
-        lista.add(pole54);
-        lista.add(pole55);
-        lista.add(pole56);
-        lista.add(pole57);
-        lista.add(pole58);
-        lista.add(pole59);
-        lista.add(pole60);
-        lista.add(pole61);
-        lista.add(pole62);
-        lista.add(pole63);
-        lista.add(pole64);
-        lista.add(pole65);
+        poleI20=0;
+        poleI21=0;
+        poleI22=0;
+        poleI23=0;
+        poleI24=0;
+        poleI25=0;
+        poleI26=0;
+        poleI27=0;
+        poleI28=0;
+        poleI29=0;
+        poleI30=0;
+        poleI31=0;
+        poleI32=0;
+        poleI33=0;
+        poleI34=0;
+        poleI35=0;
+        poleI36=0;
+        poleI37=0;
+        poleI38=0;
+        poleI39=0;
+        poleI40=0;
+        poleI41=0;
+        poleI42=0;
+        poleI43=0;
+        poleI44=0;
+        poleI45=0;
+        poleI46=0;
+        poleI47=0;
+        poleI48=0;
+        poleI49=0;
+        poleI50=0;
+        poleI51=0;
+        poleI52=0;
+        poleI53=0;
+        poleI54=0;
+        poleI55=0;
+        poleI56=0;
+        poleI57=0;
+        poleI58=0;
+        poleI59=0;
+        poleI60=0;
+        poleI61=0;
+        poleI62=0;
+        poleI63=0;
+        poleI64=0;
+        poleI65=0;
         
     }
     
@@ -485,13 +529,374 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         this.pole65 = pole65;
     }
 
-    public List<String> getLista() {
-        return lista;
+    public Integer getPoleI20() {
+        return poleI20;
     }
 
-    public void setLista(List<String> lista) {
-        this.lista = lista;
+    public void setPoleI20(Integer poleI20) {
+        this.poleI20 = poleI20;
     }
+
+    public Integer getPoleI21() {
+        return poleI21;
+    }
+
+    public void setPoleI21(Integer poleI21) {
+        this.poleI21 = poleI21;
+    }
+
+    public Integer getPoleI22() {
+        return poleI22;
+    }
+
+    public void setPoleI22(Integer poleI22) {
+        this.poleI22 = poleI22;
+    }
+
+    public Integer getPoleI23() {
+        return poleI23;
+    }
+
+    public void setPoleI23(Integer poleI23) {
+        this.poleI23 = poleI23;
+    }
+
+    public Integer getPoleI24() {
+        return poleI24;
+    }
+
+    public void setPoleI24(Integer poleI24) {
+        this.poleI24 = poleI24;
+    }
+
+    public Integer getPoleI25() {
+        return poleI25;
+    }
+
+    public void setPoleI25(Integer poleI25) {
+        this.poleI25 = poleI25;
+    }
+
+    public Integer getPoleI26() {
+        return poleI26;
+    }
+
+    public void setPoleI26(Integer poleI26) {
+        this.poleI26 = poleI26;
+    }
+
+    public Integer getPoleI27() {
+        return poleI27;
+    }
+
+    public void setPoleI27(Integer poleI27) {
+        this.poleI27 = poleI27;
+    }
+
+    public Integer getPoleI28() {
+        return poleI28;
+    }
+
+    public void setPoleI28(Integer poleI28) {
+        this.poleI28 = poleI28;
+    }
+
+    public Integer getPoleI29() {
+        return poleI29;
+    }
+
+    public void setPoleI29(Integer poleI29) {
+        this.poleI29 = poleI29;
+    }
+
+    public Integer getPoleI30() {
+        return poleI30;
+    }
+
+    public void setPoleI30(Integer poleI30) {
+        this.poleI30 = poleI30;
+    }
+
+    public Integer getPoleI31() {
+        return poleI31;
+    }
+
+    public void setPoleI31(Integer poleI31) {
+        this.poleI31 = poleI31;
+    }
+
+    public Integer getPoleI32() {
+        return poleI32;
+    }
+
+    public void setPoleI32(Integer poleI32) {
+        this.poleI32 = poleI32;
+    }
+
+    public Integer getPoleI33() {
+        return poleI33;
+    }
+
+    public void setPoleI33(Integer poleI33) {
+        this.poleI33 = poleI33;
+    }
+
+    public Integer getPoleI34() {
+        return poleI34;
+    }
+
+    public void setPoleI34(Integer poleI34) {
+        this.poleI34 = poleI34;
+    }
+
+    public Integer getPoleI35() {
+        return poleI35;
+    }
+
+    public void setPoleI35(Integer poleI35) {
+        this.poleI35 = poleI35;
+    }
+
+    public Integer getPoleI36() {
+        return poleI36;
+    }
+
+    public void setPoleI36(Integer poleI36) {
+        this.poleI36 = poleI36;
+    }
+
+    public Integer getPoleI37() {
+        return poleI37;
+    }
+
+    public void setPoleI37(Integer poleI37) {
+        this.poleI37 = poleI37;
+    }
+
+    public Integer getPoleI38() {
+        return poleI38;
+    }
+
+    public void setPoleI38(Integer poleI38) {
+        this.poleI38 = poleI38;
+    }
+
+    public Integer getPoleI39() {
+        return poleI39;
+    }
+
+    public void setPoleI39(Integer poleI39) {
+        this.poleI39 = poleI39;
+    }
+
+    public Integer getPoleI40() {
+        return poleI40;
+    }
+
+    public void setPoleI40(Integer poleI40) {
+        this.poleI40 = poleI40;
+    }
+
+    public Integer getPoleI41() {
+        return poleI41;
+    }
+
+    public void setPoleI41(Integer poleI41) {
+        this.poleI41 = poleI41;
+    }
+
+    public Integer getPoleI42() {
+        return poleI42;
+    }
+
+    public void setPoleI42(Integer poleI42) {
+        this.poleI42 = poleI42;
+    }
+
+    public Integer getPoleI43() {
+        return poleI43;
+    }
+
+    public void setPoleI43(Integer poleI43) {
+        this.poleI43 = poleI43;
+    }
+
+    public Integer getPoleI44() {
+        return poleI44;
+    }
+
+    public void setPoleI44(Integer poleI44) {
+        this.poleI44 = poleI44;
+    }
+
+    public Integer getPoleI45() {
+        return poleI45;
+    }
+
+    public void setPoleI45(Integer poleI45) {
+        this.poleI45 = poleI45;
+    }
+
+    public Integer getPoleI46() {
+        return poleI46;
+    }
+
+    public void setPoleI46(Integer poleI46) {
+        this.poleI46 = poleI46;
+    }
+
+    public Integer getPoleI47() {
+        return poleI47;
+    }
+
+    public void setPoleI47(Integer poleI47) {
+        this.poleI47 = poleI47;
+    }
+
+    public Integer getPoleI48() {
+        return poleI48;
+    }
+
+    public void setPoleI48(Integer poleI48) {
+        this.poleI48 = poleI48;
+    }
+
+    public Integer getPoleI49() {
+        return poleI49;
+    }
+
+    public void setPoleI49(Integer poleI49) {
+        this.poleI49 = poleI49;
+    }
+
+    public Integer getPoleI50() {
+        return poleI50;
+    }
+
+    public void setPoleI50(Integer poleI50) {
+        this.poleI50 = poleI50;
+    }
+
+    public Integer getPoleI51() {
+        return poleI51;
+    }
+
+    public void setPoleI51(Integer poleI51) {
+        this.poleI51 = poleI51;
+    }
+
+    public Integer getPoleI52() {
+        return poleI52;
+    }
+
+    public void setPoleI52(Integer poleI52) {
+        this.poleI52 = poleI52;
+    }
+
+    public Integer getPoleI53() {
+        return poleI53;
+    }
+
+    public void setPoleI53(Integer poleI53) {
+        this.poleI53 = poleI53;
+    }
+
+    public Integer getPoleI54() {
+        return poleI54;
+    }
+
+    public void setPoleI54(Integer poleI54) {
+        this.poleI54 = poleI54;
+    }
+
+    public Integer getPoleI55() {
+        return poleI55;
+    }
+
+    public void setPoleI55(Integer poleI55) {
+        this.poleI55 = poleI55;
+    }
+
+    public Integer getPoleI56() {
+        return poleI56;
+    }
+
+    public void setPoleI56(Integer poleI56) {
+        this.poleI56 = poleI56;
+    }
+
+    public Integer getPoleI57() {
+        return poleI57;
+    }
+
+    public void setPoleI57(Integer poleI57) {
+        this.poleI57 = poleI57;
+    }
+
+    public Integer getPoleI58() {
+        return poleI58;
+    }
+
+    public void setPoleI58(Integer poleI58) {
+        this.poleI58 = poleI58;
+    }
+
+    public Integer getPoleI59() {
+        return poleI59;
+    }
+
+    public void setPoleI59(Integer poleI59) {
+        this.poleI59 = poleI59;
+    }
+
+    public Integer getPoleI60() {
+        return poleI60;
+    }
+
+    public void setPoleI60(Integer poleI60) {
+        this.poleI60 = poleI60;
+    }
+
+    public Integer getPoleI61() {
+        return poleI61;
+    }
+
+    public void setPoleI61(Integer poleI61) {
+        this.poleI61 = poleI61;
+    }
+
+    public Integer getPoleI62() {
+        return poleI62;
+    }
+
+    public void setPoleI62(Integer poleI62) {
+        this.poleI62 = poleI62;
+    }
+
+    public Integer getPoleI63() {
+        return poleI63;
+    }
+
+    public void setPoleI63(Integer poleI63) {
+        this.poleI63 = poleI63;
+    }
+
+    public Integer getPoleI64() {
+        return poleI64;
+    }
+
+    public void setPoleI64(Integer poleI64) {
+        this.poleI64 = poleI64;
+    }
+
+    public Integer getPoleI65() {
+        return poleI65;
+    }
+
+    public void setPoleI65(Integer poleI65) {
+        this.poleI65 = poleI65;
+    }
+
     
     
     

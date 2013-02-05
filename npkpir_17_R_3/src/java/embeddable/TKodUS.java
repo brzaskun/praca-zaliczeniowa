@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.Embeddable;
 
@@ -43,7 +42,7 @@ public class TKodUS implements Serializable {
     public List<String> complete(String query) {  
         List<String> results = new ArrayList<>();  
          for(String p : listaS) {  
-            if(p.contains(query.toUpperCase(new Locale("PL")))) {
+            if(p.contains(query.toUpperCase())) {
                  results.add(p);
              }
         }  
@@ -52,7 +51,7 @@ public class TKodUS implements Serializable {
     
     public String duzeliter(){
         String wyraz = "bole";
-        return wyraz.toUpperCase(new Locale("PL"));
+        return wyraz.toUpperCase();
     }
     
     public TKodUS() {

@@ -19,7 +19,6 @@ public class VAT713 implements Serializable{
      String wiersz;
      Wstep wstep;
      Naglowek naglowek;
-     
      Podmiot podmiot;
      PozycjeSzczegolowe pozycjeSzczegolowe;
      Pouczenie pouczenie;
@@ -35,8 +34,12 @@ public class VAT713 implements Serializable{
         this.selected = selected;
         wstep = new Wstep();
         naglowek = new Naglowek(selected);
+        podmiot = new Podmiot(selected);
+        pouczenie = new Pouczenie();
+        oswiadczenie = new Oswiadczenie();
+        daneAutoryzujace = new DaneAutoryzujace(selected);
         pozycjeSzczegolowe = new PozycjeSzczegolowe(selected);
-        wiersz = wstep.getWestep()+naglowek.getNaglowek()+pozycjeSzczegolowe.getPozycjeSzczegolowe();
+        wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
     }
 
    
