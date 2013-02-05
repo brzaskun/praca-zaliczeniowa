@@ -10,7 +10,8 @@
         <p:tab title="Generowanie deklaracji VAT bieżącej"> 
             <p:panelGrid columns="4" style="width: 600px">
 
-                <h:form>
+                <h:form id="form">
+                    <p:growl id="msg"/>
                     <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej" />
                     <h:panelGrid columns="4">
                         <p:column>
@@ -154,7 +155,104 @@
                 </h:form>
             </p:panelGrid>  
         </p:tab>
+         <p:tab title="Deklaracje wysłane">
+                 <h:form>
+                     <p:panel header="Wykaz wysłanych deklaracji"/>
+                     <p:dataTable value="#{deklaracjevatView.wyslane}" var="item" sortBy="#{item.miesiac}" resizableColumns="true">
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Identyfikator"/>
+                             </f:facet>
+                             <h:outputText value="#{item.identyfikator}"/>
+                         </p:column>
+                         <p:column width="70"> 
+                             <f:facet name="header">
+                                 <h:outputText value="Kod urzedu"/>
+                             </f:facet>
+                             <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Rok - Miesiac"/>
+                             </f:facet>
+                             <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Nrkolejny"/>
+                             </f:facet>
+                             <h:outputText value="#{item.nrkolejny}"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Podatnik"/>
+                             </f:facet>
+                             <h:outputText value="#{item.podatnik}"/>
+                         </p:column>
+                        
+                          <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="selected"/>
+                             </f:facet>
+                             <h:outputText value="#{item.selected}"/>
+                         </p:column>
+                          <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="pobierzupo"/>
+                             </f:facet>
+                              <p:commandButton value="UPO" actionListener="#{beanek.pobierz(item.identyfikator)}" update="@form" rendered="#{item.upo eq '' ? true : false}"/>
+                         </p:column>
+                     </p:dataTable>
+                 </h:form>
+        </p:tab>
         <p:tab title="Wysyłanie deklaracji">
+             <h:form>
+                     <p:panel header="Wykaz oczekujacych deklaracji"/>
+                     <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}" resizableColumns="true">
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Identyfikator"/>
+                             </f:facet>
+                             <h:outputText value="#{item.identyfikator}"/>
+                         </p:column>
+                         <p:column width="70"> 
+                             <f:facet name="header">
+                                 <h:outputText value="Kod urzedu"/>
+                             </f:facet>
+                             <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Rok - Miesiac"/>
+                             </f:facet>
+                             <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Nrkolejny"/>
+                             </f:facet>
+                             <h:outputText value="#{item.nrkolejny}"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="Podatnik"/>
+                             </f:facet>
+                             <h:outputText value="#{item.podatnik}"/>
+                         </p:column>
+                         <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="UPO"/>
+                             </f:facet>
+                             <h:outputText value="#{item.upo}" />
+                         </p:column>
+                          <p:column>
+                             <f:facet name="header">
+                                 <h:outputText value="selected"/>
+                             </f:facet>
+                             <h:outputText value="#{item.selected}"/>
+                         </p:column>
+                     </p:dataTable>
+                 </h:form>
             <h:form>
                 <p:commandButton value="licz" actionListener="#{beanek.rob()}" update="@form"/><br/>
                 <h:outputText value="id"/>

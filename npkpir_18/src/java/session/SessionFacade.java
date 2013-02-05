@@ -237,4 +237,8 @@ public class SessionFacade<T> {
     public List<Deklaracjevat> findDeklaracjewszystkie(String rok, String mc, String pod) {
         return em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
     }
+
+    public List<Deklaracjevat> findDeklaracjewysylka(String pod) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", pod).getResultList();
+    }
 }

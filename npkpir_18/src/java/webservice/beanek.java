@@ -5,6 +5,7 @@
 package webservice;
 
 import dao.DeklaracjevatDAO;
+import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -90,8 +91,8 @@ public class beanek {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        List<Deklaracjevat> temp =  deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
-        String strFileContent = temp.get(temp.size()-1).getDeklaracja();
+        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        String strFileContent = temp.getDeklaracja();
         System.out.println("wartosc stringu: "+strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
@@ -99,13 +100,19 @@ public class beanek {
         idMB = id.value;
         statMB = stat.value;
         opisMB = opis.value;
+        temp.setIdentyfikator(idMB);
+        deklaracjevatDAO.edit(temp);
+        
     }
     
-    public void pobierz(){
-        requestUPO(idpobierz, lang, upo, stat, opis);
+    public void pobierz(String identyfikator){
+        requestUPO(identyfikator, lang, upo, stat, opis);
         upoMB = upo.value;
         statMB = stat.value;    
         opisMB = opis.value;
+        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        temp.setUpo(upoMB);
+        deklaracjevatDAO.edit(temp);
     }
 
     
