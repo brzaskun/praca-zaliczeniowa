@@ -85,6 +85,12 @@ public class Deklaracjevat implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "upo")
     private String upo;
+    @Size(max = 255)
+    @Column(name = "status")
+    private String status;
+    @Size(max = 255)
+    @Column(name = "opis")
+    private String opis;
 
     public Deklaracjevat() {
     }
@@ -189,6 +195,22 @@ public class Deklaracjevat implements Serializable {
 
     public void setSelected(Vatpoz selected) {
         this.selected = selected;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
    

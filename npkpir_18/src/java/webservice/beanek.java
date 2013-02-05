@@ -101,6 +101,8 @@ public class beanek {
         statMB = stat.value;
         opisMB = opis.value;
         temp.setIdentyfikator(idMB);
+        temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
         
     }
@@ -112,6 +114,8 @@ public class beanek {
         opisMB = opis.value;
         Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
         temp.setUpo(upoMB);
+         temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
     }
 
