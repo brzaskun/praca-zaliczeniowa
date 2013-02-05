@@ -25,16 +25,16 @@ class PozycjeSzczegolowe {
         for(int i = 20;i<66;i++){
             Class[] noparams = {};	
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPole"+i, noparams);
-            Object ob = met.invoke(pozycjelista, null);
-            String wynik = ob.toString();
+            String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
-        PozycjeSzczegolowe = "</ns:PozycjeSzczegolowe>";
-        int i = 0;
+        PozycjeSzczegolowe = "<ns:PozycjeSzczegolowe>";
         int j = 20;
         for(String p : lista){
-            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P"+j+">"+lista.get(i)+"</ns:P_"+j+">");
-            i++;
+            try {
+                boolean i = !p.isEmpty();
+                PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P_"+j+">"+p+"</ns:P_"+j+">");
+            } catch (Exception e){}
             j++;
         }
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</ns:PozycjeSzczegolowe>");

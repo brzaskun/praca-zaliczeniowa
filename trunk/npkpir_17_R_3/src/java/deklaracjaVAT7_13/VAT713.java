@@ -49,8 +49,25 @@ public class VAT713 implements Serializable{
     
     
 
-    public static void main(String[] args){
-//        final String wiersz;
+//    public static void main(String[] args){
+//        FileWriter fileWriter = null;
+//        try {
+//            File newTextFile = new File("C:/uslugi/testvat1.xml");
+//            fileWriter = new FileWriter(newTextFile);
+//            fileWriter.write(wiersz);
+//            fileWriter.close();
+//        } catch (IOException ex) {
+//            Logger.getLogger(VAT713.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            try {
+//                fileWriter.close();
+//            } catch (IOException ex) {
+//                Logger.getLogger(VAT713.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
+//    
+//     final String wiersz;
 //        Wstep wstep = new Wstep();
 //        Naglowek naglowek = new Naglowek();
 //        Podmiot podmiot = new Podmiot();
@@ -78,5 +95,5 @@ public class VAT713 implements Serializable{
 //            }
 //        }
 //    }
-}
+
 }
