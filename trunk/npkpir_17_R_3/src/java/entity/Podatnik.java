@@ -146,7 +146,8 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "kwotaautoryzujaca")
     private List<Parametr> kwotaautoryzujaca;
-
+    @Column(name = "pole47")
+    private String pole47;
     
     
     public Podatnik() {
@@ -381,6 +382,18 @@ public class Podatnik implements Serializable {
         this.kwotaautoryzujaca = kwotaautoryzujaca;
     }
 
+    public String getPole47() {
+        return pole47;
+    }
+
+    public void setPole47(String pole47) {
+        this.pole47 = pole47;
+    }
+
+    
+
+   
+    
     
    
     @Override

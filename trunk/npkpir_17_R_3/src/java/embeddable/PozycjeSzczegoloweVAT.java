@@ -897,7 +897,6 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         this.poleI65 = poleI65;
     }
 
-    
-    
+   
     
 }
