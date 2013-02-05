@@ -65,7 +65,7 @@ public class Deklaracjevat implements Serializable {
     @Column(name = "miesiac")
     private String miesiac;
     @Column(name = "nrkolejny")
-    private Integer nrkolejny;
+    private int nrkolejny;
     @Size(max = 255)
     @Column(name = "podatnik")
     private String podatnik;
@@ -142,11 +142,11 @@ public class Deklaracjevat implements Serializable {
         this.miesiac = miesiac;
     }
 
-    public Integer getNrkolejny() {
+    public int getNrkolejny() {
         return nrkolejny;
     }
 
-    public void setNrkolejny(Integer nrkolejny) {
+    public void setNrkolejny(int nrkolejny) {
         this.nrkolejny = nrkolejny;
     }
 

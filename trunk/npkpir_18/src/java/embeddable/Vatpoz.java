@@ -120,5 +120,11 @@ public class Vatpoz implements Serializable {
         this.rok = rok;
     }
 
+    @Override
+    public String toString() {
+        return "Vatpoz{" + "id=" + id + ", celzlozenia=" + celzlozenia + ", kodurzedu=" + kodurzedu + ", kwotaautoryzacja=" + kwotaautoryzacja + ", miesiac=" + miesiac + ", podatnik=" + podatnik + ", rok=" + rok + '}';
+    }
+
+    
     
 }
