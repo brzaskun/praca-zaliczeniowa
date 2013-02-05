@@ -8,6 +8,7 @@ import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
+import embeddable.EVatwpisSuma;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
@@ -53,7 +54,7 @@ public class VatView implements Serializable {
     private List<Dok> listadokvat;
     private List<EVatViewPola> listadokvatprzetworzona;
     private HashMap<String, ArrayList> listaewidencji;
-    private HashMap<String, EVatwpis> sumaewidencji;
+    private HashMap<String, EVatwpisSuma> sumaewidencji;
     @Inject
     private Dok selected;
     @Inject
@@ -107,14 +108,14 @@ public class VatView implements Serializable {
             } catch (Exception e) {
                 listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
                 Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
-                sumaewidencji.put(nazwaewidencji, new EVatwpis(nowaEv, 0.0, 0.0, wierszogolny.getOpizw()));
+                sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
             }
             listatmp.add(wierszogolny);
-            EVatwpis ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal sumanetto = BigDecimal.valueOf(ew.getNetto() + wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN);
-            ew.setNetto(sumanetto.doubleValue());
-            BigDecimal sumavat = BigDecimal.valueOf(ew.getVat() + wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN);
-            ew.setVat(sumavat.doubleValue());
+            EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+            BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN));
+            ew.setNetto(sumanetto);
+            BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN));
+            ew.setVat(sumavat);
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
         }
@@ -192,7 +193,7 @@ public class VatView implements Serializable {
         }
 
         //generowanie podsumowania
-        List<EVatwpis> suma2 = new ArrayList<>();
+        List<EVatwpisSuma> suma2 = new ArrayList<>();
         suma2.addAll(sumaewidencji.values());
         Tab tab = new Tab();
         tab.setId("tabekdsuma");

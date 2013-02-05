@@ -4,12 +4,17 @@
  */
 package webservice;
 
+import dao.DeklaracjevatDAO;
+import entity.Deklaracjevat;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,6 +31,7 @@ import org.xml.sax.SAXException;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.ws.WebServiceRef;
 import service.GateService;
+import view.WpisView;
 
 /**
  *
@@ -47,6 +53,9 @@ public class beanek {
     private Integer statMB;
     private String opisMB;
     private String upoMB;
+    @Inject DeklaracjevatDAO deklaracjevatDAO;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
     
 
     public beanek() {
@@ -69,15 +78,21 @@ public class beanek {
     }
     
     public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException{
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse("c:/uslugi/testvat1.xml");
-        StringWriter stringWriter = new StringWriter(); 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer(); 
-        transformer.transform(new DOMSource(doc), new StreamResult(stringWriter)); 
-        String strFileContent = stringWriter.toString(); //This is string data of xml file
-        System.out.println(strFileContent);
+//        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder builder = factory.newDocumentBuilder();
+//        Document doc = builder.parse("c:/uslugi/testvat1.xml");
+//        StringWriter stringWriter = new StringWriter(); 
+//        Transformer transformer = TransformerFactory.newInstance().newTransformer(); 
+//        transformer.transform(new DOMSource(doc), new StreamResult(stringWriter)); 
+//        String strFileContent = stringWriter.toString(); //This is string data of xml file
+//        System.out.println(strFileContent);
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        List<Deklaracjevat> temp =  deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
+        String strFileContent = temp.get(temp.size()-1).getDeklaracja();
+        System.out.println("wartosc stringu: "+strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         sendUnsignDocument(dok, lang, signT, id, stat, opis);
@@ -133,6 +148,14 @@ public class beanek {
 
     public String getUpoMB() {
         return upoMB;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
 
     

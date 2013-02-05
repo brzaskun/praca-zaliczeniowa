@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.EVatwpis;
+import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.io.Serializable;
@@ -33,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Deklaracjevat.findAll", query = "SELECT d FROM Deklaracjevat d"),
     @NamedQuery(name = "Deklaracjevat.findById", query = "SELECT d FROM Deklaracjevat d WHERE d.id = :id"),
-    @NamedQuery(name = "Deklaracjevat.findByCelzlozenia", query = "SELECT d FROM Deklaracjevat d WHERE d.celzlozenia = :celzlozenia"),
     @NamedQuery(name = "Deklaracjevat.findByIdentyfikator", query = "SELECT d FROM Deklaracjevat d WHERE d.identyfikator = :identyfikator"),
     @NamedQuery(name = "Deklaracjevat.findByKodurzedu", query = "SELECT d FROM Deklaracjevat d WHERE d.kodurzedu = :kodurzedu"),
     @NamedQuery(name = "Deklaracjevat.findByMiesiac", query = "SELECT d FROM Deklaracjevat d WHERE d.miesiac = :miesiac"),
@@ -48,8 +48,6 @@ public class Deklaracjevat implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "celzlozenia")
-    private Boolean celzlozenia;
     @Lob
     @Size(max = 2147483647)
     @Column(name = "deklaracja")
@@ -73,7 +71,7 @@ public class Deklaracjevat implements Serializable {
     private String podatnik;
     @Lob
     @Column(name = "podsumowanieewidencji")
-    private HashMap<String, EVatwpis>  podsumowanieewidencji;
+    private HashMap<String, EVatwpisSuma>  podsumowanieewidencji;
     @Lob
     @Column(name = "pozycjeszczegolowe")
     private PozycjeSzczegoloweVAT pozycjeszczegolowe;
@@ -101,14 +99,6 @@ public class Deklaracjevat implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Boolean getCelzlozenia() {
-        return celzlozenia;
-    }
-
-    public void setCelzlozenia(Boolean celzlozenia) {
-        this.celzlozenia = celzlozenia;
     }
 
     public String getDeklaracja() {
@@ -168,11 +158,11 @@ public class Deklaracjevat implements Serializable {
         this.podatnik = podatnik;
     }
 
-    public HashMap<String, EVatwpis> getPodsumowanieewidencji() {
+    public HashMap<String, EVatwpisSuma> getPodsumowanieewidencji() {
         return podsumowanieewidencji;
     }
 
-    public void setPodsumowanieewidencji(HashMap<String, EVatwpis> podsumowanieewidencji) {
+    public void setPodsumowanieewidencji(HashMap<String, EVatwpisSuma> podsumowanieewidencji) {
         this.podsumowanieewidencji = podsumowanieewidencji;
     }
 
