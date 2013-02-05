@@ -145,6 +145,8 @@ public class Vat7DKView implements Serializable {
         nowadeklaracja.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         nowadeklaracja.setIdentyfikator("");
         nowadeklaracja.setUpo("");
+        nowadeklaracja.setStatus("");
+        nowadeklaracja.setOpis("");
         if(nowadeklaracja.getNrkolejny()==deklaracjakorygowana.getNrkolejny()){
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
