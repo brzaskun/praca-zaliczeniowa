@@ -4,6 +4,8 @@
  */
 package deklaracjaVAT7_13;
 
+import embeddable.Vatpoz;
+
 /**
  *
  * @author Osito
@@ -18,8 +20,8 @@ class DaneAutoryzujace {
     
     static String DaneAutoryzujace;
 
-    public DaneAutoryzujace() {
-        Podmiot podmiot = new Podmiot();
+    public DaneAutoryzujace(Vatpoz selected) {
+        Podmiot podmiot = new Podmiot(selected);
         NIP = podmiot.getNIP();
         ImiePierwsze = podmiot.getImiePierwsze();
         Nazwisko = podmiot.getNazwisko();

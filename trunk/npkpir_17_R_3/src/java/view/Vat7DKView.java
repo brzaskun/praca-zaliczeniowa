@@ -22,7 +22,9 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -67,18 +69,34 @@ public class Vat7DKView implements Serializable {
             String nrpolanetto = ew.getEwidencja().getNrpolanetto();
             String nrpolavat = ew.getEwidencja().getNrpolavat();
             String netto = String.valueOf(ew.getNetto());
+            int nettoI = (int) ew.getNetto();
             String vat = String.valueOf(ew.getVat());
+            int vatI = (int) ew.getVat();
             Class[] paramString = new Class[1];	
             paramString[0] = String.class;
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole"+nrpolanetto, paramString);
             met.invoke(pozycjeSzczegoloweVAT, new String(netto));
+            paramString = new Class[1];	
+            paramString[0] = Integer.class;
+            try{
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI"+nrpolanetto, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
+            } catch(Exception e){}
             if(nrpolavat!=null){
+                paramString = new Class[1];	
+                paramString[0] = String.class;
                 met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole"+nrpolavat, paramString);
                 met.invoke(pozycjeSzczegoloweVAT, new String(vat));
+                paramString = new Class[1];	
+                paramString[0] = Integer.class;
+                try{
+                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI"+nrpolavat, paramString);
+                met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
+                } catch(Exception e){}
             }
         }
         
-        //a gdzie sumy????
+        podsumujszczegolowe();
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         selected.setPodatnik(podatnik);
         selected.setRok(rok);
@@ -86,20 +104,19 @@ public class Vat7DKView implements Serializable {
         selected.setMiesiac(mcx);
         selected.setKodurzedu(tKodUS.getLista().get(pod.getUrzadskarbowy()));
         selected.setNazwaurzedu(pod.getUrzadskarbowy());
-       
         adres.setNIP(pod.getNip());
-        adres.setImiePierwsze(pod.getImie());
-        adres.setNazwisko(pod.getNazwisko());
+        adres.setImiePierwsze(pod.getImie().toUpperCase());
+        adres.setNazwisko(pod.getNazwisko().toUpperCase());
         adres.setDataUrodzenia(pod.getDataurodzenia());
-        adres.setWojewodztwo(pod.getWojewodztwo());
-        adres.setPowiat(pod.getPowiat());
-        adres.setGmina(pod.getGmina());
-        adres.setUlica(pod.getUlica());
+        adres.setWojewodztwo(pod.getWojewodztwo().toUpperCase());
+        adres.setPowiat(pod.getPowiat().toUpperCase());
+        adres.setGmina(pod.getGmina().toUpperCase());
+        adres.setUlica(pod.getUlica().toUpperCase());
         adres.setNrDomu(pod.getNrdomu());
         adres.setNrLokalu(pod.getNrlokalu());
-        adres.setMiejscowosc(pod.getMiejscowosc());
+        adres.setMiejscowosc(pod.getMiejscowosc().toUpperCase());
         adres.setKodPocztowy(pod.getKodpocztowy());
-        adres.setPoczta(pod.getPoczta());
+        adres.setPoczta(pod.getPoczta().toUpperCase());
         selected.setAdres(adres);
         String kwotaautoryzujaca = null;
         List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
@@ -111,18 +128,77 @@ public class Vat7DKView implements Serializable {
         }
         selected.setKwotaautoryzacja(kwotaautoryzujaca);
         stworzdeklaracje();
+        nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());
+        nowadeklaracja.setPodsumowanieewidencji(ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji());
+        nowadeklaracja.setRok(rok);
+        nowadeklaracja.setMiesiac(mc);
+        nowadeklaracja.setKodurzedu(selected.getKodurzedu());
+        nowadeklaracja.setPodatnik(podatnik);
+        nowadeklaracja.setSelected(selected);
+        nowadeklaracja.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
+        //zachowanie do bazy
+        //wysylanie
+        //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
                
     }
 
-    private void stworzdeklaracje() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+    private void podsumujszczegolowe(){
          try{
             pobranadeklaracja =  deklaracjevatDAO.findDeklaracje(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
             selected.setCelzlozenia("2");
+            nowadeklaracja.setCelzlozenia(true);
+            nowadeklaracja.setNrkolejny(pobranadeklaracja.getNrkolejny()+1);
+            String tmp =  pobranadeklaracja.getSelected().getPozycjeszczegolowe().getPole65();
+            Integer tmpI =  pobranadeklaracja.getSelected().getPozycjeszczegolowe().getPoleI65();
+            pozycjeSzczegoloweVAT.setPole47(tmp);
+            pozycjeSzczegoloweVAT.setPoleI47(tmpI);
+            selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         } catch (Exception e){
             selected.setCelzlozenia("1");
+            nowadeklaracja.setNrkolejny(1);
+            nowadeklaracja.setCelzlozenia(false);
+            pozycjeSzczegoloweVAT.setPole47("0.00");
+            pozycjeSzczegoloweVAT.setPoleI47(0);
+            selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         }
-        VAT713 vat713 = new VAT713(selected);
+        PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;
+        p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
+        p.setPole45(String.valueOf(p.getPoleI45()));
+        p.setPoleI46(p.getPoleI26()+p.getPoleI28()+p.getPoleI30()+p.getPoleI34()+p.getPoleI36()+p.getPoleI38()+p.getPoleI40()+p.getPoleI42()+p.getPoleI43()+p.getPoleI44());
+        p.setPole46(String.valueOf(p.getPoleI46()));
+        p.setPoleI55(p.getPoleI47()+p.getPoleI48()+p.getPoleI50()+p.getPoleI52()+p.getPoleI53()+p.getPoleI54());
+        p.setPole55(String.valueOf(p.getPoleI55()));
+        Integer dozaplaty = p.getPoleI46()-p.getPoleI55();
+        if(dozaplaty>p.getPoleI56()){
+            p.setPoleI56(dozaplaty);
+            p.setPole56(dozaplaty.toString());
+        }
+        Integer roznica = p.getPoleI46()-p.getPoleI55()-p.getPoleI56()-p.getPoleI57();
+        if(roznica >0){
+            p.setPoleI58(roznica);
+            p.setPole58(roznica.toString());
+        }
+        Integer dozwrotu = p.getPoleI55()-p.getPoleI46();
+        roznica = p.getPoleI55()-p.getPoleI46()+p.getPoleI59();
+        if(dozwrotu>0){
+            p.setPoleI60(roznica);
+            p.setPole60(roznica.toString());
+        }
+        roznica = p.getPoleI60()-p.getPoleI61();
+        p.setPoleI65(roznica);
+        p.setPole65(roznica.toString());
+        pozycjeSzczegoloweVAT = p;
+    }
+    
+    
+    private void stworzdeklaracje(){
+        VAT713 vat713 = null;
+        try {
+            vat713 = new VAT713(selected);
+        } catch (Exception ex) {
+            Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String wiersz = vat713.getWiersz();
         System.out.println(wiersz);
         nowadeklaracja.setDeklaracja(wiersz);

@@ -4,6 +4,9 @@
  */
 package deklaracjaVAT7_13;
 
+import embeddable.Daneteleadresowe;
+import embeddable.Vatpoz;
+
 /**
  *
  * @author Osito
@@ -26,20 +29,21 @@ class Podmiot {
     
     static String Podmiot;
 
-    public Podmiot() {
-        NIP="8511005008";
-        ImiePierwsze = "GRZEGORZ";
-        Nazwisko = "GRZELCZYK";
-        DataUrodzenia = "1970-05-28";
-        Wojewodztwo = "MAZOWIECKIE";
-        Powiat = "WARSZAWSKI";
-        Gmina = "M.ST.WARSZAWA";
-        Ulica = "LOKALNA";
-        NrDomu = "1";
-        NrLokalu = "2";
-        Miejscowosc = "WARSZAWA";
-        KodPocztowy = "00-001";
-        Poczta = "WARSZAWA";
+    public Podmiot(Vatpoz selected) {
+        Daneteleadresowe adres = selected.getAdres();
+        NIP=adres.getNIP();
+        ImiePierwsze = adres.getImiePierwsze();
+        Nazwisko = adres.getNazwisko();
+        DataUrodzenia = adres.getDataUrodzenia();
+        Wojewodztwo = adres.getWojewodztwo();
+        Powiat = adres.getPowiat();
+        Gmina = adres.getGmina();
+        Ulica = adres.getUlica();
+        NrDomu = adres.getNrDomu();
+        NrLokalu = adres.getNrLokalu();
+        Miejscowosc = adres.getMiejscowosc();
+        KodPocztowy = adres.getKodPocztowy();
+        Poczta = adres.getPoczta();
         Podmiot = "<ns:Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
