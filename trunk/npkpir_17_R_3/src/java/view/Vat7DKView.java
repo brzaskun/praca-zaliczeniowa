@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -52,6 +53,9 @@ public class Vat7DKView implements Serializable {
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
     @Inject private TKodUS tKodUS;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
+    String rok;
+    String mc;
+    String podatnik;
     
     
     
@@ -60,13 +64,17 @@ public class Vat7DKView implements Serializable {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
     }
     
+    @PostConstruct
+    private void init(){
+        rok = wpisView.getRokWpisu().toString();
+        mc = wpisView.getMiesiacWpisu();
+        podatnik = wpisView.getPodatnikWpisu();
+   }
+    
     
     
     
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-        String rok = wpisView.getRokWpisu().toString();
-        String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = podatnikDAO.find(podatnik);
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         Collection <EVatwpisSuma> wyciagnieteewidencje =  sumaewidencji.values();
@@ -146,22 +154,7 @@ public class Vat7DKView implements Serializable {
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
         }
-        FileWriter fileWriter = null;
-        try {
-            File newTextFile = new File("C:/uslugi/generowana.txt");
-            fileWriter = new FileWriter(newTextFile);
-            fileWriter.write(nowadeklaracja.getDeklaracja());
-            fileWriter.close();
-        } catch (IOException ex) {
-            Logger.getLogger(VAT713.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fileWriter.close();
-            } catch (IOException ex) {
-                Logger.getLogger(VAT713.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        //wysylanie
+         //wysylanie
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
                
@@ -169,8 +162,15 @@ public class Vat7DKView implements Serializable {
 
     private void podsumujszczegolowe(){
          try{
-            pobranadeklaracja =  deklaracjevatDAO.findDeklaracje(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            selected.setCelzlozenia("2");
+            try{
+                List<Deklaracjevat> pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
+                poprzedniadeklaracja = pobranalistadeklaracji.get(pobranalistadeklaracji.size()-1);
+                selected.setCelzlozenia("2");
+            } catch (Exception er){
+                poprzedniadeklaracja =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
+                selected.setCelzlozenia("2");
+            }
+            
             if(pobranadeklaracja.getIdentyfikator()==null){
                 nowadeklaracja.setNrkolejny(pobranadeklaracja.getNrkolejny());
             }else {
@@ -221,13 +221,10 @@ public class Vat7DKView implements Serializable {
         pozycjeSzczegoloweVAT = p;
     }
     private void wyszukajpoprzednia(){
-        Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
-        
+        Integer rokI = wpisView.getRokWpisu();
         if (mc.equals("01")) {
                 mc = "12";
-                rok--;
+                rokI--;
             } else {
                 Integer tmp = Integer.parseInt(mc);
                 tmp--;
