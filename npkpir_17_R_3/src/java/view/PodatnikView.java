@@ -476,6 +476,23 @@ public class PodatnikView implements Serializable{
          selected.setKwotaautoryzujaca(tmp);
          podatnikDAO.edit(selected);
      }
+      
+        public void dodajpole47(){
+         try{
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota pola47 do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } catch (Exception e){
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru kwota pola47. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+        public void usunpole47(){
+         selected.setPole47("0.00");
+         podatnikDAO.edit(selected);
+     }
+        
+        
         
       public void dodajDokKsi(){
          selected=podatnikDAO.find(nazwaWybranegoPodatnika);

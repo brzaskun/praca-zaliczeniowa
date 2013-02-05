@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -37,12 +36,13 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScope
 public class Vat7DKView implements Serializable {
+    @Inject private Deklaracjevat poprzedniadeklaracja;
     @Inject private Deklaracjevat pobranadeklaracja;
     @Inject private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private Vatpoz selected;
-    @Inject private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
+    static private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
     @Inject private Daneteleadresowe adres;
     @Inject PodatnikDAO podatnikDAO;
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
@@ -53,6 +53,7 @@ public class Vat7DKView implements Serializable {
     
 
     public Vat7DKView() {
+        pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
     }
     
     
@@ -95,7 +96,6 @@ public class Vat7DKView implements Serializable {
                 } catch(Exception e){}
             }
         }
-        
         podsumujszczegolowe();
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         selected.setPodatnik(podatnik);
@@ -151,17 +151,14 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setNrkolejny(pobranadeklaracja.getNrkolejny()+1);
             String tmp =  pobranadeklaracja.getSelected().getPozycjeszczegolowe().getPole65();
             Integer tmpI =  pobranadeklaracja.getSelected().getPozycjeszczegolowe().getPoleI65();
-            pozycjeSzczegoloweVAT.setPole47(tmp);
-            pozycjeSzczegoloweVAT.setPoleI47(tmpI);
             selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         } catch (Exception e){
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
             nowadeklaracja.setCelzlozenia(false);
-            pozycjeSzczegoloweVAT.setPole47("0.00");
-            pozycjeSzczegoloweVAT.setPoleI47(0);
             selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         }
+        wyszukajpoprzednia();
         PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;
         p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
@@ -190,7 +187,34 @@ public class Vat7DKView implements Serializable {
         p.setPole65(roznica.toString());
         pozycjeSzczegoloweVAT = p;
     }
-    
+    private void wyszukajpoprzednia(){
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        
+        if (mc.equals("01")) {
+                mc = "12";
+                rok--;
+            } else {
+                Integer tmp = Integer.parseInt(mc);
+                tmp--;
+                mc = tmp.toString();
+                if(!mc.equals("10")||!mc.equals("11")||!mc.equals("12")){
+                    mc = "0".concat(mc);
+                }
+            }
+        try {
+            poprzedniadeklaracja =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
+            pozycjeSzczegoloweVAT.setPole47(poprzedniadeklaracja.getPozycjeszczegolowe().getPole65());
+            pozycjeSzczegoloweVAT.setPoleI47(poprzedniadeklaracja.getPozycjeszczegolowe().getPoleI65());
+        } catch (Exception e){
+            Podatnik pod = podatnikDAO.find(podatnik);
+            String Pole47 = pod.getPole47();
+            Integer PoleI47 = Integer.parseInt(Pole47);
+            pozycjeSzczegoloweVAT.setPole47(Pole47);
+            pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
+        }
+    }
     
     private void stworzdeklaracje(){
         VAT713 vat713 = null;
