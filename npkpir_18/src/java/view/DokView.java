@@ -183,10 +183,17 @@ public class DokView implements Serializable{
     @PostConstruct
     private void init(){
         rodzajedokKlienta = new ArrayList<>();
+        try{
         String pod = wpisView.getPodatnikWpisu();
         podX = podatnikDAO.find(pod);
         rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
         opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
+        } catch (Exception e){
+            String pod = "GRZELCZYK";
+            podX = podatnikDAO.find(pod);
+            rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
+            opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
+        }
     }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
