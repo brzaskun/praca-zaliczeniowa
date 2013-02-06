@@ -5,14 +5,12 @@
 package webservice;
 
 import dao.DeklaracjevatDAO;
-import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -119,8 +117,7 @@ public class beanek {
         deklaracjevatDAO.edit(temp);
     }
 
-    
-
+  
     public String getIdMB() {
         return idMB;
     }
