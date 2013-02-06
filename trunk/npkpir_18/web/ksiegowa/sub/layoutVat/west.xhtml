@@ -20,7 +20,10 @@
          <h:form>
                 <p:panelGrid columns="1">
                     <p:menu >
-                    <p:menuitem value="wykaz dokumentów"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="wykaz dokumentów"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
+                     <p:menuitem value="vaty"  outcome="vaty" icon="ui-icon-circle-arrow-e"/>  
+                      <p:menuitem value="vaty wyslane"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e"/>  
+                       <p:menuitem value="vaty dowyslania"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"/>  
                 </p:menu>
                       <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
