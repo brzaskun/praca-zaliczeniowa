@@ -3,8 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+      xmlns:p="http://primefaces.org/ui">
+<!--      xmlns:ft="http://primefaces.prime.com.tr/facestrace">-->
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="Pragma" content="no-cache"/>
@@ -14,8 +14,6 @@
         <h:outputScript library="js" name="jsf.js"/>
     </h:head>
     <h:body>
-       
-        
         <p:idleMonitor timeout="600000"   
                        onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
 
@@ -23,6 +21,7 @@
                   widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
             <h:outputText value="Zostałeś wylogowany" />  
         </p:dialog>
+<!--        ten button jest bardzo wazny. wylogowuje sejse. nie wolno go usuwac-->
         <h:form id="templateform">
              <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
         </h:form>

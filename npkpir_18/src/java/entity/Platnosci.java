@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Platnosci.findByKey", query = "SELECT p FROM Platnosci p WHERE p.platnosciPK.podatnik = :podatnik AND p.platnosciPK.rok = :rok AND p.platnosciPK.miesiac = :miesiac"),
+    @NamedQuery(name = "Platnosci.findByPodRok", query = "SELECT p FROM Platnosci p WHERE p.platnosciPK.podatnik = :podatnik AND p.platnosciPK.rok = :rok"),
     @NamedQuery(name = "Platnosci.findAll", query = "SELECT p FROM Platnosci p"),
     @NamedQuery(name = "Platnosci.findByRok", query = "SELECT p FROM Platnosci p WHERE p.platnosciPK.rok = :rok"),
     @NamedQuery(name = "Platnosci.findByMiesiac", query = "SELECT p FROM Platnosci p WHERE p.platnosciPK.miesiac = :miesiac"),

@@ -27,6 +27,10 @@
             <to-view-id>/guest/guestKsiega.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gpodatki</from-outcome>
+            <to-view-id>/guest/guestPodatki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gzestawienie</from-outcome>
             <to-view-id>/guest/guestZestawienie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
