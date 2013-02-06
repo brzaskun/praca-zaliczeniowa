@@ -118,6 +118,18 @@ public class beanek {
         deklaracjevatDAO.edit(temp);
     }
 
+    public void pobierzwyslane(String identyfikator){
+        requestUPO(identyfikator, lang, upo, stat, opis);
+        
+        upoMB = upo.value;
+        statMB = stat.value;    
+        opisMB = opis.value;
+        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        temp.setUpo(upoMB);
+        temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
+        deklaracjevatDAO.edit(temp);
+    }
   
     public String getIdMB() {
         return idMB;
