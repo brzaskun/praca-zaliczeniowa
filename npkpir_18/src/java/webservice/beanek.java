@@ -96,6 +96,7 @@ public class beanek {
         dok = DatatypeConverter.parseBase64Binary(tmp);
         sendUnsignDocument(dok, lang, signT, id, stat, opis);
         idMB = id.value;
+        idpobierz = id.value;
         statMB = stat.value;
         opisMB = opis.value;
         temp.setIdentyfikator(idMB);
@@ -105,14 +106,14 @@ public class beanek {
         
     }
     
-    public void pobierz(String identyfikator){
-        requestUPO(identyfikator, lang, upo, stat, opis);
+    public void pobierz(){
+        requestUPO(idpobierz, lang, upo, stat, opis);
         upoMB = upo.value;
         statMB = stat.value;    
         opisMB = opis.value;
-        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
         temp.setUpo(upoMB);
-         temp.setStatus(statMB.toString());
+        temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
     }
