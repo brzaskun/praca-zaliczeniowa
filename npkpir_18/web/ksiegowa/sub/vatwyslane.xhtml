@@ -62,7 +62,7 @@
                              <f:facet name="header">
                                  <h:outputText value="pobierzupo"/>
                              </f:facet>
-                              <p:commandButton value="UPO" actionListener="#{beanek.pobierz(item.identyfikator)}" update="@form" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true"/>
+                              <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update="@form" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true"/>
                          </p:column>
                      </p:dataTable>
                  </h:form>
