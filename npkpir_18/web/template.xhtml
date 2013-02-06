@@ -16,14 +16,16 @@
     <h:body>
        
         
-        <p:idleMonitor timeout="500000"   
+        <p:idleMonitor timeout="600000"   
                        onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
 
         <p:dialog header="Upłynął czas sesji" resizable="false"  
                   widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
             <h:outputText value="Zostałeś wylogowany" />  
         </p:dialog>
-       
+        <h:form id="templateform">
+             <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
+        </h:form>
         <ui:insert name="body"> 
         </ui:insert>
     </h:body>
