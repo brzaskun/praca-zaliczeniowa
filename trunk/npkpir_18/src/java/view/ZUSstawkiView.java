@@ -40,7 +40,9 @@ public class ZUSstawkiView implements Serializable{
     private void init(){
         Collection c;
         c = zusDAO.getDownloaded();
+        try{
         listapobranychstawek.addAll(c); 
+        } catch (Exception e){}
     }
     
      public void dodajzus(){
