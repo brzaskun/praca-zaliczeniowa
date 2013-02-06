@@ -4,11 +4,13 @@
  */
 package view;
 
+import dao.DeklaracjevatDAO;
 import dao.OdsetkiDAO;
 import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
+import entity.Deklaracjevat;
 import entity.Odsetki;
 import entity.Pitpoz;
 import entity.Platnosci;
@@ -44,19 +46,14 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class PlatnosciView implements Serializable{
   
-    @Inject
-    PodatnikDAO podatnikDAO;
-    @Inject
-    PlatnosciDAO platnosciDAO;
-    @Inject
-    OdsetkiDAO odsetkiDAO;
-    @Inject
-    PitDAO pitDAO;
-    @Inject
-    private Podatnik selected;
+    @Inject PodatnikDAO podatnikDAO;
+    @Inject PlatnosciDAO platnosciDAO;
+    @Inject OdsetkiDAO odsetkiDAO;
+    @Inject PitDAO pitDAO;
+    @Inject private Podatnik selected;
     private static Platnosci selectedZob;
-    @Inject
-    private ZobowiazanieDAO zv;
+    @Inject private ZobowiazanieDAO zv;
+    @Inject private DeklaracjevatDAO deklaracjevatDAO;
     @ManagedProperty(value="#{wpisView}")
     private WpisView wpisView;
 
@@ -92,11 +89,14 @@ public class PlatnosciView implements Serializable{
            nowezobowiazanie();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe daty przelewów.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("form:formZob:wiad");
+            RequestContext.getCurrentInstance().update("form:formZob");
         }
     }
             
     public void nowezobowiazanie(){
+        String rok = selectedZob.getPlatnosciPK().getRok();
+        String mc = selectedZob.getPlatnosciPK().getMiesiac();
+        String podatnik = selected.getNazwapelna();
         List<Zusstawki> listapobrana = selected.getZusparametr();
         Zusstawki zusstawki = new Zusstawki();
         Pitpoz pitpoz = new Pitpoz();
@@ -104,8 +104,7 @@ public class PlatnosciView implements Serializable{
         it = listapobrana.iterator();
         while(it.hasNext()){
             Zusstawki tmp = (Zusstawki) it.next();
-            if(tmp.getZusstawkiPK().getRok().equals(selectedZob.getPlatnosciPK().getRok())&&
-                    tmp.getZusstawkiPK().getMiesiac().equals(selectedZob.getPlatnosciPK().getMiesiac())){
+            if(tmp.getZusstawkiPK().getRok().equals(rok) && tmp.getZusstawkiPK().getMiesiac().equals(mc)){
                 zusstawki = tmp;
             }
         }
@@ -114,8 +113,29 @@ public class PlatnosciView implements Serializable{
         selectedZob.setZus53(zusstawki.getZus53());
         selectedZob.setPit4(zusstawki.getPit4());
         //pobierz PIT-5
-        pitpoz = pitDAO.find(selectedZob.getPlatnosciPK().getRok(),selectedZob.getPlatnosciPK().getMiesiac(),selected.getNazwapelna());
-        selectedZob.setPit5(pitpoz.getNaleznazal().doubleValue());
+        try{
+            pitpoz = pitDAO.find(rok,mc,podatnik);
+            selectedZob.setPit5(pitpoz.getNaleznazal().doubleValue());
+        } catch (Exception e) {
+            selectedZob.setPit5(0.0);
+        }
+        //pobierz VAT-7
+        try{
+            Deklaracjevat dekl = new Deklaracjevat();
+            try {
+                List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
+                dekl = deklaracje.get(deklaracje.size()-1);
+                if(dekl.getPozycjeszczegolowe().getPoleI58()!=0){
+                    selectedZob.setVat(Double.parseDouble(dekl.getPozycjeszczegolowe().getPole58()));
+                } else {
+                selectedZob.setVat(0-Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+                }
+            }  catch (Exception e)  {
+                selectedZob.setVat(0-Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+            }
+        } catch (Exception e) {
+            selectedZob.setVat(0.0);
+        }
         List<Zobowiazanie> terminy = new ArrayList<>();
         terminy.addAll(zv.getDownloaded());
         Zobowiazanie termin = new Zobowiazanie();
@@ -138,11 +158,13 @@ public class PlatnosciView implements Serializable{
         selectedZob.setPit4ods(0.0);
         selectedZob.setPit5ods(0.0);
         selectedZob.setVatods(0.0);
+        try{
         selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
         selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus51ods());
         selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
         selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
         selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
+        } catch (Exception e){}
         //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
         }
    

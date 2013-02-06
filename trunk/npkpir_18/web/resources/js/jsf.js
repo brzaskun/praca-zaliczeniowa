@@ -48,16 +48,13 @@ $(window).bind('beforeunload', function(){
             var year = date_array[0];
             // This instruction will create a date object
             source_date = new Date(year,month,day);
-            if(year != source_date.getFullYear())
-            {
-               alert('Nieprawidłowa data - sprawdź! ');
+            if(year != source_date.getFullYear()){
+               alert('Nieprawid\u0142owa data - sprawdź! ');
                document.getElementById(param).focus();
                return false;
             }
-
-            if(month != source_date.getMonth())
-            {
-               alert('Nieprawidłowa data - sprawdź!');
+            if(month != source_date.getMonth()){
+               alert('Nieprawid\u0142owa data - sprawdź!');
                document.getElementById(param).focus();
                return false;
             }
