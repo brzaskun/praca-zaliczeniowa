@@ -74,25 +74,22 @@ public class SessionFacade<T> {
     public Evpozycja findEvpozycjaByName(String nazwapola) {
         return (Evpozycja) em.createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
     }
-    
+
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
-    
-     public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
+
+    public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
         Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiac AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
-    
+
     public List<Pitpoz> findPitpodatnik(String rok, String pod) {
         List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
 
-    
-  
-    
     public Uz findUzNP(String np) {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
         return tmp;
@@ -119,6 +116,11 @@ public class SessionFacade<T> {
 
     public Platnosci findPlatnosciPK(PlatnosciPK key) throws Exception {
         Platnosci tmp = (Platnosci) em.createNamedQuery("Platnosci.findByKey").setParameter("podatnik", key.getPodatnik()).setParameter("rok", key.getRok()).setParameter("miesiac", key.getMiesiac()).getSingleResult();
+        return tmp;
+    }
+    
+    public List<Platnosci> findPlatnosciPodRok(String rok, String podatnik) throws Exception {
+        List<Platnosci> tmp = em.createNamedQuery("Platnosci.findByPodRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         return tmp;
     }
 
@@ -206,9 +208,9 @@ public class SessionFacade<T> {
             return false;
         }
     }
-    
-    public Zamknietemiesiace findZM(String podatnik){
-            return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
+
+    public Zamknietemiesiace findZM(String podatnik) {
+        return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
     }
 
     public Wpis findWpis(String login) {
@@ -233,7 +235,7 @@ public class SessionFacade<T> {
     public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
         return (Deklaracjevat) em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
     }
-    
+
     public List<Deklaracjevat> findDeklaracjewszystkie(String rok, String mc, String pod) {
         return em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
     }

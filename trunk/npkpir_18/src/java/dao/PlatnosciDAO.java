@@ -7,6 +7,7 @@ package dao;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -28,4 +29,7 @@ public class PlatnosciDAO extends DAO implements Serializable{
         return platnosciFacade.findPlatnosciPK(key);
      }
    
+     public List<Platnosci> findPodRok(String rok, String podatnik) throws Exception{
+        return platnosciFacade.findPlatnosciPodRok(rok, podatnik);
+     }
 }
