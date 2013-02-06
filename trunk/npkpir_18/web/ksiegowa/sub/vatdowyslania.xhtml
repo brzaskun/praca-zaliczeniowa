@@ -54,7 +54,7 @@
                      </p:dataTable>
                  </h:form><br/>
             <h:form>
-                <p:commandButton value="wyslij" actionListener="#{beanek.rob()}" update="@form" style="width: 120px;"/><br/><br/>
+                <p:commandButton value="wyslij" actionListener="#{beanek.rob()}" update="@form, :form:upo" style="width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2">
                 <h:outputText value="id"/>
                 <h:outputText value="#{beanek.idMB}"/>
@@ -65,9 +65,9 @@
                 </p:panelGrid>
             </h:form>
     <br/>
-            <h:form>
+    <h:form id="form">
                 <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form" style="width: 120px;"/><br/><br/>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="2" id="upo">
                 <h:outputText value="id"/>
                 <h:inputText value="#{beanek.idpobierz}"/>
                 <h:outputText value="upo"/>
