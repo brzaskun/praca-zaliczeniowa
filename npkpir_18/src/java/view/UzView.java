@@ -68,6 +68,7 @@ public class UzView implements Serializable{
          System.out.println("Wpis do bazy zaczynam");
          selUzytkownik.setUprawnienia("Noobie");
          selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
+         selUzytkownik.setIloscwierszy("12");
          sformatuj();
          if (validateData()) {
              try {

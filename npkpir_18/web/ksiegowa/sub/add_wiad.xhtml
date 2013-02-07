@@ -10,7 +10,7 @@
    
    
     <p:panel id="panelDodawaniaDokumentu">
-        <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów" style="width: 1000px;" >
+        <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1000px;" >
             <p:growl id="mess_add" />
             <p:focus for="polawprowadzania"/>
             <p:panelGrid id="polawprowadzania" columns="5" >
@@ -145,7 +145,7 @@
                 <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
                     <f:selectItems id="vatr" value="#{Mce.mceList}"/>
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{DokumentView.selDokument.vatR}" >
+                <h:selectOneMenu value="#{DokumentView.selDokument.vatR}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                 <h:inputText value="#{DokumentView.selDokument.uwagi}" />

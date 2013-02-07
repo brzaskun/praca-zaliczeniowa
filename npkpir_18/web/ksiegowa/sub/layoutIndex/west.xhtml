@@ -10,16 +10,16 @@
                 <p:panelGrid columns="1" style="margin-left: 0%">
                  <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;" >
                     <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidokIndex}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidokIndex}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidok}"/>
+                    <p:ajax event="change" listener="#{DokumentView.aktualizujWestWpisWidokIndex}"/>
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" rendered="false"/>
                 </p:panelGrid>

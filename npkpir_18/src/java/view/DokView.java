@@ -54,6 +54,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
@@ -82,7 +83,7 @@ import serialclone.SerialClone;
  * @author Osito
  */
 @ManagedBean(name="DokumentView")
-@RequestScoped
+@ViewScoped
 public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNazwa;
@@ -102,7 +103,6 @@ public class DokView implements Serializable{
     private static Klienci przekazKontr;
 
     /*pkpir*/
-    @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private DokDAO dokDAO;
     @Inject private Kolmn kolumna; 
@@ -166,6 +166,7 @@ public class DokView implements Serializable{
         setPokazSTR(false);
         opis = "ewidencja opis";
         setWysDokument(null);
+        wpisView = new WpisView();
     }
  
     @PostConstruct
@@ -186,6 +187,8 @@ public class DokView implements Serializable{
         try{
         wysDokument = ostatnidokumentDAO.pobierz();
         } catch (Exception e){}
+        selDokument.setVatR(wpisView.getRokWpisu().toString());
+        selDokument.setVatM(wpisView.getMiesiacWpisu());
     }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
@@ -1071,6 +1074,9 @@ public class DokView implements Serializable{
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZestawienieRok.xhtml");
     }
     
+    public void aktualizujWestWpisWidokIndex(AjaxBehaviorEvent e) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+    }
      public void aktualizujZamkniecie(AjaxBehaviorEvent e) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZamkniecie.xhtml");
     }

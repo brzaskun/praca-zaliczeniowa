@@ -59,6 +59,9 @@ public class Uz implements Serializable {
     @Size(max = 11)
     @Column(name = "firma")
     private String firma;
+    @Size(max = 2)
+    @Column(name = "iloscwierszy")
+    private String iloscwierszy;
 
     public Uz() {
     }
@@ -124,6 +127,15 @@ public class Uz implements Serializable {
         this.firma = firma;
     }
 
+    public String getIloscwierszy() {
+        return iloscwierszy;
+    }
+
+    public void setIloscwierszy(String iloscwierszy) {
+        this.iloscwierszy = iloscwierszy;
+    }
+
+    
     
     @Override
     public int hashCode() {
