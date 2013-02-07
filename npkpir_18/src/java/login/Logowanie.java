@@ -133,13 +133,23 @@ public class Logowanie implements Serializable{
     //wyszukuje dane wybranego podatnika i miesiaca, zeby je wyswietlic
      private void findWpis(){
         wpisView = new WpisView();
-        wpis = wpisDAO.find(uzytk);
         Uz wprowadzil = uzDAO.find(uzytk);
+        try{
+        wpis = wpisDAO.find(uzytk);
         wpisView.setWprowadzil(wprowadzil);
         wpisView.setRokWpisu(wpis.getRokWpisu());
         wpisView.setMiesiacWpisu(wpis.getMiesiacWpisu());
+        } catch (Exception e){
+            wpisView.setWprowadzil(wprowadzil);
+            wpisView.setRokWpisu(2013);
+            wpisView.setMiesiacWpisu("01");
+        }
         if(!wprowadzil.getUprawnienia().equals("Guest")){
-        wpisView.setPodatnikWpisu(wpis.getPodatnikWpisu());
+        try{
+            wpisView.setPodatnikWpisu(wpis.getPodatnikWpisu());
+        } catch (Exception e){
+            wpisView.setPodatnikWpisu("GRZELCZYK");
+        }
         }
     }
     

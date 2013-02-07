@@ -40,7 +40,9 @@ public class ZobowiazanieView implements Serializable{
     private void init(){
         Collection c;
         c = zobowiazanieDAO.getDownloaded();
-        listapobranychstawek.addAll(c); 
+        try{
+            listapobranychstawek.addAll(c);
+        } catch (Exception e){}
     }
     
      public void dodaj(){
