@@ -8,11 +8,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:accordionPanel id="akordeon">  
         <p:tab title="Terminy płatności zobowiązań">  
-            <h:form id="formzob" >
+           
                 <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
                     <br/>
                 <p:growl id="msgzus" showDetail="true"/>
-                <p:focus for="parametryzob"/><br/>
+                <br/>
+                <h:form id="formzob" >
                 <p:panelGrid columns="1" style="width: 900px">
                     <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                          <f:facet name="header">
@@ -39,8 +40,13 @@
                         <br/>
                     </p:dataTable>
                 </p:panelGrid>
+                     <p:commandButton action="#{zobowiazanieView.usun()}" value="usun parametr" update=":akordeon:formzob" type="submit" />
+                </h:form>
                 <br/>
+                
                 <h:outputText value="wybierz parametry aktualne"/><br/>
+                <h:form>
+                    <p:focus for="parametryzob"/>
                 <p:panelGrid id="parametryzob" columns="2" >
                     <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
                     <h:outputText value="miesiac : "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.mc}" ><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
@@ -51,11 +57,12 @@
                 </p:panelGrid>
                 <br/>
                 <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                    <p:commandButton action="#{zobowiazanieView.usun()}" value="usun parametr" update="@form" type="submit" />
-                    <p:commandButton action="#{zobowiazanieView.dodaj()}" value="dodaj parametr" update="@form"  type="submit" />
+                   
+                    <p:commandButton action="#{zobowiazanieView.dodaj()}" value="dodaj parametr" update=":akordeon:formzob"  type="submit" />
                 </p:panelGrid>
+                </h:form>
                 </p:panel>
-            </h:form>
+            
         </p:tab>
         <p:tab title="Stawki odsetek od zobowiązań">  
             
@@ -95,7 +102,6 @@
                 </p:panelGrid>
                  </p:panel>
             </h:form>
-            
         </p:tab>
 
     </p:accordionPanel>
