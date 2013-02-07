@@ -3,11 +3,9 @@ package view;
 
 import dao.KlienciDAO;
 import embeddable.PanstwaSymb1;
-import embeddable.PozycjeSzczegoloweVAT;
 import entity.Klienci;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -18,7 +16,7 @@ import java.util.Scanner;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -30,7 +28,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean(name="KlView")
-@RequestScoped
+@ViewScoped
 public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
@@ -186,9 +184,8 @@ public class KlView implements Serializable{
   }
   
    public List<Klienci> complete(String query) {  
-        List<Klienci> results = new ArrayList<>();  
-        results.add(new Klienci("1111111111", "nowy klient"));
-        Klienci kl = new Klienci();
+        List<Klienci> results = new ArrayList<>();
+        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
         List<Klienci> lista = klDAO.getDownloaded();
         try{
             String q = query.substring(0,1);

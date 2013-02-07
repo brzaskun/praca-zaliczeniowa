@@ -83,7 +83,6 @@ import org.primefaces.extensions.component.inputnumber.InputNumber;
 @ViewScoped
 public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
-    private HtmlInputText kontrahentNazwa;
     private HtmlInputText kontrahentNIP;
     private HtmlSelectOneMenu srodkitrwalewyposazenie;
 
@@ -1057,6 +1056,9 @@ public class DokView implements Serializable{
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
         przekazKontr = (Klienci) anAutoComplete.getValue();
+        if(przekazKontr.getNpelna().equals("nowy klient")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
+        }
     }
     
      public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {
@@ -1256,10 +1258,7 @@ public class DokView implements Serializable{
         this.pkpirLista = pkpirLista;
     }
 
-    public HtmlInputText getKontrahentNazwa() {
-        return kontrahentNazwa;
-    }
-
+   
     public PanelGrid getGrid1() {
         return grid1;
     }
@@ -1276,10 +1275,7 @@ public class DokView implements Serializable{
         this.grid2 = grid2;
     }
 
-    public void setKontrahentNazwa(HtmlInputText kontrahentNazwa) {
-        this.kontrahentNazwa = kontrahentNazwa;
-    }
-
+   
     public HtmlInputText getKontrahentNIP() {
         return kontrahentNIP;
     }

@@ -9,16 +9,14 @@
     <h:form id="formX">
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)"  >
-            <p:focus id="focus" context="polawprowadzania" />
             <p:growl id="mess_add" />
+            <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
                 <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
                 <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
                 <h:outputLabel value="nip" style="font-weight: 700"/>
                 <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                 <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-
-
                 <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="s" title="pełna nazwa kontrahenta" maxlength="25" style="width: 200px" required="true" requiredMessage="Pole daty nie może byc puste" onfocus="selcolor();">
                     <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta" /> 
                 </p:inputText>
