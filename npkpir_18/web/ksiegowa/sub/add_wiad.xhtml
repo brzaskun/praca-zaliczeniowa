@@ -26,8 +26,8 @@
                 <h:panelGroup id="dwadoWprowadzania">
                     <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
-                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
-                                    effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
+                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
+                                    effect="clip"  valueChangeListener="#{DokumentView.przekazKontrahenta}" 
                                     required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK();">
                         <f:ajax event="blur" execute="@this" />
                         <f:facet name="itemtip">  

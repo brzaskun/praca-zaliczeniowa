@@ -145,6 +145,21 @@ public class Klienci implements Serializable {
         this.znacznik2 = klienci.znacznik2;
         this.znacznik3 = klienci.znacznik3;
     }
+
+    public Klienci(String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal, String evat, String pkpirKolumna) {
+        this.npelna = npelna;
+        this.nskrocona = nskrocona;
+        this.nip = nip;
+        this.kodpocztowy = kodpocztowy;
+        this.miejscowosc = miejscowosc;
+        this.ulica = ulica;
+        this.dom = dom;
+        this.lokal = lokal;
+        this.evat = evat;
+        this.pkpirKolumna = pkpirKolumna;
+        
+    }
+    
     
     
     

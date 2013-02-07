@@ -79,10 +79,9 @@ $(window).bind('beforeunload', function(){
             document.getElementById("dodWiad:acForce_input").focus();
             return false
         }else{
-            if(tekst == "nowy klient"){
-                document.getElementById("dodWiad:acForce_input").value = "";
-                document.getElementById("dodWiad:acForce_input").focus();
-                window.open('kliencipopup.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
+            if(tekst == ""){
+                window.location.href = "klienci.xhtml";
+//                window.open('klienci.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
             }
             return true;
         }};
