@@ -49,7 +49,7 @@
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
                         
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów" />  
+                <h:outputText value="Wykaz dokumentów" /> 
             </f:facet>
             
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
@@ -129,16 +129,20 @@
             <p:column id="uwagaColumn" headerText="uwagi" filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}">  
                 <h:outputText value="#{wpis.uwagi}" />
             </p:column>
-            <p:column id="editColumn" headerText="edytuj" rendered="#{wpis.status eq 'bufor' ? true : false}">
-                 <p:rowEditor rendered="#{wpis.opis eq 'storno za miesiac' ? false : true}"/>  
-            </p:column>
-            
-            <p:column id="deleteColumn" headerText="usuń" rendered="#{wpis.status eq 'bufor' ? true : false}">
-                <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.opis eq 'storno za miesiac' ? false : true}"/>
-            </p:column>
-            <p:column id="status" headerText="status" rendered="#{wpis.status eq 'bufor' ? false : true}" width="90">
-                <h:outputText value="dok.zaksięg"/>
-            </p:column>
+
+                <p:column id="editColumn" headerText="edytuj" rendered="#{wpis.status eq 'bufor' ? true : false}">
+                     <p:rowEditor rendered="#{wpis.opis eq 'storno za miesiac' ? false : true}"/>  
+                </p:column>
+
+                <p:column id="deleteColumn" headerText="usuń" rendered="#{wpis.status eq 'bufor' ? true : false}">
+                    <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.opis eq 'storno za miesiac' ? false : true}"/>
+                </p:column>
+
+
+                <p:column id="status" headerText="status"  width="90" rendered="#{wpis.status eq 'bufor' ? false : true}">
+                    <h:outputText value="dok.zaksięg"/>
+                </p:column>
+
             <p:column id="kwotaColumnX" headerText="kwota" filterBy="#{wpis.kwotaX}" filterMatchMode="contains" sortBy="#{wpis.kwotaX}">  
                         <h:outputText value="#{wpis.kwotaX}" style="padding-left: 20%; font-weight: 700; float: right;">
                            <f:convertNumber minFractionDigits="2" locale="PL"/>

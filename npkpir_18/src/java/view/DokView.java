@@ -187,8 +187,10 @@ public class DokView implements Serializable{
         try{
         wysDokument = ostatnidokumentDAO.pobierz();
         } catch (Exception e){}
+        try{
         selDokument.setVatR(wpisView.getRokWpisu().toString());
         selDokument.setVatM(wpisView.getMiesiacWpisu());
+        } catch (Exception e){}
     }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
