@@ -7,10 +7,12 @@ package view;
 import dao.DokDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
+import dao.UzDAO;
 import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Dok;
 import entity.StornoDok;
+import entity.Uz;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,9 +68,8 @@ public class DokTabView implements Serializable {
     @Inject
     private STRDAO sTRDAO;
     private boolean button;
-    private List<Dok> filteredList;
-    private List<Dok> filteredListniezapl;
-    private List<Dok> filteredListzapl;
+    @Inject private Uz uzytkownik;
+    @Inject private UzDAO uzDAO;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -86,10 +87,6 @@ public class DokTabView implements Serializable {
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
         //lista porzechowujaca przefiltrowane widoki
-        filteredList = new ArrayList<>();
-        filteredListniezapl = new ArrayList<>();
-        filteredListzapl = new ArrayList<>();
-
     }
 
     @PostConstruct
@@ -98,6 +95,7 @@ public class DokTabView implements Serializable {
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
+            uzytkownik = wpisView.getWprowadzil();
             try {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
                 setButton(false);
@@ -159,11 +157,6 @@ public class DokTabView implements Serializable {
                     }
                 }
             }
-            try{
-            filteredList.addAll(obiektDOKmrjsfSelX);
-            filteredListniezapl.addAll(niezaplacone);
-            filteredListzapl.addAll(zaplacone);
-            } catch (Exception e){}
         }
     }
 
@@ -198,7 +191,6 @@ public class DokTabView implements Serializable {
             try {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
-                filteredList.remove(dokdoUsuniecia);
                 dokDAO.destroy(dokdoUsuniecia);
             } catch (Exception e) {
                 System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
@@ -390,29 +382,13 @@ public class DokTabView implements Serializable {
         this.button = button;
     }
 
-    public List<Dok> getFilteredList() {
-        return filteredList;
+    public Uz getUzytkownik() {
+        return uzytkownik;
     }
 
-    public void setFilteredList(List<Dok> filteredList) {
-        this.filteredList = filteredList;
+    public void setUzytkownik(Uz uzytkownik) {
+        this.uzytkownik = uzytkownik;
     }
 
-    public List<Dok> getFilteredListniezapl() {
-        return filteredListniezapl;
-    }
-
-    public void setFilteredListniezapl(List<Dok> filteredListniezapl) {
-        this.filteredListniezapl = filteredListniezapl;
-    }
-
-    public List<Dok> getFilteredListzapl() {
-        return filteredListzapl;
-    }
-
-    public void setFilteredListzapl(List<Dok> filteredListzapl) {
-        this.filteredListzapl = filteredListzapl;
-    }
-    
     
 }
