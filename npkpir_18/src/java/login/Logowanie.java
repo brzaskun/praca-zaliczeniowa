@@ -4,6 +4,7 @@
  */
 package login;
 
+import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
@@ -44,6 +45,7 @@ public class Logowanie implements Serializable{
     @Inject private WpisDAO wpisDAO;
     @Inject private Wpis wpis;
     private WpisView wpisView;
+    @Inject OstatnidokumentDAO ostatnidokumentDAO;
     
     
  
@@ -79,6 +81,9 @@ public class Logowanie implements Serializable{
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Manager";
             }else if(request.isUserInRole("Bookkeeper")){
+                 try{
+                ostatnidokumentDAO.usun();
+                } catch (Exception e){}
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Bookkeeper";
             }else if(request.isUserInRole("Guest")){

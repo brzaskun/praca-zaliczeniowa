@@ -102,4 +102,6 @@ public class DokDAO extends DAO implements Serializable {
         Dok tmp = (Dok) dokFacade.findStornoDok(rok, mc, podatnik);
         dokFacade.remove(tmp);
     }
+    
+  
 }

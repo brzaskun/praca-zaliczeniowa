@@ -43,7 +43,7 @@ public abstract class DAO<T> {
         if (c.size() > 0) {
             downloaded = new ArrayList<>();
             downloaded.addAll(c);
-            System.out.println("Pobrano z bazy danych. DAO elementow:" + c.size());
+            System.out.println("Pobrano z bazy danych. DAO elementow:" + c.size()+" "+c.getClass().getCanonicalName()+" "+c.get(0).toString());
         }
     }
 

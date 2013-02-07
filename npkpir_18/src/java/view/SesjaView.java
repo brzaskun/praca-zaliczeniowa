@@ -38,7 +38,7 @@ public class SesjaView implements Serializable{
         }
     }
     
-    public void dodajdokument(){
+    public String dodajdokument(){
         try {
             sesja = sesjaDAO.find(nrsesji);
             int ilosc = sesja.getIloscdokumentow();
@@ -47,6 +47,7 @@ public class SesjaView implements Serializable{
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
         }
+        return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
     }
 
     public static String getNrsesji() {
