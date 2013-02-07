@@ -88,9 +88,11 @@ public class Klienci implements Serializable {
     @Size(max = 255)
     @Column(name = "miejscowosc")
     private String miejscowosc;
+    @Pattern(regexp="\\p{Alpha}+", message="Dopuszczalne w nazwie są tylko litery i cyfry")
     @Size(max = 255)
     @Column(name = "npelna")
     private String npelna;
+    @Pattern(regexp="\\p{Alpha}+", message="Dopuszczalne w nazwie są tylko litery i cyfry")
     @Size(max = 255)
     @Column(name = "nskrocona")
     private String nskrocona;
@@ -121,6 +123,29 @@ public class Klienci implements Serializable {
         this.nip = nip;
         this.npelna = npelna;
     }
+
+    public Klienci(Klienci klienci) {
+        this.id = klienci.id;
+        this.nip = klienci.nip;
+        this.pesel = klienci.pesel;
+        this.dom = klienci.dom;
+        this.email = klienci.email;
+        this.evat = klienci.evat;
+        this.kodpocztowy = klienci.kodpocztowy;
+        this.kontobank = klienci.kontobank;
+        this.krajkod = klienci.krajkod;
+        this.krajnazwa = klienci.krajnazwa;
+        this.lokal = klienci.lokal;
+        this.miejscowosc = klienci.miejscowosc;
+        this.npelna = klienci.npelna;
+        this.nskrocona = klienci.nskrocona;
+        this.pkpirKolumna = klienci.pkpirKolumna;
+        this.ulica = klienci.ulica;
+        this.znacznik1 = klienci.znacznik1;
+        this.znacznik2 = klienci.znacznik2;
+        this.znacznik3 = klienci.znacznik3;
+    }
+    
     
     
     

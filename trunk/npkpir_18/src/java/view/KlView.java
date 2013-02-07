@@ -3,9 +3,11 @@ package view;
 
 import dao.KlienciDAO;
 import embeddable.PanstwaSymb1;
+import embeddable.PozycjeSzczegoloweVAT;
 import entity.Klienci;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -77,8 +79,35 @@ public class KlView implements Serializable{
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta","formX:mess_add");
         } catch (Exception e) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nowy klient nie zachowany", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
+        }
+         
+         
+   }
+    
+     public void dodajKlientapop(){
+      try {
+        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selected.getNpelna().substring(2).toLowerCase());
+        selected.setNpelna(formatka);
+        formatka = selected.getNskrocona().toUpperCase();
+        selected.setNskrocona(formatka);
+        formatka = selected.getUlica().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selected.getUlica().substring(2).toLowerCase());
+        selected.setUlica(formatka);
+        try {
+            selected.getKrajnazwa();
+        } catch (Exception e){
+            selected.setKrajnazwa("Polska");
+        }
+        String kraj = selected.getKrajnazwa();
+        String symbol = ps1.getWykazPanstwSX().get(kraj);
+        selected.setKrajkod(symbol);
+        klDAO.dodaj(selected);
+        DokView dokView = new DokView();
+        Msg.msg("i","Dodano nowego klienta","formpop:mess_add");
+        } catch (Exception e) {
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formpop:mess_add");
         }
          
    }
