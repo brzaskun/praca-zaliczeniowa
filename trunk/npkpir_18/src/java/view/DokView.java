@@ -9,6 +9,7 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
+import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
@@ -23,6 +24,7 @@ import entity.Dok;
 import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.Ostatnidokument;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
@@ -91,26 +93,19 @@ public class DokView implements Serializable{
     private PanelGrid grid2;
     private PanelGrid grid3;
     
-    @Inject
-    private Dok selDokument;
-    @Inject
-    private Dok wysDokument;
-    @Inject
-    private Klienci selectedKontr;
-    @Inject
-    private AmoDokDAO amoDokDAO;
-    @Inject
-    private PodatnikDAO podatnikDAO;
+    @Inject private Dok selDokument;
+    @Inject private Dok wysDokument;
+    @Inject private Klienci selectedKontr;
+    @Inject private AmoDokDAO amoDokDAO;
+    @Inject private PodatnikDAO podatnikDAO;
     
     private static Klienci przekazKontr;
 
     /*pkpir*/
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private DokDAO dokDAO;
-    @Inject
-    private Kolmn kolumna; 
+    @Inject private DokDAO dokDAO;
+    @Inject private Kolmn kolumna; 
     private String opis;
     /*pkpir*/
     /* Rozliczenia vat*/
@@ -128,20 +123,15 @@ public class DokView implements Serializable{
     private double vat4;
     private String opizw;
     
-    @Inject
-    private EVatView evat;
-    @Inject
-    private EVatOpisDAO eVatOpisDAO;
-    @Inject
-    private Evewidencja eVidencja;
-    @Inject
-    private EvewidencjaDAO evewidencjaDAO;
+    @Inject private EVatView evat;
+    @Inject private EVatOpisDAO eVatOpisDAO;
+    @Inject private Evewidencja eVidencja;
+    @Inject private EvewidencjaDAO evewidencjaDAO;
     private EVatwpis eVatwpis;
     private static String wielkoscopisuewidencji;
     /* Rozliczenia vat*/
     /*Środki trwałe*/
-    @Inject
-    private SrodekTrw selectedSTR;       
+    @Inject private SrodekTrw selectedSTR;       
     /*Środki trwałe*/
     private boolean pokazSTR;
     private String test;
@@ -155,15 +145,12 @@ public class DokView implements Serializable{
     @Inject private Srodkikst srodekkategoria;
    
     //edycja platnosci
-    @Inject
-    private Rozrachunek rozrachunek;
+    @Inject private Rozrachunek rozrachunek;
    //automatyczne ksiegowanie Storna
     @Inject private StornoDokDAO stornoDokDAO;
     private boolean rozliczony;
-    @Inject
-    private StornoDok stornoDok;
-    @Inject
-    private RodzajedokDAO rodzajedokDAO;
+    @Inject private StornoDok stornoDok;
+    @Inject private RodzajedokDAO rodzajedokDAO;
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private static String typdokumentu;
@@ -173,6 +160,7 @@ public class DokView implements Serializable{
     //pobieram wykaz KŚT
     @Inject private SrodkikstDAO srodkikstDAO;
     private static String przechowajdatejakdodaje;
+    @Inject OstatnidokumentDAO ostatnidokumentDAO;
     
     public DokView() {
         setPokazSTR(false);
@@ -194,6 +182,10 @@ public class DokView implements Serializable{
             rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
             opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
         }
+        //pobranie ostatniego dokumentu
+        try{
+        wysDokument = ostatnidokumentDAO.pobierz();
+        } catch (Exception e){}
     }
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
@@ -732,6 +724,11 @@ public class DokView implements Serializable{
             }
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
+            //wpisywanie do bazy ostatniego dokumentu
+            Ostatnidokument temp = new Ostatnidokument();
+            temp.setUzytkownik(selDokument.getWprowadzil());
+            temp.setDokument(selDokument);
+            ostatnidokumentDAO.edit(temp);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
@@ -770,7 +767,6 @@ public class DokView implements Serializable{
             grid2.getChildren().clear();
             grid3 = getGrid3();
             grid3.getChildren().clear();
-            wysDokument = SerialClone.clone(selDokument);
             selDokument = new Dok();
             RequestContext.getCurrentInstance().update("@form");
     }

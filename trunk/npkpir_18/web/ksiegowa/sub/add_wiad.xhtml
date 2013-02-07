@@ -10,7 +10,7 @@
    
    
     <p:panel id="panelDodawaniaDokumentu">
-        <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów"  >
+        <p:panel menuTitle="Wprowadzanie dokumentów" header="Wprowadzanie dokumentów" style="width: 1000px;" >
             <p:growl id="mess_add" />
             <p:focus for="polawprowadzania"/>
             <p:panelGrid id="polawprowadzania" columns="5" >
@@ -149,8 +149,9 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                 <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" update="mess_add,:dodWiad:ostatniUzytkownik, @form" global="false" oncomplete="focusdata()"/>   
+                <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" />   
             </p:panelGrid>
+            
             <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument">
                 <p:panelGrid columns="16">
                     <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
