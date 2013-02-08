@@ -88,11 +88,9 @@ public class Klienci implements Serializable {
     @Size(max = 255)
     @Column(name = "miejscowosc")
     private String miejscowosc;
-    @Pattern(regexp="\\p{Alpha}+", message="Dopuszczalne w nazwie są tylko litery i cyfry")
     @Size(max = 255)
     @Column(name = "npelna")
     private String npelna;
-    @Pattern(regexp="\\p{Alpha}+", message="Dopuszczalne w nazwie są tylko litery i cyfry")
     @Size(max = 255)
     @Column(name = "nskrocona")
     private String nskrocona;

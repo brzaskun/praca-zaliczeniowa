@@ -639,6 +639,7 @@ public class DokView implements Serializable{
     }
 
     public void dodaj() {
+        List<Double> pobierzVat = new ArrayList<>();
         try {
             ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
             EVatOpis eVO = (EVatOpis) eVatOpisDAO.getDownloaded().get(0);
@@ -652,7 +653,6 @@ public class DokView implements Serializable{
             pobierzNetto.add(netto2);
             pobierzNetto.add(netto3);
             pobierzNetto.add(netto4);
-            List<Double> pobierzVat = new ArrayList<>();
             pobierzVat.add(vat1);
             pobierzVat.add(vat2);
             pobierzVat.add(vat3);
@@ -713,10 +713,19 @@ public class DokView implements Serializable{
             }
             dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
+            Double kwotavat = 0.0;
+            try{
+                for(Double p: pobierzVat){
+                    kwotavat = kwotavat + p;
+                }
+            } catch (Exception ex){}
             if(selDokument.getRozliczony()==true){
                 Double kwota = selDokument.getKwota();
                 try{
                 kwota = kwota + selDokument.getKwotaX();
+                } catch (Exception e){}
+                try{
+                kwota = kwota + kwotavat;
                 } catch (Exception e){}
                 Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
