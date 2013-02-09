@@ -706,27 +706,28 @@ public class DokView implements Serializable{
         }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            if(selDokument.getKwotaX()!=null){
+            if(selDokument.getKwotaX()!=0){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
             } else {
                 selDokument.setNetto(selDokument.getKwota());
             }
             dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
-            Double kwotavat = 0.0;
+            double kwotavat = 0.0;
             try{
                 for(Double p: pobierzVat){
                     kwotavat = kwotavat + p;
                 }
             } catch (Exception ex){}
             if(selDokument.getRozliczony()==true){
-                Double kwota = selDokument.getKwota();
+                double kwota = selDokument.getKwota();
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception e){}
                 try{
                 kwota = kwota + kwotavat;
                 } catch (Exception e){}
+                kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
                 Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
                 lista.add(rozrachunekx);
