@@ -561,9 +561,6 @@ public class DokView implements Serializable{
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
             ew.setValueExpression("value", ve2);
             ew.setStyle("width: 120px");
-            NumberConverter nc = new NumberConverter();
-            nc.setPattern("###,##");
-            ew.setConverter(nc);
             ew.setId("kwotaPkpirX");
             AjaxBehavior dragStart = new AjaxBehavior();
             dragStart.setGlobal(false);
