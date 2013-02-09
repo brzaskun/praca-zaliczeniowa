@@ -8,9 +8,11 @@ import dao.DokDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
+import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Dok;
+import entity.Ewidencjevat;
 import entity.StornoDok;
 import entity.Uz;
 import java.io.IOException;
@@ -276,6 +278,19 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
 
+    }
+    
+    public void napraw(){
+        List<Dok> temp = dokDAO.getDownloaded();
+        for(Dok p : temp){
+            List<EVatwpis> ew = p.getEwidencjaVAT();
+            Double netto = 0.0;
+            for(EVatwpis w : ew){
+                netto = netto + w.getNetto();
+            }
+            p.setKwota(netto);
+            dokDAO.edit(p);
+        }
     }
 
     public List<Dok> getObiektDOKjsf() {
