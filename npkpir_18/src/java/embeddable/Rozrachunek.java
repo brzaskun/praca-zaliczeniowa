@@ -22,9 +22,9 @@ public class Rozrachunek implements Serializable {
     @Column(name = "dataplatnosci")
     private String dataplatnosci;
     @Column(name = "kwotawplacona")
-    private Double kwotawplacona;
+    private double kwotawplacona;
     @Column(name = "dorozliczenia")
-    private Double dorozliczenia;
+    private double dorozliczenia;
     @Column(name = "ujetowstorno")
     private boolean ujetowstorno;
     @Column(name = "wprowadzil")
@@ -37,7 +37,7 @@ public class Rozrachunek implements Serializable {
     }
 
     
-    public Rozrachunek(String dataplatnosci, Double kwotawplacona, Double dorozliczenia, String wprowadzil, Date datawprowadzenia) {
+    public Rozrachunek(String dataplatnosci, double kwotawplacona, double dorozliczenia, String wprowadzil, Date datawprowadzenia) {
         this.dataplatnosci = dataplatnosci;
         this.kwotawplacona = kwotawplacona;
         this.dorozliczenia = dorozliczenia;
@@ -55,19 +55,19 @@ public class Rozrachunek implements Serializable {
         this.dataplatnosci = dataplatnosci;
     }
 
-    public Double getKwotawplacona() {
+    public double getKwotawplacona() {
         return kwotawplacona;
     }
 
-    public void setKwotawplacona(Double kwotawplacona) {
+    public void setKwotawplacona(double kwotawplacona) {
         this.kwotawplacona = kwotawplacona;
     }
 
-    public Double getDorozliczenia() {
+    public double getDorozliczenia() {
         return dorozliczenia;
     }
 
-    public void setDorozliczenia(Double dorozliczenia) {
+    public void setDorozliczenia(double dorozliczenia) {
         this.dorozliczenia = dorozliczenia;
     }
 
