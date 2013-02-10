@@ -703,7 +703,7 @@ public class DokView implements Serializable{
         }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            if(selDokument.getKwotaX()!= null){
+            if(selDokument.getKwotaX()!= 0){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
             } else {
                 selDokument.setNetto(selDokument.getKwota());
