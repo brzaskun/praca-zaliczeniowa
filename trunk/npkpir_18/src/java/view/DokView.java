@@ -559,7 +559,7 @@ public class DokView implements Serializable{
             InputNumber ew = new InputNumber();
             final String binding = "#{DokumentView.selDokument.kwotaX}";
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-            ew.setValueExpression("value", ve2);
+            ew.setValueExpression("value", ve2); 
             ew.setStyle("width: 120px");
             ew.setId("kwotaPkpirX");
             AjaxBehavior dragStart = new AjaxBehavior();
@@ -703,21 +703,21 @@ public class DokView implements Serializable{
         }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            if(selDokument.getKwotaX()!=0){
+            if(selDokument.getKwotaX()!= null){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
             } else {
                 selDokument.setNetto(selDokument.getKwota());
             }
             dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
-            double kwotavat = 0.0;
+            Double kwotavat = 0.0;
             try{
                 for(Double p: pobierzVat){
                     kwotavat = kwotavat + p;
                 }
             } catch (Exception ex){}
             if(selDokument.getRozliczony()==true){
-                double kwota = selDokument.getKwota();
+                Double kwota = selDokument.getKwota();
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception e){}
