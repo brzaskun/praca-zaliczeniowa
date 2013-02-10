@@ -62,6 +62,9 @@ public class Uz implements Serializable {
     @Size(max = 2)
     @Column(name = "iloscwierszy")
     private String iloscwierszy;
+    @Size(max = 255)
+    @Column(name = "biezacasesja")
+    private String biezacasesja;
 
     public Uz() {
     }
@@ -133,6 +136,14 @@ public class Uz implements Serializable {
 
     public void setIloscwierszy(String iloscwierszy) {
         this.iloscwierszy = iloscwierszy;
+    }
+
+    public String getBiezacasesja() {
+        return biezacasesja;
+    }
+
+    public void setBiezacasesja(String biezacasesja) {
+        this.biezacasesja = biezacasesja;
     }
 
     

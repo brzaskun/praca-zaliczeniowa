@@ -30,21 +30,20 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean(name="UzView")
 @RequestScoped
 public class UzView implements Serializable{
-    @Inject
-    private UzDAO uzDAO;
+    @Inject private UzDAO uzDAO;
     //tablica obiektów
     private static List<Uz> obiektUZjsf;
     private static Uz uzObject;
     private String uzString;
-    private Uz selUzytkownik;
+    @Inject private Uz selUzytkownik;
     private String confPassword;
     private String login;
     private String firstPassword;
+    private WpisView wpisView;
        
    
     public UzView() {
-        obiektUZjsf = new ArrayList<Uz>();
-        selUzytkownik = new Uz();
+        obiektUZjsf = new ArrayList<>();
     }
     
     @PostConstruct
@@ -61,6 +60,8 @@ public class UzView implements Serializable{
             Uz tmp = (Uz) it.next();
             obiektUZjsf.add(tmp);
             }
+        wpisView = new WpisView();
+        selUzytkownik = wpisView.getWprowadzil();
     }
       
 
@@ -178,6 +179,15 @@ public class UzView implements Serializable{
         return toReturn;
     }
     
+    public void zmienustawienia(){
+        try{
+            uzDAO.edit(selUzytkownik);
+            Msg.msg("i","Dane zmienione","form:mess_add");
+        } catch (Exception e){
+            Msg.msg("e","Błąd! Dane nie zmienione","form:mess_add");
+        }
+    }
+    
      //tabela obiektow
      public List<Uz> getObiektUZjsf() {
         return obiektUZjsf;
@@ -220,4 +230,5 @@ public class UzView implements Serializable{
         this.firstPassword = firstPassword;
     }
 
+   
 }
