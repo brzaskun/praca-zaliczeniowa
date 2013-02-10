@@ -23,7 +23,7 @@
         </p:dialog>
 <!--        ten button jest bardzo wazny. wylogowuje sejse. nie wolno go usuwac-->
         <h:form id="templateform">
-             <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
+             <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="display: none;"/>
         </h:form>
         <ui:insert name="body"> 
         </ui:insert>
