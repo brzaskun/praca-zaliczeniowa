@@ -610,7 +610,7 @@ public class ZestawienieView implements Serializable{
                            break;
                     }
                     
-                    if (tmp.getKwotaX() != 0) {
+                    if (tmp.getKwotaX() != null) {
                     String selekcja2X = tmp.getPkpirKolX();
                     Double kwotaX = tmp.getKwotaX();
                     Double tempX = 0.0;

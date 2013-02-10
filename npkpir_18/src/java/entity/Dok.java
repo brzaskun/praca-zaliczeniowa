@@ -112,17 +112,17 @@ public class Dok implements Serializable {
     private String opis;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
-    private double kwota;
+    private Double kwota;
     @Size(max = 65)
     @Column(name = "pkpir_kol")
     private String pkpirKol;
     @Column(name = "kwotaX")
-    private double kwotaX;
+    private Double kwotaX;
     @Size(max = 65)
     @Column(name = "pkpir_kolX")
     private String pkpirKolX;
     @Column(name = "netto")
-    private double netto;
+    private Double netto;
     @Size(max = 45)
     @Column(name = "uwagi")
     private String uwagi;
@@ -239,11 +239,11 @@ public class Dok implements Serializable {
         this.opis = opis;
     }
 
-    public double getKwota() {
+    public Double getKwota() {
         return kwota;
     }
 
-    public void setKwota(double kwota) {
+    public void setKwota(Double kwota) {
         this.kwota = kwota;
     }
 
@@ -345,11 +345,11 @@ public class Dok implements Serializable {
         this.dokumentProsty = dokumentProsty;
     }
 
-    public double getKwotaX() {
+    public Double getKwotaX() {
         return kwotaX;
     }
 
-    public void setKwotaX(double kwotaX) {
+    public void setKwotaX(Double kwotaX) {
         this.kwotaX = kwotaX;
     }
 
@@ -425,11 +425,11 @@ public class Dok implements Serializable {
         this.termin150 = termin150;
     }
 
-    public double getNetto() {
+    public Double getNetto() {
         return netto;
     }
 
-    public void setNetto(double netto) {
+    public void setNetto(Double netto) {
         this.netto = netto;
     }
 
