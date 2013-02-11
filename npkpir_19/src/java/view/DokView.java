@@ -140,6 +140,7 @@ public class DokView implements Serializable{
     private String typKST;
     private Double umorzeniepoczatkowe;
     @Inject private Srodkikst srodekkategoria;
+    @Inject private Srodkikst srodekkategoriawynik;
    
     //edycja platnosci
     @Inject private Rozrachunek rozrachunek;
@@ -1185,13 +1186,11 @@ public class DokView implements Serializable{
     
    public void skopiujSTR(){
        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-       Srodkikst tmp = new Srodkikst();
-       tmp.setNazwa(params.get("dodWiad:acForce1_input"));
-       tmp = srodkikstDAO.finsStr(tmp.getNazwa());
-       symbolKST = tmp.getSymbol();
-       stawkaKST = tmp.getStawka();
-       RequestContext.getCurrentInstance().update("dodWiad:symbolKST");
-       RequestContext.getCurrentInstance().update("dodWiad:stawkaKST");
+       String nazwa = params.get("form:acForce1_input");
+       srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
+       symbolKST = srodekkategoriawynik.getSymbol();
+       stawkaKST = srodekkategoriawynik.getStawka();
+       RequestContext.getCurrentInstance().update("formY:wynik");
    }
      
    public void przekierowanieWpisKLienta() throws IOException{
@@ -1558,7 +1557,15 @@ public class DokView implements Serializable{
         this.srodekkategoria = srodekkategoria;
     }
 
-   
+    public Srodkikst getSrodekkategoriawynik() {
+        return srodekkategoriawynik;
+    }
+
+    public void setSrodekkategoriawynik(Srodkikst srodekkategoriawynik) {
+        this.srodekkategoriawynik = srodekkategoriawynik;
+    }
+
+  
     
     
 //    public static void main(String[] args) throws ParseException{

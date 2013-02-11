@@ -8,19 +8,21 @@ import dao.SrodkikstDAO;
 import entity.Srodkikst;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
- */
+ */ 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class SrodkikstView implements Serializable {
     private static List<Srodkikst> lista;
     @Inject private SrodkikstDAO srodkikstDAO;
@@ -38,7 +40,9 @@ public class SrodkikstView implements Serializable {
         List<Srodkikst> results = new ArrayList<>();  
          for(Srodkikst p : lista) {  
             if(p.getNazwa().contains(query)) {
-                 results.add(p);
+                if(!results.contains(p)){
+                     results.add(p);
+                }
              }
         }  
         return results;  
@@ -73,6 +77,20 @@ public class SrodkikstView implements Serializable {
             srodkikstDAO.edit(tmpX);
         }
     } 
+     
+    public void czysc(){
+        Set<Srodkikst> wykaz = new HashSet<>();
+        for(Srodkikst p : lista){
+            wykaz.add(p);
+            try{
+                srodkikstDAO.destroy(p);
+            } catch (Exception e){
+            }
+        }
+        for(Srodkikst w : wykaz){
+                srodkikstDAO.dodaj(w);
+        }
+    }
     
     public List<Srodkikst> getLista() {
         return lista;

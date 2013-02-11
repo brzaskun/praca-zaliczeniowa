@@ -228,10 +228,14 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList();
     }
 
-    public Srodkikst findSrodekkst(String nazwa) {
-        return (Srodkikst) em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+    public List<Srodkikst> findSrodekkst(String nazwa) {
+        return em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getResultList();
     }
 
+    public Srodkikst findSrodekkst1(String nazwa) {
+        return (Srodkikst) em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
+    }
+    
     public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
         return (Deklaracjevat) em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
     }
@@ -242,5 +246,9 @@ public class SessionFacade<T> {
 
     public List<Deklaracjevat> findDeklaracjewysylka(String pod) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", pod).getResultList();
+    }
+
+    public Srodkikst findSr(Srodkikst srodek) {
+       return em.find(Srodkikst.class, srodek);
     }
 }

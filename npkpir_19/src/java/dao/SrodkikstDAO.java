@@ -6,6 +6,7 @@ package dao;
 
 import entity.Srodkikst;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -22,7 +23,15 @@ public class SrodkikstDAO extends DAO implements Serializable{
         super(Srodkikst.class);
     }
    
-    public Srodkikst finsStr(String nazwa){
+    public List<Srodkikst> finsStr(String nazwa){
         return srodkikstFacade.findSrodekkst(nazwa);
+    }
+    
+    public Srodkikst finsStr1(String nazwa){
+        return srodkikstFacade.findSrodekkst1(nazwa);
+    }
+    
+    public Srodkikst find(Srodkikst srodek){
+        return srodkikstFacade.findSr(srodek);
     }
 }
