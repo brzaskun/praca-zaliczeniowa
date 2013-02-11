@@ -39,6 +39,10 @@
             </p:panelGrid>
         </p:panel>
         <br/>
+         <p:themeSwitcher style="width:165px" id="defaultSwitcher">  
+                                    <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                                    <f:selectItems value="#{themeSwitcherBean.themes}" />  
+                                </p:themeSwitcher> 
         <p:panel style="margin-top: 100px; margin-left: 990px;">
             <h:commandLink id="openPopUp" value="moje ustawienia" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
 <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">

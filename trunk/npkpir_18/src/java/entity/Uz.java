@@ -65,6 +65,9 @@ public class Uz implements Serializable {
     @Size(max = 255)
     @Column(name = "biezacasesja")
     private String biezacasesja;
+    @Size(max = 100)
+    @Column(name = "theme")
+    private String theme;
 
     public Uz() {
     }
@@ -144,6 +147,14 @@ public class Uz implements Serializable {
 
     public void setBiezacasesja(String biezacasesja) {
         this.biezacasesja = biezacasesja;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     
