@@ -5,6 +5,7 @@
 package converter;
 
 import entity.Srodkikst;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,15 +18,19 @@ import view.SrodkikstView;
  * @author Osito
  */
 public class SrodkiConv implements javax.faces.convert.Converter{
+    
+    
+    
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        Srodkikst kl = new Srodkikst();
+        SrodkikstView srodkikstView = new SrodkikstView();
+        List<Srodkikst> kl = srodkikstView.getLista();
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {  
                 String number = submittedValue;  
   
-                for (Srodkikst p : SrodkikstView.getListaS()) {  
+                for (Srodkikst p : kl) {  
                     if (p.getNazwa().equals(number)) {  
                         return p;  
                     }  
