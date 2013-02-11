@@ -116,6 +116,10 @@ $(window).bind('beforeunload', function(){
         }
     }
 
+function aktywujsrodek(){
+        document.getElementById("dodWiad:form:acForce1").focus();
+}
+
 function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
 }
