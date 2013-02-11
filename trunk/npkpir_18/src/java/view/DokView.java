@@ -52,6 +52,7 @@ import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
@@ -80,7 +81,7 @@ import org.primefaces.extensions.component.inputnumber.InputNumber;
  * @author Osito
  */
 @ManagedBean(name="DokumentView")
-@ViewScoped
+@RequestScoped
 public class DokView implements Serializable{
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
@@ -703,7 +704,7 @@ public class DokView implements Serializable{
         }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            if(selDokument.getKwotaX()!= 0){
+            if(selDokument.getKwotaX()!= null){
                 selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
             } else {
                 selDokument.setNetto(selDokument.getKwota());

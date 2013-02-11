@@ -18,7 +18,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -62,6 +61,8 @@ public class VatView implements Serializable {
     //elementy niezbedne do generowania ewidencji vat
     private AccordionPanel akordeon;
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
+    private WpisView wpisView;
+    @Inject private Ewidencjevat zrzucane;
 
     public VatView() {
         listadokvat = new ArrayList<>();
@@ -121,17 +122,20 @@ public class VatView implements Serializable {
         }
 
         wygeneruj(listaewidencji);
+        wpisView = new WpisView();
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String pod = wpisView.getPodatnikWpisu();
         //zachowaj wygenerowane ewidencje do bazy danych
         try {
-            Ewidencjevat pobrane = ewidencjeVatDAO.find(dokTabView.getWpisView().getRokWpisu().toString(), dokTabView.getWpisView().getMiesiacWpisu(), dokTabView.getWpisView().getPodatnikWpisu());
+            Ewidencjevat pobrane = ewidencjeVatDAO.find(rok, mc, pod);
             pobrane.setEwidencje(listaewidencji);
             pobrane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.edit(pobrane);
         } catch (Exception e) {
-            Ewidencjevat zrzucane = new Ewidencjevat();
-            zrzucane.setPodatnik(dokTabView.getWpisView().getPodatnikWpisu());
-            zrzucane.setRok(dokTabView.getWpisView().getRokWpisu().toString());
-            zrzucane.setMiesiac(dokTabView.getWpisView().getMiesiacWpisu());
+            zrzucane.setPodatnik(pod);
+            zrzucane.setRok(rok);
+            zrzucane.setMiesiac(mc);
             zrzucane.setEwidencje(listaewidencji);
             zrzucane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.dodaj(zrzucane);
