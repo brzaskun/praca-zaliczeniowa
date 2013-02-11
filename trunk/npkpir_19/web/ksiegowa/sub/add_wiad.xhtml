@@ -99,10 +99,31 @@
         <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
         </p:panelGrid>
         <!--pola ewidencji SRODKOW TRWALYCH-->
-        <p:panel >
-            <h:form>
-                <h:commandLink id="openPopUp" value="wyszukiwarka środków trwałych" onclick="window.open('srodkiszukaj.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=600,top=150,left=300');" />
+        <p:panel header="wyszukiwarka środka trw." style="width: 300px;" >
+            <h:form id="form">
+                        <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                        var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                        minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
+                                        queryDelay="100" valueChangeListener="#{DokumentView.skopiujSTR}" size="50" 
+                                        oncomplete="aktywujsrodek();" >
+                            <p:ajax event="blur" update=":dodWiad:grid3:" global="false"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane środka trwałego"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna1" value="#{pa.nazwa}" />  
+                                    <h:outputText value="Stawka " />  
+                                    <h:outputText id="nip1" value="#{pa.stawka}" />  
+                                    <h:outputText value="KŚT " />  
+                                    <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
             </h:form>
+            </p:panel>
+        <p:panel>
             <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
             </p:panelGrid>
         </p:panel>

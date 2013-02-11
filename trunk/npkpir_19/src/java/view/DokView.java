@@ -422,6 +422,8 @@ public class DokView implements Serializable{
             final String binding = "#{DokumentView.nazwaSTR}";
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
             ew.setValueExpression("value", ve2);
+            ew.setId("nazwasrodka");
+            ew.setAccesskey("t");
             grid3.getChildren().add(ew);
             
             HtmlOutputText ot1 = new HtmlOutputText();
@@ -1186,11 +1188,13 @@ public class DokView implements Serializable{
     
    public void skopiujSTR(){
        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-       String nazwa = params.get("form:acForce1_input");
+       String nazwa = params.get("dodWiad:form:acForce1_input");
+       try{
        srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
+       } catch (Exception e){}
        symbolKST = srodekkategoriawynik.getSymbol();
        stawkaKST = srodekkategoriawynik.getStawka();
-       RequestContext.getCurrentInstance().update("formY:wynik");
+       RequestContext.getCurrentInstance().update("dodWiad:grid3");
    }
      
    public void przekierowanieWpisKLienta() throws IOException{
