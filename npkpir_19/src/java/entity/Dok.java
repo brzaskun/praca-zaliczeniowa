@@ -123,6 +123,8 @@ public class Dok implements Serializable {
     private String pkpirKolX;
     @Column(name = "netto")
     private Double netto;
+    @Column(name = "brutto")
+    private Double brutto;
     @Size(max = 45)
     @Column(name = "uwagi")
     private String uwagi;
@@ -447,6 +449,14 @@ public class Dok implements Serializable {
 
     public void setTypdokumentu(String typdokumentu) {
         this.typdokumentu = typdokumentu;
+    }
+
+    public Double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(Double brutto) {
+        this.brutto = brutto;
     }
 
    
