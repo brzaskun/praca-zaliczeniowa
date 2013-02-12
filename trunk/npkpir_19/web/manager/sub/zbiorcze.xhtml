@@ -13,7 +13,7 @@
             </p:panelGrid>
         </h:form>-->
    
-    <p:accordionPanel value="#{podatnikView.li}" var="podatnik">
+    <p:accordionPanel id="akordeon" value="#{podatnikView.li}" var="podatnik">
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
             <h:outputText value="dane historyczne"/><br/>
             <h:form id="zbiorczyform">
@@ -37,6 +37,9 @@
                     <p:column headerText="ZUS 53">
                         <h:outputText value="#{loop.zus53}" />
                     </p:column>
+                     <p:column headerText="PIT-4">
+                        <h:outputText value="#{loop.pit4}" />
+                    </p:column>
                     <br/>
                 </p:dataTable>
             </p:panelGrid>
@@ -53,8 +56,8 @@
                 </p:panelGrid>
                 <br/>
                 <p:panelGrid columns="3" style="column-width: 350px; width: 500px">
-                    <p:commandButton action="#{podatnikView.usunzus()}" value="usun parametr" update="@form" type="submit"/>
-                    <p:commandButton action="#{podatnikView.dodajzus()}" value="dodaj parametr" update="@form" type="submit"/>
+                    <p:commandButton action="#{podatnikView.usunzusZbiorcze(podatnik)}" value="usun parametr" update="@form"/>
+                    <p:commandButton action="#{podatnikView.dodajzusZbiorcze(podatnik)}" value="dodaj parametr" update="@form" />
                     <p:commandButton action="#{podatnikView.pobierzzusZbiorcze()}" value="pobierz parametr" update="@form"/>
                 </p:panelGrid>
             </h:form>

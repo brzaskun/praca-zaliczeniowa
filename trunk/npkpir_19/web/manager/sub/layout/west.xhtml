@@ -19,6 +19,15 @@
                 </p:menu>
             </h:form>
         </p:panel>
+         <p:separator/>
+        <p:panel style="padding: 5px,5px,5px,5px;">
+        <h:form>
+                <p:menu >
+                    <p:menuitem value="ZUS zbiorcze "  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />  
+                </p:menu>
+            </h:form>
+            </p:panel>
+         <p:separator/>
         <h:form id="westManager">
             <p:panel menuTitle="Dane" header="Parametryzowanie pojedyńczego podatnika">
                 <h:selectOneMenu value="#{WpisView.podatnikWpisu}" style="width: 150px">
@@ -27,14 +36,10 @@
                 </h:selectOneMenu>
                 <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
             </p:panel>
-            <p:separator/>
-            <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
+           
         </h:form>
-        <h:form>
-                <p:menu >
-                    <p:menuitem value="zbiorcze wstaw. zob"  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />  
-                </p:menu>
-            </h:form>
+        
+            <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" /> 
     </p:layoutUnit>
 </ui:composition>   
 
