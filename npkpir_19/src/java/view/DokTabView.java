@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
@@ -12,12 +13,13 @@ import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Dok;
-import entity.Ewidencjevat;
 import entity.StornoDok;
 import entity.Uz;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -140,8 +142,12 @@ public class DokTabView implements Serializable {
                         dokvatmc.add(tmpx);
                         inu++;
                     }
+                    
                 }
             }
+            //sortowanie dokumentów
+                    Collections.sort(obiektDOKmrjsfSel, new Dokcomparator());
+                    //
             if (wpisView.getMiesiacOd() != null) {
                 obiektDOKmrjsfSelX.clear();
                 Iterator itxX;
