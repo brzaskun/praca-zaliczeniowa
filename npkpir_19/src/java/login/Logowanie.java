@@ -90,6 +90,8 @@ public class Logowanie implements Serializable{
                 String nip = uzDAO.find(uzytk).getFirma();
                 String firma = podatnikDAO.findN(nip).getNazwapelna();
                 GuestView.setPodatnikString(firma);
+                WpisView wpis = new WpisView();
+                wpis.setPodatnikWpisu(firma);
                 WpisView.setPodatnikWpisuS(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";

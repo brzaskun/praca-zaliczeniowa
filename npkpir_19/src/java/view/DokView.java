@@ -367,7 +367,16 @@ public class DokView implements Serializable{
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
         String nowynumer = "";
-        Rodzajedok rodzajdok = rodzajedokDAO.find(skrot);
+        String pod = wpisView.getPodatnikWpisu();
+        Podatnik podX = podatnikDAO.find(pod);
+        List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+        Rodzajedok rodzajdok = new Rodzajedok();
+        for (Rodzajedok p : listaD){
+            if(p.getSkrot().equals(skrot)){
+                rodzajdok = p;
+                break;
+            }
+        }
         String wzorzec = rodzajdok.getWzorzec();
         //odnajdywanie podzielnika;
         String separator = null;
@@ -394,6 +403,7 @@ public class DokView implements Serializable{
                 case "r":
                     nowynumer = nowynumer.concat(wpisView.getRokWpisu().toString()).concat(separator);
                     break;
+                    //to jest wlasna wstawka typu FVZ
                 case "s":
                     nowynumer = nowynumer.concat(elementyold[i]).concat(separator);
                     break;
