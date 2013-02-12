@@ -385,6 +385,7 @@ public class DokView implements Serializable{
                 }
          String[] elementy;
          elementy = wzorzec.split(separator);
+         try{
          Dok ostatnidokument = dokDAO.find(skrot,wpisView.getPodatnikWpisu() , wpisView.getRokWpisu());
          String[] elementyold;
          elementyold  = ostatnidokument.getNrWlDk().split(separator);
@@ -411,6 +412,8 @@ public class DokView implements Serializable{
          }
          if(nowynumer.endsWith(separator)){
           nowynumer = nowynumer.substring(0,nowynumer.lastIndexOf(separator));
+         }} catch (Exception e){
+            nowynumer = wzorzec;
          }
          selDokument.setNrWlDk(nowynumer);
     }
