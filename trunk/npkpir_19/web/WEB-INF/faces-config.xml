@@ -155,6 +155,10 @@
             <to-view-id>/manager/managerPodatnik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>zbiorcze</from-outcome>
+            <to-view-id>/manager/managerZbiorcze.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>ewidvat</from-outcome>
             <to-view-id>/manager/managerEwVat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>managerPodUstaw

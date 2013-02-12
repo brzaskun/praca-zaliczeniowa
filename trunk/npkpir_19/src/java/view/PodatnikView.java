@@ -18,9 +18,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -59,6 +63,7 @@ public class PodatnikView implements Serializable{
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
     private static ArrayList<Podatnik> listapodatnikow;
+    
     //
     private String nazwaWybranegoPodatnika;
     private List<String> pojList;
@@ -104,9 +109,7 @@ public class PodatnikView implements Serializable{
     
     @PostConstruct
     public void init(){
-        Collection c;
-        c = podatnikDAO.getDownloaded();
-        li.addAll(c);
+        li.addAll((Collection) podatnikDAO.getDownloaded());
         wpisView = new WpisView();
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try{
@@ -401,11 +404,7 @@ public class PodatnikView implements Serializable{
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String rokzus = params.get("akordeon:form3:rokzus");
         String mczus = params.get("akordeon:form3:miesiaczus");
-        List<Zusstawki> tmp;
-        tmp = new ArrayList<>();
-        Collection c;
-        c = zusDAO.getDownloaded();
-        tmp.addAll(c);
+        List<Zusstawki> tmp = zusDAO.getDownloaded();
         ZusstawkiPK key = new ZusstawkiPK();
             key.setRok(rokzus);
             key.setMiesiac(mczus);
@@ -419,6 +418,27 @@ public class PodatnikView implements Serializable{
             }
         }
     }
+      
+       public void pobierzzusZbiorcze(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        List lista = new ArrayList(params.values());
+        String rokzus = (String) lista.get(6);
+        String mczus = (String) lista.get(7);
+        List<Zusstawki> tmp = zusDAO.getDownloaded();
+        ZusstawkiPK key = new ZusstawkiPK();
+            key.setRok(rokzus);
+            key.setMiesiac(mczus);
+        Iterator it;
+        it = tmp.iterator();
+        while(it.hasNext()){
+            Zusstawki tmpX = (Zusstawki) it.next();
+            if(tmpX.getZusstawkiPK().equals(key)){
+                zusstawki = tmpX;
+                break;
+            }
+        }
+    }
+      
       
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(nazwaWybranegoPodatnika);
@@ -560,6 +580,12 @@ public class PodatnikView implements Serializable{
          selected.setFax("000000000");
      }
      
+     public void zmienzbiorowoZUSPIT(){
+         try {
+         List<Podatnik> lista = podatnikDAO.getDownloaded();
+         } catch (Exception e){}
+     
+     }
      
      public void updateDokKsi(ValueChangeListener ex){
          RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
