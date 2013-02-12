@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Podatnikcomparator;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import dao.ZUSDAO;
@@ -110,6 +111,7 @@ public class PodatnikView implements Serializable{
     @PostConstruct
     public void init(){
         li.addAll((Collection) podatnikDAO.getDownloaded());
+        Collections.sort(li, new Podatnikcomparator());
         wpisView = new WpisView();
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try{
@@ -377,6 +379,22 @@ public class PodatnikView implements Serializable{
          FacesContext.getCurrentInstance().addMessage(null, msg);
          }
      }
+       
+       public void dodajzusZbiorcze(Podatnik pod){
+         try{
+         selected=podatnikDAO.find(pod.getNazwapelna());
+         List<Zusstawki> tmp = new ArrayList<>();
+         try{
+         tmp.addAll(selected.getZusparametr());
+         } catch (Exception e){}
+         sprawdzzus(tmp);
+         tmp.add(zusstawki);
+         pod.setZusparametr(tmp);
+         selected.setZusparametr(tmp);
+         podatnikDAO.edit(selected);
+         } catch (Exception e) {
+         }
+     }
      
       private void sprawdzzus(List tmp) throws Exception{
           Iterator it;
@@ -391,6 +409,16 @@ public class PodatnikView implements Serializable{
      
       public void usunzus(){
          selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Zusstawki> tmp = new ArrayList<>();
+         tmp.addAll(selected.getZusparametr());
+         tmp.remove(tmp.size()-1);
+         selected.setZusparametr(tmp);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+     }
+       public void usunzusZbiorcze(Podatnik pod){
+         selected=pod;
          List<Zusstawki> tmp = new ArrayList<>();
          tmp.addAll(selected.getZusparametr());
          tmp.remove(tmp.size()-1);
