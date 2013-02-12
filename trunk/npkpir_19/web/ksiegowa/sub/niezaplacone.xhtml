@@ -92,12 +92,12 @@
                 </f:facet> 
                 <p:cellEditor>  
                     <f:facet name="output">  
-                        <h:outputText value="#{wpis.netto}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <h:outputText value="#{wpis.brutto}" style="padding-left: 20%; font-weight: 700; float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </f:facet>  
                     <f:facet name="input">  
-                        <p:inputText value="#{wpis.netto}" style="width:100%;"/>
+                        <p:inputText value="#{wpis.brutto}" style="width:100%;"/>
                     </f:facet>  
                 </p:cellEditor>
             </p:column>

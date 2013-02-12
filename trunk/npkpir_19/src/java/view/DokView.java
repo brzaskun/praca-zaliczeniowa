@@ -53,13 +53,11 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -650,6 +648,7 @@ public class DokView implements Serializable{
             pobierzOpisy.add(eVO.getOpis3());
             pobierzOpisy.add(eVO.getOpis4());
             List<Double> pobierzNetto = new ArrayList<>();
+            
             pobierzNetto.add(netto1);
             pobierzNetto.add(netto2);
             pobierzNetto.add(netto3);
@@ -728,6 +727,7 @@ public class DokView implements Serializable{
                 try{
                 kwota = kwota + kwotavat;
                 } catch (Exception e){}
+                selDokument.setBrutto(kwota);
                 kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
                 Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
@@ -748,6 +748,7 @@ public class DokView implements Serializable{
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getStackTrace().toString(),null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
          } 
+        //robienie srodkow trwalych
          if(pokazSTR){
             try {
                    selectedSTR.setNetto(selDokument.getKwota());
@@ -1146,9 +1147,8 @@ public class DokView implements Serializable{
         zostalo = lista.get(lista.size()-1).getDorozliczenia();
         } catch (Exception ee){}
         if(zostalo==0){
-                kwota = -selDokument.getKwota();
                 try{
-                kwota = kwota - selDokument.getKwotaX();
+                kwota = - selDokument.getBrutto();
                 } catch (Exception el){}
         } else {
             kwota = zostalo;
@@ -1642,4 +1642,27 @@ public class DokView implements Serializable{
 //        } catch (Exception e) {
 //        }
 //    }
+      
+      public void uporzadkujbrutto(){
+          List<Dok> lista = dokDAO.getDownloaded();
+          for(Dok sel : lista){
+                Double kwota = sel.getKwota();
+                try{
+                kwota = kwota + sel.getKwotaX();
+                } catch (Exception e){}
+                
+                double kwotavat = 0;
+                try{
+                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
+                    for(EVatwpis p : listavat){
+                        kwotavat = kwotavat + p.getVat();
+                    }
+                } catch (Exception e){}
+                try{
+                kwota = kwota + kwotavat;
+                } catch (Exception e){}
+                sel.setBrutto(kwota);
+                dokDAO.edit(sel);
+          }
+      }
 }

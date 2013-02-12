@@ -156,12 +156,20 @@ public class STRTabView implements Serializable{
             planowane.addAll(srodek.getUmorzPlan());
             List<Umorzenie> umorzenia = new ArrayList<>();
             Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
-            Integer mcOd;
+            Integer mcOd=0;
             if(srodek.getStawka()==100){
-                mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7));
+                mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7));
             } else {
-                mcOd = Integer.parseInt(srodek.getDataprzek().substring(6, 7))+1;
+                String pob = srodek.getDataprzek().substring(5, 7);
+                mcOd = Integer.parseInt(pob)+1;
+                if (mcOd == 13) {
+                    rokOd++;
+                    mcOd = 1;
+                } else {
+                    mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7))+1;
+                }
             }
+             
             Iterator itX;
             itX = planowane.iterator();
             int i = 1;
