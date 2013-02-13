@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +24,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -42,8 +45,7 @@ public class PodatekView implements Serializable{
     private Podatnik selected;
     @Inject
     private ZobowiazanieDAO zv;
-    @ManagedProperty(value="#{wpisView}")
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
     private BigDecimal przychody;
     private HashMap<String, BigDecimal> przychodyRyczalt;
     private BigDecimal koszty;
@@ -62,12 +64,12 @@ public class PodatekView implements Serializable{
     
     @PostConstruct
     private void init(){
-        String nazwapodatnika = GuestView.getPodatnikString();
+        String nazwapodatnika = null;
         try{
+            nazwapodatnika = wpisView.findNazwaPodatnika();
             selected = podatnikDAO.find(nazwapodatnika);
         } catch (Exception e){
-            wpisView = new WpisView();
-            nazwapodatnika = wpisView.getPodatnikWpisu();
+            nazwapodatnika = wpisView.findNazwaPodatnika();
             selected = podatnikDAO.find(nazwapodatnika);
         }
         przychodyRyczalt.put("17%", BigDecimal.ZERO);

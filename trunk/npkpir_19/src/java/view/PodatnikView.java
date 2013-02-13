@@ -85,8 +85,7 @@ public class PodatnikView implements Serializable{
     private DokDAO dokDAO;
     @Inject 
     private ZUSDAO zusDAO;
-    @ManagedProperty(value="#{wpisView}")
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
     
     public  List<Podatnik> getLi() {
         return li;
@@ -112,8 +111,7 @@ public class PodatnikView implements Serializable{
     public void init(){
         li.addAll((Collection) podatnikDAO.getDownloaded());
         Collections.sort(li, new Podatnikcomparator());
-        wpisView = new WpisView();
-        nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
+        nazwaWybranegoPodatnika = wpisView.findNazwaPodatnika();;
         try{
         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          pobierzogolneDokKsi();

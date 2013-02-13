@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import view.WpisView;
@@ -28,6 +29,9 @@ public class Trans implements Serializable{
     private static final List<String> transList;
     private static final List<String> transListZO;
     private static final List<String> transListRY;
+     
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
 
     static{
         transList = new ArrayList<>();
@@ -63,7 +67,7 @@ public class Trans implements Serializable{
     
     public List<String> getTransListView() {
         try {
-        Podatnik tmp = podatnikDAO.find(WpisView.getPodatnikWpisuS());
+        Podatnik tmp = podatnikDAO.find(wpisView.getPodatnikWpisu());
         int index = tmp.getPodatekdochodowy().size()-1;
         if (tmp.getPodatekdochodowy().get(index).getParametr().equals("ryczałt")){
             return transListRY;
@@ -74,4 +78,14 @@ public class Trans implements Serializable{
             return transList;
         }
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
+    
 }

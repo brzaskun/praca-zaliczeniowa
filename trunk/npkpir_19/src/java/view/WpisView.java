@@ -4,14 +4,18 @@
  */
 package view;
 
+import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Uz;
 import entity.Wpis;
 import java.io.Serializable;
+import java.security.Principal;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -21,60 +25,99 @@ import javax.inject.Inject;
 @RequestScoped
 public class WpisView implements Serializable{
 
-    private static String podatnikWpisu;
-    private static Integer rokWpisu;
-    private static String miesiacWpisu;
-    private static Uz wprowadzil;
-    private static String miesiacOd;
-    private static String miesiacDo;
+    private String podatnikWpisu;
+    private Integer rokWpisu;
+    private String miesiacWpisu;
+    @Inject private Uz wprowadzil;
+    private String miesiacOd;
+    private String miesiacDo;
     private boolean srodkTrw;
     
     @Inject private Wpis wpis;
     @Inject private WpisDAO wpisDAO;
+    @Inject private UzDAO uzDAO;
 
-    
+
+       
     @PostConstruct
     private void init(){
         if(miesiacDo==null&&miesiacWpisu!=null){
             miesiacDo = miesiacWpisu;
             miesiacOd = miesiacWpisu;
         }
+        HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String wprowadzilX = principal.getName();
+        if(wprowadzilX!=null){
+        wprowadzil = uzDAO.find(wprowadzilX);
+        wpis = wpisDAO.find(wprowadzilX);
+        this.podatnikWpisu = wpis.getPodatnikWpisu();
+        this.miesiacWpisu = wpis .getMiesiacWpisu();
+        this.rokWpisu = wpis.getRokWpisu();
+        try{
+            this.wprowadzil = wpis.getWprowadzilUz();
+        } catch (Exception e){
+            wpis.setWprowadzilUz(wprowadzil);
+            wpisDAO.edit(wpis);
+        }
+        }
     }
 
+    
     public void wpisAktualizuj(){
         findWpis();
     }
     
-    private void findWpis(){
-        wpis = wpisDAO.find(wprowadzil.getLogin());
+    public void findWpis(){
+        HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String wprowadzilX = principal.getName();
+        wprowadzil = uzDAO.find(wprowadzilX);
+        wpis = wpisDAO.find(wprowadzilX);
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpis.setMiesiacWpisu(miesiacWpisu);
         wpis.setRokWpisu(rokWpisu);
+        wpis.setWprowadzilUz(wprowadzil);
         wpisDAO.edit(wpis);
     }
+
+      public String findNazwaPodatnika(){
+        HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String wprowadzilX = principal.getName();
+        wprowadzil = uzDAO.find(wprowadzilX);
+        wpis = wpisDAO.find(wprowadzilX);
+        return wpis.getPodatnikWpisu();
+    }
     
+     public Wpis findWpisX(){
+     HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String wprowadzilX = principal.getName();
+        wprowadzil = uzDAO.find(wprowadzilX);
+        return wpisDAO.find(wprowadzilX);
+     
+    }    
+      
+      
     public String getPodatnikWpisu() {
         return podatnikWpisu;
     }
 
-    public static String getPodatnikWpisuS() {
-        return podatnikWpisu;
-    }
-     
     public void setPodatnikWpisu(String podatnikWpisu) {
-        WpisView.podatnikWpisu = podatnikWpisu;
+        this.podatnikWpisu = podatnikWpisu;
     }
 
-    public static void setPodatnikWpisuS(String podatnikWpisu) {
-        WpisView.podatnikWpisu = podatnikWpisu;
-    }
-    
     public Integer getRokWpisu() {
         return rokWpisu;
     }
 
     public void setRokWpisu(Integer rokWpisu) {
-        WpisView.rokWpisu = rokWpisu;
+        this.rokWpisu = rokWpisu;
     }
 
     public String getMiesiacWpisu() {
@@ -82,7 +125,7 @@ public class WpisView implements Serializable{
     }
 
     public void setMiesiacWpisu(String miesiacWpisu) {
-        WpisView.miesiacWpisu = miesiacWpisu;
+        this.miesiacWpisu = miesiacWpisu;
     }
 
     public Uz getWprowadzil() {
@@ -90,7 +133,7 @@ public class WpisView implements Serializable{
     }
 
     public void setWprowadzil(Uz wprowadzil) {
-        WpisView.wprowadzil = wprowadzil;
+        this.wprowadzil = wprowadzil;
     }
 
     public String getMiesiacOd() {
@@ -98,7 +141,7 @@ public class WpisView implements Serializable{
     }
 
     public void setMiesiacOd(String miesiacOd) {
-        WpisView.miesiacOd = miesiacOd;
+        this.miesiacOd = miesiacOd;
     }
 
     public String getMiesiacDo() {
@@ -106,7 +149,7 @@ public class WpisView implements Serializable{
     }
 
     public void setMiesiacDo(String miesiacDo) {
-        WpisView.miesiacDo = miesiacDo;
+        this.miesiacDo = miesiacDo;
     }
 
     public boolean isSrodkTrw() {
@@ -116,4 +159,23 @@ public class WpisView implements Serializable{
     public void setSrodkTrw(boolean srodkTrw) {
         this.srodkTrw = srodkTrw;
     }
+
+    public Wpis getWpis() {
+        return wpis;
+    }
+
+    public void setWpis(Wpis wpis) {
+        this.wpis = wpis;
+    }
+
+    public WpisDAO getWpisDAO() {
+        return wpisDAO;
+    }
+
+    public void setWpisDAO(WpisDAO wpisDAO) {
+        this.wpisDAO = wpisDAO;
+    }
+
+    
+   
 }

@@ -55,8 +55,6 @@ public class Evewidencja implements Serializable {
     @Size(max = 255)
     @Column(name = "transakcja")
     private String transakcja;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "tylkoNetto")
     private boolean tylkoNetto;
 
@@ -120,7 +118,7 @@ public class Evewidencja implements Serializable {
         this.transakcja = transakcja;
     }
 
-    public boolean getTylkoNetto() {
+    public boolean isTylkoNetto() {
         return tylkoNetto;
     }
 
@@ -128,6 +126,8 @@ public class Evewidencja implements Serializable {
         this.tylkoNetto = tylkoNetto;
     }
 
+  
+    
     @Override
     public int hashCode() {
         int hash = 0;

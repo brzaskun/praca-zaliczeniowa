@@ -8,15 +8,11 @@ import dao.SesjaDAO;
 import entity.Sesja;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import view.GuestView;
 import view.SesjaView;
-import view.WpisView;
 
 /**
  * Web application lifecycle listener.

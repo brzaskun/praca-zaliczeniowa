@@ -15,6 +15,7 @@ import embeddable.Stornodoch;
 import entity.Dok;
 import entity.StornoDok;
 import entity.Uz;
+import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -94,11 +95,11 @@ public class DokTabView implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
-            Integer rok = wpisView.getRokWpisu();
-            String mc = wpisView.getMiesiacWpisu();
-            String podatnik = wpisView.getPodatnikWpisu();
-            uzytkownik = wpisView.getWprowadzil();
+        Wpis wpistmp = wpisView.findWpisX();
+            Integer rok = wpistmp.getRokWpisu();
+            String mc = wpistmp.getMiesiacWpisu();
+            String podatnik = wpistmp.getPodatnikWpisu();
+            uzytkownik = uzDAO.find(wpistmp.getWprowadzil());
             try {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
                 setButton(false);
@@ -107,21 +108,21 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpistmp.getPodatnikWpisu()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-            String m = wpisView.getMiesiacWpisu();
+            String m = wpistmp.getMiesiacWpisu();
             Integer m1 = Integer.parseInt(m);
             String mn = Mce.getMapamcy().get(m1);
             Iterator itx;
             itx = obiektDOKjsfSel.iterator();
             int inu = 1;
             int inus = 1;
-            Integer r = wpisView.getRokWpisu();
+            Integer r = wpistmp.getRokWpisu();
             while (itx.hasNext()) {
                 Dok tmpx = (Dok) itx.next();
                 if (tmpx.getPkpirR().equals(r.toString())) {
@@ -166,7 +167,7 @@ public class DokTabView implements Serializable {
                 }
             }
         }
-    }
+    
 
     public void edit(RowEditEvent ex) {
         try {

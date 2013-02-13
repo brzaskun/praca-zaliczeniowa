@@ -14,6 +14,7 @@ import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
+import dao.WpisDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
 import embeddable.Mce;
@@ -30,6 +31,7 @@ import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
+import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -98,7 +100,7 @@ public class DokView implements Serializable{
     private static Klienci przekazKontr;
 
     /*pkpir*/
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
     @Inject private DokDAO dokDAO;
     @Inject private Kolmn kolumna; 
     private String opis;
@@ -157,6 +159,7 @@ public class DokView implements Serializable{
     @Inject private SrodkikstDAO srodkikstDAO;
     private static String przechowajdatejakdodaje;
     @Inject OstatnidokumentDAO ostatnidokumentDAO;
+    @Inject WpisDAO wpisDAO;
     
     public DokView() {
         setPokazSTR(false);
@@ -168,8 +171,9 @@ public class DokView implements Serializable{
     @PostConstruct
     private void init(){
         rodzajedokKlienta = new ArrayList<>();
+        Wpis wpistmp = wpisView.findWpisX();
         try{
-        String pod = wpisView.getPodatnikWpisu();
+        String pod = wpistmp.getPodatnikWpisu();
         podX = podatnikDAO.find(pod);
         rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
         opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
@@ -184,8 +188,8 @@ public class DokView implements Serializable{
         wysDokument = ostatnidokumentDAO.pobierz();
         } catch (Exception e){}
         try{
-        selDokument.setVatR(wpisView.getRokWpisu().toString());
-        selDokument.setVatM(wpisView.getMiesiacWpisu());
+        selDokument.setVatR(wpistmp.getRokWpisu().toString());
+        selDokument.setVatM(wpistmp.getMiesiacWpisu());
         } catch (Exception e){}
     }
     /**
@@ -367,7 +371,7 @@ public class DokView implements Serializable{
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
         String nowynumer = "";
-        String pod = wpisView.getPodatnikWpisu();
+        String pod = wpisView.findWpisX().getPodatnikWpisu();
         Podatnik podX = podatnikDAO.find(pod);
         List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
         Rodzajedok rodzajdok = new Rodzajedok();
@@ -386,7 +390,7 @@ public class DokView implements Serializable{
          String[] elementy;
          elementy = wzorzec.split(separator);
          try{
-         Dok ostatnidokument = dokDAO.find(skrot,wpisView.getPodatnikWpisu() , wpisView.getRokWpisu());
+         Dok ostatnidokument = dokDAO.find(skrot, wpisView.findWpisX().getPodatnikWpisu() ,  wpisView.findWpisX().getRokWpisu());
          String[] elementyold;
          elementyold  = ostatnidokument.getNrWlDk().split(separator);
          for(int i = 0; i<elementy.length;i++){
@@ -399,10 +403,10 @@ public class DokView implements Serializable{
                     nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
                     break;
                 case "m":
-                    nowynumer = nowynumer.concat(wpisView.getMiesiacWpisu()).concat(separator);
+                    nowynumer = nowynumer.concat( wpisView.findWpisX().getMiesiacWpisu()).concat(separator);
                     break;
                 case "r":
-                    nowynumer = nowynumer.concat(wpisView.getRokWpisu().toString()).concat(separator);
+                    nowynumer = nowynumer.concat(wpisView.findWpisX().getRokWpisu().toString()).concat(separator);
                     break;
                     //to jest wlasna wstawka typu FVZ
                 case "s":
@@ -702,9 +706,10 @@ public class DokView implements Serializable{
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
             selDokument.setWprowadzil(principal.getName());
-            selDokument.setPkpirM(wpisView.getMiesiacWpisu());
-            selDokument.setPkpirR(wpisView.getRokWpisu().toString());
-            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            Wpis wpisbiezacy = wpisDAO.find(selDokument.getWprowadzil());
+            selDokument.setPkpirM(wpisbiezacy.getMiesiacWpisu());
+            selDokument.setPkpirR(wpisbiezacy.getRokWpisu().toString());
+            selDokument.setPodatnik(wpisbiezacy.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setTypdokumentu(typdokumentu);
             Iterator itd;

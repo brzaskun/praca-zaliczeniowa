@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -54,8 +56,7 @@ public class PlatnosciView implements Serializable{
     private static Platnosci selectedZob;
     @Inject private ZobowiazanieDAO zv;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
-    @ManagedProperty(value="#{wpisView}")
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
 
     private boolean edytujplatnosc;
 
@@ -64,9 +65,12 @@ public class PlatnosciView implements Serializable{
     
     @PostConstruct
     private void init(){
-        String nazwapodatnika = GuestView.getPodatnikString();
+        HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        String nazwapodatnika = principal.getName();
         try{
-        selected = podatnikDAO.find(nazwapodatnika);
+        selected = podatnikDAO.find(wpisView.findNazwaPodatnika());
         } catch (Exception e){}
         pokazzobowiazania();
     }
