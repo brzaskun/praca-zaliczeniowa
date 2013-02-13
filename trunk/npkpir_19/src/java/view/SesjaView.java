@@ -7,29 +7,26 @@ package view;
 import dao.SesjaDAO;
 import entity.Sesja;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-@SessionScoped
+@Named
+@RequestScoped
 public class SesjaView implements Serializable{
-    private static String nrsesji;
-    private static String uzytk;
-    @Inject
-    private Sesja sesja;
-    @Inject
-    private SesjaDAO sesjaDAO;
+    @Inject private Sesja sesja;
+    @Inject private SesjaDAO sesjaDAO;
     
     public void dodajwydruk(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
-            sesja = sesjaDAO.find(nrsesji);
+            sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscwydrukow();
             ilosc = ilosc+1;
             sesja.setIloscwydrukow(ilosc);
@@ -39,8 +36,9 @@ public class SesjaView implements Serializable{
     }
     
     public String dodajdokument(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
-            sesja = sesjaDAO.find(nrsesji);
+            sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscdokumentow();
             ilosc = ilosc+1;
             sesja.setIloscdokumentow(ilosc);
@@ -50,21 +48,24 @@ public class SesjaView implements Serializable{
         return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
     }
 
-    public static String getNrsesji() {
-        return nrsesji;
+    
+
+    public Sesja getSesja() {
+        return sesja;
     }
 
-    public static void setNrsesji(String nrsesji) {
-        SesjaView.nrsesji = nrsesji;
+    public void setSesja(Sesja sesja) {
+        this.sesja = sesja;
     }
 
-    public static String getUzytk() {
-        return uzytk;
+    public SesjaDAO getSesjaDAO() {
+        return sesjaDAO;
     }
 
-    public static void setUzytk(String uzytk) {
-        SesjaView.uzytk = uzytk;
+    public void setSesjaDAO(SesjaDAO sesjaDAO) {
+        this.sesjaDAO = sesjaDAO;
     }
+
     
     
 }
