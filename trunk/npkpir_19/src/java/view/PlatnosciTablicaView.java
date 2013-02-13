@@ -22,8 +22,7 @@ import javax.inject.Inject;
 public class PlatnosciTablicaView implements Serializable{
     List<Platnosci> lista;
     @Inject PlatnosciDAO platnosciDAO;
-    @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
 
     public PlatnosciTablicaView() {
         lista = new ArrayList<>();
@@ -32,7 +31,6 @@ public class PlatnosciTablicaView implements Serializable{
     @PostConstruct
     private void init(){
         String rok = wpisView.getRokWpisu().toString();
-        String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try{
             lista.addAll(platnosciDAO.findPodRok(rok, podatnik));

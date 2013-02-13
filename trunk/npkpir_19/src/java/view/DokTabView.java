@@ -9,6 +9,7 @@ import dao.DokDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
+import dao.WpisDAO;
 import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Stornodoch;
@@ -31,6 +32,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
@@ -74,6 +76,7 @@ public class DokTabView implements Serializable {
     private boolean button;
     @Inject private Uz uzytkownik;
     @Inject private UzDAO uzDAO;
+    @Inject private WpisDAO wpisDAO;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -95,11 +98,10 @@ public class DokTabView implements Serializable {
 
     @PostConstruct
     public void init() {
-        Wpis wpistmp = wpisView.findWpisX();
-            Integer rok = wpistmp.getRokWpisu();
-            String mc = wpistmp.getMiesiacWpisu();
-            String podatnik = wpistmp.getPodatnikWpisu();
-            uzytkownik = uzDAO.find(wpistmp.getWprowadzil());
+            Integer rok = wpisView.getRokWpisu();
+            String mc = wpisView.getMiesiacWpisu();
+            String podatnik = wpisView.getPodatnikWpisu();
+            uzytkownik = wpisView.getWprowadzil();
             try {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
                 setButton(false);
@@ -108,21 +110,22 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpistmp.getPodatnikWpisu()));
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-            String m = wpistmp.getMiesiacWpisu();
+            String m = wpisView.getMiesiacWpisu();
             Integer m1 = Integer.parseInt(m);
             String mn = Mce.getMapamcy().get(m1);
             Iterator itx;
             itx = obiektDOKjsfSel.iterator();
             int inu = 1;
             int inus = 1;
-            Integer r = wpistmp.getRokWpisu();
+            Integer r = wpisView.getRokWpisu();
+            obiektDOKmrjsfSel.clear();
             while (itx.hasNext()) {
                 Dok tmpx = (Dok) itx.next();
                 if (tmpx.getPkpirR().equals(r.toString())) {
@@ -233,16 +236,15 @@ public class DokTabView implements Serializable {
     }
 
     //usun jak wciaz dziala bez nich
-        public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-//        FacesContext facesContext = FacesContext.getCurrentInstance();
-//        Application application = facesContext.getApplication();
-//        ValueBinding binding = application.createValueBinding("#{PodatekView}");
-//        PodatekView podatekView = (PodatekView) binding.getValue(facesContext);
-//        podatekView.sprawozdaniePodatkowe();
-//        RequestContext.getCurrentInstance().update("form:prezentacjaPodatku");
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaTablica.xhtml");
+    public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaTablica.xhtml");
+    }
+    
+  
+     public void aktualizujGuest(String strona) throws IOException {
+        aktualizujGuest();
+        FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
     public void aktualizujObrotyX(ActionEvent e) {
@@ -279,12 +281,41 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
+    
+    public void aktualizujTablica(AjaxBehaviorEvent e) {
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+    }
+    
+     public void aktualizujTablicaGuest(AjaxBehaviorEvent e) {
+        aktualizujGuest();
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
+    }
 
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
         RequestContext ctx = null;
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
 
+    }
+    
+    private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
     }
     
     public void napraw(){
