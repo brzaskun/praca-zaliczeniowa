@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -55,6 +56,9 @@ public class Wpis implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "wprowadzil")
     private String wprowadzil;
+    @Lob
+    @Column(name = "wprowadzilUz")
+    private Uz wprowadzilUz;
     @Size(max = 2)
     @Column(name = "miesiacOd")
     private String miesiacOd;
@@ -63,6 +67,9 @@ public class Wpis implements Serializable {
     private String miesiacDo;
     @Column(name = "srodkTrw")
     private Boolean srodkTrw;
+    @Size(max = 255)
+    @Column(name = "biezacasesja")
+    private String biezacasesja;
 
     public Wpis() {
     }
@@ -139,6 +146,25 @@ public class Wpis implements Serializable {
     public void setSrodkTrw(Boolean srodkTrw) {
         this.srodkTrw = srodkTrw;
     }
+
+    public String getBiezacasesja() {
+        return biezacasesja;
+    }
+
+    public void setBiezacasesja(String biezacasesja) {
+        this.biezacasesja = biezacasesja;
+    }
+
+    public Uz getWprowadzilUz() {
+        return wprowadzilUz;
+    }
+
+    public void setWprowadzilUz(Uz wprowadzilUz) {
+        this.wprowadzilUz = wprowadzilUz;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {

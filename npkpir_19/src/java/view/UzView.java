@@ -39,7 +39,7 @@ public class UzView implements Serializable{
     private String confPassword;
     private String login;
     private String firstPassword;
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
        
    
     public UzView() {
@@ -60,8 +60,7 @@ public class UzView implements Serializable{
             Uz tmp = (Uz) it.next();
             obiektUZjsf.add(tmp);
             }
-        wpisView = new WpisView();
-        selUzytkownik = wpisView.getWprowadzil();
+        selUzytkownik = wpisView.findWpisX().getWprowadzilUz();
     }
       
 

@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import view.GuestView;
 import view.SesjaView;
 import view.WpisView;
 
@@ -89,10 +88,7 @@ public class Logowanie implements Serializable{
             }else if(request.isUserInRole("Guest")){
                 String nip = uzDAO.find(uzytk).getFirma();
                 String firma = podatnikDAO.findN(nip).getNazwapelna();
-                GuestView.setPodatnikString(firma);
-                WpisView wpis = new WpisView();
                 wpis.setPodatnikWpisu(firma);
-                WpisView.setPodatnikWpisuS(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
             } else if(request.isUserInRole("Noobie")){
@@ -123,7 +119,6 @@ public class Logowanie implements Serializable{
             Uz wpr = uzDAO.find(uzytk);
             wpr.setBiezacasesja(sessionId);
             uzDAO.edit(wpr);
-            findWpis();
             return navto;
         } catch (ServletException e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
