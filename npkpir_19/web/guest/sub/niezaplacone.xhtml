@@ -20,8 +20,8 @@
                <h:selectBooleanCheckbox value="#{DokumentView.rozliczony}" tabindex="3"/>
            </p:panelGrid>
        <br/>
-        <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;"/>
-       <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3"/>
+        <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
+        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3" oncomplete="Dialog.hide()"/>
     </p:dialog>
     <p:panel>
         <f:facet name="header">
@@ -58,7 +58,7 @@
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
+                <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip #{wpis.kontr.nip}"  />
             </p:column>
            
             <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
