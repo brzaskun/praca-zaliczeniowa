@@ -43,13 +43,14 @@ public class Logowanie implements Serializable{
     @Inject private SesjaDAO sesjaDAO;
     @Inject private WpisDAO wpisDAO;
     @Inject private Wpis wpis;
+    @Inject private SesjaView sesjaView;
     private WpisView wpisView;
     @Inject OstatnidokumentDAO ostatnidokumentDAO;
     
     
  
     public Logowanie(){
-         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if(session != null){
             session.invalidate();
         }
@@ -64,14 +65,12 @@ public class Logowanie implements Serializable{
         String message = "";
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal;
         try {
- 
             //Login via the Servlet Context
             request.login(uzytk, haslo);
- 
             //Retrieve the Principal
-            Principal principal = request.getUserPrincipal();
- 
+            principal = request.getUserPrincipal();
             //Display a message based on the User role
             if(request.isUserInRole("Administrator")){
                 message = "Username : " + principal.getName() + " You are an Administrator, you can really f**k things up now";
@@ -98,11 +97,11 @@ public class Logowanie implements Serializable{
             if (haslo.equals("haslo")){
                 navto = "nowehaslo";
             }
-            SesjaView.setUzytk(uzytk);
-            String sessionId = SesjaView.getNrsesji();
-            System.out.println("Sesja przeniesiona Logowanie" + sessionId );
-            sesja.setNrsesji(sessionId);
-            sesja.setUzytkownik(SesjaView.getUzytk());
+            session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            session.setAttribute("user", principal.getName());
+            String nrsesji = session.getId();
+            sesja.setNrsesji(nrsesji);
+            sesja.setUzytkownik(principal.getName());
             sesja.setIloscdokumentow(0);
             sesja.setIloscmaili(0);
             sesja.setIloscwydrukow(0);
@@ -117,8 +116,11 @@ public class Logowanie implements Serializable{
                     sesjaDAO.edit(sesja);
                 }
             Uz wpr = uzDAO.find(uzytk);
-            wpr.setBiezacasesja(sessionId);
+            wpr.setBiezacasesja(nrsesji);
             uzDAO.edit(wpr);
+            Wpis wpisX = wpisDAO.find(uzytk);
+            wpisX.setBiezacasesja(nrsesji);
+            wpisDAO.edit(wpisX);
             return navto;
         } catch (ServletException e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
@@ -135,29 +137,7 @@ public class Logowanie implements Serializable{
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
     }
     
-    //wyszukuje dane wybranego podatnika i miesiaca, zeby je wyswietlic
-     private void findWpis(){
-        wpisView = new WpisView();
-        Uz wprowadzil = uzDAO.find(uzytk);
-        try{
-        wpis = wpisDAO.find(uzytk);
-        wpisView.setWprowadzil(wprowadzil);
-        wpisView.setRokWpisu(wpis.getRokWpisu());
-        wpisView.setMiesiacWpisu(wpis.getMiesiacWpisu());
-        } catch (Exception e){
-            wpisView.setWprowadzil(wprowadzil);
-            wpisView.setRokWpisu(2013);
-            wpisView.setMiesiacWpisu("01");
-        }
-        if(!wprowadzil.getUprawnienia().equals("Guest")){
-        try{
-            wpisView.setPodatnikWpisu(wpis.getPodatnikWpisu());
-        } catch (Exception e){
-            wpisView.setPodatnikWpisu("GRZELCZYK");
-        }
-        }
-    }
-    
+       
      public String getUzytk() {
         return uzytk;
     }

@@ -21,24 +21,23 @@ import view.SesjaView;
  */
 @WebListener()
 public class NewServletListener implements HttpSessionListener {
-    @Inject
-    private Sesja sesja;
-    @Inject
-    private SesjaDAO sesjaDAO;
+    @Inject private Sesja sesja;
+    @Inject private SesjaDAO sesjaDAO;
+    @Inject private SesjaView sesjaView;
    
             
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         String sessionId = se.getSession().getId();
-        System.out.println("Sesja utworzona " + sessionId );
-        SesjaView.setNrsesji(sessionId);
+        System.out.println("NewServlettListner.java: Sesja utworzona " + sessionId );
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        System.out.println("Sesja zlikwidowana "+se.getSession().getId());
+        String nrsesji = se.getSession().getId();
+        System.out.println("Sesja zlikwidowana "+nrsesji);
         try{
-        sesja = sesjaDAO.find(SesjaView.getNrsesji());
+        sesja = sesjaDAO.find(nrsesji);
         Calendar calendar = Calendar.getInstance();
         sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
         sesjaDAO.edit(sesja);
