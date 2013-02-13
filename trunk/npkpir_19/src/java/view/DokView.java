@@ -54,6 +54,7 @@ import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
@@ -101,7 +102,8 @@ public class DokView implements Serializable{
     private static Klienci przekazKontr;
 
     /*pkpir*/
-    @Inject private WpisView wpisView;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     @Inject private DokDAO dokDAO;
     @Inject private Kolmn kolumna; 
     private String opis;
@@ -1103,28 +1105,38 @@ public class DokView implements Serializable{
     }
    
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZestawienieRok.xhtml");
     }
     
     public void aktualizujWestWpisWidokIndex(AjaxBehaviorEvent e) throws IOException {
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpisDAO.edit(wpistmp);
+        aktualizuj();
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
     }
      public void aktualizujZamkniecie(AjaxBehaviorEvent e) throws IOException {
+         aktualizuj();
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZamkniecie.xhtml");
     }
  
     public void aktualizujVAT(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVATzest.xhtml");
     }
     
     public void aktualizujPit(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaPit.xhtml");
         
+    }
+    
+     private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
     }
 
     public String aktualizujPop() throws IOException {

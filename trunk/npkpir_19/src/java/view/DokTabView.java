@@ -284,6 +284,7 @@ public class DokTabView implements Serializable {
     }
     
     public void aktualizujTablica(AjaxBehaviorEvent e) {
+        aktualizuj();
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
