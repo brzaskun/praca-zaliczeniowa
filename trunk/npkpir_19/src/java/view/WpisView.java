@@ -42,7 +42,7 @@ public class WpisView implements Serializable{
        
     @PostConstruct
     private void init(){
-        if(miesiacDo==null&&miesiacWpisu!=null){
+        if(miesiacDo==null&&miesiacWpisu==null){
             miesiacDo = miesiacWpisu;
             miesiacOd = miesiacWpisu;
         }
