@@ -18,7 +18,6 @@ import entity.Uz;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -109,6 +108,9 @@ public class DokTabView implements Serializable {
             }
             try {
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
+                //sortowanie dokumentów
+                    Collections.sort(obiektDOKjsfSel, new Dokcomparator());
+                //
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
@@ -145,9 +147,7 @@ public class DokTabView implements Serializable {
                     
                 }
             }
-            //sortowanie dokumentów
-                    Collections.sort(obiektDOKmrjsfSel, new Dokcomparator());
-                    //
+          
             if (wpisView.getMiesiacOd() != null) {
                 obiektDOKmrjsfSelX.clear();
                 Iterator itxX;

@@ -13,7 +13,7 @@
             </p:panelGrid>
         </h:form>-->
    
-    <p:accordionPanel id="akordeon" value="#{podatnikView.li}" var="podatnik">
+    <p:accordionPanel id="akordeon" value="#{podatnikView.li}" var="podatnik" style="width: 1000px;" >
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
             <h:outputText value="dane historyczne"/><br/>
             <h:form id="zbiorczyform">
