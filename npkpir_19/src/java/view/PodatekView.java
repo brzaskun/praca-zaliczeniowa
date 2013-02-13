@@ -41,7 +41,8 @@ public class PodatekView implements Serializable{
     private Podatnik selected;
     @Inject
     private ZobowiazanieDAO zv;
-    @Inject private WpisView wpisView;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
     private BigDecimal przychody;
     private HashMap<String, BigDecimal> przychodyRyczalt;
     private BigDecimal koszty;
@@ -116,7 +117,6 @@ public class PodatekView implements Serializable{
         }
         dochód = (przychody.subtract(koszty));
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
-        wpisView = new WpisView();
         String poszukiwany = wpisView.getPodatnikWpisu();
         Podatnik selected=podatnikDAO.find(poszukiwany);
         int index = selected.getPodatekdochodowy().size()-1;

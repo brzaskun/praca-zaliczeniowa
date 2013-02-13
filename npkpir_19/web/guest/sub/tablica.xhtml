@@ -7,7 +7,63 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
     
+    <p:outputPanel>
+        <h:outputText value="Wstępne wyliczenie wyniku za wyświetlany miesiąc"/>
+        <p:panelGrid id="prezentacjaPodatku" columns="4">
+            <h:outputLabel value="okres: " style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
+            <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
+        </p:panelGrid>
+        <p:panelGrid id="prezentacjaPodatku1" columns="8">
+            <h:outputLabel value="Przychody:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.przychody}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Koszty:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.koszty}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.dochód}" style="font-size: medium;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.podatek}" style="font-size: large;">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+        </p:panelGrid>
+        <h:commandButton action="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" />
+    </p:outputPanel>
     
+    <p:dialog header="Szczegóły ewidencji VAT" widgetVar="Dialog" resizable="false"  
+              showEffect="explode" hideEffect="explode">  
+
+        <p:dataTable id="display" var="subwpis" value="#{DokTabView.selDokument.ewidencjaVAT}" style="width: 600px;" emptyMessage="dokument bez vat" >
+            <p:column id="SubColumn1" >  
+                <f:facet name="header">  
+                    <h:outputText value="nazwa ewidencji" />  
+                </f:facet> 
+                <h:outputText value="#{subwpis.ewidencja.nazwa}" />
+            </p:column>
+            <p:column id="SubColumn1a" >  
+                <f:facet name="header" >
+                    <h:outputText value="kwota netto" /> 
+                </f:facet> 
+                <h:outputText value="#{subwpis.netto}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            <p:column id="SubColumn2">  
+                <f:facet name="header">  
+                    <h:outputText value="kwota vat" />  
+                </f:facet> 
+                <h:outputText value="#{subwpis.vat}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
+            </p:dataTable>
+    </p:dialog>  
   
     <p:outputPanel id="wrapper">
         
@@ -20,7 +76,7 @@
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
-                    
+            <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" />           
             
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" />  
@@ -43,7 +99,7 @@
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip #{wpis.kontr.nip}"  />
+                <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
             </p:column>
 <!--            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="{wpis.rodzTrans}" filterMatchMode="contains" sortBy="{wpis.rodzTrans}">  
                 <f:facet name="header">  
