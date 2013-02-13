@@ -76,11 +76,10 @@ public class PlatnosciView implements Serializable{
     }
     
     public void pokazzobowiazania(){
-        WpisView wV = new WpisView();
         selectedZob = new Platnosci();
         PlatnosciPK platnosciPK = new PlatnosciPK();
-        platnosciPK.setRok(wV.getRokWpisu().toString());
-        platnosciPK.setMiesiac(wV.getMiesiacWpisu());
+        platnosciPK.setRok(wpisView.getRokWpisu().toString());
+        platnosciPK.setMiesiac(wpisView.getMiesiacWpisu());
         platnosciPK.setPodatnik(selected.getNazwapelna());
         selectedZob.setPlatnosciPK(platnosciPK);
          try {

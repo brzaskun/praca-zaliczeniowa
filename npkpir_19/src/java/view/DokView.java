@@ -67,6 +67,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 import org.primefaces.component.autocomplete.AutoComplete;
@@ -1106,6 +1107,11 @@ public class DokView implements Serializable{
     }
     
     public void aktualizujWestWpisWidokIndex(AjaxBehaviorEvent e) throws IOException {
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpisDAO.edit(wpistmp);
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
     }
      public void aktualizujZamkniecie(AjaxBehaviorEvent e) throws IOException {

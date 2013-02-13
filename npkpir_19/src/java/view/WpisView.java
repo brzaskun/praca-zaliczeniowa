@@ -56,6 +56,8 @@ public class WpisView implements Serializable{
         this.podatnikWpisu = wpis.getPodatnikWpisu();
         this.miesiacWpisu = wpis .getMiesiacWpisu();
         this.rokWpisu = wpis.getRokWpisu();
+        this.miesiacOd = wpis.getMiesiacOd();
+        this.miesiacDo = wpis.getMiesiacDo();
         try{
             this.wprowadzil = wpis.getWprowadzilUz();
         } catch (Exception e){
@@ -81,6 +83,8 @@ public class WpisView implements Serializable{
         wpis.setMiesiacWpisu(miesiacWpisu);
         wpis.setRokWpisu(rokWpisu);
         wpis.setWprowadzilUz(wprowadzil);
+        wpis.setMiesiacOd(miesiacWpisu);
+        wpis.setMiesiacDo(miesiacWpisu);
         wpisDAO.edit(wpis);
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         sessionX.setAttribute("miesiacWpisu", miesiacWpisu);
