@@ -867,7 +867,7 @@ public class DokView implements Serializable{
     public void dodajNowyWpisAutomatyczny() {
             double kwotaumorzenia = 0.0;
             List<Amodok> lista = new ArrayList<Amodok>();
-            lista.addAll(amoDokDAO.getDownloaded());
+            lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
             Amodok amodokPoprzedni = null;
             Amodok amodok = null;
             Iterator itx;
@@ -883,14 +883,20 @@ public class DokView implements Serializable{
                 }
                 amodokPoprzedni = tmp;
             }
-            boolean temp = amodokPoprzedni.getZaksiegowane();
-            List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
-         try {
+
+            try {
+                    boolean temp = amodokPoprzedni.getZaksiegowane();
+                    List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
+            } catch (Exception e){}
+            
+        try {
+        
             if(amodokPoprzedni!=null){
                 if(amodokPoprzedni.getZaksiegowane()!=true&&amodokPoprzedni.getUmorzenia().size()>0){
                     throw new Exception();
                 }
             }
+         
             List<Umorzenie> umorzenia = new ArrayList<>();
             umorzenia.addAll(amodok.getUmorzenia());
             Iterator it;
