@@ -49,19 +49,19 @@ public class Opis implements Serializable{
     public void dodajOpis(ValueChangeEvent e){
         String ns = e.getNewValue().toString();
         if(ns.length()>5){
-            if(!opisy.contains(ns)){
-                opisy.add(ns);
+            if(!opisy.contains(ns.toLowerCase())){
+                opisy.add(ns.toLowerCase());
             }
         }
        podatnik.setOpisypkpir(opisy);
        podatnikDAO.edit(podatnik);
     }
     
-     public List<String> complete(String query) {  
+     public List<String> complete(String query) {
         List<String> results = new ArrayList<String>();  
         String kl = new String();
          for(String p : opisy) {  
-            if(p.startsWith(query)) {
+            if(p.startsWith(query.toLowerCase())) {
                  results.add(p);
              }
         }  
