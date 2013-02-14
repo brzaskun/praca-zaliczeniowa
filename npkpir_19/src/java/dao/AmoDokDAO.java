@@ -6,6 +6,7 @@ package dao;
 
 import entity.Amodok;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
@@ -34,5 +35,13 @@ public class AmoDokDAO extends DAO implements Serializable {
         }
     }
     
-    
+    public List<Amodok> amodokklient(String klient){
+        List<Amodok> lista = new ArrayList<>();
+        for (Object p : downloaded){
+            if(((Amodok) p).getPodatnik().equals(klient)){
+                lista.add((Amodok) p);
+            }
+        }
+        return lista;
+    }
 }
