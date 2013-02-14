@@ -1041,6 +1041,7 @@ public class DokView implements Serializable{
         } else {
             mc--;
         }
+       
        Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
         if (tmp == null) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);

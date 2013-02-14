@@ -33,4 +33,6 @@ public class AmoDokDAO extends DAO implements Serializable {
             amodokFacade.remove(tmp);
         }
     }
+    
+    
 }

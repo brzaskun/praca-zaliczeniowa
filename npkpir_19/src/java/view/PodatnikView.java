@@ -68,7 +68,7 @@ public class PodatnikView implements Serializable{
     private static ArrayList<Podatnik> listapodatnikow;
     
     //
-    private String nazwaWybranegoPodatnika;
+    private static String nazwaWybranegoPodatnika;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
@@ -90,6 +90,7 @@ public class PodatnikView implements Serializable{
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private WpisDAO wpisDAO;
+    
     
     public  List<Podatnik> getLi() {
         return li;
@@ -115,7 +116,6 @@ public class PodatnikView implements Serializable{
     public void init(){
         li.addAll((Collection) podatnikDAO.getDownloaded());
         Collections.sort(li, new Podatnikcomparator());
-        nazwaWybranegoPodatnika = wpisView.findNazwaPodatnika();;
         try{
         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          pobierzogolneDokKsi();
@@ -472,11 +472,6 @@ public class PodatnikView implements Serializable{
       
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(nazwaWybranegoPodatnika);
-           HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            String user = (String) sessionX.getAttribute("user");
-            Wpis wpistmp = wpisDAO.find(user);
-            wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-            wpisDAO.edit(wpistmp);
            //sprawdazic
            RequestContext.getCurrentInstance().execute("openwindow()");
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
@@ -760,6 +755,7 @@ public class PodatnikView implements Serializable{
     public void setSelectedDod(Podatnik selectedDod) {
         this.selectedDod = selectedDod;
     }
+
     
     
 }
