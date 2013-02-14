@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import view.WpisView;
@@ -22,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean(name="Trans")
-@SessionScoped
+@RequestScoped
 public class Trans implements Serializable{
 
     @Inject private PodatnikDAO podatnikDAO;
