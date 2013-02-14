@@ -1092,6 +1092,25 @@ public class DokView implements Serializable{
         przechowajdatejakdodaje = dataWyst;
     }
     
+    public void ustawDate2(AjaxBehaviorEvent e) {
+        selDokument.setDokumentProsty(false);
+        RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+        String dataWyst = selDokument.getDataWyst();
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        if (dataWyst.matches("[0-3][0-9]")) {
+            dataWyst = rok + "-"+ mc +"-"+dataWyst;
+        } else if (dataWyst.matches("[0-1][0-9]-[0-3][0-9]")) {
+            dataWyst = rok + "-" + dataWyst ;
+        }
+        selDokument.setDataWyst(dataWyst);
+        selDokument.setDataSprz(dataWyst);
+        selDokument.setVatM(mc);
+        RequestContext.getCurrentInstance().update("dodWiad:vatm");
+        selDokument.setVatR(rok.toString());
+        RequestContext.getCurrentInstance().update("dodWiad:vatr");
+        przechowajdatejakdodaje = dataWyst;
+    }
    
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
