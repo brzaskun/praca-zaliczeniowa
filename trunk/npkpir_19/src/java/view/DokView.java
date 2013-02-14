@@ -188,7 +188,7 @@ public class DokView implements Serializable{
         }
         //pobranie ostatniego dokumentu
         try{
-        wysDokument = ostatnidokumentDAO.pobierz();
+        wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
         } catch (Exception e){}
         try{
         selDokument.setVatR(wpistmp.getRokWpisu().toString());
