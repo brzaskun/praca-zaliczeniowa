@@ -11,10 +11,8 @@ import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
-import embeddable.Pod;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.Wpis;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
@@ -43,7 +41,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
@@ -61,7 +58,6 @@ public class PodatnikView implements Serializable{
     private Podatnik selected;
     @Inject
     private Podatnik selectedDod;
-    @Inject private Pod selectedPod;
     @Inject private Rodzajedok selectedDokKsi;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
@@ -116,6 +112,9 @@ public class PodatnikView implements Serializable{
     public void init(){
         li.addAll((Collection) podatnikDAO.getDownloaded());
         Collections.sort(li, new Podatnikcomparator());
+        if(nazwaWybranegoPodatnika==null){
+            nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
+        }
         try{
         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          pobierzogolneDokKsi();
@@ -658,15 +657,7 @@ public class PodatnikView implements Serializable{
         PodatnikView.listapodatnikow = listapodatnikow;
     }
 
-    public Pod getSelectedPod() {
-        return selectedPod;
-    }
-
-    public void setSelectedPod(Pod selectedPod) {
-        this.selectedPod = selectedPod;
-    }
-
-    
+      
     public Parametr getParametr() {
         return parametr;
     }

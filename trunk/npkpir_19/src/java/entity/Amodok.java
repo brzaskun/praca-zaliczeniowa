@@ -4,7 +4,6 @@
  */
 package entity;
 
-import embeddable.Pod;
 import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.ArrayList;

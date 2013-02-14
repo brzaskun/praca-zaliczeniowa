@@ -148,6 +148,9 @@ public class Podatnik implements Serializable {
     private List<Parametr> kwotaautoryzujaca;
     @Column(name = "pole47")
     private String pole47;
+    @Lob
+    @Column(name = "opisypkpir")
+    private List opisypkpir;
     
     
     public Podatnik() {
@@ -388,6 +391,14 @@ public class Podatnik implements Serializable {
 
     public void setPole47(String pole47) {
         this.pole47 = pole47;
+    }
+
+    public List getOpisypkpir() {
+        return opisypkpir;
+    }
+
+    public void setOpisypkpir(List opisypkpir) {
+        this.opisypkpir = opisypkpir;
     }
 
     
