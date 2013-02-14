@@ -42,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -163,12 +164,14 @@ public class DokView implements Serializable{
     private static String przechowajdatejakdodaje;
     @Inject OstatnidokumentDAO ostatnidokumentDAO;
     @Inject WpisDAO wpisDAO;
+    private List opisypkpir;
     
     public DokView() {
         setPokazSTR(false);
         opis = "ewidencja opis";
         setWysDokument(null);
         wpisView = new WpisView();
+        opisypkpir = new ArrayList();
     }
  
     @PostConstruct
@@ -178,6 +181,7 @@ public class DokView implements Serializable{
         try{
         String pod = wpistmp.getPodatnikWpisu();
         podX = podatnikDAO.find(pod);
+        opisypkpir.addAll(podX.getOpisypkpir());
         rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
         opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
         } catch (Exception e){
