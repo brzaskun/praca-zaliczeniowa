@@ -199,6 +199,17 @@ public class DokView implements Serializable{
         selDokument.setVatM(wpistmp.getMiesiacWpisu());
         } catch (Exception e){}
     }
+    
+    //kopiuje ostatni dokument celem wykorzystania przy wpisie
+    public void skopiujdokument(){
+         try{
+            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            selDokument.setKwota(0.0);
+        } catch (Exception e){}
+        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
+    }
+    
+    
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
@@ -232,6 +243,8 @@ public class DokView implements Serializable{
                 break;
             case "srodek trw":
                 dopobrania = kolumna.getKolumnST();
+                setPokazSTR(true);
+                wygenerujSTRKolumne();
                 break;
             default:
                 dopobrania = kolumna.getKolumnPrzychody();
@@ -774,7 +787,7 @@ public class DokView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
          } 
         //robienie srodkow trwalych
-         if(pokazSTR){
+         if(stawkaKST!=null){
             try {
                    selectedSTR.setNetto(selDokument.getKwota());
                    BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getKwota());
