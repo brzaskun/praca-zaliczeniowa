@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.STRDAO;
 import embeddable.Roki;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -122,6 +124,9 @@ public class STRTabView implements Serializable{
                   
                 //}
             }
+                //sortowanie dokumentów
+
+                //
                 if (wpisView.getMiesiacOd() != null) {
                     obiektDOKmrjsfSelX.clear();
                     Iterator itxX;
