@@ -24,14 +24,25 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
         super(Ostatnidokument.class);
     }
     
-    public Dok pobierz(){
+    public Dok pobierz(String nazwa){
         List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        return temp.get(0).getDokument();
+        for(Ostatnidokument p :temp){
+            if(p.getUzytkownik().equals(nazwa)){
+                return p.getDokument();
+            }
+        }
+        return null;
     }
     
-    public void usun(){
+    public void usun(String nazwa){
         List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        ostatnidokumentFacade.remove(temp.get(0));
+        for(Ostatnidokument p :temp){
+            if(p.getUzytkownik().equals(nazwa)){
+                ostatnidokumentFacade.remove(p);
+                break;
+            }
+        }
+        
     }
     
 }

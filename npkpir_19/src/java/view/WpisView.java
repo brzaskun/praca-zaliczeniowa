@@ -54,7 +54,12 @@ public class WpisView implements Serializable{
         wprowadzil = uzDAO.find(wprowadzilX);
         wpis = wpisDAO.find(wprowadzilX);
         this.podatnikWpisu = wpis.getPodatnikWpisu();
-        this.miesiacWpisu = wpis .getMiesiacWpisu();
+        if(wpis.getPodatnikWpisu()==null){
+            this.miesiacWpisu = "GRZELCZYK";
+            wpis.setPodatnikWpisu("GRZELCZYK");
+        } else {
+            this.miesiacWpisu = wpis.getMiesiacWpisu();
+        }
         this.rokWpisu = wpis.getRokWpisu();
         this.miesiacOd = wpis.getMiesiacOd();
         this.miesiacDo = wpis.getMiesiacDo();
