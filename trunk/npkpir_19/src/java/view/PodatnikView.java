@@ -7,12 +7,14 @@ package view;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Pod;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Wpis;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
@@ -20,12 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -44,6 +43,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
@@ -59,6 +59,8 @@ public class PodatnikView implements Serializable{
     private PodatnikDAO podatnikDAO;
     @Inject
     private Podatnik selected;
+    @Inject
+    private Podatnik selectedDod;
     @Inject private Pod selectedPod;
     @Inject private Rodzajedok selectedDokKsi;
     @ManagedProperty(value = "#{rodzajedokView}")
@@ -85,7 +87,9 @@ public class PodatnikView implements Serializable{
     private DokDAO dokDAO;
     @Inject 
     private ZUSDAO zusDAO;
-    @Inject private WpisView wpisView;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
+    @Inject private WpisDAO wpisDAO;
     
     public  List<Podatnik> getLi() {
         return li;
@@ -125,15 +129,15 @@ public class PodatnikView implements Serializable{
          System.out.println("Wpis do bazy zaczynam");
          sformatuj();
              try {
-                 podatnikDAO.dodaj(selected);
-                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika-klienta.", selected.getNazwapelna());
+                 podatnikDAO.dodaj(selectedDod);
+                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika-klienta.", selectedDod.getNazwapelna());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
                  
              } catch (Exception e) {
                  System.out.println(e.getStackTrace().toString());
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim NIP już istnieje.Probuje edycji", e.getStackTrace().toString());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
-                 podatnikDAO.edit(selected);
+                 podatnikDAO.edit(selectedDod);
              }
     }
    
@@ -468,6 +472,11 @@ public class PodatnikView implements Serializable{
       
      public String przejdzdoStrony(){
            selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+           HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String user = (String) sessionX.getAttribute("user");
+            Wpis wpistmp = wpisDAO.find(user);
+            wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+            wpisDAO.edit(wpistmp);
            //sprawdazic
            RequestContext.getCurrentInstance().execute("openwindow()");
            return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
@@ -599,7 +608,7 @@ public class PodatnikView implements Serializable{
          Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
          String skrot = params.get("form:pesel");
          String tmp = "19"+skrot.substring(0,2)+"-"+skrot.substring(2,4)+"-"+skrot.substring(4,6);
-         selected.setDataurodzenia(tmp);
+         selectedDod.setDataurodzenia(tmp);
      } 
      
      public void wypelnijfax(){
@@ -742,6 +751,14 @@ public class PodatnikView implements Serializable{
 
     public void setRodzajedokView(RodzajedokView rodzajedokView) {
         this.rodzajedokView = rodzajedokView;
+    }
+
+    public Podatnik getSelectedDod() {
+        return selectedDod;
+    }
+
+    public void setSelectedDod(Podatnik selectedDod) {
+        this.selectedDod = selectedDod;
     }
     
     
