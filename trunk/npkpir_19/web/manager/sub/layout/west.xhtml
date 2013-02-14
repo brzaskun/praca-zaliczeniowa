@@ -30,7 +30,7 @@
          <p:separator/>
         <h:form id="westManager">
             <p:panel menuTitle="Dane" header="Parametryzowanie pojedyńczego podatnika">
-                <h:selectOneMenu value="#{WpisView.podatnikWpisu}" style="width: 150px">
+                <h:selectOneMenu value="#{podatnikView.nazwaWybranegoPodatnika}" style="width: 150px">
                     <f:selectItem itemLabel="wybierz podatnika"/>
                     <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
                 </h:selectOneMenu>
