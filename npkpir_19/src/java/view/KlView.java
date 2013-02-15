@@ -57,12 +57,12 @@ public class KlView implements Serializable{
     public void dodajKlienta(){
       try {
         String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getNpelna().substring(2).toLowerCase());
+        formatka = formatka.concat(selected.getNpelna().substring(1).toLowerCase());
         selected.setNpelna(formatka);
         formatka = selected.getNskrocona().toUpperCase();
         selected.setNskrocona(formatka);
         formatka = selected.getUlica().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getUlica().substring(2).toLowerCase());
+        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
         selected.setUlica(formatka);
         try {
             selected.getKrajnazwa();

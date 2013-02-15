@@ -643,7 +643,12 @@ public class DokView implements Serializable{
         BigDecimal tmp1 = BigDecimal.valueOf(netto1);
         tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        vat1 = Double.parseDouble(tmp1.toString());
+        String transakcja = params.get("dodWiad:rodzajTrans");
+        if(transakcja.equals("WDT")){
+            vat1 = 0.0;
+        } else {
+            vat1 = Double.parseDouble(tmp1.toString());
+        }
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
     }
 
