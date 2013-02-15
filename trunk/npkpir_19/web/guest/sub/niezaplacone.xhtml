@@ -7,24 +7,21 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     
-   <p:focus context="dpi">
-   <p:dialog header="Szczegóły płatności" id="dpi" widgetVar="Dialog" resizable="false" showEffect="explode" hideEffect="explode">
+   
+   <p:dialog header="Szczegóły płatności" id="dpi" widgetVar="Dialog" resizable="false">
               <p:panelGrid id="display" style="width: 400px;" columns="2" >
                <h:outputText value="data płatności"/>  
                <h:outputText value="kwota wpłacona"/>  
-               <p:inputText id="pole" value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" tabindex="1">
+               <p:inputText id="pole" value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" >
                    <p:watermark for="pole" value="rrrr-mm-dd" /> 
                </p:inputText>
-               <h:inputText value="#{DokumentView.rozrachunek.kwotawplacona}" tabindex="2"/>
-               <h:outputText value="odhacz jeżeli dokument jest rozliczony"/>  
-               <h:selectBooleanCheckbox value="#{DokumentView.rozliczony}" tabindex="3"/>
+               <pe:inputNumber value="#{DokumentView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
         <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
         <h:outputText value="Alt-s aktywuje pierwsze pole" style="font-style: italic"/>
-        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista" tabindex="3" oncomplete="Dialog.hide()"/>
+        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="Dialog.hide()"/>
     </p:dialog>
-   </p:focus>
     <p:panel>
         <f:facet name="header">
             <h:outputText value="Ostatnio wprowadzono storno za miesiąc #{stornoDokView.policzdokumentystorno()}"/><br/>

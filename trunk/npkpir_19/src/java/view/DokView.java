@@ -757,21 +757,22 @@ public class DokView implements Serializable{
                     kwotavat = kwotavat + p;
                 }
             } catch (Exception ex){}
-            if(selDokument.getRozliczony()==true){
-                Double kwota = selDokument.getKwota();
+            Double kwota = 0.0;
+              kwota = selDokument.getKwota();
                 try{
                 kwota = kwota + selDokument.getKwotaX();
                 } catch (Exception e){}
                 try{
                 kwota = kwota + kwotavat;
                 } catch (Exception e){}
-                selDokument.setBrutto(kwota);
                 kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+            if(selDokument.getRozliczony()==true){
                 Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
                 lista.add(rozrachunekx);
                 selDokument.setRozrachunki(lista);
             }
+            selDokument.setBrutto(kwota);
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
             //wpisywanie do bazy ostatniego dokumentu
@@ -1240,14 +1241,14 @@ public class DokView implements Serializable{
         rozrachunek.setWprowadzil(principal.getName());
         rozrachunek.setDatawprowadzenia(new Date());
         lista.add(rozrachunek);
-        if(pozostalo==0&&rozliczony==true){
-            selDokument.setRozliczony(rozliczony);
+        if(pozostalo==0){
+            selDokument.setRozliczony(true);
         }
         selDokument.setRozrachunki(lista);
         try{
         dokDAO.edit(selDokument);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Płatność zachowana" +selDokument, null);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+         FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception ex) {
             System.out.println(ex.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Płatność niezachowana " + ex.getStackTrace().toString(),null);
@@ -1270,10 +1271,11 @@ public class DokView implements Serializable{
        String nazwa = params.get("dodWiad:form:acForce1_input");
        try{
        srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
-       } catch (Exception e){}
        symbolKST = srodekkategoriawynik.getSymbol();
        stawkaKST = srodekkategoriawynik.getStawka();
        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+       } catch (Exception e){}
+      
    }
      
    public void przekierowanieWpisKLienta() throws IOException{

@@ -36,7 +36,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>gniezaplacone</from-outcome>
-            <to-view-id>/guest/guestNiezaplacone.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/guest/ksiegowaNiezaplacone.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gzobow</from-outcome>
