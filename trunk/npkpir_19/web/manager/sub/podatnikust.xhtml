@@ -92,22 +92,30 @@
                 <p:focus for="parametryp2"/><br/>
                 <h:outputText value="dane historyczne"/><br/>
                 <p:panelGrid columns="4" style="width: 920px">
-                    <p:dataList value="#{podatnikView.selected.zusparametr}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                        <h:outputText value="rok/miesiac " />
-                        <h:outputText value="#{loop.zusstawkiPK.rok}/" />
-                        <h:outputText value="#{loop.zusstawkiPK.miesiac}" />
-                        <h:outputText value=" kwota zus51/ch: " />
-                        <h:outputText value="#{loop.zus51ch}" />
-                        <h:outputText value=" kwota zus51/bch: " />
-                        <h:outputText value="#{loop.zus51bch}" />
-                        <h:outputText value=" kwota zus52: " />
-                        <h:outputText value="#{loop.zus52}" />
-                        <h:outputText value=" kwota zus53: " />
-                        <h:outputText value="#{loop.zus53}" />
-                        <h:outputText value=" kwota PIT4: " />
-                        <h:outputText value="#{loop.pit4}" />
-                        <br/>
-                    </p:dataList>
+                    <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                <f:facet name="header">
+                    <h:outputText value="Lista wprowadzonych stawek"/>
+                </f:facet>
+                <p:column headerText="rok-miesiąc">
+                <h:outputText value="#{loop.zusstawkiPK.rok}-#{loop.zusstawkiPK.miesiac}" />
+                </p:column>
+                <p:column headerText="ZUS 51">
+                 <h:outputText value="#{loop.zus51ch}" />
+                </p:column>
+                <p:column headerText="ZUS 51/bch">
+                <h:outputText value="#{loop.zus51bch}" />
+                </p:column>
+                <p:column headerText="ZUS 52">
+                <h:outputText value="#{loop.zus52}" />
+                </p:column>
+                <p:column headerText="ZUS 52 odl.">
+                <h:outputText value="#{loop.zus52odl}" />
+                </p:column>
+                <p:column headerText="ZUS 53">
+                <h:outputText value="#{loop.zus53}" />
+                </p:column>
+                <br/>
+            </p:dataTable>
                 </p:panelGrid>
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <p:panelGrid id="parametryp2" columns="2" >
@@ -116,6 +124,7 @@
                     <h:outputText value="kwota zus51 z chor.: "/><h:inputText value="#{podatnikView.zusstawki.zus51ch}"><f:convertNumber /></h:inputText>
                     <h:outputText value="kwota zus51 bez chor.: "/><h:inputText value="#{podatnikView.zusstawki.zus51bch}"><f:convertNumber /></h:inputText>
                     <h:outputText value="kwota zus52: "/><h:inputText value="#{podatnikView.zusstawki.zus52}"><f:convertNumber  /></h:inputText>
+                    <h:outputText value="kwota zus52odlicz: "/><h:inputText value="#{podatnikView.zusstawki.zus52odl}"><f:convertNumber  /></h:inputText>
                     <h:outputText value="kwota zus53: "/><h:inputText value="#{podatnikView.zusstawki.zus53}"><f:convertNumber /></h:inputText>
                     <h:outputText value="kwota PIT4: "/><h:inputText value="#{podatnikView.zusstawki.pit4}"><f:convertNumber /></h:inputText>
                 </p:panelGrid>

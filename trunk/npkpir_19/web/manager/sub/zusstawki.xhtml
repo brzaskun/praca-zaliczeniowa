@@ -30,6 +30,9 @@
                 <p:column headerText="ZUS 52">
                 <h:outputText value="#{loop.zus52}" />
                 </p:column>
+                <p:column headerText="ZUS 52 odl.">
+                <h:outputText value="#{loop.zus52odl}" />
+                </p:column>
                 <p:column headerText="ZUS 53">
                 <h:outputText value="#{loop.zus53}" />
                 </p:column>
@@ -45,6 +48,7 @@
             <h:outputText value="kwota zus51 z chor.: "/><h:inputText value="#{zUSstawkiView.selected.zus51ch}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota zus51 bez chor.: "/><h:inputText value="#{zUSstawkiView.selected.zus51bch}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota zus52: "/><h:inputText value="#{zUSstawkiView.selected.zus52}"><f:convertNumber  /></h:inputText>
+            <h:outputText value="kwota zus52odlicz: "/><h:inputText value="#{zUSstawkiView.selected.zus52odl}"><f:convertNumber  /></h:inputText>
             <h:outputText value="kwota zus53: "/><h:inputText value="#{zUSstawkiView.selected.zus53}"><f:convertNumber /></h:inputText>
         </p:panelGrid>
         </p:panel>
