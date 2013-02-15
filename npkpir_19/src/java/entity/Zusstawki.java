@@ -39,6 +39,8 @@ public class Zusstawki implements Serializable {
     private Double zus51bch;
     @Column(name = "zus52")
     private Double zus52;
+    @Column(name = "zus52odl")
+    private Double zus52odl;
     @Column(name = "zus53")
     private Double zus53;
     @Column(name = "pit4")
@@ -95,6 +97,15 @@ public class Zusstawki implements Serializable {
         this.zus52 = zus52;
     }
 
+    public Double getZus52odl() {
+        return zus52odl;
+    }
+
+    public void setZus52odl(Double zus52odl) {
+        this.zus52odl = zus52odl;
+    }
+
+    
     public Double getZus53() {
         return zus53;
     }

@@ -151,6 +151,8 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "opisypkpir")
     private List opisypkpir;
+    @Column(name = "odliczaczus51")
+    private Boolean odliczaczus51;
     
     
     public Podatnik() {
@@ -401,9 +403,15 @@ public class Podatnik implements Serializable {
         this.opisypkpir = opisypkpir;
     }
 
-    
+    public Boolean getOdliczaczus51() {
+        return odliczaczus51;
+    }
 
-   
+    public void setOdliczaczus51(Boolean odliczaczus51) {
+        this.odliczaczus51 = odliczaczus51;
+    }
+
+    
     
     
    

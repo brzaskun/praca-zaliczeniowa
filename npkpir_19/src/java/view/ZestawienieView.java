@@ -1044,18 +1044,24 @@ public class ZestawienieView implements Serializable {
                 Zusstawki tmpX = (Zusstawki) it.next();
                 if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
                         && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                    if (tmpX.getZus51ch() != null) {
-                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
+                    if (selected.getOdliczaczus51() == true){
+                            if (tmpX.getZus51ch() != null) {
+                                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
+                            } else {
+                                biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                            }
                     } else {
-                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                                biezacyPit.setZus51(new BigDecimal(0));
                     }
-                    biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52()));
+                    biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
                     break;
                 }
             }
 
             Pitpoz sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM());
-            biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
+            if(selected.getOdliczaczus51() == true){
+                biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
+            }
             BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
             tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
 
@@ -1158,7 +1164,7 @@ public class ZestawienieView implements Serializable {
 
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
-                if (!tmpX.getPkpirM().equals(mcDo)) {
+                if (!tmpX.getPkpirM().equals(mcDo)&&tmpX.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
                     tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
                     tmp.setZus52(tmp.getZus52().add(tmpX.getZus52()));
                     tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
