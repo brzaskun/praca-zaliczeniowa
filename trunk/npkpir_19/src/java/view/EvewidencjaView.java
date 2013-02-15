@@ -49,7 +49,7 @@ public class EvewidencjaView {
         Evpozycja ewodszukana = evpozycjaDAO.find(selected.getPole());
         selected.setNrpolanetto(ewodszukana.getNrpolanetto());
         try{
-        selected.setNrpolavat(ewodszukana.getNrpolanetto());
+        selected.setNrpolavat(ewodszukana.getNrpolavat());
         } catch (Exception e){}
         Iterator it;
         it = lista.iterator();
