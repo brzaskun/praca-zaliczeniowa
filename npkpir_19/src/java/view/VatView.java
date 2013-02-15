@@ -61,8 +61,10 @@ public class VatView implements Serializable {
     //elementy niezbedne do generowania ewidencji vat
     private AccordionPanel akordeon;
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
-    private WpisView wpisView;
     @Inject private Ewidencjevat zrzucane;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
+     
 
     public VatView() {
         listadokvat = new ArrayList<>();
@@ -122,7 +124,6 @@ public class VatView implements Serializable {
         }
 
         wygeneruj(listaewidencji);
-        wpisView = new WpisView();
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String pod = wpisView.getPodatnikWpisu();
@@ -283,4 +284,14 @@ public class VatView implements Serializable {
     public void setAkordeon(AccordionPanel akordeon) {
         this.akordeon = akordeon;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
+    
 }

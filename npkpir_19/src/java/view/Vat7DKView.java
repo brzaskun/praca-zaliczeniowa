@@ -15,12 +15,16 @@ import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.TKodUS;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
+import entity.Evewidencja;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +71,38 @@ public class Vat7DKView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = podatnikDAO.find(podatnik);
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
-        Collection <EVatwpisSuma> wyciagnieteewidencje =  sumaewidencji.values();
+        ArrayList <EVatwpisSuma> wyciagnieteewidencje =  new ArrayList <EVatwpisSuma>(sumaewidencji.values());
+        //tu zduplikowac ewidencje
+        ArrayList<EVatwpisSuma> ewidencjetmp = new ArrayList <EVatwpisSuma>(sumaewidencji.values());
+        for (EVatwpisSuma ew : ewidencjetmp){
+            if (ew.getEwidencja().getNazwa().equals("import usług")||ew.getEwidencja().getNazwa().equals("rejestr WNT")){
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(),ew.getNetto(),ew.getVat(),ew.getEstawka());
+                //pobieram i kopiuje stara ewidencje
+                Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getPole(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
+                //wpisuje pola zakupu
+                tmp.setNrpolanetto("51");
+                tmp.setNrpolavat("52");
+                //zachowuje ewidecje do tymczasowej sumy
+                suma.setEwidencja(tmp);
+                //dodaje tymczasowa sume do calosci 
+                wyciagnieteewidencje.add(suma);
+            }
+        }
+        //sumuj ewidencje 51 i52 pola
+        Evewidencja pojewid = new Evewidencja("sumaryczna","Nabycie towarów i usług pozostałych","51","52","opodatkowane","zakup suma",false);
+        EVatwpisSuma sumawew = new EVatwpisSuma(pojewid, BigDecimal.ZERO, BigDecimal.ZERO, "");
+        for (Iterator<EVatwpisSuma> it = wyciagnieteewidencje.iterator(); it.hasNext() ;){
+            EVatwpisSuma ew = it.next();
+            if (ew.getEwidencja().getNrpolanetto().equals("51")){
+                    sumawew.setNetto(sumawew.getNetto().add(ew.getNetto()));
+                    sumawew.setVat(sumawew.getVat().add(ew.getVat()));
+                     it.remove();
+            }
+           
+        }
+        wyciagnieteewidencje.add(sumawew);
+        
+        //
         for (EVatwpisSuma ew : wyciagnieteewidencje){
             String nrpolanetto = ew.getEwidencja().getNrpolanetto();
             String nrpolavat = ew.getEwidencja().getNrpolavat();
@@ -332,6 +367,21 @@ public class Vat7DKView implements Serializable {
         this.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
     }
     
+    public static void main( String args[] )
+  {
+    List< String > list = new ArrayList< String >();
+    list.add("A");
+    list.add("B");
+    list.add("C");
     
+    for( Iterator< String > it = list.iterator(); it.hasNext() ; )
+    {
+      String str = it.next();
+      if( str.equals( "B" ) )
+      {
+        it.remove();
+      }
+    }
+  }
 }
 

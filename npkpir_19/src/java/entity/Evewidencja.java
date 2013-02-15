@@ -61,6 +61,18 @@ public class Evewidencja implements Serializable {
     public Evewidencja() {
     }
 
+    public Evewidencja(String nazwa, String pole, String nrpolanetto, String nrpolavat, String rodzajzakupu, String transakcja, boolean tylkoNetto) {
+        this.nazwa = nazwa;
+        this.pole = pole;
+        this.nrpolanetto = nrpolanetto;
+        this.nrpolavat = nrpolavat;
+        this.rodzajzakupu = rodzajzakupu;
+        this.transakcja = transakcja;
+        this.tylkoNetto = tylkoNetto;
+    }
+
+       
+
     public Evewidencja(String nazwa) {
         this.nazwa = nazwa;
     }
