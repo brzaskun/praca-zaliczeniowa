@@ -7,7 +7,6 @@ package embeddable;
 import entity.Evewidencja;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
@@ -34,6 +33,8 @@ public class EVatwpisSuma implements Serializable {
 
     public EVatwpisSuma() {
     }
+
+    
 
     public Evewidencja getEwidencja() {
         return ewidencja;

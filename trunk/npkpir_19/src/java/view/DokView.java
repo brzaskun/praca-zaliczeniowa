@@ -42,7 +42,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -246,6 +245,15 @@ public class DokView implements Serializable{
                 setPokazSTR(true);
                 wygenerujSTRKolumne();
                 break;
+            case "import usług":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            case "WDT":
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
+            case "WNT":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
             default:
                 dopobrania = kolumna.getKolumnPrzychody();
                 break;
@@ -291,6 +299,9 @@ public class DokView implements Serializable{
                 break;
             case("WNT"):
                 opisewidencji = evat.getWntVList();
+                break;
+            case("import usług"):
+                opisewidencji = evat.getImportuslugList();
                 break;
             default:
                 opisewidencji = evat.getSprzedazVList();
