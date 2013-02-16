@@ -79,7 +79,7 @@
             </h:selectBooleanCheckbox>
             <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" onblur="validateTermin();">
             </h:inputText>
-            <pe:inputNumber id="sumbrutto"  symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
+            <h:inputText id="sumbrutto"  readonly="true"/>
         </p:panelGrid>
         <p:panelGrid columns="2">
 

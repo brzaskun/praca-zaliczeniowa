@@ -379,13 +379,7 @@ public class DokView implements Serializable{
             String def = "updatesuma"+i+"();";
             ewX.setOnchange(def);
             grid1.getChildren().add(ewX);
-            InputNumber ewY = new InputNumber();
-            ewY.setSymbol(" zł");
-            ewY.setSymbolPosition("s");
-            ewY.setDecimalPlaces(".");
-            ewY.setThousandSeparator(" ");
-            ewY.setDecimalPlaces("2");
-            ewY.setMinValue("-10000000");
+            HtmlInputText ewY = new HtmlInputText();
             String lab3 = "brutto"+i;
             ewY.setId(lab3);
             grid1.getChildren().add(ewY);
