@@ -74,6 +74,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
+import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
@@ -360,6 +361,8 @@ public class DokView implements Serializable{
             ew.setThousandSeparator(" ");
             ew.setDecimalPlaces("2");
             ew.setMinValue("-10000000");
+            String lab1 = "netto"+i;
+            ew.setId(lab1);
             grid1.getChildren().add(ew);
             InputNumber ewX = new InputNumber();
             final String bindingX = "#{DokumentView.vat" + i + "}";
@@ -371,7 +374,21 @@ public class DokView implements Serializable{
             ewX.setThousandSeparator(" ");
             ewX.setDecimalPlaces("2");
             ewX.setMinValue("-10000000");
+            String lab2 = "vat"+i;
+            ewX.setId(lab2);
+            String def = "updatesuma"+i+"();";
+            ewX.setOnchange(def);
             grid1.getChildren().add(ewX);
+            InputNumber ewY = new InputNumber();
+            ewY.setSymbol(" zł");
+            ewY.setSymbolPosition("s");
+            ewY.setDecimalPlaces(".");
+            ewY.setThousandSeparator(" ");
+            ewY.setDecimalPlaces("2");
+            ewY.setMinValue("-10000000");
+            String lab3 = "brutto"+i;
+            ewY.setId(lab3);
+            grid1.getChildren().add(ewY);
             if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
                 UISelectItems ulista = new UISelectItems();
                 List valueList = new ArrayList();
@@ -396,6 +413,7 @@ public class DokView implements Serializable{
         eVatOpisDAO.dodaj(eVO);
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
         }
+        
     }
     
     public void wygenerujnumerkolejny(){

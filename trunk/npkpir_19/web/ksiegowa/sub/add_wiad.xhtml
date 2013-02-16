@@ -62,21 +62,24 @@
             </p:autoComplete>
 
         </p:panelGrid>
-        <p:panelGrid columns="4">
+        <p:panelGrid columns="5">
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
+            <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
             <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.selDokument.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" >  
                 <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto}" update=":dodWiad:grid1" global="false" />
+                
             </pe:inputNumber>
-            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}"  binding="#{DokumentView.pkpirLista}" style="min-width: 150px">
+            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}"  binding="#{DokumentView.pkpirLista}" style="min-width: 150px" onblur="updatesum();">
             </h:selectOneMenu>
             <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}">
                 <p:ajax event="click" listener="#{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false"/>
             </h:selectBooleanCheckbox>
             <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" onblur="validateTermin();">
             </h:inputText>
+            <pe:inputNumber id="sumbrutto"  symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
         </p:panelGrid>
         <p:panelGrid columns="2">
 
@@ -128,6 +131,7 @@
             <p:panelGrid id="grid1" columns="#{DokumentView.wielkoscopisuewidencji}" binding="#{DokumentView.grid1}">
             </p:panelGrid>
         </p:panel>
+        <!--pola ewidencji VAT-->
         <p:panelGrid columns="5">
             <h:outputLabel value="data sprzedaży" style="font-weight: 700"/>
             <h:outputLabel value="v m-c" style="font-weight: 700"/>
@@ -135,7 +139,7 @@
             <h:outputLabel value="uwagi" style="font-weight: 700"/>
             <h:outputLabel value=""/>
 
-            <h:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 120px" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste"/>
+            <h:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 120px" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste"  onblur="updatesum()"/>
             <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
                 <f:selectItems id="vatr" value="#{Mce.mceList}"/>
             </h:selectOneMenu>
