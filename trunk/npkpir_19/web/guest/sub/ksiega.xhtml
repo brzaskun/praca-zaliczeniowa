@@ -52,7 +52,7 @@
             </f:facet>
             <p:columnGroup type="header">  
                 <p:row>  
-                    <p:column rowspan="2" headerText="lp"  style=" font-size: x-small;"/>  
+                    <p:column rowspan="2" headerText="lp"  style=" font-size: x-small;" width="20"/>  
                     <p:column rowspan="2" headerText="Data zdarzenia gosp." width="50"  style=" font-size: x-small;"/>  
                     <p:column rowspan="2" headerText="Nr dowodu księgowego"  style=" font-size: x-small;" width="50"/>  
                     <p:column colspan="2" headerText="Kontrahent"  style=" font-size: x-small;"/>  
@@ -96,7 +96,7 @@
 
             </p:columnGroup>  
             
-            <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="20">  
+            <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}" >  
                 <h:outputText value="#{wpis.nrWpkpir}"  style=" font-size: x-small;"/>
             </p:column>
 
