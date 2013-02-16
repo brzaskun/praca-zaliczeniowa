@@ -159,3 +159,103 @@ function oknoklientanowego(){
 function focusdatavalidate(){
         document.getElementById("dodWiad:dataPole").focus();
         };
+
+function updatesum() {
+    //alert(document.getElementById("dodWiad:rodzajTrans").value);
+    if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")){
+    document.getElementById("dodWiad:brutto1_input").value = +(document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0);
+    document.getElementById("dodWiad:brutto2_input").value = +(document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0);
+    document.getElementById("dodWiad:brutto3_input").value = +(document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0);
+    document.getElementById("dodWiad:brutto4_input").value = +(document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0);
+    document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+            +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0);
+      } else {
+      document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0);
+     document.getElementById("dodWiad:brutto1_input").value = +(document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0);
+     }
+}
+ 
+ function updatesuma1(){
+      document.getElementById("dodWiad:brutto1_input").value = +(document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0);
+      if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")){
+            document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+            +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0);
+      } else {
+              document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0);
+     }
+ }
+
+function updatesuma2(){
+      document.getElementById("dodWiad:brutto2_input").value = +(document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0);
+       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")){
+            document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+            +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0);
+      } else {
+              document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0);
+     }
+ }
+
+function updatesuma3(){
+      document.getElementById("dodWiad:brutto3_input").value = +(document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0);
+       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")){
+            document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+            +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0);
+      } else {
+              document.getElementById("dodWiad:sumbrutto_input").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0);
+     }
+ }
+ 
+ function updatesuma4(){
+      document.getElementById("dodWiad:brutto4_input").value = +(document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0);
+       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")){
+            document.getElementById("dodWiad:sumbrutto_hinput").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+            +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0);
+      } else {
+              document.getElementById("dodWiad:sumbrutto_hinput").value = 
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0);
+     }
+ }

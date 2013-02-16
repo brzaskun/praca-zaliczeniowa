@@ -39,6 +39,7 @@ public class EVatView implements Serializable{
         naglowekVList.add("rodzaj ewidencji");
         naglowekVList.add("netto");
         naglowekVList.add("vat");
+        naglowekVList.add("brutto");
         naglowekVList.add("op/zw");
    }
 
