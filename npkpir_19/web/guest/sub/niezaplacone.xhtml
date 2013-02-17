@@ -32,9 +32,9 @@
         
         
            <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="12"
+                         paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,18,24,32,50" 
+                      rowsPerPageTemplate="12,18,24,32,50" scrollable="true"
                       rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
@@ -48,8 +48,8 @@
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
-                <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip #{wpis.kontr.nip}"  />
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 250px;">  
+                <h:outputText value="#{wpis.kontr.npelna}"/>
             </p:column>
            
             <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
@@ -72,22 +72,15 @@
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
-            <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}">  
-                <p:cellEditor>  
-                    <f:facet name="output">  
+            <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}" style="width: 100px;">  
                         <h:outputText value="#{wpis.brutto}" style="padding-left: 20%; font-weight: 700; float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.brutto}" style="width:100%;"/>
-                    </f:facet>  
-                </p:cellEditor>
             </p:column>
-            <p:column id="pkpirKolColumn" headerText="ter.płat." filterBy="#{wpis.terminPlatnosci}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}" width="60">  
+            <p:column id="pkpirKolColumn" headerText="ter.płat." filterBy="#{wpis.terminPlatnosci}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}" style="width: 100px;">  
                 <h:outputText value="#{wpis.terminPlatnosci}" />
             </p:column>
-            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł - wprowadzil  - data wpisu">  
+            <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł - wprowadzil  - data wpisu" style="width: 400px;">  
                 <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
@@ -110,17 +103,17 @@
                 </p:dataTable>
                
             </p:column>
-            <p:column id="termin30" headerText="termin30" filterBy="#{wpis.termin30}" filterMatchMode="contains" sortBy="#{wpis.termin30}" width="60" filterMaxLength="4">  
+            <p:column id="termin30" headerText="termin30" filterBy="#{wpis.termin30}" filterMatchMode="contains" sortBy="#{wpis.termin30}" style="width: 60px;" filterMaxLength="4">  
                 <h:outputText value="#{wpis.termin30}" />
             </p:column>
-            <p:column id="termin90" headerText="termin90" filterBy="#{wpis.termin30}" filterMatchMode="contains" sortBy="#{wpis.termin90}" width="60" filterMaxLength="4">  
+            <p:column id="termin90" headerText="termin90" filterBy="#{wpis.termin30}" filterMatchMode="contains" sortBy="#{wpis.termin90}" style="width: 60px;" filterMaxLength="4">  
                 <h:outputText value="#{wpis.termin90}" />
             </p:column>
-            <p:column id="termin150" headerText="termin150" filterBy="#{wpis.termin150}" filterMatchMode="contains" sortBy="#{wpis.termin150}" width="60" filterMaxLength="4">  
+            <p:column id="termin150" headerText="termin150" filterBy="#{wpis.termin150}" filterMatchMode="contains" sortBy="#{wpis.termin150}" style="width: 60px;" filterMaxLength="4">  
                 <h:outputText value="#{wpis.termin150}" />
             </p:column>
           
-            <p:column id="storno" headerText="data storno - kwota storno -  pozostalo do rozl ">  
+            <p:column id="storno" headerText="data storno - kwota storno -  pozostalo do rozl " style="width: 400px;">  
                 <p:dataTable var="subwpis" value="#{wpis.storno}" style="width: 400px;" emptyMessage="dokument bez storna" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
