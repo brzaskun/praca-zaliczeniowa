@@ -1305,14 +1305,15 @@ public class DokView implements Serializable{
     
    public void skopiujSTR(){
        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-       String nazwa = params.get("dodWiad:form:acForce1_input");
+       String nazwa = params.get("dodWiad:acForce1_input");
+       if(!nazwa.equals("")){
        try{
        srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
        symbolKST = srodekkategoriawynik.getSymbol();
        stawkaKST = srodekkategoriawynik.getStawka();
        RequestContext.getCurrentInstance().update("dodWiad:grid3");
        } catch (Exception e){}
-      
+      }
    }
      
    public void przekierowanieWpisKLienta() throws IOException{

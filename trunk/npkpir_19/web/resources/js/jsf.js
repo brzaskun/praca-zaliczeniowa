@@ -356,4 +356,12 @@ function updatesuma3(){
      document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
  };
  
+ function dataprzyjecia(){
+     if(document.getElementById("dodWiad:acForce1_hinput").value===null){
+     } else {
+         document.getElementById("dodWiad:dataprz").value = document.getElementById("dodWiad:dataPole").value;
+         document.getElementById("dodWiad:nazwasrodka").focus();
+     }
+ };
+ 
  
