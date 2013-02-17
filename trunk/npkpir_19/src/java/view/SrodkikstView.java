@@ -39,7 +39,7 @@ public class SrodkikstView implements Serializable {
      public List<Srodkikst> complete(String query) {  
         List<Srodkikst> results = new ArrayList<>();  
          for(Srodkikst p : lista) {  
-            if(p.getNazwa().contains(query)) {
+            if(p.getNazwa().contains(query.toLowerCase())) {
                 if(!results.contains(p)){
                      results.add(p);
                 }

@@ -14,6 +14,7 @@ import entity.Amodok;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -256,12 +257,10 @@ public class STRTabView implements Serializable{
     public void generujTabeleRokBiezacy(){
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
-        Iterator it;
-        it = lista.iterator();
-        while (it.hasNext()) {
-            SrodekTrw str = (SrodekTrw) it.next();
+        int i=1;
+        for (SrodekTrw str : lista){
             STRtabela strdocelowy = new STRtabela();
-            strdocelowy.setId(str.getId());
+            strdocelowy.setId(i);
             strdocelowy.setNazwa(str.getNazwa());
             strdocelowy.setKst(str.getKst());
             strdocelowy.setOdpisrok(str.getOdpisrok());
@@ -321,9 +320,13 @@ public class STRTabView implements Serializable{
                     umnar = umnar.add(um.getKwota());
                 }
             }
-            
+            try{
             strdocelowy.setUmorzeniaDo(umnar.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
+            } catch (Exception e){
+                strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO) );
+            }
             strtabela.add(strdocelowy);            
+            i++;
         }
     }
     

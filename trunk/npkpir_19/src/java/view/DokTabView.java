@@ -61,6 +61,10 @@ public class DokTabView implements Serializable {
     private List<Dok> niezaplacone;
     //dokumenty zaplacone
     private List<Dok> zaplacone;
+    //lista wybranych dokumentow w panelu Guest
+    private List<Dok> goscwybral;
+    private Double podsumowaniewybranych;
+    
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -94,6 +98,7 @@ public class DokTabView implements Serializable {
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
         //lista porzechowujaca przefiltrowane widoki
+        goscwybral = new ArrayList<>();
     }
 
     @PostConstruct
@@ -333,6 +338,13 @@ public class DokTabView implements Serializable {
         }
     }
 
+    public void sumawartosciwybranych(){
+        podsumowaniewybranych = 0.0;
+        for(Dok p : goscwybral){
+            podsumowaniewybranych += p.getBrutto();
+        }
+    }
+    
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
     }
@@ -445,5 +457,22 @@ public class DokTabView implements Serializable {
         this.uzytkownik = uzytkownik;
     }
 
+    public List<Dok> getGoscwybral() {
+        return goscwybral;
+    }
+
+    public void setGoscwybral(List<Dok> goscwybral) {
+        this.goscwybral = goscwybral;
+    }
+
+    public Double getPodsumowaniewybranych() {
+        return podsumowaniewybranych;
+    }
+
+    public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
+        this.podsumowaniewybranych = podsumowaniewybranych;
+    }
+
+    
     
 }
