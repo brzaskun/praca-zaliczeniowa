@@ -61,7 +61,6 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -75,7 +74,6 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
@@ -192,13 +190,12 @@ public class DokView implements Serializable{
             opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
         }
         //pobranie ostatniego dokumentu
-        try{
         wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
-        } catch (Exception e){}
         try{
         selDokument.setVatR(wpistmp.getRokWpisu().toString());
         selDokument.setVatM(wpistmp.getMiesiacWpisu());
         } catch (Exception e){}
+        
     }
     
     //kopiuje ostatni dokument celem wykorzystania przy wpisie
@@ -817,7 +814,14 @@ public class DokView implements Serializable{
             Ostatnidokument temp = new Ostatnidokument();
             temp.setUzytkownik(selDokument.getWprowadzil());
             temp.setDokument(selDokument);
-            ostatnidokumentDAO.edit(temp);
+            try {
+                ostatnidokumentDAO.dodaj(temp);
+            } catch (Exception e) {
+                ostatnidokumentDAO.edit(temp);
+            }
+            wysDokument = new Dok();
+            wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
+            RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {

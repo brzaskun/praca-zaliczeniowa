@@ -27,9 +27,7 @@
 <!--                                    <p:commandButton id="dodatkowaKolumna" action="{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" onclick="dodkolumnafocus();"/>  -->
                                 </h:form>
                             </p:panel>
-                            <h:form id="dodWiad">
                                 <ui:include src="sub/add_wiad.xhtml" />    <!--dodawanie nowego wiersza do księgi-->
-                            </h:form>
                             <h:form>
                                 <h:commandButton accesskey="n" actionListener="#{DokumentView.przekierowanieWpisKLienta}" style="display: none"/>
                             </h:form>

@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
 
-
+    <h:form id="dodWiad">
     <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1050px;" id="wprowadzanie">
         <p:growl id="mess_add" />
         <p:focus for="polawprowadzania"/>
@@ -140,9 +140,12 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-            <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" />   
+            <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" update="@form, :zobWiad:ostatniUzytkownik"> 
+            </p:commandButton>
         </p:panelGrid>
     </p:panel>
+        </h:form>
+    <h:form id="zobWiad">
     <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1300px" >
         <p:panelGrid columns="16">
             <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
@@ -253,6 +256,6 @@
             </p:dataTable>
         </p:outputPanel>
     </p:panel>
-
+</h:form>
 </ui:composition>   
 
