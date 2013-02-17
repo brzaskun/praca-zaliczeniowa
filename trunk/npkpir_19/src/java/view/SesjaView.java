@@ -35,7 +35,7 @@ public class SesjaView implements Serializable{
         }
     }
     
-    public String dodajdokument(){
+    public void dodajdokument(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
             sesja = sesjaDAO.find(session.getId());
@@ -45,7 +45,7 @@ public class SesjaView implements Serializable{
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
         }
-        return "/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true";
+        
     }
 
     
