@@ -8,7 +8,8 @@
 
 
     <p:outputPanel>
-        <h:outputText value="Wstępne wyliczenie wyniku za wyświetlany miesiąc"/>
+        <p:panel header="Wstępne wyliczenie wyniku za wyświetlany miesiąc">
+        </p:panel>
         <p:panelGrid id="prezentacjaPodatku" columns="4">
             <h:outputLabel value="okres: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
@@ -33,7 +34,9 @@
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
         </p:panelGrid>
+        <p:panel>
         <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku, :form:prezentacjaPodatku1"/>
+        </p:panel>
     </p:outputPanel>
 
 
@@ -41,14 +44,14 @@
     <p:outputPanel id="wrapper">
 
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="18" scrollable="true" resizableColumns="true"
+                      paginator="true" paginatorAlwaysVisible="true" rows="18" 
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="18,24,32,50,100" paginatorPosition="top"
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.goscwybral}" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów" />  
+                <h:outputText value="Wykaz dokumentów z wybranego miesiąca" />  
             </f:facet>
             <p:column selectionMode="multiple"  width="40" >
             </p:column>
@@ -58,13 +61,13 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-            <p:column headerText="ew.vat" width="40">
+            <p:column headerText="ew.vat" width="50">
                 <p:rowToggler />
             </p:column>
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
                 <h:outputText value="#{wpis.dataWyst}"/>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 400px; word-break: break-all;" width="">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 300px; word-break: break-all;" width="">  
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
