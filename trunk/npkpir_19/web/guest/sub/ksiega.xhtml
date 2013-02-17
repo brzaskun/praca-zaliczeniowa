@@ -149,14 +149,9 @@
 
         </p:dataTable>
          <p:commandButton value="drukuj" type="button">
-        <p:printer target="form:dokumentyLista" />
-   </p:commandButton>
-        <p:commandButton value="Zachowaj w pdf" ajax="false" actionListener="#{sesjaView.dodajwydruk()}">
-            <p:dataExporter type="pdf" target="form:dokumentyLista" fileName="dokumenty"  encoding="UTF-8" preProcessor="#{pdf.preProcessPDF}" />
+            <p:printer target="form:dokumentyLista" />
         </p:commandButton>
-
-
-
+      
     </p:outputPanel>
 
 </ui:composition>   
