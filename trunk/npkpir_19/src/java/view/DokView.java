@@ -61,6 +61,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.NumberConverter;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -361,6 +362,8 @@ public class DokView implements Serializable{
             ew.setThousandSeparator(" ");
             ew.setDecimalPlaces("2");
             ew.setMinValue("-10000000");
+            String defX = "updatesuma"+i+"();";
+            ew.setOnchange(defX);
             String lab1 = "netto"+i;
             ew.setId(lab1);
             grid1.getChildren().add(ew);
@@ -491,6 +494,7 @@ public class DokView implements Serializable{
             final String binding1 = "#{DokumentView.dataPrzSTR}";
             ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
             ew1.setValueExpression("value", ve1);
+            ew1.setId("dataprz");
             grid3.getChildren().add(ew1);
             
             HtmlOutputText ot3 = new HtmlOutputText();
@@ -601,23 +605,6 @@ public class DokView implements Serializable{
         grid2.getChildren().clear();
         ExpressionFactory ef = ExpressionFactory.newInstance();
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
-//            HtmlInputText ew = new HtmlInputText();
-//            final String binding = "#{DokumentView.selDokument.kwotaX}";
-//            ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-//            ew.setValueExpression("value", ve2);
-//            ew.setStyle("width: 120px");
-//            NumberConverter nc = new NumberConverter();
-//            nc.setPattern("###,##");
-//            ew.setConverter(nc);
-//            ew.setId("kwotaPkpirX");
-//            AjaxBehavior dragStart = new AjaxBehavior();
-//            dragStart.setGlobal(false);
-//            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
-//            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
-//            dragStart.setUpdate(":dodWiad:grid1");
-//            ew.addClientBehavior("blur", dragStart);
-//            grid2.getChildren().add(ew);
-        //generowanie tego nowego roszerzenia
             InputNumber ew = new InputNumber();
             final String binding = "#{DokumentView.selDokument.kwotaX}";
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);

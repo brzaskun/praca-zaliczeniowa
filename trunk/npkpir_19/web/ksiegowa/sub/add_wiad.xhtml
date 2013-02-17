@@ -62,37 +62,33 @@
             </p:autoComplete>
 
         </p:panelGrid>
-        <p:panelGrid columns="5">
+        <p:panelGrid columns="6">
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
+            <h:outputLabel value="dok.prosty" style="font-weight: 700" />
             <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.selDokument.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" >  
                 <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto}" update=":dodWiad:grid1" global="false" />
                 
             </pe:inputNumber>
             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}"  binding="#{DokumentView.pkpirLista}" style="min-width: 150px" onblur="updatesum();">
             </h:selectOneMenu>
-            <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}">
-                <p:ajax event="click" listener="#{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false"/>
+            <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()">
+<!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
             </h:selectBooleanCheckbox>
             <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" onblur="validateTermin();">
             </h:inputText>
             <h:inputText id="sumbrutto"  readonly="true"/>
-        </p:panelGrid>
-        <p:panelGrid columns="2">
-
-            <h:outputLabel value="dod.kolumna" style="font-weight: 700" />
-            <h:outputLabel value="dok.prosty" style="font-weight: 700"/>
-            <h:selectBooleanCheckbox id="dodatkowakolumna" value="#{DokumentView.selDokument.dodatkowaKolumna}">
-                <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
-            </h:selectBooleanCheckbox>
-            <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
+             <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
-
         </p:panelGrid>
+            <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" oncomplete="dodkolumnafocus();" style="display: none;" />  
+            <h:selectBooleanCheckbox id="dodatkowakolumna" value="{DokumentView.selDokument.dodatkowaKolumna}">
+                <p:ajax event="click" listener="#{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
+            </h:selectBooleanCheckbox>
         <!--dodatkowa kolumna pkpir-->
         <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
         </p:panelGrid>
@@ -103,8 +99,8 @@
                                         var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                         minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
                                         queryDelay="100" valueChangeListener="#{DokumentView.skopiujSTR}" size="50" 
-                                        oncomplete="aktywujsrodek();" >
-                            <p:ajax event="blur" update=":dodWiad:grid3:" global="false"/>
+                                         >
+                            <p:ajax event="blur" update=":dodWiad:grid3:" global="false" oncomplete="dataprzyjecia();"/>
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                     <f:facet name="header">  
