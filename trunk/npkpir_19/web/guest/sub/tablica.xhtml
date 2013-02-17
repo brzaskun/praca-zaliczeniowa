@@ -41,9 +41,9 @@
     <p:outputPanel id="wrapper">
 
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="12" resizableColumns="true"
+                      paginator="true" paginatorAlwaysVisible="true" rows="18" scrollable="true" resizableColumns="true"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,18,24,32,50" paginatorPosition="top"
+                      rowsPerPageTemplate="18,24,32,50,100" paginatorPosition="top"
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.goscwybral}" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
@@ -58,17 +58,17 @@
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-            <p:column headerText="ew.vat">
+            <p:column headerText="ew.vat" width="40">
                 <p:rowToggler />
             </p:column>
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
                 <h:outputText value="#{wpis.dataWyst}"/>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 400px">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 400px; word-break: break-all;" width="">  
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
+                <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc}"  />
             </p:column>
             <!--            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="{wpis.rodzTrans}" filterMatchMode="contains" sortBy="{wpis.rodzTrans}">  
                             <f:facet name="header">  
@@ -84,7 +84,7 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:column>
-            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" style="width: 160px;">  
                 <f:facet name="header">  
                     <h:outputText value="nr wł" />  
                 </f:facet> 
