@@ -30,7 +30,7 @@
     </target>
     <target name="wsimport-client-dokumenty" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/dokumenty" destdir="${build.generated.dir}/jax-wsCache/dokumenty" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="file:/C:/uslugi/dokumenty.wsdl" xnocompile="true" xendorsed="true" package="service">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/dokumenty" destdir="${build.generated.dir}/jax-wsCache/dokumenty" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl" catalog="catalog.xml" extension="true" verbose="true" wsdlLocation="file:/C:/uslugi/dokumenty.wsdl" xnocompile="true" xendorsed="true" package="service">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
         </wsimport>

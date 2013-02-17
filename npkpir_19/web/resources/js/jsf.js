@@ -347,3 +347,13 @@ function updatesuma3(){
  function przekazdate(){
      document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
  };
+ 
+ function dodajPkpirX(){
+     document.getElementById("dodWiad:netto1").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0)+(document.getElementById("dodWiad:kwotaPkpirX_hinput").value -0), 2, '.', ' ');
+      document.getElementById("dodWiad:sumbrutto").value = number_format(
+            (document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+     document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+ };
+ 
+ 

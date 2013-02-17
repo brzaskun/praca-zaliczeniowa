@@ -584,12 +584,33 @@ public class DokView implements Serializable{
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
         List dopobrania = new ArrayList();
-        if (transakcjiRodzaj.equals("zakup")) {
-            dopobrania = kolumna.getKolumnKoszty();
-        } else if (transakcjiRodzaj.equals("srodek trw")) {
-            dopobrania = kolumna.getKolumnST();
-        } else {
-            dopobrania = kolumna.getKolumnPrzychody();
+        switch (transakcjiRodzaj) {
+            case "ryczałt":
+                dopobrania = kolumna.getKolumnRyczalt();
+                break;
+            case "ryczałt bez VAT":
+                dopobrania = kolumna.getKolumnRyczalt();
+                break;
+            case "zakup":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            case "srodek trw":
+                dopobrania = kolumna.getKolumnST();
+                setPokazSTR(true);
+                wygenerujSTRKolumne();
+                break;
+            case "import usług":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            case "WDT":
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
+            case "WNT":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            default:
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
         }
         Iterator it;
         it = dopobrania.iterator();
@@ -630,6 +651,7 @@ public class DokView implements Serializable{
         htmlSelectOneMenu.setValueExpression("value", ve2X);
         htmlSelectOneMenu.setStyle("min-width: 150px");
         htmlSelectOneMenu.getChildren().add(ulista);
+        htmlSelectOneMenu.setOnblur("updatesum();");
         grid2.getChildren().add(htmlSelectOneMenu);
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
     }
