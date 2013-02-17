@@ -114,15 +114,15 @@ $(window).bind('beforeunload', function(){
         } else {
             window.location.href = "../login.xhtml";
         }
-    }
+    };
 
 function aktywujsrodek(){
         document.getElementById("dodWiad:form:acForce1").focus();
-}
+};
 
 function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
-}
+};
 
  PrimeFaces.locales['pl'] = {
             closeText: 'Zamknij',
@@ -154,7 +154,7 @@ function aktywujopis(){
   
 function oknoklientanowego(){
     window.open("kliencipopup.xhtml?redirect=true","",'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 
 function focusdatavalidate(){
         document.getElementById("dodWiad:dataPole").focus();
@@ -241,7 +241,7 @@ if (prec >= 1 && decPos !== -1 && (s.length-decPos-1) < prec) {
 else if (prec >= 1 && decPos === -1) {
     s += dec+new Array(prec).join(0)+'0';
 }
-return s+" zł"; }
+return s+" zł"; };
 
 
 
@@ -267,10 +267,10 @@ function updatesum() {
             +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
-}
+};
  
  function updatesuma1(){
-      document.getElementById("dodWiad:brutto1").value = +(document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0);
+      document.getElementById("dodWiad:brutto1").value =  number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
     if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
            document.getElementById("dodWiad:sumbrutto").value = number_format((
             document.getElementById("dodWiad:netto1_hinput").value -0)
@@ -285,7 +285,7 @@ function updatesum() {
               document.getElementById("dodWiad:sumbrutto").value = number_format(
             (document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
- }
+ };
 
 function updatesuma2(){
       document.getElementById("dodWiad:brutto2").value = number_format((document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0), 2, '.', ' ');
@@ -304,7 +304,7 @@ function updatesuma2(){
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
             +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
- }
+ };
 
 function updatesuma3(){
      document.getElementById("dodWiad:brutto3").value = number_format((document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0), 2, '.', ' ');
@@ -323,7 +323,7 @@ function updatesuma3(){
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
             +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
- }
+ };
  
  function updatesuma4(){
        document.getElementById("dodWiad:brutto4").value = number_format((document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
@@ -342,4 +342,8 @@ function updatesuma3(){
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
             +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
- }
+ };
+ 
+ function przekazdate(){
+     document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
+ };
