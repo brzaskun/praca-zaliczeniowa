@@ -554,6 +554,7 @@ public class DokView implements Serializable{
             ew5.setDecimalPlaces(".");
             ew5.setThousandSeparator(" ");
             ew5.setDecimalPlaces("2");
+            ew5.setValue(0);
             grid3.getChildren().add(ew5);
             umorzeniepoczatkowe = 0.0;
             

@@ -30,53 +30,83 @@
                         <f:convertDateTime dateStyle="medium"  />
                 </h:outputText>
             </p:column>  
-          <p:column id="Column3" headerText="KST" width="60">  
+          <p:column id="Column3" headerText="KST" width="40">  
               <h:outputText value="#{wpis.kst}" />
             </p:column>   
-          <p:column id="Column4" headerText="wart.netto" width="60">  
-              <h:outputText value="#{wpis.netto}" />
+          <p:column id="Column4" headerText="wart.netto" width="70">  
+              <h:outputText value="#{wpis.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column5" headerText="odpis roczny" width="60">  
-              <h:outputText value="#{wpis.odpisrok}" />
+              <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
            <p:column id="Column6" headerText="umorz.dot" width="60">  
-               <h:outputText value="#{wpis.umorzeniaDo}" />
+               <h:outputText value="#{wpis.umorzeniaDo}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column7" headerText="stycz." width="60">  
-              <h:outputText value="#{wpis.styczen}" />
+              <h:outputText value="#{wpis.styczen}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column8" headerText="luty" width="60">  
-              <h:outputText value="#{wpis.luty}" />
+              <h:outputText value="#{wpis.luty}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column9" headerText="marzec" width="60">  
-              <h:outputText value="#{wpis.marzec}" />
+              <h:outputText value="#{wpis.marzec}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column10" headerText="kwiec." width="60">  
-              <h:outputText value="#{wpis.kwiecien}" />
+              <h:outputText value="#{wpis.kwiecien}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column11" headerText="maj" width="60">  
-              <h:outputText value="#{wpis.maj}" />
+              <h:outputText value="#{wpis.maj}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column12" headerText="czerw." width="60">  
-              <h:outputText value="#{wpis.czerwiec}" />
+              <h:outputText value="#{wpis.czerwiec}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column13" headerText="lip." width="60">  
-              <h:outputText value="#{wpis.lipiec}" />
+              <h:outputText value="#{wpis.lipiec}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column14" headerText="sierp." width="60">  
-              <h:outputText value="#{wpis.sierpien}" />
+              <h:outputText value="#{wpis.sierpien}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column15" headerText="wrześ." width="60">  
-              <h:outputText value="#{wpis.wrzesien}" />
+              <h:outputText value="#{wpis.wrzesien}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column16" headerText="paź." width="60">  
-              <h:outputText value="#{wpis.pazdziernik}" />
+              <h:outputText value="#{wpis.pazdziernik}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column17" headerText="list." width="60">  
-              <h:outputText value="#{wpis.listopad}" />
+              <h:outputText value="#{wpis.listopad}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
           <p:column id="Column18" headerText="grudź." width="60">  
-              <h:outputText value="#{wpis.grudzien}" />
+              <h:outputText value="#{wpis.grudzien}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+              </h:outputText>
             </p:column>
         </p:dataTable>
         <br/>

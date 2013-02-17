@@ -33,7 +33,7 @@
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
         </p:panelGrid>
-        <h:commandButton action="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" />
+        <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku, :form:prezentacjaPodatku1"/>
     </p:outputPanel>
   
     <p:outputPanel id="wrapper">
@@ -51,20 +51,15 @@
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów" /> 
             </f:facet>
-            
+            <p:column width="10">
+                <p:rowToggler />
+            </p:column>
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
                 
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
-                 <p:cellEditor>  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.dataWyst}"><f:convertDateTime dateStyle="medium"  /></h:outputText>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.dataWyst}"/>
-                    </f:facet>  
-                </p:cellEditor>
+                        <h:outputText value="#{wpis.dataWyst}"/>
             </p:column>
             <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
@@ -100,26 +95,28 @@
             <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}">  
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
-             <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw">  
-                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" style="width: 400px;" emptyMessage="dokument bez vat" >
-                    <p:column id="SubColumn1" >  
+            <p:rowExpansion>
+                <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
+                 <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                    <p:column id="SubColumn1" headerText="ewidencja">  
                         <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                     </p:column>
-                    <p:column id="SubColumn1a"  >  
+                    <p:column id="SubColumn1a"  headerText="netto">  
                         <h:outputText value="#{subwpis.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                      <p:column id="SubColumn2">  
+                    <p:column id="SubColumn2" headerText="vat">  
                           <h:outputText value="#{subwpis.vat}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                           </h:outputText>
                     </p:column>
-                    <p:column id="SubColumn3" >  
+                    <p:column id="SubColumn3" headerText="op/zw">  
                         <h:outputText value="#{subwpis.estawka}" />
                     </p:column>
                 </p:dataTable>
             </p:column>
+                </p:rowExpansion>
              <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
                 <h:outputText value="#{wpis.vatM}" />
             </p:column>
