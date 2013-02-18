@@ -27,4 +27,14 @@ public class EwidencjeVatDAO extends DAO implements Serializable {
     public Ewidencjevat find(String rok, String mc, String pod) {
         return ewidencjevatFacade.findEwidencjeVAT(rok, mc, pod);
     }
+    
+    public void dodajewidencje(Ewidencjevat ew){
+        try {
+            Ewidencjevat tmp = find(ew.getRok(),ew.getMiesiac(),ew.getPodatnik());
+            destroy(tmp);
+            dodaj(ew);
+        } catch (Exception e){
+            dodaj(ew);
+        }
+    }
 }

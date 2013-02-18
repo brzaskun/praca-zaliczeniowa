@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -22,13 +24,15 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "EVatOpis")
+@NamedQueries({
+    @NamedQuery(name = "EVatOpis.findAll", query = "SELECT d FROM EVatOpis d"),
+    @NamedQuery(name = "EVatOpis.findByLogin", query = "SELECT d FROM EVatOpis d WHERE d.login = :login"),
+    })
 public class EVatOpis implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_dok")
-    private Long idDok;
+    @Column(name = "login")
+    private String login;
     @Size(max = 20)
     @Column(name = "opis1")
     private String opis1;
@@ -51,6 +55,23 @@ public class EVatOpis implements Serializable{
         this.opis3 = opis3;
         this.opis4 = opis4;
     }
+
+    public EVatOpis(String login, String opis1, String opis2, String opis3, String opis4) {
+        this.login = login;
+        this.opis1 = opis1;
+        this.opis2 = opis2;
+        this.opis3 = opis3;
+        this.opis4 = opis4;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
     
     public String getOpis1() {
         return opis1;
