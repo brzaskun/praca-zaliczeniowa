@@ -18,8 +18,7 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class EVatwpisSuma implements Serializable {
-    @Inject
-    private Evewidencja ewidencja;
+    @Inject private Evewidencja ewidencja;
     private BigDecimal netto;
     private BigDecimal vat;
     private String estawka;
@@ -67,6 +66,11 @@ public class EVatwpisSuma implements Serializable {
 
     public void setEstawka(String estawka) {
         this.estawka = estawka;
+    }
+
+    @Override
+    public String toString() {
+        return "EVatwpisSuma{" + "ewidencja=" + ewidencja.getNazwa() + ",pole netto "+ ewidencja.getNrpolanetto() + ", netto=" + netto + ", vat=" + vat + ", estawka=" + estawka + '}';
     }
 
     

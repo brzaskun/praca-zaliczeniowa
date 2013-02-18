@@ -185,7 +185,7 @@ public class KlView implements Serializable{
   
    public List<Klienci> complete(String query) {  
         List<Klienci> results = new ArrayList<>();
-        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
+        
         List<Klienci> lista = klDAO.getDownloaded();
         try{
             String q = query.substring(0,1);
@@ -202,7 +202,7 @@ public class KlView implements Serializable{
              }
             }
         }  
-
+        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
         return results;  
     }  
  

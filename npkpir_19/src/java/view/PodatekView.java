@@ -85,6 +85,7 @@ public class PodatekView implements Serializable{
         while(it.hasNext()){
             Dok tmp = (Dok) it.next();
             Kolmn kolmn = new Kolmn();
+            System.out.println("Dokument : "+tmp.toString());
             if (tmp.getPkpirKol().contains("%")) {
                 switch (tmp.getPkpirKol()){
                     case "17%":

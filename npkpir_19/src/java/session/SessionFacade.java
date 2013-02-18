@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.Amodok;
 import entity.Deklaracjevat;
 import entity.Dok;
+import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
@@ -251,4 +252,10 @@ public class SessionFacade<T> {
     public Srodkikst findSr(Srodkikst srodek) {
        return em.find(Srodkikst.class, srodek);
     }
+
+    public EVatOpis findEVatOpis(String name) {
+        return (EVatOpis) em.createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
+    }
+
+    
 }

@@ -104,6 +104,7 @@ public class Vat7DKView implements Serializable {
         
         //
         for (EVatwpisSuma ew : wyciagnieteewidencje){
+            System.out.println("Ewidencja :"+ew.toString());
             String nrpolanetto = ew.getEwidencja().getNrpolanetto();
             String nrpolavat = ew.getEwidencja().getNrpolavat();
             String netto = String.valueOf(ew.getNetto());
@@ -120,7 +121,7 @@ public class Vat7DKView implements Serializable {
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI"+nrpolanetto, paramString);
             met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
             } catch(Exception e){}
-            if(nrpolavat!=null){
+            if((nrpolavat!=null)&&(!nrpolavat.equals(""))){
                 paramString = new Class[1];	
                 paramString[0] = String.class;
                 met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole"+nrpolavat, paramString);

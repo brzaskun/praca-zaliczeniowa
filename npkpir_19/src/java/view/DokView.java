@@ -154,7 +154,7 @@ public class DokView implements Serializable{
     @Inject private RodzajedokDAO rodzajedokDAO;
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
-    private static String typdokumentu;
+    private String typdokumentu;
     //przechowuje wprowadzanego podatnika;
     private Podatnik podX;
     private boolean opodatkowanieryczalt;
@@ -403,8 +403,12 @@ public class DokView implements Serializable{
         }
         //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
         eVatOpisDAO.clear();
-        EVatOpis eVO = new EVatOpis(opis1, opis2, opis3, opis4);
-        eVatOpisDAO.dodaj(eVO);
+        EVatOpis eVO = new EVatOpis(wpisView.getWprowadzil().getLogin(),opis1, opis2, opis3, opis4);
+        try {
+            eVatOpisDAO.dodaj(eVO);
+        } catch (Exception e){
+            eVatOpisDAO.edit(eVO);
+        }
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
         }
         
@@ -713,7 +717,7 @@ public class DokView implements Serializable{
         List<Double> pobierzVat = new ArrayList<>();
         try {
             ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
-            EVatOpis eVO = (EVatOpis) eVatOpisDAO.getDownloaded().get(0);
+            EVatOpis eVO = (EVatOpis) eVatOpisDAO.findS(wpisView.getWprowadzil().getLogin());
             List<String> pobierzOpisy = new ArrayList<>();
             pobierzOpisy.add(eVO.getOpis1());
             pobierzOpisy.add(eVO.getOpis2());
@@ -1658,7 +1662,7 @@ public class DokView implements Serializable{
     }
 
     public void setTypdokumentu(String typdokumentu) {
-        DokView.typdokumentu = typdokumentu;
+        this.typdokumentu = typdokumentu;
     }
 
     public Double getUmorzeniepoczatkowe() {

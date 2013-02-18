@@ -139,7 +139,7 @@ public class VatView implements Serializable {
             zrzucane.setMiesiac(mc);
             zrzucane.setEwidencje(listaewidencji);
             zrzucane.setSumaewidencji(sumaewidencji);
-            ewidencjeVatDAO.dodaj(zrzucane);
+            ewidencjeVatDAO.dodajewidencje(zrzucane);
         }
         System.out.println("lolo");
     }

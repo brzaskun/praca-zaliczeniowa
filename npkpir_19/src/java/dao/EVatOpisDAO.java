@@ -37,4 +37,8 @@ public class EVatOpisDAO extends DAO implements Serializable {
             eVatOpisFacade.remove(x);
         }
     }
+    
+    public EVatOpis findS(String name){
+        return eVatOpisFacade.findEVatOpis(name);
+    }
 }
