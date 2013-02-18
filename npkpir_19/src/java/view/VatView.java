@@ -232,6 +232,7 @@ public class VatView implements Serializable {
         dataTable.setResizableColumns(true);
         dataTable.setVar("var");
         dataTable.setValue(suma2);
+        dataTable.setStyle("width: 1000px;");
         List<String> opisykolumny = new ArrayList<>();
         opisykolumny.add("ewidencja");
         opisykolumny.add("netto");
@@ -248,6 +249,7 @@ public class VatView implements Serializable {
                 numberconv.setLocale(new Locale("pl"));
                 numberconv.setMinFractionDigits(2);
                 numberconv.setMaxFractionDigits(2);
+                column.setWidth("200");
                 ot.setConverter(numberconv);
             }
             final String binding = "#{var." + wstawka + "}";

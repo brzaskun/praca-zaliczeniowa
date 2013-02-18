@@ -34,16 +34,12 @@ public class KlView implements Serializable{
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;
     
-    @Inject
-    private KlienciDAO klDAO;
-    @Inject
-    private Klienci selected;
+    @Inject private KlienciDAO klDAO;
+    @Inject private Klienci selected;
     @Inject PanstwaSymb1 ps1;
     private static ArrayList<Klienci> kl;
     private ArrayList<Klienci> kl1;
-    
     private static Klienci doUsuniecia;
-    
     private Integer ilesrodkow;
 
     
@@ -72,10 +68,11 @@ public class KlView implements Serializable{
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
+        poszukajnip();
         klDAO.dodaj(selected);
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
-        Msg.msg("i","Dodano nowego klienta","formX:mess_add");
+        Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
         } catch (Exception e) {
         Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
         }
@@ -83,32 +80,7 @@ public class KlView implements Serializable{
          
    }
     
-     public void dodajKlientapop(){
-      try {
-        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getNpelna().substring(2).toLowerCase());
-        selected.setNpelna(formatka);
-        formatka = selected.getNskrocona().toUpperCase();
-        selected.setNskrocona(formatka);
-        formatka = selected.getUlica().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getUlica().substring(2).toLowerCase());
-        selected.setUlica(formatka);
-        try {
-            selected.getKrajnazwa();
-        } catch (Exception e){
-            selected.setKrajnazwa("Polska");
-        }
-        String kraj = selected.getKrajnazwa();
-        String symbol = ps1.getWykazPanstwSX().get(kraj);
-        selected.setKrajkod(symbol);
-        klDAO.dodaj(selected);
-        DokView dokView = new DokView();
-        Msg.msg("i","Dodano nowego klienta","formpop:mess_add");
-        } catch (Exception e) {
-        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formpop:mess_add");
-        }
-         
-   }
+    
     
      public void pobierzklientazPliku() throws IOException{
           readLargerTextFile(FILE_NAME);
@@ -197,7 +169,7 @@ public class KlView implements Serializable{
             }
         } catch (NumberFormatException e){
             for(Klienci p : lista) {
-            if(p.getNpelna().startsWith(query)) {
+            if(p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
                  results.add(p);
              }
             }
@@ -244,7 +216,22 @@ public class KlView implements Serializable{
         selected.setEmail("niema@maila.pl");
         RequestContext.getCurrentInstance().update("formX:emailpole");
     }
-         
+    
+     private void poszukajnip() throws Exception {
+         String nippoczatkowy = selected.getNip();
+         if(!nippoczatkowy.equals("0000000000")){
+         List<Klienci> kliencitmp = klDAO.getDownloaded();     
+         List<String> kliencinip = new ArrayList<>();
+         for (Klienci p : kliencitmp){
+             if(p.getNip().equals(nippoczatkowy)){
+                 System.out.println("tak nip juz jest, wyrzucam blad");
+                 throw new Exception();
+             }
+         }
+         }
+    }
+
+    
     public Klienci getSelected() {
         return selected;
     }
@@ -289,5 +276,6 @@ public class KlView implements Serializable{
         this.doUsuniecia = doUsuniecia;
     }
 
+   
    
 }
