@@ -81,12 +81,12 @@
     </h:form>
     <h:form id="formY">
         <p:growl/>
-        <p:dataTable var="wpis" value="#{KlView.kl1}" resizableColumns="true" id="tabelaKontr" editable="true"
+        <p:dataTable var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" 
                  rowKey="#{wpis.nip}" selection="#{KlView.selected}" selectionMode="single"
-                 emptyMessage="Nie ma klientów" style="margin-left: 10%">
+                 emptyMessage="Nie ma klientów" style="margin-left: 5%; width: 900px;">
             <p:ajax event="rowEdit" update=":formX:mess_add" listener="#{KlView.edit}" />
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
@@ -98,7 +98,7 @@
             </f:facet> 
             <h:outputText value="#{wpis.nip}" />
         </p:column>
-        <p:column id="Column2" headerText="lp" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" >  
+            <p:column id="Column2" headerText="lp" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" width="300">  
             <f:facet name="header">  
                 <h:outputText value="nazwa pełna" />  
             </f:facet> 
@@ -111,7 +111,7 @@
                     </f:facet>  
                 </p:cellEditor>
         </p:column>
-        <p:column id="Column3" headerText="lp" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" >  
+            <p:column id="Column3" headerText="lp" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="200">  
             <f:facet name="header">  
                 <h:outputText value="adres" />  
             </f:facet> 
