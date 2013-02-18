@@ -150,6 +150,7 @@ public class AmodokViev {
                     }
                     dokHashTable.put(tmp.getId().toString(), tmp);
                 }
+                int ie = 1;
                 Iterator itx;
                 itx = obiektDOKjsfSel.iterator();
                 while (itx.hasNext()) {
@@ -157,8 +158,9 @@ public class AmodokViev {
                     String m = wpisView.getMiesiacWpisu();
                     Integer r = wpisView.getRokWpisu();
                     //if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-                   
+                        tmpx.setId(ie);
                         obiektDOKmrjsfSel.add(tmpx);
+                        ie++;
                 //}
             }
                 if (wpisView.getMiesiacOd() != null) {

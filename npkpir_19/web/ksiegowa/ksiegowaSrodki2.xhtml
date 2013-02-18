@@ -19,15 +19,6 @@
                         <ui:include src="sub/layoutTablicaSrodkiDok/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutTablicaSrodkiDok/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                           <h:form> 
-                                 <p:panelGrid columns="2">
-                                <p:selectOneMenu value="#{CSSView.css}">
-                                    <f:selectItems value="#{CSSView.cssList}"/>
-                                    <p:ajax event="keyup" update="@all" global="false"/>
-                                </p:selectOneMenu>
-                                <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
-                                </p:panelGrid>
-                            </h:form>
                             <h:form id="formSTR">
                                 
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
