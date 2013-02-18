@@ -163,9 +163,11 @@ public class VatView implements Serializable {
 
             DataTable dataTable = new DataTable();
             dataTable.setId("tablica" + i);
-            dataTable.setResizableColumns(true);
+            //dataTable.setResizableColumns(true);
             dataTable.setVar("var");
             dataTable.setValue(lista.get(nazwapj));
+            dataTable.setPaginator(true);
+            dataTable.setStyle("width: 1000px;");
             //tak trzeba opisac kazda kolumne :)
             ArrayList<String> opisykolumn = new ArrayList<>();
             opisykolumn.addAll(EVatViewPola.getOpispol());
@@ -180,6 +182,28 @@ public class VatView implements Serializable {
                 ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
                 HtmlOutputText ot = new HtmlOutputText();
                 ot.setValueExpression("value", ve);
+                switch (wstawka) {
+                    case "kontr":
+                        column.setWidth("350");
+                        break;
+                    case "id": 
+                        column.setWidth("50");
+                        break;
+                    case "netto":
+                        ot.setStyle("float: right;");
+                        NumberConverter numx = new NumberConverter();
+                        numx.setMaxFractionDigits(2);
+                        numx.setLocale(new Locale("PL"));
+                        numx.setGroupingUsed(true);
+                        ot.setConverter(numx);
+                    case "vat":
+                        ot.setStyle("float: right;");
+                        NumberConverter numy = new NumberConverter();
+                        numy.setMaxFractionDigits(2);
+                        numy.setLocale(new Locale("PL"));
+                        numy.setGroupingUsed(true);
+                        ot.setConverter(numy);
+                }
                 column.getChildren().add(ot);
                 dataTable.getChildren().add(column);
             }

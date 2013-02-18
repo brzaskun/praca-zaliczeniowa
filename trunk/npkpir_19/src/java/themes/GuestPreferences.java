@@ -21,27 +21,67 @@ package themes;
  */
 
 
+import dao.UzDAO;
+import entity.Uz;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.Map;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import view.WpisView;
 
-@Named
+@ManagedBean
+@RequestScoped
 public class GuestPreferences implements Serializable {
 
         private String theme = "glass-x"; //default
-
+        @Inject private UzDAO uzDAO;
+        @ManagedProperty(value="#{WpisView}")
+        private WpisView wpisView;
+        
+        
         public String getTheme() {
-                Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-                if(params.containsKey("theme")) {
-                        theme = params.get("theme");
-                }
-                
+                HttpServletRequest request;
+                request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                try {
+                Principal principal = request.getUserPrincipal();
+                String kto  = principal.getName();
+                Uz ktoUz = uzDAO.find(kto);
+                theme = ktoUz.getTheme();
+                } catch (Exception e){}
                 return theme;
         }
 
         public void setTheme(String theme) {
                 this.theme = theme;
+                Uz tmp = wpisView.getWprowadzil();
+                tmp.setTheme(theme);
+                uzDAO.edit(tmp);
         }
+
+    public UzDAO getUzDAO() {
+        return uzDAO;
+    }
+
+    public void setUzDAO(UzDAO uzDAO) {
+        this.uzDAO = uzDAO;
+    }
+
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+        
+        
 }
+
