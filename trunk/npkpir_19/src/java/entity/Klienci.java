@@ -48,12 +48,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Klienci.findByZnacznik3", query = "SELECT k FROM Klienci k WHERE k.znacznik3 = :znacznik3")})
 public class Klienci implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Id
-    @Basic(optional = false)
     @Size(max = 10)
     @Column(name = "NIP")
     private String nip;
