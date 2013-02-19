@@ -714,8 +714,18 @@ public class DokView implements Serializable{
     }
 
     public void dodaj() {
+         HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            Wpis wpisbiezacy = wpisDAO.find(selDokument.getWprowadzil());
+            selDokument.setPkpirM(wpisbiezacy.getMiesiacWpisu());
+            selDokument.setPkpirR(wpisbiezacy.getRokWpisu().toString());
+            selDokument.setPodatnik(wpisbiezacy.getPodatnikWpisu());
+        Podatnik podtmp = podatnikDAO.find(wpisbiezacy.getPodatnikWpisu());
         List<Double> pobierzVat = new ArrayList<>();
         try {
+            if(!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT")){
             ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
             EVatOpis eVO = (EVatOpis) eVatOpisDAO.findS(wpisView.getWprowadzil().getLogin());
             List<String> pobierzOpisy = new ArrayList<>();
@@ -761,14 +771,7 @@ public class DokView implements Serializable{
             } else {
                 selDokument.setEwidencjaVAT(null);
             }
-            HttpServletRequest request;
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Principal principal = request.getUserPrincipal();
-            selDokument.setWprowadzil(principal.getName());
-            Wpis wpisbiezacy = wpisDAO.find(selDokument.getWprowadzil());
-            selDokument.setPkpirM(wpisbiezacy.getMiesiacWpisu());
-            selDokument.setPkpirR(wpisbiezacy.getRokWpisu().toString());
-            selDokument.setPodatnik(wpisbiezacy.getPodatnikWpisu());
+            }
             selDokument.setStatus("bufor");
             selDokument.setTypdokumentu(typdokumentu);
             Iterator itd;
@@ -815,8 +818,10 @@ public class DokView implements Serializable{
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
             //wpisywanie do bazy ostatniego dokumentu
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            principal = request.getUserPrincipal();
             Ostatnidokument temp = new Ostatnidokument();
-            temp.setUzytkownik(selDokument.getWprowadzil());
+            temp.setUzytkownik(principal.getName());
             temp.setDokument(selDokument);
             try {
                 ostatnidokumentDAO.dodaj(temp);
