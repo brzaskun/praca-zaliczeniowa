@@ -24,9 +24,9 @@
                                 </p:inputText>
                                <h:outputLabel value="moje kolorki" style="font-weight: 700"/>
                                <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{UzView.selUzytkownik.theme}">  
-                                    <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                                    <f:selectItem itemLabel="#{UzView.selUzytkownik.theme}" itemValue="#{UzView.selUzytkownik.theme}" />  
                                     <f:selectItems value="#{themeSwitcherBean.themes}" />  
-                                </p:themeSwitcher> 
+                               </p:themeSwitcher>
                             </p:panelGrid>
                             <p:panelGrid id="polawprowadzania3" columns="1" >
                                 <p:commandButton value="zmień" action="#{UzView.zmienustawienia()}" accesskey="w"/>

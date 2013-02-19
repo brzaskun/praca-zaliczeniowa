@@ -63,12 +63,6 @@ public class WpisView implements Serializable{
         this.rokWpisu = wpis.getRokWpisu();
         this.miesiacOd = wpis.getMiesiacOd();
         this.miesiacDo = wpis.getMiesiacDo();
-        try{
-            this.wprowadzil = wpis.getWprowadzilUz();
-        } catch (Exception e){
-            wpis.setWprowadzilUz(wprowadzil);
-            wpisDAO.edit(wpis);
-        }
         }
     }
 
@@ -87,7 +81,6 @@ public class WpisView implements Serializable{
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpis.setMiesiacWpisu(miesiacWpisu);
         wpis.setRokWpisu(rokWpisu);
-        wpis.setWprowadzilUz(wprowadzil);
         wpis.setMiesiacOd(miesiacWpisu);
         wpis.setMiesiacDo(miesiacWpisu);
         wpisDAO.edit(wpis);

@@ -25,14 +25,12 @@ import dao.UzDAO;
 import entity.Uz;
 import java.io.Serializable;
 import java.security.Principal;
-import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import view.WpisView;
 
@@ -73,7 +71,6 @@ public class GuestPreferences implements Serializable {
         this.uzDAO = uzDAO;
     }
 
-    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -81,7 +78,9 @@ public class GuestPreferences implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-        
+
+   
+    
         
 }
 
