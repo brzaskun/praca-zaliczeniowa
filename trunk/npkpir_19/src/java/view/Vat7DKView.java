@@ -348,7 +348,9 @@ public class Vat7DKView implements Serializable {
             }
             pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
             pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
-        } catch (Exception e){//nie ma poprzedniej deklaracji wogole bo tworzona jest pierwsza w roku
+        } catch (Exception e){}
+        //nie ma poprzedniej deklaracji wogole bo tworzona jest pierwsza w roku
+        try{
             Podatnik pod = podatnikDAO.find(podatnik);
             String Pole47 = pod.getPole47();
             Integer PoleI47 = Integer.parseInt(Pole47);
@@ -356,6 +358,8 @@ public class Vat7DKView implements Serializable {
             pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
             deklaracjawyslana.setIdentyfikator("lolo");
             deklaracjawyslana.setPodatnik("manolo");
+        } catch (Exception e){
+             Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  " +wpisView.getWprowadzil().getLogin(),"form:msg");
         }
         if((deklaracjawyslana.getIdentyfikator().equals(""))&&(!deklaracjawyslana.getPodatnik().equals(""))){
             System.out.println("Wyrzucam blad");
