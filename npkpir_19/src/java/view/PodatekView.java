@@ -166,13 +166,34 @@ public class PodatekView implements Serializable{
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
+            case "zasady ogólne bez VAT" :
+                stawka = tmpY.getStawka1();
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
             case "podatek liniowy" :
                 stawka = tmpY.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
+            case "podatek liniowy bez VAT" :
+                stawka = tmpY.getStawkaliniowy();
+                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
             case "ryczałt" :
+                podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt4())));
+                podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt3())));
+                podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt2())));
+                podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt1())));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
+                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                break;
+            case "ryczałt bez VAT" :
                 podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt4())));
                 podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt3())));
                 podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt2())));

@@ -1083,12 +1083,28 @@ public class ZestawienieView implements Serializable {
                     podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
                     podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                     break;
+                case "zasady ogólne bez VAT":
+                    stawka = tmpY.getStawka1();
+                    podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                    podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
+                    podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                    break;
                 case "podatek liniowy":
                     stawka = tmpY.getStawkaliniowy();
                     podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                     podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                     break;
+                case "podatek liniowy bez VAT":
+                    stawka = tmpY.getStawkaliniowy();
+                    podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                    podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                    break;
                 case "ryczałt":
+                    stawka = tmpY.getStawkaryczalt1();
+                    podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                    podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                    break;
+                case "ryczałt bez VAT":
                     stawka = tmpY.getStawkaryczalt1();
                     podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
                     podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
