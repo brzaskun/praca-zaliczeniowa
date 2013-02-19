@@ -166,7 +166,6 @@ public class VatView implements Serializable {
             //dataTable.setResizableColumns(true);
             dataTable.setVar("var");
             dataTable.setValue(lista.get(nazwapj));
-            dataTable.setPaginator(true);
             dataTable.setStyle("width: 1000px;");
             //tak trzeba opisac kazda kolumne :)
             ArrayList<String> opisykolumn = new ArrayList<>();
@@ -194,7 +193,6 @@ public class VatView implements Serializable {
                         NumberConverter numx = new NumberConverter();
                         numx.setMaxFractionDigits(2);
                         numx.setMinFractionDigits(2);
-                        numx.setPattern("#,###,##0.00");
                         ot.setConverter(numx);
                     case "vat":
                         ot.setStyle("float: right;");

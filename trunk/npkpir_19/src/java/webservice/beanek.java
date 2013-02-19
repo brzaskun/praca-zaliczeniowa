@@ -29,6 +29,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.ws.WebServiceRef;
+import msg.Msg;
 import service.GateService;
 import view.WpisView;
 
@@ -77,15 +78,6 @@ public class beanek {
     }
     
     public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException{
-//        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder builder = factory.newDocumentBuilder();
-//        Document doc = builder.parse("c:/uslugi/testvat1.xml");
-//        StringWriter stringWriter = new StringWriter(); 
-//        Transformer transformer = TransformerFactory.newInstance().newTransformer(); 
-//        transformer.transform(new DOMSource(doc), new StreamResult(stringWriter)); 
-//        String strFileContent = stringWriter.toString(); //This is string data of xml file
-//        System.out.println(strFileContent);
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -103,6 +95,7 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
+        Msg.msg("i","Wypuszczono gołębia z deklaracja podatnika "+podatnik+" za "+rok+"-"+mc,"formX:msg");
         
     }
     
@@ -120,7 +113,6 @@ public class beanek {
 
     public void pobierzwyslane(String identyfikator){
         requestUPO(identyfikator, lang, upo, stat, opis);
-        
         upoMB = upo.value;
         statMB = stat.value;    
         opisMB = opis.value;
@@ -129,6 +121,7 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
+        Msg.msg("i","Gołąb wrócił z wieścią "+opisMB,"formX:msg");
     }
   
     public String getIdMB() {

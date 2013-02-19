@@ -159,12 +159,15 @@ public class Vat7DKView implements Serializable {
         adres.setPoczta(pod.getPoczta().toUpperCase());
         selected.setAdres(adres);
         String kwotaautoryzujaca = null;
+        try {
         List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
         for(Parametr par : listakwotaautoryzujaca){
             if(par.getRokOd().equals(rok)){
                 kwotaautoryzujaca = par.getParametr();
                 break;
             }
+        }} catch (Exception e){
+            Msg.msg("e", nowadeklaracja.getPodatnik()+" - wystapil blad, brak kwoty autoryzujacej w ustawieniach!" ,"form:msg");
         }
         selected.setKwotaautoryzacja(kwotaautoryzujaca);
         stworzdeklaracje();
@@ -184,13 +187,13 @@ public class Vat7DKView implements Serializable {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
-        Msg.msg("i", nowadeklaracja.getPodatnik()+" - skorygowano deklaracje VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
+        Msg.msg("i", podatnik+" - skorygowano niewyslana deklaracje VAT za" + rok + "-" + mc,"form:msg");
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
-            Msg.msg("i", nowadeklaracja.getPodatnik()+" - zachowano nową deklaracje VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
+            Msg.msg("i", podatnik+" - zachowano nową deklaracje VAT za" + rok + "-" + mc,"form:msg");
         }
         } catch (Exception e){
-            Msg.msg("e", nowadeklaracja.getPodatnik()+" - wystapil blad podczas zachowania deklaracji VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
+            Msg.msg("e", podatnik+" - wystapil blad podczas zachowania deklaracji VAT za" + rok + "-"+mc,"form:msg");
         }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
@@ -204,28 +207,33 @@ public class Vat7DKView implements Serializable {
         System.out.println("dziala podsumowanie szczegolowych podatnik "+podatnik);
          try{
             try{
+                //pobiera liste deklaracji poprzednich
                 List<Deklaracjevat> pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size()-1);
                 selected.setCelzlozenia("2");
+                 Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
                 pobranalistadeklaracji.clear();
             } catch (Exception er){
+                //jak nie ma listy to zwraca jedna jedyna oastatia
                 deklaracjakorygowana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
                 selected.setCelzlozenia("2");
+                Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
             }
             if(deklaracjakorygowana.getIdentyfikator().equals("")){
                 nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny());
             }else {
                 nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny()+1);
             }
-        } catch (Exception e){
+        } catch (Exception e){ //pierwsza deklaracja ever
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
+            Msg.msg("i", "Utworzono pierwsza deklaracje w roku " + rok,"form:msg");
         }
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         try{
         wyszukajpoprzednia();
         } catch (Exception e){}
-        PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;
+        PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;//podsumowanie pol szsczegolowych z pobranych czastkowych
         p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
         p.setPoleI46(p.getPoleI26()+p.getPoleI28()+p.getPoleI30()+p.getPoleI34()+p.getPoleI36()+p.getPoleI38()+p.getPoleI40()+p.getPoleI42()+p.getPoleI43()+p.getPoleI44());
@@ -324,7 +332,7 @@ public class Vat7DKView implements Serializable {
             }
             pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
             pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
-        } catch (Exception e){
+        } catch (Exception e){//nie ma poprzedniej deklaracji wogole bo tworzona jest pierwsza w roku
             Podatnik pod = podatnikDAO.find(podatnik);
             String Pole47 = pod.getPole47();
             Integer PoleI47 = Integer.parseInt(Pole47);
