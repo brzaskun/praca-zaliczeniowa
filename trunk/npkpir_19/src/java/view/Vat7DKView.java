@@ -227,12 +227,10 @@ public class Vat7DKView implements Serializable {
         } catch (Exception e){ //pierwsza deklaracja ever
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
-            Msg.msg("i", "Utworzono pierwsza deklaracje w roku " + rok,"form:msg");
+            Msg.msg("i", "Nie znaleziono jakiejkolwiek poprzedniej deklaracji za dany okres","form:msg");
         }
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
-        try{
         wyszukajpoprzednia();
-        } catch (Exception e){}
         PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;//podsumowanie pol szsczegolowych z pobranych czastkowych
         p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
@@ -241,13 +239,14 @@ public class Vat7DKView implements Serializable {
         p.setPoleI55(p.getPoleI47()+p.getPoleI48()+p.getPoleI50()+p.getPoleI52()+p.getPoleI53()+p.getPoleI54());
         p.setPole55(String.valueOf(p.getPoleI55()));
         Integer dozaplaty = p.getPoleI46()-p.getPoleI55();
-        if(dozaplaty>p.getPoleI56()){
-            p.setPoleI56(dozaplaty);
-            p.setPole56(dozaplaty.toString());
-        } else {
-            p.setPole56("0");
-            p.setPoleI56(0);
-        }
+        //to jets gupie bo kwota na kasy powinna byc jakos inaczej wstawiana to jest caly temat do zrobienia
+//        if(dozaplaty>p.getPoleI56()){
+//            p.setPoleI56(dozaplaty);
+//            p.setPole56(dozaplaty.toString());
+//        } else {
+//            p.setPole56("0");
+//            p.setPoleI56(0);
+//        }
             p.setPole57("0");
             p.setPoleI57(0);
         Integer roznica = p.getPoleI46()-p.getPoleI55()-p.getPoleI56()-p.getPoleI57();
@@ -258,11 +257,16 @@ public class Vat7DKView implements Serializable {
             p.setPole58("0");
             p.setPoleI58(0);
         }
+        p.setPole59("0");
+        p.setPoleI59(0);
         Integer dozwrotu = p.getPoleI55()-p.getPoleI46();
         roznica = p.getPoleI55()-p.getPoleI46()+p.getPoleI59();
         if(dozwrotu>0){
             p.setPoleI60(roznica);
             p.setPole60(roznica.toString());
+        } else {
+            p.setPole60("0");
+            p.setPoleI60(0);
         }
         if(p.getPole61()!=""){
             p.setPoleI61(Integer.parseInt(p.getPole61()));

@@ -41,8 +41,7 @@ public class DeklaracjevatView implements Serializable {
             oczekujace.add(temp);
         } catch (Exception e){}
          try{
-            Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
-            wyslane.add(temp);
+            wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
         } catch (Exception e){}
     }
 
