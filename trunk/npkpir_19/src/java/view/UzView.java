@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -39,7 +40,8 @@ public class UzView implements Serializable{
     private String confPassword;
     private String login;
     private String firstPassword;
-    @Inject private WpisView wpisView;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
        
    
     public UzView() {
@@ -48,19 +50,16 @@ public class UzView implements Serializable{
     
     @PostConstruct
     public void init(){
-        Collection c = null;    
+        List<Uz> c = new ArrayList<>();;
         try {
-            c = uzDAO.getDownloaded();
+            c.addAll(uzDAO.getDownloaded());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
-            Iterator it;
-            it =  c.iterator();
-            while(it.hasNext()){
-            Uz tmp = (Uz) it.next();
-            obiektUZjsf.add(tmp);
+            for(Uz p : c){
+            obiektUZjsf.add(p);
             }
-        selUzytkownik = wpisView.findWpisX().getWprowadzilUz();
+        selUzytkownik = wpisView.getWprowadzil();
     }
       
 
@@ -227,6 +226,14 @@ public class UzView implements Serializable{
 
     public void setFirstPassword(String firstPassword) {
         this.firstPassword = firstPassword;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
 
    

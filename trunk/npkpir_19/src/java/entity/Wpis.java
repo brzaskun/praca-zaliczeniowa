@@ -56,9 +56,6 @@ public class Wpis implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "wprowadzil")
     private String wprowadzil;
-    @Lob
-    @Column(name = "wprowadzilUz")
-    private Uz wprowadzilUz;
     @Size(max = 2)
     @Column(name = "miesiacOd")
     private String miesiacOd;
@@ -155,15 +152,7 @@ public class Wpis implements Serializable {
         this.biezacasesja = biezacasesja;
     }
 
-    public Uz getWprowadzilUz() {
-        return wprowadzilUz;
-    }
-
-    public void setWprowadzilUz(Uz wprowadzilUz) {
-        this.wprowadzilUz = wprowadzilUz;
-    }
-    
-    
+  
     
 
     @Override
