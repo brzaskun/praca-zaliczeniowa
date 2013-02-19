@@ -70,8 +70,10 @@
                 <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
             </p:panelGrid>
             <br/>
-            <p:panelGrid  columns="2" style="margin-left: 100px">
+            <p:panelGrid  columns="3" style="margin-left: 40px">
                 <p:commandButton value="oblicz pit"  action="#{ZestawienieView.obliczPit()}" update="@form" style="width: 120px"/>
+                <p:commandButton value="drukuj" type="button" style="width: 120px">
+                    <p:printer target="formpit:zestawieniepit" /></p:commandButton>
                 <p:commandButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form :formpi:" type="submit" style="width: 120px"/>
             </p:panelGrid>
         </h:form>

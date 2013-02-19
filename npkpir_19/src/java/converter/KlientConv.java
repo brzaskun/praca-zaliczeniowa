@@ -16,6 +16,8 @@ import view.KlView;
  * @author Osito
  */
 public class KlientConv implements javax.faces.convert.Converter{
+    
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         Klienci kl = new Klienci();
         if (submittedValue.trim().equals("")) {  
@@ -25,7 +27,7 @@ public class KlientConv implements javax.faces.convert.Converter{
                 String number = submittedValue;  
   
                 for (Klienci p : KlView.getKl()) {  
-                    if (p.getNip().equals(number)) {  
+                    if (p.getNpelna().equals(number)) {  
                         return p;  
                     }  
                 }  
@@ -38,11 +40,12 @@ public class KlientConv implements javax.faces.convert.Converter{
         return null;  
     }  
   
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Klienci) value).getNip());  
+            return String.valueOf(((Klienci) value).getNpelna());  
         }  
     }  
     
