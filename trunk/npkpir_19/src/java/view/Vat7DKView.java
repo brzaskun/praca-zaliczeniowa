@@ -88,6 +88,18 @@ public class Vat7DKView implements Serializable {
                 //dodaje tymczasowa sume do calosci 
                 wyciagnieteewidencje.add(suma);
             }
+            if (ew.getEwidencja().getNazwa().equals("import usług")){
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(),ew.getNetto(),ew.getVat(),ew.getEstawka());
+                //pobieram i kopiuje stara ewidencje
+                Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getPole(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
+                //wpisuje pola zakupu
+                tmp.setNrpolanetto("39");
+                tmp.setNrpolavat("40");
+                //zachowuje ewidecje do tymczasowej sumy
+                suma.setEwidencja(tmp);
+                //dodaje tymczasowa sume do calosci 
+                wyciagnieteewidencje.add(suma);
+            }
         }
         //sumuj ewidencje 51 i52 pola
         Evewidencja pojewid = new Evewidencja("sumaryczna","Nabycie towarów i usług pozostałych","51","52","opodatkowane","zakup suma",false);
@@ -234,7 +246,7 @@ public class Vat7DKView implements Serializable {
         PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;//podsumowanie pol szsczegolowych z pobranych czastkowych
         p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
-        p.setPoleI46(p.getPoleI26()+p.getPoleI28()+p.getPoleI30()+p.getPoleI34()+p.getPoleI36()+p.getPoleI38()+p.getPoleI40()+p.getPoleI42()+p.getPoleI43()+p.getPoleI44());
+        p.setPoleI46(p.getPoleI26()+p.getPoleI28()+p.getPoleI30()+p.getPoleI34()+p.getPoleI36()+p.getPoleI38()+p.getPoleI42()+p.getPoleI43()+p.getPoleI44());
         p.setPole46(String.valueOf(p.getPoleI46()));
         p.setPoleI55(p.getPoleI47()+p.getPoleI48()+p.getPoleI50()+p.getPoleI52()+p.getPoleI53()+p.getPoleI54());
         p.setPole55(String.valueOf(p.getPoleI55()));
