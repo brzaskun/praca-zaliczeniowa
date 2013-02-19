@@ -81,7 +81,7 @@ public class VatView implements Serializable {
                 List<EVatwpis> ewidencja = new ArrayList<>();
                 ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
                 for (EVatwpis ewidwiersz : ewidencja){
-                    if (ewidwiersz.getNetto() > 0) {
+                    if (ewidwiersz.getNetto() != 0) {
                         EVatViewPola wiersz = new EVatViewPola();
                         wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
                         wiersz.setDataSprz(zaksiegowanafaktura.getDataSprz());
@@ -193,8 +193,8 @@ public class VatView implements Serializable {
                         ot.setStyle("float: right;");
                         NumberConverter numx = new NumberConverter();
                         numx.setMaxFractionDigits(2);
-                        numx.setLocale(new Locale("PL"));
-                        numx.setGroupingUsed(true);
+                        numx.setMinFractionDigits(2);
+                        numx.setPattern("#,###,##0.00");
                         ot.setConverter(numx);
                     case "vat":
                         ot.setStyle("float: right;");
@@ -246,7 +246,7 @@ public class VatView implements Serializable {
             if(!wstawka.equals("ewidencja")){
                 ot.setStyle("float: right;");
                 NumberConverter numberconv = new NumberConverter();
-                numberconv.setLocale(new Locale("pl"));
+                numberconv.setLocale(new Locale("PL"));
                 numberconv.setMinFractionDigits(2);
                 numberconv.setMaxFractionDigits(2);
                 column.setWidth("200");
