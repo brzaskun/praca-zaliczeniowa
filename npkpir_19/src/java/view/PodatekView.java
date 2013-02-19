@@ -115,6 +115,38 @@ public class PodatekView implements Serializable{
                     koszty = koszty.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
                 }
             }
+            try{
+            if (tmp.getPkpirKolX().contains("%")) {
+                switch (tmp.getPkpirKolX()){
+                    case "17%":
+                        przychodyRyczalt.put("17%", przychodyRyczalt.get("17%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                        break;
+                    case "8.5%":
+                        przychodyRyczalt.put("8.5%", przychodyRyczalt.get("8.5%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                        break;
+                    case "5.5%":
+                        przychodyRyczalt.put("5.5%", przychodyRyczalt.get("5.5%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                        break;
+                    case "3%":
+                        przychodyRyczalt.put("3%", przychodyRyczalt.get("3%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                        break;
+                }
+
+            } else {
+                if (tmp.getPkpirKolX().equals(kolmn.getKolumnPrzychody().get(0)) || tmp.getPkpirKolX().equals(kolmn.getKolumnPrzychody().get(1))) {
+                    przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                } else if (tmp.getPkpirKolX().equals(kolmn.getKolumnST().get(0)) || tmp.getPkpirKolX().equals(kolmn.getKolumnST().get(1))) {
+                    inwestycje = inwestycje.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                } else {
+                    koszty = koszty.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
+                }
+            }} catch (Exception e){
+                System.out.println("Nie było dodatkowej kolumny");
+            }
         }
         dochód = (przychody.subtract(koszty));
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
@@ -131,11 +163,13 @@ public class PodatekView implements Serializable{
                 stawka = tmpY.getStawka1();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                 podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "podatek liniowy" :
                 stawka = tmpY.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt" :
@@ -143,6 +177,7 @@ public class PodatekView implements Serializable{
                 podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt3())));
                 podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt2())));
                 podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt1())));
+                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
         }

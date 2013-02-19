@@ -1005,7 +1005,7 @@ public class DokView implements Serializable{
                     break;
             }
             selDokument.setDataWyst(data);
-            selDokument.setKontr(new Klienci("111111111","wlasny"));
+            selDokument.setKontr(new Klienci("","dowód wewnętrzny"));
             selDokument.setRodzTrans("amortyzacja");
             selDokument.setTypdokumentu("AMO");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
@@ -1013,6 +1013,11 @@ public class DokView implements Serializable{
             selDokument.setKwota(kwotaumorzenia);
             selDokument.setPkpirKol("poz. koszty");
             selDokument.setRozliczony(true);
+             if(selDokument.getKwotaX()!= null){
+                selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
+            } else {
+                selDokument.setNetto(selDokument.getKwota());
+            }
             sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getKwota()>0){
             dokDAO.dodaj(selDokument);
