@@ -181,7 +181,7 @@ public class UzView implements Serializable{
     public void zmienustawienia(){
         try{
             uzDAO.edit(selUzytkownik);
-            Msg.msg("i","Dane zmienione","form:mess_add");
+            Msg.msg("i","Dane zmienione dla:"+selUzytkownik.getLogin(),"form:mess_add");
         } catch (Exception e){
             Msg.msg("e","Błąd! Dane nie zmienione","form:mess_add");
         }

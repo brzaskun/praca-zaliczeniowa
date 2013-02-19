@@ -33,6 +33,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -183,19 +184,24 @@ public class Vat7DKView implements Serializable {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
+        Msg.msg("i", nowadeklaracja.getPodatnik()+" - skorygowano deklaracje VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
+            Msg.msg("i", nowadeklaracja.getPodatnik()+" - zachowano nową deklaracje VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
         }
-        } catch (Exception e){}
+        } catch (Exception e){
+            Msg.msg("e", nowadeklaracja.getPodatnik()+" - wystapil blad podczas zachowania deklaracji VAT za" + nowadeklaracja.getRok()+ "-" + nowadeklaracja.getMiesiac(),"form:msg");
+        }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
-               
+         
         }
 
     private void podsumujszczegolowe() throws Exception{
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
+        System.out.println("dziala podsumowanie szczegolowych podatnik "+podatnik);
          try{
             try{
                 List<Deklaracjevat> pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
@@ -216,7 +222,9 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setNrkolejny(1);
         }
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
+        try{
         wyszukajpoprzednia();
+        } catch (Exception e){}
         PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;
         p.setPoleI45(p.getPoleI20()+p.getPoleI21()+p.getPoleI23()+p.getPoleI25()+p.getPoleI27()+p.getPoleI29()+p.getPoleI31()+p.getPoleI33()+p.getPoleI35()+p.getPoleI37()+p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
@@ -306,7 +314,7 @@ public class Vat7DKView implements Serializable {
                 List<Deklaracjevat> pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size()-1);
             } catch (Exception er){
-                deklaracjawyslana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
+                   deklaracjawyslana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
             }
             if(deklaracjawyslana.getIdentyfikator().equals("")){
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deklaracja z miesiaca poprzedniego jest nie wyslana. Nie mozna pobrac sporządzić nowej deklaracji za miesiąc następny!", "");
@@ -367,6 +375,15 @@ public class Vat7DKView implements Serializable {
     public void setPozycjeSzczegoloweVAT(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
         this.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
     }
+
+    public Deklaracjevat getNowadeklaracja() {
+        return nowadeklaracja;
+    }
+
+    public void setNowadeklaracja(Deklaracjevat nowadeklaracja) {
+        this.nowadeklaracja = nowadeklaracja;
+    }
+    
     
     public static void main( String args[] )
   {

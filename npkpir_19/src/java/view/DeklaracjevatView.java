@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 /**
@@ -18,10 +20,13 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
+@RequestScoped
 public class DeklaracjevatView implements Serializable {
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> wyslane;
     private List<Deklaracjevat> oczekujace;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -32,10 +37,12 @@ public class DeklaracjevatView implements Serializable {
     @PostConstruct
     private void init(){
         try{
+            
         List<Deklaracjevat> temp = deklaracjevatDAO.getDownloaded();
         for(Deklaracjevat p : temp){
             if(p.getIdentyfikator().equals("")){
                 oczekujace.add(p);
+                System.out.println("pobralem "+p.getPodatnik());
             } else {
                 wyslane.add(p);
             }
@@ -58,6 +65,15 @@ public class DeklaracjevatView implements Serializable {
     public void setOczekujace(List<Deklaracjevat> oczekujace) {
         this.oczekujace = oczekujace;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
     
     
 }
