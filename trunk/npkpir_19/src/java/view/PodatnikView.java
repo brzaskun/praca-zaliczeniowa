@@ -44,6 +44,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -126,7 +127,7 @@ public class PodatnikView implements Serializable{
     
      public void dodaj(){
          System.out.println("Wpis do bazy zaczynam");
-         sformatuj();
+         sformatuj(selectedDod);
              try {
                  podatnikDAO.dodaj(selectedDod);
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika-klienta.", selectedDod.getNazwapelna());
@@ -140,17 +141,28 @@ public class PodatnikView implements Serializable{
              }
     }
    
-    public void sformatuj(){
+     public void edytuj(){
+         System.out.println("Wpis do bazy zaczynam");
+         sformatuj(selected);
+             try {
+                 podatnikDAO.edit(selected);
+                 Msg.msg("i","Edytowano dane podatnika-klienta "+selected.getNazwapelna(),"akordeon:form:msg");
+             } catch (Exception e) {
+                 System.out.println(e.getStackTrace().toString());
+                 Msg.msg("e","Wystąpił błąd - dane niezedytowane","akordeon:form:msg");
+             }
+    }
+    public void sformatuj(Podatnik s){
         String formatka=null;
-        selectedDod.setNazwapelna(selectedDod.getNazwapelna().toUpperCase());
-        selectedDod.setWojewodztwo(selectedDod.getWojewodztwo().substring(0,1).toUpperCase()+selectedDod.getWojewodztwo().substring(1).toLowerCase());
-        selectedDod.setGmina(selectedDod.getGmina().substring(0,1).toUpperCase()+selectedDod.getGmina().substring(1).toLowerCase());
-        selectedDod.setUlica(selectedDod.getUlica().substring(0,1).toUpperCase()+selectedDod.getUlica().substring(1).toLowerCase());
-        selectedDod.setPowiat(selectedDod.getPowiat().substring(0,1).toUpperCase()+selectedDod.getPowiat().substring(1).toLowerCase());
-        selectedDod.setMiejscowosc(selectedDod.getMiejscowosc().substring(0,1).toUpperCase()+selectedDod.getMiejscowosc().substring(1).toLowerCase());
-        selectedDod.setPoczta(selectedDod.getPoczta().substring(0,1).toUpperCase()+selectedDod.getPoczta().substring(1).toLowerCase());
-        selectedDod.setImie(selectedDod.getImie().substring(0,1).toUpperCase()+selectedDod.getImie().substring(1).toLowerCase());
-        selectedDod.setNazwisko(selectedDod.getNazwisko().substring(0,1).toUpperCase()+selectedDod.getNazwisko().substring(1).toLowerCase());
+        s.setNazwapelna(s.getNazwapelna().toUpperCase());
+        s.setWojewodztwo(s.getWojewodztwo().substring(0,1).toUpperCase()+s.getWojewodztwo().substring(1).toLowerCase());
+        s.setGmina(s.getGmina().substring(0,1).toUpperCase()+s.getGmina().substring(1).toLowerCase());
+        s.setUlica(s.getUlica().substring(0,1).toUpperCase()+s.getUlica().substring(1).toLowerCase());
+        s.setPowiat(s.getPowiat().substring(0,1).toUpperCase()+s.getPowiat().substring(1).toLowerCase());
+        s.setMiejscowosc(s.getMiejscowosc().substring(0,1).toUpperCase()+s.getMiejscowosc().substring(1).toLowerCase());
+        s.setPoczta(s.getPoczta().substring(0,1).toUpperCase()+s.getPoczta().substring(1).toLowerCase());
+        s.setImie(s.getImie().substring(0,1).toUpperCase()+s.getImie().substring(1).toLowerCase());
+        s.setNazwisko(s.getNazwisko().substring(0,1).toUpperCase()+s.getNazwisko().substring(1).toLowerCase());
         
     }
     
@@ -559,6 +571,18 @@ public class PodatnikView implements Serializable{
          } 
         
      }
+          
+      
+      public void editdok(RowEditEvent ex){
+          try{
+            Podatnik selected2=podatnikDAO.find(nazwaWybranegoPodatnika);
+            podatnikDAO.destroy(selected2);
+            podatnikDAO.dodaj(selected);
+            Msg.msg("i", "Wyedytowano wzorce dokumentów","akordeon:form6:messages");
+          } catch (Exception e){
+              Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów","akordeon:form6:messages");
+          }
+      }
 
      
       public void usunDokKsi(Rodzajedok rodzajDokKsi){
