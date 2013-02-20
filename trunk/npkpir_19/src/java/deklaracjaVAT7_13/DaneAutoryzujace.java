@@ -23,10 +23,10 @@ class DaneAutoryzujace {
     public DaneAutoryzujace(Vatpoz selected) {
         Podmiot podmiot = new Podmiot(selected);
         NIP = podmiot.getNIP();
-        ImiePierwsze = podmiot.getImiePierwsze();
+        ImiePierwsze = podmiot.ImiePierwsze;
         Nazwisko = podmiot.getNazwisko();
         DataUrodzenia = podmiot.getDataUrodzenia();
-        Kwota = "220800.00";
+        Kwota = selected.getKwotaautoryzacja();
         DaneAutoryzujace = "<podp:DaneAutoryzujace xmlns:podp=\"http://e-deklaracje.mf.gov.pl/Repozytorium/Definicje/Podpis/\"><podp:NIP>"
                             +NIP+"</podp:NIP><podp:ImiePierwsze>"+ImiePierwsze+"</podp:ImiePierwsze><podp:Nazwisko>"+Nazwisko
                             +"</podp:Nazwisko><podp:DataUrodzenia>"+DataUrodzenia+"</podp:DataUrodzenia><podp:Kwota>"+Kwota
