@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import service.GateService;
 import view.WpisView;
 
@@ -109,6 +110,7 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
+        Msg.msg("i","Wypatruje gołębia z potwierdzeniem deklaracji podatnika ","formX:msg");
     }
 
     public void pobierzwyslane(String identyfikator){
@@ -121,6 +123,7 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
+        RequestContext.getCurrentInstance().update("formX:dataList");
         Msg.msg("i","Gołąb wrócił z wieścią "+opisMB,"formX:msg");
     }
   

@@ -6,16 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-                 <h:form>
+                 <h:form id="formX">
+                     <p:growl id="msg"/>
                      <p:panel header="Wykaz wysłanych deklaracji"/>
-                     <p:dataTable value="#{deklaracjevatView.wyslane}" var="item" sortBy="#{item.miesiac}" resizableColumns="true">
-                         <p:column>
+                     <p:dataTable id="dataList" value="#{deklaracjevatView.wyslane}" var="item" sortBy="#{item.miesiac}" scrollable="true" scrollHeight="500" scrollRows="10">
+                         <p:column width="220">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
                              </f:facet>
                              <h:outputText value="#{item.identyfikator}"/>
                          </p:column>
-                          <p:column>
+                         <p:column width="50">
                              <f:facet name="header">
                                  <h:outputText value="Status"/>
                              </f:facet>
@@ -33,19 +34,19 @@
                              </f:facet>
                              <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
                          </p:column>
-                         <p:column>
+                         <p:column width="70">
                              <f:facet name="header">
                                  <h:outputText value="Rok - Miesiac"/>
                              </f:facet>
                              <h:outputText value="#{item.rok} - #{item.miesiac}"/>
                          </p:column>
-                         <p:column>
+                         <p:column width="60">
                              <f:facet name="header">
-                                 <h:outputText value="Nrkolejny"/>
+                                 <h:outputText value="Nrkol"/>
                              </f:facet>
                              <h:outputText value="#{item.nrkolejny}"/>
                          </p:column>
-                         <p:column>
+                         <p:column width="150">
                              <f:facet name="header">
                                  <h:outputText value="Podatnik"/>
                              </f:facet>
@@ -58,11 +59,17 @@
                              </f:facet>
                              <h:outputText value="#{item.selected}"/>
                          </p:column>
-                          <p:column>
+                         <p:column width="400">
+                             <f:facet name="header">
+                                 <h:outputText value="upo"/>
+                             </f:facet>
+                             <h:outputText value="#{item.upo}" style="width: 200px;"/>
+                         </p:column>
+                         <p:column width="100">
                              <f:facet name="header">
                                  <h:outputText value="pobierzupo"/>
                              </f:facet>
-                              <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update="@form" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true"/>
+                              <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update="@form, :formX:msg" />
                          </p:column>
                      </p:dataTable>
                  </h:form>

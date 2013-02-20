@@ -138,7 +138,10 @@
           
              <p:column id="editColumn" headerText="edytuj" >
                      <p:rowEditor rendered="#{wpis.status eq 'bufor' ? true : false}" />  
-                </p:column>
+              </p:column>
+              <p:column id="editDok" headerText="edytuj" >
+                  <p:commandButton  icon="ui-icon-wrench" actionListener="#{DokumentView.przekierowanieEdytujDokument(wpis)}"/>
+              </p:column>
 
                 <p:column id="deleteColumn" headerText="usuń" >
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />

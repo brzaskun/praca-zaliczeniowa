@@ -199,13 +199,13 @@ public class Vat7DKView implements Serializable {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
-        Msg.msg("i", podatnik+" - skorygowano niewyslana deklaracje VAT za" + rok + "-" + mc,"form:msg");
+        Msg.msg("i", podatnik+" - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:msg");
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
-            Msg.msg("i", podatnik+" - zachowano nową deklaracje VAT za" + rok + "-" + mc,"form:msg");
+            Msg.msg("i", podatnik+" - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:msg");
         }
         } catch (Exception e){
-            Msg.msg("e", podatnik+" - wystapil blad podczas zachowania deklaracji VAT za" + rok + "-"+mc,"form:msg");
+            Msg.msg("e", podatnik+" - wystapil blad podczas zachowania deklaracji VAT za " + rok + "-"+mc,"form:msg");
         }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
@@ -239,7 +239,7 @@ public class Vat7DKView implements Serializable {
         } catch (Exception e){ //pierwsza deklaracja ever
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
-            Msg.msg("i", "Nie znaleziono jakiejkolwiek poprzedniej deklaracji za dany okres","form:msg");
+            Msg.msg("i", "Nie znaleziono jakiejkolwiek poprzedniej deklaracji za dany okres "+ rok + "-" + mc,"form:msg");
         }
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         wyszukajpoprzednia();
@@ -333,35 +333,32 @@ public class Vat7DKView implements Serializable {
                 }
             }
         //dlatego jest inna (deklaracja wyslana) bo ona musi z poprzedniego miesiaca byc. sluzy tylko tutaj
-        try {
+
             try{
                 List<Deklaracjevat> pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size()-1);
+                pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
+                pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
             } catch (Exception er){
-                   deklaracjawyslana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
+                   try{
+                        Podatnik pod = podatnikDAO.find(podatnik);
+                        String Pole47 = pod.getPole47();
+                        Integer PoleI47 = Integer.parseInt(Pole47);
+                        pozycjeSzczegoloweVAT.setPole47(Pole47);
+                        pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
+                        deklaracjawyslana.setIdentyfikator("lolo");
+                        deklaracjawyslana.setPodatnik("manolo");
+                    } catch (Exception e){
+                         Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  " +wpisView.getWprowadzil().getLogin(),"form:msg");
+                    }
             }
-            if(deklaracjawyslana.getIdentyfikator().equals("")){
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deklaracja z miesiaca poprzedniego jest nie wyslana. Nie mozna pobrac sporządzić nowej deklaracji za miesiąc następny!", "");
+             if(deklaracjawyslana.getIdentyfikator().equals("")){
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deklaracja z miesiaca poprzedniego jest nie wyslana. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("form:msg");
                 throw new Exception();
-            }
-            pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
-            pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
-        } catch (Exception e){}
-        //nie ma poprzedniej deklaracji wogole bo tworzona jest pierwsza w roku
-        try{
-            Podatnik pod = podatnikDAO.find(podatnik);
-            String Pole47 = pod.getPole47();
-            Integer PoleI47 = Integer.parseInt(Pole47);
-            pozycjeSzczegoloweVAT.setPole47(Pole47);
-            pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
-            deklaracjawyslana.setIdentyfikator("lolo");
-            deklaracjawyslana.setPodatnik("manolo");
-        } catch (Exception e){
-             Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  " +wpisView.getWprowadzil().getLogin(),"form:msg");
-        }
-        if((deklaracjawyslana.getIdentyfikator().equals(""))&&(!deklaracjawyslana.getPodatnik().equals(""))){
+                }
+            if((deklaracjawyslana.getIdentyfikator().equals(""))&&(!deklaracjawyslana.getPodatnik().equals(""))){
             System.out.println("Wyrzucam blad");
             throw new Exception();
         }
