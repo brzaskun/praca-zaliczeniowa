@@ -32,6 +32,7 @@ public class EVatView implements Serializable{
     private List<String> wdtVList;
     private List<String> wntVList;
     private List<String> importuslugList;
+    private List<String> uslugiPTK;
     private List<String> listadostepnychewidencji;
 
     static{
@@ -51,6 +52,7 @@ public class EVatView implements Serializable{
         wdtVList = new ArrayList<>();
         wntVList = new ArrayList<>();
         importuslugList = new ArrayList<>();
+        uslugiPTK = new ArrayList<>();
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = new ArrayList<>();
     }
@@ -81,6 +83,8 @@ public class EVatView implements Serializable{
                 case "import uslug" : 
                     importuslugList.add(up.getNazwa());
                     break;
+                case "usługi poza ter." :
+                    uslugiPTK.add(up.getNazwa());
                 default : 
                     sprzedazVList.add(up.getNazwa());
             }
@@ -134,6 +138,14 @@ public class EVatView implements Serializable{
 
     public void setImportuslugList(List<String> importuslugList) {
         this.importuslugList = importuslugList;
+    }
+
+    public List<String> getUslugiPTK() {
+        return uslugiPTK;
+    }
+
+    public void setUslugiPTK(List<String> uslugiPTK) {
+        this.uslugiPTK = uslugiPTK;
     }
 
     
