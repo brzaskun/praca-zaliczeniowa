@@ -6,6 +6,7 @@ package dao;
 
 import entity.Deklaracjevat;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,8 +58,15 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         return wynik;
     }
     
+         
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod) {
         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
-        return temp;
+        List<Deklaracjevat> wynik = new ArrayList<>();
+        for(Deklaracjevat p :temp){
+            if(!p.getIdentyfikator().equals("")){
+                wynik.add(p);
+            }
+        }
+        return wynik;
     }
 }

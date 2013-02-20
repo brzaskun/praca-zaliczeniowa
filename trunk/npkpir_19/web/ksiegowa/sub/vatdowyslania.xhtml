@@ -67,16 +67,16 @@
             </h:form>
     <br/>
     <h:form id="form">
-                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form" style="width: 120px;"/><br/><br/>
+                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form, :formX:msg" style="width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2" id="upo">
                 <h:outputText value="id"/>
-                <h:inputText value="#{beanek.idpobierz}"/>
+                <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>
                 <h:outputText value="upo"/>
-                <h:outputText value="#{beanek.upoMB}"/>
+                <h:inputTextarea value="#{beanek.upoMB}" readonly="true" cols="150"/>
                 <h:outputText value="stat"/>
                 <h:outputText value="#{beanek.statMB}"/>
                 <h:outputText value="opis"/>
-                <h:outputText value="#{beanek.opisMB}"/>
+                <h:inputTextarea value="#{beanek.opisMB}" readonly="true" cols="150"/>
                 </p:panelGrid>
             </h:form>
 </ui:composition>   

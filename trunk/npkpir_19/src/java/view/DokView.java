@@ -1345,6 +1345,21 @@ public class DokView implements Serializable{
        FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
    }
    
+   public void przekierowanieEdytujDokument(Dok wpis) throws IOException{
+       HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            Ostatnidokument temp = new Ostatnidokument();
+            temp.setUzytkownik(principal.getName());
+            temp.setDokument(wpis);
+            try {
+                ostatnidokumentDAO.dodaj(temp);
+            } catch (Exception e) {
+                ostatnidokumentDAO.edit(temp);
+            }
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+   }
+   
    public void przekierowanieWpis() throws IOException{
        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
    }
