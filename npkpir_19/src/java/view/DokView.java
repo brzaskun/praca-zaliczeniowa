@@ -122,6 +122,10 @@ public class DokView implements Serializable{
     private double netto4;
     private double vat4;
     private String opizw;
+    private String opis5;
+    private double netto5;
+    private double vat5;
+    
     
     @Inject private EVatView evat;
     @Inject private EVatOpisDAO eVatOpisDAO;
@@ -409,7 +413,7 @@ public class DokView implements Serializable{
         }
         //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
         eVatOpisDAO.clear();
-        EVatOpis eVO = new EVatOpis(wpisView.getWprowadzil().getLogin(),opis1, opis2, opis3, opis4);
+        EVatOpis eVO = new EVatOpis(wpisView.getWprowadzil().getLogin(),opis1, opis2, opis3, opis4, opis5);
         try {
             eVatOpisDAO.dodaj(eVO);
         } catch (Exception e){
@@ -1552,6 +1556,23 @@ public class DokView implements Serializable{
         this.vat4 = vat4;
     }
 
+    public double getNetto5() {
+        return netto5;
+    }
+
+    public void setNetto5(double netto5) {
+        this.netto5 = netto5;
+    }
+
+    public double getVat5() {
+        return vat5;
+    }
+
+    public void setVat5(double vat5) {
+        this.vat5 = vat5;
+    }
+
+    
     public String getOpis1() {
         return opis1;
     }
@@ -1728,7 +1749,15 @@ public class DokView implements Serializable{
         this.srodekkategoriawynik = srodekkategoriawynik;
     }
 
+    public String getOpis5() {
+        return opis5;
+    }
   
+    public void setOpis5(String opis5) {
+        this.opis5 = opis5;
+    }
+    
+    
     
     
 //    public static void main(String[] args) throws ParseException{

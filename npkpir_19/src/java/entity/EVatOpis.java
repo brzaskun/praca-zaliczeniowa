@@ -45,23 +45,28 @@ public class EVatOpis implements Serializable{
     @Size(max = 20)
     @Column(name = "opis4")
     private String opis4;
+    @Size(max = 20)
+    @Column(name = "opis5")
+    private String opis5;
 
     public EVatOpis() {
     }
     
-    public EVatOpis(String opis1, String opis2, String opis3, String opis4) {
+    public EVatOpis(String opis1, String opis2, String opis3, String opis4, String opis5) {
         this.opis1 = opis1;
         this.opis2 = opis2;
         this.opis3 = opis3;
         this.opis4 = opis4;
+        this.opis5 = opis5;
     }
 
-    public EVatOpis(String login, String opis1, String opis2, String opis3, String opis4) {
+    public EVatOpis(String login, String opis1, String opis2, String opis3, String opis4, String opis5) {
         this.login = login;
         this.opis1 = opis1;
         this.opis2 = opis2;
         this.opis3 = opis3;
         this.opis4 = opis4;
+        this.opis5 = opis5;
     }
 
     public String getLogin() {
