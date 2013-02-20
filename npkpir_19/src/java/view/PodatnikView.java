@@ -565,9 +565,9 @@ public class PodatnikView implements Serializable{
          lista.add(selectedDokKsi);
          selected.setDokumentyksiegowe(lista);
          podatnikDAO.edit(selected);
-         Msg.msg("i","Dodano nowy wzor dokumentu","akordeon:form6:pDokKsi");
+         Msg.msg("i", "Dodano nowy wzór dokumentu","akordeon:form6:messages");
          } catch (Exception ex) {
-         Msg.msg("e","Niedodano nowego wzoru dokumentu, wystąpił błąd","akordeon:form6:pDokKsi");
+         Msg.msg("e","Niedodano nowego wzoru dokumentu, wystąpił błąd","akordeon:form6:messages");
          } 
         
      }
@@ -592,7 +592,7 @@ public class PodatnikView implements Serializable{
          tmp.remove(rodzajDokKsi);
          selected.setDokumentyksiegowe(tmp);
          podatnikDAO.edit(selected);
-         Msg.msg("i","Usunięto wzor dokumentu","akordeon:form6:pDokKsi");
+         Msg.msg("i","Usunięto wzor dokumentu","akordeon:form6:messages");
      }
      
       

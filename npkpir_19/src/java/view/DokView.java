@@ -253,6 +253,9 @@ public class DokView implements Serializable{
             case "WNT":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
+            case "usługi poza ter.":
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
             default:
                 dopobrania = kolumna.getKolumnPrzychody();
                 break;
@@ -301,6 +304,9 @@ public class DokView implements Serializable{
                 break;
             case("import usług"):
                 opisewidencji = evat.getImportuslugList();
+                break;
+            case "usługi poza ter.":
+                opisewidencji = evat.getUslugiPTK();
                 break;
             default:
                 opisewidencji = evat.getSprzedazVList();
@@ -667,7 +673,7 @@ public class DokView implements Serializable{
         tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
         tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
         String transakcja = params.get("dodWiad:rodzajTrans");
-        if(transakcja.equals("WDT")){
+        if(transakcja.equals("WDT")||transakcja.equals("UPTK")){
             vat1 = 0.0;
         } else {
             vat1 = Double.parseDouble(tmp1.toString());

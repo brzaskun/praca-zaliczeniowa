@@ -5,16 +5,13 @@
 package embeddable;
 
 import dao.PodatnikDAO;
-import dao.UzDAO;
 import entity.Podatnik;
-import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import view.WpisView;
 
@@ -43,6 +40,7 @@ public class Trans implements Serializable{
         transList.add("WDT");
         transList.add("WNT");
         transList.add("import usług");
+        transList.add("usługi poza ter.");
         transListZO = new ArrayList<>();
         transListZO.add("zakup");
         transListZO.add("srodek trw");
@@ -50,6 +48,7 @@ public class Trans implements Serializable{
         transListZO.add("WDT");
         transListZO.add("WNT");
         transListZO.add("import usług");
+        transListZO.add("usługi poza ter.");
         transListRY = new ArrayList<>();
         transListRY.add("ryczałt");
         transListRY.add("zakup");
@@ -57,6 +56,7 @@ public class Trans implements Serializable{
         transListRY.add("WDT");
         transListRY.add("WNT");
         transListRY.add("import usług");
+        transListRY.add("usługi poza ter.");
     }
     
     public Trans() {
@@ -70,7 +70,7 @@ public class Trans implements Serializable{
         try {
         Podatnik tmp = podatnikDAO.find(wpisView.getPodatnikWpisu());
         int index = tmp.getPodatekdochodowy().size()-1;
-        if (tmp.getPodatekdochodowy().get(index).getParametr().equals("ryczałt")){
+        if (tmp.getPodatekdochodowy().get(index).getParametr().contains("ryczałt")){
             return transListRY;
         } else {
             return transListZO;
