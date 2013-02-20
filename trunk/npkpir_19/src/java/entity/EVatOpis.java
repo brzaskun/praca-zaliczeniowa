@@ -109,6 +109,14 @@ public class EVatOpis implements Serializable{
     public void setOpis4(String opis4) {
         this.opis4 = opis4;
     }
+
+    public String getOpis5() {
+        return opis5;
+    }
+
+    public void setOpis5(String opis5) {
+        this.opis5 = opis5;
+    }
     
     
     
