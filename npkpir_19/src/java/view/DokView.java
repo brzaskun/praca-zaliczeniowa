@@ -352,8 +352,10 @@ public class DokView implements Serializable{
                 setOpis2(poz);
             } else if (opis3 == null) {
                 setOpis3(poz);
-            } else {
+            } else if (opis4 == null) {
                 setOpis4(poz);
+            } else {
+                setOpis5(poz);
             }
             final String bindingA = "#{DokumentView.opis" + i + "}";
             ValueExpression ve = ef.createValueExpression(elContext, bindingA, String.class);
@@ -743,21 +745,24 @@ public class DokView implements Serializable{
             pobierzOpisy.add(eVO.getOpis2());
             pobierzOpisy.add(eVO.getOpis3());
             pobierzOpisy.add(eVO.getOpis4());
+            pobierzOpisy.add(eVO.getOpis5());
             List<Double> pobierzNetto = new ArrayList<>();
             
             pobierzNetto.add(netto1);
             pobierzNetto.add(netto2);
             pobierzNetto.add(netto3);
             pobierzNetto.add(netto4);
+            pobierzNetto.add(netto5);
             pobierzVat.add(vat1);
             pobierzVat.add(vat2);
             pobierzVat.add(vat3);
             pobierzVat.add(vat4);
+            pobierzVat.add(vat5);
             List<EVatwpis> el = new ArrayList<>();
             int i = 0;
             while (i < evewidencjaDAO.getDownloaded().size()) {
                 int j = 0;
-                while (j < 4 && (pobierzOpisy.get(j) != null)) {
+                while (j < 5 && (pobierzOpisy.get(j) != null)) {
                     String op = pobierzOpisy.get(j);
                     String naz = ew.get(i).getNazwa();
                     if (naz.equals(op)) {
