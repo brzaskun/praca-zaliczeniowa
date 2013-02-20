@@ -30,10 +30,9 @@
          <p:separator/>
         <h:form id="westManager">
             <p:panel menuTitle="Dane" header="Parametryzowanie pojedyńczego podatnika">
-                <h:selectOneMenu value="#{podatnikView.nazwaWybranegoPodatnika}" style="width: 150px">
-                    <f:selectItem itemLabel="wybierz podatnika"/>
-                    <f:selectItems var="zm" value="#{podatnikDAO.downloaded}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
-                </h:selectOneMenu>
+                <h:selectOneListbox value="#{podatnikView.nazwaWybranegoPodatnika}" style="width: 150px" size="10"> 
+                    <f:selectItems var="zm" value="#{podatnikView.li}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
+                </h:selectOneListbox>
                 <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
             </p:panel>
            
