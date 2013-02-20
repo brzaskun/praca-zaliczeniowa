@@ -252,6 +252,7 @@ function updatesum() {
       document.getElementById("dodWiad:brutto2").value = number_format((document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0), 2, '.', ' ');
        document.getElementById("dodWiad:brutto3").value = number_format((document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0), 2, '.', ' ');
         document.getElementById("dodWiad:brutto4").value = number_format((document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+         document.getElementById("dodWiad:brutto5").value = number_format((document.getElementById("dodWiad:netto5_hinput").value -0)+(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
     document.getElementById("dodWiad:sumbrutto").value = number_format((
             document.getElementById("dodWiad:netto1_hinput").value -0)
             +(document.getElementById("dodWiad:vat1_hinput").value -0)
@@ -260,7 +261,9 @@ function updatesum() {
             +(document.getElementById("dodWiad:netto3_hinput").value -0)
             +(document.getElementById("dodWiad:vat3_hinput").value -0)
             +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
       } else {
       document.getElementById("dodWiad:sumbrutto").value = number_format(
             (document.getElementById("dodWiad:netto1_hinput").value -0)
@@ -280,7 +283,9 @@ function updatesum() {
             +(document.getElementById("dodWiad:netto3_hinput").value -0)
             +(document.getElementById("dodWiad:vat3_hinput").value -0)
             +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
       } else {
               document.getElementById("dodWiad:sumbrutto").value = number_format(
             (document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
@@ -298,7 +303,9 @@ function updatesuma2(){
             +(document.getElementById("dodWiad:netto3_hinput").value -0)
             +(document.getElementById("dodWiad:vat3_hinput").value -0)
             +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
       } else {
               document.getElementById("dodWiad:sumbrutto").value = number_format(
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
@@ -317,7 +324,9 @@ function updatesuma3(){
             +(document.getElementById("dodWiad:netto3_hinput").value -0)
             +(document.getElementById("dodWiad:vat3_hinput").value -0)
             +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
       } else {
               document.getElementById("dodWiad:sumbrutto").value = number_format(
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
@@ -335,8 +344,31 @@ function updatesuma3(){
             +(document.getElementById("dodWiad:vat2_hinput").value -0)
             +(document.getElementById("dodWiad:netto3_hinput").value -0)
             +(document.getElementById("dodWiad:vat3_hinput").value -0)
-            +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
+           +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
+      } else {
+              document.getElementById("dodWiad:sumbrutto").value = number_format(
+            +(document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+     }
+ };
+ 
+ function updatesuma4(){
+       document.getElementById("dodWiad:brutto5").value = number_format((document.getElementById("dodWiad:netto5_hinput").value -0)+(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
+       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
+            document.getElementById("dodWiad:sumbrutto").value = number_format((
+            document.getElementById("dodWiad:netto1_hinput").value -0)
+            +(document.getElementById("dodWiad:vat1_hinput").value -0)
+            +(document.getElementById("dodWiad:netto2_hinput").value -0)
+            +(document.getElementById("dodWiad:vat2_hinput").value -0)
+            +(document.getElementById("dodWiad:netto3_hinput").value -0)
+            +(document.getElementById("dodWiad:vat3_hinput").value -0)
+           +(document.getElementById("dodWiad:netto4_hinput").value -0)
+            +(document.getElementById("dodWiad:vat4_hinput").value -0)
+            +(document.getElementById("dodWiad:netto5_hinput").value -0)
+            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
       } else {
               document.getElementById("dodWiad:sumbrutto").value = number_format(
             +(document.getElementById("dodWiad:netto1_hinput").value -0)
