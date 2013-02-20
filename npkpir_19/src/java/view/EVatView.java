@@ -85,6 +85,7 @@ public class EVatView implements Serializable{
                     break;
                 case "usługi poza ter." :
                     uslugiPTK.add(up.getNazwa());
+                    break;
                 default : 
                     sprzedazVList.add(up.getNazwa());
             }
