@@ -20,14 +20,14 @@
             <h:outputLabel value="opis" style="font-weight: 700"/>
 
             <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  >
-                <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update="dataPole :dodWiad:dataSPole"  />
+                <p:ajax event="blur" listener="#{DokumentView.ustawDate2()}" update="dataPole :dodWiad:dataSPole"  />
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
                                 minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                 valueChangeListener="#{DokumentView.przekazKontrahenta}"  autocomplete="true" forceSelection="true" global="false"
-                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK();">
+                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10">
                     <f:ajax event="blur" execute="@this" />
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -48,7 +48,7 @@
             </h:panelGroup>
             <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
                 <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
-                <p:ajax event="blur" listener="#{DokumentView.podepnijListe}"  update=":dodWiad:kolumnaPkpir :dodWiad:numerwlasny" global="false" oncomplete="aktywujopis()"/>
+                <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:kolumnaPkpir :dodWiad:numerwlasny" global="false" />
             </h:selectOneMenu>
             <h:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" >
             </h:inputText>

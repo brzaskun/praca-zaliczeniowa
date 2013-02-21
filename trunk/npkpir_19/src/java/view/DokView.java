@@ -211,12 +211,22 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
     
+    //edytuje ostatni dokument celem wykorzystania przy wpisie
+    public void edytujdokument(){
+         try{
+            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            typdokumentu = selDokument.getTypdokumentu();
+            dokDAO.destroy(selDokument);
+        } catch (Exception e){}
+        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
+    }
+    
     
     /**
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
      */
-        public void podepnijListe(AjaxBehaviorEvent e) {
+        public void podepnijListe() {
         pkpirLista.getChildren().clear();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
@@ -278,7 +288,8 @@ public class DokView implements Serializable{
             SelectItem selectItem = new SelectItem(poz, poz);
             valueList.add(selectItem);
         }
-        selDokument.setNrWlDk("");
+        //nie wiem dlaczego to tu było
+        //selDokument.setNrWlDk("");
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
         podepnijEwidencjeVat(transakcjiRodzaj);
@@ -478,7 +489,9 @@ public class DokView implements Serializable{
          }} catch (Exception e){
             nowynumer = wzorzec;
          }
+         if(!nowynumer.equals("")){
          selDokument.setNrWlDk(nowynumer);
+         }
     }
 
     public void wygenerujSTRKolumne() {
@@ -1181,7 +1194,7 @@ public class DokView implements Serializable{
         przechowajdatejakdodaje = dataWyst;
     }
     
-    public void ustawDate2(AjaxBehaviorEvent e) {
+    public void ustawDate2() {
         selDokument.setDokumentProsty(false);
         RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
         String dataWyst = selDokument.getDataWyst();
@@ -1201,6 +1214,7 @@ public class DokView implements Serializable{
         przechowajdatejakdodaje = dataWyst;
     }
    
+    //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
         przekazKontr = (Klienci) anAutoComplete.getValue();
