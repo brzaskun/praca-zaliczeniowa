@@ -11,7 +11,7 @@
         <p:dataTable  var="wpis" value="#{UzView.obiektUZjsf}" id="uzytkownicyLista" editable="true"
                       paginator="true" paginatorAlwaysVisible="true" rows="8"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="8,12,16,20,50" resizableColumns="true"
+                      rowsPerPageTemplate="8,12,16,20,50" 
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.edit}" />
             <f:facet name="header">  

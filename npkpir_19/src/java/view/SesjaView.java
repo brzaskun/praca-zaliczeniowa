@@ -7,6 +7,9 @@ package view;
 import dao.SesjaDAO;
 import entity.Sesja;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -22,6 +25,19 @@ import javax.servlet.http.HttpSession;
 public class SesjaView implements Serializable{
     @Inject private Sesja sesja;
     @Inject private SesjaDAO sesjaDAO;
+    private List<Sesja> wykazsesji;
+
+    public SesjaView() {
+        wykazsesji = new ArrayList<>();
+    }
+    
+    @PostConstruct
+    private void init(){
+       try{
+       wykazsesji.addAll(sesjaDAO.getDownloaded()); 
+       } catch (Exception e){}
+    }
+    
     
     public void dodajwydruk(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -64,6 +80,14 @@ public class SesjaView implements Serializable{
 
     public void setSesjaDAO(SesjaDAO sesjaDAO) {
         this.sesjaDAO = sesjaDAO;
+    }
+
+    public List<Sesja> getWykazsesji() {
+        return wykazsesji;
+    }
+
+    public void setWykazsesji(List<Sesja> wykazsesji) {
+        this.wykazsesji = wykazsesji;
     }
 
     
