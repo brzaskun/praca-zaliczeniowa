@@ -8,14 +8,14 @@
     
 
    <p:outputPanel>
-        <h:outputText value="Wstępne wyliczenie wyniku za wyświetlany miesiąc"/>
+       <p:panel header="Wstępne wyliczenie wyniku za wyświetlany miesiąc" style="width: 700px;"/>
         <p:panelGrid id="prezentacjaPodatku" columns="4">
             <h:outputLabel value="okres: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
             <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
         </p:panelGrid>
-        <p:panelGrid id="prezentacjaPodatku1" columns="8">
+        <p:panelGrid id="prezentacjaPodatku1" columns="9">
             <h:outputLabel value="Przychody:" style="font-style: italic;"/>
             <h:outputLabel value="#{PodatekView.przychody}" style="font-size: medium;">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
@@ -32,24 +32,26 @@
             <h:outputLabel value="#{PodatekView.podatek}" style="font-size: large;">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
-        </p:panelGrid>
+        
         <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku, :form:prezentacjaPodatku1"/>
+        </p:panelGrid>
     </p:outputPanel>
   
     <p:outputPanel id="wrapper">
         
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="#{DokTabView.uzytkownik.iloscwierszy}"
-                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="18,24,32,50" rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
+                      rows="#{DokTabView.uzytkownik.iloscwierszy}"
+                    rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                      scrollable="true" scrollHeight="700" scrollRows="4"
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
                         
             <f:facet name="header">  
-                <h:outputText value="Wykaz dokumentów" /> 
+                <h:outputText value="Zestawienie zaksięgowanych dokumentów" /> 
             </f:facet>
+            
             <p:column width="10">
                 <p:rowToggler />
             </p:column>
@@ -57,16 +59,16 @@
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
                 
-            <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
+            <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                         <h:outputText value="#{wpis.dataWyst}"/>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="110">  
                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} #{wpis.kontr.nip}"  />
             </p:column>
-            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" sortBy="#{wpis.rodzTrans}">  
+            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" sortBy="#{wpis.rodzTrans}" width="110">  
                 <h:outputText value="#{wpis.rodzTrans}" />
             </p:column>
-            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="110">   
                 <p:cellEditor>  
                     <f:facet name="output">  
                         <h:outputText value="#{wpis.nrWlDk}"/>
@@ -76,7 +78,7 @@
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
-            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" >  
+            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="110">  
                  <p:cellEditor>  
                     <f:facet name="output">  
                         <h:outputText value="#{wpis.opis}"/>
@@ -86,7 +88,7 @@
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
-              <p:column id="pkpirKolColumn0" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
+              <p:column id="pkpirKolColumn0" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" width="110">  
                   <h:outputText value="#{wpis.netto}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL" />
                         </h:outputText>
@@ -96,7 +98,7 @@
                             <f:convertNumber minFractionDigits="2" locale="PL" />
                         </h:outputText>
             </p:column>
-            <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}">  
+            <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.pkpirKol}" filterMatchMode="contains" sortBy="#{wpis.pkpirKol}" width="120">  
                 <h:outputText value="#{wpis.pkpirKol}" />
             </p:column>
               <p:column id="kwotaColumnX" headerText="kwota" >  
