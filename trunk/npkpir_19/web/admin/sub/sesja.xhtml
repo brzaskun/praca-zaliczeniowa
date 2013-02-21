@@ -9,9 +9,9 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{sesjaView.wykazsesji}" id="lista" editable="true"
-                      paginator="true" paginatorAlwaysVisible="true" rows="8"
+                      paginator="true" paginatorAlwaysVisible="true" rows="20"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="8,12,16,20,50" 
+                      rowsPerPageTemplate="20,50,100" 
                       rowKey="#{wpis.nrsesji}" selection="#{sesjaView.sesja}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages"  />
             <f:facet name="header">  
