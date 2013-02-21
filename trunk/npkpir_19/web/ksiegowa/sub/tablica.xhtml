@@ -40,10 +40,12 @@
     <p:outputPanel id="wrapper">
         
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
-                      rows="#{DokTabView.uzytkownik.iloscwierszy}"
+                      rows="#{DokTabView.uzytkownik.iloscwierszy}" paginator="true"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="18,32,50,100,250" paginatorPosition="top"
                     rowKey="#{wpis.idDok}" selection="#{DokTabView.selDokument}" selectionMode="single"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                      scrollable="true" scrollHeight="700" scrollRows="4"
+                      scrollable="true" scrollRows="4" scrollHeight="600"
                       > 
           
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
