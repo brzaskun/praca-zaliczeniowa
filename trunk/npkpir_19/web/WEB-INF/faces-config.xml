@@ -11,6 +11,14 @@
             <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>aindex</from-outcome>
+            <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>asesja</from-outcome>
+            <to-view-id>/admin/adminSesja.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>gdokumenty</from-outcome>
             <to-view-id>/guest/guestIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
