@@ -22,17 +22,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -45,27 +42,18 @@ import org.primefaces.context.RequestContext;
 @RequestScope
 public class Vat7DKView implements Serializable {
 
-    @Inject
-    private Deklaracjevat deklaracjakorygowana;
-    @Inject
-    private Deklaracjevat deklaracjawyslana;
-    @Inject
-    private Deklaracjevat nowadeklaracja;
+    @Inject private Deklaracjevat deklaracjakorygowana;
+    @Inject private Deklaracjevat deklaracjawyslana;
+    @Inject private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private Vatpoz selected;
+    @Inject private Vatpoz selected;
     static private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
-    @Inject
-    private Daneteleadresowe adres;
-    @Inject
-    PodatnikDAO podatnikDAO;
-    @Inject
-    EwidencjeVatDAO ewidencjeVatDAO;
-    @Inject
-    private TKodUS tKodUS;
-    @Inject
-    private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject private Daneteleadresowe adres;
+    @Inject PodatnikDAO podatnikDAO;
+    @Inject EwidencjeVatDAO ewidencjeVatDAO;
+    @Inject private TKodUS tKodUS;
+    @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private int flaga;
 
     private String rok;
@@ -87,9 +75,9 @@ public class Vat7DKView implements Serializable {
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Podatnik pod = podatnikDAO.find(podatnik);
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
-        ArrayList<EVatwpisSuma> wyciagnieteewidencje = new ArrayList<EVatwpisSuma>(sumaewidencji.values());
+        ArrayList<EVatwpisSuma> wyciagnieteewidencje = new ArrayList<>(sumaewidencji.values());
         //tu zduplikowac ewidencje
-        ArrayList<EVatwpisSuma> ewidencjetmp = new ArrayList<EVatwpisSuma>(sumaewidencji.values());
+        ArrayList<EVatwpisSuma> ewidencjetmp = new ArrayList<>(sumaewidencji.values());
         for (EVatwpisSuma ew : ewidencjetmp) {
             if (ew.getEwidencja().getNazwa().equals("import usług") || ew.getEwidencja().getNazwa().equals("rejestr WNT")) {
                 EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
@@ -148,7 +136,7 @@ public class Vat7DKView implements Serializable {
             try {
                 met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolanetto, paramString);
                 met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
-            } catch (Exception e) {
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             }
             if ((nrpolavat != null) && (!nrpolavat.equals(""))) {
                 paramString = new Class[1];
