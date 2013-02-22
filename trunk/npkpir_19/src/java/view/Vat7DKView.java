@@ -222,14 +222,24 @@ public class Vat7DKView implements Serializable {
                 //pobiera liste deklaracji poprzednich
                 List<Deklaracjevat> pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size()-1);
+                if (deklaracjakorygowana.getStatus().equals("200")){
                 selected.setCelzlozenia("2");
-                 Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
+                Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
+                } else {
+                selected.setCelzlozenia("1");
+                Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem","form:msg");
+                }
                 pobranalistadeklaracji.clear();
             } catch (Exception er){
+                if (deklaracjakorygowana.getStatus().equals("200")){
                 //jak nie ma listy to zwraca jedna jedyna oastatia
                 deklaracjakorygowana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
                 selected.setCelzlozenia("2");
                 Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
+                } else {
+                selected.setCelzlozenia("1");
+                Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem","form:msg");
+                }
             }
             if(deklaracjakorygowana.getIdentyfikator().equals("")){
                 nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny());
@@ -316,6 +326,7 @@ public class Vat7DKView implements Serializable {
         p.setPole65(roznica.toString());
         pozycjeSzczegoloweVAT = p;
     }
+    //generalnie sluzy do pobierania pola 47
     private void wyszukajpoprzednia() throws Exception{
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
@@ -354,6 +365,11 @@ public class Vat7DKView implements Serializable {
             }
              if(deklaracjawyslana.getIdentyfikator().equals("")){
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deklaracja z miesiaca poprzedniego jest nie wyslana. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("form:msg");
+                throw new Exception();
+                } else if (deklaracjawyslana.getStatus().equals("301")||deklaracjawyslana.getStatus().equals("302")){
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("form:msg");
                 throw new Exception();
