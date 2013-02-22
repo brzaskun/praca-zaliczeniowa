@@ -55,12 +55,13 @@ public class Vat7DKView implements Serializable {
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
     @Inject private TKodUS tKodUS;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
-    
+    private int flaga;
     
     
 
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
+        flaga = 0;
     }
     
     
@@ -180,6 +181,7 @@ public class Vat7DKView implements Serializable {
             }
         }} catch (Exception e){
             Msg.msg("e", nowadeklaracja.getPodatnik()+" - wystapil blad, brak kwoty autoryzujacej w ustawieniach!" ,"form:msg");
+            setFlaga(1);
         }
         selected.setKwotaautoryzacja(kwotaautoryzujaca);
         stworzdeklaracje();
@@ -195,17 +197,21 @@ public class Vat7DKView implements Serializable {
         nowadeklaracja.setUpo("");
         nowadeklaracja.setStatus("");
         nowadeklaracja.setOpis("");
+        if (flaga==2){
         if(nowadeklaracja.getNrkolejny()==deklaracjakorygowana.getNrkolejny()){
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
-        Msg.msg("i", podatnik+" - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:msg");
+            Msg.msg("i", podatnik+" - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:msg");
+        }
+        } else if(flaga==1){
+            throw new Exception();
         } else {
             deklaracjevatDAO.dodaj(nowadeklaracja);
             Msg.msg("i", podatnik+" - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:msg");
         }
         } catch (Exception e){
-            Msg.msg("e", podatnik+" - wystapil blad podczas zachowania deklaracji VAT za " + rok + "-"+mc,"form:msg");
+            Msg.msg("e", podatnik+" Deklaracja nie zachowana","form:msg");
         }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
@@ -217,39 +223,42 @@ public class Vat7DKView implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         System.out.println("dziala podsumowanie szczegolowych podatnik "+podatnik);
-         try{
-            try{
+        try{
                 //pobiera liste deklaracji poprzednich
-                List<Deklaracjevat> pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
+                List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
+                pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size()-1);
-                if (deklaracjakorygowana.getStatus().equals("200")){
-                selected.setCelzlozenia("2");
-                Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
+                //Nie wyslano sporzadzonej deklaracji
+                if(deklaracjakorygowana.getIdentyfikator().equals("")){
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    setFlaga(2);
+                    RequestContext.getCurrentInstance().update("form:msg");
                 } else {
-                selected.setCelzlozenia("1");
-                Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem","form:msg");
+                    if (deklaracjakorygowana.getStatus().equals("301")||deklaracjakorygowana.getStatus().equals("302")||deklaracjakorygowana.getStatus().equals("")){
+                        Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!","form:msg");
+                        setFlaga(1);
+                    } else if (deklaracjakorygowana.getStatus().equals("200")){
+                        nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny()+1);
+                        selected.setCelzlozenia("2");
+                        Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
+                    } else if (deklaracjakorygowana.getStatus().equals("401")||deklaracjakorygowana.getStatus().equals("411")){
+                        selected.setCelzlozenia("1");
+                        Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem","form:msg");
+                        nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny()+1);
+                    } else {
+                        selected.setCelzlozenia("1");
+                        Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa","form:msg");
+                        nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny()+1);
+                    }
+                    pobranalistadeklaracji.clear();
                 }
-                pobranalistadeklaracji.clear();
             } catch (Exception er){
-                if (deklaracjakorygowana.getStatus().equals("200")){
-                //jak nie ma listy to zwraca jedna jedyna oastatia
-                deklaracjakorygowana =  deklaracjevatDAO.findDeklaracje(rok.toString(),mc,podatnik);
-                selected.setCelzlozenia("2");
-                Msg.msg("i", "Utworzono korekte wyslanej deklaracji za okres  " + rok + "-" + mc,"form:msg");
-                } else {
-                selected.setCelzlozenia("1");
-                Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem","form:msg");
-                }
-            }
-            if(deklaracjakorygowana.getIdentyfikator().equals("")){
-                nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny());
-            }else {
-                nowadeklaracja.setNrkolejny(deklaracjakorygowana.getNrkolejny()+1);
-            }
-        } catch (Exception e){ //pierwsza deklaracja ever
+            //
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
-            Msg.msg("i", "Nie znaleziono jakiejkolwiek poprzedniej deklaracji za dany okres "+ rok + "-" + mc,"form:msg");
+            Msg.msg("i", "Utworzenie samejpierwszej za dany okres "+ rok + "-" + mc,"form:msg");
+           //pierwsza deklaracja ever
         }
         selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         wyszukajpoprzednia();
@@ -346,7 +355,8 @@ public class Vat7DKView implements Serializable {
         //dlatego jest inna (deklaracja wyslana) bo ona musi z poprzedniego miesiaca byc. sluzy tylko tutaj
 
             try{
-                List<Deklaracjevat> pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
+                List<Deklaracjevat> pobranalistadeklaracji2 = new ArrayList<>();
+                pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(),mc,podatnik);
                 deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size()-1);
                 pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
@@ -360,17 +370,14 @@ public class Vat7DKView implements Serializable {
                         deklaracjawyslana.setIdentyfikator("lolo");
                         deklaracjawyslana.setPodatnik("manolo");
                     } catch (Exception e){
+                         setFlaga(1);
                          Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  " +wpisView.getWprowadzil().getLogin(),"form:msg");
                     }
             }
              if(deklaracjawyslana.getIdentyfikator().equals("")){
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deklaracja z miesiaca poprzedniego jest nie wyslana. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("form:msg");
-                throw new Exception();
-                } else if (deklaracjawyslana.getStatus().equals("301")||deklaracjawyslana.getStatus().equals("302")){
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                 setFlaga(1);
                 RequestContext.getCurrentInstance().update("form:msg");
                 throw new Exception();
                 }
@@ -424,6 +431,15 @@ public class Vat7DKView implements Serializable {
     public void setNowadeklaracja(Deklaracjevat nowadeklaracja) {
         this.nowadeklaracja = nowadeklaracja;
     }
+
+    public int getFlaga() {
+        return flaga;
+    }
+
+    public void setFlaga(int flaga) {
+        this.flaga = flaga;
+    }
+    
     
     
     public static void main( String args[] )
