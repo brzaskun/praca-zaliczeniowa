@@ -698,6 +698,10 @@ public class DokView implements Serializable{
             vat1 = Double.parseDouble(tmp1.toString());
         }
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
+        //daje platnosc gotowka domyslnie
+        selDokument.setRozliczony(true);
+        skopiujdoTerminuPlatnosci();
+        RequestContext.getCurrentInstance().update("dodWiad:rozliczony");
     }
 
     public void przeniesKwotaDoNettoX(AjaxBehaviorEvent e) {
@@ -1286,7 +1290,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("srodki:panelekXA"); 
     }
     
-    public void skopiujdoTerminuPlatnosci(AjaxBehaviorEvent e){
+    public void skopiujdoTerminuPlatnosci(){
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selDokument.setTerminPlatnosci(params.get("dodWiad:dataPole"));
         RequestContext.getCurrentInstance().update("dodWiad:dataTPole");

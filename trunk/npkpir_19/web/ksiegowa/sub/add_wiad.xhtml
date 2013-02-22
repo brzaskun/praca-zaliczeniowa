@@ -12,12 +12,13 @@
     <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1050px;" id="wprowadzanie">
         <p:growl id="mess_add" />
         <p:focus for="polawprowadzania"/>
-        <p:panelGrid id="polawprowadzania" columns="5" >
+        <p:panelGrid id="polawprowadzania" columns="6" >
             <h:outputLabel value="data wyst" style="font-weight: 700"/>
             <h:outputLabel value="kontrahent" style="font-weight: 700"/>
             <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
             <h:outputLabel value="nr wł" style="font-weight: 700"/>
             <h:outputLabel value="opis" style="font-weight: 700"/>
+            <h:outputLabel value="dok.prosty" style="font-weight: 700" />
 
             <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  >
                 <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update="dataPole :dodWiad:dataSPole"  />
@@ -60,17 +61,19 @@
                             queryDelay="100" >
                 <p:ajax event="change" partialSubmit="true" global="false"/>
             </p:autoComplete>
+             <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
+                <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+            </h:selectBooleanCheckbox>
 
         </p:panelGrid>
-        <p:panelGrid columns="6">
+        <p:panelGrid columns="5">
             <h:outputLabel value="kwota" style="font-weight: 700"/>
             <h:outputLabel value="kolumna" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
-            <h:outputLabel value="dok.prosty" style="font-weight: 700" />
             <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.selDokument.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" >  
-                <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto}" update=":dodWiad:grid1" global="false" />
+                <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto}" update=":dodWiad:grid1" global="false"  oncomplete="updatesum();"/>
                 
             </pe:inputNumber>
             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.selDokument.pkpirKol}"  binding="#{DokumentView.pkpirLista}" style="min-width: 150px" onblur="updatesum();">
@@ -81,9 +84,7 @@
             <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" onblur="validateTermin();">
             </h:inputText>
             <h:inputText id="sumbrutto"  readonly="true" onfocus="updatesum();"/>
-             <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
-                <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
-            </h:selectBooleanCheckbox>
+            
         </p:panelGrid>
             <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" style="display: none;" />  
 <!--            <h:selectBooleanCheckbox id="dodatkowakolumna" value="{DokumentView.selDokument.dodatkowaKolumna}">
