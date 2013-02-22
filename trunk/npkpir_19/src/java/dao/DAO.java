@@ -4,12 +4,9 @@
  */
 package dao;
 
-import entity.Dok;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import session.SessionFacade;
@@ -38,7 +35,7 @@ public abstract class DAO<T> {
         try {
             c = sessionFacade.findAll(entityClass);
         } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. DAO" + e.toString());
+            System.out.println("Blad w pobieraniu z bazy danych. DAO" + e.toString()+" "+entityClass.getCanonicalName());
         }
         if (c.size() > 0) {
             downloaded = new ArrayList<>();
