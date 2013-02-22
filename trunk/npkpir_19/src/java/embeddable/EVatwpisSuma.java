@@ -68,6 +68,8 @@ public class EVatwpisSuma implements Serializable {
         this.estawka = estawka;
     }
 
+    
+    
     @Override
     public String toString() {
         return "EVatwpisSuma{" + "ewidencja=" + ewidencja.getNazwa() + ",pole netto "+ ewidencja.getNrpolanetto() + ", netto=" + netto + ", vat=" + vat + ", estawka=" + estawka + '}';

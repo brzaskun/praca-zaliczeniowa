@@ -238,11 +238,11 @@ public class SessionFacade<T> {
     }
     
     public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
-        return (Deklaracjevat) em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
+        return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
     }
 
     public List<Deklaracjevat> findDeklaracjewszystkie(String rok, String mc, String pod) {
-        return em.createNamedQuery("Deklaracjavat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
+        return em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
     }
 
     public List<Deklaracjevat> findDeklaracjewysylka(String pod) {
