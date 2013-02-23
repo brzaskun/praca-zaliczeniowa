@@ -246,8 +246,9 @@ return s+" zł"; };
 
 
 function updatesum() {
-    //alert(document.getElementById("dodWiad:rodzajTrans").value);
-    if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
+    if(document.getElementById("dodWiad:dokumentprosty").checked == true){
+        document.getElementById("dodWiad:sumbrutto").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0), 2, '.', ' ');
+    } else if ((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
      document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
       document.getElementById("dodWiad:brutto2").value = number_format((document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0), 2, '.', ' ');
        document.getElementById("dodWiad:brutto3").value = number_format((document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0), 2, '.', ' ');
@@ -271,6 +272,7 @@ function updatesum() {
      document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
      }
 };
+
  
  function updatesuma1(){
       document.getElementById("dodWiad:brutto1").value =  number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
