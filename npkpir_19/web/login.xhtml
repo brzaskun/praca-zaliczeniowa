@@ -22,10 +22,10 @@
                     <p:messages id="logowanie"  autoUpdate="true" />
                     <p:panelGrid columns="3" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 0%; width: 600px; border-style: none" >
                         <p:column>
-                            <h:link outcome="pomoclogowanie" value="pomoc" />
+                            <h:link outcome="pomoclogowanie" value="pomoc" style="text-align: center; border-style: none;"/>
                         </p:column>
                         <p:column>
-                            <h:link outcome="zapomnialem" value="zapomnialem hasla"/>
+                            <h:link outcome="zapomnialem" value="zapomniałem hasła"/>
                         </p:column>
                         <p:column>
                             <h:link outcome="rejestruj" value="zarejestruj się"/>
@@ -34,7 +34,7 @@
                 </p:panel>
                 <p:panel style="margin: 2% 0% 0% 40%; width: 362px">
                     <f:facet name="header">
-                        <h:outputLabel value="Prosze wpisać login i hasło uzytkownika"/>
+                        <h:outputLabel value="Proszę wpisać login i hasło użytkownika"/>
                     </f:facet>
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin: 0% 0% 0% 3%">
