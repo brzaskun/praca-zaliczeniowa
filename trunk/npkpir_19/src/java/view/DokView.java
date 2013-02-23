@@ -299,6 +299,11 @@ public class DokView implements Serializable{
     }
 
     public void podepnijEwidencjeVat(String transakcjiRodzaj) {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String skrot = params.get("dodWiad:dokumentprosty");
+        try {
+            if(skrot.equals("on")){}
+        } catch (Exception e) {
         if(opodatkowanieryczalt==false){
         /*wyswietlamy ewidencje VAT*/
         FacesContext facesCtx = FacesContext.getCurrentInstance();
@@ -429,12 +434,12 @@ public class DokView implements Serializable{
         EVatOpis eVO = new EVatOpis(wpisView.getWprowadzil().getLogin(),opis1, opis2, opis3, opis4, opis5);
         try {
             eVatOpisDAO.dodaj(eVO);
-        } catch (Exception e){
+        } catch (Exception ei){
             eVatOpisDAO.edit(eVO);
         }
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
         }
-        
+        }
     }
     
     public void wygenerujnumerkolejny(){
