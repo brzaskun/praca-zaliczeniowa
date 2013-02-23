@@ -1291,9 +1291,9 @@ public class DokView implements Serializable{
     }
     
     public void skopiujdoTerminuPlatnosci(){
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        selDokument.setTerminPlatnosci(params.get("dodWiad:dataPole"));
-        RequestContext.getCurrentInstance().update("dodWiad:dataTPole");
+//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//        selDokument.setTerminPlatnosci(params.get("dodWiad:dataPole"));
+//        RequestContext.getCurrentInstance().update("dodWiad:dataTPole");
     }
     
     public void zaksiegujPlatnosc(ActionEvent e){

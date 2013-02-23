@@ -20,8 +20,8 @@
             <h:outputLabel value="opis" style="font-weight: 700"/>
             <h:outputLabel value="dok.prosty" style="font-weight: 700" />
 
-            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  >
-                <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update="dataPole :dodWiad:dataSPole"  />
+            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
+<!--                <p:ajax event="blur" listener="{DokumentView.ustawDate2}" update="dataPole :dodWiad:dataSPole"  />-->
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
@@ -141,7 +141,7 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </h:selectOneMenu>
             <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-            <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" update="@form, :zobWiad:ostatniUzytkownik"> 
+            <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj()}" value="Dodaj" update="@form, :zobWiad:ostatniUzytkownik" style="width: 150px;"> 
             </p:commandButton>
         </p:panelGrid>
     </p:panel>
