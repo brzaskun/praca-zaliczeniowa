@@ -4,10 +4,12 @@
  */
 package view;
 
+import comparator.Evewidencjacomparator;
 import dao.EvewidencjaDAO;
 import entity.Evewidencja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -62,10 +64,8 @@ public class EVatView implements Serializable{
     @PostConstruct
     public void init(){
         ArrayList<Evewidencja> tmp =  (ArrayList<Evewidencja>) eVDAO.getDownloaded();
-        Iterator it;
-        it = tmp.iterator();
-        while (it.hasNext()){
-            Evewidencja up =  (Evewidencja) it.next();
+        Collections.sort(tmp, new Evewidencjacomparator());
+        for (Evewidencja up : tmp){
             listadostepnychewidencji.add(up.getNazwa());
             switch(up.getTransakcja()) {
                 case "zakup" : 
@@ -90,6 +90,7 @@ public class EVatView implements Serializable{
                     sprzedazVList.add(up.getNazwa());
             }
         }
+
     }
     
     

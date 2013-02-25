@@ -5,6 +5,7 @@
 package view;
 
 
+import comparator.Evewidencjacomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
@@ -42,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -761,6 +763,7 @@ public class DokView implements Serializable{
         try {
             if(!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT")){
             ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
+            Collections.sort(ew,new Evewidencjacomparator());
             EVatOpis eVO = (EVatOpis) eVatOpisDAO.findS(wpisView.getWprowadzil().getLogin());
             List<String> pobierzOpisy = new ArrayList<>();
             pobierzOpisy.add(eVO.getOpis1());
@@ -781,6 +784,7 @@ public class DokView implements Serializable{
             pobierzVat.add(vat4);
             pobierzVat.add(vat5);
             List<EVatwpis> el = new ArrayList<>();
+            
             int i = 0;
             while (i < evewidencjaDAO.getDownloaded().size()) {
                 int j = 0;
@@ -801,6 +805,7 @@ public class DokView implements Serializable{
                 }
                 i++;
             }
+            
             if (opodatkowanieryczalt==true) {
                 selDokument.setEwidencjaVAT(null);
             } else if (!selDokument.isDokumentProsty())  {
