@@ -549,7 +549,7 @@ public class PodatnikView implements Serializable{
          }
      }
         public void usunpole47(){
-         selected.setPole47("0.00");
+         selected.setPole47(null);
          podatnikDAO.edit(selected);
      }
         

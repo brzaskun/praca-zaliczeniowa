@@ -6,14 +6,19 @@ package view;
 
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
+import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -27,6 +32,7 @@ public class DeklaracjevatView implements Serializable {
     private List<Deklaracjevat> oczekujace;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    private static Deklaracjevat selected;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -44,6 +50,36 @@ public class DeklaracjevatView implements Serializable {
             wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
         } catch (Exception e){}
     }
+    
+     public void edit(RowEditEvent ex) {
+        try {
+            //sformatuj();
+            deklaracjevatDAO.edit(selected);
+            FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany " + ex.getObject().toString(), selected.getPodatnik());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage("Dokytkownik nie zedytowany", e.getStackTrace().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+     
+   public void destroy(Deklaracjevat selDok) {
+        selected = selDok;
+    }
+   
+    public void destroy2() {
+         try {
+               oczekujace.remove(selected);
+               deklaracjevatDAO.destroy(selected);
+                Msg.msg("i","Deklaracja usunięta","formX:msg");
+            } catch (Exception e) {
+                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+                System.out.println("Nie usunieto " + selected.getIdentyfikator() + " " + e.toString());
+            }
+           
+        }
+    
 
     public List<Deklaracjevat> getWyslane() {
         return wyslane;
@@ -67,6 +103,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public Deklaracjevat getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Deklaracjevat selected) {
+        this.selected = selected;
     }
     
     

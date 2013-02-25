@@ -124,7 +124,7 @@ public class beanek {
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dataList");
-        Msg.msg("i","Gołąb wrócił z wieścią "+opisMB,"formX:msg");
+        Msg.msg("i","Gołąb wrócił z wieścią "+statMB,"formX:msg");
     }
   
     public String getIdMB() {
