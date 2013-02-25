@@ -36,14 +36,12 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
      
     public Deklaracjevat findDeklaracjeDowyslania(String pod){
         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
-        Deklaracjevat wynik = new Deklaracjevat();
         for(Deklaracjevat p :temp){
             if(p.getIdentyfikator().equals("")){
-                wynik = p;
-                break;
+                return p;
             }
         }
-        return wynik;
+        return null;
     }
 
     public Deklaracjevat findDeklaracjeDopotwierdzenia(String identyfikator) {

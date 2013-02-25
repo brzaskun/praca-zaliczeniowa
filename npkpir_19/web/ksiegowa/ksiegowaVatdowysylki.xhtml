@@ -9,7 +9,18 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:body> 
+            <h:body>
+                  <h:form>
+                    <p:growl id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć dekalrację?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formX:dokumentyLista" oncomplete="confirmation.hide()"  
+                                         actionListener="#{deklaracjevatView.destroy2()}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->

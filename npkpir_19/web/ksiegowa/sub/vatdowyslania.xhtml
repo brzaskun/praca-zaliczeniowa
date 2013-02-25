@@ -9,49 +9,42 @@
              <h:form id="formX">
                  <p:growl id="msg"/>
                      <p:panel header="Wykaz oczekujacych deklaracji"/>
-                     <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}" resizableColumns="true">
-                         <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="Identyfikator"/>
-                             </f:facet>
-                             <h:outputText value="#{item.identyfikator}"/>
+                     <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}" resizableColumns="true"  editable="true" id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
+                         <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
+                         <p:column headerText="indetyfikator">
+                              <p:cellEditor>  
+                                    <f:facet name="output">  
+                                         <h:outputText value="#{item.identyfikator}"/>
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <h:inputText value="#{item.identyfikator}"/>
+                                    </f:facet>  
+                            </p:cellEditor>
                          </p:column>
-                         <p:column width="70"> 
-                             <f:facet name="header">
-                                 <h:outputText value="Kod urzedu"/>
-                             </f:facet>
+                         <p:column headerText="kod urzędu" width="60"> 
                              <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
                          </p:column>
-                         <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="Rok - Miesiac"/>
-                             </f:facet>
+                         <p:column headerText="Rok - Miesiac">
                              <h:outputText value="#{item.rok} - #{item.miesiac}"/>
                          </p:column>
-                         <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="Nrkolejny"/>
-                             </f:facet>
+                         <p:column headerText="nr kolejny" width="60">
                              <h:outputText value="#{item.nrkolejny}"/>
                          </p:column>
-                         <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="Podatnik"/>
-                             </f:facet>
+                         <p:column headerText="podatnik">
                              <h:outputText value="#{item.podatnik}"/>
                          </p:column>
-                         <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="UPO"/>
-                             </f:facet>
+                         <p:column headerText="UPO">
                              <h:outputText value="#{item.upo}" />
                          </p:column>
-                          <p:column>
-                             <f:facet name="header">
-                                 <h:outputText value="selected"/>
-                             </f:facet>
+                         <p:column headerText="dane">
                              <h:outputText value="#{item.selected}"/>
                          </p:column>
+                         <p:column id="editColumn" headerText="edytuj" width="70">
+                            <p:rowEditor />  
+                        </p:column>
+                         <p:column id="deleteColumn" headerText="usuń" width="70">
+                            <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/>
+                     </p:column>
                      </p:dataTable>
                  </h:form><br/>
             <h:form>

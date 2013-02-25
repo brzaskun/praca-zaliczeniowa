@@ -42,36 +42,44 @@ import org.primefaces.context.RequestContext;
 @RequestScope
 public class Vat7DKView implements Serializable {
 
-    @Inject private Deklaracjevat deklaracjakorygowana;
-    @Inject private Deklaracjevat deklaracjawyslana;
-    @Inject private Deklaracjevat nowadeklaracja;
+    @Inject
+    private Deklaracjevat deklaracjakorygowana;
+    @Inject
+    private Deklaracjevat deklaracjawyslana;
+    @Inject
+    private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @Inject private Vatpoz selected;
+    @Inject
+    private Vatpoz selected;
     static private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
-    @Inject private Daneteleadresowe adres;
-    @Inject PodatnikDAO podatnikDAO;
-    @Inject EwidencjeVatDAO ewidencjeVatDAO;
-    @Inject private TKodUS tKodUS;
-    @Inject private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private Daneteleadresowe adres;
+    @Inject
+    PodatnikDAO podatnikDAO;
+    @Inject
+    EwidencjeVatDAO ewidencjeVatDAO;
+    @Inject
+    private TKodUS tKodUS;
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
     private int flaga;
-
     private String rok;
     private String mc;
     private String podatnik;
-    
+
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         flaga = 0;
     }
-    
+
     @PostConstruct
     private void init() {
         rok = wpisView.getRokWpisu().toString();
         mc = wpisView.getMiesiacWpisu();
         podatnik = wpisView.getPodatnikWpisu();
     }
-    
+
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Podatnik pod = podatnikDAO.find(podatnik);
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
@@ -152,16 +160,41 @@ public class Vat7DKView implements Serializable {
                 }
             }
         }
-            try{
+        String kwotaautoryzujaca = null;
+        String kodus = tKodUS.getLista().get(pod.getUrzadskarbowy());
+        try {
+            boolean equals = kodus.equals("");
+        } catch (Exception e) {
+            Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
+            setFlaga(1);
+        }
+        try {
+            List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
+            if(listakwotaautoryzujaca.size()==0){
+                throw new Exception();
+            }
+            for (Parametr par : listakwotaautoryzujaca) {
+                if (par.getRokOd().equals(rok)) {
+                    kwotaautoryzujaca = par.getParametr();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
+            setFlaga(1);
+        }
+        if (flaga != 1) {
+            try {
                 bylajuzdeklaracjawtymmiesiacu();
                 zbadajpobranadeklarajce();
                 pobierz47zpoprzedniej();
             } catch (Exception e) {
-                najpierwszadeklaracja();
-                pobierz47zustawien();
+                    pobierz47zustawien();
+                    najpierwszadeklaracja();
             }
+        }
 
-        if(flaga!=1){
+        if (flaga != 1) {
             podsumujszczegolowe();
             selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
             selected.setPodatnik(podatnik);
@@ -184,19 +217,8 @@ public class Vat7DKView implements Serializable {
             adres.setKodPocztowy(pod.getKodpocztowy());
             adres.setPoczta(pod.getPoczta().toUpperCase());
             selected.setAdres(adres);
-            String kwotaautoryzujaca = null;
-            try {
-                List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
-                for (Parametr par : listakwotaautoryzujaca) {
-                    if (par.getRokOd().equals(rok)) {
-                        kwotaautoryzujaca = par.getParametr();
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                Msg.msg("e", nowadeklaracja.getPodatnik() + " - wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
-                setFlaga(1);
-            }
+
+
             selected.setKwotaautoryzacja(kwotaautoryzujaca);
             stworzdeklaracje();
             nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());
@@ -211,23 +233,25 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setUpo("");
             nowadeklaracja.setStatus("");
             nowadeklaracja.setOpis("");
-            }
+        }
             if (flaga == 2) {
-                deklaracjevatDAO.destroy(deklaracjakorygowana);
-                deklaracjevatDAO.edit(nowadeklaracja);
-                deklaracjakorygowana = new Deklaracjevat();
-                Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
-            } else if (flaga == 1) {
-                Msg.msg("e", podatnik + " Deklaracja nie zachowana", "form:msg");
-            } else {
-                deklaracjevatDAO.dodaj(nowadeklaracja);
-                Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc, "form:msg");
-            }
+            deklaracjevatDAO.destroy(deklaracjakorygowana);
+            deklaracjevatDAO.edit(nowadeklaracja);
+            deklaracjakorygowana = new Deklaracjevat();
+            Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
+        } else if (flaga == 1) {
+            Msg.msg("e", podatnik + " Deklaracja nie zachowana", "form:msg");
+        } else {
+            deklaracjevatDAO.dodaj(nowadeklaracja);
+            Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc, "form:msg");
+        }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
     }
 
+    
     private void najpierwszadeklaracja() {
+        if(flaga!=1){
         try {
             //pobiera liste deklaracji poprzednich
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
@@ -240,36 +264,37 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setNrkolejny(1);
             Msg.msg("i", "Utworzenie samejpierwszej za dany okres " + rok + "-" + mc, "form:msg");
         }
+        }
     }
 
-    private void pobierz47zustawien(){
-         try {
-                Podatnik pod = podatnikDAO.find(podatnik);
-                String Pole47 = pod.getPole47();
-                Integer PoleI47 = Integer.parseInt(Pole47);
-                pozycjeSzczegoloweVAT.setPole47(Pole47);
-                pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
-                deklaracjawyslana.setIdentyfikator("lolo");
-                deklaracjawyslana.setPodatnik("manolo");
-            } catch (Exception e) {
-                setFlaga(1);
-                Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  " + wpisView.getWprowadzil().getLogin(), "form:msg");
-            }
-    }
-    
-    private void bylajuzdeklaracjawtymmiesiacu(){
+    private void pobierz47zustawien() {
         try {
-        //pobiera liste deklaracji poprzednich z danego miesiaca
-        List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
-        pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
-        deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
-        //nie bylo takiej wiec cofa sie o miesiac
-        } catch (Exception e){
+            Podatnik pod = podatnikDAO.find(podatnik);
+            String Pole47 = pod.getPole47();
+            Integer PoleI47 = Integer.parseInt(Pole47);
+            pozycjeSzczegoloweVAT.setPole47(Pole47);
+            pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
+            deklaracjawyslana.setIdentyfikator("lolo");
+            deklaracjawyslana.setPodatnik("manolo");
+        } catch (Exception e) {
+            setFlaga(1);
+            Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  ","form:msg");
+        }
+    }
+
+    private void bylajuzdeklaracjawtymmiesiacu() {
+        try {
+            //pobiera liste deklaracji poprzednich z danego miesiaca
+            List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
+            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
+            deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
+            //nie bylo takiej wiec cofa sie o miesiac
+        } catch (Exception e) {
             String mcX = "";
             String rokX = "";
             if (mc.equals("01")) {
                 mcX = "12";
-                rokX = String.valueOf(Integer.parseInt(rok)-1);
+                rokX = String.valueOf(Integer.parseInt(rok) - 1);
             } else {
                 Integer tmp = Integer.parseInt(mc);
                 tmp--;
@@ -278,57 +303,57 @@ public class Vat7DKView implements Serializable {
                     mcX = "0".concat(mcX);
                 }
                 rokX = rok;
-        }
-        //dlatego jest inna (deklaracja wyslana) bo ona musi z poprzedniego miesiaca byc. sluzy tylko tutaj
-        List<Deklaracjevat> pobranalistadeklaracji2 = new ArrayList<>();
-        pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rokX, mcX, podatnik);
-        deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size() - 1);
-        deklaracjakorygowana = null;
-        }
-    }    
-    
-      //generalnie sluzy do pobierania pola 47
-    private void pobierz47zpoprzedniej() {
-        if(flaga!=1){
-        try{
-            pozycjeSzczegoloweVAT.setPole47(deklaracjakorygowana.getPozycjeszczegolowe().getPole47());
-            pozycjeSzczegoloweVAT.setPoleI47(deklaracjakorygowana.getPozycjeszczegolowe().getPoleI47());
-        } catch (Exception e){
-            pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
-            pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
-        }
+            }
+            //dlatego jest inna (deklaracja wyslana) bo ona musi z poprzedniego miesiaca byc. sluzy tylko tutaj
+            List<Deklaracjevat> pobranalistadeklaracji2 = new ArrayList<>();
+            pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rokX, mcX, podatnik);
+            deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size() - 1);
+            deklaracjakorygowana = null;
         }
     }
-    
-    private void zbadajpobranadeklarajce(){
+
+    //generalnie sluzy do pobierania pola 47
+    private void pobierz47zpoprzedniej() {
+        if (flaga != 1) {
+            try {
+                pozycjeSzczegoloweVAT.setPole47(deklaracjakorygowana.getPozycjeszczegolowe().getPole47());
+                pozycjeSzczegoloweVAT.setPoleI47(deklaracjakorygowana.getPozycjeszczegolowe().getPoleI47());
+            } catch (Exception e) {
+                pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
+                pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
+            }
+        }
+    }
+
+    private void zbadajpobranadeklarajce() {
         Deklaracjevat badana;
         try {
             deklaracjakorygowana.getDeklaracja();
             badana = deklaracjakorygowana;
-             if (badana.getIdentyfikator().equals("")) {
-            Msg.msg("e", "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "form:msg");
-            selected.setCelzlozenia("1");
-            nowadeklaracja.setNrkolejny(badana.getNrkolejny());
-            setFlaga(2);
-        } else {
-            if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
-                Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
-                setFlaga(1);
-            } else if (badana.getStatus().equals("401") || badana.getStatus().equals("411")) {
+            if (badana.getIdentyfikator().equals("")) {
+                Msg.msg("e", "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "form:msg");
                 selected.setCelzlozenia("1");
-                Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
-                nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-            } else if (badana.getStatus().equals("200")) {
-                nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                selected.setCelzlozenia("2");
-                Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
+                nowadeklaracja.setNrkolejny(badana.getNrkolejny());
+                setFlaga(2);
             } else {
-                setFlaga(1);
-                Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa", "form:msg");
-              
+                if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+                    Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
+                    setFlaga(1);
+                } else if (badana.getStatus().equals("401") || badana.getStatus().equals("411")) {
+                    selected.setCelzlozenia("1");
+                    Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
+                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
+                } else if (badana.getStatus().equals("200")) {
+                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
+                    selected.setCelzlozenia("2");
+                    Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
+                } else {
+                    setFlaga(1);
+                    Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa", "form:msg");
+
+                }
             }
-        }
-        } catch (Exception e){
+        } catch (Exception e) {
             badana = deklaracjawyslana;
             if (badana.getIdentyfikator().equals("")) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");
@@ -350,11 +375,10 @@ public class Vat7DKView implements Serializable {
 
                 }
             }
+        }
     }
-    }
-  
 
-    private void podsumujszczegolowe(){
+    private void podsumujszczegolowe() {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -508,8 +532,6 @@ public class Vat7DKView implements Serializable {
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-    
-    
 
     public static void main(String args[]) {
         List< String> list = new ArrayList< String>();
