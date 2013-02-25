@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Dok;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,15 +33,17 @@ public abstract class DAO<T> {
     @PostConstruct
     protected void init() {
         List c = new ArrayList<>();
-        try {
-            c = sessionFacade.findAll(entityClass);
-        } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. DAO" + e.toString()+" "+entityClass.getCanonicalName());
-        }
+        if(!entityClass.equals(Dok.class)) {
+            try {
+                c = sessionFacade.findAll(entityClass);
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. DAO" + e.toString()+" "+entityClass.getCanonicalName());
+            }
         if (c.size() > 0) {
             downloaded = new ArrayList<>();
             downloaded.addAll(c);
             System.out.println("Pobrano z bazy danych. DAO elementow:" + c.size()+" "+c.getClass().getCanonicalName()+" "+c.get(0).toString());
+        }
         }
     }
 

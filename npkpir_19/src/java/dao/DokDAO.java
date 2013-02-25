@@ -21,8 +21,8 @@ import session.SessionFacade;
 @Named(value = "DokDAO")
 public class DokDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade dokFacade;
+    @Inject private SessionFacade dokFacade;
+    
     //tablica wciagnieta z bazy danych
 
     public DokDAO() {
@@ -47,37 +47,13 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokPod(pod);
     }
 
-    /**
-     *
-     * @param pod
-     * @param rok
-     * @return
-     */
-    public List<Dok> zwrocBiezacegoKlientaRok(String pod, Integer rok) {
-        List<Dok> lista = new ArrayList<>();
-        Iterator it;
-        it = downloaded.iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            if (tmp.getPodatnik().equals(pod) && tmp.getPkpirR().equals(rok.toString())) {
-                lista.add(tmp);
-            }
-        }
-        return lista;
+     public List<Dok> zwrocBiezacegoKlientaRok(String pod, Integer rok) {
+        return dokFacade.findDokBK(pod,rok);
     }
     
       
     public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, Integer rok, String mc) {
-        List<Dok> lista = new ArrayList<>();
-        Iterator it;
-        it = downloaded.iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            if (tmp.getPodatnik().equals(pod) && tmp.getPkpirR().equals(rok.toString()) && tmp.getPkpirM().equals(mc)) {
-                lista.add(tmp);
-            }
-        }
-        return lista;
+        return dokFacade.findDokBK(pod, rok, mc);
     }
     
     
