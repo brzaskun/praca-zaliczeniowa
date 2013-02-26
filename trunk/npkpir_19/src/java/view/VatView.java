@@ -170,7 +170,6 @@ public class VatView implements Serializable {
             //tak trzeba opisac kazda kolumne :)
             ArrayList<String> opisykolumn = new ArrayList<>();
             opisykolumn.addAll(EVatViewPola.getOpispol());
-
             Iterator itx;
             itx = opisykolumn.iterator();
             while (itx.hasNext()) {
