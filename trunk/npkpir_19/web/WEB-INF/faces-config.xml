@@ -163,6 +163,10 @@
             <to-view-id>/manager/managerPodatnik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>dodpodatnikaSC</from-outcome>
+            <to-view-id>/manager/managerPodatnikSC.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>zbiorcze</from-outcome>
             <to-view-id>/manager/managerZbiorcze.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
