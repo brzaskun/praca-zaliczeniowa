@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Parametr;
+import embeddable.Udzialy;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -153,6 +154,9 @@ public class Podatnik implements Serializable {
     private List opisypkpir;
     @Column(name = "odliczaczus51")
     private Boolean odliczaczus51;
+    @Lob
+    @Column(name = "udzialy")
+    private List<Udzialy> udzialy;
     
     
     public Podatnik() {
@@ -411,8 +415,15 @@ public class Podatnik implements Serializable {
         this.odliczaczus51 = odliczaczus51;
     }
 
-    
-    
+    public List<Udzialy> getUdzialy() {
+        return udzialy;
+    }
+
+    public void setUdzialy(List<Udzialy> udzialy) {
+        this.udzialy = udzialy;
+    }
+
+   
     
    
     @Override

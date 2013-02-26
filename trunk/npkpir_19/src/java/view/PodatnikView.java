@@ -11,6 +11,7 @@ import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
+import embeddable.Udzialy;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Zusstawki;
@@ -80,7 +81,7 @@ public class PodatnikView implements Serializable{
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private WpisDAO wpisDAO;
-    private boolean firmaniefirma;
+    @Inject private Udzialy udzialy;
     
     public  List<Podatnik> getLi() {
         return li;
@@ -534,10 +535,10 @@ public class PodatnikView implements Serializable{
         public void dodajpole47(){
          try{
          podatnikDAO.edit(selected);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota pola47 do podatnika.", selected.getNazwapelna());
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno udziały.", selected.getNazwapelna());
          FacesContext.getCurrentInstance().addMessage(null, msg);
          } catch (Exception e){
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru kwota pola47. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno udziału.", selected.getNazwapelna());
          FacesContext.getCurrentInstance().addMessage(null, msg);
          }
      }
@@ -545,7 +546,64 @@ public class PodatnikView implements Serializable{
          selected.setPole47(null);
          podatnikDAO.edit(selected);
      }
+      
+        public void dodajUdzialy(){
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Udzialy> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getUdzialy());
+         } catch (Exception e){}
+         try{
+         Integer sumaudzialow = 0;
+         for(Udzialy p : lista){
+             try {
+             if(!p.getRokDo().isEmpty()){}
+             } catch (Exception ef){
+                sumaudzialow += Integer.parseInt(p.getUdzial());
+             }
+             if(udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())){
+                 throw new Exception();
+             }
+             if(udzialy.getNip().equals(p.getNip())){
+                 throw new Exception();
+             }
+         }
+         sumaudzialow += Integer.parseInt(udzialy.getUdzial());
+         if(sumaudzialow>100){
+             throw new Exception();
+         }
+         lista.add(udzialy);
+         selected.setUdzialy(lista);
+         podatnikDAO.edit(selected);
+         Msg.msg("i", "Dodano udziały","akordeon:form6:messages");
+         } catch (Exception ex) {
+         Msg.msg("e","Niedodano udziału, wystąpił błąd. Sprawdz dane:nazwisko, procenty","akordeon:form6:messages");
+         } 
         
+     }
+          
+      
+      public void editUdzialy(RowEditEvent ex){
+          try{
+            Podatnik selected2=podatnikDAO.find(nazwaWybranegoPodatnika);
+            podatnikDAO.destroy(selected2);
+            podatnikDAO.dodaj(selected);
+            Msg.msg("i", "Wyedytowano udziały","akordeon:form6:messages");
+          } catch (Exception e){
+              Msg.msg("e", "Wystąpił błąd. Nie zmieniono udziałów","akordeon:form6:messages");
+          }
+      }
+
+     
+      public void usunUdzialy(Udzialy udzialy){
+        selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Udzialy> tmp = new ArrayList<>();
+         tmp.addAll(selected.getUdzialy());
+         tmp.remove(udzialy);
+         selected.setUdzialy(tmp);
+         podatnikDAO.edit(selected);
+         Msg.msg("i","Usunięto wskazany udział: "+udzialy.getNazwiskoimie(),"akordeon:form6:messages");
+     }
         
         
       public void dodajDokKsi(){
@@ -558,9 +616,9 @@ public class PodatnikView implements Serializable{
          lista.add(selectedDokKsi);
          selected.setDokumentyksiegowe(lista);
          podatnikDAO.edit(selected);
-         Msg.msg("i", "Dodano nowy wzór dokumentu","akordeon:form6:messages");
+         Msg.msg("i", "Dodano nowy wzór dokumentu","akordeon:form6");
          } catch (Exception ex) {
-         Msg.msg("e","Niedodano nowego wzoru dokumentu, wystąpił błąd","akordeon:form6:messages");
+         Msg.msg("e","Niedodano nowego wzoru dokumentu, wystąpił błąd","akordeon:form6");
          } 
         
      }
@@ -571,9 +629,9 @@ public class PodatnikView implements Serializable{
             Podatnik selected2=podatnikDAO.find(nazwaWybranegoPodatnika);
             podatnikDAO.destroy(selected2);
             podatnikDAO.dodaj(selected);
-            Msg.msg("i", "Wyedytowano wzorce dokumentów","akordeon:form6:messages");
+            Msg.msg("i", "Wyedytowano wzorce dokumentów","akordeon:form6");
           } catch (Exception e){
-              Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów","akordeon:form6:messages");
+              Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów","akordeon:form6");
           }
       }
 
@@ -585,7 +643,7 @@ public class PodatnikView implements Serializable{
          tmp.remove(rodzajDokKsi);
          selected.setDokumentyksiegowe(tmp);
          podatnikDAO.edit(selected);
-         Msg.msg("i","Usunięto wzor dokumentu","akordeon:form6:messages");
+         Msg.msg("i","Usunięto wzor dokumentu","akordeon:form6");
      }
      
       
@@ -764,21 +822,16 @@ public class PodatnikView implements Serializable{
         this.selectedDod = selectedDod;
     }
 
-    public boolean isFirmaniefirma() {
-        return firmaniefirma;
+    public Udzialy getUdzialy() {
+        return udzialy;
     }
 
-    public void setFirmaniefirma(boolean firmaniefirma) {
-        this.firmaniefirma = firmaniefirma;
+    public void setUdzialy(Udzialy udzialy) {
+        this.udzialy = udzialy;
     }
 
-    public void addMessage(){
-        if(firmaniefirma==true) {
-            Msg.msg("i", "Wpisywanie firmy","form:msg");
-        } else {
-            Msg.msg("i", "Wpisywanie osoby fizycznej","form:msg");
-        }
-    }
+   
+   
     
 }
 
