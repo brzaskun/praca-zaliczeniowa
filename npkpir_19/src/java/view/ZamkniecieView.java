@@ -98,7 +98,7 @@ public class ZamkniecieView implements Serializable {
     }
     
     private void ksieguj(String podatnik, String rok, String mc, String stan){
-        List<Dok> lista = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, Integer.parseInt(rok),mc);
+        List<Dok> lista = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok,mc);
         for(Dok dokument : lista){
             dokument.setStatus(stan);
             dokDAO.edit(dokument);

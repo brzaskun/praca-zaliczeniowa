@@ -47,12 +47,12 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokPod(pod);
     }
 
-     public List<Dok> zwrocBiezacegoKlientaRok(String pod, Integer rok) {
+     public List<Dok> zwrocBiezacegoKlientaRok(String pod, String rok) {
         return dokFacade.findDokBK(pod,rok);
     }
     
       
-    public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, Integer rok, String mc) {
+    public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, String rok, String mc) {
         return dokFacade.findDokBK(pod, rok, mc);
     }
     
@@ -63,7 +63,7 @@ public class DokDAO extends DAO implements Serializable {
     public Dok find(String typdokumentu, String podatnik, Integer rok){
         List<Dok> lista = new ArrayList<>();
         Iterator it;
-        it = zwrocBiezacegoKlientaRok(podatnik,rok).iterator();
+        it = zwrocBiezacegoKlientaRok(podatnik,rok.toString()).iterator();
         while (it.hasNext()) {
             Dok tmp = (Dok) it.next();
             if (tmp.getTypdokumentu().equals(typdokumentu)) {

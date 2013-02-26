@@ -106,7 +106,7 @@ public class ZestawienieView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             Collection c = null;
             try {
-                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
@@ -1023,6 +1023,7 @@ public class ZestawienieView implements Serializable {
             IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
             rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
         }
+        
     }
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje

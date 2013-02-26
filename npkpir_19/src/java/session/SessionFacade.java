@@ -257,12 +257,12 @@ public class SessionFacade<T> {
         return (EVatOpis) em.createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
     }
 
-    public List<Dok> findDokBK(String pod, Integer rok) {
+    public List<Dok> findDokBK(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }
 
-    public List<Dok> findDokBK(String pod, Integer rok, String mc) {
-        return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+    public List<Dok> findDokBK(String pod, String rok, String mc) {
+        return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
     }
     
 }
