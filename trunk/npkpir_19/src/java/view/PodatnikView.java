@@ -53,12 +53,9 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScoped
 public class PodatnikView implements Serializable{
-    @Inject
-    private PodatnikDAO podatnikDAO;
-    @Inject
-    private Podatnik selected;
-    @Inject
-    private Podatnik selectedDod;
+    @Inject private PodatnikDAO podatnikDAO;
+    @Inject private Podatnik selected;
+    @Inject private Podatnik selectedDod;
     @Inject private Rodzajedok selectedDokKsi;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
@@ -74,20 +71,16 @@ public class PodatnikView implements Serializable{
 
     @Inject private Zusstawki zusstawki;
     
-    @Inject
-    private Parametr parametr;
-    @Inject
-    private Parametr ostatniparametr;
+    @Inject private Parametr parametr;
+    @Inject private Parametr ostatniparametr;
    //tak sie sklada ze to jest glowna lista z podatnikami :)
     private static List<Podatnik> li;
-    @Inject
-    private DokDAO dokDAO;
-    @Inject 
-    private ZUSDAO zusDAO;
+    @Inject private DokDAO dokDAO;
+    @Inject private ZUSDAO zusDAO;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject private WpisDAO wpisDAO;
-    
+    private boolean firmaniefirma;
     
     public  List<Podatnik> getLi() {
         return li;
@@ -771,7 +764,21 @@ public class PodatnikView implements Serializable{
         this.selectedDod = selectedDod;
     }
 
-    
+    public boolean isFirmaniefirma() {
+        return firmaniefirma;
+    }
+
+    public void setFirmaniefirma(boolean firmaniefirma) {
+        this.firmaniefirma = firmaniefirma;
+    }
+
+    public void addMessage(){
+        if(firmaniefirma==true) {
+            Msg.msg("i", "Wpisywanie firmy","form:msg");
+        } else {
+            Msg.msg("i", "Wpisywanie osoby fizycznej","form:msg");
+        }
+    }
     
 }
 
