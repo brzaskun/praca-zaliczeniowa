@@ -130,14 +130,10 @@ public class DokTabView implements Serializable {
             String m = wpisView.getMiesiacWpisu();
             Integer m1 = Integer.parseInt(m);
             String mn = Mce.getMapamcy().get(m1);
-            Iterator itx;
-            itx = obiektDOKjsfSel.iterator();
-            int inu = 1;
             int inus = 1;
             Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
-            while (itx.hasNext()) {
-                Dok tmpx = (Dok) itx.next();
+            for(Dok tmpx : obiektDOKjsfSel){
                 if (tmpx.getPkpirR().equals(r.toString())) {
                     obiektDOKjsfSelRok.add(tmpx);
                     if (tmpx.getRozliczony() == false) {
@@ -154,9 +150,7 @@ public class DokTabView implements Serializable {
                         inus++;
                     }
                     if (tmpx.getVatM().equals(mn)) {
-                        tmpx.setNrWpkpir(inu);
                         dokvatmc.add(tmpx);
-                        inu++;
                     }
                     
                 }
