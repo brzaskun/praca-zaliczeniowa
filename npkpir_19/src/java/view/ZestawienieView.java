@@ -9,7 +9,7 @@ import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.Udzialy;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -17,7 +17,6 @@ import entity.Podstawki;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -75,12 +75,13 @@ public class ZestawienieView implements Serializable {
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
     private List<List> zebranieMcy;
-    @Inject
-    private Pitpoz biezacyPit;
-    @Inject
-    private PodStawkiDAO podstawkiDAO;
-    @Inject
-    private ZobowiazanieDAO zobowiazanieDAO;
+    @Inject private Pitpoz biezacyPit;
+    @Inject private PodStawkiDAO podstawkiDAO;
+    @Inject private ZobowiazanieDAO zobowiazanieDAO;
+    //dane niezbedne do wyliczania pit
+    private String wybranyudzialowiec;
+    private String wybranyprocent;
+    private List<String> listawybranychudzialowcow;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -99,11 +100,21 @@ public class ZestawienieView implements Serializable {
         pobierzPity = new ArrayList<>();
         zebranieMcy = new ArrayList<>();
         listapit = new ArrayList<>();
+        listawybranychudzialowcow = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
+            if (wpisView.getPodatnikWpisu() != null) {
+                 Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            try{
+            for(Udzialy p : pod.getUdzialy()){
+                listawybranychudzialowcow.add(p.getNazwiskoimie());
+               
+            }
+            } catch (Exception e){
+                Msg.msg("e","Nie uzupełnione parametry podatnika","formpit:messages");
+            }
             Collection c = null;
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
@@ -1028,15 +1039,29 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        if(!wybranyudzialowiec.equals("wybierz osobe")){
         try {
+            Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            List<Udzialy> lista = tmpP.getUdzialy();
+            for(Udzialy p : lista){
+                if(p.getNazwiskoimie().equals(wybranyudzialowiec)){
+                    wybranyprocent = p.getUdzial();
+                    break;
+                }
+            }
             biezacyPit = new Pitpoz();
             biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
             biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
             biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
             biezacyPit.setPrzychody(obliczprzychod());
+            double procent = Double.parseDouble(wybranyprocent)/100;
+            biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
             biezacyPit.setKoszty(obliczkoszt());
-            biezacyPit.setWynik(biezacyPit.getPrzychody().subtract(biezacyPit.getKoszty()));
+            biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+            biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
             biezacyPit.setStrata(BigDecimal.ZERO);
+            biezacyPit.setUdzialowiec(wybranyudzialowiec);
+            biezacyPit.setUdzial(wybranyprocent);
             String poszukiwany = wpisView.getPodatnikWpisu();
             Podatnik selected = podatnikDAO.find(poszukiwany);
             Iterator it;
@@ -1059,7 +1084,7 @@ public class ZestawienieView implements Serializable {
                 }
             }
 
-            Pitpoz sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM());
+            Pitpoz sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(),wybranyudzialowiec);
             if(selected.getOdliczaczus51() == true){
                 biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
             }
@@ -1144,7 +1169,7 @@ public class ZestawienieView implements Serializable {
             RequestContext.getCurrentInstance().update("formpit:");
         }
 
-
+        }
     }
 
     public void zachowajPit() {
@@ -1152,14 +1177,14 @@ public class ZestawienieView implements Serializable {
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         if (biezacyPit.getWynik() != null) {
             try {
-                Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik());
+                Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
                 pitDAO.destroy(find);
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT za m-c:", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT "+biezacyPit.getUdzialowiec()+" za m-c:", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } catch (Exception e) {
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT za m-c:", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT "+biezacyPit.getUdzialowiec()+" za m-c:", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
 
@@ -1169,7 +1194,7 @@ public class ZestawienieView implements Serializable {
         }
     }
 
-    public Pitpoz skumulujpity(String mcDo) {
+    public Pitpoz skumulujpity(String mcDo, String udzialowiec) {
         Pitpoz tmp = new Pitpoz();
         tmp.setZus51(BigDecimal.ZERO);
         tmp.setZus52(BigDecimal.ZERO);
@@ -1181,7 +1206,7 @@ public class ZestawienieView implements Serializable {
 
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
-                if (!tmpX.getPkpirM().equals(mcDo)&&tmpX.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                if (!tmpX.getPkpirM().equals(mcDo)&&tmpX.getPodatnik().equals(wpisView.getPodatnikWpisu())&&tmpX.getUdzialowiec().equals(udzialowiec)) {
                     tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
                     tmp.setZus52(tmp.getZus52().add(tmpX.getZus52()));
                     tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
@@ -1196,17 +1221,7 @@ public class ZestawienieView implements Serializable {
 
     }
 
-    public void usun() {
-        listapit.addAll(pitDAO.getDownloaded());
-        int index = listapit.size() - 1;
-        Pitpoz selected = listapit.get(index);
-        pitDAO.destroy(selected);
-        listapit.remove(index);
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getPkpirM());
-        FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
-
-    }
-
+   
     private BigDecimal obliczprzychod() {
         BigDecimal suma = new BigDecimal(0);
         String selekcja = wpisView.getMiesiacWpisu();
@@ -1628,4 +1643,30 @@ public class ZestawienieView implements Serializable {
     public void setZobowiazanieDAO(ZobowiazanieDAO zobowiazanieDAO) {
         this.zobowiazanieDAO = zobowiazanieDAO;
     }
+
+    public String getWybranyudzialowiec() {
+        return wybranyudzialowiec;
+    }
+
+    public void setWybranyudzialowiec(String wybranyudzialowiec) {
+        this.wybranyudzialowiec = wybranyudzialowiec;
+    }
+
+    public String getWybranyprocent() {
+        return wybranyprocent;
+    }
+
+    public void setWybranyprocent(String wybranyprocent) {
+        this.wybranyprocent = wybranyprocent;
+    }
+
+    public List<String> getListawybranychudzialowcow() {
+        return listawybranychudzialowcow;
+    }
+
+    public void setListawybranychudzialowcow(List<String> listawybranychudzialowcow) {
+        this.listawybranychudzialowcow = listawybranychudzialowcow;
+    }
+    
+    
 }

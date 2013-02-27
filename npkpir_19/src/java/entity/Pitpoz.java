@@ -58,6 +58,12 @@ public class Pitpoz implements Serializable {
     @Column(name = "podatnik")
     private String podatnik;
     @Size(max = 255)
+    @Column(name = "udzialowiec")
+    private String udzialowiec;
+    @Size(max = 5)
+    @Column(name = "udzial")
+    private String udzial;
+    @Size(max = 255)
     @Column(name = "pkpir_r")
     private String pkpirR;
     @Size(max = 255)
@@ -67,6 +73,10 @@ public class Pitpoz implements Serializable {
     private BigDecimal przychody;
     @Column(name = "koszty")
     private BigDecimal koszty;
+    @Column(name = "przychodyudzial")
+    private BigDecimal przychodyudzial;
+    @Column(name = "kosztyudzial")
+    private BigDecimal kosztyudzial;
     @Column(name = "wynik")
     private BigDecimal wynik;
     @Column(name = "strata")
@@ -256,6 +266,40 @@ public class Pitpoz implements Serializable {
         this.zamkniety = zamkniety;
     }
 
+    public String getUdzialowiec() {
+        return udzialowiec;
+    }
+
+    public void setUdzialowiec(String udzialowiec) {
+        this.udzialowiec = udzialowiec;
+    }
+
+    public String getUdzial() {
+        return udzial;
+    }
+
+    public void setUdzial(String udzial) {
+        this.udzial = udzial;
+    }
+
+    public BigDecimal getPrzychodyudzial() {
+        return przychodyudzial;
+    }
+
+    public void setPrzychodyudzial(BigDecimal przychodyudzial) {
+        this.przychodyudzial = przychodyudzial;
+    }
+
+    public BigDecimal getKosztyudzial() {
+        return kosztyudzial;
+    }
+
+    public void setKosztyudzial(BigDecimal kosztyudzial) {
+        this.kosztyudzial = kosztyudzial;
+    }
+
+    
+    
     
     
     @Override

@@ -18,8 +18,7 @@ import session.SessionFacade;
 @Named
 public class PitDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade pitpozFacade;
+    @Inject private SessionFacade pitpozFacade;
 
     public PitDAO() {
         super(Pitpoz.class);
@@ -27,6 +26,10 @@ public class PitDAO extends DAO implements Serializable {
 
     public Pitpoz find(String rok, String mc, String pod) {
         return pitpozFacade.findPitpoz(rok, mc, pod);
+    }
+    
+    public Pitpoz find(String rok, String mc, String pod, String udzialowiec) {
+        return pitpozFacade.findPitpoz(rok, mc, pod, udzialowiec);
     }
     
     public List<Pitpoz> findPitPod(String rok, String pod) {
