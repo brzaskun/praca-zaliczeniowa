@@ -16,9 +16,9 @@
             </f:facet>
             <p:graphicImage url="/resources/images/ksiegi.jpg" style="margin-left: 15%"/>
             <p></p>
-            <p:panelGrid columns="4" style="float: left; border-width: 0 !important; width: 420px" >
-                <p:column>
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" height="300">
+            <p:panelGrid columns="4"  >
+                <p:column width="100">
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 130px;">
                         <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     </p:selectOneMenu>
                 </p:column>
