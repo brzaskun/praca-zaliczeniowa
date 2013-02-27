@@ -19,8 +19,13 @@ import entity.Uz;
 import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -219,6 +224,35 @@ public class DokTabView implements Serializable {
             Msg.msg("e","Dokument w księgach, nie można usunąć");
         }
     }
+    
+     public void destroy2roz() throws Exception {
+        if(dokdoUsuniecia.getStatus().equals("bufor")){
+        String temp = dokdoUsuniecia.getTypdokumentu();
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("AMO"))) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            throw new Exception();
+        } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw środek z ewidencji", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            throw new Exception();
+        } else {
+            try {
+                obiektDOKjsfSel.remove(dokdoUsuniecia);
+                obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                dokDAO.destroy(dokdoUsuniecia);
+            } catch (Exception e) {
+                System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
+                throw new Exception();
+            }
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    } else {
+            Msg.msg("e","Dokument w księgach, nie można usunąć");
+            throw new Exception();
+        }
+    }
 
     private boolean sprawdzczyniemarozrachunkow(Dok dok) {
         ArrayList<Stornodoch> temp = new ArrayList<>();
@@ -344,6 +378,91 @@ public class DokTabView implements Serializable {
             podsumowaniewybranych += p.getBrutto();
         }
     }
+    
+    public void usunzzaplaconych(RowEditEvent ex){
+        Dok tmp = (Dok) ex.getObject();
+        Msg.msg("i","Probuje zmienić rozliczenia: "+tmp.getOpis(),"form:messages");
+        try{
+            //jak bedzie storno to ma wyrzuci blad. trzeba usunac strono wpierw
+            try {
+            tmp.getStorno();
+                throw new Exception();
+            } catch (Exception s){}
+            dodajdatydlaStorno(tmp);
+            tmp.setRozliczony(false);
+            tmp.setRozrachunki(null);
+            tmp.setStorno(null);
+            dokdoUsuniecia = tmp;
+            destroy2roz();
+            dokDAO.dodaj(tmp);
+            zaplacone.remove(tmp);
+            RequestContext.getCurrentInstance().update("form:dokumentyLista");
+            Msg.msg("i","Dokument z nowymi datami zaksięgowany: "+tmp.getOpis(),"form:messages");
+        } catch (Exception e){
+            Msg.msg("e","Nie udało się usunąć rozliczeń: "+tmp.getOpis()+"Sprawdź obecność storno.","form:messages");
+        }
+    }
+    
+    
+     public void dodajdatydlaStorno(Dok tmpDok) throws ParseException{
+        String data;
+            switch (wpisView.getMiesiacWpisu()) {
+                case "01":
+                case "03":
+                case "05":
+                case "07":
+                case "08":
+                case "10":
+                case "12":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
+                    break;
+                case "02":
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
+                    break;
+                default:
+                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
+                    break;
+            }
+        String dataWyst = tmpDok.getDataWyst();
+        String dataPlat = tmpDok.getTerminPlatnosci();
+        Calendar c = Calendar.getInstance();
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date datawystawienia = (Date) formatter.parse(dataWyst);
+        Date terminplatnosci = (Date) formatter.parse(dataPlat);
+        Date dataujeciawkosztach = (Date) formatter.parse(data);
+       if(roznicaDni(datawystawienia,terminplatnosci)==true){
+         c.setTime(terminplatnosci);
+         c.add(Calendar.DAY_OF_MONTH, 30);
+         String nd30 = formatter.format(c.getTime());
+         tmpDok.setTermin30(nd30);
+         tmpDok.setTermin90("");
+        } else {
+          c.setTime(dataujeciawkosztach);
+          c.add(Calendar.DAY_OF_MONTH, 90);
+          String nd90 = formatter.format(c.getTime());
+          tmpDok.setTermin90(nd90);
+          tmpDok.setTermin30("");
+         }
+        c.setTime(terminplatnosci);
+        c.add(Calendar.DAY_OF_MONTH, 150);
+        String nd150 = formatter.format(c.getTime());
+        tmpDok.setTermin150(nd150);
+    }
+     
+      private boolean roznicaDni(Date date_od, Date date_do){ 
+                long x=date_do.getTime(); 
+                long y=date_od.getTime(); 
+                long wynik=Math.abs(x-y); 
+                wynik=wynik/(1000*60*60*24); 
+                System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
+                if(wynik<=61){
+                    return true;
+                } else {
+                    return false;
+                }
+     }
+    
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
