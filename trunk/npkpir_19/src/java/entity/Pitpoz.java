@@ -60,7 +60,7 @@ public class Pitpoz implements Serializable {
     @Size(max = 255)
     @Column(name = "udzialowiec")
     private String udzialowiec;
-    @Size(max = 5)
+    @Size(max = 10)
     @Column(name = "udzial")
     private String udzial;
     @Size(max = 255)
