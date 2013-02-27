@@ -1886,4 +1886,16 @@ public class DokView implements Serializable{
                 dokDAO.edit(sel);
           }
       }
+      
+       public void uporzadkujekstra(){
+          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
+          for(Dok sel : lista){
+                Double kwota = sel.getKwota();
+                if(sel.getPodatnik().equals("EKSTRA S.C.")){
+                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
+                }
+                System.out.println("Zmienilem dokument");
+                dokDAO.edit(sel);
+          }
+      }
 }
