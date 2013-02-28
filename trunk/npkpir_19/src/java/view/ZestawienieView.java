@@ -1184,6 +1184,7 @@ public class ZestawienieView implements Serializable {
     private void rozliczstrate(Podatnik tmp){
         List<Straty> straty = tmp.getStratyzlatub();
         double sumastrat = 0.0;
+        try{
         for(Straty p : straty){
             Double wyliczmaks = Double.parseDouble(p.getZostalo()) -Double.parseDouble(p.getPolowakwoty());
             if(wyliczmaks > 0){
@@ -1191,6 +1192,7 @@ public class ZestawienieView implements Serializable {
             } else {
                 sumastrat += Double.parseDouble(p.getZostalo());
             }
+        }
             if(biezacyPit.getWynik().signum()==1){
             BigDecimal stratadoujecia = biezacyPit.getWynik().subtract(new BigDecimal(sumastrat));
             if(stratadoujecia.signum()==-1) {
@@ -1201,7 +1203,9 @@ public class ZestawienieView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
-    }
+        } catch (Exception e){
+                biezacyPit.setStrata(BigDecimal.ZERO);
+        }
     }
     
     public void zachowajPit() {
