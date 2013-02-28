@@ -11,12 +11,15 @@ import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
+import embeddable.Straty;
 import embeddable.Udzialy;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -82,6 +85,14 @@ public class PodatnikView implements Serializable{
     private WpisView wpisView;
     @Inject private WpisDAO wpisDAO;
     @Inject private Udzialy udzialy;
+    //straty z lat ubieglych
+    private List<Straty> stratyzlatub;
+    private String stratarok;
+    private String stratakwota;
+    private String strata50;
+    private String stratawykorzystano;
+    private String stratazostalo;
+    
     
     public  List<Podatnik> getLi() {
         return li;
@@ -688,13 +699,67 @@ public class PodatnikView implements Serializable{
          try {
          List<Podatnik> lista = podatnikDAO.getDownloaded();
          } catch (Exception e){}
-     
      }
      
      public void updateDokKsi(ValueChangeListener ex){
          RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
      }
-        
+     
+    public void dodajstrate() {
+        BigDecimal zostalo = new BigDecimal(stratakwota);
+        zostalo = zostalo.subtract(new BigDecimal(stratawykorzystano)).setScale(2, RoundingMode.HALF_EVEN);
+        stratazostalo = zostalo.toString();
+        BigDecimal polowa = new BigDecimal(stratakwota);
+        polowa = polowa.divide(new BigDecimal(2)).setScale(2, RoundingMode.HALF_EVEN);
+        strata50 = polowa.toString();
+        Straty tmps = new Straty(stratarok, stratakwota, strata50, stratawykorzystano, stratazostalo);
+        Straty ostatnirok = new Straty();
+        try {
+            stratyzlatub = selected.getStratyzlatub();
+            ostatnirok = stratyzlatub.get(stratyzlatub.size() - 1);
+
+        } catch (Exception e) {
+            stratyzlatub = new ArrayList<>();
+            ostatnirok.setRok("1900");
+        }
+        try {
+            if(zostalo.signum()==-1){
+                Msg.msg("e", "Kwota wykorzystana większa od straty", "akordeon:form2:messages");
+                throw new Exception();
+            }
+            if (Integer.parseInt(ostatnirok.getRok()) > Integer.parseInt(stratarok)) {
+                Msg.msg("e", "Wpisywany rok nie pasuje do listy", "akordeon:form2:messages");
+                throw new Exception();
+            }
+            stratyzlatub.add(tmps);
+            selected.setStratyzlatub(stratyzlatub);
+            podatnikDAO.edit(selected);
+            stratarok = "";
+            stratakwota = "";
+            strata50 = "";
+            stratawykorzystano = "";
+            stratazostalo = "";
+            Msg.msg("i", "Dodano stratę za rok " + stratarok, "akordeon:form2:messages");
+            RequestContext.getCurrentInstance().update("akordeon:form1");
+        } catch (Exception e) {
+           
+        }
+    }
+    
+     public void usunstrate(Straty loop){
+         try {
+            stratyzlatub = selected.getStratyzlatub();
+            stratyzlatub.size();
+            stratyzlatub.remove(loop);
+            podatnikDAO.edit(selected);
+            Msg.msg("i","Usunieto stratę za rok "+loop.getRok(),"akordeon:form2:messages");
+            RequestContext.getCurrentInstance().update("akordeon:form1");
+         } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd. Wołaj szefa "+loop,"akordeon:form2:messages");
+         }
+     }
+     
+     
       public WpisView getWpisView() {
         return wpisView;
     }
@@ -828,6 +893,54 @@ public class PodatnikView implements Serializable{
 
     public void setUdzialy(Udzialy udzialy) {
         this.udzialy = udzialy;
+    }
+
+    public List<Straty> getStratyzlatub() {
+        return stratyzlatub;
+    }
+
+    public void setStratyzlatub(List<Straty> stratyzlatub) {
+        this.stratyzlatub = stratyzlatub;
+    }
+
+    public String getStratarok() {
+        return stratarok;
+    }
+
+    public void setStratarok(String stratarok) {
+        this.stratarok = stratarok;
+    }
+
+    public String getStratakwota() {
+        return stratakwota;
+    }
+
+    public void setStratakwota(String stratakwota) {
+        this.stratakwota = stratakwota;
+    }
+
+    public String getStrata50() {
+        return strata50;
+    }
+
+    public void setStrata50(String strata50) {
+        this.strata50 = strata50;
+    }
+
+    public String getStratawykorzystano() {
+        return stratawykorzystano;
+    }
+
+    public void setStratawykorzystano(String stratawykorzystano) {
+        this.stratawykorzystano = stratawykorzystano;
+    }
+
+    public String getStratazostalo() {
+        return stratazostalo;
+    }
+
+    public void setStratazostalo(String stratazostalo) {
+        this.stratazostalo = stratazostalo;
     }
 
    
