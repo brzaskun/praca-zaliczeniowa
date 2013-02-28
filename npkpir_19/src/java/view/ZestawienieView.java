@@ -9,6 +9,7 @@ import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
+import embeddable.Straty;
 import embeddable.Udzialy;
 import entity.Dok;
 import entity.Pitpoz;
@@ -1059,9 +1060,9 @@ public class ZestawienieView implements Serializable {
             biezacyPit.setKoszty(obliczkoszt());
             biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
             biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
-            biezacyPit.setStrata(BigDecimal.ZERO);
             biezacyPit.setUdzialowiec(wybranyudzialowiec);
             biezacyPit.setUdzial(wybranyprocent);
+            rozliczstrate(tmpP);
             String poszukiwany = wpisView.getPodatnikWpisu();
             Podatnik selected = podatnikDAO.find(poszukiwany);
             Iterator it;
@@ -1088,11 +1089,15 @@ public class ZestawienieView implements Serializable {
             if(selected.getOdliczaczus51() == true){
                 biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
             }
-            BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            BigDecimal pierwszepomniejszenie = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
+            BigDecimal tmp = pierwszepomniejszenie.subtract(biezacyPit.getZus51());
             tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
-
+            if (tmp.signum()==-1){
+                biezacyPit.setPodstawa(BigDecimal.ZERO);
+            } else {
             //wyliczenie podatku poczatek
             biezacyPit.setPodstawa(tmp);
+            }
             int index = selected.getPodatekdochodowy().size() - 1;
             String opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
             String rodzajop = opodatkowanie;
@@ -1136,7 +1141,11 @@ public class ZestawienieView implements Serializable {
                     podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                     break;
             }
-            biezacyPit.setPodatek(podatek);
+            if(podatek.signum()==1){
+                biezacyPit.setPodatek(podatek);
+            } else {
+                biezacyPit.setPodatek(BigDecimal.ZERO);
+            }
             biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
             BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
             tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
@@ -1172,6 +1181,29 @@ public class ZestawienieView implements Serializable {
         }
     }
 
+    private void rozliczstrate(Podatnik tmp){
+        List<Straty> straty = tmp.getStratyzlatub();
+        double sumastrat = 0.0;
+        for(Straty p : straty){
+            Double wyliczmaks = Double.parseDouble(p.getZostalo()) -Double.parseDouble(p.getPolowakwoty());
+            if(wyliczmaks > 0){
+                sumastrat += Double.parseDouble(p.getPolowakwoty());
+            } else {
+                sumastrat += Double.parseDouble(p.getZostalo());
+            }
+            if(biezacyPit.getWynik().signum()==1){
+            BigDecimal stratadoujecia = biezacyPit.getWynik().subtract(new BigDecimal(sumastrat));
+            if(stratadoujecia.signum()==-1) {
+                biezacyPit.setStrata(biezacyPit.getWynik());
+            } else {
+                biezacyPit.setStrata(new BigDecimal(sumastrat));
+            }
+            } else {
+                biezacyPit.setStrata(BigDecimal.ZERO);
+            }
+    }
+    }
+    
     public void zachowajPit() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();
