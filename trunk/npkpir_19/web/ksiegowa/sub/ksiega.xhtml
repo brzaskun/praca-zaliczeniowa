@@ -43,7 +43,7 @@
                       rowsPerPageTemplate="24,32,50,100,200" paginatorPosition="top"
                       rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów" 
-                      scrollable="true" scrollRows="4" scrollHeight="600" resizableColumns="true"
+                      scrollable="true" scrollRows="4" scrollHeight="600" resizableColumns="true" 
                       > 
 
             <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" />           
@@ -53,7 +53,7 @@
             </f:facet>
             <p:columnGroup type="header">  
                 <p:row>  
-                    <p:column rowspan="2" headerText="lp"  style=" font-size: x-small;" width="20"/>  
+                    <p:column rowspan="2" headerText="lp"  style=" font-size: x-small;" width="20" />  
                     <p:column rowspan="2" headerText="Data zdarzenia gosp." width="50"  style=" font-size: x-small;"/>  
                     <p:column rowspan="2" headerText="Nr dowodu księgowego"  style=" font-size: x-small;" width="110"/>  
                     <p:column colspan="2" headerText="Kontrahent"  style=" font-size: x-small;" width="200"/>  
@@ -153,7 +153,7 @@
         <p:printer target="form:dokumentyLista" />
    </p:commandButton>
         <p:commandButton value="Zachowaj w pdf" ajax="false" actionListener="#{sesjaView.dodajwydruk()}">
-            <p:dataExporter type="pdf" target="form:dokumentyLista" fileName="dokumenty"  encoding="UTF-8" preProcessor="#{pdf.preProcessPDF}" />
+            <p:dataExporter type="pdf" target="form:dokumentyLista" fileName="dokumenty"  encoding="UTF-8" preProcessor="#{pdf.preProcessPDF}"  />
         </p:commandButton>
 
 
