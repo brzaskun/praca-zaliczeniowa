@@ -69,6 +69,28 @@ public class pdf {
     }
 }
 
+    private static PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException{
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font font = new Font(helvetica,8);
+        PdfPCell cell = new PdfPCell(new Phrase(fraza,font));
+        if(rowsp>0){
+            cell.setRowspan(rowsp);
+        } else {
+            cell.setColspan(colsp);
+        }
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        return cell;
+    }
+    
+    private static PdfPCell ustawfrazebez(String fraza) throws DocumentException, IOException{
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font font = new Font(helvetica,8);
+        PdfPCell cell = new PdfPCell(new Phrase(fraza,font));
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        return cell;
+    }
   
    public static void main(String[] args) throws DocumentException, FileNotFoundException, SQLException, NamingException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedEncodingException, IOException{
        
@@ -93,25 +115,66 @@ public class pdf {
     writer.setPageEvent(new RotateEvent());
     pdf.open();  
     BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-    Font font = new Font(helvetica,12);
+    Font font = new Font(helvetica,8);
     pdf.setPageSize(PageSize.A4);
-    PdfPTable table = new PdfPTable(4);
-    table.setWidths(new int[]{1, 2, 3, 2});
+    PdfPTable table = new PdfPTable(16);
+    table.setWidths(new int[]{1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    PdfPCell cell = new PdfPCell();
+    table.addCell(ustawfraze("lp", 0, 2));
+    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+    table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+    table.addCell(ustawfraze("Kontrahent", 2, 0));
+    table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+    table.addCell(ustawfraze("Przychody", 3, 0));
+    table.addCell(ustawfraze("Zakup towarów handlowych i materiałów wg cen zakupu", 0, 2));
+    table.addCell(ustawfraze("Koszty uboczne zakupu", 0, 2));
+    table.addCell(ustawfraze("Wydatki(koszty)", 4, 0));
+    table.addCell(ustawfraze("Uwagi", 0, 2));
     
-    PdfPCell cell = new PdfPCell(new Phrase("Naglowek", font));
-    cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-    cell.setColspan(7);
-    table.addCell(cell);
-    table.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-    for (int i = 0; i < 2; i++) {
-    table.addCell("Location");
-    table.addCell("Time");
-    table.addCell("Run Length");
-    table.addCell("Data");
-    }
-    table.getDefaultCell().setBackgroundColor(null);
-    table.setHeaderRows(3);
+    table.addCell(ustawfrazebez("imię i nazwisko (firma)"));
+    table.addCell(ustawfrazebez("adres"));
+    table.addCell(ustawfrazebez("wartość sprzedanych towarów i usług"));
+    table.addCell(ustawfrazebez("pozostałe przychody"));
+    table.addCell(ustawfrazebez("razem przychód (7+8)"));
+    table.addCell(ustawfrazebez("wynagrodzenia w gotówce i w naturze"));
+    table.addCell(ustawfrazebez("pozostałe wydatki"));
+    table.addCell(ustawfrazebez("razem wydatki (12+13)"));
+    table.addCell(ustawfrazebez("inwestycje"));
+    
+    table.addCell(ustawfrazebez("1"));
+    table.addCell(ustawfrazebez("2"));
+    table.addCell(ustawfrazebez("3"));
+    table.addCell(ustawfrazebez("4"));
+    table.addCell(ustawfrazebez("5"));
+    table.addCell(ustawfrazebez("6"));
+    table.addCell(ustawfrazebez("7"));
+    table.addCell(ustawfrazebez("8"));
+    table.addCell(ustawfrazebez("9"));
+    table.addCell(ustawfrazebez("10"));
+    table.addCell(ustawfrazebez("11"));
+    table.addCell(ustawfrazebez("12"));
+    table.addCell(ustawfrazebez("13"));
+    table.addCell(ustawfrazebez("14"));
+    table.addCell(ustawfrazebez("15"));
+    table.addCell(ustawfrazebez("16"));
+    
+    table.addCell(ustawfrazebez("1"));
+    table.addCell(ustawfrazebez("2"));
+    table.addCell(ustawfrazebez("3"));
+    table.addCell(ustawfrazebez("4"));
+    table.addCell(ustawfrazebez("5"));
+    table.addCell(ustawfrazebez("6"));
+    table.addCell(ustawfrazebez("7"));
+    table.addCell(ustawfrazebez("8"));
+    table.addCell(ustawfrazebez("9"));
+    table.addCell(ustawfrazebez("10"));
+    table.addCell(ustawfrazebez("11"));
+    table.addCell(ustawfrazebez("12"));
+    table.addCell(ustawfrazebez("13"));
+    table.addCell(ustawfrazebez("14"));
+    table.addCell(ustawfrazebez("15"));
+    table.addCell(ustawfrazebez("16"));
+    table.setHeaderRows(4);
     table.setFooterRows(1);
     
     Connection connection = getConnection();
@@ -119,11 +182,11 @@ public class pdf {
     ResultSet rs = stm.executeQuery("SELECT * FROM dok WHERE podatnik = 'EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK' ORDER BY id_dok");
     while (rs.next()) {
         System.out.println(new String(rs.getBytes("opis")));
-        table.addCell("id_dok");
-        table.addCell("data_wyst");
-        table.addCell("kontr");
-        cell = new PdfPCell(new Phrase(rs.getString("opis"),font));
-        table.addCell(cell);
+        table.addCell(ustawfrazebez("id_dok"));
+        table.addCell(ustawfrazebez("data_wyst"));
+        table.addCell(ustawfrazebez("nr_wl_dk"));
+        table.addCell(ustawfrazebez("nazwa kontr"));
+        table.addCell(ustawfrazebez("adres kontr"));
     }
     stm.close();
     connection.close();
