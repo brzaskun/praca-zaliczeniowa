@@ -152,8 +152,8 @@
          <p:commandButton value="drukuj" type="button">
         <p:printer target="form:dokumentyLista" />
    </p:commandButton>
-        <p:commandButton value="Zachowaj w pdf" ajax="false" actionListener="#{sesjaView.dodajwydruk()}">
-            <p:dataExporter type="pdf" target="form:dokumentyLista" fileName="dokumenty"  encoding="UTF-8" preProcessor="#{pdf.preProcessPDF}"  />
+        <p:commandButton value="Zachowaj w pdf" ajax="false" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdf.drukujksiege()}">
+            <a href="c:/filename.pdf">pdf file</a>
         </p:commandButton>
 
 
