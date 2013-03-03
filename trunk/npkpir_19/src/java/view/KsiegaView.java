@@ -7,12 +7,14 @@ package view;
 import embeddable.DokKsiega;
 import entity.Dok;
 import entity.Klienci;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 /**
@@ -20,7 +22,8 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-public class KsiegaView {
+@RequestScoped
+public class KsiegaView implements Serializable{
     @ManagedProperty(value = "#{DokTabView}")
     private DokTabView dokTabView;
     private static ArrayList<DokKsiega> lista;
