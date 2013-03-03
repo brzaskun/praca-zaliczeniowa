@@ -12,6 +12,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -52,6 +53,8 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     private KsiegaView ksiegaView;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    private int liczydlo = 0;
+    
     
     public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
 
@@ -112,59 +115,47 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
             return "";
         }
     }
-            
-    
-    String header;
-    PdfTemplate total;
-    public void setHeader(String header) {
-    this.header = header;
-    }
-    @Override
-    public void onOpenDocument(PdfWriter writer, Document document) {
-    total = writer.getDirectContent().createTemplate(30, 16);
-    }
-    @Override
-    public void onEndPage(PdfWriter writer, Document document) {
-    PdfPTable table = new PdfPTable(3);
-    try {
-    table.setWidths(new int[]{24, 24, 2});
-    table.setTotalWidth(527);
-    table.setLockedWidth(true);
-    table.getDefaultCell().setFixedHeight(20);
-    table.getDefaultCell().setBorder(Rectangle.BOTTOM);
-    table.addCell(header);
-    table.getDefaultCell().setHorizontalAlignment(
-    Element.ALIGN_RIGHT);
-    table.addCell(String.format("Page %d of", writer.getPageNumber()));
-    PdfPCell cell = new PdfPCell(Image.getInstance(total));
-    cell.setBorder(Rectangle.BOTTOM);
-    table.addCell(cell);
-    table.writeSelectedRows(0, -1,
-    34, 803, writer.getDirectContent());
-    
-    ColumnText.showTextAligned(writer.getDirectContentUnder(),
-    Element.ALIGN_CENTER, new Phrase("FOOBAR FILM FESTIVAL", FONT),
-    297.5f, 421, writer.getPageNumber() % 2 == 1 ? 45 : -45);
-    }
-    catch(DocumentException de) {
-    throw new ExceptionConverter(de);
-    }
-    }
-        
-    @Override
-    public void onCloseDocument(PdfWriter writer, Document document) {
-    ColumnText.showTextAligned(total, Element.ALIGN_LEFT,
-    new Phrase(String.valueOf(writer.getPageNumber() - 1)), 2, 2, 0);
-}
 
-    Font FONT =  new Font(FontFamily.HELVETICA, 52, Font.BOLD, new GrayColor(0.75f));
-   
+    public int getLiczydlo() {
+        return liczydlo;
+    }
+
+    public void setLiczydlo(int liczydlo) {
+        this.liczydlo = liczydlo;
+    }
+     
+    
+    
+    class HeaderFooter extends PdfPageEventHelper {
+
+              
+        @Override
+        public void onStartPage(PdfWriter writer, Document document) {
+            liczydlo++;
+        }
+
+        @Override
+        public void onEndPage(PdfWriter writer, Document document) {
+            BaseFont helvetica = null;
+            try {
+                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            } catch (Exception ex) {}
+            Font font = new Font(helvetica,8);
+            Rectangle rect = writer.getBoxSize("art");
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_CENTER, new Phrase(String.format("strona %d", liczydlo),font),
+                    (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
+        }
+    }
     
     
     public void drukujksiege() throws DocumentException, FileNotFoundException, IOException{
     Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
     PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_19/build/web/wydruki/filename.pdf"));
-    pdf.open();  
+     HeaderFooter event = new HeaderFooter();
+     writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
+     writer.setPageEvent(event);
+     pdf.open();  
     BaseFont helvetica = null;
         try {
             helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
@@ -270,9 +261,6 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     }
     pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
     pdf.add(table);
-    
-    Phrase hd = new Phrase("Biuro Rachunkowe Taxman - wydruk");
-    Phrase ft = new Phrase("podatnik:");
     pdf.addAuthor("Biuro Rachunkowe Taxman");
     pdf.close();
     Msg.msg("i","Wydrukowano księgę","form:messages");
