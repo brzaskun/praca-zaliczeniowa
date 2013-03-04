@@ -25,6 +25,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -32,6 +33,9 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
+import javax.faces.event.MethodExpressionActionListener;
 import javax.inject.Inject;
 import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.column.Column;
@@ -206,9 +210,22 @@ public class VatView implements Serializable {
             }
             Separator sep = new Separator();
             CommandButton button = new CommandButton();
-            button.setValue("Drukuj");
+            button.setValue("PobierzPdf");
             button.setType("button");
-            String tablican = "$(PrimeFaces.escapeClientId('form:akordeon:tablica" + i + "')).jqprint();return false;;;";
+            button.setId("przyciskpdf"+i);
+            FacesContext context = FacesContext.getCurrentInstance();
+            MethodExpression actionListener = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{pdf.drukujewidencje('zakup')}", null, new Class[] {ActionEvent.class});
+            button.addActionListener(new MethodExpressionActionListener(actionListener));
+//            MethodExpression methodExpressionX = context.getApplication().getExpressionFactory().createMethodExpression(
+//            context.getELContext(), "#{pdf.drukujewidencje('"+nazwapj+"')}", null, new Class[] {});
+//            button.setActionExpression(methodExpressionX);
+            String nowanazwa;
+            if(nazwapj.contains("sprzedaż")){
+                nowanazwa = nazwapj.substring(0, nazwapj.length()-1);
+                } else{
+                nowanazwa = nazwapj;
+                }
+            String tablican = "PrimeFaces.ab({source:'form:przyciskpdf"+i+"',onsuccess:function(data,status,xhr){wydrukewidencje('"+wpisView.getPodatnikWpisu()+"','"+nowanazwa+"');;}});return false;";
             button.setOnclick(tablican);
             tab.getChildren().add(dataTable);
             tab.getChildren().add(sep);

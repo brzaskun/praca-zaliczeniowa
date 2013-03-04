@@ -17,7 +17,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.EwidencjeVatDAO;
 import embeddable.DokKsiega;
+import embeddable.EVatViewPola;
+import entity.Ewidencjevat;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,11 +29,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.naming.NamingException;
 import msg.Msg;
 import view.KsiegaView;
@@ -47,6 +54,7 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     private KsiegaView ksiegaView;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    @Inject EwidencjeVatDAO ewidencjeVatDAO;
     private int liczydlo = 0;
     
     
@@ -258,6 +266,111 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     pdf.addAuthor("Biuro Rachunkowe Taxman");
     pdf.close();
     Msg.msg("i","Wydrukowano księgę","form:messages");
+    }   
+    
+    
+    public void drukujewidencje() throws DocumentException, FileNotFoundException, IOException{
+    Ewidencjevat lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu()); 
+    HashMap<String,ArrayList> mapa = lista.getEwidencje();
+    Set<String> nazwy = mapa.keySet();
+    for(String p :nazwy){
+    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
+    String nowanazwa;
+    if(p.contains("sprzedaż")){
+        nowanazwa = p.substring(0, p.length()-1);
+    } else{
+        nowanazwa = p;
+    }
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_19/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
+     HeaderFooter event = new HeaderFooter();
+     writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
+     writer.setPageEvent(event);
+     pdf.open();  
+    BaseFont helvetica = null;
+        try {
+            helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        } catch (IOException ex) {
+            Logger.getLogger(pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    Font font = new Font(helvetica,8);
+    pdf.setPageSize(PageSize.A4);
+    PdfPTable table = new PdfPTable(10);
+    table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
+    PdfPCell cell = new PdfPCell();
+    try {
+    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+    table.addCell(ustawfraze("wydruk ewidencji vat "+p, 2, 0));
+    table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 4, 0));
+    table.addCell(ustawfraze("za okres: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(), 2, 0));
+    table.addCell(ustawfraze("lp", 0, 2));
+    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+    table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
+    table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+    table.addCell(ustawfraze("Kontrahent", 2, 0));
+    table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+    table.addCell(ustawfraze("Netto", 0, 2));
+    table.addCell(ustawfraze("Vat", 0, 2));
+    table.addCell(ustawfraze("Brutto", 0, 2));
+    
+    
+    table.addCell(ustawfrazebez("imię i nazwisko (firma)","center"));
+    table.addCell(ustawfrazebez("adres","center"));
+    
+    table.addCell(ustawfrazebez("1","center"));
+    table.addCell(ustawfrazebez("2","center"));
+    table.addCell(ustawfrazebez("3","center"));
+    table.addCell(ustawfrazebez("4","center"));
+    table.addCell(ustawfrazebez("5","center"));
+    table.addCell(ustawfrazebez("6","center"));
+    table.addCell(ustawfrazebez("7","center"));
+    table.addCell(ustawfrazebez("8","center"));
+    table.addCell(ustawfrazebez("9","center"));
+    table.addCell(ustawfrazebez("10","center"));
+    
+    
+    table.addCell(ustawfrazebez("1","center"));
+    table.addCell(ustawfrazebez("2","center"));
+    table.addCell(ustawfrazebez("3","center"));
+    table.addCell(ustawfrazebez("4","center"));
+    table.addCell(ustawfrazebez("5","center"));
+    table.addCell(ustawfrazebez("6","center"));
+    table.addCell(ustawfrazebez("7","center"));
+    table.addCell(ustawfrazebez("8","center"));
+    table.addCell(ustawfrazebez("9","center"));
+    table.addCell(ustawfrazebez("10","center"));
+    
+    
+    table.setHeaderRows(5);
+    table.setFooterRows(1);
+    } catch (IOException ex) {
+            Logger.getLogger(pdf.class.getName()).log(Level.SEVERE, null, ex);
+    }
+   
+    ArrayList<EVatViewPola> ew  = lista.getEwidencje().get(p);
+    Integer i = 1;
+    for(EVatViewPola rs : ew){
+        table.addCell(ustawfrazebez(i.toString(),"center"));
+        table.addCell(ustawfrazebez(rs.getDataSprz(),"left"));
+        table.addCell(ustawfrazebez(rs.getDataWyst(),"left"));
+        table.addCell(ustawfrazebez(rs.getNrWlDk(),"left"));
+        table.addCell(ustawfrazebez(rs.getKontr().getNpelna(),"left"));
+        if(rs.getKontr().getKodpocztowy()!=null){
+        table.addCell(ustawfrazebez(rs.getKontr().getKodpocztowy()+" "+rs.getKontr().getMiejscowosc()+" ul. "+rs.getKontr().getUlica()+" "+rs.getKontr().getDom(),"left"));
+        } else {
+        table.addCell(ustawfrazebez("","left"));
+        }
+        table.addCell(ustawfrazebez(rs.getOpis(),"left"));
+        table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()),"right"));
+        table.addCell(ustawfrazebez(formatujliczby(rs.getVat()),"right"));
+        table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()+rs.getVat()),"right"));
+        i++;
+    }
+    pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+    pdf.add(table);
+    pdf.addAuthor("Biuro Rachunkowe Taxman");
+    pdf.close();
+    }
+    Msg.msg("i","Wydrukowano ewidencje","form:messages");
     }   
 
     public KsiegaView getKsiegaView() {
