@@ -6,6 +6,7 @@ package dao;
 
 import entity.Rodzajedok;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -27,4 +28,13 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public Rodzajedok find(String skrot){
         return rodzajedokFacade.findRodzajedok(skrot);
     }
+    
+    public  List<Rodzajedok> findAll(){
+        try {
+            System.out.println("Pobieram RodzajedokDAO");
+            return rodzajedokFacade.findAll(Rodzajedok.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

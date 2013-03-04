@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpSession;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class SesjaView implements Serializable{
     @Inject private Sesja sesja;
     @Inject private SesjaDAO sesjaDAO;
@@ -34,9 +35,10 @@ public class SesjaView implements Serializable{
     @PostConstruct
     private void init(){
        try{
-       wykazsesji.addAll(sesjaDAO.getDownloaded()); 
+       wykazsesji.addAll(sesjaDAO.findAll()); 
        } catch (Exception e){}
     }
+    
     
     
     public void dodajwydruk(){

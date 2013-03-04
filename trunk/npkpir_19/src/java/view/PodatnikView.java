@@ -116,7 +116,7 @@ public class PodatnikView implements Serializable{
     
     @PostConstruct
     public void init(){
-        li.addAll((Collection) podatnikDAO.getDownloaded());
+        li.addAll((Collection) podatnikDAO.findAll());
         Collections.sort(li, new Podatnikcomparator());
         if(nazwaWybranegoPodatnika==null){
             nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
@@ -450,7 +450,8 @@ public class PodatnikView implements Serializable{
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String rokzus = params.get("akordeon:form3:rokzus");
         String mczus = params.get("akordeon:form3:miesiaczus");
-        List<Zusstawki> tmp = zusDAO.getDownloaded();
+        List<Zusstawki> tmp = new ArrayList<>();
+        tmp.addAll(zusDAO.findAll());
         ZusstawkiPK key = new ZusstawkiPK();
             key.setRok(rokzus);
             key.setMiesiac(mczus);
@@ -470,7 +471,8 @@ public class PodatnikView implements Serializable{
         List lista = new ArrayList(params.values());
         String rokzus = (String) lista.get(6);
         String mczus = (String) lista.get(7);
-        List<Zusstawki> tmp = zusDAO.getDownloaded();
+        List<Zusstawki> tmp = new ArrayList<>();
+        tmp.addAll(zusDAO.findAll());
         ZusstawkiPK key = new ZusstawkiPK();
             key.setRok(rokzus);
             key.setMiesiac(mczus);
@@ -697,7 +699,8 @@ public class PodatnikView implements Serializable{
      
      public void zmienzbiorowoZUSPIT(){
          try {
-         List<Podatnik> lista = podatnikDAO.getDownloaded();
+         List<Podatnik> lista = new ArrayList<>();
+         lista.addAll(podatnikDAO.findAll());
          } catch (Exception e){}
      }
      

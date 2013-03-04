@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 /**
@@ -22,7 +22,7 @@ import javax.inject.Inject;
  * @author Osito
  */ 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class SrodkikstView implements Serializable {
     private static List<Srodkikst> lista;
     @Inject private SrodkikstDAO srodkikstDAO;
@@ -33,7 +33,7 @@ public class SrodkikstView implements Serializable {
     
     @PostConstruct
     private void init(){
-        lista.addAll(srodkikstDAO.getDownloaded());
+        lista.addAll(srodkikstDAO.findAll());
     }
     
      public List<Srodkikst> complete(String query) {  

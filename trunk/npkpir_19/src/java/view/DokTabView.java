@@ -353,18 +353,18 @@ public class DokTabView implements Serializable {
         wpisDAO.edit(wpistmp);
     }
     
-    public void napraw(){
-        List<Dok> temp = dokDAO.getDownloaded();
-        for(Dok p : temp){
-            List<EVatwpis> ew = p.getEwidencjaVAT();
-            Double netto = 0.0;
-            for(EVatwpis w : ew){
-                netto = netto + w.getNetto();
-            }
-            p.setKwota(netto);
-            dokDAO.edit(p);
-        }
-    }
+//    public void napraw(){
+//        List<Dok> temp = dokDAO.findAll();
+//        for(Dok p : temp){
+//            List<EVatwpis> ew = p.getEwidencjaVAT();
+//            Double netto = 0.0;
+//            for(EVatwpis w : ew){
+//                netto = netto + w.getNetto();
+//            }
+//            p.setKwota(netto);
+//            dokDAO.edit(p);
+//        }
+//    }
 
     public void sumawartosciwybranych(){
         podsumowaniewybranych = 0.0;

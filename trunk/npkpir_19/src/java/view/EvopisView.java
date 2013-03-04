@@ -39,7 +39,7 @@ public class EvopisView {
     @PostConstruct
     private void init() {
         try{
-        lista = eopisDAO.getDownloaded();
+        lista.addAll(eopisDAO.findAll());
         } catch (Exception e){}
     }
 

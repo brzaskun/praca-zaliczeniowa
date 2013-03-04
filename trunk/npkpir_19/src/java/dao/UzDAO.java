@@ -7,6 +7,7 @@ package dao;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -29,6 +30,13 @@ public class UzDAO extends DAO implements Serializable{
          return uzFacade.findUzNP(np);
      }
 
-        
+       public  List<Uz> findAll(){
+        try {
+            System.out.println("Pobieram UzDAO");
+            return uzFacade.findAll(Uz.class);
+        } catch (Exception e) {
+            return null;
+        }
+   } 
 }
 

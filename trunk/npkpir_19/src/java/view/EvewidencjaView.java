@@ -41,7 +41,7 @@ public class EvewidencjaView {
     @PostConstruct
     private void init() {
         try{
-        lista = eewidencjaDAO.getDownloaded();
+        lista.addAll(eewidencjaDAO.findAll());
         } catch (Exception e){}
     }
 

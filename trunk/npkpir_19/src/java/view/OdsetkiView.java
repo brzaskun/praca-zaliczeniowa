@@ -38,7 +38,7 @@ public class OdsetkiView implements Serializable{
     
     @PostConstruct
     private void init(){
-        lista.addAll(odsetkiDAO.getDownloaded());
+        lista.addAll(odsetkiDAO.findAll());
     }
     
     public void dodaj(){

@@ -24,7 +24,11 @@ public class StornoDokDAO extends DAO implements Serializable {
     }
    
   public StornoDok find(Integer rok, String mc, String podatnik){
+      try{
          return stornoFacade.findStornoDok(rok,mc,podatnik);
+      } catch (Exception e){
+          return null;
+      }
      }
   
   public List<StornoDok> find(Integer rok, String podatnik){

@@ -32,4 +32,13 @@ public class PlatnosciDAO extends DAO implements Serializable{
      public List<Platnosci> findPodRok(String rok, String podatnik) throws Exception{
         return platnosciFacade.findPlatnosciPodRok(rok, podatnik);
      }
+     
+     public  List<Platnosci> findAll(){
+        try {
+            System.out.println("Pobieram PlatnosciDAO");
+            return platnosciFacade.findAll(Platnosci.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

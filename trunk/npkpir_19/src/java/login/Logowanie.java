@@ -79,9 +79,9 @@ public class Logowanie implements Serializable{
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Manager";
             }else if(request.isUserInRole("Bookkeeper")){
-                 try{
-                ostatnidokumentDAO.usun(principal.getName());
-                } catch (Exception e){}
+//                 try{
+//                ostatnidokumentDAO.usun(principal.getName());
+//                } catch (Exception e){}
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Bookkeeper";
             }else if(request.isUserInRole("Guest")){

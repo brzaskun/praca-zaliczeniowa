@@ -140,7 +140,7 @@ public class PlatnosciView implements Serializable{
             selectedZob.setVat(0.0);
         }
         List<Zobowiazanie> terminy = new ArrayList<>();
-        terminy.addAll(zv.getDownloaded());
+        terminy.addAll(zv.findAll());
         Zobowiazanie termin = new Zobowiazanie();
         Iterator itx;
         itx = terminy.iterator();
@@ -321,7 +321,7 @@ public class PlatnosciView implements Serializable{
     
    private Odsetki zwrocokres(Date dataod){
        List<Odsetki> lista = new ArrayList<>();
-        lista.addAll(odsetkiDAO.getDownloaded());
+        lista.addAll(odsetkiDAO.findAll());
         Iterator it;
         it = lista.iterator();
         while(it.hasNext()){

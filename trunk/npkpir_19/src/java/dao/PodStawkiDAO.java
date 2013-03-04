@@ -6,6 +6,7 @@ package dao;
 
 import entity.Podstawki;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -28,4 +29,12 @@ public class PodStawkiDAO extends DAO implements Serializable{
         return podstawkiFacade.findPodstawkiyear(rok);
      }
    
+    public  List<Podstawki> findAll(){
+        try {
+            System.out.println("Pobieram PodstawkiDAO");
+            return podstawkiFacade.findAll(Podstawki.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }
