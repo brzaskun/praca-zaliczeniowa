@@ -160,6 +160,10 @@ function wydrukpkpir(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
+function wydrukewidencje(kto,nazwa){
+    window.open('../wydruki/vat-'+nazwa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+}
+
 function focusdatavalidate(){
         document.getElementById("dodWiad:dataPole").focus();
         };

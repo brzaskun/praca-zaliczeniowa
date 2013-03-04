@@ -4,7 +4,6 @@
  */
 package entity;
 
-import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import java.io.Serializable;
 import java.util.ArrayList;
