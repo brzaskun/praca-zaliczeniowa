@@ -5,7 +5,9 @@
 package dao;
 
 import entity.Evewidencja;
+import entity.Podatnik;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -24,6 +26,15 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         super(Evewidencja.class);
     }
 
+     public  List<Evewidencja> findAll(){
+        try {
+            System.out.println("Pobieram EvewidencjaDAO");
+            return evewidencjaFacade.findAll(Evewidencja.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
     public Evewidencja znajdzponazwie(String nazwa) throws Exception {
         Evewidencja tmp = new Evewidencja();
         try {

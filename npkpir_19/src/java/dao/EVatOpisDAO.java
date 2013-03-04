@@ -8,6 +8,7 @@ import entity.EVatOpis;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -26,6 +27,15 @@ public class EVatOpisDAO extends DAO implements Serializable {
     public EVatOpisDAO() {
         super(EVatOpis.class);
     }
+    
+    public  List<EVatOpis> findAll(){
+        try {
+            System.out.println("Pobieram EVatOpisDAO");
+            return eVatOpisFacade.findAll(EVatOpis.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
     
     public void clear(){
         Collection c = null;

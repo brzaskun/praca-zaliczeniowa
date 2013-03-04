@@ -39,7 +39,7 @@ public class EvpozycjaView {
     @PostConstruct
     private void init() {
         try{
-        lista = epozycjaDAO.getDownloaded();
+        lista.addAll(epozycjaDAO.findAll());
         } catch (Exception e){}
     }
 

@@ -38,8 +38,8 @@ public class ZobowiazanieView implements Serializable{
 
     @PostConstruct
     private void init(){
-        Collection c;
-        c = zobowiazanieDAO.getDownloaded();
+        Collection c  = null;
+        c.addAll(zobowiazanieDAO.findAll());
         try{
             listapobranychstawek.addAll(c);
         } catch (Exception e){}

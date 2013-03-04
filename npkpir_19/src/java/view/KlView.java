@@ -45,7 +45,7 @@ public class KlView implements Serializable{
     
     @PostConstruct
     private void init(){
-        kl.addAll(klDAO.getDownloaded());
+        kl.addAll(klDAO.findAll());
         kl1 = kl;
         
     }
@@ -157,8 +157,8 @@ public class KlView implements Serializable{
   
    public List<Klienci> complete(String query) {  
         List<Klienci> results = new ArrayList<>();
-        
-        List<Klienci> lista = klDAO.getDownloaded();
+        List<Klienci> lista = new ArrayList<>();
+        lista.addAll(klDAO.findAll());
         try{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
@@ -220,7 +220,8 @@ public class KlView implements Serializable{
      private void poszukajnip() throws Exception {
          String nippoczatkowy = selected.getNip();
          if(!nippoczatkowy.equals("0000000000")){
-         List<Klienci> kliencitmp = klDAO.getDownloaded();     
+         List<Klienci> kliencitmp  = new ArrayList<>();
+         kliencitmp = klDAO.findAll();     
          List<String> kliencinip = new ArrayList<>();
          for (Klienci p : kliencitmp){
              if(p.getNip().equals(nippoczatkowy)){

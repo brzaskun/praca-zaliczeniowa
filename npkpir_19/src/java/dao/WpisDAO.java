@@ -6,6 +6,7 @@ package dao;
 
 import entity.Wpis;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -27,4 +28,12 @@ public class WpisDAO extends DAO implements Serializable {
         return wpisFacade.findWpis(login);
     }
     
+    public  List<Wpis> findAll(){
+        try {
+            System.out.println("Pobieram WpisDAO");
+            return wpisFacade.findAll(Wpis.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

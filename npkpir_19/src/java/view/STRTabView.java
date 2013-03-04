@@ -87,7 +87,7 @@ public class STRTabView implements Serializable{
         if (wpisView.getPodatnikWpisu() != null) {
             Collection c = null;
             try {
-                c = sTRDAO.getDownloaded();
+                c.addAll(sTRDAO.findAll());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }

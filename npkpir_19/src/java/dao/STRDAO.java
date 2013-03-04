@@ -6,6 +6,7 @@ package dao;
 
 import entity.SrodekTrw;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -36,4 +37,12 @@ public class STRDAO extends DAO implements Serializable{
 //        return tmp;
 //        }
    
+   public  List<SrodekTrw> findAll(){
+        try {
+            System.out.println("Pobieram SrodekTrwDAO");
+            return strFacade.findAll(SrodekTrw.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

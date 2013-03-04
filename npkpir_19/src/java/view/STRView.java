@@ -117,7 +117,7 @@ public class STRView implements Serializable {
     }
 
     public int ile() {
-        return sTRDAO.getDownloaded().size();
+        return sTRDAO.findAll().size();
     }
 
     public static void main(String[] args) {

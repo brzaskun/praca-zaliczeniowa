@@ -6,6 +6,7 @@ package dao;
 
 import entity.Zusstawki;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -18,9 +19,18 @@ import session.SessionFacade;
 public class ZUSDAO extends DAO implements Serializable {
 
     @Inject
-    private SessionFacade SFacade;
+    private SessionFacade zusstawkiFacade;
    
     public ZUSDAO(){
         super(Zusstawki.class);
     }
+    
+    public  List<Zusstawki> findAll(){
+        try {
+            System.out.println("Pobieram ZusstawkiDAO");
+            return zusstawkiFacade.findAll(Zusstawki.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

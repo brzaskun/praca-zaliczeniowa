@@ -1225,7 +1225,7 @@ public class ZestawienieView implements Serializable {
             }
 
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak danych do PIT za m-c:", biezacyPit.getPkpirM());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie można zachować. PIT nie wypełniony", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -1236,7 +1236,7 @@ public class ZestawienieView implements Serializable {
         tmp.setZus52(BigDecimal.ZERO);
         tmp.setNalzalodpoczrok(BigDecimal.ZERO);
         try {
-            Collection c = pitDAO.getDownloaded();
+            Collection c = pitDAO.findAll();
             Iterator it;
             it = c.iterator();
 
@@ -1444,7 +1444,7 @@ public class ZestawienieView implements Serializable {
 
     public void pobierzPity() {
         try {
-            pobierzPity.addAll(pitDAO.getDownloaded());
+            pobierzPity.addAll(pitDAO.findAll());
         } catch (Exception e) {
         }
         narPitpoz = new Pitpoz();

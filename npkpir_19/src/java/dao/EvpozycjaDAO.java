@@ -6,6 +6,7 @@ package dao;
 
 import entity.Evpozycja;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -27,4 +28,13 @@ public class EvpozycjaDAO extends DAO implements Serializable {
     public Evpozycja find(String nazwapola){
         return evpozycjaFacade.findEvpozycjaByName(nazwapola);
     }
+    
+    public  List<Evpozycja> findAll(){
+        try {
+            System.out.println("Pobieram EvpozycjaDAO");
+            return evpozycjaFacade.findAll(Evpozycja.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

@@ -76,6 +76,11 @@ public class SessionFacade<T> {
         return (Evpozycja) em.createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
     }
 
+    public List<Pitpoz> findPitpozAll(){
+        List<Pitpoz> lista = em.createNamedQuery("Pitpoz.findAll").getResultList();
+        return lista;
+    }
+    
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
@@ -102,7 +107,11 @@ public class SessionFacade<T> {
     }
 
     public Sesja findSesja(String nrsesji) {
+        try {
         return (Sesja) em.createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public Podstawki findPodstawkiyear(Integer rok) {
@@ -156,8 +165,12 @@ public class SessionFacade<T> {
     }
 
     public StornoDok findStornoDok(Integer rok, String mc, String podatnik) {
+        try {
         StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getSingleResult();
         return tmp;
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public List<StornoDok> findStornoDok(Integer rok, String podatnik) {

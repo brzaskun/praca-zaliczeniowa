@@ -38,8 +38,8 @@ public class ZUSstawkiView implements Serializable{
 
     @PostConstruct
     private void init(){
-        Collection c;
-        c = zusDAO.getDownloaded();
+        Collection c = null;
+        c.addAll(zusDAO.findAll());
         try{
         listapobranychstawek.addAll(c); 
         } catch (Exception e){}

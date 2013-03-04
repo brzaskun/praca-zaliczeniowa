@@ -50,7 +50,7 @@ public class UzView implements Serializable{
     public void init(){
         List<Uz> c = new ArrayList<>();;
         try {
-            c.addAll(uzDAO.getDownloaded());
+            c.addAll(uzDAO.findAll());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }

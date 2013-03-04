@@ -2,8 +2,10 @@
 package dao;
 
 import entity.Podatnik;
+import entity.Sesja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -21,9 +23,18 @@ public class PodatnikDAO extends DAO implements Serializable{
    
     public PodatnikDAO() {
         super(Podatnik.class);
-        downloaded = new ArrayList<>();
     }
 
+    public  List<Podatnik> findAll(){
+        try {
+            System.out.println("Pobieram PodatnikDAO");
+            return podatnikFacade.findAll(Podatnik.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
+    
      public Podatnik find(String np){
          return podatnikFacade.findPodatnikNP(np);
      }

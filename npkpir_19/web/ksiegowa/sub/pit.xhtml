@@ -36,8 +36,8 @@
                     <p:commandButton value="usun pit"  actionListener="#{pitView.usun()}" update=":akordeon:formpi:tablicapit" style="width: 120px;"/>
                 </h:form>
                 <h:form id="formpi2">
-                    <p:panel header="przegląd wybranego PIT-u" style="margin-left: 50px;width: 400px"/><br/>
-                    <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 400px; height: 670px;">
+                    <p:panel header="przegląd wybranego PIT-u" style="margin-left: 50px;width: 350px"/><br/>
+                    <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
                         <h:outputText value="firma"/><h:outputText value="#{pitView.biezacyPit.podatnik}"/>
                         <h:outputText value="podatnik"/><h:outputText value="#{pitView.biezacyPit.udzialowiec}"/> 
                         <h:outputText value="pkpirR"/><h:outputText value="#{pitView.biezacyPit.pkpirR}"/>
@@ -93,58 +93,58 @@
                 <h:form id="formpit">
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="margin-left: 50px;width: 400px"/><br/>
-                    <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px; width: 400px; height: 670px;">
-                        <h:outputText value="firma"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
-                        <h:outputText value="podatnik"/><h:outputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
-                        <h:outputText value="pkpirR"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
-                        <h:outputText value="pkpirM"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
+                    <p:panelGrid id="zestawieniepit" columns="2" style="margin-left: 50px; width: 400px;">
+                        <h:outputText value="firma"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
+                        <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
+                        <h:outputText value="pkpirR"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
+                        <h:outputText value="pkpirM"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
                         <h:outputText value="przychody narast."/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.przychody}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.przychody}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="koszty narast."/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.koszty}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.koszty}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="udział"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.udzial}" style="font-weight: 700; float: right;"/>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.udzial}" style="font-weight: 700; float: right;"/>
                         <h:outputText value="przychody udział"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.przychodyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.przychodyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="koszty udział"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.kosztyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.kosztyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="wynik od pocz. rok"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.wynik}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.wynik}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="strata z lat ub"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.strata}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.strata}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="ZUS 51"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="podstawa opod."/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="podatek"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.podatek}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.podatek}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="ZUS 52"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="podatek należny od pocz rok"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.pododpoczrok}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.pododpoczrok}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="zaliczki za pop.m-ce"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.nalzalodpoczrok}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="należna zal. za m-c"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="do zapłaty"/>
-                        <h:outputText value="#{ZestawienieView.biezacyPit.dozaplaty}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
-                        <h:outputText value="termin płatności"/><h:outputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
-                        <h:outputText value="przelano"/><h:outputText value="#{ZestawienieView.biezacyPit.przelano}"/>
-                        <h:outputText value="zamknięty"/><h:outputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
+                        <h:inputText value="#{ZestawienieView.biezacyPit.dozaplaty}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:inputText>
+                        <h:outputText value="termin płatności"/><h:inputText value="#{ZestawienieView.biezacyPit.terminwplaty}"/>
+                        <h:outputText value="przelano"/><h:inputText value="#{ZestawienieView.biezacyPit.przelano}"/>
+                        <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid  columns="2" style="margin-left: 160px">

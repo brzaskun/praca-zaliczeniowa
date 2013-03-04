@@ -63,7 +63,8 @@ public class EVatView implements Serializable{
     //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
     public void init(){
-        ArrayList<Evewidencja> tmp =  (ArrayList<Evewidencja>) eVDAO.getDownloaded();
+        List<Evewidencja> tmp = new ArrayList<>();
+        tmp.addAll(eVDAO.findAll());
         Collections.sort(tmp, new Evewidencjacomparator());
         for (Evewidencja up : tmp){
             listadostepnychewidencji.add(up.getNazwa());

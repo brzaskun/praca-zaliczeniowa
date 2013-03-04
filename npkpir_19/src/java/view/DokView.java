@@ -762,7 +762,8 @@ public class DokView implements Serializable{
         List<Double> pobierzVat = new ArrayList<>();
         try {
             if(!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT")){
-            ArrayList<Evewidencja> ew = (ArrayList<Evewidencja>) evewidencjaDAO.getDownloaded();
+            ArrayList<Evewidencja> ew = new ArrayList<>();
+            ew.addAll(evewidencjaDAO.findAll());
             Collections.sort(ew,new Evewidencjacomparator());
             EVatOpis eVO = (EVatOpis) eVatOpisDAO.findS(wpisView.getWprowadzil().getLogin());
             List<String> pobierzOpisy = new ArrayList<>();
@@ -786,7 +787,8 @@ public class DokView implements Serializable{
             List<EVatwpis> el = new ArrayList<>();
             
             int i = 0;
-            while (i < evewidencjaDAO.getDownloaded().size()) {
+            int rozmiar = evewidencjaDAO.findAll().size();
+            while (i < rozmiar) {
                 int j = 0;
                 while (j < 5 && (pobierzOpisy.get(j) != null)) {
                     String op = pobierzOpisy.get(j);
@@ -865,11 +867,7 @@ public class DokView implements Serializable{
             Ostatnidokument temp = new Ostatnidokument();
             temp.setUzytkownik(principal.getName());
             temp.setDokument(selDokument);
-            try {
-                ostatnidokumentDAO.dodaj(temp);
-            } catch (Exception e) {
-                ostatnidokumentDAO.edit(temp);
-            }
+            ostatnidokumentDAO.edit(temp);
             wysDokument = new Dok();
             wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
             RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
@@ -1864,38 +1862,38 @@ public class DokView implements Serializable{
 //        }
 //    }
       
-      public void uporzadkujbrutto(){
-          List<Dok> lista = dokDAO.getDownloaded();
-          for(Dok sel : lista){
-                Double kwota = sel.getKwota();
-                try{
-                kwota = kwota + sel.getKwotaX();
-                } catch (Exception e){}
-                
-                double kwotavat = 0;
-                try{
-                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
-                    for(EVatwpis p : listavat){
-                        kwotavat = kwotavat + p.getVat();
-                    }
-                } catch (Exception e){}
-                try{
-                kwota = kwota + kwotavat;
-                } catch (Exception e){}
-                sel.setBrutto(kwota);
-                dokDAO.edit(sel);
-          }
-      }
+//      public void uporzadkujbrutto(){
+//          List<Dok> lista = dokDAO.findAll();
+//          for(Dok sel : lista){
+//                Double kwota = sel.getKwota();
+//                try{
+//                kwota = kwota + sel.getKwotaX();
+//                } catch (Exception e){}
+//                
+//                double kwotavat = 0;
+//                try{
+//                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
+//                    for(EVatwpis p : listavat){
+//                        kwotavat = kwotavat + p.getVat();
+//                    }
+//                } catch (Exception e){}
+//                try{
+//                kwota = kwota + kwotavat;
+//                } catch (Exception e){}
+//                sel.setBrutto(kwota);
+//                dokDAO.edit(sel);
+//          }
+//      }
       
-       public void uporzadkujekstra(){
-          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
-          for(Dok sel : lista){
-                Double kwota = sel.getKwota();
-                if(sel.getPodatnik().equals("EKSTRA S.C.")){
-                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
-                }
-                System.out.println("Zmienilem dokument");
-                dokDAO.edit(sel);
-          }
-      }
+//       public void uporzadkujekstra(){
+//          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
+//          for(Dok sel : lista){
+//                Double kwota = sel.getKwota();
+//                if(sel.getPodatnik().equals("EKSTRA S.C.")){
+//                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
+//                }
+//                System.out.println("Zmienilem dokument");
+//                dokDAO.edit(sel);
+//          }
+//      }
 }

@@ -26,6 +26,16 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         super(Deklaracjevat.class);
     }
 
+     public  List<Deklaracjevat> findAll(){
+        try {
+            System.out.println("Pobieram DeklaracjevatDAO");
+            return deklaracjevatFacade.findAll(Deklaracjevat.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
+    
     public Deklaracjevat findDeklaracje(String rok, String mc, String pod){
         return deklaracjevatFacade.findDeklaracjevat(rok, mc, pod);
     }

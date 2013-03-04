@@ -6,6 +6,7 @@ package dao;
 
 import entity.Evopis;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -23,4 +24,13 @@ public class EvopisDAO extends DAO implements Serializable {
     public EvopisDAO() {
         super(Evopis.class);
     }
+    
+    public  List<Evopis> findAll(){
+        try {
+            System.out.println("Pobieram EvopisDAO");
+            return evopisFacade.findAll(Evopis.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

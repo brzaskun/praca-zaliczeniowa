@@ -6,6 +6,7 @@ package dao;
 
 import entity.Ewidencjevat;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -37,4 +38,12 @@ public class EwidencjeVatDAO extends DAO implements Serializable {
             dodaj(ew);
         }
     }
+    public  List<Ewidencjevat> findAll(){
+        try {
+            System.out.println("Pobieram EwidencjevatDAO");
+            return ewidencjevatFacade.findAll(Ewidencjevat.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

@@ -6,9 +6,7 @@ package view;
 
 import dao.PitDAO;
 import dao.PodatnikDAO;
-import embeddable.Udzialy;
 import entity.Pitpoz;
-import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
