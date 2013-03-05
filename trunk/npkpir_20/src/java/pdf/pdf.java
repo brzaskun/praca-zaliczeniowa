@@ -147,7 +147,12 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_CENTER, new Phrase(String.format("strona %d", liczydlo),font),
                     (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
-        }
+         }
+        
+        @Override
+        public void onCloseDocument(PdfWriter writer, Document document){
+            liczydlo = 0;
+    }
     }
     
     
