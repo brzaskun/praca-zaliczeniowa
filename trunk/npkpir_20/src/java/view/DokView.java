@@ -172,6 +172,7 @@ public class DokView implements Serializable{
     private List opisypkpir;
     
     private List<String> listamiesiecyewidencjavat;
+    @Inject private Mce mce;
     
     public DokView() {
         setPokazSTR(false);
@@ -179,6 +180,7 @@ public class DokView implements Serializable{
         setWysDokument(null);
         wpisView = new WpisView();
         opisypkpir = new ArrayList();
+        listamiesiecyewidencjavat = new ArrayList<>();
     }
  
     @PostConstruct
@@ -191,6 +193,9 @@ public class DokView implements Serializable{
         opisypkpir.addAll(podX.getOpisypkpir());
         rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
         opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
+        if(podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("VAT")){
+            selDokument.setDokumentProsty(true);
+        }
         } catch (Exception e){
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
@@ -203,12 +208,26 @@ public class DokView implements Serializable{
         selDokument.setVatR(wpistmp.getRokWpisu().toString());
         selDokument.setVatM(wpistmp.getMiesiacWpisu());
         } catch (Exception e){}
+        ukrocmiesiace();
         
     }
     
-    private void ukrocmiesiace(){
+    private void ukrocmiesiace(){ 
         int index = 0;
-        List<String> listatmp;
+        List<String> listatmp = mce.getMceList();
+        String biezacymiesiac = wpisView.getMiesiacWpisu();
+        for(String p : listatmp){
+            if(p.equals(biezacymiesiac)){
+                listamiesiecyewidencjavat.add(p);
+                 if(p.equals("12")&&(listamiesiecyewidencjavat.size()==1)){
+                listamiesiecyewidencjavat.add("01");
+            }
+            } else {
+            if(listamiesiecyewidencjavat.size()>0&&listamiesiecyewidencjavat.size()<2){
+                listamiesiecyewidencjavat.add(p);
+            }
+            }
+        }
     }
     
     //kopiuje ostatni dokument celem wykorzystania przy wpisie
@@ -1239,6 +1258,10 @@ public class DokView implements Serializable{
         przekazKontr = (Klienci) anAutoComplete.getValue();
         if(przekazKontr.getNpelna().equals("nowy klient")){
             FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
+        }
+         if(podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("VAT")){
+            selDokument.setDokumentProsty(true);
+            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
         }
     }
     

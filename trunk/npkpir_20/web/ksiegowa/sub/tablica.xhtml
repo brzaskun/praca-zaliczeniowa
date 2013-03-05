@@ -131,7 +131,14 @@
             </p:column>
                 </p:rowExpansion>
              <p:column id="vatMcColumn" headerText="v m-c" filterBy="#{wpis.vatM}" filterMatchMode="contains" sortBy="#{wpis.vatM}" width="60" filterMaxLength="2">  
-                <h:outputText value="#{wpis.vatM}" />
+                <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.vatM}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.vatM}"/>
+                    </f:facet>  
+                </p:cellEditor>
             </p:column >
                     <p:column id="status" headerText="status"  width="90">
                     <h:outputText value="#{wpis.status}"/>

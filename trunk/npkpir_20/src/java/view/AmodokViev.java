@@ -24,17 +24,16 @@ import javax.inject.Inject;
  *
  * @author Osito
  */
-@ManagedBean(name="AmodokView")
+@ManagedBean(name = "AmodokView")
 @RequestScoped
 public class AmodokViev {
-     @Inject
+
+    @Inject
     private AmoDokDAO amoDokDAO;
-     private Amodok selected;
-     
-    @ManagedProperty(value="#{WpisView}")
+    private Amodok selected;
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-     
-     private HashMap<String,Amodok> dokHashTable;
+    private HashMap<String, Amodok> dokHashTable;
     //tablica kluczy do obiektów
     private List<String> kluczDOKjsf;
     //tablica obiektów
@@ -43,17 +42,74 @@ public class AmodokViev {
     private List<Amodok> obiektDOKjsfSel;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Amodok> obiektDOKmrjsfSel;
-     //tablica obiektów danego klienta z określonego roku i miesiecy
+    //tablica obiektów danego klienta z określonego roku i miesiecy
     private List<Amodok> obiektDOKmrjsfSelX;
 
     public AmodokViev() {
-         selected = new Amodok();
-         dokHashTable = new HashMap<String, Amodok>();
-        kluczDOKjsf = new ArrayList<String>();
-        obiektDOKjsf = new ArrayList<Amodok>();
-        obiektDOKjsfSel = new ArrayList<Amodok>();
-        obiektDOKmrjsfSel = new ArrayList<Amodok>();
-        obiektDOKmrjsfSelX = new ArrayList<Amodok>();
+        selected = new Amodok();
+        dokHashTable = new HashMap<>();
+        kluczDOKjsf = new ArrayList<>();
+        obiektDOKjsf = new ArrayList<>();
+        obiektDOKjsfSel = new ArrayList<>();
+        obiektDOKmrjsfSel = new ArrayList<>();
+        obiektDOKmrjsfSelX = new ArrayList<>();
+    }
+
+    @PostConstruct
+    public void init() {
+        if (wpisView.getPodatnikWpisu() != null) {
+            Collection c = null;
+            try {
+                c = amoDokDAO.findAll();
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+            }
+            if (c != null) {
+                Iterator it;
+                it = c.iterator();
+                while (it.hasNext()) {
+                    Amodok tmp = (Amodok) it.next();
+                    kluczDOKjsf.add(tmp.getId().toString());
+                    obiektDOKjsf.add(tmp);
+                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                        obiektDOKjsfSel.add(tmp);
+                    }
+                    dokHashTable.put(tmp.getId().toString(), tmp);
+                }
+                int ie = 1;
+                Iterator itx;
+                itx = obiektDOKjsfSel.iterator();
+                while (itx.hasNext()) {
+                    Amodok tmpx = (Amodok) itx.next();
+                    String m = wpisView.getMiesiacWpisu();
+                    Integer r = wpisView.getRokWpisu();
+                    //if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
+                    tmpx.setId(ie);
+                    obiektDOKmrjsfSel.add(tmpx);
+                    ie++;
+                    //}
+                }
+                if (wpisView.getMiesiacOd() != null) {
+                    obiektDOKmrjsfSelX.clear();
+                    Iterator itxX;
+                    itxX = obiektDOKjsfSel.iterator();
+                    Integer r = wpisView.getRokWpisu();
+                    String mOd = wpisView.getMiesiacOd();
+                    Integer mOdI = Integer.parseInt(mOd);
+                    String mDo = wpisView.getMiesiacDo();
+                    Integer mDoI = Integer.parseInt(mDo);
+                    Map<Integer, String> mapa;
+                    while (itxX.hasNext()) {
+                        Amodok tmpx = (Amodok) itxX.next();
+                        for (int i = mOdI; i <= mDoI; i++) {
+                            //   if (tmpx.getPkpirM().equals(mapa.get(i)) && tmpx.getPkpirR().equals(r.toString())) {
+                            obiektDOKmrjsfSelX.add(tmpx);
+                            //   }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public WpisView getWpisView() {
@@ -64,7 +120,6 @@ public class AmodokViev {
         this.wpisView = wpisView;
     }
 
-    
     public AmoDokDAO getAmoDokDAO() {
         return amoDokDAO;
     }
@@ -128,64 +183,4 @@ public class AmodokViev {
     public void setObiektDOKmrjsfSelX(List<Amodok> obiektDOKmrjsfSelX) {
         this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
-    
-      @PostConstruct
-    public void init() {
-        if (wpisView.getPodatnikWpisu() != null) {
-            Collection c = null;
-            try {
-                c.addAll(amoDokDAO.findAll());
-            } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
-            }
-            if (c != null) {
-                Iterator it;
-                it = c.iterator();
-                while (it.hasNext()) {
-                    Amodok tmp = (Amodok) it.next();
-                    kluczDOKjsf.add(tmp.getId().toString());
-                    obiektDOKjsf.add(tmp);
-                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        obiektDOKjsfSel.add(tmp);
-                    }
-                    dokHashTable.put(tmp.getId().toString(), tmp);
-                }
-                int ie = 1;
-                Iterator itx;
-                itx = obiektDOKjsfSel.iterator();
-                while (itx.hasNext()) {
-                    Amodok tmpx = (Amodok) itx.next();
-                    String m = wpisView.getMiesiacWpisu();
-                    Integer r = wpisView.getRokWpisu();
-                    //if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-                        tmpx.setId(ie);
-                        obiektDOKmrjsfSel.add(tmpx);
-                        ie++;
-                //}
-            }
-                if (wpisView.getMiesiacOd() != null) {
-                    obiektDOKmrjsfSelX.clear();
-                    Iterator itxX;
-                    itxX = obiektDOKjsfSel.iterator();
-                    Integer r = wpisView.getRokWpisu();
-                    String mOd = wpisView.getMiesiacOd();
-                    Integer mOdI = Integer.parseInt(mOd);
-                    String mDo = wpisView.getMiesiacDo();
-                    Integer mDoI = Integer.parseInt(mDo);
-                    Map<Integer, String> mapa;
-                    while (itxX.hasNext()) {
-                        Amodok tmpx = (Amodok) itxX.next();
-                        for (int i = mOdI; i <= mDoI; i++) {
-                         //   if (tmpx.getPkpirM().equals(mapa.get(i)) && tmpx.getPkpirR().equals(r.toString())) {
-                                obiektDOKmrjsfSelX.add(tmpx);
-                         //   }
-        }
-                    }
-                }
-            }
-        }
-    }
-
-    
-    
 }

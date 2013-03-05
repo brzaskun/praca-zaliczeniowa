@@ -136,7 +136,7 @@
 
             <h:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 120px" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste"  onblur="updatesum()"/>
             <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
-                <f:selectItems id="vatr" value="#{Mce.mceList}"/>
+                <f:selectItems id="vatr" value="#{DokumentView.listamiesiecyewidencjavat}"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{DokumentView.selDokument.vatR}">
                 <f:selectItems value="#{Roki.rokiList}"/>

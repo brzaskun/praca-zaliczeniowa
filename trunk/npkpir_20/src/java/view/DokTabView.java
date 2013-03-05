@@ -124,13 +124,16 @@ public class DokTabView implements Serializable {
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
+                int numerkolejny = 1;
+                for(Dok p : obiektDOKjsfSel){
+                    p.setNrWpkpir(numerkolejny++);
+                }
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             String m = wpisView.getMiesiacWpisu();
             Integer m1 = Integer.parseInt(m);
             String mn = Mce.getMapamcy().get(m1);
-            int inus = 1;
             Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
             for(Dok tmpx : obiektDOKjsfSel){
@@ -145,9 +148,7 @@ public class DokTabView implements Serializable {
                         }
                     }
                     if (tmpx.getPkpirM().equals(m)) {
-                        tmpx.setNrWpkpir(inus);
                         obiektDOKmrjsfSel.add(tmpx);
-                        inus++;
                     }
                     if (tmpx.getVatM().equals(mn)) {
                         dokvatmc.add(tmpx);
