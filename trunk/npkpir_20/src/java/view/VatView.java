@@ -34,7 +34,6 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.NumberConverter;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.inject.Inject;
 import org.primefaces.component.accordionpanel.AccordionPanel;
@@ -126,7 +125,31 @@ public class VatView implements Serializable {
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
         }
-
+        /**
+         * Dodaj sumy do ewidencji dla wydruku
+         */
+        
+        Set<String> klucze = sumaewidencji.keySet();
+        for(String p : klucze){
+            EVatViewPola wiersz = new EVatViewPola();
+            wiersz.setId(0);
+            wiersz.setDataSprz("");
+            wiersz.setDataWyst("");
+            wiersz.setKontr(null);
+            wiersz.setNrWlDk("");
+            wiersz.setOpis("podsumowanie");
+            wiersz.setNazwaewidencji("");
+            wiersz.setNrpolanetto("");
+            wiersz.setNrpolavat("");
+            wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());
+            wiersz.setVat(sumaewidencji.get(p).getVat().doubleValue());
+            wiersz.setOpizw("");
+            listaewidencji.get(p).add(wiersz);
+        }
+        
+        /**
+         * 
+         */
         wygeneruj(listaewidencji);
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();

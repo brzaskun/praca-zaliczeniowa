@@ -153,7 +153,7 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     
     public void drukujksiege() throws DocumentException, FileNotFoundException, IOException{
     Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_19/build/web/wydruki/pkpir"+wpisView.getPodatnikWpisu()+".pdf"));
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20/build/web/wydruki/pkpir"+wpisView.getPodatnikWpisu()+".pdf"));
      HeaderFooter event = new HeaderFooter();
      writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
      writer.setPageEvent(event);
@@ -281,7 +281,7 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     } else{
         nowanazwa = p;
     }
-    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_19/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
      HeaderFooter event = new HeaderFooter();
      writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
      writer.setPageEvent(event);
@@ -353,12 +353,18 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
         table.addCell(ustawfrazebez(rs.getDataSprz(),"left"));
         table.addCell(ustawfrazebez(rs.getDataWyst(),"left"));
         table.addCell(ustawfrazebez(rs.getNrWlDk(),"left"));
-        table.addCell(ustawfrazebez(rs.getKontr().getNpelna(),"left"));
-        if(rs.getKontr().getKodpocztowy()!=null){
-        table.addCell(ustawfrazebez(rs.getKontr().getKodpocztowy()+" "+rs.getKontr().getMiejscowosc()+" ul. "+rs.getKontr().getUlica()+" "+rs.getKontr().getDom(),"left"));
-        } else {
-        table.addCell(ustawfrazebez("","left"));
+        try{
+            table.addCell(ustawfrazebez(rs.getKontr().getNpelna(),"left"));
+             if(rs.getKontr().getKodpocztowy()!=null){
+                table.addCell(ustawfrazebez(rs.getKontr().getKodpocztowy()+" "+rs.getKontr().getMiejscowosc()+" ul. "+rs.getKontr().getUlica()+" "+rs.getKontr().getDom(),"left"));
+            } else {
+            table.addCell(ustawfrazebez("","left"));
+            }
+        } catch (Exception e){
+            table.addCell(ustawfrazebez("","left"));
+            table.addCell(ustawfrazebez("","left"));
         }
+       
         table.addCell(ustawfrazebez(rs.getOpis(),"left"));
         table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()),"right"));
         table.addCell(ustawfrazebez(formatujliczby(rs.getVat()),"right"));
