@@ -32,6 +32,14 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:column>
+              <p:column id="SubColumn3">  
+                <f:facet name="header">  
+                    <h:outputText value="okres vat" />  
+                </f:facet> 
+                  <h:outputText value="#{wpis.vatM}/#{wpis.vatR}"> style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
         </p:dataTable>
     </p:dialog>  
 
@@ -148,8 +156,7 @@
 
 
         </p:dataTable>
-         <p:commandButton value="drukuj" type="button">
-            <p:printer target="form:dokumentyLista" />
+         <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdf.drukujksiege()}" onsuccess="wydrukpkpir('#{wpis.podatnik}');">
         </p:commandButton>
       
     </p:outputPanel>

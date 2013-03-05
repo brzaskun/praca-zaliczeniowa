@@ -33,7 +33,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -57,6 +56,7 @@ public class PlatnosciView implements Serializable{
     @Inject private ZobowiazanieDAO zv;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     @Inject private WpisView wpisView;
+    
 
     private boolean edytujplatnosc;
 
@@ -167,6 +167,19 @@ public class PlatnosciView implements Serializable{
         selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
         selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
         selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
+        Platnosci platnosci = new Platnosci();
+        platnosci.setPit4(selectedZob.getPit4());
+        platnosci.setPit5(selectedZob.getPit5());
+        platnosci.setVat(selectedZob.getVat());
+        platnosci.setZus51(selectedZob.getZus51());
+        platnosci.setZus52(selectedZob.getZus52());
+        platnosci.setZus53(selectedZob.getZus53());
+        PlatnosciPK platnosciPK = new PlatnosciPK();
+        platnosciPK.setMiesiac(mc);
+        platnosciPK.setRok(rok);
+        platnosciPK.setPodatnik(podatnik);
+        platnosci.setPlatnosciPK(platnosciPK);
+        platnosciDAO.edit(platnosci);
         } catch (Exception e){}
         //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
         }

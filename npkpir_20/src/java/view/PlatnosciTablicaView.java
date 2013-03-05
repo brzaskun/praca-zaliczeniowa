@@ -33,7 +33,7 @@ public class PlatnosciTablicaView implements Serializable{
         String rok = wpisView.getRokWpisu().toString();
         String podatnik = wpisView.getPodatnikWpisu();
         try{
-            lista.addAll(platnosciDAO.findPodRok(rok, podatnik));
+            lista = platnosciDAO.findPodRok(rok, podatnik);
         } catch (Exception e){}
     }
 
