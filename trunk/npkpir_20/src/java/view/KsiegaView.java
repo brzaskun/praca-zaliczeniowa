@@ -4,12 +4,14 @@
  */
 package view;
 
+import dao.SumypkpirDAO;
 import embeddable.DokKsiega;
 import entity.Dok;
 import entity.Klienci;
+import entity.Sumypkpir;
+import entity.SumypkpirPK;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -29,6 +31,7 @@ public class KsiegaView implements Serializable{
     private static ArrayList<DokKsiega> lista;
     private DokKsiega selDokument;
     @Inject private DokKsiega podsumowanie;
+    @Inject private SumypkpirDAO sumypkpirDAO;
     
     
 
@@ -157,8 +160,81 @@ public class KsiegaView implements Serializable{
         podsumowanie.setIdDok(new Long(1222));
         podsumowanie.setKontr(new Klienci());
         lista.add(podsumowanie);
+        Sumypkpir sumyzachowac = new Sumypkpir();
+        SumypkpirPK sumyklucz = new SumypkpirPK();
+        sumyklucz.setRok(dokTabView.getWpisView().getRokWpisu().toString());
+        sumyklucz.setMc(dokTabView.getWpisView().getMiesiacWpisu());
+        sumyklucz.setPodatnik(dokTabView.getWpisView().getPodatnikWpisu());
+        sumyzachowac.setSumypkpirPK(sumyklucz);
+        sumyzachowac.setSumy(podsumowanie);
+        sumypkpirDAO.edit(sumyzachowac);
+        podsumowaniepopmc();
     }
 
+    private void podsumowaniepopmc(){
+        if(lista.get(0).getNrWpkpir()!=1){
+            System.out.println("podsumowanie");
+            DokKsiega ostatni = lista.get(lista.size()-1);
+            List<Sumypkpir> listasum = sumypkpirDAO.findS(dokTabView.getWpisView().getPodatnikWpisu(), dokTabView.getWpisView().getRokWpisu().toString());
+            String biezacymiesiac = dokTabView.getWpisView().getMiesiacWpisu();
+            DokKsiega sumaposrednia = new DokKsiega();
+            sumaposrednia.setOpis("z przeniesienia");
+            sumaposrednia.setKolumna7(0.0);
+            sumaposrednia.setKolumna8(0.0);
+            sumaposrednia.setKolumna9(0.0);
+            sumaposrednia.setKolumna10(0.0);
+            sumaposrednia.setKolumna11(0.0);
+            sumaposrednia.setKolumna12(0.0);
+            sumaposrednia.setKolumna13(0.0);
+            sumaposrednia.setKolumna14(0.0);
+            sumaposrednia.setKolumna15(0.0);
+            sumaposrednia.setIdDok(new Long(1223));
+            sumaposrednia.setKontr(new Klienci());
+            DokKsiega sumakoncowa = new DokKsiega();
+            sumakoncowa.setOpis("Razem");
+            sumakoncowa.setKolumna7(0.0);
+            sumakoncowa.setKolumna8(0.0);
+            sumakoncowa.setKolumna9(0.0);
+            sumakoncowa.setKolumna10(0.0);
+            sumakoncowa.setKolumna11(0.0);
+            sumakoncowa.setKolumna12(0.0);
+            sumakoncowa.setKolumna13(0.0);
+            sumakoncowa.setKolumna14(0.0);
+            sumakoncowa.setKolumna15(0.0);
+            sumakoncowa.setIdDok(new Long(1224));
+            sumakoncowa.setKontr(new Klienci());
+            for(Sumypkpir p : listasum){
+                if(!p.getSumypkpirPK().getMc().equals(biezacymiesiac)){
+                    sumaposrednia.setKolumna7(sumaposrednia.getKolumna7()+p.getSumy().getKolumna7());
+                    sumaposrednia.setKolumna8(sumaposrednia.getKolumna8()+p.getSumy().getKolumna8());
+                    sumaposrednia.setKolumna9(sumaposrednia.getKolumna9()+p.getSumy().getKolumna9());
+                    sumaposrednia.setKolumna10(sumaposrednia.getKolumna10()+p.getSumy().getKolumna10());
+                    sumaposrednia.setKolumna11(sumaposrednia.getKolumna11()+p.getSumy().getKolumna11());
+                    sumaposrednia.setKolumna12(sumaposrednia.getKolumna12()+p.getSumy().getKolumna12());
+                    sumaposrednia.setKolumna13(sumaposrednia.getKolumna13()+p.getSumy().getKolumna13());
+                    sumaposrednia.setKolumna14(sumaposrednia.getKolumna14()+p.getSumy().getKolumna14());
+                    sumaposrednia.setKolumna15(sumaposrednia.getKolumna15()+p.getSumy().getKolumna15());
+                } else {
+                    sumakoncowa.setKolumna7(sumaposrednia.getKolumna7()+p.getSumy().getKolumna7());
+                    sumakoncowa.setKolumna8(sumaposrednia.getKolumna8()+p.getSumy().getKolumna8());
+                    sumakoncowa.setKolumna9(sumaposrednia.getKolumna9()+p.getSumy().getKolumna9());
+                    sumakoncowa.setKolumna10(sumaposrednia.getKolumna10()+p.getSumy().getKolumna10());
+                    sumakoncowa.setKolumna11(sumaposrednia.getKolumna11()+p.getSumy().getKolumna11());
+                    sumakoncowa.setKolumna12(sumaposrednia.getKolumna12()+p.getSumy().getKolumna12());
+                    sumakoncowa.setKolumna13(sumaposrednia.getKolumna13()+p.getSumy().getKolumna13());
+                    sumakoncowa.setKolumna14(sumaposrednia.getKolumna14()+p.getSumy().getKolumna14());
+                    sumakoncowa.setKolumna15(sumaposrednia.getKolumna15()+p.getSumy().getKolumna15());
+                }
+            }
+             lista.add(sumaposrednia);
+             System.out.println("dodanie sumy posredniej");
+             lista.add(sumakoncowa);
+             System.out.println("dodanie sumy koncowej");
+            
+        } else {
+            System.out.println("podsumowanie - nie!");
+        }
+    }
     
     
     public ArrayList<DokKsiega> getLista() {
