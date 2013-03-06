@@ -169,7 +169,7 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
-        RequestContext.getCurrentInstance().update("formX:dataList");
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
         Msg.msg("i", "Gołąb wrócił z wieścią " + statMB, "formX:msg");
     }
 

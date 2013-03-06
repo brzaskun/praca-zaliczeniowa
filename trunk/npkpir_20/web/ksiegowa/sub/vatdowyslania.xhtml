@@ -60,7 +60,7 @@
             </h:form>
     <br/>
     <h:form id="form">
-                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form, :formX:msg" style="width: 120px;"/><br/><br/>
+                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form, :formX:dokumentyLista, :formX:msg" style="width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2" id="upo">
                 <h:outputText value="id"/>
                 <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>
