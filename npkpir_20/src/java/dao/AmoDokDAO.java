@@ -46,7 +46,7 @@ public class AmoDokDAO extends DAO implements Serializable {
     
     public List<Amodok> amodokklient(String klient){
         List<Amodok> lista = new ArrayList<>();
-        for (Object p : downloaded){
+        for (Object p : amodokFacade.findAll(Amodok.class)){
             if(((Amodok) p).getPodatnik().equals(klient)){
                 lista.add((Amodok) p);
             }

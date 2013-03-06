@@ -4,15 +4,20 @@
  */
 package pdf;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
@@ -25,9 +30,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -279,7 +287,7 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     HashMap<String,ArrayList> mapa = lista.getEwidencje();
     Set<String> nazwy = mapa.keySet();
     for(String p :nazwy){
-    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
+    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
     String nowanazwa;
     if(p.contains("sprzedaż")){
         nowanazwa = p.substring(0, p.length()-1);
@@ -297,7 +305,15 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
         } catch (IOException ex) {
             Logger.getLogger(pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
-    Font font = new Font(helvetica,8);
+    Font font = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+//    Chunk id = new Chunk("Wielka linijka do wklejenia. Chunk", font);
+//    id.setBackground(BaseColor.BLACK);
+//    Paragraph parag = new Paragraph();
+//    parag.setLeading(100);
+//    parag.add(id);
+//    parag.add(Chunk.NEWLINE);
+//    pdf.add(parag);
+    font = new Font(helvetica,8);
     pdf.setPageSize(PageSize.A4);
     PdfPTable table = new PdfPTable(10);
     table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
@@ -395,30 +411,14 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
     
    
     
-//   public static void main(String[] args) throws DocumentException, FileNotFoundException, SQLException, NamingException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedEncodingException, IOException{
-//       
-////       Document document = new Document();
-////        PdfWriter writer = PdfWriter.getInstance(
-////        document, new FileOutputStream("c:/filename.pdf"));
-////        document.open();
-////        PdfContentByte canvas = writer.getDirectContentUnder();
-////        writer.setCompressionLevel(0);
-////        canvas.saveState(); // q
-////        canvas.beginText(); // BT
-////        canvas.moveText(36, 788); // 36 788 Td
-////        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-////        canvas.setFontAndSize(helvetica, 12); // /F1 12 Tf
-////        canvas.showText("Hello Wośćążźrld"); // (Hello World)Tj
-////        canvas.endText(); // ET
-////        canvas.restoreState(); // Q
-////        document.close();
-//    
-//    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-//    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("c:/filename.pdf"));
-//    pdf.open();  
-//    BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-//    Font font = new Font(helvetica,8);
-//    pdf.setPageSize(PageSize.A4);
+   public static void main(String[] args) throws DocumentException, FileNotFoundException, SQLException, NamingException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedEncodingException, IOException{
+   
+    Document document = new Document(PageSize.A4_LANDSCAPE, 20, 20, 20, 10);
+    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("c:/filename.pdf"));
+    document.open();  
+    BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+    Font font = new Font(helvetica,8);
+    document.setPageSize(PageSize.A4);
 //    PdfPTable table = new PdfPTable(16);
 //    table.setWidths(new int[]{1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
 //    PdfPCell cell = new PdfPCell();
@@ -432,53 +432,9 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
 //    table.addCell(ustawfraze("Koszty uboczne zakupu", 0, 2));
 //    table.addCell(ustawfraze("Wydatki(koszty)", 4, 0));
 //    table.addCell(ustawfraze("Uwagi", 0, 2));
-//    
-//    table.addCell(ustawfrazebez("imię i nazwisko (firma)"));
-//    table.addCell(ustawfrazebez("adres"));
-//    table.addCell(ustawfrazebez("wartość sprzedanych towarów i usług"));
-//    table.addCell(ustawfrazebez("pozostałe przychody"));
-//    table.addCell(ustawfrazebez("razem przychód (7+8)"));
-//    table.addCell(ustawfrazebez("wynagrodzenia w gotówce i w naturze"));
-//    table.addCell(ustawfrazebez("pozostałe wydatki"));
-//    table.addCell(ustawfrazebez("razem wydatki (12+13)"));
-//    table.addCell(ustawfrazebez("inwestycje"));
-//    
-//    table.addCell(ustawfrazebez("1"));
-//    table.addCell(ustawfrazebez("2"));
-//    table.addCell(ustawfrazebez("3"));
-//    table.addCell(ustawfrazebez("4"));
-//    table.addCell(ustawfrazebez("5"));
-//    table.addCell(ustawfrazebez("6"));
-//    table.addCell(ustawfrazebez("7"));
-//    table.addCell(ustawfrazebez("8"));
-//    table.addCell(ustawfrazebez("9"));
-//    table.addCell(ustawfrazebez("10"));
-//    table.addCell(ustawfrazebez("11"));
-//    table.addCell(ustawfrazebez("12"));
-//    table.addCell(ustawfrazebez("13"));
-//    table.addCell(ustawfrazebez("14"));
-//    table.addCell(ustawfrazebez("15"));
-//    table.addCell(ustawfrazebez("16"));
-//    
-//    table.addCell(ustawfrazebez("1"));
-//    table.addCell(ustawfrazebez("2"));
-//    table.addCell(ustawfrazebez("3"));
-//    table.addCell(ustawfrazebez("4"));
-//    table.addCell(ustawfrazebez("5"));
-//    table.addCell(ustawfrazebez("6"));
-//    table.addCell(ustawfrazebez("7"));
-//    table.addCell(ustawfrazebez("8"));
-//    table.addCell(ustawfrazebez("9"));
-//    table.addCell(ustawfrazebez("10"));
-//    table.addCell(ustawfrazebez("11"));
-//    table.addCell(ustawfrazebez("12"));
-//    table.addCell(ustawfrazebez("13"));
-//    table.addCell(ustawfrazebez("14"));
-//    table.addCell(ustawfrazebez("15"));
-//    table.addCell(ustawfrazebez("16"));
-//    table.setHeaderRows(4);
-//    table.setFooterRows(1);
-//    
+//    table.setHeaderRows(1);
+    //table.setFooterRows(1);
+    
 //    Connection connection = getConnection();
 //    Statement stm = connection.createStatement();
 //    ResultSet rs = stm.executeQuery("SELECT * FROM dok WHERE podatnik = 'EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK' ORDER BY id_dok");
@@ -498,12 +454,20 @@ public class pdf extends PdfPageEventHelper implements  Serializable {
 //    connection.close();
 //    pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
 //    pdf.add(table);
-//    
-//    Phrase hd = new Phrase("Biuro Rachunkowe Taxman - wydruk");
-//    Phrase ft = new Phrase("podatnik:");
-//    pdf.addAuthor("Biuro Rachunkowe Taxman");
-//    pdf.close();
-//   }   
+    //document.add(new Paragraph("Hello World!"));
+    PdfContentByte canvas = writer.getDirectContentUnder();
+    Phrase hello = new Phrase("Hello World");
+    ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, hello, 36, 788, 0);
+    font = new Font(FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.WHITE);
+    Chunk id = new Chunk("Wielka linijka do wklejenia. Chunk", font);
+    id.setBackground(BaseColor.BLACK, 1f, 0.5f, 1f, 1.5f);
+    document.add(id);
+    document.add(Chunk.NEWLINE);
+    Phrase hd = new Phrase("Biuro Rachunkowe Taxman - wydruk");
+    Phrase ft = new Phrase("podatnik:");
+    document.addAuthor("Biuro Rachunkowe Taxman");
+    document.close();
+   }   
 
     public WpisView getWpisView() {
         return wpisView;
