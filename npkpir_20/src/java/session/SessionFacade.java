@@ -21,6 +21,7 @@ import entity.Rodzajedok;
 import entity.Sesja;
 import entity.Srodkikst;
 import entity.StornoDok;
+import entity.Sumypkpir;
 import entity.Uz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
@@ -281,6 +282,10 @@ public class SessionFacade<T> {
 
     public List<Dok> findDokBK(String pod, String rok, String mc) {
         return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+    }
+
+    public List<Sumypkpir> findSumy(String podatnik, String rok) {
+        return em.createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
 }

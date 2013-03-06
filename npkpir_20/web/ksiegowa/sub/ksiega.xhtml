@@ -62,7 +62,7 @@
             <p:columnGroup type="header">  
                 <p:row> 
                     <p:column rowspan="2" headerText=""   width="20" />  
-                    <p:column rowspan="2" headerText="lp"   width="20" />  
+                    <p:column rowspan="2" headerText="lp"   width="40" />  
                     <p:column rowspan="2" headerText="Data zdarzenia gosp." width="80"  />  
                     <p:column rowspan="2" headerText="Nr dowodu księgowego"   width="170"/>  
                     <p:column colspan="2" headerText="Kontrahent"   width="300"/>  
@@ -128,13 +128,13 @@
                 <h:outputText value="#{wpis.opis}" />
             </p:column>
             <p:column id="pkpirKolColumn" headerText="kolumna" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}" >  
-                <h:outputText value="#{wpis.kolumna7}"  style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                <h:outputText value="#{wpis.kolumna7}"  style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
             </p:column>
             <p:column id="pkpirKolColumn8" headerText="kolumna" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}">  
-                <h:outputText value="#{wpis.kolumna8}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                <h:outputText value="#{wpis.kolumna8}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
             </p:column>
             <p:column id="pkpirKolColumn9" headerText="kolumna" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}" >  
-                <h:outputText value="#{wpis.kolumna9}"   style="font-size: x-small;  float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                <h:outputText value="#{wpis.kolumna9}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
             </p:column>
             <p:column id="pkpirKolColumn10" headerText="kolumna" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}">  
                 <h:outputText value="#{wpis.kolumna10}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
