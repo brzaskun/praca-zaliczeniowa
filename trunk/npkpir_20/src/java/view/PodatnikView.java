@@ -745,7 +745,7 @@ public class PodatnikView implements Serializable{
             Msg.msg("i", "Dodano stratę za rok " + stratarok, "akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
         } catch (Exception e) {
-           
+           Msg.msg("e", "Wystąpił błąd poczdas dodawania straty " + stratarok, "akordeon:form2:messages");
         }
     }
     

@@ -14,7 +14,7 @@
         <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
         <p:panel header="dodawanie podatnika - osoby fizycznej" style="width: 500px;"/>
         <p:focus for="wprowadzaniepodatnika"/>
-        <p:panelGrid id="wprowadzaniepodatnika" columns="4" rendered="#{!podatnikView.firmaniefirma}">
+        <p:panelGrid id="wprowadzaniepodatnika" columns="4">
             <h:outputLabel value="nip"/>
             <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
                 <f:validateLength minimum="10"/>
@@ -95,7 +95,7 @@
 
         </p:panelGrid>
         
-        <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit" rendered="#{!podatnikView.firmaniefirma}" style="margin-top: 10px;"/>
+        <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>
     </p:outputPanel>
         </h:form>
     
