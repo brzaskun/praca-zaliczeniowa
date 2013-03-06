@@ -48,7 +48,7 @@ public class RodzajedokView implements Serializable{
     private void init(){
         Collection c = null;
         try{
-        c.addAll(rodzajedokDAO.findAll());
+        c = rodzajedokDAO.findAll();
         lista.addAll(c);
         Iterator it;
         it = lista.iterator();
