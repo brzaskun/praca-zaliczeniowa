@@ -67,17 +67,9 @@ public class Trans implements Serializable{
     }
     
     public List<String> getTransListView() {
-        try {
         Podatnik tmp = podatnikDAO.find(wpisView.getPodatnikWpisu());
         int index = tmp.getPodatekdochodowy().size()-1;
-        if (tmp.getPodatekdochodowy().get(index).getParametr().contains("ryczałt")){
-            return transListRY;
-        } else {
-            return transListZO;
-        }
-        } catch (Exception e){
             return transList;
-        }
     }
 
     public WpisView getWpisView() {
