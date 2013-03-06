@@ -11,9 +11,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,6 +50,7 @@ import view.WpisView;
  */
 @ManagedBean
 public class beanek {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
     private GateService service;
     private byte[] dok;
@@ -54,10 +65,10 @@ public class beanek {
     private Integer statMB;
     private String opisMB;
     private String upoMB;
-    @Inject DeklaracjevatDAO deklaracjevatDAO;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
+    DeklaracjevatDAO deklaracjevatDAO;
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    
 
     public beanek() {
         id = new Holder<>();
@@ -67,7 +78,42 @@ public class beanek {
         lang = "pl";
         signT = "PIT";
     }
-     
+
+    @PostConstruct
+    private void init() throws NoSuchAlgorithmException, KeyManagementException {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+            new X509TrustManager() {
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    // Trust always
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    // Trust always
+                }
+            }
+        };
+        // Install the all-trusting trust manager
+        SSLContext sc = SSLContext.getInstance("SSL");
+        // Create empty HostnameVerifier
+        HostnameVerifier hv = new HostnameVerifier() {
+            @Override
+            public boolean verify(String arg0, SSLSession arg1) {
+                return true;
+            }
+        };
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier(hv);
+    }
+
     private void requestUPO(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
         service.GateServicePortType port = service.getGateServiceSOAP12Port();
         port.requestUPO(refId, language, upo, status, statusOpis);
@@ -77,14 +123,14 @@ public class beanek {
         service.GateServicePortType port = service.getGateServiceSOAP12Port();
         port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
-    
-    public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException{
+
+    public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
         String strFileContent = temp.getDeklaracja();
-        System.out.println("wartosc stringu: "+strFileContent);
+        System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         sendUnsignDocument(dok, lang, signT, id, stat, opis);
@@ -96,37 +142,37 @@ public class beanek {
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
-        Msg.msg("i","Wypuszczono gołębia z deklaracja podatnika "+podatnik+" za "+rok+"-"+mc,"formX:msg");
-        
+        Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+
     }
-    
-    public void pobierz(){
+
+    public void pobierz() {
         requestUPO(idpobierz, lang, upo, stat, opis);
         upoMB = upo.value;
-        statMB = stat.value;    
+        statMB = stat.value;
         opisMB = opis.value;
-        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
-        Msg.msg("i","Wypatruje gołębia z potwierdzeniem deklaracji podatnika ","formX:msg");
+        Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
     }
 
-    public void pobierzwyslane(String identyfikator){
+    public void pobierzwyslane(String identyfikator) {
         requestUPO(identyfikator, lang, upo, stat, opis);
         upoMB = upo.value;
-        statMB = stat.value;    
+        statMB = stat.value;
         opisMB = opis.value;
-        Deklaracjevat temp =  deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dataList");
-        Msg.msg("i","Gołąb wrócił z wieścią "+statMB,"formX:msg");
+        Msg.msg("i", "Gołąb wrócił z wieścią " + statMB, "formX:msg");
     }
-  
+
     public String getIdMB() {
         return idMB;
     }
@@ -175,25 +221,19 @@ public class beanek {
         this.wpisView = wpisView;
     }
 
-    
-    
-    
-    static public void main(String[] args){
-    try{
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse("c:/uslugi/Deklaracja.xml");
-        StringWriter stringWriter = new StringWriter(); 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer(); 
-        transformer.transform(new DOMSource(doc), new StreamResult(stringWriter)); 
-        String strFileContent = stringWriter.toString(); //This is string data of xml file
-        System.out.println(strFileContent);
+    static public void main(String[] args) {
+        try {
+            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse("c:/uslugi/Deklaracja.xml");
+            StringWriter stringWriter = new StringWriter();
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(doc), new StreamResult(stringWriter));
+            String strFileContent = stringWriter.toString(); //This is string data of xml file
+            System.out.println(strFileContent);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
-    catch (Exception e){
-      e.getMessage();
-    }
-  }
-
-   
 }
