@@ -32,6 +32,14 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:column>
+            <p:column id="SubColumn3">  
+                <f:facet name="header">  
+                    <h:outputText value="okres vat" />  
+                </f:facet> 
+                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:column>
         </p:dataTable>
     </p:dialog>  
 
@@ -151,7 +159,7 @@
             </p:column>
   <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                 <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                    <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
                     <p:column id="SubColumn1" headerText="ewidencja">  
                         <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                     </p:column>
@@ -168,6 +176,13 @@
                     <p:column id="SubColumn3" headerText="op/zw">  
                         <h:outputText value="#{subwpis.estawka}" />
                     </p:column>
+                      <p:column id="SubColumn4">  
+                        <f:facet name="header">  
+                            <h:outputText value="okres vat" />  
+                        </f:facet> 
+                        <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;">
+                        </h:outputText>
+            </p:column>
                 </p:dataTable>
             </p:column>
                 </p:rowExpansion>
