@@ -33,7 +33,7 @@ public class SrodkikstView implements Serializable {
     
     @PostConstruct
     private void init(){
-        lista.addAll(srodkikstDAO.findAll());
+        lista = srodkikstDAO.findAll();
     }
     
      public List<Srodkikst> complete(String query) {  
