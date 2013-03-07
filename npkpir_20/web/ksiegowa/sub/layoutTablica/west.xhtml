@@ -5,23 +5,22 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    <p:layoutUnit position="west" size="200" header="Bieżący podatnik" collapsible="true" resizable="true">
+    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
                 <p:panelGrid columns="1" style="margin-left: 0%">
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
                         <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}"/>
+                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:"/>
                 </p:selectOneMenu>
                 <h:commandButton value="Ok" />
                 </p:panelGrid>
