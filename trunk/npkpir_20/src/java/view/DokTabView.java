@@ -159,16 +159,20 @@ public class DokTabView implements Serializable {
           
             if (wpisView.getMiesiacOd() != null) {
                 obiektDOKmrjsfSelX.clear();
-                Iterator itxX;
-                itxX = obiektDOKjsfSelRok.iterator();
                 String mOd = wpisView.getMiesiacOd();
                 Integer mOdI = Integer.parseInt(mOd);
                 String mDo = wpisView.getMiesiacDo();
                 Integer mDoI = Integer.parseInt(mDo);
-                while (itxX.hasNext()) {
-                    Dok tmpx = (Dok) itxX.next();
-                    for (int i = mOdI; i <= mDoI; i++) {
-                        if (tmpx.getPkpirM().equals(Mce.getMapamcy().get(i))) {
+                List<String> zakres = new ArrayList<>();
+                for(int i = mOdI; i <= mDoI; i++){
+                    zakres.add(Mce.getMapamcy().get(i));
+                }
+                for (Dok tmpx : obiektDOKjsfSelRok){
+                    Iterator it;
+                    it = zakres.iterator();
+                    while(it.hasNext()){
+                        String miesiaczakres = (String) it.next();
+                        if (tmpx.getPkpirM().equals(miesiaczakres)) {
                             obiektDOKmrjsfSelX.add(tmpx);
                         }
                     }
