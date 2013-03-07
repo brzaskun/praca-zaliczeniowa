@@ -47,7 +47,7 @@
                       paginator="true" paginatorAlwaysVisible="true" rows="18" 
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="18,24,32,50,100" paginatorPosition="top"
-                      rowKey="#{wpis.idDok}" selection="#{DokTabView.goscwybral}" 
+                      rowKey="#{wpis.idDok}" selection="#{obrotyView.goscwybral}" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
             <f:facet name="header">  
@@ -157,10 +157,10 @@
             </p:rowExpansion>
             <f:facet name="footer" id="tablefooter">
                 
-                <h:outputText value="suma wartości brutto wybranych dokumentów: "/><h:outputText value="#{DokTabView.podsumowaniewybranych}">
+                <h:outputText value="suma wartości brutto wybranych dokumentów: "/><h:outputText value="#{obrotyView.podsumowaniewybranych}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><h:outputText value="zł  "/>
-                <p:commandButton value="przelicz" actionListener="#{DokTabView.sumawartosciwybranych()}" update="@form"/>
+                <p:commandButton value="przelicz" actionListener="#{obrotyView.sumawartosciwybranych()}" update="@form"/>
             </f:facet>
         </p:dataTable>
         <p:commandButton value="drukuj" type="button">

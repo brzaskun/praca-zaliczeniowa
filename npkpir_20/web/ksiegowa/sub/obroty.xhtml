@@ -9,10 +9,10 @@
     
    <p:outputPanel id="wrapper">
         
-       <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="24"
+       <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
+                      paginator="true" paginatorAlwaysVisible="true" rows="50"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="30,50,100,200,400" selection="#{DokTabView.goscwybral}" 
+                      rowsPerPageTemplate="50,100,200,400,1000" selection="#{obrotyView.goscwybral}" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}" 
                       resizableColumns="true"> 
                                  
@@ -22,7 +22,7 @@
             <p:column selectionMode="multiple"  width="40" >
             </p:column>
             <p:column id="idColumn" headerText="nr kolejny"  sortBy="#{wpis.idDok}"  width="60">  
-               <h:outputText value="#{wpis.idDok}" />
+                <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}">  
                 <h:outputText value="#{wpis.dataWyst}">
@@ -54,10 +54,10 @@
                                  
             <f:facet name="footer" id="tablefooter">
                 
-                <h:outputText value="suma wartości brutto wybranych dokumentów: "/><h:outputText value="#{DokTabView.podsumowaniewybranych}">
+                <h:outputText value="suma wartości brutto wybranych dokumentów: "/><h:outputText value="#{obrotyView.podsumowaniewybranych}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><h:outputText value="zł  "/>
-                <p:commandButton value="przelicz" actionListener="#{DokTabView.sumawartosciwybranych()}" update="@form"/>
+                <p:commandButton value="przelicz" actionListener="#{obrotyView.sumawartosciwybranych()}" update="@form"/>
             </f:facet>
         </p:dataTable>
     </p:outputPanel>
