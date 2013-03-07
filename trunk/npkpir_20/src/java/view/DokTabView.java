@@ -58,30 +58,23 @@ public class DokTabView implements Serializable {
     private List<Dok> obiektDOKjsfSelRok;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
-    //tablica obiektów danego klienta z określonego roku i miesiecy
-    private List<Dok> obiektDOKmrjsfSelX;
+   
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
     //dokumenty niezaplacone
     private List<Dok> niezaplacone;
     //dokumenty zaplacone
     private List<Dok> zaplacone;
-    //lista wybranych dokumentow w panelu Guest
-    private List<Dok> goscwybral;
-    private Double podsumowaniewybranych;
+   
     
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private DokDAO dokDAO;
-    @Inject
-    private Dok selDokument;
+    @Inject private DokDAO dokDAO;
+    @Inject private Dok selDokument;
     private static Dok dokdoUsuniecia;
-    @Inject
-    private StornoDokDAO stornoDokDAO;
-    @Inject
-    private STRDAO sTRDAO;
+    @Inject private StornoDokDAO stornoDokDAO;
+    @Inject private STRDAO sTRDAO;
     private boolean button;
     @Inject private Uz uzytkownik;
     @Inject private UzDAO uzDAO;
@@ -94,16 +87,13 @@ public class DokTabView implements Serializable {
         obiektDOKjsfSelRok = new ArrayList<>();
         //dokumenty podatnika z miesiaca
         obiektDOKmrjsfSel = new ArrayList<>();
-        //dokumenty podatnika za okres od-do
-        obiektDOKmrjsfSelX = new ArrayList<>();
         //dekumenty o tym samym okresie vat
         dokvatmc = new ArrayList<>();
         //dokumenty niezaplacone
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
-        //lista porzechowujaca przefiltrowane widoki
-        goscwybral = new ArrayList<>();
+        
     }
 
     @PostConstruct
@@ -136,8 +126,10 @@ public class DokTabView implements Serializable {
             String mn = Mce.getMapamcy().get(m1);
             Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
+            int numerkolejny = 1;
             for(Dok tmpx : obiektDOKjsfSel){
                 if (tmpx.getPkpirR().equals(r.toString())) {
+                    tmpx.setNrWpkpir(numerkolejny++);
                     obiektDOKjsfSelRok.add(tmpx);
                     if (tmpx.getRozliczony() == false) {
                         niezaplacone.add(tmpx);
@@ -154,28 +146,6 @@ public class DokTabView implements Serializable {
                         dokvatmc.add(tmpx);
                     }
                     
-                }
-            }
-          
-            if (wpisView.getMiesiacOd() != null) {
-                obiektDOKmrjsfSelX.clear();
-                String mOd = wpisView.getMiesiacOd();
-                Integer mOdI = Integer.parseInt(mOd);
-                String mDo = wpisView.getMiesiacDo();
-                Integer mDoI = Integer.parseInt(mDo);
-                List<String> zakres = new ArrayList<>();
-                for(int i = mOdI; i <= mDoI; i++){
-                    zakres.add(Mce.getMapamcy().get(i));
-                }
-                for (Dok tmpx : obiektDOKjsfSelRok){
-                    Iterator it;
-                    it = zakres.iterator();
-                    while(it.hasNext()){
-                        String miesiaczakres = (String) it.next();
-                        if (tmpx.getPkpirM().equals(miesiaczakres)) {
-                            obiektDOKmrjsfSelX.add(tmpx);
-                        }
-                    }
                 }
             }
         }
@@ -285,10 +255,7 @@ public class DokTabView implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
-    public void aktualizujObrotyX(ActionEvent e) {
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-    }
+  
 
     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
@@ -315,11 +282,6 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("form:labelstorno");
    }
 
-    public void aktualizujObroty(AjaxBehaviorEvent e) {
-        aktualizujGuest();
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-    }
     
     public void aktualizujTablica(AjaxBehaviorEvent e) {
         aktualizuj();
@@ -371,12 +333,7 @@ public class DokTabView implements Serializable {
 //        }
 //    }
 
-    public void sumawartosciwybranych(){
-        podsumowaniewybranych = 0.0;
-        for(Dok p : goscwybral){
-            podsumowaniewybranych += p.getBrutto();
-        }
-    }
+   
     
     public void usunzzaplaconych(RowEditEvent ex){
         Dok tmp = (Dok) ex.getObject();
@@ -487,14 +444,6 @@ public class DokTabView implements Serializable {
         this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
     }
 
-    public List<Dok> getObiektDOKmrjsfSelX() {
-        return obiektDOKmrjsfSelX;
-    }
-
-    public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
-        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
-    }
-
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -575,22 +524,5 @@ public class DokTabView implements Serializable {
         this.uzytkownik = uzytkownik;
     }
 
-    public List<Dok> getGoscwybral() {
-        return goscwybral;
-    }
-
-    public void setGoscwybral(List<Dok> goscwybral) {
-        this.goscwybral = goscwybral;
-    }
-
-    public Double getPodsumowaniewybranych() {
-        return podsumowaniewybranych;
-    }
-
-    public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
-        this.podsumowaniewybranych = podsumowaniewybranych;
-    }
-
-    
-    
+   
 }

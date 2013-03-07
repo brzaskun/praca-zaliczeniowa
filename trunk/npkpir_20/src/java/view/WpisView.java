@@ -42,6 +42,10 @@ public class WpisView implements Serializable{
        
     @PostConstruct
     private void init(){
+        if(miesiacDo==null&&miesiacWpisu==null){
+            miesiacDo = miesiacWpisu;
+            miesiacOd = miesiacWpisu;
+        }
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
@@ -57,9 +61,16 @@ public class WpisView implements Serializable{
             this.miesiacWpisu = wpis.getMiesiacWpisu();
         }
         this.rokWpisu = wpis.getRokWpisu();
+        try {
+            if(miesiacOd==null){
+                this.miesiacOd = wpis.getMiesiacOd();
+                this.miesiacDo = wpis.getMiesiacDo();
+            }
+        } catch (Exception e){
         this.miesiacOd = wpis.getMiesiacOd();
         this.miesiacDo = wpis.getMiesiacDo();
         }
+    }
     }
 
     
