@@ -489,7 +489,7 @@ public class Dok implements Serializable {
 
     @Override
     public String toString() {
-        return "Dok{" + "idDok=" + idDok + ", nrWlDk=" + nrWlDk + ", kontr=" + kontr + ", podatnik=" + podatnik + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst + ", kwota=" + kwota + '}';
+        return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr.getNpelna() + ", podatnik=" + podatnik + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst + ", kwota=" + kwota;
     }
 
   
