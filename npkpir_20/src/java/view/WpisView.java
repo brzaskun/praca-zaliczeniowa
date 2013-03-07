@@ -42,10 +42,6 @@ public class WpisView implements Serializable{
        
     @PostConstruct
     private void init(){
-        if(miesiacDo==null&&miesiacWpisu==null){
-            miesiacDo = miesiacWpisu;
-            miesiacOd = miesiacWpisu;
-        }
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
@@ -81,8 +77,8 @@ public class WpisView implements Serializable{
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpis.setMiesiacWpisu(miesiacWpisu);
         wpis.setRokWpisu(rokWpisu);
-        wpis.setMiesiacOd(miesiacWpisu);
-        wpis.setMiesiacDo(miesiacWpisu);
+        wpis.setMiesiacOd(miesiacOd);
+        wpis.setMiesiacDo(miesiacDo);
         wpisDAO.edit(wpis);
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         sessionX.setAttribute("miesiacWpisu", miesiacWpisu);
