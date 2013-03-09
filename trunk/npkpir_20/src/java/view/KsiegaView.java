@@ -67,32 +67,32 @@ public class KsiegaView implements Serializable{
             for(KwotaKolumna tmpX : listawierszy){
             switch(tmpX.getNazwakolumny()){
                 case "przych. sprz":
-                    dk.setKolumna7(tmp.getNetto());
-                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmp.getNetto());
+                    dk.setKolumna7(tmpX.getNetto());
+                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmpX.getNetto());
                     break;
                 case "pozost. przych.":
-                    dk.setKolumna8(tmp.getNetto());
-                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmp.getNetto());
+                    dk.setKolumna8(tmpX.getNetto());
+                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmpX.getNetto());
                     break;
                 case "zakup tow. i mat.":
-                    dk.setKolumna10(tmp.getNetto());
-                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmp.getNetto());
+                    dk.setKolumna10(tmpX.getNetto());
+                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmpX.getNetto());
                     break;
                 case "koszty ub.zak.":
-                    dk.setKolumna11(tmp.getNetto());
-                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmp.getNetto());
+                    dk.setKolumna11(tmpX.getNetto());
+                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmpX.getNetto());
                     break;
                 case "wynagrodzenia":
-                    dk.setKolumna12(tmp.getNetto());
-                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmp.getNetto());
+                    dk.setKolumna12(tmpX.getNetto());
+                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmpX.getNetto());
                     break;
                 case "poz. koszty":
-                    dk.setKolumna13(tmp.getNetto());
-                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmp.getNetto());
+                    dk.setKolumna13(tmpX.getNetto());
+                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmpX.getNetto());
                     break;
                  case "inwestycje":
-                     dk.setKolumna15(tmp.getNetto());
-                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmp.getNetto());
+                     dk.setKolumna15(tmpX.getNetto());
+                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmpX.getNetto());
                     break;   
             }
             }

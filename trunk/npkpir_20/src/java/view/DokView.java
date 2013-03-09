@@ -42,7 +42,6 @@ import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -182,9 +181,12 @@ public class DokView implements Serializable{
     /**
      * pola pobierajace dane
      */
-    private double netto0;
-    private double vat0;
+    private double nettopkpir0;
+    private double vatpkpir0;
     private String opiskolumny0;
+    private double nettopkpir1;
+    private double vatpkpir1;
+    private String opiskolumny1;
     
     public DokView() {
         setPokazSTR(false);
@@ -646,7 +648,9 @@ public class DokView implements Serializable{
             
         RequestContext.getCurrentInstance().update("dodWiad:grid3");
     }
-
+/**
+ * Generuje nową dodatkową kolumnę
+ */
     public void wygenerujNowaKolumnePkpir() {
         /*wyswietlamy ewidencje VAT*/
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -699,7 +703,7 @@ public class DokView implements Serializable{
         ExpressionFactory ef = ExpressionFactory.newInstance();
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
             InputNumber ew = new InputNumber();
-            final String binding = "#{DokumentView.selDokument.kwotaX}";
+            final String binding = "#{DokumentView.nettopkpir1}";
             ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
             ew.setValueExpression("value", ve2); 
             ew.setStyle("width: 120px");
@@ -717,7 +721,7 @@ public class DokView implements Serializable{
             ew.setThousandSeparator(" ");
             ew.setMinValue("-10000000");
             grid2.getChildren().add(ew);
-        final String bindingX = "#{DokumentView.selDokument.pkpirKolX}";
+        final String bindingX = "#{DokumentView.opiskolumny1}";
         ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
         HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
         htmlSelectOneMenu.setValueExpression("value", ve2X);
@@ -787,6 +791,9 @@ public class DokView implements Serializable{
         //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
     }
 
+    /**
+     * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
+     */
     public void dodaj() {
          HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -871,11 +878,19 @@ public class DokView implements Serializable{
             //obliczanie netto
             List<KwotaKolumna> pobranekwotokolumny = new ArrayList<>();
             KwotaKolumna element = new KwotaKolumna();
-            element.setNetto(netto0);
-            element.setVat(vat0);
-            element.setBrutto(netto0+vat0);
+            KwotaKolumna element1 = new KwotaKolumna();
+            element.setNetto(nettopkpir0);
+            element.setVat(vatpkpir0);
+            element.setBrutto(nettopkpir0+vatpkpir0);
             element.setNazwakolumny(opiskolumny0);
             pobranekwotokolumny.add(element);
+            try{
+            element1.setNetto(nettopkpir1);
+            element1.setVat(vatpkpir1);
+            element1.setBrutto(nettopkpir1+vatpkpir1);
+            element1.setNazwakolumny(opiskolumny1);
+            pobranekwotokolumny.add(element1);
+            } catch (Exception e){}
             selDokument.setListakwot(pobranekwotokolumny);
             selDokument.setNetto(0.0);
             for(KwotaKolumna p : pobranekwotokolumny){
@@ -1859,19 +1874,19 @@ public class DokView implements Serializable{
     }
 
     public double getNetto0() {
-        return netto0;
+        return nettopkpir0;
     }
 
     public void setNetto0(double netto0) {
-        this.netto0 = netto0;
+        this.nettopkpir0 = netto0;
     }
 
     public double getVat0() {
-        return vat0;
+        return vatpkpir0;
     }
 
     public void setVat0(double vat0) {
-        this.vat0 = vat0;
+        this.vatpkpir0 = vat0;
     }
 
     public String getOpiskolumny0() {
@@ -1881,6 +1896,31 @@ public class DokView implements Serializable{
     public void setOpiskolumny0(String opiskolumny0) {
         this.opiskolumny0 = opiskolumny0;
     }
+
+    public double getNettopkpir0() {
+        return nettopkpir0;
+    }
+
+    public void setNettopkpir0(double nettopkpir0) {
+        this.nettopkpir0 = nettopkpir0;
+    }
+
+    public double getNettopkpir1() {
+        return nettopkpir1;
+    }
+
+    public void setNettopkpir1(double nettopkpir1) {
+        this.nettopkpir1 = nettopkpir1;
+    }
+
+    public String getOpiskolumny1() {
+        return opiskolumny1;
+    }
+
+    public void setOpiskolumny1(String opiskolumny1) {
+        this.opiskolumny1 = opiskolumny1;
+    }
+    
     
     
     
