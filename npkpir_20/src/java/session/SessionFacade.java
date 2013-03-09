@@ -143,7 +143,7 @@ public class SessionFacade<T> {
     public Dok dokumentDuplicat(Dok selD) throws Exception {
         Dok wynik = null;
         try {
-            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("kwota", selD.getKwota()).getSingleResult();
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).getSingleResult();
         } catch (Exception e) {
             System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;

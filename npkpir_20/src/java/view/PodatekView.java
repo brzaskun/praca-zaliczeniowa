@@ -8,6 +8,7 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kolmn;
+import embeddable.KwotaKolumna;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Podstawki;
@@ -83,71 +84,42 @@ public class PodatekView implements Serializable{
         lista.addAll(getoDOK());
         it = lista.iterator();
         while(it.hasNext()){
-            Dok tmp = (Dok) it.next();
+            Dok tmpX = (Dok) it.next();
             Kolmn kolmn = new Kolmn();
-            System.out.println("Dokument : "+tmp.toString());
-            if (tmp.getPkpirKol().contains("%")) {
-                switch (tmp.getPkpirKol()){
+            System.out.println("Dokument : "+tmpX.toString());
+            List<KwotaKolumna> listadok = tmpX.getListakwot();
+            for(KwotaKolumna tmp : listadok){
+            if (tmp.getNazwakolumny().contains("%")) {
+                switch (tmp.getNazwakolumny()){
                     case "17%":
-                        przychodyRyczalt.put("17%", przychodyRyczalt.get("17%").add(BigDecimal.valueOf(tmp.getKwota()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                        przychodyRyczalt.put("17%", przychodyRyczalt.get("17%").add(BigDecimal.valueOf(tmp.getNetto()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                         break;
                     case "8.5%":
-                        przychodyRyczalt.put("8.5%", przychodyRyczalt.get("8.5%").add(BigDecimal.valueOf(tmp.getKwota()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                        przychodyRyczalt.put("8.5%", przychodyRyczalt.get("8.5%").add(BigDecimal.valueOf(tmp.getNetto()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                         break;
                     case "5.5%":
-                        przychodyRyczalt.put("5.5%", przychodyRyczalt.get("5.5%").add(BigDecimal.valueOf(tmp.getKwota()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                        przychodyRyczalt.put("5.5%", przychodyRyczalt.get("5.5%").add(BigDecimal.valueOf(tmp.getNetto()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                         break;
                     case "3%":
-                        przychodyRyczalt.put("3%", przychodyRyczalt.get("3%").add(BigDecimal.valueOf(tmp.getKwota()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                        przychodyRyczalt.put("3%", przychodyRyczalt.get("3%").add(BigDecimal.valueOf(tmp.getNetto()))).setScale(2, RoundingMode.HALF_EVEN);
+                        przychody = przychody.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                         break;
                 }
 
             } else {
-                if (tmp.getPkpirKol().equals(kolmn.getKolumnPrzychody().get(0)) || tmp.getPkpirKol().equals(kolmn.getKolumnPrzychody().get(1))) {
-                    przychody = przychody.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
-                } else if (tmp.getPkpirKol().equals(kolmn.getKolumnST().get(0)) || tmp.getPkpirKol().equals(kolmn.getKolumnST().get(1))) {
-                    inwestycje = inwestycje.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                if (tmp.getNazwakolumny().equals(kolmn.getKolumnPrzychody().get(0)) || tmp.getNazwakolumny().equals(kolmn.getKolumnPrzychody().get(1))) {
+                    przychody = przychody.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
+                } else if (tmp.getNazwakolumny().equals(kolmn.getKolumnST().get(0)) || tmp.getNazwakolumny().equals(kolmn.getKolumnST().get(1))) {
+                    inwestycje = inwestycje.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                 } else {
-                    koszty = koszty.add(BigDecimal.valueOf(tmp.getKwota())).setScale(2, RoundingMode.HALF_EVEN);
+                    koszty = koszty.add(BigDecimal.valueOf(tmp.getNetto())).setScale(2, RoundingMode.HALF_EVEN);
                 }
             }
-            try{
-            if (tmp.getPkpirKolX().contains("%")) {
-                switch (tmp.getPkpirKolX()){
-                    case "17%":
-                        przychodyRyczalt.put("17%", przychodyRyczalt.get("17%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                        break;
-                    case "8.5%":
-                        przychodyRyczalt.put("8.5%", przychodyRyczalt.get("8.5%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                        break;
-                    case "5.5%":
-                        przychodyRyczalt.put("5.5%", przychodyRyczalt.get("5.5%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                        break;
-                    case "3%":
-                        przychodyRyczalt.put("3%", przychodyRyczalt.get("3%").add(BigDecimal.valueOf(tmp.getKwotaX()))).setScale(2, RoundingMode.HALF_EVEN);
-                        przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                        break;
-                }
-
-            } else {
-                if (tmp.getPkpirKolX().equals(kolmn.getKolumnPrzychody().get(0)) || tmp.getPkpirKolX().equals(kolmn.getKolumnPrzychody().get(1))) {
-                    przychody = przychody.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                } else if (tmp.getPkpirKolX().equals(kolmn.getKolumnST().get(0)) || tmp.getPkpirKolX().equals(kolmn.getKolumnST().get(1))) {
-                    inwestycje = inwestycje.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                } else {
-                    koszty = koszty.add(BigDecimal.valueOf(tmp.getKwotaX())).setScale(2, RoundingMode.HALF_EVEN);
-                }
-            }} catch (Exception e){
-                System.out.println("Nie było dodatkowej kolumny");
             }
-        }
+       }
         dochód = (przychody.subtract(koszty));
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
         String poszukiwany = wpisView.getPodatnikWpisu();
@@ -206,7 +178,7 @@ public class PodatekView implements Serializable{
     }
     
        
-     public String getOpodatkowanie() {
+    public String getOpodatkowanie() {
         return opodatkowanie;
     }
 
