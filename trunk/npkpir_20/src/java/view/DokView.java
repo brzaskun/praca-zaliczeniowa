@@ -18,6 +18,7 @@ import dao.StornoDokDAO;
 import dao.WpisDAO;
 import embeddable.EVatwpis;
 import embeddable.Kolmn;
+import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
@@ -41,6 +42,7 @@ import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -234,7 +236,7 @@ public class DokView implements Serializable{
     public void skopiujdokument(){
          try{
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
-            selDokument.setKwota(0.0);
+            selDokument.setNetto(0.0);
         } catch (Exception e){}
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
@@ -1932,6 +1934,37 @@ public class DokView implements Serializable{
 //                }
 //                System.out.println("Zmienilem dokument");
 //                dokDAO.edit(sel);
+//          }
+//      }
+      
+//      public void przeksiegujkwoty(){
+//          List<Dok> lista = dokDAO.findAll();
+//          for(Dok p : lista){
+//              List<KwotaKolumna> wiersz = new ArrayList<>();
+//              KwotaKolumna pierwszy = new KwotaKolumna();
+//              KwotaKolumna drugi = new KwotaKolumna();
+//              try {
+//                  pierwszy.setNetto(p.getKwota());
+//                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
+//                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+//                  pierwszy.setVat(tmp1.doubleValue());
+//                  tmp1 = BigDecimal.valueOf(p.getBrutto());
+//                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+//                  pierwszy.setBrutto(tmp1.doubleValue());
+//                  pierwszy.setNazwakolumny(p.getPkpirKol());
+//                  wiersz.add(pierwszy);
+//              } catch (Exception e){}
+//              try {
+//                  drugi.setNetto(p.getKwotaX());
+//                  drugi.setVat(0.0);
+//                  drugi.setBrutto(p.getKwotaX().doubleValue());
+//                  drugi.setNazwakolumny(p.getPkpirKolX());
+//                  drugi.setDowykorzystania("dosprawdzenia");
+//                  wiersz.add(drugi);
+//              } catch (Exception e){}
+//              p.setListakwot(wiersz);
+//              dokDAO.edit(p);
+//              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
 //          }
 //      }
 }

@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.EVatwpis;
+import embeddable.KwotaKolumna;
 import embeddable.Rozrachunek;
 import embeddable.Stornodoch;
 import java.io.Serializable;
@@ -46,14 +47,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByNrWlDk", query = "SELECT d FROM Dok d WHERE d.nrWlDk = :nrWlDk"),
     @NamedQuery(name = "Dok.findByRodzTrans", query = "SELECT d FROM Dok d WHERE d.rodzTrans = :rodzTrans"),
     @NamedQuery(name = "Dok.findByOpis", query = "SELECT d FROM Dok d WHERE d.opis = :opis"),
-    @NamedQuery(name = "Dok.findByKwota", query = "SELECT d FROM Dok d WHERE d.kwota = :kwota"),
     @NamedQuery(name = "Dok.findByUwagi", query = "SELECT d FROM Dok d WHERE d.uwagi = :uwagi"),
     @NamedQuery(name = "Dok.findByPkpirM", query = "SELECT d FROM Dok d WHERE d.pkpirM = :pkpirM"),
     @NamedQuery(name = "Dok.findByPkpirR", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR"),
     @NamedQuery(name = "Dok.findByVatM", query = "SELECT d FROM Dok d WHERE d.vatM = :vatM"),
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
-    @NamedQuery(name = "Dok.findByPkpirKol", query = "SELECT d FROM Dok d WHERE d.pkpirKol = :pkpirKol"),
-    @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr AND d.nrWlDk = :nrWlDk AND d.kwota = :kwota"),
+    @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto"),
     @NamedQuery(name = "Dok.findStornoDok", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findByRozliczony", query = "SELECT d FROM Dok d WHERE d.rozliczony = :rozliczony"),
@@ -112,17 +111,10 @@ public class Dok implements Serializable {
     @Size(max = 45)
     @Column(name = "opis")
     private String opis;
+    @Lob
+    @Column(name="listakwot")
+    private List<KwotaKolumna> listakwot;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kwota")
-    private Double kwota;
-    @Size(max = 65)
-    @Column(name = "pkpir_kol")
-    private String pkpirKol;
-    @Column(name = "kwotaX")
-    private Double kwotaX;
-    @Size(max = 65)
-    @Column(name = "pkpir_kolX")
-    private String pkpirKolX;
     @Column(name = "netto")
     private Double netto;
     @Column(name = "brutto")
@@ -243,14 +235,14 @@ public class Dok implements Serializable {
         this.opis = opis;
     }
 
-    public Double getKwota() {
-        return kwota;
+    public List<KwotaKolumna> getListakwot() {
+        return listakwot;
     }
 
-    public void setKwota(Double kwota) {
-        this.kwota = kwota;
+    public void setListakwot(List<KwotaKolumna> listakwot) {
+        this.listakwot = listakwot;
     }
-
+    
     public String getUwagi() {
         return uwagi;
     }
@@ -289,14 +281,6 @@ public class Dok implements Serializable {
 
     public void setVatR(String vatR) {
         this.vatR = vatR;
-    }
-
-    public String getPkpirKol() {
-        return pkpirKol;
-    }
-
-    public void setPkpirKol(String pkpirKol) {
-        this.pkpirKol = pkpirKol;
     }
 
     public String getPodatnik() {
@@ -349,22 +333,7 @@ public class Dok implements Serializable {
         this.dokumentProsty = dokumentProsty;
     }
 
-    public Double getKwotaX() {
-        return kwotaX;
-    }
-
-    public void setKwotaX(Double kwotaX) {
-        this.kwotaX = kwotaX;
-    }
-
-    public String getPkpirKolX() {
-        return pkpirKolX;
-    }
-
-    public void setPkpirKolX(String pkpirKolX) {
-        this.pkpirKolX = pkpirKolX;
-    }
-
+  
     public boolean isDodatkowaKolumna() {
         return dodatkowaKolumna;
     }
@@ -489,7 +458,7 @@ public class Dok implements Serializable {
 
     @Override
     public String toString() {
-        return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr.getNpelna() + ", podatnik=" + podatnik + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst + ", kwota=" + kwota;
+        return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr.getNpelna() + ", podatnik=" + podatnik + ", wprowadzil=" + wprowadzil + ", dataWyst=" + dataWyst;
     }
 
   

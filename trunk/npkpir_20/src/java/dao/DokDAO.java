@@ -29,6 +29,9 @@ public class DokDAO extends DAO implements Serializable {
         super(Dok.class);
     }
 
+    public List<Dok> findAll(){
+        return dokFacade.findAll(Dok.class);
+    }
     
     public Dok znajdzDuplikat(Dok selD) throws Exception {
         Dok tmp = null;

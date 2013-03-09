@@ -6,6 +6,7 @@ package view;
 
 import dao.SumypkpirDAO;
 import embeddable.DokKsiega;
+import embeddable.KwotaKolumna;
 import entity.Dok;
 import entity.Klienci;
 import entity.Sumypkpir;
@@ -62,67 +63,39 @@ public class KsiegaView implements Serializable{
             dk.setPodatnik(tmp.getPodatnik());
             dk.setDataWyst(tmp.getDataWyst());
             dk.setOpis(tmp.getOpis());
-            switch(tmp.getPkpirKol()){
+            List<KwotaKolumna> listawierszy = tmp.getListakwot();
+            for(KwotaKolumna tmpX : listawierszy){
+            switch(tmpX.getNazwakolumny()){
                 case "przych. sprz":
-                    dk.setKolumna7(tmp.getKwota());
-                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmp.getKwota());
+                    dk.setKolumna7(tmp.getNetto());
+                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmp.getNetto());
                     break;
                 case "pozost. przych.":
-                    dk.setKolumna8(tmp.getKwota());
-                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmp.getKwota());
+                    dk.setKolumna8(tmp.getNetto());
+                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmp.getNetto());
                     break;
                 case "zakup tow. i mat.":
-                    dk.setKolumna10(tmp.getKwota());
-                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmp.getKwota());
+                    dk.setKolumna10(tmp.getNetto());
+                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmp.getNetto());
                     break;
                 case "koszty ub.zak.":
-                    dk.setKolumna11(tmp.getKwota());
-                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmp.getKwota());
+                    dk.setKolumna11(tmp.getNetto());
+                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmp.getNetto());
                     break;
                 case "wynagrodzenia":
-                    dk.setKolumna12(tmp.getKwota());
-                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmp.getKwota());
+                    dk.setKolumna12(tmp.getNetto());
+                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmp.getNetto());
                     break;
                 case "poz. koszty":
-                    dk.setKolumna13(tmp.getKwota());
-                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmp.getKwota());
+                    dk.setKolumna13(tmp.getNetto());
+                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmp.getNetto());
                     break;
                  case "inwestycje":
-                     dk.setKolumna15(tmp.getKwota());
-                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmp.getKwota());
+                     dk.setKolumna15(tmp.getNetto());
+                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmp.getNetto());
                     break;   
             }
-            if(tmp.getPkpirKolX()!=null){
-            switch(tmp.getPkpirKolX()){
-                case "przych. sprz":
-                    dk.setKolumna7(tmp.getKwotaX());
-                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmp.getKwotaX());
-                    break;
-                case "pozost. przych.":
-                    dk.setKolumna8(tmp.getKwotaX());
-                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmp.getKwotaX());
-                    break;
-                case "zakup tow. i mat.":
-                    dk.setKolumna10(tmp.getKwotaX());
-                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmp.getKwotaX());
-                    break;
-                case "koszty ub.zak.":
-                    dk.setKolumna11(tmp.getKwotaX());
-                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmp.getKwotaX());
-                    break;
-                case "wynagrodzenia":
-                    dk.setKolumna12(tmp.getKwotaX());
-                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmp.getKwotaX());
-                    break;
-                case "poz. koszty":
-                    dk.setKolumna13(tmp.getKwotaX());
-                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmp.getKwotaX());
-                    break;
-                 case "inwestycje":
-                     dk.setKolumna15(tmp.getKwotaX());
-                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmp.getKwotaX());
-                    break;   
-            }}
+            }
             if(dk.getKolumna7()!=null&&dk.getKolumna8()!=null) {
                 dk.setKolumna9(dk.getKolumna7()+dk.getKolumna8());
                 podsumowanie.setKolumna9(podsumowanie.getKolumna9()+dk.getKolumna9());
