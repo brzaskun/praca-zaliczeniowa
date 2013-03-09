@@ -72,7 +72,7 @@
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
-            <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.netto0}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" >  
+            <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettopkpir0}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" >  
                 <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto}" update=":dodWiad:grid1" global="false"  oncomplete="updatesum();"/>
                 
             </pe:inputNumber>
