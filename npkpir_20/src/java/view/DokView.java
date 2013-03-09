@@ -175,6 +175,16 @@ public class DokView implements Serializable{
     
     private List<String> listamiesiecyewidencjavat;
     @Inject private Mce mce;
+    /**
+     * Lista gdzie przechowywane są wartości netto i opis kolumny wporwadzone w formularzy na stronie add_wiad.xhtml
+     */
+    List<KwotaKolumna> nettokolumna;
+    /**
+     * pola pobierajace dane
+     */
+    private double netto0;
+    private double vat0;
+    private String opiskolumny0;
     
     public DokView() {
         setPokazSTR(false);
@@ -858,11 +868,20 @@ public class DokView implements Serializable{
         }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            if(selDokument.getKwotaX()!= null){
-                selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
-            } else {
-                selDokument.setNetto(selDokument.getKwota());
+            //obliczanie netto
+            List<KwotaKolumna> pobranekwotokolumny = new ArrayList<>();
+            KwotaKolumna element = new KwotaKolumna();
+            element.setNetto(netto0);
+            element.setVat(vat0);
+            element.setBrutto(netto0+vat0);
+            element.setNazwakolumny(opiskolumny0);
+            pobranekwotokolumny.add(element);
+            selDokument.setListakwot(pobranekwotokolumny);
+            selDokument.setNetto(0.0);
+            for(KwotaKolumna p : pobranekwotokolumny){
+                selDokument.setNetto(selDokument.getNetto()+p.getNetto());
             }
+            //koniec obliczania netto
             dodajdatydlaStorno();
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwotavat = 0.0;
@@ -872,14 +891,11 @@ public class DokView implements Serializable{
                 }
             } catch (Exception ex){}
             Double kwota = 0.0;
-              kwota = selDokument.getKwota();
-                try{
-                kwota = kwota + selDokument.getKwotaX();
-                } catch (Exception e){}
-                try{
-                kwota = kwota + kwotavat;
-                } catch (Exception e){}
-                kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+            for (KwotaKolumna p : pobranekwotokolumny){
+                kwota = kwota + p.getNetto();
+            }
+            kwota = kwota + kwotavat;
+            kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
             if(selDokument.getRozliczony()==true){
                 Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(),new Date());
                 ArrayList<Rozrachunek> lista = new ArrayList<>();
@@ -909,8 +925,8 @@ public class DokView implements Serializable{
         //robienie srodkow trwalych
          if(stawkaKST!=null){
             try {
-                   selectedSTR.setNetto(selDokument.getKwota());
-                   BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getKwota());
+                   selectedSTR.setNetto(selDokument.getNetto());
+                   BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
                    tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
                    tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
                    tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
@@ -1078,16 +1094,17 @@ public class DokView implements Serializable{
             selDokument.setTypdokumentu("AMO");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
             selDokument.setOpis("umorzenie za miesiac");
-            selDokument.setKwota(kwotaumorzenia);
-            selDokument.setPkpirKol("poz. koszty");
+            List<KwotaKolumna> listaX = new ArrayList<>();
+            KwotaKolumna tmpX = new KwotaKolumna();
+            tmpX.setNetto(kwotaumorzenia);
+            tmpX.setVat(0.0);
+            tmpX.setNazwakolumny("poz. koszty");
+            listaX.add(tmpX);
+            selDokument.setListakwot(listaX);
+            selDokument.setNetto(kwotaumorzenia);
             selDokument.setRozliczony(true);
-             if(selDokument.getKwotaX()!= null){
-                selDokument.setNetto(selDokument.getKwota()+selDokument.getKwotaX());
-            } else {
-                selDokument.setNetto(selDokument.getKwota());
-            }
             sprawdzCzyNieDuplikat(selDokument);
-            if(selDokument.getKwota()>0){
+            if(selDokument.getNetto()>0){
             dokDAO.dodaj(selDokument);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument umorzenia zachowany", selDokument.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -1156,12 +1173,17 @@ public class DokView implements Serializable{
             selDokument.setRodzTrans("storno niezapłaconych faktur");
             selDokument.setNrWlDk(wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu().toString());
             selDokument.setOpis("storno za miesiac");
-            selDokument.setKwota(kwotastorno);
-            selDokument.setPkpirKol("poz. koszty");
+            List<KwotaKolumna> listaX = new ArrayList<>();
+            KwotaKolumna tmpX = new KwotaKolumna();
+            tmpX.setNetto(kwotastorno);
+            tmpX.setVat(0.0);
+            tmpX.setNazwakolumny("poz. koszty");
+            listaX.add(tmpX);
+            selDokument.setListakwot(listaX);
             selDokument.setRozliczony(true);
             selDokument.setTypdokumentu(typdokumentu);
             //sprawdzCzyNieDuplikat(selDokument);
-            if(selDokument.getKwota()!=0){
+            if(selDokument.getNetto()!=0){
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument storno zachowany", selDokument.getIdDok().toString());
@@ -1826,6 +1848,38 @@ public class DokView implements Serializable{
 
     public void setListamiesiecyewidencjavat(List<String> listamiesiecyewidencjavat) {
         this.listamiesiecyewidencjavat = listamiesiecyewidencjavat;
+    }
+
+    public List<KwotaKolumna> getNettokolumna() {
+        return nettokolumna;
+    }
+
+    public void setNettokolumna(List<KwotaKolumna> nettokolumna) {
+        this.nettokolumna = nettokolumna;
+    }
+
+    public double getNetto0() {
+        return netto0;
+    }
+
+    public void setNetto0(double netto0) {
+        this.netto0 = netto0;
+    }
+
+    public double getVat0() {
+        return vat0;
+    }
+
+    public void setVat0(double vat0) {
+        this.vat0 = vat0;
+    }
+
+    public String getOpiskolumny0() {
+        return opiskolumny0;
+    }
+
+    public void setOpiskolumny0(String opiskolumny0) {
+        this.opiskolumny0 = opiskolumny0;
     }
     
     
