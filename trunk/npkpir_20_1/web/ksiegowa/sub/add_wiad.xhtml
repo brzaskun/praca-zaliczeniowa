@@ -22,7 +22,7 @@
             
 
             <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
-<!--                <p:ajax event="blur" listener="{DokumentView.ustawDate2}" update="dataPole :dodWiad:dataSPole"  />-->
+               <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
             </h:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
@@ -66,23 +66,24 @@
 
         </p:panelGrid>
         <p:panelGrid columns="5">
-            <h:outputLabel value="kwota netto kolumna pkpir" style="font-weight: 700"/>
             <h:outputLabel value="dod.kol" style="font-weight: 700"/>
+            <h:outputLabel value="kwota netto - kolumna pkpir" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
-            
-            
-            <ui:repeat id="repeat" value="#{DokumentView.rows}" var="row" varStatus="rowStat"  >
+            <p:commandButton value="+" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p"/>
+            <p:outputPanel id="panel">
+            <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
                 <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" > 
             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:repeat:kolumnaPkpir" global="false"/>
+            <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto()}"  update=":dodWiad:grid1" global="false"/>
             </pe:inputNumber>
             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
                 <f:selectItems value="#{DokumentView.kolumny}"/>
             </h:selectOneMenu><br/>
             </ui:repeat>
+            </p:outputPanel>
             
-            <p:commandButton value="+" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad"/>
             <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()">
 <!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
             </h:selectBooleanCheckbox>
@@ -194,8 +195,7 @@
             <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
         </p:panelGrid>
         <p:outputPanel id="wrapper">
-            <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}"
-                         var="p">
+            <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}" var="p">
                 <p:column id="idColumn" headerText="nazwa">  
                     <f:facet name="header">  
                         <h:outputText value="nazwa"/>  
@@ -221,7 +221,6 @@
                     <h:outputText value="#{p.netto}"  style="float: right;" >
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-
                 </p:column>
                 <p:column id="idColumn3" headerText="vat">  
                     <f:facet name="header">  
