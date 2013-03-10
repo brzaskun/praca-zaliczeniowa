@@ -223,7 +223,6 @@ public class DokView implements Serializable{
         wpisView = new WpisView();
         opisypkpir = new ArrayList();
         listamiesiecyewidencjavat = new ArrayList<>();
-        rows = new ArrayList<>();
         nettokolumna = new ArrayList<>();
     }
 
@@ -233,23 +232,14 @@ public class DokView implements Serializable{
 
     
      public void liczbaw() {
-      rows.clear();
-      liczbawierszy++;
-      for (int i = 0; i < liczbawierszy; i++) {
-        rows.add("");
-      }
-      RequestContext.getCurrentInstance().update("dodWiad:formR");
+        KwotaKolumna p = new KwotaKolumna();
+        p.setNetto(0.0);
+        p.setNazwakolumny("nie ma");
+        nettokolumna.add(p);
     }
  
     @PostConstruct
     private void init(){
-        try {
-            if(liczbawierszy==0){
-                 rows.add("");
-            }
-        } catch (Exception oo){
-                 rows.add("");
-        }
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         try{
@@ -460,6 +450,7 @@ public class DokView implements Serializable{
             HtmlOutputText otX = new HtmlOutputText();
             otX.setValue(poz);
             //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
+            //to jest problem przy ViewScoped jak nie beda wyzrowane opisy
             if (opis1 == null) {
                 setOpis1(poz);
             } else if (opis2 == null) {
@@ -535,6 +526,22 @@ public class DokView implements Serializable{
         } catch (Exception ei){
             eVatOpisDAO.edit(eVO);
         }
+        opis1 = null;
+        opis2 = null;
+        opis3 = null;
+        opis4 = null;
+        opis5 = null;
+        netto1 = 0;
+        netto2 = 0;
+        netto3 = 0;
+        netto4 = 0;
+        netto5 = 0;
+        vat1 = 0;
+        vat2 = 0;
+        vat3 = 0;
+        vat4 = 0;
+        vat5 = 0;
+        
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
         }
         }
@@ -788,20 +795,20 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
     }
 
-    public void przeniesKwotaDoNetto(AjaxBehaviorEvent e) {
-//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//        String tmp = params.get("dodWiad:kwotaPkpir_hinput");
-//        tmp = tmp.replace(",", ".");
-//        netto1 = Double.parseDouble(tmp);
-//        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
-//        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-//        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-//        String transakcja = params.get("dodWiad:rodzajTrans");
-//        if(transakcja.equals("WDT")||transakcja.equals("UPTK")){
-//            vat1 = 0.0;
-//        } else {
-//            vat1 = Double.parseDouble(tmp1.toString());
-//        }
+    public void przeniesKwotaDoNetto() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String tmp = params.get("dodWiad:repeat:0:kwotaPkpir_hinput");
+        tmp = tmp.replace(",", ".");
+        netto1 = Double.parseDouble(tmp);
+        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
+        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
+        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+        String transakcja = params.get("dodWiad:rodzajTrans");
+        if(transakcja.equals("WDT")||transakcja.equals("UPTK")){
+            vat1 = 0.0;
+        } else {
+            vat1 = Double.parseDouble(tmp1.toString());
+        }
         RequestContext.getCurrentInstance().update("dodWiad:grid1");
         //daje platnosc gotowka domyslnie
         selDokument.setRozliczony(true);
@@ -988,6 +995,10 @@ public class DokView implements Serializable{
             RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            /**
+             * resetowanie pola do wpisywania kwoty netto
+             */
+            nettokolumna.clear();
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getStackTrace().toString(),null);
@@ -1328,23 +1339,28 @@ public class DokView implements Serializable{
     }
     
     public void ustawDate2() {
-        selDokument.setDokumentProsty(false);
-        RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
-        String dataWyst = selDokument.getDataWyst();
-        Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        if (dataWyst.matches("[0-3][0-9]")) {
-            dataWyst = rok + "-"+ mc +"-"+dataWyst;
-        } else if (dataWyst.matches("[0-1][0-9]-[0-3][0-9]")) {
-            dataWyst = rok + "-" + dataWyst ;
-        }
-        selDokument.setDataWyst(dataWyst);
-        selDokument.setDataSprz(dataWyst);
-        selDokument.setVatM(mc);
-        RequestContext.getCurrentInstance().update("dodWiad:vatm");
-        selDokument.setVatR(rok.toString());
-        RequestContext.getCurrentInstance().update("dodWiad:vatr");
-        przechowajdatejakdodaje = dataWyst;
+        KwotaKolumna nowa = new KwotaKolumna();
+        nowa.setNetto(0.0);
+        nowa.setNazwakolumny("");
+        nettokolumna.add(nowa);
+        RequestContext.getCurrentInstance().update("dodWiad:panel");
+//        selDokument.setDokumentProsty(false);
+//        RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+//        String dataWyst = selDokument.getDataWyst();
+//        Integer rok = wpisView.getRokWpisu();
+//        String mc = wpisView.getMiesiacWpisu();
+//        if (dataWyst.matches("[0-3][0-9]")) {
+//            dataWyst = rok + "-"+ mc +"-"+dataWyst;
+//        } else if (dataWyst.matches("[0-1][0-9]-[0-3][0-9]")) {
+//            dataWyst = rok + "-" + dataWyst ;
+//        }
+//        selDokument.setDataWyst(dataWyst);
+//        selDokument.setDataSprz(dataWyst);
+//        selDokument.setVatM(mc);
+//        RequestContext.getCurrentInstance().update("dodWiad:vatm");
+//        selDokument.setVatR(rok.toString());
+//        RequestContext.getCurrentInstance().update("dodWiad:vatr");
+//        przechowajdatejakdodaje = dataWyst;
     }
    
     //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn

@@ -124,6 +124,10 @@ function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
 };
 
+function aktywujnetto(){
+    document.getElementById("dodWiad:opis").focus();
+};
+
  PrimeFaces.locales['pl'] = {
             closeText: 'Zamknij',
             prevText: 'Poprzedni',
