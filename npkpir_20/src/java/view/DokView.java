@@ -889,7 +889,9 @@ public class DokView implements Serializable{
             element1.setVat(vatpkpir1);
             element1.setBrutto(nettopkpir1+vatpkpir1);
             element1.setNazwakolumny(opiskolumny1);
+            if(nettopkpir1>0){
             pobranekwotokolumny.add(element1);
+            }
             } catch (Exception e){}
             selDokument.setListakwot(pobranekwotokolumny);
             selDokument.setNetto(0.0);
@@ -932,6 +934,7 @@ public class DokView implements Serializable{
             RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            nettopkpir0 = 0.0;
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getStackTrace().toString(),null);
