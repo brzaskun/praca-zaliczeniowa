@@ -236,6 +236,7 @@ public class DokView implements Serializable{
         p.setNetto(0.0);
         p.setNazwakolumny("nie ma");
         nettokolumna.add(p);
+        liczbawierszy++;
     }
  
     @PostConstruct
@@ -992,6 +993,7 @@ public class DokView implements Serializable{
             ostatnidokumentDAO.edit(temp);
             wysDokument = new Dok();
             wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
+            liczbawierszy = 0;
             RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument zachowany" +selDokument, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -1339,11 +1341,14 @@ public class DokView implements Serializable{
     }
     
     public void ustawDate2() {
+        if(liczbawierszy<1){
         KwotaKolumna nowa = new KwotaKolumna();
         nowa.setNetto(0.0);
         nowa.setNazwakolumny("");
         nettokolumna.add(nowa);
         RequestContext.getCurrentInstance().update("dodWiad:panel");
+        liczbawierszy++;
+        }
 //        selDokument.setDokumentProsty(false);
 //        RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
 //        String dataWyst = selDokument.getDataWyst();
