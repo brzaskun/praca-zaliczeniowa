@@ -44,6 +44,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -798,45 +799,41 @@ public class DokView implements Serializable{
 
     public void przeniesKwotaDoNetto() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String tmp = params.get("dodWiad:repeat:0:kwotaPkpir_hinput");
-        tmp = tmp.replace(",", ".");
-        netto1 = Double.parseDouble(tmp);
-        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
-        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        String transakcja = params.get("dodWiad:rodzajTrans");
-        if(transakcja.equals("WDT")||transakcja.equals("UPTK")){
-            vat1 = 0.0;
-        } else {
-            vat1 = Double.parseDouble(tmp1.toString());
+        Collection<String> klucze = params.keySet();
+        ArrayList<String> kluczeprzebrane = new ArrayList<>();
+        for (String p : klucze) {
+            if (p.contains("dodWiad:repeat:")&&p.contains("hinput")) {
+                kluczeprzebrane.add(p);
+            }
         }
-        RequestContext.getCurrentInstance().update("dodWiad:grid1");
-        //daje platnosc gotowka domyslnie
-        selDokument.setRozliczony(true);
-        skopiujdoTerminuPlatnosci();
-        RequestContext.getCurrentInstance().update("dodWiad:rozliczony");
+        for (String p : kluczeprzebrane) {
+            String tmp = params.get(p);
+            tmp = tmp.replace(",", ".");
+            if (netto1 == 0.0) {
+                netto1 = Double.parseDouble(tmp);
+            } else {
+                netto1 = netto1 + Double.parseDouble(tmp);
+            }
+            BigDecimal tmp1 = BigDecimal.valueOf(netto1);
+            tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
+            tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+            String transakcja = params.get("dodWiad:rodzajTrans");
+            if (transakcja.equals("WDT") || transakcja.equals("UPTK")) {
+                vat1 = 0.0;
+            } else {
+                vat1 = Double.parseDouble(tmp1.toString());
+            }
+        }
+         RequestContext.getCurrentInstance().update("dodWiad:grid1");
+            //daje platnosc gotowka domyslnie
+            selDokument.setRozliczony(true);
+            skopiujdoTerminuPlatnosci();
+            RequestContext.getCurrentInstance().update("dodWiad:rozliczony");
     }
 
-    public void przeniesKwotaDoNettoX(AjaxBehaviorEvent e) {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String tmp = params.get("dodWiad:kwotaPkpir_hinput");
-        String tmpX = params.get("dodWiad:kwotaPkpirX_hinput");
-        tmp = tmp.replace(",", ".");
-        netto1 = Double.parseDouble(tmp);
-        if (!tmpX.equals("")) {
-            tmpX = tmpX.replace(",", ".");
-            netto1 = netto1 + Double.parseDouble(tmpX);
-        }
-        BigDecimal tmp1 = BigDecimal.valueOf(netto1);
-        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        netto1 = Double.parseDouble(tmp1.toString());
-        tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-        tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-        vat1 = Double.parseDouble(tmp1.toString());
-        RequestContext.getCurrentInstance().update("dodWiad:grid1");
-    }
+ 
 
-    /**
+    /**NE
      * zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void dokumentProstuSchowajEwidencje() {
