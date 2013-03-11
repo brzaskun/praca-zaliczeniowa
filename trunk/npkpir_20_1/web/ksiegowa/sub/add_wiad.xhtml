@@ -52,9 +52,10 @@
             </h:selectBooleanCheckbox>
             <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
                 <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
-                
+                <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
             </h:selectOneMenu>
-            <h:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}"  >
+            <h:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}">
+                
             </h:inputText>
             <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
                             var="p" itemLabel="#{p}" itemValue="#{p}" 
@@ -72,6 +73,7 @@
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
             <p:commandButton value="+" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p"/>
+            
             <p:outputPanel id="panel">
             <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
                 <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" > 

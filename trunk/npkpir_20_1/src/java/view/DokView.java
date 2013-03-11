@@ -310,7 +310,7 @@ public class DokView implements Serializable{
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
      */
-        public void podepnijListe() {
+     public void podepnijListe() {
         try{
         pkpirLista.getChildren().clear();
         } catch (Exception egf){
