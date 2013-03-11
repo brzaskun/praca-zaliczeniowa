@@ -6,6 +6,7 @@ package view;
 
 
 import comparator.Evewidencjacomparator;
+import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
@@ -50,6 +51,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -117,19 +120,24 @@ public class DokView implements Serializable{
     private String opis1;
     private double netto1;
     private double vat1;
+    private String vat1S;
     private String opis2;
     private double netto2;
     private double vat2;
+    private String vat2S;
     private String opis3;
     private double netto3;
     private double vat3;
+    private String vat3S;
     private String opis4;
     private double netto4;
     private double vat4;
+    private String vat4S;
     private String opizw;
     private String opis5;
     private double netto5;
     private double vat5;
+    private String vat5S;
     
     
     @Inject private EVatView evat;
@@ -248,7 +256,9 @@ public class DokView implements Serializable{
         String pod = wpistmp.getPodatnikWpisu();
         podX = podatnikDAO.find(pod);
         opisypkpir.addAll(podX.getOpisypkpir());
-        rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
+        ArrayList<Rodzajedok> rodzajedokumentow = (ArrayList<Rodzajedok>) podX.getDokumentyksiegowe();
+        Collections.sort(rodzajedokumentow,new Rodzajedokcomparator());
+        rodzajedokKlienta.addAll(rodzajedokumentow);
         opodatkowanieryczalt = podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT");
         if(podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("VAT")){
             selDokument.setDokumentProsty(true);
@@ -478,25 +488,19 @@ public class DokView implements Serializable{
             ew.setThousandSeparator(" ");
             ew.setDecimalPlaces("2");
             ew.setMinValue("-10000000");
-            String defX = "updatesuma"+i+"();";
-            ew.setOnchange(defX);
+            String defX = "updatesuma("+i+");";
+            ew.setOnblur(defX);
             String lab1 = "netto"+i;
             ew.setId(lab1);
             grid1.getChildren().add(ew);
-            InputNumber ewX = new InputNumber();
-            final String bindingX = "#{DokumentView.vat" + i + "}";
+            HtmlInputText ewX = new HtmlInputText();
+            final String bindingX = "#{DokumentView.vat" + i + "S}";
             ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
             ewX.setValueExpression("value", ve2X);
-            ewX.setSymbol(" zł");
-            ewX.setSymbolPosition("s");
-            ewX.setDecimalPlaces(".");
-            ewX.setThousandSeparator(" ");
-            ewX.setDecimalPlaces("2");
-            ewX.setMinValue("-10000000");
             String lab2 = "vat"+i;
             ewX.setId(lab2);
-            String def = "updatesuma"+i+"();";
-            ewX.setOnchange(def);
+            String def = "updatevat("+i+");";
+            ewX.setOnblur(def);
             grid1.getChildren().add(ewX);
             HtmlInputText ewY = new HtmlInputText();
             String lab3 = "brutto"+i;
@@ -885,11 +889,13 @@ public class DokView implements Serializable{
             pobierzNetto.add(netto3);
             pobierzNetto.add(netto4);
             pobierzNetto.add(netto5);
-            pobierzVat.add(vat1);
-            pobierzVat.add(vat2);
-            pobierzVat.add(vat3);
-            pobierzVat.add(vat4);
-            pobierzVat.add(vat5);
+            pobierzVat.add(extractDouble(vat1S));
+            try{
+            pobierzVat.add(extractDouble(vat2S));
+            pobierzVat.add(extractDouble(vat3S));
+            pobierzVat.add(extractDouble(vat4S));
+            pobierzVat.add(extractDouble(vat5S));
+            } catch (Exception e){}
             List<EVatwpis> el = new ArrayList<>();
             
             int i = 0;
@@ -1038,6 +1044,17 @@ public class DokView implements Serializable{
             selDokument = new Dok();
             RequestContext.getCurrentInstance().update("@form");
     }
+    
+    private Double extractDouble(String wiersz){
+        String prices = wiersz.replaceAll("\\s","");
+        Pattern p = Pattern.compile("(\\d*.\\d)");
+        Matcher m = p.matcher(prices);
+        while (m.find()) {
+            return Double.parseDouble(m.group());
+            }
+         return 0.0;
+    }
+    
     //dodaje wyliczone daty platnosci dla obliczenia pozniej czy trzeba stornowac
     public void dodajdatydlaStorno() throws ParseException{
         String data;
@@ -1993,6 +2010,46 @@ public class DokView implements Serializable{
 
     public void setOpiskolumny1(String opiskolumny1) {
         this.opiskolumny1 = opiskolumny1;
+    }
+
+    public String getVat1S() {
+        return vat1S;
+    }
+
+    public void setVat1S(String vat1S) {
+        this.vat1S = vat1S;
+    }
+
+    public String getVat2S() {
+        return vat2S;
+    }
+
+    public void setVat2S(String vat2S) {
+        this.vat2S = vat2S;
+    }
+
+    public String getVat3S() {
+        return vat3S;
+    }
+
+    public void setVat3S(String vat3S) {
+        this.vat3S = vat3S;
+    }
+
+    public String getVat4S() {
+        return vat4S;
+    }
+
+    public void setVat4S(String vat4S) {
+        this.vat4S = vat4S;
+    }
+
+    public String getVat5S() {
+        return vat5S;
+    }
+
+    public void setVat5S(String vat5S) {
+        this.vat5S = vat5S;
     }
     
     

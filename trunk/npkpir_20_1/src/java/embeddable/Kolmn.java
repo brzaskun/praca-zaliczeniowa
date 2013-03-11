@@ -7,6 +7,8 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 
@@ -93,5 +95,15 @@ public class Kolmn implements Serializable{
         return kolumnRyczalt;
     }
     
+    public static void main(String[] args){
+        
+        String pricesString = "1 100.00zł";
+        String prices = pricesString.replaceAll("\\s","");
+        Pattern p = Pattern.compile("(\\d*.\\d)");
+        Matcher m = p.matcher(prices);
+        while (m.find()) {
+            System.out.println("double "+Double.parseDouble(m.group()));
+}
+    }
     
 }

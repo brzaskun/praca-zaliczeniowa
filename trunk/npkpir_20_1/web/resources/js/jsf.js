@@ -258,137 +258,89 @@ return s+" zł"; };
 
 
 function updatesum() {
+    document.getElementById("dodWiad:vat1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0.23, 2, '.', ' ');
     if(document.getElementById("dodWiad:dokumentprosty").checked == true){
         document.getElementById("dodWiad:sumbrutto").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0), 2, '.', ' ');
     } else if ((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-     document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-      document.getElementById("dodWiad:brutto2").value = number_format((document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0), 2, '.', ' ');
-       document.getElementById("dodWiad:brutto3").value = number_format((document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0), 2, '.', ' ');
-        document.getElementById("dodWiad:brutto4").value = number_format((document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
-         document.getElementById("dodWiad:brutto5").value = number_format((document.getElementById("dodWiad:netto5_hinput").value -0)+(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
-    document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-            +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
+    document.getElementById("dodWiad:vat2").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:vat3").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:vat4").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:vat5").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:brutto1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value), 2, '.', ' ');
+      document.getElementById("dodWiad:brutto2").value = number_format(parseFloat(document.getElementById("dodWiad:netto2_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat2").value), 2, '.', ' ');
+       document.getElementById("dodWiad:brutto3").value = number_format(parseFloat(document.getElementById("dodWiad:netto3_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat3").value), 2, '.', ' ');
+        document.getElementById("dodWiad:brutto4").value = number_format(parseFloat(document.getElementById("dodWiad:netto4_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat4").value), 2, '.', ' ');
+         document.getElementById("dodWiad:brutto5").value = number_format(parseFloat(document.getElementById("dodWiad:netto5_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
+    document.getElementById("dodWiad:sumbrutto").value = number_format(
+            parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat1").value)
+            +parseFloat(document.getElementById("dodWiad:netto2_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat2").value)
+            +parseFloat(document.getElementById("dodWiad:netto3_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat3").value)
+            +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat4").value)
+            +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
       } else {
-      document.getElementById("dodWiad:sumbrutto").value = number_format(
-            (document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-     document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+      document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
+      document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
      }
 };
 
  
- function updatesuma1(){
-      document.getElementById("dodWiad:brutto1").value =  number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+ function updatesuma(wiersz){
+      document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23, 2, '.', ' ');
+      document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
     if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-           document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-            +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
+     document.getElementById("dodWiad:vat2").value = number_format(zrobFloat(document.getElementById("dodWiad:netto2_hinput").value)*0.08, 2, '.', ' ');
+    document.getElementById("dodWiad:vat3").value = number_format(zrobFloat(document.getElementById("dodWiad:netto3_hinput").value)*0.05, 2, '.', ' ');
+    document.getElementById("dodWiad:vat4").value = number_format(zrobFloat(document.getElementById("dodWiad:netto4_hinput").value)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:vat5").value = number_format(zrobFloat(document.getElementById("dodWiad:netto5_hinput").value)*0, 2, '.', ' ');
+    document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
+           document.getElementById("dodWiad:sumbrutto").value = number_format(
+            parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat1").value)
+            +parseFloat(document.getElementById("dodWiad:netto2_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat2").value)
+            +parseFloat(document.getElementById("dodWiad:netto3_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat3").value)
+            +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat4").value)
+            +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
       } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format(
-            (document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-     }
- };
-
-function updatesuma2(){
-      document.getElementById("dodWiad:brutto2").value = number_format((document.getElementById("dodWiad:netto2_hinput").value -0)+(document.getElementById("dodWiad:vat2_hinput").value -0), 2, '.', ' ');
-       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-            document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-            +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
-      } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format(
-            +(document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-     }
- };
-
-function updatesuma3(){
-     document.getElementById("dodWiad:brutto3").value = number_format((document.getElementById("dodWiad:netto3_hinput").value -0)+(document.getElementById("dodWiad:vat3_hinput").value -0), 2, '.', ' ');
-       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-            document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-            +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
-      } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format(
-            +(document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
      }
  };
  
- function updatesuma4(){
-       document.getElementById("dodWiad:brutto4").value = number_format((document.getElementById("dodWiad:netto4_hinput").value -0)+(document.getElementById("dodWiad:vat4_hinput").value -0), 2, '.', ' ');
-       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-            document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-           +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
-      } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format(
-            +(document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-     }
- };
+ function zrobFloat(kwota){
+      var strX = kwota.replace(",",".");
+      strX = strX.replace(/\s/g, "");
+      return parseFloat(strX);
+ }
  
- function updatesuma4(){
-       document.getElementById("dodWiad:brutto5").value = number_format((document.getElementById("dodWiad:netto5_hinput").value -0)+(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
-       if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
-            document.getElementById("dodWiad:sumbrutto").value = number_format((
-            document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0)
-            +(document.getElementById("dodWiad:netto2_hinput").value -0)
-            +(document.getElementById("dodWiad:vat2_hinput").value -0)
-            +(document.getElementById("dodWiad:netto3_hinput").value -0)
-            +(document.getElementById("dodWiad:vat3_hinput").value -0)
-           +(document.getElementById("dodWiad:netto4_hinput").value -0)
-            +(document.getElementById("dodWiad:vat4_hinput").value -0)
-            +(document.getElementById("dodWiad:netto5_hinput").value -0)
-            +(document.getElementById("dodWiad:vat5_hinput").value -0), 2, '.', ' ');
+ function updatevat(wiersz){
+      document.getElementById("dodWiad:vat"+wiersz).value = number_format(zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value), 2, '.', ' ');
+      document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
+    if((document.getElementById("dodWiad:rodzajTrans").value == "SZ")||(document.getElementById("dodWiad:rodzajTrans").value == "SZK")||(document.getElementById("dodWiad:rodzajTrans").value == "RACH")){
+          document.getElementById("dodWiad:sumbrutto").value = number_format(
+            parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat1").value)
+            +parseFloat(document.getElementById("dodWiad:netto2_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat2").value)
+            +parseFloat(document.getElementById("dodWiad:netto3_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat3").value)
+            +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat4").value)
+            +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
+            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
       } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format(
-            +(document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+parseFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
      }
  };
+
+
  
  function przekazdate(){
      document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
