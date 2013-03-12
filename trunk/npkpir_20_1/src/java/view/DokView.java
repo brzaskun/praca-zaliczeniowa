@@ -871,7 +871,7 @@ public class DokView implements Serializable{
         Podatnik podtmp = podatnikDAO.find(wpisbiezacy.getPodatnikWpisu());
         List<Double> pobierzVat = new ArrayList<>();
         try {
-            if(!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT")){
+            if((!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size()-1).getParametr().contains("bez VAT"))&&(selDokument.isDokumentProsty()==false)){
             ArrayList<Evewidencja> ew = new ArrayList<>();
             ew.addAll(evewidencjaDAO.findAll());
             Collections.sort(ew,new Evewidencjacomparator());
