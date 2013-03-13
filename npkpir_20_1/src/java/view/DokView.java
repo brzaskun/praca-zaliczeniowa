@@ -1047,7 +1047,7 @@ public class DokView implements Serializable{
     
     private Double extractDouble(String wiersz){
         String prices = wiersz.replaceAll("\\s","");
-        Pattern p = Pattern.compile("(\\d*.\\d)");
+        Pattern p = Pattern.compile("(\\d*.\\d*)");
         Matcher m = p.matcher(prices);
         while (m.find()) {
             return Double.parseDouble(m.group());
