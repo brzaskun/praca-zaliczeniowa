@@ -32,6 +32,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -520,5 +521,15 @@ public class DokTabView implements Serializable {
         this.uzytkownik = uzytkownik;
     }
 
-   
+  /**
+   * Usunąc jak już bedzie dobrze
+   * @param actionEvent 
+   */
+	public void update(ActionEvent actionEvent) {
+		Msg.msg("i","Data updated","form:messages");
+	}
+	
+	public void delete(ActionEvent actionEvent) {
+		Msg.msg("i","Data deleted","form:messages");
+	}
 }

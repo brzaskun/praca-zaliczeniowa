@@ -35,7 +35,11 @@
     </p:outputPanel>
   
     <p:outputPanel id="wrapper"> 
-        
+           <p:contextMenu>
+               <p:menuitem value="Print" update=":form:messages" actionListener="#{pdfPK.drukujPK(DokTabView.selDokument)}" icon="ui-icon-disk"/>
+               <p:menuitem value="Update" update=":form:messages" actionListener="#{DokTabView.update}" icon="ui-icon-arrowrefresh-1-w"/>
+               <p:menuitem value="Delete" icon="ui-icon-close" actionListener="#{DokTabView.delete}" ajax="false"/>
+            </p:contextMenu>
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                       rows="#{DokTabView.uzytkownik.iloscwierszy}" paginator="true"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -44,7 +48,6 @@
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       scrollable="true" scrollRows="4" scrollHeight="600"
                       > 
-          
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
                         
             <f:facet name="header">  
