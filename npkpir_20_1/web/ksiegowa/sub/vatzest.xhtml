@@ -14,6 +14,6 @@
     <p:commandButton value="drukuj podsumowanie" type="button">
         <p:printer target="form:akordeon:tablicasuma" />
    </p:commandButton>
-    <p:commandButton id="przyciskpdf" value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdf.drukujewidencje()}" ></p:commandButton>
+    <p:commandButton id="przyciskpdf" value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfVAT.drukujewidencje()}" ></p:commandButton>
 </ui:composition>   
 
