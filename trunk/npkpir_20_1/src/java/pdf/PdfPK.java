@@ -18,11 +18,19 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
+import entity.Podatnik;
+import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
+import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
 
@@ -34,23 +42,25 @@ import msg.Msg;
 public class PdfPK extends Pdf implements Serializable {
 
     public void drukujPK(Dok selected) throws DocumentException, FileNotFoundException, IOException {
+        System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("c:/adrukPK.pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_1/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.open();
-            Rectangle rect = new Rectangle(0, 832, 136, 800);
-            rect.setBackgroundColor(BaseColor.RED);
-            document.add(rect);
-            document.add(new Chunk("Biuro Rachunkowe"));
-            document.add(new Chunk(" "));
+            //Rectangle rect = new Rectangle(0, 832, 136, 800);
+            //rect.setBackgroundColor(BaseColor.RED);
+            //document.add(rect);
+            document.add(new Chunk("Biuro Rachunkowe Taxman"));
+            document.add(Chunk.NEWLINE);
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica,14);  
+            Font font = new Font(helvetica,12);  
             Font fontM = new Font(helvetica,10);
             Font fontS = new Font(helvetica,6);
-            Chunk id = new Chunk("Taxman", font);
-            id.setBackground(BaseColor.BLACK, 1f, 0.5f, 1f, 1.5f);
-            document.add(id);
             document.add(Chunk.NEWLINE);
-            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia 18 maja 2000r.",font));
+            Date date = Calendar.getInstance().getTime();
+            DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
+            String today = formatt.format(date);
+            System.out.println("Today : " + today);
+            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+today,font));
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);
@@ -58,34 +68,52 @@ public class PdfPK extends Pdf implements Serializable {
             Paragraph miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
+            document.add(new Chunk().NEWLINE);
+            miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+selected.getPkpirM()+"/"+selected.getPkpirR(),fontM));
+            document.add(miziu1);
+            document.add(new Chunk().NEWLINE);
+            miziu1 = new Paragraph(new Phrase("Firma: "+selected.getPodatnik(),fontM));
+            document.add(miziu1);
+            Podatnik pod = podatnikDAO.find(selected.getPodatnik());
+            miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
+            document.add(miziu1);
+            miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
+            document.add(miziu1);
             PdfPTable table = new PdfPTable(6);
             table.setWidths(new int[]{1, 5, 2, 2, 2, 2});
             PdfPCell cell = new PdfPCell();
             try {
-                table.addCell(ustawfrazebez("lp","center",8));
-                table.addCell(ustawfrazebez("opis","center",8));
-                table.addCell(ustawfrazebez("netto","center",8));
-                table.addCell(ustawfrazebez("vat","center",8));
-                table.addCell(ustawfrazebez("brutto","center",8));
-                table.addCell(ustawfrazebez("uwagi","center",8));
-            } catch (DocumentException | IOException e){
+                table.addCell(ustawfrazebez("lp","center",10));
+                table.addCell(ustawfrazebez("opis","center",10));
+                table.addCell(ustawfrazebez("netto","center",10));
+                table.addCell(ustawfrazebez("vat","center",10));
+                table.addCell(ustawfrazebez("brutto","center",10));
+                table.addCell(ustawfrazebez("uwagi","center",10));
+                table.setHeaderRows(1);
+                
+                table.addCell(ustawfrazebez(String.valueOf(selected.getNrWpkpir()),"center",10));
+                table.addCell(ustawfrazebez(selected.getOpis(),"left",10));
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                formatter.setMaximumFractionDigits(2);
+                formatter.setMinimumFractionDigits(2);
+                formatter.setGroupingUsed(true);
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
+                try {
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto()-selected.getNetto())),"right",10));
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto())),"right",10));
+                } catch (Exception e){
+                    table.addCell(ustawfrazebez("0.00","right",10));
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
+                }
+                table.addCell(ustawfrazebez(selected.getUwagi(),"center",10));
+               } catch (DocumentException | IOException e){
                 
             }
-                table.addCell(ustawfrazebez(String.valueOf(selected.getNrWpkpir()),"center",8));
-                table.addCell(ustawfrazebez(selected.getOpis(),"left",8));
-                table.addCell(ustawfrazebez(String.valueOf(selected.getNetto()),"right",8));
-                table.addCell(ustawfrazebez("0.00","right",8));
-                table.addCell(ustawfrazebez(String.valueOf(selected.getNetto()),"right",8));
-                table.addCell(ustawfrazebez("","right",8));
-//                NumberFormat formatter = NumberFormat.getCurrencyInstance();
-//                String moneyString = formatter.format(1020.28);
-//                table.addCell(ustawfrazebez(moneyString));
-//                table.addCell(ustawfrazebez("adres kontr"));
-           
             document.add(Chunk.NEWLINE);
             document.add(table);
             document.add(Chunk.NEWLINE);
-            document.add(new Paragraph(selected.getWprowadzil(),fontM));
+            Uz uz = uzDAO.find(selected.getWprowadzil());
+            document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
         document.close();
