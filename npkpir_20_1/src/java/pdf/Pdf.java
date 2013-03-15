@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.AmoDokDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
@@ -47,6 +48,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected int liczydlo = 0;
     @Inject protected UzDAO uzDAO;
     @Inject protected PodatnikDAO podatnikDAO;
+    @Inject protected AmoDokDAO amoDokDAO;
     
     public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
 

@@ -17,6 +17,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.Umorzenie;
+import entity.Amodok;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
@@ -30,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
@@ -81,7 +84,10 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(miziu1);
             PdfPTable table = new PdfPTable(6);
             table.setWidths(new int[]{1, 5, 2, 2, 2, 2});
-            PdfPCell cell = new PdfPCell();
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                formatter.setMaximumFractionDigits(2);
+                formatter.setMinimumFractionDigits(2);
+                formatter.setGroupingUsed(true);
             try {
                 table.addCell(ustawfrazebez("lp","center",10));
                 table.addCell(ustawfrazebez("opis","center",10));
@@ -93,10 +99,6 @@ public class PdfPK extends Pdf implements Serializable {
                 
                 table.addCell(ustawfrazebez(String.valueOf(selected.getNrWpkpir()),"center",10));
                 table.addCell(ustawfrazebez(selected.getOpis(),"left",10));
-                NumberFormat formatter = NumberFormat.getCurrencyInstance();
-                formatter.setMaximumFractionDigits(2);
-                formatter.setMinimumFractionDigits(2);
-                formatter.setGroupingUsed(true);
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
                 try {
                     table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto()-selected.getNetto())),"right",10));
@@ -112,11 +114,38 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(Chunk.NEWLINE);
             document.add(table);
             document.add(Chunk.NEWLINE);
+            if(selected.getOpis().equals("umorzenie za miesiac")){
+                document.add(new Paragraph("Zawartość dokumentu amortyzacji",fontM));
+                document.add(Chunk.NEWLINE);
+                dodajamo(document,formatter);
+                document.add(Chunk.NEWLINE);
+            }
             Uz uz = uzDAO.find(selected.getWprowadzil());
             document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
         document.close();
         Msg.msg("i", "Wydrukowano PK", "form:messages");
+    }
+    
+    private void dodajamo(Document document, NumberFormat formatter) throws DocumentException, IOException{
+        Amodok odpis = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        List<Umorzenie> umorzenia = odpis.getUmorzenia();
+        System.out.println("Drukuje " +odpis.toString());
+        PdfPTable table = new PdfPTable(4);
+        table.setWidths(new int[]{1, 6, 2, 2});
+        table.addCell(ustawfrazebez("lp","center",10));
+        table.addCell(ustawfrazebez("nazwa środka trwałego","center",10));
+        table.addCell(ustawfrazebez("nr umorzenia","center",10));
+        table.addCell(ustawfrazebez("kwota umorzenia","center",10));
+        table.setHeaderRows(1);
+        int i = 1;
+        for(Umorzenie p : umorzenia){
+            table.addCell(ustawfrazebez(String.valueOf(i++),"center",10));
+            table.addCell(ustawfrazebez(p.getNazwaSrodka(),"center",10));
+            table.addCell(ustawfrazebez(String.valueOf(p.getNrUmorzenia()),"center",10));
+            table.addCell(ustawfrazebez(formatter.format(p.getKwota()),"center",10));
+        }
+        document.add(table);
     }
 }
