@@ -36,9 +36,7 @@
   
     <p:outputPanel id="wrapper"> 
            <p:contextMenu>
-               <p:menuitem value="Print" update=":form:messages" actionListener="#{pdfPK.drukujPK(DokTabView.selDokument)}" icon="ui-icon-disk"/>
-               <p:menuitem value="Update" update=":form:messages" actionListener="#{DokTabView.update}" icon="ui-icon-arrowrefresh-1-w"/>
-               <p:menuitem value="Delete" icon="ui-icon-close" actionListener="#{DokTabView.delete}" ajax="false"/>
+               <p:menuitem value="Print" update=":form:messages" actionListener="#{pdfPK.drukujPK(DokTabView.selDokument)}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
             </p:contextMenu>
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                       rows="#{DokTabView.uzytkownik.iloscwierszy}" paginator="true"
