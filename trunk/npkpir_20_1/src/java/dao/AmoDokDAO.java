@@ -34,6 +34,15 @@ public class AmoDokDAO extends DAO implements Serializable {
         }
    }
     
+     public  Amodok findMR(String pod, Integer rok, String mc){
+        try {
+            System.out.println("Pobieram AmodokDAO za mc i rok");
+            return amodokFacade.findMR(pod,rok,mc);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
     public void destroy(String podatnik){
         List<Amodok> lista = amodokFacade.findAmodok(podatnik);
         Iterator it;

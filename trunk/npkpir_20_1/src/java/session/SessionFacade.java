@@ -287,5 +287,10 @@ public class SessionFacade<T> {
     public List<Sumypkpir> findSumy(String podatnik, String rok) {
         return em.createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
+
+    public Amodok findMR(String pod, Integer rok, String mc) {
+        Integer miesiac = Integer.parseInt(mc);
+        return (Amodok) em.createNamedQuery("Amodok.findByPMR").setParameter("podatnik", pod).setParameter("rok", rok).setParameter("mc", miesiac).getSingleResult();
+    }
     
 }
