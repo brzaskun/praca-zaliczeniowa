@@ -393,9 +393,6 @@ public class DokView implements Serializable{
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
         podepnijEwidencjeVat(transakcjiRodzaj);
-        try{
-        wygenerujnumerkolejny();
-        } catch (Exception ef){}
     }
 
     public void podepnijEwidencjeVat(String transakcjiRodzaj) {
@@ -574,8 +571,8 @@ public class DokView implements Serializable{
                     separator = "/";
                 }
          String[] elementy;
-         elementy = wzorzec.split(separator);
          try{
+         elementy = wzorzec.split(separator);
          Dok ostatnidokument = dokDAO.find(skrot, wpisView.findWpisX().getPodatnikWpisu() ,  wpisView.findWpisX().getRokWpisu());
          String[] elementyold;
          elementyold  = ostatnidokument.getNrWlDk().split(separator);
@@ -608,8 +605,28 @@ public class DokView implements Serializable{
          if(!nowynumer.equals("")){
          selDokument.setNrWlDk(nowynumer);
          }
+         renderujwyszukiwarke(rodzajdok);
     }
 
+    public boolean renderujwysz;
+
+    public boolean isRenderujwysz() {
+        return renderujwysz;
+    }
+
+    public void setRenderujwysz(boolean renderujwysz) {
+        this.renderujwysz = renderujwysz;
+    }
+    
+    private void renderujwyszukiwarke(Rodzajedok rodzajdok){
+        if(rodzajdok.getSkrot().equals("OT")){
+            setRenderujwysz(true);
+        } else {
+            setRenderujwysz(false);
+        }
+        RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
+    }
+    
     public void wygenerujSTRKolumne() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();
@@ -1042,6 +1059,7 @@ public class DokView implements Serializable{
             grid3 = getGrid3();
             grid3.getChildren().clear();
             selDokument = new Dok();
+            setRenderujwysz(false);
             RequestContext.getCurrentInstance().update("@form");
     }
     
