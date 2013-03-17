@@ -4,8 +4,10 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
 import java.io.Serializable;
@@ -34,10 +36,14 @@ public class WpisView implements Serializable{
     private String miesiacOd;
     private String miesiacDo;
     private boolean srodkTrw;
+    private String rodzajopodatkowania;
+    private boolean ksiegaryczalt;
+    @Inject private Podatnik podatnikObiekt;
     
     @Inject private Wpis wpis;
     @Inject private WpisDAO wpisDAO;
     @Inject private UzDAO uzDAO;
+    @Inject private PodatnikDAO podatnikDAO;
     
 
        
@@ -71,6 +77,7 @@ public class WpisView implements Serializable{
         this.miesiacOd = wpis.getMiesiacOd();
         this.miesiacDo = wpis.getMiesiacDo();
         }
+        uzupelnijdanepodatnika();
     }
         System.out.println("Wywolano wpisView");
     }
@@ -92,6 +99,7 @@ public class WpisView implements Serializable{
         wpis.setRokWpisu(rokWpisu);
         wpis.setMiesiacOd(miesiacOd);
         wpis.setMiesiacDo(miesiacDo);
+        uzupelnijdanepodatnika();
         wpisDAO.edit(wpis);
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         sessionX.setAttribute("miesiacWpisu", miesiacWpisu);
@@ -120,6 +128,16 @@ public class WpisView implements Serializable{
      
     }    
       
+    private void uzupelnijdanepodatnika() {
+        podatnikObiekt = podatnikDAO.find(podatnikWpisu);
+        rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
+        if (rodzajopodatkowania.contains("ryczałt")){
+            ksiegaryczalt = false;
+        } else {
+            ksiegaryczalt = true;
+        }
+    }
+
       
     public String getPodatnikWpisu() {
         return podatnikWpisu;
@@ -193,6 +211,31 @@ public class WpisView implements Serializable{
         this.wpisDAO = wpisDAO;
     }
 
+    public String getRodzajopodatkowania() {
+        return rodzajopodatkowania;
+    }
+
+    public void setRodzajopodatkowania(String rodzajopodatkowania) {
+        this.rodzajopodatkowania = rodzajopodatkowania;
+    }
+
+    public Podatnik getPodatnikObiekt() {
+        return podatnikObiekt;
+    }
+
+    public void setPodatnikObiekt(Podatnik podatnikObiekt) {
+        this.podatnikObiekt = podatnikObiekt;
+    }
+
+    public boolean isKsiegaryczalt() {
+        return ksiegaryczalt;
+    }
+
+    public void setKsiegaryczalt(boolean ksiegaryczalt) {
+        this.ksiegaryczalt = ksiegaryczalt;
+    }
+
+   
     
    
 }
