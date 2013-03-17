@@ -21,9 +21,9 @@
             <h:outputLabel value="opis transakcji" style="font-weight: 700"/>
             
 
-            <h:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
+            <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
                <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
-            </h:inputText>
+            </p:inputText>
             <h:panelGroup id="dwadoWprowadzania">
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
@@ -50,13 +50,13 @@
               <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
-            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
+            <p:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
                 <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
                 <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
-            </h:selectOneMenu>
-            <h:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}">
+            </p:selectOneMenu>
+            <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}">
                 
-            </h:inputText>
+            </p:inputText>
             <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
                             var="p" itemLabel="#{p}" itemValue="#{p}" 
                             minQueryLength="2" maxResults="10" maxlength="40" 
@@ -89,9 +89,9 @@
             <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()">
 <!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
             </h:selectBooleanCheckbox>
-            <h:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" >
-            </h:inputText>
-            <h:inputText id="sumbrutto"  readonly="true" onfocus="updatesum();"/>
+            <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" >
+            </p:inputText>
+            <p:inputText id="sumbrutto"  readonly="true" onfocus="updatesum();"/>
             
         </p:panelGrid>
             <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" style="display: none;" />  

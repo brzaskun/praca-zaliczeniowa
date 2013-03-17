@@ -328,7 +328,7 @@ public class DokView implements Serializable{
         pkpirLista = new HtmlSelectOneMenu();
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans");
+        String skrot = params.get("dodWiad:rodzajTrans_input");
         Iterator itd;
         itd = rodzajedokKlienta.iterator();
         String transakcjiRodzaj="";
@@ -1381,23 +1381,6 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:panel");
         liczbawierszy++;
         }
-//        selDokument.setDokumentProsty(false);
-//        RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
-//        String dataWyst = selDokument.getDataWyst();
-//        Integer rok = wpisView.getRokWpisu();
-//        String mc = wpisView.getMiesiacWpisu();
-//        if (dataWyst.matches("[0-3][0-9]")) {
-//            dataWyst = rok + "-"+ mc +"-"+dataWyst;
-//        } else if (dataWyst.matches("[0-1][0-9]-[0-3][0-9]")) {
-//            dataWyst = rok + "-" + dataWyst ;
-//        }
-//        selDokument.setDataWyst(dataWyst);
-//        selDokument.setDataSprz(dataWyst);
-//        selDokument.setVatM(mc);
-//        RequestContext.getCurrentInstance().update("dodWiad:vatm");
-//        selDokument.setVatR(rok.toString());
-//        RequestContext.getCurrentInstance().update("dodWiad:vatr");
-//        przechowajdatejakdodaje = dataWyst;
     }
    
     //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
