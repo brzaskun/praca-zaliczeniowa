@@ -130,11 +130,14 @@ public class WpisView implements Serializable{
       
     private void uzupelnijdanepodatnika() {
         podatnikObiekt = podatnikDAO.find(podatnikWpisu);
+        try{
         rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
         if (rodzajopodatkowania.contains("ryczałt")){
             ksiegaryczalt = false;
         } else {
             ksiegaryczalt = true;
+        }} catch (Exception e){
+            System.out.println("brak wpisanego rodzaju opodatkowania");
         }
     }
 

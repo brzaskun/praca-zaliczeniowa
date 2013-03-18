@@ -692,7 +692,7 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setDozaplaty(BigDecimal.ZERO);
                 }
             } catch (Exception e) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych paramterów!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonego rodzaju opodatkowania!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Pitpoz();
             }
