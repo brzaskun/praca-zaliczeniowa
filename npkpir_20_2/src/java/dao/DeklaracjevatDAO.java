@@ -77,4 +77,15 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
         return wynik;
     }
+    
+    public List<Deklaracjevat> findDeklaracjeWyslane(String pod, String rok) {
+        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
+        List<Deklaracjevat> wynik = new ArrayList<>();
+        for(Deklaracjevat p :temp){
+            if(!p.getIdentyfikator().equals("")&&p.getRok().equals(rok)){
+                wynik.add(p);
+            }
+        }
+        return wynik;
+    }
 }
