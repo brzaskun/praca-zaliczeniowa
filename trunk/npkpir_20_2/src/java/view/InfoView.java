@@ -218,7 +218,7 @@ public class InfoView implements Serializable{
             remnierem = "Wartość ostatniego remanentu za "+tmp.getRokOd()+" wynosi: "+tmp.getParametr();
         }
         } catch (Exception e){
-            vatnievat = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
+            remnierem = "Nie wprowadzono remanentu! Program nie będzie funkcjonował poprawnie";
         }
     }
      
