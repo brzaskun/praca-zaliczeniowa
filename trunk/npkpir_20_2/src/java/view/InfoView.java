@@ -263,7 +263,7 @@ public class InfoView implements Serializable{
         try{
         List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslane(podatnik,rok);
         if(wyslane.isEmpty()){
-            liczbavatwyslane = "Nie sporządzono żadnej deklaracji PIT w roku "+rok;
+            liczbavatwyslane = "Nie sporządzono żadnej deklaracji VAT w roku "+rok;
         } else {
             Deklaracjevat tmp = wyslane.get(wyslane.size()-1);
             liczbavatwyslane = "Sporządzono "+wyslane.size()+" deklaracji w roku "+rok+". Ostatnia za "+tmp.getRok()+"/"+tmp.getMiesiac();
