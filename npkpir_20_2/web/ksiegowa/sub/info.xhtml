@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
 
-    <p:panel header="informacje o podatniku"/>
+    <p:panel header="informacje o podatniku #{WpisView.podatnikWpisu}"/>
     <p:panelGrid columns="4" >
         <p:column>
             <p:dataTable  value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">

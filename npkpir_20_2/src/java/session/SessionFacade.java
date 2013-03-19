@@ -18,6 +18,7 @@ import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Podstawki;
 import entity.Rodzajedok;
+import entity.Ryczpoz;
 import entity.Sesja;
 import entity.Srodkikst;
 import entity.StornoDok;
@@ -92,16 +93,39 @@ public class SessionFacade<T> {
         return tmp;
     }
 
+    public List<Pitpoz> findPitpodatnik(String rok, String pod) {
+        List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
+        return tmp;
+    }
+    
+     public List<Ryczpoz> findRyczAll(){
+        List<Ryczpoz> lista = em.createNamedQuery("Ryczpoz.findAll").getResultList();
+        return lista;
+    }
+    
+    public Ryczpoz findRycz(String rok, String mc, String pod) {
+        Ryczpoz tmp = (Ryczpoz) em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
+        return tmp;
+    }
+     
+    public Ryczpoz findRycz(String rok, String mc, String pod, String udzialowiec) {
+        Ryczpoz tmp = (Ryczpoz) em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
+        return tmp;
+    }
+
+    public List<Ryczpoz> findRyczpodatnik(String rok, String pod) {
+        List<Ryczpoz> tmp = em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
+        return tmp;
+    }
+    
+    
+
     public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
         Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiac AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
 
-    public List<Pitpoz> findPitpodatnik(String rok, String pod) {
-        List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
-        return tmp;
-    }
-
+    
     public Uz findUzNP(String np) {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
         return tmp;
