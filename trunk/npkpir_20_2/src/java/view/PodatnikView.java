@@ -59,6 +59,7 @@ import org.primefaces.event.RowEditEvent;
 public class PodatnikView implements Serializable{
     @Inject private PodatnikDAO podatnikDAO;
     @Inject private Podatnik selected;
+    @Inject private Podatnik selectedStrata;
     @Inject private Podatnik selectedDod;
     @Inject private Rodzajedok selectedDokKsi;
     @ManagedProperty(value = "#{rodzajedokView}")
@@ -125,7 +126,7 @@ public class PodatnikView implements Serializable{
         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          pobierzogolneDokKsi();
         } catch (Exception e){}
-       
+        selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
     }
 
    
@@ -735,8 +736,8 @@ public class PodatnikView implements Serializable{
                 throw new Exception();
             }
             stratyzlatub.add(tmps);
-            selected.setStratyzlatub(stratyzlatub);
-            podatnikDAO.edit(selected);
+            selectedStrata.setStratyzlatub(stratyzlatub);
+            podatnikDAO.edit(selectedStrata);
             stratarok = "";
             stratakwota = "";
             strata50 = "";
@@ -751,10 +752,10 @@ public class PodatnikView implements Serializable{
     
      public void usunstrate(Straty loop){
          try {
-            stratyzlatub = selected.getStratyzlatub();
+            stratyzlatub = selectedStrata.getStratyzlatub();
             stratyzlatub.size();
             stratyzlatub.remove(loop);
-            podatnikDAO.edit(selected);
+            podatnikDAO.edit(selectedStrata);
             Msg.msg("i","Usunieto stratę za rok "+loop.getRok(),"akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
          } catch (Exception e) {
@@ -944,6 +945,14 @@ public class PodatnikView implements Serializable{
 
     public void setStratazostalo(String stratazostalo) {
         this.stratazostalo = stratazostalo;
+    }
+
+    public Podatnik getSelectedStrata() {
+        return selectedStrata;
+    }
+
+    public void setSelectedStrata(Podatnik selectedStrata) {
+        this.selectedStrata = selectedStrata;
     }
 
    

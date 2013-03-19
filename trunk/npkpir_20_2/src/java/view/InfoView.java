@@ -60,6 +60,7 @@ public class InfoView implements Serializable{
     private String liczbavatwyslane;
     private String liczbavatdowyslania;
     private String liczbavatdopotw;
+    private String ryczaltnieryczalt;
 
     public class Rodzdok{
         private String rodzajdok;
@@ -98,6 +99,7 @@ public class InfoView implements Serializable{
         podatnik = wpisView.getPodatnikWpisu();
         rok = wpisView.getRokWpisu().toString();
         dokumenty = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok);
+        if(!dokumenty.isEmpty()){
         selectedDok = dokumenty.get(dokumenty.size()-1);
         liczbawprowadzonychdok = dokumenty.size();
         HashSet<String> tmpset = new HashSet<>();
@@ -123,6 +125,7 @@ public class InfoView implements Serializable{
             rodzdok.setIlosc(i);
             rodzajedok.add(rodzdok);
         }
+        }
         sprawdzopodatkowanie();
         sprawdzvat();
         sprawdzzus();
@@ -132,6 +135,7 @@ public class InfoView implements Serializable{
         sprawdzaut();
         sprawdzvatokres();
         sprawdziloscdekl();
+        sprawdzryczalt();
     }
 
     private void sprawdzopodatkowanie(){
@@ -163,6 +167,24 @@ public class InfoView implements Serializable{
         }
         } catch (Exception e){
             vatnievat = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
+        }
+    }
+    
+     private void sprawdzryczalt(){
+        try{
+        List<Parametr> opodatkowanie = pod.getPodatekdochodowy();
+        if(opodatkowanie.isEmpty()){
+            ryczaltnieryczalt = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
+        } else {
+            Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
+            if(tmp.getParametr().contains("ryczałt")){
+                ryczaltnieryczalt = "Firma aktuanie jest na ryczałcie";
+            } else {
+                ryczaltnieryczalt = "Firma aktuanie nie jest na ryczałcie";
+            }
+        }
+        } catch (Exception e){
+            ryczaltnieryczalt = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
     
@@ -423,6 +445,14 @@ public class InfoView implements Serializable{
 
     public void setLiczbavatdopotw(String liczbavatdopotw) {
         this.liczbavatdopotw = liczbavatdopotw;
+    }
+
+    public String getRyczaltnieryczalt() {
+        return ryczaltnieryczalt;
+    }
+
+    public void setRyczaltnieryczalt(String ryczaltnieryczalt) {
+        this.ryczaltnieryczalt = ryczaltnieryczalt;
     }
 
    
