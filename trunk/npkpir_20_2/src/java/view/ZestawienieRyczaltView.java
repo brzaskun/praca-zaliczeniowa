@@ -40,6 +40,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -50,7 +51,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieRyczaltView")
-@RequestScoped
+@ViewScoped
 public class ZestawienieRyczaltView implements Serializable {
 
     @Inject
@@ -92,6 +93,9 @@ public class ZestawienieRyczaltView implements Serializable {
     private String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
+     //z reki
+    private boolean zus51zreki;
+    private boolean zus52zreki;
 
     public ZestawienieRyczaltView() {
         styczen = Arrays.asList(new Double[4]);
@@ -438,7 +442,6 @@ public class ZestawienieRyczaltView implements Serializable {
                         break;
                     }
                 }
-                biezacyPit = new Ryczpoz();
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
@@ -452,6 +455,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Iterator it;
                 it = selected.getZusparametr().iterator();
+                if(zus51zreki==false){
                 while (it.hasNext()) {
                     Zusstawki tmpX = (Zusstawki) it.next();
                     if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
@@ -469,9 +473,14 @@ public class ZestawienieRyczaltView implements Serializable {
                         break;
                     }
                 }
+                }
                 rozliczstrate(tmpP);
                 obliczpodatek();
-                biezacyPit.setNaleznazal(biezacyPit.getPodatek());
+                if(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
+                    biezacyPit.setNaleznazal(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()));
+                } else {
+                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                }
                 if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
                     biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
                 } else {
@@ -497,7 +506,6 @@ public class ZestawienieRyczaltView implements Serializable {
     }
 
     private void rozliczstrate(Podatnik tmp) {
-        BigDecimal limit = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
         List<Straty> straty = tmp.getStratyzlatub();
         double sumastrat = 0.0;
         try {
@@ -509,10 +517,11 @@ public class ZestawienieRyczaltView implements Serializable {
                     sumastrat += Double.parseDouble(p.getZostalo());
                 }
             }
-            if (biezacyPit.getWynik().signum() == 1) {
-                BigDecimal stratadoujecia = limit.subtract(new BigDecimal(sumastrat));
+             BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            if (wynikpozus.signum() == 1) {
+                BigDecimal stratadoujecia = wynikpozus.subtract(new BigDecimal(sumastrat));
                 if (stratadoujecia.signum() == -1) {
-                    biezacyPit.setStrata(limit);
+                    biezacyPit.setStrata(wynikpozus);
                 } else {
                     biezacyPit.setStrata(new BigDecimal(sumastrat));
                 }
@@ -890,4 +899,21 @@ public class ZestawienieRyczaltView implements Serializable {
     public void setListawybranychudzialowcow(List<String> listawybranychudzialowcow) {
         this.listawybranychudzialowcow = listawybranychudzialowcow;
     }
+
+    public boolean isZus51zreki() {
+        return zus51zreki;
+    }
+
+    public void setZus51zreki(boolean zus51zreki) {
+        this.zus51zreki = zus51zreki;
+    }
+
+    public boolean isZus52zreki() {
+        return zus52zreki;
+    }
+
+    public void setZus52zreki(boolean zus52zreki) {
+        this.zus52zreki = zus52zreki;
+    }
+    
 }

@@ -58,11 +58,11 @@
                         <h:outputText value="wynik od pocz. rok"/>
                         <h:outputText value="#{pitView.biezacyPit.wynik}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
-                        <h:outputText value="strata z lat ub"/>
-                        <h:outputText value="#{pitView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
                         <h:outputText value="ZUS 51"/>
                         <h:outputText value="#{pitView.biezacyPit.zus51}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:outputText value="strata z lat ub"/>
+                        <h:outputText value="#{pitView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
                         <h:outputText value="podstawa opod."/>
                         <h:outputText value="#{pitView.biezacyPit.podstawa}" style="padding-left: 20%; font-weight: 700; float: right;">
@@ -115,11 +115,16 @@
                         <h:outputText value="wynik od pocz. rok"/>
                         <h:inputText value="#{ZestawienieView.biezacyPit.wynik}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
+                        <h:outputText value="ZUS 51 (z ręki)"/>
+                        <p:panelGrid columns="2">
+                        <h:inputText value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/>
+                            <p:ajax event="keyup" listener="#{ZestawienieView.setZus51zreki(true)}" update=":akordeon:formpit:reka51"/>
+                            </h:inputText>
+                            <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{ZestawienieView.zus51zreki}"/>
+                        </p:panelGrid>
                         <h:outputText value="strata z lat ub"/>
                         <h:inputText value="#{ZestawienieView.biezacyPit.strata}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:inputText>
-                        <h:outputText value="ZUS 51"/>
-                        <h:inputText value="#{ZestawienieView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="podstawa opod."/>
                         <h:inputText value="#{ZestawienieView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;">
@@ -127,9 +132,14 @@
                         <h:outputText value="podatek"/>
                         <h:inputText value="#{ZestawienieView.biezacyPit.podatek}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
-                        <h:outputText value="ZUS 52"/>
+                        <h:outputText value="ZUS 52 (z ręki)"/>
+                        <p:panelGrid columns="2">
                         <h:inputText value="#{ZestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:inputText>
+                            <f:convertNumber locale="PL"/>
+                            <p:ajax event="keyup" listener="#{ZestawienieView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
+                            </h:inputText>
+                            <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{ZestawienieView.zus52zreki}"/>
+                        </p:panelGrid>
                         <h:outputText value="podatek należny od pocz rok"/>
                         <h:inputText value="#{ZestawienieView.biezacyPit.pododpoczrok}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
@@ -147,10 +157,11 @@
                         <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
                     </p:panelGrid>
                     <br/>
-                    <p:panelGrid  columns="2" style="margin-left: 160px">
+                    <p:panelGrid  columns="3" style="margin-left: 50px">
 
-                        <p:commandButton value="drukuj" type="button" style="width: 120px">
+                        <p:commandButton value="drukuj" type="button" style="width: 90px">
                             <p:printer target=":akordeon:formpit1:zestawieniepit" /></p:commandButton>
+                        <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                         <p:commandButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                     </p:panelGrid>
                 </h:form>
@@ -201,11 +212,11 @@
                         <h:outputText value="wynik od pocz. rok"/>
                         <h:outputText value="#{ryczView.biezacyPit.wynik}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
-                        <h:outputText value="strata z lat ub"/>
-                        <h:outputText value="#{ryczView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
                         <h:outputText value="ZUS 51"/>
                         <h:outputText value="#{ryczView.biezacyPit.zus51}" style="padding-left: 20%; font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/></h:outputText>
+                        <h:outputText value="strata z lat ub"/>
+                        <h:outputText value="#{ryczView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
                         <h:outputText value="podstawa opod."/>
                         <h:outputText value="#{ryczView.biezacyPit.podstawa}" style="padding-left: 20%; font-weight: 700; float: right;">
@@ -216,11 +227,6 @@
                         <h:outputText value="ZUS 52"/>
                         <h:outputText value="#{ryczView.biezacyPit.zus52}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
-
-                        <h:outputText value="zaliczki za pop.m-ce"/>
-                        <h:outputText value="#{ryczView.biezacyPit.nalzalodpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:outputText>
-                        <h:outputText value="należna zal. za m-c"/>
                         <h:outputText value="#{ryczView.biezacyPit.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:outputText>
                         <h:outputText value="do zapłaty"/>
@@ -250,11 +256,16 @@
                         <h:outputText value="wynik od pocz. rok"/>
                         <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.wynik}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
+                        <h:outputText value="ZUS 51 (z ręki)"/>
+                        <p:panelGrid columns="2">
+                        <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/>
+                            <p:ajax event="keyup" listener="#{ZestawienieRyczaltView.setZus51zreki(true)}" update=":akordeon:formpit1:reka51"/>
+                            </h:inputText>
+                            <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{ZestawienieRyczaltView.zus51zreki}"/>
+                        </p:panelGrid>
                         <h:outputText value="strata z lat ub"/>
                         <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.strata}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:inputText>
-                        <h:outputText value="ZUS 51"/>
-                        <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
                         <h:outputText value="podstawa opod."/>
                         <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podstawa}" style=" font-weight: 700; float: right;">
@@ -262,12 +273,14 @@
                         <h:outputText value="podatek"/>
                         <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podatek}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
-                        <h:outputText value="ZUS 52"/>
-                        <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus52}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:inputText>
-                        <h:outputText value="zaliczki za pop.m-ce"/>
-                        <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.nalzalodpoczrok}" style=" font-weight: 700; float: right;">
-                            <f:convertNumber locale="PL"/></h:inputText>
+                        <h:outputText value="ZUS 52 (z ręki)"/>
+                        <p:panelGrid columns="2">
+                            <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zus52}" style=" font-weight: 700; float: right;">
+                            <f:convertNumber locale="PL"/>
+                            <p:ajax event="keyup" listener="#{ZestawienieRyczaltView.setZus52zreki(true)}" update=":akordeon:formpit1:reka52"/>
+                            </h:inputText>
+                            <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{ZestawienieRyczaltView.zus52zreki}"/>
+                        </p:panelGrid>
                         <h:outputText value="należna zal. za m-c"/>
                         <h:inputText value="#{ZestawienieRyczaltView.biezacyPit.naleznazal}" style=" font-weight: 700; float: right;">
                             <f:convertNumber locale="PL"/></h:inputText>
@@ -279,10 +292,11 @@
                         <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zamkniety}"/>
                     </p:panelGrid>
                     <br/>
-                    <p:panelGrid  columns="2" style="margin-left: 160px">
+                    <p:panelGrid  columns="3" style="margin-left: 90px">
 
                         <p:commandButton value="drukuj" type="button" style="width: 120px">
                             <p:printer target=":akordeon:formpit1:zestawieniepit" /></p:commandButton>
+                        <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                         <p:commandButton value="zachowaj pit"  action="#{ZestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpi1:" type="submit" style="width: 120px"/>
                     </p:panelGrid>
                 </h:form>
