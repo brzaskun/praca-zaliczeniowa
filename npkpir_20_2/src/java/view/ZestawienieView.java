@@ -33,6 +33,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -43,7 +44,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieView")
-@RequestScoped
+@ViewScoped
 public class ZestawienieView implements Serializable {
 
     @Inject
@@ -88,6 +89,9 @@ public class ZestawienieView implements Serializable {
     private String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
+    //z reki
+    private boolean zus51zreki;
+    private boolean zus52zreki;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -578,7 +582,6 @@ public class ZestawienieView implements Serializable {
                         break;
                     }
                 }
-                biezacyPit = new Pitpoz();
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
                 biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
@@ -590,11 +593,12 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
                 biezacyPit.setUdzialowiec(wybranyudzialowiec);
                 biezacyPit.setUdzial(wybranyprocent);
-                rozliczstrate(tmpP);
+                
                 String poszukiwany = wpisView.getPodatnikWpisu();
                 Podatnik selected = podatnikDAO.find(poszukiwany);
                 Iterator it;
                 it = selected.getZusparametr().iterator();
+                if(zus51zreki==false){
                 while (it.hasNext()) {
                     Zusstawki tmpX = (Zusstawki) it.next();
                     if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
@@ -612,13 +616,14 @@ public class ZestawienieView implements Serializable {
                         break;
                     }
                 }
-
+                }
                 Pitpoz sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
                 if (selected.getOdliczaczus51() == true) {
                     biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                 }
-                BigDecimal pierwszepomniejszenie = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
-                BigDecimal tmp = pierwszepomniejszenie.subtract(biezacyPit.getZus51());
+                rozliczstrate(tmpP);
+                BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
+                tmp = tmp.subtract(biezacyPit.getZus51());
                 tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
                 if (tmp.signum() == -1) {
                     biezacyPit.setPodstawa(BigDecimal.ZERO);
@@ -721,10 +726,11 @@ public class ZestawienieView implements Serializable {
                     sumastrat += Double.parseDouble(p.getZostalo());
                 }
             }
-            if (biezacyPit.getWynik().signum() == 1) {
-                BigDecimal stratadoujecia = biezacyPit.getWynik().subtract(new BigDecimal(sumastrat));
+           BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            if (wynikpozus.signum() == 1) {
+                BigDecimal stratadoujecia = wynikpozus.subtract(new BigDecimal(sumastrat));
                 if (stratadoujecia.signum() == -1) {
-                    biezacyPit.setStrata(biezacyPit.getWynik());
+                    biezacyPit.setStrata(wynikpozus);
                 } else {
                     biezacyPit.setStrata(new BigDecimal(sumastrat));
                 }
@@ -991,6 +997,14 @@ public class ZestawienieView implements Serializable {
         biezacyPit = narPitpoz;
     }
 
+    public void ustawZus51(){
+        setZus51zreki(true);
+    }
+    
+    public void ustawZus52(){
+        setZus52zreki(true);
+    }
+    
     public DokDAO getDokDAO() {
         return dokDAO;
     }
@@ -1230,4 +1244,21 @@ public class ZestawienieView implements Serializable {
     public void setListawybranychudzialowcow(List<String> listawybranychudzialowcow) {
         this.listawybranychudzialowcow = listawybranychudzialowcow;
     }
+
+    public boolean isZus51zreki() {
+        return zus51zreki;
+    }
+
+    public void setZus51zreki(boolean zus51zreki) {
+        this.zus51zreki = zus51zreki;
+    }
+
+    public boolean isZus52zreki() {
+        return zus52zreki;
+    }
+
+    public void setZus52zreki(boolean zus52zreki) {
+        this.zus52zreki = zus52zreki;
+    }
+    
 }
