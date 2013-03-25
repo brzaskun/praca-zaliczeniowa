@@ -316,5 +316,9 @@ public class SessionFacade<T> {
         Integer miesiac = Integer.parseInt(mc);
         return (Amodok) em.createNamedQuery("Amodok.findByPMR").setParameter("podatnik", pod).setParameter("rok", rok).setParameter("mc", miesiac).getSingleResult();
     }
+
+    public List<Deklaracjevat> findDeklaracjewysylka(String rok, String mc) {
+        return em.createNamedQuery("Deklaracjevat.findByRokMc").setParameter("rok", rok).setParameter("miesiac", mc).getResultList();
+    }
     
 }
