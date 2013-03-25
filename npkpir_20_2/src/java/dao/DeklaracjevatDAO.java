@@ -88,4 +88,26 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
         return wynik;
     }
+
+    public List<String> findDeklaracjeDowyslania(String rok, String mc) {
+         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
+         List<String> wynik = new ArrayList<>();
+         for(Deklaracjevat p :temp){
+            if(p.getIdentyfikator().equals("")){
+                wynik.add(p.getPodatnik());
+            }
+        }
+        return wynik;
+    }
+
+    public List<String> findDeklaracjeBezupo(String rok, String mc) {
+         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
+         List<String> wynik = new ArrayList<>();
+         for(Deklaracjevat p :temp){
+            if(p.getStatus().startsWith("3")){
+                wynik.add(p.getPodatnik());
+            }
+        }
+        return wynik;
+    }
 }

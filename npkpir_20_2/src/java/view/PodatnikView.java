@@ -528,6 +528,10 @@ public class PodatnikView implements Serializable{
              lista.addAll(selected.getKwotaautoryzujaca());
          } catch (Exception e){}
          if(sprawdzrok(parametr, lista)==0){
+         String tmp = parametr.getParametr();
+         tmp = tmp.replace(",", ".");
+         parametr.setParametr(tmp);
+         assert tmp.contains(",") : "Nie usuwa dobrze przecinka z kwota autoryzujaca!";
          lista.add(parametr);
          selected.setKwotaautoryzujaca(lista);
          podatnikDAO.edit(selected);
