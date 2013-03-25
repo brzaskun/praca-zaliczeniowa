@@ -160,7 +160,7 @@
                     <p:panelGrid  columns="3" style="margin-left: 50px">
 
                         <p:commandButton value="drukuj" type="button" style="width: 90px">
-                            <p:printer target=":akordeon:formpit1:zestawieniepit" /></p:commandButton>
+                            <p:printer target=":akordeon:formpit:zestawieniepit" /></p:commandButton>
                         <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                         <p:commandButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                     </p:panelGrid>
