@@ -47,7 +47,7 @@ public class PdfPK extends Pdf implements Serializable {
     public void drukujPK(Dok selected) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_1/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.open();
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
             //rect.setBackgroundColor(BaseColor.RED);

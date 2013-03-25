@@ -46,7 +46,7 @@ public class PdfVAT extends Pdf implements Serializable{
     } else{
         nowanazwa = p;
     }
-    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_1/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
      HeaderFooter event = new HeaderFooter();
      writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
      writer.setPageEvent(event);

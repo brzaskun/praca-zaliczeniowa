@@ -339,7 +339,7 @@ public class Vat7DKView implements Serializable {
                 if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
-                } else if (badana.getStatus().equals("401") || badana.getStatus().equals("411")) {
+                } else if (badana.getStatus().startsWith("4")) {
                     selected.setCelzlozenia("1");
                     Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
@@ -362,7 +362,7 @@ public class Vat7DKView implements Serializable {
                 if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
-                } else if (badana.getStatus().equals("401") || badana.getStatus().equals("411")) {
+                } else if (badana.getStatus().startsWith("4")) {
                     Msg.msg("e", "Wysłanie deklaracji w poprzednim miesiącu zakończyło się błędem. Nie można utworzyć nowej deklaracji", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().equals("200")) {
