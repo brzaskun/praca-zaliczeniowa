@@ -1137,6 +1137,7 @@ public class DokView implements Serializable{
             double kwotaumorzenia = 0.0;
             List<Amodok> lista = new ArrayList<Amodok>();
             lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
+            
             Amodok amodokPoprzedni = null;
             Amodok amodok = null;
             Iterator itx;

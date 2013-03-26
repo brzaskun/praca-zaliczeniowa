@@ -106,9 +106,8 @@ public class STRView implements Serializable {
     }
 
     public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext ctx = null;
-        ctx.getCurrentInstance().update("formSTR");
-        ctx.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+        RequestContext.getCurrentInstance().update("formSTR");
+        RequestContext.getCurrentInstance().update("westSrodki:westSrodkiWidok");
     }
 
     public void aktualizujTabele2(AjaxBehaviorEvent e) {
