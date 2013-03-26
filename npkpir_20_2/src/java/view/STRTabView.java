@@ -4,9 +4,9 @@
  */
 package view;
 
-import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.STRDAO;
+import embeddable.Mce;
 import embeddable.Roki;
 import embeddable.STRtabela;
 import embeddable.Umorzenie;
@@ -17,9 +17,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -51,7 +48,7 @@ public class STRTabView implements Serializable{
    
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-     
+    
     //tablica obiektów
     private List<SrodekTrw> obiektDOKjsf;
     //tablica obiektw danego klienta
@@ -64,7 +61,8 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
     //srodki trwale wykaz rok biezacy
     private List<STRtabela> strtabela;
-    
+    //dokumenty amortyzacyjne
+    private List<Amodok> amodoklist;
     /**
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
@@ -81,6 +79,7 @@ public class STRTabView implements Serializable{
         obiektDOKmrjsfSelX = new ArrayList<>();
         obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
         strtabela = new ArrayList<>();
+        amodoklist = new ArrayList<>();
     }
 
     @PostConstruct
@@ -140,6 +139,25 @@ public class STRTabView implements Serializable{
                 }
             }
         }
+        /**
+         * to co bylo w amodok
+         */
+        if (wpisView.getPodatnikWpisu() != null) {
+            List<Amodok> c = new ArrayList<>();
+            try {
+                c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+            }
+            if (c != null) {
+                int ie = 1;
+                for(Amodok tmp : c){
+                    tmp.setId(ie++);
+                    amodoklist.add(tmp);
+                }
+
+            }
+        }
     }
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
@@ -191,17 +209,16 @@ public class STRTabView implements Serializable{
             srodek.setUmorzWyk(umorzenia);
             sTRDAO.edit(srodek);
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane","");
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie","");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public String generujamodokumenty() {
+    public void generujamodokumenty() {
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         String pod = wpisView.getPodatnikWpisu();
-        String nazwapod = pod;
+        sprawdzzaksiegowanedokumenty(pod);
         amoDokDAO.destroy(pod);
-         RequestContext.getCurrentInstance().update("formSTR:dokumsrodkiLista");
         Integer rokOd = 2013;
         Integer mcOd = 1;
         Roki roki = new Roki();
@@ -240,12 +257,44 @@ public class STRTabView implements Serializable{
                 
             }
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokumenty amortyzacyjne wygenerowane","");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        RequestContext.getCurrentInstance().update("formSTR:dokumsrodkiLista");
-        return "/ksiegowa/ksiegowaSrodki2.xhtml?faces-redirect=true";
+        nowalistadokamo();
+        RequestContext.getCurrentInstance().update("formSTR");
+        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane","formSTR:mess_add");
     }
     
+    private void sprawdzzaksiegowanedokumenty(String pod) {
+        List<Amodok> amodoki = amoDokDAO.amodokklient(pod);
+        String rok = null;
+        String mc = null;
+        for(Amodok p : amodoki){
+            if(p.getZaksiegowane()==false){
+                rok = p.getRok().toString();
+                mc = Mce.getMapamcy().get(p.getMc());
+                break;
+            }
+        }
+        Msg.msg("i", "Pominięto dokumenty zaksięgowane. Aktualizacja od "+rok+"/"+mc,"formSTR:mess_add");
+    }
+
+    private void nowalistadokamo(){
+        amodoklist.clear();
+         if (wpisView.getPodatnikWpisu() != null) {
+            List<Amodok> c = new ArrayList<>();
+            try {
+                c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+            }
+            if (c != null) {
+                int ie = 1;
+                for(Amodok tmp : c){
+                    tmp.setId(ie++);
+                    amodoklist.add(tmp);
+                }
+
+            }
+        }
+    }
     public void generujTabeleRokBiezacy(){
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
@@ -455,5 +504,14 @@ public class STRTabView implements Serializable{
         return zakupionewbiezacyrok;
     }
 
+    public List<Amodok> getAmodoklist() {
+        return amodoklist;
+    }
+
+    public void setAmodoklist(List<Amodok> amodoklist) {
+        this.amodoklist = amodoklist;
+    }
+
+    
    
 }
