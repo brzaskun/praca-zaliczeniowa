@@ -32,17 +32,7 @@
                         <ui:include src="sub/layoutTablicaSrodki/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutTablicaSrodki/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                           <h:form> 
-                                 <p:panelGrid columns="2">
-                                <p:selectOneMenu value="#{CSSView.css}">
-                                    <f:selectItems value="#{CSSView.cssList}"/>
-                                    <p:ajax event="keyup" update="@all" global="false"/>
-                                </p:selectOneMenu>
-                                <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
-                                </p:panelGrid>
-                            </h:form>
                             <h:form id="formSTR">
-                                
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/srodkitablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>

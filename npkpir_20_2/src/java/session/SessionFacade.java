@@ -20,6 +20,7 @@ import entity.Podstawki;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.Sesja;
+import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Sumypkpir;
@@ -319,6 +320,14 @@ public class SessionFacade<T> {
 
     public List<Deklaracjevat> findDeklaracjewysylka(String rok, String mc) {
         return em.createNamedQuery("Deklaracjevat.findByRokMc").setParameter("rok", rok).setParameter("miesiac", mc).getResultList();
+    }
+
+    public List<SrodekTrw> findStrPod(String podatnik) {
+        try {
+            return em.createNamedQuery("SrodekTrw.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

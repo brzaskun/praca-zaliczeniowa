@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SrodekTrw.findByOdpisrok", query = "SELECT s FROM SrodekTrw s WHERE s.odpisrok = :odpisrok"),
     @NamedQuery(name = "SrodekTrw.findByStawka", query = "SELECT s FROM SrodekTrw s WHERE s.stawka = :stawka"),
     @NamedQuery(name = "SrodekTrw.findBySymbol", query = "SELECT s FROM SrodekTrw s WHERE s.symbol = :symbol"),
+    @NamedQuery(name = "SrodekTrw.findByPodatnik", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik"),
     @NamedQuery(name = "SrodekTrw.findSTR", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik AND s.netto = :netto AND s.nrwldokzak = :nrwldokzak"),
     @NamedQuery(name = "SrodekTrw.findByNetto", query = "SELECT s FROM SrodekTrw s WHERE s.netto = :netto")})
 
@@ -73,7 +74,7 @@ public class SrodekTrw implements Serializable {
     private Double netto;
     @Column(name = "podatnik")
     private String podatnik;
-     @Column(name = "datawy")
+    @Column(name = "datawy")
     private Double datawy;
     @Size(max = 255)
     @Column(name = "dataprzek")
