@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,9 +52,6 @@ public class STRTabView implements Serializable{
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
      
-    private HashMap<String,SrodekTrw> dokHashTable;
-    //tablica kluczy do obiektów
-    private List<String> kluczDOKjsf;
     //tablica obiektów
     private List<SrodekTrw> obiektDOKjsf;
     //tablica obiektw danego klienta
@@ -67,13 +65,16 @@ public class STRTabView implements Serializable{
     //srodki trwale wykaz rok biezacy
     private List<STRtabela> strtabela;
     
-
+    /**
+     * Dane informacyjne gora strony srodkitablica.xhtml
+     */
+    private int iloscsrodkow;
+    private int zakupionewbiezacyrok;
+    
    
     
     public STRTabView() {
         selectedSTR = new SrodekTrw();
-        dokHashTable = new HashMap<>();
-        kluczDOKjsf = new ArrayList<>();
         obiektDOKjsf = new ArrayList<>();
         obiektDOKjsfSel = new ArrayList<>();
         obiektDOKmrjsfSel = new ArrayList<>();
@@ -82,49 +83,42 @@ public class STRTabView implements Serializable{
         strtabela = new ArrayList<>();
     }
 
-       @PostConstruct
+    @PostConstruct
     public void init() {
+        String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        zakupionewbiezacyrok = 0;
         if (wpisView.getPodatnikWpisu() != null) {
-            Collection c = null;
+            List<SrodekTrw> c = new ArrayList<>();
             try {
-                c = sTRDAO.findAll();
+                c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-            if (c != null) {
-                Iterator it;
-                it = c.iterator();
-                int j=1;
-                while (it.hasNext()) {
-                    SrodekTrw tmp = (SrodekTrw) it.next();
-                    tmp.setNrsrodka(j);
-                    j++;
-                    kluczDOKjsf.add(tmp.getId().toString());
+            if (!c.isEmpty()) {
+                int i = 1;
+                int j = 1;
+                for (SrodekTrw tmp : c) {
                     obiektDOKjsf.add(tmp);
                     if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                         if(tmp.getTyp().equals("wyposazenie")){
-                             obiektDOKmrjsfSelWyposazenie.add(tmp);
-                            
+                        if (tmp.getTyp().equals("wyposazenie")) {
+                            tmp.setNrsrodka(i++);
+                            obiektDOKmrjsfSelWyposazenie.add(tmp);
+
                         } else {
-                             obiektDOKjsfSel.add(tmp);
-                         }
+                            tmp.setNrsrodka(j++);
+                            if(tmp.getDatazak().substring(0, 4).equals(rokdzisiejszy)){
+                                zakupionewbiezacyrok++;
+                            }
+                            obiektDOKjsfSel.add(tmp);
+                        }
                     }
-                    dokHashTable.put(tmp.getId().toString(), tmp);
                 }
-                Iterator itx;
-                itx = obiektDOKjsfSel.iterator();
-                while (itx.hasNext()) {
-                    SrodekTrw tmpx = (SrodekTrw) itx.next();
+                iloscsrodkow = obiektDOKjsfSel.size();
+                for (SrodekTrw tmpx : obiektDOKjsfSel) {
                     String m = wpisView.getMiesiacWpisu();
                     Integer r = wpisView.getRokWpisu();
-                    //if (tmpx.getPkpirM().equals(m) && tmpx.getPkpirR().equals(r.toString())) {
-                  
-                     
-                 
-                        obiektDOKmrjsfSel.add(tmpx);
-                  
-                //}
-            }
+                    obiektDOKmrjsfSel.add(tmpx);
+                }
                 //sortowanie dokumentów
 
                 //
@@ -139,11 +133,9 @@ public class STRTabView implements Serializable{
                     Integer mDoI = Integer.parseInt(mDo);
                     while (itxX.hasNext()) {
                         SrodekTrw tmpx = (SrodekTrw) itxX.next();
-                        for (int i = mOdI; i <= mDoI; i++) {
-                         //   if (tmpx.getPkpirM().equals(mapa.get(i)) && tmpx.getPkpirR().equals(r.toString())) {
-                                obiektDOKmrjsfSelX.add(tmpx);
-                         //   }
-        }
+                        for (int iX = mOdI; iX <= mDoI; iX++) {
+                            obiektDOKmrjsfSelX.add(tmpx);
+                        }
                     }
                 }
             }
@@ -399,23 +391,7 @@ public class STRTabView implements Serializable{
         this.wpisView = wpisView;
     }
 
-    public HashMap<String, SrodekTrw> getDokHashTable() {
-        return dokHashTable;
-    }
-
-    public void setDokHashTable(HashMap<String, SrodekTrw> dokHashTable) {
-        this.dokHashTable = dokHashTable;
-    }
-
-    public List<String> getKluczDOKjsf() {
-        return kluczDOKjsf;
-    }
-
-    public void setKluczDOKjsf(List<String> kluczDOKjsf) {
-        this.kluczDOKjsf = kluczDOKjsf;
-    }
-
-    public List<SrodekTrw> getObiektDOKjsf() {
+   public List<SrodekTrw> getObiektDOKjsf() {
         return obiektDOKjsf;
     }
 
@@ -469,6 +445,14 @@ public class STRTabView implements Serializable{
 
     public void setNapewnousunac(boolean napewnousunac) {
         STRTabView.napewnousunac = napewnousunac;
+    }
+
+    public int getIloscsrodkow() {
+        return iloscsrodkow;
+    }
+
+    public int getZakupionewbiezacyrok() {
+        return zakupionewbiezacyrok;
     }
 
    
