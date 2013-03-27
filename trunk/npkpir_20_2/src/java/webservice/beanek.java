@@ -50,6 +50,8 @@ import view.WpisView;
  */
 @ManagedBean
 public class beanek {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdok.wsdl")
+    private testservice.GateService service_1;
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
     private GateService service;
@@ -147,32 +149,124 @@ public class beanek {
     }
 
     public void pobierz() {
-        requestUPO(idpobierz, lang, upo, stat, opis);
+      requestUPO(idpobierz, lang, upo, stat, opis);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
+        if(temp.getStatus().equals(stat.value)){
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+        } else {
+            if(stat.value == 200){
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3") ){
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            } else {
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+            }
+        }
         upoMB = upo.value;
         statMB = stat.value;
         opisMB = opis.value;
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
-        Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
     }
 
     public void pobierzwyslane(String identyfikator) {
         requestUPO(identyfikator, lang, upo, stat, opis);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        if(temp.getStatus().equals(stat.value)){
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+        } else {
+            if(stat.value == 200){
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3") ){
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            } else {
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+            }
+        }
         upoMB = upo.value;
         statMB = stat.value;
         opisMB = opis.value;
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
-        Msg.msg("i", "Gołąb wrócił z wieścią " + statMB, "formX:msg");
+    }
+    
+     public void robtest() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        String strFileContent = temp.getDeklaracja();
+        System.out.println("wartosc stringu: " + strFileContent);
+        String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
+        dok = DatatypeConverter.parseBase64Binary(tmp);
+        sendUnsignDocument_1(dok, lang, signT, id, stat, opis);
+        idMB = id.value;
+        idpobierz = id.value;
+        statMB = stat.value;
+        opisMB = opis.value;
+        temp.setIdentyfikator(idMB);
+        temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
+        deklaracjevatDAO.edit(temp);
+        Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+
     }
 
+    public void pobierztest() {
+        requestUPO_1(idpobierz, lang, upo, stat, opis);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
+        if(temp.getStatus().equals(stat.value)){
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+        } else {
+            if(stat.value == 200){
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3") ){
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            } else {
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+            }
+        }
+        upoMB = upo.value;
+        statMB = stat.value;
+        opisMB = opis.value;
+        temp.setUpo(upoMB);
+        temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
+        deklaracjevatDAO.edit(temp);
+        
+        
+    }
+
+    public void pobierzwyslanetest(String identyfikator) {
+        requestUPO_1(identyfikator, lang, upo, stat, opis);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        if(temp.getStatus().equals(stat.value)){
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+        } else {
+            if(stat.value == 200){
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3") ){
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            } else {
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+            }
+        }
+        upoMB = upo.value;
+        statMB = stat.value;
+        opisMB = opis.value;
+        temp.setUpo(upoMB);
+        temp.setStatus(statMB.toString());
+        temp.setOpis(opisMB);
+        deklaracjevatDAO.edit(temp);
+        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+    }
+    
+    
     public String getIdMB() {
         return idMB;
     }
@@ -235,5 +329,15 @@ public class beanek {
         } catch (Exception e) {
             e.getMessage();
         }
+    }
+
+    private void requestUPO_1(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        port.requestUPO(refId, language, upo, status, statusOpis);
+    }
+
+    private void sendUnsignDocument_1(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
 }
