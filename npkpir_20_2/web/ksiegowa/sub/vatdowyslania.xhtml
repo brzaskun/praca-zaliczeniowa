@@ -8,10 +8,10 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
              <h:form id="formX">
                  <p:growl id="msg"/>
-                     <p:panel header="Wykaz oczekujacych deklaracji"/>
+                     <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
                      <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}" resizableColumns="true"  editable="true" id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
                          <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
-                         <p:column headerText="indetyfikator">
+                         <p:column headerText="identyfikator nadany przez serwer" width="300">
                               <p:cellEditor>  
                                     <f:facet name="output">  
                                          <h:outputText value="#{item.identyfikator}"/>
@@ -24,17 +24,14 @@
                          <p:column headerText="kod urzędu" width="60"> 
                              <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
                          </p:column>
-                         <p:column headerText="Rok - Miesiac">
-                             <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                         <p:column headerText="deklaracja za okres" width="100">
+                             <h:outputText value="#{item.rok}/#{item.miesiac}"/>
                          </p:column>
                          <p:column headerText="nr kolejny" width="60">
                              <h:outputText value="#{item.nrkolejny}"/>
                          </p:column>
-                         <p:column headerText="podatnik">
+                         <p:column headerText="podatnik" width="200">
                              <h:outputText value="#{item.podatnik}"/>
-                         </p:column>
-                         <p:column headerText="UPO">
-                             <h:outputText value="#{item.upo}" />
                          </p:column>
                          <p:column headerText="dane">
                              <h:outputText value="#{item.selected}"/>
@@ -48,7 +45,8 @@
                      </p:dataTable>
                  </h:form><br/>
             <h:form>
-                <p:commandButton value="wyslij" actionListener="#{beanek.rob()}" update="@form, :form:upo" style="width: 120px;"/><br/><br/>
+                <p:commandButton value="wyslij" actionListener="#{beanek.rob()}" update=":form:upoform" style="width: 120px;"/>
+                <p:commandButton value="test" actionListener="#{beanek.robtest()}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2">
                 <h:outputText value="id"/>
                 <h:outputText value="#{beanek.idMB}"/>
@@ -60,16 +58,17 @@
             </h:form>
     <br/>
     <h:form id="form">
-                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update="@form, :formX:dokumentyLista, :formX:msg" style="width: 120px;"/><br/><br/>
-                <p:panelGrid columns="2" id="upo">
+                <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px;"/>
+                <p:commandButton value="test" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
+                <p:panelGrid columns="2" id="upoform">
                 <h:outputText value="id"/>
                 <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>
                 <h:outputText value="upo"/>
-                <h:inputTextarea value="#{beanek.upoMB}" readonly="true" cols="150"/>
+                <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" cols="150"/>
                 <h:outputText value="stat"/>
-                <h:outputText value="#{beanek.statMB}"/>
+                <h:outputText id="stat" value="#{beanek.statMB}"/>
                 <h:outputText value="opis"/>
-                <h:inputTextarea value="#{beanek.opisMB}" readonly="true" cols="150"/>
+                <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" cols="150"/>
                 </p:panelGrid>
             </h:form>
 </ui:composition>   

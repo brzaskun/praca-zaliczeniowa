@@ -44,5 +44,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/service"/>
         <delete dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-dokumenty"/>
+    <target name="wsimport-client-testdok" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/testdok"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/testdok" destdir="${build.generated.dir}/jax-wsCache/testdok" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/testdok/wsdl/testdok.wsdl" catalog="catalog.xml" extension="true" verbose="true" wsdlLocation="file:/C:/uslugi/test/testdok.wsdl" xnocompile="true" xendorsed="true" package="testservice">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/testdok/wsdl/testdok.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/testdok"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/testdok">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-testdok" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/testservice"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/testdok"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-dokumenty, wsimport-client-testdok"/>
 </project>
