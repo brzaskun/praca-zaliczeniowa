@@ -5,6 +5,7 @@
 package view;
 
 import comparator.Dokcomparator;
+import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
@@ -12,6 +13,7 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
 import embeddable.Stornodoch;
+import entity.Amodok;
 import entity.Dok;
 import entity.StornoDok;
 import entity.Uz;
@@ -77,6 +79,7 @@ public class DokTabView implements Serializable {
     @Inject private Uz uzytkownik;
     @Inject private UzDAO uzDAO;
     @Inject private WpisDAO wpisDAO;
+    @Inject private AmoDokDAO amoDokDAO;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -170,13 +173,16 @@ public class DokTabView implements Serializable {
     public void destroy2() {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("OT"))) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
+            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw środek z ewidencji", dokdoUsuniecia.getIdDok().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else {
+            if(!dokdoUsuniecia.getTypdokumentu().equals("OT")){
+                Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                amotmp.setZaksiegowane(false);
+                amoDokDAO.edit(amotmp);
+            }
             try {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
@@ -184,18 +190,17 @@ public class DokTabView implements Serializable {
             } catch (Exception e) {
                 System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
             }
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
         }
     } else {
-            Msg.msg("e","Dokument w księgach, nie można usunąć");
+            Msg.msg("e","Dokument w księgach, nie można usunąć ","form:messages");
         }
     }
     
      public void destroy2roz() throws Exception {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("OT"))) {
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
@@ -204,6 +209,7 @@ public class DokTabView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
         } else {
+            dokdoUsuniecia.getTypdokumentu().equals("OT");
             try {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
@@ -532,4 +538,13 @@ public class DokTabView implements Serializable {
 	public void delete(ActionEvent actionEvent) {
 		Msg.msg("i","Data deleted","form:messages");
 	}
+
+    public AmoDokDAO getAmoDokDAO() {
+        return amoDokDAO;
+    }
+
+    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
+        this.amoDokDAO = amoDokDAO;
+    }
+        
 }
