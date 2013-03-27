@@ -217,10 +217,23 @@ public class STRTabView implements Serializable{
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         String pod = wpisView.getPodatnikWpisu();
-        sprawdzzaksiegowanedokumenty(pod);
-        amoDokDAO.destroy(pod);
-        Integer rokOd = 2013;
-        Integer mcOd = 1;
+        List datagraniczna = new ArrayList<>();
+        datagraniczna = sprawdzzaksiegowanedokumenty(pod);
+        Integer rokOd = 0;
+        Integer mcOd = 0;
+        if(datagraniczna.get(0)==0){
+            datagraniczna.clear();
+            datagraniczna.add(lista.get(0).getUmorzWyk().get(0).getRokUmorzenia());
+            datagraniczna.add(lista.get(0).getUmorzWyk().get(0).getMcUmorzenia());
+            rokOd = (Integer) datagraniczna.get(0);
+            mcOd = (Integer) datagraniczna.get(1);
+            amoDokDAO.destroy(pod,rokOd,mcOd);
+        } else {
+            rokOd = (Integer) datagraniczna.get(0);
+            mcOd = (Integer) datagraniczna.get(1);
+            amoDokDAO.destroy(pod,rokOd,mcOd);
+        }
+
         Roki roki = new Roki();
         int ostatni = roki.getRokiList().size();
         while (rokOd < roki.getRokiList().get(ostatni-1)) {
@@ -229,16 +242,10 @@ public class STRTabView implements Serializable{
             amoDok.setRok(rokOd);
             amoDok.setMc(mcOd);
             amoDok.setZaksiegowane(Boolean.FALSE);
-            Iterator it;
-            it = lista.iterator();
-            while (it.hasNext()) {
-                SrodekTrw srodek = (SrodekTrw) it.next();
+            for(SrodekTrw srodek : lista){
                 List<Umorzenie> umorzeniaWyk = new ArrayList<>();
                 umorzeniaWyk.addAll(srodek.getUmorzWyk());
-                Iterator itX;
-                itX = umorzeniaWyk.iterator();
-                while (itX.hasNext()) {
-                    Umorzenie umAkt = (Umorzenie) itX.next();
+                for(Umorzenie umAkt : umorzeniaWyk){
                     if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
                         amoDok.getUmorzenia().add(umAkt);
                     } 
@@ -246,6 +253,9 @@ public class STRTabView implements Serializable{
               srodek.setUmorzeniezaksiegowane(Boolean.TRUE);
               sTRDAO.edit(srodek);
            }
+            if(amoDok.getUmorzenia().isEmpty()){
+                amoDok.setZaksiegowane(true);
+            }
             if (mcOd == 12) {
                 amoDokDAO.dodaj(amoDok);
                 rokOd++;
@@ -262,18 +272,23 @@ public class STRTabView implements Serializable{
         Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane","formSTR:mess_add");
     }
     
-    private void sprawdzzaksiegowanedokumenty(String pod) {
+    private List sprawdzzaksiegowanedokumenty(String pod) {
         List<Amodok> amodoki = amoDokDAO.amodokklient(pod);
-        String rok = null;
-        String mc = null;
+        int rok = 0;
+        int mc = 0;
         for(Amodok p : amodoki){
             if(p.getZaksiegowane()==false){
-                rok = p.getRok().toString();
-                mc = Mce.getMapamcy().get(p.getMc());
                 break;
             }
+            rok = p.getRok();
+            mc = p.getMc();
+
         }
-        Msg.msg("i", "Pominięto dokumenty zaksięgowane. Aktualizacja od "+rok+"/"+mc,"formSTR:mess_add");
+        Msg.msg("i", "Pominięto dokumenty zaksięgowane. Aktualizacja po "+rok+"/"+ Mce.getMapamcy().get(mc),"formSTR:mess_add");
+        List odpowiedz = new ArrayList<>();
+        odpowiedz.add(rok);
+        odpowiedz.add(++mc);
+        return odpowiedz;
     }
 
     private void nowalistadokamo(){

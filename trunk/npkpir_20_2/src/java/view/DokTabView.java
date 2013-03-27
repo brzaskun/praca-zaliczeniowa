@@ -170,7 +170,7 @@ public class DokTabView implements Serializable {
     public void destroy2() {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("AMO"))) {
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("OT"))) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
@@ -195,7 +195,7 @@ public class DokTabView implements Serializable {
      public void destroy2roz() throws Exception {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("AMO"))) {
+        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true) && (!dokdoUsuniecia.getTypdokumentu().equals("OT"))) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
