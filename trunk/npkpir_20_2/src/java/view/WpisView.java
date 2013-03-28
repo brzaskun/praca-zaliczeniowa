@@ -129,6 +129,7 @@ public class WpisView implements Serializable{
     }    
       
     private void uzupelnijdanepodatnika() {
+        if(!podatnikWpisu.isEmpty()){
         podatnikObiekt = podatnikDAO.find(podatnikWpisu);
         try{
         rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
@@ -138,6 +139,7 @@ public class WpisView implements Serializable{
             ksiegaryczalt = true;
         }} catch (Exception e){
             System.out.println("brak wpisanego rodzaju opodatkowania");
+        }
         }
     }
 
