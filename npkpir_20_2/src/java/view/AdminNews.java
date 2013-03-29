@@ -35,6 +35,10 @@ public class AdminNews {
     @PostConstruct
     private void init(){
         newslist = sessionFacade.findAll(Adminnews.class);
+        int wielkosc = newslist.size();
+        if(wielkosc>5){
+            newslist = newslist.subList(wielkosc-4, wielkosc);
+        }
     }
     
     
