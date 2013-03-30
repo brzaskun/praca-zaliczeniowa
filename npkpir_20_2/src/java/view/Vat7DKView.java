@@ -10,6 +10,7 @@ import dao.PodatnikDAO;
 import deklaracjaVAT7_13.VAT713;
 import embeddable.Daneteleadresowe;
 import embeddable.EVatwpisSuma;
+import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.TKodUS;
@@ -82,6 +83,12 @@ public class Vat7DKView implements Serializable {
 
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Podatnik pod = podatnikDAO.find(podatnik);
+        String vatokres = sprawdzjakiokresvat();
+         if(!vatokres.equals("miesięczne")){
+                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                mc = miesiacewkwartale.get(2);
+            }
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> wyciagnieteewidencje = new ArrayList<>(sumaewidencji.values());
         //tu zduplikowac ewidencje
@@ -199,6 +206,11 @@ public class Vat7DKView implements Serializable {
             selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
             selected.setPodatnik(podatnik);
             selected.setRok(rok);
+            if(vatokres.equals("miesięczne")){
+                selected.setRodzajdeklaracji("VAT-7");
+            } else {
+                selected.setRodzajdeklaracji("VAT-7K");
+            }
             String mcx = String.valueOf(Integer.parseInt(mc));
             selected.setMiesiac(mcx);
             selected.setKodurzedu(tKodUS.getLista().get(pod.getUrzadskarbowy()));
@@ -224,6 +236,13 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());
             nowadeklaracja.setPodsumowanieewidencji(ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji());
             nowadeklaracja.setRok(rok);
+            if(!vatokres.equals("miesięczne")){
+                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                nowadeklaracja.setMiesiac(miesiacewkwartale.get(2));
+            } else {
+                nowadeklaracja.setMiesiac(mc);
+            }
             nowadeklaracja.setMiesiac(mc);
             nowadeklaracja.setKodurzedu(selected.getKodurzedu());
             nowadeklaracja.setPodatnik(podatnik);
@@ -249,6 +268,28 @@ public class Vat7DKView implements Serializable {
         RequestContext.getCurrentInstance().update("vat7:");
     }
 
+     private String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        Integer sumaszukana = rok+mc;
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for(Parametr p : parametry){
+            if(p.getRokDo()!=null){
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
+            if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
+                return p.getParametr();
+            }
+            } else {
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            if(sumaszukana>=dolnagranica){
+                return p.getParametr();
+            }
+            }
+        }
+        return "blad";
+    }
     
     private void najpierwszadeklaracja() {
         if(flaga!=1){
@@ -460,7 +501,7 @@ public class Vat7DKView implements Serializable {
     private void stworzdeklaracje() {
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(selected);
+            vat713 = new VAT713(selected, wpisView);
         } catch (Exception ex) {
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }

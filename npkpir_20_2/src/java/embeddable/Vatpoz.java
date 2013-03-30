@@ -19,6 +19,7 @@ public class Vatpoz implements Serializable {
     private String celzlozenia;
     private String kodurzedu;
     private String kwotaautoryzacja;
+    private String rodzajdeklaracji;
     private String miesiac;
     private String nazwaurzedu;
     private String podatnik;
@@ -113,9 +114,19 @@ public class Vatpoz implements Serializable {
         this.rok = rok;
     }
 
+    public String getRodzajdeklaracji() {
+        return rodzajdeklaracji;
+    }
+
+    public void setRodzajdeklaracji(String rodzajdeklaracji) {
+        this.rodzajdeklaracji = rodzajdeklaracji;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Celzlozenia (1-pierwsza, 2-korekta): " + celzlozenia + ", nazwa urzedu skarbowego: " + nazwaurzedu + ", kwota autoryzacja: " + kwotaautoryzacja + ", nazwa podatnika: " + podatnik + ", do zapłaty:" + pozycjeszczegolowe.pole58 + ", do zwrotu/przeniesienia: " + pozycjeszczegolowe.pole60;
+        return "Rodzaj deklaracji " + rodzajdeklaracji + ", celzlozenia (1-pierwsza, 2-korekta): " + celzlozenia + ", nazwa urzedu skarbowego: " + nazwaurzedu + ", kwota autoryzacja: " + kwotaautoryzacja + ", nazwa podatnika: " + podatnik + ", do zapłaty:" + pozycjeszczegolowe.pole58 + ", do zwrotu/przeniesienia: " + pozycjeszczegolowe.pole60;
     }
 
     

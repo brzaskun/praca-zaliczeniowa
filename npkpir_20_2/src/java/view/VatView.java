@@ -170,7 +170,7 @@ public class VatView implements Serializable {
             /**
              * tyty
              */
-            if(!vatokres.equals("miesięcznie")){
+            if(!vatokres.equals("miesięczne")){
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 zrzucane.setMiesiac(miesiacewkwartale.get(2));
