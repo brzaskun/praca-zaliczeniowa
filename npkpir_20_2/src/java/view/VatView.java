@@ -9,6 +9,8 @@ import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
+import embeddable.Kwartaly;
+import embeddable.Parametr;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
@@ -78,7 +80,9 @@ public class VatView implements Serializable {
 
     @PostConstruct
     private void init() throws Exception {
-        listadokvat.addAll(dokTabView.getDokvatmc());
+        listadokvat.addAll(dokTabView.getObiektDOKjsfSelRok());
+        String vatokres = sprawdzjakiokresvat();
+        listadokvat = zmodyfikujliste(listadokvat,vatokres);
         for (Dok zaksiegowanafaktura : listadokvat){
             if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
                 List<EVatwpis> ewidencja = new ArrayList<>();
@@ -163,7 +167,16 @@ public class VatView implements Serializable {
         } catch (Exception e) {
             zrzucane.setPodatnik(pod);
             zrzucane.setRok(rok);
-            zrzucane.setMiesiac(mc);
+            /**
+             * tyty
+             */
+            if(!vatokres.equals("miesięcznie")){
+                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                zrzucane.setMiesiac(miesiacewkwartale.get(2));
+            } else {
+                zrzucane.setMiesiac(mc);
+            }
             zrzucane.setEwidencje(listaewidencji);
             zrzucane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.dodajewidencje(zrzucane);
@@ -171,6 +184,55 @@ public class VatView implements Serializable {
         System.out.println("lolo");
     }
 
+    private String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        Integer sumaszukana = rok+mc;
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for(Parametr p : parametry){
+            if(!p.getRokDo().equals("")){
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
+            if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
+                return p.getParametr();
+            }
+            } else {
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            if(sumaszukana>=dolnagranica){
+                return p.getParametr();
+            }
+            }
+        }
+        return "blad";
+    }
+      
+     private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
+         if(vatokres.equals("blad")){
+            throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+         } else if (vatokres.equals("miesięczne")){
+             List<Dok> listatymczasowa = new ArrayList<>();
+             for(Dok p : listadokvat){
+                 if(p.getVatM().equals(wpisView.getMiesiacWpisu())){
+                     listatymczasowa.add(p);
+                 }
+             }
+             return listatymczasowa;
+         } else {
+             List<Dok> listatymczasowa = new ArrayList<>();
+             Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+             List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+             for(Dok p : listadokvat){
+                 if(p.getVatM().equals(miesiacewkwartale.get(0))||p.getVatM().equals(miesiacewkwartale.get(1))||p.getVatM().equals(miesiacewkwartale.get(2))){
+                     listatymczasowa.add(p);
+                 }
+             }
+             return listatymczasowa;
+         }
+    }
+
+   
+    
     public void wygeneruj(HashMap lista) throws Exception {
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
@@ -355,6 +417,7 @@ public class VatView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+
+   
     
 }
