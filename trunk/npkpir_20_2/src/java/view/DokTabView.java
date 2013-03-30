@@ -15,6 +15,7 @@ import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
+import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
@@ -102,6 +103,7 @@ public class DokTabView implements Serializable {
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
+            Podatnik pod = wpisView.getPodatnikObiekt();
             uzytkownik = wpisView.getWprowadzil();
             try {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
@@ -151,7 +153,9 @@ public class DokTabView implements Serializable {
             }
         }
     
-
+    
+    
+    
     public void edit(RowEditEvent ex) {
         try {
             //sformatuj();
@@ -546,5 +550,7 @@ public class DokTabView implements Serializable {
     public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
         this.amoDokDAO = amoDokDAO;
     }
+
+   
         
 }
