@@ -4,11 +4,14 @@
  */
 package deklaracjaVAT7_13;
 
+import embeddable.Parametr;
 import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import view.WpisView;
 
 /**
  *
@@ -30,10 +33,15 @@ public class VAT713 implements Serializable{
     public VAT713() {
     }
      
-    public VAT713(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public VAT713(Vatpoz selected, WpisView wpisView) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         this.selected = selected;
-        wstep = new Wstep();
-        naglowek = new Naglowek(selected);
+        String vatokres = sprawdzjakiokresvat(wpisView);
+        if(vatokres.equals("miesięczne")){
+            wstep = new Wstep("1085");
+        } else {
+            wstep = new Wstep("1084");
+        }
+        naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
         pouczenie = new Pouczenie();
         oswiadczenie = new Oswiadczenie();
@@ -42,7 +50,29 @@ public class VAT713 implements Serializable{
         wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
     }
 
-   
+    private String sprawdzjakiokresvat(WpisView wpisView) {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        Integer sumaszukana = rok+mc;
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for(Parametr p : parametry){
+            if(p.getRokDo()!=null){
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
+            if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
+                return p.getParametr();
+            }
+            } else {
+            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
+            if(sumaszukana>=dolnagranica){
+                return p.getParametr();
+            }
+            }
+        }
+        return "blad";
+    }
+    
     public String getWiersz() {
         return wiersz;
     }
