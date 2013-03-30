@@ -129,7 +129,7 @@ public class WpisView implements Serializable{
     }    
       
     private void uzupelnijdanepodatnika() {
-        if(!podatnikWpisu.isEmpty()){
+        if(podatnikWpisu!=null){
         podatnikObiekt = podatnikDAO.find(podatnikWpisu);
         try{
         rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
