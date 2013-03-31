@@ -160,6 +160,9 @@ public class VatView implements Serializable {
         String pod = wpisView.getPodatnikWpisu();
         //zachowaj wygenerowane ewidencje do bazy danych
         try {
+            /**
+             * edycja nie dziala ale nie ma problemu, zawsze sa usuwane stare i dodawane nowe :)
+             */
             Ewidencjevat pobrane = ewidencjeVatDAO.find(rok, mc, pod);
             pobrane.setEwidencje(listaewidencji);
             pobrane.setSumaewidencji(sumaewidencji);
@@ -177,7 +180,7 @@ public class VatView implements Serializable {
             } else {
                 zrzucane.setMiesiac(mc);
             }
-                zrzucane.setEwidencje(listaewidencji);
+            zrzucane.setEwidencje(listaewidencji);
             zrzucane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.dodajewidencje(zrzucane);
         }
@@ -191,7 +194,7 @@ public class VatView implements Serializable {
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
         //odszukaj date w parametrze - kandydat na metode statyczna
         for(Parametr p : parametry){
-            if(p.getRokDo()!=null){
+            if(p.getRokDo()!=null&&!"".equals(p.getRokDo())){
             Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
             Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
             if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
