@@ -56,14 +56,14 @@ public class VAT713 implements Serializable{
         Integer sumaszukana = rok+mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
         //odszukaj date w parametrze - kandydat na metode statyczna
-        for(Parametr p : parametry){
-            if(p.getRokDo()!=null){
+       for(Parametr p : parametry){
+            try{
             Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
             Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
             if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
                 return p.getParametr();
             }
-            } else {
+            } catch (Exception e){
             Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
             if(sumaszukana>=dolnagranica){
                 return p.getParametr();
