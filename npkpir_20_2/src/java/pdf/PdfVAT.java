@@ -7,15 +7,22 @@ package pdf;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import embeddable.EVatViewPola;
 import entity.Ewidencjevat;
+import java.awt.Canvas;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -151,4 +158,17 @@ public class PdfVAT extends Pdf implements Serializable{
     }
     Msg.msg("i","Wydrukowano ewidencje","form:messages");
     }   
+    
+     static String INPUTFILE = "c:/VAT-7.pdf";
+    
+    public static void main(String[] args) throws IOException, DocumentException{
+        PdfReader reader = new PdfReader(INPUTFILE);
+        reader.removeUsageRights();
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/HelloWorld-Stamped.pdf"));
+        PdfContentByte underContent = pdfStamper.getUnderContent(1);
+        Image image = Image.getInstance("c:/obraz.jpg");
+        image.setAbsolutePosition(200f, 200f);
+        underContent.addImage(image);
+        pdfStamper.close();
+      }
 }
