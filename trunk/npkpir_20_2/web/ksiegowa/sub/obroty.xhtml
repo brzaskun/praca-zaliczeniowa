@@ -60,6 +60,8 @@
                 <p:commandButton value="przelicz" actionListener="#{obrotyView.sumawartosciwybranych()}" update="@form"/>
             </f:facet>
         </p:dataTable>
+       <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" onsuccess="wydrukobroty('#{wpis.podatnik}');">
+        </p:commandButton>
     </p:outputPanel>
 </ui:composition>   
 
