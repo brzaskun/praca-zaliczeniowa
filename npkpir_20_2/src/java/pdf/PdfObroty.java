@@ -53,7 +53,7 @@ public class PdfObroty extends Pdf implements Serializable {
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
         PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 2, 4, 2, 2, 2, 2});
+        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2});
         PdfPCell cell = new PdfPCell();
         try {
             table.addCell(ustawfrazebez("nr kolejny", "center",8));
