@@ -19,10 +19,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
@@ -128,6 +130,7 @@ public class VatView implements Serializable {
             ew.setVat(sumavat);
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
+            
         }
         /**
          * Dodaj sumy do ewidencji dla wydruku
@@ -243,12 +246,12 @@ public class VatView implements Serializable {
 
         akordeon = new AccordionPanel();
         //robienie glownej oprawy
-        Set nazwyew = lista.keySet();
+        List<String> nazwyew = new ArrayList<>();
+        nazwyew.addAll(lista.keySet());
+        Collections.sort(nazwyew);
         Iterator it;
-        it = nazwyew.iterator();
         int i = 0;
-        while (it.hasNext()) {
-            String nazwapj = (String) it.next();
+        for(String nazwapj : nazwyew){
             Tab tab = new Tab();
             tab.setId("tabek" + i);
             tab.setTitle("ewidencja: " + nazwapj);
@@ -421,6 +424,12 @@ public class VatView implements Serializable {
         this.wpisView = wpisView;
     }
 
-   
+   public static void main(String[] args){
+       Scanner in = new Scanner("Hello123%").useDelimiter("[^0-9]+");
+       int integer = in.nextInt();
+       String nazwa = "12";
+       Integer.parseInt(nazwa);
+       System.out.println(integer);
+   }
     
 }
