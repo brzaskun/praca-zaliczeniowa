@@ -56,14 +56,14 @@ public class PdfObroty extends Pdf implements Serializable {
         table.setWidths(new int[]{1, 2, 2, 4, 2, 2, 2, 2});
         PdfPCell cell = new PdfPCell();
         try {
-            table.addCell(ustawfrazebez("nr kolejny", "center",6));
-            table.addCell(ustawfrazebez("data wystawienia", "center",6));
-            table.addCell(ustawfrazebez("kontrahent", "center",6));
-            table.addCell(ustawfrazebez("transakcja", "center",6));
-            table.addCell(ustawfrazebez("nr własny", "center",6));
-            table.addCell(ustawfrazebez("opis", "center",6));
-            table.addCell(ustawfrazebez("netto", "center",6));
-            table.addCell(ustawfrazebez("brutto", "center",6));
+            table.addCell(ustawfrazebez("nr kolejny", "center",8));
+            table.addCell(ustawfrazebez("data wystawienia", "center",8));
+            table.addCell(ustawfrazebez("kontrahent", "center",8));
+            table.addCell(ustawfrazebez("transakcja", "center",8));
+            table.addCell(ustawfrazebez("nr własny", "center",8));
+            table.addCell(ustawfrazebez("opis", "center",8));
+            table.addCell(ustawfrazebez("netto", "center",8));
+            table.addCell(ustawfrazebez("brutto", "center",8));
             
             table.setHeaderRows(1);
         } catch (IOException ex) {
@@ -73,17 +73,17 @@ public class PdfObroty extends Pdf implements Serializable {
         List<Dok> wykaz = obliczsume(obrotyView.getGoscwybral());
         for (Dok rs : wykaz) {
             if (rs.getNrWpkpir() != 0) {
-                table.addCell(ustawfrazebez(String.valueOf(rs.getNrWpkpir()), "center",6));
+                table.addCell(ustawfrazebez(String.valueOf(rs.getNrWpkpir()), "center",8));
             } else {
-                table.addCell(ustawfrazebez("", "center",6));
+                table.addCell(ustawfrazebez("", "center",8));
             }
-            table.addCell(ustawfrazebez(rs.getDataWyst(), "left",6));
-            table.addCell(ustawfrazebez(rs.getKontr().getNpelna(), "left",6));
-            table.addCell(ustawfrazebez(rs.getRodzTrans(), "left",6));
-            table.addCell(ustawfrazebez(rs.getNrWlDk(), "left",6));
-            table.addCell(ustawfrazebez(rs.getOpis(), "left",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getBrutto()), "right",6));
+            table.addCell(ustawfrazebez(rs.getDataWyst(), "left",8));
+            table.addCell(ustawfrazebez(rs.getKontr().getNpelna(), "left",8));
+            table.addCell(ustawfrazebez(rs.getRodzTrans(), "left",8));
+            table.addCell(ustawfrazebez(rs.getNrWlDk(), "left",8));
+            table.addCell(ustawfrazebez(rs.getOpis(), "left",8));
+            table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right",8));
+            table.addCell(ustawfrazebez(formatujliczby(rs.getBrutto()), "right",8));
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());
