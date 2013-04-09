@@ -32,6 +32,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import view.KsiegaView;
+import view.ObrotyView;
 import view.WpisView;
 
 /**
@@ -44,6 +45,8 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected KsiegaView ksiegaView;
     @ManagedProperty(value="#{WpisView}")
     protected WpisView wpisView;
+    @ManagedProperty(value="#{obrotyView}")
+    protected ObrotyView obrotyView;
     @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
     protected int liczydlo = 0;
     @Inject protected UzDAO uzDAO;
@@ -225,4 +228,14 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public ObrotyView getObrotyView() {
+        return obrotyView;
+    }
+
+    public void setObrotyView(ObrotyView obrotyView) {
+        this.obrotyView = obrotyView;
+    }
+    
+    
 }
