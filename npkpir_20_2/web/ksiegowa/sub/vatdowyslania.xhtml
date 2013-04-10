@@ -11,16 +11,6 @@
                      <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
                      <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}" resizableColumns="true"  editable="true" id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
                          <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
-                         <p:column headerText="identyfikator nadany przez serwer" width="300">
-                              <p:cellEditor>  
-                                    <f:facet name="output">  
-                                         <h:outputText value="#{item.identyfikator}"/>
-                                    </f:facet>  
-                                    <f:facet name="input">  
-                                        <h:inputText value="#{item.identyfikator}"/>
-                                    </f:facet>  
-                            </p:cellEditor>
-                         </p:column>
                          <p:column headerText="kod urzędu" width="60"> 
                              <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
                          </p:column>
@@ -36,30 +26,27 @@
                          <p:column headerText="dane">
                              <h:outputText value="#{item.selected}"/>
                          </p:column>
-                         <p:column id="editColumn" headerText="edytuj" width="70">
-                            <p:rowEditor />  
-                        </p:column>
                          <p:column id="deleteColumn" headerText="usuń" width="70">
                             <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/>
                      </p:column>
                      </p:dataTable>
                  </h:form><br/>
             <h:form>
-                <p:commandButton value="wyslij" actionListener="#{beanek.rob()}" update=":form:upoform" style="width: 120px;"/>
+                <p:commandButton value="wyślij" actionListener="#{beanek.rob()}" update=":form:upoform" style="width: 120px;"/>
                 <p:commandButton value="test" actionListener="#{beanek.robtest()}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2">
-                <h:outputText value="id"/>
-                <h:outputText value="#{beanek.idMB}"/>
-                <h:outputText value="stat"/>
-                <h:outputText value="#{beanek.statMB}"/>
-                <h:outputText value="opis" style="width: 100px;"/>
-                <h:outputText value="#{beanek.opisMB}" style="width: 200px;"/>
+                <h:outputText value="wysylanie: "/>
+                <h:outputText value="W celu wysłania dekalracji na serwer ministerstwa wciśnij przycisk wyślij"/>
+                <h:outputText value="testowanie"/>
+                <h:outputText value="Można też przetestować wysyłke deklaracji. Jeżeli 'nie przejdzie', oznacza to błąd w danych autoryzujących"/>
+                <h:outputText value="potwierdzenie"/>
+                <h:outputText value="Każdorazowo, celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo lub sprawdz"/>
                 </p:panelGrid>
             </h:form>
     <br/>
     <h:form id="form">
                 <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px;"/>
-                <p:commandButton value="test" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
+                <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
                 <p:panelGrid columns="2" id="upoform">
                 <h:outputText value="id"/>
                 <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>

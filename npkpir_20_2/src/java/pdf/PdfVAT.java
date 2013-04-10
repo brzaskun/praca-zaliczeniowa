@@ -5,9 +5,9 @@
 package pdf;
 
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -19,10 +19,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import embeddable.EVatViewPola;
 import entity.Ewidencjevat;
-import java.awt.Canvas;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,10 +51,17 @@ public class PdfVAT extends Pdf implements Serializable{
     } else{
         nowanazwa = p;
     }
-    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
+    String currentDir = System.getProperty("user.dir");
+    currentDir = currentDir.replace("\\","/");
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(currentDir+"/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
      HeaderFooter event = new HeaderFooter();
      writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
      writer.setPageEvent(event);
+     pdf.addTitle("Ewidencja VAT");
+     pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+     pdf.addSubject("Wydruk danych z ewidencji VAT");
+     pdf.addKeywords("VAT, PDF");
+     pdf.addCreator("Grzegorz Grzelczyk");
      pdf.open();  
     BaseFont helvetica = null;
         try {
@@ -162,13 +167,19 @@ public class PdfVAT extends Pdf implements Serializable{
      static String INPUTFILE = "c:/VAT-7.pdf";
     
     public static void main(String[] args) throws IOException, DocumentException{
-        PdfReader reader = new PdfReader(INPUTFILE);
-        reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/HelloWorld-Stamped.pdf"));
-        PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("c:/obraz.jpg");
-        image.setAbsolutePosition(200f, 200f);
-        underContent.addImage(image);
-        pdfStamper.close();
+//        PdfReader reader = new PdfReader(INPUTFILE);
+//        reader.removeUsageRights();
+//        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/HelloWorld-Stamped.pdf"));
+//        PdfContentByte underContent = pdfStamper.getOverContent(1);
+//        Image image = Image.getInstance("c:/obraz.jpg");
+//        image.setAbsolutePosition(200f, 200f);
+//        underContent.add(underContent);
+//        underContent.addImage(image);
+//        pdfStamper.close();
+        String current = new java.io.File( "." ).getCanonicalPath();
+        System.out.println("Current dir:"+current);
+        String currentDir = System.getProperty("user.dir");
+        currentDir = currentDir.replace("\\","/");
+        System.out.println("Current dir using System:" +currentDir);
       }
 }
