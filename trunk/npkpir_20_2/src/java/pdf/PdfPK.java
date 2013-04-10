@@ -42,7 +42,14 @@ public class PdfPK extends Pdf implements Serializable {
     public void drukujPK(Dok selected) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        String currentDir = System.getProperty("user.dir");
+        currentDir = currentDir.replace("\\","/");
+        PdfWriter.getInstance(document, new FileOutputStream(currentDir+"/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        document.addTitle("Polecenie księgowania");
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Wydruk danych z PKPiR");
+        document.addKeywords("PKPiR, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
         document.open();
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
             //rect.setBackgroundColor(BaseColor.RED);
