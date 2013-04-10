@@ -197,6 +197,7 @@ public class KsiegaView implements Serializable{
                     sumakoncowa.setKolumna13(sumaposrednia.getKolumna13()+p.getSumy().getKolumna13());
                     sumakoncowa.setKolumna14(sumaposrednia.getKolumna14()+p.getSumy().getKolumna14());
                     sumakoncowa.setKolumna15(sumaposrednia.getKolumna15()+p.getSumy().getKolumna15());
+                    break;
                 }
             }
              lista.add(sumaposrednia);
