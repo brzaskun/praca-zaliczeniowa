@@ -654,6 +654,7 @@ public class DokView implements Serializable{
             ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
             ew1.setValueExpression("value", ve1);
             ew1.setId("dataprz");
+            ew1.setOnblur("ustawDateSrodekTrw();");
             grid3.getChildren().add(ew1);
             
             HtmlOutputText ot3 = new HtmlOutputText();
