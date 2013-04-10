@@ -16,7 +16,7 @@ import javax.faces.bean.SessionScoped;
  *
  * @author Osito
  */
-@ManagedBean(name="Mce")
+@ManagedBean(name="Kwartaly")
 @SessionScoped
 public class Kwartaly implements Serializable{
 
