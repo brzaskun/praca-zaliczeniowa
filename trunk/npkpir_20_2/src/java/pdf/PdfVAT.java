@@ -51,9 +51,7 @@ public class PdfVAT extends Pdf implements Serializable{
     } else{
         nowanazwa = p;
     }
-    String currentDir = System.getProperty("user.dir");
-    currentDir = currentDir.replace("\\","/");
-    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(currentDir+"/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
+    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/vat-"+nowanazwa+"-"+wpisView.getPodatnikWpisu()+".pdf"));
      HeaderFooter event = new HeaderFooter();
      writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
      writer.setPageEvent(event);
@@ -179,7 +177,6 @@ public class PdfVAT extends Pdf implements Serializable{
         String current = new java.io.File( "." ).getCanonicalPath();
         System.out.println("Current dir:"+current);
         String currentDir = System.getProperty("user.dir");
-        currentDir = currentDir.replace("\\","/");
         System.out.println("Current dir using System:" +currentDir);
       }
 }
