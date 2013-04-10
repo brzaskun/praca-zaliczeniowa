@@ -162,21 +162,6 @@ public class PdfVAT extends Pdf implements Serializable{
     Msg.msg("i","Wydrukowano ewidencje","form:messages");
     }   
     
-     static String INPUTFILE = "c:/VAT-7.pdf";
-    
-    public static void main(String[] args) throws IOException, DocumentException{
-//        PdfReader reader = new PdfReader(INPUTFILE);
-//        reader.removeUsageRights();
-//        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/HelloWorld-Stamped.pdf"));
-//        PdfContentByte underContent = pdfStamper.getOverContent(1);
-//        Image image = Image.getInstance("c:/obraz.jpg");
-//        image.setAbsolutePosition(200f, 200f);
-//        underContent.add(underContent);
-//        underContent.addImage(image);
-//        pdfStamper.close();
-        String current = new java.io.File( "." ).getCanonicalPath();
-        System.out.println("Current dir:"+current);
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Current dir using System:" +currentDir);
-      }
+     
+   
 }
