@@ -59,8 +59,6 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKmrjsfSelX;
     //wyposazenie
     private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
-    //srodki trwale wykaz rok biezacy
-    private List<STRtabela> strtabela;
     //dokumenty amortyzacyjne
     private List<Amodok> amodoklist;
     /**
@@ -78,7 +76,6 @@ public class STRTabView implements Serializable{
         obiektDOKmrjsfSel = new ArrayList<>();
         obiektDOKmrjsfSelX = new ArrayList<>();
         obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
-        strtabela = new ArrayList<>();
         amodoklist = new ArrayList<>();
     }
 
@@ -310,81 +307,7 @@ public class STRTabView implements Serializable{
             }
         }
     }
-    public void generujTabeleRokBiezacy(){
-        List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(obiektDOKjsfSel);
-        int i=1;
-        for (SrodekTrw str : lista){
-            STRtabela strdocelowy = new STRtabela();
-            strdocelowy.setId(i);
-            strdocelowy.setNazwa(str.getNazwa());
-            strdocelowy.setKst(str.getKst());
-            strdocelowy.setOdpisrok(str.getOdpisrok());
-            strdocelowy.setSymbol(str.getSymbol());
-            strdocelowy.setDatazak(str.getDatazak());
-            strdocelowy.setDataprzek(str.getDataprzek());
-            strdocelowy.setDatawy(str.getDatawy());
-            strdocelowy.setNetto(str.getNetto());
-            strdocelowy.setPodatnik(str.getPodatnik());
-            List<Double> miesiace = new ArrayList<>();
-            Iterator itX;
-            itX = str.getUmorzWyk().iterator();
-            BigDecimal umnar = new BigDecimal(0);
-            while (itX.hasNext()) {
-                Umorzenie um = (Umorzenie) itX.next();
-                if (um.getRokUmorzenia().equals(wpisView.getRokWpisu())) {
-                    Integer mc = um.getMcUmorzenia();
-                    switch (mc) {
-                        case 1:
-                            strdocelowy.setStyczen(um.getKwota().doubleValue());
-                            break;
-                        case 2:
-                            strdocelowy.setLuty(um.getKwota().doubleValue());
-                            break;
-                        case 3:
-                            strdocelowy.setMarzec(um.getKwota().doubleValue());
-                            break;
-                        case 4:
-                            strdocelowy.setKwiecien(um.getKwota().doubleValue());
-                            break;
-                        case 5:
-                            strdocelowy.setMaj(um.getKwota().doubleValue());
-                            break;
-                        case 6:
-                            strdocelowy.setCzerwiec(um.getKwota().doubleValue());
-                            break;
-                        case 7:
-                            strdocelowy.setLipiec(um.getKwota().doubleValue());
-                            break;
-                        case 8:
-                            strdocelowy.setSierpien(um.getKwota().doubleValue());
-                            break;
-                        case 9:
-                            strdocelowy.setWrzesien(um.getKwota().doubleValue());
-                            break;
-                        case 10:
-                            strdocelowy.setPazdziernik(um.getKwota().doubleValue());
-                            break;
-                        case 11:
-                            strdocelowy.setListopad(um.getKwota().doubleValue());
-                            break;
-                        case 12:
-                            strdocelowy.setGrudzien(um.getKwota().doubleValue());
-                            break;
-                    }
-                } else if (um.getRokUmorzenia()<wpisView.getRokWpisu()) {
-                    umnar = umnar.add(um.getKwota());
-                }
-            }
-            try{
-            strdocelowy.setUmorzeniaDo(umnar.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
-            } catch (Exception e){
-                strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO) );
-            }
-            strtabela.add(strdocelowy);            
-            i++;
-        }
-    }
+   
     
      public void destroy(SrodekTrw selDok) {
         dokdoUsuniecia = new SrodekTrw();
@@ -494,15 +417,7 @@ public class STRTabView implements Serializable{
     public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
         this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
     }
-
-    public List<STRtabela> getStrtabela() {
-        return strtabela;
-    }
-
-    public void setStrtabela(List<STRtabela> strtabela) {
-        this.strtabela = strtabela;
-    }
-
+  
     public boolean isNapewnousunac() {
         return napewnousunac;
     }

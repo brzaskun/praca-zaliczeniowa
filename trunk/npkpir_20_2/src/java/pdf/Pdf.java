@@ -33,6 +33,8 @@ import javax.inject.Inject;
 import javax.naming.NamingException;
 import view.KsiegaView;
 import view.ObrotyView;
+import view.STREwidencja;
+import view.STRTabView;
 import view.WpisView;
 
 /**
@@ -47,6 +49,8 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected WpisView wpisView;
     @ManagedProperty(value="#{obrotyView}")
     protected ObrotyView obrotyView;
+    @ManagedProperty(value="#{STREwidencja}")
+    protected STREwidencja sTREwidencja;
     @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
     protected int liczydlo = 0;
     @Inject protected UzDAO uzDAO;
@@ -236,6 +240,15 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     public void setObrotyView(ObrotyView obrotyView) {
         this.obrotyView = obrotyView;
     }
+
+    public STREwidencja getsTREwidencja() {
+        return sTREwidencja;
+    }
+
+    public void setsTREwidencja(STREwidencja sTREwidencja) {
+        this.sTREwidencja = sTREwidencja;
+    }
+
     
     
 }
