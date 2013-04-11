@@ -130,7 +130,12 @@ public class WpisView implements Serializable{
       
     private void uzupelnijdanepodatnika() {
         if(podatnikWpisu!=null){
-        podatnikObiekt = podatnikDAO.find(podatnikWpisu);
+        try{
+                podatnikObiekt = podatnikDAO.find(podatnikWpisu);
+            } catch (Exception e){
+                podatnikWpisu = "GRZELCZYK";
+                podatnikObiekt = podatnikDAO.find(podatnikWpisu);
+            }
         try{
         rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
         if (rodzajopodatkowania.contains("ryczałt")){
