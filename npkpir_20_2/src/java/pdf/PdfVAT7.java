@@ -30,7 +30,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
     
     }   
     
-     static String INPUTFILE = "c:/pk.pdf";
+     static String INPUTFILE = "c:/vat/pk.pdf";
     
     private static void absText(PdfWriter writer,String text, int x, int y) {
     try {
@@ -49,7 +49,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
      
     public static void main(String[] args) throws IOException, DocumentException{
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/pk.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/vat/pk.pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z PKPiR");
@@ -73,9 +73,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
         document.close();
         PdfReader reader = new PdfReader(INPUTFILE);
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/pk1.pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/vat/pk1.pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("c:/VAT-71-p1.jpg");
+        Image image = Image.getInstance("c:/vat/VAT-71-p1.jpg");
         image.scaleToFit(610,850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
