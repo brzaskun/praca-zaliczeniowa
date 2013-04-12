@@ -125,7 +125,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         try{
         absText(writer, l.getDataupo().toString(), 490, 770,6);
         } catch (Exception e){}
-        absText(writer, l.getOpis(), 455, 760,6);
+        absText(writer, l.getOpis(), 460, 760,6);
    }
    
    private void drugastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l){
