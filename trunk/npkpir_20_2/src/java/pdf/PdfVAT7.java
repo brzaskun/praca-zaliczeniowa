@@ -162,18 +162,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
       cb.saveState();
       cb.beginText();
-       try {
-          Integer.parseInt(text);
-          int dl = text.length();
-          if(dl>6){
-              text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
-          } else if (dl>3&&dl<=6){
-              text = text.substring(0,dl-3)+" "+text.substring(dl-3);
-              x += 6*(7-dl);
-          } else {
-              x += 6*(7.5-dl);
-          }
-      } catch (Exception e){}
       cb.moveText(x, y);
       cb.setFontAndSize(bf, 12);
       cb.showText(text);
