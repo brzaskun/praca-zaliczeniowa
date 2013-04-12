@@ -60,7 +60,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         underContent.add(underContent);
         underContent.addImage(image);
         PdfContentByte overContent = pdfStamper.getOverContent(1);
-        image = Image.getInstance("c:/vat/golab.png");
+        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/golab.png");
         image.scaleToFit(50,50);
         image.setAbsolutePosition(450f, 770f);
         overContent.addImage(image);
