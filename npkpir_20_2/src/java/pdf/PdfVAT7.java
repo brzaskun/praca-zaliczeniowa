@@ -164,6 +164,14 @@ public class PdfVAT7 extends Pdf implements Serializable{
       cb.beginText();
       cb.moveText(x, y);
       cb.setFontAndSize(bf, 12);
+      try {
+          Integer.parseInt(text);
+          if(text.length()>6){
+              text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
+          } else if (text.length()>3&&text.length()<=6){
+              text = text.substring(0,3)+" "+text.substring(3);
+          }
+      } catch (Exception e){}
       cb.showText(text);
       cb.endText();
       cb.restoreState();
@@ -179,6 +187,14 @@ public class PdfVAT7 extends Pdf implements Serializable{
       cb.beginText();
       cb.moveText(x, y);
       cb.setFontAndSize(bf, font);
+       try {
+          Integer.parseInt(text);
+          if(text.length()>6){
+              text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
+          } else if (text.length()>3&&text.length()<=6){
+              text = text.substring(0,3)+" "+text.substring(3);
+          }
+      } catch (Exception e){}
       cb.showText(text);
       cb.endText();
       cb.restoreState();
@@ -217,8 +233,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, "Miejscowość", 70, 528);
         absText(writer, "Kod", 300, 528);
         absText(writer, "Poczta", 380, 528);
-        absText(writer, "Pole 20/000", 330, 486);
-        absText(writer, "Pole 21/000", 330, 462);
+        absText(writer, "1234567", 330, 486);
+        absText(writer, "123456", 330, 462);
         absText(writer, "Pole 22/000", 330, 438);
         absText(writer, "Pole 23/000", 330, 414);
         absText(writer, "Pole 24/000", 330, 390);
