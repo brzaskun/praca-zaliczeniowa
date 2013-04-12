@@ -162,16 +162,18 @@ public class PdfVAT7 extends Pdf implements Serializable{
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
       cb.saveState();
       cb.beginText();
-      cb.moveText(x, y);
-      cb.setFontAndSize(bf, 12);
-      try {
+       try {
           Integer.parseInt(text);
-          if(text.length()>6){
+          int dl = text.length();
+          if(dl>6){
               text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
-          } else if (text.length()>3&&text.length()<=6){
-              text = text.substring(0,3)+" "+text.substring(3);
+          } else if (dl>3&&dl<=6){
+              text = text.substring(0,dl-3)+" "+text.substring(dl-3);
+              x += 6*(7-dl);
           }
       } catch (Exception e){}
+      cb.moveText(x, y);
+      cb.setFontAndSize(bf, 12);
       cb.showText(text);
       cb.endText();
       cb.restoreState();
@@ -185,16 +187,18 @@ public class PdfVAT7 extends Pdf implements Serializable{
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
       cb.saveState();
       cb.beginText();
-      cb.moveText(x, y);
-      cb.setFontAndSize(bf, font);
        try {
           Integer.parseInt(text);
-          if(text.length()>6){
+          int dl = text.length();
+          if(dl>6){
               text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
-          } else if (text.length()>3&&text.length()<=6){
-              text = text.substring(0,3)+" "+text.substring(3);
+          } else if (dl>3&&dl<=6){
+              text = text.substring(0,dl-3)+" "+text.substring(dl-3);
+              x += 6*(7-dl);
           }
       } catch (Exception e){}
+      cb.moveText(x, y);
+      cb.setFontAndSize(bf, font);
       cb.showText(text);
       cb.endText();
       cb.restoreState();
@@ -235,9 +239,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, "Poczta", 380, 528);
         absText(writer, "1234567", 330, 486);
         absText(writer, "123456", 330, 462);
-        absText(writer, "Pole 22/000", 330, 438);
-        absText(writer, "Pole 23/000", 330, 414);
-        absText(writer, "Pole 24/000", 330, 390);
+        absText(writer, "12345", 330, 438);
+        absText(writer, "1234", 330, 414);
+        absText(writer, "123", 330, 390);
         absText(writer, "Pole 25/000", 330, 366); absText(writer, "Pole 26/000", 470, 366);
         absText(writer, "Pole 27/000", 330, 342); absText(writer, "Pole 28/000", 470, 342);
         absText(writer, "Pole 29/000", 330, 318); absText(writer, "Pole 30/000", 470, 318);
