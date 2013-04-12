@@ -77,6 +77,12 @@
                              </f:facet>
                              <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 20px;"/>
                          </p:column>
+                         <p:column width="100">
+                             <f:facet name="header">
+                                 <h:outputText value="drukuj"/>
+                             </f:facet>
+                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 20px;" onclick="wydrukvat7('#{item.podatnik}');"/>
+                         </p:column>
                      </p:dataTable>
                  </h:form>
  </ui:composition>   
