@@ -37,7 +37,7 @@ public class AdminNews {
         newslist = sessionFacade.findAll(Adminnews.class);
         int wielkosc = newslist.size();
         if(wielkosc>6){
-            newslist = newslist.subList(wielkosc-5, wielkosc);
+            newslist = newslist.subList(wielkosc-6, wielkosc);
         }
     }
     
