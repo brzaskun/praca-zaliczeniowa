@@ -36,7 +36,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_2/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji VAT " + dkl.getPodatnik());
@@ -50,11 +50,11 @@ public class PdfVAT7 extends Pdf implements Serializable{
         document.newPage();
         drugastrona(writer,v,dkl);
         document.close();
-        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_2/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/vat7"+v.getPodatnik()+".pdf");
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_2/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_2/build/web/vat/VAT-71-p1.jpg");
+        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/VAT-71-p1.jpg");
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
@@ -65,7 +65,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         image.setAbsolutePosition(450f, 770f);
         overContent.addImage(image);
         underContent = pdfStamper.getUnderContent(2);
-        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/trunk/npkpir_20_2/build/web/vat/VAT-72-p1.jpg");
+        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/vat/VAT-72-p1.jpg");
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
