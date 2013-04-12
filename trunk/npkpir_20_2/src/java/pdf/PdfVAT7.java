@@ -170,6 +170,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
           } else if (dl>3&&dl<=6){
               text = text.substring(0,dl-3)+" "+text.substring(dl-3);
               x += 6*(7-dl);
+          } else {
+              x += 6*(7.5-dl);
           }
       } catch (Exception e){}
       cb.moveText(x, y);
@@ -195,6 +197,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
           } else if (dl>3&&dl<=6){
               text = text.substring(0,dl-3)+" "+text.substring(dl-3);
               x += 6*(7-dl);
+          } else {
+              x += 6*(7.5-dl);
           }
       } catch (Exception e){}
       cb.moveText(x, y);
