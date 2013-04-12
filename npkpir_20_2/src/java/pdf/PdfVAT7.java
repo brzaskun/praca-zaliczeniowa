@@ -126,6 +126,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, l.getDataupo().toString(), 490, 770,6);
         } catch (Exception e){}
         absText(writer, l.getOpis(), 460, 760,6);
+        absText(writer, "Nr potwierdzenia:", 460, 750,6);
+        absText(writer, l.getIdentyfikator(), 460, 740,6);
    }
    
    private void drugastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l){
@@ -266,6 +268,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, "Data potwierdzebia", 490, 780,6);
         absText(writer, "2013-05-05 124885", 490, 770,6);
         absText(writer, "Opis", 490, 760,6);
+        absText(writer, "Nr potwierdzenia:", 460, 750,6);
+        absText(writer, "ijijiiijiiji", 460, 740,6);
         document.newPage();
                                                   absText(writer, "Pole 47/000", 470, 750);
                                                   absText(writer, "Pole 48/000", 470, 726);
