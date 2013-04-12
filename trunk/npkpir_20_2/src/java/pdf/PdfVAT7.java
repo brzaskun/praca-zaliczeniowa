@@ -101,25 +101,25 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, p.getNrlokalu(), 535, 552);
         absText(writer, p.getMiejscowosc(), 70, 528);
         absText(writer, p.getKodpocztowy(), 300, 528);
-        absText(writer, p.getPoczta(), 380, 528);
-        absText(writer, o.getPole20(), 330, 486);
-        absText(writer, o.getPole21(), 330, 462);
-        absText(writer, o.getPole22(), 330, 438);
-        absText(writer, o.getPole23(), 330, 414);
-        absText(writer, o.getPole24(), 330, 390);
-        absText(writer, o.getPole25(), 330, 366); absText(writer, o.getPole26(), 490, 366);
-        absText(writer, o.getPole27(), 330, 342); absText(writer, o.getPole28(), 490, 342);
-        absText(writer, o.getPole29(), 330, 318); absText(writer, o.getPole30(), 490, 318);
-        absText(writer, o.getPole31(), 330, 296);
-        absText(writer, o.getPole32(), 330, 272);
-        absText(writer, o.getPole33(), 330, 248); absText(writer, o.getPole34(), 490, 248);
-        absText(writer, o.getPole35(), 330, 224); absText(writer, o.getPole36(), 490, 224);
-        absText(writer, o.getPole37(), 330, 200); absText(writer, o.getPole37(), 490, 200);
-        absText(writer, o.getPole39(), 330, 176); absText(writer, o.getPole40(), 490, 176);
-        absText(writer, o.getPole41(), 330, 152); absText(writer, o.getPole42(), 490, 152);
-                                                  absText(writer, o.getPole43(), 490, 128);
-                                                  absText(writer, o.getPole44(), 490, 104);
-        absText(writer, o.getPole45(), 330, 80);  absText(writer, o.getPole46(), 490, 80);
+        absText(writer, p.getPoczta(), 380, 528,"f");
+        absText(writer, o.getPole20(), 330, 486,"f");
+        absText(writer, o.getPole21(), 330, 462,"f");
+        absText(writer, o.getPole22(), 330, 438,"f");
+        absText(writer, o.getPole23(), 330, 414,"f");
+        absText(writer, o.getPole24(), 330, 390,"f");
+        absText(writer, o.getPole25(), 330, 366,"f"); absText(writer, o.getPole26(), 490, 366,"f");
+        absText(writer, o.getPole27(), 330, 342,"f"); absText(writer, o.getPole28(), 490, 342,"f");
+        absText(writer, o.getPole29(), 330, 318,"f"); absText(writer, o.getPole30(), 490, 318,"f");
+        absText(writer, o.getPole31(), 330, 296,"f");
+        absText(writer, o.getPole32(), 330, 272,"f");
+        absText(writer, o.getPole33(), 330, 248,"f"); absText(writer, o.getPole34(), 490, 248,"f");
+        absText(writer, o.getPole35(), 330, 224,"f"); absText(writer, o.getPole36(), 490, 224,"f");
+        absText(writer, o.getPole37(), 330, 200,"f"); absText(writer, o.getPole37(), 490, 200,"f");
+        absText(writer, o.getPole39(), 330, 176,"f"); absText(writer, o.getPole40(), 490, 176,"f");
+        absText(writer, o.getPole41(), 330, 152,"f"); absText(writer, o.getPole42(), 490, 152,"f");
+                                                  absText(writer, o.getPole43(), 490, 128,"f");
+                                                  absText(writer, o.getPole44(), 490, 104,"f");
+        absText(writer, o.getPole45(), 330, 80,"f");  absText(writer, o.getPole46(), 490, 80);
         absText(writer, "Status "+l.getStatus(), 490, 790);
         absText(writer, "Data potwierdzenia ", 490, 780,6);
         try{
@@ -131,21 +131,21 @@ public class PdfVAT7 extends Pdf implements Serializable{
    private void drugastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l){
         Podatnik p = podatnikDAO.find(d.getPodatnik());
         PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
-                                                  absText(writer, o.getPole47(), 490, 750);
-                                                  absText(writer, o.getPole48(), 490, 726);
-        absText(writer, o.getPole49(), 330, 678); absText(writer, o.getPole50(), 490, 678);
-        absText(writer, o.getPole51(), 330, 654); absText(writer, o.getPole52(), 490, 654);
-                                                  absText(writer, o.getPole53(), 490, 610);
-                                                  absText(writer, o.getPole54(), 490, 586);
-                                                  absText(writer, o.getPole55(), 490, 562);
-                                                  absText(writer, o.getPole56(), 490, 515);
-                                                  absText(writer, o.getPole57(), 490, 491);
-                                                  absText(writer, o.getPole58(), 490, 467);
-                                                  absText(writer, o.getPole59(), 490, 443);
-                                                  absText(writer, o.getPole60(), 490, 419);
-                                                  absText(writer, o.getPole61(), 490, 395);
-        absText(writer, o.getPole62(), 190, 368); absText(writer, o.getPole63(), 330, 368); absText(writer, o.getPole64(), 490, 368);
-                                                  absText(writer, o.getPole65(), 490, 347);
+                                                  absText(writer, o.getPole47(), 490, 750,"f");
+                                                  absText(writer, o.getPole48(), 490, 726,"f");
+        absText(writer, o.getPole49(), 330, 678,"f"); absText(writer, o.getPole50(), 490, 678,"f");
+        absText(writer, o.getPole51(), 330, 654,"f"); absText(writer, o.getPole52(), 490, 654,"f");
+                                                  absText(writer, o.getPole53(), 490, 610,"f");
+                                                  absText(writer, o.getPole54(), 490, 586,"f");
+                                                  absText(writer, o.getPole55(), 490, 562,"f");
+                                                  absText(writer, o.getPole56(), 490, 515,"f");
+                                                  absText(writer, o.getPole57(), 490, 491,"f");
+                                                  absText(writer, o.getPole58(), 490, 467,"f");
+                                                  absText(writer, o.getPole59(), 490, 443,"f");
+                                                  absText(writer, o.getPole60(), 490, 419,"f");
+                                                  absText(writer, o.getPole61(), 490, 395,"f");
+        absText(writer, o.getPole62(), 190, 368,"f"); absText(writer, o.getPole63(), 330, 368,"f"); absText(writer, o.getPole64(), 490, 368,"f");
+                                                  absText(writer, o.getPole65(), 490, 347,"f");
         absText(writer, p.getImie(), 80, 166); absText(writer, p.getNazwisko(), 210, 166);
         absText(writer, "91 8120976", 80, 142); 
         try{
@@ -183,13 +183,13 @@ public class PdfVAT7 extends Pdf implements Serializable{
     }
   }
     
-    private static void absText(PdfWriter writer,String text, int x, int y, int font) {
+     private static void absText(PdfWriter writer,String text, int x, int y, String f) {
     try {
       PdfContentByte cb = writer.getDirectContent();
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
       cb.saveState();
       cb.beginText();
-       try {
+      try {
           Integer.parseInt(text);
           int dl = text.length();
           if(dl>6){
@@ -201,6 +201,21 @@ public class PdfVAT7 extends Pdf implements Serializable{
               x += 6*(7.5-dl);
           }
       } catch (Exception e){}
+      cb.moveText(x, y);
+      cb.setFontAndSize(bf, 12);
+      cb.showText(text);
+      cb.endText();
+      cb.restoreState();
+    } catch (DocumentException | IOException e) {
+    }
+  }
+    
+    private static void absText(PdfWriter writer,String text, int x, int y, int font) {
+    try {
+      PdfContentByte cb = writer.getDirectContent();
+      BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+      cb.saveState();
+      cb.beginText();
       cb.moveText(x, y);
       cb.setFontAndSize(bf, font);
       cb.showText(text);
