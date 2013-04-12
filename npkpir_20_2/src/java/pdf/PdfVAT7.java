@@ -119,7 +119,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, o.getPole41(), 330, 152,"f"); absText(writer, o.getPole42(), 490, 152,"f");
                                                   absText(writer, o.getPole43(), 490, 128,"f");
                                                   absText(writer, o.getPole44(), 490, 104,"f");
-        absText(writer, o.getPole45(), 330, 80,"f");  absText(writer, o.getPole46(), 490, 80);
+        absText(writer, o.getPole45(), 330, 80,"f");  absText(writer, o.getPole46(), 490, 80,"f");
         absText(writer, "Status "+l.getStatus(), 490, 790);
         absText(writer, "Data potwierdzenia ", 490, 780,6);
         try{
