@@ -9,8 +9,8 @@
                  <h:form id="formX">
                      <p:growl id="msg"/>
                      <p:panel header="Wykaz wysłanych deklaracji. Deklaracje pokolorowane są wysłane z sukcesem."/>
-                     <p:dataTable id="dataList" value="#{deklaracjevatView.wyslane}" var="item" sortBy="#{item.miesiac}" scrollable="true" scrollHeight="500" scrollRows="10" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
-                         <p:column width="260">
+                     <p:dataTable id="dataList" value="#{deklaracjevatView.wyslane}" var="item" sortBy="#{item.miesiac}" scrollable="true" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                         <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
                              </f:facet>
@@ -22,13 +22,13 @@
                              </f:facet>
                              <h:outputText value="#{item.status}"/>
                          </p:column>
-                          <p:column width="150">
+                          <p:column width="130">
                              <f:facet name="header">
                                  <h:outputText value="Opis"/>
                              </f:facet>
                              <h:outputText value="#{item.opis}"/>
                          </p:column>
-                         <p:column width="60"> 
+                         <p:column width="45"> 
                              <f:facet name="header">
                                  <h:outputText value="Kod urzedu"/>
                              </f:facet>
@@ -65,23 +65,23 @@
                              </f:facet>
                              <h:outputText value="#{item.upo.length() eq 0 ? '' : item.upo.substring(0,400)}" style="height: 200px;"/>
                          </p:column>
-                         <p:column width="100">
+                         <p:column width="80">
                              <f:facet name="header">
                                  <h:outputText value="pobierzupo"/>
                              </f:facet>
-                             <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 20px;"/>
+                             <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
                          </p:column>
-                         <p:column width="100">
+                         <p:column width="80">
                              <f:facet name="header">
                                  <h:outputText value="testupo"/>
                              </f:facet>
-                             <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 20px;"/>
+                             <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
                          </p:column>
-                         <p:column width="100">
+                         <p:column width="80">
                              <f:facet name="header">
                                  <h:outputText value="drukuj"/>
                              </f:facet>
-                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 20px;" onclick="wydrukvat7('#{item.podatnik}');"/>
+                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="wydrukvat7('#{item.podatnik}');"/>
                          </p:column>
                      </p:dataTable>
                  </h:form>

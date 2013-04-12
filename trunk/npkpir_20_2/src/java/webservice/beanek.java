@@ -14,6 +14,8 @@ import java.io.StringWriter;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -143,6 +145,8 @@ public class beanek {
         temp.setIdentyfikator(idMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
+        temp.setDatazlozenia(new Date());
+        temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
         deklaracjevatDAO.edit(temp);
         Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
 
@@ -191,6 +195,7 @@ public class beanek {
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
+        temp.setDataupo(new Date());
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
@@ -212,6 +217,8 @@ public class beanek {
         temp.setIdentyfikator(idMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
+        temp.setDatazlozenia(new Date());
+        temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
         deklaracjevatDAO.edit(temp);
         Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
 
@@ -237,6 +244,7 @@ public class beanek {
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
+        temp.setDataupo(new Date());
         deklaracjevatDAO.edit(temp);
         
         

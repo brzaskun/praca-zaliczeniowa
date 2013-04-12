@@ -4,12 +4,12 @@
  */
 package entity;
 
-import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -21,6 +21,8 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,12 +40,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findByKodurzedu", query = "SELECT d FROM Deklaracjevat d WHERE d.kodurzedu = :kodurzedu"),
     @NamedQuery(name = "Deklaracjevat.findByMiesiac", query = "SELECT d FROM Deklaracjevat d WHERE d.miesiac = :miesiac"),
     @NamedQuery(name = "Deklaracjevat.findByNrkolejny", query = "SELECT d FROM Deklaracjevat d WHERE d.nrkolejny = :nrkolejny"),
+    @NamedQuery(name = "Deklaracjevat.findByOpis", query = "SELECT d FROM Deklaracjevat d WHERE d.opis = :opis"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnik", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik"),
     @NamedQuery(name = "Deklaracjevat.findByRok", query = "SELECT d FROM Deklaracjevat d WHERE d.rok = :rok"),
+    @NamedQuery(name = "Deklaracjevat.findByStatus", query = "SELECT d FROM Deklaracjevat d WHERE d.status = :status"),
+    @NamedQuery(name = "Deklaracjevat.findByDatazlozenia", query = "SELECT d FROM Deklaracjevat d WHERE d.datazlozenia = :datazlozenia"),
+    @NamedQuery(name = "Deklaracjevat.findByDataupo", query = "SELECT d FROM Deklaracjevat d WHERE d.dataupo = :dataupo"),
     @NamedQuery(name = "Deklaracjevat.findByRokMcPod", query = "SELECT d FROM Deklaracjevat d WHERE d.rok = :rok AND d.miesiac = :miesiac AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Deklaracjevat.findByRokMc", query = "SELECT d FROM Deklaracjevat d WHERE d.rok = :rok AND d.miesiac = :miesiac")})
 public class Deklaracjevat implements Serializable {
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -92,8 +98,17 @@ public class Deklaracjevat implements Serializable {
     @Size(max = 255)
     @Column(name = "opis")
     private String opis;
+    @Column(name = "datazlozenia")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date datazlozenia;
+    @Column(name = "dataupo")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataupo;
+    @Size(max = 100)
+    @Column(name = "sporzadzil")
+    private String sporzadzil;
 
-    public Deklaracjevat() {
+   public Deklaracjevat() {
     }
 
     public Deklaracjevat(Integer id) {
@@ -214,8 +229,6 @@ public class Deklaracjevat implements Serializable {
         this.opis = opis;
     }
 
-   
-
     public String getUpo() {
         return upo;
     }
@@ -224,6 +237,32 @@ public class Deklaracjevat implements Serializable {
         this.upo = upo;
     }
 
+    public Date getDatazlozenia() {
+        return datazlozenia;
+    }
+
+    public void setDatazlozenia(Date datazlozenia) {
+        this.datazlozenia = datazlozenia;
+    }
+
+    public Date getDataupo() {
+        return dataupo;
+    }
+
+    public void setDataupo(Date dataupo) {
+        this.dataupo = dataupo;
+    }
+
+    public String getSporzadzil() {
+        return sporzadzil;
+    }
+
+    public void setSporzadzil(String sporzadzil) {
+        this.sporzadzil = sporzadzil;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
