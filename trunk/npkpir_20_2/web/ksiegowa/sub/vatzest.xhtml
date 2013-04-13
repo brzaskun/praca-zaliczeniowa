@@ -8,9 +8,8 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
  
     <f:event type="preRenderView" listener="#{pdfVAT.drukujewidencje()}"/>
-    <p:commandButton value="drukuj podsumowanie" type="button">
-        <p:printer target="form:akordeon:tablicasuma" />
-   </p:commandButton>
+    <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
+     <p:commandButton  value="Sumy w pdf" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');"/>
     <p:tabView id="akordeon" binding="#{vatView.akordeon}" style="width: 1300px;"  >
     </p:tabView>
   
