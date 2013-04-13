@@ -16,7 +16,7 @@
              <p:tab title="#{item[0].nazwaewidencji}">
                  <p:commandButton value="Pdf" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"/>
                  <p:separator/>
-                 <p:dataTable id="mytable" value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
+                 <p:dataTable value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
                               rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" style="width: 1200px;"
                               >
                      <p:column selectionMode="multiple" width="30">
@@ -58,8 +58,10 @@
         <p:tab title="podsumowanie">
             <p:commandButton value="Pdf" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');"/>
                  <p:separator/>
+                 
                  <p:dataTable value="#{vatView.sumydowyswietlenia}" var="itemik" scrollable="true" scrollHeight="4  00" scrollRows="4" 
                               style="width: 1300px;" selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" >
+  
                      <p:column selectionMode="multiple" width="30" >
                      </p:column>
                      <p:column headerText="nazwa ewidencji" width="200">
