@@ -40,12 +40,13 @@ import javax.faces.convert.NumberConverter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.inject.Inject;
-import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.rowtoggler.RowToggler;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.component.tabview.Tab;
+import org.primefaces.component.tabview.TabView;
 
 /**
  *
@@ -66,11 +67,12 @@ public class VatView implements Serializable {
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
     //elementy niezbedne do generowania ewidencji vat
-    private AccordionPanel akordeon;
+    private TabView akordeon;
     @Inject EwidencjeVatDAO ewidencjeVatDAO;
     @Inject private Ewidencjevat zrzucane;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    private List<EVatViewPola> goscwybral;
      
 
     public VatView() {
@@ -78,6 +80,7 @@ public class VatView implements Serializable {
         listadokvatprzetworzona = new ArrayList<>();
         listaewidencji = new HashMap<>();
         sumaewidencji = new HashMap<>();
+        goscwybral = new ArrayList<>();
     }
 
     @PostConstruct
@@ -238,13 +241,13 @@ public class VatView implements Serializable {
     }
 
    
-    
+    //generuje poszczegolen ewidencje
     public void wygeneruj(HashMap lista) throws Exception {
         FacesContext facesCtx = FacesContext.getCurrentInstance();
         ELContext elContext = facesCtx.getELContext();
         ExpressionFactory ef = ExpressionFactory.newInstance();
 
-        akordeon = new AccordionPanel();
+        akordeon = new TabView();
         //robienie glownej oprawy
         List<String> nazwyew = new ArrayList<>();
         nazwyew.addAll(lista.keySet());
@@ -261,8 +264,32 @@ public class VatView implements Serializable {
             //dataTable.setResizableColumns(true);
             dataTable.setVar("var");
             dataTable.setValue(lista.get(nazwapj));
-            dataTable.setStyle("width: 1000px;");
+            dataTable.setStyle("width: 1250px;");
+            //dodaj buton drukowania
+             CommandButton button = new CommandButton();
+            button.setValue("PobierzPdf");
+            button.setType("button");
+            button.setId("przyciskpdf"+i);
+            FacesContext context = FacesContext.getCurrentInstance();
+            MethodExpression actionListener = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{pdf.drukujewidencje('zakup')}", null, new Class[] {ActionEvent.class});
+            button.addActionListener(new MethodExpressionActionListener(actionListener));
+             
+//            MethodExpression methodExpressionX = context.getApplication().getExpressionFactory().createMethodExpression(
+//            context.getELContext(), "#{pdf.drukujewidencje('"+nazwapj+"')}", null, new Class[] {});
+//            button.setActionExpression(methodExpressionX);
+            String nowanazwa;
+            if(nazwapj.contains("sprzedaż")){
+                nowanazwa = nazwapj.substring(0, nazwapj.length()-1);
+                } else{
+                nowanazwa = nazwapj;
+                }
+            String tablican = "PrimeFaces.ab({source:'form:przyciskpdf"+i+"',onsuccess:function(data,status,xhr){wydrukewidencje('"+wpisView.getPodatnikWpisu()+"','"+nowanazwa+"');;}});return false;";
+            button.setOnclick(tablican);
+            tab.getChildren().add(button);
+            Separator sep = new Separator();
+           tab.getChildren().add(sep);
             //tak trzeba opisac kazda kolumne :)
+           //
             ArrayList<String> opisykolumn = new ArrayList<>();
             opisykolumn.addAll(EVatViewPola.getOpispol());
             Iterator itx;
@@ -277,7 +304,19 @@ public class VatView implements Serializable {
                 ot.setValueExpression("value", ve);
                 switch (wstawka) {
                     case "kontr":
-                        column.setWidth("350");
+                        column.setWidth("300");
+                        break;
+                    case "nrWlDk":
+                        column.setWidth("150");
+                        break;
+                    case "dataWyst":
+                        column.setWidth("80");
+                        break;
+                    case "dataSprz":
+                        column.setWidth("80");
+                        break;
+                    case "opis":
+                        column.setWidth("150");
                         break;
                     case "id": 
                         column.setWidth("50");
@@ -299,28 +338,10 @@ public class VatView implements Serializable {
                 column.getChildren().add(ot);
                 dataTable.getChildren().add(column);
             }
-            Separator sep = new Separator();
-            CommandButton button = new CommandButton();
-            button.setValue("PobierzPdf");
-            button.setType("button");
-            button.setId("przyciskpdf"+i);
-            FacesContext context = FacesContext.getCurrentInstance();
-            MethodExpression actionListener = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{pdf.drukujewidencje('zakup')}", null, new Class[] {ActionEvent.class});
-            button.addActionListener(new MethodExpressionActionListener(actionListener));
-//            MethodExpression methodExpressionX = context.getApplication().getExpressionFactory().createMethodExpression(
-//            context.getELContext(), "#{pdf.drukujewidencje('"+nazwapj+"')}", null, new Class[] {});
-//            button.setActionExpression(methodExpressionX);
-            String nowanazwa;
-            if(nazwapj.contains("sprzedaż")){
-                nowanazwa = nazwapj.substring(0, nazwapj.length()-1);
-                } else{
-                nowanazwa = nazwapj;
-                }
-            String tablican = "PrimeFaces.ab({source:'form:przyciskpdf"+i+"',onsuccess:function(data,status,xhr){wydrukewidencje('"+wpisView.getPodatnikWpisu()+"','"+nowanazwa+"');;}});return false;";
-            button.setOnclick(tablican);
+            dataTable.setSelectionMode("multiple");
+            dataTable.setSelection(goscwybral);
+            dataTable.setRowKey(new EVatViewPola().getId());
             tab.getChildren().add(dataTable);
-            tab.getChildren().add(sep);
-            tab.getChildren().add(button);
             akordeon.getChildren().add(tab);
 
             i++;
@@ -408,11 +429,11 @@ public class VatView implements Serializable {
         this.listaewidencji = listaewidencji;
     }
 
-    public AccordionPanel getAkordeon() {
+    public TabView getAkordeon() {
         return akordeon;
     }
 
-    public void setAkordeon(AccordionPanel akordeon) {
+    public void setAkordeon(TabView akordeon) {
         this.akordeon = akordeon;
     }
 
@@ -431,5 +452,14 @@ public class VatView implements Serializable {
        Integer.parseInt(nazwa);
        System.out.println(integer);
    }
+
+    public List<EVatViewPola> getGoscwybral() {
+        return goscwybral;
+    }
+
+    public void setGoscwybral(List<EVatViewPola> goscwybral) {
+        this.goscwybral = goscwybral;
+    }
     
+   
 }
