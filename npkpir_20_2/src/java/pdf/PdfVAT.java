@@ -154,7 +154,7 @@ public class PdfVAT extends Pdf implements Serializable{
     pdf.addAuthor("Biuro Rachunkowe Taxman");
     pdf.close();
     }
-    Msg.msg("i","Wydrukowano ewidencje","form:messages");
+    //Msg.msg("i","Wydrukowano ewidencje","form:messages");
     }   
     
      

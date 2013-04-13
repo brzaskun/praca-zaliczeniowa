@@ -27,17 +27,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class VatView implements Serializable {
 
     @ManagedProperty(value = "#{DokTabView}")
@@ -60,6 +62,9 @@ public class VatView implements Serializable {
      private List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
     private List<EVatwpisSuma> sumydowyswietlenia;
+    private Double suma1;
+    private Double suma2;
+    private Double suma3;
   
 
     public VatView() {
@@ -70,7 +75,9 @@ public class VatView implements Serializable {
         goscwybral = new ArrayList<>();
         listanowa = new ArrayList<>();
         sumydowyswietlenia = new ArrayList<>();
-       
+        suma1 = 0.0;
+        suma2 = 0.0;
+        suma3 = 0.0;
     }
 
     @PostConstruct
@@ -136,7 +143,7 @@ public class VatView implements Serializable {
         Set<String> klucze = sumaewidencji.keySet();
         for(String p : klucze){
             EVatViewPola wiersz = new EVatViewPola();
-            wiersz.setId(0);
+            wiersz.setId(9999);
             wiersz.setDataSprz("");
             wiersz.setDataWyst("");
             wiersz.setKontr(null);
@@ -235,10 +242,29 @@ public class VatView implements Serializable {
          }
     }
 
-     public void sumujwybrane(SelectEvent event){
-         EVatwpisSuma suma = (EVatwpisSuma) event.getObject();
-        
+     public void sumujwybrane(){
+         suma1 = 0.0;
+         suma2 = 0.0;
+         suma3 = 0.0;
+         for(EVatwpisSuma p : goscwybralsuma){
+         suma1 += p.getNetto().doubleValue();
+         suma2 += p.getVat().doubleValue();
+         }
+         suma3 = suma1+suma2;
+         
      }
+     
+     public void sumujwybrane1(){
+         suma1 = 0.0;
+         suma2 = 0.0;
+         suma3 = 0.0;
+         for(EVatViewPola p : goscwybral){
+         suma1 += p.getNetto();
+         suma2 += p.getVat();
+         }
+         suma3 = suma1+suma2;
+     }
+      
    
     //generuje poszczegolen ewidencje
 //    public void wygeneruj(HashMap lista) throws Exception {
@@ -493,6 +519,31 @@ public class VatView implements Serializable {
         this.goscwybralsuma = goscwybralsuma;
     }
 
+    public Double getSuma1() {
+        return suma1;
+    }
    
+    public void setSuma1(Double suma1) {
+        this.suma1 = suma1;
+    }
+   
+    public Double getSuma2() {
+        return suma2;
+}
+
+    public void setSuma2(Double suma2) {
+        this.suma2 = suma2;
+    }
+
+    public Double getSuma3() {
+        return suma3;
+    }
+
+    public void setSuma3(Double suma3) {
+        this.suma3 = suma3;
+    }
+    
+    
+    
    
 }
