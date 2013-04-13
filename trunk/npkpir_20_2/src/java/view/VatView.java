@@ -385,6 +385,7 @@ public class VatView implements Serializable {
             dataTable.getChildren().add(column);
             
         }
+        dataTable.setStyleClass("mytable");
         tab.getChildren().add(dataTable);
         akordeon.getChildren().add(tab);
     }
