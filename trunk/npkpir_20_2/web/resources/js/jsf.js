@@ -185,6 +185,9 @@ function wydrukpk(kto){
 }
 
 function wydrukewidencje(kto,nazwa){
+    if(nazwa.indexOf("zakup", 0)){
+    nazwa = nazwa.substr(0, nazwa.length-1);
+    }
     window.open('../wydruki/vat-'+nazwa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
