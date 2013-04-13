@@ -60,9 +60,7 @@ public class VatView implements Serializable {
      private List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
     private List<EVatwpisSuma> sumydowyswietlenia;
-    private static Double suma1;
-    private static Double suma2;
-     
+  
 
     public VatView() {
         listadokvat = new ArrayList<>();
@@ -72,6 +70,7 @@ public class VatView implements Serializable {
         goscwybral = new ArrayList<>();
         listanowa = new ArrayList<>();
         sumydowyswietlenia = new ArrayList<>();
+       
     }
 
     @PostConstruct
@@ -238,9 +237,7 @@ public class VatView implements Serializable {
 
      public void sumujwybrane(SelectEvent event){
          EVatwpisSuma suma = (EVatwpisSuma) event.getObject();
-         suma1 += suma.getNetto().doubleValue();
-         suma2 += suma.getVat().doubleValue();
-         RequestContext.getCurrentInstance().update(":form:j_idt37:sumysum");
+        
      }
    
     //generuje poszczegolen ewidencje
@@ -496,22 +493,6 @@ public class VatView implements Serializable {
         this.goscwybralsuma = goscwybralsuma;
     }
 
-    public Double getSuma1() {
-        return suma1;
-    }
-
-    public void setSuma1(Double suma1) {
-        this.suma1 = suma1;
-    }
-
-    public Double getSuma2() {
-        return suma2;
-    }
-
-    public void setSuma2(Double suma2) {
-        this.suma2 = suma2;
-    }
-    
-    
+   
    
 }
