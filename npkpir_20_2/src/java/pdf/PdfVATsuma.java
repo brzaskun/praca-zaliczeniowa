@@ -14,6 +14,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.EVatwpisSuma;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,17 +38,16 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfPK extends Pdf implements Serializable {
+@ManagedBean(name="pdfVATsuma")
+public class PdfVATsuma extends Pdf implements Serializable {
 
-    public void drukujPK(Dok selected) throws DocumentException, FileNotFoundException, IOException {
-        System.out.println("Drukuje PK dokumentu "+selected.toString());
+    public void drukuj() throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
-        document.addTitle("Polecenie księgowania");
+        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_20_2/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        document.addTitle("Zestawienie sum z ewidencji VAT");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk danych z PKPiR");
-        document.addKeywords("PKPiR, PDF");
+        document.addSubject("Wydruk danych z ewidencji VAT");
+        document.addKeywords("VAT, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
@@ -68,84 +69,59 @@ public class PdfPK extends Pdf implements Serializable {
             miziu.setLeading(50);
             document.add(miziu);
             document.add(new Chunk().NEWLINE);
-            Paragraph miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
+            Paragraph miziu1 = new Paragraph(new Phrase("Zestawienie ewidencji VAT ",font));
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
             document.add(new Chunk().NEWLINE);
-            miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+selected.getPkpirM()+"/"+selected.getPkpirR(),fontM));
+            miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu(),fontM));
             document.add(miziu1);
             document.add(new Chunk().NEWLINE);
-            miziu1 = new Paragraph(new Phrase("Firma: "+selected.getPodatnik(),fontM));
+            miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikWpisu(),fontM));
             document.add(miziu1);
-            Podatnik pod = podatnikDAO.find(selected.getPodatnik());
+            Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
-            PdfPTable table = new PdfPTable(6);
-            table.setWidths(new int[]{1, 5, 2, 2, 2, 2});
+            PdfPTable table = new PdfPTable(5);
+            table.setWidths(new int[]{1, 5, 2, 2, 2});
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
+            List<EVatwpisSuma> suma2 = new ArrayList<>();
+            suma2.addAll(vatView.getSumaewidencji().values());
             try {
                 table.addCell(ustawfrazebez("lp","center",10));
-                table.addCell(ustawfrazebez("opis","center",10));
+                table.addCell(ustawfrazebez("ewidencja","center",10));
                 table.addCell(ustawfrazebez("netto","center",10));
                 table.addCell(ustawfrazebez("vat","center",10));
                 table.addCell(ustawfrazebez("brutto","center",10));
-                table.addCell(ustawfrazebez("uwagi","center",10));
                 table.setHeaderRows(1);
-                
-                table.addCell(ustawfrazebez(String.valueOf(selected.getNrWpkpir()),"center",10));
-                table.addCell(ustawfrazebez(selected.getOpis(),"left",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
-                try {
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto()-selected.getNetto())),"right",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto())),"right",10));
-                } catch (Exception e){
-                    table.addCell(ustawfrazebez("0.00","right",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
+                int i = 1;
+                for(EVatwpisSuma p : suma2){
+                    table.addCell(ustawfrazebez(String.valueOf(i),"center",10));
+                    table.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
+                    try {
+                        table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                    } catch (Exception e){
+                        table.addCell(ustawfrazebez("","right",10));
+                    }
+                    i++;
                 }
-                table.addCell(ustawfrazebez(selected.getUwagi(),"center",10));
                } catch (DocumentException | IOException e){
                 
             }
             document.add(Chunk.NEWLINE);
             document.add(table);
             document.add(Chunk.NEWLINE);
-            if(selected.getOpis().equals("umorzenie za miesiac")){
-                document.add(new Paragraph("Zawartość dokumentu amortyzacji",fontM));
-                document.add(Chunk.NEWLINE);
-                dodajamo(document,formatter);
-                document.add(Chunk.NEWLINE);
-            }
-            Uz uz = uzDAO.find(selected.getWprowadzil());
+            Uz uz = wpisView.getWprowadzil();
             document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
         document.close();
-        Msg.msg("i", "Wydrukowano PK", "form:messages");
-    }
-    
-    private void dodajamo(Document document, NumberFormat formatter) throws DocumentException, IOException{
-        Amodok odpis = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        List<Umorzenie> umorzenia = odpis.getUmorzenia();
-        System.out.println("Drukuje " +odpis.toString());
-        PdfPTable table = new PdfPTable(4);
-        table.setWidths(new int[]{1, 6, 2, 2});
-        table.addCell(ustawfrazebez("lp","center",10));
-        table.addCell(ustawfrazebez("nazwa środka trwałego","center",10));
-        table.addCell(ustawfrazebez("nr umorzenia","center",10));
-        table.addCell(ustawfrazebez("kwota umorzenia","center",10));
-        table.setHeaderRows(1);
-        int i = 1;
-        for(Umorzenie p : umorzenia){
-            table.addCell(ustawfrazebez(String.valueOf(i++),"center",10));
-            table.addCell(ustawfrazebez(p.getNazwaSrodka(),"center",10));
-            table.addCell(ustawfrazebez(String.valueOf(p.getNrUmorzenia()),"center",10));
-            table.addCell(ustawfrazebez(formatter.format(p.getKwota()),"center",10));
-        }
-        document.add(table);
+        Msg.msg("i", "Wydrukowano sume ewidencji VAT", "form:messages");
     }
 }

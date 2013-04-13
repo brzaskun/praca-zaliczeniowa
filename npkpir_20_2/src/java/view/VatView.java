@@ -461,6 +461,14 @@ public class VatView implements Serializable {
     public void setGoscwybral(List<EVatViewPola> goscwybral) {
         this.goscwybral = goscwybral;
     }
+
+    public HashMap<String, EVatwpisSuma> getSumaewidencji() {
+        return sumaewidencji;
+    }
+
+    public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
+        this.sumaewidencji = sumaewidencji;
+    }
     
    
 }
