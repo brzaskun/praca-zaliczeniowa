@@ -31,9 +31,11 @@
                  <p:separator/>
                  <p:dataTable value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
                               rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" style="width: 1200px;"
-                              selectionMode="multiple"
+                              
                               >
-                     <p:ajax event="rowSelect" listener="#{vatView.sumujwybrane1()}" update=":form:j_idt37:sumka#{numer.index}"/>
+                     <p:column selectionMode="multiple" width="40"/>
+                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:j_idt37:sumka#{numer.index}"/>
+                     <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:j_idt37:sumka#{numer.index}"/>
                      <p:column headerText="id" width="40" sortBy="#{itemik.id}">
                          <h:outputText value="#{itemik.id}"/>
                      </p:column>

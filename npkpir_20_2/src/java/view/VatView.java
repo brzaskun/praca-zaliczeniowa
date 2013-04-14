@@ -264,6 +264,13 @@ public class VatView implements Serializable {
          }
          suma3 = suma1+suma2;
      }
+     
+      public void odsumujwybrane1(UnselectEvent event){
+         EVatViewPola p = (EVatViewPola) event.getObject();
+         suma1 -= p.getNetto();
+         suma2 -= p.getVat();
+         suma3 -= suma1+suma2;
+     }
       
    
     //generuje poszczegolen ewidencje
