@@ -12,15 +12,15 @@
                 <p:panelGrid columns="1" style="margin-left: 0%">
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
                         <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:"/>
+                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :form:dokumentyLista"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :form:dokumentyLista" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :form:dokumentyLista"/>
                 </p:selectOneMenu>
                 </p:panelGrid>
             </p:panel>

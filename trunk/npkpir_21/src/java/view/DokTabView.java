@@ -49,7 +49,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean(name = "DokTabView")
-@ViewScoped
+@RequestScoped
 public class DokTabView implements Serializable {
     //tablica obiektów
 
@@ -255,6 +255,7 @@ public class DokTabView implements Serializable {
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
     
   
