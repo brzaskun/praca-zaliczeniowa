@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -153,4 +154,6 @@ public class PdfPkpir extends Pdf implements Serializable {
         pdf.close();
         Msg.msg("i", "Wydrukowano księgę", "form:messages");
     }
+
+      
 }

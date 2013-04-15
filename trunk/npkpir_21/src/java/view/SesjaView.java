@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Osito
  */
-@Named
+    @Named
 @ViewScoped
 public class SesjaView implements Serializable{
     @Inject private Sesja sesja;
@@ -52,6 +52,19 @@ public class SesjaView implements Serializable{
         } catch (Exception e) {
         }
     }
+    
+     public void dodajmail(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        try {
+            sesja = sesjaDAO.find(session.getId());
+            int ilosc = sesja.getIloscmaili();
+            ilosc = ilosc+1;
+            sesja.setIloscmaili(ilosc);
+            sesjaDAO.edit(sesja);
+        } catch (Exception e) {
+        }
+    }
+    
     
     public void dodajdokument(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
