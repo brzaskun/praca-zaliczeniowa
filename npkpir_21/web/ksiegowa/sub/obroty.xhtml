@@ -8,6 +8,8 @@
     
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" onsuccess="wydrukobroty('#{WpisView.podatnikWpisu}');">
     </p:commandButton>
+    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" action="#{mailOther.obroty()}" onsuccess="alert('Wysłano mail');" style="display: none;">
+        </p:commandButton>
     <h:outputText value="   suma wartości brutto wybranych dokumentów: "/><h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranych}">
         <f:convertNumber minFractionDigits="2" locale="PL"/>
     </h:outputText><h:outputText value="zł  "/>

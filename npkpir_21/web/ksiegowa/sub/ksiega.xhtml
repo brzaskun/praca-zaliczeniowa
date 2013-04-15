@@ -188,11 +188,14 @@
                 </p:rowExpansion>
 
         </p:dataTable>
+        <p:panel id="panelpkpir">
         <br/>
         <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPkpir.drukujksiege()}" onsuccess="wydrukpkpir('#{wpis.podatnik}');">
         </p:commandButton>
 
-
+        <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" action="#{mailOther.pkpir()}" onsuccess="alert('Wysłano mail');" style="display: none;">
+        </p:commandButton>
+        </p:panel>
 
     </p:outputPanel>
 

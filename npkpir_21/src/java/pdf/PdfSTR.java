@@ -27,8 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
-import view.STREwidencja;
-import view.STRTabView;
 
 /**
  *

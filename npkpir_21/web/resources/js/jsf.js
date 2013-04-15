@@ -162,10 +162,12 @@ function oknoklientanowego(){
 
 function wydrukpkpir(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("form:pkpirwysylka").style.display='inline';
 }
 
 function wydrukstr(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("formSTR:ewwysylka").style.display='inline';
 }
 
 function wydrukvat7(kto){
@@ -174,6 +176,7 @@ function wydrukvat7(kto){
 
 function wydrukobroty(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("formX:obrotywysylka").style.display='inline';
 }
 
 function wydruksumavat(kto){
