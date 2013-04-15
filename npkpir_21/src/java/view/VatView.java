@@ -12,13 +12,10 @@ import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
-import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
-import entity.Podatnik;
-import entity.StornoDok;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,12 +29,9 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 /**
