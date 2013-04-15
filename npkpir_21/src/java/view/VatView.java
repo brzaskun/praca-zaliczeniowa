@@ -4,21 +4,27 @@
  */
 package view;
 
+import comparator.Dokcomparator;
+import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
+import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
+import entity.Podatnik;
+import entity.StornoDok;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -42,8 +48,7 @@ import org.primefaces.event.UnselectEvent;
 @ViewScoped
 public class VatView implements Serializable {
 
-    @ManagedProperty(value = "#{DokTabView}")
-    private DokTabView dokTabView;
+ 
     private List<Dok> listadokvat;
     private List<EVatViewPola> listadokvatprzetworzona;
     private HashMap<String, ArrayList> listaewidencji;
@@ -65,6 +70,8 @@ public class VatView implements Serializable {
     private Double suma1;
     private Double suma2;
     private Double suma3;
+     //tablica obiektw danego klienta
+    @Inject DokDAO dokDAO;
   
 
     public VatView() {
@@ -82,11 +89,22 @@ public class VatView implements Serializable {
 
     @PostConstruct
     private void init() throws Exception {
-        listanowa.add("lolo");
-        listanowa.add("lolo2");
-        listanowa.add("lolo23");
-        listanowa.add("lolo234");
-        listadokvat.addAll(dokTabView.getObiektDOKjsfSelRok());
+            try {
+                List<Dok> listatmp = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
+                //sortowanie dokumentów
+                    Collections.sort(listatmp, new Dokcomparator());
+                //
+                Integer r = wpisView.getRokWpisu();
+                int numerk = 1;
+                for(Dok tmpx : listatmp){
+                    if (tmpx.getPkpirR().equals(r.toString())) {
+                    tmpx.setNrWpkpir(numerk++);
+                    listadokvat.add(tmpx);
+                }
+            }
+            } catch (Exception e) {
+                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+            }
         String vatokres = sprawdzjakiokresvat();
         listadokvat = zmodyfikujliste(listadokvat,vatokres);
         for (Dok zaksiegowanafaktura : listadokvat){
@@ -422,14 +440,7 @@ public class VatView implements Serializable {
 //        akordeon.getChildren().add(tab);
 //    }
 
-    public DokTabView getDokTabView() {
-        return dokTabView;
-    }
-
-    public void setDokTabView(DokTabView dokTabView) {
-        this.dokTabView = dokTabView;
-    }
-
+   
     public List<Dok> getListadokvat() {
         return listadokvat;
     }
