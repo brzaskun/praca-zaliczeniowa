@@ -24,12 +24,11 @@
             
             <p:column selectionMode="multiple" width="40">
             </p:column>
-            <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
-                <h:outputText value="#{wpis.nrWpkpir}" />
-            </p:column>
-                
             <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis.typdokumentu}" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}" width="110">  
                 <h:outputText value="#{wpis.typdokumentu}"/>
+            </p:column>
+            <p:column id="krajkodColumn" headerText="kod kraju" filterBy="#{wpis.kontr.krajkod}" filterMatchMode="contains" sortBy="#{wpis.kontr.krajkod}" width="110">  
+                <h:outputText value="#{wpis.kontr.krajkod}"/>
             </p:column>
             <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontr.nip}" filterMatchMode="contains" sortBy="#{wpis.kontr.nip}" width="110">  
                 <h:outputText value="#{wpis.kontr.nip}" />
