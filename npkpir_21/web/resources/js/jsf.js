@@ -172,6 +172,7 @@ function wydrukstr(kto){
 
 function wydrukvat7(kto){
     window.open('../vat/vat7-13'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("formX:dataList:1:mailbutton").style.display='inline';
 }
 
 function wydrukobroty(kto){
