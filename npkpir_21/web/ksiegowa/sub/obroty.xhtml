@@ -10,7 +10,12 @@
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" action="#{mailOther.obroty()}" onsuccess="alert('Wysłano mail');" style="display: none;">
         </p:commandButton>
-    <h:outputText value="   suma wartości brutto wybranych dokumentów: "/><h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranych}">
+    <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
+    <h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranychnetto}">
+        <f:convertNumber minFractionDigits="2" locale="PL"/>
+    </h:outputText><h:outputText value="zł  "/>
+    <h:outputText value=" -  suma wartości brutto wybranych dokumentów: "/>
+    <h:outputText  id="podsumowaniewybrnetto" value="#{obrotyView.podsumowaniewybranych}">
         <f:convertNumber minFractionDigits="2" locale="PL"/>
     </h:outputText><h:outputText value="zł  "/>
     <p:separator/>
@@ -22,8 +27,8 @@
                       rowsPerPageTemplate="50,100,200,400,1000" selection="#{obrotyView.goscwybral}" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}" 
                       resizableColumns="true" style="width: 1300px"> 
-            <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych()}" update=":formX:podsumowaniewybr"/>
-            <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych()}" update=":formX:podsumowaniewybr"/>                      
+            <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>                <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
             <f:facet name="header">  
                 <h:outputText value="Wykaz obrotow z kontrahentem" />  
             </f:facet>
