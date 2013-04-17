@@ -11,6 +11,7 @@ import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
+import embeddable.Mce;
 import embeddable.Straty;
 import embeddable.Udzialy;
 import entity.Dok;
@@ -44,7 +45,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieView")
-@ViewScoped
+@RequestScoped
 public class ZestawienieView implements Serializable {
 
     @Inject
@@ -690,7 +691,11 @@ public class ZestawienieView implements Serializable {
                 //wyliczenie podatku koniec
 
                 biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
-                biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+                if(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum()==1){
+                    biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+                } else {
+                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                }
                 if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
                     biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
                 } else {
@@ -770,17 +775,27 @@ public class ZestawienieView implements Serializable {
         tmp.setZus52(BigDecimal.ZERO);
         tmp.setNalzalodpoczrok(BigDecimal.ZERO);
         try {
-            Collection c = pitDAO.findAll();
+            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(),wpisView.getPodatnikWpisu());
             Iterator it;
             it = c.iterator();
 
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
-                if (!tmpX.getPkpirM().equals(mcDo) && tmpX.getPodatnik().equals(wpisView.getPodatnikWpisu()) && tmpX.getUdzialowiec().equals(udzialowiec)) {
+                int tmpxmc = Integer.parseInt(tmpX.getPkpirM());
+                int starymc = Mce.getMapamcyX().get(mcDo);
+                starymc--;
+                String starymcS = Mce.getMapamcy().get(starymc);
+                if(tmpxmc <= starymc && tmpX.getUdzialowiec().equals(udzialowiec)){
+                    if(tmpX.getNaleznazal().signum()==1){
+                        tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
+                    }
+                }
+                if (tmpX.getPkpirM().equals(starymcS) && tmpX.getUdzialowiec().equals(udzialowiec)) {
                     tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
                     tmp.setZus52(tmp.getZus52().add(tmpX.getZus52()));
-                    tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
+                    
                 }
+
             }
 
             return tmp;

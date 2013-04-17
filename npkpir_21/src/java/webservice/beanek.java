@@ -120,7 +120,12 @@ public class beanek {
 
     private void requestUPO(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
         service.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.requestUPO(refId, language, upo, status, statusOpis);
+        try {
+            port.requestUPO(refId, language, upo, status, statusOpis);
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada","formX:msg");
+        }
+        
     }
 
     private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
