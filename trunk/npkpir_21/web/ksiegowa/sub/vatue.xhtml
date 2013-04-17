@@ -41,16 +41,6 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
             </p:column>
-            <p:column id="editColumn" headerText="edytuj" width="50">
-                     <p:rowEditor rendered="#{wpis.status eq 'bufor' ? true : false}" />  
-              </p:column>
-              <p:column id="editDok" headerText="edytuj" width="50">
-                  <p:commandButton  icon="ui-icon-wrench" actionListener="#{DokumentView.przekierowanieEdytujDokument(wpis)}"/>
-              </p:column>
-
-                <p:column id="deleteColumn" headerText="usuń" width="50">
-                    <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />
-                </p:column>
 
         </p:dataTable>
     </p:outputPanel>
