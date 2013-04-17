@@ -7,6 +7,7 @@ package view;
 import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import embeddable.Mce;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
@@ -32,6 +33,8 @@ public class WpisView implements Serializable{
     private String podatnikWpisu;
     private Integer rokWpisu;
     private String miesiacWpisu;
+    private String miesiacNastepny;
+    private String miesiacUprzedni;
     @Inject private Uz wprowadzil;
     private String miesiacOd;
     private String miesiacDo;
@@ -62,7 +65,7 @@ public class WpisView implements Serializable{
         wpis = wpisDAO.find(wprowadzilX);
         this.podatnikWpisu = wpis.getPodatnikWpisu();
         if(wpis.getPodatnikWpisu()==null){
-            this.miesiacWpisu = "GRZELCZYK";
+            this.miesiacWpisu = "01";
             wpis.setPodatnikWpisu("GRZELCZYK");
         } else {
             this.miesiacWpisu = wpis.getMiesiacWpisu();
@@ -145,6 +148,18 @@ public class WpisView implements Serializable{
         }} catch (Exception e){
             System.out.println("brak wpisanego rodzaju opodatkowania");
         }
+        }
+        if(miesiacWpisu!=null){
+            int miesiacprzed = Mce.getMapamcyX().get(miesiacWpisu);
+            if(miesiacprzed==1){
+                miesiacprzed=13;
+            }
+            miesiacUprzedni = Mce.getMapamcy().get(--miesiacprzed);
+            int miesiacpo = Mce.getMapamcyX().get(miesiacWpisu);
+            if(miesiacpo==12){
+                miesiacpo=0;
+            }
+            miesiacNastepny = Mce.getMapamcy().get(++miesiacpo);
         }
     }
 
@@ -243,6 +258,22 @@ public class WpisView implements Serializable{
 
     public void setKsiegaryczalt(boolean ksiegaryczalt) {
         this.ksiegaryczalt = ksiegaryczalt;
+    }
+
+    public String getMiesiacNastepny() {
+        return miesiacNastepny;
+    }
+
+    public void setMiesiacNastepny(String miesiacNastepny) {
+        this.miesiacNastepny = miesiacNastepny;
+    }
+
+    public String getMiesiacUprzedni() {
+        return miesiacUprzedni;
+    }
+
+    public void setMiesiacUprzedni(String miesiacUprzedni) {
+        this.miesiacUprzedni = miesiacUprzedni;
     }
 
    

@@ -182,7 +182,16 @@ public class DokTabView implements Serializable {
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
             Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else {
-            if(dokdoUsuniecia.getTypdokumentu().equals("OT")){
+            if(dokdoUsuniecia.getTypdokumentu().equals("AMO")){
+                //poszukiwanie czy nie ma po nim jakiegos
+                Amodok amotmpnas = new Amodok();
+                if(wpisView.getMiesiacWpisu()!="12"){
+                    amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
+                }
+                if(amotmpnas.getZaksiegowane()){
+                   Msg.msg("e", "Nie można usunąć dokumentu AMO. Usuń najpierw ten z następnego miesiąca!", "form:messages"); 
+                   return;
+                }
                 Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 amotmp.setZaksiegowane(false);
                 amoDokDAO.edit(amotmp);
