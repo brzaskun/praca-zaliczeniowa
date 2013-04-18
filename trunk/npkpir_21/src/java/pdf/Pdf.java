@@ -52,8 +52,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected ObrotyView obrotyView;
     @ManagedProperty(value="#{STREwidencja}")
     protected STREwidencja sTREwidencja;
-    @ManagedProperty(value="#{vatView}")
-    protected VatView vatView;
+    
 
     @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
     protected int liczydlo = 0;
@@ -253,14 +252,5 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         this.sTREwidencja = sTREwidencja;
     }
 
-    public VatView getVatView() {
-        return vatView;
-    }
-
-    public void setVatView(VatView vatView) {
-        this.vatView = vatView;
-    }
-
-    
-    
+   
 }
