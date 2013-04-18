@@ -102,9 +102,21 @@ public class STREwidencja implements Serializable{
             strdocelowy.setSymbol(str.getSymbol());
             strdocelowy.setDatazak(str.getDatazak());
             strdocelowy.setDataprzek(str.getDataprzek());
-            strdocelowy.setDatawy(str.getDatawy());
+            strdocelowy.setDatawy("");
             strdocelowy.setNetto(str.getNetto());
             strdocelowy.setPodatnik(str.getPodatnik());
+            strdocelowy.setStyczen(0.0);
+            strdocelowy.setLuty(0.0);
+            strdocelowy.setMarzec(0.0);
+            strdocelowy.setKwiecien(0.0);
+            strdocelowy.setMaj(0.0);
+            strdocelowy.setCzerwiec(0.0);
+            strdocelowy.setLipiec(0.0);
+            strdocelowy.setSierpien(0.0);
+            strdocelowy.setWrzesien(0.0);
+            strdocelowy.setPazdziernik(0.0);
+            strdocelowy.setListopad(0.0);
+            strdocelowy.setGrudzien(0.0);
             List<Double> miesiace = new ArrayList<>();
             Iterator itX;
             itX = str.getUmorzWyk().iterator();
@@ -163,6 +175,49 @@ public class STREwidencja implements Serializable{
             strtabela.add(strdocelowy);            
             i++;
         }
+        STRtabela podsumowanie = new STRtabela();
+            podsumowanie.setId(0);
+            podsumowanie.setNazwa("");
+            podsumowanie.setKst("");
+            podsumowanie.setSymbol("");
+            podsumowanie.setDatazak("");
+            podsumowanie.setDataprzek("podsumowanie");
+            podsumowanie.setDatawy("");
+            podsumowanie.setPodatnik("");
+            podsumowanie.setNetto(0.0);
+            podsumowanie.setOdpisrok(0.0);
+            podsumowanie.setUmorzeniaDo(BigDecimal.ZERO);
+            podsumowanie.setStyczen(0.0);
+            podsumowanie.setLuty(0.0);
+            podsumowanie.setMarzec(0.0);
+            podsumowanie.setKwiecien(0.0);
+            podsumowanie.setMaj(0.0);
+            podsumowanie.setCzerwiec(0.0);
+            podsumowanie.setLipiec(0.0);
+            podsumowanie.setSierpien(0.0);
+            podsumowanie.setWrzesien(0.0);
+            podsumowanie.setPazdziernik(0.0);
+            podsumowanie.setListopad(0.0);
+            podsumowanie.setGrudzien(0.0);
+            for(STRtabela p : strtabela){
+                podsumowanie.setNetto(podsumowanie.getNetto()+p.getNetto());
+                podsumowanie.setOdpisrok(podsumowanie.getOdpisrok()+p.getOdpisrok());
+                podsumowanie.setUmorzeniaDo(podsumowanie.getUmorzeniaDo().add(p.getUmorzeniaDo()));
+                podsumowanie.setStyczen(podsumowanie.getStyczen()+p.getStyczen());
+                podsumowanie.setLuty(podsumowanie.getLuty()+p.getLuty());
+                podsumowanie.setMarzec(podsumowanie.getMarzec()+p.getMarzec());
+                podsumowanie.setKwiecien(podsumowanie.getKwiecien()+p.getKwiecien());
+                podsumowanie.setMaj(podsumowanie.getMaj()+p.getMaj());
+                podsumowanie.setCzerwiec(podsumowanie.getCzerwiec()+p.getCzerwiec());
+                podsumowanie.setLipiec(podsumowanie.getLipiec()+p.getLipiec());
+                podsumowanie.setSierpien(podsumowanie.getSierpien()+p.getSierpien());
+                podsumowanie.setWrzesien(podsumowanie.getWrzesien()+p.getWrzesien());
+                podsumowanie.setPazdziernik(podsumowanie.getPazdziernik()+p.getPazdziernik());
+                podsumowanie.setListopad(podsumowanie.getListopad()+p.getListopad());
+                podsumowanie.setGrudzien(podsumowanie.getGrudzien()+p.getGrudzien());
+                
+            }
+            strtabela.add(podsumowanie);
   }
 
      

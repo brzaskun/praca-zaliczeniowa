@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
+import view.DokTabView;
 
 /**
  *
@@ -38,8 +39,9 @@ import msg.Msg;
  */
 @ManagedBean
 public class PdfPK extends Pdf implements Serializable {
-
-    public void drukujPK(Dok selected) throws DocumentException, FileNotFoundException, IOException {
+    
+    public void drukujPK() throws DocumentException, FileNotFoundException, IOException {
+        Dok selected = DokTabView.getGosciuwybralS().get(1);
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
