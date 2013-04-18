@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -484,11 +486,13 @@ public class VatView implements Serializable {
     }
 
    public static void main(String[] args){
-       Scanner in = new Scanner("Hello123%").useDelimiter("[^0-9]+");
-       int integer = in.nextInt();
-       String nazwa = "12";
-       Integer.parseInt(nazwa);
-       System.out.println(integer);
+       String wiersz = "35.23 zł";
+        String prices = wiersz.replaceAll("\\s","");
+        Pattern p = Pattern.compile("(-?(\\d+(?:\\.\\d+)))");
+        Matcher m = p.matcher(prices);
+        while (m.find()) {
+            System.out.println(Double.parseDouble(m.group()));
+            }
    }
 
     public List<EVatViewPola> getGoscwybral() {
