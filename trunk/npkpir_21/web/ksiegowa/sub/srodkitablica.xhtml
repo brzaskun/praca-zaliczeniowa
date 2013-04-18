@@ -11,9 +11,8 @@
             <h:outputText value="liczba środków ogółem: #{STRTableView.iloscsrodkow}"/> <br/>
             <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok}"/>
         </p:panel>
-        <p:panel>
-        <p:commandButton id="generujodpisy"  action="#{STRTableView.generujodpisy()}" value="Generuj odpisy za rok" update="@form" global="false" ajax="false"/>  
-        </p:panel>
+      
+        <f:event type="preRenderView" listener="#{STRTableView.generujodpisy()}"/>
         <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="6"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 

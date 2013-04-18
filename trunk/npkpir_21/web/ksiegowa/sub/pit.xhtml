@@ -163,9 +163,9 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid  columns="3" style="margin-left: 50px">
-
-                        <p:commandButton value="drukuj" type="button" style="width: 90px">
-                            <p:printer target=":akordeon:formpit:zestawieniepit" /></p:commandButton>
+                    <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;">
+        </p:commandButton>
+                        
                         <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                         <p:commandButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                     </p:panelGrid>
@@ -298,9 +298,9 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid  columns="3" style="margin-left: 90px">
-
-                        <p:commandButton value="drukuj" type="button" style="width: 120px">
-                            <p:printer target=":akordeon:formpit1:zestawieniepit" /></p:commandButton>
+<p:commandButton value="drukuj" type="button" style="width: 90px">
+                            <p:printer target=":akordeon:formpit:zestawieniepit" /></p:commandButton>
+                       
                         <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                         <p:commandButton value="zachowaj pit"  action="#{ZestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpi1:" type="submit" style="width: 120px"/>
                     </p:panelGrid>
