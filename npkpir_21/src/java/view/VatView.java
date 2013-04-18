@@ -85,128 +85,131 @@ public class VatView implements Serializable {
 
     @PostConstruct
     private void init() throws Exception {
+          try {
+            String vatokres = sprawdzjakiokresvat();
             try {
                 List<Dok> listatmp = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
                 //sortowanie dokumentów
-                    Collections.sort(listatmp, new Dokcomparator());
+                Collections.sort(listatmp, new Dokcomparator());
                 //
                 Integer r = wpisView.getRokWpisu();
                 int numerk = 1;
-                for(Dok tmpx : listatmp){
+                for (Dok tmpx : listatmp) {
                     if (tmpx.getPkpirR().equals(r.toString())) {
-                    tmpx.setNrWpkpir(numerk++);
-                    listadokvat.add(tmpx);
+                        tmpx.setNrWpkpir(numerk++);
+                        listadokvat.add(tmpx);
+                    }
                 }
-            }
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-        String vatokres = sprawdzjakiokresvat();
-        listadokvat = zmodyfikujliste(listadokvat,vatokres);
-        for (Dok zaksiegowanafaktura : listadokvat){
-            if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
-                List<EVatwpis> ewidencja = new ArrayList<>();
-                ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
-                for (EVatwpis ewidwiersz : ewidencja){
-                    if (ewidwiersz.getNetto() != 0) {
-                        EVatViewPola wiersz = new EVatViewPola();
-                        wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
-                        wiersz.setDataSprz(zaksiegowanafaktura.getDataSprz());
-                        wiersz.setDataWyst(zaksiegowanafaktura.getDataWyst());
-                        wiersz.setKontr(zaksiegowanafaktura.getKontr());
-                        wiersz.setNrWlDk(zaksiegowanafaktura.getNrWlDk());
-                        wiersz.setOpis(zaksiegowanafaktura.getOpis());
-                        wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
-                        wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
-                        wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
-                        wiersz.setNetto(ewidwiersz.getNetto());
-                        wiersz.setVat(ewidwiersz.getVat());
-                        wiersz.setOpizw(ewidwiersz.getEstawka());
-                        listadokvatprzetworzona.add(wiersz);
+
+            listadokvat = zmodyfikujliste(listadokvat, vatokres);
+            for (Dok zaksiegowanafaktura : listadokvat) {
+                if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
+                    List<EVatwpis> ewidencja = new ArrayList<>();
+                    ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
+                    for (EVatwpis ewidwiersz : ewidencja) {
+                        if (ewidwiersz.getNetto() != 0) {
+                            EVatViewPola wiersz = new EVatViewPola();
+                            wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
+                            wiersz.setDataSprz(zaksiegowanafaktura.getDataSprz());
+                            wiersz.setDataWyst(zaksiegowanafaktura.getDataWyst());
+                            wiersz.setKontr(zaksiegowanafaktura.getKontr());
+                            wiersz.setNrWlDk(zaksiegowanafaktura.getNrWlDk());
+                            wiersz.setOpis(zaksiegowanafaktura.getOpis());
+                            wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
+                            wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
+                            wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
+                            wiersz.setNetto(ewidwiersz.getNetto());
+                            wiersz.setVat(ewidwiersz.getVat());
+                            wiersz.setOpizw(ewidwiersz.getEstawka());
+                            listadokvatprzetworzona.add(wiersz);
+                        }
                     }
                 }
             }
-        }
-        //rozdziela zapisy na poszczególne ewidencje
-        for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
-            ArrayList<EVatViewPola> listatmp = new ArrayList<>();
-            //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-            String nazwaewidencji = wierszogolny.getNazwaewidencji();
+            //rozdziela zapisy na poszczególne ewidencje
+            for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
+                ArrayList<EVatViewPola> listatmp = new ArrayList<>();
+                //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
+                String nazwaewidencji = wierszogolny.getNazwaewidencji();
+                try {
+                    Collection c = listaewidencji.get(nazwaewidencji);
+                    listatmp.addAll(c);
+                } catch (Exception e) {
+                    listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
+                    Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
+                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
+                }
+                listatmp.add(wierszogolny);
+                EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN));
+                ew.setNetto(sumanetto);
+                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN));
+                ew.setVat(sumavat);
+                sumaewidencji.put(nazwaewidencji, ew);
+                listaewidencji.put(nazwaewidencji, listatmp);
+            }
+            sumydowyswietlenia.addAll(sumaewidencji.values());
+            /**
+             * Dodaj sumy do ewidencji dla wydruku
+             */
+            Set<String> klucze = sumaewidencji.keySet();
+            for (String p : klucze) {
+                EVatViewPola wiersz = new EVatViewPola();
+                wiersz.setId(9999);
+                wiersz.setDataSprz("");
+                wiersz.setDataWyst("");
+                wiersz.setKontr(null);
+                wiersz.setNrWlDk("");
+                wiersz.setOpis("podsumowanie");
+                wiersz.setNazwaewidencji("");
+                wiersz.setNrpolanetto("");
+                wiersz.setNrpolavat("");
+                wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());
+                wiersz.setVat(sumaewidencji.get(p).getVat().doubleValue());
+                wiersz.setOpizw("");
+                listaewidencji.get(p).add(wiersz);
+            }
+
+            /**
+             *
+             */
+            //wygeneruj(listaewidencji); nie potrzeben juz :))
+            String rok = wpisView.getRokWpisu().toString();
+            String mc = wpisView.getMiesiacWpisu();
+            String pod = wpisView.getPodatnikWpisu();
+            //zachowaj wygenerowane ewidencje do bazy danych
             try {
-                Collection c = listaewidencji.get(nazwaewidencji);
-                listatmp.addAll(c);
+                /**
+                 * edycja nie dziala ale nie ma problemu, zawsze sa usuwane
+                 * stare i dodawane nowe :)
+                 */
+                Ewidencjevat pobrane = ewidencjeVatDAO.find(rok, mc, pod);
+                pobrane.setEwidencje(listaewidencji);
+                pobrane.setSumaewidencji(sumaewidencji);
+                ewidencjeVatDAO.edit(pobrane);
             } catch (Exception e) {
-                listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
-                Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
-                sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
+                zrzucane.setPodatnik(pod);
+                zrzucane.setRok(rok);
+                /**
+                 * tyty
+                 */
+                if (!vatokres.equals("miesięczne")) {
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    zrzucane.setMiesiac(miesiacewkwartale.get(2));
+                } else {
+                    zrzucane.setMiesiac(mc);
+                }
+                zrzucane.setEwidencje(listaewidencji);
+                zrzucane.setSumaewidencji(sumaewidencji);
+                ewidencjeVatDAO.dodajewidencje(zrzucane);
             }
-            listatmp.add(wierszogolny);
-            EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN));
-            ew.setNetto(sumanetto);
-            BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN));
-            ew.setVat(sumavat);
-            sumaewidencji.put(nazwaewidencji, ew);
-            listaewidencji.put(nazwaewidencji, listatmp);
-        }
-        sumydowyswietlenia.addAll(sumaewidencji.values());
-        /**
-         * Dodaj sumy do ewidencji dla wydruku
-         */
-        
-        Set<String> klucze = sumaewidencji.keySet();
-        for(String p : klucze){
-            EVatViewPola wiersz = new EVatViewPola();
-            wiersz.setId(9999);
-            wiersz.setDataSprz("");
-            wiersz.setDataWyst("");
-            wiersz.setKontr(null);
-            wiersz.setNrWlDk("");
-            wiersz.setOpis("podsumowanie");
-            wiersz.setNazwaewidencji("");
-            wiersz.setNrpolanetto("");
-            wiersz.setNrpolavat("");
-            wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());
-            wiersz.setVat(sumaewidencji.get(p).getVat().doubleValue());
-            wiersz.setOpizw("");
-            listaewidencji.get(p).add(wiersz);
-        }
-        
-        /**
-         * 
-         */
-        
-        //wygeneruj(listaewidencji); nie potrzeben juz :))
-        String rok = wpisView.getRokWpisu().toString();
-        String mc = wpisView.getMiesiacWpisu();
-        String pod = wpisView.getPodatnikWpisu();
-        //zachowaj wygenerowane ewidencje do bazy danych
-        try {
-            /**
-             * edycja nie dziala ale nie ma problemu, zawsze sa usuwane stare i dodawane nowe :)
-             */
-            Ewidencjevat pobrane = ewidencjeVatDAO.find(rok, mc, pod);
-            pobrane.setEwidencje(listaewidencji);
-            pobrane.setSumaewidencji(sumaewidencji);
-            ewidencjeVatDAO.edit(pobrane);
         } catch (Exception e) {
-            zrzucane.setPodatnik(pod);
-            zrzucane.setRok(rok);
-            /**
-             * tyty
-             */
-            if(!vatokres.equals("miesięczne")){
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                zrzucane.setMiesiac(miesiacewkwartale.get(2));
-            } else {
-                zrzucane.setMiesiac(mc);
-            }
-            zrzucane.setEwidencje(listaewidencji);
-            zrzucane.setSumaewidencji(sumaewidencji);
-            ewidencjeVatDAO.dodajewidencje(zrzucane);
+            System.out.println("Firma nie vat");
         }
-        System.out.println("lolo");
     }
 
     private String sprawdzjakiokresvat() {

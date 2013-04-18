@@ -188,6 +188,10 @@ function wydrukpk(kto){
     window.open('../wydruki/pk'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
+function wydrukpit5(kto){
+    window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+}
+
 function wydrukewidencje(kto,nazwa){
     if(!nazwa.indexOf("sprzedaż", 0)){
     nazwa = nazwa.substr(0, nazwa.length-1);
