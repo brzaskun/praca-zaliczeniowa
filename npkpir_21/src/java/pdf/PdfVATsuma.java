@@ -32,7 +32,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import msg.Msg;
+import view.VatView;
 
 /**
  *
@@ -40,7 +42,9 @@ import msg.Msg;
  */
 @ManagedBean(name="pdfVATsuma")
 public class PdfVATsuma extends Pdf implements Serializable {
-
+    @ManagedProperty(value="#{vatView}")
+    public VatView vatView;
+     
     public void drukuj() throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
@@ -124,4 +128,14 @@ public class PdfVATsuma extends Pdf implements Serializable {
         document.close();
         //Msg.msg("i", "Wydrukowano sume ewidencji VAT", "form:messages");
     }
+
+    public VatView getVatView() {
+        return vatView;
+    }
+
+    public void setVatView(VatView vatView) {
+        this.vatView = vatView;
+    }
+    
+    
 }
