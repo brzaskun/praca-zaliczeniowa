@@ -16,7 +16,7 @@ public class STRtabela {
     private String podatnik;
     private String symbol;
     private String nazwa;
-    private Double datawy;
+    private String datawy;
     private String dataprzek;
     private String datazak;
     private String kst;
@@ -70,11 +70,11 @@ public class STRtabela {
         this.nazwa = nazwa;
     }
 
-    public Double getDatawy() {
+    public String getDatawy() {
         return datawy;
     }
 
-    public void setDatawy(Double datawy) {
+    public void setDatawy(String datawy) {
         this.datawy = datawy;
     }
 

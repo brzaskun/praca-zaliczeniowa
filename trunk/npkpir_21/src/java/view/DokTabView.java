@@ -55,17 +55,16 @@ public class DokTabView implements Serializable {
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<Dok> obiektDOKjsfSel;
-    //tablica obiektw danego klienta
-    private List<Dok> obiektDOKjsfSelRok;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
-   
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
     //dokumenty niezaplacone
     private List<Dok> niezaplacone;
     //dokumenty zaplacone
     private List<Dok> zaplacone;
+    //wybranedokumenty do druku
+    private static List<Dok> gosciuwybral;
    
     
     /*pkpir*/
@@ -85,8 +84,6 @@ public class DokTabView implements Serializable {
     public DokTabView() {
         //dokumenty podatnika
         obiektDOKjsfSel = new ArrayList<>();
-        //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = new ArrayList<>();
         //dokumenty podatnika z miesiaca
         obiektDOKmrjsfSel = new ArrayList<>();
         //dekumenty o tym samym okresie vat
@@ -95,6 +92,7 @@ public class DokTabView implements Serializable {
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
+        gosciuwybral = new ArrayList<>();
         
     }
 
@@ -113,7 +111,7 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
@@ -131,10 +129,7 @@ public class DokTabView implements Serializable {
             obiektDOKmrjsfSel.clear();
             int numerkolejny = 1;
             for(Dok tmpx : obiektDOKjsfSel){
-                if (tmpx.getPkpirR().equals(r.toString())) {
-                    tmpx.setNrWpkpir(numerkolejny++);
-                    obiektDOKjsfSelRok.add(tmpx);
-                    if (tmpx.getRozliczony() == false) {
+                   if (tmpx.getRozliczony() == false) {
                         niezaplacone.add(tmpx);
                     } else {
                         //pobiera tylko przelewowe
@@ -151,9 +146,6 @@ public class DokTabView implements Serializable {
                     
                 }
             }
-        }
-    
-    
     
     
     public void edit(RowEditEvent ex) {
@@ -493,14 +485,7 @@ public class DokTabView implements Serializable {
         DokTabView.dokdoUsuniecia = dokdoUsuniecia;
     }
 
-    public List<Dok> getObiektDOKjsfSelRok() {
-        return obiektDOKjsfSelRok;
-    }
-
-    public void setObiektDOKjsfSelRok(List<Dok> obiektDOKjsfSelRok) {
-        this.obiektDOKjsfSelRok = obiektDOKjsfSelRok;
-    }
-
+  
     public List<Dok> getDokvatmc() {
         return dokvatmc;
     }
@@ -561,6 +546,19 @@ public class DokTabView implements Serializable {
         this.amoDokDAO = amoDokDAO;
     }
 
+    public List<Dok> getGosciuwybral() {
+        return gosciuwybral;
+    }
+    
+    public static List<Dok> getGosciuwybralS() {
+        return gosciuwybral;
+    }
+
+    public void setGosciuwybral(List<Dok> gosciuwybral) {
+        this.gosciuwybral = gosciuwybral;
+    }
+
+    
    
         
 }

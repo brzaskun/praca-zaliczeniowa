@@ -27,15 +27,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.NumberFormat;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import view.KsiegaView;
 import view.ObrotyView;
 import view.STREwidencja;
-import view.STRTabView;
-import view.VatView;
 import view.WpisView;
 
 /**
