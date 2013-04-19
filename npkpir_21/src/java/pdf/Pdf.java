@@ -47,8 +47,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected WpisView wpisView;
     @ManagedProperty(value="#{obrotyView}")
     protected ObrotyView obrotyView;
-    @ManagedProperty(value="#{STREwidencja}")
-    protected STREwidencja sTREwidencja;
+   
     
 
     @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
@@ -241,13 +240,6 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         this.obrotyView = obrotyView;
     }
 
-    public STREwidencja getsTREwidencja() {
-        return sTREwidencja;
-    }
-
-    public void setsTREwidencja(STREwidencja sTREwidencja) {
-        this.sTREwidencja = sTREwidencja;
-    }
-
+    
    
 }

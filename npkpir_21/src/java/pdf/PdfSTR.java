@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.EwidencjeVatDAO;
 import embeddable.STRtabela;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,7 +27,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import msg.Msg;
+import view.STREwidencja;
 
 /**
  *
@@ -34,7 +37,8 @@ import msg.Msg;
  */
 @ManagedBean
 public class PdfSTR extends Pdf implements Serializable {
-
+     @ManagedProperty(value="#{STREwidencja}")
+    protected STREwidencja sTREwidencja;
     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
@@ -141,4 +145,13 @@ public class PdfSTR extends Pdf implements Serializable {
 //        wykaz.add(suma);
 //        return wykaz;
 //    }
+
+    public EwidencjeVatDAO getEwidencjeVatDAO() {
+        return ewidencjeVatDAO;
+    }
+
+    public void setEwidencjeVatDAO(EwidencjeVatDAO ewidencjeVatDAO) {
+        this.ewidencjeVatDAO = ewidencjeVatDAO;
+    }
+    
 }
