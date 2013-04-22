@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Program windykacyjny"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:body> 
+                <f:view contentType="text/html">
+                    <p:layout fullPage="true"> 
+                            <ui:include src="sub/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/west.xhtml"/>   <!-- panel zachodni-->
+
+                        <p:layoutUnit position="center" >
+                            <h:form id="dodWiad" >
+                                <p:tabView >
+                                    <p:tab title="stwórz"></p:tab>
+                                         <p:tab title="bieżące">
+                                        <p:contextMenu>
+                                            <p:menuitem value="drukuj"  icon="ui-icon-print"/>
+                                            <p:menuitem value="mail"  icon="ui-icon-mail-open"/>
+                                            <p:menuitem value="archiwizuj"  icon="ui-icon-document"/>
+                                    </p:contextMenu>
+                                        <p:dataTable value="#{binek.raporty}" var="loop" paginator="true"  
+                                                     paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="3,6,9" paginatorPosition="top" rows="3"
+                                                     selection="#{binek.selSprawa}" selectionMode="single" rowKey="#{loop.id}">                                                      >
+                                            <p:column headerText="nr sprawy" filterValue="#{loop.id}" filterMatchMode="startsWith" sortBy="#{loop.id}">
+                                                <h:outputText value="#{loop.id}"/>
+                                            </p:column>
+                                            <p:column headerText="wierzyciel" filterBy="#{loop.sprawa.wierzyciel.nazwa}" filterValue="#{loop.sprawa.wierzyciel.nazwa}" filterMatchMode="contains">
+                                                <h:outputText value="#{loop.sprawa.wierzyciel.nazwa}"/>
+                                            </p:column>
+                                            <p:column headerText="adres">
+                                                <h:outputText value="#{loop.sprawa.wierzyciel.adres}"/>
+                                            </p:column>
+                                            <p:column headerText="dłużnik">
+                                                <h:outputText value="#{loop.sprawa.dluznik.nazwa}"/>
+                                            </p:column>
+                                            <p:column headerText="kwota">
+                                                <h:outputText value="#{loop.sprawa.kwota}" style="float: right;">
+                                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                             </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="data sporzadzenia">
+                                                <h:outputText value="#{loop.dataraportu}"/>
+                                            </p:column>
+                                            <p:column headerText="sporzadzajacy">
+                                                <h:outputText value="#{loop.sporzadzajacy}"/>
+                                            </p:column>
+                                        </p:dataTable>  
+                                    </p:tab>
+                                    <p:tab title="archiwalne">
+
+                                    </p:tab>
+
+                                </p:tabView>
+                            </h:form>
+                        </p:layoutUnit>
+
+                    </p:layout>
+                </f:view>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

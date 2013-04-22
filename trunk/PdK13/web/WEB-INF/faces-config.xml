@@ -7,8 +7,28 @@
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
     <navigation-rule>
         <navigation-case>
-            <from-outcome>Guest</from-outcome>
-            <to-view-id>/guest/guestIndex.xhtml</to-view-id>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>sprawy</from-outcome>
+            <to-view-id>/sprawy.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>dłużnicy</from-outcome>
+            <to-view-id>/dluznicy.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>wierzyciele</from-outcome>
+            <to-view-id>/wierzyciele.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>raporty</from-outcome>
+            <to-view-id>/raporty.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>statystyka</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <application>
@@ -20,8 +40,5 @@
         <locale-config>
             <default-time-zone-id>Europe/Berlin</default-time-zone-id>
         </locale-config>
-    </application>
-    <application>
-        <message-bundle>boundle/messages</message-bundle>
     </application>
 </faces-config>
