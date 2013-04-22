@@ -5,24 +5,25 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
-        <h:form>
-            <p:menu id="menuWest">  
-                <p:submenu label="Ajax Menuitems">  
-                    <p:menuitem value="autoryzacja" outcome="aindex" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="sesja" outcome="asesja" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="news" outcome="news" icon="ui-icon-circle-arrow-e" />
-                </p:submenu>  
-            </p:menu>
-        </h:form>
-  <p:panel header="linki">
+    <p:layoutUnit position="west" size="175" collapsible="true">
+        <p:panel header="info">
+            <p:panelGrid columns="1">
+            <h:outputText value="Zalogowany"/>
+            <h:outputText value="Jan Kowalski" style="font-weight: bolder;"/>
+            <h:outputText value="Uprawnienia"/>
+            <h:outputText value="Notowacz"  style="font-weight: bolder;"/>
+            </p:panelGrid>
+        </p:panel>
+    <p:panel header="linki">
             <h:form>
                 <p:panelGrid columns="1">
-                <h:link outcome="admin">admin</h:link>
-                <h:link outcome="manager">manager</h:link>
-                 <h:link accesskey="s" outcome="home" title="księgowanie dokumentów">ksiegowa</h:link>
+                <h:link outcome="sprawy">sprawy</h:link>
+                <h:link outcome="dłużnicy">dłużnicy</h:link>
+                <h:link outcome="wierzyciele">wierzyciele</h:link>
+                <h:link outcome="raporty">raporty</h:link>
+                <h:link outcome="statystyka">statystyka</h:link>
                 </p:panelGrid>
-                <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
+                <h:commandButton id="wyloguj" value="Wyloguj" style="margin-left: 25%"/>
             </h:form>
         </p:panel>
     </p:layoutUnit>
