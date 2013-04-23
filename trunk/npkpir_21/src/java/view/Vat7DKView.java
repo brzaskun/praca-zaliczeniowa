@@ -240,8 +240,12 @@ public class Vat7DKView implements Serializable {
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 nowadeklaracja.setMiesiac(miesiacewkwartale.get(2));
+                nowadeklaracja.setMiesiackwartal(true);
+                nowadeklaracja.setNrkwartalu(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
             } else {
                 nowadeklaracja.setMiesiac(mc);
+                nowadeklaracja.setMiesiackwartal(false);
+                nowadeklaracja.setNrkwartalu(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
             }
             nowadeklaracja.setMiesiac(mc);
             nowadeklaracja.setKodurzedu(selected.getKodurzedu());

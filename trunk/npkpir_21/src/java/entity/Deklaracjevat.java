@@ -59,6 +59,11 @@ public class Deklaracjevat implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "deklaracja")
     private String deklaracja;
+    @Column(name="miesiackwartal")
+    private boolean miesiackwartal;
+    @Size(max = 4)
+    @Column(name = "nrkwartalu")
+    private String nrkwartalu;
     @Lob
     @Column(name = "ewidencje")
     private HashMap<String, ArrayList>  ewidencje;
@@ -129,6 +134,22 @@ public class Deklaracjevat implements Serializable {
 
     public void setDeklaracja(String deklaracja) {
         this.deklaracja = deklaracja;
+    }
+
+    public boolean isMiesiackwartal() {
+        return miesiackwartal;
+    }
+
+    public void setMiesiackwartal(boolean miesiackwartal) {
+        this.miesiackwartal = miesiackwartal;
+    }
+
+    public String getNrkwartalu() {
+        return nrkwartalu;
+    }
+
+    public void setNrkwartalu(String nrkwartalu) {
+        this.nrkwartalu = nrkwartalu;
     }
 
     public HashMap<String, ArrayList> getEwidencje() {
