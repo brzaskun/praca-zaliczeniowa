@@ -31,8 +31,16 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean
 public class PdfVAT7 extends Pdf implements Serializable{
-    
+    static String vat71 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-71-p1.jpg";
+    static String vat72 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-72-p1.jpg";
+    static String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/golab.png";
+            
+            
     public void drukuj(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
+        Podatnik p = podatnikDAO.find(dkl.getPodatnik());
+        if(dkl.isMiesiackwartal()==true){
+            PdfVAT7K.drukujVAT7K(dkl, p);
+        } else {
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
@@ -54,18 +62,19 @@ public class PdfVAT7 extends Pdf implements Serializable{
         reader.removeUsageRights();
         PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-71-p1.jpg");
+        Image image;
+        image = Image.getInstance(vat71);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
         underContent.addImage(image);
         PdfContentByte overContent = pdfStamper.getOverContent(1);
-        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/golab.png");
+        image = Image.getInstance(golab);
         image.scaleToFit(50,50);
         image.setAbsolutePosition(450f, 770f);
         overContent.addImage(image);
         underContent = pdfStamper.getUnderContent(2);
-        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-72-p1.jpg");
+        image = Image.getInstance(vat72);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
@@ -73,10 +82,14 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-
+        }
     }
     
      public void drukujwys(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
+        Podatnik p = podatnikDAO.find(dkl.getPodatnik());
+        if(dkl.isMiesiackwartal()==true){
+            PdfVAT7K.drukujwysVAT7K(dkl, p);
+        } else {
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
@@ -98,18 +111,19 @@ public class PdfVAT7 extends Pdf implements Serializable{
         reader.removeUsageRights();
         PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-71-p1.jpg");
+        Image image;
+        image = Image.getInstance(vat71);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
         underContent.addImage(image);
         PdfContentByte overContent = pdfStamper.getOverContent(1);
-        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/golab.png");
+        image = Image.getInstance(golab);
         image.scaleToFit(50,50);
         image.setAbsolutePosition(450f, 770f);
         overContent.addImage(image);
         underContent = pdfStamper.getUnderContent(2);
-        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-72-p1.jpg");
+        image = Image.getInstance(vat72);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
@@ -117,7 +131,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-
+        }
     }
   
     
@@ -165,7 +179,11 @@ public class PdfVAT7 extends Pdf implements Serializable{
                                                   absText(writer, o.getPole44(), 490, 104,"f");
         absText(writer, o.getPole45(), 330, 80,"f");  absText(writer, o.getPole46(), 490, 80,"f");
         absText(writer, "Status "+l.getStatus(), 490, 790);
-        absText(writer, "Data potwierdzenia ", 490, 780,6);
+        if(l.getUpo().contains("system testowy")){
+            absText(writer, "DEKLARACJA TESTOWA ", 490, 780,6);
+        } else {
+            absText(writer, "Data potwierdzenia ", 490, 780,6);
+        }
         try{
         absText(writer, l.getDataupo().toString(), 490, 770,6);
         } catch (Exception e){}
