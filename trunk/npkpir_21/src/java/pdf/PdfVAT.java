@@ -15,18 +15,20 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.EVatViewPola;
+import embeddable.Kwartaly;
 import entity.Ewidencjevat;
+import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import msg.Msg;
 
 /**
  *
@@ -35,7 +37,15 @@ import msg.Msg;
 @ManagedBean
 public class PdfVAT extends Pdf implements Serializable{
     public void drukujewidencje() throws DocumentException, FileNotFoundException, IOException{
-    Ewidencjevat lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu()); 
+    //problem kwartalu
+    Ewidencjevat lista;
+    try{
+        lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu()); 
+    } catch (Exception e){
+        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+        lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu()); 
+    }
     HashMap<String,ArrayList> mapa = lista.getEwidencje();
     Set<String> nazwy = mapa.keySet();
     for(String p :nazwy){
