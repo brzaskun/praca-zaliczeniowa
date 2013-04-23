@@ -75,6 +75,50 @@ public class PdfVAT7 extends Pdf implements Serializable{
         writer.close();
 
     }
+    
+     public void drukujwys(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
+        System.out.println("Drukuje " + dkl);
+        Vatpoz v = dkl.getSelected();
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        document.addTitle("Polecenie księgowania");
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Wydruk deklaracji tetsowej VAT " + dkl.getPodatnik());
+        document.addKeywords("VAT-7 test, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
+        document.open();
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font font = new Font(helvetica, 12);
+        Font fontM = new Font(helvetica, 10);
+        pierwszastronawys(writer,v,dkl);
+        document.newPage();
+        drugastronawys(writer,v,dkl);
+        document.close();
+        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        reader.removeUsageRights();
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfContentByte underContent = pdfStamper.getUnderContent(1);
+        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-71-p1.jpg");
+        image.scaleToFit(610, 850);
+        image.setAbsolutePosition(0f, 0f);
+        underContent.add(underContent);
+        underContent.addImage(image);
+        PdfContentByte overContent = pdfStamper.getOverContent(1);
+        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/golab.png");
+        image.scaleToFit(50,50);
+        image.setAbsolutePosition(450f, 770f);
+        overContent.addImage(image);
+        underContent = pdfStamper.getUnderContent(2);
+        image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-72-p1.jpg");
+        image.scaleToFit(610, 850);
+        image.setAbsolutePosition(0f, 0f);
+        underContent.add(underContent);
+        underContent.addImage(image);
+        pdfStamper.close();
+        reader.close();
+        writer.close();
+
+    }
   
     
    private void pierwszastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l){
@@ -155,6 +199,76 @@ public class PdfVAT7 extends Pdf implements Serializable{
         } catch (Exception e){}
    }
     
+     private void pierwszastronawys(PdfWriter writer,Vatpoz d,Deklaracjevat l){
+        Podatnik p = podatnikDAO.find(d.getPodatnik());
+        PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
+        absText(writer, p.getNip(), 70, 790);
+        absText(writer, d.getMiesiac(), 200, 745);
+        absText(writer, d.getRok(), 270, 745);
+        absText(writer, d.getNazwaurzedu(), 70, 674);
+        if(d.getCelzlozenia().equals("1")){
+            absText(writer, "X", 368, 674);
+        } else {
+            absText(writer, "X", 482, 674);
+        }
+        absText(writer, "X", 388, 624);
+        absText(writer, p.getImie()+ " "+p.getNazwisko()+"d", 70, 600);
+        absText(writer, p.getPesel(), 368, 600);
+        absText(writer, "Polska", 70, 576);
+        absText(writer, p.getWojewodztwo(), 170, 576);
+        absText(writer, p.getPowiat(), 400, 576);
+        absText(writer, p.getGmina(), 70, 552);
+        absText(writer, p.getUlica(), 200, 552);
+        absText(writer, p.getNrdomu(), 470, 552);
+        absText(writer, p.getNrlokalu(), 535, 552);
+        absText(writer, p.getMiejscowosc(), 70, 528);
+        absText(writer, p.getKodpocztowy(), 300, 528);
+        absText(writer, p.getPoczta(), 380, 528,"f");
+        absText(writer, o.getPole20(), 330, 486,"f");
+        absText(writer, o.getPole21(), 330, 462,"f");
+        absText(writer, o.getPole22(), 330, 438,"f");
+        absText(writer, o.getPole23(), 330, 414,"f");
+        absText(writer, o.getPole24(), 330, 390,"f");
+        absText(writer, o.getPole25(), 330, 366,"f"); absText(writer, o.getPole26(), 490, 366,"f");
+        absText(writer, o.getPole27(), 330, 342,"f"); absText(writer, o.getPole28(), 490, 342,"f");
+        absText(writer, o.getPole29(), 330, 318,"f"); absText(writer, o.getPole30(), 490, 318,"f");
+        absText(writer, o.getPole31(), 330, 296,"f");
+        absText(writer, o.getPole32(), 330, 272,"f");
+        absText(writer, o.getPole33(), 330, 248,"f"); absText(writer, o.getPole34(), 490, 248,"f");
+        absText(writer, o.getPole35(), 330, 224,"f"); absText(writer, o.getPole36(), 490, 224,"f");
+        absText(writer, o.getPole37(), 330, 200,"f"); absText(writer, o.getPole37(), 490, 200,"f");
+        absText(writer, o.getPole39(), 330, 176,"f"); absText(writer, o.getPole40(), 490, 176,"f");
+        absText(writer, o.getPole41(), 330, 152,"f"); absText(writer, o.getPole42(), 490, 152,"f");
+                                                  absText(writer, o.getPole43(), 490, 128,"f");
+                                                  absText(writer, o.getPole44(), 490, 104,"f");
+        absText(writer, o.getPole45(), 330, 80,"f");  absText(writer, o.getPole46(), 490, 80,"f");
+        absText(writer, "Status: do wysyłki", 490, 790);
+        
+   }
+   
+   private void drugastronawys(PdfWriter writer,Vatpoz d,Deklaracjevat l){
+        Podatnik p = podatnikDAO.find(d.getPodatnik());
+        PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
+                                                  absText(writer, o.getPole47(), 490, 750,"f");
+                                                  absText(writer, o.getPole48(), 490, 726,"f");
+        absText(writer, o.getPole49(), 330, 678,"f"); absText(writer, o.getPole50(), 490, 678,"f");
+        absText(writer, o.getPole51(), 330, 654,"f"); absText(writer, o.getPole52(), 490, 654,"f");
+                                                  absText(writer, o.getPole53(), 490, 610,"f");
+                                                  absText(writer, o.getPole54(), 490, 586,"f");
+                                                  absText(writer, o.getPole55(), 490, 562,"f");
+                                                  absText(writer, o.getPole56(), 490, 515,"f");
+                                                  absText(writer, o.getPole57(), 490, 491,"f");
+                                                  absText(writer, o.getPole58(), 490, 467,"f");
+                                                  absText(writer, o.getPole59(), 490, 443,"f");
+                                                  absText(writer, o.getPole60(), 490, 419,"f");
+                                                  absText(writer, o.getPole61(), 490, 395,"f");
+        absText(writer, o.getPole62(), 190, 368,"f"); absText(writer, o.getPole63(), 330, 368,"f"); absText(writer, o.getPole64(), 490, 368,"f");
+                                                  absText(writer, o.getPole65(), 490, 347,"f");
+        absText(writer, p.getImie(), 80, 166); absText(writer, p.getNazwisko(), 210, 166);
+        absText(writer, "91 8120976", 80, 142); 
+   }
+   
+   
     static String INPUTFILE = "c:/vat/pk1.pdf";
     static String INPUTFILEM = "c:/vat/vat7.pdf";
     
