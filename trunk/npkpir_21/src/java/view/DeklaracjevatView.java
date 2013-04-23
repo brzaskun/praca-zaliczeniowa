@@ -29,6 +29,9 @@ import org.primefaces.event.RowEditEvent;
 public class DeklaracjevatView implements Serializable {
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> wyslane;
+    private List<Deklaracjevat> wyslanenormalne;
+    private List<Deklaracjevat> wyslanetestowe;
+    private List<Deklaracjevat> wyslanezbledem;
     private List<Deklaracjevat> oczekujace;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -37,6 +40,9 @@ public class DeklaracjevatView implements Serializable {
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
         oczekujace = new ArrayList<>();
+        wyslanenormalne = new ArrayList<>();
+        wyslanetestowe = new ArrayList<>();
+        wyslanezbledem = new ArrayList<>();
     }
     
     
@@ -48,6 +54,17 @@ public class DeklaracjevatView implements Serializable {
         } catch (Exception e){}
          try{
             wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
+            for(Deklaracjevat p : wyslane){
+                if(!p.getStatus().equals("200")){
+                    wyslanezbledem.add(p);
+                } else {
+                    if(p.getUpo().contains("system testowy")){
+                        wyslanetestowe.add(p);
+                    } else {
+                        wyslanenormalne.add(p);
+                    }                
+                }
+            }
         } catch (Exception e){}
     }
     
@@ -111,6 +128,30 @@ public class DeklaracjevatView implements Serializable {
 
     public void setSelected(Deklaracjevat selected) {
         this.selected = selected;
+    }
+
+    public List<Deklaracjevat> getWyslanenormalne() {
+        return wyslanenormalne;
+    }
+
+    public void setWyslanenormalne(List<Deklaracjevat> wyslanenormalne) {
+        this.wyslanenormalne = wyslanenormalne;
+    }
+
+    public List<Deklaracjevat> getWyslanetestowe() {
+        return wyslanetestowe;
+    }
+
+    public void setWyslanetestowe(List<Deklaracjevat> wyslanetestowe) {
+        this.wyslanetestowe = wyslanetestowe;
+    }
+
+    public List<Deklaracjevat> getWyslanezbledem() {
+        return wyslanezbledem;
+    }
+
+    public void setWyslanezbledem(List<Deklaracjevat> wyslanezbledem) {
+        this.wyslanezbledem = wyslanezbledem;
     }
     
     

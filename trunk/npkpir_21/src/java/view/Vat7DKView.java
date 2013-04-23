@@ -377,7 +377,11 @@ public class Vat7DKView implements Serializable {
                 nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                 setFlaga(2);
             } else {
-                if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+                if (badana.getUpo().contains("system testowy")){
+                    selected.setCelzlozenia("1");
+                    Msg.msg("i", "Utworzono nową deklarację. Wysłana poprzednia była testowa", "form:msg");
+                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1); 
+                } else if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
@@ -400,7 +404,11 @@ public class Vat7DKView implements Serializable {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");
                 setFlaga(1);
             } else {
-                if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+                if (badana.getUpo().contains("system testowy")){
+                    selected.setCelzlozenia("1");
+                    Msg.msg("i", "Utworzono nową deklarację. Wysłana poprzednia była testowa", "form:msg");
+                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1); 
+                } else if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
