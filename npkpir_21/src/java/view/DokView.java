@@ -1415,7 +1415,7 @@ public class DokView implements Serializable{
     
     public void aktualizujWestWpisWidokIndex(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
-        //FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
     }
      public void aktualizujZamkniecie(AjaxBehaviorEvent e) throws IOException {
          aktualizuj();
