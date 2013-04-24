@@ -18,7 +18,7 @@
                      <p:panel header="Wykaz wysłanych deklaracji. Deklaracje pokolorowane są wysłane z sukcesem."/>
                       <p:tabView>
             <p:tab title="udane">
-                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" scrollable="true" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
@@ -82,7 +82,7 @@
                      </p:dataTable>
                      </p:tab>
                            <p:tab title="błędne">
-                               <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}" scrollable="true" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                               <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
@@ -137,11 +137,12 @@
                              </f:facet>
                              <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
                          </p:column>
-                        
+                         <p:column id="deleteColumn" headerText="usuń" width="70">
+                             <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/></p:column>
                      </p:dataTable>
                      </p:tab>
                             <p:tab title="testowo   ">
-                <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" scrollable="true" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
@@ -197,7 +198,8 @@
                              </f:facet>
                              <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
                          </p:column>
-                        
+                         <p:column id="deleteColumn" headerText="usuń" width="70">
+                             <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/></p:column>
                      </p:dataTable>
                      </p:tab>
                       </p:tabView>
