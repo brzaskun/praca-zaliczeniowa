@@ -97,6 +97,18 @@ public class DeklaracjevatView implements Serializable {
            
         }
     
+    public void destroy2a() {
+         try {
+               wyslanezbledem.remove(selected);
+               wyslanetestowe.remove(selected);
+               deklaracjevatDAO.destroy(selected);
+                Msg.msg("i","Deklaracja usunięta","formX:msg");
+            } catch (Exception e) {
+                Msg.msg("e","Deklaracja nie usunięta","formX:msg");
+                System.out.println("Nie usunieto " + selected.getIdentyfikator() + " " + e.toString());
+            }
+           
+        }
 
     public List<Deklaracjevat> getWyslane() {
         return wyslane;
