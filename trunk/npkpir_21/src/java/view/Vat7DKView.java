@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -332,6 +333,15 @@ public class Vat7DKView implements Serializable {
             //pobiera liste deklaracji poprzednich z danego miesiaca
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
             pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
+            //eliminowanie testowych
+            ListIterator it;
+            it = pobranalistadeklaracji.listIterator();
+            while(it.hasNext()){
+                Deklaracjevat tmp = (Deklaracjevat) it.next();
+                if(tmp.getUpo().contains("system testowy")){
+                    it.remove();
+                }
+            }
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
             //nie bylo takiej wiec cofa sie o miesiac
         } catch (Exception e) {
