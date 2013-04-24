@@ -48,6 +48,9 @@
             <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" sortBy="#{wpis.rodzTrans}">  
                 <h:outputText value="#{wpis.rodzTrans}" />
             </p:column>
+            <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.typdokumentu}" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}">  
+                <h:outputText value="#{wpis.typdokumentu}" />
+            </p:column>
             <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
                <h:outputText value="#{wpis.nrWlDk}" />
             </p:column>
