@@ -151,13 +151,11 @@ public class DokTabView implements Serializable {
     public void edit(RowEditEvent ex) {
         try {
             //sformatuj();
-            dokDAO.edit(selDokument);
-            FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany " + ex.getObject().toString(), selDokument.getIdDok().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            dokDAO.edit(ex.getObject());
+            Msg.msg("i",  "Nowy dokument wyedytowany i zachowany.","form:messages");
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage("Dokytkownik nie zedytowany", e.getStackTrace().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            System.out.println(e.toString());
+            Msg.msg("e",  "Wystąpił błąd. Dokument nie zachowany po  edycji.","form:messages");
         }
     }
 

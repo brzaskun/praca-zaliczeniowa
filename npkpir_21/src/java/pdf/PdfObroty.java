@@ -56,14 +56,15 @@ public class PdfObroty extends Pdf implements Serializable {
         }
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
-        PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(9);
+        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2});
         PdfPCell cell = new PdfPCell();
         try {
             table.addCell(ustawfrazebez("nr kolejny", "center",8));
             table.addCell(ustawfrazebez("data wystawienia", "center",8));
             table.addCell(ustawfrazebez("kontrahent", "center",8));
             table.addCell(ustawfrazebez("transakcja", "center",8));
+            table.addCell(ustawfrazebez("symbol dok.", "center",8));
             table.addCell(ustawfrazebez("nr własny", "center",8));
             table.addCell(ustawfrazebez("opis", "center",8));
             table.addCell(ustawfrazebez("netto", "center",8));
@@ -84,6 +85,7 @@ public class PdfObroty extends Pdf implements Serializable {
             table.addCell(ustawfrazebez(rs.getDataWyst(), "left",8));
             table.addCell(ustawfrazebez(rs.getKontr().getNpelna(), "left",8));
             table.addCell(ustawfrazebez(rs.getRodzTrans(), "left",8));
+            table.addCell(ustawfrazebez(rs.getTypdokumentu(), "left",8));
             table.addCell(ustawfrazebez(rs.getNrWlDk(), "left",8));
             table.addCell(ustawfrazebez(rs.getOpis(), "left",8));
             table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right",8));
