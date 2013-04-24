@@ -5,29 +5,24 @@
 package view;
 
 import dao.DokDAO;
-import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
-import embeddable.Rozrachunek;
 import embeddable.RyczaltPodatek;
 import embeddable.Straty;
 import embeddable.Udzialy;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
-import entity.Podstawki;
 import entity.Ryczpoz;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +34,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -127,7 +121,7 @@ public class ZestawienieRyczaltView implements Serializable {
 
                 }
             } catch (Exception e) {
-                Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
+                Msg.msg("e", "Nie uzupełniony wykaz udziałów", "formpit:messages");
             }
             Collection c = null;
             try {
@@ -402,7 +396,8 @@ public class ZestawienieRyczaltView implements Serializable {
                                 break;
                         }
                     }
-                    //pobierzPity();
+                }
+                //pobierzPity();
                     zebranieMcy.add(styczen);
                     zebranieMcy.add(luty);
                     zebranieMcy.add(marzec);
@@ -415,7 +410,6 @@ public class ZestawienieRyczaltView implements Serializable {
                     zebranieMcy.add(pazdziernik);
                     zebranieMcy.add(listopad);
                     zebranieMcy.add(grudzien);
-                }
 
                 Ipolrocze = new ArrayList<>();
                 IIpolrocze = new ArrayList<>();
@@ -601,11 +595,17 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
     private void wyliczprocent(BigDecimal suma){
+        try{
         for(RyczaltPodatek p : biezacyPit.getListapodatkow()){
             BigDecimal wartosc = new BigDecimal(p.getPrzychod());
             BigDecimal procent = wartosc.divide(suma, 20, RoundingMode.HALF_EVEN);
             procent = procent.setScale(4, RoundingMode.HALF_EVEN);
             p.setUdzialprocentowy(procent.doubleValue());
+        }
+        } catch (Exception e){
+           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak przychodow w miesiacu", "");
+           FacesContext.getCurrentInstance().addMessage(null, msg);
+           return;
         }
     }
     private void wyliczodliczenieZmniejszenia(){
