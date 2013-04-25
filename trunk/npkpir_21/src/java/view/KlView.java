@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import javax.annotation.PostConstruct;
@@ -52,6 +54,9 @@ public class KlView implements Serializable{
   
     public void dodajKlienta(){
       try {
+        if(selected.getNip().equals("")){
+            wygenerujnip();
+        }
         String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
         formatka = formatka.concat(selected.getNpelna().substring(1).toLowerCase());
         selected.setNpelna(formatka);
@@ -231,6 +236,39 @@ public class KlView implements Serializable{
          }
          }
     }
+     
+     
+    private void wygenerujnip() {
+       List<Klienci> kliencitmp  = klDAO.findAll();
+       List<Klienci> kliencinip = new ArrayList<>();
+       //odnajduje klientow jednorazowych
+       for (Klienci p : kliencitmp){
+           if(p.getNip().startsWith("XX")){
+               kliencinip.add(p);
+           }
+       }
+       //wyciaga nipy
+       List<Integer> nipy = new ArrayList<>();
+       for (Klienci p : kliencinip){
+             nipy.add(Integer.parseInt(p.getNip().substring(2)));
+       }
+       Collections.sort(nipy);
+       Integer max;
+       if(nipy.size()>0){
+          max = nipy.get(nipy.size()-1);
+          max++;
+       } else {
+          max = 0;
+       }
+       //uzupelnia o zera i robi stringa;
+       String wygenerowanynip = max.toString();
+       while(wygenerowanynip.length()<10){
+           wygenerowanynip = "0"+wygenerowanynip;
+       }
+       wygenerowanynip = "XX"+wygenerowanynip;
+       selected.setNip(wygenerowanynip);
+    }
+
 
     
     public Klienci getSelected() {
@@ -277,6 +315,11 @@ public class KlView implements Serializable{
         this.doUsuniecia = doUsuniecia;
     }
 
-   
+   public static void main(String[] args){
+       String mse = "XX0000000001";
+       mse = mse.substring(2);
+       mse = String.valueOf(Integer.parseInt(mse));
+       System.out.println(mse);
+   }
    
 }
