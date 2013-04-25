@@ -253,6 +253,7 @@ public class DokTabView implements Serializable {
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu(),"form:messages");
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
     
@@ -302,11 +303,11 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
 
-    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) {
+    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
         RequestContext ctx = null;
         RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
         RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-
+        
     }
     
     private void aktualizuj(){

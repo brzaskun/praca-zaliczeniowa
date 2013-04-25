@@ -30,6 +30,7 @@ public class DeklaracjevatView implements Serializable {
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> wyslane;
     private List<Deklaracjevat> wyslanenormalne;
+    private List<Deklaracjevat> wyslaneniepotwierdzone;
     private List<Deklaracjevat> wyslanetestowe;
     private List<Deklaracjevat> wyslanezbledem;
     private List<Deklaracjevat> oczekujace;
@@ -43,6 +44,7 @@ public class DeklaracjevatView implements Serializable {
         wyslanenormalne = new ArrayList<>();
         wyslanetestowe = new ArrayList<>();
         wyslanezbledem = new ArrayList<>();
+        wyslaneniepotwierdzone = new ArrayList<>();
     }
     
     
@@ -55,16 +57,16 @@ public class DeklaracjevatView implements Serializable {
          try{
             wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
             for(Deklaracjevat p : wyslane){
-                if(!p.getStatus().equals("200")){
-                    wyslanezbledem.add(p);
-                } else {
                     if(p.getUpo().contains("system testowy")){
                         wyslanetestowe.add(p);
+                    } else if (p.getStatus().startsWith("4")){
+                        wyslanezbledem.add(p);
+                    } else if (p.getStatus().startsWith("3")) {
+                        wyslaneniepotwierdzone.add(p);
                     } else {
                         wyslanenormalne.add(p);
-                    }                
+                    }
                 }
-            }
         } catch (Exception e){}
     }
     
@@ -164,6 +166,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setWyslanezbledem(List<Deklaracjevat> wyslanezbledem) {
         this.wyslanezbledem = wyslanezbledem;
+    }
+
+    public List<Deklaracjevat> getWyslaneniepotwierdzone() {
+        return wyslaneniepotwierdzone;
+    }
+
+    public void setWyslaneniepotwierdzone(List<Deklaracjevat> wyslaneniepotwierdzone) {
+        this.wyslaneniepotwierdzone = wyslaneniepotwierdzone;
     }
     
     

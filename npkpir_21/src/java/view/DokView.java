@@ -77,6 +77,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import msg.Msg;
 
 
 import org.primefaces.component.autocomplete.AutoComplete;
@@ -1414,9 +1415,12 @@ public class DokView implements Serializable{
     }
     
     public void aktualizujWestWpisWidokIndex(AjaxBehaviorEvent e) throws IOException {
-        aktualizuj();
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+       aktualizuj();
+       FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+       Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu(),"dodWiad:mess_add");
+       
     }
+    
      public void aktualizujZamkniecie(AjaxBehaviorEvent e) throws IOException {
          aktualizuj();
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaZamkniecie.xhtml");
