@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -75,7 +76,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-
+ RequestContext.getCurrentInstance().update("formX");
     }
     
      public static void drukujwysVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
@@ -120,7 +121,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-
+ RequestContext.getCurrentInstance().update("formX");
     }
   
     

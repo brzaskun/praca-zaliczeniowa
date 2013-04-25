@@ -168,11 +168,40 @@ function wydrukpkpir(kto){
 function wydrukstr(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formSTR:ewwysylka").style.display='inline';
+    
 }
-
+// progress on transfers from the server to the client (downloads)
+function updateProgress (oEvent) {
+  if (oEvent.lengthComputable) {
+    var percentComplete = oEvent.loaded / oEvent.total;
+    // ...
+  } else {
+    // Unable to compute progress information since the total size is unknown
+  }
+}
+ 
+function transferComplete(evt) {
+  alert("The transfer is complete.");
+}
+ 
+function transferFailed(evt) {
+  alert("An error occurred while transferring the file.");
+}
+ 
+function transferCanceled(evt) {
+  alert("The transfer has been canceled by the user.");
+}
 function wydrukvat7(kto){
+//    var oReq = new XMLHttpRequest();
+//    window.addEventListener("progress", updateProgress, false);
+//    window.addEventListener("load", transferComplete, false);
+//    window.addEventListener("error", transferFailed, false);
+//    window.addEventListener("abort", transferCanceled, false);
+    
     window.open('../vat/vat7-13'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formX:dataList:1:mailbutton").style.display='inline';
+//    var myrequest = window.XMLHttpRequest;
+//    myrequest.status=200;
 }
 
 function wydrukobroty(kto){
