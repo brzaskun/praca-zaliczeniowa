@@ -428,6 +428,17 @@ public class DokTabView implements Serializable {
                 }
      }
     
+      public void aktywacjadeaktywacja(){
+         for(Dok p : gosciuwybral){
+             if(p.getUsunpozornie()==false){
+                 p.setUsunpozornie(true);
+             } else {
+                 p.setUsunpozornie(false);
+             }
+             dokDAO.edit(p);
+         }
+         RequestContext.getCurrentInstance().update("form:dokumentyLista");
+      }
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;

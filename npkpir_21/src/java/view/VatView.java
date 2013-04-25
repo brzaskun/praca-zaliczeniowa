@@ -241,7 +241,7 @@ public class VatView implements Serializable {
          } else if (vatokres.equals("miesięczne")){
              List<Dok> listatymczasowa = new ArrayList<>();
              for(Dok p : listadokvat){
-                 if(p.getVatM().equals(wpisView.getMiesiacWpisu())){
+                 if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
                      listatymczasowa.add(p);
                  }
              }
@@ -252,7 +252,9 @@ public class VatView implements Serializable {
              List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
              for(Dok p : listadokvat){
                  if(p.getVatM().equals(miesiacewkwartale.get(0))||p.getVatM().equals(miesiacewkwartale.get(1))||p.getVatM().equals(miesiacewkwartale.get(2))){
-                     listatymczasowa.add(p);
+                     if(p.getUsunpozornie()==false){
+                        listatymczasowa.add(p);
+                     }
                  }
              }
              return listatymczasowa;

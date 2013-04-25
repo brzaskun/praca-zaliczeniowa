@@ -37,6 +37,7 @@
     <p:outputPanel id="wrapper"> 
            <p:contextMenu>
                <p:menuitem value="Print" update=":form:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
+               <p:menuitem value="Switch" update=":form:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
             </p:contextMenu>
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                       rows="#{DokTabView.uzytkownik.iloscwierszy}" paginator="true"
@@ -44,7 +45,6 @@
                       rowsPerPageTemplate="50,100,250,500" paginatorPosition="top"
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                      
                       > 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{DokTabView.edit}" />
                         
@@ -58,7 +58,7 @@
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-                
+           
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                         <h:outputText value="#{wpis.dataWyst}"/>
             </p:column>
@@ -158,7 +158,10 @@
                 <p:column id="deleteColumn" headerText="usuń" width="50">
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />
                 </p:column>
-
+ <p:column id="usunpozornieColumn" headerText="modyfikacja" sortBy="#{wpis.usunpozornie}"  width="30">  
+                <h:outputText value="#{wpis.usunpozornie}" />
+            </p:column>
+                
         </p:dataTable>
     </p:outputPanel>
     

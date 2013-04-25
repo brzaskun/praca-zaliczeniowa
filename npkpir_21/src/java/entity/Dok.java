@@ -167,7 +167,8 @@ public class Dok implements Serializable {
     @Lob
     @Column(name = "storno")
     private ArrayList<Stornodoch> storno;
-    
+    @Column(name = "usunpozornie")
+    private Boolean usunpozornie;
     
     public Dok() {
     }
@@ -431,6 +432,15 @@ public class Dok implements Serializable {
         this.brutto = brutto;
     }
 
+    public Boolean getUsunpozornie() {
+        return usunpozornie;
+    }
+
+    public void setUsunpozornie(Boolean usunpozornie) {
+        this.usunpozornie = usunpozornie;
+    }
+
+    
    
 
     
