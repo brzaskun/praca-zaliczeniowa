@@ -17,8 +17,8 @@
                      <p:growl id="msg"/>
                      <p:panel header="Wykaz wysłanych deklaracji. Deklaracje pokolorowane są wysłane z sukcesem."/>
                       <p:tabView>
-            <p:tab title="udane">
-                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                           <p:tab title="bez UPO">
+                               <p:dataTable id="dataLista" value="#{deklaracjevatView.wyslaneniepotwierdzone}" var="item" sortBy="#{item.miesiac}" >
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
@@ -69,20 +69,14 @@
                          </p:column>
                           <p:column width="80">
                              <f:facet name="header">
-                                 <h:outputText value="drukuj"/>
+                                 <h:outputText value="pobierzupo"/>
                              </f:facet>
-                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="wydrukvat7('#{item.podatnik}');"/>
-                         </p:column>
-                         <p:column width="80">
-                             <f:facet name="header">
-                                 <h:outputText value="mail"/>
-                             </f:facet>
-                             <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7()}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="alert('Wysłano mail');" />
+                             <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
                          </p:column>
                      </p:dataTable>
                      </p:tab>
-                           <p:tab title="błędne">
-                               <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+            <p:tab title="udane">
+                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" >
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
@@ -125,24 +119,71 @@
                              </f:facet>
                              <h:outputText value="#{item.selected}"/>
                          </p:column>
-                         <p:column width="80">
+                        
+                          <p:column width="80">
                              <f:facet name="header">
-                                 <h:outputText value="pobierzupo"/>
+                                 <h:outputText value="drukuj"/>
                              </f:facet>
-                             <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
+                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="wydrukvat7('#{item.podatnik}');"/>
                          </p:column>
                          <p:column width="80">
                              <f:facet name="header">
-                                 <h:outputText value="testupo"/>
+                                 <h:outputText value="mail"/>
                              </f:facet>
-                             <p:commandButton value="TUPO" actionListener="#{beanek.pobierzwyslanetest(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
+                             <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7()}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="alert('Wysłano mail');" />
+                         </p:column>
+                     </p:dataTable>
+                     </p:tab>
+                           <p:tab title="błędne">
+                               <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}" >
+                         <p:column width="240">
+                             <f:facet name="header">
+                                 <h:outputText value="Identyfikator"/>
+                             </f:facet>
+                             <h:outputText value="#{item.identyfikator}"/>
+                         </p:column>
+                         <p:column width="45">
+                             <f:facet name="header">
+                                 <h:outputText value="Status"/>
+                             </f:facet>
+                             <h:outputText value="#{item.status}"/>
+                         </p:column>
+                          <p:column width="130">
+                             <f:facet name="header">
+                                 <h:outputText value="Opis"/>
+                             </f:facet>
+                             <h:outputText value="#{item.opis}"/>
+                         </p:column>
+                         <p:column width="45"> 
+                             <f:facet name="header">
+                                 <h:outputText value="Kod urzedu"/>
+                             </f:facet>
+                             <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
+                         </p:column>
+                         <p:column width="70">
+                             <f:facet name="header">
+                                 <h:outputText value="Rok - Miesiac"/>
+                             </f:facet>
+                             <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                         </p:column>
+                         <p:column width="40">
+                             <f:facet name="header">
+                                 <h:outputText value="Nrkol"/>
+                             </f:facet>
+                             <h:outputText value="#{item.nrkolejny}"/>
+                         </p:column>
+                         <p:column width="250">
+                             <f:facet name="header">
+                                 <h:outputText value="selected"/>
+                             </f:facet>
+                             <h:outputText value="#{item.selected}"/>
                          </p:column>
                          <p:column id="deleteColumn" headerText="usuń" width="70">
                              <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/></p:column>
                      </p:dataTable>
                      </p:tab>
                             <p:tab title="testowo   ">
-                <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" rowStyleClass="#{item.status eq '200' ? 'old' : null}">
+                <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}">
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>
