@@ -124,7 +124,7 @@
                              <f:facet name="header">
                                  <h:outputText value="drukuj"/>
                              </f:facet>
-                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="wydrukvat7('#{item.podatnik}');"/>
+                              <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');" />
                          </p:column>
                          <p:column width="80">
                              <f:facet name="header">
@@ -230,7 +230,7 @@
                              <f:facet name="header">
                                  <h:outputText value="drukuj"/>
                              </f:facet>
-                             <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" onsuccess="wydrukvat7('#{item.podatnik}');"/>
+                             <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');"/>
                          </p:column>
                         
                          <p:column width="80">

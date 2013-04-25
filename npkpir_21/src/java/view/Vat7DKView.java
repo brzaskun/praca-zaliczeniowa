@@ -230,8 +230,6 @@ public class Vat7DKView implements Serializable {
             adres.setKodPocztowy(pod.getKodpocztowy());
             adres.setPoczta(pod.getPoczta().toUpperCase());
             selected.setAdres(adres);
-
-
             selected.setKwotaautoryzacja(kwotaautoryzujaca);
             stworzdeklaracje();
             nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());
