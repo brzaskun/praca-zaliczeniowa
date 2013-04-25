@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.EVatViewPola;
 import embeddable.Kwartaly;
+import embeddable.Parametr;
 import entity.Ewidencjevat;
 import entity.Podatnik;
 import java.io.FileNotFoundException;
@@ -37,6 +38,9 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class PdfVAT extends Pdf implements Serializable{
     public void drukujewidencje() throws DocumentException, FileNotFoundException, IOException{
+    Podatnik pod = wpisView.getPodatnikObiekt();
+    try{
+    List<Parametr> param = pod.getVatokres();
     //problem kwartalu
     Ewidencjevat lista;
     try{
@@ -165,8 +169,7 @@ public class PdfVAT extends Pdf implements Serializable{
     pdf.close();
     }
     //Msg.msg("i","Wydrukowano ewidencje","form:messages");
+    }catch (Exception e){}
     }   
-    
-     
    
 }

@@ -23,8 +23,7 @@
                 <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
                     <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
                 </p:inputText>
-                <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="14" style="width: 200px" required="true" requiredMessage="Pole nip nie może byc puste">
-                    <f:validateLength minimum="10"/>
+                <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="14" style="width: 200px">
                     <p:watermark for="nipPole" value="bez -" /> 
                 </p:inputText>
                 <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>

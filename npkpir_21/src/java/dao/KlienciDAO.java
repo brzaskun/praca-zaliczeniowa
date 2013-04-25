@@ -33,4 +33,6 @@ public class KlienciDAO extends DAO implements Serializable {
             return null;
         }
    }
+   
+   
 }
