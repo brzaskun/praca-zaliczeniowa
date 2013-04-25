@@ -89,7 +89,7 @@
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{infoView.ryczaltnieryczalt eq 'Firma aktuanie jest na ryczałcie' ? false : true}" >
             <p:panelGrid columns="1" style="width: 400px">
                 <h:form id="formpit">
-                    <p:growl id="messages" showDetail="true"/>
+                    <p:growl id="messages" />
                      <p:panel header="wybierz osobę: " style="width: 400px;"/><br/>
                     <p:selectOneMenu value="#{ZestawienieView.wybranyudzialowiec}">
                         <f:selectItem itemLabel="wybierz osobe" itemValue="wybierz osobe"/>

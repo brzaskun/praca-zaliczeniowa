@@ -329,5 +329,9 @@ public class SessionFacade<T> {
             return null;
         }
     }
+
+    public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc) {
+        return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu",typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+    }
     
 }
