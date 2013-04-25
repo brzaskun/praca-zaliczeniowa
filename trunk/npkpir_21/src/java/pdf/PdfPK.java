@@ -41,7 +41,7 @@ import view.DokTabView;
 public class PdfPK extends Pdf implements Serializable {
     
     public void drukujPK() throws DocumentException, FileNotFoundException, IOException {
-        Dok selected = DokTabView.getGosciuwybralS().get(1);
+        Dok selected = DokTabView.getGosciuwybralS().get(0);
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
