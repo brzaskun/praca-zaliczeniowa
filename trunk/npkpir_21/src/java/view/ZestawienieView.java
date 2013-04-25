@@ -4,16 +4,17 @@
  */
 package view;
 
+import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.Straty;
 import embeddable.Udzialy;
+import entity.Amodok;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -34,7 +35,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -54,6 +54,7 @@ public class ZestawienieView implements Serializable {
     private PitDAO pitDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject AmoDokDAO amoDokDAO;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -93,6 +94,8 @@ public class ZestawienieView implements Serializable {
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
+    
+    private int flaga = 0;
 
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[7]);
@@ -573,7 +576,8 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
-        if (!wybranyudzialowiec.equals("wybierz osobe")) {
+        sprawdzczyzaksiegowanoamortyzacje();
+        if (!wybranyudzialowiec.equals("wybierz osobe")&&flaga==0) {
             try {
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
                 List<Udzialy> lista = tmpP.getUdzialy();
@@ -716,6 +720,21 @@ public class ZestawienieView implements Serializable {
                 RequestContext.getCurrentInstance().update("formpit:");
             }
 
+        }
+    }
+    
+    private void sprawdzczyzaksiegowanoamortyzacje() {
+        Amodok amortyzacjawmiesiacu = null;
+        Dok dokumentamo = null;
+        try{
+            amortyzacjawmiesiacu = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        } catch (Exception e){}
+        try {
+            dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
+        } catch (Exception e){}
+        if(amortyzacjawmiesiacu!=null&&dokumentamo==null){
+           Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
+           flaga = 1;
         }
     }
 
@@ -1275,5 +1294,7 @@ public class ZestawienieView implements Serializable {
     public void setZus52zreki(boolean zus52zreki) {
         this.zus52zreki = zus52zreki;
     }
+
+    
     
 }

@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    
-
+     <f:event type="preRenderView" listener="#{PodatekView.sprawozdaniePodatkowe()}"/>
+     
    <p:outputPanel>
         <p:panelGrid id="prezentacjaPodatku" columns="13">
             <h:outputLabel value="okres: " style="font-style: italic;"/>

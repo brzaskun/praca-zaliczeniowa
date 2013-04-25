@@ -255,6 +255,7 @@ public class DokTabView implements Serializable {
         aktualizuj();
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu(),"form:messages");
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaTablica.xhtml");
     }
     
   
