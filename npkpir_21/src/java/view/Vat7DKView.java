@@ -69,6 +69,8 @@ public class Vat7DKView implements Serializable {
     private String rok;
     private String mc;
     private String podatnik;
+    private boolean pole56zreki;
+    private boolean pole59zreki;
 
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -455,13 +457,14 @@ public class Vat7DKView implements Serializable {
         p.setPole55(String.valueOf(p.getPoleI55()));
         Integer dozaplaty = p.getPoleI46() - p.getPoleI55();
         //to jets gupie bo kwota na kasy powinna byc jakos inaczej wstawiana to jest caly temat do zrobienia
-//        if(dozaplaty>p.getPoleI56()){
-//            p.setPoleI56(dozaplaty);
-//            p.setPole56(dozaplaty.toString());
-//        } else {
-//            p.setPole56("0");
-//            p.setPoleI56(0);
-//        }
+        if(pole56zreki==true){
+            if(dozaplaty>p.getPoleI56()){
+                p.setPoleI56(Integer.parseInt(p.getPole56()));
+            } else {
+                p.setPoleI56(dozaplaty);
+                p.setPole56(dozaplaty.toString());
+            }
+        } 
         p.setPole57("0");
         p.setPoleI57(0);
         Integer roznica = p.getPoleI46() - p.getPoleI55() - p.getPoleI56() - p.getPoleI57();
@@ -472,10 +475,12 @@ public class Vat7DKView implements Serializable {
             p.setPole58("0");
             p.setPoleI58(0);
         }
-        p.setPole59("0");
-        p.setPoleI59(0);
         Integer dozwrotu = p.getPoleI55() - p.getPoleI46();
-        roznica = p.getPoleI55() - p.getPoleI46() + p.getPoleI59();
+        if(!p.getPole59().equals("")){
+       p.setPoleI59(Integer.parseInt(p.getPole59()));
+        }
+       
+         roznica = p.getPoleI55() - p.getPoleI46() + p.getPoleI59();
         if (dozwrotu > 0) {
             p.setPoleI60(roznica);
             p.setPole60(roznica.toString());
@@ -596,6 +601,24 @@ public class Vat7DKView implements Serializable {
         this.podatnik = podatnik;
     }
 
+    public boolean isPole56zreki() {
+        return pole56zreki;
+    }
+
+    public void setPole56zreki(boolean pole56zreki) {
+        this.pole56zreki = pole56zreki;
+    }
+
+    public boolean isPole59zreki() {
+        return pole59zreki;
+    }
+
+    public void setPole59zreki(boolean pole59zreki) {
+        this.pole59zreki = pole59zreki;
+    }
+
+   
+    
     public static void main(String args[]) {
         List< String> list = new ArrayList< String>();
         list.add("A");
