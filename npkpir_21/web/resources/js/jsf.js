@@ -204,6 +204,10 @@ function wydrukvat7(kto){
 //    myrequest.status=200;
 }
 
+function wydrukordzu(kto){
+    window.open('../vat/ordzu'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+}
+
 function wydrukobroty(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formX:obrotywysylka").style.display='inline';
