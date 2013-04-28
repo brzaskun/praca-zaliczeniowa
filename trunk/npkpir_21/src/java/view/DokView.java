@@ -1004,6 +1004,7 @@ public class DokView implements Serializable{
                 selDokument.setRozrachunki(lista);
             }
             selDokument.setBrutto(kwota);
+            selDokument.setUsunpozornie(false);
             sprawdzCzyNieDuplikat(selDokument);
             dokDAO.dodaj(selDokument);
             //wpisywanie do bazy ostatniego dokumentu
@@ -1189,6 +1190,7 @@ public class DokView implements Serializable{
             selDokument.setVatR(wpisView.getRokWpisu().toString());
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
+            selDokument.setUsunpozornie(false);
             String data;
             switch (wpisView.getMiesiacWpisu()) {
                 case "01":
@@ -1301,6 +1303,7 @@ public class DokView implements Serializable{
             selDokument.setListakwot(listaX);
             selDokument.setRozliczony(true);
             selDokument.setTypdokumentu(typdokumentu);
+            selDokument.setUsunpozornie(false);
             //sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getNetto()!=0){
             sprawdzCzyNieDuplikat(selDokument);
