@@ -34,7 +34,7 @@ public class PdfPkpir extends Pdf implements Serializable {
 
     public void drukujksiege() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/npkpir_21/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
         HeaderFooter event = new HeaderFooter();
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(event);
