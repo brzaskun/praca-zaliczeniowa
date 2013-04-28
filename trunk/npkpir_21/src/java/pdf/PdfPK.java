@@ -44,7 +44,7 @@ public class PdfPK extends Pdf implements Serializable {
         Dok selected = DokTabView.getGosciuwybralS().get(0);
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z PKPiR");

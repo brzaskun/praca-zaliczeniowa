@@ -35,15 +35,15 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 public class PdfVAT7K extends PdfVAT7 implements Serializable{
-    static String vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-7K1-p1.jpg";
-    static String vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-7K2-p1.jpg";
+    static String vat71kw = "C:/npkpir_21/build/web/vat/VAT-7K1-p1.jpg";
+    static String vat72kw = "C:/npkpir_21/build/web/vat/VAT-7K2-p1.jpg";
             
             
     public static  void drukujVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji VAT " + dkl.getPodatnik());
@@ -57,9 +57,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         document.newPage();
         drugastrona(writer,v,dkl,p);
         document.close();
-        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        PdfReader reader = new PdfReader("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image;
         image = Image.getInstance(vat71kw);
@@ -93,7 +93,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji tetsowej VAT " + dkl.getPodatnik());
@@ -107,9 +107,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         document.newPage();
         drugastronawys(writer,v,dkl,p);
         document.close();
-        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        PdfReader reader = new PdfReader("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image;
         image = Image.getInstance(vat71kw);
@@ -403,9 +403,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
     private static StandardCopyOption copyOption = StandardCopyOption.REPLACE_EXISTING;
       private static void kombinuj(String kto) {
           try {
-            String[] files = {"C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf","C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ord-zu"+kto+".pdf"};
+            String[] files = {"C:/npkpir_21/build/web/vat/vat7-13"+kto+".pdf","C:/npkpir_21/build/web/vat/ord-zu"+kto+".pdf"};
             Document PDFCombineUsingJava = new Document();
-            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf"));
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf"));
             PDFCombineUsingJava.open();
             PdfReader ReadInputPDF;
             int number_of_pages;
@@ -417,9 +417,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                 }
             }
             PDFCombineUsingJava.close();
-            File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf");
+            File file = new File("C:/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf");
             // File (or directory) with new name
-            File file2 = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
+            File file2 = new File("C:/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
             Path p = file.toPath();
             Path p1 = file2.toPath();
             
@@ -432,9 +432,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
     }
       
       public static void main(String[] args){
-           File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDocBORYSIEWICZ.pdf");
+           File file = new File("C:/npkpir_21/build/web/vat/ComPdfDocBORYSIEWICZ.pdf");
             // File (or directory) with new name
-            File file2 = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13BORYSIEWICZ.pdf");
+            File file2 = new File("C:/npkpir_21/build/web/vat/vat7-13BORYSIEWICZ.pdf");
             
            String fileName = "C:/vat/VAT7-13KLUGE.pdf";
     // A File object to represent the filename

@@ -47,7 +47,7 @@ public class PdfVATsuma extends Pdf implements Serializable {
      
     public void drukuj() throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z ewidencji VAT");
