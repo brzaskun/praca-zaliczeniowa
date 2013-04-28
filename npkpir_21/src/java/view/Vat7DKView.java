@@ -51,7 +51,7 @@ public class Vat7DKView implements Serializable {
     @Inject
     private Deklaracjevat nowadeklaracja;
     @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
+    protected WpisView wpisView;
     @Inject
     private Vatpoz selected;
     static private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
@@ -64,7 +64,7 @@ public class Vat7DKView implements Serializable {
     @Inject
     private TKodUS tKodUS;
     @Inject
-    private DeklaracjevatDAO deklaracjevatDAO;
+    protected DeklaracjevatDAO deklaracjevatDAO;
     private int flaga;
     private String rok;
     private String mc;
@@ -193,6 +193,7 @@ public class Vat7DKView implements Serializable {
             Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
             setFlaga(1);
         }
+        czynieczekajuzcosdowyslania();
         if (flaga != 1) {
             try {
                 bylajuzdeklaracjawtymmiesiacu();
@@ -299,12 +300,24 @@ public class Vat7DKView implements Serializable {
     private void najpierwszadeklaracja() {
         if(flaga!=1){
         try {
-            //pobiera liste deklaracji poprzednich
+            //pobiera liste deklaracji poprzednich z danego miesiaca, jezeli nie ma wyrzuca blad
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
             pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
 
-        } catch (Exception er) {
+        } catch (Exception er) {}
+        try  {
+            //przechwytuje blad i jezeli sa dekalracje pozniejsze wyslane i bezbledne to kaze zajrzec do nich
+            List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
+            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjeWyslane(podatnik, rok);
+            for(Deklaracjevat p : pobranalistadeklaracji){
+                if(p.getStatus().equals("200")){
+                    flaga = 1;
+                    Msg.msg("e", "A po co tworzysz tę deklaracje, jak są już poźniejsze? Wywalam błąd a ty zajrzyj do wysłanych.", "form:msg");
+                    break;
+                }
+            }
+        } catch (Exception e){
             //klient swiezak nie ma zadnej deklaracji
             selected.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
@@ -368,7 +381,18 @@ public class Vat7DKView implements Serializable {
             deklaracjakorygowana = null;
         }
     }
-
+    private void czynieczekajuzcosdowyslania(){
+        try{
+            Deklaracjevat badana = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+            if(badana.getStatus().equals("")&&!badana.getMiesiac().equals(mc)){
+                flaga = 1;
+                Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!", "form:msg");
+            }
+        } catch (Exception e){
+            
+        }
+    }
+    
     //generalnie sluzy do pobierania pola 47
     private void pobierz47zpoprzedniej() {
         if (flaga != 1) {
@@ -393,11 +417,7 @@ public class Vat7DKView implements Serializable {
                 nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                 setFlaga(2);
             } else {
-                if (badana.getUpo().contains("system testowy")){
-                    selected.setCelzlozenia("1");
-                    Msg.msg("i", "Utworzono nową deklarację. Wysłana poprzednia była testowa", "form:msg");
-                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1); 
-                } else if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
@@ -408,6 +428,8 @@ public class Vat7DKView implements Serializable {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     selected.setCelzlozenia("2");
                     Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
+                    Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty", "form:msg");
+                    
                 } else {
                     setFlaga(1);
                     Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa", "form:msg");
@@ -420,11 +442,7 @@ public class Vat7DKView implements Serializable {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");
                 setFlaga(1);
             } else {
-                if (badana.getUpo().contains("system testowy")){
-                    selected.setCelzlozenia("1");
-                    Msg.msg("i", "Utworzono nową deklarację. Wysłana poprzednia była testowa", "form:msg");
-                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1); 
-                } else if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
@@ -537,6 +555,9 @@ public class Vat7DKView implements Serializable {
         nowadeklaracja.setDeklaracja(wiersz);
     }
 
+    
+   
+    
     public WpisView getWpisView() {
         return wpisView;
     }

@@ -29,16 +29,16 @@ class Naglowek {
         Miesiac = selected.getMiesiac();
         KodUrzedu = selected.getKodurzedu();
         if(vatokres.equals("miesięczne")){
-        Naglowek = "<ns:Naglowek><ns:KodFormularza kodSystemowy=\"VAT-7 (13)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</ns:KodFormularza>"
-                +"<ns:WariantFormularza>13</ns:WariantFormularza>"
-                +"<ns:CelZlozenia poz=\"P_7\">"+CelZlozenia+"</ns:CelZlozenia><ns:Rok>"+Rok+"</ns:Rok><ns:Miesiac>"+Miesiac
-                +"</ns:Miesiac><ns:KodUrzedu>"+KodUrzedu+"</ns:KodUrzedu></ns:Naglowek>";
+        Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7 (13)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</KodFormularza>"
+                +"<WariantFormularza>13</WariantFormularza>"
+                +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Miesiac>"+Miesiac
+                +"</Miesiac><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
         } else {
             String kwartal = zamienmcnakw();
-            Naglowek = "<ns:Naglowek><ns:KodFormularza kodSystemowy=\"VAT-7K (7)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</ns:KodFormularza>"
-                +"<ns:WariantFormularza>7</ns:WariantFormularza>"
-                +"<ns:CelZlozenia poz=\"P_7\">"+CelZlozenia+"</ns:CelZlozenia><ns:Rok>"+Rok+"</ns:Rok><ns:Kwartal>"+kwartal
-                +"</ns:Kwartal><ns:KodUrzedu>"+KodUrzedu+"</ns:KodUrzedu></ns:Naglowek>";
+            Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7K (7)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</KodFormularza>"
+                +"<WariantFormularza>7</WariantFormularza>"
+                +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Kwartal>"+kwartal
+                +"</Kwartal><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
         }
     }
    

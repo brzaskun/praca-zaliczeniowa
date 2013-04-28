@@ -138,6 +138,10 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłąna!", "formX:msg");
+            return;
+        }
         String strFileContent = temp.getDeklaracja();
         System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
@@ -210,6 +214,10 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłąna!", "formX:msg");
+            return;
+        }
         String strFileContent = temp.getDeklaracja();
         System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));

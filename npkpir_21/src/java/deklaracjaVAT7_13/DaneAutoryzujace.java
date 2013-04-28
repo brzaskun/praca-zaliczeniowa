@@ -30,7 +30,7 @@ class DaneAutoryzujace {
         DaneAutoryzujace = "<podp:DaneAutoryzujace xmlns:podp=\"http://e-deklaracje.mf.gov.pl/Repozytorium/Definicje/Podpis/\"><podp:NIP>"
                             +NIP+"</podp:NIP><podp:ImiePierwsze>"+ImiePierwsze+"</podp:ImiePierwsze><podp:Nazwisko>"+Nazwisko
                             +"</podp:Nazwisko><podp:DataUrodzenia>"+DataUrodzenia+"</podp:DataUrodzenia><podp:Kwota>"+Kwota
-                            +"</podp:Kwota></podp:DaneAutoryzujace></ns:Deklaracja>";
+                            +"</podp:Kwota></podp:DaneAutoryzujace></Deklaracja>";
     }
 
     public String getKwota() {

@@ -28,18 +28,18 @@ class PozycjeSzczegolowe {
             String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
-        PozycjeSzczegolowe = "<ns:PozycjeSzczegolowe>";
+        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         int j = 20;
         for(String p : lista){
             try {
                 boolean i = !p.isEmpty();
                 if(!p.equals("")){
-                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<ns:P_"+j+">"+p+"</ns:P_"+j+">");
+                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
                 }
             } catch (Exception e){}
             j++;
         }
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</ns:PozycjeSzczegolowe>");
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
     }
     
     public String getPozycjeSzczegolowe() {
