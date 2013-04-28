@@ -306,7 +306,9 @@ public class Deklaracjevat implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Deklaracjevat[ id=" + id + " ]";
+        return "Deklaracjevat{" + "deklaracja=" + deklaracja + '}';
     }
+
+   
     
 }

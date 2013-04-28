@@ -57,9 +57,14 @@ public class DeklaracjevatView implements Serializable {
          try{
             wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu());
             for(Deklaracjevat p : wyslane){
+                    try{
                     if(p.getUpo().contains("system testowy")){
                         wyslanetestowe.add(p);
-                    } else if (p.getStatus().startsWith("4")){
+                        break;
+                    }
+                    } catch (Exception e) {
+                    }
+                    if (p.getStatus().startsWith("4")){
                         wyslanezbledem.add(p);
                     } else if (p.getStatus().startsWith("3")) {
                         wyslaneniepotwierdzone.add(p);

@@ -44,13 +44,13 @@ class Podmiot {
         Miejscowosc = adres.getMiejscowosc();
         KodPocztowy = adres.getKodPocztowy();
         Poczta = adres.getPoczta();
-        Podmiot = "<ns:Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
+        Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
                 +"</etd:DataUrodzenia></etd:OsobaFizyczna><etd:AdresZamieszkaniaSiedziby rodzajAdresu=\"RAD\"><etd:AdresPol><etd:KodKraju>PL</etd:KodKraju><etd:Wojewodztwo>"
                 +Wojewodztwo+"</etd:Wojewodztwo><etd:Powiat>"+Powiat+"</etd:Powiat><etd:Gmina>"+Gmina+"</etd:Gmina><etd:Ulica>"+Ulica
                 +"</etd:Ulica><etd:NrDomu>"+NrDomu+"</etd:NrDomu><etd:NrLokalu>"+NrLokalu+"</etd:NrLokalu><etd:Miejscowosc>"+Miejscowosc
-                +"</etd:Miejscowosc><etd:KodPocztowy>"+KodPocztowy+"</etd:KodPocztowy><etd:Poczta>"+Poczta+"</etd:Poczta></etd:AdresPol></etd:AdresZamieszkaniaSiedziby></ns:Podmiot1>";
+                +"</etd:Miejscowosc><etd:KodPocztowy>"+KodPocztowy+"</etd:KodPocztowy><etd:Poczta>"+Poczta+"</etd:Poczta></etd:AdresPol></etd:AdresZamieszkaniaSiedziby></Podmiot1>";
     }
 
     public String getNIP() {
