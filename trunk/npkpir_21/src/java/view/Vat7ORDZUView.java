@@ -41,6 +41,7 @@ public class Vat7ORDZUView extends Vat7DKView implements Serializable{
         //dodajemy usuniete zakonczenie
         trescdeklaracji = trescdeklaracji+koncowka;
         temp.setDeklaracja(trescdeklaracji);
+        temp.setOrdzu(trescwyjasnienia);
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono wyjaśnienie.","formX:msg");

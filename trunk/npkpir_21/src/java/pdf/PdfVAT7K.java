@@ -10,6 +10,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -17,10 +18,14 @@ import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.context.RequestContext;
 
@@ -76,7 +81,12 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
- RequestContext.getCurrentInstance().update("formX");
+         try{
+            dkl.getOrdzu();
+            PdfORDZU.drukujORDZU(dkl, p);
+            kombinuj(v.getPodatnik());
+        } catch(Exception e){}
+         RequestContext.getCurrentInstance().update("formX");
     }
     
      public static void drukujwysVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
@@ -121,7 +131,12 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
- RequestContext.getCurrentInstance().update("formX");
+         try{
+            dkl.getOrdzu();
+            PdfORDZU.drukujORDZU(dkl, p);
+            kombinuj(v.getPodatnik());
+        } catch(Exception e){}
+         RequestContext.getCurrentInstance().update("formX");
     }
   
     
@@ -281,161 +296,176 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, "91 8120976", 80, 154); 
    }
    
-    private static void absText(PdfWriter writer,String text, int x, int y) {
-    try {
-      PdfContentByte cb = writer.getDirectContent();
-      BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-      cb.saveState();
-      cb.beginText();
-      cb.moveText(x, y);
-      cb.setFontAndSize(bf, 12);
-      cb.showText(text);
-      cb.endText();
-      cb.restoreState();
-    } catch (DocumentException | IOException e) {
-    }
-  }
-    
-     private static void absText(PdfWriter writer,String text, int x, int y, String f) {
-    try {
-      PdfContentByte cb = writer.getDirectContent();
-      BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-      cb.saveState();
-      cb.beginText();
-      try {
-          Integer.parseInt(text);
-          int dl = text.length();
-          if(dl>6){
-              text = text.substring(0,1)+" "+text.substring(1,4)+" "+text.substring(4);
-          } else if (dl>3&&dl<=6){
-              text = text.substring(0,dl-3)+" "+text.substring(dl-3);
-              x += 6*(7-dl);
-          } else {
-              x += 6*(7.5-dl);
-          }
-      } catch (Exception e){}
-      cb.moveText(x, y);
-      cb.setFontAndSize(bf, 12);
-      cb.showText(text);
-      cb.endText();
-      cb.restoreState();
-    } catch (DocumentException | IOException e) {
-    }
-  }
-    
-    private static void absText(PdfWriter writer,String text, int x, int y, int font) {
-    try {
-      PdfContentByte cb = writer.getDirectContent();
-      BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-      cb.saveState();
-      cb.beginText();
-      cb.moveText(x, y);
-      cb.setFontAndSize(bf, font);
-      cb.showText(text);
-      cb.endText();
-      cb.restoreState();
-    } catch (DocumentException | IOException e) {
-    }
-  }
+ 
+   
+   
      
-    public static void main(String[] args) throws IOException, DocumentException{
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/vat/pk1.pdf"));
-        document.addTitle("Polecenie księgowania");
-        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk danych z PKPiR");
-        document.addKeywords("PKPiR, PDF");
-        document.addCreator("Grzegorz Grzelczyk");
-        document.open();
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font font = new Font(helvetica,12);  
-        Font fontM = new Font(helvetica,10);
-        absText(writer, "8511005008", 70, 790);
-        absText(writer, "03", 200, 745);
-        absText(writer, "2013", 270, 745);
-        absText(writer, "Pierwszy Urząd Skarbowy w Szczecinie", 70, 674);
-        absText(writer, "X", 368, 674);
-        absText(writer, "X", 482, 674);
-        absText(writer, "X", 388, 602);
-        absText(writer, "Imie i nazwisko", 70, 578);
-        absText(writer, "Pesel", 368, 578);
-        absText(writer, "Kraj", 70, 534);
-        absText(writer, "Województwo", 170, 534);
-        absText(writer, "Powiat", 400, 534);
-        absText(writer, "Gmina", 70, 508);
-        absText(writer, "Uica", 200, 508);
-        absText(writer, "Nr d", 470, 508);
-        absText(writer, "Nr l", 535, 508);
-        absText(writer, "Miejscowość", 70, 486);
-        absText(writer, "Kod", 300, 486);
-        absText(writer, "Poczta", 380, 486);
-        absText(writer, "1234567", 330, 438);
-        absText(writer, "123456", 330, 414);
-        absText(writer, "12345", 330, 390);
-        absText(writer, "1234", 330, 366);
-        absText(writer, "123", 330, 342);
-        absText(writer, "Pole 25/000", 330, 318); absText(writer, "Pole 26/000", 470, 318);
-        absText(writer, "Pole 27/000", 330, 296); absText(writer, "Pole 28/000", 470, 296);
-        absText(writer, "Pole 29/000", 330, 272); absText(writer, "Pole 30/000", 470, 272);
-        absText(writer, "Pole 31/000", 330, 248);
-        absText(writer, "Pole 32/000", 330, 224);
-        absText(writer, "Pole 33/000", 330, 200); absText(writer, "Pole 34/000", 470, 200);
-        absText(writer, "Pole 35/000", 330, 176); absText(writer, "Pole 36/000", 470, 176);
-        absText(writer, "Pole 37/000", 330, 152); absText(writer, "Pole 38/000", 470, 152);
-        absText(writer, "Pole 39/000", 330, 128); absText(writer, "Pole 40/000", 470, 128);
-        absText(writer, "Pole 41/000", 330, 104); absText(writer, "Pole 42/000", 470, 104);
-                                                  absText(writer, "Pole 43/000", 470, 81);
-                                                  absText(writer, "Pole 44/000", 470, 58);
-
-        absText(writer, "Status 200", 490, 790);
-        absText(writer, "Data potwierdzebia", 490, 780,6);
-        absText(writer, "2013-05-05 124885", 490, 770,6);
-        absText(writer, "Opis", 490, 760,6);
-        absText(writer, "Nr potwierdzenia:", 460, 750,6);
-        absText(writer, "ijijiiijiiji", 460, 740,6);
-        document.newPage();
-        absText(writer, "Pole 45/000", 330, 790);  absText(writer, "Pole 46/000", 470, 790);
-                                                  absText(writer, "Pole 47/000", 470, 726);
-                                                  absText(writer, "Pole 48/000", 470, 702);
-        absText(writer, "Pole 49/000", 330, 654); absText(writer, "Pole 50/000", 470, 654);
-        absText(writer, "Pole 51/000", 330, 630); absText(writer, "Pole 52/000", 470, 630);
-                                                  absText(writer, "Pole 53/000", 470, 586);
-                                                  absText(writer, "Pole 54/000", 470, 562);
-                                                  absText(writer, "Pole 55/000", 470, 538);
-                                                  absText(writer, "Pole 56/000", 470, 491);
-                                                  absText(writer, "Pole 57/000", 470, 467);
-                                                  absText(writer, "Pole 58/000", 470, 443);
-                                                  absText(writer, "Pole 59/000", 470, 419);
-                                                  absText(writer, "Pole 60/000", 470, 395);
-                                                  absText(writer, "Pole 61/000", 470, 368);
-        absText(writer, "Pole 62/000", 190, 344); absText(writer, "Pole 63/000", 330, 344); absText(writer, "Pole 64/000", 470, 344);
-                                                  absText(writer, "Pole 65/000", 470, 323);
-        absText(writer, "Imie", 80, 178); absText(writer, "Nazwisko", 210, 178);
-        absText(writer, "Telefon", 80, 154); absText(writer, "Data", 210, 154);  absText(writer, "Podpis", 400, 165);
-        
-        
-        document.close();
-        PdfReader reader = new PdfReader(INPUTFILE);
-        reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/vat/pka.pdf"));
-        PdfContentByte underContent = pdfStamper.getUnderContent(1);
-        Image image = Image.getInstance("c:/vat/VAT-7K1-p1.jpg");
-        image.scaleToFit(610,850);
-        image.setAbsolutePosition(0f, 0f);
-        underContent.addImage(image);
-        PdfContentByte overContent = pdfStamper.getOverContent(1);
-        image = Image.getInstance("c:/vat/golab.png");
-        image.scaleToFit(50,50);
-        image.setAbsolutePosition(450f, 770f);
-        overContent.addImage(image);
-        underContent = pdfStamper.getUnderContent(2);
-        image = Image.getInstance("c:/vat/VAT-7K2-p1.jpg");
-        image.scaleToFit(610,850);
-        image.setAbsolutePosition(0f, 0f);
-        underContent.addImage(image);
-        pdfStamper.close();
-        reader.close();
-        writer.close();
+//    public static void main(String[] args) throws IOException, DocumentException{
+//        Document document = new Document();
+//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/vat/pk1.pdf"));
+//        document.addTitle("Polecenie księgowania");
+//        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+//        document.addSubject("Wydruk danych z PKPiR");
+//        document.addKeywords("PKPiR, PDF");
+//        document.addCreator("Grzegorz Grzelczyk");
+//        document.open();
+//        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+//        Font font = new Font(helvetica,12);  
+//        Font fontM = new Font(helvetica,10);
+//        absText(writer, "8511005008", 70, 790);
+//        absText(writer, "03", 200, 745);
+//        absText(writer, "2013", 270, 745);
+//        absText(writer, "Pierwszy Urząd Skarbowy w Szczecinie", 70, 674);
+//        absText(writer, "X", 368, 674);
+//        absText(writer, "X", 482, 674);
+//        absText(writer, "X", 388, 602);
+//        absText(writer, "Imie i nazwisko", 70, 578);
+//        absText(writer, "Pesel", 368, 578);
+//        absText(writer, "Kraj", 70, 534);
+//        absText(writer, "Województwo", 170, 534);
+//        absText(writer, "Powiat", 400, 534);
+//        absText(writer, "Gmina", 70, 508);
+//        absText(writer, "Uica", 200, 508);
+//        absText(writer, "Nr d", 470, 508);
+//        absText(writer, "Nr l", 535, 508);
+//        absText(writer, "Miejscowość", 70, 486);
+//        absText(writer, "Kod", 300, 486);
+//        absText(writer, "Poczta", 380, 486);
+//        absText(writer, "1234567", 330, 438);
+//        absText(writer, "123456", 330, 414);
+//        absText(writer, "12345", 330, 390);
+//        absText(writer, "1234", 330, 366);
+//        absText(writer, "123", 330, 342);
+//        absText(writer, "Pole 25/000", 330, 318); absText(writer, "Pole 26/000", 470, 318);
+//        absText(writer, "Pole 27/000", 330, 296); absText(writer, "Pole 28/000", 470, 296);
+//        absText(writer, "Pole 29/000", 330, 272); absText(writer, "Pole 30/000", 470, 272);
+//        absText(writer, "Pole 31/000", 330, 248);
+//        absText(writer, "Pole 32/000", 330, 224);
+//        absText(writer, "Pole 33/000", 330, 200); absText(writer, "Pole 34/000", 470, 200);
+//        absText(writer, "Pole 35/000", 330, 176); absText(writer, "Pole 36/000", 470, 176);
+//        absText(writer, "Pole 37/000", 330, 152); absText(writer, "Pole 38/000", 470, 152);
+//        absText(writer, "Pole 39/000", 330, 128); absText(writer, "Pole 40/000", 470, 128);
+//        absText(writer, "Pole 41/000", 330, 104); absText(writer, "Pole 42/000", 470, 104);
+//                                                  absText(writer, "Pole 43/000", 470, 81);
+//                                                  absText(writer, "Pole 44/000", 470, 58);
+//
+//        absText(writer, "Status 200", 490, 790);
+//        absText(writer, "Data potwierdzebia", 490, 780,6);
+//        absText(writer, "2013-05-05 124885", 490, 770,6);
+//        absText(writer, "Opis", 490, 760,6);
+//        absText(writer, "Nr potwierdzenia:", 460, 750,6);
+//        absText(writer, "ijijiiijiiji", 460, 740,6);
+//        document.newPage();
+//        absText(writer, "Pole 45/000", 330, 790);  absText(writer, "Pole 46/000", 470, 790);
+//                                                  absText(writer, "Pole 47/000", 470, 726);
+//                                                  absText(writer, "Pole 48/000", 470, 702);
+//        absText(writer, "Pole 49/000", 330, 654); absText(writer, "Pole 50/000", 470, 654);
+//        absText(writer, "Pole 51/000", 330, 630); absText(writer, "Pole 52/000", 470, 630);
+//                                                  absText(writer, "Pole 53/000", 470, 586);
+//                                                  absText(writer, "Pole 54/000", 470, 562);
+//                                                  absText(writer, "Pole 55/000", 470, 538);
+//                                                  absText(writer, "Pole 56/000", 470, 491);
+//                                                  absText(writer, "Pole 57/000", 470, 467);
+//                                                  absText(writer, "Pole 58/000", 470, 443);
+//                                                  absText(writer, "Pole 59/000", 470, 419);
+//                                                  absText(writer, "Pole 60/000", 470, 395);
+//                                                  absText(writer, "Pole 61/000", 470, 368);
+//        absText(writer, "Pole 62/000", 190, 344); absText(writer, "Pole 63/000", 330, 344); absText(writer, "Pole 64/000", 470, 344);
+//                                                  absText(writer, "Pole 65/000", 470, 323);
+//        absText(writer, "Imie", 80, 178); absText(writer, "Nazwisko", 210, 178);
+//        absText(writer, "Telefon", 80, 154); absText(writer, "Data", 210, 154);  absText(writer, "Podpis", 400, 165);
+//        
+//        
+//        document.close();
+//        PdfReader reader = new PdfReader(INPUTFILE);
+//        reader.removeUsageRights();
+//        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("c:/vat/pka.pdf"));
+//        PdfContentByte underContent = pdfStamper.getUnderContent(1);
+//        Image image = Image.getInstance("c:/vat/VAT-7K1-p1.jpg");
+//        image.scaleToFit(610,850);
+//        image.setAbsolutePosition(0f, 0f);
+//        underContent.addImage(image);
+//        PdfContentByte overContent = pdfStamper.getOverContent(1);
+//        image = Image.getInstance("c:/vat/golab.png");
+//        image.scaleToFit(50,50);
+//        image.setAbsolutePosition(450f, 770f);
+//        overContent.addImage(image);
+//        underContent = pdfStamper.getUnderContent(2);
+//        image = Image.getInstance("c:/vat/VAT-7K2-p1.jpg");
+//        image.scaleToFit(610,850);
+//        image.setAbsolutePosition(0f, 0f);
+//        underContent.addImage(image);
+//        pdfStamper.close();
+//        reader.close();
+//        writer.close();
        
-      }
+//      }
+    private static StandardCopyOption copyOption = StandardCopyOption.REPLACE_EXISTING;
+      private static void kombinuj(String kto) {
+          try {
+            String[] files = {"C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf","C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ord-zu"+kto+".pdf"};
+            Document PDFCombineUsingJava = new Document();
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf"));
+            PDFCombineUsingJava.open();
+            PdfReader ReadInputPDF;
+            int number_of_pages;
+            for (int i = 0; i < files.length; i++) {
+                ReadInputPDF = new PdfReader(files[i]);
+                number_of_pages = ReadInputPDF.getNumberOfPages();
+                for (int page = 0; page < number_of_pages;) {
+                    copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
+                }
+            }
+            PDFCombineUsingJava.close();
+            File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf");
+            // File (or directory) with new name
+            File file2 = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
+            Path p = file.toPath();
+            Path p1 = file2.toPath();
+            
+
+    // Rename file (or directory)
+    boolean success = file.renameTo(file2);
+        } catch (Exception i) {
+            System.out.println(i);
+        }
+    }
+      
+      public static void main(String[] args){
+           File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDocBORYSIEWICZ.pdf");
+            // File (or directory) with new name
+            File file2 = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13BORYSIEWICZ.pdf");
+            
+           String fileName = "C:/vat/VAT7-13KLUGE.pdf";
+    // A File object to represent the filename
+    File f = new File(fileName);
+
+    // Make sure the file or directory exists and isn't write protected
+    if (!f.exists()) {
+              throw new IllegalArgumentException(
+                  "Delete: no such file or directory: " + fileName);
+          }
+
+    if (!f.canWrite()) {
+              throw new IllegalArgumentException("Delete: write protected: "
+                  + fileName);
+          }
+
+    // If it is a directory, make sure it is empty
+    if (f.isDirectory()) {
+      String[] files = f.list();
+      if (files.length > 0) {
+            throw new IllegalArgumentException(
+                "Delete: directory not empty: " + fileName);
+        }
+    }
+
+    // Attempt to delete it
+    boolean success = f.delete();
+
+    if (!success) {
+              throw new IllegalArgumentException("Delete: deletion failed");
+          }
+  }
+          
 }

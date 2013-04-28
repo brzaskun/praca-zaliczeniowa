@@ -11,6 +11,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -19,6 +20,7 @@ import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -83,8 +85,13 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-        }
+        try{
+            dkl.getOrdzu();
+            PdfORDZU.drukujORDZU(dkl, p);
+            kombinuj(v.getPodatnik());
+        } catch(Exception e){}
          RequestContext.getCurrentInstance().update("formX");
+        }
     }
     
      public void drukujwys(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
@@ -133,9 +140,13 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
+        try{
+            dkl.getOrdzu();
+            PdfORDZU.drukujORDZU(dkl, p);
+            kombinuj(v.getPodatnik());
+        } catch(Exception e){}
+         RequestContext.getCurrentInstance().update("formX");
         }
-        RequestContext.getCurrentInstance().update("formX");
-                
     }
   
     
@@ -294,7 +305,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
     static String INPUTFILE = "c:/vat/pk1.pdf";
     static String INPUTFILEM = "c:/vat/vat7.pdf";
     
-    private static void absText(PdfWriter writer,String text, int x, int y) {
+    protected static void absText(PdfWriter writer,String text, int x, int y) {
     try {
       PdfContentByte cb = writer.getDirectContent();
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
@@ -309,7 +320,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
     }
   }
     
-     private static void absText(PdfWriter writer,String text, int x, int y, String f) {
+     protected static void absText(PdfWriter writer,String text, int x, int y, String f) {
     try {
       PdfContentByte cb = writer.getDirectContent();
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
@@ -336,7 +347,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
     }
   }
     
-    private static void absText(PdfWriter writer,String text, int x, int y, int font) {
+    protected static void absText(PdfWriter writer,String text, int x, int y, int font) {
     try {
       PdfContentByte cb = writer.getDirectContent();
       BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
@@ -450,4 +461,32 @@ public class PdfVAT7 extends Pdf implements Serializable{
         writer.close();
        
       }
+
+    private void kombinuj(String kto) {
+          try {
+            String[] files = {"C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf","C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ord-zu"+kto+".pdf"};
+            Document PDFCombineUsingJava = new Document();
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf"));
+            PDFCombineUsingJava.open();
+            PdfReader ReadInputPDF;
+            int number_of_pages;
+            for (int i = 0; i < files.length; i++) {
+                ReadInputPDF = new PdfReader(files[i]);
+                number_of_pages = ReadInputPDF.getNumberOfPages();
+                for (int page = 0; page < number_of_pages;) {
+                    copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
+                }
+            }
+            PDFCombineUsingJava.close();
+            File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf");
+            // File (or directory) with new name
+            File file2 = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
+            if(file2.exists()) {
+                  file2.delete();
+              }
+            file.renameTo(file2);
+        } catch (Exception i) {
+            System.out.println(i);
+        }
+    }
 }
