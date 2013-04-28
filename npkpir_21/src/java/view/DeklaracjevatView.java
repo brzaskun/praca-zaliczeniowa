@@ -60,17 +60,20 @@ public class DeklaracjevatView implements Serializable {
                     try{
                     if(p.getUpo().contains("system testowy")){
                         wyslanetestowe.add(p);
-                        break;
                     }
-                    } catch (Exception e) {
+                    } catch (Exception e) {}
+            }
+            for(Deklaracjevat p : wyslane){
+                    if(!wyslanetestowe.contains(p)){
+                        if (p.getStatus().startsWith("4")){
+                            wyslanezbledem.add(p);
+                            } else if (p.getStatus().startsWith("3")) {
+                            wyslaneniepotwierdzone.add(p);
+                            } else {
+                            wyslanenormalne.add(p);
+                        }
                     }
-                    if (p.getStatus().startsWith("4")){
-                        wyslanezbledem.add(p);
-                    } else if (p.getStatus().startsWith("3")) {
-                        wyslaneniepotwierdzone.add(p);
-                    } else {
-                        wyslanenormalne.add(p);
-                    }
+                    
                 }
         } catch (Exception e){}
     }

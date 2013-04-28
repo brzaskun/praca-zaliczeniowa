@@ -64,9 +64,9 @@ public class PdfORDZU extends PdfVAT7{
   
     
    private static void pierwszastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p) throws DocumentException{
-        absText(writer, "8511005008", 70, 790);
-        absText(writer, "nazwisko", 70, 625);absText(writer, "imie", 370, 625);
-        absText(writer, "data urowdznia", 70, 600);absText(writer, "Pesel", 370, 600);
+        absText(writer, p.getNip(), 70, 790);
+        absText(writer, p.getNazwisko(), 70, 625);absText(writer, p.getImie(), 370, 625);
+        absText(writer, p.getDataurodzenia(), 70, 600);absText(writer, p.getPesel(), 370, 600);
         ColumnText ct = new ColumnText(writer.getDirectContent());
         ct.setSimpleColumn(500,200,50,500);
         Paragraph par =new Paragraph();
