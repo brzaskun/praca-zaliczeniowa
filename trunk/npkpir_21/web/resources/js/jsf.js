@@ -198,15 +198,12 @@ function wydrukvat7(kto){
 //    window.addEventListener("error", transferFailed, false);
 //    window.addEventListener("abort", transferCanceled, false);
     
-    window.open('../vat/vat7-13'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    window.open('../vat/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formX:dataList:1:mailbutton").style.display='inline';
 //    var myrequest = window.XMLHttpRequest;
 //    myrequest.status=200;
 }
 
-function wydrukordzu(kto){
-    window.open('../vat/ordzu'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
 
 function wydrukobroty(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');

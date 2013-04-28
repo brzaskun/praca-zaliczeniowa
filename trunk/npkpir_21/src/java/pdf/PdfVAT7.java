@@ -8,23 +8,22 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.PodatnikDAO;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.context.RequestContext;
 
@@ -34,9 +33,9 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 public class PdfVAT7 extends Pdf implements Serializable{
-    static String vat71 = "C:/npkpir_21/build/web/vat/VAT-71-p1.jpg";
-    static String vat72 = "C:/npkpir_21/build/web/vat/VAT-72-p1.jpg";
-    static String golab = "C:/npkpir_21/build/web/vat/golab.png";
+    static String vat71 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-71-p1.jpg";
+    static String vat72 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT-72-p1.jpg";
+    static String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/golab.png";
             
             
     public void drukuj(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
@@ -47,7 +46,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji VAT " + dkl.getPodatnik());
@@ -61,9 +60,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
         document.newPage();
         drugastrona(writer,v,dkl);
         document.close();
-        PdfReader reader = new PdfReader("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image;
         image = Image.getInstance(vat71);
@@ -86,10 +85,16 @@ public class PdfVAT7 extends Pdf implements Serializable{
         reader.close();
         writer.close();
         try{
-            dkl.getOrdzu();
-            PdfORDZU.drukujORDZU(dkl, p);
-            kombinuj(v.getPodatnik());
-        } catch(Exception e){}
+            String czek = dkl.getOrdzu();
+            if(czek!=null){
+                PdfORDZU.drukujORDZU(dkl, p);
+                kombinuj(v.getPodatnik(),2);
+            } else {
+                kombinuj(v.getPodatnik(),1);
+            }
+        } catch(Exception e){
+            kombinuj(v.getPodatnik(),1);
+        }
          RequestContext.getCurrentInstance().update("formX");
         }
     }
@@ -102,7 +107,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf"));
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji tetsowej VAT " + dkl.getPodatnik());
@@ -116,9 +121,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
         document.newPage();
         drugastronawys(writer,v,dkl);
         document.close();
-        PdfReader reader = new PdfReader("C:/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
+        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7"+v.getPodatnik()+".pdf");
         reader.removeUsageRights();
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image;
         image = Image.getInstance(vat71);
@@ -140,11 +145,17 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-        try{
-            dkl.getOrdzu();
-            PdfORDZU.drukujORDZU(dkl, p);
-            kombinuj(v.getPodatnik());
-        } catch(Exception e){}
+         try{
+            String czek = dkl.getOrdzu();
+            if(czek!=null){
+                PdfORDZU.drukujORDZU(dkl, p);
+                kombinuj(v.getPodatnik(),2);
+            } else {
+                kombinuj(v.getPodatnik(),1);
+            }
+        } catch(Exception e){
+            kombinuj(v.getPodatnik(),1);
+        }
          RequestContext.getCurrentInstance().update("formX");
         }
     }
@@ -462,29 +473,28 @@ public class PdfVAT7 extends Pdf implements Serializable{
        
       }
 
-    private void kombinuj(String kto) {
+    private void kombinuj(String kto, int ile) {
           try {
-            String[] files = {"C:/npkpir_21/build/web/vat/vat7-13"+kto+".pdf","C:/npkpir_21/build/web/vat/ord-zu"+kto+".pdf"};
+            List<String> files = new ArrayList<>();
+            if(ile==1){
+                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
+            } else {
+                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
+                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/ord-zu"+kto+".pdf");
+            }
             Document PDFCombineUsingJava = new Document();
-            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf"));
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_21/build/web/vat/VAT7Comb"+kto+".pdf"));
             PDFCombineUsingJava.open();
             PdfReader ReadInputPDF;
             int number_of_pages;
-            for (int i = 0; i < files.length; i++) {
-                ReadInputPDF = new PdfReader(files[i]);
+            for(String p : files){
+                ReadInputPDF = new PdfReader(p);
                 number_of_pages = ReadInputPDF.getNumberOfPages();
                 for (int page = 0; page < number_of_pages;) {
                     copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
                 }
             }
             PDFCombineUsingJava.close();
-            File file = new File("C:/npkpir_21/build/web/vat/ComPdfDoc"+kto+".pdf");
-            // File (or directory) with new name
-            File file2 = new File("C:/npkpir_21/build/web/vat/vat7-13"+kto+".pdf");
-            if(file2.exists()) {
-                  file2.delete();
-              }
-            file.renameTo(file2);
         } catch (Exception i) {
             System.out.println(i);
         }
