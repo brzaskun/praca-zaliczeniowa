@@ -215,7 +215,7 @@ public class beanek {
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
         if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
-            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłąna!", "formX:msg");
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
         String strFileContent = temp.getDeklaracja();
@@ -232,6 +232,7 @@ public class beanek {
         temp.setOpis(opisMB);
         temp.setDatazlozenia(new Date());
         temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
+        temp.setTestowa(true);
         deklaracjevatDAO.edit(temp);
         Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
 
