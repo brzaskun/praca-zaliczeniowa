@@ -114,6 +114,8 @@ public class Deklaracjevat implements Serializable {
     private String sporzadzil;
     @Column(name = "ordzu")
     private String ordzu;
+    @Column(name="testowa")
+    private boolean testowa;
 
    public Deklaracjevat() {
     }
@@ -292,7 +294,14 @@ public class Deklaracjevat implements Serializable {
         this.ordzu = ordzu;
     }
 
-    
+    public boolean isTestowa() {
+        return testowa;
+    }
+
+    public void setTestowa(boolean testowa) {
+        this.testowa = testowa;
+    }
+
     
     @Override
     public int hashCode() {

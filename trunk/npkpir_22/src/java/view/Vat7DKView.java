@@ -351,10 +351,8 @@ public class Vat7DKView implements Serializable {
             it = pobranalistadeklaracji.listIterator();
             while(it.hasNext()){
                 Deklaracjevat tmp = (Deklaracjevat) it.next();
-                if(tmp.getOpis().contains("poprawnie")){
-                    if(tmp.getUpo().contains("system testowy")){
+                if(tmp.isTestowa()==true){
                         it.remove();
-                    }
                 }
             }
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
