@@ -30,16 +30,22 @@
             </p:panel>
          <p:separator/>
         <h:form id="westManager">
-            <p:panel menuTitle="Dane" header="Parametryzowanie pojedyńczego podatnika">
+            <p:panelGrid menuTitle="Dane" header="Parametryzowanie pojedyńczego podatnika" columns="2">
                 <h:selectOneListbox value="#{podatnikView.nazwaWybranegoPodatnika}" style="width: 150px" size="10"> 
                     <f:selectItems var="zm" value="#{podatnikView.li}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
                 </h:selectOneListbox>
                 <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
-            </p:panel>
+            </p:panelGrid>
            
         </h:form>
-        
+         <p:panel>
             <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" /> 
+         </p:panel>
+            <h:form>
+                <p:menu >
+                    <p:menuitem value="raport kasowy"  outcome="kasa" icon="ui-icon-circle-arrow-e" />  
+                </p:menu>
+            </h:form>
     </p:layoutUnit>
 </ui:composition>   
 

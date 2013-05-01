@@ -1,0 +1,33 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:panelGrid columns="5" style="width: 810px;">
+        <p:dataTable id="dataList" value="#{rKView.wiersze}" var="loop" rowIndexVar="row" >
+            <p:column headerText="id" style="width: 10px">
+                <h:outputText value="#{loop.id}" style="width: 10px;"/>
+            </p:column>
+            <p:column headerText="opis transakcji" style="width: 350px;">
+                <p:inputText id="opis" value="#{loop.opis}" style="width: 250px;" accesskey="s" />
+            </p:column>
+            <p:column headerText="Wn" style="width: 80px;">
+                <pe:inputNumber id="wn" value="#{loop.wn}" symbol=" zł"  style="width: 120px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujma(#{loop.id})"/> 
+            </p:column>
+            <p:column headerText="Ma" style="width: 80px;">
+                 <pe:inputNumber id="ma" value="#{loop.ma}" symbol=" zł" style="width: 120px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwn(#{loop.id})"/> 
+            </p:column>
+            <p:column headerText="Konto" style="width: 100px;">
+                <p:inputText id="konto" value="#{loop.konto}" style="width: 100px;" />
+            </p:column>
+           <p:column>
+               <p:commandButton value="+" actionListener="#{rKView.liczbaw()}" update="@form" accesskey="p" oncomplete="aktywujwiersz(#{loop.id})"/>
+            </p:column>
+            </p:dataTable>
+    </p:panelGrid>
+
+</ui:composition> 

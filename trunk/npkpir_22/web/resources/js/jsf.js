@@ -124,6 +124,47 @@ function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
 };
 
+function aktywujwiersz(wiersz){
+    var i = "form:dataList:"+wiersz+":opis";
+    var l = document.getElementById(i);
+    if(l!=null){
+    document.getElementById(i).focus();
+    }
+};
+
+function zablokujma(wiersz){
+    var w = wiersz-1;
+    var blokowany = "form:dataList:"+w+":ma_input";
+    var sprawdzany = "form:dataList:"+w+":wn_input";
+    var cozawiera = document.getElementById(sprawdzany).value.length;
+    if(cozawiera>0){
+        document.getElementById(blokowany).setAttribute('disabled','true');
+        var kontopole = "form:dataList:"+w+":konto";
+        document.getElementById(kontopole).focus();
+    } else {
+        document.getElementById(blokowany).removeAttribute('disabled');
+        var kontopole = "form:dataList:"+w+":ma_input";
+        document.getElementById(kontopole).focus();
+    }
+}
+
+function zablokujwn(wiersz){
+    var w = wiersz-1;
+    var blokowany = "form:dataList:"+w+":wn_input";
+    var sprawdzany = "form:dataList:"+w+":ma_input";
+    var cozawiera = document.getElementById(sprawdzany).value.length;
+    if(cozawiera>0){
+        document.getElementById(blokowany).setAttribute('disabled','true');
+        document.getElementById("form:dataList:"+w+":ma").setAttribute('display','none');
+        var kontopole = "form:dataList:"+w+":konto";
+        document.getElementById(kontopole).focus();
+    } else {
+        document.getElementById(blokowany).removeAttribute('disabled');
+        var kontopole = "form:dataList:"+w+":wn_input";
+        document.getElementById(kontopole).focus();
+    }
+}
+
 function aktywujnetto(){
     document.getElementById("dodWiad:opis").focus();
 };
