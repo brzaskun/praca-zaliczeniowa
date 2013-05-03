@@ -5,6 +5,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,11 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByNrkonta", query = "SELECT k FROM Konto k WHERE k.nrkonta = :nrkonta"),
+    @NamedQuery(name = "Konto.findBySyntetyczne", query = "SELECT k FROM Konto k WHERE k.syntetyczne = :syntetyczne"),
     @NamedQuery(name = "Konto.findByAnalityka", query = "SELECT k FROM Konto k WHERE k.analityka = :analityka"),
     @NamedQuery(name = "Konto.findByNazwapelna", query = "SELECT k FROM Konto k WHERE k.nazwapelna = :nazwapelna"),
     @NamedQuery(name = "Konto.findByNazwaskrocona", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona"),
     @NamedQuery(name = "Konto.findByBilansowewynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe"),
-    @NamedQuery(name = "Konto.findByZwyklerozrachszczegolne", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne")})
+    @NamedQuery(name = "Konto.findByZwyklerozrachszczegolne", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne"),
+    @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste"),
+    @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
+    @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin")})
 public class Konto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,9 +60,9 @@ public class Konto implements Serializable {
     private String nrkonta;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    @Size(min = 1, max = 20)
     @Column(name = "syntetyczne")
-    private byte[] syntetyczne;
+    private String syntetyczne;
     @Basic(optional = false)
     @NotNull
     @Column(name = "analityka")
@@ -74,17 +79,35 @@ public class Konto implements Serializable {
     private String nazwaskrocona;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "bilansowewynikowe")
-    private boolean bilansowewynikowe;
+    private String bilansowewynikowe;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
-    private int zwyklerozrachszczegolne;
-    @Basic(optional = false)
-    @NotNull
+    private String zwyklerozrachszczegolne;
     @Lob
     @Column(name = "pozycja")
     private byte[] pozycja;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "macierzyste")
+    private String macierzyste;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "pelnynumer")
+    private String pelnynumer;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mapotomkow")
+    private boolean mapotomkow;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rozwin")
+    private boolean rozwin;
 
     public Konto() {
     }
@@ -93,7 +116,7 @@ public class Konto implements Serializable {
         this.id = id;
     }
 
-    public Konto(Integer id, String podatnik, String nrkonta, byte[] syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, boolean bilansowewynikowe, int zwyklerozrachszczegolne, byte[] pozycja) {
+    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin) {
         this.id = id;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
@@ -103,7 +126,9 @@ public class Konto implements Serializable {
         this.nazwaskrocona = nazwaskrocona;
         this.bilansowewynikowe = bilansowewynikowe;
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
-        this.pozycja = pozycja;
+        this.macierzyste = macierzyste;
+        this.pelnynumer = pelnynumer;
+        this.rozwin = rozwin;
     }
 
     public Integer getId() {
@@ -130,11 +155,11 @@ public class Konto implements Serializable {
         this.nrkonta = nrkonta;
     }
 
-    public byte[] getSyntetyczne() {
+    public String getSyntetyczne() {
         return syntetyczne;
     }
 
-    public void setSyntetyczne(byte[] syntetyczne) {
+    public void setSyntetyczne(String syntetyczne) {
         this.syntetyczne = syntetyczne;
     }
 
@@ -162,19 +187,19 @@ public class Konto implements Serializable {
         this.nazwaskrocona = nazwaskrocona;
     }
 
-    public boolean getBilansowewynikowe() {
+    public String getBilansowewynikowe() {
         return bilansowewynikowe;
     }
 
-    public void setBilansowewynikowe(boolean bilansowewynikowe) {
+    public void setBilansowewynikowe(String bilansowewynikowe) {
         this.bilansowewynikowe = bilansowewynikowe;
     }
 
-    public int getZwyklerozrachszczegolne() {
+    public String getZwyklerozrachszczegolne() {
         return zwyklerozrachszczegolne;
     }
 
-    public void setZwyklerozrachszczegolne(int zwyklerozrachszczegolne) {
+    public void setZwyklerozrachszczegolne(String zwyklerozrachszczegolne) {
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
     }
 
@@ -186,6 +211,38 @@ public class Konto implements Serializable {
         this.pozycja = pozycja;
     }
 
+    public String getMacierzyste() {
+        return macierzyste;
+    }
+
+    public void setMacierzyste(String macierzyste) {
+        this.macierzyste = macierzyste;
+    }
+
+    public String getPelnynumer() {
+        return pelnynumer;
+    }
+
+    public void setPelnynumer(String pelnynumer) {
+        this.pelnynumer = pelnynumer;
+    }
+
+    public boolean isMapotomkow() {
+        return mapotomkow;
+    }
+
+    public void setMapotomkow(boolean mapotomkow) {
+        this.mapotomkow = mapotomkow;
+    }
+    
+    public boolean getRozwin() {
+        return rozwin;
+    }
+
+    public void setRozwin(boolean rozwin) {
+        this.rozwin = rozwin;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -193,14 +250,16 @@ public class Konto implements Serializable {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Konto)) {
+  @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Konto other = (Konto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Konto other = (Konto) obj;
+        if (!Objects.equals(this.pelnynumer, other.pelnynumer)) {
             return false;
         }
         return true;

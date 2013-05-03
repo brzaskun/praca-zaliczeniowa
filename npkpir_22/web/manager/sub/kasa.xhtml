@@ -21,11 +21,29 @@
             <p:column headerText="Ma" style="width: 80px;">
                  <pe:inputNumber id="ma" value="#{loop.ma}" symbol=" zł" style="width: 120px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwn(#{loop.id})"/> 
             </p:column>
-            <p:column headerText="Konto" style="width: 100px;">
-                <p:inputText id="konto" value="#{loop.konto}" style="width: 100px;" />
-            </p:column>
+            <p:column>
+                <p:autoComplete id="konto" value="#{loop.konto}" completeMethod="#{planKontView.complete}"
+                                var="p" itemLabel="#{p.pelnynumer}" itemValue="#{p}"
+                                minQueryLength="1" maxResults="10" maxlength="10" converter="KontoConv"
+                                autocomplete="true" forceSelection="true" global="false" converterMessage="Nieudana konwersja Klient"
+                                required="true" requiredMessage="Pole konta nie może byc puste" >
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane konta"/>
+                            </f:facet>  
+                            <h:outputText value="pelny numer: " />  
+                            <h:outputText id="pelnynumer" value="#{p.pelnynumer}" />  
+                            <h:outputText value="nazwa pelna: " />  
+                            <h:outputText id="nip" value="#{p.nazwapelna}" />  
+                            <h:outputText value="bilansowewynikowe: " />  
+                            <h:outputText id="klumna" value="#{p.bilansowewynikowe}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+                </p:column>
            <p:column>
-               <p:commandButton value="+" actionListener="#{rKView.liczbaw()}" update="@form" accesskey="p" oncomplete="aktywujwiersz(#{loop.id})"/>
+               <p:commandButton value="+" actionListener="#{rKView.liczbaw}" update="@form" accesskey="p" oncomplete="aktywujwiersz(#{loop.id});"/>
             </p:column>
             </p:dataTable>
     </p:panelGrid>

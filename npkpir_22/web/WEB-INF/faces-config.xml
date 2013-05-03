@@ -150,10 +150,6 @@
             <from-outcome>manager</from-outcome>
             <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-          <navigation-case>
-            <from-outcome>kasa</from-outcome>
-            <to-view-id>/manager/managerRK.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
         <navigation-case>
             <from-outcome>zusstawki</from-outcome>
             <to-view-id>/manager/managerZUSstawki.xhtml?faces-redirect=true</to-view-id>
@@ -190,6 +186,15 @@
             <from-outcome>parampodatnika</from-outcome>
             <to-view-id>/manager/managerPodUstaw.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+          <navigation-case>
+            <from-outcome>kasa</from-outcome>
+            <to-view-id>/manager/managerRK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+          <navigation-case>
+            <from-outcome>plankont</from-outcome>
+            <to-view-id>/manager/managerPlanKont.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        
          <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
@@ -258,6 +263,12 @@
         <converter-id>PodConv</converter-id>  
         <converter-class>  
             converter.PodConv  
+        </converter-class> 
+    </converter>
+    <converter>
+        <converter-id>KontoConv</converter-id>  
+        <converter-class>  
+            converter.KontoConv  
         </converter-class> 
     </converter>
      <converter>
