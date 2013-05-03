@@ -188,7 +188,7 @@ public class PlanKontView implements Serializable{
              }
         }} catch (Exception e){
           for(Konto p : lista) {  
-             if(p.getNazwapelna().contains(query.toLowerCase())) {
+             if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                  results.add(p);
              }
         }   
