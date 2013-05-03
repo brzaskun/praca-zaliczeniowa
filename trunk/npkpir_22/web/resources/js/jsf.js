@@ -124,6 +124,19 @@ function aktywujopis(){
     document.getElementById("dodWiad:numerwlasny").focus();
 };
 
+function pokazdodawanie(){
+    document.getElementById("formX:dkp").style.display = 'inline';
+}
+
+function pokazdodawanieanal(){
+    document.getElementById("formY:dkp").style.display = 'inline';
+}
+
+function schowajdodawanie(){
+    document.getElementById("formX:dkp").style.display = 'none';
+    document.getElementById("formY:dkp").style.display = 'none';
+}
+
 function aktywujwiersz(wiersz){
     var i = "form:dataList:"+wiersz+":opis";
     var l = document.getElementById(i);
@@ -139,7 +152,7 @@ function zablokujma(wiersz){
     var cozawiera = document.getElementById(sprawdzany).value.length;
     if(cozawiera>0){
         document.getElementById(blokowany).setAttribute('disabled','true');
-        var kontopole = "form:dataList:"+w+":konto";
+        var kontopole = "form:dataList:"+w+":konto_input";
         document.getElementById(kontopole).focus();
     } else {
         document.getElementById(blokowany).removeAttribute('disabled');
@@ -156,7 +169,7 @@ function zablokujwn(wiersz){
     if(cozawiera>0){
         document.getElementById(blokowany).setAttribute('disabled','true');
         document.getElementById("form:dataList:"+w+":ma").setAttribute('display','none');
-        var kontopole = "form:dataList:"+w+":konto";
+        var kontopole = "form:dataList:"+w+":konto_input";
         document.getElementById(kontopole).focus();
     } else {
         document.getElementById(blokowany).removeAttribute('disabled');

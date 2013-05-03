@@ -4,11 +4,7 @@
  */
 package dao;
 
-import entity.Dok;
-import entity.Sesja;
 import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import session.SessionFacade;

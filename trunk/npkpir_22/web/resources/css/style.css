@@ -21,6 +21,11 @@ root {
     color:#000000 !important;
 }
 
+.druga{
+    font-style: italic !important;
+    background-image:none !important;
+    
+}
 
 
 .ui-widget {

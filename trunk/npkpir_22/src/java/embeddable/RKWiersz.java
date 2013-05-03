@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entityfk.Konto;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 
@@ -17,7 +18,7 @@ public class RKWiersz implements Serializable{
     private String opis;
     private String Wn;
     private String Ma;
-    private String konto;
+    private Konto konto;
 
     public RKWiersz() {
     }
@@ -59,13 +60,15 @@ public class RKWiersz implements Serializable{
         this.Ma = Ma;
     }
 
-    public String getKonto() {
+    public Konto getKonto() {
         return konto;
     }
 
-    public void setKonto(String konto) {
+    public void setKonto(Konto konto) {
         this.konto = konto;
     }
+
+    
 
     @Override
     public int hashCode() {
