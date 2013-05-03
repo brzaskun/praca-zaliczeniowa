@@ -8,13 +8,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
-    <p:panelGrid columns="3" style="width: 1500px;">
-        <p:contextMenu for="dataList">
+          <p:contextMenu for="dataList">
               <p:menuitem value="Nowe syntetyczne" onclick="pokazdodawanie()" icon="ui-icon-circle-plus" update=":form"/>
               <p:menuitem value="Nowe analityczne" onclick="pokazdodawanieanal()" icon="ui-icon-circle-plus" update=":form"/>
               <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
 
+    <p:panelGrid columns="2" style="width: 1500px;">
+      
         <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
                      sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.syntetyczne eq 'syntetyczne' ? 'old' : null}" >
             <p:ajax event="rowSelect" oncomplete="schowajdodawanie();" update=":formX"/>
@@ -48,10 +49,14 @@
                 <h:outputText value="#{loop.mapotomkow}" /> 
             </p:column>
             </p:dataTable>
-         <p:column>
-             <p:commandButton value="+" onclick="pokazdodawanie()" accesskey="p" />
-            </p:column>
-    </p:panelGrid>
+        <p:commandButton value="dodaj" onclick="pokazdodawanie()" accesskey="p" />
+        </p:panelGrid>
+        
+        <p:panelGrid columns="2">
+            <p:commandButton value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: right;" />
+            <p:commandButton value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+        </p:panelGrid>
+    
 </h:form>
     <p:separator/>
         <h:form id="formX">
