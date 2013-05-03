@@ -73,6 +73,33 @@ public class PlanKontView implements Serializable{
      Collections.sort(wykazkont, new Kontocomparator());
     }
     
+    public void rozwinwszystkie(){
+     wykazkont.clear();
+     List<Konto> wykazkonttmp = kontoDAO.findAll();
+     //wyszukujemy syntetyczne
+     Collections.sort(wykazkonttmp, new Kontocomparator());
+     for(Konto p : wykazkonttmp){
+            p.setRozwin(true);
+            wykazkont.add(p);
+     }
+     Collections.sort(wykazkont, new Kontocomparator());
+    }  
+    
+    public void zwinwszystkie(){
+     wykazkont.clear();
+     List<Konto> wykazkonttmp = kontoDAO.findAll();
+     //wyszukujemy syntetyczne
+     Collections.sort(wykazkonttmp, new Kontocomparator());
+     for(Konto p : wykazkonttmp){
+            p.setRozwin(false);
+            if(p.getSyntetyczne().equals("syntetyczne")){
+            wykazkont.add(p);
+         } 
+     }
+     Collections.sort(wykazkont, new Kontocomparator());
+    }    
+    
+    
      private void przebudujX(Konto macierzyste){
      List<Konto> wykazkonttmp = kontoDAO.findAll();
      //wyszukujemy syntetyczne
