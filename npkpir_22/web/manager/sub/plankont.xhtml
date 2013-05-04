@@ -14,8 +14,8 @@
               <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
         <script>
-             //document.getElementById('form').onmouseover = load;
-            $('#form').onmouseover = load;
+            document.getElementById('form').onmouseover = load;
+            //$('#form').onmouseover = load;
             function load(){
             alert("load event detected!");
             }
