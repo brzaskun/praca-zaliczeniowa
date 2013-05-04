@@ -14,20 +14,15 @@
               <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
         <script>
-            document.getElementById('form').onmouseover = load;
-            //$('#form').onmouseover = load;
-            function load(){
-            alert("load event detected!");
-            }
             
             document.onkeypress = wcisnij;
              function wcisnij(){
                  if (event.keyCode == 43) {
-                     document.getElementById('form:rozwinwsz').click();
+                     $('#form\\:rozwinwsz').click();
                  } else if (event.keyCode == 45) {
-                     document.getElementById('form:zwinwsz').click();
+                     $('#form\\:zwinwsz').click();
                  } else {
-                    return false;
+                    return event;
                  }
              }
         </script>
@@ -125,4 +120,5 @@
         </p:panelGrid>
             </p:focus>
             </h:form>
+  
 </ui:composition> 

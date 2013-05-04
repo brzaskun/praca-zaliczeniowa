@@ -6,15 +6,12 @@ package converter;
 
 import dao.KontoDAO;
 import entityfk.Konto;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
-import sun.net.www.content.text.plain;
 import view.PlanKontView;
 
 /**
