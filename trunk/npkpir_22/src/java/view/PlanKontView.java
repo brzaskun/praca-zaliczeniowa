@@ -8,6 +8,7 @@ import comparator.Kontocomparator;
 import dao.KontoDAO;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
@@ -34,6 +37,8 @@ public class PlanKontView implements Serializable{
  
     private List<Konto> wykazkont;
     private static List<Konto> wykazkontS;
+    private static String opiskonta;
+    private static String pelnynumerkonta;
     @Inject private Konto selected;
     @Inject private Konto nowe;
     @Inject private KontoDAO kontoDAO;
@@ -49,7 +54,13 @@ public class PlanKontView implements Serializable{
             p.setRozwin(false);
             kontoDAO.edit(p);
         }
-     wykazkontS = wykazkont;
+     wykazkontS = kontoDAO.findAll();
+     opiskonta="";
+     pelnynumerkonta="";
+     for(Konto t : wykazkontS){
+         opiskonta = opiskonta+t.getNazwapelna()+",";
+         pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
+     }
      //wyszukujemy syntetyczne
      Collections.sort(wykazkonttmp, new Kontocomparator());
      for(Konto p : wykazkonttmp){
@@ -245,7 +256,38 @@ public class PlanKontView implements Serializable{
         this.nowe = nowe;
     }
 
+   private String wewy;
+
+    public String getWewy() {
+        return wewy;
+    }
+
+    public void setWewy(String wewy) {
+        this.wewy = wewy;
+    }
    
+   private String listajs;
+   
+//   static{
+//       listajs = new String[2];
+//       listajs[0] = "jeden";
+//       listajs[1] = "dwa";
+//   }
+
+    public String getListajs() {
+        return "jeden,dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec";
+    }
+
+    public String getOpiskonta() {
+        return opiskonta;
+    }
+
+    public String getPelnynumerkonta() {
+        return pelnynumerkonta;
+    }
+
     
+    
+   
     
 }

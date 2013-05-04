@@ -139,26 +139,26 @@ function schowajdodawanie(){
 }
 
 function aktywujwiersz(wiersz){
-    var i = "form:dataList:"+wiersz+":opis";
-    var l = document.getElementById(i);
-    if(l!=null){
-    document.getElementById(i).focus();
+    var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
+    if($(i)!=null){
+    $(i).focus();
+    $(i).css('backgroundColor','#ffe');
     }
 };
 
 function zablokujma(wiersz){
     var w = wiersz-1;
-    var blokowany = "form:dataList:"+w+":ma_input";
-    var sprawdzany = "form:dataList:"+w+":wn_input";
-    var cozawiera = document.getElementById(sprawdzany).value.length;
+    var blokowany = "#form\\:dataList\\:"+w+"\\:ma_input";
+    var sprawdzany = "#form\\:dataList\\:"+w+"\\:wn_input";
+    var cozawiera = $(sprawdzany).val().length;
     if(cozawiera>0){
-        document.getElementById(blokowany).setAttribute('disabled','true');
-        var kontopole = "form:dataList:"+w+":konto_input";
-        document.getElementById(kontopole).focus();
+        $(blokowany).fadeOut();
+        var kontopole = '[id="form:dataList:'+w+':konto_input"]';
+        $(kontopole).focus();
     } else {
-        document.getElementById(blokowany).removeAttribute('disabled');
-        var kontopole = "form:dataList:"+w+":ma_input";
-        document.getElementById(kontopole).focus();
+        $(blokowany).show();
+        var kontopole = "\\form\\:dataList\\:"+w+"\\:ma_input";
+        $(kontopole).focus();
     }
 }
 
@@ -521,3 +521,32 @@ function ustawDate(rok,mc){
          dataWyst.value = "b\u0142ędna data";
      }
 };
+
+    jQuery.isSubstring = function(haystack, needle) {
+//            return haystack.indexOf(needle) !== -1;
+            return $.inArray(needle,haystack) !== -1;
+        };
+        
+        var licz = 1;
+        function wywolaj(opis,numer,loopid){
+           var id = loopid-1; 
+           var zloz = "#form\\:dataList\\:"+id+"\\:opis";
+           var zlozwynik = "form:dataList:"+id+":konto_input";
+           var szukana = $(zloz).val();
+           var siatka = szukana.split(',');
+           var mapa = {};
+           var tablica = opis.split(',');
+           var tablica2 = numer.split(',');
+           for(var w=0;w<10;w++){
+               var sobo = tablica[w];
+               mapa[sobo] = tablica2[w];
+           }
+           var dlug = siatka.length;
+           for (licz; licz<dlug; licz++) {
+            var dawniej = licz-1;
+            var szczegol = siatka[dawniej];
+            if($.isSubstring(tablica,szczegol)){
+               document.getElementById(zlozwynik).value = mapa[szczegol];
+            }
+        }
+        };
