@@ -34,6 +34,7 @@ $(document).ready(function() {
 });
 
 
+
 $(window).bind('beforeunload', function(){
     document.getElementById("ft:wt").click();
     alert("Good Bye");

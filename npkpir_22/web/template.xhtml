@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 <!--      xmlns:ft="http://primefaces.prime.com.tr/facestrace">-->
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -12,8 +13,11 @@
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet id="template" name="#{CSSView.css}"/>
         <h:outputScript library="js" name="jsf.js"/>
+        
     </h:head>
     <h:body>
+        <!-- Default ajaxErrorHandler -->  
+    <pe:ajaxErrorHandler />  
         <p:idleMonitor timeout="600000"   
                        onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
 
