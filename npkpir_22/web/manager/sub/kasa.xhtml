@@ -7,25 +7,25 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <p:panelGrid columns="5" style="width: 810px;">
+    <p:panelGrid columns="5" style="width: 850px;">
         <p:dataTable id="dataList" value="#{rKView.wiersze}" var="loop" rowIndexVar="row" >
             <p:column headerText="id" style="width: 10px">
                 <h:outputText value="#{loop.id}" style="width: 10px;"/>
             </p:column>
             <p:column headerText="opis transakcji" style="width: 350px;">
-                <p:inputText id="opis" value="#{loop.opis}" style="width: 250px;" accesskey="s" />
+                <p:inputText id="opis" value="#{loop.opis}" style="width: 250px;" accesskey="s" onkeypress="wywolaj('#{planKontView.opiskonta}','#{planKontView.pelnynumerkonta}','#{loop.id}');" />
             </p:column>
-            <p:column headerText="Wn" style="width: 80px;">
+            <p:column headerText="Wn" style="width: 120px;">
                 <pe:inputNumber id="wn" value="#{loop.wn}" symbol=" zł"  style="width: 120px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujma(#{loop.id})"/> 
             </p:column>
-            <p:column headerText="Ma" style="width: 80px;">
+            <p:column headerText="Ma" style="width: 120px;">
                  <pe:inputNumber id="ma" value="#{loop.ma}" symbol=" zł" style="width: 120px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwn(#{loop.id})"/> 
             </p:column>
-            <p:column>
+            <p:column headerText="konto">
                 <p:autoComplete id="konto" value="#{loop.konto}" completeMethod="#{planKontView.complete}"
                                 var="p" itemLabel="#{p.pelnynumer}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="10" maxlength="10" converter="KontoConv"
-                                autocomplete="true" forceSelection="true" global="false" converterMessage="Nieudana konwersja Klient"
+                                global="false" converterMessage="Nieudana konwersja Klient"
                                 required="true" requiredMessage="Pole konta nie może byc puste" >
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -47,5 +47,5 @@
             </p:column>
             </p:dataTable>
     </p:panelGrid>
-
+ 
 </ui:composition> 

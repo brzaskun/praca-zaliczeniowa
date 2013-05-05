@@ -531,8 +531,12 @@ function ustawDate(rok,mc){
         function wywolaj(opis,numer,loopid){
            var id = loopid-1; 
            var zloz = "#form\\:dataList\\:"+id+"\\:opis";
-           var zlozwynik = "form:dataList:"+id+":konto_input";
+           var zlozwynik = "form:dataList:"+id+":konto_hinput";
+           var zlozwynik2 = "form:dataList:"+id+":konto_input";
            var szukana = $(zloz).val();
+           if(szukana.length==0){
+               licz = 1;
+           }
            var siatka = szukana.split(',');
            var mapa = {};
            var tablica = opis.split(',');
@@ -547,6 +551,9 @@ function ustawDate(rok,mc){
             var szczegol = siatka[dawniej];
             if($.isSubstring(tablica,szczegol)){
                document.getElementById(zlozwynik).value = mapa[szczegol];
+               document.getElementById(zlozwynik2).value = mapa[szczegol];
+               licz = 1;
+               break;
             }
         }
         };
