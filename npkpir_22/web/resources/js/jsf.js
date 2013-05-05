@@ -557,3 +557,10 @@ function ustawDate(rok,mc){
             }
         }
         };
+        
+//        $(function(){
+//            $('.ui-menuitem').hover(function(){
+//               $(this).siblings().fadeTo(1,.6);
+//               $(this).fadeTo(1,1);
+//            });
+//        });
