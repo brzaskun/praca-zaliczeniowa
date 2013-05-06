@@ -11,7 +11,7 @@
     <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
     
      
-    <p:tabView id="akordeon" style="width: 1300px;" >
+    <p:tabView id="akorderonbis" style="width: 1300px;" >
         <c:forEach  items="#{vatView.listaewidencji.values()}" var="item" varStatus="numer">
              <p:tab  title="#{item[0].nazwaewidencji}">
                  <p:commandButton value="Pdf" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"/>
@@ -29,13 +29,13 @@
                  </p:panel>
                  
                  <p:separator/>
-                 <p:dataTable id="tabela" value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
+                 <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
                               rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" style="width: 1200px;"
                               
                               >
                      <p:column selectionMode="multiple" width="40"/>
-                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akordeon:sumka#{numer.index}"/>
-                     <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:akordeon:sumka#{numer.index}"/>
+                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
+                     <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
                      <p:column headerText="id" width="40" sortBy="#{itemik.id}">
                          <h:outputText value="#{itemik.id}"/>
                      </p:column>
@@ -90,7 +90,7 @@
                      <f:facet name="header">
                          <h:outputText value="zestawienie ewidencji vat"/>
                      </f:facet>
-                     <p:ajax event="rowSelect" listener="#{vatView.sumujwybrane()}" update=":form:akordeon:sumysum"/>
+                     <p:ajax event="rowSelect" listener="#{vatView.sumujwybrane()}" update=":form:akorderonbis:sumysum"/>
                      <p:column headerText="nazwa ewidencji" width="200">
                          <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                      </p:column>
