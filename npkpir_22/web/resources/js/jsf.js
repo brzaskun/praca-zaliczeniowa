@@ -34,11 +34,11 @@ $(document).ready(function() {
 });
 
 
-
-$(window).bind('beforeunload', function(){
-    document.getElementById("ft:wt").click();
-    alert("Good Bye");
-});
+//nie wiem po co to
+//$(window).bind('beforeunload', function(){
+//    document.getElementById("ft:wt").click();
+//    alert("Good Bye");
+//});
 
  function check_form(param){
      if(document.getElementById(param).value){

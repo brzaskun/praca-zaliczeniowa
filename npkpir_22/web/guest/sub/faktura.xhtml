@@ -1,0 +1,76 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
+    <p:tabView id="akordeon" style="width: 1200px;">
+        <p:tab id="nowa" title="Sporządź nową fakturę">
+
+        </p:tab>
+        <p:tab id="gotowe" title="Przeglądaj sporządzone">
+
+        </p:tab>
+        <p:tab id="ksiegi" title="Przeglądaj zaksięgowane">
+
+        </p:tab>
+        <p:tab id="wzor" title="Wzór faktury">
+            <script>
+            function zachowaj(){
+            var p = $("#form\\:akordeon\\:odbiorca");
+            var position = p.position();
+            $("#form\\:akordeon\\:lewy").val(position.left);
+            $("#form\\:akordeon\\:gora").val(position.top);
+            $("#form\\:akordeon\\:zachowaj").click();
+            }
+            function odchowaj(){
+                var co = $('#form\\:akordeon\\:co').val();
+                //alert('#form\\:akordeon\\:'+co);
+                var lw = $('#form\\:akordeon\\:lewy').val();
+                var lewy = parseInt(lw);
+//                $('#form\\:akordeon\\:'+co).hide();
+//                $('#form\\:akordeon\\:'+co).fadeIn(2000);
+                $('#form\\:akordeon\\:'+co).css({"left": lewy-21});
+                var lw = $('#form\\:akordeon\\:gora').val();
+                var gora = parseInt(lw);
+                $('#form\\:akordeon\\:'+co).css({"top": gora-67});
+            };
+            $(function(){
+                var co = $('#form\\:akordeon\\:co').val();
+                var lw = $('#form\\:akordeon\\:lewy').val();
+                var lewy = parseInt(lw);
+                $('#form\\:akordeon\\:'+co).css({"left": lewy-21});
+                var lw = $('#form\\:akordeon\\:gora').val();
+                var gora = parseInt(lw);
+                $('#form\\:akordeon\\:'+co).css({"top": gora-67});
+                $("#form\\:akordeon\\:odbiorca").bind('click', function() {
+                    $("#form\\:akordeon\\:co").val("odbiorca");
+                    zachowaj();
+                });
+            })
+            </script>
+            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
+            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
+            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
+            <br/>
+<!--            <p:commandButton value="Zachowaj" onclick="zachowaj();" />
+            <p:commandButton value="Odtworz"  oncomplete="odchowaj();" />-->
+            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowaj}" style="display: none;" update=":form:akordeon" />
+            <p:panel id="odbiorca" header="Dane Odbiorcy" style="width: 350px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="Odbiorca: #{pozycjeNaFakturzeView.lewy} #{pozycjeNaFakturzeView.gora}" />
+                <h:outputText value="Jan Kowalski" />
+                <h:outputText value="Adres:" />  
+                <h:outputText value="70-100 Szczecin ul. Bananowa 15" />
+                <h:outputText value="Nip:" />  
+                <h:outputText value="851-100-50-08" />
+                </p:panelGrid>
+            </p:panel>  
+            <p:draggable for="odbiorca"/>
+        </p:tab>
+    </p:tabView>
+</ui:composition>   
+
