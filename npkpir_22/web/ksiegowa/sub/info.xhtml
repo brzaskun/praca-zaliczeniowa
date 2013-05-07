@@ -5,7 +5,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-
+ <p:panelGrid id="westKsiegowaWidok" columns="2">
+                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.podatnikWpisu}"/>
+                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.rokWpisu}"/>
+                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+            </p:panelGrid>
 
     <p:panel header="informacje o podatniku #{WpisView.podatnikWpisu}"/>
     <p:panelGrid columns="4" >

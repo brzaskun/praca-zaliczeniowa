@@ -564,3 +564,8 @@ function ustawDate(rok,mc){
 //               $(this).fadeTo(1,1);
 //            });
 //        });
+
+function generujoknowyboru(){
+    $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
+});
+}
