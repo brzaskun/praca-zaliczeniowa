@@ -33,6 +33,10 @@
             <from-outcome>gobroty</from-outcome>
             <to-view-id>/guest/ksiegowaKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gfaktura</from-outcome>
+            <to-view-id>/guest/guestFaktura.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gtablica</from-outcome>
             <to-view-id>/guest/guestTablica.xhtml?faces-redirect=true</to-view-id>
