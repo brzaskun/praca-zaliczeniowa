@@ -8,12 +8,6 @@
         <h:form     id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panel menuTitle="Dane" header="Dane">
-                <p:panelGrid columns="1" style="margin-left: 0%">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
-                    <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
-                </p:selectOneMenu>
-                </p:panelGrid>
                 <p:panelGrid columns="2">
                 <p:outputLabel for="rokWpisu" value="Rok"/>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
@@ -48,6 +42,7 @@
              <h:form>
                 <p:panelGrid columns="1">
                      <p:menu >
+                         <p:menuitem value="zmiana podatnika"  outcome="info" icon="ui-icon-circle-arrow-e" />
                          <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="wykaz dokumentów"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" />

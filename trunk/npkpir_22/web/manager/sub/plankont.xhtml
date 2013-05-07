@@ -120,5 +120,10 @@
         </p:panelGrid>
             </p:focus>
             </h:form>
-  
+    <h:form>
+        <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false" footer="twoj wybor" > 
+            <h:outputText value="Lolo"/>
+        </p:dialog>
+        <p:commandButton value="ok" onclick="dlg.show();"/>
+    </h:form>
 </ui:composition> 

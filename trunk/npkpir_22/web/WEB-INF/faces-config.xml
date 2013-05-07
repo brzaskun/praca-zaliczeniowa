@@ -61,6 +61,10 @@
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>info</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaInfo.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>zamkniecie</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaZamkniecie.xhtml?faces-redirect=true</to-view-id>
