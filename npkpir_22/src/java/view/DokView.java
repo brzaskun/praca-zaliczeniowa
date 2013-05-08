@@ -361,6 +361,9 @@ public class DokView implements Serializable{
             case "import usług":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
+            case "inwestycja":
+                dopobrania = kolumna.getKolumnST();
+                break;
             case "WDT":
                 dopobrania = kolumna.getKolumnPrzychody();
                 break;

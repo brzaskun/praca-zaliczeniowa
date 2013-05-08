@@ -1,0 +1,92 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:tabView id="akordeon">
+        <p:tab title="wykaz">
+            <p:dataTable value="#{inwestycjeView.inwestycje}" style="width: 1200px;" emptyMessage="Nie ma żadnych inwestycji w firmie" var="item">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Symbol"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inwestycjePK.symbol}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Skrót"/>
+                    </f:facet>
+                    <h:outputText value="#{item.skrot}"/>
+                </p:column>
+                  <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Opis"/>
+                    </f:facet>
+                      <h:outputText value="#{item.opis}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Rozpoczęcie"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rokrozpoczecia}/#{item.mcrozpoczecia}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Zakończenie"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rokzakonczenia}#{item.rokzakonczenia != '' ? '/' :''}#{item.mczakonczenia}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Total"/>
+                    </f:facet>
+                    <h:outputText value="#{item.total eq 0 ? '' : item.total}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Suma za lata"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sumazalata}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Dokumenty"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dokumenty}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Zakonczona"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zakonczona eq true ? 'zakończona' : 'rozpoczęta'}"/>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+        <p:tab title="podgląd">
+            
+        </p:tab>
+        <p:tab id="nowa" title="nowa">
+            <p:focus for="nowapanel">
+                    <p:panelGrid id="nowapanel" columns="2">
+                        <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
+                        <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" title="Rokrozpoczecia" required="true" requiredMessage="The Rokrozpoczecia field is required." style="width: 70px;">
+                            <f:selectItems value="#{Roki.rokiList}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Mc rozpoczecia:" for="mcrozpoczecia" />
+                        <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" title="Mcrozpoczecia" required="true" requiredMessage="The Mcrozpoczecia field is required." style="width: 70px;">
+                            <f:selectItems value="#{Mce.mceList}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Skrót:" for="skrot" />
+                        <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" required="true" requiredMessage="The Rokzakonczenia field is required."/>
+                        <h:outputLabel value="Opis:" for="opis" />
+                        <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="Opis" required="true" requiredMessage="The Mczakonczenia field is required."/>
+                    </p:panelGrid>
+                </p:focus>
+            <p:commandButton value="Dodaj" actionListener="#{inwestycjeView.dodaj}" update=":form:akordeon:nowa"/>
+        </p:tab>
+    </p:tabView>
+</ui:composition>   
+
