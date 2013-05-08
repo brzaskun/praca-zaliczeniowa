@@ -33,6 +33,11 @@ public abstract class DAO<T> {
      */
     public void dodaj(T selected) {
         try {
+            if(sessionFacade==null){
+                System.out.println("SessionFacade w pliku DAO jest null - nie utworzona " + selected);
+            } else {
+                System.out.println("Utworzono SessionFacade w pliku DAO " + selected);
+            }
             sessionFacade.create(selected);
             System.out.println("Dodano wpis " + selected);
         } catch (Exception e) {

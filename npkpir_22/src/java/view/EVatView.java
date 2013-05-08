@@ -75,6 +75,9 @@ public class EVatView implements Serializable{
                 case "srodek trw" : 
                     srodkitrwaleVList.add(up.getNazwa());
                     break;
+                case "inwestycja" : 
+                    srodkitrwaleVList.add(up.getNazwa());
+                    break;
                 case "WDT" : 
                     wdtVList.add(up.getNazwa());
                     break;

@@ -11,6 +11,7 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
+import dao.InwestycjeDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
@@ -27,6 +28,8 @@ import entity.Amodok;
 import entity.Dok;
 import entity.EVatOpis;
 import entity.Evewidencja;
+import entity.Inwestycje;
+import entity.Inwestycje.Sumazalata;
 import entity.Klienci;
 import entity.Ostatnidokument;
 import entity.Podatnik;
@@ -202,6 +205,9 @@ public class DokView implements Serializable{
     private List<String> rows;
     private int liczbawierszy;
     private List<String> kolumny;
+    
+     private List<Inwestycje> inwestycje;
+     @Inject private InwestycjeDAO inwestycjeDAO;
 
     public List<String> getKolumny() {
         return kolumny;
@@ -254,6 +260,7 @@ public class DokView implements Serializable{
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         try{
+        inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
         String pod = wpistmp.getPodatnikWpisu();
         podX = podatnikDAO.find(pod);
         opisypkpir.addAll(podX.getOpisypkpir());
@@ -415,6 +422,9 @@ public class DokView implements Serializable{
                 opisewidencji = evat.getZakupVList();
                 break;
             case("srodek trw"):
+                opisewidencji = evat.getSrodkitrwaleVList();
+                break;
+            case("inwestycja"):
                 opisewidencji = evat.getSrodkitrwaleVList();
                 break;
             case("WDT"):
@@ -766,6 +776,9 @@ public class DokView implements Serializable{
                 setPokazSTR(true);
                 wygenerujSTRKolumne();
                 break;
+            case "inwestycja":
+                dopobrania = kolumna.getKolumnST();
+                break;
             case "import usług":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
@@ -1017,6 +1030,7 @@ public class DokView implements Serializable{
             temp.setUzytkownik(principal.getName());
             temp.setDokument(selDokument);
             ostatnidokumentDAO.edit(temp);
+            aktualizujInwestycje(selDokument);
             wysDokument = new Dok();
             wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
             liczbawierszy = 0;
@@ -1577,6 +1591,55 @@ public class DokView implements Serializable{
        selDokument.setDataWyst(przechowajdatejakdodaje);
        RequestContext.getCurrentInstance().update("dodWiad:dataPole");
    }
+   
+   private void aktualizujInwestycje(Dok dok) {
+          try{
+            String symbol = dok.getSymbolinwestycji();
+            if(!symbol.equals("wybierz")){
+                Inwestycje biezaca = null;
+                for(Inwestycje p : inwestycje){
+                    if(p.getSymbol().equals(symbol)){
+                        biezaca = p;
+                        break;
+                    }
+                }
+                biezaca.setTotal(biezaca.getTotal()+dok.getNetto());
+                List<Inwestycje.Sumazalata> sumazalata = biezaca.getSumazalata();
+                if(sumazalata.isEmpty()){
+                    Inwestycje x = new Inwestycje();
+                    Inwestycje.Sumazalata sum = x.new Sumazalata();
+                    sum.setRok(wpisView.getRokWpisu().toString());
+                    sum.setKwota(0.0);
+                    sumazalata.add(sum);
+                } else {
+                    List<String> roki = new ArrayList<>();
+                    for(Inwestycje.Sumazalata p : sumazalata){
+                        roki.add(p.getRok());
+                    }
+                    if(!roki.contains(wpisView.getRokWpisu().toString())){
+                        Inwestycje x = new Inwestycje();
+                        Inwestycje.Sumazalata sum = x.new Sumazalata();
+                        sum.setRok(wpisView.getRokWpisu().toString());
+                        sum.setKwota(0.0);
+                        sumazalata.add(sum);  
+                    }
+                }
+                for(Inwestycje.Sumazalata p : sumazalata){
+                    if(p.getRok().equals(dok.getPkpirR())){
+                        p.setKwota(p.getKwota()+dok.getNetto());
+                        biezaca.setSumazalata(sumazalata);
+                        break;
+                    }
+                }
+                biezaca.getDokumenty().add(dok);
+                inwestycjeDAO.edit(biezaca);
+                Msg.msg("i","Aktualizuje inwestycje "+symbol,"dodWiad:mess_add");
+            }
+        } catch (Exception e){
+            Msg.msg("e","Błąd nie zaktualizowałem inwestycji!","dodWiad:mess_add");
+        }
+    }
+   
    
     public boolean isPokazSTR() {
         return pokazSTR;
@@ -2205,4 +2268,6 @@ public class DokView implements Serializable{
 //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
 //          }
 //      }
+
+    
 }

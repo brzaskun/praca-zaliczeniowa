@@ -169,6 +169,9 @@ public class Dok implements Serializable {
     private ArrayList<Stornodoch> storno;
     @Column(name = "usunpozornie")
     private Boolean usunpozornie;
+    @Size(max = 50)
+    @Column(name = "symbolinwestycji")
+    private String symbolinwestycji;
     
     public Dok() {
     }
@@ -440,12 +443,14 @@ public class Dok implements Serializable {
         this.usunpozornie = usunpozornie;
     }
 
-    
-   
+    public String getSymbolinwestycji() {
+        return symbolinwestycji;
+    }
 
-    
-   
- 
+    public void setSymbolinwestycji(String symbolinwestycji) {
+        this.symbolinwestycji = symbolinwestycji;
+    }
+
 
     @Override
     public int hashCode() {
