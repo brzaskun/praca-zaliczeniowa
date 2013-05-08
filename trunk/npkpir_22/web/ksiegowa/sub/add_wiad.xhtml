@@ -66,12 +66,13 @@
             </p:autoComplete>
 
         </p:panelGrid>
-        <p:panelGrid columns="5">
+        <p:panelGrid columns="6">
             <h:outputLabel value="dod.kol" style="font-weight: 700"/>
             <h:outputLabel value="kwota netto - kolumna pkpir" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
+            <h:outputLabel id="inwestycjas" value="inwestycja" style="font-weight: 700; display: none;"/>
             <p:commandButton value="+" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p"/>
             
             <p:outputPanel id="panel">
@@ -92,7 +93,9 @@
             <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" >
             </p:inputText>
             <p:inputText id="sumbrutto"  readonly="true" onfocus="updatesum();"/>
-            
+            <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="width: 120px; display: none;">
+                <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
+            </h:selectOneMenu>
         </p:panelGrid>
             <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" style="display: none;" />  
 <!--            <h:selectBooleanCheckbox id="dodatkowakolumna" value="{DokumentView.selDokument.dodatkowaKolumna}">

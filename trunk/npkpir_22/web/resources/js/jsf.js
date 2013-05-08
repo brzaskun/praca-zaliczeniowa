@@ -122,8 +122,23 @@ function aktywujsrodek(){
 };
 
 function aktywujopis(){
-    document.getElementById("dodWiad:numerwlasny").focus();
+    var dokument = $('#dodWiad\\:rodzajTrans').val();
+    if(dokument=='IN'){
+        $('#dodWiad\\:inwestycja').show();
+        $('#dodWiad\\:inwestycjas').show();
+    }
+        $('#dodWiad\\:numerwlasny').focus();
 };
+
+$(function(){
+    $("#dodWiad\\:inwestycja").bind('mouseover', function() {
+    });
+    $("#dodWiad\\:inwestycja").bind('blur', function() {
+    if( $('#dodWiad\\:inwestycja').val()=="wybierz"){
+        $('#dodWiad\\:inwestycja').focus();
+    }
+    });
+});
 
 function pokazdodawanie(){
     document.getElementById("formX:dkp").style.display = 'inline';
