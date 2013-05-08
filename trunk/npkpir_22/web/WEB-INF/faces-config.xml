@@ -77,6 +77,10 @@
             <from-outcome>ksiega</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaKsiega.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>inwestycje</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaInwestycje.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
           <navigation-case>
             <from-outcome>home</from-outcome>
             <to-view-id>/index.xhtml?faces-redirect=true</to-view-id>

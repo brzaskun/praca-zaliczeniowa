@@ -12,6 +12,7 @@ import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
+import entity.Inwestycje;
 import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
@@ -334,4 +335,8 @@ public class SessionFacade<T> {
         return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu",typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
     }
     
+    
+    public List<Inwestycje> findInwestycje(String podatnik) {
+        return em.createNamedQuery("Inwestycje.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
 }

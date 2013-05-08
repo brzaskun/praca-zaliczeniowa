@@ -36,6 +36,7 @@ public class Trans implements Serializable{
         transList.add("zakup");
         transList.add("srodek trw");
         transList.add("sprzedaz");
+        transList.add("inwestycja");
         transList.add("ryczałt");
         transList.add("WDT");
         transList.add("WNT");
@@ -45,6 +46,7 @@ public class Trans implements Serializable{
         transListZO.add("zakup");
         transListZO.add("srodek trw");
         transListZO.add("sprzedaz");
+        transListZO.add("inwestycja");
         transListZO.add("WDT");
         transListZO.add("WNT");
         transListZO.add("import usług");
