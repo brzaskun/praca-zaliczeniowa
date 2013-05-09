@@ -139,7 +139,14 @@ function aktywujopis(){
         $('#dodWiad\\:inwestycja').hide();
         $('#dodWiad\\:inwestycjas').hide();
     }
+    $('#dodWiad\\:opis').on('keydown',function(e){
+        if(e.which=='38'){
+            $('#dodWiad\\:dodajopis').click();
+            $('#dodWiad\\:opis').focus();
+        }
+    }); 
         $('#dodWiad\\:numerwlasny').focus();
+        
 };
 
 $(function(){
@@ -149,6 +156,13 @@ $(function(){
         $('#dodWiad\\:inwestycja').focus();
     }
     });
+    
+    $('#dodWiad\\:opis').on('keydown',function(e){
+        $('#log').html(e.type + ': ' +  e.which );
+        if(e.which=='40'){
+            $('#dodWiad\\:dodajopis').click();
+        }
+    });  
 });
 
 function pokazdodawanie(){
