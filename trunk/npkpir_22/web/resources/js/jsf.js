@@ -13,13 +13,14 @@ function openwindow(){
     my_window.document.write('<h1>Popup Test!</h1>');
 }
 
-function stopRKey(evt) { 
-  var evt = (evt) ? evt : ((event) ? event : null); 
-  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
-} 
+//function stopRKey(evt) { 
+//  var evt = (evt) ? evt : ((event) ? event : null); 
+//  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+//  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+//} 
+//document.onkeypress = stopRKey; 
 
-document.onkeypress = stopRKey; 
+
 
 $(document).ready(function() {
     $(':input').focus(
@@ -140,7 +141,7 @@ function aktywujopis(){
         $('#dodWiad\\:inwestycjas').hide();
     }
     $('#dodWiad\\:opis').on('keydown',function(e){
-        if(e.which=='38'){
+        if(e.which=='120'){
             $('#dodWiad\\:dodajopis').click();
             $('#dodWiad\\:opis').focus();
         }
@@ -159,10 +160,15 @@ $(function(){
     
     $('#dodWiad\\:opis').on('keydown',function(e){
         $('#log').html(e.type + ': ' +  e.which );
-        if(e.which=='40'){
+        if(e.which=='120'){
             $('#dodWiad\\:dodajopis').click();
         }
-    });  
+    });
+     $('#dodWiad\\:dodkol').on('keyup',function(e){
+        if(e.which=='119'){
+            $('#dodWiad\\:dodkol').click();
+        }
+    }); 
 });
 
 function pokazdodawanie(){
@@ -609,3 +615,71 @@ function generujoknowyboru(){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
 });
 }
+
+
+
+
+(function ($) {
+    var focusable = ":input, a[href]";
+ 
+    TabKeyDown = function (event) {
+        //Get the element that registered the event
+        var $target = $(event.target);
+        if($(event.target).is('#dodWiad\\:wprowadzenieNowego')==false){
+        if (isTabKey(event)) {
+            var isTabSuccessful = tab(true, event.shiftKey, $target);
+ 
+            if (isTabSuccessful) {
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+ 
+                return false;
+            }
+        }}
+    };
+ 
+    function LoadKeyDown() {
+        //on adds a handler to the object.  In this case it is the document itself
+        $(document).on("keydown", TabKeyDown)
+    }
+ 
+    function isTabKey(event) {
+ 
+        if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode == 13) {
+            return true;
+        }
+ 
+        return false;
+    }
+ 
+    function tab(isTab, isReverse, $target) {
+        if (isReverse) {
+            return performTab($target, -1)
+        } else {
+            return performTab($target, +1)
+        }
+    }
+ 
+    function performTab($from, offset) {
+        var $next = findNext($from, offset);
+        $next.focus();
+        $next.select();
+ 
+        return true;
+    }
+ 
+    function findNext($from, offset) {
+        var $focusable = $(focusable).not(":disabled").not(":hidden").not("a[href]:empty");
+ 
+        var currentIndex = $focusable.index($from);
+ 
+        var nextIndex = (currentIndex + offset) % $focusable.length;
+ 
+        var $next = $focusable.eq(nextIndex);
+ 
+        return $next;
+    }
+ 
+    $(LoadKeyDown)
+})(jQuery);

@@ -18,7 +18,7 @@
             <h:outputLabel value="dok.prosty" style="font-weight: 700" />
             <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
             <h:outputLabel value="nr własny" style="font-weight: 700;"/>
-            <h:outputLabel value="opis transakcji - (&#8593;)" style="font-weight: 700"/>
+            <h:outputLabel value="opis transakcji (F9)" style="font-weight: 700"/>
             
 
             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
@@ -69,13 +69,13 @@
         <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
 <!--        <span id="log"></span>-->
         <p:panelGrid columns="6">
-            <h:outputLabel value="dod.kol" style="font-weight: 700"/>
-            <h:outputLabel value="kwota netto - kolumna pkpir" style="font-weight: 700"/>
+            <h:outputLabel value="dod.kol" style="font-weight: 700;"/>
+            <h:outputLabel value="kwota faktury netto - kolumna pkpir" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
             <h:outputLabel value="termin płatności" style="font-weight: 700"/>
             <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
             <h:outputLabel id="inwestycjas" value="inwestycja" style="font-weight: 700; display: none;"/>
-            <p:commandButton value="+" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p"/>
+            <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p"/>
             
             <p:outputPanel id="panel">
             <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
