@@ -8,11 +8,21 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon">
         <p:tab title="wykaz">
-            <p:dataTable value="#{inwestycjeView.inwestycje}" style="width: 1600px;" emptyMessage="Nie ma żadnych inwestycji w firmie" var="item"
+            <p:contextMenu for="dataList">
+                <p:menuitem value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":form:akordeon:dataList"/>
+            </p:contextMenu>
+            <p:dataTable id="dataList" value="#{inwestycjeView.inwestycje}" style="width: 1600px;" emptyMessage="Nie ma żadnych inwestycji w firmie" var="item"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true">
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
+                         rowKey="#{item.id}">
                 <p:column width="10">
                     <p:rowToggler />
+                </p:column>
+                 <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Symbol"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -74,8 +84,11 @@
                         </f:facet>
                         <p:dataTable value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                                     rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true">
+                                     rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1000px;">
 
+                            <p:column id="nrColumn" headerText="lp" sortBy="#{wpis.NrWpkpir}" width="50">  
+                                <h:outputText value="#{wpis.nrWpkpir}"/>
+                            </p:column>
                             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                                 <h:outputText value="#{wpis.dataWyst}"/>
                             </p:column>
@@ -109,17 +122,17 @@
             <p:focus for="nowapanel">
                 <p:panelGrid id="nowapanel" columns="2">
                     <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
-                    <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" title="Rokrozpoczecia" required="true" requiredMessage="The Rokrozpoczecia field is required." style="width: 70px;">
+                    <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" title="Rokrozpoczecia" required="true" style="width: 70px;">
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                     <h:outputLabel value="Mc rozpoczecia:" for="mcrozpoczecia" />
-                    <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" title="Mcrozpoczecia" required="true" requiredMessage="The Mcrozpoczecia field is required." style="width: 70px;">
+                    <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" title="Mcrozpoczecia" required="true"  style="width: 70px;">
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     <h:outputLabel value="Skrót:" for="skrot" />
-                    <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" required="true" requiredMessage="The Rokzakonczenia field is required."/>
+                    <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" />
                     <h:outputLabel value="Opis:" for="opis" />
-                    <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="Opis" required="true" requiredMessage="The Mczakonczenia field is required."/>
+                    <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="Opis"/>
                 </p:panelGrid>
             </p:focus>
             <p:commandButton value="Dodaj" actionListener="#{inwestycjeView.dodaj}" update="@form"/>

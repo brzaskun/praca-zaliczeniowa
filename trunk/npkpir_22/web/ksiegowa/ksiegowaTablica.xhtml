@@ -22,6 +22,17 @@
 
                     </p:confirmDialog>  
                 </h:form>
+                 <h:form>
+                    <p:growl id="fifi1"/>
+                    <p:confirmDialog id="confirmDialog1" message="Usunąć całą grupę dokumentów?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation1">
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi1 :form:dokumentyLista" oncomplete="confirmation1.hide()"  
+                                         actionListener="#{DokTabView.destroygrupa2()}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation1.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">
                         <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->

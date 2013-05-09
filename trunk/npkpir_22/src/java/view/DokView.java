@@ -1647,6 +1647,7 @@ public class DokView implements Serializable{
         }
             }
    
+  
    
     public boolean isPokazSTR() {
         return pokazSTR;
