@@ -9,13 +9,16 @@ import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -46,8 +49,9 @@ public class Opis implements Serializable{
     }
 
 
-    public void dodajOpis(ValueChangeEvent e){
-        String ns = e.getNewValue().toString();
+    public void dodajOpis(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String ns = params.get("dodWiad:opis_input");
         if(ns.length()>5){
             if(!opisy.contains(ns.toLowerCase())){
                 opisy.add(ns.toLowerCase());
@@ -55,6 +59,7 @@ public class Opis implements Serializable{
         }
        podatnik.setOpisypkpir(opisy);
        podatnikDAO.edit(podatnik);
+       Msg.msg("i", "dodano opis: "+ns,"dodWiad:mess_add");
     }
     
      public List<String> complete(String query) {
