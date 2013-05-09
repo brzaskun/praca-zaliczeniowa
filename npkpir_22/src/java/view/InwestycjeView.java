@@ -5,6 +5,7 @@
 package view;
 
 import dao.InwestycjeDAO;
+import entity.Dok;
 import entity.Inwestycje;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -30,6 +32,7 @@ public class InwestycjeView implements Serializable{
     private WpisView wpisView;
     @Inject private InwestycjeDAO inwestycjeDAO;
     @Inject private Inwestycje selected;
+    @Inject private Inwestycje wybrany;
 
 
     
@@ -38,9 +41,16 @@ public class InwestycjeView implements Serializable{
         inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
         inwestycjesymbole = new ArrayList<>();
         if(inwestycje!=null){
+        int i = 1;
         for(Inwestycje p : inwestycje){
+            List<Dok> tmp = p.getDokumenty();
+            for(Dok r : tmp){
+                r.setNrWpkpir(i++);
+            }
+            p.setDokumenty(tmp);
             inwestycjesymbole.add("wybierz");
             inwestycjesymbole.add(p.getSymbol());
+            i=1;
         }
         }
     }
@@ -50,9 +60,27 @@ public class InwestycjeView implements Serializable{
             selected.setPodatnik(wpisView.getPodatnikWpisu());
             selected.setSymbol(wpisView.getRokWpisu()+"/"+selected.getSkrot());
             inwestycjeDAO.dodaj(selected);
+            selected.setOpis("");
+            selected.setSkrot("");
             Msg.msg("i","Dodałem nową inwestycję","form:messages");
+            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie dodałem nowej inwestycji","form:messages");
+        }
+    }
+    
+    public void usun(){
+        try{
+            if(!wybrany.getDokumenty().isEmpty()){
+                Msg.msg("e","Inwestycja zawiera dokumenty! Usuń je najpierw","form:messages");
+                throw new Exception();  
+            } else {
+                inwestycjeDAO.destroy(wybrany);
+                inwestycje.remove(wybrany);
+                Msg.msg("i","Usunąłem wybrnaą inwestycję","form:messages");
+            }
+        } catch (Exception e){
+            Msg.msg("e","Wystąpił błąd. Nie usunąłem wkazanej inwestycji","form:messages");
         }
     }
 
@@ -86,6 +114,14 @@ public class InwestycjeView implements Serializable{
 
     public void setInwestycjesymbole(List<String> inwestycjesymbole) {
         this.inwestycjesymbole = inwestycjesymbole;
+    }
+
+    public Inwestycje getWybrany() {
+        return wybrany;
+    }
+
+    public void setWybrany(Inwestycje wybrany) {
+        this.wybrany = wybrany;
     }
 
   

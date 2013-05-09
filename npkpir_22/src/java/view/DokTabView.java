@@ -7,6 +7,7 @@ package view;
 import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
+import dao.InwestycjeDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
@@ -15,6 +16,8 @@ import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
+import entity.Inwestycje;
+import entity.Inwestycje.Sumazalata;
 import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;
@@ -65,6 +68,8 @@ public class DokTabView implements Serializable {
     private List<Dok> zaplacone;
     //wybranedokumenty do druku
     private static List<Dok> gosciuwybral;
+    //wybranedokumenty do usuniecia
+    private static List<Dok> grupausun;
    
     
     /*pkpir*/
@@ -80,6 +85,9 @@ public class DokTabView implements Serializable {
     @Inject private UzDAO uzDAO;
     @Inject private WpisDAO wpisDAO;
     @Inject private AmoDokDAO amoDokDAO;
+    
+     private List<Inwestycje> inwestycje;
+     @Inject private InwestycjeDAO inwestycjeDAO;
 
     public DokTabView() {
         //dokumenty podatnika
@@ -98,6 +106,9 @@ public class DokTabView implements Serializable {
 
     @PostConstruct
     public void init() {
+            try {
+                inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
+            } catch (Exception e){}
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
@@ -111,6 +122,7 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             try {
+                
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
@@ -163,7 +175,18 @@ public class DokTabView implements Serializable {
         dokdoUsuniecia = new Dok();
         dokdoUsuniecia = selDok;
     }
+    
+     public void destroygrupa() {
+        grupausun = new ArrayList<>();
+        grupausun = gosciuwybral;
+    }
 
+     public void destroygrupa2() {
+          for(Dok p : grupausun){
+              dokdoUsuniecia = p;
+              destroy2();
+          }
+      }
     public void destroy2() {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
@@ -185,6 +208,13 @@ public class DokTabView implements Serializable {
                 Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 amotmp.setZaksiegowane(false);
                 amoDokDAO.edit(amotmp);
+            }
+            try {
+                String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
+                if(!probsymbolu.equals("wybierz")){
+                    usunDokInwestycje(dokdoUsuniecia);
+                }
+            } catch (Exception e){
             }
             try {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
@@ -438,6 +468,36 @@ public class DokTabView implements Serializable {
          }
          RequestContext.getCurrentInstance().update("form:dokumentyLista");
       }
+      
+       private void usunDokInwestycje(Dok dok) {
+          try{
+            String symbol = dok.getSymbolinwestycji();
+            if(!symbol.equals("wybierz")){
+                Inwestycje biezaca = null;
+                for(Inwestycje p : inwestycje){
+                    if(p.getSymbol().equals(symbol)){
+                        biezaca = p;
+                        break;
+                    }
+                }
+                biezaca.setTotal(biezaca.getTotal()-dok.getNetto());
+                List<Inwestycje.Sumazalata> sumazalata = biezaca.getSumazalata();
+                for(Inwestycje.Sumazalata p : sumazalata){
+                    if(p.getRok().equals(dok.getPkpirR())){
+                        p.setKwota(p.getKwota()-dok.getNetto());
+                        biezaca.setSumazalata(sumazalata);
+                        break;
+                    }
+                }
+                biezaca.getDokumenty().remove(dok);
+                inwestycjeDAO.edit(biezaca);
+                Msg.msg("i","Usunąłem z inwestycji "+symbol,"dodWiad:mess_add");
+                
+            }
+        } catch (Exception e){
+          Msg.msg("e","Błąd nie usunąłem z inwestycji!","dodWiad:mess_add");
+        }
+            }
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;

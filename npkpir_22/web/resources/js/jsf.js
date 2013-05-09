@@ -143,9 +143,6 @@ function aktywujopis(){
 };
 
 $(function(){
-    $("#dodWiad\\:inwestycja").bind('mouseover', function() {
-        alert($('#dodWiad\\:inwestycja').val());
-            });
     $("#dodWiad\\:inwestycja").bind('blur', function() {
 
     if( $('#dodWiad\\:inwestycja').val()=="wybierz"){
