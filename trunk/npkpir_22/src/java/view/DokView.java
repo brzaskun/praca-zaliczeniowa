@@ -1030,7 +1030,13 @@ public class DokView implements Serializable{
             temp.setUzytkownik(principal.getName());
             temp.setDokument(selDokument);
             ostatnidokumentDAO.edit(temp);
-            aktualizujInwestycje(selDokument);
+            try {
+                String probsymbolu = selDokument.getSymbolinwestycji();
+                if(!probsymbolu.equals("wybierz")){
+                    aktualizujInwestycje(selDokument);
+                }
+            } catch (Exception e){
+            }
             wysDokument = new Dok();
             wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
             liczbawierszy = 0;
@@ -1634,11 +1640,12 @@ public class DokView implements Serializable{
                 biezaca.getDokumenty().add(dok);
                 inwestycjeDAO.edit(biezaca);
                 Msg.msg("i","Aktualizuje inwestycje "+symbol,"dodWiad:mess_add");
+                
             }
         } catch (Exception e){
-            Msg.msg("e","Błąd nie zaktualizowałem inwestycji!","dodWiad:mess_add");
+          Msg.msg("e","Błąd nie zaktualizowałem inwestycji!","dodWiad:mess_add");
         }
-    }
+            }
    
    
     public boolean isPokazSTR() {
