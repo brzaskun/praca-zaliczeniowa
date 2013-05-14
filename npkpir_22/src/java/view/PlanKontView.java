@@ -8,24 +8,15 @@ import comparator.Kontocomparator;
 import dao.KontoDAO;
 import entityfk.Konto;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.event.SelectEvent;
 
 /**
  *

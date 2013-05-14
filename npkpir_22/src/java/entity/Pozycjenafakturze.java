@@ -7,15 +7,12 @@ package entity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,29 +24,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pozycjenafakturze.findAll", query = "SELECT p FROM Pozycjenafakturze p"),
-    @NamedQuery(name = "Pozycjenafakturze.findById", query = "SELECT p FROM Pozycjenafakturze p WHERE p.id = :id"),
-    @NamedQuery(name = "Pozycjenafakturze.findByPodatnik", query = "SELECT p FROM Pozycjenafakturze p WHERE p.podatnik = :podatnik"),
-    @NamedQuery(name = "Pozycjenafakturze.findByNazwa", query = "SELECT p FROM Pozycjenafakturze p WHERE p.nazwa = :nazwa"),
+    @NamedQuery(name = "Pozycjenafakturze.findByPodatnik", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.podatnik = :podatnik"),
+    @NamedQuery(name = "Pozycjenafakturze.findByNazwa", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.nazwa = :nazwa"),
     @NamedQuery(name = "Pozycjenafakturze.findByLewy", query = "SELECT p FROM Pozycjenafakturze p WHERE p.lewy = :lewy"),
     @NamedQuery(name = "Pozycjenafakturze.findByGora", query = "SELECT p FROM Pozycjenafakturze p WHERE p.gora = :gora"),
     @NamedQuery(name = "Pozycjenafakturze.findByAktywny", query = "SELECT p FROM Pozycjenafakturze p WHERE p.aktywny = :aktywny")})
 public class Pozycjenafakturze implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "podatnik")
-    private String podatnik;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
+    @EmbeddedId
+    protected PozycjenafakturzePK pozycjenafakturzePK;
     @Basic(optional = false)
     @NotNull
     @Column(name = "lewy")
@@ -66,41 +49,27 @@ public class Pozycjenafakturze implements Serializable {
     public Pozycjenafakturze() {
     }
 
-    public Pozycjenafakturze(Integer id) {
-        this.id = id;
+    public Pozycjenafakturze(PozycjenafakturzePK pozycjenafakturzePK) {
+        this.pozycjenafakturzePK = pozycjenafakturzePK;
     }
 
-    public Pozycjenafakturze(Integer id, String podatnik, String nazwa, int lewy, int gora, boolean aktywny) {
-        this.id = id;
-        this.podatnik = podatnik;
-        this.nazwa = nazwa;
+    public Pozycjenafakturze(PozycjenafakturzePK pozycjenafakturzePK, int lewy, int gora, boolean aktywny) {
+        this.pozycjenafakturzePK = pozycjenafakturzePK;
         this.lewy = lewy;
         this.gora = gora;
         this.aktywny = aktywny;
     }
 
-    public Integer getId() {
-        return id;
+    public Pozycjenafakturze(String podatnik, String nazwa) {
+        this.pozycjenafakturzePK = new PozycjenafakturzePK(podatnik, nazwa);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public PozycjenafakturzePK getPozycjenafakturzePK() {
+        return pozycjenafakturzePK;
     }
 
-    public String getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(String podatnik) {
-        this.podatnik = podatnik;
-    }
-
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setPozycjenafakturzePK(PozycjenafakturzePK pozycjenafakturzePK) {
+        this.pozycjenafakturzePK = pozycjenafakturzePK;
     }
 
     public int getLewy() {
@@ -130,7 +99,7 @@ public class Pozycjenafakturze implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (pozycjenafakturzePK != null ? pozycjenafakturzePK.hashCode() : 0);
         return hash;
     }
 
@@ -141,7 +110,7 @@ public class Pozycjenafakturze implements Serializable {
             return false;
         }
         Pozycjenafakturze other = (Pozycjenafakturze) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.pozycjenafakturzePK == null && other.pozycjenafakturzePK != null) || (this.pozycjenafakturzePK != null && !this.pozycjenafakturzePK.equals(other.pozycjenafakturzePK))) {
             return false;
         }
         return true;
@@ -149,7 +118,8 @@ public class Pozycjenafakturze implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Pozycjenafakturze[ id=" + id + " ]";
+        return "Pozycjenafakturze{" + "pozycjenafakturzePK=" + pozycjenafakturzePK + ", lewy=" + lewy + ", gora=" + gora + ", aktywny=" + aktywny + '}';
     }
-    
+
+     
 }

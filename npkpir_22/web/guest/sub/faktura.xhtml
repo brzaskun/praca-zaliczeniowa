@@ -18,51 +18,49 @@
 
         </p:tab>
         <p:tab id="wzor" title="Wzór faktury">
-            <script>
-            function zachowaj(){
-            var p = $("#form\\:akordeon\\:odbiorca");
+            <script type="text/javascript">
+            function zachowaj(co){
+            var p = $("#form\\:akordeon\\:"+co);
             var position = p.position();
             $("#form\\:akordeon\\:lewy").val(position.left);
+            //alert($("#form\\:akordeon\\:lewy").val());
             $("#form\\:akordeon\\:gora").val(position.top);
+            //alert($("#form\\:akordeon\\:gora").val());
             $("#form\\:akordeon\\:zachowaj").click();
             }
-            function odchowaj(){
-                var co = $('#form\\:akordeon\\:co').val();
-                //alert('#form\\:akordeon\\:'+co);
-                var lw = $('#form\\:akordeon\\:lewy').val();
-                var lewy = parseInt(lw);
-//                $('#form\\:akordeon\\:'+co).hide();
-//                $('#form\\:akordeon\\:'+co).fadeIn(2000);
-                $('#form\\:akordeon\\:'+co).css({"left": lewy-21});
-                var lw = $('#form\\:akordeon\\:gora').val();
-                var gora = parseInt(lw);
-                $('#form\\:akordeon\\:'+co).css({"top": gora-67});
-            };
+           
             $(function(){
-                var co = $('#form\\:akordeon\\:co').val();
-                var lw = $('#form\\:akordeon\\:lewy').val();
-                var lewy = parseInt(lw);
-                $('#form\\:akordeon\\:'+co).css({"left": lewy-21});
-                var lw = $('#form\\:akordeon\\:gora').val();
-                var gora = parseInt(lw);
-                $('#form\\:akordeon\\:'+co).css({"top": gora-67});
-                $("#form\\:akordeon\\:odbiorca").bind('click', function() {
+                var lewy = $("#form\\:akordeon\\:lewyTablica").val().split(",");
+                var gora = $("#form\\:akordeon\\:goraTablica").val().split(",");
+                var co = $("#form\\:akordeon\\:coTablica").val().split(",");
+                petlawywolujaca(lewy,gora,co);
+                $("#form\\:akordeon\\:odbiorca").bind('mouseup', function() {
                     $("#form\\:akordeon\\:co").val("odbiorca");
-                    zachowaj();
+                    zachowaj("odbiorca");
                 });
+                $("#form\\:akordeon\\:wystawca").bind('mouseup', function() {
+                    $("#form\\:akordeon\\:co").val("wystawca");
+                    zachowaj("wystawca");
+                });
+                $("#form\\:akordeon\\:data").bind('mouseup', function() {
+                    $("#form\\:akordeon\\:co").val("data");
+                    zachowaj("data");
+                });
+               
             })
             </script>
-            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
-            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
-            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
+            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: inline;"/>
+            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: inline;"/>
+            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: inline;"/>
+            <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
+            <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
+            <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
             <br/>
-<!--            <p:commandButton value="Zachowaj" onclick="zachowaj();" />
-            <p:commandButton value="Odtworz"  oncomplete="odchowaj();" />-->
-            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowaj}" style="display: none;" update=":form:akordeon" />
+            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje()}" style="display: none;" update=":form:akordeon"/>
             <p:panel id="odbiorca" header="Dane Odbiorcy" style="width: 350px;"  >  
                 <p:panelGrid columns="2">
-                <h:outputText value="Odbiorca: #{pozycjeNaFakturzeView.lewy} #{pozycjeNaFakturzeView.gora}" />
-                <h:outputText value="Jan Kowalski" />
+                    <h:outputText value="Odbiorca: #{pozycjeNaFakturzeView.lewyTablica} #{pozycjeNaFakturzeView.goraTablica}" />
+                <h:outputText value="Jan Kowalski #{pozycjeNaFakturzeView.coTablica}" />
                 <h:outputText value="Adres:" />  
                 <h:outputText value="70-100 Szczecin ul. Bananowa 15" />
                 <h:outputText value="Nip:" />  
@@ -70,6 +68,23 @@
                 </p:panelGrid>
             </p:panel>  
             <p:draggable for="odbiorca"/>
+            <p:panel id="wystawca" header="Dane Wystawcy" style="width: 350px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="Wystawca: #{pozycjeNaFakturzeView.lewyTablica} #{pozycjeNaFakturzeView.goraTablica}" />
+                <h:outputText value="Bober Mizialski #{pozycjeNaFakturzeView.coTablica}"/>
+                <h:outputText value="Adres:" />  
+                <h:outputText value="70-100 Poznan ul. Bananowa 15" />
+                <h:outputText value="Nip:" />  
+                <h:outputText value="851-100-50-08" />
+                </p:panelGrid>
+            </p:panel>
+            <p:draggable for="wystawca"/>
+             <p:panel id="data" header="Miejsce i data wystawienia fatury" style="width: 350px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="Szczecin, dnia 18.05.2013 " />
+                </p:panelGrid>
+            </p:panel>  
+            <p:draggable for="data"/>
         </p:tab>
     </p:tabView>
 </ui:composition>   

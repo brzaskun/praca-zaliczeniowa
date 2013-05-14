@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//PL" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -10,12 +10,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="Pragma" content="no-cache"/>
         <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
-        <title><ui:insert name="title">Default Title</ui:insert></title>
+         <title><ui:insert name="title">Default Title</ui:insert></title>
+    </h:head>
+       
+        <h:body>
         <h:outputStylesheet id="template" name="#{CSSView.css}"/>
         <h:outputScript library="js" name="jsf.js"/>
         
-    </h:head>
-    <h:body>
+
+        
+        <ui:insert name="body"> 
         <!-- Default ajaxErrorHandler -->  
         <pe:ajaxErrorHandler button="OK" />  
         <p:idleMonitor timeout="600000"   
@@ -30,8 +34,6 @@
         <h:form id="templateform">
              <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="display: none;"/>
         </h:form>
-        <ui:insert name="body"> 
-        
         </ui:insert>
     </h:body>
 </html>

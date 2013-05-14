@@ -6,14 +6,14 @@ package view;
 
 import dao.PozycjenafakturzeDAO;
 import entity.Pozycjenafakturze;
+import entity.PozycjenafakturzePK;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -26,20 +26,38 @@ public class PozycjeNaFakturzeView implements Serializable{
     private int lewy;
     private int gora;
     private String co;
+    private static String lewyTablica;
+    private static String goraTablica;
+    private static String coTablica;
+    
     @Inject private PozycjenafakturzeDAO pozycjeDAO;
     
-    public void zachowaj(){
-    Pozycjenafakturze pozycje = new Pozycjenafakturze(1,"Test", co, lewy, gora, true);
-    pozycjeDAO.edit(pozycje);
+    public void zachowajpozycje(){
+    System.out.println("lolo");
+    PozycjenafakturzePK klucz = new PozycjenafakturzePK();
+    klucz.setNazwa(co);
+    klucz.setPodatnik("Test");
+    Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, lewy, gora, true);
+    try{
+        pozycjeDAO.dodaj(pozycje);
+    } catch (Exception e){
+        pozycjeDAO.edit(pozycje);
+    }
     Msg.msg("i", pozycje.toString(),"form:messages");
     }
 
    public void odchowaj(){
        List<Pozycjenafakturze> lista = pozycjeDAO.findAll();
-       Pozycjenafakturze wiersz = lista.get(0);
-       lewy = wiersz.getLewy();
-       gora = wiersz.getGora();
-       co = wiersz.getNazwa();
+       if(!lista.isEmpty()){
+           lewyTablica = "";
+           goraTablica = "";
+           coTablica = "";
+       for(Pozycjenafakturze p : lista){
+        lewyTablica = lewyTablica + p.getLewy()+",";
+        goraTablica = goraTablica + p.getGora()+",";
+        coTablica = coTablica + p.getPozycjenafakturzePK().getNazwa()+",";
+       }
+       }
    }
 
     public int getLewy() {
@@ -65,6 +83,31 @@ public class PozycjeNaFakturzeView implements Serializable{
     public void setCo(String co) {
         this.co = co;
     }
+
+    public String getLewyTablica() {
+        return lewyTablica;
+    }
+
+    public void setLewyTablica(String lewyTablica) {
+        PozycjeNaFakturzeView.lewyTablica = lewyTablica;
+    }
+
+    public String getGoraTablica() {
+        return goraTablica;
+    }
+
+    public void setGoraTablica(String goraTablica) {
+        PozycjeNaFakturzeView.goraTablica = goraTablica;
+    }
+
+    public String getCoTablica() {
+        return coTablica;
+    }
+
+    public void setCoTablica(String coTablica) {
+        PozycjeNaFakturzeView.coTablica = coTablica;
+    }
+
     
     
   
