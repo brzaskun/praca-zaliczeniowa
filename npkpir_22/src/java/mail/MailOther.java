@@ -90,7 +90,7 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
-     
+    
      public void ewidencjaSTR() {
        try {
             Message message = logintoMail();

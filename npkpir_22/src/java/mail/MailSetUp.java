@@ -67,6 +67,7 @@ public class MailSetUp implements Serializable{
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("teleputa@wp.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
+        message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
         return message;
     }
 
