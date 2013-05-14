@@ -37,7 +37,7 @@ import view.STREwidencja;
  */
 @ManagedBean
 public class PdfSTR extends Pdf implements Serializable {
-     @ManagedProperty(value="#{STREwidencja}")
+    @ManagedProperty(value="#{STREwidencja}")
     protected STREwidencja sTREwidencja;
     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
@@ -153,5 +153,14 @@ public class PdfSTR extends Pdf implements Serializable {
     public void setEwidencjeVatDAO(EwidencjeVatDAO ewidencjeVatDAO) {
         this.ewidencjeVatDAO = ewidencjeVatDAO;
     }
+
+    public STREwidencja getsTREwidencja() {
+        return sTREwidencja;
+    }
+
+    public void setsTREwidencja(STREwidencja sTREwidencja) {
+        this.sTREwidencja = sTREwidencja;
+    }
+    
     
 }
