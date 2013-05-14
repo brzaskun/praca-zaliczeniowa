@@ -614,6 +614,7 @@ function ustawDate(rok,mc){
 function generujoknowyboru(){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
 });
+
 }
 
 
@@ -662,7 +663,7 @@ function generujoknowyboru(){
     }
  
     function performTab($from, offset) {
-        var $next = findNext($from, offset);
+        var $next = findNext($from,offset);
         $next.focus();
         $next.select();
  
@@ -683,3 +684,21 @@ function generujoknowyboru(){
  
     $(LoadKeyDown)
 })(jQuery);
+
+//rodzial dotyczacy umiejscawiania pozycji z  faktury
+function petlawywolujaca(lw,gr,co){
+        var dlugosc = lw.length-1;
+        for(var j = 0; j < dlugosc; j++){
+            //alert(lw[j]+","+gr[j]+","+co[j]);
+            var lewy = parseInt(lw[j]);
+            var cos = co[j];
+            $('#form\\:akordeon\\:'+cos).css({"left": lewy-21});//-21
+            var gora = parseInt(gr[j]);
+            if(cos=="odbiorca"){
+                $('#form\\:akordeon\\:'+cos).css({"top": gora-77});//-67
+            } else if(cos=="wystawca") {
+                $('#form\\:akordeon\\:'+cos).css({"top": gora-248});//-67
+            } else {
+               $('#form\\:akordeon\\:'+cos).css({"top": gora-419});//-67
+            }
+  }};

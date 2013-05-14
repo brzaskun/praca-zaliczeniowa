@@ -7,17 +7,17 @@
     <p:layoutUnit position="west" size="240" header="Zmień przeglądany okres" collapsible="true" resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
-             <p:panelGrid  columns="1" style="margin-left: 25%">
-                    <p:column>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                    <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestPodatki.xhtml')}" />
-                </p:selectOneMenu>
-                  </p:column>
-                    <p:column>
-                        <h:commandButton value="Ok" rendered="true" style="margin-left: 15%" action="#{PlatnosciView.pokazzobowiazania()}" type="submit"/>
-                     </p:column>
+            <p:panelGrid  columns="1" style="margin-left: 25%">
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:param name="rokWpisu" value="2012" />
+                        <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestPodatki.xhtml')}" />
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:commandButton value="Ok" rendered="true" style="margin-left: 15%" action="#{PlatnosciView.pokazzobowiazania()}" type="submit"/>
+                </p:column>
             </p:panelGrid>
             <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 25%">
                 <h:outputText value="Twoja firma:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -27,11 +27,12 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
-           <p:panel header="linki">
-             <h:form>
+        </h:form>
+        <h:form>
+            <p:panel header="linki">
                 <p:panelGrid columns="1">
-                     <p:menu >
-                       <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
+                    <p:menu >
+                        <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="obroty w roku"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
@@ -42,10 +43,8 @@
                     </p:menu> 
                     <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
                 </p:panelGrid>
-            </h:form>
-        </p:panel>
-            
+            </p:panel>
         </h:form>
-        </p:layoutUnit>
+    </p:layoutUnit>
 </ui:composition>   
 
