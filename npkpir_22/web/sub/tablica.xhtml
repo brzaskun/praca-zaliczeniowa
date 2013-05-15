@@ -56,6 +56,12 @@
                 <h:outputText value="#{loop}"/>
             </p:dataList>
         </p:panel>
+        <p:panel style="margin-top: 1px; margin-left: 670px; width: 450px">
+            <h:outputText value="Nie tknięci klienci (#{infoViewAll.kliencinieruszeni.size()}) - rozliczenia bieżące: " rendered="#{infoViewAll.kliencinieruszeni.size()>0}"/>
+            <p:dataList value="#{infoViewAll.kliencinieruszeni}" var="loop" rendered="#{infoViewAll.kliencinieruszeni.size()>0}">
+                <h:outputText value="#{loop}, "/>
+            </p:dataList>
+        </p:panel>
         <p:panel style="margin-top: 30px; margin-left: 990px; width: 120px">
             <h:commandLink id="openPopUp" value="moje ustawienia" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
 <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">
