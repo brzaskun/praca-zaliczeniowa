@@ -15,7 +15,7 @@
                             </h:form>   
                  <h:form id="formX">
                      <p:growl id="msg"/>
-                     <p:panel header="Wykaz wysłanych deklaracji. Deklaracje pokolorowane są wysłane z sukcesem."/>
+                     <p:panel header="Wykaz wysłanych deklaracji."/>
                       <p:tabView>
                            <p:tab title="bez UPO">
                                <p:dataTable id="dataLista" value="#{deklaracjevatView.wyslaneniepotwierdzone}" var="item" sortBy="#{item.miesiac}" >
@@ -92,7 +92,7 @@
                      </p:dataTable>
                      </p:tab>
             <p:tab title="udane">
-                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" >
+                <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}" sortOrder="descending">
                          <p:column width="240">
                              <f:facet name="header">
                                  <h:outputText value="Identyfikator"/>

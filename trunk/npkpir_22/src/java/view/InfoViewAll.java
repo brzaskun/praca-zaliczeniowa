@@ -58,20 +58,22 @@ public class InfoViewAll implements Serializable{
         mcdzisiejszy = Mce.getMapamcy().get(Calendar.getInstance().get(Calendar.MONTH));
         deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy,mcdzisiejszy);
         deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy,mcdzisiejszy);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        String mc = Mce.getMapamcy().get(Calendar.getInstance().get(Calendar.MONTH));
-        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        List<Podatnik> tmp = podatnikDAO.findAll();
-        kliencinieruszeni = new ArrayList<>();
-        for(Podatnik p : tmp){
-            List<Dok> dok = dokDAO.zwrocBiezacegoKlientaRokMC(p.getNazwapelna(), rok, mc);
-            if(dok.isEmpty()){
-                if(day>14&&day<21){
-                    kliencinieruszeni.add(p.getNazwapelna());
-                }
-            }
-        }
-        System.out.println(kliencinieruszeni);
+        /**Klienci nie ruszeni zajmuja duzo czasu
+         **/
+//        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//        String mc = Mce.getMapamcy().get(Calendar.getInstance().get(Calendar.MONTH));
+//        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+//        List<Podatnik> tmp = podatnikDAO.findAll();
+//        kliencinieruszeni = new ArrayList<>();
+//        for(Podatnik p : tmp){
+//            List<Dok> dok = dokDAO.zwrocBiezacegoKlientaRokMC(p.getNazwapelna(), rok, mc);
+//            if(dok.isEmpty()){
+//                if(day>14&&day<21){
+//                    kliencinieruszeni.add(p.getNazwapelna());
+//                }
+//            }
+//        }
+//        System.out.println(kliencinieruszeni);
     }
     
     public static void main(String[] args){

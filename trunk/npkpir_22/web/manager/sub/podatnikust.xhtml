@@ -324,19 +324,29 @@
                 <h:outputText value="#{loop.zusstawkiPK.rok}-#{loop.zusstawkiPK.miesiac}" />
                 </p:column>
                 <p:column headerText="ZUS 51">
-                 <h:outputText value="#{loop.zus51ch}" />
+                 <h:outputText value="#{loop.zus51ch}"  style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 51/bch">
-                <h:outputText value="#{loop.zus51bch}" />
+                <h:outputText value="#{loop.zus51bch}"  style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 52">
-                <h:outputText value="#{loop.zus52}" />
+                <h:outputText value="#{loop.zus52}"  style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 52 odl.">
-                <h:outputText value="#{loop.zus52odl}" />
+                <h:outputText value="#{loop.zus52odl}"  style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
                 <p:column headerText="ZUS 53">
-                <h:outputText value="#{loop.zus53}" />
+                <h:outputText value="#{loop.zus53}"  style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
                 <br/>
             </p:dataTable>
