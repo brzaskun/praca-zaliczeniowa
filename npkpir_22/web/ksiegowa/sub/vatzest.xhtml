@@ -10,7 +10,7 @@
     <f:event type="preRenderView" listener="#{pdfVAT.drukujewidencje()}"/>
     <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
     
-     
+    <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr}"/>
     <p:tabView id="akorderonbis" style="width: 1300px;" >
         <c:forEach  items="#{vatView.listaewidencji.values()}" var="item" varStatus="numer">
              <p:tab  title="#{item[0].nazwaewidencji}">
