@@ -9,11 +9,11 @@
         <title>Witaj</title>
     </h:head>
 
-    <h:body style="background-color: #FFFFFF">
+    <h:body style="background-color: #FFFFFF;">
         <f:view>
             <h:form id="formlog1">
                 <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">  
-                    <h:outputText value="Witamy w programie księgowym Biura Rachunkowego Taxman" style="color: activecaption;font-size:24px;" />  
+                    <p style="text-align: center;"><h:outputText value="Witamy w programie księgowym Biura Rachunkowego Taxman" style="color: activecaption;font-size:24px; " /></p>  
                 </p:notificationBar> 
                  <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 34%; width: 600px; border-style: none" >
                     <p:messages id="logowanie"  autoUpdate="true" />
@@ -29,10 +29,7 @@
                         </p:column>
                     </p:panelGrid>
                 </p:panel>
-                <p:panel style="margin: 2% 0% 0% 40%; width: 362px">
-                    <f:facet name="header">
-                        <h:outputLabel value="Proszę wpisać login i hasło użytkownika"/>
-                    </f:facet>
+                <p:panel style="margin: 2% 0% 0% 40%; width: 362px" header="">
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin: 0% 0% 0% 3%">
                         <h:outputText value="login"/>
@@ -41,10 +38,9 @@
                         <h:inputSecret value="#{Logowanie.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true" />
                     </p:panelGrid>
                     <br/>
-                    <p:panelGrid columns="2" style="margin: 0% 0% 0% 10%">
-                        <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false"/>
-                        <p:commandButton value="Wyloguj" action="#{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>
-                    </p:panelGrid>
+                    <p:commandButton value="Zaloguj" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false" style="margin-left: 35%;"/>
+<!--                        <p:commandButton value="Wyloguj" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
+
                 </p:panel>
             </h:form>
             
