@@ -27,11 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "stornodok")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Amodok.findAll", query = "SELECT a FROM Amodok a"),
-    @NamedQuery(name = "Amodok.findById", query = "SELECT a FROM Amodok a WHERE a.id = :id"),
-    @NamedQuery(name = "Amodok.findByMc", query = "SELECT a FROM Amodok a WHERE a.mc = :mc"),
-    @NamedQuery(name = "Amodok.findByRok", query = "SELECT a FROM Amodok a WHERE a.rok = :rok"),
-    @NamedQuery(name = "Amodok.findByZaksiegowane", query = "SELECT a FROM Amodok a WHERE a.zaksiegowane = :zaksiegowane"),
+    @NamedQuery(name = "StornoDok.findAll", query = "SELECT a FROM StornoDok a"),
+    @NamedQuery(name = "StornoDok.findById", query = "SELECT a FROM StornoDok a WHERE a.id = :id"),
+    @NamedQuery(name = "StornoDok.findByMc", query = "SELECT a FROM StornoDok a WHERE a.mc = :mc"),
+    @NamedQuery(name = "StornoDok.findByRok", query = "SELECT a FROM StornoDok a WHERE a.rok = :rok"),
+    @NamedQuery(name = "StornoDok.findByZaksiegowane", query = "SELECT a FROM StornoDok a WHERE a.zaksiegowane = :zaksiegowane"),
     })
 public class StornoDok implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1170,9 +1170,9 @@ public class DokView implements Serializable{
             itx = lista.iterator();
             while(itx.hasNext()){
                 Amodok tmp = (Amodok) itx.next();
-                Integer mctmp = tmp.getMc();
+                Integer mctmp = tmp.getAmodokPK().getMc();
                 String mc = Mce.getMapamcy().get(mctmp);
-                Integer rok = tmp.getRok();
+                Integer rok = tmp.getAmodokPK().getRok();
                 if(wpisView.getRokWpisu().equals(rok)&&wpisView.getMiesiacWpisu().equals(mc)){
                     amodok = tmp;
                     break;

@@ -8,13 +8,12 @@ import dao.AmoDokDAO;
 import dao.STRDAO;
 import embeddable.Mce;
 import embeddable.Roki;
-import embeddable.STRtabela;
 import embeddable.Umorzenie;
 import entity.Amodok;
+import entity.AmodokPK;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -149,7 +148,6 @@ public class STRTabView implements Serializable{
             if (c != null) {
                 int ie = 1;
                 for(Amodok tmp : c){
-                    tmp.setId(ie++);
                     amodoklist.add(tmp);
                 }
 
@@ -235,9 +233,11 @@ public class STRTabView implements Serializable{
         int ostatni = roki.getRokiList().size();
         while (rokOd < roki.getRokiList().get(ostatni-1)) {
             Amodok amoDok = new Amodok();
-            amoDok.setPodatnik(pod);
-            amoDok.setRok(rokOd);
-            amoDok.setMc(mcOd);
+            AmodokPK amodokPK = new AmodokPK();
+            amodokPK.setPodatnik(pod);
+            amodokPK.setRok(rokOd);
+            amodokPK.setMc(mcOd);
+            amoDok.setAmodokPK(amodokPK);
             amoDok.setZaksiegowane(Boolean.FALSE);
             for(SrodekTrw srodek : lista){
                 List<Umorzenie> umorzeniaWyk = new ArrayList<>();
@@ -275,11 +275,10 @@ public class STRTabView implements Serializable{
         int mc = 0;
         for(Amodok p : amodoki){
             if(p.getZaksiegowane()==false){
+                rok = p.getAmodokPK().getRok();
+                mc = p.getAmodokPK().getMc()-1;
                 break;
             }
-            rok = p.getRok();
-            mc = p.getMc();
-
         }
         Msg.msg("i", "Pominięto dokumenty zaksięgowane. Aktualizacja po "+rok+"/"+ Mce.getMapamcy().get(mc),"formSTR:mess_add");
         List odpowiedz = new ArrayList<>();
@@ -300,7 +299,6 @@ public class STRTabView implements Serializable{
             if (c != null) {
                 int ie = 1;
                 for(Amodok tmp : c){
-                    tmp.setId(ie++);
                     amodoklist.add(tmp);
                 }
 
