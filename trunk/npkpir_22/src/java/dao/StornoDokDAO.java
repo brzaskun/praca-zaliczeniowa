@@ -4,9 +4,7 @@
  */
 package dao;
 
-import entity.Sesja;
 import entity.StornoDok;
-import entity.Uz;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;

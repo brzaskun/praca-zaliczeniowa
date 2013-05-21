@@ -56,7 +56,7 @@ public class AmoDokDAO extends DAO implements Serializable {
      public void destroy(String podatnik, int rok, int mc){
         List<Amodok> lista = amodokFacade.findAmodok(podatnik);
         for(Amodok tmp : lista){
-            if((tmp.getRok()+tmp.getMc())>=(rok+mc)){
+            if((tmp.getAmodokPK().getRok()+tmp.getAmodokPK().getMc())>=(rok+mc)){
                 amodokFacade.remove(tmp);
             }
         }
@@ -65,7 +65,7 @@ public class AmoDokDAO extends DAO implements Serializable {
     public List<Amodok> amodokklient(String klient){
         List<Amodok> lista = new ArrayList<>();
         for (Object p : amodokFacade.findAll(Amodok.class)){
-            if(((Amodok) p).getPodatnik().equals(klient)){
+            if(((Amodok) p).getAmodokPK().getPodatnik().equals(klient)){
                 lista.add((Amodok) p);
             }
         }

@@ -19,28 +19,22 @@
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów amortyzacji" />  
             </f:facet>
+          <p:column id="Column1" headerText="pod nazwa" filterBy="#{wpis.amodokPK.podatnik}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.podatnik}" width="200">  
             
-             <p:column id="Column0" headerText="nr kolejny" sortBy="#{wpis.id}"  width="60">  
-            
-                <h:outputText value="#{wpis.id}" />
-            </p:column>
-                
-             <p:column id="Column1" headerText="pod nazwa" filterBy="#{wpis.podatnik}" filterMatchMode="contains" sortBy="#{wpis.podatnik}" width="200">  
-            
-                 <h:outputText value="#{wpis.podatnik}">
+                 <h:outputText value="#{wpis.amodokPK.podatnik}">
                     <f:convertDateTime dateStyle="medium"  />
                 </h:outputText>
             </p:column>
-             <p:column id="Column2" headerText="rok" filterBy="#{wpis.rok}" filterMatchMode="contains" sortBy="#{wpis.rok}" width="100">  
+             <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" width="100">  
                 <f:facet name="header">  
                     <h:outputText value="rok" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.rok}"/>
+                <h:outputText value="#{wpis.amodokPK.rok}"/>
 
             </p:column>
-             <p:column id="Column3" headerText="mc" filterBy="#{wpis.mc}" filterMatchMode="contains" sortBy="#{wpis.mc}" width="100">  
+             <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" width="100">  
           
-                <h:outputText value="#{wpis.mc}"  />
+                <h:outputText value="#{wpis.amodokPK.mc}"  />
             </p:column>
              <p:column id="Column4" headerText="zaksięgowane odpisy">  
            
