@@ -201,7 +201,7 @@ public class DokTabView implements Serializable {
                 if(wpisView.getMiesiacWpisu()!="12"){
                     amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
                 }
-                if(amotmpnas.getZaksiegowane()){
+                if(amotmpnas.getZaksiegowane()&&(!amotmpnas.getUmorzenia().isEmpty())){
                    Msg.msg("e", "Nie można usunąć dokumentu AMO. Usuń najpierw ten z następnego miesiąca!", "form:messages"); 
                    return;
                 }
@@ -211,7 +211,7 @@ public class DokTabView implements Serializable {
             }
             try {
                 String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
-                if(!probsymbolu.equals("wybierz")){
+                if(!probsymbolu.equals("wybierz")&&(!probsymbolu.equals(""))){
                     usunDokInwestycje(dokdoUsuniecia);
                 }
             } catch (Exception e){

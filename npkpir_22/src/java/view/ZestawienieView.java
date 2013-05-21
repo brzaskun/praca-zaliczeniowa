@@ -728,6 +728,9 @@ public class ZestawienieView implements Serializable {
         Dok dokumentamo = null;
         try{
             amortyzacjawmiesiacu = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if(amortyzacjawmiesiacu.getUmorzenia().isEmpty()){
+                amortyzacjawmiesiacu=null;
+            }
         } catch (Exception e){}
         try {
             dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());

@@ -1250,7 +1250,8 @@ public class DokView implements Serializable{
             sprawdzCzyNieDuplikat(selDokument);
             if(selDokument.getNetto()>0){
             dokDAO.dodaj(selDokument);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Nowy dokument umorzenia zachowany", selDokument.getIdDok().toString());
+            String wiadomosc = "Nowy dokument umorzenia zachowany: "+selDokument.getPkpirR()+"/"+selDokument.getPkpirM()+" kwota: "+selDokument.getNetto();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,wiadomosc, selDokument.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             amodok.setZaksiegowane(true);
             amoDokDAO.edit(amodok);
