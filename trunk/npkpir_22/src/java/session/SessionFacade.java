@@ -339,4 +339,15 @@ public class SessionFacade<T> {
     public List<Inwestycje> findInwestycje(String podatnik) {
         return em.createNamedQuery("Inwestycje.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+
+    public List<Amodok> findPod(String podatnik) {
+        try{
+            return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e){
+            System.out.println("Nie ma dokumentow amo");
+            return null;
+        }
+    }
+
+  
 }
