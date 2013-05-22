@@ -209,7 +209,6 @@
             <from-outcome>plankont</from-outcome>
             <to-view-id>/manager/managerPlanKont.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-        
          <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>

@@ -135,6 +135,7 @@ public class Logowanie implements Serializable{
             session.invalidate();
         }
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
+        System.gc();
     }
     
        

@@ -4,11 +4,13 @@
  */
 package view;
 
+import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
 import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -76,6 +78,7 @@ public class DeklaracjevatView implements Serializable {
                     
                 }
         } catch (Exception e){}
+         Collections.sort(wyslanenormalne, new Vatcomparator());
     }
     
      public void edit(RowEditEvent ex) {
