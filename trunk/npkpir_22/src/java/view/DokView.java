@@ -1348,26 +1348,26 @@ public class DokView implements Serializable{
     }
     }
     //zaimplementowac!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void sprawdzczyjestwpisuprzedni() throws Exception{
-        Integer rok = wpisView.getRokWpisu();
-        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        if(mc==1){
-            rok--;
-            mc=12;
-        } else {
-            mc--;
-        }
-       
-       Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
-        if (tmp == null) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);
-            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
-            RequestContext.getCurrentInstance().update("messageserror");
-            throw new Exception();
-        } else {
-            System.out.println("Nie znaleziono duplikatu");
-        }
-    }
+//    public void sprawdzczyjestwpisuprzedni() throws Exception{
+//        Integer rok = wpisView.getRokWpisu();
+//        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+//        if(mc==1){
+//            rok--;
+//            mc=12;
+//        } else {
+//            mc--;
+//        }
+//       
+//       Dok tmp = dokDAO.znajdzPoprzednika(rok, mc);
+//        if (tmp == null) {
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie zaksiegowano amortyzacji w poprzednim miesiacu", null);
+//            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
+//            RequestContext.getCurrentInstance().update("messageserror");
+//            throw new Exception();
+//        } else {
+//            System.out.println("Nie znaleziono duplikatu");
+//        }
+//    }
     
     
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception{
