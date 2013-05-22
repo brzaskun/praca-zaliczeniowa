@@ -56,7 +56,7 @@
         </p:dataTable>
     </h:form><br/>
     <h:form id="zalacznik">
-        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2}">
+        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size()>0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : false}">
              <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik')}">
             <h:outputText value="Przygotowana korekta deklaracji nie zawiera wyjaśnienia przyczyny korekty, nie może być wysłana!"/>

@@ -34,17 +34,13 @@ public class DokDAO extends DAO implements Serializable {
     }
     
     public Dok znajdzDuplikat(Dok selD) throws Exception {
-        Dok tmp = null;
-        tmp = dokFacade.dokumentDuplicat(selD);
-        return tmp;
+        return dokFacade.dokumentDuplicat(selD);
     }
 
-    
-     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
-        Dok tmp = null;
-        tmp = dokFacade.poprzednik(rok,mc);
-        return tmp;
-        }
+//    
+//     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
+//        return dokFacade.poprzednik(rok,mc);
+//        }
 
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
         return dokFacade.findDokPod(pod);
@@ -64,17 +60,7 @@ public class DokDAO extends DAO implements Serializable {
     private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
     
     public Dok find(String typdokumentu, String podatnik, Integer rok){
-        List<Dok> lista = new ArrayList<>();
-        Iterator it;
-        it = zwrocBiezacegoKlientaRok(podatnik,rok.toString()).iterator();
-        while (it.hasNext()) {
-            Dok tmp = (Dok) it.next();
-            if (tmp.getTypdokumentu().equals(typdokumentu)) {
-                lista.add(tmp);
-            }
-        }
-        Dok wynik = lista.get(lista.size()-1);
-        return wynik;
+        return  dokFacade.findDokTPR(typdokumentu,podatnik,rok.toString());
     }
     
     public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc){

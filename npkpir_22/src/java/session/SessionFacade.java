@@ -290,8 +290,15 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList();
     }
 
-    public List<Deklaracjevat> findDeklaracjewysylka(String pod) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", pod).getResultList();
+    public Deklaracjevat findDeklaracjewysylka(String pod) {
+        return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
+    }
+    
+    public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
+    }
+    public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
 
     public Srodkikst findSr(Srodkikst srodek) {
@@ -304,6 +311,10 @@ public class SessionFacade<T> {
 
     public List<Dok> findDokBK(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
+    }
+    public Dok findDokTPR(String typdokumentu,String pod, String rok) {
+        List<Dok> lista = em.createNamedQuery("Dok.findByTPR").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).getResultList();
+        return lista.get(lista.size()-1);
     }
 
     public List<Dok> findDokBK(String pod, String rok, String mc) {

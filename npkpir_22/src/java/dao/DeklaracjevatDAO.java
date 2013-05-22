@@ -45,13 +45,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     }
      
     public Deklaracjevat findDeklaracjeDowyslania(String pod){
-        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
-        for(Deklaracjevat p :temp){
-            if(p.getIdentyfikator().equals("")){
-                return p;
-            }
-        }
-        return null;
+        return deklaracjevatFacade.findDeklaracjewysylka(pod);
     }
 
     public Deklaracjevat findDeklaracjeDopotwierdzenia(String identyfikator) {
@@ -68,25 +62,11 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     
          
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod) {
-        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
-        List<Deklaracjevat> wynik = new ArrayList<>();
-        for(Deklaracjevat p :temp){
-            if(!p.getIdentyfikator().equals("")){
-                wynik.add(p);
-            }
-        }
-        return wynik;
+        return deklaracjevatFacade.findDeklaracjewyslane(pod);
     }
     
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod, String rok) {
-        List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(pod);
-        List<Deklaracjevat> wynik = new ArrayList<>();
-        for(Deklaracjevat p :temp){
-            if(!p.getIdentyfikator().equals("")&&p.getRok().equals(rok)){
-                wynik.add(p);
-            }
-        }
-        return wynik;
+        return deklaracjevatFacade.findDeklaracjewyslane(pod,rok);
     }
 
     public List<String> findDeklaracjeDowyslania(String rok, String mc) {
