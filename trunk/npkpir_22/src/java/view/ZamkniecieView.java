@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -51,10 +52,8 @@ public class ZamkniecieView implements Serializable {
     @PostConstruct
     private void init() {
         //Wrzucalistemiesiecy
-        List<Integer> lata = new ArrayList<>();
-        lata.addAll(roki.getRokiList());
-        List<String> miesiace = new ArrayList<>();
-        miesiace.addAll(mce.getMceList());
+        List<Integer> lata = roki.getRokiList();
+        List<String> miesiace =  mce.getMceList();
         for (Integer tmp : lata){
             for (String tmpx : miesiace){
                 Okresrozliczeniowy okres = new Okresrozliczeniowy();
@@ -75,13 +74,18 @@ public class ZamkniecieView implements Serializable {
             zamknietemiesiace.setZamkniete(new ArrayList<Okresrozliczeniowy>());
             zamknietemiesiace.setZamkniete(mapaokresow);
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
-            //utworzenie edycja jest nipotrzebna bo my tylko pobieramy
+            //utworzenie edycja jest niepotrzebna bo my tworzymy zupelnie nowa
             zDAO.dodaj(zamknietemiesiace);
         }
     }
 
     public void zapisokresy(){
         zaksiegujDokumenty();
+        zamknietemiesiace.setZamkniete(mapaokresowPobrane);
+        zDAO.edit(zamknietemiesiace);
+    }
+    
+     public void zapisokresyedit(){
         zamknietemiesiace.setZamkniete(mapaokresowPobrane);
         zDAO.edit(zamknietemiesiace);
     }

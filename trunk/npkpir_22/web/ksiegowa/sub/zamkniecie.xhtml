@@ -28,7 +28,7 @@
         </p:column>
         <p:column id="edytuj" headerText="edytuj" >  
             <h:selectBooleanCheckbox value="#{wpis.edytuj}" >
-                <p:ajax event="change" listener="#{zamkniecieView.zapisokresy()}" update=":form:dataTable" />
+                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit()}" update=":form:dataTable" />
             </h:selectBooleanCheckbox>
         </p:column>
     </p:dataTable>
