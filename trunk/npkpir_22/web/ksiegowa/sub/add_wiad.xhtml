@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-
+    
     <h:form id="dodWiad">
     <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1300px;" id="wprowadzanie">
         <p:growl id="mess_add" />
@@ -22,7 +22,7 @@
             
 
             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});">
-               <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
+               <p:ajax event="keypress" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
             </p:inputText>
             <h:panelGroup id="dwadoWprowadzania" >
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
@@ -50,18 +50,17 @@
               <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
-            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" >
+            <p:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true"  >
                 <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
-                <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
-            </h:selectOneMenu> 
+                <p:ajax listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
+            </p:selectOneMenu> 
             <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}">
-                
             </p:inputText>
           
             <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
                             var="p" itemLabel="#{p}" itemValue="#{p}" 
                             minQueryLength="2" maxResults="10" maxlength="40" 
-                            effect="clip" autocomplete="true"  required="true" requiredMessage="Brak opisu transakcji - uzupełnij" queryDelay="10" >
+                            effect="clip" autocomplete="true"  required="true" requiredMessage="Brak opisu transakcji - uzupełnij" queryDelay="10" style="width: 200px;">
                 <p:ajax event="change" partialSubmit="true" global="false"/>
             </p:autoComplete>
 
@@ -104,7 +103,7 @@
                 })
             </script>
             </pe:inputNumber>
-            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
+                <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
                 <f:selectItems value="#{DokumentView.kolumny}"/>
             </h:selectOneMenu><br/>
             </ui:repeat>
@@ -183,7 +182,7 @@
         </h:form>
     <!-- informacja o ostatnio wprowadzonym dokumencie-->
     <h:form id="zobWiad">
-    <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1300px" >
+    <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1400px" >
         <p:panelGrid columns="13">
             <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
             <h:outputLabel value="data wyst" style="font-weight: 600"/>
@@ -225,7 +224,7 @@
             <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
         </p:panelGrid>
         <p:outputPanel id="wrapper">
-            <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}" var="p">
+            <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}" var="p" emptyMessage="Dokument prosty - bez VAT">
                 <p:column id="idColumn" headerText="nazwa">  
                     <f:facet name="header">  
                         <h:outputText value="nazwa"/>  

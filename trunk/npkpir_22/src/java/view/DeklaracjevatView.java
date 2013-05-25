@@ -7,7 +7,6 @@ package view;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
-import entity.Dok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
