@@ -65,7 +65,6 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
@@ -336,7 +335,7 @@ public class DokView implements Serializable{
         pkpirLista = new HtmlSelectOneMenu();
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans");
+        String skrot = params.get("dodWiad:rodzajTrans_input");
         Iterator itd;
         itd = rodzajedokKlienta.iterator();
         String transakcjiRodzaj="";
@@ -566,7 +565,7 @@ public class DokView implements Serializable{
     
     public void wygenerujnumerkolejny(){
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans");
+        String skrot = params.get("dodWiad:rodzajTrans_input");
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();
         Podatnik podX = podatnikDAO.find(pod);
@@ -617,7 +616,9 @@ public class DokView implements Serializable{
             nowynumer = wzorzec;
          }
          if(!nowynumer.equals("")){
-         selDokument.setNrWlDk(nowynumer);
+            selDokument.setNrWlDk(nowynumer);
+         } else {
+             selDokument.setNrWlDk("");
          }
          renderujwyszukiwarke(rodzajdok);
     }
@@ -755,7 +756,7 @@ public class DokView implements Serializable{
     public void wygenerujNowaKolumnePkpir() {
         /*wyswietlamy ewidencje VAT*/
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String nazwadok = params.get("dodWiad:rodzajTrans");
+        String nazwadok = params.get("dodWiad:rodzajTrans_input");
         Rodzajedok rodzaj = rodzajedokDAO.find(nazwadok);
         String transakcjiRodzaj = rodzaj.getRodzajtransakcji();
         List valueList = new ArrayList();
@@ -856,7 +857,7 @@ public class DokView implements Serializable{
             BigDecimal tmp1 = BigDecimal.valueOf(netto1);
             tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
             tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-            String transakcja = params.get("dodWiad:rodzajTrans");
+            String transakcja = params.get("dodWiad:rodzajTrans_input");
             if (transakcja.equals("WDT") || transakcja.equals("UPTK")) {
                 vat1 = 0.0;
             } else {
@@ -1401,7 +1402,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:vatr");
         przechowajdatejakdodaje = dataWyst;
     }
-    
+    //nie ustawia daty tylko pokazuje pierwsza kolumne pkpir
     public void ustawDate2() {
         if(liczbawierszy<1){
         KwotaKolumna nowa = new KwotaKolumna();

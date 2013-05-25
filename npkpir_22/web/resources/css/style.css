@@ -88,3 +88,7 @@ root {
     overflow: no-display;
 }
 
+.ui-autocomplete input {
+    width:200px;
+}
+

@@ -264,6 +264,12 @@
         <converter-class>  
             converter.DateConv  
         </converter-class>
+    </converter>
+    <converter>  
+        <converter-id>RodzajedokConv</converter-id>  
+        <converter-class>  
+            converter.RodzajedokConv  
+        </converter-class>
     </converter>  
     <converter>
         <converter-id>KlientConv</converter-id>  

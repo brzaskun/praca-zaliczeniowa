@@ -17,7 +17,6 @@ import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
 import entity.Inwestycje;
-import entity.Inwestycje.Sumazalata;
 import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;

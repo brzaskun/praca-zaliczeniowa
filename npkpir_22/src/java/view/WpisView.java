@@ -59,7 +59,10 @@ public class WpisView implements Serializable{
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
-        String wprowadzilX = principal.getName();
+        String wprowadzilX = null; 
+        try{
+        wprowadzilX = principal.getName();
+        } catch (Exception e){}
         if(wprowadzilX!=null){
         wprowadzil = uzDAO.find(wprowadzilX);
         wpis = wpisDAO.find(wprowadzilX);
