@@ -22,11 +22,14 @@
             function zachowaj(co){
             var p = $("#form\\:akordeon\\:"+co);
             var position = p.position();
-            $("#form\\:akordeon\\:lewy").val(position.left);
+            var lewy = parseInt(position.left);
+            var gora = parseInt(position.top);
+            $("#form\\:akordeon\\:lewy").val(lewy);
             //alert($("#form\\:akordeon\\:lewy").val());
-            $("#form\\:akordeon\\:gora").val(position.top);
+            $("#form\\:akordeon\\:gora").val(gora);
             //alert($("#form\\:akordeon\\:gora").val());
             $("#form\\:akordeon\\:zachowaj").click();
+            //alert('zachowaj');
             }
            
             $(function(){
@@ -47,16 +50,16 @@
                     zachowaj("data");
                 });
                
-            })
+            });
             </script>
-            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: inline;"/>
-            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: inline;"/>
-            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: inline;"/>
+            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
+            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
+            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
             <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
             <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
             <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
             <br/>
-            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje()}" style="display: none;" update=":form:akordeon"/>
+            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
             <p:panel id="odbiorca" header="Dane Odbiorcy" style="width: 350px;"  >  
                 <p:panelGrid columns="2">
                     <h:outputText value="Odbiorca: #{pozycjeNaFakturzeView.lewyTablica} #{pozycjeNaFakturzeView.goraTablica}" />

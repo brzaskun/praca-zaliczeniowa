@@ -640,7 +640,7 @@ function generujoknowyboru(){
  
     function LoadKeyDown() {
         //on adds a handler to the object.  In this case it is the document itself
-        $(document).on("keydown", TabKeyDown)
+        $(document).on("keydown", TabKeyDown);
     }
  
     function isTabKey(event) {
@@ -654,9 +654,9 @@ function generujoknowyboru(){
  
     function tab(isTab, isReverse, $target) {
         if (isReverse) {
-            return performTab($target, -1)
+            return performTab($target, -1);
         } else {
-            return performTab($target, +1)
+            return performTab($target, +1);
         }
     }
  
@@ -685,6 +685,7 @@ function generujoknowyboru(){
 
 //rodzial dotyczacy umiejscawiania pozycji z  faktury
 function petlawywolujaca(lw,gr,co){
+        //alert('petlawywolujaca');
         var dlugosc = lw.length-1;
         for(var j = 0; j < dlugosc; j++){
             //alert(lw[j]+","+gr[j]+","+co[j]);

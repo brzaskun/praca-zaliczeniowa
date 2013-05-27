@@ -34,7 +34,7 @@ public class PozycjeNaFakturzeView implements Serializable{
     
     public void zachowajpozycje(){
     System.out.println("lolo");
-    PozycjenafakturzePK klucz = new PozycjenafakturzePK();
+        PozycjenafakturzePK klucz = new PozycjenafakturzePK();
     klucz.setNazwa(co);
     klucz.setPodatnik("Test");
     Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, lewy, gora, true);

@@ -25,6 +25,6 @@ public class PozycjenafakturzeDAO  extends DAO implements Serializable {
     }
     
     public List<Pozycjenafakturze> findAll(){
-        return pozycjeSession.findAll(Pozycjenafakturze.class);
+                return pozycjeSession.findAll(Pozycjenafakturze.class);
     }
 }
