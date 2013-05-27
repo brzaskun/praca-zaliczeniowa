@@ -116,11 +116,11 @@
             <p:focus for="nowapanel">
                 <p:panelGrid id="nowapanel" columns="2">
                     <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
-                    <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" title="Rokrozpoczecia" required="true" style="width: 70px;">
+                    <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" required="true" style="width: 70px;">
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                     <h:outputLabel value="Mc rozpoczecia:" for="mcrozpoczecia" />
-                    <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" title="Mcrozpoczecia" required="true"  style="width: 70px;">
+                    <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" required="true"  style="width: 70px;">
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                     <h:outputLabel value="Skrót:" for="skrot" />
