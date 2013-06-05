@@ -335,7 +335,7 @@ public class DokView implements Serializable{
         pkpirLista = new HtmlSelectOneMenu();
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans_input");
+        String skrot = params.get("dodWiad:rodzajTrans");
         Iterator itd;
         itd = rodzajedokKlienta.iterator();
         String transakcjiRodzaj="";
@@ -565,7 +565,7 @@ public class DokView implements Serializable{
     
     public void wygenerujnumerkolejny(){
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans_input");
+        String skrot = params.get("dodWiad:rodzajTrans");
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();
         Podatnik podX = podatnikDAO.find(pod);
@@ -756,7 +756,7 @@ public class DokView implements Serializable{
     public void wygenerujNowaKolumnePkpir() {
         /*wyswietlamy ewidencje VAT*/
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String nazwadok = params.get("dodWiad:rodzajTrans_input");
+        String nazwadok = params.get("dodWiad:rodzajTrans");
         Rodzajedok rodzaj = rodzajedokDAO.find(nazwadok);
         String transakcjiRodzaj = rodzaj.getRodzajtransakcji();
         List valueList = new ArrayList();
@@ -857,7 +857,7 @@ public class DokView implements Serializable{
             BigDecimal tmp1 = BigDecimal.valueOf(netto1);
             tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
             tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-            String transakcja = params.get("dodWiad:rodzajTrans_input");
+            String transakcja = params.get("dodWiad:rodzajTrans");
             if (transakcja.equals("WDT") || transakcja.equals("UPTK")) {
                 vat1 = 0.0;
             } else {
