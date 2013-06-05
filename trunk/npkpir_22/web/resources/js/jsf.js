@@ -146,6 +146,7 @@ function aktywujopis(){
             $('#dodWiad\\:opis').focus();
         }
     }); 
+    $('#dodWiad\\:numerwlasny').focus();
 };
 
 $(function(){
