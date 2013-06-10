@@ -38,19 +38,19 @@ public class ZamkniecieView implements Serializable {
     @Inject private Mce mce;
     private ArrayList<Okresrozliczeniowy> mapaokresow;
     private ArrayList<Okresrozliczeniowy> mapaokresowPobrane;
-    private ArrayList<Okresrozliczeniowy> mapaokresowZmiany;
+    private ArrayList<Okresrozliczeniowy> mapaokresowPobraneZapas;
     @Inject private ZamknietemiesiaceDAO zDAO ;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject DokDAO dokDAO;
-    //dla paska postepu
+    private boolean moznaksiegowac;
      
     
 
     public ZamkniecieView() {
         mapaokresow = new ArrayList<>();
         mapaokresowPobrane = new ArrayList<>();
-        mapaokresowZmiany = new ArrayList<>();
+        mapaokresowPobraneZapas = new ArrayList<>();
     }
 
     @PostConstruct
@@ -71,9 +71,11 @@ public class ZamkniecieView implements Serializable {
             //pobieram cały rekord dlatego potem moge go zachowac
             zamknietemiesiace = zDAO.findZM(wpisView.getPodatnikWpisu());
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
-//            for(Okresrozliczeniowy p : mapaokresowPobrane){
-//                p.setEdytuj(false);
-//            }
+            for(Okresrozliczeniowy p : mapaokresowPobrane){
+                if((p.getRok().equals(wpisView.getRokWpisu().toString()))&&p.getMiesiac().equals(wpisView.getMiesiacWpisu())){
+                    moznaksiegowac = p.isZamkniety();
+                }
+            }
         //przenoszenie danych od podatnika do tabeli tymczasowej
         } catch (Exception ex){
             //tworzenie archiwum dla podatnika
@@ -87,12 +89,12 @@ public class ZamkniecieView implements Serializable {
     }
 
     public void zapisokresy(){
+        Msg.msg("i", "Trwa wprowadzanie zmian", "form:messages");
         zaksiegujDokumenty();
         zamknietemiesiace.setZamkniete(mapaokresowPobrane);
         for(Okresrozliczeniowy p : mapaokresowPobrane){
              p.setEdytuj(false);
         }
-        Msg.msg("i", "Trwa wprowadzanie zmian", "form:messages");
         zDAO.edit(zamknietemiesiace);
         RequestContext.getCurrentInstance().update("form:dataTable");
     }
@@ -111,7 +113,7 @@ public class ZamkniecieView implements Serializable {
             for(Okresrozliczeniowy p : mapaokresowPobrane){
                 p.setEdytuj(false);
             }
-            RequestContext.getCurrentInstance().update(e.getSource().toString());
+            //RequestContext.getCurrentInstance().update(e.getSource().toString());
         } else {
             zDAO.edit(zamknietemiesiace);
             Msg.msg("i", "Edycja miesiąca", "form:messages");
@@ -120,7 +122,15 @@ public class ZamkniecieView implements Serializable {
     
     private void zaksiegujDokumenty(){
         List<Okresrozliczeniowy> roznice = new ArrayList<>();
-        for(Okresrozliczeniowy pozycjaNowa : mapaokresowPobrane){
+        mapaokresowPobraneZapas.addAll(zDAO.findZM(wpisView.getPodatnikWpisu()).getZamkniete());
+        int rozmiar = 0;
+        while(rozmiar<mapaokresowPobrane.size()){
+            if(!mapaokresowPobrane.get(rozmiar).equals(mapaokresowPobraneZapas.get(rozmiar))){
+                roznice.add(mapaokresowPobrane.get(rozmiar));
+            }
+            rozmiar++;
+        }
+        for(Okresrozliczeniowy pozycjaNowa : roznice){
            if(pozycjaNowa.isZamkniety()==true){
                ksieguj(wpisView.getPodatnikWpisu(),pozycjaNowa.getRok(), pozycjaNowa.getMiesiac(), "ksiegi");
            } else {
@@ -136,7 +146,8 @@ public class ZamkniecieView implements Serializable {
             dokDAO.edit(dokument);
         }
     }
-   
+    
+      
     public ArrayList<Okresrozliczeniowy> getMapaokresowPobrane() {
         return mapaokresowPobrane;
     }
@@ -151,6 +162,14 @@ public class ZamkniecieView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isMoznaksiegowac() {
+        return moznaksiegowac;
+    }
+
+    public void setMoznaksiegowac(boolean moznaksiegowac) {
+        this.moznaksiegowac = moznaksiegowac;
     }
 
     

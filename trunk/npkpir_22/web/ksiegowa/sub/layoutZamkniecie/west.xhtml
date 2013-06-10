@@ -18,11 +18,12 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
+        </h:form>
            <p:panel header="linki">
                 <h:form>
-                    <p:menu >
+                    <p:menu>
                         <p:menuitem value="zmiana podatnika"  outcome="info" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
+                        <p:menuitem value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="wykaz dokumentów"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
@@ -42,8 +43,6 @@
                     <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </h:form>
             </p:panel>
-
-        </h:form>
-    </p:layoutUnit>
+   </p:layoutUnit>
 </ui:composition>   
 

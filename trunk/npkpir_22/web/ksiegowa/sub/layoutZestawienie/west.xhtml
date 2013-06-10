@@ -23,7 +23,7 @@
                 <h:form>
                     <p:menu >
                         <p:menuitem value="zmiana podatnika"  outcome="info" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="wpisywanie"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
+                        <p:menuitem value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="wykaz dokumentów"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
