@@ -6,21 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-
-    <div style="margin: 15px;">
-    <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>  
-    </div>
     <script type="text/javascript">
 	function start() {
         window['progress'] = setInterval(function() {
             var oldValue = pbClient.getValue(),
-            newValue = oldValue + 10;
+            newValue = oldValue + 50;
 
-            pbClient.setValue(pbClient.getValue() + 10);
+            pbClient.setValue(pbClient.getValue() + 50);
 
             if(newValue == 100) {
                 clearInterval(window['progress']);
-                $("#form\\:messages").replaceWith('<div id="form:messages" class="ui-messages ui-widget" aria-live="polite">Zakończono wprowadzanie danych</div>');
+                $("#form\\:messages").replaceWith('<div id="form:messages" class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><span class="ui-messages-info-icon"></span><ul><li><span class="ui-messages-info-summary">Zakonczono wprowadzanie zmian</span></li></ul></div></div>');
             }
 
         }, 1000);
@@ -33,8 +29,14 @@
        }  
 
 </script>
+    <div style="height: 100px;">
+    <div style="margin: 15px;">
+    <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>  
+    </div>
+   
     <div style="margin: 15px; width: 670px;" >
         <p:messages id="messages"/>
+    </div>
     </div>
     <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"  paginator="true" paginatorAlwaysVisible="true" rows="12"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -52,7 +54,7 @@
         </p:column>
         <p:column id="zamkniety" headerText="zamkniety" >  
             <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}" >
-                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update="@this" onstart="start();"/>
+                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update="@this, :westWpis" onstart="start();"/>
             </h:selectBooleanCheckbox>
         </p:column>
         <p:column id="edytuj" headerText="edytuj" >  

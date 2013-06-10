@@ -51,6 +51,36 @@ public class Okresrozliczeniowy implements Serializable {
     public void setEdytuj(boolean edytuj) {
         this.edytuj = edytuj;
     }
+
+ 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Okresrozliczeniowy other = (Okresrozliczeniowy) obj;
+        if (this.zamkniety != other.zamkniety) {
+            return false;
+        }
+        if (this.edytuj != other.edytuj) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.rok);
+        hash = 89 * hash + Objects.hashCode(this.miesiac);
+        hash = 89 * hash + (this.zamkniety ? 1 : 0);
+        hash = 89 * hash + (this.edytuj ? 1 : 0);
+        return hash;
+    }
     
     
 }
