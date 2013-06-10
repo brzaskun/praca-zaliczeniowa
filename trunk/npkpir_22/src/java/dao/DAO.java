@@ -66,7 +66,6 @@ public abstract class DAO<T> {
     public void edit(T selected) {
         try {
             sessionFacade.edit(selected);
-            System.out.println("Wyedytowano " + selected);
         } catch (Exception e) {
             System.out.println("Edycja nieudana " + selected + " " + e.toString());
         }

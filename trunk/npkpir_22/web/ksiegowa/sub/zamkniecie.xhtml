@@ -7,6 +7,35 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+    <div style="margin: 15px;">
+    <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>  
+    </div>
+    <script type="text/javascript">
+	function start() {
+        window['progress'] = setInterval(function() {
+            var oldValue = pbClient.getValue(),
+            newValue = oldValue + 10;
+
+            pbClient.setValue(pbClient.getValue() + 10);
+
+            if(newValue == 100) {
+                clearInterval(window['progress']);
+                $("#form\\:messages").replaceWith('<div id="form:messages" class="ui-messages ui-widget" aria-live="polite">Zakończono wprowadzanie danych</div>');
+            }
+
+        }, 1000);
+        
+    }
+    function cancel() {  
+           clearInterval(window['progress']);  
+           pbClient.setValue(0);
+           
+       }  
+
+</script>
+    <div style="margin: 15px; width: 670px;" >
+        <p:messages id="messages"/>
+    </div>
     <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"  paginator="true" paginatorAlwaysVisible="true" rows="12"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="12,18,24,32,50" id="dataTable"
@@ -23,12 +52,12 @@
         </p:column>
         <p:column id="zamkniety" headerText="zamkniety" >  
             <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}" >
-                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update=":form:dataTable"/>
+                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update="@this" onstart="start();"/>
             </h:selectBooleanCheckbox>
         </p:column>
         <p:column id="edytuj" headerText="edytuj" >  
             <h:selectBooleanCheckbox value="#{wpis.edytuj}" >
-                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit()}" update=":form:dataTable" />
+                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" update="@this" onstart="cancel();"/>
             </h:selectBooleanCheckbox>
         </p:column>
     </p:dataTable>
