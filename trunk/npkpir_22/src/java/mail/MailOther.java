@@ -63,7 +63,7 @@ public class MailOther extends MailSetUp implements Serializable{
             message.setSubject("Wydruk obrotów z kontrahentem");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setText("Szanowny "+klient
+            mbp1.setText("Szanowna/y "+klient
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówione przez Ciebie zestawienie obrotów z kontrahentem"
                     + "\n\nZ poważaniem"

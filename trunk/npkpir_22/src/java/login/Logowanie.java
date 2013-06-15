@@ -134,7 +134,7 @@ public class Logowanie implements Serializable{
         if(session != null){
             session.invalidate();
         }
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/AccessDenied.xhtml");
         System.gc();
     }
     

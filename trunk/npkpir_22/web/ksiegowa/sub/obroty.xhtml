@@ -8,7 +8,7 @@
     
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" onsuccess="wydrukobroty('#{WpisView.podatnikWpisu}');">
     </p:commandButton>
-    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" action="#{mailOther.obroty()}" onsuccess="alert('Wysłano mail');" style="display: none;">
+    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
         </p:commandButton>
     <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
     <h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranychnetto}">
