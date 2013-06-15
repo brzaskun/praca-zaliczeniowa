@@ -126,7 +126,8 @@ public class DokTabView implements Serializable {
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
-                int numerkolejny = 1;
+                //tu trzeba wstawic maro zmieniajace numer poczakowy
+                int numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
                 for(Dok p : obiektDOKjsfSel){
                     p.setNrWpkpir(numerkolejny++);
                 }

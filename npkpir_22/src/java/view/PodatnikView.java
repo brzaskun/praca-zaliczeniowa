@@ -549,6 +549,34 @@ public class PodatnikView implements Serializable{
          selected.setKwotaautoryzujaca(tmp);
          podatnikDAO.edit(selected);
      }
+        public void dodajnrpkpir(){
+         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
+         List<Parametr> lista = new ArrayList<>();
+         try{
+             lista.addAll(selected.getNumerpkpir());
+         } catch (Exception e){}
+         if(sprawdzrok(parametr, lista)==0){
+         String tmp = parametr.getParametr();
+         tmp = tmp.replace(",", ".");
+         parametr.setParametr(tmp);
+         assert tmp.contains(",") : "Nie usuwa dobrze przecinka z npkpir!";
+         lista.add(parametr);
+         selected.setNumerpkpir(lista);
+         podatnikDAO.edit(selected);
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno numer początkowy w pkpir dla podatnika.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         } else {
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno numeru początkowego w pkpir dla podatnika. Niedopasowane okresy.", selected.getNazwapelna());
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+     }
+        public void usunnrpkpir(){
+         List<Parametr> tmp = new ArrayList<>();
+         tmp.addAll(selected.getNumerpkpir());
+         tmp.remove(tmp.size()-1);
+         selected.setNumerpkpir(tmp);
+         podatnikDAO.edit(selected);
+     }
       
         public void dodajpole47(){
          try{

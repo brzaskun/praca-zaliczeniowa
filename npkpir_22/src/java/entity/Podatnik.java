@@ -161,6 +161,9 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "stratyzlatub")
     private List<Straty> stratyzlatub;
+    @Lob
+    @Column(name = "numerpkpir")
+    private List<Parametr> numerpkpir;
     
     
     public Podatnik() {
@@ -433,6 +436,14 @@ public class Podatnik implements Serializable {
 
     public void setStratyzlatub(List<Straty> stratyzlatub) {
         this.stratyzlatub = stratyzlatub;
+    }
+
+    public List<Parametr> getNumerpkpir() {
+        return numerpkpir;
+    }
+
+    public void setNumerpkpir(List<Parametr> numerpkpir) {
+        this.numerpkpir = numerpkpir;
     }
 
    
