@@ -11,6 +11,8 @@
         <meta http-equiv="Pragma" content="no-cache"/>
         <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
         <title><ui:insert name="title">Default Title</ui:insert></title>
+         <h:outputStylesheet id="template" name="#{CSSView.css}"/>
+        <h:outputScript library="js" name="jsf.js"/>
     </h:head>
     <!-- Ostrzezenie dla uzytkownikow korzystajacych z IE 7 -->
     <!--[if lte IE 7]>
@@ -24,17 +26,7 @@
      </div>
 <![endif]-->
     <h:body>
-        <h:outputStylesheet id="template" name="#{CSSView.css}"/>
-        <h:outputScript library="js" name="jsf.js"/>
-
-
-
-        <ui:insert name="body"> 
-            <!-- Default ajaxErrorHandler -->  
-            <pe:ajaxErrorHandler button="OK" />  
-            <p:idleMonitor timeout="600000"   
-                           onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
-
+         <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
             <p:dialog header="Upłynął czas sesji" resizable="false"  
                       widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
                 <h:outputText value="Zostałeś wylogowany" />  
@@ -44,6 +36,10 @@
             <h:form id="templateform">
                 <h:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="display: none;"/>
             </h:form>
+        <ui:insert name="body"> 
+            <!-- Default ajaxErrorHandler -->  
+            <pe:ajaxErrorHandler button="OK" />  
+           
         </ui:insert>
     </h:body>
 </html>

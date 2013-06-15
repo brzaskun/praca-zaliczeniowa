@@ -317,7 +317,7 @@
                     </p:column>
                     <p:column headerText="kwota" width="100">
                         <h:outputText value="#{loop.kwota}" style="padding-left: 10%; float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL" />
+                            <f:convertNumber currencyCode="GBP" type="currency" />
                         </h:outputText>
                     </p:column>
                     <p:column headerText="50%" width="100">

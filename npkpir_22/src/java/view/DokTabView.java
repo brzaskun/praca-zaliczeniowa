@@ -120,14 +120,19 @@ public class DokTabView implements Serializable {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
                 setButton(true);
             }
+            int numerkolejny = 1;
+            try{
+            //tu trzeba wstawic maro zmieniajace numer poczakowy
+             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
+            } catch (Exception e){
+            }
             try {
                 
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
-                //tu trzeba wstawic maro zmieniajace numer poczakowy
-                int numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
+             
                 for(Dok p : obiektDOKjsfSel){
                     p.setNrWpkpir(numerkolejny++);
                 }
@@ -139,7 +144,12 @@ public class DokTabView implements Serializable {
             String mn = Mce.getMapamcy().get(m1);
             Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
-            int numerkolejny = 1;
+            numerkolejny = 1;
+             try{
+            //tu trzeba wstawic maro zmieniajace numer poczakowy
+             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
+            } catch (Exception e){
+            }
             for(Dok tmpx : obiektDOKjsfSel){
                    if (tmpx.getRozliczony() == false) {
                         niezaplacone.add(tmpx);
