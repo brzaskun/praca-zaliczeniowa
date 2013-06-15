@@ -43,7 +43,7 @@
         <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                       rows="#{DokTabView.uzytkownik.iloscwierszy}" paginator="true"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="50,100,250,500" paginatorPosition="top" draggableColumns="true"
+                      rowsPerPageTemplate="50,100,250,500" paginatorPosition="top" 
                       rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
