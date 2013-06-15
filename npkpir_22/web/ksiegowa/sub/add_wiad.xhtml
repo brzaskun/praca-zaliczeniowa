@@ -24,6 +24,7 @@
             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dania, lub miesiąc i dzień">
                <p:ajax event="keypress" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
             </p:inputText>
+            
             <h:panelGroup id="dwadoWprowadzania" >
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"

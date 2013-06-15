@@ -9,9 +9,9 @@
  
     <f:event type="preRenderView" listener="#{pdfVAT.drukujewidencje()}"/>
     <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
-    
-    <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr}"/>
-    <p:tabView id="akorderonbis" style="width: 1300px;" >
+    <p:panel header="firma nievatowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
+    <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+    <p:tabView id="akorderonbis" style="width: 1300px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
         <c:forEach  items="#{vatView.listaewidencji.values()}" var="item" varStatus="numer">
              <p:tab  title="#{item[0].nazwaewidencji}">
                  <p:commandButton value="Pdf" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"/>
