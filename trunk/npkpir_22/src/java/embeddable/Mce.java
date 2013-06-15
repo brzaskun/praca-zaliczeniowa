@@ -23,6 +23,7 @@ public class Mce implements Serializable{
 
     private static final List<String> mceList;
     private static final Map<Integer, String> mapamcy;
+    private static final Map<Integer, String> mapamcynazwa;
     private static final Map<String,Integer> mapamcyX;
     private static final Map<String,Integer> mapamcyCalendar;
 
@@ -54,6 +55,20 @@ public class Mce implements Serializable{
         mapamcy.put(10, "10");
         mapamcy.put(11, "11");
         mapamcy.put(12, "12");
+        
+        mapamcynazwa = new HashMap<>();
+        mapamcynazwa.put(1, "styczeń");
+        mapamcynazwa.put(2, "luty");
+        mapamcynazwa.put(3, "marzec");
+        mapamcynazwa.put(4, "kwiecień");
+        mapamcynazwa.put(5, "maj");
+        mapamcynazwa.put(6, "czerwiec");
+        mapamcynazwa.put(7, "lipiec");
+        mapamcynazwa.put(8, "sierpień");
+        mapamcynazwa.put(9, "wrzesień");
+        mapamcynazwa.put(10, "październik");
+        mapamcynazwa.put(11, "listopad");
+        mapamcynazwa.put(12, "grudzień");
         
         mapamcyX = new HashMap<>();
         mapamcyX.put("01",1);
@@ -101,6 +116,10 @@ public class Mce implements Serializable{
 
     public static Map<String, Integer> getMapamcyCalendar() {
         return mapamcyCalendar;
+    }
+
+    public static Map<Integer, String> getMapamcynazwa() {
+        return mapamcynazwa;
     }
     
     
