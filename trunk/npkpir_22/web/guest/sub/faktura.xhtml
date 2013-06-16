@@ -7,8 +7,8 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
-      <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30"/>
-            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30"/>
+      <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
+            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
             <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
             <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
             <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
@@ -16,9 +16,76 @@
             <br/>
             <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     <p:tabView id="akordeon" style="width: 1200px;">
-<!--        <p:tab id="nowa" title="Sporządź nową fakturę">
-            
-        </p:tab>
+        <p:tab id="nowa" title="Sporządź nową fakturę">
+            <p:panelGrid columns="2" >
+                <h:outputLabel value="miejsce wystawienia faktury: " for="miejsce" />
+                <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="Szczecin" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>  
+                <h:outputLabel value="data wystawienia faktury: " for="datawystawienia"/>
+                <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="2013-06-13" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>  
+                <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " for="datasprz"/>
+                <p:inplace id="datasprz" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="2013-06-13" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="nr faktury: " for="nrfaktury"/>
+                <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="12/5/2045" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="dane kontrahenta: " for="danekontrahenta"/>
+                <p:inplace id="danekontrahenta" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="KOMIKENBOBO" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>  
+                <h:outputLabel value="termin zapłaty: " for="terminzaplaty"/>
+                <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="2013-05-13" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="sposób zapłaty: " for="sposobzaplaty"/>
+                <p:inplace id="sposobzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="2013-05-13" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="konto bankowe: " for="kontobankowe"/>
+                <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="1524 1524 1158 1522 1211 1574" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="waluta faktury: " for="waluta faktury"/>
+                <p:inplace id="wystawiajacyfakture" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="PLN" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="wystawiający fakturę: " for="wystawiajacyfakt"/>
+                <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="Marianna Kowalsky" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+            </p:panelGrid>
+            <p:panelGrid columns="12" >
+               <h:outputLabel value="nazwa towaru lub usługi: " for="szczegolowanazwa"/>
+                <p:inplace id="szczegolowanazwa" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="cukier puder" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+               <h:outputLabel value="symbol PKWiU: " for="pkwiu"/>
+               <p:inplace id="pkwiu" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="23.50" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+               <h:outputLabel value="jednostka miary: " for="jednostka"/>
+               <p:inplace id="jednostka" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="kg" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+               <h:outputLabel value="ilosć: " for="ilosc"/>
+               <p:inplace id="ilosc" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="10" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+               <h:outputLabel value="cena jednostkowa: " for="cena"/>
+               <p:inplace id="cena" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="100,50" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+               <h:outputLabel value="stawka podatku VAT: " for="stawkavat"/>
+               <p:inplace id="stawkavat" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="23%" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+            </p:panelGrid>
+        </p:tab><!--
         <p:tab id="gotowe" title="Przeglądaj sporządzone">
 
         </p:tab>
@@ -81,7 +148,7 @@
                 });
             });
             </script>
-            <div style="background-color: #6CE26C; height: 1200px;">
+            <div style="background-color: #6374AB; height: 1200px;">
             <p:panel id="odbiorca" style="width: 350px;"  >  
                 <p:panelGrid columns="2">
                 <h:outputText value="Odbiorca: " />
