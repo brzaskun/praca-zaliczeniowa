@@ -20,27 +20,19 @@ public class PozycjenafakturzePK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "podatnik")
-    private String podatnik;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "nazwa")
     private String nazwa;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "podatnik")
+    private String podatnik;
 
     public PozycjenafakturzePK() {
     }
 
-    public PozycjenafakturzePK(String podatnik, String nazwa) {
-        this.podatnik = podatnik;
+    public PozycjenafakturzePK(String nazwa, String podatnik) {
         this.nazwa = nazwa;
-    }
-
-    public String getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
 
@@ -52,11 +44,19 @@ public class PozycjenafakturzePK implements Serializable {
         this.nazwa = nazwa;
     }
 
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (podatnik != null ? podatnik.hashCode() : 0);
         hash += (nazwa != null ? nazwa.hashCode() : 0);
+        hash += (podatnik != null ? podatnik.hashCode() : 0);
         return hash;
     }
 
@@ -67,10 +67,10 @@ public class PozycjenafakturzePK implements Serializable {
             return false;
         }
         PozycjenafakturzePK other = (PozycjenafakturzePK) object;
-        if ((this.podatnik == null && other.podatnik != null) || (this.podatnik != null && !this.podatnik.equals(other.podatnik))) {
+        if ((this.nazwa == null && other.nazwa != null) || (this.nazwa != null && !this.nazwa.equals(other.nazwa))) {
             return false;
         }
-        if ((this.nazwa == null && other.nazwa != null) || (this.nazwa != null && !this.nazwa.equals(other.nazwa))) {
+        if ((this.podatnik == null && other.podatnik != null) || (this.podatnik != null && !this.podatnik.equals(other.podatnik))) {
             return false;
         }
         return true;
@@ -78,7 +78,7 @@ public class PozycjenafakturzePK implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PozycjenafakturzePK[ podatnik=" + podatnik + ", nazwa=" + nazwa + " ]";
+        return "entity.PozycjenafakturzePK[ nazwa=" + nazwa + ", podatnik=" + podatnik + " ]";
     }
     
 }

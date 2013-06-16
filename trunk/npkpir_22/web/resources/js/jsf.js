@@ -692,15 +692,11 @@ function petlawywolujaca(lw,gr,co){
             //alert(lw[j]+","+gr[j]+","+co[j]);
             var lewy = parseInt(lw[j]);
             var cos = co[j];
-            $('#form\\:akordeon\\:'+cos).css({"left": lewy-21});//-21
             var gora = parseInt(gr[j]);
-            if(cos=="odbiorca"){
-                $('#form\\:akordeon\\:'+cos).css({"top": gora-77});//-67
-            } else if(cos=="wystawca") {
-                $('#form\\:akordeon\\:'+cos).css({"top": gora-248});//-67
-            } else {
-               $('#form\\:akordeon\\:'+cos).css({"top": gora-419});//-67
-            }
+            $('#form\\:akordeon\\:'+cos).css({ position: "absolute",
+            marginLeft: 0, marginTop: 0,
+            top: gora, left: lewy });
+
   }};
 
 

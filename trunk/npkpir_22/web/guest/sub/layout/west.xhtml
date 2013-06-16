@@ -9,39 +9,21 @@
     <p:layoutUnit position="west" size="240" header="Zmień przeglądany okres" collapsible="true">
          <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
-            <p:panel menuTitle="Dane" header="Dane">
-               
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+              <p:panelGrid  columns="2" >
+                    <p:column>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestZobowiazania.xhtml')}" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                  </p:column>
+                    <p:column>
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" />
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestZobowiazania.xhtml')}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" rendered="true"/>
-            </p:panel>
-            <p:panelGrid id="westKsiegowaWidok" columns="1" style="margin-left: 15%">
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.rokWpisu}"/>
-                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+                    </p:column>
             </p:panelGrid>
-            <p:panel header="linki">
-                <p:panelGrid columns="1">
-                    <p:menu >
-                        <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="obroty w roku"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="zobowiązania"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="płatności podatków"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="faktury - panel"  outcome="gfaktura" icon="ui-icon-circle-arrow-e"/>
-                    </p:menu> 
-                    <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" />
-                </p:panelGrid>
 
             </p:panel>
 

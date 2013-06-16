@@ -8,7 +8,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
         <p:panel header="Wykaz zobowiązań w roku podatkowym"/>
         <h:form>
-            <p:dataTable value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" emptyMessage="Brak kwot zobowiązań" style="width: 1000px;">
+            <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" emptyMessage="Brak kwot zobowiązań" style="width: 1000px;">
                 <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="Miesiac"/>
@@ -64,6 +64,8 @@
                 </h:outputText>
                 </p:column>
             </p:dataTable>
+            <p:commandButton value="Print" type="button">
+                <p:printer target="zestawieniepodatkow" /></p:commandButton>
         </h:form>
 </ui:composition>   
 

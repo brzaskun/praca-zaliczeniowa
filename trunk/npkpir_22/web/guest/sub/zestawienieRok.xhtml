@@ -190,8 +190,7 @@
             </p:column>
         </p:dataTable>
     </p:panelGrid>
-     <p:commandButton value="Print" type="button">
-                        <p:printer target="zestawienieroczne" />
-                    </p:commandButton>
+   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" onsuccess="wydrukpkpir('#{WpisView.podatnikWpisu}');">
+        </p:commandButton>
 </ui:composition>   
 

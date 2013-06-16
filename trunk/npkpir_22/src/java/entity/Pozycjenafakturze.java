@@ -24,27 +24,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pozycjenafakturze.findAll", query = "SELECT p FROM Pozycjenafakturze p"),
-    @NamedQuery(name = "Pozycjenafakturze.findByPodatnik", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.podatnik = :podatnik"),
-    @NamedQuery(name = "Pozycjenafakturze.findByNazwa", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.nazwa = :nazwa"),
-    @NamedQuery(name = "Pozycjenafakturze.findByLewy", query = "SELECT p FROM Pozycjenafakturze p WHERE p.lewy = :lewy"),
+    @NamedQuery(name = "Pozycjenafakturze.findByAktywny", query = "SELECT p FROM Pozycjenafakturze p WHERE p.aktywny = :aktywny"),
     @NamedQuery(name = "Pozycjenafakturze.findByGora", query = "SELECT p FROM Pozycjenafakturze p WHERE p.gora = :gora"),
-    @NamedQuery(name = "Pozycjenafakturze.findByAktywny", query = "SELECT p FROM Pozycjenafakturze p WHERE p.aktywny = :aktywny")})
+    @NamedQuery(name = "Pozycjenafakturze.findByLewy", query = "SELECT p FROM Pozycjenafakturze p WHERE p.lewy = :lewy"),
+    @NamedQuery(name = "Pozycjenafakturze.findByNazwa", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.nazwa = :nazwa"),
+    @NamedQuery(name = "Pozycjenafakturze.findByPodatnik", query = "SELECT p FROM Pozycjenafakturze p WHERE p.pozycjenafakturzePK.podatnik = :podatnik")})
 public class Pozycjenafakturze implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PozycjenafakturzePK pozycjenafakturzePK;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lewy")
-    private int lewy;
+    @Column(name = "aktywny")
+    private boolean aktywny;
     @Basic(optional = false)
     @NotNull
     @Column(name = "gora")
     private int gora;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "aktywny")
-    private boolean aktywny;
+    @Column(name = "lewy")
+    private int lewy;
 
     public Pozycjenafakturze() {
     }
@@ -53,15 +53,15 @@ public class Pozycjenafakturze implements Serializable {
         this.pozycjenafakturzePK = pozycjenafakturzePK;
     }
 
-    public Pozycjenafakturze(PozycjenafakturzePK pozycjenafakturzePK, int lewy, int gora, boolean aktywny) {
+    public Pozycjenafakturze(PozycjenafakturzePK pozycjenafakturzePK, boolean aktywny, int gora, int lewy) {
         this.pozycjenafakturzePK = pozycjenafakturzePK;
-        this.lewy = lewy;
-        this.gora = gora;
         this.aktywny = aktywny;
+        this.gora = gora;
+        this.lewy = lewy;
     }
 
-    public Pozycjenafakturze(String podatnik, String nazwa) {
-        this.pozycjenafakturzePK = new PozycjenafakturzePK(podatnik, nazwa);
+    public Pozycjenafakturze(String nazwa, String podatnik) {
+        this.pozycjenafakturzePK = new PozycjenafakturzePK(nazwa, podatnik);
     }
 
     public PozycjenafakturzePK getPozycjenafakturzePK() {
@@ -72,12 +72,12 @@ public class Pozycjenafakturze implements Serializable {
         this.pozycjenafakturzePK = pozycjenafakturzePK;
     }
 
-    public int getLewy() {
-        return lewy;
+    public boolean getAktywny() {
+        return aktywny;
     }
 
-    public void setLewy(int lewy) {
-        this.lewy = lewy;
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
     }
 
     public int getGora() {
@@ -88,12 +88,12 @@ public class Pozycjenafakturze implements Serializable {
         this.gora = gora;
     }
 
-    public boolean getAktywny() {
-        return aktywny;
+    public int getLewy() {
+        return lewy;
     }
 
-    public void setAktywny(boolean aktywny) {
-        this.aktywny = aktywny;
+    public void setLewy(int lewy) {
+        this.lewy = lewy;
     }
 
     @Override
@@ -118,8 +118,7 @@ public class Pozycjenafakturze implements Serializable {
 
     @Override
     public String toString() {
-        return "Pozycjenafakturze{" + "pozycjenafakturzePK=" + pozycjenafakturzePK + ", lewy=" + lewy + ", gora=" + gora + ", aktywny=" + aktywny + '}';
+        return "entity.Pozycjenafakturze[ pozycjenafakturzePK=" + pozycjenafakturzePK + " ]";
     }
-
-     
+    
 }
