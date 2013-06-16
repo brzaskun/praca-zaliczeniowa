@@ -70,7 +70,12 @@ public class PdfPK extends Pdf implements Serializable {
             miziu.setLeading(50);
             document.add(miziu);
             document.add(new Chunk().NEWLINE);
-            Paragraph miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
+            Paragraph miziu1;
+            if(selected.getTypdokumentu().equals("PK")||selected.getTypdokumentu().equals("OT")||selected.getTypdokumentu().equals("IN")||selected.getTypdokumentu().equals("ZUS")){
+                miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
+            } else {
+                miziu1 = new Paragraph(new Phrase("Faktura VAT "+selected.getNrWlDk(),font));
+            }
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
             document.add(new Chunk().NEWLINE);
@@ -84,6 +89,15 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
+            if(!selected.getTypdokumentu().equals("PK")&&!selected.getTypdokumentu().equals("OT")&&!selected.getTypdokumentu().equals("IN")&&!selected.getTypdokumentu().equals("ZUS")){
+                document.add(Chunk.NEWLINE);
+                miziu1 = new Paragraph(new Phrase("Kontrahent: "+selected.getKontr().getNpelna(),fontM));
+                document.add(miziu1);
+                miziu1 = new Paragraph(new Phrase("adres: "+selected.getKontr().getMiejscowosc()+" "+selected.getKontr().getUlica()+" "+selected.getKontr().getDom(),fontM));
+                document.add(miziu1);
+                miziu1 = new Paragraph(new Phrase("NIP: "+selected.getKontr().getNip(),fontM));
+                document.add(miziu1);
+            }
             PdfPTable table = new PdfPTable(6);
             table.setWidths(new int[]{1, 5, 2, 2, 2, 2});
             NumberFormat formatter = NumberFormat.getCurrencyInstance();

@@ -7,16 +7,24 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
+      <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30"/>
+            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30"/>
+            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
+            <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
+            <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
+            <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
+            <br/>
+            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     <p:tabView id="akordeon" style="width: 1200px;">
-        <p:tab id="nowa" title="Sporządź nową fakturę">
-
+<!--        <p:tab id="nowa" title="Sporządź nową fakturę">
+            
         </p:tab>
         <p:tab id="gotowe" title="Przeglądaj sporządzone">
 
         </p:tab>
         <p:tab id="ksiegi" title="Przeglądaj zaksięgowane">
 
-        </p:tab>
+        </p:tab>-->
         <p:tab id="wzor" title="Wzór faktury">
             <script type="text/javascript">
             function zachowaj(co){
@@ -24,70 +32,136 @@
             var position = p.position();
             var lewy = parseInt(position.left);
             var gora = parseInt(position.top);
-            $("#form\\:akordeon\\:lewy").val(lewy);
-            //alert($("#form\\:akordeon\\:lewy").val());
-            $("#form\\:akordeon\\:gora").val(gora);
-            //alert($("#form\\:akordeon\\:gora").val());
-            $("#form\\:akordeon\\:zachowaj").click();
-            //alert('zachowaj');
+            var wysokosc = parseInt($("#form\\:akordeon\\:"+co).height());
+            $("#form\\:lewy").val(lewy);
+            $("#form\\:gora").val(gora);
+            $("#form\\:zachowaj").click();
             }
            
             $(function(){
-                var lewy = $("#form\\:akordeon\\:lewyTablica").val().split(",");
-                var gora = $("#form\\:akordeon\\:goraTablica").val().split(",");
-                var co = $("#form\\:akordeon\\:coTablica").val().split(",");
+                var lewy = $("#form\\:lewyTablica").val().split(",");
+                var gora = $("#form\\:goraTablica").val().split(",");
+                var co = $("#form\\:coTablica").val().split(",");
                 petlawywolujaca(lewy,gora,co);
                 $("#form\\:akordeon\\:odbiorca").bind('mouseup', function() {
-                    $("#form\\:akordeon\\:co").val("odbiorca");
+                    $("#form\\:co").val("odbiorca");
                     zachowaj("odbiorca");
                 });
                 $("#form\\:akordeon\\:wystawca").bind('mouseup', function() {
-                    $("#form\\:akordeon\\:co").val("wystawca");
+                    $("#form\\:co").val("wystawca");
                     zachowaj("wystawca");
                 });
                 $("#form\\:akordeon\\:data").bind('mouseup', function() {
-                    $("#form\\:akordeon\\:co").val("data");
+                    $("#form\\:co").val("data");
                     zachowaj("data");
                 });
-               
+                 $("#form\\:akordeon\\:fakturanumer").bind('mouseup', function() {
+                    $("#form\\:co").val("fakturanumer");
+                    zachowaj("fakturanumer");
+                });
+                $("#form\\:akordeon\\:platnosc").bind('mouseup', function() {
+                    $("#form\\:co").val("platnosc");
+                    zachowaj("platnosc");
+                });
+                $("#form\\:akordeon\\:datasprzedazy").bind('mouseup', function() {
+                    $("#form\\:co").val("datasprzedazy");
+                    zachowaj("datasprzedazy");
+                });
+                 $("#form\\:akordeon\\:towary").bind('mouseup', function() {
+                    $("#form\\:co").val("towary");
+                    zachowaj("towary");
+                });
+                  $("#form\\:akordeon\\:dozaplaty").bind('mouseup', function() {
+                    $("#form\\:co").val("dozaplaty");
+                    zachowaj("dozaplaty");
+                });
+                  $("#form\\:akordeon\\:podpis").bind('mouseup', function() {
+                    $("#form\\:co").val("podpis");
+                    zachowaj("podpis");
+                });
             });
             </script>
-            <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
-            <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
-            <h:inputText id="co" value="#{pozycjeNaFakturzeView.co}" size="30" style="display: none;"/>
-            <h:inputText id="lewyTablica" value="#{pozycjeNaFakturzeView.lewyTablica}" size="30" style="display: none;"/>
-            <h:inputText id="goraTablica" value="#{pozycjeNaFakturzeView.goraTablica}" size="30" style="display: none;"/>
-            <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
-            <br/>
-            <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
-            <p:panel id="odbiorca" header="Dane Odbiorcy" style="width: 350px;"  >  
+            <div style="background-color: #6CE26C; height: 1200px;">
+            <p:panel id="odbiorca" style="width: 350px;"  >  
                 <p:panelGrid columns="2">
-                    <h:outputText value="Odbiorca: #{pozycjeNaFakturzeView.lewyTablica} #{pozycjeNaFakturzeView.goraTablica}" />
-                <h:outputText value="Jan Kowalski #{pozycjeNaFakturzeView.coTablica}" />
+                <h:outputText value="Odbiorca: " />
+                <h:outputText value="Jan Kowalski " />
                 <h:outputText value="Adres:" />  
                 <h:outputText value="70-100 Szczecin ul. Bananowa 15" />
                 <h:outputText value="Nip:" />  
                 <h:outputText value="851-100-50-08" />
                 </p:panelGrid>
             </p:panel>  
-            <p:draggable for="odbiorca"/>
-            <p:panel id="wystawca" header="Dane Wystawcy" style="width: 350px;"  >  
+            <p:draggable for="odbiorca" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+            <p:panel id="wystawca" style="width: 350px;"  >  
                 <p:panelGrid columns="2">
-                <h:outputText value="Wystawca: #{pozycjeNaFakturzeView.lewyTablica} #{pozycjeNaFakturzeView.goraTablica}" />
-                <h:outputText value="Bober Mizialski #{pozycjeNaFakturzeView.coTablica}"/>
+                <h:outputText value="Wystawca: " />
+                <h:outputText value="Bober Mizialski"/>
                 <h:outputText value="Adres:" />  
                 <h:outputText value="70-100 Poznan ul. Bananowa 15" />
                 <h:outputText value="Nip:" />  
                 <h:outputText value="851-100-50-08" />
                 </p:panelGrid>
             </p:panel>
-            <p:draggable for="wystawca"/>
-             <p:panel id="data" header="Miejsce i data wystawienia fatury" style="width: 350px;"  >  
-                <p:panelGrid columns="2">
+            <p:draggable for="wystawca" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+             <p:panel id="data" style="width: 230px;">  
+                <p:panelGrid columns="1">
                 <h:outputText value="Szczecin, dnia 18.05.2013 " />
                 </p:panelGrid>
             </p:panel>  
-            <p:draggable for="data"/>
+              <p:draggable for="data" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+             <p:panel id="fakturanumer" style="width: 200px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="Faktura VAT nr 1/2003" />
+                </p:panelGrid>
+            </p:panel>  
+            <p:draggable for="fakturanumer" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+             <p:panel id="platnosc" style="width: 450px;"  >  
+                <p:panelGrid columns="4">
+                <h:outputText value="sposób zapłaty" /><h:outputText value="przelew" />
+                <h:outputText value="termin zapłaty" /><h:outputText value="2013-05-06" />
+                </p:panelGrid>
+                 <p:panelGrid columns="2" style="width: 403px;">
+                <h:outputText value="konto bankowe" /><h:outputText value="1524 1524 1158 1522 1211 1574" />
+                </p:panelGrid>
+            </p:panel>  
+            <p:draggable for="platnosc" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+              <p:panel id="datasprzedazy" style="width: 250px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="data sprzedaży: 2013-05-13" />
+                </p:panelGrid>
+                  <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+            </p:panel>
+             <p:panel id="towary" style="width: 1100px;"  >  
+                 <p:dataTable value="#{pozycjeNaFakturzeView.zestaw}" var="wpis">
+                     <p:column headerText="lp"><h:outputText value="#{wpis.lp}"/></p:column>
+                     <p:column headerText="Nazwa towaru/usługi"><h:outputText value="#{wpis.nazwa}"/></p:column>
+                     <p:column headerText="Symbol PKWiU"><h:outputText value="#{wpis.PKWiU}"/></p:column>
+                     <p:column headerText="j.m."><h:outputText value="#{wpis.jednostka}"/></p:column>
+                     <p:column headerText="il."><h:outputText value="#{wpis.ilosc}"/></p:column>
+                     <p:column headerText="Cena jedn. bez pod."><h:outputText value="#{wpis.cena}"/></p:column>
+                     <p:column headerText="Wartość bez pod."><h:outputText value="#{wpis.netto}"/></p:column>
+                     <p:column headerText="Podatek %"><h:outputText value="#{wpis.podatek}"/></p:column>
+                     <p:column headerText="Podatek kwota"><h:outputText value="#{wpis.podatekkwota}"/></p:column>
+                     <p:column headerText="Wartość z pod."><h:outputText value="#{wpis.brutto}"/></p:column>
+                 </p:dataTable>
+                  <p:draggable for="towary" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+            </p:panel>
+             <p:panel id="dozaplaty" style="width: 450px;"  >  
+                <p:panelGrid columns="2">
+                <h:outputText value="słownie do zapłaty: trzy dwieście cztery sześćset 98/100" />
+                </p:panelGrid>
+                  <p:draggable for="dozaplaty" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+            </p:panel>
+              <p:panel id="podpis" style="width: 350px;"  >  
+                <p:panelGrid columns="1">
+                <h:outputText value="___________________________________" />
+                <h:outputText value="upoważniony do wystawienia faktury" />
+                <h:outputText value="Marianna Kowalska-Botonek" />
+                </p:panelGrid>
+                  <p:draggable for="podpis" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
+            </p:panel>
+            </div>
         </p:tab>
     </p:tabView>
 </ui:composition>   
