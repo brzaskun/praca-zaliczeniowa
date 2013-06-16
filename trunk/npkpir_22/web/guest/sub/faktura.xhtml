@@ -24,7 +24,7 @@
                 </p:inplace>  
                 <h:outputLabel value="data wystawienia faktury: " for="datawystawienia"/>
                 <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="2013-06-13" required="true" label="text" style="font-weight: bolder;"/>  
+                    <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>  
                 <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " for="datasprz"/>
                 <p:inplace id="datasprz" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -35,9 +35,27 @@
                     <p:inputText value="12/5/2045" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>
                 <h:outputLabel value="dane kontrahenta: " for="danekontrahenta"/>
-                <p:inplace id="danekontrahenta" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="KOMIKENBOBO" required="true" label="text" style="font-weight: bolder;"/>  
-                </p:inplace>  
+                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
+                                valueChangeListener="#{DokumentView.przekazKontrahenta}"  autocomplete="true" forceSelection="true" global="false"
+                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
+                    <f:ajax event="blur" execute="@this"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane kontrahenta"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna" value="#{p.npelna}" />  
+                            <h:outputText value="NIP: " />  
+                            <h:outputText id="nip" value="#{p.nip}" />  
+                            <h:outputText value="Adres " />  
+                            <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                    <f:param name="passedValue" value="#{p}" />
+                </p:autoComplete>
                 <h:outputLabel value="termin zapłaty: " for="terminzaplaty"/>
                 <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                     <p:inputText value="2013-05-13" required="true" label="text" style="font-weight: bolder;"/>  
@@ -59,6 +77,8 @@
                     <p:inputText value="Marianna Kowalsky" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>
             </p:panelGrid>
+            <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.liczbaw()}" update="@this" accesskey="p"/>
+            <ui:repeat id="repeat" value="2" var="row" varStatus="rowStat"  >
             <p:panelGrid columns="12" >
                <h:outputLabel value="nazwa towaru lub usługi: " for="szczegolowanazwa"/>
                 <p:inplace id="szczegolowanazwa" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -85,6 +105,7 @@
                     <p:inputText value="23%" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>
             </p:panelGrid>
+                </ui:repeat>
         </p:tab><!--
         <p:tab id="gotowe" title="Przeglądaj sporządzone">
 
