@@ -119,5 +119,11 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         public void setBrutto(double brutto) {
             this.brutto = brutto;
         }
-    
+
+    @Override
+    public String toString() {
+        return "Pozycjenafakturzebazadanych{" + "lp=" + lp + ", nazwa=" + nazwa + ", PKWiU=" + PKWiU + ", jednostka=" + jednostka + ", ilosc=" + ilosc + ", cena=" + cena + ", netto=" + netto + ", podatek=" + podatek + ", podatekkwota=" + podatekkwota + ", brutto=" + brutto + '}';
+    }
+ 
+        
 }

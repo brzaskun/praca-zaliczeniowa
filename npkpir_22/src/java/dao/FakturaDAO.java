@@ -35,5 +35,12 @@ public class FakturaDAO extends DAO implements Serializable {
         }
    }
    
-   
+   public String dodaj(Faktura faktura){
+       try {
+        fakturaFacade.create(faktura);
+           return "ok";
+       } catch (Exception e){
+           return e.toString();
+       }
+   }
 }
