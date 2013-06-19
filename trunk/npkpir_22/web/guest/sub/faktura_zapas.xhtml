@@ -15,11 +15,9 @@
     <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
     <br/>
     <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
-    <h:form>
     <p:outputPanel  style="margin-top: 25px;">
         <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" />
     </p:outputPanel>
-    </h:form>
     <p:tabView id="akordeon" style="width: 1200px;">
         <p:tab id="nowa" title="Sporządź nową fakturę" >
             <p:messages autoUpdate="true"/>

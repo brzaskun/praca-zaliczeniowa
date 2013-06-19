@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findByRodzajdokumentu", query = "SELECT f FROM Faktura f WHERE f.rodzajdokumentu = :rodzajdokumentu"),
     @NamedQuery(name = "Faktura.findByRodzajtransakcji", query = "SELECT f FROM Faktura f WHERE f.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Faktura.findByDatawystawienia", query = "SELECT f FROM Faktura f WHERE f.datawystawienia = :datawystawienia"),
+    @NamedQuery(name = "Faktura.findByDatasprzedazy", query = "SELECT f FROM Faktura f WHERE f.datasprzedazy = :datasprzedazy"),
     @NamedQuery(name = "Faktura.findByMiejscewystawienia", query = "SELECT f FROM Faktura f WHERE f.miejscewystawienia = :miejscewystawienia"),
     @NamedQuery(name = "Faktura.findByTerminzaplaty", query = "SELECT f FROM Faktura f WHERE f.terminzaplaty = :terminzaplaty"),
     @NamedQuery(name = "Faktura.findBySposobzaplaty", query = "SELECT f FROM Faktura f WHERE f.sposobzaplaty = :sposobzaplaty"),
@@ -74,6 +75,11 @@ public class Faktura implements Serializable {
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "datasprzedazy")
+    private String datasprzedazy;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "miejscewystawienia")
     private String miejscewystawienia;
@@ -89,7 +95,6 @@ public class Faktura implements Serializable {
     private String sposobzaplaty;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 28)
     @Column(name = "nrkontabankowego")
     private String nrkontabankowego;
     @Basic(optional = false)
@@ -135,13 +140,14 @@ public class Faktura implements Serializable {
         this.fakturaPK = fakturaPK;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, Pozycjenafakturzebazadanych pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor) {
+    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, Pozycjenafakturzebazadanych pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
         this.rodzajtransakcji = rodzajtransakcji;
         this.kontrahent = kontrahent;
         this.datawystawienia = datawystawienia;
+        this.datasprzedazy = datasprzedazy;
         this.miejscewystawienia = miejscewystawienia;
         this.terminzaplaty = terminzaplaty;
         this.sposobzaplaty = sposobzaplaty;
@@ -175,6 +181,8 @@ public class Faktura implements Serializable {
         this.wystawca = wystawca;
     }
 
+    
+
     public String getRodzajdokumentu() {
         return rodzajdokumentu;
     }
@@ -199,12 +207,22 @@ public class Faktura implements Serializable {
         this.kontrahent = kontrahent;
     }
 
+    
+
     public String getDatawystawienia() {
         return datawystawienia;
     }
 
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
+    }
+
+    public String getDatasprzedazy() {
+        return datasprzedazy;
+    }
+
+    public void setDatasprzedazy(String datasprzedazy) {
+        this.datasprzedazy = datasprzedazy;
     }
 
     public String getMiejscewystawienia() {
@@ -263,6 +281,7 @@ public class Faktura implements Serializable {
         this.pozycjenafakturze = pozycjenafakturze;
     }
 
+   
     public boolean getZatwierdzona() {
         return zatwierdzona;
     }
