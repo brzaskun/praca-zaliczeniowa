@@ -15,11 +15,9 @@
     <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
     <br/>
     <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
-    <h:form>
     <p:outputPanel  style="margin-top: 25px;">
         <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" />
     </p:outputPanel>
-    </h:form>
     <p:tabView id="akordeon" style="width: 1200px;">
         <p:tab id="nowa" title="Sporządź nową fakturę" >
             <p:messages autoUpdate="true"/>
@@ -39,13 +37,13 @@
                 </p:inplace>
                 <h:outputLabel value="nr faktury: " for="nrfaktury"/>
                 <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="#{fakturaView.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
+                    <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>
                 <h:outputLabel value="dane kontrahenta: " for="danekontrahenta"/>
-                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
+                <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                valueChangeListener="#{DokumentView.przekazKontrahenta}"  autocomplete="true" forceSelection="true" global="false"
+                                autocomplete="true" forceSelection="true" global="false"
                                 required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
                     <f:ajax event="blur" execute="@this"/>
                     <f:facet name="itemtip">  
@@ -77,9 +75,9 @@
                     <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
                 </p:inplace>
                 <h:outputLabel value="waluta faktury: " for="waluta faktury"/>
-                <p:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
-                    <f:selectItem itemLabel="PLN" itemValue="gotówka"/>
-                    <f:selectItem itemLabel="EUR" itemValue="przelew"/>
+                <p:selectOneMenu value="#{fakturaView.selected.walutafaktury}" >
+                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
                 </p:selectOneMenu>
                 <h:outputLabel value="wystawiający fakturę: " for="wystawiajacyfakt"/>
                 <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -102,11 +100,11 @@
             </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update=":form:akordeon:panel" accesskey="p"/>
+                <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update=":form:akordeon:nowa"/>
              </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="zachowaj" value="zachowaj fakture" actionListener="#{fakturaViewDB.dodaj()}" update=":form:akordeon:panel" accesskey="p"/>
+                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}"/>
              </p:outputPanel>
             </p:outputPanel>
         </p:tab><!--

@@ -18,14 +18,5 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class FakturaViewDB extends FakturaView implements Serializable{
-    @Inject private FakturaDAO fakturaDAO;
-    
-    public void dodaj(){
-        if(fakturaDAO.dodaj(selected).equals("ok")){
-            Msg.msg("i", "Dodano fakturę.");
-        } else {
-            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury.");
-        }
-        
-    }
+   
 }
