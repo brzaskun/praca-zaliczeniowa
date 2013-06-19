@@ -51,13 +51,18 @@ public class FakturaView implements Serializable{
         selected.setPodpis(wpisView.getPodatnikObiekt().getImie()+" "+wpisView.getPodatnikObiekt().getNazwisko());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
+        selected.setPozycjenafakturze(poz);
         selected.setAutor(wpisView.getWprowadzil().getLogin());
         selected.setMiejscewystawienia(wpisView.getPodatnikObiekt().getMiejscowosc());
         setPokazfakture(true);
+        selected.setWystawca(wpisView.getPodatnikObiekt());
+        selected.setRodzajdokumentu("faktura");
+        selected.setRodzajtransakcji("sprzedaż");
+        Msg.msg("i", "Przygotowano fakture");
         RequestContext.getCurrentInstance().update("form:panelfaktury");
     }
     
-   @Inject private FakturaDAO fakturaDAO;
+     @Inject private FakturaDAO fakturaDAO;
     
     public void dodaj(){
         if(fakturaDAO.dodaj(selected).equals("ok")){
@@ -67,7 +72,8 @@ public class FakturaView implements Serializable{
         }
         
     }
-    
+       
+       
     public void dodajwiersz(){
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
