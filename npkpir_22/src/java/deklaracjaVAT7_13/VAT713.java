@@ -37,13 +37,20 @@ public class VAT713 implements Serializable{
         this.selected = selected;
         String vatokres = sprawdzjakiokresvat(wpisView);
         if(vatokres.equals("miesięczne")){
-            wstep = new Wstep("1085");
+            if(wpisView.getSumarokmiesiac()<2017){
+                wstep = new Wstep("1085");
+                pouczenie = new Pouczenie(13);
+            } else {
+                wstep = new Wstep("1113");
+                pouczenie = new Pouczenie(14);
+            }
+            
         } else {
             wstep = new Wstep("1084");
+            pouczenie = new Pouczenie(13);
         }
         naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
-        pouczenie = new Pouczenie();
         oswiadczenie = new Oswiadczenie();
         daneAutoryzujace = new DaneAutoryzujace(selected);
         pozycjeSzczegolowe = new PozycjeSzczegolowe(selected);

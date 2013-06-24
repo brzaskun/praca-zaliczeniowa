@@ -29,10 +29,20 @@ class Naglowek {
         Miesiac = selected.getMiesiac();
         KodUrzedu = selected.getKodurzedu();
         if(vatokres.equals("miesięczne")){
-        Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7 (13)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</KodFormularza>"
+            if(Integer.parseInt(Rok)>2012&&Integer.parseInt(Miesiac)<4){
+                //dekalracha VAT7 13
+                Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7 (13)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</KodFormularza>"
                 +"<WariantFormularza>13</WariantFormularza>"
                 +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Miesiac>"+Miesiac
                 +"</Miesiac><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
+            } else {
+                //deklaracja VAT7 14
+                Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7 (14)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7</KodFormularza>"
+                +"<WariantFormularza>14</WariantFormularza>"
+                +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Miesiac>"+Miesiac
+                +"</Miesiac><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
+            }
+        
         } else {
             String kwartal = zamienmcnakw();
             Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7K (7)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</KodFormularza>"
