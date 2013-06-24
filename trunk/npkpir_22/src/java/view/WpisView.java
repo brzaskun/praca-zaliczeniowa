@@ -48,7 +48,7 @@ public class WpisView implements Serializable{
     @Inject private UzDAO uzDAO;
     @Inject private PodatnikDAO podatnikDAO;
     
-
+    private Integer sumarokmiesiac;
        
     @PostConstruct
     private void init(){
@@ -85,6 +85,7 @@ public class WpisView implements Serializable{
         }
         uzupelnijdanepodatnika();
     }
+        obliczsumarokmiesiac();
         System.out.println("Wywolano wpisView");
     }
 
@@ -165,6 +166,13 @@ public class WpisView implements Serializable{
             miesiacNastepny = Mce.getMapamcy().get(++miesiacpo);
         }
     }
+    
+    private void obliczsumarokmiesiac() {
+        if((rokWpisu>0)&&(!miesiacWpisu.isEmpty())){
+            sumarokmiesiac = rokWpisu + Integer.parseInt(miesiacWpisu);
+        }
+    }
+
 
       
     public String getPodatnikWpisu() {
@@ -279,7 +287,13 @@ public class WpisView implements Serializable{
         this.miesiacUprzedni = miesiacUprzedni;
     }
 
-   
-    
+    public Integer getSumarokmiesiac() {
+        return sumarokmiesiac;
+    }
+
+    public void setSumarokmiesiac(Integer sumarokmiesiac) {
+        this.sumarokmiesiac = sumarokmiesiac;
+    }
+
    
 }

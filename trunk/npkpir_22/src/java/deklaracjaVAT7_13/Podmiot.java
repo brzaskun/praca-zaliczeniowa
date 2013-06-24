@@ -12,7 +12,10 @@ import embeddable.Vatpoz;
  * @author Osito
  */
 class Podmiot {
-  
+    Integer Rok;
+    Integer Miesiac;
+    
+    
     String NIP;
     String ImiePierwsze;
     String Nazwisko;
@@ -30,6 +33,8 @@ class Podmiot {
     static String Podmiot;
 
     public Podmiot(Vatpoz selected) {
+        Rok = Integer.parseInt(selected.getRok());
+        Miesiac = Integer.parseInt(selected.getMiesiac());
         Daneteleadresowe adres = selected.getAdres();
         NIP=adres.getNIP();
         ImiePierwsze = adres.getImiePierwsze();
@@ -44,6 +49,7 @@ class Podmiot {
         Miejscowosc = adres.getMiejscowosc();
         KodPocztowy = adres.getKodPocztowy();
         Poczta = adres.getPoczta();
+        if(Rok>2012&&Miesiac<4){
         Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
@@ -51,6 +57,12 @@ class Podmiot {
                 +Wojewodztwo+"</etd:Wojewodztwo><etd:Powiat>"+Powiat+"</etd:Powiat><etd:Gmina>"+Gmina+"</etd:Gmina><etd:Ulica>"+Ulica
                 +"</etd:Ulica><etd:NrDomu>"+NrDomu+"</etd:NrDomu><etd:NrLokalu>"+NrLokalu+"</etd:NrLokalu><etd:Miejscowosc>"+Miejscowosc
                 +"</etd:Miejscowosc><etd:KodPocztowy>"+KodPocztowy+"</etd:KodPocztowy><etd:Poczta>"+Poczta+"</etd:Poczta></etd:AdresPol></etd:AdresZamieszkaniaSiedziby></Podmiot1>";
+        } else {
+           Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
+                +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
+                +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
+                +"</etd:DataUrodzenia></etd:OsobaFizyczna></Podmiot1>"; 
+        }
     }
 
     public String getNIP() {

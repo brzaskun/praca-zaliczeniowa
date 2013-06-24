@@ -16,10 +16,13 @@ import java.util.List;
  * @author Osito
  */
 class PozycjeSzczegolowe {
-    
+    Integer Rok;
+    Integer Miesiac;
     static String PozycjeSzczegolowe;
 
     public PozycjeSzczegolowe(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Rok = Integer.parseInt(selected.getRok());
+        Miesiac = Integer.parseInt(selected.getMiesiac());
         List<String> lista = new ArrayList<>();
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         for(int i = 20;i<66;i++){
@@ -28,6 +31,7 @@ class PozycjeSzczegolowe {
             String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
+        if(Rok>2012&&Miesiac<4){
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         int j = 20;
         for(String p : lista){
@@ -40,6 +44,22 @@ class PozycjeSzczegolowe {
             j++;
         }
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
+        } else {
+        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
+        int j = 10;
+        for(String p : lista){
+            try {
+                boolean i = !p.isEmpty();
+                if(!p.equals("")){
+                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                }
+            } catch (Exception e){}
+            j++;
+        }
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>2013-06-25</P_69>");
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
+        }
+        
     }
     
     public String getPozycjeSzczegolowe() {
