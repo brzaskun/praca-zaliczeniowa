@@ -258,6 +258,15 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setUpo("");
             nowadeklaracja.setStatus("");
             nowadeklaracja.setOpis("");
+            if(nowadeklaracja.isMiesiackwartal()){
+                nowadeklaracja.setWzorschemy("K-13");
+            } else {
+                if(wpisView.getSumarokmiesiac()>2017){
+                    nowadeklaracja.setWzorschemy("M-14");
+                } else {
+                    nowadeklaracja.setWzorschemy("M-13");
+                }
+            }
         }
             if (flaga == 2) {
             deklaracjevatDAO.destroy(deklaracjakorygowana);

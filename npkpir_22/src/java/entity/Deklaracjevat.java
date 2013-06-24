@@ -120,7 +120,9 @@ public class Deklaracjevat implements Serializable {
     private String ordzu;
     @Column(name="testowa")
     private boolean testowa;
-
+    @Column(name = "wzorschemy")
+    private String wzorschemy;
+    
    public Deklaracjevat() {
     }
 
@@ -306,6 +308,15 @@ public class Deklaracjevat implements Serializable {
         this.testowa = testowa;
     }
 
+    public String getWzorschemy() {
+        return wzorschemy;
+    }
+
+    public void setWzorschemy(String wzorschemy) {
+        this.wzorschemy = wzorschemy;
+    }
+
+    
     
     @Override
     public int hashCode() {
