@@ -1,17 +1,17 @@
-function al(){
-    alert("document.getElementById(dodWiad:rodzajTrans).focus();");
-}
+//function al(){
+//    alert("document.getElementById(dodWiad:rodzajTrans).focus();");
+//}
 
+//
+//function orientujsie(){
+//    document.getElementById("dodWiad:rodzajTrans").focus();
+//}
 
-function orientujsie(){
-    document.getElementById("dodWiad:rodzajTrans").focus();
-}
-
-function openwindow(){
-    alert("test");
-     my_window = window.open("", "mywindow1", "status=1,width=350,height=150");
-    my_window.document.write('<h1>Popup Test!</h1>');
-}
+//function openwindow(){
+//    alert("test");
+//     my_window = window.open("", "mywindow1", "status=1,width=350,height=150");
+//    my_window.document.write('<h1>Popup Test!</h1>');
+//}
 
 //function stopRKey(evt) { 
 //  var evt = (evt) ? evt : ((event) ? event : null); 
@@ -20,9 +20,8 @@ function openwindow(){
 //} 
 //document.onkeypress = stopRKey; 
 
-
-
-$(document).ready(function() {
+//nadaje odpowiednie kolory podświetlanym polom formularza
+var kolorujpola = function() {
     $(':input').focus(
     function(){
         $(this).css({'background-color' : '#CEE4F0'});
@@ -32,7 +31,9 @@ $(document).ready(function() {
     function(){
         $(this).css({'background-color' : '#DFD8D1'});
     });
-});
+}
+
+$(document).ready(kolorujpola());
 
 
 //nie wiem po co to
@@ -41,75 +42,76 @@ $(document).ready(function() {
 //    alert("Good Bye");
 //});
 
- function check_form(param){
-     if(document.getElementById(param).value){
-            var date_array = document.getElementById(param).value.split('-');
-            var day = date_array[2];
-            // Attention! Javascript consider months in the range 0 - 11
-            var month = date_array[1]-1;
-            var year = date_array[0];
-            // This instruction will create a date object
-            source_date = new Date(year,month,day);
-            if(year != source_date.getFullYear()){
-               alert('Nieprawid\u0142owa data - sprawdź! ');
-               document.getElementById(param).focus();
-               return false;
-            }
-            if(month != source_date.getMonth()){
-               alert('Nieprawid\u0142owa data - sprawdź!');
-               document.getElementById(param).focus();
-               return false;
-            }
-      return true;
-}};
+// function check_form(param){
+//     if(document.getElementById(param).value){
+//            var date_array = document.getElementById(param).value.split('-');
+//            var day = date_array[2];
+//            // Attention! Javascript consider months in the range 0 - 11
+//            var month = date_array[1]-1;
+//            var year = date_array[0];
+//            // This instruction will create a date object
+//            source_date = new Date(year,month,day);
+//            if(year != source_date.getFullYear()){
+//               alert('Nieprawid\u0142owa data - sprawdź! ');
+//               document.getElementById(param).focus();
+//               return false;
+//            }
+//            if(month != source_date.getMonth()){
+//               alert('Nieprawid\u0142owa data - sprawdź!');
+//               document.getElementById(param).focus();
+//               return false;
+//            }
+//      return true;
+//}};
+//
+// function validate(){
+//        txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
+//        if (txt>1&&txt<10) {
+//            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
+//            document.getElementById("dodWiad:dataPole").focus();
+//            return false;
+//        } else {
+//            check_form("dodWiad:dataPole");
+//        }};
+// 
+// function validateK(){
+//        document.getElementById("dodWiad:acForce_hinput").focus();
+//        txt = parseInt(document.getElementById("dodWiad:acForce_hinput").value.length,10);
+//        tekst = document.getElementById("dodWiad:acForce_input").value;
+//        if (txt<3) {
+//            document.getElementById("dodWiad:acForce_input").focus();
+//            return false
+//        }else{
+//            if(tekst == ""){
+//                window.location.href = "klienci.xhtml";
+////                window.open('klienci.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
+//            }
+//            return true;
+//        }};
+ 
+// var validateOpis = function (){
+//        document.getElementById("dodWiad:opis_hinput").focus();
+//        var txt = parseInt(document.getElementById("dodWiad:opis_hinput").value.length,10);
+//        if (txt < 3) {
+//            alert("Brak opisu!");
+//            document.getElementById("dodWiad:opis_input").focus();
+//            return false
+//        }else{
+//            return true;
+//        }};
+// 
+// function validateTermin(){
+//            txt = parseInt(document.getElementById("dodWiad:dataTPole").value.length,10);
+//        if (txt>=0&&txt<10) {
+//            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
+//            document.getElementById("dodWiad:dataTPole").focus();
+//            return false
+//        }else{
+//            check_form("dodWiad:dataTPole");
+//        }};
+//    
 
- function validate(){
-        txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
-        if (txt>1&&txt<10) {
-            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
-            document.getElementById("dodWiad:dataPole").focus();
-            return false;
-        } else {
-            check_form("dodWiad:dataPole");
-        }};
- 
- function validateK(){
-        document.getElementById("dodWiad:acForce_hinput").focus();
-        txt = parseInt(document.getElementById("dodWiad:acForce_hinput").value.length,10);
-        tekst = document.getElementById("dodWiad:acForce_input").value;
-        if (txt<3) {
-            document.getElementById("dodWiad:acForce_input").focus();
-            return false
-        }else{
-            if(tekst == ""){
-                window.location.href = "klienci.xhtml";
-//                window.open('klienci.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
-            }
-            return true;
-        }};
- 
- function validateOpis(){
-        document.getElementById("dodWiad:opis_hinput").focus();
-        txt = parseInt(document.getElementById("dodWiad:opis_hinput").value.length,10);
-        if (txt<3) {
-            alert("Brak opisu!");
-            document.getElementById("dodWiad:opis_input").focus();
-            return false
-        }else{
-            return true;
-        }};
- 
- function validateTermin(){
-            txt = parseInt(document.getElementById("dodWiad:dataTPole").value.length,10);
-        if (txt>=0&&txt<10) {
-            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
-            document.getElementById("dodWiad:dataTPole").focus();
-            return false
-        }else{
-            check_form("dodWiad:dataTPole");
-        }};
-    
-    function wyloguj(){
+ var wyloguj = function(){
         document.getElementById("templateform:wyloguj").click();
         if (document.getElementById("form:westIndex:panelwyboru")){
             window.location.href = "login.xhtml";
@@ -118,13 +120,13 @@ $(document).ready(function() {
         }
     };
 
-function aktywujsrodek(){
+var aktywujsrodek = function(){
         document.getElementById("dodWiad:form:acForce1").focus();
 };
 
-function aktywujopis(){
+var aktywujopis = function (){
     var dokument = $('#dodWiad\\:rodzajTrans').val();
-    if(dokument=='IN'){
+    if(dokument==='IN'){
         $('#dodWiad\\:inwestycja').show();
         $('#dodWiad\\:inwestycjas').show();
 //        $("#dodWiad\\:inwestycja").bind('mouseover', function() {
@@ -132,10 +134,10 @@ function aktywujopis(){
 //            });
     $("#dodWiad\\:inwestycja").bind('blur', function() {
 
-    if( $('#dodWiad\\:inwestycja').val()=="wybierz"){
-        $('#dodWiad\\:inwestycja').focus();
-    }
-    });
+        if( $('#dodWiad\\:inwestycja').val()==="wybierz"){
+            $('#dodWiad\\:inwestycja').focus();
+        }
+        });
     } else {
         $('#dodWiad\\:inwestycja').hide();
         $('#dodWiad\\:inwestycjas').hide();
@@ -146,52 +148,37 @@ function aktywujopis(){
             $('#dodWiad\\:opis').focus();
         }
     }); 
-    $('#dodWiad\\:numerwlasny').focus();
-};
-
-$(function(){
-    $("#dodWiad\\:inwestycja").bind('blur', function() {
-
-    if( $('#dodWiad\\:inwestycja').val()=="wybierz"){
-        $('#dodWiad\\:inwestycja').focus();
-    }
-    });
-    
-    $('#dodWiad\\:opis').on('keydown',function(e){
-        $('#log').html(e.type + ': ' +  e.which );
-        if(e.which=='120'){
-            $('#dodWiad\\:dodajopis').click();
-        }
-    });
-     $('#dodWiad\\:dodkol').on('keyup',function(e){
+    $('#dodWiad\\:dodkol').on('keyup',function(e){
         if(e.which=='119'){
             $('#dodWiad\\:dodkol').click();
         }
     }); 
-});
+    $('#dodWiad\\:numerwlasny').focus();
+};
 
-function pokazdodawanie(){
+//to dotyczy chyba pelnej ksiegowosci
+var pokazdodawanie = function(){
     document.getElementById("formX:dkp").style.display = 'inline';
 }
 
-function pokazdodawanieanal(){
+var pokazdodawanieanal = function(){
     document.getElementById("formY:dkp").style.display = 'inline';
 }
 
-function schowajdodawanie(){
+var schowajdodawanie = function(){
     document.getElementById("formX:dkp").style.display = 'none';
     document.getElementById("formY:dkp").style.display = 'none';
 }
 
-function aktywujwiersz(wiersz){
+var aktywujwiersz = function(wiersz){
     var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
-    if($(i)!=null){
+    if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffe');
     }
 };
 
-function zablokujma(wiersz){
+var zablokujma = function(wiersz){
     var w = wiersz-1;
     var blokowany = "#form\\:dataList\\:"+w+"\\:ma_input";
     var sprawdzany = "#form\\:dataList\\:"+w+"\\:wn_input";
@@ -207,7 +194,7 @@ function zablokujma(wiersz){
     }
 }
 
-function zablokujwn(wiersz){
+var zablokujwn = function(wiersz){
     var w = wiersz-1;
     var blokowany = "form:dataList:"+w+":wn_input";
     var sprawdzany = "form:dataList:"+w+":ma_input";
@@ -223,11 +210,13 @@ function zablokujwn(wiersz){
         document.getElementById(kontopole).focus();
     }
 }
+// to byly rzeczy dotyczace pelnej ksiegowosci
 
-function aktywujnetto(){
+var aktywujnetto = function(){
     document.getElementById("dodWiad:opis").focus();
 };
 
+//to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu
  PrimeFaces.locales['pl'] = {
             closeText: 'Zamknij',
             prevText: 'Poprzedni',
@@ -256,42 +245,43 @@ function aktywujnetto(){
             allDayText: 'Ca\u0142y dzie\u0144'
  };
   
-function oknoklientanowego(){
+var oknoklientanowego = function(){
     window.open("kliencipopup.xhtml?redirect=true","",'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-function wydrukpkpir(kto){
+var wydrukpkpir = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("form:pkpirwysylka").style.display='inline';
 }
 
-function wydrukstr(kto){
+var wydrukstr = function(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formSTR:ewwysylka").style.display='inline';
     
 }
 // progress on transfers from the server to the client (downloads)
-function updateProgress (oEvent) {
-  if (oEvent.lengthComputable) {
-    var percentComplete = oEvent.loaded / oEvent.total;
-    // ...
-  } else {
-    // Unable to compute progress information since the total size is unknown
-  }
-}
+//function updateProgress (oEvent) {
+//  if (oEvent.lengthComputable) {
+//    var percentComplete = oEvent.loaded / oEvent.total;
+//    // ...
+//  } else {
+//    // Unable to compute progress information since the total size is unknown
+//  }
+//}
  
-function transferComplete(evt) {
-  alert("The transfer is complete.");
-}
- 
-function transferFailed(evt) {
-  alert("An error occurred while transferring the file.");
-}
- 
-function transferCanceled(evt) {
-  alert("The transfer has been canceled by the user.");
-}
-function wydrukvat7(kto){
+//function transferComplete(evt) {
+//  alert("The transfer is complete.");
+//}
+// 
+//function transferFailed(evt) {
+//  alert("An error occurred while transferring the file.");
+//}
+// 
+//function transferCanceled(evt) {
+//  alert("The transfer has been canceled by the user.");
+//}
+
+var wydrukvat7 = function(kto){
 //    var oReq = new XMLHttpRequest();
 //    window.addEventListener("progress", updateProgress, false);
 //    window.addEventListener("load", transferComplete, false);
@@ -305,35 +295,35 @@ function wydrukvat7(kto){
 }
 
 
-function wydrukobroty(kto){
+var wydrukobroty = function(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formX:obrotywysylka").style.display='inline';
 }
 
-function wydruksumavat(kto){
+var wydruksumavat = function(kto){
     window.open('../wydruki/vatsuma'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
-function wydrukpk(kto){
+var wydrukpk = function(kto){
     window.open('../wydruki/pk'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
-function wydrukpit5(kto){
+var wydrukpit5 = function(kto){
     window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
-function wydrukewidencje(kto,nazwa){
+var wydrukewidencje = function(kto,nazwa){
     if(!nazwa.indexOf("sprzedaż", 0)){
-    nazwa = nazwa.substr(0, nazwa.length-1);
+    var nazwanowa = nazwa.substr(0, nazwa.length-1);
     }
-    window.open('../wydruki/vat-'+nazwa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    window.open('../wydruki/vat-'+nazwanowa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 }
 
-function focusdatavalidate(){
+var focusdatavalidate = function(){
         document.getElementById("dodWiad:dataPole").focus();
         };
 
-function number_format (number, decimals, dec_point, thousands_sep) {
+var number_format = function(number) {
 // Formats a number with grouped thousands
 //
 // version: 906.1806
@@ -379,7 +369,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
 // *     returns 11: '1.2000'
 // *     example 12: number_format('1.2000', 3);
 // *     returns 12: '1.200'
-var n = number, prec = decimals;
+var n = number, prec = 2, thousands_sep = " ", dec_point = ".";
 
 var toFixedFix = function (n,prec) {
     var k = Math.pow(10,prec);
@@ -416,53 +406,68 @@ else if (prec >= 1 && decPos === -1) {
 }
 return s+" zł"; };
 
-function przekazTrans(trans){
-    alert(trans);
-}
+//function przekazTrans(trans){
+//    alert(trans);
+//}
 
-function updatesum() {
-    document.getElementById("dodWiad:vat1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0.23, 2, '.', ' ');
-    if(document.getElementById("dodWiad:dokumentprosty").checked == true){
-        document.getElementById("dodWiad:sumbrutto").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0), 2, '.', ' ');
-    } else if (typeof(document.getElementById("dodWiad:netto2_hinput")) != 'undefined' && (document.getElementById("dodWiad:netto2_hinput") != null)){
+var updatesum = function(){
+    var przekaz = function(komu, cowsadzic){
+        if(typeof cowsadzic === 'undefined'){
+            return document.getElementById(komu);
+        } else {
+            document.getElementById(komu).value = cowsadzic;
+        }
+    }
+    var pobierz = function(copobrac){
+        var zawartosc = document.getElementById(copobrac);
+        if (zawartosc === null) {
+            return null;
+        } else {
+            return zawartosc.value;
+        }
+    }
+    przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0.23));
+    if(pobierz("dodWiad:dokumentprosty").checked == true){
+        przekaz("dodWiad:sumbrutto", number_format((pobierz("dodWiad:kwotaPkpir_hinput").value -0)));
+    } else if (typeof(pobierz("dodWiad:netto2_hinput")) !== 'undefined' && (pobierz("dodWiad:netto2_hinput") !== null)){
         
-    document.getElementById("dodWiad:vat2").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:vat3").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:vat4").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:vat5").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:brutto1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value), 2, '.', ' ');
-      document.getElementById("dodWiad:brutto2").value = number_format(parseFloat(document.getElementById("dodWiad:netto2_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat2").value), 2, '.', ' ');
-       document.getElementById("dodWiad:brutto3").value = number_format(parseFloat(document.getElementById("dodWiad:netto3_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat3").value), 2, '.', ' ');
-        document.getElementById("dodWiad:brutto4").value = number_format(parseFloat(document.getElementById("dodWiad:netto4_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat4").value), 2, '.', ' ');
-         document.getElementById("dodWiad:brutto5").value = number_format(parseFloat(document.getElementById("dodWiad:netto5_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
-    document.getElementById("dodWiad:sumbrutto").value = number_format(
-            parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat1").value)
-            +parseFloat(document.getElementById("dodWiad:netto2_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat2").value)
-            +parseFloat(document.getElementById("dodWiad:netto3_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat3").value)
-            +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat4").value)
-            +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
+    przekaz("dodWiad:vat2", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
+    przekaz("dodWiad:vat3", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
+    przekaz("dodWiad:vat4", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
+    przekaz("dodWiad:vat5", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
+    przekaz("dodWiad:brutto1", number_format(parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1"))));
+      przekaz("dodWiad:brutto2", number_format(parseFloat(pobierz("dodWiad:netto2_hinput"))+zrobFloat(pobierz("dodWiad:vat2"))));
+       przekaz("dodWiad:brutto3", number_format(parseFloat(pobierz("dodWiad:netto3_hinput"))+zrobFloat(pobierz("dodWiad:vat3"))));
+        przekaz("dodWiad:brutto4", number_format(parseFloat(pobierz("dodWiad:netto4_hinput"))+zrobFloat(pobierz("dodWiad:vat4"))));
+         przekaz("dodWiad:brutto5", number_format(parseFloat(pobierz("dodWiad:netto5_hinput"))+zrobFloat(pobierz("dodWiad:vat5"))));
+    przekaz("dodWiad:sumbrutto", number_format(
+            parseFloat(pobierz("dodWiad:netto1_hinput"))
+            +zrobFloat(pobierz("dodWiad:vat1"))
+            +parseFloat(pobierz("dodWiad:netto2_hinput"))
+            +zrobFloat(pobierz("dodWiad:vat2"))
+            +parseFloat(pobierz("dodWiad:netto3_hinput"))
+            +zrobFloat(pobierz("dodWiad:vat3"))
+            +parseFloat(pobierz("dodWiad:netto4_hinput"))
+            +zrobFloat(pobierz("dodWiad:vat4"))
+            +parseFloat(pobierz("dodWiad:netto5_hinput"))
+            +zrobFloat(pobierz("dodWiad:vat5"))));
       } else {
         
-      document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
-      document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
+      przekaz("dodWiad:sumbrutto", number_format((parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1")))));
+      przekaz("dodWiad:brutto1",  number_format((parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1")))));
      }
 };
 
  
  function updatesuma(wiersz){
-      document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23, 2, '.', ' ');
-      document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
+      document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23);
+      document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)));
     if (typeof(document.getElementById("dodWiad:netto2_hinput")) != 'undefined' && (document.getElementById("dodWiad:netto2_hinput") != null)){
-     document.getElementById("dodWiad:vat2").value = number_format(zrobFloat(document.getElementById("dodWiad:netto2_hinput").value)*0.08, 2, '.', ' ');
-    document.getElementById("dodWiad:vat3").value = number_format(zrobFloat(document.getElementById("dodWiad:netto3_hinput").value)*0.05, 2, '.', ' ');
-    document.getElementById("dodWiad:vat4").value = number_format(zrobFloat(document.getElementById("dodWiad:netto4_hinput").value)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:vat5").value = number_format(zrobFloat(document.getElementById("dodWiad:netto5_hinput").value)*0, 2, '.', ' ');
-    document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
+     document.getElementById("dodWiad:vat2").value = number_format(zrobFloat(document.getElementById("dodWiad:netto2_hinput").value)*0.08);
+    document.getElementById("dodWiad:vat3").value = number_format(zrobFloat(document.getElementById("dodWiad:netto3_hinput").value)*0.05);
+    document.getElementById("dodWiad:vat4").value = number_format(zrobFloat(document.getElementById("dodWiad:netto4_hinput").value)*0);
+    document.getElementById("dodWiad:vat5").value = number_format(zrobFloat(document.getElementById("dodWiad:netto5_hinput").value)*0);
+    document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)));
            document.getElementById("dodWiad:sumbrutto").value = number_format(
             parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
             +zrobFloat(document.getElementById("dodWiad:vat1").value)
@@ -473,9 +478,9 @@ function updatesum() {
             +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
             +zrobFloat(document.getElementById("dodWiad:vat4").value)
             +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
+            +zrobFloat(document.getElementById("dodWiad:vat5").value));
       } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)),2,'.',' ');
+              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)));
      }
  };
  
@@ -486,8 +491,8 @@ function updatesum() {
  }
  
  function updatevat(wiersz){
-      document.getElementById("dodWiad:vat"+wiersz).value = number_format(zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value), 2, '.', ' ');
-      document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
+      document.getElementById("dodWiad:vat"+wiersz).value = number_format(zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value));
+      document.getElementById("dodWiad:brutto"+wiersz).value =  number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat"+wiersz).value)));
     if (typeof(document.getElementById("dodWiad:netto2_hinput")) != 'undefined' && (document.getElementById("dodWiad:netto2_hinput") != null)){
           document.getElementById("dodWiad:sumbrutto").value = number_format(
             parseFloat(document.getElementById("dodWiad:netto1_hinput").value)
@@ -499,9 +504,9 @@ function updatesum() {
             +parseFloat(document.getElementById("dodWiad:netto4_hinput").value)
             +zrobFloat(document.getElementById("dodWiad:vat4").value)
             +parseFloat(document.getElementById("dodWiad:netto5_hinput").value)
-            +zrobFloat(document.getElementById("dodWiad:vat5").value), 2, '.', ' ');
+            +zrobFloat(document.getElementById("dodWiad:vat5").value));
       } else {
-              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+parseFloat(document.getElementById("dodWiad:vat"+wiersz).value)),2,'.',' ');
+              document.getElementById("dodWiad:sumbrutto").value = number_format((parseFloat(document.getElementById("dodWiad:netto"+wiersz+"_hinput").value)+parseFloat(document.getElementById("dodWiad:vat"+wiersz).value)));
      }
  };
 
@@ -512,11 +517,11 @@ function updatesum() {
  };
  
  function dodajPkpirX(){
-     document.getElementById("dodWiad:netto1").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0)+(document.getElementById("dodWiad:kwotaPkpirX_hinput").value -0), 2, '.', ' ');
+     document.getElementById("dodWiad:netto1").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0)+(document.getElementById("dodWiad:kwotaPkpirX_hinput").value -0));
       document.getElementById("dodWiad:sumbrutto").value = number_format(
             (document.getElementById("dodWiad:netto1_hinput").value -0)
-            +(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
-     document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0), 2, '.', ' ');
+            +(document.getElementById("dodWiad:vat1_hinput").value -0));
+     document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0));
  };
  
  function dataprzyjecia(){
