@@ -198,7 +198,7 @@ var zablokujwnma = function(wiersz,co){
     } else {
         $(blokowany).show();
         MYAPP.chowane.splice(w,1);
-        var kontopole = "\\form\\:dataList\\:"+w+"\\:konto_input";
+        var kontopole = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
         $(kontopole).focus();
     }
 }
@@ -210,9 +210,6 @@ var chowanienapoczatek = function(){
         for(i = 0; i < MYAPP.chowane.length; i++){
             var blokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
             $(blokowany).hide();
-//            var ico = MYAPP.chowane[i].blokowany === 'wn' ? 'ma' : 'wn';
-//            var odblokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].ico+"_input";
-//            $(odblokowany).show();
         }
     }
 }
