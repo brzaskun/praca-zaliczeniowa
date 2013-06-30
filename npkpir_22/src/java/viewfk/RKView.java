@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package viewfk;
 
 import embeddable.KwotaKolumna;
-import embeddable.RKWiersz;
+import embeddablefk.RKWiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class RKView implements Serializable{
     }
     
     public void liczbaw() {
-        if(wiersze.get(liczbawierszy-1).getWn()!=null||wiersze.get(liczbawierszy-1).getMa()!=null){
+        if(wiersze.get(liczbawierszy-1).getKwotaWn()!=null||wiersze.get(liczbawierszy-1).getKwotaMa()!=null){
             liczbawierszy++;
          wiersze.add(new RKWiersz(liczbawierszy));
         }
