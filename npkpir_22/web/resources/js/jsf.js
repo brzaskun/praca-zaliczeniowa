@@ -1,4 +1,5 @@
-//function al(){
+var MYAPP = {};
+////function al(){
 //    alert("document.getElementById(dodWiad:rodzajTrans).focus();");
 //}
 
@@ -177,40 +178,65 @@ var aktywujwiersz = function(wiersz){
     $(i).focus();
     $(i).css('backgroundColor','#ffe');
     }
+    chowanienapoczatek();
 };
 
-var zablokujma = function(wiersz){
+
+var zablokujwnma = function(wiersz,co){
     var w = wiersz-1;
-    var blokowany = "#form\\:dataList\\:"+w+"\\:ma_input";
-    var sprawdzany = "#form\\:dataList\\:"+w+"\\:wn_input";
+    var ico = co === 'wn' ? 'ma' : 'wn';
+    var blokowany = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
+    var sprawdzany = "#form\\:dataList\\:"+w+"\\:"+ico+"_input";
     var cozawiera = $(sprawdzany).val().length;
     if(cozawiera>0){
-        $(blokowany).fadeOut();
+        $(blokowany).hide();
+        $(sprawdzany).show();
+        var pozycja = {pozycja: w, blokowany: co};
+        zachowajwtablicy(pozycja);
         var kontopole = '[id="form:dataList:'+w+':konto_input"]';
         $(kontopole).focus();
     } else {
         $(blokowany).show();
-        var kontopole = "\\form\\:dataList\\:"+w+"\\:ma_input";
+        MYAPP.chowane.splice(w,1);
+        var kontopole = "\\form\\:dataList\\:"+w+"\\:konto_input";
         $(kontopole).focus();
     }
 }
 
-var zablokujwn = function(wiersz){
-    var w = wiersz-1;
-    var blokowany = "form:dataList:"+w+":wn_input";
-    var sprawdzany = "form:dataList:"+w+":ma_input";
-    var cozawiera = document.getElementById(sprawdzany).value.length;
-    if(cozawiera>0){
-        document.getElementById(blokowany).setAttribute('disabled','true');
-        document.getElementById("form:dataList:"+w+":ma").setAttribute('display','none');
-        var kontopole = "form:dataList:"+w+":konto_input";
-        document.getElementById(kontopole).focus();
+var chowanienapoczatek = function(){
+     if(!MYAPP.hasOwnProperty('chowane')){
+        MYAPP.chowane = [];
     } else {
-        document.getElementById(blokowany).removeAttribute('disabled');
-        var kontopole = "form:dataList:"+w+":wn_input";
-        document.getElementById(kontopole).focus();
+        for(i = 0; i < MYAPP.chowane.length; i++){
+            var blokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
+            $(blokowany).hide();
+//            var ico = MYAPP.chowane[i].blokowany === 'wn' ? 'ma' : 'wn';
+//            var odblokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].ico+"_input";
+//            $(odblokowany).show();
+        }
     }
 }
+
+var zachowajwtablicy = function(pozycjaszukana){
+    //sprawdza czy wystepuje w poli
+    var wynik = 0;
+    var miejsce;
+    for(i = 0; i < MYAPP.chowane.length; i++){
+        var znaleziono = MYAPP.chowane[i].pozycja;
+        if(znaleziono===pozycjaszukana.pozycja){
+            wynik = 1;
+            miejsce = i;
+        }
+    }
+    if(wynik===0){
+        MYAPP.chowane.push(pozycjaszukana);
+    } else {
+        MYAPP.chowane.splice(miejsce,1,pozycjaszukana);
+    }
+}
+
+
+
 // to byly rzeczy dotyczace pelnej ksiegowosci
 
 var aktywujnetto = function(){
@@ -603,13 +629,7 @@ function ustawDate(rok,mc){
             }
         }
         };
-        
-//        $(function(){
-//            $('.ui-menuitem').hover(function(){
-//               $(this).siblings().fadeTo(1,.6);
-//               $(this).fadeTo(1,1);
-//            });
-//        });
+
 
 function generujoknowyboru(){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
