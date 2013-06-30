@@ -16,12 +16,12 @@
                 <p:inputText id="opis" value="#{loop.opis}" style="width: 300px;" accesskey="s" onkeypress="wywolaj('#{planKontView.opiskonta}','#{planKontView.pelnynumerkonta}','#{loop.id}');" styleClass="kasa"/>
             </p:column>
             <p:column headerText="Wn" width="150">
-                <pe:inputNumber id="wn" value="#{loop.wn}" symbol=" zł"  style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwnma(#{loop.id},'ma')" styleClass="kasa">
+                <pe:inputNumber id="wn" value="#{loop.kwotaWn}" symbol=" zł"  style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwnma(#{loop.id},'ma')" styleClass="kasa">
                     <p:ajax onstart="chowanienapoczatek();"/>
                 </pe:inputNumber>
             </p:column>
             <p:column headerText="Ma" width="150">
-                <pe:inputNumber id="ma" value="#{loop.ma}" symbol=" zł" style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwnma(#{loop.id},'wn')" styleClass="kasa">
+                <pe:inputNumber id="ma" value="#{loop.kwotaMa}" symbol=" zł" style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" onchange="zablokujwnma(#{loop.id},'wn')" styleClass="kasa">
                     <p:ajax onstart="chowanienapoczatek();"/>
                 </pe:inputNumber>
             </p:column>
