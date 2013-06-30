@@ -148,11 +148,12 @@ var aktywujopis = function (){
             $('#dodWiad\\:opis').focus();
         }
     }); 
-    $('#dodWiad\\:dodkol').on('keyup',function(e){
+    $(document).on('keyup',function(e){
         if(e.which=='119'){
             $('#dodWiad\\:dodkol').click();
+            $(':kwotaPkpir_hinput').last().focus();
         }
-    }); 
+    });
     $('#dodWiad\\:numerwlasny').focus();
 };
 
@@ -411,11 +412,13 @@ return s+" zł"; };
 //}
 
 var updatesum = function(){
+    var ile = 0;
     var przekaz = function(komu, cowsadzic){
         if(typeof cowsadzic === 'undefined'){
             return document.getElementById(komu);
         } else {
             document.getElementById(komu).value = cowsadzic;
+            
         }
     }
     var pobierz = function(copobrac){
@@ -426,33 +429,26 @@ var updatesum = function(){
             return zawartosc.value;
         }
     }
+    var wyliczenie = function(){
+        $('.nettorow').each(function (){
+           ile += 1; 
+        });
+    }();
+    przekaz("dodWiad:sumbrutto", 0);
     przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0.23));
+    przekaz("dodWiad:brutto1", number_format(parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1"))));
+    przekaz("dodWiad:sumbrutto", number_format(zrobFloat(pobierz("dodWiad:sumbrutto"))+zrobFloat(pobierz("dodWiad:brutto1"))));
     if(pobierz("dodWiad:dokumentprosty").checked == true){
         przekaz("dodWiad:sumbrutto", number_format((pobierz("dodWiad:kwotaPkpir_hinput").value -0)));
-    } else if (typeof(pobierz("dodWiad:netto2_hinput")) !== 'undefined' && (pobierz("dodWiad:netto2_hinput") !== null)){
+    } else if (ile>1){
         
-    przekaz("dodWiad:vat2", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
-    przekaz("dodWiad:vat3", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
-    przekaz("dodWiad:vat4", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
-    przekaz("dodWiad:vat5", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
-    przekaz("dodWiad:brutto1", number_format(parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1"))));
-      przekaz("dodWiad:brutto2", number_format(parseFloat(pobierz("dodWiad:netto2_hinput"))+zrobFloat(pobierz("dodWiad:vat2"))));
-       przekaz("dodWiad:brutto3", number_format(parseFloat(pobierz("dodWiad:netto3_hinput"))+zrobFloat(pobierz("dodWiad:vat3"))));
-        przekaz("dodWiad:brutto4", number_format(parseFloat(pobierz("dodWiad:netto4_hinput"))+zrobFloat(pobierz("dodWiad:vat4"))));
-         przekaz("dodWiad:brutto5", number_format(parseFloat(pobierz("dodWiad:netto5_hinput"))+zrobFloat(pobierz("dodWiad:vat5"))));
-    przekaz("dodWiad:sumbrutto", number_format(
-            parseFloat(pobierz("dodWiad:netto1_hinput"))
-            +zrobFloat(pobierz("dodWiad:vat1"))
-            +parseFloat(pobierz("dodWiad:netto2_hinput"))
-            +zrobFloat(pobierz("dodWiad:vat2"))
-            +parseFloat(pobierz("dodWiad:netto3_hinput"))
-            +zrobFloat(pobierz("dodWiad:vat3"))
-            +parseFloat(pobierz("dodWiad:netto4_hinput"))
-            +zrobFloat(pobierz("dodWiad:vat4"))
-            +parseFloat(pobierz("dodWiad:netto5_hinput"))
-            +zrobFloat(pobierz("dodWiad:vat5"))));
+    for(i=2; i<=ile; i++){
+        przekaz("dodWiad:vat"+i, number_format((pobierz("dodWiad:netto"+i+"_hinput") -0)*0));
+        var brutto = number_format(parseFloat(pobierz("dodWiad:netto"+i+"_hinput"))+zrobFloat(pobierz("dodWiad:vat"+i)))
+        przekaz("dodWiad:brutto"+i, brutto);
+        przekaz("dodWiad:sumbrutto", number_format(zrobFloat(pobierz("dodWiad:sumbrutto"))+zrobFloat(brutto)));
+    }   
       } else {
-        
       przekaz("dodWiad:sumbrutto", number_format((parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1")))));
       przekaz("dodWiad:brutto1",  number_format((parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1")))));
      }
@@ -630,11 +626,10 @@ function generujoknowyboru(){
     TabKeyDown = function (event) {
         //Get the element that registered the event
         var $target = $(event.target);
-        if($(event.target).is('#dodWiad\\:wprowadzenieNowego')==false){
+        if($(event.target).is("button")===false){
         if (isTabKey(event)) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
- 
-            if (isTabSuccessful) {
+             if (isTabSuccessful) {
                 event.preventDefault();
                 event.stopPropagation();
                 event.stopImmediatePropagation();
