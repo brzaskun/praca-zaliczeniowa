@@ -13,23 +13,25 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class RKWiersz implements Serializable{
+public class FKWiersz implements Serializable{
     private int id;
     private String podatnik;
     private String dataksiegowania;
     private String opis;
     private String kontoWn;
-    private String kwotaWn;
+    private Double kwotaWn;
     private String kontoMa;
-    private String kwotaMa;
+    private Double kwotaMa;
     private Konto konto;
+    private int typwiersza; //0 pelny, 1 winien, 2 ma
     private Boolean zaksiegowane;
 
-    public RKWiersz() {
+    public FKWiersz() {
     }
 
-    public RKWiersz(int id) {
+    public FKWiersz(int id, int typwiersza) {
         this.id = id;
+        this.typwiersza = typwiersza;
     }
 
     
@@ -49,19 +51,19 @@ public class RKWiersz implements Serializable{
         this.opis = opis;
     }
 
-    public String getKwotaWn() {
+    public Double getKwotaWn() {
         return kwotaWn;
     }
 
-    public void setKwotaWn(String kwotaWn) {
+    public void setKwotaWn(Double kwotaWn) {
         this.kwotaWn = kwotaWn;
     }
 
-    public String getKwotaMa() {
+    public Double getKwotaMa() {
         return kwotaMa;
     }
 
-    public void setKwotaMa(String kwotaMa) {
+    public void setKwotaMa(Double kwotaMa) {
         this.kwotaMa = kwotaMa;
     }
 
@@ -90,7 +92,7 @@ public class RKWiersz implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RKWiersz other = (RKWiersz) obj;
+        final FKWiersz other = (FKWiersz) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -147,6 +149,20 @@ public class RKWiersz implements Serializable{
 
     public void setZaksiegowane(Boolean zaksiegowane) {
         this.zaksiegowane = zaksiegowane;
+    }
+
+    /**
+     * @return the typwiersza
+     */
+    public int getTypwiersza() {
+        return typwiersza;
+    }
+
+    /**
+     * @param typwiersza the typwiersza to set
+     */
+    public void setTypwiersza(int typwiersza) {
+        this.typwiersza = typwiersza;
     }
 
     

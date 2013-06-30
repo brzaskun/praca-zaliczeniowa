@@ -5,7 +5,7 @@
 package viewfk;
 
 import embeddable.KwotaKolumna;
-import embeddablefk.RKWiersz;
+import embeddablefk.FKWiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +20,22 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 @ViewScoped
-public class RKView implements Serializable{
+public class FKView implements Serializable{
     private int liczbawierszy;
-    private static List<RKWiersz> wiersze;
+    private static List<FKWiersz> wiersze;
 
-    public RKView() {
+    public FKView() {
         liczbawierszy = 1;
         wiersze = new ArrayList<>();
-        wiersze.add(new RKWiersz(1));
+        wiersze.add(new FKWiersz(1,0));
     }
     
     public void liczbaw() {
-        if(wiersze.get(liczbawierszy-1).getKwotaWn()!=null||wiersze.get(liczbawierszy-1).getKwotaMa()!=null){
+        Double pierwsze = wiersze.get(liczbawierszy-1).getKwotaWn();
+        Double drugie = wiersze.get(liczbawierszy-1).getKwotaMa();
+        if(pierwsze!=null||drugie!=null){
             liczbawierszy++;
-         wiersze.add(new RKWiersz(liczbawierszy));
+            wiersze.add(new FKWiersz(liczbawierszy,0));
         }
     }
 
@@ -45,11 +47,11 @@ public class RKView implements Serializable{
         this.liczbawierszy = liczbawierszy;
     }
 
-    public List<RKWiersz> getWiersze() {
+    public List<FKWiersz> getWiersze() {
         return wiersze;
     }
 
-    public void setWiersze(List<RKWiersz> wiersze) {
+    public void setWiersze(List<FKWiersz> wiersze) {
         this.wiersze = wiersze;
     }
   
