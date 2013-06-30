@@ -502,6 +502,8 @@ public class DokView implements Serializable{
             ew.setOnblur(defX);
             String lab1 = "netto"+i;
             ew.setId(lab1);
+            String klasa ="nettorow";
+            ew.setStyleClass(klasa);
             grid1.getChildren().add(ew);
             HtmlInputText ewX = new HtmlInputText();
             final String bindingX = "#{DokumentView.vat" + i + "S}";
