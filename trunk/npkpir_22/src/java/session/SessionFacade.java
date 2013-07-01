@@ -70,6 +70,7 @@ public class SessionFacade<T> {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        getEntityManager().flush();
     }
     
     public List<T> findXLast(Class<T> entityClass,int ile) {

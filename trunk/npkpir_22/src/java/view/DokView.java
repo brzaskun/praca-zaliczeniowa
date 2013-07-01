@@ -110,6 +110,8 @@ public class DokView implements Serializable{
     @Inject private AmoDokDAO amoDokDAO;
     @Inject private PodatnikDAO podatnikDAO;
     
+    
+    
     private static Klienci przekazKontr;
 
     /*pkpir*/
@@ -154,6 +156,7 @@ public class DokView implements Serializable{
     @Inject private SrodekTrw selectedSTR;       
     /*Środki trwałe*/
     private boolean pokazSTR;
+    private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     private String test;
    
     private String nazwaSTR;
@@ -364,6 +367,11 @@ public class DokView implements Serializable{
                 setPokazSTR(true);
                 wygenerujSTRKolumne();
                 break;
+            case "srodek trw sprzedaz":
+                dopobrania = kolumna.getKolumnSTsprz();
+                setPokazEST(true);
+                RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+                break;
             case "import usług":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
@@ -423,6 +431,9 @@ public class DokView implements Serializable{
             case("srodek trw"):
                 opisewidencji = evat.getSrodkitrwaleVList();
                 break;
+            case("srodek trw sprzedaz"):
+                opisewidencji = evat.getSprzedazVList();
+                break;
             case("inwestycja"):
                 opisewidencji = evat.getSrodkitrwaleVList();
                 break;
@@ -452,7 +463,7 @@ public class DokView implements Serializable{
         //dodawanie naglowka: rodzaj ewidencji atto vat op/zw
         while (itx.hasNext()) {
             String tmp = (String) itx.next();
-            if ((transakcjiRodzaj.equals("sprzedaz")||transakcjiRodzaj.equals("ryczałt")) && tmp.equals("op/zw")) {
+            if ((transakcjiRodzaj.equals("sprzedaz")||transakcjiRodzaj.equals("srodek trw sprzedaz")||transakcjiRodzaj.equals("ryczałt")) && tmp.equals("op/zw")) {
             } else {
                 HtmlOutputText ot = new HtmlOutputText();
                 ot.setValue((String) tmp);
@@ -2138,6 +2149,14 @@ public class DokView implements Serializable{
 
     public void setVat5S(String vat5S) {
         this.vat5S = vat5S;
+    }
+
+    public boolean isPokazEST() {
+        return pokazEST;
+    }
+
+    public void setPokazEST(boolean pokazEST) {
+        this.pokazEST = pokazEST;
     }
     
     
