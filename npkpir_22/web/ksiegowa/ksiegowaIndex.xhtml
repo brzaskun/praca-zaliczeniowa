@@ -8,7 +8,16 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-             
+             <h:form>
+                    <p:growl id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Sprzedać wybrany środek trwały?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+                        <p:commandButton id="confirm" value="Sprzedać" update="fifi :dodWiad:panelewidencji" oncomplete="confirmation.hide()"  
+                                         actionListener="#{sTRSprzedazView.sprzedajsrodki()}" />  
+                        <p:commandButton id="decline" value="Cofnij" onclick="confirmation.hide()" type="button" />   
+                        
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
 
                     <p:layout fullPage="true">

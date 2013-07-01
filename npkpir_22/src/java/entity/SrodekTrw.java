@@ -44,6 +44,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SrodekTrw.findBySymbol", query = "SELECT s FROM SrodekTrw s WHERE s.symbol = :symbol"),
     @NamedQuery(name = "SrodekTrw.findByPodatnik", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik"),
     @NamedQuery(name = "SrodekTrw.findSTR", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik AND s.netto = :netto AND s.nrwldokzak = :nrwldokzak"),
+    @NamedQuery(name = "SrodekTrw.findByDatasprzedazy", query = "SELECT s FROM SrodekTrw s WHERE s.datasprzedazy = :datasprzedazy"),
+    @NamedQuery(name = "SrodekTrw.findByNrwldokumentu", query = "SELECT s FROM SrodekTrw s WHERE s.nrwldokumentu = :nrwldokumentu"),
+    @NamedQuery(name = "SrodekTrw.findByNrpk", query = "SELECT s FROM SrodekTrw s WHERE s.nrpk = :nrpk"),
+    @NamedQuery(name = "SrodekTrw.findByKwotaodpislikwidacja", query = "SELECT s FROM SrodekTrw s WHERE s.kwotaodpislikwidacja = :kwotaodpislikwidacja"),
+    @NamedQuery(name = "SrodekTrw.findByZlikwidowany", query = "SELECT s FROM SrodekTrw s WHERE s.zlikwidowany = :zlikwidowany"),
     @NamedQuery(name = "SrodekTrw.findByNetto", query = "SELECT s FROM SrodekTrw s WHERE s.netto = :netto")})
 
 public class SrodekTrw implements Serializable {
@@ -104,6 +109,22 @@ public class SrodekTrw implements Serializable {
     @NotNull
     @Column (name = "umorzeniezaksiegowane")
     private boolean umorzeniezaksiegowane;
+    @Size(max = 10)
+    @Column(name = "datasprzedazy")
+    private String datasprzedazy;
+    @Size(max = 255)
+    @Column(name = "nrwldokumentu")
+    private String nrwldokumentu;
+    @Size(max = 12)
+    @Column(name = "nrpk")
+    private String nrpk;
+    @Column(name = "kwotaodpislikwidacja")
+    private Double kwotaodpislikwidacja;
+    @Column(name = "zlikwidowany")
+    private Integer zlikwidowany;
+    @Size(max = 255)
+    @Column(name = "styl")
+    private String styl;
             
             
             
@@ -277,8 +298,55 @@ public class SrodekTrw implements Serializable {
         this.nrwldokzak = nrwldokzak;
     }
 
-      
+    public String getDatasprzedazy() {
+        return datasprzedazy;
+    }
+
+    public void setDatasprzedazy(String datasprzedazy) {
+        this.datasprzedazy = datasprzedazy;
+    }
+
+    public String getNrwldokumentu() {
+        return nrwldokumentu;
+    }
+
+    public void setNrwldokumentu(String nrwldokumentu) {
+        this.nrwldokumentu = nrwldokumentu;
+    }
+
+    public String getNrpk() {
+        return nrpk;
+    }
+
+    public void setNrpk(String nrpk) {
+        this.nrpk = nrpk;
+    }
+
+    public Double getKwotaodpislikwidacja() {
+        return kwotaodpislikwidacja;
+    }
+
+    public void setKwotaodpislikwidacja(Double kwotaodpislikwidacja) {
+        this.kwotaodpislikwidacja = kwotaodpislikwidacja;
+    }
+
+    public Integer getZlikwidowany() {
+        return zlikwidowany;
+    }
+
+    public void setZlikwidowany(Integer zlikwidowany) {
+        this.zlikwidowany = zlikwidowany;
+    }
+
+    public String getStyl() {
+        return styl;
+    }
+
+    public void setStyl(String styl) {
+        this.styl = styl;
+    }
    
+    
 
     @Override
     public int hashCode() {
@@ -306,3 +374,4 @@ public class SrodekTrw implements Serializable {
     }
     
 }
+

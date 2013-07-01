@@ -25,6 +25,7 @@ public class Kolmn implements Serializable{
     private static final List<String> kolumnPrzychody;
     private static final List<String> kolumnKoszty;
     private static final List<String> kolumnST;
+    private static final List<String> kolumnSTsprz;
     private static final List<String> kolumnRyczalt;
 
     static{
@@ -60,6 +61,10 @@ public class Kolmn implements Serializable{
         kolumnST = new ArrayList<>();
         kolumnST.add("inwestycje");
         kolumnST.add("uwagi");
+        
+        kolumnSTsprz = new ArrayList<>();
+        kolumnSTsprz.add("pozost. przych.");
+        kolumnSTsprz.add("poz. koszty");
        
         kolumnRyczalt = new ArrayList<>();
         kolumnRyczalt.add("17%");
@@ -94,6 +99,12 @@ public class Kolmn implements Serializable{
     public List<String> getKolumnRyczalt() {
         return kolumnRyczalt;
     }
+
+    public List<String> getKolumnSTsprz() {
+        return kolumnSTsprz;
+    }
+    
+    
     
     public static void main(String[] args){
         

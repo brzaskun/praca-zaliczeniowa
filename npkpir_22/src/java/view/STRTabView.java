@@ -36,11 +36,12 @@ import org.primefaces.context.RequestContext;
 @RequestScoped
 public class STRTabView implements Serializable{
     @Inject
-    private STRDAO sTRDAO;
+    protected STRDAO sTRDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
     
     private SrodekTrw selectedSTR;
+    
     private static SrodekTrw dokdoUsuniecia;
     private static boolean napewnousunac;
 
@@ -53,7 +54,7 @@ public class STRTabView implements Serializable{
     //tablica obiektw danego klienta
     private List<SrodekTrw> obiektDOKjsfSel;
     //tablica obiektów danego klienta z określonego roku i miesiąca
-    private List<SrodekTrw> obiektDOKmrjsfSel;
+    protected List<SrodekTrw> obiektDOKmrjsfSel;
      //tablica obiektów danego klienta z określonego roku i miesiecy
     private List<SrodekTrw> obiektDOKmrjsfSelX;
     //wyposazenie
@@ -163,6 +164,7 @@ public class STRTabView implements Serializable{
         it = lista.iterator();
         while (it.hasNext()) {
             SrodekTrw srodek = (SrodekTrw) it.next();
+            if(srodek.getZlikwidowany()==0){
             List<Double> planowane = new ArrayList<>();
             planowane.addAll(srodek.getUmorzPlan());
             List<Umorzenie> umorzenia = new ArrayList<>();
@@ -203,6 +205,7 @@ public class STRTabView implements Serializable{
             }
             srodek.setUmorzWyk(umorzenia);
             sTRDAO.edit(srodek);
+        }
         }
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie","");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -310,7 +313,6 @@ public class STRTabView implements Serializable{
      public void destroy(SrodekTrw selDok) {
         dokdoUsuniecia = new SrodekTrw();
         dokdoUsuniecia = selDok;
-        
     }
     
     public void destroy2() {
@@ -342,8 +344,7 @@ public class STRTabView implements Serializable{
 //     }
 //    }
     }
-    
-    
+   
      public STRDAO getsTRDAO() {
         return sTRDAO;
     }
@@ -439,6 +440,8 @@ public class STRTabView implements Serializable{
     public void setAmodoklist(List<Amodok> amodoklist) {
         this.amodoklist = amodoklist;
     }
+
+  
 
     
    
