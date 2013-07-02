@@ -89,7 +89,7 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
-            if(!selected.getTypdokumentu().equals("PK")&&!selected.getTypdokumentu().equals("OT")&&!selected.getTypdokumentu().equals("IN")&&!selected.getTypdokumentu().equals("ZUS")){
+            if(!selected.getTypdokumentu().equals("PK")&&!selected.getTypdokumentu().equals("OT")&&!selected.getTypdokumentu().equals("IN")&&!selected.getTypdokumentu().equals("ZUS")&&!selected.getTypdokumentu().equals("AMO")){
                 document.add(Chunk.NEWLINE);
                 miziu1 = new Paragraph(new Phrase("Kontrahent: "+selected.getKontr().getNpelna(),fontM));
                 document.add(miziu1);

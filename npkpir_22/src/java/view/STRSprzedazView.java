@@ -7,14 +7,19 @@ package view;
 
 import com.sun.org.apache.xml.internal.utils.ListingErrorHandler;
 import dao.STRDAO;
+import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -31,6 +36,8 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     private static List<SrodekTrw> grupausun;
     private static String data;
     private static String nrwlasny;
+    private STRTabView sTRTabView;
+   
     
     public STRSprzedazView() {
         wybranesrodkitrwale = new ArrayList<>();
@@ -49,9 +56,9 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         while(it.hasNext()){
             SrodekTrw p = (SrodekTrw) it.next();
             p.setZlikwidowany(9);
-            p.setStyl("color: blue;");
+            p.setStyl("color: blue; font-style:  italic;");
             p.setDatasprzedazy(data);
-            p.setNrwldokzak(nrwlasny);
+            p.setNrwldokumentu(nrwlasny);
             int rok = Integer.parseInt(data.substring(0,4));
             int mc = Integer.parseInt(data.substring(6,7));
             Double suma = 0.0;
@@ -61,20 +68,39 @@ public class STRSprzedazView extends STRTabView implements Serializable {
                     suma += x.getKwota().doubleValue();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
                     umorzeniesprzedaz = p.getNetto()-p.getUmorzeniepoczatkowe()-suma;
-                    x.setKwota(BigDecimal.valueOf(umorzeniesprzedaz));
-                    p.setKwotaodpislikwidacja(umorzeniesprzedaz);
+                    x.setKwota(BigDecimal.valueOf(umorzeniesprzedaz).setScale(2, RoundingMode.HALF_EVEN));
+                    p.setKwotaodpislikwidacja(x.getKwota().doubleValue());
                 } else {
                     x.setKwota(BigDecimal.ZERO);
                 }
             }
             try{
                 sTRDAO.edit(p);
-                Msg.msg("i","Naniesiono sprzedaż","dodWiad:mess_add");
+                Msg.msg("i","Naniesiono sprzedaż. Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) {
                 Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży","dodWiad:mess_add");
         }
       }
-      
+
+    }
+    
+     public void kupsrodki(){
+        ListIterator it;
+        it = grupausun.listIterator();
+        while(it.hasNext()){
+            SrodekTrw p = (SrodekTrw) it.next();
+            p.setZlikwidowany(0);
+            p.setStyl("color: black;");
+            p.setDatasprzedazy("");
+            p.setNrwldokumentu("");
+            try{
+                sTRDAO.edit(p);
+                Msg.msg("i","Cofnięto sprzedaż. Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+            } catch (Exception e) {
+                Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży","dodWiad:mess_add");
+        }
+      }
+
     }
     
   
@@ -86,6 +112,16 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     public void setWybranesrodkitrwale(List<SrodekTrw> wybranesrodkitrwale) {
         this.wybranesrodkitrwale = wybranesrodkitrwale;
     }
+
+    public STRTabView getsTRTabView() {
+        return sTRTabView;
+    }
+
+    public void setsTRTabView(STRTabView sTRTabView) {
+        this.sTRTabView = sTRTabView;
+    }
+    
+    
 
       
   

@@ -634,6 +634,7 @@ public class DokView implements Serializable{
              selDokument.setNrWlDk("");
          }
          renderujwyszukiwarke(rodzajdok);
+         renderujtabele(rodzajdok);
     }
 
     public boolean renderujwysz;
@@ -653,6 +654,15 @@ public class DokView implements Serializable{
             setRenderujwysz(false);
         }
         RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
+    }
+    
+     private void renderujtabele(Rodzajedok rodzajdok){
+        if(rodzajdok.getSkrot().equals("OTS")){
+            setPokazEST(true);
+        } else {
+            setPokazEST(false);
+        }
+        RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
     }
     
     public void wygenerujSTRKolumne() {
@@ -1100,6 +1110,7 @@ public class DokView implements Serializable{
             grid3.getChildren().clear();
             selDokument = new Dok();
             setRenderujwysz(false);
+            setPokazEST(false);
             RequestContext.getCurrentInstance().update("@form");
     }
     

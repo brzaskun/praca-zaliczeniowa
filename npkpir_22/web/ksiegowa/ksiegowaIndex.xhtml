@@ -18,6 +18,16 @@
                         
                     </p:confirmDialog>  
                 </h:form>
+             <h:form>
+                    <p:growl id="fifi1"/>
+                    <p:confirmDialog id="confirmDialog" message="Cofnąć sprzedaż wybranego środka trwałego?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation1">  
+                        <p:commandButton id="confirm" value="Cofnij" update="fifi1 :dodWiad:panelewidencji" oncomplete="confirmation1.hide()"  
+                                         actionListener="#{sTRSprzedazView.kupsrodki()}" />  
+                        <p:commandButton id="decline" value="Rezygnacja" onclick="confirmation1.hide()" type="button" />   
+                        
+                    </p:confirmDialog>  
+                </h:form>
                 <f:view contentType="text/html">
 
                     <p:layout fullPage="true">
