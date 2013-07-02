@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -71,6 +72,7 @@ public class Vat7DKView implements Serializable {
     private String podatnik;
     private boolean pole56zreki;
     private boolean pole59zreki;
+    private boolean zachowaj;
 
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -170,7 +172,7 @@ public class Vat7DKView implements Serializable {
                 }
             }
         }
-        String kwotaautoryzujaca = null;
+         String kwotaautoryzujaca = null;
         String kodus = tKodUS.getLista().get(pod.getUrzadskarbowy());
         try {
             boolean equals = kodus.equals("");
@@ -268,6 +270,7 @@ public class Vat7DKView implements Serializable {
                 }
             }
         }
+        if(zachowaj==true){
             if (flaga == 2) {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjevatDAO.edit(nowadeklaracja);
@@ -281,8 +284,14 @@ public class Vat7DKView implements Serializable {
         }
         //pobieranie potwierdzenia
         RequestContext.getCurrentInstance().update("vat7:");
+        zachowaj=false;
+        }
     }
 
+    public void odswiezprzycisk(ValueChangeEvent e){
+        RequestContext.getCurrentInstance().update("form:przycisk1");
+    }
+    
      private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -416,7 +425,6 @@ public class Vat7DKView implements Serializable {
     private void zbadajpobranadeklarajce() {
         Deklaracjevat badana;
         try {
-            deklaracjakorygowana.getDeklaracja();
             badana = deklaracjakorygowana;
             if (badana.getIdentyfikator().equals("")) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "form:msg");
@@ -643,6 +651,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPole59zreki(boolean pole59zreki) {
         this.pole59zreki = pole59zreki;
+    }
+
+    public boolean isZachowaj() {
+        return zachowaj;
+    }
+
+    public void setZachowaj(boolean zachowaj) {
+        this.zachowaj = zachowaj;
     }
 
    
