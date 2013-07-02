@@ -44,6 +44,7 @@ public class STRTabView implements Serializable{
     
     private static SrodekTrw dokdoUsuniecia;
     private static boolean napewnousunac;
+    
 
    
     @ManagedProperty(value="#{WpisView}")
@@ -53,6 +54,8 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<SrodekTrw> obiektDOKjsfSel;
+    private List<SrodekTrw> posiadane;
+    private List<SrodekTrw> sprzedane;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     protected List<SrodekTrw> obiektDOKmrjsfSel;
      //tablica obiektów danego klienta z określonego roku i miesiecy
@@ -76,6 +79,8 @@ public class STRTabView implements Serializable{
         obiektDOKmrjsfSel = new ArrayList<>();
         obiektDOKmrjsfSelX = new ArrayList<>();
         obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
+        posiadane = new ArrayList<>();
+        sprzedane = new ArrayList<>();
         amodoklist = new ArrayList<>();
     }
 
@@ -106,34 +111,39 @@ public class STRTabView implements Serializable{
                                 zakupionewbiezacyrok++;
                             }
                             obiektDOKjsfSel.add(tmp);
+                            if(tmp.getZlikwidowany()==0){
+                                posiadane.add(tmp);
+                            } else {
+                                sprzedane.add(tmp);
+                            }
                         }
                     }
                 }
                 iloscsrodkow = obiektDOKjsfSel.size();
-                for (SrodekTrw tmpx : obiektDOKjsfSel) {
-                    String m = wpisView.getMiesiacWpisu();
-                    Integer r = wpisView.getRokWpisu();
-                    obiektDOKmrjsfSel.add(tmpx);
-                }
+//                for (SrodekTrw tmpx : obiektDOKjsfSel) {
+//                    String m = wpisView.getMiesiacWpisu();
+//                    Integer r = wpisView.getRokWpisu();
+//                    obiektDOKmrjsfSel.add(tmpx);
+//                }
                 //sortowanie dokumentów
 
                 //
-                if (wpisView.getMiesiacOd() != null) {
-                    obiektDOKmrjsfSelX.clear();
-                    Iterator itxX;
-                    itxX = obiektDOKjsfSel.iterator();
-                    Integer r = wpisView.getRokWpisu();
-                    String mOd = wpisView.getMiesiacOd();
-                    Integer mOdI = Integer.parseInt(mOd);
-                    String mDo = wpisView.getMiesiacDo();
-                    Integer mDoI = Integer.parseInt(mDo);
-                    while (itxX.hasNext()) {
-                        SrodekTrw tmpx = (SrodekTrw) itxX.next();
-                        for (int iX = mOdI; iX <= mDoI; iX++) {
-                            obiektDOKmrjsfSelX.add(tmpx);
-                        }
-                    }
-                }
+//                if (wpisView.getMiesiacOd() != null) {
+//                    obiektDOKmrjsfSelX.clear();
+//                    Iterator itxX;
+//                    itxX = obiektDOKjsfSel.iterator();
+//                    Integer r = wpisView.getRokWpisu();
+//                    String mOd = wpisView.getMiesiacOd();
+//                    Integer mOdI = Integer.parseInt(mOd);
+//                    String mDo = wpisView.getMiesiacDo();
+//                    Integer mDoI = Integer.parseInt(mDo);
+//                    while (itxX.hasNext()) {
+//                        SrodekTrw tmpx = (SrodekTrw) itxX.next();
+//                        for (int iX = mOdI; iX <= mDoI; iX++) {
+//                            obiektDOKmrjsfSelX.add(tmpx);
+//                        }
+//                    }
+//                }
             }
         }
         /**
@@ -441,8 +451,30 @@ public class STRTabView implements Serializable{
         this.amodoklist = amodoklist;
     }
 
-  
+    public static SrodekTrw getDokdoUsuniecia() {
+        return dokdoUsuniecia;
+    }
 
-    
+    public static void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
+        STRTabView.dokdoUsuniecia = dokdoUsuniecia;
+    }
+
+    public List<SrodekTrw> getPosiadane() {
+        return posiadane;
+    }
+
+    public void setPosiadane(List<SrodekTrw> posiadane) {
+        this.posiadane = posiadane;
+    }
+
+    public List<SrodekTrw> getSprzedane() {
+        return sprzedane;
+    }
+
+    public void setSprzedane(List<SrodekTrw> sprzedane) {
+        this.sprzedane = sprzedane;
+    }
+
+       
    
 }

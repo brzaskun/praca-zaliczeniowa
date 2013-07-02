@@ -69,6 +69,7 @@ public class DokTabView implements Serializable {
     private static List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia
     private static List<Dok> grupausun;
+    private static boolean pokaztablice;
    
     
     /*pkpir*/
@@ -636,6 +637,14 @@ public class DokTabView implements Serializable {
 
     public void setGosciuwybral(List<Dok> gosciuwybral) {
         this.gosciuwybral = gosciuwybral;
+    }
+
+    public boolean isPokaztablice() {
+        return pokaztablice;
+    }
+
+    public void setPokaztablice(boolean pokaztablice) {
+        DokTabView.pokaztablice = pokaztablice;
     }
 
     

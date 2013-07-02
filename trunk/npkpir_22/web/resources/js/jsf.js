@@ -158,11 +158,11 @@ var aktywujopis = function (){
     $('#dodWiad\\:numerwlasny').focus();
 };
 
-var pokazsrodki = function(){
-     if($('#dodWiad\\:rodzajTrans').val()==='OTS'){
-        $('#dodWiad\\:srodkiLista').show();
-    }
-}
+//var pokazsrodki = function(){
+//     if($('#dodWiad\\:rodzajTrans').val()==='OTS'){
+//        $('#dodWiad\\:srodkiLista').show();
+//    }
+//}
 
 //to dotyczy chyba pelnej ksiegowosci
 var pokazdodawanie = function(){
@@ -585,8 +585,6 @@ function ustawDate(rok,mc){
          datasprzedazy.value = dataWyst.value;
          rozliczony.click();
      }
-     //schowaj srodki trwale
-      $('#dodWiad\\:srodkiLista').hide();
    };
      
      
