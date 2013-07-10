@@ -317,8 +317,8 @@
                             <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zamkniety}"/>
                         </p:panelGrid>
                         <p:panelGrid  columns="3" style="margin-left: 90px">
-                            <p:commandButton value="drukuj" type="button" style="width: 90px">
-                                <p:printer target=":akordeon:formpit:zestawieniepit" /></p:commandButton>
+                           <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT28.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;">
+                                </p:commandButton>
 
                             <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpi:" type="submit" style="width: 120px"/>
                             <p:commandButton value="zachowaj pit"  action="#{ZestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpi1:" type="submit" style="width: 120px"/>
