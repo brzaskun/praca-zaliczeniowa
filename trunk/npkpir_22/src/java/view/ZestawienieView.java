@@ -617,7 +617,9 @@ public class ZestawienieView implements Serializable {
                         } else {
                             biezacyPit.setZus51(new BigDecimal(0));
                         }
+                        if(zus52zreki==false){
                         biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
+                        }
                         break;
                     }
                 }
@@ -684,7 +686,9 @@ public class ZestawienieView implements Serializable {
                 } else {
                     biezacyPit.setPodatek(BigDecimal.ZERO);
                 }
-                biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                if(zus52zreki==false){
+                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                }
                 BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
                 tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
                 if (tmpX.signum() == -1) {

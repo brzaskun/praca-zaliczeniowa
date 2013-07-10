@@ -463,7 +463,9 @@ public class ZestawienieRyczaltView implements Serializable {
                         } else {
                             biezacyPit.setZus51(new BigDecimal(0));
                         }
+                        if(zus52zreki==false){
                         biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
+                        }
                         break;
                     }
                 }

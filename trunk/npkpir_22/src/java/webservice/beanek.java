@@ -16,6 +16,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -84,7 +86,7 @@ public class beanek {
     }
 
     @PostConstruct
-    private void init() throws NoSuchAlgorithmException, KeyManagementException {
+    private void init() {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
@@ -105,7 +107,12 @@ public class beanek {
             }
         };
         // Install the all-trusting trust manager
-        SSLContext sc = SSLContext.getInstance("SSL");
+        SSLContext sc = null;
+        try {
+            sc = SSLContext.getInstance("SSL");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // Create empty HostnameVerifier
         HostnameVerifier hv = new HostnameVerifier() {
             @Override
@@ -113,7 +120,11 @@ public class beanek {
                 return true;
             }
         };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        try {
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        } catch (KeyManagementException ex) {
+            Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
+        }
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(hv);
     }

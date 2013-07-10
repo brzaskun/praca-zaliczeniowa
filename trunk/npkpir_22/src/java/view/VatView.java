@@ -84,7 +84,7 @@ public class VatView implements Serializable {
     }
 
     @PostConstruct
-    private void init() throws Exception {
+    private void init() {
           try {
             String vatokres = sprawdzjakiokresvat();
             try {

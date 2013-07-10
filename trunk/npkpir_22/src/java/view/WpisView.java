@@ -85,7 +85,10 @@ public class WpisView implements Serializable{
         }
         uzupelnijdanepodatnika();
     }
-        obliczsumarokmiesiac();
+        try {
+            obliczsumarokmiesiac();
+        } catch (Exception e) {
+        }
         System.out.println("Wywolano wpisView");
     }
 

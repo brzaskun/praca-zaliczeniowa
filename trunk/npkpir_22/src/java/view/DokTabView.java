@@ -123,35 +123,34 @@ public class DokTabView implements Serializable {
             }
             int numerkolejny = 1;
             try{
-            //tu trzeba wstawic maro zmieniajace numer poczakowy
+            //zmienia numer gdy srodek roku
              numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
             } catch (Exception e){
             }
             try {
-                
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
                 //
-             
-                for(Dok p : obiektDOKjsfSel){
-                    p.setNrWpkpir(numerkolejny++);
-                }
+//                for(Dok p : obiektDOKjsfSel){
+//                    p.setNrWpkpir(numerkolejny++);
+//                }
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-            String m = wpisView.getMiesiacWpisu();
-            Integer m1 = Integer.parseInt(m);
-            String mn = Mce.getMapamcy().get(m1);
-            Integer r = wpisView.getRokWpisu();
+//            String m = wpisView.getMiesiacWpisu();
+//            Integer m1 = Integer.parseInt(m);
+//            String mn = Mce.getMapamcy().get(m1);
+//            Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
             numerkolejny = 1;
-             try{
-            //tu trzeba wstawic maro zmieniajace numer poczakowy
-             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
-            } catch (Exception e){
-            }
+//             try{
+//            //zmienia numer gdy srodek roku
+//             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
+//            } catch (Exception e){
+//            }
             for(Dok tmpx : obiektDOKjsfSel){
+                   tmpx.setNrWpkpir(numerkolejny++);
                    if (tmpx.getRozliczony() == false) {
                         niezaplacone.add(tmpx);
                     } else {
@@ -160,12 +159,12 @@ public class DokTabView implements Serializable {
                             zaplacone.add(tmpx);
                         }
                     }
-                    if (tmpx.getPkpirM().equals(m)) {
+                    if (tmpx.getPkpirM().equals(mc)) {
                         obiektDOKmrjsfSel.add(tmpx);
                     }
-                    if (tmpx.getVatM().equals(mn)) {
-                        dokvatmc.add(tmpx);
-                    }
+//                    if (tmpx.getVatM().equals(mn)) {
+//                        dokvatmc.add(tmpx);
+//                    }
                     
                 }
             }
