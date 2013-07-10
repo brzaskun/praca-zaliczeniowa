@@ -43,7 +43,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class SessionFacade<T> {
 
-    @PersistenceContext(unitName = "npkpir_PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
 
     public SessionFacade() {

@@ -64,7 +64,7 @@ public class StornoDokView implements Serializable {
     }
 
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         String mc = wpisView.getMiesiacWpisu();
         Integer rok = wpisView.getRokWpisu();
         String podatnik = wpisView.getPodatnikWpisu();

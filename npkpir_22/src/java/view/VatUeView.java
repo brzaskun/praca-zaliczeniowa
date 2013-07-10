@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -65,7 +67,7 @@ public class VatUeView implements Serializable {
     }
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
@@ -87,7 +89,11 @@ public class VatUeView implements Serializable {
             Integer m1 = Integer.parseInt(m);
             String mn = Mce.getMapamcy().get(m1);
             Integer r = wpisView.getRokWpisu();
+        try {
             dokvatmc.addAll(zmodyfikujliste(obiektDOKjsfSel, "kwartał"));
+        } catch (Exception ex) {
+            Logger.getLogger(VatUeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
             //a teraz podsumuj klientów
             for(Dok p : dokvatmc){
                 for(VatUe s : podsumowanie){
