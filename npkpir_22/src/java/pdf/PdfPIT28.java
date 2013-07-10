@@ -123,14 +123,12 @@ public class PdfPIT28 extends Pdf implements Serializable {
                 
                 table.addCell(ustawfrazebez("podstawa op.","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
-               
+               table.addCell(ustawfrazebez("podatek za miesiąc","center",10));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
                 table.addCell(ustawfrazebez("ZUS 52","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
                 table.addCell(ustawfrazebez("strata z lat ub.","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getStrata())),"right",10));
-                
-                table.addCell(ustawfrazebez("podatek za miesiąc","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNaleznazal())),"right",10));
 
                 table.addCell(ustawfrazebez("do zapłaty","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
