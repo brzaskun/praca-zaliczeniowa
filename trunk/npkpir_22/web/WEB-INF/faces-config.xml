@@ -163,7 +163,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>manager</from-outcome>
-            <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/manager/managerPodUstaw.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>zusstawki</from-outcome>
@@ -231,7 +231,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Manager</from-outcome>
-            <to-view-id>/manager/managerIndex.xhtml</to-view-id>
+            <to-view-id>/manager/managerPodUstaw.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>

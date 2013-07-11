@@ -124,8 +124,11 @@ public class DokTabView implements Serializable {
             int numerkolejny = 1;
             try{
             //zmienia numer gdy srodek roku
-             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
+             int index = wpisView.getPodatnikObiekt().getNumerpkpir().size()-1;
+             String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
+             numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e){
+                System.out.println(e.toString());
             }
             try {
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
@@ -143,7 +146,6 @@ public class DokTabView implements Serializable {
 //            String mn = Mce.getMapamcy().get(m1);
 //            Integer r = wpisView.getRokWpisu();
             obiektDOKmrjsfSel.clear();
-            numerkolejny = 1;
 //             try{
 //            //zmienia numer gdy srodek roku
 //             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
