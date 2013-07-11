@@ -32,8 +32,8 @@
                      sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.syntetyczne eq 'syntetyczne' ? 'old' : null}" >
             <p:ajax event="rowSelect" oncomplete="schowajdodawanie();" update=":formX"/>
             <p:column>
-                <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto()}" update=":form:dataList" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
-                <p:commandButton value="-" actionListener="#{planKontView.zwinkonto()}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
+                <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
+                <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                 <p:commandButton value="" update=":form:dataList" rendered="#{loop.mapotomkow eq false}" style="width: 25px; height: 25px;"/>
              </p:column>
             <p:column headerText="nr konta" style="width: 120px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
@@ -60,8 +60,10 @@
             <p:column headerText="potmostwo" style="width: 100px;">
                 <h:outputText value="#{loop.mapotomkow}" /> 
             </p:column>
+             <p:column headerText="rozwiniete" style="width: 100px;">
+                 <h:outputText value="#{loop.rozwin eq true ? 'rozwiniete' : 'zwinięte'}" /> 
+            </p:column>
             </p:dataTable>
-        <p:commandButton value="dodaj" onclick="pokazdodawanie()" accesskey="p" />
         </p:panelGrid>
         
         <p:panelGrid columns="2">

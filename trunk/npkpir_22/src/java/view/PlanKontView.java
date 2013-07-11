@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
@@ -66,9 +67,17 @@ public class PlanKontView implements Serializable{
     private void przebuduj(Konto macierzyste){
      List<Konto> wykazkonttmp = kontoDAO.findAll();
      //wyszukujemy syntetyczne
-     Collections.sort(wykazkonttmp, new Kontocomparator());
+     //Collections.sort(wykazkonttmp, new Kontocomparator());
+     wykazkont.clear();
+     List<String> rozwiniete = new ArrayList<>();
      for(Konto p : wykazkonttmp){
-         if(p.getMacierzyste().equals(macierzyste.getPelnynumer())) {
+         if(p.getSyntetyczne().equals("syntetyczne")){
+            wykazkont.add(p);
+         }
+         if(p.getRozwin()==true){
+            rozwiniete.add(p.getPelnynumer());
+         }
+         if(rozwiniete.contains(p.getMacierzyste())) {
             wykazkont.add(p);
          }
      }
@@ -79,7 +88,7 @@ public class PlanKontView implements Serializable{
      wykazkont.clear();
      List<Konto> wykazkonttmp = kontoDAO.findAll();
      //wyszukujemy syntetyczne
-     Collections.sort(wykazkonttmp, new Kontocomparator());
+     //Collections.sort(wykazkonttmp, new Kontocomparator());
      for(Konto p : wykazkonttmp){
             p.setRozwin(true);
             wykazkont.add(p);
@@ -101,18 +110,8 @@ public class PlanKontView implements Serializable{
      Collections.sort(wykazkont, new Kontocomparator());
     }    
     
-    
-     private void przebudujX(Konto macierzyste){
-     List<Konto> wykazkonttmp = kontoDAO.findAll();
-     //wyszukujemy syntetyczne
-     Collections.sort(wykazkonttmp, new Kontocomparator());
-     for(Konto p : wykazkonttmp){
-         if(p.getMacierzyste().equals(macierzyste.getPelnynumer())) {
-            wykazkont.remove(p);
-         }
-     }
-     Collections.sort(wykazkont, new Kontocomparator());
-    }
+  
+
     
     public void dodaj(){
         if(nowe.getBilansowewynikowe()!=null){
@@ -198,24 +197,26 @@ public class PlanKontView implements Serializable{
         return results;  
     }
      
-    public void rozwinkonto(){
-         if(selected!=null){
-            selected.setRozwin(true);
-            kontoDAO.edit(selected);
-            przebuduj(selected);
-            Msg.msg("i", "Rozwijam konto","formX:messages");
+    public void rozwinkonto(String numer){
+        Konto sel = kontoDAO.findKonto(numer);
+         if(sel!=null&&sel.getRozwin()==false){
+            sel.setRozwin(true);
+            kontoDAO.edit(sel);
+            przebuduj(sel);
+            Msg.msg("i", "Rozwijam konto "+sel.getPelnynumer(),"formX:messages");
         } else {
-            Msg.msg("e", "Nie wybrano konta","formX:messages");
+            Msg.msg("e", "Konto "+sel.getPelnynumer()+" już rozwinięte","formX:messages");
         }
     }
-    public void zwinkonto(){
-         if(selected!=null){
-            selected.setRozwin(false);
-            kontoDAO.edit(selected);
-            przebudujX(selected);
-            Msg.msg("i", "Zwijam konto","formX:messages");
+    public void zwinkonto(String numer){
+         Konto sel = kontoDAO.findKonto(numer);
+         if(sel!=null&&sel.getRozwin()==true){
+            sel.setRozwin(false);
+            kontoDAO.edit(sel);
+            przebuduj(sel);
+            Msg.msg("i", "Zwijam konto "+sel.getPelnynumer(),"formX:messages");
         } else {
-            Msg.msg("e", "Nie wybrano konta","formX:messages");
+            Msg.msg("e", "Konto "+sel.getPelnynumer()+" już zwinięte","formX:messages");
         }
     }
     
