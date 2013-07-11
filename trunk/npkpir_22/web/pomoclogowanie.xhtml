@@ -12,8 +12,10 @@
     <h:body style="background-color: #FFFFFF">
         <f:view>
             <h:form id="formlog1">
-                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 34%; width: 600px; border-style: none" >
-                    <p:messages id="logowanie"  autoUpdate="true" />
+                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 0% 0% 0% 34%; width: 600px; border-style: none" >
+                     <div style="height: 80px;">
+                    <p:messages id="logowanie"  autoUpdate="true"/>
+                    </div>
                     <p:panelGrid columns="3" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 0%; width: 600px; border-style: none" >
                         <p:column>
                             <h:link outcome="failure" value="powrót do logowania"/>

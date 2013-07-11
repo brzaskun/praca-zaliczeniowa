@@ -29,15 +29,7 @@
             </h:form>
             </p:panel>
          <p:separator/>
-         <h:form id="westManager"><p:panel header="Parametryzowanie pojedyńczego podatnika" />
-            <p:panelGrid  columns="2">
-                <h:selectOneListbox value="#{podatnikView.nazwaWybranegoPodatnika}" style="width: 150px" size="10"> 
-                    <f:selectItems var="zm" value="#{podatnikView.li}" itemLabel="#{zm.nazwapelna}" itemValue="#{zm.nazwapelna}"/>
-                </h:selectOneListbox>
-                <p:commandButton value="Ok" action="#{podatnikView.przejdzdoStrony()}" type="submit"/>
-            </p:panelGrid>
-           
-        </h:form>
+        
          <p:panel>
             <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" /> 
          </p:panel>
