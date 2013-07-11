@@ -15,8 +15,11 @@
                 <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top">  
                     <p style="text-align: center;"><h:outputText value="Witamy w programie księgowym Biura Rachunkowego Taxman" style="color: activecaption;font-size:24px; " /></p>  
                 </p:notificationBar> 
-                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 34%; width: 600px; border-style: none" >
-                    <p:messages id="logowanie"  autoUpdate="true" />
+                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 0% 0% 0% 34%; width: 600px; border-style: none" >
+                     <div style="height: 80px;">
+                    <p:messages id="logowanie"  autoUpdate="true"/>
+                    </div>
+                    
                     <p:panelGrid columns="3" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 0%; width: 600px; border-style: none" >
                         <p:column>
                             <h:link outcome="pomoclogowanie" value="pomoc" style="text-align: center; border-style: none;"/>

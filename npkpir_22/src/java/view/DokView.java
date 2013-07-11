@@ -1398,7 +1398,8 @@ public class DokView implements Serializable{
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception{
         Dok tmp = dokDAO.znajdzDuplikat(selD);
         if (tmp != null) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany", null);
+            String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany u podatnika: "+selD.getPodatnik();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
             FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
             RequestContext.getCurrentInstance().update("messageserror");
             throw new Exception();

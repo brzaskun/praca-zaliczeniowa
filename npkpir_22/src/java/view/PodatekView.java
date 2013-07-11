@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -130,6 +131,7 @@ public class PodatekView implements Serializable{
         String rodzajop = opodatkowanie;
         Podstawki tmpY = podstawkiDAO.find(Integer.parseInt(rokmiesiac));
         Double stawka;
+        try{
         switch (rodzajop){
             case "zasady ogólne" :
                 stawka = tmpY.getStawka1();
@@ -173,6 +175,9 @@ public class PodatekView implements Serializable{
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
+        }} catch (Exception e){
+            Msg.msg("e", "Brak wprowadzonych stawek ZUS!!!");
+            return;
         }
         rokmiesiac = rokmiesiac+"/"+selected.getPodatekdochodowy().get(index).getMcOd();
     }
