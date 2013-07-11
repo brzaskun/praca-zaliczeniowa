@@ -52,8 +52,8 @@ public class ZusTimer {
     public void automaticTimeout() {
 //        this.setLastAutomaticTimeout(new Date());
 //        logger.info("Automatic timeout occured");
-        List<Dok> obiektDOKjsf = dokDAO.zwrocBiezacegoKlientaRokMC("BARCZAK", "2013", "04");
-        System.out.println("Czasomierz biegnie"+obiektDOKjsf.size());
+        //List<Dok> obiektDOKjsf = dokDAO.zwrocBiezacegoKlientaRokMC("BARCZAK", "2013", "04");
+        //System.out.println("Czasomierz biegnie"+obiektDOKjsf.size());
     }
 
 //    public String getLastProgrammaticTimeout() {

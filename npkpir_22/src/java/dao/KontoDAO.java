@@ -32,4 +32,13 @@ public class KontoDAO extends DAO implements Serializable{
             return null;
         }
    }
+    
+   public Konto findKonto(String numer){
+       try {
+            System.out.println("Szukam Konto "+numer);
+            return kontoFacade.findKonto(numer);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

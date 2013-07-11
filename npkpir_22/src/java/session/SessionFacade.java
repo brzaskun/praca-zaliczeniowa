@@ -29,6 +29,7 @@ import entity.Uz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
+import entityfk.Konto;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -379,6 +380,10 @@ public class SessionFacade<T> {
             System.out.println("Nie ma dokumentow amo");
             return null;
         }
+    }
+
+    public Konto findKonto(String numer) {
+        return (Konto) em.createNamedQuery("Konto.findByPelnynumer").setParameter("pelnynumer", numer).getSingleResult();
     }
 
   
