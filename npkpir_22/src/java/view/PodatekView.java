@@ -176,7 +176,7 @@ public class PodatekView implements Serializable{
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
         }} catch (Exception e){
-            Msg.msg("e", "Brak wprowadzonych stawek ZUS!!!");
+            Msg.msg("e", "Brak wprowadzonych stawek ZUS, nie wyliczam podatku!!!");
             return;
         }
         rokmiesiac = rokmiesiac+"/"+selected.getPodatekdochodowy().get(index).getMcOd();
