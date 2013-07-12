@@ -41,4 +41,6 @@ public class KontoDAO extends DAO implements Serializable{
             return null;
         }
    }
+   
+ 
 }

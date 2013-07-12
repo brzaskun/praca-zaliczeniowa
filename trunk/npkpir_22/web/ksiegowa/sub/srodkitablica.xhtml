@@ -88,7 +88,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń">
-                        <p:commandButton actionListener="#{STRTableView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                        <p:commandButton actionListener="#{STRTableView.destroy(wpis)}" onclick="confirmation.show()" id="delete" update="@form" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
                    
                 </p:dataTable>

@@ -1095,6 +1095,8 @@ public class DokView implements Serializable{
                    selectedSTR.setUmorzeniepoczatkowe(umorzeniepoczatkowe);
                    selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
                    selectedSTR.setNrwldokzak(selDokument.getNrWlDk());
+                   selectedSTR.setZlikwidowany(0);
+                   selectedSTR.setDatasprzedazy("");
                    dodajSTR();
                    
             } catch (Exception e){
