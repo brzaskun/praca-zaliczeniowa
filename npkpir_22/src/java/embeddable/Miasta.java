@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.SessionScoped;
@@ -17,7 +18,7 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 @SessionScoped
-public class Miasta {
+public class Miasta implements Serializable {
     private String miasto;
     private final static List<String> wykazMiast;
     
