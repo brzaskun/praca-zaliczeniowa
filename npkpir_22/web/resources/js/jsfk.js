@@ -43,8 +43,7 @@ function wywolajdok(opis, numer, loopid) {
             break;
         }
     }
-}
-;
+};
 
 
 var aktywujwiersz = function(wiersz){
@@ -57,13 +56,18 @@ var aktywujwiersz = function(wiersz){
 };
 //aktywuje nowy wiersz
 var obsluzwiersz = function(wiersz){
+    if(!MYAPP.hasOwnProperty('iloscwierszy')){
+        MYAPP.iloscwierszy = 1;
+    } else {
+        MYAPP.iloscwierszy += 1;
+    }
     var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
     if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffb');
     }
     sprawdzpoprzedniwiersz(wiersz);
-}
+};
 
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola
 var sprawdzpoprzedniwiersz = function(wiersz){
@@ -77,37 +81,37 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         var wartoscMa = zrobFloat($(kwotaMa).val());
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
-            //$("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:opis").val("ma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            //$("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
-            //$("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").focus();
             $("#form\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").select();
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
-            //$("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:opis").val("wn: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            //$("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
-            //$("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").focus();
             $("#form\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").select()
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
             
         }
-        //chowanienapoczatekdok();
+        chowanienapoczatekdok();
     }
     
-}
+};
 
 //kopiuje opis jak nic nie ma
 var skopiujopis = function(wiersz){
@@ -124,7 +128,7 @@ var skopiujopis = function(wiersz){
         }
         $("#form\\:dataList\\:"+wiersz+"\\:wn").focus();
     }
-}
+};
 
 
 
@@ -147,7 +151,7 @@ var zablokujwnma = function(wiersz,co){
         var kontopole = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
         $(kontopole).focus();
     }
-}
+};
 
 var chowanienapoczatek = function(){
      if(!MYAPP.hasOwnProperty('chowane')){
@@ -158,7 +162,12 @@ var chowanienapoczatek = function(){
             $(blokowany).hide();
         }
     }
-}
+};
+
+var aktualizujmape = function(){
+    usunztablicydok();
+    chowanienapoczatekdok();
+};
 
 var chowanienapoczatekdok = function(){
      if(!MYAPP.hasOwnProperty('chowanedok')){
@@ -173,7 +182,7 @@ var chowanienapoczatekdok = function(){
             $(blokowany).hide();
         }
     }
-}
+};
 
 var zachowajwtablicy = function(pozycjaszukana){
     //sprawdza czy wystepuje w poli
@@ -191,7 +200,7 @@ var zachowajwtablicy = function(pozycjaszukana){
     } else {
         MYAPP.chowane.splice(miejsce,1,pozycjaszukana);
     }
-}
+};
 
 var zachowajwtablicydok = function(pozycjaszukana){
      if(!MYAPP.hasOwnProperty('chowanedok')){
@@ -212,7 +221,36 @@ var zachowajwtablicydok = function(pozycjaszukana){
     } else {
         MYAPP.chowanedok.splice(miejsce,1,pozycjaszukana);
     }
-}
+};
+
+var usunztablicydok = function(){
+    var pozycjaszukana = 0;
+    if(MYAPP.hasOwnProperty('iloscwierszy')){
+        pozycjaszukana = MYAPP.iloscwierszy;
+    }
+     if(!MYAPP.hasOwnProperty('chowanedok')){
+        MYAPP.chowanedok = [];
+    }
+    //sprawdza czy wystepuje w poli
+    var wynik = 0;
+    var miejsce;
+    for(i = 0; i < MYAPP.chowanedok.length; i++){
+        var znaleziono = MYAPP.chowanedok[i].pozycja;
+        if(znaleziono===pozycjaszukana){
+            wynik = 1;
+            miejsce = i;
+        }
+    }
+    if(wynik===0){
+    } else {
+        MYAPP.chowanedok.splice(miejsce,1);
+    }
+    if(!MYAPP.hasOwnProperty('iloscwierszy')){
+        MYAPP.iloscwierszy = 0;
+    } else {
+        MYAPP.iloscwierszy -= 1;
+    }
+};
 
 
 // to byly rzeczy dotyczace pelnej ksiegowosci
@@ -220,4 +258,3 @@ var zachowajwtablicydok = function(pozycjaszukana){
 var aktywujnetto = function(){
     document.getElementById("dodWiad:opis").focus();
 };
-
