@@ -70,31 +70,41 @@ var sprawdzpoprzedniwiersz = function(wiersz){
     if(wiersz===0){
         return;
     } else {
-        var starywiersz = wiersz-1;
-        var kwotaWn = "#form\\:dataList\\:"+starywiersz+"\\:wn_input";
-        var kwotaMa = "#form\\:dataList\\:"+starywiersz+"\\:ma_input";
+        var wierszwyzej = wiersz-1;
+        var kwotaWn = "#form\\:dataList\\:"+wierszwyzej+"\\:wn_input";
+        var kwotaMa = "#form\\:dataList\\:"+wierszwyzej+"\\:ma_input";
         var wartoscWn = zrobFloat($(kwotaWn).val());
         var wartoscMa = zrobFloat($(kwotaMa).val());
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("uzupelnienie: "+starywiersz+","+wiersz);
-            $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
+            //$("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("ma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            //$("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+starywiersz+"\\:kontown_hinput").val());
+            //$("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
             $("#form\\:dataList\\:"+wiersz+"\\:ma_input").focus();
             $("#form\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
-        } else {
-            $("#form\\:dataList\\:"+starywiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+starywiersz+"\\:wn_hinput").val());
-            $("#form\\:dataList\\:"+starywiersz+"\\:ma_input").val($("#form\\:dataList\\:"+starywiersz+"\\:wn_input").val());
+        } else if (roznica<0){
+            //$("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("wn: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            //$("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
+            //$("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").focus();
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
+            var pozycja = {pozycja: wiersz, blokowany: 'ma'};
+            zachowajwtablicydok(pozycja);
             
         }
-        chowanienapoczatekdok();
+        //chowanienapoczatekdok();
     }
     
 }
