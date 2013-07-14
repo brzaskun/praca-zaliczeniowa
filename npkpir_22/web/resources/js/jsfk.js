@@ -258,3 +258,13 @@ var usunztablicydok = function(){
 var aktywujnetto = function(){
     document.getElementById("dodWiad:opis").focus();
 };
+
+var sprawdzwartosc = function(wiersz){
+    wiersz -= 1;
+    var zloz = "#form\\:dataList\\:"+wiersz+"\\:ma_hinput";
+    var wartosc = $(zloz).val();
+    if(wartosc === ""){
+        $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
+        $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val($("#form\\:dataList\\:"+wiersz+"\\:wn_input").val());
+    }
+};

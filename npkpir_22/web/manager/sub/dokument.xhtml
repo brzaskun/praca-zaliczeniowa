@@ -41,7 +41,7 @@
                 </p:autoComplete>
                 </p:column> 
             <p:column headerText="kwota" width="150">
-                <pe:inputNumber id="ma" value="#{loop.kwotaMa}" symbol=" zł" style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa">
+                <pe:inputNumber id="ma" value="#{loop.kwotaMa}" symbol=" zł" style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" >
                 </pe:inputNumber>
             </p:column>
             <p:column headerText="konto Ma">
@@ -49,7 +49,7 @@
                                 var="p" itemLabel="#{p.pelnynumer}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="10" maxlength="10" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
-                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa">
+                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa" onfocus="sprawdzwartosc(#{loop.id});">
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
