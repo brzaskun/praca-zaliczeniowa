@@ -178,73 +178,6 @@ var schowajdodawanie = function(){
     document.getElementById("formY:dkp").style.display = 'none';
 }
 
-var aktywujwiersz = function(wiersz){
-    var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
-    if($(i)!== typeof 'undefined'){
-    $(i).focus();
-    $(i).css('backgroundColor','#ffe');
-    }
-    chowanienapoczatek();
-};
-
-
-var zablokujwnma = function(wiersz,co){
-    var w = wiersz-1;
-    var ico = co === 'wn' ? 'ma' : 'wn';
-    var blokowany = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
-    var sprawdzany = "#form\\:dataList\\:"+w+"\\:"+ico+"_input";
-    var cozawiera = $(sprawdzany).val().length;
-    if(cozawiera>0){
-        $(blokowany).hide();
-        $(sprawdzany).show();
-        var pozycja = {pozycja: w, blokowany: co};
-        zachowajwtablicy(pozycja);
-        var kontopole = '[id="form:dataList:'+w+':konto_input"]';
-        $(kontopole).focus();
-    } else {
-        $(blokowany).show();
-        MYAPP.chowane.splice(w,1);
-        var kontopole = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
-        $(kontopole).focus();
-    }
-}
-
-var chowanienapoczatek = function(){
-     if(!MYAPP.hasOwnProperty('chowane')){
-        MYAPP.chowane = [];
-    } else {
-        for(i = 0; i < MYAPP.chowane.length; i++){
-            var blokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
-            $(blokowany).hide();
-        }
-    }
-}
-
-var zachowajwtablicy = function(pozycjaszukana){
-    //sprawdza czy wystepuje w poli
-    var wynik = 0;
-    var miejsce;
-    for(i = 0; i < MYAPP.chowane.length; i++){
-        var znaleziono = MYAPP.chowane[i].pozycja;
-        if(znaleziono===pozycjaszukana.pozycja){
-            wynik = 1;
-            miejsce = i;
-        }
-    }
-    if(wynik===0){
-        MYAPP.chowane.push(pozycjaszukana);
-    } else {
-        MYAPP.chowane.splice(miejsce,1,pozycjaszukana);
-    }
-}
-
-
-
-// to byly rzeczy dotyczace pelnej ksiegowosci
-
-var aktywujnetto = function(){
-    document.getElementById("dodWiad:opis").focus();
-};
 
 //to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu
  PrimeFaces.locales['pl'] = {
@@ -603,38 +536,9 @@ function ustawDate(rok,mc){
 //            return haystack.indexOf(needle) !== -1;
             return $.inArray(needle,haystack) !== -1;
         };
-        
-        var licz = 1;
-        function wywolaj(opis,numer,loopid){
-           var id = loopid-1; 
-           var zloz = "#form\\:dataList\\:"+id+"\\:opis";
-           var zlozwynik = "form:dataList:"+id+":konto_hinput";
-           var zlozwynik2 = "form:dataList:"+id+":konto_input";
-           var szukana = $(zloz).val();
-           if(szukana.length==0){
-               licz = 1;
-           }
-           var siatka = szukana.split(',');
-           var mapa = {};
-           var tablica = opis.split(',');
-           var tablica2 = numer.split(',');
-           for(var w=0;w<10;w++){
-               var sobo = tablica[w];
-               mapa[sobo] = tablica2[w];
-           }
-           var dlug = siatka.length;
-           for (licz; licz<dlug; licz++) {
-            var dawniej = licz-1;
-            var szczegol = siatka[dawniej];
-            if($.isSubstring(tablica,szczegol)){
-               document.getElementById(zlozwynik).value = mapa[szczegol];
-               document.getElementById(zlozwynik2).value = mapa[szczegol];
-               licz = 1;
-               break;
-            }
-        }
-        };
 
+        
+ 
 
 function generujoknowyboru(){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
