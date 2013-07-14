@@ -11,16 +11,12 @@
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                             <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
                             <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                            <h:form id="form" >
                                 <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/dokument.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form>
-                           
                         </p:layoutUnit>
                                 
                     </p:layout>

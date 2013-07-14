@@ -4,15 +4,12 @@
  */
 package viewfk;
 
-import embeddable.KwotaKolumna;
 import embeddablefk.FKWiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -22,7 +19,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class FKView implements Serializable{
     private int liczbawierszy;
-    private static List<FKWiersz> wiersze;
+    private List<FKWiersz> wiersze;
 
     public FKView() {
         liczbawierszy = 1;
@@ -38,6 +35,17 @@ public class FKView implements Serializable{
             wiersze.add(new FKWiersz(liczbawierszy,0));
         }
     }
+    
+   /**
+    * Usuwanie wierszy z dokumenu ksiegowego
+    */
+    public void liczbawu() {
+        if(liczbawierszy>1){
+            liczbawierszy--;
+            wiersze.remove(liczbawierszy);
+        }
+    }
+   
 
     public int getLiczbawierszy() {
         return liczbawierszy;
