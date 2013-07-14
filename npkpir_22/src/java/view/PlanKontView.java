@@ -50,7 +50,7 @@ public class PlanKontView implements Serializable{
      opiskonta="";
      pelnynumerkonta="";
      for(Konto t : wykazkontS){
-         opiskonta = opiskonta+t.getNazwapelna()+",";
+         opiskonta = opiskonta+t.getNazwaskrocona()+",";
          pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
      }
      //wyszukujemy syntetyczne

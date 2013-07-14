@@ -18,9 +18,9 @@ public class FKWiersz implements Serializable{
     private String podatnik;
     private String dataksiegowania;
     private String opis;
-    private String kontoWn;
+    private Konto kontoWn;
     private Double kwotaWn;
-    private String kontoMa;
+    private Konto kontoMa;
     private Double kwotaMa;
     private Konto konto;
     private int typwiersza; //0 pelny, 1 winien, 2 ma
@@ -127,21 +127,23 @@ public class FKWiersz implements Serializable{
         this.dataksiegowania = dataksiegowania;
     }
 
-    public String getKontoWn() {
+    public Konto getKontoWn() {
         return kontoWn;
     }
 
-    public void setKontoWn(String kontoWn) {
+    public void setKontoWn(Konto kontoWn) {
         this.kontoWn = kontoWn;
     }
 
-    public String getKontoMa() {
+    public Konto getKontoMa() {
         return kontoMa;
     }
 
-    public void setKontoMa(String kontoMa) {
+    public void setKontoMa(Konto kontoMa) {
         this.kontoMa = kontoMa;
     }
+
+    
 
     public Boolean getZaksiegowane() {
         return zaksiegowane;

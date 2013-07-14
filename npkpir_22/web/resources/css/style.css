@@ -92,3 +92,18 @@ root {
     width:200px;
 }
 
+.row1 {
+    background-color: aquamarine;
+}
+
+.row2 {
+    background-color: #ccffff;
+}
+
+.row3 {
+    background-color: paleturquoise;
+}
+
+.row4 {
+    background-color: lightskyblue;
+}
