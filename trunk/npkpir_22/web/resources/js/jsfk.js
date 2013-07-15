@@ -19,17 +19,18 @@ function wywolajdok(opis, numer, loopid) {
     }
     var siatka = szukana.split(',');
     var mapa = {};
-    var tablica = opis.split(',');
+    var tablica = opis.toLowerCase().split(',');
     var tablica2 = numer.split(',');
     for (var w = 0; w < tablica.length; w++) {
-        var sobo = tablica[w];
+        var sobo = tablica[w].toLowerCase();
         mapa[sobo] = tablica2[w];
     }
     var dlug = siatka.length;
     for (licz; licz < dlug; licz++) {
         var dawniej = licz - 1;
-        var szczegol = siatka[dawniej];
-        if ($.isSubstring(tablica, szczegol)) {
+        var szczegol = siatka[dawniej].toLowerCase();
+        var b = szczegol.toLowerCase();
+        if ($.isSubstring(tablica, b)) {
             var rodzajkonta = mapa[szczegol];
             var wynikszukania = rodzajkonta[0];
             if(wynikszukania==="4"){
@@ -82,7 +83,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
             $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("ma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
             $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
@@ -95,7 +96,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
             $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("wn: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
             $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
             $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
@@ -123,6 +124,18 @@ var skopiujopis = function(wiersz){
         var biezacyopis = "#form\\:dataList\\:"+wiersz+"\\:opis";
         var biezacyopisval = $(biezacyopis).val();
         var poprzedniopis = $("#form\\:dataList\\:"+starywiersz+"\\:opis").val();
+        var tablica = poprzedniopis.split(':');
+        for(var w = 0 ; w < MYAPP.iloscwierszy; w++){
+            var a = $.isSubstring(tablica,'kontoma');
+            var b = $.isSubstring(tablica,'kontown');
+        if(a||b){
+            starywiersz = starywiersz - 1;
+            biezacyopis = "#form\\:dataList\\:"+wiersz+"\\:opis";
+            biezacyopisval = $(biezacyopis).val();
+            poprzedniopis = $("#form\\:dataList\\:"+starywiersz+"\\:opis").val();
+            tablica = poprzedniopis.split(':');
+        }
+        }
         if(biezacyopisval === ""){
         $(biezacyopis).val(poprzedniopis);
         }
@@ -261,9 +274,9 @@ var aktywujnetto = function(){
 
 var sprawdzwartosc = function(wiersz){
     wiersz -= 1;
-    var zloz = "#form\\:dataList\\:"+wiersz+"\\:ma_hinput";
+    var zloz = "#form\\:dataList\\:"+wiersz+"\\:ma_input";
     var wartosc = $(zloz).val();
-    if(wartosc === ""){
+    if(wartosc === "" || wartosc === " zł"){
         $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
         $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val($("#form\\:dataList\\:"+wiersz+"\\:wn_input").val());
     }
