@@ -5,7 +5,7 @@
 package view;
 
 import comparator.Kontocomparator;
-import dao.KontoDAO;
+import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class PlanKontView implements Serializable{
     private static String pelnynumerkonta;
     @Inject private Konto selected;
     @Inject private Konto nowe;
-    @Inject private KontoDAO kontoDAO;
+    @Inject private KontoDAOfk kontoDAO;
 
     public PlanKontView() {
         this.wykazkont = new ArrayList<>();

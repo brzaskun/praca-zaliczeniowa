@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -28,6 +29,7 @@ public class DokfkView implements Serializable{
     private int liczbawierszy;
     private List<FKWiersz> wiersze;
     @Inject private DokDAOfk dokDAOfk;
+    private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
 
     public DokfkView() {
@@ -37,6 +39,7 @@ public class DokfkView implements Serializable{
         wiersze.add(new FKWiersz(1,0));
         selected.setKonta(wiersze);
         wykaz = new ArrayList<>();
+        selecteddokfk = new ArrayList<>();
     }
     
     @PostConstruct
@@ -63,7 +66,16 @@ public class DokfkView implements Serializable{
         }
     }
    
-    
+    public void edycja(){
+        try {
+            dokDAOfk.destroy(selecteddokfk.get(0));
+            dokDAOfk.dodaj(selecteddokfk.get(0));
+            Msg.msg("i", "Dokument zmeniony");
+         } catch (Exception e){
+            System.out.println(e.toString());
+            Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());
+        }
+    }
     
     public void dodaj(){
         try {
@@ -104,6 +116,14 @@ public class DokfkView implements Serializable{
 
     public void setWykaz(List<Dokfk> wykaz) {
         this.wykaz = wykaz;
+    }
+
+    public List<Dokfk> getSelecteddokfk() {
+        return selecteddokfk;
+    }
+
+    public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
+        DokfkView.selecteddokfk = selecteddokfk;
     }
   
     

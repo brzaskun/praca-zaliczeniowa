@@ -70,7 +70,7 @@
                 </p:autoComplete>
                 </p:column>
            <p:column>
-               <p:commandButton value="+" actionListener="#{fKView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.id});" rendered="#{fKView.liczbawierszy gt loop.id ? false : true}"/>
+               <p:commandButton value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.id});" rendered="#{dokfkView.liczbawierszy gt loop.id ? false : true}"/>
             </p:column>
             </p:dataTable>
              <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form" />

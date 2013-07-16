@@ -4,7 +4,7 @@
  */
 package converter;
 
-import dao.KontoDAO;
+import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -20,7 +20,7 @@ import view.PlanKontView;
  */
 public class KontoConv implements javax.faces.convert.Converter{
     
-    @Inject private KontoDAO kontoDAO;
+    @Inject private KontoDAOfk kontoDAO;
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
