@@ -203,15 +203,19 @@
         </navigation-case>
           <navigation-case>
             <from-outcome>kasa</from-outcome>
-            <to-view-id>/manager/managerRK.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
             <from-outcome>dokument</from-outcome>
-            <to-view-id>/manager/managerDokument.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>wykazfk</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKWykaz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
             <from-outcome>plankont</from-outcome>
-            <to-view-id>/manager/managerPlanKont.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
@@ -240,6 +244,10 @@
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>BookkeeperFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>

@@ -93,17 +93,17 @@ root {
 }
 
 .row1 {
-    background-color: aquamarine;
+    background: aquamarine !important;
 }
 
 .row2 {
-    background-color: #ccffff;
+    background: #ccffff !important;
 }
 
 .row3 {
-    background-color: paleturquoise;
+    background: paleturquoise !important;
 }
 
 .row4 {
-    background-color: lightskyblue;
+    background: lightskyblue !important;
 }

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:form id="form" >
+        <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="loop" rowIndexVar="row" style="width: 600px;">
+            <p:column headerText="data">
+                <h:outputText value="#{loop.data}"/>
+            </p:column>
+            <p:column headerText="numer">
+                <h:outputText value="#{loop.numer}"/>
+            </p:column>
+            <p:column headerText="konta">
+                <p:dataTable var="wpis" value="#{loop.konta}">
+                    <p:column headerText="numer">
+                        <h:outputText value="#{wpis.opis}"/>
+                    </p:column>
+                       <p:column headerText="wn">
+                        <h:outputText value="#{wpis.kwotaWn}"/>
+                    </p:column>
+                       <p:column headerText="konto">
+                        <h:outputText value="#{wpis.kontoWn.pelnynumer}"/>
+                    </p:column>
+                       <p:column headerText="ma">
+                        <h:outputText value="#{wpis.kwotaMa}"/>
+                    </p:column>
+                       <p:column headerText="konto">
+                        <h:outputText value="#{wpis.kontoMa.pelnynumer}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:dataTable>
+        </h:form>
+</ui:composition> 

@@ -8,7 +8,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form" >
-        <p:dataTable id="dataList" value="#{fKView.wiersze}" var="loop" rowIndexVar="row" style="width: 600px;">
+        <p:panelGrid columns="4">
+            <h:outputText value="data"/><h:inputText value="#{dokfkView.selected.data}"/>
+            <h:outputText value="numer"/><h:inputText value="#{dokfkView.selected.numer}"/>
+        </p:panelGrid>
+        <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 600px;">
             <p:column headerText="id" width="10">
                 <h:outputText value="#{loop.id}" style="width: 10px;"/>
             </p:column>
@@ -69,9 +73,11 @@
                <p:commandButton value="+" actionListener="#{fKView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.id});" rendered="#{fKView.liczbawierszy gt loop.id ? false : true}"/>
             </p:column>
             </p:dataTable>
+             <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form" />
         </h:form>
     <p:separator />
     <h:form id="form1" >
         <p:commandButton value="usun" actionListener="#{fKView.liczbawu}" update=":form" oncomplete="aktualizujmape();"/>
     </h:form>
+   
 </ui:composition> 
