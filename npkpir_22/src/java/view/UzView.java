@@ -66,6 +66,7 @@ public class UzView implements Serializable{
          selUzytkownik.setUprawnienia("Noobie");
          selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
          selUzytkownik.setIloscwierszy("12");
+         selUzytkownik.setTheme("redmond");
          sformatuj();
          if (validateData()) {
              try {

@@ -24,6 +24,7 @@ public class Uprawnienia implements Serializable{
         upr.add("Administrator");
         upr.add("Manager");
         upr.add("Bookkeeper");
+        upr.add("BookkeeperFK");
         upr.add("klient");
         upr.add("Guest");
     }

@@ -14,6 +14,10 @@
     <group-name>Bookkeeper</group-name>
   </security-role-mapping>
   <security-role-mapping>
+    <role-name>BookkeeperFK</role-name>
+    <group-name>BookkeeperFK</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
     <role-name>Guest</role-name>
     <group-name>Guest</group-name>
   </security-role-mapping>
