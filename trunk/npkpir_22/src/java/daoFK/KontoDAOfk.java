@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package daoFK;
 
+import dao.DAO;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.List;
@@ -16,11 +17,11 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-public class KontoDAO extends DAO implements Serializable{
+public class KontoDAOfk extends DAO implements Serializable{
     @Inject
     private SessionFacade kontoFacade;
 
-    public KontoDAO() {
+    public KontoDAOfk() {
         super(Konto.class);
     }
 
