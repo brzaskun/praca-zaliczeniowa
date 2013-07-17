@@ -9,7 +9,9 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form" >
          <p:contextMenu>
-             <p:menuitem value="Zachowaj zmiany" partialSubmit="true" actionListener="#{dokfkView.edycja}" icon="ui-icon-trash"/>
+             <p:menuitem value="Zachowaj zmiany" partialSubmit="true" actionListener="#{dokfkView.edycja}" icon="ui-icon-scissors"/>
+             <p:menuitem value="Zaksieguj" partialSubmit="true" actionListener="#{dokfkView.zaksieguj}" icon="ui-icon-scissors"/>
+             <p:menuitem value="Usuń dok" partialSubmit="true" actionListener="#{dokfkView.usun}" icon="ui-icon-trash"/>
             </p:contextMenu>
         <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="loop" rowIndexVar="row" style="width: 1200px;" 
                      selection="#{dokfkView.selecteddokfk}" rowKey="#{loop.id}" editable="true">
@@ -25,13 +27,13 @@
             <p:column headerText="konta">
                 <p:dataTable var="wpis" value="#{loop.konta}" editable="true">
                     <p:column headerText="numer" width="200">
-                        <p:inplace id="ajaxInplace0a" editor="true">  
-                            <p:inputText value="#{wpis.opis}" rendered="#{wpis.opis.contains('kontoma')||wpis.opis.contains('kontown') ? false : true}"/>
+                        <p:inplace id="ajaxInplace0a" editor="true" rendered="#{wpis.opis.contains('kontoma')||wpis.opis.contains('kontown') ? false : true}">  
+                            <p:inputText value="#{wpis.opis}" />
                         </p:inplace>
                     </p:column>
                     <p:column headerText="wn" width="100">
-                         <p:inplace id="ajaxInplace1" editor="true">  
-                            <p:inputText value="#{wpis.kwotaWn}" rendered="#{wpis.opis.contains('kontoma') ? false : true}" style="float: right;" >
+                         <p:inplace id="ajaxInplace1" editor="true" rendered="#{wpis.opis.contains('kontoma') ? false : true}">  
+                            <p:inputText value="#{wpis.kwotaWn}"  style="float: right;" >
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </p:inputText>
                         </p:inplace>  
@@ -40,8 +42,8 @@
                         <h:outputText value="#{wpis.kontoWn.pelnynumer}" rendered="#{wpis.opis.contains('kontoma') ? false : true}"/>
                     </p:column>
                        <p:column headerText="ma" width="100">
-                           <p:inplace id="ajaxInplace2" editor="true">   
-                               <p:inputText value="#{wpis.kwotaMa}" rendered="#{wpis.opis.contains('kontown') ? false : true}" style="float: right;" >
+                           <p:inplace id="ajaxInplace2" editor="true" rendered="#{wpis.opis.contains('kontown') ? false : true}">   
+                               <p:inputText value="#{wpis.kwotaMa}"  style="float: right;" >
                                       <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </p:inputText>
                             </p:inplace>  

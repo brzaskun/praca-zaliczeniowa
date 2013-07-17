@@ -164,19 +164,6 @@ var aktywujopis = function (){
 //    }
 //}
 
-//to dotyczy chyba pelnej ksiegowosci
-var pokazdodawanie = function(){
-    document.getElementById("formX:dkp").style.display = 'inline';
-}
-
-var pokazdodawanieanal = function(){
-    document.getElementById("formY:dkp").style.display = 'inline';
-}
-
-var schowajdodawanie = function(){
-    document.getElementById("formX:dkp").style.display = 'none';
-    document.getElementById("formY:dkp").style.display = 'none';
-}
 
 
 //to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu

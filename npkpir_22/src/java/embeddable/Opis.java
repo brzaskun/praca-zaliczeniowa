@@ -66,7 +66,7 @@ public class Opis implements Serializable{
         List<String> results = new ArrayList<String>();  
         String kl = new String();
          for(String p : opisy) {  
-            if(p.startsWith(query.toLowerCase())) {
+            if(p.contains(query.toLowerCase())) {
                  results.add(p);
              }
         }  
@@ -79,6 +79,14 @@ public class Opis implements Serializable{
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public List<String> getOpisy() {
+        return opisy;
+    }
+
+    public void setOpisy(List<String> opisy) {
+        this.opisy = opisy;
     }
      
     

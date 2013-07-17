@@ -117,6 +117,17 @@ public class PlanKontView implements Serializable{
         if(nowe.getBilansowewynikowe()!=null){
             nowe.setSyntetyczne("syntetyczne");
         } else {
+            ArrayList<Konto> lista = new ArrayList<>();
+            for(Konto p : wykazkont){
+                if(p.getMacierzyste().equals(selected.getPelnynumer())){
+                    lista.add(p);
+                }
+            }
+            if(lista.size()>0){
+                nowe.setNrkonta(String.valueOf(Integer.parseInt(lista.get(lista.size()-1).getNrkonta())+1));
+            } else {
+                nowe.setNrkonta("1");
+            }
             nowe.setSyntetyczne("analityczne");
             nowe.setBilansowewynikowe(selected.getBilansowewynikowe());
             nowe.setZwyklerozrachszczegolne(selected.getZwyklerozrachszczegolne());
