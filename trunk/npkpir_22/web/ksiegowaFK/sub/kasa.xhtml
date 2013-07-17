@@ -50,5 +50,9 @@
                <p:commandButton value="+" actionListener="#{fKView.liczbaw}" update="@form" accesskey="p" oncomplete="aktywujwiersz(#{loop.id});"/>
             </p:column>
             </p:dataTable>
-    
+    <p:selectOneMenu  value="" rendered="#{p:ifGranted('BookkeeperFK')}" editable="true" >
+        <f:selectItem itemLabel="kontrahenci" itemValue="kontrahenci"/>
+        <f:selectItem itemLabel="kontrah" itemValue="kontrah"/>
+    </p:selectOneMenu>
+   
 </ui:composition> 

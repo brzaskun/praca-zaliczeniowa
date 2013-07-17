@@ -7,10 +7,25 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:dialog header="Wpisz dane konta analitycznego:" widgetVar="dlg123" resizable="false">  
+        <h:form id="formY">  
+        <p:focus for="dkp">
+            <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                       <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
+                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.nowe.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                        <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
+                        <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+                        
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form" style="display: none;" oncomplete="dlg123.hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form" style="float: right;" oncomplete="dlg123.hide();"/>
+            </p:panelGrid>
+            </p:focus>
+    </h:form>  
+</p:dialog> 
     <h:form id="form">
           <p:contextMenu for="dataList">
-              <p:menuitem value="Nowe syntetyczne" onclick="pokazdodawanie()" icon="ui-icon-circle-plus" update=":form"/>
-              <p:menuitem value="Nowe analityczne" onclick="pokazdodawanieanal()" icon="ui-icon-circle-plus" update=":form"/>
+              <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg321.show();"/>
+              <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg123.show();"/>
               <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
         <script>
@@ -29,8 +44,8 @@
     <p:panelGrid columns="2" style="width: 1500px;">
       
         <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
-                     sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.analityka eq 0 ? 'row1' : loop.analityka eq 1 ? 'row2' : loop.analityka eq 2 ? 'row3' : 'row4'}" >
-            <p:ajax event="rowSelect" oncomplete="schowajdodawanie();" update=":formX"/>
+                     sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.analityka eq 0 ? 'row1' : loop.analityka eq 1 ? 'row2' : loop.analityka eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont">
+            <p:ajax event="rowSelect" update=":formX" />
             <p:column>
                 <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                 <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
@@ -74,11 +89,12 @@
        
     
 </h:form>
-    <p:separator/>
+
+    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="dlg321" resizable="false">  
         <h:form id="formX">
         <p:growl id="messages"/>
         <p:focus for="dkp">
-        <p:panelGrid id="dkp" columns="2" style="display: none; width: 600px;">
+        <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
                         <h:outputLabel value="Nrkonta:" for="nrkonta" />
                         <p:inputText id="nrkonta" value="#{planKontView.nowe.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
                             <f:validateRegex pattern="\d+"/>
@@ -98,34 +114,11 @@
                             <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                             <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                        </p:selectOneMenu>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form" style="display: none;"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form" style="float: right;"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form" style="display: none;" onclick="dlg321.hide()"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form" style="float: right;" onclick="dlg321.hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>
-    <h:form id="formY">
-        <p:growl id="messages"/>
-        <p:focus for="dkp">
-        <p:panelGrid id="dkp" columns="2" style="display: none; width: 600px;">
-                        <h:outputLabel value="Nrkonta:" for="nrkonta" />
-                        <p:inputText id="nrkonta" value="#{planKontView.nowe.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
-                            <f:validateRegex pattern="\d+"/>
-                        </p:inputText>
-                       <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.nowe.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
-                        <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
-                        <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
-                        
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form" style="display: none;"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form" style="float: right;"/>
-                        
-        </p:panelGrid>
-            </p:focus>
-            </h:form>
-    <h:form>
-        <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false" footer="twoj wybor" > 
-            <h:outputText value="Lolo"/>
-        </p:dialog>
-        <p:commandButton value="ok" onclick="dlg.show();"/>
-    </h:form>
+        </p:dialog> 
+    
 </ui:composition> 
