@@ -9,13 +9,11 @@ import daoFK.KontoZapisyFKDAO;
 import embeddablefk.FKWiersz;
 import entityfk.Dokfk;
 import entityfk.Kontozapisy;
-import entityfk.KontozapisyPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -35,7 +33,6 @@ public class DokfkView implements Serializable{
     @Inject private DokDAOfk dokDAOfk;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private Kontozapisy kontozapisy;
-    @Inject private KontozapisyPK kontozapisyPK;
     private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
 
@@ -86,21 +83,23 @@ public class DokfkView implements Serializable{
     
     public void dodaj(){
         //ladnie uzupelnia informacje o wierszu pk
+        String opisdoprzekazania="";
         try {
             for(FKWiersz p : selected.getKonta()){
                 String opis = p.getOpis();
-                String opisdoprzekazania="";
                 if(opis.contains("kontown")){
                     p.setKonto(p.getKontoWn());
                     p.setPodatnik("Tymczasowy");
-                    p.setKwotaMa(Double.NaN);
+                    p.setDataksiegowania(selected.getData());
+                    p.setKwotaMa(0.0);
                     p.setTypwiersza(1);
                     p.setOpis(opisdoprzekazania);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")){
                     p.setKonto(p.getKontoMa());
                     p.setPodatnik("Tymczasowy");
-                    p.setKwotaWn(Double.NaN);
+                    p.setDataksiegowania(selected.getData());
+                    p.setKwotaWn(0.0);
                     p.setTypwiersza(2);
                     p.setOpis(opisdoprzekazania);
                     p.setZaksiegowane(Boolean.FALSE);
@@ -108,6 +107,7 @@ public class DokfkView implements Serializable{
                     //no wlasnie i tu jest ta gupota, chyba trzeba to zmienic
                     p.setKonto(p.getKontoWn());
                     p.setPodatnik("Tymczasowy");
+                    p.setDataksiegowania(selected.getData());
                     p.setTypwiersza(0);
                     opisdoprzekazania=p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
@@ -134,34 +134,43 @@ public class DokfkView implements Serializable{
      public void zaksieguj(){
          Dokfk x = selecteddokfk.get(0);
          for(FKWiersz p : x.getKonta()){
-         kontozapisyPK.setPodatnik("Tymzasowy");
-         String opisdoprzekazania = "";
-         if(p.getOpis().contains("kontown")){
-             kontozapisyPK.setKonto(p.getKontoWn().getNazwapelna());
-             kontozapisy.setKontozapisyPK(kontozapisyPK);
-             kontozapisy.setKontoob(p.getKonto());
-             kontozapisy.setDokument(x);
-             kontozapisy.setOpis(opisdoprzekazania);
-             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-             kontozapisy.setKwotawn(p.getKwotaWn());
-             kontozapisy.setKwotama(p.getKwotaMa());
-         } else if (p.getOpis().contains("kontoma")) {
-             kontozapisyPK.setKonto(p.getKontoWn().getNazwapelna());
-             kontozapisy.setKontozapisyPK(kontozapisyPK);
-             kontozapisy.setKontoob(p.getKonto());
-             kontozapisy.setDokument(x);
-             kontozapisy.setOpis(opisdoprzekazania);
-             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-             kontozapisy.setKwotawn(p.getKwotaWn());
-             kontozapisy.setKwotama(p.getKwotaMa());
+         if(p.getTypwiersza()==1){
+             dodajwn(p, x);
+         } else if(p.getTypwiersza()==2) {
+             dodajma(p, x);
          } else {
-             
+             dodajwn(p, x);
+             dodajma(p, x);
          }
-         kontozapisyPK.setKonto(p.);
-         kontozapisy.
          }
+     }
+     
+     private void dodajwn(FKWiersz p,Dokfk x){
+             kontozapisy.setPodatnik(p.getPodatnik());
+             kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
+             kontozapisy.setKontoob(p.getKonto());
+             kontozapisy.setDokument(x);
+             kontozapisy.setOpis(p.getOpis());
+             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
+             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+             kontozapisy.setKwotawn(p.getKwotaWn());
+             kontozapisy.setKwotama(0);
+             kontoZapisyFKDAO.dodaj(kontozapisy);
+             kontozapisy = new Kontozapisy();
+     }
+     
+     private void dodajma(FKWiersz p,Dokfk x){
+             kontozapisy.setPodatnik(p.getPodatnik());
+             kontozapisy.setKonto(p.getKontoMa().getPelnynumer());
+             kontozapisy.setKontoob(p.getKonto());
+             kontozapisy.setDokument(x);
+             kontozapisy.setOpis(p.getOpis());
+             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
+             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+             kontozapisy.setKwotawn(0);
+             kontozapisy.setKwotama(p.getKwotaMa());
+             kontoZapisyFKDAO.dodaj(kontozapisy);
+             kontozapisy = new Kontozapisy();
      }
      
     public int getLiczbawierszy() {

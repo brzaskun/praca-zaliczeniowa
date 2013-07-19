@@ -29,6 +29,7 @@ import entity.Uz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -384,6 +385,10 @@ public class SessionFacade<T> {
 
     public Konto findKonto(String numer) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumer").setParameter("pelnynumer", numer).getSingleResult();
+    }
+
+    public Dokfk findZZapisu(String numer) {
+        return (Dokfk) em.createNamedQuery("Dokfk.findByNumer").setParameter("numer", numer).getSingleResult();
     }
 
   
