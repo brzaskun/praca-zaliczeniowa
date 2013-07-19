@@ -144,7 +144,7 @@ var skopiujopis = function(wiersz){
 };
 
 
-
+//to makro sprawdza i blokuje puste czesci wiersza
 var zablokujwnma = function(wiersz,co){
     var w = wiersz-1;
     var ico = co === 'wn' ? 'ma' : 'wn';
@@ -182,6 +182,7 @@ var aktualizujmape = function(){
     chowanienapoczatekdok();
 };
 
+//sub do aktualizuj mape
 var chowanienapoczatekdok = function(){
      if(!MYAPP.hasOwnProperty('chowanedok')){
         MYAPP.chowanedok = [];
@@ -279,5 +280,12 @@ var sprawdzwartosc = function(wiersz){
     if(wartosc === "" || wartosc === " zł"){
         $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
         $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val($("#form\\:dataList\\:"+wiersz+"\\:wn_input").val());
+    }
+};
+
+//menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
+var zakryjpolaedycjadokumentu = function(iloscwierszy){
+    for(var i = 0 ; i < iloscwierszy; i++){
+        sprawdzpoprzedniwiersz(i);
     }
 };

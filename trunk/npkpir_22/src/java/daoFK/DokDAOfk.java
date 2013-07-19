@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Dokfk;
+import entityfk.Kontozapisy;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -30,5 +31,9 @@ public class DokDAOfk extends DAO implements Serializable {
 
     public void usun(Dokfk selected) {
         dokFacade.remove(selected);
+    }
+
+    public Dokfk findZZapisu(Kontozapisy kontozapisy) {
+        return dokFacade.findZZapisu(kontozapisy.getDokument().getNumer());
     }
 }

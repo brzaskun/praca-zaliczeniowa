@@ -7,8 +7,10 @@ package entityfk;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,12 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "kontozapisy", catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kontozapisy.findAll", query = "SELECT k FROM Kontozapisy k"),
-    @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.kontozapisyPK.podatnik = :podatnik"),
-    @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.kontozapisyPK.konto = :konto"),
+    @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
+    @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
+    @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
     @NamedQuery(name = "Kontozapisy.findByOpis", query = "SELECT k FROM Kontozapisy k WHERE k.opis = :opis"),
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
     @NamedQuery(name = "Kontozapisy.findByKontown", query = "SELECT k FROM Kontozapisy k WHERE k.kontown = :kontown"),
@@ -35,51 +38,66 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontozapisy.findByKontoma", query = "SELECT k FROM Kontozapisy k WHERE k.kontoma = :kontoma")})
 public class Kontozapisy implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected KontozapisyPK kontozapisyPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(nullable = false, length = 255)
+    private String podatnik;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String konto;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Column(name = "kontoob", nullable = false)
+    @Column(nullable = false)
     private Konto kontoob;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Column(name = "dokument", nullable = false)
+    @Column(nullable = false)
     private Dokfk dokument;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "opis", nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String opis;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "kwotawn", nullable = false)
+    @Column(nullable = false)
     private double kwotawn;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "kontown", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String kontown;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "kwotama", nullable = false)
+    @Column(nullable = false)
     private double kwotama;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "kontoma", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String kontoma;
 
     public Kontozapisy() {
     }
 
-    public Kontozapisy(KontozapisyPK kontozapisyPK) {
-        this.kontozapisyPK = kontozapisyPK;
+    public Kontozapisy(Integer id) {
+        this.id = id;
     }
 
-    public Kontozapisy(KontozapisyPK kontozapisyPK, Konto kontoob, Dokfk dokument, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
-        this.kontozapisyPK = kontozapisyPK;
+    public Kontozapisy(Integer id, String podatnik, String konto, Konto kontoob, Dokfk dokument, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
+        this.id = id;
+        this.podatnik = podatnik;
+        this.konto = konto;
         this.kontoob = kontoob;
         this.dokument = dokument;
         this.opis = opis;
@@ -89,16 +107,28 @@ public class Kontozapisy implements Serializable {
         this.kontoma = kontoma;
     }
 
-    public Kontozapisy(String podatnik, String konto) {
-        this.kontozapisyPK = new KontozapisyPK(podatnik, konto);
+    public Integer getId() {
+        return id;
     }
 
-    public KontozapisyPK getKontozapisyPK() {
-        return kontozapisyPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setKontozapisyPK(KontozapisyPK kontozapisyPK) {
-        this.kontozapisyPK = kontozapisyPK;
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public String getKonto() {
+        return konto;
+    }
+
+    public void setKonto(String konto) {
+        this.konto = konto;
     }
 
     public Konto getKontoob() {
@@ -160,7 +190,7 @@ public class Kontozapisy implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (kontozapisyPK != null ? kontozapisyPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -171,7 +201,7 @@ public class Kontozapisy implements Serializable {
             return false;
         }
         Kontozapisy other = (Kontozapisy) object;
-        if ((this.kontozapisyPK == null && other.kontozapisyPK != null) || (this.kontozapisyPK != null && !this.kontozapisyPK.equals(other.kontozapisyPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -179,7 +209,7 @@ public class Kontozapisy implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kontozapisy[ kontozapisyPK=" + kontozapisyPK + " ]";
+        return "entityfk.Kontozapisy[ id=" + id + " ]";
     }
     
 }
