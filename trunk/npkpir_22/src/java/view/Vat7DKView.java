@@ -261,7 +261,11 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setStatus("");
             nowadeklaracja.setOpis("");
             if(nowadeklaracja.isMiesiackwartal()){
-                nowadeklaracja.setWzorschemy("K-13");
+                 if(wpisView.getSumarokmiesiac()>2017){
+                    nowadeklaracja.setWzorschemy("K-8");
+                } else {
+                    nowadeklaracja.setWzorschemy("K-7");
+                }
             } else {
                 if(wpisView.getSumarokmiesiac()>2017){
                     nowadeklaracja.setWzorschemy("M-14");
@@ -270,6 +274,7 @@ public class Vat7DKView implements Serializable {
                 }
             }
         }
+        //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if(zachowaj==true){
             if (flaga == 2) {
             deklaracjevatDAO.destroy(deklaracjakorygowana);

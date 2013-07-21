@@ -44,11 +44,22 @@ class Naglowek {
             }
         
         } else {
-            String kwartal = zamienmcnakw();
-            Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7K (7)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</KodFormularza>"
+            if(Integer.parseInt(Rok)>2012&&Integer.parseInt(Miesiac)<4){
+                //dekalracja VAT7K 7
+                String kwartal = zamienmcnakw();
+                Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7K (7)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</KodFormularza>"
                 +"<WariantFormularza>7</WariantFormularza>"
                 +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Kwartal>"+kwartal
                 +"</Kwartal><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
+            } else {
+                //deklaracja VAT7K 8
+                String kwartal = zamienmcnakw();
+                Naglowek = "<Naglowek><KodFormularza kodSystemowy=\"VAT-7K (8)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-0E\">VAT-7K</KodFormularza>"
+                +"<WariantFormularza>8</WariantFormularza>"
+                +"<CelZlozenia poz=\"P_7\">"+CelZlozenia+"</CelZlozenia><Rok>"+Rok+"</Rok><Kwartal>"+kwartal
+                +"</Kwartal><KodUrzedu>"+KodUrzedu+"</KodUrzedu></Naglowek>";
+            }
+           
         }
     }
    
