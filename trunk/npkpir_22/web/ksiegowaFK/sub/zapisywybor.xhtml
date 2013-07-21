@@ -7,7 +7,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
-   
+    <div style="height: 200px;">
       <h:form id="formA" >
         <p:focus for=":formA:kontown">
         <p:autoComplete id="kontown" value="#{kontoZapisyFKView.numerkonta}" completeMethod="#{planKontView.complete}"
@@ -21,6 +21,22 @@
         </p:autoComplete>
         </p:focus>
       </h:form>
+      </div>
+    <h:form id="formB">
+    <p:panelGrid id="sumy" columns="3" style="width: 300px;">
+        <h:outputText value="Sumy zapisów "/><h:outputText value="#{kontoZapisyFKView.sumaWn}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+        <h:outputText value="#{kontoZapisyFKView.sumaMa}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+        <h:outputText value="Saldo zapisów"/><h:outputText value="#{kontoZapisyFKView.saldoWn}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText><h:outputText value="#{kontoZapisyFKView.saldoMa}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+    </p:panelGrid>
+    </h:form>
      <h:form id="formD" >
           <p:contextMenu>
              <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formD" onclick="dlg123.show();"/>
