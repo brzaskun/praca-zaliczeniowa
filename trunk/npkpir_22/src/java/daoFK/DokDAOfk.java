@@ -36,4 +36,12 @@ public class DokDAOfk extends DAO implements Serializable {
     public Dokfk findZZapisu(Kontozapisy kontozapisy) {
         return dokFacade.findZZapisu(kontozapisy.getDokument().getNumer());
     }
+
+    public Dokfk findDokfk(String data, String numer) {
+       try {
+           return dokFacade.findDokfk(data, numer);
+       } catch (Exception e ){
+           return null;
+       }
+    }
 }

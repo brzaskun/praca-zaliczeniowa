@@ -195,6 +195,10 @@ public class PlanKontView implements Serializable{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
         for(Konto p : lista) {  
+             if(query.length()==4&&!query.contains("-")){
+                 //wstawia - do ciagu konta
+                 query = query.substring(0,3)+"-"+query.substring(3,4);
+             }
              if(p.getPelnynumer().startsWith(query)) {
                  results.add(p);
              }
