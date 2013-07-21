@@ -9,8 +9,8 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form" >
          <p:contextMenu>
-             <p:menuitem value="Zachowaj zmiany" partialSubmit="true" actionListener="#{dokfkView.edycja}" icon="ui-icon-scissors"/>
-             <p:menuitem value="Zaksieguj" partialSubmit="true" actionListener="#{dokfkView.zaksieguj}" icon="ui-icon-scissors"/>
+             <p:menuitem value="Zachowaj zmiany" partialSubmit="true" actionListener="#{dokfkView.edycja}" icon="ui-icon-wrench"/>
+             <p:menuitem value="Zaksieguj" partialSubmit="true" actionListener="#{dokfkView.zaksieguj}" icon="ui-icon-disk"/>
              <p:menuitem value="Usuń dok" partialSubmit="true" actionListener="#{dokfkView.usun}" icon="ui-icon-trash"/>
             </p:contextMenu>
         <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="loop" rowIndexVar="row" style="width: 1200px;" 
@@ -22,6 +22,11 @@
             <p:column headerText="numer" width="200">
                 <p:inplace id="ajaxInplace0" editor="true" > 
                     <p:inputText value="#{loop.numer}"/>
+                </p:inplace>  
+            </p:column>
+            <p:column headerText="zaksiegowany" width="200">
+                <p:inplace>
+                    <p:inputText value="#{loop.naniesionezapisy}"/>
                 </p:inplace>  
             </p:column>
             <p:column headerText="konta">

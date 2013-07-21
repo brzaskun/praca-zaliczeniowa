@@ -70,7 +70,7 @@ var obsluzwiersz = function(wiersz){
     sprawdzpoprzedniwiersz(wiersz);
 };
 
-//sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola
+//sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
 var sprawdzpoprzedniwiersz = function(wiersz){
     if(wiersz===0){
         return;
@@ -95,6 +95,53 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").select()
+            var pozycja = {pozycja: wiersz, blokowany: 'ma'};
+            zachowajwtablicydok(pozycja);
+            
+        }
+        chowanienapoczatekdok();
+    }
+    
+};
+
+//sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola robi to dla dialogu seryjnie
+var sprawdzpoprzedniwierszdialog = function(wiersz){
+    if(wiersz===0){
+        return;
+    } else {
+        var wierszwyzej = wiersz-1;
+        var kwotaWn = "#form\\:dataList\\:"+wierszwyzej+"\\:wn_input";
+        var kwotaMa = "#form\\:dataList\\:"+wierszwyzej+"\\:ma_input";
+        var wartoscWn = zrobFloat($(kwotaWn).val());
+        var wartoscMa = zrobFloat($(kwotaMa).val());
+        var opisbiezacego1 = _.str.include($("#form\\:dataList\\:"+wiersz+"\\:opis").val(),'kontoma');
+        var opisbiezacego2 = _.str.include($("#form\\:dataList\\:"+wiersz+"\\:opis").val(),'kontown');
+        var opiszawiera = opisbiezacego1 || opisbiezacego2;
+        var roznica = wartoscWn-wartoscMa;
+        if(roznica>0 && opiszawiera){
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
+            $("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
+            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").select();
+            var pozycja = {pozycja: wiersz, blokowany: 'wn'};
+            zachowajwtablicydok(pozycja);
+        } else if (roznica<0 && opiszawiera){
             $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
             $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
             $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
@@ -180,6 +227,11 @@ var chowanienapoczatek = function(){
 var aktualizujmape = function(){
     usunztablicydok();
     chowanienapoczatekdok();
+};
+
+var aktualizujmapedialog = function(wiersze){
+    usunztablicydok();
+    zakryjpolaedycjadokumentu(wiersze);
 };
 
 //sub do aktualizuj mape
@@ -285,7 +337,9 @@ var sprawdzwartosc = function(wiersz){
 
 //menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
 var zakryjpolaedycjadokumentu = function(iloscwierszy){
+    MYAPP.chowanedok = null;
+    MYAPP.chowanedok = [];
     for(var i = 0 ; i < iloscwierszy; i++){
-        sprawdzpoprzedniwiersz(i);
+        sprawdzpoprzedniwierszdialog(i);
     }
 };

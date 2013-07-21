@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
     @NamedQuery(name = "Dokfk.findById", query = "SELECT d FROM Dokfk d WHERE d.id = :id"),
     @NamedQuery(name = "Dokfk.findByData", query = "SELECT d FROM Dokfk d WHERE d.data = :data"),
+    @NamedQuery(name = "Dokfk.findByDataNumer", query = "SELECT d FROM Dokfk d WHERE d.data = :data AND d.numer = :numer"),
     @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numer = :numer")})
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -55,6 +56,10 @@ public class Dokfk implements Serializable {
     @Lob
     @Column(nullable = false)
     private List<FKWiersz> konta;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "naniesionezapisy")
+    private boolean naniesionezapisy;
 
     public Dokfk() {
     }
@@ -100,6 +105,14 @@ public class Dokfk implements Serializable {
 
     public void setKonta(List<FKWiersz> konta) {
         this.konta = konta;
+    }
+
+    public boolean isNaniesionezapisy() {
+        return naniesionezapisy;
+    }
+
+    public void setNaniesionezapisy(boolean naniesionezapisy) {
+        this.naniesionezapisy = naniesionezapisy;
     }
 
   

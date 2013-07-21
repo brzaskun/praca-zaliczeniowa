@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontozapisy.findAll", query = "SELECT k FROM Kontozapisy k"),
     @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
     @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
+    @NamedQuery(name = "Kontozapisy.findByNumer", query = "SELECT k FROM Kontozapisy k WHERE k.numer = :numer"),
     @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
     @NamedQuery(name = "Kontozapisy.findByOpis", query = "SELECT k FROM Kontozapisy k WHERE k.opis = :opis"),
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
@@ -60,9 +61,19 @@ public class Kontozapisy implements Serializable {
     private Konto kontoob;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String kontoprzeciwstawne;
+    @Basic(optional = false)
+    @NotNull
     @Lob
     @Column(nullable = false)
     private Dokfk dokument;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(nullable = false, length = 255)
+    private String numer;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -186,6 +197,24 @@ public class Kontozapisy implements Serializable {
     public void setKontoma(String kontoma) {
         this.kontoma = kontoma;
     }
+
+    public String getNumer() {
+        return numer;
+    }
+
+    public void setNumer(String numer) {
+        this.numer = numer;
+    }
+
+    public String getKontoprzeciwstawne() {
+        return kontoprzeciwstawne;
+    }
+
+    public void setKontoprzeciwstawne(String kontoprzeciwstawne) {
+        this.kontoprzeciwstawne = kontoprzeciwstawne;
+    }
+    
+    
 
     @Override
     public int hashCode() {

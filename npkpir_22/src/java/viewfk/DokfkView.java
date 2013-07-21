@@ -52,11 +52,12 @@ public class DokfkView implements Serializable{
     }
     
     public void liczbaw() {
-        Double pierwsze = wiersze.get(liczbawierszy-1).getKwotaWn();
-        Double drugie = wiersze.get(liczbawierszy-1).getKwotaMa();
+        //liczbawierszy = selected.getKonta().size();
+        Double pierwsze = selected.getKonta().get(liczbawierszy-1).getKwotaWn();
+        Double drugie = selected.getKonta().get(liczbawierszy-1).getKwotaMa();
         if(pierwsze!=null||drugie!=null){
             liczbawierszy++;
-            wiersze.add(new FKWiersz(liczbawierszy,0));
+            selected.getKonta().add(new FKWiersz(liczbawierszy,0));
         }
     }
     
@@ -66,7 +67,7 @@ public class DokfkView implements Serializable{
     public void liczbawu() {
         if(liczbawierszy>1){
             liczbawierszy--;
-            wiersze.remove(liczbawierszy);
+            selected.getKonta().remove(liczbawierszy);
         }
     }
    
@@ -93,7 +94,6 @@ public class DokfkView implements Serializable{
                     p.setDataksiegowania(selected.getData());
                     p.setKwotaMa(0.0);
                     p.setTypwiersza(1);
-                    p.setOpis(opisdoprzekazania);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")){
                     p.setKonto(p.getKontoMa());
@@ -101,7 +101,6 @@ public class DokfkView implements Serializable{
                     p.setDataksiegowania(selected.getData());
                     p.setKwotaWn(0.0);
                     p.setTypwiersza(2);
-                    p.setOpis(opisdoprzekazania);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
                     //no wlasnie i tu jest ta gupota, chyba trzeba to zmienic
@@ -113,7 +112,18 @@ public class DokfkView implements Serializable{
                     p.setZaksiegowane(Boolean.FALSE);
                 }
             }
-            dokDAOfk.dodaj(selected);
+            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
+            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getData(), selected.getNumer());
+            if (poszukiwanydokument instanceof Dokfk){
+                dokDAOfk.destroy(poszukiwanydokument);
+                dokDAOfk.dodaj(selected);
+            } else {
+                dokDAOfk.dodaj(selected);
+            }
+            selected = new Dokfk();
+            wiersze = new ArrayList<>();
+            wiersze.add(new FKWiersz(1,0));
+            selected.setKonta(wiersze);
             Msg.msg("i", "Dokument dodany");
         } catch (Exception e){
             Msg.msg("e", "Nie udało się dodac dokumentu");
@@ -122,6 +132,12 @@ public class DokfkView implements Serializable{
     
      public void usun(){
         try {
+            if(selecteddokfk.get(0).isNaniesionezapisy()){
+             List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisy(selecteddokfk.get(0).getNumer());
+             for(Kontozapisy p : zapisy){
+                 kontoZapisyFKDAO.destroy(p);
+             }
+            }
             wykaz.remove(selecteddokfk.get(0));
             dokDAOfk.usun(selecteddokfk.get(0));
             Msg.msg("i", "Dokument usunięty");
@@ -132,25 +148,38 @@ public class DokfkView implements Serializable{
     }
 
      public void zaksieguj(){
+         String opis = "";
          Dokfk x = selecteddokfk.get(0);
+         if(x.isNaniesionezapisy()){
+             List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisy(x.getNumer());
+             for(Kontozapisy p : zapisy){
+                 kontoZapisyFKDAO.destroy(p);
+             }
+         }
          for(FKWiersz p : x.getKonta()){
          if(p.getTypwiersza()==1){
-             dodajwn(p, x);
+             dodajwn(p, x, opis);
          } else if(p.getTypwiersza()==2) {
-             dodajma(p, x);
+             dodajma(p, x, opis);
          } else {
-             dodajwn(p, x);
-             dodajma(p, x);
+             opis = p.getOpis();
+             dodajwn(p, x, opis);
+             dodajma(p, x, opis);
          }
+         x.setNaniesionezapisy(true);
+         dokDAOfk.edit(x);
          }
+         Msg.msg("i", "Zapisy zaksięgowane "+x.getNumer());
      }
      
-     private void dodajwn(FKWiersz p,Dokfk x){
+     private void dodajwn(FKWiersz p,Dokfk x, String opis){
              kontozapisy.setPodatnik(p.getPodatnik());
              kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
-             kontozapisy.setKontoob(p.getKonto());
-             kontozapisy.setDokument(x);
-             kontozapisy.setOpis(p.getOpis());
+             kontozapisy.setKontoob(p.getKontoWn());
+             kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+             kontozapisy.setDokument(x);//czy to jestpotrzebne? chyba nie!!
+             kontozapisy.setNumer(x.getNumer());
+             kontozapisy.setOpis(opis);
              kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
              kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
              kontozapisy.setKwotawn(p.getKwotaWn());
@@ -159,12 +188,14 @@ public class DokfkView implements Serializable{
              kontozapisy = new Kontozapisy();
      }
      
-     private void dodajma(FKWiersz p,Dokfk x){
+     private void dodajma(FKWiersz p,Dokfk x, String opis){
              kontozapisy.setPodatnik(p.getPodatnik());
              kontozapisy.setKonto(p.getKontoMa().getPelnynumer());
-             kontozapisy.setKontoob(p.getKonto());
-             kontozapisy.setDokument(x);
-             kontozapisy.setOpis(p.getOpis());
+             kontozapisy.setKontoob(p.getKontoMa());
+             kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+             kontozapisy.setDokument(x);//czy to jestpotrzebne? chyba nie!!
+             kontozapisy.setNumer(x.getNumer());
+             kontozapisy.setOpis(opis);
              kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
              kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
              kontozapisy.setKwotawn(0);
@@ -172,6 +203,14 @@ public class DokfkView implements Serializable{
              kontoZapisyFKDAO.dodaj(kontozapisy);
              kontozapisy = new Kontozapisy();
      }
+     
+     
+     public void znajdzdokumentzzapisu(){
+        selected = dokDAOfk.findZZapisu(kontozapisy);
+        liczbawierszy = selected.getKonta().size();
+        RequestContext.getCurrentInstance().update("dialogEdycja");
+        RequestContext.getCurrentInstance().update("form");
+    }
      
     public int getLiczbawierszy() {
         return liczbawierszy;
@@ -211,6 +250,14 @@ public class DokfkView implements Serializable{
 
     public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
         DokfkView.selecteddokfk = selecteddokfk;
+    }
+
+    public Kontozapisy getKontozapisy() {
+        return kontozapisy;
+    }
+
+    public void setKontozapisy(Kontozapisy kontozapisy) {
+        this.kontozapisy = kontozapisy;
     }
   
     

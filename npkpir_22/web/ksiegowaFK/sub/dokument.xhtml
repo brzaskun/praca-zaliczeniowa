@@ -7,12 +7,16 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:panelGrid columns="4">
+        <p:commandButton value="dodaj" onclick="dlg123.show()"/>
+    </p:panelGrid>
+    <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false">  
     <h:form id="form" >
         <p:panelGrid columns="4">
-            <h:outputText value="data"/><h:inputText value="#{dokfkView.selected.data}"/>
+            <h:outputText value="data"/><h:inputText id="datka" value="#{dokfkView.selected.data}"/>
             <h:outputText value="numer"/><h:inputText value="#{dokfkView.selected.numer}"/>
         </p:panelGrid>
-        <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 600px;">
+        <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 1400px;">
             <p:column headerText="id" width="10">
                 <h:outputText value="#{loop.id}" style="width: 10px;"/>
             </p:column>
@@ -48,11 +52,11 @@
                <p:commandButton value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.id});" rendered="#{dokfkView.liczbawierszy gt loop.id ? false : true}"/>
             </p:column>
             </p:dataTable>
-             <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form" />
+             <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form"  oncomplete="chowanienapoczatekdok();$('#form\\:datka').focus();"/>
         </h:form>
     <p:separator />
     <h:form id="form1" >
-        <p:commandButton value="usun" actionListener="#{fKView.liczbawu}" update=":form" oncomplete="aktualizujmape();"/>
+        <p:commandButton value="usun" actionListener="#{dokfView.liczbawu}" update=":form" oncomplete="aktualizujmape();"/>
     </h:form>
-   
+    </p:dialog>
 </ui:composition> 
