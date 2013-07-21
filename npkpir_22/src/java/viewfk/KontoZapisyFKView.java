@@ -4,16 +4,19 @@
  */
 package viewfk;
 
+import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.jboss.weld.util.collections.ArraySet;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -25,7 +28,13 @@ import org.primefaces.context.RequestContext;
 public class KontoZapisyFKView implements Serializable{
     private List<Kontozapisy> kontozapisy;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto numerkonta;
+    private Double sumaWn;
+    private Double sumaMa;
+    private Double saldoWn;
+    private Double saldoMa;
+    
 
     public KontoZapisyFKView() {
         kontozapisy = new ArrayList<>();
@@ -38,11 +47,31 @@ public class KontoZapisyFKView implements Serializable{
     
     public void selekcjakont(){
         kontozapisy = new ArrayList<>();
-        if(numerkonta.isMapotomkow()){
-            kontozapisy = kontoZapisyFKDAO.findZapisyKontoMacierzyste(numerkonta.getPelnynumer());
+        List<Konto> konta = kontoDAOfk.findAll();
+        for(Konto p : konta){
+            if(p.getPelnynumer().startsWith(numerkonta.getPelnynumer())){
+                kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKonto(p.getPelnynumer()));
+            }
         }
-        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKonto(numerkonta.getPelnynumer()));
+        sumazapisow();
+        RequestContext.getCurrentInstance().update("formB:sumy");
         RequestContext.getCurrentInstance().update("formD:dataList");
+    }
+    
+    private void sumazapisow(){
+        sumaWn = 0.0;
+        sumaMa = 0.0;
+        for(Kontozapisy p : kontozapisy){
+            sumaWn = sumaWn + p.getKwotawn();
+            sumaMa = sumaMa + p.getKwotama();
+        }
+        saldoWn = 0.0;
+        saldoMa = 0.0;
+        if(sumaWn>sumaMa){
+            saldoWn = sumaWn-sumaMa;
+        } else {
+            saldoMa = sumaMa-sumaWn;
+        }
     }
 
     public List<Kontozapisy> getKontozapisy() {
@@ -69,5 +98,38 @@ public class KontoZapisyFKView implements Serializable{
         this.numerkonta = numerkonta;
     }
 
-  
+    public Double getSumaWn() {
+        return sumaWn;
+    }
+
+    public void setSumaWn(Double sumaWn) {
+        this.sumaWn = sumaWn;
+    }
+
+    public Double getSumaMa() {
+        return sumaMa;
+    }
+
+    public void setSumaMa(Double sumaMa) {
+        this.sumaMa = sumaMa;
+    }
+
+    public Double getSaldoWn() {
+        return saldoWn;
+    }
+
+    public void setSaldoWn(Double saldoWn) {
+        this.saldoWn = saldoWn;
+    }
+
+    public Double getSaldoMa() {
+        return saldoMa;
+    }
+
+    public void setSaldoMa(Double saldoMa) {
+        this.saldoMa = saldoMa;
+    }
+
+    
+   
 }
