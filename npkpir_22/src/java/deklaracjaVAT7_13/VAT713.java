@@ -38,16 +38,23 @@ public class VAT713 implements Serializable{
         String vatokres = sprawdzjakiokresvat(wpisView);
         if(vatokres.equals("miesięczne")){
             if(wpisView.getSumarokmiesiac()<2017){
-                wstep = new Wstep("1085");
+                wstep = new Wstep("2013/01/17/1085/");
                 pouczenie = new Pouczenie(13);
             } else {
-                wstep = new Wstep("1113");
+                wstep = new Wstep("2013/04/09/1113/");
                 pouczenie = new Pouczenie(14);
             }
             
         } else {
-            wstep = new Wstep("1084");
-            pouczenie = new Pouczenie(13);
+            if(wpisView.getSumarokmiesiac()<2017){
+                //kwartalne do 04/2013
+               wstep = new Wstep("2013/01/17/1084/");
+               pouczenie = new Pouczenie(13);
+            } else {
+               wstep = new Wstep("2013/04/09/1114/");
+               pouczenie = new Pouczenie(14);
+            }
+            
         }
         naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
