@@ -615,5 +615,34 @@ function petlawywolujaca(lw,gr,co){
 
   }};
 
+//var ustawzus52ryczaltrecznie = function(){
+//    $('#akordeon\\:formpit1\\:reka52').click();
+//    var podatek = zrobFloat($("#akordeon\\:formpit1\\:podatek").val());
+//    var zus52 = zrobFloat($("#akordeon\\:formpit1\\:zus52").val());
+//    if(isNaN(zus52)){
+//        zus52 = 0;
+//    }
+//    $("#akordeon\\:formpit1\\:naleznazal").val(podatek-zus52);
+//}
+//
+//var ustawzus51ryczaltrecznie = function(){
+//    $('#akordeon\\:formpit1\\:reka51').click();
+//    var wynik = zrobFloat($("#akordeon\\:formpit1\\:wynik").val());
+//    var zus51 = zrobFloat($("#akordeon\\:formpit1\\:zus51").val());
+//    if(isNaN(zus51)){
+//        zus51 = 0;
+//    }
+//    var strata = zrobFloat($("#akordeon\\:formpit1\\:strata").val());
+//    var przejsciowa = wynik-zus51;
+//    if(przejsciowa<strata){
+//        strata = przejsciowa;
+//        $("#akordeon\\:formpit1\\:strata").val(strata)
+//    }
+//    var podstawa = wynik-zus51-strata;
+//    if(podstawa<0){
+//        podstawa = 0;
+//    }
+//    $("#akordeon\\:formpit1\\:podstawa").val(podstawa);
+//}
 
  

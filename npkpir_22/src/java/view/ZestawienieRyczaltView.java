@@ -497,7 +497,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 biezacyPit = new Ryczpoz();
                 RequestContext.getCurrentInstance().update("formpit1:");
             }
-
+            RequestContext.getCurrentInstance().update("formpit1:");
         }
     }
 
