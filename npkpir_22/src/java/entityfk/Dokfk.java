@@ -139,7 +139,9 @@ public class Dokfk implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Dokfk[ id=" + id + " ]";
+        return "Dokfk{" + "data=" + data + ", numer=" + numer + ", konta=" + konta + ", naniesionezapisy=" + naniesionezapisy + '}';
     }
+
+   
     
 }

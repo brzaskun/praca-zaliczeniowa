@@ -238,7 +238,9 @@ public class Kontozapisy implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kontozapisy[ id=" + id + " ]";
+        return "Kontozapisy{" + "podatnik=" + podatnik + ", konto=" + konto + ", kontoprzeciwstawne=" + kontoprzeciwstawne + ", dokument=" + dokument + ", numer=" + numer + ", opis=" + opis + '}';
     }
+
+    
     
 }

@@ -210,6 +210,8 @@ public class DokfkView implements Serializable{
         liczbawierszy = selected.getKonta().size();
         RequestContext.getCurrentInstance().update("dialogEdycja");
         RequestContext.getCurrentInstance().update("form");
+        RequestContext.getCurrentInstance().update("dialogrozrachunki");
+        
     }
      
     public int getLiczbawierszy() {

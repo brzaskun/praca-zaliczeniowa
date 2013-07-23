@@ -225,6 +225,10 @@
             <from-outcome>zapisyfkwybor</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKZapisyWybor.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>rozrachunki</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
