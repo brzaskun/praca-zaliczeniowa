@@ -315,14 +315,18 @@ public class SessionFacade<T> {
     }
 
     public Deklaracjevat findDeklaracjewysylka(String pod) {
-        return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
+        try {
+            return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
+        } catch (Exception e){
+            return null;
+        }
     }
     
     public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
     }
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
-        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
+        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
 
     public Srodkikst findSr(Srodkikst srodek) {
