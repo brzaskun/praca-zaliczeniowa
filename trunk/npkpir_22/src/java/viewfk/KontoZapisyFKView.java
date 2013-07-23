@@ -10,6 +10,7 @@ import entityfk.Konto;
 import entityfk.Kontozapisy;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,8 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class KontoZapisyFKView implements Serializable{
     private List<Kontozapisy> kontozapisy;
+    @Inject private Kontozapisy wybranyzapis;
+    private List<Kontozapisy> kontorozrachunki;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto numerkonta;
@@ -56,6 +59,32 @@ public class KontoZapisyFKView implements Serializable{
         sumazapisow();
         RequestContext.getCurrentInstance().update("formB:sumy");
         RequestContext.getCurrentInstance().update("formD:dataList");
+        RequestContext.getCurrentInstance().update("formE:dataList");
+    }
+    
+    public void selekcjakontrozrachunki(){
+        kontorozrachunki = new ArrayList<>();
+//        List<Konto> konta = kontoDAOfk.findAll();
+//        for(Konto p : konta){
+//            if(p.getPelnynumer().startsWith(wybranyzapis.getKonto()){
+                kontorozrachunki.addAll(kontoZapisyFKDAO.findZapisyKonto(wybranyzapis.getKonto()));
+                boolean wn = (wybranyzapis.getKwotawn() > 0 ? true : false);
+                Iterator it;
+                it = kontorozrachunki.iterator();
+                while(it.hasNext()){
+                    Kontozapisy p = (Kontozapisy) it.next();
+                    if(wn && p.getKwotawn()>0){
+                        it.remove();
+                    }
+                    if(!wn && p.getKwotama()>0){
+                        it.remove();
+                    }
+                }
+//            }
+//        }
+        RequestContext.getCurrentInstance().update("formB:sumy");
+        RequestContext.getCurrentInstance().update("formD:dataList");
+        RequestContext.getCurrentInstance().update("formE");
     }
     
     private void sumazapisow(){
@@ -130,6 +159,22 @@ public class KontoZapisyFKView implements Serializable{
         this.saldoMa = saldoMa;
     }
 
-    
+    public List<Kontozapisy> getKontorozrachunki() {
+        return kontorozrachunki;
+    }
+
+    public void setKontorozrachunki(List<Kontozapisy> kontorozrachunki) {
+        this.kontorozrachunki = kontorozrachunki;
+    }
+
+    public Kontozapisy getWybranyzapis() {
+        return wybranyzapis;
+    }
+
+    public void setWybranyzapis(Kontozapisy wybranyzapis) {
+        this.wybranyzapis = wybranyzapis;
+    }
+
    
 }
+
