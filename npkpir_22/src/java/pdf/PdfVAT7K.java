@@ -40,7 +40,6 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
             
     public static  void drukujVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
         try{
-            String var = dkl.getWzorschemy();
             if(dkl.getWzorschemy().equals("K-7")){
                 vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K1-p1.jpg";
                 vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K2-p1.jpg";
@@ -48,7 +47,10 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                 vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K8-1-p1.jpg";
                 vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K8-2-p1.jpg";
             }
-        } catch (Exception es){}
+        } catch (Exception es){
+            vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K1-p1.jpg";
+            vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K2-p1.jpg";
+        }
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
@@ -106,7 +108,6 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
     
      public static void drukujwysVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
          try{
-            String var = dkl.getWzorschemy();
             if(dkl.getWzorschemy().equals("K-7")){
                 vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K1-p1.jpg";
                 vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K2-p1.jpg";
@@ -114,7 +115,10 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                 vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K8-1-p1.jpg";
                 vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K8-2-p1.jpg";
             }
-        } catch (Exception es){}
+        } catch (Exception es){
+             vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K1-p1.jpg";
+             vat72kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/VAT-7K2-p1.jpg";
+        }
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
@@ -173,8 +177,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
     
    private static void pierwszastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p){
         try{
-            String var = l.getWzorschemy();
-            if(l.getWzorschemy().equals("K-8")){
+       if(l.getWzorschemy().equals("K-8")){
        PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, p.getNip(), 70, 788);
         absText(writer, d.getMiesiac(), 218, 740);
@@ -222,7 +225,8 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, "Nr potwierdzenia:", 483, 750,6);
         absText(writer, l.getIdentyfikator(), 480, 740,6);
 
-             } else {
+             } 
+        } catch (Exception e){
         PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, p.getNip(), 70, 790);
         if(l.isMiesiackwartal()==true){
@@ -276,17 +280,15 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         }
         try{
         absText(writer, l.getDataupo().toString(), 490, 770,6);
-        } catch (Exception e){}
+        } catch (Exception eF){}
         absText(writer, l.getOpis(), 460, 760,6);
         absText(writer, "Nr potwierdzenia:", 460, 750,6);
         absText(writer, l.getIdentyfikator(), 460, 740,6);
    }
-   } catch (Exception es){}
    }
    
    private static void drugastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p){
        try{
-            String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("K-8")){
                  PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                  absText(writer, o.getPole49(), 330, 764,"f"); absText(writer, o.getPole50(), 490, 764,"f");
@@ -307,7 +309,8 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
              try{
                 absText(writer, l.getDatazlozenia().toString(), 210, 195);  absText(writer, l.getSporzadzil(), 400, 195);
             } catch (Exception e){}
-             } else {
+            }
+              } catch (Exception e){
            PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, o.getPole45(), 330, 790,"f");  absText(writer, o.getPole46(), 490, 790,"f");
                                                   absText(writer, o.getPole47(), 490, 726,"f");
@@ -321,7 +324,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                                                   absText(writer, o.getPole57(), 490, 467,"f");
                                                   absText(writer, o.getPole58(), 490, 443,"f");
                                                   absText(writer, o.getPole59(), 490, 419,"f");
-                                                  absText(writer, o.getPole60(), 490, 495,"f");
+                                                  absText(writer, o.getPole60(), 490, 395,"f");
                                                   absText(writer, o.getPole61(), 490, 368,"f");
         absText(writer, o.getPole62(), 190, 344,"f"); absText(writer, o.getPole63(), 330, 344,"f"); absText(writer, o.getPole64(), 490, 344,"f");
                                                   absText(writer, o.getPole65(), 490, 323,"f");
@@ -329,14 +332,12 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, "91 8120976", 80, 154); 
         try{
             absText(writer, l.getDatazlozenia().toString(), 210, 154);  absText(writer, l.getSporzadzil(), 400, 165);
-        } catch (Exception e){}
+        } catch (Exception eF){}
     }
-   } catch (Exception es){}
    }
     
      private static void pierwszastronawys(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p){
          try{
-            String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("K-8")){
                 
                  PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
@@ -376,7 +377,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, "Status: do wysyłki", 480, 790);
         
              }
-            else {
+            } catch (Exception e){
         PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, p.getNip(), 70, 790);
         if(l.isMiesiackwartal()==true){
@@ -425,12 +426,10 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         
    }
          }
-            catch (Exception es){}
-     }
+            
    
    private static void drugastronawys(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p){
        try{
-            String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("K-8")){
                  PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                  absText(writer, o.getPole49(), 330, 764,"f"); absText(writer, o.getPole50(), 490, 764,"f");
@@ -449,7 +448,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, p.getImie(), 80, 218); absText(writer, p.getNazwisko(), 210, 218);
         absText(writer, "91 8120976", 80, 195); 
              }
-            else {
+             } catch (Exception e){
     
         PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, o.getPole45(), 330, 790,"f");  absText(writer, o.getPole46(), 490, 790,"f");
@@ -464,7 +463,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                                                   absText(writer, o.getPole57(), 490, 467,"f");
                                                   absText(writer, o.getPole58(), 490, 443,"f");
                                                   absText(writer, o.getPole59(), 490, 419,"f");
-                                                  absText(writer, o.getPole60(), 490, 495,"f");
+                                                  absText(writer, o.getPole60(), 490, 395,"f");
                                                   absText(writer, o.getPole61(), 490, 368,"f");
         absText(writer, o.getPole62(), 190, 344,"f"); absText(writer, o.getPole63(), 330, 344,"f"); absText(writer, o.getPole64(), 490, 344,"f");
                                                   absText(writer, o.getPole65(), 490, 323,"f");
@@ -472,12 +471,7 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
         absText(writer, "91 8120976", 80, 154); 
    }
    }
-        catch (Exception es){}
-   }
-   
- 
-   
-   
+    
      
 //    public static void main(String[] args) throws IOException, DocumentException{
 //        Document document = new Document();

@@ -383,12 +383,16 @@ public class Vat7DKView implements Serializable {
         } catch (Exception e) {
             String mcX = "";
             String rokX = "";
+            int oilesiecofnac = 1;
+            if(wpisView.getPodatnikObiekt().getVatokres().get(wpisView.getPodatnikObiekt().getVatokres().size()-1).getParametr().equals("kwartalne")){
+                oilesiecofnac = 3;
+            }
             if (mc.equals("01")) {
                 mcX = "12";
-                rokX = String.valueOf(Integer.parseInt(rok) - 1);
+                rokX = String.valueOf(Integer.parseInt(rok) - oilesiecofnac);
             } else {
                 Integer tmp = Integer.parseInt(mc);
-                tmp--;
+                tmp = tmp - oilesiecofnac;
                 mcX = tmp.toString();
                 if (!mcX.equals("10") || !mcX.equals("11") || !mcX.equals("12")) {
                     mcX = "0".concat(mcX);
