@@ -117,6 +117,8 @@ public class DokView implements Serializable{
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{DokTabView}")
+    private DokTabView dokTabView;
     @Inject private DokDAO dokDAO;
     @Inject private Kolmn kolumna; 
     private String opis;
@@ -1676,643 +1678,678 @@ public class DokView implements Serializable{
         }
             }
    
-  
+   public void skopiujdoedycji(){
+           ustawDate2();
+           selDokument = dokTabView.getGosciuwybral().get(0);
+           RequestContext.getCurrentInstance().update("dialogEdycja");
+           //trzeba poprawic
+           Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+            String skrot = params.get("dodWiad:rodzajTrans");
+            String nowynumer = "";
+            String pod = wpisView.findWpisX().getPodatnikWpisu();
+            Podatnik podX = podatnikDAO.find(pod);
+            List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+            Rodzajedok rodzajdok = new Rodzajedok();
+            for (Rodzajedok p : listaD){
+                if(p.getSkrot().equals(skrot)){
+                    rodzajdok = p;
+                    break;
+                }
+            }
+           podepnijListe();
+           renderujwyszukiwarke(rodzajdok);
+           renderujtabele(rodzajdok);
+           selDokument = dokTabView.getGosciuwybral().get(0);
+           RequestContext.getCurrentInstance().update("dodWiad:");
+           RequestContext.getCurrentInstance().update("dialogEdycja");
+       }
    
-    public boolean isPokazSTR() {
-        return pokazSTR;
-    }
-
-    public void setPokazSTR(boolean pokazSTR) {
-        this.pokazSTR = pokazSTR;
-    }
-    
-    
-    
-    public SrodekTrw getSelectedSTR() {
-        return selectedSTR;
-    }
-
-    public void setSelectedSTR(SrodekTrw selectedSTR) {
-        this.selectedSTR = selectedSTR;
-    }
-
-    public DokDAO getDokDAO() {
-        return dokDAO;
-    }
-
-    public void setDokDAO(DokDAO dokDAO) {
-        this.dokDAO = dokDAO;
-    }
-
-    public EVatwpis geteVatwpis() {
-        return eVatwpis;
-    }
-
-    public void seteVatwpis(EVatwpis eVatwpis) {
-        this.eVatwpis = eVatwpis;
-    }
-    
-    public Evewidencja geteVidencja() {
-        return eVidencja;
-    }
-
-    public void seteVidencja(Evewidencja eVidencja) {
-        this.eVidencja = eVidencja;
-    }
-    
-    public String getOpis() {
-        return opis;
-    }
-
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
-    
-    public HtmlSelectOneMenu getPkpirLista() {
-        return pkpirLista;
-    }
-
-    public void setPkpirLista(HtmlSelectOneMenu pkpirLista) {
-        this.pkpirLista = pkpirLista;
-    }
-
+   //<editor-fold defaultstate="collapsed" desc="comment">
+   public boolean isPokazSTR() {
+       return pokazSTR;
+   }
    
-    public PanelGrid getGrid1() {
-        return grid1;
-    }
-
-    public void setGrid1(PanelGrid grid1) {
-        this.grid1 = grid1;
-    }
-
-    public PanelGrid getGrid2() {
-        return grid2;
-    }
-
-    public void setGrid2(PanelGrid grid2) {
-        this.grid2 = grid2;
-    }
-
+   public void setPokazSTR(boolean pokazSTR) {
+       this.pokazSTR = pokazSTR;
+   }
    
-    public HtmlInputText getKontrahentNIP() {
-        return kontrahentNIP;
-    }
-
-    public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
-        this.kontrahentNIP = kontrahentNIP;
-    }
-
-    public Klienci getSelectedKontr() {
-        return selectedKontr;
-    }
-
-    public void setSelectedKontr(Klienci selectedKontr) {
-        this.selectedKontr = selectedKontr;
-    }
-  
-    public Dok getSelDokument() {
-        return selDokument;
-    }
-
-    public void setSelDokument(Dok selDokument) {
-        this.selDokument = selDokument;
-    }
-
    
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public static Klienci getPrzekazKontr() {
-        return przekazKontr;
-    }
-
-    public static void setPrzekazKontr(Klienci przekazKontr) {
-        DokView.przekazKontr = przekazKontr;
-    }
-
-
-    public double getNetto1() {
-        return netto1;
-    }
-
-    public void setNetto1(double netto1) {
-        this.netto1 = netto1;
-    }
-
-    public double getVat1() {
-        return vat1;
-    }
-
-    public void setVat1(double vat1) {
-        this.vat1 = vat1;
-    }
-
-    public double getNetto2() {
-        return netto2;
-    }
-
-    public void setNetto2(double netto2) {
-        this.netto2 = netto2;
-    }
-
-    public double getVat2() {
-        return vat2;
-    }
-
-    public void setVat2(double vat2) {
-        this.vat2 = vat2;
-    }
-
-    public double getNetto3() {
-        return netto3;
-    }
-
-    public void setNetto3(double netto3) {
-        this.netto3 = netto3;
-    }
-
-    public double getVat3() {
-        return vat3;
-    }
-
-    public void setVat3(double vat3) {
-        this.vat3 = vat3;
-    }
-
-    public double getNetto4() {
-        return netto4;
-    }
-
-    public void setNetto4(double netto4) {
-        this.netto4 = netto4;
-    }
-
-    public double getVat4() {
-        return vat4;
-    }
-
-    public void setVat4(double vat4) {
-        this.vat4 = vat4;
-    }
-
-    public double getNetto5() {
-        return netto5;
-    }
-
-    public void setNetto5(double netto5) {
-        this.netto5 = netto5;
-    }
-
-    public double getVat5() {
-        return vat5;
-    }
-
-    public void setVat5(double vat5) {
-        this.vat5 = vat5;
-    }
-
-    
-    public String getOpis1() {
-        return opis1;
-    }
-
-    public void setOpis1(String opis1) {
-        this.opis1 = opis1;
-    }
-
-    public String getOpis2() {
-        return opis2;
-    }
-
-    public void setOpis2(String opis2) {
-        this.opis2 = opis2;
-    }
-
-    public String getOpis3() {
-        return opis3;
-    }
-
-    public void setOpis3(String opis3) {
-        this.opis3 = opis3;
-    }
-
-    public String getOpis4() {
-        return opis4;
-    }
-
-    public void setOpis4(String opis4) {
-        this.opis4 = opis4;
-    }
-
-    public Dok getWysDokument() {
-        return wysDokument;
-    }
-
-    public void setWysDokument(Dok wysDokument) {
-        this.wysDokument = wysDokument;
-    }
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
-    public PanelGrid getGrid3() {
-        return grid3;
-    }
-
-    public void setGrid3(PanelGrid grid3) {
-        this.grid3 = grid3;
-    }
-
-    public String getNazwaSTR() {
-        return nazwaSTR;
-    }
-
-    public void setNazwaSTR(String nazwaSTR) {
-        this.nazwaSTR = nazwaSTR;
-    }
-
-    public String getDataPrzSTR() {
-        return dataPrzSTR;
-    }
-
-    public void setDataPrzSTR(String dataPrzSTR) {
-        this.dataPrzSTR = dataPrzSTR;
-    }
-
-    public String getSymbolKST() {
-        return symbolKST;
-    }
-
-    public void setSymbolKST(String symbolKST) {
-        this.symbolKST = symbolKST;
-    }
-
-    public String getStawkaKST() {
-        return stawkaKST;
-    }
-
-    public void setStawkaKST(String stawkaKST) {
-        this.stawkaKST = stawkaKST;
-    }
-
-    public HtmlSelectOneMenu getSrodkitrwalewyposazenie() {
-        return srodkitrwalewyposazenie;
-    }
-
-    public void setSrodkitrwalewyposazenie(HtmlSelectOneMenu srodkitrwalewyposazenie) {
-        this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
-    }
-
-    public String getTypKST() {
-        return typKST;
-    }
-
-    public void setTypKST(String typKST) {
-        this.typKST = typKST;
-    }
-
-    public String getOpizw() {
-        return opizw;
-    }
-
-    public void setOpizw(String opizw) {
-        this.opizw = opizw;
-    }
-
-    public String getWielkoscopisuewidencji() {
-        return wielkoscopisuewidencji;
-    }
-
-    public void setWielkoscopisuewidencji(String wielkoscopisuewidencji) {
-        this.wielkoscopisuewidencji = wielkoscopisuewidencji;
-    }
-
-    public Rozrachunek getRozrachunek() {
-        return rozrachunek;
-    }
-
-    public void setRozrachunek(Rozrachunek rozrachunek) {
-        this.rozrachunek = rozrachunek;
-    }
-
-    public boolean isRozliczony() {
-        return rozliczony;
-    }
-
-    public void setRozliczony(boolean rozliczony) {
-        this.rozliczony = rozliczony;
-    }
-
-    public String getTypdokumentu() {
-        return typdokumentu;
-    }
-
-    public void setTypdokumentu(String typdokumentu) {
-        this.typdokumentu = typdokumentu;
-    }
-
-    public Double getUmorzeniepoczatkowe() {
-        return umorzeniepoczatkowe;
-    }
-
-    public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
-        this.umorzeniepoczatkowe = umorzeniepoczatkowe;
-    }
-
-    public List<Rodzajedok> getRodzajedokKlienta() {
-        return rodzajedokKlienta;
-    }
-
-    public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
-        this.rodzajedokKlienta = rodzajedokKlienta;
-    }
-
-    public Srodkikst getSrodekkategoria() {
-        return srodekkategoria;
-    }
-
-    public void setSrodekkategoria(Srodkikst srodekkategoria) {
-        this.srodekkategoria = srodekkategoria;
-    }
-
-    public Srodkikst getSrodekkategoriawynik() {
-        return srodekkategoriawynik;
-    }
-
-    public void setSrodekkategoriawynik(Srodkikst srodekkategoriawynik) {
-        this.srodekkategoriawynik = srodekkategoriawynik;
-    }
-
-    public String getOpis5() {
-        return opis5;
-    }
-  
-    public void setOpis5(String opis5) {
-        this.opis5 = opis5;
-    }
-
-    public List<String> getListamiesiecyewidencjavat() {
-        return listamiesiecyewidencjavat;
-    }
-
-    public void setListamiesiecyewidencjavat(List<String> listamiesiecyewidencjavat) {
-        this.listamiesiecyewidencjavat = listamiesiecyewidencjavat;
-    }
-
-    public List<KwotaKolumna> getNettokolumna() {
-        return nettokolumna;
-    }
-
-    public void setNettokolumna(List<KwotaKolumna> nettokolumna) {
-        this.nettokolumna = nettokolumna;
-    }
-
-    public double getNetto0() {
-        return nettopkpir0;
-    }
-
-    public void setNetto0(double netto0) {
-        this.nettopkpir0 = netto0;
-    }
-
-    public double getVat0() {
-        return vatpkpir0;
-    }
-
-    public void setVat0(double vat0) {
-        this.vatpkpir0 = vat0;
-    }
-
-    public String getOpiskolumny0() {
-        return opiskolumny0;
-    }
-
-    public void setOpiskolumny0(String opiskolumny0) {
-        this.opiskolumny0 = opiskolumny0;
-    }
-
-    public double getNettopkpir0() {
-        return nettopkpir0;
-    }
-
-    public void setNettopkpir0(double nettopkpir0) {
-        this.nettopkpir0 = nettopkpir0;
-    }
-
-    public double getNettopkpir1() {
-        return nettopkpir1;
-    }
-
-    public void setNettopkpir1(double nettopkpir1) {
-        this.nettopkpir1 = nettopkpir1;
-    }
-
-    public String getOpiskolumny1() {
-        return opiskolumny1;
-    }
-
-    public void setOpiskolumny1(String opiskolumny1) {
-        this.opiskolumny1 = opiskolumny1;
-    }
-
-    public String getVat1S() {
-        return vat1S;
-    }
-
-    public void setVat1S(String vat1S) {
-        this.vat1S = vat1S;
-    }
-
-    public String getVat2S() {
-        return vat2S;
-    }
-
-    public void setVat2S(String vat2S) {
-        this.vat2S = vat2S;
-    }
-
-    public String getVat3S() {
-        return vat3S;
-    }
-
-    public void setVat3S(String vat3S) {
-        this.vat3S = vat3S;
-    }
-
-    public String getVat4S() {
-        return vat4S;
-    }
-
-    public void setVat4S(String vat4S) {
-        this.vat4S = vat4S;
-    }
-
-    public String getVat5S() {
-        return vat5S;
-    }
-
-    public void setVat5S(String vat5S) {
-        this.vat5S = vat5S;
-    }
-
-    public boolean isPokazEST() {
-        return pokazEST;
-    }
-
-    public void setPokazEST(boolean pokazEST) {
-        this.pokazEST = pokazEST;
-    }
-    
-    
-    
-    
-    
-//    public static void main(String[] args) throws ParseException{
-//        String data = "2012-02-02";
-//        Calendar c = Calendar.getInstance();
-//        DateFormat formatter;
-//        formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        Date terminplatnosci = (Date) formatter.parse(data);
-//        c.setTime(terminplatnosci);
-//        c.add(Calendar.DAY_OF_MONTH, 30);
-//        String nd30 = formatter.format(c.getTime());
-////        selDokument.setTermin30(nd30);
-//        c.setTime(terminplatnosci);
-//        c.add(Calendar.DAY_OF_MONTH, 90);
-//        String nd90 = formatter.format(c.getTime());
-//      //  selDokument.setTermin90(nd90);
-//        c.setTime(terminplatnosci);
-//        c.add(Calendar.DAY_OF_MONTH, 150);
-//        String nd150 = formatter.format(c.getTime());
-//        //selDokument.setTermin150(nd150);
-//    }
-      public static void main(String[] args) {
-         Map<String, Object> lolo =  FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-          //        addDays("2008-03-08");
-//        addDays("2009-03-07");
-//        addDays("2010-03-13");
-    }
-//
-//    public static void addDays(String dateString) {
-//        System.out.println("Got dateString: " + dateString);
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-//
-//        Calendar calendar = Calendar.getInstance();
-//        try {
-//            calendar.setTime(sdf.parse(dateString));
-//            Date day1 = calendar.getTime();
-//            System.out.println("  day1 = " + sdf.format(day1));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day2 = calendar.getTime();
-//            System.out.println("  day2 = " + sdf.format(day2));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day3 = calendar.getTime();
-//            System.out.println("  day3 = " + sdf.format(day3));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day4 = calendar.getTime();
-//            System.out.println("  day4 = " + sdf.format(day4));
-//
-//            // Skipping a few days ahead:
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
-//            Date day5 = calendar.getTime();
-//            System.out.println("  day5 = " + sdf.format(day5));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day6 = calendar.getTime();
-//            System.out.println("  day6 = " + sdf.format(day6));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day7 = calendar.getTime();
-//            System.out.println("  day7 = " + sdf.format(day7));
-//
-//            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-//            Date day8 = calendar.getTime();
-//            System.out.println("  day8 = " + sdf.format(day8));
-//
-//        } catch (Exception e) {
-//        }
-//    }
-      
-//      public void uporzadkujbrutto(){
-//          List<Dok> lista = dokDAO.findAll();
-//          for(Dok sel : lista){
-//                Double kwota = sel.getKwota();
-//                try{
-//                kwota = kwota + sel.getKwotaX();
-//                } catch (Exception e){}
-//                
-//                double kwotavat = 0;
-//                try{
-//                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
-//                    for(EVatwpis p : listavat){
-//                        kwotavat = kwotavat + p.getVat();
-//                    }
-//                } catch (Exception e){}
-//                try{
-//                kwota = kwota + kwotavat;
-//                } catch (Exception e){}
-//                sel.setBrutto(kwota);
-//                dokDAO.edit(sel);
-//          }
-//      }
-      
-//       public void uporzadkujekstra(){
-//          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
-//          for(Dok sel : lista){
-//                Double kwota = sel.getKwota();
-//                if(sel.getPodatnik().equals("EKSTRA S.C.")){
-//                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
-//                }
-//                System.out.println("Zmienilem dokument");
-//                dokDAO.edit(sel);
-//          }
-//      }
-      
-//      public void przeksiegujkwoty(){
-//          List<Dok> lista = dokDAO.findAll();
-//          for(Dok p : lista){
-//              List<KwotaKolumna> wiersz = new ArrayList<>();
-//              KwotaKolumna pierwszy = new KwotaKolumna();
-//              KwotaKolumna drugi = new KwotaKolumna();
-//              try {
-//                  pierwszy.setNetto(p.getKwota());
-//                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
-//                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-//                  pierwszy.setVat(tmp1.doubleValue());
-//                  tmp1 = BigDecimal.valueOf(p.getBrutto());
-//                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-//                  pierwszy.setBrutto(tmp1.doubleValue());
-//                  pierwszy.setNazwakolumny(p.getPkpirKol());
-//                  wiersz.add(pierwszy);
-//              } catch (Exception e){}
-//              try {
-//                  drugi.setNetto(p.getKwotaX());
-//                  drugi.setVat(0.0);
-//                  drugi.setBrutto(p.getKwotaX().doubleValue());
-//                  drugi.setNazwakolumny(p.getPkpirKolX());
-//                  drugi.setDowykorzystania("dosprawdzenia");
-//                  wiersz.add(drugi);
-//              } catch (Exception e){}
-//              p.setListakwot(wiersz);
-//              dokDAO.edit(p);
-//              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
-//          }
-//      }
-
-    
+   
+   public SrodekTrw getSelectedSTR() {
+       return selectedSTR;
+   }
+   
+   public void setSelectedSTR(SrodekTrw selectedSTR) {
+       this.selectedSTR = selectedSTR;
+   }
+   
+   public DokDAO getDokDAO() {
+       return dokDAO;
+   }
+   
+   public void setDokDAO(DokDAO dokDAO) {
+       this.dokDAO = dokDAO;
+   }
+   
+   public EVatwpis geteVatwpis() {
+       return eVatwpis;
+   }
+   
+   public void seteVatwpis(EVatwpis eVatwpis) {
+       this.eVatwpis = eVatwpis;
+   }
+   
+   public Evewidencja geteVidencja() {
+       return eVidencja;
+   }
+   
+   public void seteVidencja(Evewidencja eVidencja) {
+       this.eVidencja = eVidencja;
+   }
+   
+   public String getOpis() {
+       return opis;
+   }
+   
+   public void setOpis(String opis) {
+       this.opis = opis;
+   }
+   
+   public HtmlSelectOneMenu getPkpirLista() {
+       return pkpirLista;
+   }
+   
+   public void setPkpirLista(HtmlSelectOneMenu pkpirLista) {
+       this.pkpirLista = pkpirLista;
+   }
+   
+   
+   public PanelGrid getGrid1() {
+       return grid1;
+   }
+   
+   public void setGrid1(PanelGrid grid1) {
+       this.grid1 = grid1;
+   }
+   
+   public PanelGrid getGrid2() {
+       return grid2;
+   }
+   
+   public void setGrid2(PanelGrid grid2) {
+       this.grid2 = grid2;
+   }
+   
+   
+   public HtmlInputText getKontrahentNIP() {
+       return kontrahentNIP;
+   }
+   
+   public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
+       this.kontrahentNIP = kontrahentNIP;
+   }
+   
+   public Klienci getSelectedKontr() {
+       return selectedKontr;
+   }
+   
+   public void setSelectedKontr(Klienci selectedKontr) {
+       this.selectedKontr = selectedKontr;
+   }
+   
+   public Dok getSelDokument() {
+       return selDokument;
+   }
+   
+   public void setSelDokument(Dok selDokument) {
+       this.selDokument = selDokument;
+   }
+   
+   
+   public WpisView getWpisView() {
+       return wpisView;
+   }
+   
+   public void setWpisView(WpisView wpisView) {
+       this.wpisView = wpisView;
+   }
+   
+   public static Klienci getPrzekazKontr() {
+       return przekazKontr;
+   }
+   
+   public static void setPrzekazKontr(Klienci przekazKontr) {
+       DokView.przekazKontr = przekazKontr;
+   }
+   
+   
+   public double getNetto1() {
+       return netto1;
+   }
+   
+   public void setNetto1(double netto1) {
+       this.netto1 = netto1;
+   }
+   
+   public double getVat1() {
+       return vat1;
+   }
+   
+   public void setVat1(double vat1) {
+       this.vat1 = vat1;
+   }
+   
+   public double getNetto2() {
+       return netto2;
+   }
+   
+   public void setNetto2(double netto2) {
+       this.netto2 = netto2;
+   }
+   
+   public double getVat2() {
+       return vat2;
+   }
+   
+   public void setVat2(double vat2) {
+       this.vat2 = vat2;
+   }
+   
+   public double getNetto3() {
+       return netto3;
+   }
+   
+   public void setNetto3(double netto3) {
+       this.netto3 = netto3;
+   }
+   
+   public double getVat3() {
+       return vat3;
+   }
+   
+   public void setVat3(double vat3) {
+       this.vat3 = vat3;
+   }
+   
+   public double getNetto4() {
+       return netto4;
+   }
+   
+   public void setNetto4(double netto4) {
+       this.netto4 = netto4;
+   }
+   
+   public double getVat4() {
+       return vat4;
+   }
+   
+   public void setVat4(double vat4) {
+       this.vat4 = vat4;
+   }
+   
+   public double getNetto5() {
+       return netto5;
+   }
+   
+   public void setNetto5(double netto5) {
+       this.netto5 = netto5;
+   }
+   
+   public double getVat5() {
+       return vat5;
+   }
+   
+   public void setVat5(double vat5) {
+       this.vat5 = vat5;
+   }
+   
+   
+   public String getOpis1() {
+       return opis1;
+   }
+   
+   public void setOpis1(String opis1) {
+       this.opis1 = opis1;
+   }
+   
+   public String getOpis2() {
+       return opis2;
+   }
+   
+   public void setOpis2(String opis2) {
+       this.opis2 = opis2;
+   }
+   
+   public String getOpis3() {
+       return opis3;
+   }
+   
+   public void setOpis3(String opis3) {
+       this.opis3 = opis3;
+   }
+   
+   public String getOpis4() {
+       return opis4;
+   }
+   
+   public void setOpis4(String opis4) {
+       this.opis4 = opis4;
+   }
+   
+   public Dok getWysDokument() {
+       return wysDokument;
+   }
+   
+   public void setWysDokument(Dok wysDokument) {
+       this.wysDokument = wysDokument;
+   }
+   
+   public String getTest() {
+       return test;
+   }
+   
+   public void setTest(String test) {
+       this.test = test;
+   }
+   
+   public PanelGrid getGrid3() {
+       return grid3;
+   }
+   
+   public void setGrid3(PanelGrid grid3) {
+       this.grid3 = grid3;
+   }
+   
+   public String getNazwaSTR() {
+       return nazwaSTR;
+   }
+   
+   public void setNazwaSTR(String nazwaSTR) {
+       this.nazwaSTR = nazwaSTR;
+   }
+   
+   public String getDataPrzSTR() {
+       return dataPrzSTR;
+   }
+   
+   public void setDataPrzSTR(String dataPrzSTR) {
+       this.dataPrzSTR = dataPrzSTR;
+   }
+   
+   public String getSymbolKST() {
+       return symbolKST;
+   }
+   
+   public void setSymbolKST(String symbolKST) {
+       this.symbolKST = symbolKST;
+   }
+   
+   public String getStawkaKST() {
+       return stawkaKST;
+   }
+   
+   public void setStawkaKST(String stawkaKST) {
+       this.stawkaKST = stawkaKST;
+   }
+   
+   public HtmlSelectOneMenu getSrodkitrwalewyposazenie() {
+       return srodkitrwalewyposazenie;
+   }
+   
+   public void setSrodkitrwalewyposazenie(HtmlSelectOneMenu srodkitrwalewyposazenie) {
+       this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
+   }
+   
+   public String getTypKST() {
+       return typKST;
+   }
+   
+   public void setTypKST(String typKST) {
+       this.typKST = typKST;
+   }
+   
+   public String getOpizw() {
+       return opizw;
+   }
+   
+   public void setOpizw(String opizw) {
+       this.opizw = opizw;
+   }
+   
+   public String getWielkoscopisuewidencji() {
+       return wielkoscopisuewidencji;
+   }
+   
+   public void setWielkoscopisuewidencji(String wielkoscopisuewidencji) {
+       this.wielkoscopisuewidencji = wielkoscopisuewidencji;
+   }
+   
+   public Rozrachunek getRozrachunek() {
+       return rozrachunek;
+   }
+   
+   public void setRozrachunek(Rozrachunek rozrachunek) {
+       this.rozrachunek = rozrachunek;
+   }
+   
+   public boolean isRozliczony() {
+       return rozliczony;
+   }
+   
+   public void setRozliczony(boolean rozliczony) {
+       this.rozliczony = rozliczony;
+   }
+   
+   public String getTypdokumentu() {
+       return typdokumentu;
+   }
+   
+   public void setTypdokumentu(String typdokumentu) {
+       this.typdokumentu = typdokumentu;
+   }
+   
+   public Double getUmorzeniepoczatkowe() {
+       return umorzeniepoczatkowe;
+   }
+   
+   public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
+       this.umorzeniepoczatkowe = umorzeniepoczatkowe;
+   }
+   
+   public List<Rodzajedok> getRodzajedokKlienta() {
+       return rodzajedokKlienta;
+   }
+   
+   public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
+       this.rodzajedokKlienta = rodzajedokKlienta;
+   }
+   
+   public Srodkikst getSrodekkategoria() {
+       return srodekkategoria;
+   }
+   
+   public void setSrodekkategoria(Srodkikst srodekkategoria) {
+       this.srodekkategoria = srodekkategoria;
+   }
+   
+   public Srodkikst getSrodekkategoriawynik() {
+       return srodekkategoriawynik;
+   }
+   
+   public void setSrodekkategoriawynik(Srodkikst srodekkategoriawynik) {
+       this.srodekkategoriawynik = srodekkategoriawynik;
+   }
+   
+   public String getOpis5() {
+       return opis5;
+   }
+   
+   public void setOpis5(String opis5) {
+       this.opis5 = opis5;
+   }
+   
+   public List<String> getListamiesiecyewidencjavat() {
+       return listamiesiecyewidencjavat;
+   }
+   
+   public void setListamiesiecyewidencjavat(List<String> listamiesiecyewidencjavat) {
+       this.listamiesiecyewidencjavat = listamiesiecyewidencjavat;
+   }
+   
+   public List<KwotaKolumna> getNettokolumna() {
+       return nettokolumna;
+   }
+   
+   public void setNettokolumna(List<KwotaKolumna> nettokolumna) {
+       this.nettokolumna = nettokolumna;
+   }
+   
+   public double getNetto0() {
+       return nettopkpir0;
+   }
+   
+   public void setNetto0(double netto0) {
+       this.nettopkpir0 = netto0;
+   }
+   
+   public double getVat0() {
+       return vatpkpir0;
+   }
+   
+   public void setVat0(double vat0) {
+       this.vatpkpir0 = vat0;
+   }
+   
+   public String getOpiskolumny0() {
+       return opiskolumny0;
+   }
+   
+   public void setOpiskolumny0(String opiskolumny0) {
+       this.opiskolumny0 = opiskolumny0;
+   }
+   
+   public double getNettopkpir0() {
+       return nettopkpir0;
+   }
+   
+   public void setNettopkpir0(double nettopkpir0) {
+       this.nettopkpir0 = nettopkpir0;
+   }
+   
+   public double getNettopkpir1() {
+       return nettopkpir1;
+   }
+   
+   public void setNettopkpir1(double nettopkpir1) {
+       this.nettopkpir1 = nettopkpir1;
+   }
+   
+   public String getOpiskolumny1() {
+       return opiskolumny1;
+   }
+   
+   public void setOpiskolumny1(String opiskolumny1) {
+       this.opiskolumny1 = opiskolumny1;
+   }
+   
+   public String getVat1S() {
+       return vat1S;
+   }
+   
+   public void setVat1S(String vat1S) {
+       this.vat1S = vat1S;
+   }
+   
+   public String getVat2S() {
+       return vat2S;
+   }
+   
+   public void setVat2S(String vat2S) {
+       this.vat2S = vat2S;
+   }
+   
+   public String getVat3S() {
+       return vat3S;
+   }
+   
+   public void setVat3S(String vat3S) {
+       this.vat3S = vat3S;
+   }
+   
+   public String getVat4S() {
+       return vat4S;
+   }
+   
+   public void setVat4S(String vat4S) {
+       this.vat4S = vat4S;
+   }
+   
+   public String getVat5S() {
+       return vat5S;
+   }
+   
+   public void setVat5S(String vat5S) {
+       this.vat5S = vat5S;
+   }
+   
+   public boolean isPokazEST() {
+       return pokazEST;
+   }
+   
+   public void setPokazEST(boolean pokazEST) {
+       this.pokazEST = pokazEST;
+   }
+   
+   public DokTabView getDokTabView() {
+       return dokTabView;
+   }
+   
+   public void setDokTabView(DokTabView dokTabView) {
+       this.dokTabView = dokTabView;
+   }
+   
+   
+   
+   
+   
+   //    public static void main(String[] args) throws ParseException{
+   //        String data = "2012-02-02";
+   //        Calendar c = Calendar.getInstance();
+   //        DateFormat formatter;
+   //        formatter = new SimpleDateFormat("yyyy-MM-dd");
+   //        Date terminplatnosci = (Date) formatter.parse(data);
+   //        c.setTime(terminplatnosci);
+   //        c.add(Calendar.DAY_OF_MONTH, 30);
+   //        String nd30 = formatter.format(c.getTime());
+   ////        selDokument.setTermin30(nd30);
+   //        c.setTime(terminplatnosci);
+   //        c.add(Calendar.DAY_OF_MONTH, 90);
+   //        String nd90 = formatter.format(c.getTime());
+   //      //  selDokument.setTermin90(nd90);
+   //        c.setTime(terminplatnosci);
+   //        c.add(Calendar.DAY_OF_MONTH, 150);
+   //        String nd150 = formatter.format(c.getTime());
+   //        //selDokument.setTermin150(nd150);
+   //    }
+   public static void main(String[] args) {
+       Map<String, Object> lolo =  FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+       //        addDays("2008-03-08");
+       //        addDays("2009-03-07");
+       //        addDays("2010-03-13");
+   }
+   //
+   //    public static void addDays(String dateString) {
+   //        System.out.println("Got dateString: " + dateString);
+   //
+   //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+   //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+   //
+   //        Calendar calendar = Calendar.getInstance();
+   //        try {
+   //            calendar.setTime(sdf.parse(dateString));
+   //            Date day1 = calendar.getTime();
+   //            System.out.println("  day1 = " + sdf.format(day1));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day2 = calendar.getTime();
+   //            System.out.println("  day2 = " + sdf.format(day2));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day3 = calendar.getTime();
+   //            System.out.println("  day3 = " + sdf.format(day3));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day4 = calendar.getTime();
+   //            System.out.println("  day4 = " + sdf.format(day4));
+   //
+   //            // Skipping a few days ahead:
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
+   //            Date day5 = calendar.getTime();
+   //            System.out.println("  day5 = " + sdf.format(day5));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day6 = calendar.getTime();
+   //            System.out.println("  day6 = " + sdf.format(day6));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day7 = calendar.getTime();
+   //            System.out.println("  day7 = " + sdf.format(day7));
+   //
+   //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+   //            Date day8 = calendar.getTime();
+   //            System.out.println("  day8 = " + sdf.format(day8));
+   //
+   //        } catch (Exception e) {
+   //        }
+   //    }
+   
+   //      public void uporzadkujbrutto(){
+   //          List<Dok> lista = dokDAO.findAll();
+   //          for(Dok sel : lista){
+   //                Double kwota = sel.getKwota();
+   //                try{
+   //                kwota = kwota + sel.getKwotaX();
+   //                } catch (Exception e){}
+   //
+   //                double kwotavat = 0;
+   //                try{
+   //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
+   //                    for(EVatwpis p : listavat){
+   //                        kwotavat = kwotavat + p.getVat();
+   //                    }
+   //                } catch (Exception e){}
+   //                try{
+   //                kwota = kwota + kwotavat;
+   //                } catch (Exception e){}
+   //                sel.setBrutto(kwota);
+   //                dokDAO.edit(sel);
+   //          }
+   //      }
+   
+   //       public void uporzadkujekstra(){
+   //          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
+   //          for(Dok sel : lista){
+   //                Double kwota = sel.getKwota();
+   //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
+   //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
+   //                }
+   //                System.out.println("Zmienilem dokument");
+   //                dokDAO.edit(sel);
+   //          }
+   //      }
+   
+   //      public void przeksiegujkwoty(){
+   //          List<Dok> lista = dokDAO.findAll();
+   //          for(Dok p : lista){
+   //              List<KwotaKolumna> wiersz = new ArrayList<>();
+   //              KwotaKolumna pierwszy = new KwotaKolumna();
+   //              KwotaKolumna drugi = new KwotaKolumna();
+   //              try {
+   //                  pierwszy.setNetto(p.getKwota());
+   //                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
+   //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+   //                  pierwszy.setVat(tmp1.doubleValue());
+   //                  tmp1 = BigDecimal.valueOf(p.getBrutto());
+   //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+   //                  pierwszy.setBrutto(tmp1.doubleValue());
+   //                  pierwszy.setNazwakolumny(p.getPkpirKol());
+   //                  wiersz.add(pierwszy);
+   //              } catch (Exception e){}
+   //              try {
+   //                  drugi.setNetto(p.getKwotaX());
+   //                  drugi.setVat(0.0);
+   //                  drugi.setBrutto(p.getKwotaX().doubleValue());
+   //                  drugi.setNazwakolumny(p.getPkpirKolX());
+   //                  drugi.setDowykorzystania("dosprawdzenia");
+   //                  wiersz.add(drugi);
+   //              } catch (Exception e){}
+   //              p.setListakwot(wiersz);
+   //              dokDAO.edit(p);
+   //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
+   //          }
+   //      }
+   
+   
+   //</editor-fold>
+ 
 }

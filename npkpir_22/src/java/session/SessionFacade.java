@@ -316,7 +316,7 @@ public class SessionFacade<T> {
 
     public Deklaracjevat findDeklaracjewysylka(String pod) {
         try {
-            return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
+                return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
         } catch (Exception e){
             return null;
         }

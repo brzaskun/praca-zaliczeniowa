@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -144,11 +145,11 @@ public class beanek {
         port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
 
-    public void rob() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+    public void rob(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
         if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłąna!", "formX:msg");
             return;
@@ -220,11 +221,11 @@ public class beanek {
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
     
-     public void robtest() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+     public void robtest(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+        Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
         if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;

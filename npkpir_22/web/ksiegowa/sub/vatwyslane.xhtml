@@ -51,13 +51,13 @@
                          </p:column>
                          <p:column width="40">
                              <f:facet name="header">
-                                 <h:outputText value="Schema"/>
+                                 <h:outputText value="Wersja"/>
                              </f:facet>
                              <h:outputText value="#{item.wzorschemy}"/>
                          </p:column>
                          <p:column width="250">
                              <f:facet name="header">
-                                 <h:outputText value="dane"/>
+                                 <h:outputText value="Dane"/>
                              </f:facet>
                              <p:dataTable value="#{item.selected}" var="loop">
                                 <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
@@ -78,12 +78,6 @@
                             </p:dataTable>
                          </p:column>
                          <p:column width="80">
-                             <f:facet name="header">
-                                 <h:outputText value="pobierzupo"/>
-                             </f:facet>
-                             <p:commandButton value="UPO" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
-                         </p:column>
-                          <p:column width="80">
                              <f:facet name="header">
                                  <h:outputText value="pobierzupo"/>
                              </f:facet>
@@ -125,13 +119,13 @@
                          </p:column>
                          <p:column width="40">
                              <f:facet name="header">
-                                 <h:outputText value="Schema"/>
+                                 <h:outputText value="Wersja"/>
                              </f:facet>
                              <h:outputText value="#{item.wzorschemy}"/>
                          </p:column>
                          <p:column width="250">
                              <f:facet name="header">
-                                 <h:outputText value="dane"/>
+                                 <h:outputText value="Dane"/>
                              </f:facet>
                              <p:dataTable value="#{item.selected}" var="loop">
                                 <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
@@ -200,13 +194,13 @@
                          </p:column>
                          <p:column width="40">
                              <f:facet name="header">
-                                 <h:outputText value="Schema"/>
+                                 <h:outputText value="Wersja"/>
                              </f:facet>
                              <h:outputText value="#{item.wzorschemy}"/>
                          </p:column>
                          <p:column width="250">
                              <f:facet name="header">
-                                 <h:outputText value="dane"/>
+                                 <h:outputText value="Dane"/>
                              </f:facet>
                              <p:dataTable value="#{item.selected}" var="loop">
                                 <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
@@ -264,13 +258,13 @@
                          </p:column>
                          <p:column width="40">
                              <f:facet name="header">
-                                 <h:outputText value="Schema"/>
+                                 <h:outputText value="Wersja"/>
                              </f:facet>
                              <h:outputText value="#{item.wzorschemy}"/>
                          </p:column>
                          <p:column width="250">
                              <f:facet name="header">
-                                 <h:outputText value="dane"/>
+                                 <h:outputText value="Dane"/>
                              </f:facet>
                             <p:dataTable value="#{item.selected}" var="loop">
                                 <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
