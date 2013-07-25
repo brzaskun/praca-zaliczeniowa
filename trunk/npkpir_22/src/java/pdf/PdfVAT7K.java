@@ -180,7 +180,11 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
        if(l.getWzorschemy().equals("K-8")){
        PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, p.getNip(), 70, 788);
-        absText(writer, d.getMiesiac(), 218, 740);
+        if(l.isMiesiackwartal()==true){
+            absText(writer, l.getNrkwartalu(), 218, 740);
+        } else {
+            absText(writer, d.getMiesiac(), 218, 740);
+        }
         absText(writer, d.getRok(), 275, 740);
         absText(writer, d.getNazwaurzedu(), 70, 665);
         if(d.getCelzlozenia().equals("1")){
@@ -342,7 +346,11 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                 
                  PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
         absText(writer, p.getNip(), 70, 788);
-        absText(writer, d.getMiesiac(), 218, 740);
+          if(l.isMiesiackwartal()==true){
+            absText(writer, l.getNrkwartalu(), 218, 740);
+        } else {
+            absText(writer, d.getMiesiac(), 218, 740);
+        }
         absText(writer, d.getRok(), 275, 740);
         absText(writer, d.getNazwaurzedu(), 70, 665);
         if(d.getCelzlozenia().equals("1")){

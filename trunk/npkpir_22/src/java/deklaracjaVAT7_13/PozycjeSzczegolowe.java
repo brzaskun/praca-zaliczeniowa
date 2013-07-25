@@ -8,8 +8,13 @@ import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -23,6 +28,10 @@ class PozycjeSzczegolowe {
     public PozycjeSzczegolowe(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Rok = Integer.parseInt(selected.getRok());
         Miesiac = Integer.parseInt(selected.getMiesiac());
+        // from Joda to JDK
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatt.format(date);
         List<String> lista = new ArrayList<>();
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         for(int i = 20;i<66;i++){
@@ -56,7 +65,10 @@ class PozycjeSzczegolowe {
             } catch (Exception e){}
             j++;
         }
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>2013-06-25</P_69>");
+        if(pozycjelista.getPoleI51()>0){
+            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_61>1</P_61>");
+        }
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>"+today+"</P_69>");
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
         }
         

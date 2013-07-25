@@ -67,8 +67,8 @@
     </h:form>
     <h:form>
         <p:panel header="wysyłka">
-        <p:commandButton value="wyślij" actionListener="#{beanek.rob()}" update=":form:upoform" style="width: 120px;"/>
-        <p:commandButton value="test" actionListener="#{beanek.robtest()}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
+        <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 120px;"/>
+        <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
         <h:outputText value="short instrakszyn: "/>
         <p:panelGrid columns="2">
             <h:outputText value="wysylanie: "/>

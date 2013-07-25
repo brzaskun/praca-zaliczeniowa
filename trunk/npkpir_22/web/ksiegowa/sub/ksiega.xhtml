@@ -106,16 +106,16 @@
 
             </p:columnGroup>  
             <p:column width="10" style="height: 20px;"> 
-                <p:rowToggler />
+                <p:rowToggler rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
             </p:column>
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}" >  
-                <h:outputText value="#{wpis.nrWpkpir}"  />
+                <h:outputText value="#{wpis.nrWpkpir}"  rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
             </p:column>
 
             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" >  
                 <h:outputText value="#{wpis.dataWyst}" ><f:convertDateTime dateStyle="medium"  /></h:outputText>
             </p:column>
-            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" >  
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains"  sortBy="#{wpis.nrWlDk}" >  
                 <h:outputText value="#{wpis.nrWlDk}" style=" line-break: loose;"/>
             </p:column>
             <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" >  

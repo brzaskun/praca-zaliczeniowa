@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -36,6 +37,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -50,7 +52,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean(name = "DokTabView")
-@RequestScoped
+@ViewScoped
 public class DokTabView implements Serializable {
     //tablica obiektów
 
@@ -70,7 +72,8 @@ public class DokTabView implements Serializable {
     //wybranedokumenty do usuniecia
     private static List<Dok> grupausun;
     private static boolean pokaztablice;
-   
+   //wartosc przefiltrowana
+    private static List<Dok> filteredValue;
     
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
@@ -101,6 +104,7 @@ public class DokTabView implements Serializable {
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
+        filteredValue = new ArrayList<>();
         
     }
 
@@ -510,6 +514,8 @@ public class DokTabView implements Serializable {
           Msg.msg("e","Błąd nie usunąłem z inwestycji!","dodWiad:mess_add");
         }
             }
+       
+      
     
     public List<Dok> getObiektDOKjsf() {
         return obiektDOKjsf;
@@ -646,6 +652,14 @@ public class DokTabView implements Serializable {
 
     public void setPokaztablice(boolean pokaztablice) {
         DokTabView.pokaztablice = pokaztablice;
+    }
+
+    public List<Dok> getFilteredValue() {
+        return filteredValue;
+    }
+
+    public void setFilteredValue(List<Dok> filteredValue) {
+        DokTabView.filteredValue = filteredValue;
     }
 
     
