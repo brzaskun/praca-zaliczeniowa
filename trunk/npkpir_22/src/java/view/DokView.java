@@ -291,6 +291,8 @@ public class DokView implements Serializable{
         
     }
     
+    
+    
     private void ukrocmiesiace(){ 
         int index = 0;
         List<String> listatmp = mce.getMceList();
@@ -1079,11 +1081,13 @@ public class DokView implements Serializable{
             }
             selDokument.setBrutto(kwota);
             selDokument.setUsunpozornie(false);
-            if(rodzajdodawania.equals(1)){
+            if(rodzajdodawania == 1){
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
             } else {
                 dokDAO.edit(selDokument);
+                init();
+                RequestContext.getCurrentInstance().update("form:dokumentyLista");
             }
             
             //wpisywanie do bazy ostatniego dokumentu
@@ -1640,7 +1644,11 @@ public class DokView implements Serializable{
    public void przekierowanieWpisKLienta() throws IOException{
        FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
    }
-   
+   /**
+    * stare do edycji dokumentu
+    * @param wpis
+    * @throws IOException 
+    */
    public void przekierowanieEdytujDokument(Dok wpis) throws IOException{
        HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -1745,6 +1753,8 @@ public class DokView implements Serializable{
            RequestContext.getCurrentInstance().update("dodWiad:");
            RequestContext.getCurrentInstance().update("dialogEdycja");
        }
+   
+    
    
    //<editor-fold defaultstate="collapsed" desc="comment">
    public boolean isPokazSTR() {
