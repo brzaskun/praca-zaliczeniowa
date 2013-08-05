@@ -333,7 +333,10 @@ public class DokView implements Serializable{
      * wybiera odpowiedni zestaw kolumn pkpir do podpiecia w zaleznosci od tego
      * czy to transakcja zakupu czy sprzedazy
      */
-     public void podepnijListe() {
+    /**
+     * Ta funckja jest gdy wpisuje dokument i dziala params.get("dodWiad:rodzajTrans")
+     */
+    public void podepnijListe() {
         try{
         pkpirLista.getChildren().clear();
         } catch (Exception egf){
@@ -341,6 +344,22 @@ public class DokView implements Serializable{
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
+        podepnijListecd(skrot);
+    }
+    
+    /**
+     * Ta funckja jest gdy edytuje dokument i dziala params.get("dodWiad:rodzajTrans")
+     */
+    public void podepnijListe(String skrot) {
+        try{
+        pkpirLista.getChildren().clear();
+        } catch (Exception egf){
+        pkpirLista = new HtmlSelectOneMenu();
+        }
+        podepnijListecd(skrot);
+    }
+    
+     public void podepnijListecd(String skrot) {
         Iterator itd;
         itd = rodzajedokKlienta.iterator();
         String transakcjiRodzaj="";
@@ -418,6 +437,16 @@ public class DokView implements Serializable{
     public void podepnijEwidencjeVat(String transakcjiRodzaj) {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:dokumentprosty");
+        //takie gupie rozwiazanie dla umozliwienia dzialania przy edycji dokumentu
+        try {
+            if (skrot.equals(test));
+        } catch (Exception e1){
+            if (selDokument.isDokumentProsty()==true){
+                skrot = "on";
+            } else {
+                skrot = null;
+            }
+        }
         try {
             if(skrot.equals("on")){}
         } catch (Exception e) {
@@ -579,6 +608,11 @@ public class DokView implements Serializable{
     }
     
     public void wygenerujnumerkolejny(){
+        try {
+            String zawartosc = selDokument.getNrWlDk();
+        } catch (Exception ex){
+            selDokument.setNrWlDk("");
+        }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
         String nowynumer = "";
@@ -625,16 +659,14 @@ public class DokView implements Serializable{
                     break;
             }
          }
-         if(nowynumer.endsWith(separator)){
+    if(nowynumer.endsWith(separator)){
           nowynumer = nowynumer.substring(0,nowynumer.lastIndexOf(separator));
          }} catch (Exception e){
             nowynumer = wzorzec;
          }
-         if(!nowynumer.equals("")){
+         if(!nowynumer.equals("")&&selDokument.getNrWlDk().equals("")){
             selDokument.setNrWlDk(nowynumer);
-         } else {
-             selDokument.setNrWlDk("");
-         }
+         } 
          renderujwyszukiwarke(rodzajdok);
          renderujtabele(rodzajdok);
     }
@@ -920,7 +952,7 @@ public class DokView implements Serializable{
     /**
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
-    public void dodaj() {
+    public void dodaj(int rodzajdodawania) {
          HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -1047,8 +1079,13 @@ public class DokView implements Serializable{
             }
             selDokument.setBrutto(kwota);
             selDokument.setUsunpozornie(false);
-            sprawdzCzyNieDuplikat(selDokument);
-            dokDAO.dodaj(selDokument);
+            if(rodzajdodawania.equals(1)){
+                sprawdzCzyNieDuplikat(selDokument);
+                dokDAO.dodaj(selDokument);
+            } else {
+                dokDAO.edit(selDokument);
+            }
+            
             //wpisywanie do bazy ostatniego dokumentu
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             principal = request.getUserPrincipal();
@@ -1683,8 +1720,7 @@ public class DokView implements Serializable{
            selDokument = dokTabView.getGosciuwybral().get(0);
            RequestContext.getCurrentInstance().update("dialogEdycja");
            //trzeba poprawic
-           Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-            String skrot = params.get("dodWiad:rodzajTrans");
+            String skrot = selDokument.getTypdokumentu();
             String nowynumer = "";
             String pod = wpisView.findWpisX().getPodatnikWpisu();
             Podatnik podX = podatnikDAO.find(pod);
@@ -1696,7 +1732,13 @@ public class DokView implements Serializable{
                     break;
                 }
             }
-           podepnijListe();
+           typdokumentu = skrot;
+           przekazKontr = selDokument.getKontr();
+           podepnijListe(skrot);
+           nettokolumna.clear();
+           for(KwotaKolumna p : selDokument.getListakwot()){
+            nettokolumna.add(p);
+           }
            renderujwyszukiwarke(rodzajdok);
            renderujtabele(rodzajdok);
            selDokument = dokTabView.getGosciuwybral().get(0);
