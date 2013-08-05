@@ -239,22 +239,25 @@ var chowanienapoczatekdok = function(){
      if(!MYAPP.hasOwnProperty('chowanedok')){
         MYAPP.chowanedok = [];
     } else {
-        for(i = 0; i < MYAPP.chowanedok.length; i++){
+        var dl = MYAPP.chowanedok.length;
+        for(i = 0; i < dl; i++){
             var blokowany = "#form\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:opis";
+            var pozycja = MYAPP.chowanedok[i].pozycja;
             $(blokowany).hide();
-            blokowany = "#form\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:"+MYAPP.chowanedok[i].blokowany;
+            blokowany = "#form\\:dataList\\:" + pozycja + "\\:"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
-            blokowany = "#form\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:konto"+MYAPP.chowanedok[i].blokowany;
+            blokowany = "#form\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
-        }
-    }
+        };
+    };
 };
 
 var zachowajwtablicy = function(pozycjaszukana){
     //sprawdza czy wystepuje w poli
     var wynik = 0;
     var miejsce;
-    for(i = 0; i < MYAPP.chowane.length; i++){
+    var dl = MYAPP.chowanedok.length;
+    for(i = 0; i < dl; i++){
         var znaleziono = MYAPP.chowane[i].pozycja;
         if(znaleziono===pozycjaszukana.pozycja){
             wynik = 1;
@@ -275,7 +278,8 @@ var zachowajwtablicydok = function(pozycjaszukana){
     //sprawdza czy wystepuje w poli
     var wynik = 0;
     var miejsce;
-    for(i = 0; i < MYAPP.chowanedok.length; i++){
+    var dl = MYAPP.chowanedok.length;
+    for(i = 0; i < dl; i++){
         var znaleziono = MYAPP.chowanedok[i].pozycja;
         if(znaleziono===pozycjaszukana.pozycja){
             wynik = 1;
@@ -300,7 +304,8 @@ var usunztablicydok = function(){
     //sprawdza czy wystepuje w poli
     var wynik = 0;
     var miejsce;
-    for(i = 0; i < MYAPP.chowanedok.length; i++){
+    var dl = MYAPP.chowanedok.length;
+    for(i = 0; i < dl; i++){
         var znaleziono = MYAPP.chowanedok[i].pozycja;
         if(znaleziono===pozycjaszukana){
             wynik = 1;
