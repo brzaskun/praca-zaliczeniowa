@@ -127,7 +127,7 @@
         <!--dodatkowa kolumna pkpir-->
         <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
         </p:panelGrid>
-          <p:contextMenu>
+        <p:contextMenu for="panelewidencji">
               <p:menuitem value="Sprzedaż" onclick="confirmation.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
               <p:menuitem value="Odkup" onclick="confirmation1.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
             </p:contextMenu>

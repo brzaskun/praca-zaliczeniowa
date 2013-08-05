@@ -36,10 +36,10 @@
         </p:outputPanel>
 
         <p:outputPanel id="wrapper"> 
-            <p:contextMenu>
-                <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" onclick="dlg123.show()"/>
+            <p:contextMenu for="dokumentyLista">
+                <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" onclick="dlg123.show();"/>
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-                <p:menuitem value="Usuń wiele" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show()"/>
+                <p:menuitem value="Usuń wiele" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
                 <p:menuitem value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
             </p:contextMenu>
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
@@ -100,7 +100,7 @@
                 </p:column>
 
                 <p:column id="pkpirKolColumn" headerText="zapis w pkpir" width="300" resizable="true">  
-                    <p:dataTable id="tablicakolumn" var="subwpis" value="#{wpis.listakwot}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 300px;">
+                    <p:dataTable id="tablicakolumn" var="subwpis" value="#{wpis.listakwot}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 300px;" lazy="false"  >
                         <p:column id="SubColumnP1"  headerText="netto" width="100">  
                             <h:outputText value="#{subwpis.netto}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -417,13 +417,13 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" oncomplete="dlg123.hide();" > 
+                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj" update=":form:dokumentyLista:" style="width: 150px;" oncomplete="dlg123.hide();" > 
                     </p:commandButton>
                 </p:panelGrid>
             </p:panel>
         </h:form>
 
     </p:dialog>
-
+ 
 </ui:composition>   
 

@@ -1086,7 +1086,6 @@ public class DokView implements Serializable{
                 dokDAO.dodaj(selDokument);
             } else {
                 dokDAO.edit(selDokument);
-                init();
                 RequestContext.getCurrentInstance().update("form:dokumentyLista");
             }
             
