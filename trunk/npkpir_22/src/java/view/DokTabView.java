@@ -126,35 +126,26 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             int numerkolejny = 1;
+            if(!wpisView.getPodatnikObiekt().getNumerpkpir().isEmpty()){
             try{
             //zmienia numer gdy srodek roku
              int index = wpisView.getPodatnikObiekt().getNumerpkpir().size()-1;
              String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
              numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e){
+                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
                 System.out.println(e.toString());
             }
+            }
             try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString()));
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
-                //
-//                for(Dok p : obiektDOKjsfSel){
-//                    p.setNrWpkpir(numerkolejny++);
-//                }
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-//            String m = wpisView.getMiesiacWpisu();
-//            Integer m1 = Integer.parseInt(m);
-//            String mn = Mce.getMapamcy().get(m1);
-//            Integer r = wpisView.getRokWpisu();
+
             obiektDOKmrjsfSel.clear();
-//             try{
-//            //zmienia numer gdy srodek roku
-//             numerkolejny = Integer.parseInt(wpisView.getPodatnikObiekt().getNumerpkpir().get(wpisView.getPodatnikObiekt().getNumerpkpir().size()-1).getParametr());
-//            } catch (Exception e){
-//            }
             for(Dok tmpx : obiektDOKjsfSel){
                    tmpx.setNrWpkpir(numerkolejny++);
                    if (tmpx.getRozliczony() == false) {
@@ -168,9 +159,6 @@ public class DokTabView implements Serializable {
                     if (tmpx.getPkpirM().equals(mc)) {
                         obiektDOKmrjsfSel.add(tmpx);
                     }
-//                    if (tmpx.getVatM().equals(mn)) {
-//                        dokvatmc.add(tmpx);
-//                    }
                     
                 }
             }
