@@ -119,6 +119,8 @@ public class DokView implements Serializable{
     private WpisView wpisView;
     @ManagedProperty(value = "#{DokTabView}")
     private DokTabView dokTabView;
+    @ManagedProperty(value = "#{KlView}")
+    private KlView klView;
     @Inject private DokDAO dokDAO;
     @Inject private Kolmn kolumna; 
     private String opis;
@@ -1763,6 +1765,14 @@ public class DokView implements Serializable{
    public void setPokazSTR(boolean pokazSTR) {
        this.pokazSTR = pokazSTR;
    }
+
+    public KlView getKlView() {
+        return klView;
+    }
+
+    public void setKlView(KlView klView) {
+        this.klView = klView;
+    }
    
    
    

@@ -417,8 +417,8 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj" update=":form:dokumentyLista:" style="width: 150px;" oncomplete="dlg123.hide();" > 
-                    </p:commandButton>
+                    <h:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" > 
+                    </h:commandButton>
                 </p:panelGrid>
             </p:panel>
         </h:form>

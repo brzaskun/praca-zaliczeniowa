@@ -5,6 +5,8 @@
 package converter;
 
 import entity.Klienci;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -25,8 +27,9 @@ public class KlientConv implements javax.faces.convert.Converter{
         } else {  
             try {  
                 String number = submittedValue;  
-  
-                for (Klienci p : KlView.getKl()) {  
+                List<Klienci> lista = new ArrayList<>();
+                lista.addAll(KlView.getKl());
+                for (Klienci p : lista) {  
                     if (p.getNpelna().equals(number)) {  
                         return p;  
                     }  

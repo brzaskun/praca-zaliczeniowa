@@ -7,6 +7,7 @@ package dao;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -15,7 +16,7 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-@Named
+@ManagedBean
 public class KlienciDAO extends DAO implements Serializable {
 
     @Inject
