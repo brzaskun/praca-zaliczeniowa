@@ -126,7 +126,7 @@ public class DokTabView implements Serializable {
                 setButton(true);
             }
             int numerkolejny = 1;
-            if(!wpisView.getPodatnikObiekt().getNumerpkpir().isEmpty()){
+            if(wpisView.getPodatnikObiekt().getNumerpkpir()!=null){
             try{
             //zmienia numer gdy srodek roku
              int index = wpisView.getPodatnikObiekt().getNumerpkpir().size()-1;
