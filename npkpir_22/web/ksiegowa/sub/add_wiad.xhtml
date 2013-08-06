@@ -25,7 +25,6 @@
                <p:ajax event="keypress" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
             </p:inputText>
             
-            <h:panelGroup id="dwadoWprowadzania" >
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
@@ -47,7 +46,6 @@
                     </f:facet>
                     <f:param name="passedValue" value="#{p}" />
                 </p:autoComplete>
-            </h:panelGroup>
               <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
