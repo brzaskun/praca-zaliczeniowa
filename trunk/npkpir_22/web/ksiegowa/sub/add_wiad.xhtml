@@ -28,9 +28,8 @@
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                valueChangeListener="#{DokumentView.przekazKontrahenta}"  autocomplete="true" forceSelection="true" global="false"
-                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="1" >
-                    <f:ajax event="blur" execute="@this"/>
+                                autocomplete="true" forceSelection="true" global="false" widgetVar="dialogklient"
+                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="1" onblur="sprawdzczybrakklienta();">
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
@@ -372,5 +371,6 @@
         </p:outputPanel>
     </p:panel>
 </h:form>
+    <ui:include src="wykazklientow_dialog.xhtml"/>
 </ui:composition>   
 

@@ -31,7 +31,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean(name="KlView")
-@SessionScoped
+@ViewScoped
 public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
