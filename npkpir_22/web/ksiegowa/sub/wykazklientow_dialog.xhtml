@@ -6,18 +6,19 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <h:form id="formX">
-    <p:panel id="panelDodawaniaDokumentu">
-        <p:panel menuTitle="Wprowadzanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
+   
+    <p:dialog id="dialogEdycja" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dlg123" resizable="false" onShow="$('#formX\\:nazwaPole').select();" >
+    <h:form id="formX" >
+        <p:panel  style="width: 1200px;" >
             <p:growl id="mess_add" />
-            <p:focus id="focus" context="polawprowadzania" />
+            <p:focus id="focus" for="polawprowadzania"  />
             <p:panelGrid id="polawprowadzania" columns="5" >
-                <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
+                <h:outputLabel value="nazwa pełna - ALT-A" style="font-weight: 700"/>
                 <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
                 <h:outputLabel value="nip" style="font-weight: 700"/>
                 <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                 <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-                <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="s" title="pełna nazwa kontrahenta" maxlength="35" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" onfocus="selcolor();">
+                <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="35" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" onfocus="selcolor();">
                     <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 35znakow" /> 
                 </p:inputText>
                 <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
@@ -31,8 +32,9 @@
                                 var="p" itemLabel="#{p}" itemValue="#{p}" 
                                 minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
                                 effect="clip" autocomplete="true" queryDelay="100" 
-                                required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px">
+                                required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
                     <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="select" partialSubmit="true" global="false"/>
                 </p:autoComplete>
                 
                 <h:outputLabel value="ulica" style="font-weight: 700"/>
@@ -49,7 +51,7 @@
                     <f:selectItems value="#{kolmn.kolumnList}" />
                 </p:selectOneMenu>
                  
-                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" accesskey="w" update="@form :formY" />
+                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" accesskey="w" update="@form" oncomplete="dlg123.hide();$('#dodWiad\\:acForce_input').val($('#formX\\:nipPole').val());$('#dodWiad\\:acForce_hinput').val($('#formX\\:nipPole').val());$('#dodWiad\\:acForce_input').select();$('#dodWiad\\:acForce_input').trigger('keyup');"/>
             
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania1" columns="5" >
@@ -75,9 +77,8 @@
             </p:panelGrid>
            
         </p:panel>
-    </p:panel>
-    <p:separator/>
     </h:form>
+        </p:dialog>
 </ui:composition>   
 
 

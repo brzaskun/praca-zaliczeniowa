@@ -1487,17 +1487,17 @@ public class DokView implements Serializable{
     }
    
     //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
-    public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
-        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
-        przekazKontr = (Klienci) anAutoComplete.getValue();
-        if(przekazKontr.getNpelna().equals("nowy klient")){
-            FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
-        }
-         if(podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("VAT")){
-            selDokument.setDokumentProsty(true);
-            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
-        }
-    }
+//    public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
+//        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
+//        przekazKontr = (Klienci) anAutoComplete.getValue();
+//        if(przekazKontr.getNpelna().equals("nowy klient")){
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("klienci.xhtml");
+//        }
+//         if(podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size()-1).getParametr().contains("VAT")){
+//            selDokument.setDokumentProsty(true);
+//            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+//        }
+//    }
     
      public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();

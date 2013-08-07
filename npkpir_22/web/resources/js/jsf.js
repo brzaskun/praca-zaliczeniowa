@@ -615,6 +615,13 @@ function petlawywolujaca(lw,gr,co){
 
   }};
 
+var sprawdzczybrakklienta = function () {
+    var zawartosc = $('#dodWiad\\:acForce_input').val();
+    if(zawartosc==="nowy klient"){
+        dlg123.show();
+    }
+};
+
 //var ustawzus52ryczaltrecznie = function(){
 //    $('#akordeon\\:formpit1\\:reka52').click();
 //    var podatek = zrobFloat($("#akordeon\\:formpit1\\:podatek").val());
