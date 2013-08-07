@@ -118,8 +118,8 @@ public class DokView implements Serializable{
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @ManagedProperty(value = "#{DokTabView}")
-    private DokTabView dokTabView;
+//    @ManagedProperty(value = "#{DokTabView}")
+//    private DokTabView dokTabView;
     @ManagedProperty(value = "#{KlView}")
     private KlView klView;
     @Inject private DokDAO dokDAO;
@@ -1727,7 +1727,7 @@ public class DokView implements Serializable{
    
    public void skopiujdoedycji(){
            ustawDate2();
-           selDokument = dokTabView.getGosciuwybral().get(0);
+           selDokument = DokTabView.getGosciuwybralS().get(0);
            RequestContext.getCurrentInstance().update("dialogEdycja");
            //trzeba poprawic
             String skrot = selDokument.getTypdokumentu();
@@ -1751,7 +1751,7 @@ public class DokView implements Serializable{
            }
            renderujwyszukiwarke(rodzajdok);
            renderujtabele(rodzajdok);
-           selDokument = dokTabView.getGosciuwybral().get(0);
+           selDokument = DokTabView.getGosciuwybralS().get(0);
            RequestContext.getCurrentInstance().update("dodWiad:");
            RequestContext.getCurrentInstance().update("dialogEdycja");
        }
@@ -2262,14 +2262,14 @@ public class DokView implements Serializable{
        this.pokazEST = pokazEST;
    }
    
-   public DokTabView getDokTabView() {
-       return dokTabView;
-   }
-   
-   public void setDokTabView(DokTabView dokTabView) {
-       this.dokTabView = dokTabView;
-   }
-   
+//   public DokTabView getDokTabView() {
+//       return dokTabView;
+//   }
+//   
+//   public void setDokTabView(DokTabView dokTabView) {
+//       this.dokTabView = dokTabView;
+//   }
+//   
    
    
    
