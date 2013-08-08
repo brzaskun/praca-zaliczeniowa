@@ -385,8 +385,13 @@ var updatesum = function(){
            ile += 1; 
         });
     }();
+    var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
     przekaz("dodWiad:sumbrutto", 0);
-    przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0.23));
+    if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+            przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
+        } else {
+            przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0.23));
+        }
     przekaz("dodWiad:brutto1", number_format(parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1"))));
     przekaz("dodWiad:sumbrutto", number_format(zrobFloat(pobierz("dodWiad:sumbrutto"))+zrobFloat(pobierz("dodWiad:brutto1"))));
     if(pobierz("dodWiad:dokumentprosty").checked == true){
@@ -407,7 +412,12 @@ var updatesum = function(){
 
  
  function updatesuma(wiersz){
-      document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23);
+     var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
+     if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+         document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.0);
+        } else {
+            document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23);
+        }
       document.getElementById("dodWiad:brutto1").value =  number_format((parseFloat(document.getElementById("dodWiad:netto1_hinput").value)+zrobFloat(document.getElementById("dodWiad:vat1").value)));
     if (typeof(document.getElementById("dodWiad:netto2_hinput")) != 'undefined' && (document.getElementById("dodWiad:netto2_hinput") != null)){
      document.getElementById("dodWiad:vat2").value = number_format(zrobFloat(document.getElementById("dodWiad:netto2_hinput").value)*0.08);
@@ -627,6 +637,32 @@ var sprawdzczybrakklienta = function () {
         $('#dodWiad\\:acForce_input').select();$('#dodWiad\\:acForce_input').trigger('keyup');
     }
 };
+
+
+var przeniesKwotaDoNetto = function () {
+        var i = 0;
+        var kwotanetto = "start";
+        var suma = 0.0;
+        var vat = 0.0;
+        var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
+        while(kwotanetto){
+            kwotanetto = $('#dodWiad\\:repeat\\:' + i + '\\:kwotaPkpir_hinput').val() - 0;
+            if(!isNaN(kwotanetto)){
+                suma += kwotanetto;
+            }
+            i++;
+        }
+        console.log(kwotanetto);
+        $('#dodWiad\\:netto1_input').val(number_format(suma));
+        $('#dodWiad\\:netto1_hinput').val(suma);
+        if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+            vat = 0.0;
+        } else {
+            vat = suma * 0.23;
+        }
+        $('#dodWiad\\:vat1').val(number_format(vat));
+        $('#dodWiad\\:brutto1').val(number_format(suma + vat));
+    };
 
 //var ustawzus52ryczaltrecznie = function(){
 //    $('#akordeon\\:formpit1\\:reka52').click();
