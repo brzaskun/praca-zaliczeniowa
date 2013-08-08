@@ -669,11 +669,12 @@ public class DokView implements Serializable{
          }} catch (Exception e){
             nowynumer = wzorzec;
          }
-         if(!nowynumer.equals("")&&selDokument.getNrWlDk().equals("")){
-            selDokument.setNrWlDk(nowynumer);
-         } 
          renderujwyszukiwarke(rodzajdok);
          renderujtabele(rodzajdok);
+         if(!nowynumer.equals("")&&selDokument.getNrWlDk()==null){
+            selDokument.setNrWlDk(nowynumer);
+         } 
+         
     }
 
     public boolean renderujwysz;
