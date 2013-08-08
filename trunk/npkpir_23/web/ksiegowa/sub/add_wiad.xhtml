@@ -14,7 +14,7 @@
         <p:focus for="polawprowadzania"/>
         <p:panelGrid id="polawprowadzania" columns="6" >
             <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
-            <h:outputLabel value="kontrahent" style="font-weight: 700"/>
+            <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>
             <h:outputLabel value="dok.prosty" style="font-weight: 700" />
             <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
             <h:outputLabel value="nr własny" style="font-weight: 700;"/>
@@ -282,7 +282,7 @@
             <h:outputText  value="#{DokumentView.wysDokument.idDok}"/>
             <h:outputText  value="#{DokumentView.wysDokument.dataWyst}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
             <h:outputText  value="#{DokumentView.wysDokument.dataSprz}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
-            <h:outputText  value="#{DokumentView.wysDokument.kontr.npelna}"/>
+            <h:outputText  id="nazwa" value="#{DokumentView.wysDokument.kontr.npelna}"/>
             <h:outputText  value="#{DokumentView.wysDokument.rodzTrans}"/>
             <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
             <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
