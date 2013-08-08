@@ -419,11 +419,11 @@ public class DokView implements Serializable{
         }
         kolumny = dopobrania;
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-        if(przekazKontr.getPkpirKolumna()!=null){
-        String kol = przekazKontr.getPkpirKolumna();
-        SelectItem selectI = new SelectItem(kol, kol);
-        valueList.add(selectI);
-        }
+//        if(przekazKontr.getPkpirKolumna()!=null){
+//        String kol = przekazKontr.getPkpirKolumna();
+//        SelectItem selectI = new SelectItem(kol, kol);
+//        valueList.add(selectI);
+//        }
         /**/
         Iterator it;
         it = dopobrania.iterator();
