@@ -12,6 +12,7 @@ import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
+import entity.Fakturyokresowe;
 import entity.Inwestycje;
 import entity.Pitpoz;
 import entity.Platnosci;
@@ -406,6 +407,10 @@ public class SessionFacade<T> {
     
     public List<Kontozapisy> findZapisyKonto(String konto) {
         return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
+    }
+
+    public List<Fakturyokresowe> findPodatnik(String podatnik) {
+        return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
      
