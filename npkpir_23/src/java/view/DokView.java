@@ -900,40 +900,7 @@ public class DokView implements Serializable{
         RequestContext.getCurrentInstance().update("dodWiad:grid2");
     }
 
-    public void przeniesKwotaDoNetto() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Collection<String> klucze = params.keySet();
-        ArrayList<String> kluczeprzebrane = new ArrayList<>();
-        for (String p : klucze) {
-            if (p.contains("dodWiad:repeat:")&&p.contains("hinput")) {
-                kluczeprzebrane.add(p);
-            }
-        }
-        for (String p : kluczeprzebrane) {
-            String tmp = params.get(p);
-            tmp = tmp.replace(",", ".");
-            if (netto1 == 0.0) {
-                netto1 = Double.parseDouble(tmp);
-            } else {
-                netto1 = netto1 + Double.parseDouble(tmp);
-            }
-            BigDecimal tmp1 = BigDecimal.valueOf(netto1);
-            tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-            tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-            String transakcja = params.get("dodWiad:rodzajTrans");
-            if (transakcja.equals("WDT") || transakcja.equals("UPTK")) {
-                vat1 = 0.0;
-            } else {
-                vat1 = Double.parseDouble(tmp1.toString());
-            }
-        }
-         RequestContext.getCurrentInstance().update("dodWiad:grid1");
-            //daje platnosc gotowka domyslnie
-            selDokument.setRozliczony(true);
-            skopiujdoTerminuPlatnosci();
-            RequestContext.getCurrentInstance().update("dodWiad:rozliczony");
-    }
-
+    
  
 
     /**NE

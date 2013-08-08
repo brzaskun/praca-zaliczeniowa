@@ -80,9 +80,9 @@
             <p:outputPanel id="panel">
             <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
             <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
-                <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:repeat:kolumnaPkpir" global="false"/>
-            <p:ajax event="blur" listener="#{DokumentView.przeniesKwotaDoNetto()}"  update=":dodWiad:grid1" global="false"/>
+            <p:ajax event="blur" global="false" onstart="przeniesKwotaDoNetto();"/>
             <script>
                  function zrobF(kwota){
                     var strX = kwota.replace(",",".");
