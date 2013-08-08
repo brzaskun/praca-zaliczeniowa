@@ -1,0 +1,91 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <f:event type="preRenderView" listener="#{fakturyokresoweView.przeliczfaktury()}"/>
+    <h:form id="form">
+    <p:contextMenu for="dokumentyLista">
+        <p:menuitem value="Usuń" update=":formM:messages :form:dokumentyLista" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.usunfaktureokresowa()}"/>
+            </p:contextMenu>
+        <p:outputPanel id="wrapper"> 
+            <p:dataTable  var="wpis" value="#{fakturyokresoweView.faktury}" id="dokumentyLista" editable="true" 
+                          rows="20" style="width: 1500px;"
+                          rowKey="#{wpis.id}" selection="#{fakturyokresoweView.selected}" widgetVar="dokTable"
+                          emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                          > 
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie dokumentów okresowych " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
+                </f:facet>
+                <p:column selectionMode="single" width="50"/>
+                <p:column width="10">
+                    <p:rowToggler />
+                </p:column>
+                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.id}"  width="30">  
+                    <h:outputText value="#{wpis.id}" />
+                </p:column>
+                <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.dokument.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dokument.kontr.npelna}" width="110">  
+                    <h:outputText value="#{wpis.dokument.kontr.npelna} #{wpis.dokument.kontr.miejscowosc} #{wpis.dokument.kontr.nip}"  />
+                </p:column>
+                <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.dokument.typdokumentu}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dokument.typdokumentu}" width="110">  
+                    <h:outputText value="#{wpis.dokument.typdokumentu}" />
+                </p:column>
+                <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.dokument.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dokument.nrWlDk}" width="110">  
+                    <p:cellEditor>  
+                        <f:facet name="output">  
+                            <h:outputText value="#{wpis.dokument.opis}"/>
+                        </f:facet>  
+                        <f:facet name="input">  
+                            <p:inputText value="#{wpis.dokument.opis}"/>
+                        </f:facet>  
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="01" sortBy="#{wpis.m1}"  width="30">  
+                    <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="02" sortBy="#{wpis.m2}"  width="30">  
+                    <h:outputText value="#{wpis.m2}" styleClass="#{wpis.m2 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="03" sortBy="#{wpis.m3}"  width="30">  
+                    <h:outputText value="#{wpis.m3}" styleClass="#{wpis.m3 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="04" sortBy="#{wpis.m4}"  width="30">  
+                    <h:outputText value="#{wpis.m4}" styleClass="#{wpis.m4 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="05" sortBy="#{wpis.m5}"  width="30">  
+                    <h:outputText value="#{wpis.m5}" styleClass="#{wpis.m5 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="06" sortBy="#{wpis.m6}"  width="30">  
+                    <h:outputText value="#{wpis.m6}" styleClass="#{wpis.m6 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="07" sortBy="#{wpis.m7}"  width="30">  
+                    <h:outputText value="#{wpis.m7}" styleClass="#{wpis.m7 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="08" sortBy="#{wpis.m8}"  width="30">  
+                    <h:outputText value="#{wpis.m8}" styleClass="#{wpis.m8 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="09" sortBy="#{wpis.m9}"  width="30">  
+                    <h:outputText value="#{wpis.m9}" styleClass="#{wpis.m9 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="10" sortBy="#{wpis.m10}"  width="30">  
+                    <h:outputText value="#{wpis.m10}" styleClass="#{wpis.m10 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="11" sortBy="#{wpis.m11}"  width="30">  
+                    <h:outputText value="#{wpis.m11}" styleClass="#{wpis.m11 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+                <p:column headerText="12" sortBy="#{wpis.m12}"  width="30">  
+                    <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+    </h:form>
+
+    
+ 
+</ui:composition>   
+

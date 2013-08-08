@@ -67,6 +67,8 @@ public class DokTabView implements Serializable {
     private List<Dok> niezaplacone;
     //dokumenty zaplacone
     private List<Dok> zaplacone;
+    //dokumenty okresowe
+    private List<Dok> dokumentyokresowe;
     //wybranedokumenty do druku
     private static List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia
@@ -103,6 +105,8 @@ public class DokTabView implements Serializable {
         niezaplacone = new ArrayList<>();
         //dokumenty zaplacone
         zaplacone = new ArrayList<>();
+        //dokumenty okresowe
+        dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
         filteredValue = new ArrayList<>();
         
@@ -159,7 +163,6 @@ public class DokTabView implements Serializable {
                     if (tmpx.getPkpirM().equals(mc)) {
                         obiektDOKmrjsfSel.add(tmpx);
                     }
-                    
                 }
             }
     
@@ -648,6 +651,14 @@ public class DokTabView implements Serializable {
 
     public void setFilteredValue(List<Dok> filteredValue) {
         DokTabView.filteredValue = filteredValue;
+    }
+
+    public List<Dok> getDokumentyokresowe() {
+        return dokumentyokresowe;
+    }
+
+    public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
+        this.dokumentyokresowe = dokumentyokresowe;
     }
 
     

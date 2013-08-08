@@ -110,3 +110,14 @@ root {
 .row4 {
     background: lightskyblue !important;
 }
+
+.zerofaktur {
+    font-weight: normal;
+    color: red;
+    float: right;
+}
+.wiecejfaktur {
+    font-weight: bolder;
+    color: blue;
+    float: right;
+}
