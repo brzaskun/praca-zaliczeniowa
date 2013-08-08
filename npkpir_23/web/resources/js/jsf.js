@@ -620,6 +620,12 @@ var sprawdzczybrakklienta = function () {
     if(zawartosc==="nowy klient"){
         dlg123.show();
     }
+    if(zawartosc==="+"){
+        var text = $('#zobWiad\\:nazwa').html();
+        $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
+        $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
+        $('#dodWiad\\:acForce_input').select();$('#dodWiad\\:acForce_input').trigger('keyup');
+    }
 };
 
 //var ustawzus52ryczaltrecznie = function(){

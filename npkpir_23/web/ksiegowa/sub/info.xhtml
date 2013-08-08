@@ -27,51 +27,7 @@
                 </p:panelGrid>
    </p:panel>
     <p:panel header="informacje o podatniku #{WpisView.podatnikWpisu}" style="width: 1200px;"/>
-    <p:panelGrid columns="4" >
-        <p:column>
-            <p:dataTable  value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">
-                <f:facet name="header">
-                    <h:outputText value="osoby wprowadzające"/>
-                </f:facet>
-                <p:column>
-                    <h:outputText value="#{wpis}"/>
-                </p:column>
-            </p:dataTable>
-        </p:column>
-        <p:column>
-            <p:dataTable  value="#{infoView.liczbawprowadzonychdok}" var="wpis" style="width: 250px; padding: 10px;">
-                <f:facet name="header">
-                    <h:outputText value="liczba wprowadzonych dok"/>
-                </f:facet>
-                <p:column>
-                    <h:outputText value="#{wpis}"/>
-                </p:column>
-            </p:dataTable>
-        </p:column>
-        <p:column>
-            <p:dataTable  value="#{infoView.selectedDok.dataK}" var="wpis" style="width: 250px; padding: 10px;">
-                <f:facet name="header">
-                    <h:outputText value="ostatnie księgowanie"/>
-                </f:facet>
-                <p:column>
-                    <h:outputText value="#{wpis}"/>
-                </p:column>
-            </p:dataTable>
-        </p:column>
-        <p:column>
-            <p:dataTable  value="#{infoView.rodzajedok}" var="wpis" style="width: 250px; padding: 10px;">
-                <f:facet name="header">
-                    <h:outputText value="rodzaje dokumentów"/>
-                </f:facet>
-                <p:column headerText="typ">
-                    <h:outputText value="#{wpis.rodzajdok}"/>
-                </p:column>
-                <p:column headerText="ilość">
-                    <h:outputText value="#{wpis.ilosc}"/>
-                </p:column>
-            </p:dataTable>
-        </p:column>
-    </p:panelGrid>
+    
      <p:panelGrid columns="4">
         <p:column>
             <p:dataTable  value="#{infoView.rodzajopodatkowania}" var="wpis" style="width: 250px; padding: 10px;">
@@ -116,7 +72,7 @@
     </p:panelGrid>
      <p:panelGrid columns="4">
         <p:column>
-            <p:dataTable  value="#{infoView.udzialy}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Brak wprowadzonych udziałów!. Program nie będzie działał poprawnie.">
+            <p:dataTable  value="#{infoView.udzialy}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Brak wprowadzonych udziałów!. Program nie będzie działał poprawnie." >
                 <f:facet name="header">
                     <h:outputText value="udziały"/>
                 </f:facet>
@@ -201,5 +157,50 @@
             </p:dataTable>
         </p:column>
     </p:panelGrid> 
+    <p:panelGrid columns="4" >
+        <p:column>
+            <p:dataTable  value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">
+                <f:facet name="header">
+                    <h:outputText value="osoby wprowadzające"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{wpis}"/>
+                </p:column>
+            </p:dataTable>
+        </p:column>
+        <p:column>
+            <p:dataTable  value="#{infoView.liczbawprowadzonychdok}" var="wpis" style="width: 250px; padding: 10px;">
+                <f:facet name="header">
+                    <h:outputText value="liczba wprowadzonych dok"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{wpis}"/>
+                </p:column>
+            </p:dataTable>
+        </p:column>
+        <p:column>
+            <p:dataTable  value="#{infoView.selectedDok.dataK}" var="wpis" style="width: 250px; padding: 10px;">
+                <f:facet name="header">
+                    <h:outputText value="ostatnie księgowanie"/>
+                </f:facet>
+                <p:column>
+                    <h:outputText value="#{wpis}"/>
+                </p:column>
+            </p:dataTable>
+        </p:column>
+        <p:column>
+            <p:dataTable  value="#{infoView.rodzajedok}" var="wpis" style="width: 250px; padding: 10px;">
+                <f:facet name="header">
+                    <h:outputText value="rodzaje dokumentów"/>
+                </f:facet>
+                <p:column headerText="typ">
+                    <h:outputText value="#{wpis.rodzajdok}"/>
+                </p:column>
+                <p:column headerText="ilość">
+                    <h:outputText value="#{wpis.ilosc}"/>
+                </p:column>
+            </p:dataTable>
+        </p:column>
+    </p:panelGrid>
 </ui:composition>   
 
