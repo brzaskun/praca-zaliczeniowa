@@ -824,7 +824,7 @@ public class DokView implements Serializable{
         String transakcjiRodzaj = rodzaj.getRodzajtransakcji();
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
-        List dopobrania = new ArrayList();
+            List dopobrania = new ArrayList();
         switch (transakcjiRodzaj) {
             case "ryczałt":
                 dopobrania = kolumna.getKolumnRyczalt();
@@ -876,12 +876,12 @@ public class DokView implements Serializable{
             ew.setValueExpression("value", ve2); 
             ew.setStyle("width: 120px");
             ew.setId("kwotaPkpirX");
-            AjaxBehavior dragStart = new AjaxBehavior();
-            dragStart.setGlobal(false);
-            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
-            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
-            dragStart.setUpdate(":dodWiad:grid1");
-            ew.addClientBehavior("blur", dragStart);
+//            AjaxBehavior dragStart = new AjaxBehavior();
+//            dragStart.setGlobal(false);
+//            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
+//            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
+//            dragStart.setUpdate(":dodWiad:grid1");
+//            ew.addClientBehavior("blur", dragStart);
             ew.setSymbol(" zł");
             ew.setSymbolPosition("s");
             ew.setDecimalSeparator(".");
@@ -894,6 +894,7 @@ public class DokView implements Serializable{
         HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
         htmlSelectOneMenu.setValueExpression("value", ve2X);
         htmlSelectOneMenu.setStyle("min-width: 150px");
+        htmlSelectOneMenu.setStyleClass("ui-selectonemenu-label  ui-corner");
         htmlSelectOneMenu.getChildren().add(ulista);
         htmlSelectOneMenu.setOnblur("updatesum();");
         grid2.getChildren().add(htmlSelectOneMenu);

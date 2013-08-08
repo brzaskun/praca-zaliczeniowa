@@ -381,9 +381,15 @@ var updatesum = function(){
         }
     }
     var wyliczenie = function(){
-        $('.nettorow').each(function (){
-           ile += 1; 
-        });
+        var kwotanetto = "start";
+        var i = 0;
+        while(kwotanetto){
+            kwotanetto = $('#dodWiad\\:repeat\\:' + i + '\\:kwotaPkpir_hinput').val() - 0;
+            if(!isNaN(kwotanetto)){
+               ile += 1; 
+               i++;
+            }
+        }
     }();
     var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
     przekaz("dodWiad:sumbrutto", 0);
@@ -397,12 +403,17 @@ var updatesum = function(){
     if(pobierz("dodWiad:dokumentprosty").checked == true){
         przekaz("dodWiad:sumbrutto", number_format((pobierz("dodWiad:kwotaPkpir_hinput").value -0)));
     } else if (ile>1){
-        
-    for(i=2; i<=ile; i++){
-        przekaz("dodWiad:vat"+i, number_format((pobierz("dodWiad:netto"+i+"_hinput") -0)*0));
-        var brutto = number_format(parseFloat(pobierz("dodWiad:netto"+i+"_hinput"))+zrobFloat(pobierz("dodWiad:vat"+i)))
-        przekaz("dodWiad:brutto"+i, brutto);
-        przekaz("dodWiad:sumbrutto", number_format(zrobFloat(pobierz("dodWiad:sumbrutto"))+zrobFloat(brutto)));
+    var nettosuma = 0.0;
+    var vatsuma = 0.0;
+    var bruttosuma = 0.0;
+    for(var i = 1; i<ile; i++){
+        nettosuma += (pobierz("dodWiad:netto"+i+"_hinput") -0);
+        vatsuma += nettosuma * 0.23;
+        przekaz("dodWiad:vat1", number_format(vatsuma));
+        var bruttowiersz = number_format(parseFloat(pobierz("dodWiad:netto"+i+"_hinput"))+zrobFloat(pobierz("dodWiad:vat"+i)))
+        przekaz("dodWiad:brutto1", bruttowiersz);
+        bruttosuma = nettosuma + vatsuma;
+        przekaz("dodWiad:sumbrutto", number_format(bruttosuma));
     }   
       } else {
       przekaz("dodWiad:sumbrutto", number_format((parseFloat(pobierz("dodWiad:netto1_hinput"))+zrobFloat(pobierz("dodWiad:vat1")))));
@@ -662,6 +673,7 @@ var przeniesKwotaDoNetto = function () {
         }
         $('#dodWiad\\:vat1').val(number_format(vat));
         $('#dodWiad\\:brutto1').val(number_format(suma + vat));
+        $('#dodWiad\\:sumbrutto').val(number_format(suma + vat));
     };
 
 //var ustawzus52ryczaltrecznie = function(){
