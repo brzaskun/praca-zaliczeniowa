@@ -31,40 +31,44 @@
                  <p:separator/>
                  <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
                               rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" style="width: 1200px;"
-                              
+                              widgetVar="dokTable#{numer.index}"
                               >
+                      <f:facet name="header">  
+                        <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
+                        <p:inputText id="globalFilter" onkeyup="dokTable#{numer.index}.filter()" style="width:150px" />  
+                    </f:facet>
                      <p:column selectionMode="multiple" width="40"/>
                      <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                      <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
                      <p:column headerText="id" width="40" sortBy="#{itemik.id}">
-                         <h:outputText value="#{itemik.id}"/>
+                         <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                      </p:column>
-                     <p:column headerText="data wyst." width="110" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
+                     <p:column headerText="data wyst." width="90" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.dataWyst}"/>
                      </p:column>
-                     <p:column headerText="data sprzed." width="110" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}">
+                     <p:column headerText="data sprz." width="90" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
                          <h:outputText value="#{itemik.dataSprz}"/>
                      </p:column>
-                     <p:column headerText="nr własny" width="140" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                     <p:column headerText="nr własny" width="140" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.nrWlDk}"/>
                      </p:column>
-                     <p:column headerText="nazwa kontrhenta" sortBy="#{itemik.kontr}" filterBy="#{itemik.kontr}" filterMatchMode="contains">
+                     <p:column headerText="nazwa kontrhenta" sortBy="#{itemik.kontr}" filterBy="#{itemik.kontr}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.kontr}"/>
                      </p:column>
-                     <p:column headerText="opis trans." sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
+                     <p:column headerText="opis trans." sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.opis}"/>
                      </p:column>
-                     <p:column headerText="netto" width="110" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                     <p:column headerText="netto" width="110" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                          </h:outputText>
                      </p:column>
-                     <p:column headerText="vat" width="110" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
+                     <p:column headerText="vat" width="110" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
                          <h:outputText value="#{itemik.vat}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                      </p:column>
-                     <p:column headerText="rodzaj zak." width="60" >
+                     <p:column headerText="rodzaj zak." width="60"  rendered="#{itemik.opizw eq 'sprz.op' ? true : false}">
                          <h:outputText value="#{itemik.opizw}"/>
                      </p:column>
                  </p:dataTable>

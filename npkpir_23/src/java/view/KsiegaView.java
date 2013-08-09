@@ -4,20 +4,24 @@
  */
 package view;
 
+import comparator.Dokcomparator;
+import dao.DokDAO;
 import dao.SumypkpirDAO;
 import embeddable.DokKsiega;
 import embeddable.KwotaKolumna;
 import entity.Dok;
 import entity.Klienci;
+import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.SumypkpirPK;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -25,24 +29,57 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
-public class KsiegaView implements Serializable{
-    @ManagedProperty(value = "#{DokTabView}")
-    private DokTabView dokTabView;
+@ViewScoped
+public class KsiegaView implements Serializable {
+
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     private static ArrayList<DokKsiega> lista;
     private DokKsiega selDokument;
-    @Inject private DokKsiega podsumowanie;
-    @Inject private SumypkpirDAO sumypkpirDAO;
-    
-    
+    @Inject
+    private DokKsiega podsumowanie;
+    @Inject
+    private SumypkpirDAO sumypkpirDAO;
+    @Inject
+    private DokDAO dokDAO;
 
     public KsiegaView() {
         lista = new ArrayList<>();
     }
-    
+
     @PostConstruct
-    private void init(){
-        List<Dok> tmplist = dokTabView.getObiektDOKmrjsfSel();
+    private void init() {
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        int numerkolejny = 1;
+        if (wpisView.getPodatnikObiekt().getNumerpkpir() != null) {
+            try {
+                //zmienia numer gdy srodek roku
+                int index = wpisView.getPodatnikObiekt().getNumerpkpir().size() - 1;
+                String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
+                numerkolejny = Integer.parseInt(wartosc);
+            } catch (Exception e) {
+                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
+                System.out.println(e.toString());
+            }
+        }
+        List<Dok> obiektDOKjsfSel = new ArrayList<>();
+        try {
+            obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
+            //sortowanie dokumentów
+            Collections.sort(obiektDOKjsfSel, new Dokcomparator());
+        } catch (Exception e) {
+            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
+        }
+        List<Dok> obiektDOKmrjsfSel = new ArrayList<>();
+        for (Dok tmpx : obiektDOKjsfSel) {
+            tmpx.setNrWpkpir(numerkolejny++);
+            if (tmpx.getPkpirM().equals(mc)) {
+                obiektDOKmrjsfSel.add(tmpx);
+            }
+        }
         podsumowanie.setOpis("Podsumowanie");
         podsumowanie.setKolumna7(0.0);
         podsumowanie.setKolumna8(0.0);
@@ -53,7 +90,7 @@ public class KsiegaView implements Serializable{
         podsumowanie.setKolumna13(0.0);
         podsumowanie.setKolumna14(0.0);
         podsumowanie.setKolumna15(0.0);
-        for (Dok tmp : tmplist){
+        for (Dok tmp : obiektDOKmrjsfSel) {
             DokKsiega dk = new DokKsiega();
             dk.setIdDok(tmp.getIdDok());
             dk.setTypdokumentu(tmp.getTypdokumentu());
@@ -64,61 +101,63 @@ public class KsiegaView implements Serializable{
             dk.setDataWyst(tmp.getDataWyst());
             dk.setOpis(tmp.getOpis());
             List<KwotaKolumna> listawierszy = tmp.getListakwot();
-            for(KwotaKolumna tmpX : listawierszy){
-            switch(tmpX.getNazwakolumny()){
-                case "przych. sprz":
-                    dk.setKolumna7(tmpX.getNetto());
-                    podsumowanie.setKolumna7(podsumowanie.getKolumna7()+tmpX.getNetto());
-                    break;
-                case "pozost. przych.":
-                    dk.setKolumna8(tmpX.getNetto());
-                    podsumowanie.setKolumna8(podsumowanie.getKolumna8()+tmpX.getNetto());
-                    break;
-                case "zakup tow. i mat.":
-                    dk.setKolumna10(tmpX.getNetto());
-                    podsumowanie.setKolumna10(podsumowanie.getKolumna10()+tmpX.getNetto());
-                    break;
-                case "koszty ub.zak.":
-                    dk.setKolumna11(tmpX.getNetto());
-                    podsumowanie.setKolumna11(podsumowanie.getKolumna11()+tmpX.getNetto());
-                    break;
-                case "wynagrodzenia":
-                    dk.setKolumna12(tmpX.getNetto());
-                    podsumowanie.setKolumna12(podsumowanie.getKolumna12()+tmpX.getNetto());
-                    break;
-                case "poz. koszty":
-                    dk.setKolumna13(tmpX.getNetto());
-                    podsumowanie.setKolumna13(podsumowanie.getKolumna13()+tmpX.getNetto());
-                    break;
-                 case "inwestycje":
-                     dk.setKolumna15(tmpX.getNetto());
-                     podsumowanie.setKolumna15(podsumowanie.getKolumna15()+tmpX.getNetto());
-                    break;   
+            for (KwotaKolumna tmpX : listawierszy) {
+                switch (tmpX.getNazwakolumny()) {
+                    case "przych. sprz":
+                        dk.setKolumna7(tmpX.getNetto());
+                        podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
+                        break;
+                    case "pozost. przych.":
+                        dk.setKolumna8(tmpX.getNetto());
+                        podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
+                        break;
+                    case "zakup tow. i mat.":
+                        dk.setKolumna10(tmpX.getNetto());
+                        podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
+                        break;
+                    case "koszty ub.zak.":
+                        dk.setKolumna11(tmpX.getNetto());
+                        podsumowanie.setKolumna11(podsumowanie.getKolumna11() + tmpX.getNetto());
+                        break;
+                    case "wynagrodzenia":
+                        dk.setKolumna12(tmpX.getNetto());
+                        podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
+                        break;
+                    case "poz. koszty":
+                        dk.setKolumna13(tmpX.getNetto());
+                        podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
+                        break;
+                    case "inwestycje":
+                        dk.setKolumna15(tmpX.getNetto());
+                        podsumowanie.setKolumna15(podsumowanie.getKolumna15() + tmpX.getNetto());
+                        break;
+                }
             }
-            }
-            if(dk.getKolumna7()!=null&&dk.getKolumna8()!=null) {
-                dk.setKolumna9(dk.getKolumna7()+dk.getKolumna8());
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9()+dk.getKolumna9());
-            } else if (dk.getKolumna7()!=null) {
+            if (dk.getKolumna7() != null && dk.getKolumna8() != null) {
+                dk.setKolumna9(dk.getKolumna7() + dk.getKolumna8());
+                podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
+            } else if (dk.getKolumna7() != null) {
                 dk.setKolumna9(dk.getKolumna7());
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9()+dk.getKolumna9());
+                podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
             } else {
                 dk.setKolumna9(dk.getKolumna8());
                 try {
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9()+dk.getKolumna9());
-                } catch (Exception e){}
+                    podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
+                } catch (Exception e) {
+                }
             }
-            if (dk.getKolumna12()!=null&&dk.getKolumna13()!=null){
-                dk.setKolumna14(dk.getKolumna12()+dk.getKolumna13());
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14()+dk.getKolumna14());
-            } else if (dk.getKolumna12()!=null){
+            if (dk.getKolumna12() != null && dk.getKolumna13() != null) {
+                dk.setKolumna14(dk.getKolumna12() + dk.getKolumna13());
+                podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
+            } else if (dk.getKolumna12() != null) {
                 dk.setKolumna14(dk.getKolumna12());
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14()+dk.getKolumna14());
+                podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
             } else {
                 dk.setKolumna14(dk.getKolumna13());
-                try{
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14()+dk.getKolumna14());
-                } catch (Exception e){}
+                try {
+                    podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
+                } catch (Exception e) {
+                }
             }
             dk.setUwagi(tmp.getUwagi());
             dk.setPkpirM(tmp.getPkpirM());
@@ -129,27 +168,27 @@ public class KsiegaView implements Serializable{
             dk.setEwidencjaVAT(tmp.getEwidencjaVAT());
             dk.setDokumentProsty(tmp.isDokumentProsty());
             lista.add(dk);
-         }
+        }
         podsumowanie.setIdDok(new Long(1222));
         podsumowanie.setKontr(new Klienci());
         lista.add(podsumowanie);
         Sumypkpir sumyzachowac = new Sumypkpir();
         SumypkpirPK sumyklucz = new SumypkpirPK();
-        sumyklucz.setRok(dokTabView.getWpisView().getRokWpisu().toString());
-        sumyklucz.setMc(dokTabView.getWpisView().getMiesiacWpisu());
-        sumyklucz.setPodatnik(dokTabView.getWpisView().getPodatnikWpisu());
+        sumyklucz.setRok(wpisView.getRokWpisu().toString());
+        sumyklucz.setMc(wpisView.getMiesiacWpisu());
+        sumyklucz.setPodatnik(wpisView.getPodatnikWpisu());
         sumyzachowac.setSumypkpirPK(sumyklucz);
         sumyzachowac.setSumy(podsumowanie);
         sumypkpirDAO.edit(sumyzachowac);
         podsumowaniepopmc();
     }
 
-    private void podsumowaniepopmc(){
-        if(lista.get(0).getNrWpkpir()!=1){
+    private void podsumowaniepopmc() {
+        if (lista.get(0).getNrWpkpir() != 1) {
             System.out.println("podsumowanie");
-            DokKsiega ostatni = lista.get(lista.size()-1);
-            List<Sumypkpir> listasum = sumypkpirDAO.findS(dokTabView.getWpisView().getPodatnikWpisu(), dokTabView.getWpisView().getRokWpisu().toString());
-            String biezacymiesiac = dokTabView.getWpisView().getMiesiacWpisu();
+            DokKsiega ostatni = lista.get(lista.size() - 1);
+            List<Sumypkpir> listasum = sumypkpirDAO.findS(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+            String biezacymiesiac = wpisView.getMiesiacWpisu();
             DokKsiega sumaposrednia = new DokKsiega();
             sumaposrednia.setOpis("z przeniesienia");
             sumaposrednia.setKolumna7(0.0);
@@ -176,41 +215,41 @@ public class KsiegaView implements Serializable{
             sumakoncowa.setKolumna15(0.0);
             sumakoncowa.setIdDok(new Long(1224));
             sumakoncowa.setKontr(new Klienci());
-            for(Sumypkpir p : listasum){
-                if(!p.getSumypkpirPK().getMc().equals(biezacymiesiac)){
-                    sumaposrednia.setKolumna7(sumaposrednia.getKolumna7()+p.getSumy().getKolumna7());
-                    sumaposrednia.setKolumna8(sumaposrednia.getKolumna8()+p.getSumy().getKolumna8());
-                    sumaposrednia.setKolumna9(sumaposrednia.getKolumna9()+p.getSumy().getKolumna9());
-                    sumaposrednia.setKolumna10(sumaposrednia.getKolumna10()+p.getSumy().getKolumna10());
-                    sumaposrednia.setKolumna11(sumaposrednia.getKolumna11()+p.getSumy().getKolumna11());
-                    sumaposrednia.setKolumna12(sumaposrednia.getKolumna12()+p.getSumy().getKolumna12());
-                    sumaposrednia.setKolumna13(sumaposrednia.getKolumna13()+p.getSumy().getKolumna13());
-                    sumaposrednia.setKolumna14(sumaposrednia.getKolumna14()+p.getSumy().getKolumna14());
-                    sumaposrednia.setKolumna15(sumaposrednia.getKolumna15()+p.getSumy().getKolumna15());
+            for (Sumypkpir p : listasum) {
+                if (!p.getSumypkpirPK().getMc().equals(biezacymiesiac)) {
+                    sumaposrednia.setKolumna7(sumaposrednia.getKolumna7() + p.getSumy().getKolumna7());
+                    sumaposrednia.setKolumna8(sumaposrednia.getKolumna8() + p.getSumy().getKolumna8());
+                    sumaposrednia.setKolumna9(sumaposrednia.getKolumna9() + p.getSumy().getKolumna9());
+                    sumaposrednia.setKolumna10(sumaposrednia.getKolumna10() + p.getSumy().getKolumna10());
+                    sumaposrednia.setKolumna11(sumaposrednia.getKolumna11() + p.getSumy().getKolumna11());
+                    sumaposrednia.setKolumna12(sumaposrednia.getKolumna12() + p.getSumy().getKolumna12());
+                    sumaposrednia.setKolumna13(sumaposrednia.getKolumna13() + p.getSumy().getKolumna13());
+                    sumaposrednia.setKolumna14(sumaposrednia.getKolumna14() + p.getSumy().getKolumna14());
+                    sumaposrednia.setKolumna15(sumaposrednia.getKolumna15() + p.getSumy().getKolumna15());
                 } else {
-                    sumakoncowa.setKolumna7(sumaposrednia.getKolumna7()+p.getSumy().getKolumna7());
-                    sumakoncowa.setKolumna8(sumaposrednia.getKolumna8()+p.getSumy().getKolumna8());
-                    sumakoncowa.setKolumna9(sumaposrednia.getKolumna9()+p.getSumy().getKolumna9());
-                    sumakoncowa.setKolumna10(sumaposrednia.getKolumna10()+p.getSumy().getKolumna10());
-                    sumakoncowa.setKolumna11(sumaposrednia.getKolumna11()+p.getSumy().getKolumna11());
-                    sumakoncowa.setKolumna12(sumaposrednia.getKolumna12()+p.getSumy().getKolumna12());
-                    sumakoncowa.setKolumna13(sumaposrednia.getKolumna13()+p.getSumy().getKolumna13());
-                    sumakoncowa.setKolumna14(sumaposrednia.getKolumna14()+p.getSumy().getKolumna14());
-                    sumakoncowa.setKolumna15(sumaposrednia.getKolumna15()+p.getSumy().getKolumna15());
+                    sumakoncowa.setKolumna7(sumaposrednia.getKolumna7() + p.getSumy().getKolumna7());
+                    sumakoncowa.setKolumna8(sumaposrednia.getKolumna8() + p.getSumy().getKolumna8());
+                    sumakoncowa.setKolumna9(sumaposrednia.getKolumna9() + p.getSumy().getKolumna9());
+                    sumakoncowa.setKolumna10(sumaposrednia.getKolumna10() + p.getSumy().getKolumna10());
+                    sumakoncowa.setKolumna11(sumaposrednia.getKolumna11() + p.getSumy().getKolumna11());
+                    sumakoncowa.setKolumna12(sumaposrednia.getKolumna12() + p.getSumy().getKolumna12());
+                    sumakoncowa.setKolumna13(sumaposrednia.getKolumna13() + p.getSumy().getKolumna13());
+                    sumakoncowa.setKolumna14(sumaposrednia.getKolumna14() + p.getSumy().getKolumna14());
+                    sumakoncowa.setKolumna15(sumaposrednia.getKolumna15() + p.getSumy().getKolumna15());
                     break;
                 }
             }
-             lista.add(sumaposrednia);
-             System.out.println("dodanie sumy posredniej");
-             lista.add(sumakoncowa);
-             System.out.println("dodanie sumy koncowej");
-            
+            lista.add(sumaposrednia);
+            System.out.println("dodanie sumy posredniej");
+            lista.add(sumakoncowa);
+            System.out.println("dodanie sumy koncowej");
+
         } else {
             System.out.println("podsumowanie - nie!");
         }
     }
-    
-    
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public ArrayList<DokKsiega> getLista() {
         return lista;
     }
@@ -227,13 +266,12 @@ public class KsiegaView implements Serializable{
         this.selDokument = selDokument;
     }
 
-    public DokTabView getDokTabView() {
-        return dokTabView;
+    public WpisView getWpisView() {
+        return wpisView;
     }
 
-    public void setDokTabView(DokTabView dokTabView) {
-        this.dokTabView = dokTabView;
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
-    
-    
+    //</editor-fold>
 }
