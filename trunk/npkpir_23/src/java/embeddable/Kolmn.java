@@ -32,10 +32,13 @@ public class Kolmn implements Serializable{
         kolumnList = new ArrayList<>();
         kolumnList.add("przych. sprz");
         kolumnList.add("pozost. przych.");
+        //kolumnList.add("razem. przych.");
         kolumnList.add("zakup tow. i mat.");
         kolumnList.add("koszty ub.zak.");
         kolumnList.add("wynagrodzenia");
         kolumnList.add("poz. koszty");
+        //kolumnList.add("razem. koszty.");
+        //kolumnList.add("wynik");
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
         
@@ -47,6 +50,9 @@ public class Kolmn implements Serializable{
         kolumnZest.add("wynagrodzenia");
         kolumnZest.add("poz. koszty");
         kolumnZest.add("inwestycje");
+        kolumnZest.add("razem przych.");
+        kolumnZest.add("razem koszty");
+        kolumnZest.add("wynik");
         
         kolumnPrzychody = new ArrayList<>();
         kolumnPrzychody.add("przych. sprz");

@@ -98,19 +98,19 @@ public class ZestawienieView implements Serializable {
     private int flaga = 0;
 
     public ZestawienieView() {
-        styczen = Arrays.asList(new Double[7]);
-        styczen = Arrays.asList(new Double[7]);
-        luty = Arrays.asList(new Double[7]);
-        marzec = Arrays.asList(new Double[7]);
-        kwiecien = Arrays.asList(new Double[7]);
-        maj = Arrays.asList(new Double[7]);
-        czerwiec = Arrays.asList(new Double[7]);
-        lipiec = Arrays.asList(new Double[7]);
-        sierpien = Arrays.asList(new Double[7]);
-        wrzesien = Arrays.asList(new Double[7]);
-        pazdziernik = Arrays.asList(new Double[7]);
-        listopad = Arrays.asList(new Double[7]);
-        grudzien = Arrays.asList(new Double[7]);
+        styczen = Arrays.asList(new Double[10]);
+        styczen = Arrays.asList(new Double[10]);
+        luty = Arrays.asList(new Double[10]);
+        marzec = Arrays.asList(new Double[10]);
+        kwiecien = Arrays.asList(new Double[10]);
+        maj = Arrays.asList(new Double[10]);
+        czerwiec = Arrays.asList(new Double[10]);
+        lipiec = Arrays.asList(new Double[10]);
+        sierpien = Arrays.asList(new Double[10]);
+        wrzesien = Arrays.asList(new Double[10]);
+        pazdziernik = Arrays.asList(new Double[10]);
+        listopad = Arrays.asList(new Double[10]);
+        grudzien = Arrays.asList(new Double[10]);
         pobierzPity = new ArrayList<>();
         zebranieMcy = new ArrayList<>();
         listapit = new ArrayList<>();
@@ -136,7 +136,7 @@ public class ZestawienieView implements Serializable {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
-                for (int i = 0; i < 7; i++) {
+                for (int i = 0; i < 10; i++) {
                     styczen.set(i, 0.0);
                     luty.set(i, 0.0);
                     marzec.set(i, 0.0);
@@ -546,6 +546,43 @@ public class ZestawienieView implements Serializable {
                                 break;
                         }
                     }
+                    //obliczenie wyniku
+                    styczen.set(7, styczen.get(0)+styczen.get(1));
+                    styczen.set(8, styczen.get(2)+styczen.get(3)+styczen.get(4)+styczen.get(5));
+                    styczen.set(9, styczen.get(7)-styczen.get(8));
+                     luty.set(7, luty.get(0)+luty.get(1));
+                    luty.set(8, luty.get(2)+luty.get(3)+luty.get(4)+luty.get(5));
+                    luty.set(9, luty.get(7)-luty.get(8));
+                    marzec.set(7, marzec.get(0) + marzec.get(1));
+                    marzec.set(8, marzec.get(2) + marzec.get(3) + marzec.get(4) + marzec.get(5));
+                    marzec.set(9, marzec.get(7) - marzec.get(8));
+                     kwiecien.set(7, kwiecien.get(0)+kwiecien.get(1));
+                    kwiecien.set(8, kwiecien.get(2)+kwiecien.get(3)+kwiecien.get(4)+kwiecien.get(5));
+                    kwiecien.set(9, kwiecien.get(7)-kwiecien.get(8));
+                     maj.set(7, maj.get(0)+maj.get(1));
+                    maj.set(8, maj.get(2)+maj.get(3)+maj.get(4)+maj.get(5));
+                    maj.set(9, maj.get(7)-maj.get(8));
+                     czerwiec.set(7, czerwiec.get(0)+czerwiec.get(1));
+                    czerwiec.set(8, czerwiec.get(2)+czerwiec.get(3)+czerwiec.get(4)+czerwiec.get(5));
+                    czerwiec.set(9, czerwiec.get(7)-czerwiec.get(8));
+                     lipiec.set(7, lipiec.get(0)+lipiec.get(1));
+                    lipiec.set(8, lipiec.get(2)+lipiec.get(3)+lipiec.get(4)+lipiec.get(5));
+                    lipiec.set(9, lipiec.get(7)-lipiec.get(8));
+                     sierpien.set(7, sierpien.get(0)+sierpien.get(1));
+                    sierpien.set(8, sierpien.get(2)+sierpien.get(3)+sierpien.get(4)+sierpien.get(5));
+                    sierpien.set(9, sierpien.get(7)-sierpien.get(8));
+                     wrzesien.set(7, wrzesien.get(0)+wrzesien.get(1));
+                    wrzesien.set(8, wrzesien.get(2)+wrzesien.get(3)+wrzesien.get(4)+wrzesien.get(5));
+                    wrzesien.set(9, wrzesien.get(7)-wrzesien.get(8));
+                     pazdziernik.set(7, pazdziernik.get(0)+pazdziernik.get(1));
+                    pazdziernik.set(8, pazdziernik.get(2)+pazdziernik.get(3)+pazdziernik.get(4)+pazdziernik.get(5));
+                    pazdziernik.set(9, pazdziernik.get(7)-pazdziernik.get(8));
+                     listopad.set(7, listopad.get(0)+listopad.get(1));
+                    listopad.set(8, listopad.get(2)+listopad.get(3)+listopad.get(4)+listopad.get(5));
+                    listopad.set(9, listopad.get(7)-listopad.get(8));
+                     grudzien.set(7, grudzien.get(0)+grudzien.get(1));
+                    grudzien.set(8, grudzien.get(2)+grudzien.get(3)+grudzien.get(4)+grudzien.get(5));
+                    grudzien.set(9, grudzien.get(7)-grudzien.get(8));
                     //pobierzPity();
                     zebranieMcy.add(styczen);
                     zebranieMcy.add(luty);
@@ -565,7 +602,7 @@ public class ZestawienieView implements Serializable {
                 IIpolrocze = new ArrayList<>();
                 rok = new ArrayList<>();
 
-                for (int i = 0; i < 7; i++) {
+                for (int i = 0; i < 10; i++) {
                     Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
                     IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
                     rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
