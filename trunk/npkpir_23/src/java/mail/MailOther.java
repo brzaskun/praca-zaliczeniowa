@@ -38,7 +38,7 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/wydruki/pkpir" + klientfile + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
@@ -72,7 +72,7 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/wydruki/obroty" + klientfile + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
@@ -106,7 +106,7 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/wydruki/srodki" + klientfile + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
@@ -140,7 +140,7 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/vat7-13" + klientfile + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/vat7-13" + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
