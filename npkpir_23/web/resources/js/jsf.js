@@ -143,6 +143,12 @@ var aktywujopis = function (){
         $('#dodWiad\\:inwestycja').hide();
         $('#dodWiad\\:inwestycjas').hide();
     }
+    if(dokument==='LP'){
+        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+    }
+    if(dokument==='ZUS'){
+        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+    }
     $('#dodWiad\\:opis').on('keydown',function(e){
         if(e.which=='120'){
             $('#dodWiad\\:dodajopis').click();

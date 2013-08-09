@@ -15,11 +15,12 @@ root {
     display: block;
 }
 
-
+.korekta {
+    color:red !important;
+}
 .old{
-    background-color:#ccccff !important;
     background-image:none !important;
-    color:#000000 !important;
+    color: blue !important;
 }
 
 .druga{
