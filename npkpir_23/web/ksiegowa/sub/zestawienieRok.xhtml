@@ -8,7 +8,7 @@
     <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ksiegaryczalt}">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
 
@@ -18,7 +18,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -29,7 +29,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -40,7 +40,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -51,7 +51,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -62,7 +62,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -73,7 +73,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -84,14 +84,14 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.lipiec}" id="dokumentylipiec" > 
@@ -100,7 +100,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -112,7 +112,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -124,7 +124,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -135,7 +135,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -146,7 +146,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -157,7 +157,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -168,14 +168,14 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
         </p:dataTable>
           <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.rok}" id="dokumentyrok" > 
@@ -184,7 +184,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -204,7 +204,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -215,7 +215,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -226,7 +226,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -237,7 +237,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -248,7 +248,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -259,7 +259,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -270,7 +270,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -286,7 +286,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -298,7 +298,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -310,7 +310,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -321,7 +321,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -332,7 +332,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -343,7 +343,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -354,7 +354,7 @@
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>
@@ -366,11 +366,11 @@
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.rok}" id="dokumentyRrok" > 
             <p:column headerText="rok" id="idColumn" width="100">  
-                <h:outputText value="#{wpis}" style="float: right;">
+                <h:outputText value="#{wpis}" style="float: right;" >
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
                                      currencySymbol=""
-                                     maxIntegerDigits="6"
+                                     maxIntegerDigits="9"
                                      type="currency"/>
                 </h:outputText>
             </p:column>

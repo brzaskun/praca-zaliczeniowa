@@ -58,28 +58,27 @@ public class PdfZestRok extends Pdf implements Serializable {
         }
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
-        PdfPTable table = new PdfPTable(16);
-        table.setWidths(new int[]{1, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(15);
+        //tu sie ustawia szerokosci kolumn
+        table.setWidths(new int[]{1, 4, 4, 4, 4, 4, 3, 2, 3, 3, 3, 3, 3, 3, 4});
         PdfPCell cell = new PdfPCell();
         try {
 
             table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
             table.addCell(ustawfraze("wydruk obrotów podatkowej księgi przychodów i rozchodów", 4, 0));
-            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
             table.addCell(ustawfraze("za rok : " + wpisView.getRokWpisu(), 3, 0));
             table.addCell(ustawfraze("lp", 0, 2));
-            table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
-            table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
-            table.addCell(ustawfraze("Kontrahent", 2, 0));
-            table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+            table.addCell(ustawfraze("Opis", 0, 2));
+            table.addCell(ustawfraze("Okres rozl", 0, 2));
+            table.addCell(ustawfraze("Przych. razem", 0, 2));
+            table.addCell(ustawfraze("Koszty razem", 0, 2));
+            table.addCell(ustawfraze("Wynik", 0, 2));
             table.addCell(ustawfraze("Przychody", 3, 0));
             table.addCell(ustawfraze("Zakup towarów handlowych i materiałów wg cen zakupu", 0, 2));
             table.addCell(ustawfraze("Koszty uboczne zakupu", 0, 2));
             table.addCell(ustawfraze("Wydatki(koszty)", 4, 0));
-            table.addCell(ustawfraze("Uwagi", 0, 2));
 
-            table.addCell(ustawfrazebez("imię i nazwisko (firma)", "center",6));
-            table.addCell(ustawfrazebez("adres", "center",6));
             table.addCell(ustawfrazebez("wartość sprzedanych towarów i usług", "center",6));
             table.addCell(ustawfrazebez("pozostałe przychody", "center",6));
             table.addCell(ustawfrazebez("razem przychód (7+8)", "center",6));
@@ -103,7 +102,6 @@ public class PdfZestRok extends Pdf implements Serializable {
             table.addCell(ustawfrazebez("13", "center",6));
             table.addCell(ustawfrazebez("14", "center",6));
             table.addCell(ustawfrazebez("15", "center",6));
-            table.addCell(ustawfrazebez("16", "center",6));
 
             table.addCell(ustawfrazebez("1", "center",6));
             table.addCell(ustawfrazebez("2", "center",6));
@@ -120,7 +118,7 @@ public class PdfZestRok extends Pdf implements Serializable {
             table.addCell(ustawfrazebez("13", "center",6));
             table.addCell(ustawfrazebez("14", "center",6));
             table.addCell(ustawfrazebez("15", "center",6));
-            table.addCell(ustawfrazebez("16", "center",6));
+
             table.setHeaderRows(5);
             table.setFooterRows(1);
         } catch (IOException ex) {
@@ -148,8 +146,6 @@ public class PdfZestRok extends Pdf implements Serializable {
         Map<String,Integer> mapamcyCalendar = Mce.getMapamcyCalendar();
         for (List<Double> rs : wykaz) {
             table.addCell(ustawfrazebez(String.valueOf(nr), "center",6));
-            table.addCell(ustawfrazebez("", "left",6));
-            table.addCell(ustawfrazebez("", "left",6));
             if(nr==15){
                 table.addCell(ustawfrazebez("podsumowanie za rok", "left",6));
             } else if (nr==7||nr==14){
@@ -166,8 +162,9 @@ public class PdfZestRok extends Pdf implements Serializable {
             } else {
                 table.addCell(ustawfrazebez(Mce.getMapamcynazwa().get(nrmca++), "left",6));
             }
-            
-            table.addCell(ustawfrazebez("", "left",6));
+            table.addCell(ustawfrazebez(formatujliczby(rs.get(7)), "right",6));
+            table.addCell(ustawfrazebez(formatujliczby(rs.get(8)), "right",6));
+            table.addCell(ustawfrazebez(formatujliczby(rs.get(9)), "right",6));
             table.addCell(ustawfrazebez(formatujliczby(rs.get(0)), "right",6));
             table.addCell(ustawfrazebez(formatujliczby(rs.get(1)), "right",6));
             table.addCell(ustawfrazebez(formatujliczby(rs.get(0)+rs.get(1)), "right",6));
@@ -177,7 +174,6 @@ public class PdfZestRok extends Pdf implements Serializable {
             table.addCell(ustawfrazebez(formatujliczby(rs.get(5)), "right",6));
             table.addCell(ustawfrazebez(formatujliczby(rs.get(4)+rs.get(5)), "right",6));
             table.addCell(ustawfrazebez(formatujliczby(rs.get(6)), "right",6));
-            table.addCell(ustawfrazebez("", "right",6));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
