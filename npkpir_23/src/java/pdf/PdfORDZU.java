@@ -29,13 +29,13 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 public class PdfORDZU extends PdfVAT7{
-    static String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ORD-ZU.jpg";
+    static String ordz = "C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ORD-ZU.jpg";
     
     public static void drukujORDZU(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ordzu"+v.getPodatnik()+".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ordzu"+v.getPodatnik()+".pdf"));
         document.addTitle("Załącznik ORDZU");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk załącnzika do deklaracji VAT " + dkl.getPodatnik());
@@ -47,8 +47,8 @@ public class PdfORDZU extends PdfVAT7{
         Font fontM = new Font(helvetica, 10);
         pierwszastrona(writer,v,dkl,p);
         document.close();
-        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ordzu"+v.getPodatnik()+".pdf");
-        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ord-zu"+dkl.getPodatnik()+".pdf"));
+        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ordzu"+v.getPodatnik()+".pdf");
+        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ord-zu"+dkl.getPodatnik()+".pdf"));
         PdfContentByte underContent = pdfStamper.getUnderContent(1);
         Image image;
         image = Image.getInstance(ordz);
@@ -77,7 +77,7 @@ public class PdfORDZU extends PdfVAT7{
    
 public static void main(String[] args) throws IOException, DocumentException{
 //        Document document = new Document();
-//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ordzu1.pdf"));
+//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ordzu1.pdf"));
 //        document.addTitle("Załącznik ORDZU");
 //        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
 //        document.addSubject("Wydruk załącnzika do deklaracji VAT ");
@@ -97,8 +97,8 @@ public static void main(String[] args) throws IOException, DocumentException{
 //        ct.addElement(p);
 //        ct.go();
 //        document.close();
-//        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ordzu1.pdf");
-//        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ord-zufinal.pdf"));
+//        PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ordzu1.pdf");
+//        PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ord-zufinal.pdf"));
 //        PdfContentByte underContent = pdfStamper.getUnderContent(1);
 //        Image image;
 //        image = Image.getInstance(ordz);
@@ -111,9 +111,9 @@ public static void main(String[] args) throws IOException, DocumentException{
 //        writer.close();
 
         try {
-            String[] files = {"C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/vat7-13GRZELCZYK.pdf","C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/ord-zufinal.pdf"};
+            String[] files = {"C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/vat7-13GRZELCZYK.pdf","C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/ord-zufinal.pdf"};
             Document PDFCombineUsingJava = new Document();
-            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_22/build/web/vat/CombinedPDFDocument.pdf"));
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjectsnpkpir_23/build/web/vat/CombinedPDFDocument.pdf"));
             PDFCombineUsingJava.open();
             PdfReader ReadInputPDF;
             int number_of_pages;
