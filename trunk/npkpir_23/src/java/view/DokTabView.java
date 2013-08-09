@@ -142,7 +142,7 @@ public class DokTabView implements Serializable {
             }
             }
             try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
+                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(),mc));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
             } catch (Exception e) {
@@ -505,107 +505,8 @@ public class DokTabView implements Serializable {
           Msg.msg("e","Błąd nie usunąłem z inwestycji!","dodWiad:mess_add");
         }
             }
-       
       
-    
-    public List<Dok> getObiektDOKjsf() {
-        return obiektDOKjsf;
-    }
-
-    public void setObiektDOKjsf(List<Dok> obiektDOKjsf) {
-        this.obiektDOKjsf = obiektDOKjsf;
-    }
-
-    public List<Dok> getObiektDOKjsfSel() {
-        return obiektDOKjsfSel;
-    }
-
-    public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
-        this.obiektDOKjsfSel = obiektDOKjsfSel;
-    }
-
-    public List<Dok> getObiektDOKmrjsfSel() {
-        return obiektDOKmrjsfSel;
-    }
-
-    public void setObiektDOKmrjsfSel(List<Dok> obiektDOKmrjsfSel) {
-        this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public DokDAO getDokDAO() {
-        return dokDAO;
-    }
-
-    public void setDokDAO(DokDAO dokDAO) {
-        this.dokDAO = dokDAO;
-    }
-
-    public Dok getSelDokument() {
-        return selDokument;
-    }
-
-    public void setSelDokument(Dok selDokument) {
-        this.selDokument = selDokument;
-    }
-
-    public Dok getDokdoUsuniecia() {
-        return dokdoUsuniecia;
-    }
-
-    public void setDokdoUsuniecia(Dok dokdoUsuniecia) {
-        DokTabView.dokdoUsuniecia = dokdoUsuniecia;
-    }
-
-  
-    public List<Dok> getDokvatmc() {
-        return dokvatmc;
-    }
-
-    public void setDokvatmc(List<Dok> dokvatmc) {
-        this.dokvatmc = dokvatmc;
-    }
-
-    public List<Dok> getNiezaplacone() {
-        return niezaplacone;
-    }
-
-    public void setNiezaplacone(List<Dok> niezaplacone) {
-        this.niezaplacone = niezaplacone;
-    }
-
-    public List<Dok> getZaplacone() {
-        return zaplacone;
-    }
-
-    public void setZaplacone(List<Dok> zaplacone) {
-        this.zaplacone = zaplacone;
-    }
-
-    public boolean isButton() {
-        return button;
-    }
-
-    public void setButton(boolean button) {
-        this.button = button;
-    }
-
-    public Uz getUzytkownik() {
-        return uzytkownik;
-    }
-
-    public void setUzytkownik(Uz uzytkownik) {
-        this.uzytkownik = uzytkownik;
-    }
-
-  /**
+        /**
    * Usunąc jak już bedzie dobrze
    * @param actionEvent 
    */
@@ -617,50 +518,151 @@ public class DokTabView implements Serializable {
 		Msg.msg("i","Data deleted","form:messages");
 	}
 
-    public AmoDokDAO getAmoDokDAO() {
-        return amoDokDAO;
-    }
-
-    public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
-        this.amoDokDAO = amoDokDAO;
-    }
-
-    public List<Dok> getGosciuwybral() {
-        return gosciuwybral;
-    }
+      
     
-    public static List<Dok> getGosciuwybralS() {
-        return gosciuwybral;
-    }
-
-    public void setGosciuwybral(List<Dok> gosciuwybral) {
-        this.gosciuwybral = gosciuwybral;
-    }
-
-    public boolean isPokaztablice() {
-        return pokaztablice;
-    }
-
-    public void setPokaztablice(boolean pokaztablice) {
-        DokTabView.pokaztablice = pokaztablice;
-    }
-
-    public List<Dok> getFilteredValue() {
-        return filteredValue;
-    }
-
-    public void setFilteredValue(List<Dok> filteredValue) {
-        DokTabView.filteredValue = filteredValue;
-    }
-
-    public List<Dok> getDokumentyokresowe() {
-        return dokumentyokresowe;
-    }
-
-    public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
-        this.dokumentyokresowe = dokumentyokresowe;
-    }
-
+        //<editor-fold defaultstate="collapsed" desc="comment">
+        public List<Dok> getObiektDOKjsf() {
+            return obiektDOKjsf;
+        }
+        
+        public void setObiektDOKjsf(List<Dok> obiektDOKjsf) {
+            this.obiektDOKjsf = obiektDOKjsf;
+        }
+        
+        public List<Dok> getObiektDOKjsfSel() {
+            return obiektDOKjsfSel;
+        }
+        
+        public void setObiektDOKjsfSel(List<Dok> obiektDOKjsfSel) {
+            this.obiektDOKjsfSel = obiektDOKjsfSel;
+        }
+        
+        public List<Dok> getObiektDOKmrjsfSel() {
+            return obiektDOKmrjsfSel;
+        }
+        
+        public void setObiektDOKmrjsfSel(List<Dok> obiektDOKmrjsfSel) {
+            this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
+        }
+        
+        public WpisView getWpisView() {
+            return wpisView;
+        }
+        
+        public void setWpisView(WpisView wpisView) {
+            this.wpisView = wpisView;
+        }
+        
+        public DokDAO getDokDAO() {
+            return dokDAO;
+        }
+        
+        public void setDokDAO(DokDAO dokDAO) {
+            this.dokDAO = dokDAO;
+        }
+        
+        public Dok getSelDokument() {
+            return selDokument;
+        }
+        
+        public void setSelDokument(Dok selDokument) {
+            this.selDokument = selDokument;
+        }
+        
+        public Dok getDokdoUsuniecia() {
+            return dokdoUsuniecia;
+        }
+        
+        public void setDokdoUsuniecia(Dok dokdoUsuniecia) {
+            DokTabView.dokdoUsuniecia = dokdoUsuniecia;
+        }
+        
+        
+        public List<Dok> getDokvatmc() {
+            return dokvatmc;
+        }
+        
+        public void setDokvatmc(List<Dok> dokvatmc) {
+            this.dokvatmc = dokvatmc;
+        }
+        
+        public List<Dok> getNiezaplacone() {
+            return niezaplacone;
+        }
+        
+        public void setNiezaplacone(List<Dok> niezaplacone) {
+            this.niezaplacone = niezaplacone;
+        }
+        
+        public List<Dok> getZaplacone() {
+            return zaplacone;
+        }
+        
+        public void setZaplacone(List<Dok> zaplacone) {
+            this.zaplacone = zaplacone;
+        }
+        
+        public boolean isButton() {
+            return button;
+        }
+        
+        public void setButton(boolean button) {
+            this.button = button;
+        }
+        
+        public Uz getUzytkownik() {
+            return uzytkownik;
+        }
+        
+        public void setUzytkownik(Uz uzytkownik) {
+            this.uzytkownik = uzytkownik;
+        }
+        
+        
+        public AmoDokDAO getAmoDokDAO() {
+            return amoDokDAO;
+        }
+        
+        public void setAmoDokDAO(AmoDokDAO amoDokDAO) {
+            this.amoDokDAO = amoDokDAO;
+        }
+        
+        public List<Dok> getGosciuwybral() {
+            return gosciuwybral;
+        }
+        
+        public static List<Dok> getGosciuwybralS() {
+            return gosciuwybral;
+        }
+        
+        public void setGosciuwybral(List<Dok> gosciuwybral) {
+            this.gosciuwybral = gosciuwybral;
+        }
+        
+        public boolean isPokaztablice() {
+            return pokaztablice;
+        }
+        
+        public void setPokaztablice(boolean pokaztablice) {
+            DokTabView.pokaztablice = pokaztablice;
+        }
+        
+        public List<Dok> getFilteredValue() {
+            return filteredValue;
+        }
+        
+        public void setFilteredValue(List<Dok> filteredValue) {
+            DokTabView.filteredValue = filteredValue;
+        }
+        
+        public List<Dok> getDokumentyokresowe() {
+            return dokumentyokresowe;
+        }
+        
+        public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
+            this.dokumentyokresowe = dokumentyokresowe;
+        }
+        //</editor-fold>
     
    
         

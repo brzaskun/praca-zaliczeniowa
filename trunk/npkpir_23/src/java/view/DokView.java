@@ -611,15 +611,25 @@ public class DokView implements Serializable{
         }
         }
     }
+    public void pobierzwprowadzonynumer(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String wprowadzonynumer = params.get("dodWiad:numerwlasny");
+        selDokument.setNrWlDk(wprowadzonynumer);
+    }
     
     public void wygenerujnumerkolejny(){
+        String zawartosc = "";
         try {
-            String zawartosc = selDokument.getNrWlDk();
+            zawartosc = selDokument.getNrWlDk();
         } catch (Exception ex){
             selDokument.setNrWlDk("");
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
+        String wprowadzonynumer = params.get("dodWiad:numerwlasny");
+        if(!wprowadzonynumer.equals("")){
+            
+        } else {
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();
         Podatnik podX = podatnikDAO.find(pod);
@@ -673,7 +683,13 @@ public class DokView implements Serializable{
          renderujtabele(rodzajdok);
          if(!nowynumer.equals("")&&selDokument.getNrWlDk()==null){
             selDokument.setNrWlDk(nowynumer);
+             RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
          } 
+          if(!nowynumer.equals("")&&selDokument.getNrWlDk().equals("")){
+            selDokument.setNrWlDk(nowynumer);
+            RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
+         } 
+        }
          
     }
 
@@ -1692,8 +1708,9 @@ public class DokView implements Serializable{
             }
    
    public void skopiujdoedycji(){
-           ustawDate2();
            selDokument = DokTabView.getGosciuwybralS().get(0);
+           Msg.msg("i", "Wybrano fakturę "+ selDokument.getNrWlDk() +" do edycji");
+           ustawDate2();
            RequestContext.getCurrentInstance().update("dialogEdycja");
            //trzeba poprawic
             String skrot = selDokument.getTypdokumentu();
@@ -1717,8 +1734,7 @@ public class DokView implements Serializable{
            }
            renderujwyszukiwarke(rodzajdok);
            renderujtabele(rodzajdok);
-           selDokument = DokTabView.getGosciuwybralS().get(0);
-           RequestContext.getCurrentInstance().update("dodWiad:");
+           RequestContext.getCurrentInstance().update("form:dokumentyLista");
            RequestContext.getCurrentInstance().update("dialogEdycja");
        }
    
