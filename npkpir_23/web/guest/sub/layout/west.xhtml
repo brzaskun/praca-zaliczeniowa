@@ -13,7 +13,6 @@
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <f:param name="rokWpisu" value="2012" />
                     <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestZobowiazania.xhtml')}" />
                 </p:selectOneMenu>
                   </p:column>
@@ -25,7 +24,6 @@
                     </p:column>
             </p:panelGrid>
 
-            </p:panel>
 
         </h:form>
     </p:layoutUnit>
