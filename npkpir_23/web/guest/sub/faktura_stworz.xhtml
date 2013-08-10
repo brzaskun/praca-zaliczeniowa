@@ -1,0 +1,100 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    
+        <p:tab id="nowa" title="Sporządź nową fakturę" >
+            <p:messages autoUpdate="true"/>
+            <p:outputPanel id="panelfaktury" rendered="#{fakturaView.pokazfakture ? true : false}">
+            <p:panelGrid columns="4" style="height: 250px;">
+                <h:outputLabel value="miejsce wystawienia faktury: " for="miejsce" />
+                <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="Szczecin" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>  
+                <h:outputLabel value="data wystawienia faktury: " for="datawystawienia"/>
+                <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>  
+                <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " for="datasprz"/>
+                <p:inplace id="datasprz" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="nr faktury: " for="nrfaktury"/>
+                <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="dane kontrahenta: " for="danekontrahenta"/>
+                <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{KlView.complete}"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
+                                autocomplete="true" forceSelection="true" global="false"
+                                required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
+                    <f:ajax event="blur" execute="@this"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane kontrahenta"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna" value="#{p.npelna}" />  
+                            <h:outputText value="NIP: " />  
+                            <h:outputText id="nip" value="#{p.nip}" />  
+                            <h:outputText value="Adres " />  
+                            <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                    <f:param name="passedValue" value="#{p}" />
+                </p:autoComplete>
+                <h:outputLabel value="termin zapłaty: " for="terminzaplaty"/>
+                <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="sposób zapłaty: " for="sposobzaplaty"/>
+                <p:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
+                    <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
+                    <f:selectItem itemLabel="przelew" itemValue="przelew"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="konto bankowe: " for="kontobankowe"/>
+                <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
+                </p:inplace>
+                <h:outputLabel value="waluta faktury: " for="waluta faktury"/>
+                <p:selectOneMenu value="#{fakturaView.selected.walutafaktury}" >
+                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="wystawiający fakturę: " for="wystawiajacyfakt"/>
+                <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.podpis}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+            </p:panelGrid>
+           
+            <br/>
+            <p:outputPanel id="panel" style="margin-top: 15px;">
+                <ui:repeat value="#{fakturaView.pozycje}" var="row" varStatus="rowStat"  >
+                    <p:panelGrid columns="6">
+                        <p:inputText id="nazwa" value="#{row.nazwa}" label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
+                        <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>   
+                        <p:inputText id="jednmiary" value="#{row.jednostka}" label="text" title="jednostka miary"><p:watermark for="jednmiary" value="jednostka miary" /></p:inputText>     
+                        <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc" value="ilość" /></p:inputText>     
+                        <p:inputText id="cena" value="#{row.cena}" label="text" title="cena jednostkowa" style="text-align:  right;"><p:watermark for="cena" value="cena jednostkowa" /></p:inputText>     
+                        <p:inputText id="podatek" value="#{row.podatek}" label="text" title="stawka pod. VAT"><p:watermark for="podatek" value="stawka pod. VAT" /></p:inputText>     
+                    </p:panelGrid>
+                </ui:repeat>
+            </p:outputPanel>
+            <br/>
+            <p:outputPanel  style="margin-top: 25px;">
+                <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update=":form:akordeon:nowa"/>
+             </p:outputPanel>
+            <br/>
+            <p:outputPanel  style="margin-top: 25px;">
+                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}"/>
+             </p:outputPanel>
+            </p:outputPanel>
+        </p:tab>    
+</ui:composition>   
+

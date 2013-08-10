@@ -10,6 +10,7 @@ import entity.Faktura;
 import entity.FakturaPK;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -34,6 +35,24 @@ public class FakturaView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
+    @Inject private FakturaDAO fakturaDAO;
+    //faktury z bazy danych
+    private List<Faktura> faktury;
+    //faktury wybrane z listy
+    private static List<Faktura> gosciwybral;
+
+    public FakturaView() {
+        faktury = new ArrayList<>();
+        gosciwybral = new ArrayList<>();
+    }
+    
+    
+        
+    
+    @PostConstruct
+    private void init(){
+        faktury = fakturaDAO.findAll();
+    }
 
            
     
@@ -62,13 +81,14 @@ public class FakturaView implements Serializable{
         RequestContext.getCurrentInstance().update("form:panelfaktury");
     }
     
-     @Inject private FakturaDAO fakturaDAO;
+     
     
     public void dodaj(){
-        if(fakturaDAO.dodaj(selected).equals("ok")){
+        String wynik = fakturaDAO.dodaj(selected);
+        if(wynik.equals("ok")){
             Msg.msg("i", "Dodano fakturę.");
         } else {
-            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury.");
+            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. "+wynik);
         }
         
     }
@@ -78,48 +98,69 @@ public class FakturaView implements Serializable{
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
     }
-
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
     public Faktura getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Faktura selected) {
         this.selected = selected;
     }
-
-      
+    
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public ArrayList<Pozycjenafakturzebazadanych> getPozycje() {
         return pozycje;
     }
-
+    
     public void setPozycje(ArrayList<Pozycjenafakturzebazadanych> pozycje) {
         this.pozycje = pozycje;
     }
-
+    
     public FakturaPK getFakturaPK() {
         return fakturaPK;
     }
-
+    
     public void setFakturaPK(FakturaPK fakturaPK) {
         this.fakturaPK = fakturaPK;
     }
-
+    
     public boolean isPokazfakture() {
         return pokazfakture;
     }
-
+    
     public void setPokazfakture(boolean pokazfakture) {
         this.pokazfakture = pokazfakture;
     }
     
+    public List<Faktura> getFaktury() {
+        return faktury;
+    }
     
+    public void setFaktury(List<Faktura> faktury) {
+        this.faktury = faktury;
+    }
+        
+    public static List<Faktura> getGosciwybralS() {
+        return gosciwybral;
+    }
+    
+    public List<Faktura> getGosciwybral() {
+        return gosciwybral;
+    }
+
+    public void setGosciwybral(List<Faktura> gosciwybral) {
+        this.gosciwybral = gosciwybral;
+    }
+    //</editor-fold>
     
 }
