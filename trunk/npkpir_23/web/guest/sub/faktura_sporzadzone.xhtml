@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+      <p:tab id="gotowe" title="Przeglądaj sporządzone">
+           <p:contextMenu for="dokumentyLista">
+                <p:menuitem value="Edytuj" update=":form:messages" icon="ui-icon-calculator" onclick="dlg123.show();"/>
+                <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-disk" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
+                <p:menuitem value="Usuń wiele" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
+                <p:menuitem value="Switch" update=":form:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
+            </p:contextMenu>
+          <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
+                       selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}">
+              <p:column selectionMode="multiple" width="50"/>
+              <p:column headerText="wystawca">
+                  <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
+              </p:column>
+              <p:column headerText="nr kolejny">
+                  <h:outputText value="#{wpis.fakturaPK.numerkolejny}"/>
+              </p:column>
+               <p:column headerText="kontrahent">
+                   <h:outputText value="#{wpis.kontrahent}"/>
+              </p:column>
+               <p:column headerText="datawystawienia">
+                   <h:outputText value="#{wpis.datawystawienia}"/>
+              </p:column>
+          </p:dataTable>
+            
+        </p:tab>
+</ui:composition>   
+
