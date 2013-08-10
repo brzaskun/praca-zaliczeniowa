@@ -8,6 +8,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -83,7 +84,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         return cell;
     }
     
-    protected  PdfPCell ustawfrazebez(String fraza, String orient,int fontsize) throws DocumentException, IOException{
+    protected static PdfPCell ustawfrazebez(String fraza, String orient,int fontsize) throws DocumentException, IOException{
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         Font font = new Font(helvetica,fontsize);
         PdfPCell cell = new PdfPCell(new Phrase(fraza,font));
@@ -123,8 +124,30 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     public void setLiczydlo(int liczydlo) {
         this.liczydlo = liczydlo;
     }
-     
+
     
+    protected static Paragraph dodpar(String tekst, Font font, String polozenie, int indentation, int leading){
+        Paragraph miziu = new Paragraph(new Phrase(tekst,font));
+        switch (polozenie){
+            case "l" : 
+                miziu.setAlignment(Element.ALIGN_LEFT);
+                break;
+            case "r" : 
+                miziu.setAlignment(Element.ALIGN_RIGHT);
+                break;
+            case "c" : 
+                miziu.setAlignment(Element.ALIGN_CENTER);
+                break;
+            case "j" : 
+                miziu.setAlignment(Element.ALIGN_JUSTIFIED);
+                break;
+        }
+        if(indentation>0){
+            miziu.setIndentationLeft(indentation);
+        }
+        miziu.setLeading(leading);
+        return miziu;
+    }
     
     class HeaderFooter extends PdfPageEventHelper {
 
