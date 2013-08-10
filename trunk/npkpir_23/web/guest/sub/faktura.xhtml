@@ -116,12 +116,12 @@
         </p:tab>-->
         <p:tab id="wzor" title="Wzór faktury">
             <script type="text/javascript">
-                function zachowaj(co) {
-                    var p = $("#form\\:akordeon\\:" + co);
+                function zachowaj(me) {
+                    var p = $(document.getElementById(me.id));
                     var position = p.position();
                     var lewy = parseInt(position.left);
                     var gora = parseInt(position.top);
-                    var wysokosc = parseInt($("#form\\:akordeon\\:" + co).height());
+                    var wysokosc = parseInt($(document.getElementById(me.id)).height());
                     $("#form\\:lewy").val(lewy);
                     $("#form\\:gora").val(gora);
                     $("#form\\:zachowaj").click();
@@ -132,42 +132,15 @@
                     var gora = $("#form\\:goraTablica").val().split(",");
                     var co = $("#form\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    $("#form\\:akordeon\\:odbiorca").bind('mouseup', function() {
-                        $("#form\\:co").val("odbiorca");
-                        zachowaj("odbiorca");
-                    });
-                    $("#form\\:akordeon\\:wystawca").bind('mouseup', function() {
-                        $("#form\\:co").val("wystawca");
-                        zachowaj("wystawca");
-                    });
-                    $("#form\\:akordeon\\:data").bind('mouseup', function() {
-                        $("#form\\:co").val("data");
-                        zachowaj("data");
-                    });
-                    $("#form\\:akordeon\\:fakturanumer").bind('mouseup', function() {
-                        $("#form\\:co").val("fakturanumer");
-                        zachowaj("fakturanumer");
-                    });
-                    $("#form\\:akordeon\\:platnosc").bind('mouseup', function() {
-                        $("#form\\:co").val("platnosc");
-                        zachowaj("platnosc");
-                    });
-                    $("#form\\:akordeon\\:datasprzedazy").bind('mouseup', function() {
-                        $("#form\\:co").val("datasprzedazy");
-                        zachowaj("datasprzedazy");
-                    });
-                    $("#form\\:akordeon\\:towary").bind('mouseup', function() {
-                        $("#form\\:co").val("towary");
-                        zachowaj("towary");
-                    });
-                    $("#form\\:akordeon\\:dozaplaty").bind('mouseup', function() {
-                        $("#form\\:co").val("dozaplaty");
-                        zachowaj("dozaplaty");
-                    });
-                    $("#form\\:akordeon\\:podpis").bind('mouseup', function() {
-                        $("#form\\:co").val("podpis");
-                        zachowaj("podpis");
-                    });
+                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis'];
+                    for(var modul in moduly){
+                        var nazwa = moduly[modul];
+                        var nazwaakordeon = "#form\\:akordeon\\:"+nazwa;
+                        $(nazwaakordeon).bind('mouseup', function(e) {
+                            $("#form\\:co").val(this.id);
+                            zachowaj(this);
+                        });
+                    };
                 });
             </script>
             <div style="background-color: #6374AB; height: 1200px;">

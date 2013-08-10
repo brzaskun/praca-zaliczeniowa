@@ -636,7 +636,7 @@ function petlawywolujaca(lw,gr,co){
             var lewy = parseInt(lw[j]);
             var cos = co[j];
             var gora = parseInt(gr[j]);
-            $('#form\\:akordeon\\:'+cos).css({ position: "absolute",
+            $(document.getElementById(cos)).css({ position: "absolute",
             marginLeft: 0, marginTop: 0,
             top: gora, left: lewy });
 
