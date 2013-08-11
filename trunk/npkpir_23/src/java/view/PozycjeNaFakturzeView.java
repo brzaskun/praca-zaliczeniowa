@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionListener;
 import javax.inject.Inject;
@@ -24,7 +25,8 @@ import msg.Msg;
 @ManagedBean
 @RequestScoped
 public class PozycjeNaFakturzeView implements Serializable{
-    
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
     private int lewy;
     private int gora;
     private String co;
@@ -47,7 +49,7 @@ public class PozycjeNaFakturzeView implements Serializable{
     System.out.println("lolo");
     PozycjenafakturzePK klucz = new PozycjenafakturzePK();
         klucz.setNazwa(co);
-        klucz.setPodatnik("Test");
+        klucz.setPodatnik(wpisView.getPodatnikWpisu());
     Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, true, gora, lewy);
     try{
         pozycjeDAO.dodaj(pozycje);
@@ -58,7 +60,7 @@ public class PozycjeNaFakturzeView implements Serializable{
     }
 
    public void odchowaj(){
-       List<Pozycjenafakturze> lista = pozycjeDAO.findAll();
+       List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
        if(!lista.isEmpty()){
            lewyTablica = "";
            goraTablica = "";
@@ -71,58 +73,68 @@ public class PozycjeNaFakturzeView implements Serializable{
        }
    }
 
-    public int getLewy() {
-        return lewy;
-    }
-
-    public void setLewy(int lewy) {
-        this.lewy = lewy;
-    }
-
-    public int getGora() {
-        return gora;
-    }
-
-    public void setGora(int gora) {
-        this.gora = gora;
-    }
-
-    public String getCo() {
-        return co;
-    }
-
-    public void setCo(String co) {
-        this.co = co;
-    }
-
-    public String getLewyTablica() {
-        return lewyTablica;
-    }
-
-    public void setLewyTablica(String lewyTablica) {
-        PozycjeNaFakturzeView.lewyTablica = lewyTablica;
-    }
-
-    public String getGoraTablica() {
-        return goraTablica;
-    }
-
-    public void setGoraTablica(String goraTablica) {
-        PozycjeNaFakturzeView.goraTablica = goraTablica;
-    }
-
-    public String getCoTablica() {
-        return coTablica;
-    }
-
-    public void setCoTablica(String coTablica) {
-        PozycjeNaFakturzeView.coTablica = coTablica;
-    }
-
-    public List<Pozycjenafakturzebazadanych> getZestaw() {
-        return zestaw;
-    }
-
-    
+   //<editor-fold defaultstate="collapsed" desc="comment">
+   public int getLewy() {
+       return lewy;
+   }
+   
+   public void setLewy(int lewy) {
+       this.lewy = lewy;
+   }
+   
+   public int getGora() {
+       return gora;
+   }
+   
+   public void setGora(int gora) {
+       this.gora = gora;
+   }
+   
+   public String getCo() {
+       return co;
+   }
+   
+   public void setCo(String co) {
+       this.co = co;
+   }
+   
+   public String getLewyTablica() {
+       return lewyTablica;
+   }
+   
+   public void setLewyTablica(String lewyTablica) {
+       PozycjeNaFakturzeView.lewyTablica = lewyTablica;
+   }
+   
+   public String getGoraTablica() {
+       return goraTablica;
+   }
+   
+   public void setGoraTablica(String goraTablica) {
+       PozycjeNaFakturzeView.goraTablica = goraTablica;
+   }
+   
+   public String getCoTablica() {
+       return coTablica;
+   }
+   
+   public void setCoTablica(String coTablica) {
+       PozycjeNaFakturzeView.coTablica = coTablica;
+   }
+   
+   public List<Pozycjenafakturzebazadanych> getZestaw() {
+       return zestaw;
+   }
+   
+   public WpisView getWpisView() {
+       return wpisView;
+   }
+   
+   public void setWpisView(WpisView wpisView) {
+       this.wpisView = wpisView;
+   }
+   
+   
+   //</editor-fold>
    
 }

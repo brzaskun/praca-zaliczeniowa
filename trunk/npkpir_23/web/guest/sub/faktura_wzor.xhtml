@@ -35,7 +35,7 @@
                     };
                 });
             </script>
-            <div style="background-color: #6374AB; height: 1200px;">
+            <div style="background-color: #6374AB; height: 1600px; width: 1080px;">
                 <p:panel id="odbiorca" style="width: 350px;"  >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Odbiorca: " />
@@ -58,15 +58,15 @@
                     </p:panelGrid>
                 </p:panel>
                 <p:draggable for="wystawca" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
-                <p:panel id="data" style="width: 230px;">  
+                <p:panel id="data" style="width: 240px;">  
                     <p:panelGrid columns="1">
                         <h:outputText value="Szczecin, dnia 18.05.2013 " />
                     </p:panelGrid>
                 </p:panel>  
                 <p:draggable for="data" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
-                <p:panel id="fakturanumer" style="width: 200px;"  >  
+                <p:panel id="fakturanumer" style="width: 240px;"  >  
                     <p:panelGrid columns="2">
-                        <h:outputText value="Faktura VAT nr 1/2003" />
+                        <h:outputText value="Faktura VAT nr 1/2003" style="font-size: larger;"/>
                     </p:panelGrid>
                 </p:panel>  
                 <p:draggable for="fakturanumer" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
@@ -80,13 +80,13 @@
                     </p:panelGrid>
                 </p:panel>  
                 <p:draggable for="platnosc" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
-                <p:panel id="datasprzedazy" style="width: 250px;"  >  
+                <p:panel id="datasprzedazy" >  
                     <p:panelGrid columns="2">
-                        <h:outputText value="data sprzedaży: 2013-05-13" />
+                        <h:outputText value="data sprzedaży 21-05-2013" />
                     </p:panelGrid>
                     <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
                 </p:panel>
-                <p:panel id="towary" style="width: 1100px;"  >  
+                <p:panel id="towary" style="width: 980px;"  >  
                     <p:dataTable value="#{pozycjeNaFakturzeView.zestaw}" var="wpis">
                         <p:column headerText="lp"><h:outputText value="#{wpis.lp}"/></p:column>
                         <p:column headerText="Nazwa towaru/usługi"><h:outputText value="#{wpis.nazwa}"/></p:column>
@@ -98,6 +98,7 @@
                         <p:column headerText="Podatek %"><h:outputText value="#{wpis.podatek}"/></p:column>
                         <p:column headerText="Podatek kwota"><h:outputText value="#{wpis.podatekkwota}"/></p:column>
                         <p:column headerText="Wartość z pod."><h:outputText value="#{wpis.brutto}"/></p:column>
+                        <p:column headerText="Uwagi"><h:outputText value=" "/></p:column>
                     </p:dataTable>
                     <p:draggable for="towary" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
                 </p:panel>
