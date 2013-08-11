@@ -32,6 +32,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import static pdf.Pdf.dodpar;
 import static pdf.Pdf.ustawfraze;
 import static pdf.Pdf.ustawfrazebez;
 import view.FakturaView;
@@ -70,7 +71,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             Map<String, Integer> wymiary = new HashMap<>();
             int poprzednie = 0;
             for(Pozycjenafakturze p : lista){
-                int wymiargora = p.getGora()/2;
+                int wymiargora = (int) (p.getGora()/3);
                 if (poprzednie == 0 ){
                     wymiary.put(p.getPozycjenafakturzePK().getNazwa(), wymiargora);
                     poprzednie = wymiargora;
@@ -80,25 +81,53 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
             }
             document.add(dodpar("Biuro Rachunkowe Taxman - program księgowy online", fontXS, "l", 0, 10));
-            //Dane do moudlu data
-            Pozycjenafakturze pobrane = zwrocpozycje(lista, "data");
-            document.add(dodpar(selected.getMiejscewystawienia()+ " dnia: "+selected.getDatawystawienia(), font, "l", pobrane.getLewy()/2, wymiary.get("form:akordeon:data")));
-            pobrane = zwrocpozycje(lista, "fakturanumer");
-            document.add(dodpar("Faktura nr "+selected.getFakturaPK().getNumerkolejny(), fontL, "l", pobrane.getLewy()/2, wymiary.get("form:akordeon:fakturanumer")));
-            //wystawca
-            document.add(dodpar("Sprzedawca: ", fontL, "l", 0, 40));
-            document.add(dodpar(selected.getWystawca().getNazwapelna(), font, "l", 0, 20));
-            String adres = selected.getWystawca().getKodpocztowy()+" "+selected.getWystawca().getMiejscowosc()+" "+selected.getWystawca().getUlica()+" "+selected.getWystawca().getNrdomu();
-            document.add(dodpar(adres, font, "l", 0, 20));
-            document.add(dodpar("NIP: "+selected.getWystawca().getNip(), font, "l", 0, 20));
-            document.add(dodpar("Nabywca: ", fontL, "l", 0, 30));
-            document.add(dodpar(selected.getKontrahent().getNpelna(), font, "l", 0, 20));
-            adres = selected.getKontrahent().getKodpocztowy()+" "+selected.getKontrahent().getMiejscowosc()+" "+selected.getKontrahent().getUlica()+" "+selected.getKontrahent().getDom();
-            document.add(dodpar(adres, font, "l", 0, 20));
-            document.add(dodpar("NIP: "+selected.getKontrahent().getNip(), font, "l", 0, 20));
-            document.add(dodpar("Sposób zapłaty: "+selected.getSposobzaplaty(), font, "l", 0, 30));
-            document.add(dodpar("Termin płatności: "+selected.getTerminzaplaty(), font, "l", 100, 0));
-            document.add(dodpar(" ", font, "l", 0, 50));
+            Pozycjenafakturze pobrane = new Pozycjenafakturze();
+            String adres = "";
+            float dzielnik = 2;
+            for (Pozycjenafakturze p : lista){
+                switch (p.getPozycjenafakturzePK().getNazwa()){
+                    case "form:akordeon:data" :
+                        //Dane do moudlu data
+                        pobrane = zwrocpozycje(lista, "data");
+                        document.add(dodpar(selected.getMiejscewystawienia()+ " dnia: "+selected.getDatawystawienia(), font, "l", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:data")));
+                        break;
+                    case "form:akordeon:fakturanumer" :
+                        //Dane do modulu fakturanumer
+                        pobrane = zwrocpozycje(lista, "fakturanumer");
+                        document.add(dodpar("Faktura nr "+selected.getFakturaPK().getNumerkolejny(), fontL, "l", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:fakturanumer")));
+                        break;
+                    case "form:akordeon:wystawca" :
+                        //Dane do modulu sprzedawca
+                        pobrane = zwrocpozycje(lista, "wystawca");
+                        document.add(dodpar("Sprzedawca: ", fontL, "l", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca")));
+                        document.add(dodpar(selected.getWystawca().getNazwapelna(), font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        adres = selected.getWystawca().getKodpocztowy()+" "+selected.getWystawca().getMiejscowosc()+" "+selected.getWystawca().getUlica()+" "+selected.getWystawca().getNrdomu();
+                        document.add(dodpar(adres, font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        document.add(dodpar("NIP: "+selected.getWystawca().getNip(), font, "l",(int) (pobrane.getLewy()/dzielnik), 20));
+                        break;
+                     case "form:akordeon:odbiorca" :
+                        //Dane do modulu odbiorca
+                        pobrane = zwrocpozycje(lista, "odbiorca");
+                        document.add(dodpar("Nabywca: ", fontL, "l", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca")));
+                        document.add(dodpar(selected.getKontrahent().getNpelna(), font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        adres = selected.getKontrahent().getKodpocztowy()+" "+selected.getKontrahent().getMiejscowosc()+" "+selected.getKontrahent().getUlica()+" "+selected.getKontrahent().getDom();
+                        document.add(dodpar(adres, font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        document.add(dodpar("NIP: "+selected.getKontrahent().getNip(), font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        break;
+                     case "form:akordeon:platnosc" :
+                        //Dane do modulu platnosc
+                        pobrane = zwrocpozycje(lista, "platnosc");
+                        document.add(dodpar("Sposób zapłaty: "+selected.getSposobzaplaty(), font, "l", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:platnosc")));
+                        document.add(dodpar("Termin płatności: "+selected.getTerminzaplaty(), font, "l", (int) (pobrane.getLewy()/dzielnik) + 90, 0));
+                        document.add(dodpar("Nr konta bankowego: "+selected.getNrkontabankowego(), font, "l", (int) (pobrane.getLewy()/dzielnik), 20));
+                        break;
+                }
+            }
+            
+            
+            
+            
+            
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
@@ -135,7 +164,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             document.add(table);
             document.add(dodpar("Do zapłaty: 100zł", font, "l", 0, 50));
             document.add(dodpar("Słownie: sto złotych", font, "l", 0, 20));
-            document.add(dodpar("Nr konta bankowego: "+selected.getNrkontabankowego(), font, "l", 0, 20));
+            
             document.add(dodpar(selected.getPodpis(), font, "l", 10, 50));
             document.add(dodpar("..........................................", font, "l", 0, 20));
             document.add(dodpar("wystawca faktury", font, "l", 15, 20));
