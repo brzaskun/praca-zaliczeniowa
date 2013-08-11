@@ -19,6 +19,7 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Podstawki;
+import entity.Pozycjenafakturze;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.Sesja;
@@ -411,6 +412,10 @@ public class SessionFacade<T> {
 
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+
+    public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik) {
+        return em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
      

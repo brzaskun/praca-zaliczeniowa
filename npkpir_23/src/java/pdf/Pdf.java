@@ -70,7 +70,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
 }
    
 
-    protected PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException{
+    protected static PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException{
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         Font font = new Font(helvetica,8);
         PdfPCell cell = new PdfPCell(new Phrase(fraza,font));

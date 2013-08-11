@@ -27,4 +27,13 @@ public class PozycjenafakturzeDAO  extends DAO implements Serializable {
     public List<Pozycjenafakturze> findAll(){
                 return pozycjeSession.findAll(Pozycjenafakturze.class);
     }
+    
+    /**
+     *
+     * @param podatnik
+     * @return
+     */
+    public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik){
+        return pozycjeSession.findFakturyPodatnik(podatnik);
+    }
 }
