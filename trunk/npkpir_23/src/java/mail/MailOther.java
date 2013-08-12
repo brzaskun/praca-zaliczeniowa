@@ -4,6 +4,8 @@
  */
 package mail;
 
+import entity.Faktura;
+import entity.Klienci;
 import java.io.Serializable;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -15,6 +17,10 @@ import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
+import view.FakturaView;
+import view.WpisView;
 
 /**
  *
@@ -56,6 +62,44 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
+     public void faktura() {
+       try {
+            Faktura faktura = FakturaView.getGosciwybralS().get(0);
+            Klienci klientf = faktura.getKontrahent();
+            Message message = logintoMail(faktura.getKontrahent().getEmail());
+            message.setSubject("Wydruk faktury VAT");
+            // create and fill the first message part
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            mbp1.setText("Witam"
+                    + "\n\n"+"W załączeniu bieżąca faktura automatycznie wygenerowana przez program księgowy."
+                    + "\nAdres mailowy, z którego została wysłana nie służy do normalnej korespondencji."
+                    + "\n\nZ poważaniem"
+                    + "\n\n"+podpisfaktury
+                    + "\n\n"+firmafaktury);
+
+            // create the second message part
+            MimeBodyPart mbp2 = new MimeBodyPart();
+            // attach the file to the message
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + klientfile + ".pdf");
+            mbp2.setDataHandler(new DataHandler(fds));
+            mbp2.setFileName(fds.getName());
+
+            // create the Multipart and add its parts to it
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            mp.addBodyPart(mbp2);
+
+            // add the Multipart to the message
+            message.setContent(mp);
+            Transport.send(message);
+            System.out.println("Wyslano maila z fakturą do klienta");
+            Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
+              } catch (MessagingException e) {
+                  throw new RuntimeException(e);
+              }
+      
+}
+     
      public void pit5() {
        try {
             Message message = logintoMail();
