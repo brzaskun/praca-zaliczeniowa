@@ -92,7 +92,19 @@ public class FakturaView implements Serializable{
         }
         
     }
-       
+    
+    public void destroygrupa(){
+        for (Faktura p : gosciwybral){
+            try {
+                fakturaDAO.destroy(p);
+                faktury.remove(p);
+                Msg.msg("i", "Usunięto fakturę "+p.getFakturaPK().getNumerkolejny());
+                RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
+            } catch (Exception e){
+                Msg.msg("e", "Nie usunięto faktury "+p.getFakturaPK().getNumerkolejny());
+            }
+        }
+    }
        
     public void dodajwiersz(){
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();

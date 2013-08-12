@@ -4,12 +4,15 @@
  */
 package pdf;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfSpotColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.Pozycjenafakturzecomparator;
 import dao.PozycjenafakturzeDAO;
@@ -75,7 +78,8 @@ public class PdfFaktura extends Pdf implements Serializable {
                 int wymiargora = (int) (p.getGora()/2);
                     wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit-wymiargora);
             }
-            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 10, 820, 6);
+            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
+            prost(writer.getDirectContent(), 12, 817, 560,10);
             Pozycjenafakturze pobrane = new Pozycjenafakturze();
             String adres = "";
             float dzielnik = 2;
@@ -84,21 +88,25 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "form:akordeon:data" :
                         //Dane do moudlu data
                         pobrane = zwrocpozycje(lista, "data");
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:data")-5,100,15);
                         absText(writer,selected.getMiejscewystawienia()+ " dnia: "+selected.getDatawystawienia(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:data"), 8);
                         break;
                     case "form:akordeon:datasprzedazy" :
                         //Dane do moudlu data
                         pobrane = zwrocpozycje(lista, "datasprzedazy");
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:datasprzedazy")-5,110,15);
                         absText(writer,"Data sprzedaży: "+selected.getDatasprzedazy(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:datasprzedazy"), 8);
                         break;
                     case "form:akordeon:fakturanumer" :
                         //Dane do modulu fakturanumer
                         pobrane = zwrocpozycje(lista, "fakturanumer");
-                        absText(writer,"Faktura nr "+selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:data"), 10);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:fakturanumer")-5,100,20);
+                        absText(writer,"Faktura nr "+selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:fakturanumer"), 10);
                         break;
                     case "form:akordeon:wystawca" :
                         //Dane do modulu sprzedawca
                         pobrane = zwrocpozycje(lista, "wystawca");
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:wystawca")-65,160,80);
                         absText(writer,"Sprzedawca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca"), 10);
                         absText(writer,selected.getWystawca().getNazwapelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca")-20, 8);
                         adres = selected.getWystawca().getKodpocztowy()+" "+selected.getWystawca().getMiejscowosc()+" "+selected.getWystawca().getUlica()+" "+selected.getWystawca().getNrdomu();
@@ -108,6 +116,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                      case "form:akordeon:odbiorca" :
                         //Dane do modulu odbiorca
                         pobrane = zwrocpozycje(lista, "odbiorca");
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:odbiorca")-65,160,80);
                         absText(writer,"Nabywca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca"), 10);
                         absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca")-20, 8);
                         adres = selected.getKontrahent().getKodpocztowy()+" "+selected.getKontrahent().getMiejscowosc()+" "+selected.getKontrahent().getUlica()+" "+selected.getKontrahent().getDom();
@@ -148,6 +157,16 @@ public class PdfFaktura extends Pdf implements Serializable {
         Msg.msg("i", "Wydrukowano Fakture", "form:messages");
     }
     
+    private  void prost(PdfContentByte cb,int x,int y,int x1,int y1){
+        cb.saveState();
+        PdfSpotColor color = new PdfSpotColor(RESULT, BaseColor.BLACK);
+        cb.setLineWidth((float) 0.5);
+        cb.setColorStroke(color, (float) 0.5);
+        cb.setFlatness(y1);
+        cb.rectangle(x,y,x1,y1);
+        cb.stroke();
+        cb.restoreState();
+    }
     
     private PdfPTable wygenerujtablice (PdfPTable table, Pozycjenafakturzebazadanych pozycje) throws DocumentException, IOException{
          NumberFormat formatter = NumberFormat.getCurrencyInstance();

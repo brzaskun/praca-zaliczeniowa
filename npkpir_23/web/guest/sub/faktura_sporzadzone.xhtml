@@ -8,10 +8,10 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
       <p:tab id="gotowe" title="Przeglądaj sporządzone">
            <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Edytuj" update=":form:messages" icon="ui-icon-calculator" onclick="dlg123.show();"/>
+                <p:menuitem value="Mail do kontr." update=":form:messages" icon="ui-icon-calculator" actionListener="#{mailOther.faktura()}" />
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-disk" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
-                <p:menuitem value="Usuń wiele" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
+                <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
                 <p:menuitem value="Switch" update=":form:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
             </p:contextMenu>
           <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
