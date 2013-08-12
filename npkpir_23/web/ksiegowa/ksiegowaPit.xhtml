@@ -9,6 +9,17 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            <h:form>
+                    <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Mailowanie pit5" severity="alert" widgetVar="confirmation">
+
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
+                                         actionListener="#{mailOther.pit5()}" onsuccess="alert('Wysłano PIT5 do podatnika');" />  
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
+             
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true">

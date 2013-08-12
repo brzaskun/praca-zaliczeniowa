@@ -13,6 +13,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -22,18 +23,19 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@RequestScope
+@ViewScoped
 public class PitView implements Serializable {
     private List<Pitpoz> lista;
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    @Inject private Pitpoz biezacyPit;
+    private static Pitpoz biezacyPit;
    
 
     public PitView() {
         lista = new ArrayList<>();
+        biezacyPit = new Pitpoz();
        
     }
     
@@ -80,6 +82,10 @@ public class PitView implements Serializable {
     }
 
     public Pitpoz getBiezacyPit() {
+        return biezacyPit;
+    }
+    
+    public static Pitpoz getBiezacyPitS() {
         return biezacyPit;
     }
 
