@@ -84,7 +84,13 @@
                         <h:outputText value="termin płatności"/><h:outputText value="#{pitView.biezacyPit.terminwplaty}"/>
                         <h:outputText value="przelano"/><h:outputText value="#{pitView.biezacyPit.przelano}"/>
                         <h:outputText value="zamknięty"/><h:outputText value="#{pitView.biezacyPit.zamkniety}"/>
+                       
                     </p:panelGrid>
+                      <p:panelGrid  columns="3" style="margin-left: 50px">
+                          <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukujarch()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#akordeon\\:formpi2\\:pitwysylka').show();" style="width: 120px;">
+                                </p:commandButton>
+                    <p:commandButton id="pitwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;"/>
+                          </p:panelGrid>
                 </h:form>
             </p:panelGrid>
         </p:tab>

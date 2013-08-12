@@ -34,6 +34,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import view.DokTabView;
+import view.PitView;
 import view.ZestawienieView;
 
 /**
@@ -45,9 +46,18 @@ public class PdfPIT5 extends Pdf implements Serializable {
     
     @ManagedProperty(value="#{ZestawienieView}")
     private ZestawienieView zestawienieView;
-    
-    public void drukuj() throws DocumentException, FileNotFoundException, IOException {
+  
+     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
         Pitpoz selected = zestawienieView.getBiezacyPit();
+        drukujcd(selected);
+     }
+    
+     public void drukujarch() throws DocumentException, FileNotFoundException, IOException {
+        Pitpoz selected = PitView.getBiezacyPitS();
+        drukujcd(selected);
+     }
+     
+    public void drukujcd(Pitpoz selected) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
@@ -164,6 +174,5 @@ public class PdfPIT5 extends Pdf implements Serializable {
     public void setZestawienieView(ZestawienieView zestawienieView) {
         this.zestawienieView = zestawienieView;
     }
-    
-    
+  
 }

@@ -34,7 +34,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -45,7 +45,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieView")
-@RequestScoped
+@ViewScoped
 public class ZestawienieView implements Serializable {
 
     @Inject

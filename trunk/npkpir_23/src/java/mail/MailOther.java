@@ -56,6 +56,41 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
+     public void pit5() {
+       try {
+            Message message = logintoMail();
+            message.setSubject("Wydruk deklaracji PIT za miesiąc");
+            // create and fill the first message part
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            mbp1.setText("Szanowny "+klient
+                    + "\n\n"+"W niniejszym mailu znajdziesz"
+                    + "\nzamówiony przez Ciebie wydruk deklaracji podatkowej w podatku dochodowym PIT5"
+                    + "\n\nZ poważaniem"
+                    + "\n\n"+wysylajacy);
+
+            // create the second message part
+            MimeBodyPart mbp2 = new MimeBodyPart();
+            // attach the file to the message
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + klientfile + ".pdf");
+            mbp2.setDataHandler(new DataHandler(fds));
+            mbp2.setFileName(fds.getName());
+
+            // create the Multipart and add its parts to it
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            mp.addBodyPart(mbp2);
+
+            // add the Multipart to the message
+            message.setContent(mp);
+            Transport.send(message);
+            System.out.println("Wyslano maila z PIT5 do klienta");
+
+              } catch (MessagingException e) {
+                  throw new RuntimeException(e);
+              }
+}
+     
+     
      
      public void obroty() {
        try {
