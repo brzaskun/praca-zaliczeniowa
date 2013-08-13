@@ -6,6 +6,7 @@ package entity;
 
 import embeddable.Pozycjenafakturzebazadanych;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -111,7 +112,7 @@ public class Faktura implements Serializable {
     @NotNull
     @Lob
     @Column(name = "pozycjenafakturze")
-    private Pozycjenafakturzebazadanych pozycjenafakturze;
+    private List<Pozycjenafakturzebazadanych> pozycjenafakturze;
     @Basic(optional = false)
     @NotNull
     @Column(name = "zatwierdzona")
@@ -140,7 +141,7 @@ public class Faktura implements Serializable {
         this.fakturaPK = fakturaPK;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, Pozycjenafakturzebazadanych pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor) {
+    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
@@ -273,14 +274,15 @@ public class Faktura implements Serializable {
         this.podpis = podpis;
     }
 
-    public Pozycjenafakturzebazadanych getPozycjenafakturze() {
+    public List<Pozycjenafakturzebazadanych> getPozycjenafakturze() {
         return pozycjenafakturze;
     }
 
-    public void setPozycjenafakturze(Pozycjenafakturzebazadanych pozycjenafakturze) {
+    public void setPozycjenafakturze(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
         this.pozycjenafakturze = pozycjenafakturze;
     }
 
+    
    
     public boolean getZatwierdzona() {
         return zatwierdzona;

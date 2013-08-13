@@ -8,6 +8,7 @@ import dao.FakturaDAO;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
 import entity.FakturaPK;
+import entity.Pozycjenafakturze;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,16 +62,16 @@ public class FakturaView implements Serializable{
         LocalDate firstDate = dt.toLocalDate();
         selected.setDatawystawienia(firstDate.toString());
         selected.setDatasprzedazy(firstDate.toString());
-        fakturaPK.setNumerkolejny("wstaw numer");
+        fakturaPK.setNumerkolejny("1/2013");
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
         LocalDate terminplatnosci = firstDate.plusDays(14);
         selected.setTerminzaplaty(terminplatnosci.toString());
-        selected.setNrkontabankowego("numer wtojego konta bankowego");
+        selected.setNrkontabankowego("1145 5245");
         selected.setPodpis(wpisView.getPodatnikObiekt().getImie()+" "+wpisView.getPodatnikObiekt().getNazwisko());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
-        selected.setPozycjenafakturze(poz);
+        selected.setPozycjenafakturze(pozycje);
         selected.setAutor(wpisView.getWprowadzil().getLogin());
         selected.setMiejscewystawienia(wpisView.getPodatnikObiekt().getMiejscowosc());
         setPokazfakture(true);
@@ -84,6 +85,18 @@ public class FakturaView implements Serializable{
      
     
     public void dodaj(){
+        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
+        for (Pozycjenafakturzebazadanych p : pozycje){
+            double ilosc = p.getIlosc();
+            double cena = p.getCena();
+            double wartosc = Math.round(ilosc * cena);
+            p.setNetto(wartosc);
+            double podatekstawka = p.getPodatek();
+            double podatek = Math.round(wartosc * podatekstawka / 100);
+            p.setPodatekkwota(podatek);
+            double brutto = wartosc + podatek;
+            p.setBrutto(brutto);
+        }
         String wynik = fakturaDAO.dodaj(selected);
         if(wynik.equals("ok")){
             Msg.msg("i", "Dodano fakturę.");

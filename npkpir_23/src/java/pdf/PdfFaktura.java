@@ -162,7 +162,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         cb.restoreState();
     }
     
-    private PdfPTable wygenerujtablice (PdfPTable table, Pozycjenafakturzebazadanych pozycje) throws DocumentException, IOException{
+    private PdfPTable wygenerujtablice (PdfPTable table, List<Pozycjenafakturzebazadanych> poz) throws DocumentException, IOException{
          NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
@@ -183,17 +183,19 @@ public class PdfFaktura extends Pdf implements Serializable {
             table.addCell(ustawfrazebez("wartość brutto","center",8));
             table.addCell(ustawfrazebez("uwagi","center",8));
             table.setHeaderRows(1);
-            table.addCell(ustawfrazebez("1","center",8));
-            table.addCell(ustawfrazebez(pozycje.getNazwa(),"left",8));
-            table.addCell(ustawfrazebez(pozycje.getPKWiU(),"center",8));
-            table.addCell(ustawfrazebez(String.valueOf(pozycje.getIlosc()),"center",8));
-            table.addCell(ustawfrazebez(pozycje.getJednostka(),"center",8));
-            table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getCena())),"center",8));
-            table.addCell(ustawfrazebez("200","center",8));
-            table.addCell(ustawfrazebez(pozycje.getPodatek(),"center",8));
-            table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getPodatekkwota())),"center",8));
-            table.addCell(ustawfrazebez("brutto","center",8));
-            table.addCell(ustawfrazebez("uwagi","center",8));
+            for (Pozycjenafakturzebazadanych pozycje : poz){
+                table.addCell(ustawfrazebez("1","center",8));
+                table.addCell(ustawfrazebez(pozycje.getNazwa(),"left",8));
+                table.addCell(ustawfrazebez(pozycje.getPKWiU(),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(pozycje.getIlosc()),"center",8));
+                table.addCell(ustawfrazebez(pozycje.getJednostka(),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getCena())),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getNetto())),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(pozycje.getPodatek()),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getPodatekkwota())),"center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getBrutto())),"center",8));
+                table.addCell(ustawfrazebez("uwagi","center",8));
+            }
             // complete the table
             table.completeRow();
         return table;
