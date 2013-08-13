@@ -15,6 +15,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -101,6 +102,7 @@ public class FakturaView implements Serializable{
             double brutto = wartosc + podatek;
             p.setBrutto(brutto);
         }
+        faktury.add(selected);
         String wynik = fakturaDAO.dodaj(selected);
         if(wynik.equals("ok")){
             Msg.msg("i", "Dodano fakturę.");

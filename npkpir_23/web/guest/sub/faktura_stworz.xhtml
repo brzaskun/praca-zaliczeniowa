@@ -8,7 +8,6 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     
         <p:tab id="nowa" title="Sporządź nową fakturę" >
-            <p:messages autoUpdate="true"/>
             <p:outputPanel id="panelfaktury" rendered="#{fakturaView.pokazfakture ? true : false}">
             <p:panelGrid columns="4" style="height: 250px;">
                 <h:outputLabel value="miejsce wystawienia faktury: " for="miejsce" />
@@ -92,7 +91,7 @@
              </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}"/>
+                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":form:akordeon:dokumentyLista"/>
              </p:outputPanel>
             </p:outputPanel>
         </p:tab>    
