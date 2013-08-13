@@ -89,10 +89,14 @@ public class FakturaView implements Serializable{
         for (Pozycjenafakturzebazadanych p : pozycje){
             double ilosc = p.getIlosc();
             double cena = p.getCena();
-            double wartosc = Math.round(ilosc * cena);
+            double wartosc = ilosc * cena * 100;
+            wartosc = Math.round(wartosc);
+            wartosc = wartosc / 100;
             p.setNetto(wartosc);
             double podatekstawka = p.getPodatek();
-            double podatek = Math.round(wartosc * podatekstawka / 100);
+            double podatek = wartosc * podatekstawka;
+            podatek = Math.round(podatek);
+            podatek = podatek / 100;
             p.setPodatekkwota(podatek);
             double brutto = wartosc + podatek;
             p.setBrutto(brutto);
