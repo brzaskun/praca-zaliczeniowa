@@ -87,6 +87,7 @@ public class FakturaView implements Serializable{
         String wynik = fakturaDAO.dodaj(selected);
         if(wynik.equals("ok")){
             Msg.msg("i", "Dodano fakturę.");
+            RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. "+wynik);
         }

@@ -84,8 +84,8 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="data sprzedaży 21-05-2013" />
                     </p:panelGrid>
-                    <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
                 </p:panel>
+                <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
                 <p:panel id="towary" style="width: 980px;"  >  
                     <p:dataTable value="#{pozycjeNaFakturzeView.zestaw}" var="wpis">
                         <p:column headerText="lp"><h:outputText value="#{wpis.lp}"/></p:column>

@@ -17,8 +17,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import comparator.Pozycjenafakturzecomparator;
 import dao.PozycjenafakturzeDAO;
 import embeddable.Pozycjenafakturzebazadanych;
-import embeddable.Umorzenie;
-import entity.Amodok;
 import entity.Faktura;
 import entity.Pozycjenafakturze;
 import java.io.FileNotFoundException;
@@ -32,12 +30,8 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import static pdf.Pdf.dodpar;
-import static pdf.Pdf.ustawfraze;
-import static pdf.Pdf.ustawfrazebez;
 import static pdf.PdfVAT7.absText;
 import view.FakturaView;
 
@@ -215,28 +209,28 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
     
     public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException{
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaPodatnik" + ".pdf"));
-        document.addTitle("Faktura");
-        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk faktury w formacie pdf");
-        document.addKeywords("Faktura, PDF");
-        document.addCreator("Grzegorz Grzelczyk");
-        document.open();
-            //Rectangle rect = new Rectangle(0, 832, 136, 800);
-            //rect.setBackgroundColor(BaseColor.RED);
-            //document.add(rect);
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font fontXS = new Font(helvetica,4);
-            Font fontS = new Font(helvetica,6);
-            Font font = new Font(helvetica,8);  
-            Font fontL = new Font(helvetica,10);
-            Font fontXL = new Font(helvetica,12);
-            //miary pdf szerokosc dla jednej litery od 0 do 584 wysokosc kierunek w dol od 0 do 836
-            //miary javascript dla jednej litery poziomo od lewej od 78 do 1038 = 960; wysokosc kierunek w dol od 53 do 1607 = 1554;
-            // a wiec dane z tabeli mnozymy przez 2 :) ;
-            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 0, 836, 6); 
-            document.add(dodpar("Biuro Rachunkowe Taxman - program księgowy online", fontXS, "l", 0, 10));
+//        Document document = new Document();
+//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaPodatnik" + ".pdf"));
+//        document.addTitle("Faktura");
+//        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+//        document.addSubject("Wydruk faktury w formacie pdf");
+//        document.addKeywords("Faktura, PDF");
+//        document.addCreator("Grzegorz Grzelczyk");
+//        document.open();
+//            //Rectangle rect = new Rectangle(0, 832, 136, 800);
+//            //rect.setBackgroundColor(BaseColor.RED);
+//            //document.add(rect);
+//        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+//            Font fontXS = new Font(helvetica,4);
+//            Font fontS = new Font(helvetica,6);
+//            Font font = new Font(helvetica,8);  
+//            Font fontL = new Font(helvetica,10);
+//            Font fontXL = new Font(helvetica,12);
+//            //miary pdf szerokosc dla jednej litery od 0 do 584 wysokosc kierunek w dol od 0 do 836
+//            //miary javascript dla jednej litery poziomo od lewej od 78 do 1038 = 960; wysokosc kierunek w dol od 53 do 1607 = 1554;
+//            // a wiec dane z tabeli mnozymy przez 2 :) ;
+//            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 0, 836, 6); 
+//            document.add(dodpar("Biuro Rachunkowe Taxman - program księgowy online", fontXS, "l", 0, 10));
 //            document.add(dodpar("D", font, "l", 540, 800));
 //            document.add(dodpar("Miejsce wystawienia faktury: ", font, "l", 370, 10));
 //            document.add(dodpar("Faktura nr ", fontL, "c", 0, 40));
@@ -302,7 +296,7 @@ public class PdfFaktura extends Pdf implements Serializable {
 //            document.add(dodpar("podpis", font, "l", 10, 50));
 //            document.add(dodpar("..........................................", font, "l", 0, 20));
 //            document.add(dodpar("wystawca faktury", font, "l", 15, 20));
-            document.close();
+//            document.close();
     }
 
     
