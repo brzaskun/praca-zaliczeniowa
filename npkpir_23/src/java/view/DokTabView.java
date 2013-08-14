@@ -92,7 +92,13 @@ public class DokTabView implements Serializable {
     @Inject private AmoDokDAO amoDokDAO;
     
      private List<Inwestycje> inwestycje;
+     private static final List frozenrows;
      @Inject private InwestycjeDAO inwestycjeDAO;
+
+    public List getFrozenrows() {
+        return frozenrows;
+    }
+          
 
     public DokTabView() {
         //dokumenty podatnika
@@ -109,9 +115,15 @@ public class DokTabView implements Serializable {
         dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
         filteredValue = new ArrayList<>();
-        
+       
     }
 
+    static {
+        frozenrows = new ArrayList<>();
+        frozenrows.add("lolo");
+        frozenrows.add("manolo");
+    }
+    
     @PostConstruct
     public void init() {
             try {
