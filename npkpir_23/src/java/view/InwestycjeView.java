@@ -13,8 +13,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -23,7 +22,7 @@ import msg.Msg;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class InwestycjeView implements Serializable{
     
     private List<Inwestycje> inwestycje;

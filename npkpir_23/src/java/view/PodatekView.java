@@ -87,7 +87,6 @@ public class PodatekView implements Serializable{
         while(it.hasNext()){
             Dok tmpX = (Dok) it.next();
             Kolmn kolmn = new Kolmn();
-            System.out.println("Dokument : "+tmpX.toString());
             List<KwotaKolumna> listadok = tmpX.getListakwot();
             for(KwotaKolumna tmp : listadok){
             if (tmp.getNazwakolumny().contains("%")) {
