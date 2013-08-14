@@ -1711,7 +1711,6 @@ public class DokView implements Serializable{
            selDokument = DokTabView.getGosciuwybralS().get(0);
            Msg.msg("i", "Wybrano fakturę "+ selDokument.getNrWlDk() +" do edycji");
            ustawDate2();
-           RequestContext.getCurrentInstance().update("dialogEdycja");
            //trzeba poprawic
             String skrot = selDokument.getTypdokumentu();
             String nowynumer = "";
@@ -1734,7 +1733,6 @@ public class DokView implements Serializable{
            }
            renderujwyszukiwarke(rodzajdok);
            renderujtabele(rodzajdok);
-           RequestContext.getCurrentInstance().update("form:dokumentyLista");
            RequestContext.getCurrentInstance().update("dialogEdycja");
        }
    
