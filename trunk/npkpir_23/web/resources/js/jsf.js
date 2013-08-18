@@ -146,6 +146,9 @@ var aktywujopis = function (){
     if(dokument==='LP'){
         $('#dodWiad\\:dokumentprosty').attr('checked', true);
     }
+    if(dokument==='PK'){
+        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+    }
     if(dokument==='ZUS'){
         $('#dodWiad\\:dokumentprosty').attr('checked', true);
     }

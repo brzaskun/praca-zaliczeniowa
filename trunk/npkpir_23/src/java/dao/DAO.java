@@ -4,8 +4,10 @@
  */
 package dao;
 
+import interceptor.ZmianatabeliInterceptor;
 import java.util.ArrayList;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.PersistenceException;
 import session.SessionFacade;
 
@@ -31,6 +33,7 @@ public abstract class DAO<T> {
      *
      * @param selected
      */
+    @Interceptors(ZmianatabeliInterceptor.class)
     public void dodaj(T selected) {
         try {
             if(sessionFacade==null){

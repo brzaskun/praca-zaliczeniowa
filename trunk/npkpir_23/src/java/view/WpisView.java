@@ -14,6 +14,7 @@ import entity.Wpis;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.annotation.PostConstruct;
+import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
@@ -59,6 +60,7 @@ public class WpisView implements Serializable{
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
+        Application aplikacja =  FacesContext.getCurrentInstance().getApplication();
         String wprowadzilX = null; 
         try{
         wprowadzilX = principal.getName();
