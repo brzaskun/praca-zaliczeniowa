@@ -44,17 +44,17 @@ public class DokDAO extends DAO implements Serializable {
 //        return dokFacade.poprzednik(rok,mc);
 //        }
 
-    @Interceptors(PobranietabeliInterceptor.class)
+  
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
         return dokFacade.findDokPod(pod);
     }
 
-    @Interceptors(PobranietabeliInterceptor.class)
+  
      public List<Dok> zwrocBiezacegoKlientaRok(String pod, String rok) {
         return dokFacade.findDokBK(pod,rok);
     }
     
-    @Interceptors(PobranietabeliInterceptor.class) 
+   
     public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, String rok, String mc) {
         return dokFacade.findDokBK(pod, rok, mc);
     }

@@ -33,7 +33,7 @@ public abstract class DAO<T> {
      *
      * @param selected
      */
-    @Interceptors(ZmianatabeliInterceptor.class)
+    
     public void dodaj(T selected) {
         try {
             if(sessionFacade==null){
