@@ -308,6 +308,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                                                   absText(writer, o.getPole61(), 490, 476,"f");
         absText(writer, o.getPole62(), 190, 447,"f"); absText(writer, o.getPole63(), 330, 447,"f"); absText(writer, o.getPole64(), 490, 447,"f");
                                                   absText(writer, o.getPole65(), 490, 427,"f");
+        if(o.getPoleI62()>0||o.getPoleI63()>0||o.getPoleI64()>0){
+            absText(writer, "X", 150, 382);
+        }
         absText(writer, p.getImie(), 80, 218); absText(writer, p.getNazwisko(), 210, 218);
         absText(writer, "91 8120976", 80, 195); 
              try{
@@ -332,6 +335,9 @@ public class PdfVAT7K extends PdfVAT7 implements Serializable{
                                                   absText(writer, o.getPole61(), 490, 368,"f");
         absText(writer, o.getPole62(), 190, 344,"f"); absText(writer, o.getPole63(), 330, 344,"f"); absText(writer, o.getPole64(), 490, 344,"f");
                                                   absText(writer, o.getPole65(), 490, 323,"f");
+        if(o.getPoleI62()>0||o.getPoleI63()>0||o.getPoleI64()>0){
+            absText(writer, "X", 150, 382);
+        }
         absText(writer, p.getImie(), 80, 178); absText(writer, p.getNazwisko(), 210, 178);
         absText(writer, "91 8120976", 80, 154); 
         try{
