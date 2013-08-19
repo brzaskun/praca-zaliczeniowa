@@ -15,7 +15,7 @@ import javax.persistence.Parameter;
  *
  * @author Osito
  */
-public class ZmianatabeliInterceptor implements Serializable{
+public class PobranietabeliInterceptor implements Serializable{
    
    @Inject private ZmianatablicyDAO zmianatablicyDAO;
     
@@ -23,15 +23,11 @@ public class ZmianatabeliInterceptor implements Serializable{
    public Object businessIntercept(InvocationContext ctx) throws Exception {
        Object result = null;
        try {
-           Object[] parameters = ctx.getParameters();
-           Class param =  parameters[0].getClass();
-           if(param.toString().equals("class entity.Dok")){
-                try {
-                    zmianatablicyDAO.dodaj(param.toString(),true);
+               try {
+                    zmianatablicyDAO.dodaj("class entity.Dok", false);
                } catch (Exception es) {
-                   zmianatablicyDAO.edytuj(param.toString(), true);
+                   zmianatablicyDAO.edytuj("class entity.Dok", false);
                }
-           }
            // PreInvoke: do something before handing control to the next in chain
            result = ctx.proceed();
            return result;

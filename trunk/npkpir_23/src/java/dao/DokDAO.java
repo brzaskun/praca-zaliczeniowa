@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Dok;
+import interceptor.PobranietabeliInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import session.SessionFacade;
 
 /**
@@ -28,7 +30,7 @@ public class DokDAO extends DAO implements Serializable {
     public DokDAO() {
         super(Dok.class);
     }
-
+    
     public List<Dok> findAll(){
         return dokFacade.findAll(Dok.class);
     }
@@ -42,15 +44,17 @@ public class DokDAO extends DAO implements Serializable {
 //        return dokFacade.poprzednik(rok,mc);
 //        }
 
+    @Interceptors(PobranietabeliInterceptor.class)
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
         return dokFacade.findDokPod(pod);
     }
 
+    @Interceptors(PobranietabeliInterceptor.class)
      public List<Dok> zwrocBiezacegoKlientaRok(String pod, String rok) {
         return dokFacade.findDokBK(pod,rok);
     }
     
-      
+    @Interceptors(PobranietabeliInterceptor.class) 
     public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, String rok, String mc) {
         return dokFacade.findDokBK(pod, rok, mc);
     }
