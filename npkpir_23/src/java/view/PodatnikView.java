@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -36,6 +37,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
@@ -55,7 +57,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PodatnikView implements Serializable{
     @Inject private PodatnikDAO podatnikDAO;
     @Inject private Podatnik selected;
@@ -82,8 +84,7 @@ public class PodatnikView implements Serializable{
     private static List<Podatnik> li;
     @Inject private DokDAO dokDAO;
     @Inject private ZUSDAO zusDAO;
-    @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
+    @Inject private WpisView wpisView;
     @Inject private WpisDAO wpisDAO;
     @Inject private Udzialy udzialy;
     //straty z lat ubieglych

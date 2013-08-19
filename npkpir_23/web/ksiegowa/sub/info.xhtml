@@ -6,26 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
-    <p:panel menuTitle="Zmien na:" header="Zmień na:" style="width: 1200px; height: 120px;">
-     <h:outputLabel value="nazwa podatnika"/>
-     <h:outputLabel value="rok"/>
-     <h:outputLabel value="miesiąc"/>
-                <p:panelGrid columns="4" style="margin-left: 0%; height: 70px;">
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
-                        <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki"/>
-                </p:selectOneMenu>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki" />
-                </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                    <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki"/>
-                </p:selectOneMenu>
-                    <p:messages id="messages"/>
-                </p:panelGrid>
-   </p:panel>
+   
     <p:panel header="informacje o podatniku #{WpisView.podatnikWpisu}" style="width: 1200px;"/>
     
      <p:panelGrid columns="4">
