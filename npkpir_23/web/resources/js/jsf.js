@@ -718,4 +718,5 @@ var przeniesKwotaDoNetto = function () {
 //    $("#akordeon\\:formpit1\\:podstawa").val(podstawa);
 //}
 
+
  
