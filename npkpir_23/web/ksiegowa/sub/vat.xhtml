@@ -154,7 +154,7 @@
                     </h:panelGrid>  
                     <h:panelGrid columns="1" frame="box" width="600"> 
                         <h:panelGrid columns="3">
-                            <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, do odliczenia w danym okresie rozliczeniowym:" for="pole56" />
+                            <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, do odliczenia w danym okresie rozliczeniowym - jest VAT do zapłaty:" for="pole56" />
                             <h:inputText id="pole56" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole56}" title="Pole56"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
                                 <p:ajax event="keyup" listener="#{vat7DKView.setPole56zreki(true)}" update=":form:reka56"/>
                                 </h:inputText>
@@ -169,9 +169,9 @@
                                 </h:inputText>
                             </h:panelGrid>
                         <h:panelGrid columns="3">
-                            <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, przysługująca do zwrotu w danym okresie rozliczeniowym:" for="pole59" />
+                            <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, przysługująca do zwrotu w danym okresie rozliczeniowym - jest VAT do zwrotu:" for="pole59" />
                              
-                            <h:inputText id="pole59" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole59}" title="Pole59"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
+                            <h:inputText id="pole59" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole59}" title="Pole59"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;" >
                                 <p:ajax event="keyup" listener="#{vat7DKView.setPole59zreki(true)}" update=":form:reka59"/>
                                 </h:inputText>
                             <h:selectBooleanCheckbox id="reka59" label="z ręki" value="#{vat7DKView.pole59zreki}"/>
