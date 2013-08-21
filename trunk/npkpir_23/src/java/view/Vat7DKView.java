@@ -72,6 +72,7 @@ public class Vat7DKView implements Serializable {
     private String podatnik;
     private boolean pole56zreki;
     private boolean pole59zreki;
+    private boolean pokaz56lub59;
     private boolean zachowaj;
 
     public Vat7DKView() {
@@ -498,10 +499,14 @@ public class Vat7DKView implements Serializable {
         p.setPoleI55(p.getPoleI47() + p.getPoleI48() + p.getPoleI50() + p.getPoleI52() + p.getPoleI53() + p.getPoleI54());
         p.setPole55(String.valueOf(p.getPoleI55()));
         Integer dozaplaty = p.getPoleI46() - p.getPoleI55();
+        if(dozaplaty<0){
+            pokaz56lub59 = true;
+        }
         //to jets gupie bo kwota na kasy powinna byc jakos inaczej wstawiana to jest caly temat do zrobienia
         if(pole56zreki==true){
-            if(dozaplaty>p.getPoleI56()){
-                p.setPoleI56(Integer.parseInt(p.getPole56()));
+            Integer kwota = Integer.parseInt(p.getPole56());
+            if(dozaplaty>kwota){
+                p.setPoleI56(kwota);
             } else {
                 p.setPoleI56(dozaplaty);
                 p.setPole56(dozaplaty.toString());
@@ -518,8 +523,8 @@ public class Vat7DKView implements Serializable {
             p.setPoleI58(0);
         }
         Integer dozwrotu = p.getPoleI55() - p.getPoleI46();
-        if(!p.getPole59().equals("")){
-       p.setPoleI59(Integer.parseInt(p.getPole59()));
+        if(pole59zreki==true){
+             p.setPoleI59(Integer.parseInt(p.getPole59()));
         }
        
          roznica = p.getPoleI55() - p.getPoleI46() + p.getPoleI59();
@@ -581,95 +586,106 @@ public class Vat7DKView implements Serializable {
 
     
    
+    //<editor-fold defaultstate="collapsed" desc="comment">
     
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public Vatpoz getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Vatpoz selected) {
         this.selected = selected;
     }
-
+    
     public PozycjeSzczegoloweVAT getPozycjeSzczegoloweVAT() {
         return pozycjeSzczegoloweVAT;
     }
-
+    
     public void setPozycjeSzczegoloweVAT(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
         this.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
     }
-
+    
     public Deklaracjevat getNowadeklaracja() {
         return nowadeklaracja;
     }
-
+    
     public void setNowadeklaracja(Deklaracjevat nowadeklaracja) {
         this.nowadeklaracja = nowadeklaracja;
     }
-
+    
     public int getFlaga() {
         return flaga;
     }
-
+    
     public void setFlaga(int flaga) {
         this.flaga = flaga;
     }
-
+    
     public String getRok() {
         return rok;
     }
-
+    
     public void setRok(String rok) {
         this.rok = rok;
     }
-
+    
     public String getMc() {
         return mc;
     }
-
+    
     public void setMc(String mc) {
         this.mc = mc;
     }
-
+    
     public String getPodatnik() {
         return podatnik;
     }
-
+    
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-
+    
     public boolean isPole56zreki() {
         return pole56zreki;
     }
-
+    
     public void setPole56zreki(boolean pole56zreki) {
         this.pole56zreki = pole56zreki;
     }
-
+    
     public boolean isPole59zreki() {
         return pole59zreki;
     }
-
+    
     public void setPole59zreki(boolean pole59zreki) {
         this.pole59zreki = pole59zreki;
     }
-
+    
     public boolean isZachowaj() {
         return zachowaj;
     }
-
+    
     public void setZachowaj(boolean zachowaj) {
         this.zachowaj = zachowaj;
     }
-
+    
+    public boolean isPokaz56lub59() {
+        return pokaz56lub59;
+    }
+    
+    public void setPokaz56lub59(boolean pokaz56lub59) {
+        this.pokaz56lub59 = pokaz56lub59;
+    }
+    
+    
+    //</editor-fold>
    
     
     public static void main(String args[]) {
