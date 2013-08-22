@@ -43,4 +43,13 @@ public class FakturaDAO extends DAO implements Serializable {
            return e.getStackTrace().toString();
        }
    }
+
+    public List<Faktura> findbyKontrahent_nip(String kontrahent_nip) {
+         try {
+            System.out.println("Pobieram FakturaDAO wg NIP");
+            return fakturaFacade.findByKontrahent_nip(kontrahent_nip);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

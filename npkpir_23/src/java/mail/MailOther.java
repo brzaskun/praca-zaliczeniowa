@@ -4,6 +4,7 @@
  */
 package mail;
 
+import dao.FakturaDAO;
 import entity.Faktura;
 import entity.Klienci;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -29,6 +31,11 @@ import view.WpisView;
 @ManagedBean
 @RequestScoped
 public class MailOther extends MailSetUp implements Serializable{
+    
+    //bo musze odnotowac ze jest wyslana
+    @Inject private FakturaDAO fakturaDAO;
+    
+    
      public void pkpir() {
        try {
             Message message = logintoMail();
@@ -94,6 +101,9 @@ public class MailOther extends MailSetUp implements Serializable{
             Transport.send(message);
             System.out.println("Wyslano maila z fakturą do klienta");
             Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
+            faktura.setWyslana(true);
+            fakturaDAO.edit(faktura);
+            RequestContext.getCurrentInstance().update("form:akordeon:gotowe");
               } catch (MessagingException e) {
                   throw new RuntimeException(e);
               }
