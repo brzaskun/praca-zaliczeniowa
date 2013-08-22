@@ -20,12 +20,12 @@ public class FakturaPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "wystawcanazwa")
+    @Column(nullable = false, length = 255)
     private String wystawcanazwa;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 126)
-    @Column(name = "numerkolejny")
+    @Column(nullable = false, length = 126)
     private String numerkolejny;
 
     public FakturaPK() {

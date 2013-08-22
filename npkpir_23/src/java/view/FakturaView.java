@@ -4,24 +4,30 @@
  */
 package view;
 
+import dao.DokDAO;
+import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import embeddable.EVatwpis;
+import embeddable.KwotaKolumna;
 import embeddable.Pozycjenafakturzebazadanych;
+import entity.Dok;
+import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
-import entity.Pozycjenafakturze;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -42,6 +48,9 @@ public class FakturaView implements Serializable{
     private List<Faktura> faktury;
     //faktury wybrane z listy
     private static List<Faktura> gosciwybral;
+    //do zaksiegowania faktury
+    @Inject private DokDAO dokDAO;
+    @Inject private EvewidencjaDAO evewidencjaDAO;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -85,23 +94,54 @@ public class FakturaView implements Serializable{
     
      
     
-    public void dodaj(){
+    public void dodaj() throws Exception{
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
+        double netto = 0.0;
+        double vat = 0.0;
+        double brutto = 0.0;
+        ArrayList<Evewidencja> ew = new ArrayList<>();
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        List<EVatwpis> el = new ArrayList<>();
         for (Pozycjenafakturzebazadanych p : pozycje){
             double ilosc = p.getIlosc();
             double cena = p.getCena();
             double wartosc = ilosc * cena * 100;
             wartosc = Math.round(wartosc);
             wartosc = wartosc / 100;
+            netto += wartosc;
             p.setNetto(wartosc);
             double podatekstawka = p.getPodatek();
             double podatek = wartosc * podatekstawka;
             podatek = Math.round(podatek);
             podatek = podatek / 100;
+            vat += podatek;
             p.setPodatekkwota(podatek);
-            double brutto = wartosc + podatek;
-            p.setBrutto(brutto);
+            double bruttop = wartosc + podatek;
+            brutto += bruttop;
+            p.setBrutto(bruttop);
+            EVatwpis eVatwpis = new EVatwpis();
+            Evewidencja ewidencja = zwrocewidencje(ew, p);
+            for (EVatwpis r : el){
+                if (r.getEwidencja().equals(ewidencja)){
+                    eVatwpis = r;
+                }
+            }
+            if(eVatwpis.getNetto()!=0){
+                eVatwpis.setNetto(eVatwpis.getNetto()+p.getNetto());
+                eVatwpis.setVat(eVatwpis.getVat()+p.getPodatekkwota());
+                el.add(eVatwpis);
+            } else {
+                eVatwpis.setEwidencja(ewidencja);
+                eVatwpis.setNetto(p.getNetto());
+                eVatwpis.setVat(p.getPodatekkwota());
+                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                el.add(eVatwpis);
+            }
         }
+        selected.setEwidencjavat(el);
+        selected.setNetto(netto);
+        selected.setVat(vat);
+        selected.setBrutto(brutto);
         faktury.add(selected);
         String wynik = fakturaDAO.dodaj(selected);
         if(wynik.equals("ok")){
@@ -111,6 +151,15 @@ public class FakturaView implements Serializable{
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. "+wynik);
         }
         
+    }
+    
+    private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p){
+         for (Evewidencja r : ewidencje){
+                if (r.getNazwa().contains(String.valueOf( (int) p.getPodatek()))){
+                    return r;
+                }
+            }
+        return null;
     }
     
     public void destroygrupa(){
@@ -131,6 +180,47 @@ public class FakturaView implements Serializable{
         pozycje.add(poz);
     }
     
+    public void zaksieguj(){
+            Faktura faktura = gosciwybral.get(0);
+            Dok selDokument = new Dok();
+            selDokument.setEwidencjaVAT(null);
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            String datawystawienia = faktura.getDatawystawienia();
+            String miesiac = datawystawienia.substring(5,7);
+            String rok = datawystawienia.substring(0,4);
+            selDokument.setPkpirM(miesiac);
+            selDokument.setPkpirR(rok);
+            selDokument.setVatM(miesiac);
+            selDokument.setVatR(rok);
+            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+            selDokument.setStatus("bufor");
+            selDokument.setUsunpozornie(false);
+            selDokument.setDataWyst(faktura.getDatawystawienia());
+            selDokument.setDataSprz(faktura.getDatawystawienia());
+            selDokument.setKontr(faktura.getKontrahent());
+            selDokument.setRodzTrans("sprzedaz");
+            selDokument.setTypdokumentu("SZ");
+            selDokument.setNrWlDk(faktura.getFakturaPK().getNumerkolejny());
+            selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
+            List<KwotaKolumna> listaX = new ArrayList<>();
+            KwotaKolumna tmpX = new KwotaKolumna();
+            tmpX.setNetto(faktura.getNetto());
+            tmpX.setVat(faktura.getVat());
+            tmpX.setNazwakolumny("przych. sprz");
+            tmpX.setBrutto(faktura.getBrutto());
+            listaX.add(tmpX);
+            selDokument.setListakwot(listaX);
+            selDokument.setNetto(tmpX.getNetto());
+            selDokument.setBrutto(tmpX.getBrutto());
+            selDokument.setRozliczony(true);
+            selDokument.setEwidencjaVAT(faktura.getEwidencjavat());
+            //sprawdzCzyNieDuplikat(selDokument);
+            dokDAO.dodaj(selDokument);
+            Msg.msg("i", "Zaksięgowano fakturę sprzedaży");
+    }
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Faktura getSelected() {

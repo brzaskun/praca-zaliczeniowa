@@ -421,6 +421,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
+    public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
+        return em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
+    }
+
      
   
 }
