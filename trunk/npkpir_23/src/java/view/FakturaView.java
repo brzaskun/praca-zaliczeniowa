@@ -208,7 +208,7 @@ public class FakturaView implements Serializable {
     public void dodajwiersz() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
-        RequestContext.getCurrentInstance().update("form:akordeon:panel");
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
         String nazwafunkcji = "wybierzrzadfaktury("+(pozycje.size()-1)+")";
         RequestContext.getCurrentInstance().execute(nazwafunkcji);
     }
