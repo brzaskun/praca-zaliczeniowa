@@ -13,8 +13,8 @@
                        $(document.getElementById("form:akordeon:acForce_input")).select();
                    } ;
             </script>
-             <p:outputPanel >
-                 <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" style="margin-bottom: 25px;" />
+            <p:outputPanel style="padding: 5px;">
+                 <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" style="margin-bottom: 25px; margin-top: 10px" />
             </p:outputPanel>
             <p:outputPanel id="panelfaktury" rendered="#{fakturaView.pokazfakture ? true : false}">
             <p:panelGrid columns="4" style="height: 250px;">
@@ -34,6 +34,25 @@
                 <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                     <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>
+                
+                <h:outputLabel value="termin zapłaty: " for="terminzaplaty"/>
+                <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
+                </p:inplace>
+                <h:outputLabel value="sposób zapłaty: " for="sposobzaplaty"/>
+                <h:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
+                    <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
+                    <f:selectItem itemLabel="przelew" itemValue="przelew"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="konto bankowe: " for="kontobankowe"/>
+                <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                    <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
+                </p:inplace>
+                <h:outputLabel value="waluta faktury: " for="waluta faktury"/>
+                <h:selectOneMenu value="#{fakturaView.selected.walutafaktury}" >
+                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                </h:selectOneMenu>
                 <h:outputLabel value="dane kontrahenta: " for="danekontrahenta"/>
                 <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
@@ -56,24 +75,6 @@
                     </f:facet>
                     <f:param name="passedValue" value="#{p}" />
                 </p:autoComplete>
-                <h:outputLabel value="termin zapłaty: " for="terminzaplaty"/>
-                <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
-                </p:inplace>
-                <h:outputLabel value="sposób zapłaty: " for="sposobzaplaty"/>
-                <h:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
-                    <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
-                    <f:selectItem itemLabel="przelew" itemValue="przelew"/>
-                </h:selectOneMenu>
-                <h:outputLabel value="konto bankowe: " for="kontobankowe"/>
-                <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
-                </p:inplace>
-                <h:outputLabel value="waluta faktury: " for="waluta faktury"/>
-                <h:selectOneMenu value="#{fakturaView.selected.walutafaktury}" >
-                    <f:selectItem itemLabel="PLN" itemValue="PLN"/>
-                    <f:selectItem itemLabel="EUR" itemValue="EUR"/>
-                </h:selectOneMenu>
                 <h:outputLabel value="wystawiający fakturę: " for="wystawiajacyfakt"/>
                 <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                     <p:inputText value="#{fakturaView.selected.podpis}" required="true" label="text" style="font-weight: bolder;"/>  
@@ -92,10 +93,15 @@
                     <p:panelGrid columns="6">
                         <p:inputText id="nazwa" value="#{row.nazwa}" label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
                         <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>   
-                        <p:inputText id="jednmiary" value="#{row.jednostka}" label="text" title="jednostka miary"><p:watermark for="jednmiary" value="jednostka miary" /></p:inputText>     
+                         <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 150px;">
+                            <f:selectItem itemLabel="szt." itemValue="szt."/>
+                            <f:selectItem itemLabel="kg" itemValue="kg"/>
+                            <f:selectItem itemLabel="kpl" itemValue="kpl"/>
+                            <f:selectItem itemLabel="m-c" itemValue="m-c"/>
+                        </h:selectOneMenu>
                         <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc" value="ilość" /></p:inputText>     
                         <p:inputText id="cena" value="#{row.cena}" label="text" title="cena jednostkowa" style="text-align:  right;"><p:watermark for="cena" value="cena jednostkowa" /></p:inputText>     
-                        <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 150px;">
+                        <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 150px;" >
                             <f:selectItem itemLabel="23%" itemValue="23"/>
                             <f:selectItem itemLabel="8%" itemValue="8"/>
                             <f:selectItem itemLabel="5%" itemValue="5"/>
