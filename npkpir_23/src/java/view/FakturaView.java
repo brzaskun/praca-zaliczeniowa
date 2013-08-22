@@ -269,7 +269,13 @@ public class FakturaView implements Serializable {
 
     public void wgenerujnumerfaktury() {
         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahent_nip(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu());
-        if (wykazfaktur.size() == 0) {
+        int rozpoznaj = 0;
+        try {
+            if (wykazfaktur.size() > 0) {
+                rozpoznaj = 1;
+            }
+        } catch (Exception er){}
+        if (rozpoznaj == 0) {
             String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
             selected.getFakturaPK().setNumerkolejny(numer);
             Msg.msg("i", "Generuje nową serie numerów faktury");
