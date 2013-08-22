@@ -7,6 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
       <p:tab id="wzor" title="Wzór faktury">
+          <h:form id="formwzor">
             <script type="text/javascript">
                 function zachowaj(me) {
                     var p = $(document.getElementById(me.id));
@@ -14,22 +15,22 @@
                     var lewy = parseInt(position.left);
                     var gora = parseInt(position.top);
                     var wysokosc = parseInt($(document.getElementById(me.id)).height());
-                    $("#form\\:lewy").val(lewy);
-                    $("#form\\:gora").val(gora);
-                    $("#form\\:zachowaj").click();
+                    $("#formXY\\:lewy").val(lewy);
+                    $("#formXY\\:gora").val(gora);
+                    $("#formXY\\:zachowaj").click();
                 }
 
                 $(function() {
-                    var lewy = $("#form\\:lewyTablica").val().split(",");
-                    var gora = $("#form\\:goraTablica").val().split(",");
-                    var co = $("#form\\:coTablica").val().split(",");
+                    var lewy = $("#formXY\\:lewyTablica").val().split(",");
+                    var gora = $("#formXY\\:goraTablica").val().split(",");
+                    var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
                     var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
-                        var nazwaakordeon = "#form\\:akordeon\\:"+nazwa;
+                        var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
                         $(nazwaakordeon).bind('mouseup', function(e) {
-                            $("#form\\:co").val(this.id);
+                            $("#formXY\\:co").val(this.id);
                             zachowaj(this);
                         });
                     };
@@ -117,6 +118,7 @@
                     <p:draggable for="podpis" cursor="move" opacity="0.9" containment="parent" grid="3, 3"/>
                 </p:panel>
             </div>
+              </h:form>
         </p:tab>
 </ui:composition>   
 

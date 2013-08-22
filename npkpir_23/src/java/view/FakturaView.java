@@ -49,7 +49,7 @@ public class FakturaView implements Serializable {
     private boolean pokazfakture;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
+    private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
@@ -102,6 +102,7 @@ public class FakturaView implements Serializable {
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
         selected.setPodpis(wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko());
+        pozycje = new ArrayList<>();
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
         selected.setPozycjenafakturze(pozycje);
@@ -112,7 +113,7 @@ public class FakturaView implements Serializable {
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         Msg.msg("i", "Przygotowano fakture");
-        RequestContext.getCurrentInstance().update("form:panelfaktury");
+        RequestContext.getCurrentInstance().update("formstworz:panelfaktury");
         RequestContext.getCurrentInstance().execute("aktywuj()");
     }
 
@@ -164,15 +165,18 @@ public class FakturaView implements Serializable {
         selected.setEwidencjavat(el);
         selected.setNetto(netto);
         selected.setVat(vat);
-        selected.setBrutto(brutto);
+        double wartosc = brutto * 100;
+            wartosc = Math.round(wartosc);
+            wartosc = wartosc / 100;
+        selected.setBrutto(wartosc);
         faktury.add(selected);
         String wynik = fakturaDAO.dodaj(selected);
         if (wynik.equals("ok")) {
             Msg.msg("i", "Dodano fakturę.");
             selected = new Faktura();
             pokazfakture = false;
-            RequestContext.getCurrentInstance().update("form:akordeon:nowa");
-            RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
+            RequestContext.getCurrentInstance().update("akordeon:formstworz:nowa");
+            RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
         }
@@ -198,12 +202,15 @@ public class FakturaView implements Serializable {
                 Msg.msg("e", "Nie usunięto faktury " + p.getFakturaPK().getNumerkolejny());
             }
         }
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }
 
     public void dodajwiersz() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
+        RequestContext.getCurrentInstance().update("form:akordeon:panel");
+        String nazwafunkcji = "wybierzrzadfaktury("+(pozycje.size()-1)+")";
+        RequestContext.getCurrentInstance().execute(nazwafunkcji);
     }
 
     public void zaksieguj() throws Exception {
@@ -237,7 +244,10 @@ public class FakturaView implements Serializable {
             tmpX.setNetto(faktura.getNetto());
             tmpX.setVat(faktura.getVat());
             tmpX.setNazwakolumny("przych. sprz");
-            tmpX.setBrutto(faktura.getBrutto());
+            double wartosc = faktura.getBrutto() * 100;
+            wartosc = Math.round(wartosc);
+            wartosc = wartosc / 100;
+            tmpX.setBrutto(wartosc);
             listaX.add(tmpX);
             selDokument.setListakwot(listaX);
             selDokument.setNetto(tmpX.getNetto());
@@ -253,7 +263,7 @@ public class FakturaView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", e.getMessage());
             }
-            RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
+            RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         }
     }
 
@@ -290,7 +300,7 @@ public class FakturaView implements Serializable {
             selected.getFakturaPK().setNumerkolejny(numer);
             Msg.msg("i", "Generuje kolejny numer faktury");
         }
-        RequestContext.getCurrentInstance().update("form:akordeon:nrfaktury");
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
     }
 
     public void dodajfaktureokresowa() {
@@ -302,8 +312,8 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.dodaj(fakturyokr);
             Msg.msg("i", "Dodano fakturę okresową");
         }
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyOkresowe");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
     public void usunfaktureokresowa() {
@@ -312,7 +322,7 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.destroy(p);
             Msg.msg("i", "Usunięto fakturę okresową");
         }
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyOkresowe");
+        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
     public void wygenerujzokresowych() {
@@ -387,8 +397,8 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.edit(okresowe);
             Msg.msg("i", "Generuje bieżącą fakturę z okresowej");
         }
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
-        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyOkresowe");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
     //<editor-fold defaultstate="collapsed" desc="comment">

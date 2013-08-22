@@ -103,7 +103,7 @@ public class MailOther extends MailSetUp implements Serializable{
             Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
             faktura.setWyslana(true);
             fakturaDAO.edit(faktura);
-            RequestContext.getCurrentInstance().update("form:akordeon:gotowe");
+            RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
               } catch (MessagingException e) {
                   throw new RuntimeException(e);
               }

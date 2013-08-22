@@ -16,7 +16,11 @@ import com.itextpdf.text.pdf.PdfSpotColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.Pozycjenafakturzecomparator;
 import dao.PozycjenafakturzeDAO;
+import embeddable.EVatwpis;
+import embeddable.EVatwpis_;
 import embeddable.Pozycjenafakturzebazadanych;
+import embeddable.Vatpoz;
+import entity.Evewidencja;
 import entity.Faktura;
 import entity.Pozycjenafakturze;
 import java.io.FileNotFoundException;
@@ -127,7 +131,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                      case "form:akordeon:dozaplaty" :
                          //Dane do modulu platnosc
                         pobrane = zwrocpozycje(lista, "dozaplaty");
-                        absText(writer,"Do zapłaty:  100zł", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:dozaplaty"), 8);
+                        absText(writer,"Do zapłaty: "+selected.getBrutto()+" "+selected.getWalutafaktury(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:dozaplaty"), 8);
                         absText(writer,"Słownie: sto złotych", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:dozaplaty")-20, 8);
                         break;
                     case "form:akordeon:podpis" :
@@ -141,7 +145,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         //Dane do modulu towary
                         pobrane = zwrocpozycje(lista, "towary");
                         PdfPTable table = new PdfPTable(11);
-                        wygenerujtablice(table, selected.getPozycjenafakturze());
+                        wygenerujtablice(table, selected.getPozycjenafakturze(),selected);
                         // write the table to an absolute position
                         table.writeSelectedRows(0,table.getRows().size(),(int) (pobrane.getLewy()/dzielnik),wymiary.get("form:akordeon:towary"),writer.getDirectContent());
                         break;
@@ -162,7 +166,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         cb.restoreState();
     }
     
-    private PdfPTable wygenerujtablice (PdfPTable table, List<Pozycjenafakturzebazadanych> poz) throws DocumentException, IOException{
+    private PdfPTable wygenerujtablice (PdfPTable table, List<Pozycjenafakturzebazadanych> poz,Faktura selected) throws DocumentException, IOException{
          NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
@@ -189,15 +193,35 @@ public class PdfFaktura extends Pdf implements Serializable {
                 table.addCell(ustawfrazebez(pozycje.getPKWiU(),"center",8));
                 table.addCell(ustawfrazebez(String.valueOf(pozycje.getIlosc()),"center",8));
                 table.addCell(ustawfrazebez(pozycje.getJednostka(),"center",8));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getCena())),"center",8));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getNetto())),"center",8));
-                table.addCell(ustawfrazebez(String.valueOf(pozycje.getPodatek()),"center",8));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getPodatekkwota())),"center",8));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getBrutto())),"center",8));
-                table.addCell(ustawfrazebez("uwagi","center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getCena())),"right",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getNetto())),"right",8));
+                table.addCell(ustawfrazebez(String.valueOf((int) pozycje.getPodatek())+"%","center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getPodatekkwota())),"right",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(pozycje.getBrutto())),"right",8));
+                table.addCell(ustawfrazebez("","center",8));
+            }
+            table.addCell(ustawfraze("Razem", 6, 0));
+            table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",8));
+            table.addCell(ustawfrazebez("*","center",8));
+            table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getVat())),"right",8));
+            table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto())),"right",8));
+            table.completeRow();
+            table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
+            List<EVatwpis> ewidencja = selected.getEwidencjavat();
+            int ilerow = 0;
+            for (EVatwpis p : ewidencja){
+                if(ilerow>0){
+                    table.addCell(ustawfraze(" ", 6, 0));
+                }
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",8));
+                table.addCell(ustawfrazebez(String.valueOf((int) Double.parseDouble(p.getEstawka()))+"%","center",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto()+p.getVat())),"right",8));
+                table.completeRow();
+                ilerow++;
             }
             // complete the table
-            table.completeRow();
+
         return table;
     }
     
