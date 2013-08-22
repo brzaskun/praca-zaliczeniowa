@@ -44,4 +44,12 @@ public class EvewidencjaDAO extends DAO implements Serializable {
             throw new Exception();
         }
     }
+    
+    public List<Evewidencja> znajdzpotransakcji(String nazwa) throws Exception {
+        try {
+            return evewidencjaFacade.findEvewidencjaByTransakcja(nazwa);
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
 }

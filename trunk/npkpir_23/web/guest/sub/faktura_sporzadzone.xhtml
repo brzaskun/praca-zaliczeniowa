@@ -11,8 +11,9 @@
                 <p:menuitem value="Mail do kontr." update=":form:messages" icon="ui-icon-calculator" actionListener="#{mailOther.faktura()}" />
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-disk" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
+                <p:menuitem value="Zaksięguj" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
-                <p:menuitem value="Switch" update=":form:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
+
             </p:contextMenu>
           <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
                        selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}">
@@ -25,6 +26,9 @@
               </p:column>
                <p:column headerText="kontrahent">
                    <h:outputText value="#{wpis.kontrahent}"/>
+              </p:column>
+              <p:column headerText="email">
+                  <h:outputText value="#{wpis.kontrahent.email}"/>
               </p:column>
                <p:column headerText="datawystawienia">
                    <h:outputText value="#{wpis.datawystawienia}"/>

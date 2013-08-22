@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "faktura")
+@Table(catalog = "pkpir", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Faktura.findAll", query = "SELECT f FROM Faktura f"),
@@ -44,7 +45,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findByWyslana", query = "SELECT f FROM Faktura f WHERE f.wyslana = :wyslana"),
     @NamedQuery(name = "Faktura.findByZaksiegowana", query = "SELECT f FROM Faktura f WHERE f.zaksiegowana = :zaksiegowana"),
     @NamedQuery(name = "Faktura.findByAutor", query = "SELECT f FROM Faktura f WHERE f.autor = :autor"),
-    @NamedQuery(name = "Faktura.findBySchemat", query = "SELECT f FROM Faktura f WHERE f.schemat = :schemat")})
+    @NamedQuery(name = "Faktura.findBySchemat", query = "SELECT f FROM Faktura f WHERE f.schemat = :schemat"),
+    @NamedQuery(name = "Faktura.findByNetto", query = "SELECT f FROM Faktura f WHERE f.netto = :netto"),
+    @NamedQuery(name = "Faktura.findByVat", query = "SELECT f FROM Faktura f WHERE f.vat = :vat"),
+    @NamedQuery(name = "Faktura.findByBrutto", query = "SELECT f FROM Faktura f WHERE f.brutto = :brutto")})
 public class Faktura implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -52,87 +56,105 @@ public class Faktura implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Column(name = "wystawca")
+    @Column(nullable = false)
     private Podatnik wystawca;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 126)
-    @Column(name = "rodzajdokumentu")
+    @Column(nullable = false, length = 126)
     private String rodzajdokumentu;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 126)
-    @Column(name = "rodzajtransakcji")
+    @Column(nullable = false, length = 126)
     private String rodzajtransakcji;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Column(name = "kontrahent")
+    @Column(nullable = false)
     private Klienci kontrahent;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "datawystawienia")
+    @Column(nullable = false, length = 10)
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "datasprzedazy")
+    @Column(nullable = false, length = 10)
     private String datasprzedazy;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "miejscewystawienia")
+    @Column(nullable = false, length = 255)
     private String miejscewystawienia;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "terminzaplaty")
+    @Column(nullable = false, length = 10)
     private String terminzaplaty;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "sposobzaplaty")
+    @Column(nullable = false, length = 255)
     private String sposobzaplaty;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "nrkontabankowego")
+    @Size(min = 1, max = 28)
+    @Column(nullable = false, length = 28)
     private String nrkontabankowego;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "walutafaktury")
+    @Column(nullable = false, length = 3)
     private String walutafaktury;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "podpis")
+    @Column(nullable = false, length = 255)
     private String podpis;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Column(name = "pozycjenafakturze")
+    @Column(nullable = false)
     private List<Pozycjenafakturzebazadanych> pozycjenafakturze;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "zatwierdzona")
+    @Column(nullable = false)
     private boolean zatwierdzona;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "wyslana")
+    @Column(nullable = false)
     private boolean wyslana;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "zaksiegowana")
+    @Column(nullable = false)
     private boolean zaksiegowana;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "autor")
+    @Column(nullable = false, length = 255)
     private String autor;
     @Size(max = 255)
-    @Column(name = "schemat")
+    @Column(length = 255)
     private String schemat;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double netto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double vat;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double brutto;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(nullable = false)
+    private List<EVatwpis> ewidencjavat;
 
     public Faktura() {
     }
@@ -141,7 +163,7 @@ public class Faktura implements Serializable {
         this.fakturaPK = fakturaPK;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor) {
+    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, List<EVatwpis> ewidencjavat) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
@@ -160,6 +182,10 @@ public class Faktura implements Serializable {
         this.wyslana = wyslana;
         this.zaksiegowana = zaksiegowana;
         this.autor = autor;
+        this.netto = netto;
+        this.vat = vat;
+        this.brutto = brutto;
+        this.ewidencjavat = ewidencjavat;
     }
 
     public Faktura(String wystawcanazwa, String numerkolejny) {
@@ -181,8 +207,6 @@ public class Faktura implements Serializable {
     public void setWystawca(Podatnik wystawca) {
         this.wystawca = wystawca;
     }
-
-    
 
     public String getRodzajdokumentu() {
         return rodzajdokumentu;
@@ -207,8 +231,6 @@ public class Faktura implements Serializable {
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
     }
-
-    
 
     public String getDatawystawienia() {
         return datawystawienia;
@@ -282,8 +304,6 @@ public class Faktura implements Serializable {
         this.pozycjenafakturze = pozycjenafakturze;
     }
 
-    
-   
     public boolean getZatwierdzona() {
         return zatwierdzona;
     }
@@ -322,6 +342,38 @@ public class Faktura implements Serializable {
 
     public void setSchemat(String schemat) {
         this.schemat = schemat;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
+    }
+
+    public List<EVatwpis> getEwidencjavat() {
+        return ewidencjavat;
+    }
+
+    public void setEwidencjavat(List<EVatwpis> ewidencjavat) {
+        this.ewidencjavat = ewidencjavat;
     }
 
     @Override
