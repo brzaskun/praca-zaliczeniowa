@@ -94,7 +94,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "form:akordeon:fakturanumer" :
                         //Dane do modulu fakturanumer
                         pobrane = zwrocpozycje(lista, "fakturanumer");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:fakturanumer")-5,100,20);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:fakturanumer")-5,150,20);
                         absText(writer,"Faktura nr "+selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:fakturanumer"), 10);
                         break;
                     case "form:akordeon:wystawca" :

@@ -166,6 +166,35 @@ public class Faktura implements Serializable {
     public Faktura() {
     }
 
+    public Faktura(Faktura stara) {
+        this.fakturaPK =  stara.fakturaPK;
+        this.wystawca =  stara.wystawca;
+        this.rodzajdokumentu =  stara.rodzajdokumentu;
+        this.rodzajtransakcji =  stara.rodzajtransakcji;
+        this.kontrahent =  stara.kontrahent;
+        this.kontrahent_nip =  stara.kontrahent_nip;
+        this.datawystawienia =  stara.datawystawienia;
+        this.datasprzedazy =  stara.datasprzedazy;
+        this.miejscewystawienia =  stara.miejscewystawienia;
+        this.terminzaplaty =  stara.terminzaplaty;
+        this.sposobzaplaty =  stara.sposobzaplaty;
+        this.nrkontabankowego =  stara.nrkontabankowego;
+        this.walutafaktury =  stara.walutafaktury;
+        this.podpis =  stara.podpis;
+        this.pozycjenafakturze =  stara.pozycjenafakturze;
+        this.zatwierdzona =  stara.zatwierdzona;
+        this.wyslana =  stara.wyslana;
+        this.zaksiegowana =  stara.zaksiegowana;
+        this.autor =  stara.autor;
+        this.schemat =  stara.schemat;
+        this.netto =  stara.netto;
+        this.vat =  stara.vat;
+        this.brutto =  stara.brutto;
+        this.ewidencjavat =  stara.ewidencjavat;
+    }
+
+    
+
     public Faktura(FakturaPK fakturaPK) {
         this.fakturaPK = fakturaPK;
     }
