@@ -14,6 +14,7 @@ import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Faktura;
 import entity.Fakturyokresowe;
+import entity.Fakturywystokresowe;
 import entity.Inwestycje;
 import entity.Pitpoz;
 import entity.Platnosci;
@@ -417,6 +418,10 @@ public class SessionFacade<T> {
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+    
+    public List<Fakturywystokresowe> findPodatnikFaktury(String podatnik) {
+        return em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
 
     public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik) {
         return em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -426,8 +431,8 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
     }
 
-    public List<Faktura> findByKontrahent_nip(String kontrahent_nip) {
-        return em.createNamedQuery("Faktura.findByKontrahent_nip").setParameter("kontrahent_nip", kontrahent_nip).getResultList();
+    public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
+        return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
     }
 
      
