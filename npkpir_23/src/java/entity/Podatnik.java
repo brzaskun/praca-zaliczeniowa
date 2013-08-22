@@ -164,155 +164,159 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "numerpkpir")
     private List<Parametr> numerpkpir;
+    @Size(max = 26)
+    @Column(name = "nrkontabankowego")
+    private String nrkontabankowego;
     
+    //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Podatnik() {
     }
-
+    
     public Podatnik(String nip) {
         this.nip = nip;
     }
-
+    
     public String getNip() {
         return nip;
     }
-
+    
     public void setNip(String nip) {
         this.nip = nip;
     }
-
+    
     public String getPesel() {
         return pesel;
     }
-
+    
     public void setPesel(String pesel) {
         this.pesel = pesel;
     }
-
+    
     public String getRegon() {
         return regon;
     }
-
+    
     public void setRegon(String regon) {
         this.regon = regon;
     }
-
+    
     public String getDataurodzenia() {
         return dataurodzenia;
     }
-
+    
     public void setDataurodzenia(String dataurodzenia) {
         this.dataurodzenia = dataurodzenia;
     }
-
+    
     public String getDochokres() {
         return dochokres;
     }
-
+    
     public void setDochokres(String dochokres) {
         this.dochokres = dochokres;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getFax() {
         return fax;
     }
-
+    
     public void setFax(String fax) {
         this.fax = fax;
     }
-
+    
     public String getGmina() {
         return gmina;
     }
-
+    
     public void setGmina(String gmina) {
         this.gmina = gmina;
     }
-
+    
     public String getImie() {
         return imie;
     }
-
+    
     public void setImie(String imie) {
         this.imie = imie;
     }
-
+    
     public String getKodpocztowy() {
         return kodpocztowy;
     }
-
+    
     public void setKodpocztowy(String kodpocztowy) {
         this.kodpocztowy = kodpocztowy;
     }
-
+    
     public String getMetodakasowa() {
         return metodakasowa;
     }
-
+    
     public void setMetodakasowa(String metodakasowa) {
         this.metodakasowa = metodakasowa;
     }
-
+    
     public String getMiejscowosc() {
         return miejscowosc;
     }
-
+    
     public void setMiejscowosc(String miejscowosc) {
         this.miejscowosc = miejscowosc;
     }
-
+    
     public String getNazwapelna() {
         return nazwapelna;
     }
-
+    
     public void setNazwapelna(String nazwapelna) {
         this.nazwapelna = nazwapelna;
     }
-
+    
     public String getNazwisko() {
         return nazwisko;
     }
-
+    
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
     }
-
+    
     public String getNrdomu() {
         return nrdomu;
     }
-
+    
     public void setNrdomu(String nrdomu) {
         this.nrdomu = nrdomu;
     }
-
+    
     public String getNrlokalu() {
         return nrlokalu;
     }
-
+    
     public void setNrlokalu(String nrlokalu) {
         this.nrlokalu = nrlokalu;
     }
-
+    
     public String getPoczta() {
         return poczta;
     }
-
+    
     public void setPoczta(String poczta) {
         this.poczta = poczta;
     }
-
+    
     public List<Parametr> getPodatekdochodowy() {
         return podatekdochodowy;
     }
-
+    
     public void setPodatekdochodowy(List<Parametr> podatekdochodowy) {
         this.podatekdochodowy = podatekdochodowy;
     }
@@ -320,132 +324,142 @@ public class Podatnik implements Serializable {
     public String getPowiat() {
         return powiat;
     }
-
+    
     public void setPowiat(String powiat) {
         this.powiat = powiat;
     }
-
+    
     public String getTelefonkontaktowy() {
         return telefonkontaktowy;
     }
-
+    
     public void setTelefonkontaktowy(String telefonkontaktowy) {
         this.telefonkontaktowy = telefonkontaktowy;
     }
-
+    
     public String getUlica() {
         return ulica;
     }
-
+    
     public void setUlica(String ulica) {
         this.ulica = ulica;
     }
-
+    
     public String getUrzadskarbowy() {
         return urzadskarbowy;
     }
-
+    
     public void setUrzadskarbowy(String urzadskarbowy) {
         this.urzadskarbowy = urzadskarbowy;
     }
-
+    
     public List<Parametr> getVatokres() {
         return vatokres;
     }
-
+    
     public void setVatokres(List<Parametr> vatokres) {
         this.vatokres = vatokres;
     }
-
-
+    
+    
     public String getWojewodztwo() {
         return wojewodztwo;
     }
-
+    
     public void setWojewodztwo(String wojewodztwo) {
         this.wojewodztwo = wojewodztwo;
     }
-
+    
     public List<Zusstawki> getZusparametr() {
         return zusparametr;
     }
-
+    
     public void setZusparametr(List<Zusstawki> zusparametr) {
         this.zusparametr = zusparametr;
     }
-
+    
     public List<Parametr> getRemanent() {
         return remanent;
     }
-
+    
     public void setRemanent(List<Parametr> remanent) {
         this.remanent = remanent;
     }
-
+    
     public List<Rodzajedok> getDokumentyksiegowe() {
         return dokumentyksiegowe;
     }
-
+    
     public void setDokumentyksiegowe(List<Rodzajedok> dokumentyksiegowe) {
         this.dokumentyksiegowe = dokumentyksiegowe;
     }
-
+    
     public List<Parametr> getKwotaautoryzujaca() {
         return kwotaautoryzujaca;
     }
-
+    
     public void setKwotaautoryzujaca(List<Parametr> kwotaautoryzujaca) {
         this.kwotaautoryzujaca = kwotaautoryzujaca;
     }
-
+    
     public String getPole47() {
         return pole47;
     }
-
+    
     public void setPole47(String pole47) {
         this.pole47 = pole47;
     }
-
+    
     public List getOpisypkpir() {
         return opisypkpir;
     }
-
+    
     public void setOpisypkpir(List opisypkpir) {
         this.opisypkpir = opisypkpir;
     }
-
+    
     public Boolean getOdliczaczus51() {
         return odliczaczus51;
     }
-
+    
     public void setOdliczaczus51(Boolean odliczaczus51) {
         this.odliczaczus51 = odliczaczus51;
     }
-
+    
     public List<Udzialy> getUdzialy() {
         return udzialy;
     }
-
+    
     public void setUdzialy(List<Udzialy> udzialy) {
         this.udzialy = udzialy;
     }
-
+    
     public List<Straty> getStratyzlatub() {
         return stratyzlatub;
     }
-
+    
     public void setStratyzlatub(List<Straty> stratyzlatub) {
         this.stratyzlatub = stratyzlatub;
     }
-
+    
     public List<Parametr> getNumerpkpir() {
         return numerpkpir;
     }
-
+    
     public void setNumerpkpir(List<Parametr> numerpkpir) {
         this.numerpkpir = numerpkpir;
     }
-
+    
+    public String getNrkontabankowego() {
+        return nrkontabankowego;
+    }
+    
+    public void setNrkontabankowego(String nrkontabankowego) {
+        this.nrkontabankowego = nrkontabankowego;
+    }
+    
+    
+    //</editor-fold>
    
     
    

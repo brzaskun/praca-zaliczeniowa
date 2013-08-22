@@ -32,6 +32,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.primefaces.context.RequestContext;
+import serialclone.SerialClone;
 
 /**
  *
@@ -85,12 +86,21 @@ public class FakturaView implements Serializable {
         LocalDate firstDate = dt.toLocalDate();
         selected.setDatawystawienia(firstDate.toString());
         selected.setDatasprzedazy(firstDate.toString());
-        fakturaPK.setNumerkolejny("1/2013");
+        fakturaPK.setNumerkolejny("wpisz numer");
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
         LocalDate terminplatnosci = firstDate.plusDays(14);
         selected.setTerminzaplaty(terminplatnosci.toString());
-        selected.setNrkontabankowego("1145 5245");
+        try {
+            String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
+            if(nrkonta!=null){
+                selected.setNrkontabankowego(nrkonta);
+            } else {
+                selected.setNrkontabankowego("brak numeru konta bankowego");
+            }
+        } catch (Exception es){
+            selected.setNrkontabankowego("brak numeru konta bankowego");
+        }
         selected.setPodpis(wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
@@ -103,6 +113,7 @@ public class FakturaView implements Serializable {
         selected.setRodzajtransakcji("sprzedaż");
         Msg.msg("i", "Przygotowano fakture");
         RequestContext.getCurrentInstance().update("form:panelfaktury");
+        RequestContext.getCurrentInstance().execute("aktywuj()");
     }
 
     public void dodaj() throws Exception {
@@ -158,6 +169,9 @@ public class FakturaView implements Serializable {
         String wynik = fakturaDAO.dodaj(selected);
         if (wynik.equals("ok")) {
             Msg.msg("i", "Dodano fakturę.");
+            selected = new Faktura();
+            pokazfakture = false;
+            RequestContext.getCurrentInstance().update("form:akordeon:nowa");
             RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
@@ -282,6 +296,7 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.dodaj(fakturyokr);
             Msg.msg("i", "Dodano fakturę okresową");
         }
+        RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
         RequestContext.getCurrentInstance().update("form:akordeon:dokumentyOkresowe");
     }
 
@@ -296,7 +311,7 @@ public class FakturaView implements Serializable {
 
     public void wygenerujzokresowych() {
         for (Fakturywystokresowe p : gosciwybralokres) {
-            Faktura nowa = p.getDokument();
+            Faktura nowa = SerialClone.clone(p.getDokument());
             nowa.setDatasprzedazy(null);
             DateTime dt = new DateTime();
             LocalDate firstDate = dt.toLocalDate();
@@ -366,8 +381,6 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.edit(okresowe);
             Msg.msg("i", "Generuje bieżącą fakturę z okresowej");
         }
-        faktury.clear();
-        faktury = fakturaDAO.findAll();
         RequestContext.getCurrentInstance().update("form:akordeon:dokumentyLista");
         RequestContext.getCurrentInstance().update("form:akordeon:dokumentyOkresowe");
 

@@ -1,5 +1,3 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
@@ -8,8 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true">
         <h:form id="westWpis">
-            <h:messages id="westmsg"/>
-           
             <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikWpisu}"/>
@@ -18,8 +14,7 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
-        </h:form>
-        <p:panel header="linki">
+            <p:panel header="linki">
                 <h:form>
                     <p:menu >
                         <p:menuitem value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
@@ -42,12 +37,13 @@
                         <p:menuitem value="ewidencje vat"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
-                     <p:menu>
+                    <p:menu>
                         <p:menuitem value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </h:form>
             </p:panel>
+        </h:form>
     </p:layoutUnit>
 </ui:composition>   
 
