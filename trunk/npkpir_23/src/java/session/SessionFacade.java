@@ -12,6 +12,7 @@ import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
+import entity.Faktura;
 import entity.Fakturyokresowe;
 import entity.Inwestycje;
 import entity.Pitpoz;
@@ -423,6 +424,10 @@ public class SessionFacade<T> {
 
     public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
         return em.createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
+    }
+
+    public List<Faktura> findByKontrahent_nip(String kontrahent_nip) {
+        return em.createNamedQuery("Faktura.findByKontrahent_nip").setParameter("kontrahent_nip", kontrahent_nip).getResultList();
     }
 
      

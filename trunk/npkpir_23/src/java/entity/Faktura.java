@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findByNumerkolejny", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.numerkolejny = :numerkolejny"),
     @NamedQuery(name = "Faktura.findByRodzajdokumentu", query = "SELECT f FROM Faktura f WHERE f.rodzajdokumentu = :rodzajdokumentu"),
     @NamedQuery(name = "Faktura.findByRodzajtransakcji", query = "SELECT f FROM Faktura f WHERE f.rodzajtransakcji = :rodzajtransakcji"),
+    @NamedQuery(name = "Faktura.findByKontrahent_nip", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip"),
     @NamedQuery(name = "Faktura.findByDatawystawienia", query = "SELECT f FROM Faktura f WHERE f.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Faktura.findByDatasprzedazy", query = "SELECT f FROM Faktura f WHERE f.datasprzedazy = :datasprzedazy"),
     @NamedQuery(name = "Faktura.findByMiejscewystawienia", query = "SELECT f FROM Faktura f WHERE f.miejscewystawienia = :miejscewystawienia"),
@@ -73,6 +74,11 @@ public class Faktura implements Serializable {
     @Lob
     @Column(nullable = false)
     private Klienci kontrahent;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 126)
+    @Column(nullable = false, length = 126)
+    private String kontrahent_nip;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -232,6 +238,15 @@ public class Faktura implements Serializable {
         this.kontrahent = kontrahent;
     }
 
+    public String getKontrahent_nip() {
+        return kontrahent_nip;
+    }
+
+    public void setKontrahent_nip(String kontrahent_nip) {
+        this.kontrahent_nip = kontrahent_nip;
+    }
+
+    
     public String getDatawystawienia() {
         return datawystawienia;
     }

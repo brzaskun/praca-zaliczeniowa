@@ -138,6 +138,7 @@ public class FakturaView implements Serializable{
                 el.add(eVatwpis);
             }
         }
+        selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setEwidencjavat(el);
         selected.setNetto(netto);
         selected.setVat(vat);
@@ -180,7 +181,7 @@ public class FakturaView implements Serializable{
         pozycje.add(poz);
     }
     
-    public void zaksieguj(){
+    public void zaksieguj() throws Exception{
             Faktura faktura = gosciwybral.get(0);
             Dok selDokument = new Dok();
             selDokument.setEwidencjaVAT(null);
@@ -217,10 +218,48 @@ public class FakturaView implements Serializable{
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
             selDokument.setEwidencjaVAT(faktura.getEwidencjavat());
-            //sprawdzCzyNieDuplikat(selDokument);
-            dokDAO.dodaj(selDokument);
-            Msg.msg("i", "Zaksięgowano fakturę sprzedaży");
+            try {
+                sprawdzCzyNieDuplikat(selDokument);
+                dokDAO.dodaj(selDokument);
+                Msg.msg("i", "Zaksięgowano fakturę sprzedaży");
+                faktura.setZaksiegowana(true);
+                fakturaDAO.edit(faktura);
+                RequestContext.getCurrentInstance().update("form:akordeon:gotowe");
+            } catch (Exception e) {
+                Msg.msg("e", e.getMessage());
+            }
     }
+    
+     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception{
+        Dok tmp = dokDAO.znajdzDuplikat(selD);
+        if (tmp != null) {
+            String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany: "+ tmp.getDataK();
+            throw new Exception(wiadomosc);
+        } else {
+            System.out.println("Nie znaleziono duplikatu");
+        }
+    }
+     
+    public void wgenerujnumerfaktury(){
+       List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahent_nip(selected.getKontrahent().getNip());
+       if(wykazfaktur.size()==0){
+           String numer = "1/"+wpisView.getRokWpisu().toString()+"/"+selected.getKontrahent().getNskrocona();
+           selected.getFakturaPK().setNumerkolejny(numer);
+           Msg.msg("i", "Generuje nową serie numerów faktury"); 
+       } else {
+         String ostatniafaktura = wykazfaktur.get(wykazfaktur.size()-1).getFakturaPK().getNumerkolejny();
+         String separator = "/";
+         String[] elementy;
+         elementy = ostatniafaktura.split(separator);
+         int starynumer = Integer.parseInt(elementy[0]);
+         starynumer++;
+         String numer = String.valueOf(starynumer)+"/"+wpisView.getRokWpisu().toString()+"/"+selected.getKontrahent().getNskrocona();
+         selected.getFakturaPK().setNumerkolejny(numer);
+         Msg.msg("i", "Generuje kolejny numer faktury"); 
+       }
+       RequestContext.getCurrentInstance().update("form:akordeon:nrfaktury");
+    }
+     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Faktura getSelected() {
