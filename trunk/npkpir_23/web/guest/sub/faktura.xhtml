@@ -15,17 +15,11 @@
     <h:inputText id="coTablica" value="#{pozycjeNaFakturzeView.coTablica}" size="30" style="display: none;"/>
     <br/>
     <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
-    <p:outputPanel  style="margin-top: 25px;">
-        <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" />
-    </p:outputPanel>
+   
     <p:tabView id="akordeon" style="width: 1200px;">
         <ui:include src="faktura_stworz.xhtml"/>
         <ui:include src="faktura_sporzadzone.xhtml"/>
-        <!--
-  
-        <p:tab id="ksiegi" title="Przeglądaj zaksięgowane">
-
-        </p:tab>-->
+        <ui:include src="faktura_okresowe.xhtml"/>
          <ui:include src="faktura_wzor.xhtml"/>
         
     </p:tabView>

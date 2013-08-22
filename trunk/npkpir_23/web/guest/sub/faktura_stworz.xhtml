@@ -8,6 +8,9 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     
         <p:tab id="nowa" title="Sporządź nową fakturę" >
+             <p:outputPanel >
+                <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":form:akordeon" style="margin-bottom: 25px;"/>
+            </p:outputPanel>
             <p:outputPanel id="panelfaktury" rendered="#{fakturaView.pokazfakture ? true : false}">
             <p:panelGrid columns="4" style="height: 250px;">
                 <h:outputLabel value="miejsce wystawienia faktury: " for="miejsce" />
@@ -75,6 +78,12 @@
             <br/>
             <p:outputPanel id="panel" style="margin-top: 15px;">
                 <ui:repeat value="#{fakturaView.pozycje}" var="row" varStatus="rowStat"  >
+                    <p:outputLabel for="nazwa" value="nazwa" style="margin-right: 150px; font-weight: bolder;"/>
+                    <p:outputLabel for="pkwiu" value="pkwiu" style="margin-right: 140px; font-weight: bolder;"/>
+                    <p:outputLabel for="jednmiary" value="jednosta miary" style="margin-right: 75px; font-weight: bolder;"/>
+                    <p:outputLabel for="ilosc" value="ilość" style="margin-right: 150px; font-weight: bolder;"/>
+                    <p:outputLabel for="cena" value="cena jednostkowa" style="margin-right: 50px; font-weight: bolder;"/>
+                    <p:outputLabel for="podatek" value="stawka podatku VAT" style="font-weight: bolder;"/>
                     <p:panelGrid columns="6">
                         <p:inputText id="nazwa" value="#{row.nazwa}" label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
                         <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>   
@@ -87,13 +96,14 @@
             </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update=":form:akordeon:nowa"/>
+                <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" update=":form:akordeon:nowa" style="margin-bottom: 25px;"/>
              </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":form:akordeon:dokumentyLista"/>
+                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":form:akordeon:dokumentyLista" style="margin-bottom: 25px;"/>
              </p:outputPanel>
             </p:outputPanel>
         </p:tab>    
 </ui:composition>   
+
 
