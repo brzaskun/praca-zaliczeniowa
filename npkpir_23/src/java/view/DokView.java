@@ -1069,14 +1069,11 @@ public class DokView implements Serializable{
             }
             selDokument.setBrutto(kwota);
             selDokument.setUsunpozornie(false);
+            
+            //jezeli jest edytowany dokument to nie dodaje a edytuje go w bazie danych
             if(rodzajdodawania == 1){
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
-            } else {
-                dokDAO.edit(selDokument);
-                RequestContext.getCurrentInstance().update("form:dokumentyLista");
-            }
-            
             //wpisywanie do bazy ostatniego dokumentu
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             principal = request.getUserPrincipal();
@@ -1101,6 +1098,10 @@ public class DokView implements Serializable{
              * resetowanie pola do wpisywania kwoty netto
              */
             nettokolumna.clear();
+            } else {
+                dokDAO.edit(selDokument);
+                RequestContext.getCurrentInstance().update("form:dokumentyLista");
+            }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getStackTrace().toString(),null);
@@ -1133,6 +1134,7 @@ public class DokView implements Serializable{
                 
             }
          }
+         if(rodzajdodawania == 1){
             setPokazSTR(false);
             grid1 = getGrid1();
             grid1.getChildren().clear();
@@ -1143,7 +1145,19 @@ public class DokView implements Serializable{
             selDokument = new Dok();
             setRenderujwysz(false);
             setPokazEST(false);
-            RequestContext.getCurrentInstance().update("@form");
+            RequestContext.getCurrentInstance().update("form:dokumentyLista");
+         } else {
+             setPokazSTR(false);
+            grid1 = getGrid1();
+            grid1.getChildren().clear();
+            grid2 = getGrid2();
+            grid2.getChildren().clear();
+            grid3 = getGrid3();
+            grid3.getChildren().clear();
+            setRenderujwysz(false);
+            setPokazEST(false);
+            RequestContext.getCurrentInstance().update("form:dokumentyLista");
+         }
     }
     
     private Double extractDouble(String wiersz){

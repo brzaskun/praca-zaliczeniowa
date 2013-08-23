@@ -179,17 +179,17 @@ public class DokTabView implements Serializable {
                 }
             }
     
-    
-    public void edit(RowEditEvent ex) {
-        try {
-            //sformatuj();
-            dokDAO.edit(ex.getObject());
-            Msg.msg("i",  "Nowy dokument wyedytowany i zachowany.","form:messages");
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            Msg.msg("e",  "Wystąpił błąd. Dokument nie zachowany po  edycji.","form:messages");
-        }
-    }
+//    
+//    public void edit(RowEditEvent ex) {
+//        try {
+//            //sformatuj();
+//            dokDAO.edit(ex.getObject());
+//            Msg.msg("i",  "Nowy dokument wyedytowany i zachowany.","form:messages");
+//        } catch (Exception e) {
+//            System.out.println(e.toString());
+//            Msg.msg("e",  "Wystąpił błąd. Dokument nie zachowany po  edycji.","form:messages");
+//        }
+//    }
 
     public void destroy(Dok selDok) {
         dokdoUsuniecia = new Dok();
