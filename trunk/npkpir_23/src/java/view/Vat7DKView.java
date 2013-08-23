@@ -334,6 +334,9 @@ public class Vat7DKView implements Serializable {
             //przechwytuje blad i jezeli sa dekalracje pozniejsze wyslane i bezbledne to kaze zajrzec do nich
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
             pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjeWyslane(podatnik, rok);
+            if(pobranalistadeklaracji.size()==0){
+                throw new Exception();
+            }
             for(Deklaracjevat p : pobranalistadeklaracji){
                 if(p.getStatus().equals("200")){
                     flaga = 1;
