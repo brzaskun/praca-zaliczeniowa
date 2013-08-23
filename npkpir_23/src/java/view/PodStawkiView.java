@@ -38,8 +38,7 @@ public class PodStawkiView implements Serializable{
 
     @PostConstruct
     private void init(){
-        Collection c = null;
-        c.addAll(podStawkiDAO.findAll());
+        Collection c = podStawkiDAO.findAll();
         listapobranychstawek.addAll(c); 
     }
     

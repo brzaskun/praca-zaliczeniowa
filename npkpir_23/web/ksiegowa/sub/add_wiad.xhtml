@@ -210,7 +210,7 @@
             
         </p:panel>
         <!--pola ewidencji SRODKOW TRWALYCH-->
-        <div id="panelwyszukiwarki" style="width: 300px;" >
+        <p:panel id="panelwyszukiwarki" style="width: 300px;" >
             <p:panel header="wyszukiwarka środka trw." style="width: 300px;" rendered="#{DokumentView.renderujwysz}"/>
                         <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                         var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
@@ -231,7 +231,7 @@
                                 </h:panelGrid>
                             </f:facet>
                         </p:autoComplete>
-            </div>
+        </p:panel>
         <p:panel>
             <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
             </p:panelGrid>
