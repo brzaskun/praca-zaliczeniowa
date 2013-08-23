@@ -110,6 +110,20 @@
                     </f:facet>  
                 </p:cellEditor>
         </p:column>
+
+            <p:column id="Column2a" headerText="lp" sortBy="#{wpis.nskrocona}" filterBy="#{wpis.nskrocona}" filterMatchMode="contains" width="300">  
+            <f:facet name="header">  
+                <h:outputText value="nazwa skrócona" />  
+            </f:facet> 
+             <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
             <p:column id="Column3" headerText="lp" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="200">  
             <f:facet name="header">  
                 <h:outputText value="adres" />  
@@ -128,6 +142,19 @@
                          <p:selectOneMenu id="pkpirPole" value="#{wpis.pkpirKolumna}"   style="width: 200px" effect="clip" effectSpeed="100" height="190">
                     <f:selectItems value="#{kolmn.kolumnList}" />
                 </p:selectOneMenu>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
+            <p:column id="Column4a" headerText="lp" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" >  
+            <f:facet name="header">  
+                <h:outputText value="email" />  
+            </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.email}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.email}"/>
                     </f:facet>  
                 </p:cellEditor>
         </p:column>
