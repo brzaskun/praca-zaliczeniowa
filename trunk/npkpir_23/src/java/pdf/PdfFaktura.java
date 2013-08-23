@@ -83,71 +83,71 @@ public class PdfFaktura extends Pdf implements Serializable {
             float dzielnik = 2;
             for (Pozycjenafakturze p : lista){
                 switch (p.getPozycjenafakturzePK().getNazwa()){
-                    case "form:akordeon:data" :
+                    case "akordeon:formwzor:data" :
                         //Dane do moudlu data
                         pobrane = zwrocpozycje(lista, "data");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:data")-5,100,15);
-                        absText(writer,selected.getMiejscewystawienia()+ " dnia: "+selected.getDatawystawienia(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:data"), 8);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:data")-5,100,15);
+                        absText(writer,selected.getMiejscewystawienia()+ " dnia: "+selected.getDatawystawienia(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
                         break;
-                    case "form:akordeon:datasprzedazy" :
+                    case "akordeon:formwzor:datasprzedazy" :
                         //Dane do moudlu data
                         pobrane = zwrocpozycje(lista, "datasprzedazy");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:datasprzedazy")-5,110,15);
-                        absText(writer,"Data sprzedaży: "+selected.getDatasprzedazy(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:datasprzedazy"), 8);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:datasprzedazy")-5,110,15);
+                        absText(writer,"Data sprzedaży: "+selected.getDatasprzedazy(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:datasprzedazy"), 8);
                         break;
-                    case "form:akordeon:fakturanumer" :
+                    case "akordeon:formwzor:fakturanumer" :
                         //Dane do modulu fakturanumer
                         pobrane = zwrocpozycje(lista, "fakturanumer");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:fakturanumer")-5,150,20);
-                        absText(writer,"Faktura nr "+selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:fakturanumer"), 10);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:fakturanumer")-5,150,20);
+                        absText(writer,"Faktura nr "+selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
                         break;
-                    case "form:akordeon:wystawca" :
+                    case "akordeon:formwzor:wystawca" :
                         //Dane do modulu sprzedawca
                         pobrane = zwrocpozycje(lista, "wystawca");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:wystawca")-65,160,80);
-                        absText(writer,"Sprzedawca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca"), 10);
-                        absText(writer,selected.getWystawca().getNazwapelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca")-20, 8);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:wystawca")-65,160,80);
+                        absText(writer,"Sprzedawca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
+                        absText(writer,selected.getWystawca().getNazwapelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-20, 8);
                         adres = selected.getWystawca().getKodpocztowy()+" "+selected.getWystawca().getMiejscowosc()+" "+selected.getWystawca().getUlica()+" "+selected.getWystawca().getNrdomu();
-                        absText(writer,adres, (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca")-40, 8);
-                        absText(writer,"NIP: "+selected.getWystawca().getNip(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:wystawca")-60, 8);
+                        absText(writer,adres, (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-40, 8);
+                        absText(writer,"NIP: "+selected.getWystawca().getNip(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-60, 8);
                         break;
-                     case "form:akordeon:odbiorca" :
+                     case "akordeon:formwzor:odbiorca" :
                         //Dane do modulu odbiorca
                         pobrane = zwrocpozycje(lista, "odbiorca");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("form:akordeon:odbiorca")-65,160,80);
-                        absText(writer,"Nabywca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca"), 10);
-                        absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca")-20, 8);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:odbiorca")-65,160,80);
+                        absText(writer,"Nabywca", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
+                        absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca")-20, 8);
                         adres = selected.getKontrahent().getKodpocztowy()+" "+selected.getKontrahent().getMiejscowosc()+" "+selected.getKontrahent().getUlica()+" "+selected.getKontrahent().getDom();
-                        absText(writer,adres, (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca")-40, 8);
-                        absText(writer,"NIP: "+selected.getKontrahent().getNip(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:odbiorca")-60, 8);
+                        absText(writer,adres, (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca")-40, 8);
+                        absText(writer,"NIP: "+selected.getKontrahent().getNip(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca")-60, 8);
                         break;
-                     case "form:akordeon:platnosc" :
+                     case "akordeon:formwzor:platnosc" :
                         //Dane do modulu platnosc
                         pobrane = zwrocpozycje(lista, "platnosc");
-                        absText(writer,"Sposób zapłaty: "+selected.getSposobzaplaty(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:platnosc"), 8);
-                        absText(writer,"Termin płatności: "+selected.getTerminzaplaty(), (int) (pobrane.getLewy()/dzielnik) + 100, wymiary.get("form:akordeon:platnosc"), 8);
-                        absText(writer,"Nr konta bankowego: "+selected.getNrkontabankowego(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:platnosc")-20, 8);
+                        absText(writer,"Sposób zapłaty: "+selected.getSposobzaplaty(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:platnosc"), 8);
+                        absText(writer,"Termin płatności: "+selected.getTerminzaplaty(), (int) (pobrane.getLewy()/dzielnik) + 100, wymiary.get("akordeon:formwzor:platnosc"), 8);
+                        absText(writer,"Nr konta bankowego: "+selected.getNrkontabankowego(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:platnosc")-20, 8);
                         break;
-                     case "form:akordeon:dozaplaty" :
+                     case "akordeon:formwzor:dozaplaty" :
                          //Dane do modulu platnosc
                         pobrane = zwrocpozycje(lista, "dozaplaty");
-                        absText(writer,"Do zapłaty: "+selected.getBrutto()+" "+selected.getWalutafaktury(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:dozaplaty"), 8);
-                        absText(writer,"Słownie: sto złotych", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:dozaplaty")-20, 8);
+                        absText(writer,"Do zapłaty: "+selected.getBrutto()+" "+selected.getWalutafaktury(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:dozaplaty"), 8);
+                        absText(writer,"Słownie: sto złotych", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:dozaplaty")-20, 8);
                         break;
-                    case "form:akordeon:podpis" :
+                    case "akordeon:formwzor:podpis" :
                          //Dane do modulu platnosc
                         pobrane = zwrocpozycje(lista, "podpis");
-                        absText(writer,selected.getPodpis(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:podpis"), 8);
-                        absText(writer,"..........................................", (int) (pobrane.getLewy()/dzielnik), wymiary.get("form:akordeon:podpis")-20, 8);
-                        absText(writer,"wystawca faktury", (int) (pobrane.getLewy()/dzielnik)+15, wymiary.get("form:akordeon:podpis")-40, 8);
+                        absText(writer,selected.getPodpis(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
+                        absText(writer,"..........................................", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:podpis")-20, 8);
+                        absText(writer,"wystawca faktury", (int) (pobrane.getLewy()/dzielnik)+15, wymiary.get("akordeon:formwzor:podpis")-40, 8);
                         break;
-                    case "form:akordeon:towary" :
+                    case "akordeon:formwzor:towary" :
                         //Dane do modulu towary
                         pobrane = zwrocpozycje(lista, "towary");
                         PdfPTable table = new PdfPTable(11);
                         wygenerujtablice(table, selected.getPozycjenafakturze(),selected);
                         // write the table to an absolute position
-                        table.writeSelectedRows(0,table.getRows().size(),(int) (pobrane.getLewy()/dzielnik),wymiary.get("form:akordeon:towary"),writer.getDirectContent());
+                        table.writeSelectedRows(0,table.getRows().size(),(int) (pobrane.getLewy()/dzielnik),wymiary.get("akordeon:formwzor:towary"),writer.getDirectContent());
                         break;
                }
             }
