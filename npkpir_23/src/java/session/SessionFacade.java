@@ -13,6 +13,7 @@ import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Faktura;
+import entity.Fakturadodelementy;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
@@ -433,6 +434,10 @@ public class SessionFacade<T> {
 
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
         return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
+    }
+
+    public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
+        return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
      

@@ -463,6 +463,11 @@ public class FakturaView implements Serializable {
         this.gosciwybral = gosciwybral;
     }
 
+    
+    public static List<Fakturywystokresowe> getGosciwybralokresS() {
+        return gosciwybralokres;
+    }
+    
     public List<Fakturywystokresowe> getGosciwybralokres() {
         return gosciwybralokres;
     }
