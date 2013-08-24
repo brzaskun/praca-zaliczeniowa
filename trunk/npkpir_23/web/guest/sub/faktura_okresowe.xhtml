@@ -9,7 +9,7 @@
       <p:tab id="okresowe" title="Faktury okresowe">
           <h:form id="formokresowe">
            <p:contextMenu for="dokumentyOkresowe">
-                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
+               <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa()}" icon="ui-icon-print" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
                 <p:menuitem value="Wygeneruj" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowych()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
 

@@ -296,7 +296,14 @@ public class FakturaView implements Serializable {
             elementy = ostatniafaktura.split(separator);
             int starynumer = Integer.parseInt(elementy[0]);
             starynumer++;
-            String numer = String.valueOf(starynumer) + "/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
+            String numer = String.valueOf(starynumer);
+            int i = 0;
+            for (String p : elementy){
+                if(i>0){
+                    numer += "/"+p;
+                }
+                i++;
+            }
             selected.getFakturaPK().setNumerkolejny(numer);
             Msg.msg("i", "Generuje kolejny numer faktury");
         }
@@ -344,7 +351,14 @@ public class FakturaView implements Serializable {
                 elementy = ostatniafaktura.split(separator);
                 int starynumer = Integer.parseInt(elementy[0]);
                 starynumer++;
-                String numer = String.valueOf(starynumer) + "/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
+                String numer = String.valueOf(starynumer);
+                int i = 0;
+                for (String r : elementy){
+                    if(i>0){
+                        numer += "/"+r;
+                    }
+                    i++;
+                }
                 nowa.getFakturaPK().setNumerkolejny(numer);
             }
             nowa.setWyslana(false);
