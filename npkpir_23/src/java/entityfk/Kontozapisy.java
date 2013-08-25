@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
     @NamedQuery(name = "Kontozapisy.findByKontown", query = "SELECT k FROM Kontozapisy k WHERE k.kontown = :kontown"),
     @NamedQuery(name = "Kontozapisy.findByKwotama", query = "SELECT k FROM Kontozapisy k WHERE k.kwotama = :kwotama"),
-    @NamedQuery(name = "Kontozapisy.findByKontoma", query = "SELECT k FROM Kontozapisy k WHERE k.kontoma = :kontoma")})
+    @NamedQuery(name = "Kontozapisy.findByKontoma", query = "SELECT k FROM Kontozapisy k WHERE k.kontoma = :kontoma"),
+    @NamedQuery(name = "Kontozapisy.findByDorozliczenia", query = "SELECT k FROM Kontozapisy k WHERE k.dorozliczenia = :dorozliczenia")})
 public class Kontozapisy implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,6 +105,14 @@ public class Kontozapisy implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String kontoma;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double wartoscpierwotna;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double dorozliczenia;
     @JoinColumn(name = "idDokfk", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Dokfk idDokfk;
@@ -238,6 +247,24 @@ public class Kontozapisy implements Serializable {
         this.idDokfk = idDokfk;
     }
 
+    public double getWartoscpierwotna() {
+        return wartoscpierwotna;
+    }
+
+    public void setWartoscpierwotna(double wartoscpierwotna) {
+        this.wartoscpierwotna = wartoscpierwotna;
+    }
+    
+
+    public double getDorozliczenia() {
+        return dorozliczenia;
+    }
+
+    public void setDorozliczenia(double dorozliczenia) {
+        this.dorozliczenia = dorozliczenia;
+    }
+
+    
     @XmlTransient
     public List<Rozrachunki> getRozrachunkiZapisrozliczany() {
         return rozrachunkiZapisrozliczany;
