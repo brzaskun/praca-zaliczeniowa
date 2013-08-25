@@ -5,19 +5,25 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,8 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontozapisy.findAll", query = "SELECT k FROM Kontozapisy k"),
     @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
     @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
-    @NamedQuery(name = "Kontozapisy.findByNumer", query = "SELECT k FROM Kontozapisy k WHERE k.numer = :numer"),
     @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
+    @NamedQuery(name = "Kontozapisy.findByKontoprzeciwstawne", query = "SELECT k FROM Kontozapisy k WHERE k.kontoprzeciwstawne = :kontoprzeciwstawne"),
+    @NamedQuery(name = "Kontozapisy.findByNumer", query = "SELECT k FROM Kontozapisy k WHERE k.numer = :numer"),
     @NamedQuery(name = "Kontozapisy.findByOpis", query = "SELECT k FROM Kontozapisy k WHERE k.opis = :opis"),
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
     @NamedQuery(name = "Kontozapisy.findByKontown", query = "SELECT k FROM Kontozapisy k WHERE k.kontown = :kontown"),
@@ -97,6 +104,13 @@ public class Kontozapisy implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String kontoma;
+    @JoinColumn(name = "idDokfk", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Dokfk idDokfk;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontozapisy")
+    private List<Rozrachunki> rozrachunkiZapisrozliczany;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontozapisy1")
+    private List<Rozrachunki> rozrachunkiZapissparowany;
 
     public Kontozapisy() {
     }
@@ -105,12 +119,14 @@ public class Kontozapisy implements Serializable {
         this.id = id;
     }
 
-    public Kontozapisy(Integer id, String podatnik, String konto, Konto kontoob, Dokfk dokument, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
+    public Kontozapisy(Integer id, String podatnik, String konto, Konto kontoob, String kontoprzeciwstawne, Dokfk dokument, String numer, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
         this.id = id;
         this.podatnik = podatnik;
         this.konto = konto;
         this.kontoob = kontoob;
+        this.kontoprzeciwstawne = kontoprzeciwstawne;
         this.dokument = dokument;
+        this.numer = numer;
         this.opis = opis;
         this.kwotawn = kwotawn;
         this.kontown = kontown;
@@ -150,12 +166,28 @@ public class Kontozapisy implements Serializable {
         this.kontoob = kontoob;
     }
 
+    public String getKontoprzeciwstawne() {
+        return kontoprzeciwstawne;
+    }
+
+    public void setKontoprzeciwstawne(String kontoprzeciwstawne) {
+        this.kontoprzeciwstawne = kontoprzeciwstawne;
+    }
+
     public Dokfk getDokument() {
         return dokument;
     }
 
     public void setDokument(Dokfk dokument) {
         this.dokument = dokument;
+    }
+
+    public String getNumer() {
+        return numer;
+    }
+
+    public void setNumer(String numer) {
+        this.numer = numer;
     }
 
     public String getOpis() {
@@ -198,23 +230,31 @@ public class Kontozapisy implements Serializable {
         this.kontoma = kontoma;
     }
 
-    public String getNumer() {
-        return numer;
+    public Dokfk getIdDokfk() {
+        return idDokfk;
     }
 
-    public void setNumer(String numer) {
-        this.numer = numer;
+    public void setIdDokfk(Dokfk idDokfk) {
+        this.idDokfk = idDokfk;
     }
 
-    public String getKontoprzeciwstawne() {
-        return kontoprzeciwstawne;
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkiZapisrozliczany() {
+        return rozrachunkiZapisrozliczany;
     }
 
-    public void setKontoprzeciwstawne(String kontoprzeciwstawne) {
-        this.kontoprzeciwstawne = kontoprzeciwstawne;
+    public void setRozrachunkiList(List<Rozrachunki> rozrachunkiZapisrozliczany) {
+        this.rozrachunkiZapisrozliczany = rozrachunkiZapisrozliczany;
     }
-    
-    
+
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkiZapissparowany() {
+        return rozrachunkiZapissparowany;
+    }
+
+    public void setRozrachunkiZapissparowany(List<Rozrachunki> rozrachunkiZapissparowany) {
+        this.rozrachunkiZapissparowany = rozrachunkiZapissparowany;
+    }
 
     @Override
     public int hashCode() {
@@ -238,9 +278,7 @@ public class Kontozapisy implements Serializable {
 
     @Override
     public String toString() {
-        return "Kontozapisy{" + "podatnik=" + podatnik + ", konto=" + konto + ", kontoprzeciwstawne=" + kontoprzeciwstawne + ", dokument=" + dokument + ", numer=" + numer + ", opis=" + opis + '}';
+        return "entityfk.Kontozapisy[ id=" + id + " ]";
     }
-
-    
     
 }

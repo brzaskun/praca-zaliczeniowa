@@ -10,5 +10,8 @@
         <attribute>
             <name>value</name>
         </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
     </tag>
 </facelet-taglib>

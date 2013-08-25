@@ -38,12 +38,10 @@ import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
-import interceptor.PobranietabeliInterceptor;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -442,9 +440,8 @@ public class SessionFacade<T> {
     }
 
     public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
-        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("rozrachunkiPK.zapisrozliczany", zapisrozliczany).getResultList();
+        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
     }
-
      
   
 }

@@ -4,7 +4,6 @@
  */
 package entityfk;
 
-import entityfk.Zapisynakoncie;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rozrachunki.findAll", query = "SELECT r FROM Rozrachunki r"),
     @NamedQuery(name = "Rozrachunki.findByZapisrozliczany", query = "SELECT r FROM Rozrachunki r WHERE r.rozrachunkiPK.zapisrozliczany = :zapisrozliczany"),
     @NamedQuery(name = "Rozrachunki.findByZapissparowany", query = "SELECT r FROM Rozrachunki r WHERE r.rozrachunkiPK.zapissparowany = :zapissparowany"),
-    @NamedQuery(name = "Rozrachunki.findByKwota", query = "SELECT r FROM Rozrachunki r WHERE r.kwota = :kwota")})
+    @NamedQuery(name = "Rozrachunki.findByKwotarozrachunku", query = "SELECT r FROM Rozrachunki r WHERE r.kwotarozrachunku = :kwotarozrachunku")})
 public class Rozrachunki implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -37,13 +36,13 @@ public class Rozrachunki implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    private double kwota;
+    private double kwotarozrachunku;
     @JoinColumn(name = "zapisrozliczany", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Zapisynakoncie zapisrozliczany;
+    private Kontozapisy zapisrozliczany;
     @JoinColumn(name = "zapissparowany", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Zapisynakoncie zapissparowany;
+    private Kontozapisy zapissparowany;
 
     public Rozrachunki() {
     }
@@ -52,9 +51,9 @@ public class Rozrachunki implements Serializable {
         this.rozrachunkiPK = rozrachunkiPK;
     }
 
-    public Rozrachunki(RozrachunkiPK rozrachunkiPK, double kwota) {
+    public Rozrachunki(RozrachunkiPK rozrachunkiPK, double kwotarozrachunku) {
         this.rozrachunkiPK = rozrachunkiPK;
-        this.kwota = kwota;
+        this.kwotarozrachunku = kwotarozrachunku;
     }
 
     public Rozrachunki(int zapisrozliczany, int zapissparowany) {
@@ -69,31 +68,29 @@ public class Rozrachunki implements Serializable {
         this.rozrachunkiPK = rozrachunkiPK;
     }
 
-    public double getKwota() {
-        return kwota;
+    public double getKwotarozrachunku() {
+        return kwotarozrachunku;
     }
 
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
+    public void setKwotarozrachunku(double kwotarozrachunku) {
+        this.kwotarozrachunku = kwotarozrachunku;
     }
 
-    public Zapisynakoncie getZapisrozliczany() {
+    public Kontozapisy getZapisrozliczany() {
         return zapisrozliczany;
     }
 
-    public void setZapisrozliczany(Zapisynakoncie zapisrozliczany) {
+    public void setZapisrozliczany(Kontozapisy zapisrozliczany) {
         this.zapisrozliczany = zapisrozliczany;
     }
 
-    public Zapisynakoncie getZapissparowany() {
+    public Kontozapisy getZapissparowany() {
         return zapissparowany;
     }
 
-    public void setZapissparowany(Zapisynakoncie zapissparowany) {
+    public void setZapissparowany(Kontozapisy zapissparowany) {
         this.zapissparowany = zapissparowany;
     }
-
-   
 
     @Override
     public int hashCode() {
@@ -117,7 +114,7 @@ public class Rozrachunki implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Rozrachunki[ rozrachunkiPK=" + rozrachunkiPK + " ]";
+        return "entityfk.Rozrachunki[ rozrachunkiPK=" + rozrachunkiPK + " ]";
     }
     
 }
