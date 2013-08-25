@@ -5,7 +5,9 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,10 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +48,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zapisynakoncie.findByDatadokumentu", query = "SELECT z FROM Zapisynakoncie z WHERE z.datadokumentu = :datadokumentu"),
     @NamedQuery(name = "Zapisynakoncie.findByZaksiegowany", query = "SELECT z FROM Zapisynakoncie z WHERE z.zaksiegowany = :zaksiegowany")})
 public class Zapisynakoncie implements Serializable {
+    private Boolean zaksiegowany;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zapisrozliczany")
+    private List<Rozrachunki> rozrachunkiList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zapissparowany")
+    private List<Rozrachunki> rozrachunkiList1;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,10 +115,6 @@ public class Zapisynakoncie implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "datadokumentu")
     private String datadokumentu;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "zaksiegowany")
-    private boolean zaksiegowany;
 
     public Zapisynakoncie() {
     }
@@ -251,14 +256,6 @@ public class Zapisynakoncie implements Serializable {
         this.datadokumentu = datadokumentu;
     }
 
-    public boolean getZaksiegowany() {
-        return zaksiegowany;
-    }
-
-    public void setZaksiegowany(boolean zaksiegowany) {
-        this.zaksiegowany = zaksiegowany;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -282,6 +279,32 @@ public class Zapisynakoncie implements Serializable {
     @Override
     public String toString() {
         return "entityfk.Zapisynakoncie[ id=" + id + " ]";
+    }
+
+    public Boolean getZaksiegowany() {
+        return zaksiegowany;
+    }
+
+    public void setZaksiegowany(Boolean zaksiegowany) {
+        this.zaksiegowany = zaksiegowany;
+    }
+
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkiList() {
+        return rozrachunkiList;
+    }
+
+    public void setRozrachunkiList(List<Rozrachunki> rozrachunkiList) {
+        this.rozrachunkiList = rozrachunkiList;
+    }
+
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkiList1() {
+        return rozrachunkiList1;
+    }
+
+    public void setRozrachunkiList1(List<Rozrachunki> rozrachunkiList1) {
+        this.rozrachunkiList1 = rozrachunkiList1;
     }
     
 }

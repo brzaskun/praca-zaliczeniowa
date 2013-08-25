@@ -24,6 +24,7 @@ import entity.Podatnik;
 import entity.Podstawki;
 import entity.Pozycjenafakturze;
 import entity.Rodzajedok;
+import entityfk.Rozrachunki;
 import entity.Ryczpoz;
 import entity.Sesja;
 import entity.SrodekTrw;
@@ -438,6 +439,10 @@ public class SessionFacade<T> {
 
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+
+    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
+        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("rozrachunkiPK.zapisrozliczany", zapisrozliczany).getResultList();
     }
 
      
