@@ -15,7 +15,7 @@
         <p:panelGrid columns="4">
             <h:outputText value="konto"/><h:inputText value="#{kontoZapisyFKView.wybranyzapis.konto}"/>
             <h:outputText value="dane:"/><h:outputText value="numer dok: #{kontoZapisyFKView.wybranyzapis.dokument.numer} data dok: #{kontoZapisyFKView.wybranyzapis.dokument.datawystawienia}" style="width: 900px;"/>
-            <h:outputText value="kwota"/><h:inputText value="#{kontoZapisyFKView.wybranyzapis.kwotawn gt 0 ? kontoZapisyFKView.wybranyzapis.kwotawn : kontoZapisyFKView.wybranyzapis.kwotama}"/>
+            <h:outputText value="kwota"/><h:outputText value="#{kontoZapisyFKView.wybranyzapis.wartoscpierwotna - kontoZapisyFKView.wybranyzapis.dorozliczenia}"/>
         </p:panelGrid>
         <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" style="width: 1000px;"
                      >
@@ -26,7 +26,7 @@
                 <h:inputText value="#{loop.kwotarozrachunku}"/>
             </p:column>
             <p:column headerText="kwota transakcji" width="40">
-                <h:outputText value="#{loop.zapissparowany.kwotawn != 0 ? loop.zapissparowany.kwotawn : loop.zapissparowany.kwotama}" style="float: right;">
+                <h:outputText value="#{loop.zapissparowany.wartoscpierwotna}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:column>
@@ -47,12 +47,9 @@
             </p:column>
             
             </p:dataTable>
-        <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":formE" oncomplete="chowanienapoczatekdok();dlg123.hide();"/>
+        <p:commandButton value="zapisz" actionListener="#{kontoZapisyFKView.zachowajrozrachunki()}" update=":formE" oncomplete="dlgrozrachunki.hide();"/>
         </h:form>
     <p:separator />
-    <h:form id="form1a" >
-        <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" update=":formE" oncomplete="aktualizujmapedialog(#{dokfkView.selected.konta.size()});"/>
-    </h:form>
   </p:dialog>  
     
     

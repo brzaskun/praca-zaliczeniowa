@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -70,8 +71,7 @@ public class KontoZapisyFKView implements Serializable{
         List<Kontozapisy> zapisywszystie = kontoZapisyFKDAO.findZapisyKonto(wybranyzapis.getKonto());
         List<Rozrachunki> rozliczone = rozrachunkiDAO.findRozliczany(wybranyzapis.getId());
         boolean wn = (wybranyzapis.getKwotawn() > 0 ? true : false);
-        Iterator it;
-        it = zapisywszystie.iterator();
+        Iterator it = zapisywszystie.iterator();
         while (it.hasNext()) {
             Kontozapisy p = (Kontozapisy) it.next();
             if (wn && p.getKwotawn() > 0) {
@@ -89,15 +89,35 @@ public class KontoZapisyFKView implements Serializable{
             nowyrozrachunek.setRozrachunkiPK(klucz);
             nowyrozrachunek.setZapisrozliczany(wybranyzapis);
             nowyrozrachunek.setZapissparowany(r);
-            nowyrozrachunek.setKwotarozrachunku(0);
+            List<Rozrachunki> listarozrachunkow = rozrachunkiDAO.findRozliczany(wybranyzapis.getId());
+            for (Rozrachunki s : listarozrachunkow){
+                if (s.getZapissparowany().getId().equals(r.getId())){
+                    nowyrozrachunek.setKwotarozrachunku(s.getKwotarozrachunku());
+                } else {
+                    nowyrozrachunek.setKwotarozrachunku(0);
+                    r.getRozrachunkiZapisrozliczany().add(nowyrozrachunek);
+                    kontoZapisyFKDAO.edit(r);
+                }
+            }
             kontorozrachunki.add(nowyrozrachunek);
-            r.getRozrachunkiZapisrozliczany().add(nowyrozrachunek);
-            kontoZapisyFKDAO.edit(r);
-        }
+            }
         RequestContext.getCurrentInstance().update("formB:sumy");
         RequestContext.getCurrentInstance().update("formD:dataList");
         RequestContext.getCurrentInstance().update("formE");
     }
+    
+    public void zachowajrozrachunki(){
+        double sumarozrachunkow = 0;
+        for (Rozrachunki p : kontorozrachunki){
+            sumarozrachunkow += p.getKwotarozrachunku();
+            rozrachunkiDAO.edit(p);
+            Msg.msg("i", "Naniesiono rozrachunek w kwocie: "+p.getKwotarozrachunku());
+        }
+        wybranyzapis.setDorozliczenia(sumarozrachunkow);
+        kontoZapisyFKDAO.edit(wybranyzapis);
+        Msg.msg("i", "Naniesiono rozliczenie dokumnetu: "+wybranyzapis.getOpis());
+    }
+    
     
     private void sumazapisow(){
         sumaWn = 0.0;
