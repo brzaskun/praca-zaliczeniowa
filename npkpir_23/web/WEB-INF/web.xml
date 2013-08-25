@@ -137,4 +137,9 @@
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/AccessDenied.xhtml</location>
     </error-page>
+     <!-- Load custom tag into JSF web application -->
+    <context-param>
+       <param-name>facelets.LIBRARIES</param-name>
+       <param-value>/WEB-INF/brzaskun.taglib.xml</param-value>
+    </context-param>
 </web-app>

@@ -50,7 +50,7 @@
               <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
-            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" styleClass="ui-selectonemenu-label  ui-corner-all">
+            <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" styleClass="ui-inputfield ui-corner-all">
                 <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
                 <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}"  global="false"/>
                 <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>

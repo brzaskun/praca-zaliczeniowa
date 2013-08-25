@@ -123,3 +123,7 @@ root {
     float: right;
 }
 
+.tablicafk td {
+    padding: 0px 0px 0px 0px !important;
+}
+
