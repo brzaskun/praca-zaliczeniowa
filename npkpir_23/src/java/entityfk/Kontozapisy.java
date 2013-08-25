@@ -107,9 +107,9 @@ public class Kontozapisy implements Serializable {
     @JoinColumn(name = "idDokfk", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Dokfk idDokfk;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontozapisy")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zapisrozliczany")
     private List<Rozrachunki> rozrachunkiZapisrozliczany;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontozapisy1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zapissparowany")
     private List<Rozrachunki> rozrachunkiZapissparowany;
 
     public Kontozapisy() {

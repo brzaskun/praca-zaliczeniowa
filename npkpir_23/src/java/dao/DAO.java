@@ -44,7 +44,7 @@ public abstract class DAO<T> {
             sessionFacade.create(selected);
             System.out.println("Dodano wpis " + selected);
         } catch (Exception e) {
-            System.out.println("Nie dodano wpisu " + selected + " " + e.toString());
+            System.out.println("Nie dodano wpisu " + selected + " " + e.getMessage());
             throw new PersistenceException();
         }
     }

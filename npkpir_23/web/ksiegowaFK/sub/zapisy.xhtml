@@ -47,7 +47,7 @@
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="zakryjpolaedycjadokumentu(#{dokfkView.liczbawierszy});">  
     <h:form id="form" >
         <p:panelGrid columns="4">
-            <h:outputText value="data"/><h:inputText value="#{dokfkView.selected.data}"/>
+            <h:outputText value="data"/><h:inputText value="#{dokfkView.selected.datawystawienia}"/>
             <h:outputText value="numer"/><h:inputText value="#{dokfkView.selected.numer}"/>
         </p:panelGrid>
         <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 1400px;">

@@ -66,6 +66,7 @@ public class KontoZapisyFKView implements Serializable{
     }
     
     public void selekcjakontrozrachunki() {
+        kontorozrachunki = new ArrayList<>();
         List<Kontozapisy> zapisywszystie = kontoZapisyFKDAO.findZapisyKonto(wybranyzapis.getKonto());
         List<Rozrachunki> rozliczone = rozrachunkiDAO.findRozliczany(wybranyzapis.getId());
         boolean wn = (wybranyzapis.getKwotawn() > 0 ? true : false);
@@ -86,6 +87,8 @@ public class KontoZapisyFKView implements Serializable{
             klucz.setZapissparowany(r.getId());
             Rozrachunki nowyrozrachunek = new Rozrachunki();
             nowyrozrachunek.setRozrachunkiPK(klucz);
+            nowyrozrachunek.setZapisrozliczany(wybranyzapis);
+            nowyrozrachunek.setZapissparowany(r);
             nowyrozrachunek.setKwotarozrachunku(0);
             kontorozrachunki.add(nowyrozrachunek);
             r.getRozrachunkiZapisrozliczany().add(nowyrozrachunek);
