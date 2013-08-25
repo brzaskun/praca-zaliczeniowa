@@ -42,7 +42,7 @@
           <p:contextMenu>
              <p:menuitem value="Rozrachunki" icon="ui-icon-shuffle" update=":formD" onclick="dlgrozrachunki.show();"/>
          </p:contextMenu>
-        <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontozapisy}" var="loop" rowIndexVar="row" style="width: 1200px;" 
+        <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontozapisy}" var="loop" rowIndexVar="row" style="width: 800px;" 
                      rowKey="#{loop.id}" editable="true" selection="#{kontoZapisyFKView.wybranyzapis}" selectionMode="single"
                      >
           
@@ -50,12 +50,13 @@
             <p:column headerText="podatnik" width="100">
                 <h:outputText value="#{loop.podatnik}"/>
             </p:column>
+             <p:column headerText="id" width="100">
+                 <h:outputText value="#{loop.id}"/>
+            </p:column>
             <p:column headerText="konto" width="200">
                 <h:outputText value="#{loop.konto}"/>
             </p:column>
-             <p:column headerText="konto macierzyste" width="200">
-                 <h:outputText value="#{loop.kontoob.macierzyste}"/>
-            </p:column>
+          
             <p:column headerText="dokument" width="100">
                 <h:outputText value="#{loop.dokument.numer}"/>
             </p:column>
@@ -63,10 +64,10 @@
                 <h:outputText value="#{loop.opis}"/>
             </p:column>
             <p:column headerText="kwotawn" width="100">
-                <h:outputText value="#{loop.kwotawn}" rendered="#{loop.kwotawn eq 0 ? false : true}"/>
+                <b:outputpl value="#{loop.kwotawn}" rendered="#{loop.kwotawn eq 0 ? false : true}"/>
             </p:column>
             <p:column headerText="kontoma" width="100">
-                <h:outputText value="#{loop.kwotama}" rendered="#{loop.kwotama eq 0 ? false : true}"/>
+                <b:outputpl value="#{loop.kwotama}" rendered="#{loop.kwotama eq 0 ? false : true}"/>
             </p:column>
             <p:column headerText="konto przeciwstawne" width="100">
                 <h:outputText value="#{loop.kontoprzeciwstawne}" />

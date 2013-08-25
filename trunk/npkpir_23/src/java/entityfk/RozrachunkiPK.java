@@ -75,7 +75,7 @@ public class RozrachunkiPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.RozrachunkiPK[ zapisrozliczany=" + zapisrozliczany + ", zapissparowany=" + zapissparowany + " ]";
+        return "entityfk.RozrachunkiPK[ zapisrozliczany=" + zapisrozliczany + ", zapissparowany=" + zapissparowany + " ]";
     }
     
 }

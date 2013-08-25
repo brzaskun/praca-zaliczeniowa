@@ -91,14 +91,14 @@ public class DokfkView implements Serializable{
                 if(opis.contains("kontown")){
                     p.setKonto(p.getKontoWn());
                     p.setPodatnik("Tymczasowy");
-                    p.setDataksiegowania(selected.getData());
+                    p.setDataksiegowania(selected.getDatawystawienia());
                     p.setKwotaMa(0.0);
                     p.setTypwiersza(1);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")){
                     p.setKonto(p.getKontoMa());
                     p.setPodatnik("Tymczasowy");
-                    p.setDataksiegowania(selected.getData());
+                    p.setDataksiegowania(selected.getDatawystawienia());
                     p.setKwotaWn(0.0);
                     p.setTypwiersza(2);
                     p.setZaksiegowane(Boolean.FALSE);
@@ -106,14 +106,14 @@ public class DokfkView implements Serializable{
                     //no wlasnie i tu jest ta gupota, chyba trzeba to zmienic
                     p.setKonto(p.getKontoWn());
                     p.setPodatnik("Tymczasowy");
-                    p.setDataksiegowania(selected.getData());
+                    p.setDataksiegowania(selected.getDatawystawienia());
                     p.setTypwiersza(0);
                     opisdoprzekazania=p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
                 }
             }
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getData(), selected.getNumer());
+            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
             if (poszukiwanydokument instanceof Dokfk){
                 dokDAOfk.destroy(poszukiwanydokument);
                 dokDAOfk.dodaj(selected);
@@ -132,7 +132,7 @@ public class DokfkView implements Serializable{
     
      public void usun(){
         try {
-            if(selecteddokfk.get(0).isNaniesionezapisy()){
+            if(selecteddokfk.get(0).getNaniesionezapisy()){
              List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisy(selecteddokfk.get(0).getNumer());
              for(Kontozapisy p : zapisy){
                  kontoZapisyFKDAO.destroy(p);
@@ -150,7 +150,7 @@ public class DokfkView implements Serializable{
      public void zaksieguj(){
          String opis = "";
          Dokfk x = selecteddokfk.get(0);
-         if(x.isNaniesionezapisy()){
+         if(x.getNaniesionezapisy()){
              List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisy(x.getNumer());
              for(Kontozapisy p : zapisy){
                  kontoZapisyFKDAO.destroy(p);
@@ -169,7 +169,9 @@ public class DokfkView implements Serializable{
          x.setNaniesionezapisy(true);
          dokDAOfk.edit(x);
          }
+         RequestContext.getCurrentInstance().update("form:dataList");
          Msg.msg("i", "Zapisy zaksięgowane "+x.getNumer());
+         
      }
      
      private void dodajwn(FKWiersz p,Dokfk x, String opis){

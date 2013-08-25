@@ -10,6 +10,7 @@ import daoFK.KontoZapisyFKDAO;
 import entityfk.Rozrachunki;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.RozrachunkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,6 +48,7 @@ public class KontoZapisyFKView implements Serializable{
     @PostConstruct
     private void init(){
         kontozapisy = kontoZapisyFKDAO.findAll();
+        kontorozrachunki = new ArrayList<>();
     }
     
     public void selekcjakont(){
@@ -68,7 +70,7 @@ public class KontoZapisyFKView implements Serializable{
         List<Rozrachunki> rozliczone = rozrachunkiDAO.findRozliczany(wybranyzapis.getId());
         boolean wn = (wybranyzapis.getKwotawn() > 0 ? true : false);
         Iterator it;
-        it = kontorozrachunki.iterator();
+        it = zapisywszystie.iterator();
         while (it.hasNext()) {
             Kontozapisy p = (Kontozapisy) it.next();
             if (wn && p.getKwotawn() > 0) {
@@ -77,6 +79,17 @@ public class KontoZapisyFKView implements Serializable{
             if (!wn && p.getKwotama() > 0) {
                 it.remove();
             }
+        }
+        for (Kontozapisy r : zapisywszystie){
+            RozrachunkiPK klucz = new RozrachunkiPK();
+            klucz.setZapisrozliczany(wybranyzapis.getId());
+            klucz.setZapissparowany(r.getId());
+            Rozrachunki nowyrozrachunek = new Rozrachunki();
+            nowyrozrachunek.setRozrachunkiPK(klucz);
+            nowyrozrachunek.setKwotarozrachunku(0);
+            kontorozrachunki.add(nowyrozrachunek);
+            r.getRozrachunkiZapisrozliczany().add(nowyrozrachunek);
+            kontoZapisyFKDAO.edit(r);
         }
         RequestContext.getCurrentInstance().update("formB:sumy");
         RequestContext.getCurrentInstance().update("formD:dataList");
