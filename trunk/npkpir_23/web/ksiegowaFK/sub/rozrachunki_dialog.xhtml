@@ -14,34 +14,36 @@
     <h:form id="formE" >
         <p:panelGrid columns="4">
             <h:outputText value="konto"/><h:inputText value="#{kontoZapisyFKView.wybranyzapis.konto}"/>
-            <h:outputText value="dane:"/><h:outputText value="numer dok: #{kontoZapisyFKView.wybranyzapis.dokument.numer} data dok: #{kontoZapisyFKView.wybranyzapis.dokument.data}" style="width: 900px;"/>
+            <h:outputText value="dane:"/><h:outputText value="numer dok: #{kontoZapisyFKView.wybranyzapis.dokument.numer} data dok: #{kontoZapisyFKView.wybranyzapis.dokument.datawystawienia}" style="width: 900px;"/>
             <h:outputText value="kwota"/><h:inputText value="#{kontoZapisyFKView.wybranyzapis.kwotawn gt 0 ? kontoZapisyFKView.wybranyzapis.kwotawn : kontoZapisyFKView.wybranyzapis.kwotama}"/>
         </p:panelGrid>
-        <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" 
+        <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" style="width: 1000px;"
                      >
               <f:facet name="header">
                 <h:outputText value="Dokumenty nie rozliczone"/>
             </f:facet>
             <p:column headerText="kwota rozliczenia" width="40">
-                <h:inputText value="#{loop.zapissparowany.kwotawn}"/>
+                <h:inputText value="#{loop.kwotarozrachunku}"/>
             </p:column>
             <p:column headerText="kwota transakcji" width="40">
-                <b:outputpl value="#{loop.zapissparowany.kwotawn}" />
+                <h:outputText value="#{loop.zapissparowany.kwotawn != 0 ? loop.zapissparowany.kwotawn : loop.zapissparowany.kwotama}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
             </p:column>
-            <p:column headerText="termin płatności" width="40">
-                <b:outputpl value="#{loop.zapissparowany.kwotawn}"/>
+            <p:column headerText="termin płatności" width="90">
+                <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
             </p:column>
             <p:column headerText="opis transakcji" width="300">
                 <h:outputText id="opis" value="#{loop.zapissparowany.opis}" />
             </p:column>
-            <p:column headerText="nr ewidencyjny" width="40">
+            <p:column headerText="nr rozrachunku" width="40">
                 <h:outputText value="#{loop.zapissparowany.numer}"/>
             </p:column>
-            <p:column headerText="dokument" width="40">
+            <p:column headerText="id dokumentu" width="40">
                 <h:outputText value="#{loop.zapissparowany.dokument.id}"/>
             </p:column>
             <p:column headerText="data wystawienia" width="40">
-                <h:outputText value="#{loop.zapissparowany.dokument.data}"/>
+                <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
             </p:column>
             
             </p:dataTable>

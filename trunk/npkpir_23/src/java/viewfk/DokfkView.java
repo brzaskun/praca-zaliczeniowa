@@ -186,6 +186,7 @@ public class DokfkView implements Serializable{
              kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
              kontozapisy.setKwotawn(p.getKwotaWn());
              kontozapisy.setKwotama(0);
+             kontozapisy.setIdDokfk(x);
              kontoZapisyFKDAO.dodaj(kontozapisy);
              kontozapisy = new Kontozapisy();
      }
@@ -202,6 +203,7 @@ public class DokfkView implements Serializable{
              kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
              kontozapisy.setKwotawn(0);
              kontozapisy.setKwotama(p.getKwotaMa());
+             kontozapisy.setIdDokfk(x);
              kontoZapisyFKDAO.dodaj(kontozapisy);
              kontozapisy = new Kontozapisy();
      }
