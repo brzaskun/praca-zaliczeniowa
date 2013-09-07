@@ -91,8 +91,13 @@ public class FakturaView implements Serializable {
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
-        LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
-        selected.setTerminzaplaty(terminplatnosci.toString());
+        try {
+            LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
+            selected.setTerminzaplaty(terminplatnosci.toString());
+        } catch (Exception ep){
+            LocalDate terminplatnosci = firstDate.plusDays(14);
+            selected.setTerminzaplaty(terminplatnosci.toString());
+        }
         try {
             String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
             if(nrkonta!=null){
