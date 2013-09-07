@@ -167,6 +167,12 @@ public class Podatnik implements Serializable {
     @Size(max = 26)
     @Column(name = "nrkontabankowego")
     private String nrkontabankowego;
+    @Size (max = 3)
+    @Column(name = "platnoscwdni")
+    private String platnoscwdni;
+    @Size (max = 512)
+    @Column(name = "nazwadlafaktury")
+    private String nazwadlafaktury;
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -457,6 +463,23 @@ public class Podatnik implements Serializable {
     public void setNrkontabankowego(String nrkontabankowego) {
         this.nrkontabankowego = nrkontabankowego;
     }
+
+    public String getPlatnoscwdni() {
+        return platnoscwdni;
+    }
+
+    public void setPlatnoscwdni(String platnoscwdni) {
+        this.platnoscwdni = platnoscwdni;
+    }
+
+    public String getNazwadlafaktury() {
+        return nazwadlafaktury;
+    }
+
+    public void setNazwadlafaktury(String nazwadlafaktury) {
+        this.nazwadlafaktury = nazwadlafaktury;
+    }
+    
     
     
     //</editor-fold>

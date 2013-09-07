@@ -8,6 +8,7 @@ import dao.FakturaDAO;
 import entity.Faktura;
 import entity.Klienci;
 import java.io.Serializable;
+import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.faces.bean.ManagedBean;
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfFaktura;
 import view.FakturaView;
 import view.WpisView;
 
@@ -71,15 +73,23 @@ public class MailOther extends MailSetUp implements Serializable{
 }
      public void faktura() {
        try {
-            Faktura faktura = FakturaView.getGosciwybralS().get(0);
+        pdfFaktura.drukujmail();
+       } catch (Exception el){}
+       List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+       int i = 0;
+       for (Faktura faktura : fakturydomaila){
+       try {
+           
             Klienci klientf = faktura.getKontrahent();
             Message message = logintoMail(faktura.getKontrahent().getEmail());
-            message.setSubject("Wydruk faktury VAT");
+            message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setText("Witam"
-                    + "\n\n"+"W załączeniu bieżąca faktura automatycznie wygenerowana przez program księgowy."
+                    + "\n\n"+"W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy."
                     + "\nAdres mailowy, z którego została wysłana nie służy do normalnej korespondencji."
+                    + "\n\nPoniewasz program jest jeszcze w fazie testowania, może się zdarzyć, że dokument będzie zawierał błędy."
+                    + "\nProsimy o wyrozumiałość i o informację zwrotną w takim wypadku."
                     + "\n\nZ poważaniem"
                     + "\n\n"+podpisfaktury
                     + "\n\n"+firmafaktury);
@@ -87,7 +97,7 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + klientfile + ".pdf");
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
@@ -107,7 +117,8 @@ public class MailOther extends MailSetUp implements Serializable{
               } catch (MessagingException e) {
                   throw new RuntimeException(e);
               }
-      
+       i++;
+       }
 }
      
      public void pit5() {

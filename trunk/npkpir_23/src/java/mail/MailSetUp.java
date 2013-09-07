@@ -17,6 +17,7 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import pdf.PdfFaktura;
 import view.WpisView;
 
 /**
@@ -29,6 +30,8 @@ public class MailSetUp implements Serializable{
     private static Session session;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value="#{pdfFaktura}")
+    protected PdfFaktura pdfFaktura;
     protected String wysylajacy;
     protected String klient;
     protected String klientfile;
@@ -45,7 +48,7 @@ public class MailSetUp implements Serializable{
         klient = pod.getImie()+" "+pod.getNazwisko();
         klientfile = wpisView.getPodatnikWpisu();
         podpisfaktury = wpisView.getPodatnikObiekt().getImie()+" "+wpisView.getPodatnikObiekt().getNazwisko();
-        firmafaktury = wpisView.getPodatnikObiekt().getNazwapelna();
+        firmafaktury = wpisView.getPodatnikObiekt().getNazwadlafaktury();
     }
     
 
@@ -111,5 +114,15 @@ public class MailSetUp implements Serializable{
         this.wpisView = wpisView;
     }
 
+    public PdfFaktura getPdfFaktura() {
+        return pdfFaktura;
+    }
+
+    public void setPdfFaktura(PdfFaktura pdfFaktura) {
+        this.pdfFaktura = pdfFaktura;
+    }
+
+  
+    
      
 }
