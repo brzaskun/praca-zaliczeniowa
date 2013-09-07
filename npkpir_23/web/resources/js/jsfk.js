@@ -330,11 +330,12 @@ var aktywujnetto = function(){
     document.getElementById("dodWiad:opis").focus();
 };
 
+//uzupelnia pole Ma wartoscia pola Wn jezeli jego wartosc jest == 0
 var sprawdzwartosc = function(wiersz){
     wiersz -= 1;
     var zloz = "#form\\:dataList\\:"+wiersz+"\\:ma_input";
     var wartosc = $(zloz).val();
-    if(wartosc === "" || wartosc === " zł"){
+    if(wartosc === " zł" || wartosc === "0.00 zł"){
         $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
         $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val($("#form\\:dataList\\:"+wiersz+"\\:wn_input").val());
     }

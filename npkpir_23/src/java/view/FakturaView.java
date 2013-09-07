@@ -17,6 +17,7 @@ import entity.Faktura;
 import entity.FakturaPK;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -87,9 +88,10 @@ public class FakturaView implements Serializable {
         selected.setDatawystawienia(firstDate.toString());
         selected.setDatasprzedazy(firstDate.toString());
         fakturaPK.setNumerkolejny("wpisz numer");
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
-        LocalDate terminplatnosci = firstDate.plusDays(14);
+        LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
         selected.setTerminzaplaty(terminplatnosci.toString());
         try {
             String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
@@ -101,15 +103,15 @@ public class FakturaView implements Serializable {
         } catch (Exception es){
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
-        selected.setPodpis(wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko());
+        selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
         pozycje = new ArrayList<>();
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         pozycje.add(poz);
         selected.setPozycjenafakturze(pozycje);
         selected.setAutor(wpisView.getWprowadzil().getLogin());
-        selected.setMiejscewystawienia(wpisView.getPodatnikObiekt().getMiejscowosc());
+        selected.setMiejscewystawienia(podatnikobiekt.getMiejscowosc());
         setPokazfakture(true);
-        selected.setWystawca(wpisView.getPodatnikObiekt());
+        selected.setWystawca(podatnikobiekt);
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         Msg.msg("i", "Przygotowano fakture");

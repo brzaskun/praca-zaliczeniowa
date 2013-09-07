@@ -10,18 +10,21 @@
     <p:panelGrid columns="4">
         <p:commandButton value="dodaj" onclick="dlg123.show()"/>
     </p:panelGrid>
+<!--    dialog wpisywania nowego dokumentu-->
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false">  
     <h:form id="form" >
         <p:panelGrid columns="4">
             <h:outputText value="data"/><h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"/>
-            <h:outputText value="numer"/><h:inputText value="#{dokfkView.selected.numer}"/>
+            <h:outputText value="symbol"/><h:inputText id="datka" value="#{dokfkView.selected.dokfkPK.seriadokfk}"/>
+            <h:outputText value="numer"/><h:inputText value="#{dokfkView.selected.dokfkPK.nrkolejny}"/>
+            <h:outputText value="podatnik"/><h:inputText value="#{dokfkView.selected.dokfkPK.podatnik}"/>
         </p:panelGrid>
         <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 1130px;" styleClass="tablicafk">
             <p:column headerText="id" width="10">
-                <h:outputText value="#{loop.id}" style="width: 10px;"/>
+                <h:outputText value="#{loop.idwiersza}" style="width: 10px;"/>
             </p:column>
             <p:column headerText="opis transakcji" width="300">
-                <p:inputText id="opis" value="#{loop.opis}" style="width: 300px;" accesskey="s" onkeypress="wywolajdok('#{planKontView.opiskonta}','#{planKontView.pelnynumerkonta}','#{loop.id}');" onblur="skopiujopis(#{loop.id});" styleClass="kasa"/>
+                <p:inputText id="opis" value="#{loop.opis}" style="width: 300px;" accesskey="s" onkeypress="wywolajdok('#{planKontView.opiskonta}','#{planKontView.pelnynumerkonta}','#{loop.idwiersza}');" onblur="skopiujopis(#{loop.idwiersza});" styleClass="kasa"/>
             </p:column>
             <p:column headerText="kwota" >
                 <pe:inputNumber id="wn" value="#{loop.kwotaWn}" symbol=" zł"  style="width: 150px; float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa">
@@ -45,11 +48,11 @@
                                 var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="10" maxlength="10" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
-                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa" onfocus="sprawdzwartosc(#{loop.id});">
+                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa" onfocus="sprawdzwartosc(#{loop.idwiersza});">
                 </p:autoComplete>
                 </p:column>
            <p:column>
-               <p:commandButton value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.id});" rendered="#{dokfkView.liczbawierszy gt loop.id ? false : true}"/>
+               <p:commandButton value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idwiersza});" rendered="#{dokfkView.liczbawierszy gt loop.idwiersza ? false : true}"/>
             </p:column>
             </p:dataTable>
              <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form"  oncomplete="chowanienapoczatekdok();$('#form\\:datka').focus();"/>
