@@ -158,8 +158,11 @@ var aktywujopis = function (){
             $('#dodWiad\\:opis').focus();
         }
     }); 
+   
+    
+    
     $(document).on('keyup',function(e){
-        if(e.which=='119'){
+        if(e.which==='119'){
             $('#dodWiad\\:dodkol').click();
             $(':kwotaPkpir_hinput').last().focus();
         }
@@ -172,7 +175,6 @@ var aktywujopis = function (){
 //        $('#dodWiad\\:srodkiLista').show();
 //    }
 //}
-
 
 
 //to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu
