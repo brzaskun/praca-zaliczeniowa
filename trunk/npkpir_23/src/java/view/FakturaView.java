@@ -8,6 +8,7 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturywystokresoweDAO;
+import dao.PodatnikDAO;
 import embeddable.EVatwpis;
 import embeddable.KwotaKolumna;
 import embeddable.Pozycjenafakturzebazadanych;
@@ -64,10 +65,10 @@ public class FakturaView implements Serializable {
     //faktury okresowe wybrane z listy
     private static List<Fakturywystokresowe> gosciwybralokres;
     //do zaksiegowania faktury
-    @Inject
-    private DokDAO dokDAO;
-    @Inject
-    private EvewidencjaDAO evewidencjaDAO;
+    @Inject private DokDAO dokDAO;
+    @Inject private EvewidencjaDAO evewidencjaDAO;
+    //tego potrzebuje zeby zachowac wiersz wzorcowy
+    @Inject private PodatnikDAO podatnikDAO;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -108,9 +109,19 @@ public class FakturaView implements Serializable {
         } catch (Exception es){
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
+        
         selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
         pozycje = new ArrayList<>();
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
+        poz.setPodatek(23);
+        if(podatnikobiekt.getWierszwzorcowy() != null){
+            Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
+            poz.setNazwa(wierszwzorcowy.getNazwa());
+            poz.setPKWiU(wierszwzorcowy.getPKWiU());
+            poz.setJednostka(wierszwzorcowy.getJednostka());
+            poz.setIlosc(wierszwzorcowy.getIlosc());
+            poz.setPodatek(wierszwzorcowy.getPodatek());
+        }
         pozycje.add(poz);
         selected.setPozycjenafakturze(pozycje);
         selected.setAutor(wpisView.getWprowadzil().getLogin());
@@ -211,9 +222,19 @@ public class FakturaView implements Serializable {
         }
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }
-
+    
+    //taki wiersz do wykorzystania przy robieniu faktur
+    public void zachowajwierszwzorcowy(){
+        Pozycjenafakturzebazadanych pobranywiersz = pozycje.get(0);
+        Podatnik podatnik = wpisView.getPodatnikObiekt();
+        podatnik.setWierszwzorcowy(pobranywiersz);
+        podatnikDAO.edit(podatnik);
+        Msg.msg("i", "Dodatno wiersz wzorcowy " + pobranywiersz.getNazwa());
+    }
+    
     public void dodajwiersz() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
+        poz.setPodatek(23);
         pozycje.add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
         String nazwafunkcji = "wybierzrzadfaktury("+(pozycje.size()-1)+")";

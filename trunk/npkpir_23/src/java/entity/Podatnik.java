@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.Parametr;
+import embeddable.Pozycjenafakturzebazadanych;
 import embeddable.Straty;
 import embeddable.Udzialy;
 import java.io.Serializable;
@@ -173,6 +174,9 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "nazwadlafaktury")
     private String nazwadlafaktury;
+    @Lob
+    @Column(name = "wierszwzorcowy")
+    private Pozycjenafakturzebazadanych wierszwzorcowy;
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -479,6 +483,15 @@ public class Podatnik implements Serializable {
     public void setNazwadlafaktury(String nazwadlafaktury) {
         this.nazwadlafaktury = nazwadlafaktury;
     }
+
+    public Pozycjenafakturzebazadanych getWierszwzorcowy() {
+        return wierszwzorcowy;
+    }
+
+    public void setWierszwzorcowy(Pozycjenafakturzebazadanych wierszwzorcowy) {
+        this.wierszwzorcowy = wierszwzorcowy;
+    }
+    
     
     
     
