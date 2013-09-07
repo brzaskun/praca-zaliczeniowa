@@ -126,7 +126,11 @@
             <p:outputPanel  style="margin-top: 25px;">
                 <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":akordeon:formsporzadzone:dokumentyLista" style="margin-bottom: 25px;"/>
              </p:outputPanel>
+             <p:outputPanel  style="margin-top: 25px;">
+             <p:commandButton id="dodajwzorcowywiersz" value="wzorcowy wiersz" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
             </p:outputPanel>
+            </p:outputPanel>
+               
                 </h:form>
         </p:tab>  
     
