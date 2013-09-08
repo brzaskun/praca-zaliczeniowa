@@ -17,6 +17,7 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import msg.Msg;
 import pdf.PdfFaktura;
 import view.WpisView;
 
@@ -29,7 +30,7 @@ public class MailSetUp implements Serializable{
 
     private static Session session;
     @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
+    protected WpisView wpisView;
     @ManagedProperty(value="#{pdfFaktura}")
     protected PdfFaktura pdfFaktura;
     protected String wysylajacy;
@@ -55,7 +56,6 @@ public class MailSetUp implements Serializable{
     protected  Message logintoMail() throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
-
         Properties props = new Properties();
         props.put("mail.smtp.host", "az0066.srv.az.pl");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -74,7 +74,13 @@ public class MailSetUp implements Serializable{
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
-        message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
+        try {
+            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+        } catch (Exception e){
+            Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
+        }
+        }
         return message;
     }
     

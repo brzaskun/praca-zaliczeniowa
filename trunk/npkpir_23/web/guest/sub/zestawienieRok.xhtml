@@ -8,7 +8,7 @@
     <p:panelGrid id="zestawienieroczne" columns="8" >
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
 
@@ -91,7 +91,7 @@
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.lipiec}" id="dokumentylipiec" > 
@@ -175,7 +175,7 @@
         </p:dataTable>
           <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  
-                <h:outputText value="#{wpis}" />
+                <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.rok}" id="dokumentyrok" > 
@@ -190,7 +190,11 @@
             </p:column>
         </p:dataTable>
     </p:panelGrid>
-   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" onsuccess="wydrukpkpir('#{WpisView.podatnikWpisu}');">
+    <h:form id="form">
+    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" onsuccess="$('#form\\:zestwysylka').show();">
         </p:commandButton>
+    <p:commandButton id="zestwysylka" value="Wyślij na mój mail" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
+        </p:commandButton>
+        </h:form>
 </ui:composition>   
 

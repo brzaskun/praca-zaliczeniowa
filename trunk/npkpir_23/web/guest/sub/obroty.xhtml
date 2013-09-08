@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
     
-   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" onsuccess="wydrukobroty('#{WpisView.podatnikWpisu}');">
+   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" >
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij na maila" actionListener="#{sesjaView.dodajmail()}" action="#{mailOther.obroty()}" onsuccess="alert('Wysłano mail');" style="display: none;">
         </p:commandButton>

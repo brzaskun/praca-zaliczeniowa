@@ -180,6 +180,7 @@ public class PdfZestRok extends Pdf implements Serializable {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
+        RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano zestawienie obrotów", "form:messages");
     }
 

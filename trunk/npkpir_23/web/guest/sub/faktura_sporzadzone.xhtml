@@ -9,10 +9,10 @@
       <p:tab id="gotowe" title="Przeglądaj sporządzone">
           <h:form id="formsporzadzone">
            <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Mail do kontr." update=":form:messages" icon="ui-icon-mail-closed" actionListener="#{mailOther.faktura()}" />
-                <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
-                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" onsuccess="wydrukfaktura('#{WpisView.podatnikWpisu}');"/>
-                <p:menuitem value="Zaksięguj" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
+                <p:menuitem value="Mail do kontr." update=":formM:messages" icon="ui-icon-mail-closed" actionListener="#{mailOther.faktura()}" />
+                <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
+                <p:menuitem value="Zaksięguj" update=":formM:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
 
             </p:contextMenu>

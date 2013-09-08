@@ -65,10 +65,10 @@ public class MailOther extends MailSetUp implements Serializable{
             // add the Multipart to the message
             message.setContent(mp);
             Transport.send(message);
-            System.out.println("Wyslano maila z pkpir do klienta");
+            Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
 
               } catch (MessagingException e) {
-                  throw new RuntimeException(e);
+                  Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
               }
 }
      public void faktura() {
