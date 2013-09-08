@@ -8,7 +8,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <!--   Dialog wyskakujący po wybraniu opcji Edytuj dokument -->
     <!--   Dialog wyskakujący po wybraniu opcji Edytuj dokument -->
-    <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="przeniesKwotaDoNetto();">
+    <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="przeniesKwotaDoNetto();" dynamic="true" >
         <h:form id="dodWiad">
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Edytowanie zaksięgowanego dokumentu klienta: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1100px;" id="wprowadzanie">
                 <p:growl id="mess_add" />
