@@ -28,6 +28,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
+import org.bouncycastle.asn1.ocsp.Request;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -100,6 +102,7 @@ public class PdfObroty extends Pdf implements Serializable {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
+        RequestContext.getCurrentInstance().execute("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano obroty", "form:messages");
     }
 

@@ -9,15 +9,21 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+<h:form>
+                    <p:confirmDialog id="confirmDialog" message="Wysłać pkpir na mój mail? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
 
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"                                          actionListener="#{mailOther.pkpir}" />  
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutKsiega/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
-                            <h:form id="form">
-                               
                          <p:panel toggleable="true" closable="true" style="width: 1000px;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu w klasycznej formie podatkowej księgi przychodów i rozchodów"/><br/>
@@ -27,8 +33,9 @@
                             </f:facet>
                                 </p:panel>
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <h:form id="form">
                                 <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form>
+                                </h:form>
                         </p:layoutUnit>
 
                     </p:layout>

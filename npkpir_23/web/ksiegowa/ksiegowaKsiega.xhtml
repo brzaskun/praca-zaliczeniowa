@@ -14,7 +14,7 @@
                                      header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
 
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
-                                         actionListener="#{mailOther.pkpir()}" onsuccess="alert('Wysłano pkpir do podatnika');" />  
+                                         actionListener="#{mailOther.pkpir()}"  />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
 
                     </p:confirmDialog>  

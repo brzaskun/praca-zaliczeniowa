@@ -6,10 +6,19 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
-            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+            <h:outputText value="#{WpisView.podatnikWpisu} - zestawienie kwot z podatkowej księgi przychodów i rozchodów za rok #{WpisView.rokWpisu}"></h:outputText>
         </ui:define>
         <ui:define name="body">
+ <h:form>
+                    <p:confirmDialog id="confirmDialog" message="Wysłać zestawieniena mój adres mail podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
 
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  ajax="false"
+                                         actionListener="#{mailOther.pkpir()}"  />  
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
+
+                    </p:confirmDialog>  
+                </h:form>
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
@@ -18,11 +27,8 @@
                         <ui:include src="sub/layoutZestawienie/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
                                
-                         <p:panel toggleable="true" closable="true" style="width: 1000px;">
-                            <f:facet name="header">
-                                <h:outputText value="Strona służy do wyświetlania kwot przychodów i kosztów za dany cały rok podatkowy. Zmiana roku możliwa jest w panelu po lewej."/><br/>
-                            </f:facet>
-                                </p:panel>
+                         
+                                <ui:include src="sub/menu_wiad.xhtml"/> 
                                 <ui:include src="sub/zestawienieRok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
 
                         </p:layoutUnit>

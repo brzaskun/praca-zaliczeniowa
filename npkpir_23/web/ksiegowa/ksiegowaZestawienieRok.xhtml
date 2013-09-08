@@ -14,7 +14,7 @@
                                      header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
 
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
-                                         actionListener="#{mailOther.pkpir()}" onsuccess="alert('Wysłano zestawienie obrotów do podatnika');" />  
+                                         actionListener="#{mailOther.pkpir()}"  />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
 
                     </p:confirmDialog>  
@@ -24,9 +24,7 @@
                
                 
                 <f:view contentType="text/html">
-            
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                                      
                         <ui:include src="sub/layoutZestawienie/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutZestawienie/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutZestawienie/west.xhtml"/>   <!-- panel zachodni-->

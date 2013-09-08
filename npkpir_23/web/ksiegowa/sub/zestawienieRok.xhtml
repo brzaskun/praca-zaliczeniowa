@@ -378,7 +378,7 @@
     </p:panelGrid>
     <div style="margin-top: 15px;">
         <h:form id="form">
-    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" onsuccess="wydrukpkpir('#{WpisView.podatnikWpisu}');">
+    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" >
         </p:commandButton>
          <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
         </p:commandButton>
