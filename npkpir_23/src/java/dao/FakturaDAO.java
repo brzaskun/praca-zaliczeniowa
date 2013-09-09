@@ -52,4 +52,12 @@ public class FakturaDAO extends DAO implements Serializable {
             return null;
         }
     }
+     public List<Faktura> findbyPodatnik(String podatnik) {
+         try {
+            System.out.println("Pobieram FakturaDAO wg nazwy Podatnika");
+            return fakturaFacade.findByPodatnik(podatnik);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

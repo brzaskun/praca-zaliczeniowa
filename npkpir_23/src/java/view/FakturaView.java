@@ -19,6 +19,7 @@ import entity.FakturaPK;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -79,7 +80,10 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        faktury = fakturaDAO.findAll();
+        faktury = fakturaDAO.findbyPodatnik(wpisView.getPodatnikWpisu());
+        if (faktury == null){
+            faktury = new ArrayList<>();
+        }
         fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
     }
 
@@ -107,6 +111,7 @@ public class FakturaView implements Serializable {
                 selected.setNrkontabankowego("brak numeru konta bankowego");
             }
         } catch (Exception es){
+            Msg.msg("w", "Brak numeru konta bankowego");
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
         
@@ -131,8 +136,8 @@ public class FakturaView implements Serializable {
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         Msg.msg("i", "Przygotowano fakture");
-        RequestContext.getCurrentInstance().update("formstworz:panelfaktury");
-        RequestContext.getCurrentInstance().execute("aktywuj()");
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:panelfaktury");
+        RequestContext.getCurrentInstance().execute("aktywujpolewyboruklientanafakturze()");
     }
 
     public void dodaj() throws Exception {
@@ -193,8 +198,13 @@ public class FakturaView implements Serializable {
             Msg.msg("i", "Dodano fakturę.");
             selected = new Faktura();
             pokazfakture = false;
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:nowa");
-            RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+            RequestContext.getCurrentInstance().update("akordeon");
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            if (request.isUserInRole("Guest")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("guestFaktura.xhtml");
+            } else {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaFaktura.xhtml");
+            }
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
         }
@@ -305,7 +315,7 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void wgenerujnumerfaktury() {
+    public void wgenerujnumerfaktury() throws IOException {
         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahent_nip(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu());
         int rozpoznaj = 0;
         try {
@@ -313,6 +323,13 @@ public class FakturaView implements Serializable {
                 rozpoznaj = 1;
             }
         } catch (Exception er){}
+        if (selected.getKontrahent().getNskrocona() == null){
+                Msg.msg("e", "Brak nazwy skróconej kontrahenta "+selected.getKontrahent().getNpelna()+", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane.");
+                setPokazfakture(true);
+                pokazfakture = false;
+                RequestContext.getCurrentInstance().update("akordeon:formstworz");
+                 HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        } else {
         if (rozpoznaj == 0) {
             String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
             selected.getFakturaPK().setNumerkolejny(numer);
@@ -336,6 +353,8 @@ public class FakturaView implements Serializable {
             Msg.msg("i", "Generuje kolejny numer faktury");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
+        RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+    }
     }
 
     public void dodajfaktureokresowa() {

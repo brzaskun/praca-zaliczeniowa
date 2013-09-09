@@ -29,6 +29,8 @@ public class Msg implements Serializable {
                   break;
               case "e": sl = FacesMessage.SEVERITY_ERROR;
                   break;
+              case "w": sl = FacesMessage.SEVERITY_WARN;
+                  break;
           }
           FacesMessage msg = new FacesMessage(sl,messagetext, null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -41,6 +43,8 @@ public class Msg implements Serializable {
               case "i": sl = FacesMessage.SEVERITY_INFO;
                   break;
               case "e": sl = FacesMessage.SEVERITY_ERROR;
+                  break;
+              case "w": sl = FacesMessage.SEVERITY_WARN;
                   break;
           }
           FacesMessage msg = new FacesMessage(sl,messagetext, null);

@@ -442,4 +442,8 @@ public class SessionFacade<T> {
 //    }
 //     
   
+    public List<Faktura> findByPodatnik(String podatnik) {
+        return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
+}
+  
 }
