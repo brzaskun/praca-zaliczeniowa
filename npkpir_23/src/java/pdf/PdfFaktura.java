@@ -165,7 +165,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:wystawca")-65,190,80);
                         absText(writer,"Sprzedawca:", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
                         absText(writer,selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-20, 8);
-                        adres = selected.getWystawca().getKodpocztowy()+" "+selected.getWystawca().getMiejscowosc()+" "+selected.getWystawca().getUlica()+" "+selected.getWystawca().getNrdomu();
+                        adres = selected.getWystawca().getAdresdlafaktury();
                         absText(writer,adres, (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-40, 8);
                         absText(writer,"NIP: "+selected.getWystawca().getNip(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-60, 8);
                         break;
