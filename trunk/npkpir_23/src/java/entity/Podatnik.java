@@ -174,6 +174,8 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "nazwadlafaktury")
     private String nazwadlafaktury;
+    @Column(name = "adresdlafaktury")
+    private String adresdlafaktury;
     @Lob
     @Column(name = "wierszwzorcowy")
     private Pozycjenafakturzebazadanych wierszwzorcowy;
@@ -483,6 +485,16 @@ public class Podatnik implements Serializable {
     public void setNazwadlafaktury(String nazwadlafaktury) {
         this.nazwadlafaktury = nazwadlafaktury;
     }
+
+    public String getAdresdlafaktury() {
+        return adresdlafaktury;
+    }
+
+    public void setAdresdlafaktury(String adresdlafaktury) {
+        this.adresdlafaktury = adresdlafaktury;
+    }
+    
+    
 
     public Pozycjenafakturzebazadanych getWierszwzorcowy() {
         return wierszwzorcowy;
