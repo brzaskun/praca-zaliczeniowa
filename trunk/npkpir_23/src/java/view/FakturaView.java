@@ -207,7 +207,7 @@ public class FakturaView implements Serializable {
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
         }
-//    RequestContext.getCurrentInstance().update("akordeon");
+    RequestContext.getCurrentInstance().update("akordeon");
     }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
