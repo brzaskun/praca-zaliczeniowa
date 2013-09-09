@@ -8,17 +8,6 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
         <p:tab id="nowa" title="Sporządź nową fakturę" >
             <h:form id="formstworz">
-            <script>
-                   var aktywuj = function (){
-                       $(document.getElementById("akordeon:formstworz:acForce_input")).focus();
-                       $(document.getElementById("akordeon:formstworz:acForce_input")).select();
-                   } ;
-                   var wybierzrzadfaktury = function (numer){
-                       nazwa = "akordeon:formstworz:rzad:"+numer+":nazwa";
-                       $(document.getElementById(nazwa)).focus();
-                       $(document.getElementById(nazwa)).select();
-                   }
-            </script>
             <p:outputPanel style="padding: 5px;">
                  <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":akordeon:formstworz" style="margin-bottom: 25px; margin-top: 10px" />
             </p:outputPanel>
@@ -124,7 +113,7 @@
              </p:outputPanel>
             <br/>
             <p:outputPanel  style="margin-top: 25px;">
-                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":akordeon:formsporzadzone:dokumentyLista" style="margin-bottom: 25px;"/>
+                <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":akordeon" style="margin-bottom: 25px;"/>
              </p:outputPanel>
              <p:outputPanel  style="margin-top: 25px;">
              <p:commandButton id="dodajwzorcowywiersz" value="wzorcowy wiersz" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
