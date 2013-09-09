@@ -198,7 +198,6 @@ public class FakturaView implements Serializable {
             Msg.msg("i", "Dodano fakturę.");
             selected = new Faktura();
             pokazfakture = false;
-            RequestContext.getCurrentInstance().update("akordeon");
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             if (request.isUserInRole("Guest")) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("guestFaktura.xhtml");
@@ -208,7 +207,7 @@ public class FakturaView implements Serializable {
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
         }
-
+//    RequestContext.getCurrentInstance().update("akordeon");
     }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
