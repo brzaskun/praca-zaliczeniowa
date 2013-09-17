@@ -160,7 +160,7 @@ var aktywujopis = function (){
     }); 
    
     
-    
+    //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu
     $('#dodWiad\\:opis_input').on('keyup',function(e){
         var kodklawisza = e.which;
         if(kodklawisza===107){
