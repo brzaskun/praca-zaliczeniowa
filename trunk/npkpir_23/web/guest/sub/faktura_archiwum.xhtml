@@ -9,7 +9,7 @@
       <p:tab id="archiwum" title="Faktury archiwalne">
           <h:form id="formarchiwum">
            <p:contextMenu for="dokumentyLista" >
-
+                <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
             </p:contextMenu>
 <p:dataTable id="dokumentyLista" value="#{fakturaView.fakturyarchiwum}" var="wpis"
                        selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
