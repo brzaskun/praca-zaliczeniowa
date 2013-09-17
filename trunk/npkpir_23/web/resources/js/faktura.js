@@ -3,10 +3,10 @@ var aktywujpolewyboruklientanafakturze = function (){
                        $(document.getElementById("akordeon:formstworz:acForce_input")).select();
                    };
  
-var wybierzrzadfaktury = function (numer){
-                       nazwa = "akordeon:formstworz:rzad:"+numer+":nazwa";
-                       $(document.getElementById(nazwa)).focus();
-                       $(document.getElementById(nazwa)).select();
+var wybierzrzadfaktury = function (){
+                       nazwa = ".komorka";
+                       $(nazwa).last().focus();
+                       $(nazwa).last().select();
                    };
                    
 var przeskoczdoceny = function (){
