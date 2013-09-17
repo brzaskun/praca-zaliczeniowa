@@ -88,6 +88,7 @@ public class FakturaView implements Serializable {
     }
 
     public void przygotujfakture() {
+        selected = new Faktura();
         DateTime dt = new DateTime();
         LocalDate firstDate = dt.toLocalDate();
         selected.setDatawystawienia(firstDate.toString());
@@ -197,16 +198,17 @@ public class FakturaView implements Serializable {
         if (wynik.equals("ok")) {
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            if (request.isUserInRole("Guest")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("guestFaktura.xhtml");
-            } else {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaFaktura.xhtml");
-            }
+            selected = new Faktura();
+//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            if (request.isUserInRole("Guest")) {
+//                FacesContext.getCurrentInstance().getExternalContext().redirect("guestFaktura.xhtml");
+//            } else {
+//                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaFaktura.xhtml");
+//            }
         } else {
             Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
         }
-    RequestContext.getCurrentInstance().update("akordeon");
+    RequestContext.getCurrentInstance().update("akordeon:formstworz");
     }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
@@ -245,7 +247,7 @@ public class FakturaView implements Serializable {
         poz.setPodatek(23);
         pozycje.add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
-        String nazwafunkcji = "wybierzrzadfaktury("+(pozycje.size()-1)+")";
+        String nazwafunkcji = "wybierzrzadfaktury()";
         RequestContext.getCurrentInstance().execute(nazwafunkcji);
     }
 
