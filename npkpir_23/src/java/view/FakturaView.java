@@ -196,7 +196,6 @@ public class FakturaView implements Serializable {
         String wynik = fakturaDAO.dodaj(selected);
         if (wynik.equals("ok")) {
             Msg.msg("i", "Dodano fakturę.");
-            selected = new Faktura();
             pokazfakture = false;
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             if (request.isUserInRole("Guest")) {
