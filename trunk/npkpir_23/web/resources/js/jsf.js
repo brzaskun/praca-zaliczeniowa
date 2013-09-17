@@ -161,9 +161,12 @@ var aktywujopis = function (){
    
     
     
-    $(document).on('keyup',function(e){
-        if(e.which==='119'){
+    $('#dodWiad\\:opis_input').on('keyup',function(e){
+        var kodklawisza = e.which;
+        if(kodklawisza===107){
             $('#dodWiad\\:dodkol').click();
+            var wartoscpola = $('#dodWiad\\:opis_input').val();
+            $('#dodWiad\\:opis_input').val(wartoscpola.slice(0,-1));
             $(':kwotaPkpir_hinput').last().focus();
         }
     });
@@ -719,6 +722,9 @@ var przeniesKwotaDoNetto = function () {
 //    }
 //    $("#akordeon\\:formpit1\\:podstawa").val(podstawa);
 //}
+var selcolor = function () {
+    
+};
 
 
  
