@@ -59,6 +59,8 @@ public class FakturaView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     //faktury z bazy danych
     private List<Faktura> faktury;
+    //faktury z bazy danych
+    private List<Faktura> fakturyarchiwum;
     //faktury okresowe z bazy danych
     private List<Fakturywystokresowe> fakturyokresowe;
     //faktury wybrane z listy
@@ -73,6 +75,7 @@ public class FakturaView implements Serializable {
 
     public FakturaView() {
         faktury = new ArrayList<>();
+        fakturyarchiwum = new ArrayList<>();
         fakturyokresowe = new ArrayList<>();
         gosciwybral = new ArrayList<>();
         gosciwybralokres = new ArrayList<>();
@@ -80,9 +83,18 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        faktury = fakturaDAO.findbyPodatnik(wpisView.getPodatnikWpisu());
-        if (faktury == null){
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnik(wpisView.getPodatnikWpisu());
+        if (fakturytmp == null){
             faktury = new ArrayList<>();
+            fakturyarchiwum = new ArrayList<>();
+        } else {
+            for (Faktura fakt : fakturytmp){
+                if (fakt.getWyslana()==true&&fakt.getZaksiegowana()==true) {
+                    fakturyarchiwum.add(fakt);
+                } else {
+                    faktury.add(fakt);
+                }
+            }
         }
         fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
     }
@@ -544,5 +556,16 @@ public class FakturaView implements Serializable {
     public void setFakturyokresowe(List<Fakturywystokresowe> fakturyokresowe) {
         this.fakturyokresowe = fakturyokresowe;
     }
+    
+     public List<Faktura> getFakturyarchiwum() {
+        return fakturyarchiwum;
+    }
+
+    public void setFakturyarchiwum(List<Faktura> fakturyarchiwum) {
+        this.fakturyarchiwum = fakturyarchiwum;
+    }
+    
     //</editor-fold>
+
+   
 }
