@@ -169,6 +169,12 @@ var aktywujopis = function (){
             $('#dodWiad\\:opis_input').val(wartoscpola.slice(0,-1));
             $(':kwotaPkpir_hinput').last().focus();
         }
+         if(kodklawisza===109){
+            $('#dodWiad\\:usunkol').click();
+            var wartoscpola = $('#dodWiad\\:opis_input').val();
+            $('#dodWiad\\:opis_input').val(wartoscpola.slice(0,-1));
+            $(':kwotaPkpir_hinput').last().focus();
+        }
     });
     $('#dodWiad\\:numerwlasny').focus();
 };
