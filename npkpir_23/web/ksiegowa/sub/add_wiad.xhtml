@@ -12,10 +12,10 @@
     <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1300px;" id="wprowadzanie">
         <p:growl id="mess_add" />
         <p:focus for="polawprowadzania"/>
-        <p:panelGrid id="polawprowadzania" columns="6" >
+        <p:panelGrid id="polawprowadzania" columns="6" style="width: 900px;">
             <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
             <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>
-            <h:outputLabel value="dok.prosty" style="font-weight: 700" />
+            <h:outputLabel value="dok.prosty" style="font-weight: 700; display: none;" />
             <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
             <h:outputLabel value="nr własny" style="font-weight: 700;"/>
             <h:outputLabel value="opis transakcji (F9)/nowa kol (+)" style="font-weight: 700"/>
@@ -47,7 +47,7 @@
                     </f:facet>
                     <f:param name="passedValue" value="#{p}" />
                 </p:autoComplete>
-              <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}">
+            <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}" style="display: none;">
                 <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
             </h:selectBooleanCheckbox>
             <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" styleClass="ui-inputfield ui-corner-all">
@@ -68,7 +68,7 @@
         </p:panelGrid>
         <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
 <!--        <span id="log"></span>-->
-        <p:panelGrid columns="6">
+        <p:panelGrid columns="6" style="width: 900px;">
             <h:outputLabel value="dod.kol" style="font-weight: 700; display: none;"/>
             <h:outputLabel value="kwota faktury netto - kolumna pkpir" style="font-weight: 700"/>
             <h:outputLabel value="rozliczony" style="font-weight: 700"/>
@@ -243,7 +243,7 @@
             </p:panelGrid>
         </div>
         <!--pola ewidencji VAT-->
-        <p:panelGrid columns="5">
+        <p:panelGrid columns="5" style="width: 900px;">
             <h:outputLabel value="data sprzedaży" style="font-weight: 700"/>
             <h:outputLabel value="v m-c" style="font-weight: 700"/>
             <h:outputLabel value="v rok" style="font-weight: 700"/>
@@ -266,15 +266,18 @@
     <!-- informacja o ostatnio wprowadzonym dokumencie-->
     <h:form id="zobWiad">
     <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1400px" >
-        <p:panelGrid columns="13">
+         <div style="padding: 10px;">
+                <h:outputText value="zapisy w pkpir" style="font-weight: 600"/>
+            </div>
+        <p:panelGrid columns="13" style="text-align: center">
             <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
             <h:outputLabel value="data wyst" style="font-weight: 600"/>
             <h:outputLabel value="data sprzedaży" style="font-weight: 600"/>
             <h:outputLabel value="kontrahent" style="font-weight: 600"/>
-            <h:outputLabel value="rodzaj trans" style="font-weight: 600"/>
+            <h:outputLabel value="rodzaj dokumentu" style="font-weight: 600"/>
             <h:outputLabel value="nr wł" style="font-weight: 600"/>
             <h:outputLabel value="opis" style="font-weight: 600"/>
-            <h:outputLabel value="kwota i kolumna" style="font-weight: 600"/>
+            <h:outputLabel value="kwota i kolumna w pkpir" style="font-weight: 600"/>
             <h:outputLabel value="k m-c" style="font-weight: 600"/>
             <h:outputLabel value="k rok" style="font-weight: 600"/>
             <h:outputLabel value="v m-c" style="font-weight: 600"/>
@@ -284,7 +287,7 @@
             <h:outputText  value="#{DokumentView.wysDokument.dataWyst}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
             <h:outputText  value="#{DokumentView.wysDokument.dataSprz}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
             <h:outputText  id="nazwa" value="#{DokumentView.wysDokument.kontr.npelna}"/>
-            <h:outputText  value="#{DokumentView.wysDokument.rodzTrans}"/>
+            <h:outputText  value="#{DokumentView.wysDokument.typdokumentu}"/>
             <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
             <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
            <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
@@ -306,7 +309,10 @@
             <h:outputText  value="#{DokumentView.wysDokument.vatR}"/>
             <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
         </p:panelGrid>
-        <p:outputPanel id="wrapper">
+        <p:panel>
+            <div style="padding: 10px;">
+            <h:outputText value="zapisy w ewidencji vat" style="font-weight: 600"/>
+            </div>
             <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}" var="p" emptyMessage="Dokument prosty - bez VAT">
                 <p:column id="idColumn" headerText="nazwa">  
                     <f:facet name="header">  
@@ -349,9 +355,12 @@
                     <h:outputText value="#{p.estawka}" />
                 </p:column>
             </p:dataTable>
-        </p:outputPanel>
+        </p:panel>
         <!-- rozliczenie płatności-->
-        <p:outputPanel id="wrapper1">
+        <p:panel>
+             <div style="padding: 10px;">
+                <h:outputText value="rozliczenie płatności" style="font-weight: 600"/>
+            </div>
             <p:dataTable value="#{DokumentView.wysDokument.rozrachunki}"
                          var="p">
                 <p:column id="idColumn" headerText="data zapłaty">  
@@ -373,7 +382,7 @@
                     <h:outputText value="#{p.dorozliczenia}" />
                 </p:column>
             </p:dataTable>
-        </p:outputPanel>
+        </p:panel>>
     </p:panel>
 </h:form>
     <ui:include src="wykazklientow_dialog.xhtml"/>
