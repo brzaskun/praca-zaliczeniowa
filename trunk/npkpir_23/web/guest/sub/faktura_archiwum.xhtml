@@ -6,48 +6,48 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-      <p:tab id="archiwum" title="Faktury archiwalne">
-          <h:form id="formarchiwum">
-           <p:contextMenu for="dokumentyLista" >
+    <p:tab id="archiwum" title="Faktury archiwalne">
+        <h:form id="formarchiwum">
+            <p:contextMenu for="dokumentyArchiwum" >
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
             </p:contextMenu>
-<p:dataTable id="dokumentyLista" value="#{fakturaView.fakturyarchiwum}" var="wpis"
-                       selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
-               <f:facet name="header">  
-                    <h:outputText value="Zestawienie wygenerowancyh faktur: " />  
+            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksiegowanych faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="archTable.filter()" style="width:150px" />  
                 </f:facet>
-              <p:column selectionMode="multiple" width="50"/>
-              <p:column headerText="wystawca" filterBy="#{wpis.fakturaPK.wystawcanazwa}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
-              </p:column>
-              <p:column headerText="nr kolejny" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
-              </p:column>
-              <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.kontrahent.npelna}"/>
-              </p:column>
-              <p:column headerText="email" filterBy="#{wpis.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.kontrahent.email}"/>
-              </p:column>
-               <p:column headerText="datawystawienia" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
-                   <h:outputText value="#{wpis.datawystawienia}"/>
-              </p:column>
-               <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;">
-                   <h:outputText value="#{wpis.brutto}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                <p:column selectionMode="multiple" width="50"/>
+                <p:column headerText="wystawca" sortBy="#{wpis.fakturaPK.wystawcanazwa}" filterBy="#{wpis.fakturaPK.wystawcanazwa}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
+                </p:column>
+                <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
+                </p:column>
+                <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.kontrahent.npelna}"/>
+                </p:column>
+                <p:column headerText="email" sortBy="#{wpis.kontrahent.email}" filterBy="#{wpis.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.kontrahent.email}"/>
+                </p:column>
+                <p:column headerText="datawystawienia" sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.brutto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                   <h:outputText value="#{wpis.walutafaktury}"/>
-              </p:column>
-              <p:column headerText="wysłana" sortBy="#{wpis.wyslana}">
-                  <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
-              </p:column>
-              <p:column headerText="zaksiegowana" sortBy="#{wpis.wyslana}">
-                  <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
-              </p:column>
-          </p:dataTable>
-            </h:form>
-        </p:tab>
+                    <h:outputText value="#{wpis.walutafaktury}"/>
+                </p:column>
+                <p:column headerText="wysłana" sortBy="#{wpis.wyslana}">
+                    <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
+                </p:column>
+                <p:column headerText="zaksiegowana" sortBy="#{wpis.wyslana}">
+                    <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
 </ui:composition>   
 
