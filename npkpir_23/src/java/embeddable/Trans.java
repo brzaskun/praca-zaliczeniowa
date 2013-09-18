@@ -43,6 +43,7 @@ public class Trans implements Serializable{
         transList.add("WNT");
         transList.add("import usług");
         transList.add("usługi poza ter.");
+        transList.add("eksport towarów");
         transListZO = new ArrayList<>();
         transListZO.add("zakup");
         transListZO.add("srodek trw");
@@ -53,6 +54,7 @@ public class Trans implements Serializable{
         transListZO.add("WNT");
         transListZO.add("import usług");
         transListZO.add("usługi poza ter.");
+        transListZO.add("eksport towarów");
         transListRY = new ArrayList<>();
         transListRY.add("ryczałt");
         transListRY.add("zakup");
@@ -62,6 +64,7 @@ public class Trans implements Serializable{
         transListRY.add("WNT");
         transListRY.add("import usług");
         transListRY.add("usługi poza ter.");
+        transListRY.add("eksport towarów");
     }
     
     public Trans() {
