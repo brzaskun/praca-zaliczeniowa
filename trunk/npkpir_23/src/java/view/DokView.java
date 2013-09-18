@@ -417,6 +417,9 @@ public class DokView implements Serializable {
             case "import usług":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
+            case "eksport towarów":
+                dopobrania = kolumna.getKolumnPrzychody();
+                break;
             case "inwestycja":
                 dopobrania = kolumna.getKolumnST();
                 break;
@@ -501,6 +504,9 @@ public class DokView implements Serializable {
                         break;
                     case "usługi poza ter.":
                         opisewidencji = evat.getUslugiPTK();
+                        break;
+                    case "eksport towarów":
+                        opisewidencji = evat.getEksporttowarow();
                         break;
                     default:
                         opisewidencji = evat.getSprzedazVList();

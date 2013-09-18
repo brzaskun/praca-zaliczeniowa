@@ -35,6 +35,7 @@ public class EVatView implements Serializable{
     private List<String> wntVList;
     private List<String> importuslugList;
     private List<String> uslugiPTK;
+    private List<String> eksporttowarow;
     private List<String> listadostepnychewidencji;
 
     static{
@@ -55,6 +56,7 @@ public class EVatView implements Serializable{
         wntVList = new ArrayList<>();
         importuslugList = new ArrayList<>();
         uslugiPTK = new ArrayList<>();
+        eksporttowarow = new ArrayList<>();
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = new ArrayList<>();
     }
@@ -90,6 +92,9 @@ public class EVatView implements Serializable{
                 case "usługi poza ter." :
                     uslugiPTK.add(up.getNazwa());
                     break;
+                case "eksport towarów" :
+                    eksporttowarow.add(up.getNazwa());
+                    break;
                 default : 
                     sprzedazVList.add(up.getNazwa());
             }
@@ -97,64 +102,74 @@ public class EVatView implements Serializable{
 
     }
     
+    //<editor-fold defaultstate="collapsed" desc="comment">
     
     public List<String> getNaglowekVList() {
         return naglowekVList;
     }
-
+    
     public List<String> getSprzedazVList() {
         return sprzedazVList;
     }
-
+    
     public List<String> getZakupVList() {
         return zakupVList;
     }
-
+    
     public List<String> getSrodkitrwaleVList() {
         return srodkitrwaleVList;
     }
-
+    
     public List<String> getListadostepnychewidencji() {
         return listadostepnychewidencji;
     }
-
+    
     public void setListadostepnychewidencji(List<String> listadostepnychewidencji) {
         this.listadostepnychewidencji = listadostepnychewidencji;
     }
-
+    
     public List<String> getWdtVList() {
         return wdtVList;
     }
-
+    
     public void setWdtVList(List<String> wdtVList) {
         this.wdtVList = wdtVList;
     }
-
+    
     public List<String> getWntVList() {
         return wntVList;
     }
-
+    
     public void setWntVList(List<String> wntVList) {
         this.wntVList = wntVList;
     }
-
+    
     public List<String> getImportuslugList() {
         return importuslugList;
     }
-
+    
     public void setImportuslugList(List<String> importuslugList) {
         this.importuslugList = importuslugList;
     }
-
+    
     public List<String> getUslugiPTK() {
         return uslugiPTK;
     }
-
+    
     public void setUslugiPTK(List<String> uslugiPTK) {
         this.uslugiPTK = uslugiPTK;
     }
-
     
+    public List<String> getEksporttowarow() {
+        return eksporttowarow;
+    }
+    
+    public void setEksporttowarow(List<String> eksporttowarow) {
+        this.eksporttowarow = eksporttowarow;
+    }
+    
+    
+    //</editor-fold>
    
    
 }

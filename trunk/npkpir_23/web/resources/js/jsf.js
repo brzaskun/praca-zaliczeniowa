@@ -416,7 +416,7 @@ var updatesum = function(){
     }();
     var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
     przekaz("dodWiad:sumbrutto", 0);
-    if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+    if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK"  || rodzajtransakcji === "EXP"){
             przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0));
         } else {
             przekaz("dodWiad:vat1", number_format((pobierz("dodWiad:netto1_hinput") -0)*0.23));
@@ -447,7 +447,7 @@ var updatesum = function(){
  
  function updatesuma(wiersz){
      var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
-     if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+     if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK"  || rodzajtransakcji === "EXP"){
          document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.0);
         } else {
             document.getElementById("dodWiad:vat1").value = number_format(parseFloat(document.getElementById("dodWiad:netto1_hinput").value)*0.23);
@@ -689,7 +689,7 @@ var przeniesKwotaDoNetto = function () {
         console.log(kwotanetto);
         $('#dodWiad\\:netto1_input').val(number_format(suma));
         $('#dodWiad\\:netto1_hinput').val(suma);
-        if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" ){
+        if(rodzajtransakcji === "WDT" || rodzajtransakcji === "UPTK" || rodzajtransakcji === "EXP" ){
             vat = 0.0;
         } else {
             vat = suma * 0.23;
