@@ -262,16 +262,26 @@ public class DokView implements Serializable {
         this.liczbawierszy = liczbawierszy;
     }
 
-    public void liczbaw() {
-        if (liczbawierszy < 4) {
-            KwotaKolumna p = new KwotaKolumna();
-            p.setNetto(0.0);
-            p.setNazwakolumny("nie ma");
-            nettokolumna.add(p);
-            liczbawierszy++;
-        } else {
-            Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
-        }
+    public void dodajwierszpkpir() {
+            if (liczbawierszy < 4) {
+                KwotaKolumna p = new KwotaKolumna();
+                p.setNetto(0.0);
+                p.setNazwakolumny("nie ma");
+                nettokolumna.add(p);
+                liczbawierszy++;
+            } else {
+                Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
+            }
+    }
+    
+    public void usunwierszpkpir() {
+            if (liczbawierszy > 1) {
+                int wielkosctabeli = nettokolumna.size();
+                nettokolumna.remove(wielkosctabeli-1);
+                liczbawierszy--;
+            } else {
+                Msg.msg("w", "Osiągnięto minimalną liczbę wierszy", "dodWiad:mess_add");
+            }
     }
 
     @PostConstruct
