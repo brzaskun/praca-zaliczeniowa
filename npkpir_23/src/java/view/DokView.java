@@ -335,15 +335,7 @@ public class DokView implements Serializable {
         }
     }
 
-    //kopiuje ostatni dokument celem wykorzystania przy wpisie
-    public void skopiujdokument() {
-        try {
-            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
-            selDokument.setNetto(0.0);
-        } catch (Exception e) {
-        }
-        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
-    }
+   
 
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
@@ -1753,11 +1745,41 @@ public class DokView implements Serializable {
         }
     }
 
+     //kopiuje ostatni dokument celem wykorzystania przy wpisie
+    public void skopiujdokument() {
+        try {
+            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            ustawDate2();
+        String skrot = selDokument.getTypdokumentu();
+        String nowynumer = "";
+        String pod = wpisView.findWpisX().getPodatnikWpisu();
+        Podatnik podX = podatnikDAO.find(pod);
+        List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+        Rodzajedok rodzajdok = new Rodzajedok();
+        for (Rodzajedok p : listaD) {
+            if (p.getSkrot().equals(skrot)) {
+                rodzajdok = p;
+                break;
+            }
+        }
+        typdokumentu = skrot;
+        przekazKontr = selDokument.getKontr();
+        podepnijListe(skrot);
+        nettokolumna.clear();
+        for (KwotaKolumna p : selDokument.getListakwot()) {
+            nettokolumna.add(p);
+        }
+        renderujwyszukiwarke(rodzajdok);
+        renderujtabele(rodzajdok);
+        } catch (Exception e) {
+        }
+        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
+    }
+    
     public void skopiujdoedycji() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
         Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
         ustawDate2();
-        //trzeba poprawic
         String skrot = selDokument.getTypdokumentu();
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();

@@ -549,7 +549,7 @@ function ustawDate(rok,mc){
          var rozliczony = document.getElementById("dodWiad:rozliczony");
          dataplatnosc.value = dataWyst.value;
          datasprzedazy.value = dataWyst.value;
-         rozliczony.click();
+         rozliczony.attr('checked', true);
      }
    };
      
