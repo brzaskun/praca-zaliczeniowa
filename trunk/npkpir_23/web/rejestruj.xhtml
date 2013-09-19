@@ -8,7 +8,8 @@
        xmlns:pe="http://primefaces.org/ui/extensions">
     <h:head>
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
-        <title>Witaj</title>
+        <h:outputStylesheet id="template" name="css/style.css"/>
+        <title>Biuro Rachunkowe Taxman</title>
     </h:head>
 
     <h:body style="background-color: #FFFFFF">
@@ -24,7 +25,7 @@
                       <div style="height: 80px;">
                     <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
-                    <p:panelGrid columns="3" style="alignment-baseline: central; alignment-adjust: central; margin: 7% 0% 0% 14%; width: 362px; border-style: none" >
+                    <p:panelGrid columns="3" style="text-align: center; margin: 7% 0% 0% 0%; width: 600px; border-style: hidden !important;">
                        <p:column>
                             <h:link outcome="failure" value="powrót do logowania"/>
                         </p:column>
