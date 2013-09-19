@@ -29,7 +29,7 @@ public class Mail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("teleputa@wp.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman");
@@ -56,7 +56,7 @@ public class Mail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("teleputa@wp.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman");
@@ -85,7 +85,7 @@ public class Mail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("teleputa@wp.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
@@ -110,11 +110,11 @@ public class Mail {
       
       
     private static void logintoMail(){
-        final String username = "teleputa@wp.pl";
-        final String password = "Teleputa";
+        final String username = "info@e-taxman.pl";
+        final String password = "Pufikun7005*";
 
         Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.wp.pl");
+		props.put("mail.smtp.host", "az0066.srv.az.pl");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class",
 				"javax.net.ssl.SSLSocketFactory");
