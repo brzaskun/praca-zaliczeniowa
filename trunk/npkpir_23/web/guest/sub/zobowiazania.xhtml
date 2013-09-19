@@ -250,7 +250,7 @@
         </p:panelGrid>
     </h:form><br/><br/>
     </p:tab>
-        <p:tab id="tab2" title="Wykaz zobowiązań z tytułu VAT">
+        <p:tab id="tab2" title="Wykaz zobowiązań z tytułu VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
     <h:form id="formZob2">
         <p:growl id="wiad2" showDetail="true"/>
         <p:panelGrid id="dokumentyLista2" >

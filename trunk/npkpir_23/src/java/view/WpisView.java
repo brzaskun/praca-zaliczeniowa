@@ -127,7 +127,15 @@ public class WpisView implements Serializable{
         String wprowadzilX = principal.getName();
         wprowadzil = uzDAO.find(wprowadzilX);
         wpis = wpisDAO.find(wprowadzilX);
-        return wpis.getPodatnikWpisu();
+        if (wpis.getPodatnikWpisu()!=null){
+            return wpis.getPodatnikWpisu();
+        } else {
+            Podatnik podatnik = podatnikDAO.findN(wprowadzil.getFirma());
+            String nazwapelna = podatnik.getNazwapelna();
+            wpis.setPodatnikWpisu(nazwapelna);
+            wpisDAO.edit(wpis);
+            return nazwapelna;
+        }
     }
     
      public Wpis findWpisX(){
