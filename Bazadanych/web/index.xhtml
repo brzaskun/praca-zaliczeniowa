@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <p:menu>
+                    <p:menuitem value="form"  outcome="index" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="dokument"  outcome="dokument" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="wiersz"  outcome="wiersz" icon="ui-icon-circle-arrow-e"/>
+                </p:menu>
+            </h:form>
+        </f:view>
+        <f:view>
+            <h:form>
+                <p:messages autoUpdate="true"/>
+            </h:form>
+            <h:form>
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Opisdokumentu:" for="opisdokumentu" />
+                    <h:inputText id="opisdokumentu" value="#{dokfkView.dokfk.opisdokumentu}" title="Opisdokumentu" required="true" requiredMessage="The Opisdokumentu field is required."/>
+                    <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
+                    <h:inputText id="opiswiersza" value="#{dokfkView.wiersz.opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                </h:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{dokfkView.dodaj()}" type="submit" />
+            </h:form>
+
+        </f:view>
+    </h:body>
+</html>
+
