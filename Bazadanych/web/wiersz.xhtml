@@ -42,18 +42,19 @@ and open the template in the editor.
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Iddokumentuobcy"/>
+                            <h:outputText value="Dokfk - opis dokumentu"/>
                         </f:facet>
-                        <h:outputText value="#{item.iddokumentuobcy.iddok}"/>
+                        <h:outputText value="#{item.dokfk.opisdokumentu}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="opisdokumentuobcy"/>
+                            <h:outputText value="Dokfk - symbol/numer/podatnik"/>
                         </f:facet>
-                        <h:outputText value="#{item.iddokumentuobcy.opisdokumentu}"/>
+                        <h:outputText value="#{item.dokfk.dokfkPK.symbol}/#{item.dokfk.dokfkPK.nrkolejny}/#{item.dokfk.dokfkPK.podatnik}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
+
 
         </f:view>
     </h:body>

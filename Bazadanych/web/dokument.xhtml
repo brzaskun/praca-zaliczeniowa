@@ -25,50 +25,44 @@ and open the template in the editor.
             <h:form>
                 <p:messages autoUpdate="true"/>
             </h:form>
+            
             <h:form>
                 <h1><h:outputText value="List"/></h1>
                 <p:dataTable value="#{dokfkView.dokfklist}" var="item" style="width: 700px;">
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Id"/>
+                            <h:outputText value="Symbol"/>
                         </f:facet>
-                        <h:outputText value="#{item.iddok}"/>
+                        <h:outputText value="#{item.dokfkPK.symbol}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Numer"/>
+                            <h:outputText value="Nrkolejny"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dokfkPK.nrkolejny}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Podatnik"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dokfkPK.podatnik}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opisdokumentu"/>
                         </f:facet>
                         <h:outputText value="#{item.opisdokumentu}"/>
                     </p:column>
-                     <p:column>
+                    <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Wierszlist"/>
+                            <h:outputText value="Wiersz"/>
                         </f:facet>
-                         <p:dataTable value="#{item.wierszList}" var="itemik" style="width: 700px;">
-                             <p:column>
-                                 <h:outputText value="#{itemik.opiswiersza}"/>
-                            </p:column>
-                         </p:dataTable>
+                        <h:outputText value="#{item.wierszList[0].opiswiersza}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
-              <h:form>
-                <p:messages autoUpdate="true"/>
-            </h:form>
-                <h:form>
-                    <h1><h:outputText value="Create/Edit"/></h1>
-                    <h:panelGrid columns="2">
-                        
-                        <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
-                        <h:inputText id="opiswiersza" value="#{wierszView.wiersz.opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
-                        <h:outputLabel value="Iddokumentuobcy:" for="iddokumentuobcy" />
-                        <h:selectOneMenu id="iddokumentuobcy" value="#{wierszView.wiersz.iddokumentuobcy}" title="Iddokumentuobcy" required="true" requiredMessage="The Iddokumentuobcy field is required." converter="DokfkConv">
-                            <!-- TODO: update below reference to list of available items-->
-                            <f:selectItems value="#{dokfkView.dokfklist}"/>
-                        </h:selectOneMenu>
-                    </h:panelGrid>
-                        <p:commandButton value="dodaj" actionListener="#{wierszView.dodaj()}" type="submit" />
-                </h:form>
+
+              
         </f:view>
     </h:body>
 </html>
