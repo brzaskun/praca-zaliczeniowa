@@ -14,17 +14,20 @@
              <p:menuitem value="Usuń dok" partialSubmit="true" actionListener="#{dokfkView.usun}" icon="ui-icon-trash"/>
             </p:contextMenu>
         <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="loop" rowIndexVar="row" style="width: 1200px;" 
-                     selection="#{dokfkView.selecteddokfk}" rowKey="#{loop.id}" editable="true">
+                     selection="#{dokfkView.selecteddokfk}" rowKey="#{loop.dokfkPK}" editable="true">
             <p:column selectionMode="multiple" width="50"/>
             <p:column headerText="data" width="100">
                 <h:outputText value="#{loop.datawystawienia}"/>
             </p:column>
-            <p:column headerText="numer" width="200">
+             <p:column headerText="symbol" width="200">
+                  <h:outputText value="#{loop.dokfkPK.seriadokfk}/#{loop.dokfkPK.nrkolejny}/#{loop.dokfkPK.rok}"/>
+            </p:column>
+            <p:column headerText="numer" width="100">
                 <p:inplace id="ajaxInplace0" editor="true" > 
                     <p:inputText value="#{loop.numer}"/>
                 </p:inplace>  
             </p:column>
-            <p:column headerText="zaksiegowany" width="200">
+            <p:column headerText="zaksiegowany" width="100">
                 <p:inplace>
                     <p:inputText value="#{loop.naniesionezapisy}"/>
                 </p:inplace>  
