@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,10 +44,16 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
     private String opiswiersza;
-    @JoinColumn(name = "iddokumentuobcy", referencedColumnName = "iddok", nullable = false)
+//    @JoinColumns({
+//    @JoinColumn(name="seriadokfkD",referencedColumnName="seriadokfk", insertable=false, updatable=false),
+//    @JoinColumn(name="nrkolejnyD",referencedColumnName="nrkolejny", insertable=false, updatable=false),
+//    @JoinColumn(name = "podatnikD", referencedColumnName = "podatniknazwa", insertable=false, updatable=false)})
     @ManyToOne(optional = false)
-    private Dokfk iddokumentuobcy;
-
+    private Dokfk dokfk;
+//    private String seriadokfkD;
+//    private int nrkolejnyD;
+//    private String podatnikD;
+//    
     public Wiersz() {
     }
 
@@ -75,13 +82,17 @@ public class Wiersz implements Serializable {
         this.opiswiersza = opiswiersza;
     }
 
-    public Dokfk getIddokumentuobcy() {
-        return iddokumentuobcy;
+    public Dokfk getDokfk() {
+        return dokfk;
     }
 
-    public void setIddokumentuobcy(Dokfk iddokumentuobcy) {
-        this.iddokumentuobcy = iddokumentuobcy;
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
     }
+
+  
+
+   
 
     @Override
     public int hashCode() {

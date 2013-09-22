@@ -24,6 +24,12 @@
             <h:form>
                 <h1><h:outputText value="Create/Edit"/></h1>
                 <h:panelGrid columns="2">
+                    <h:outputLabel value="Nrkolejny:" for="dokfkPK.nrkolejny" />
+                    <h:inputText id="dokfkPKnrkolejny" value="#{dokfkView.dokfkPK.nrkolejny}" title="Nrkolejny" required="true" requiredMessage="The Nrkolejny field is required."/>
+                    <h:outputLabel value="Symbol:" for="dokfkPK.symbol" />
+                    <h:inputText id="dokfkPKsymbol" value="#{dokfkView.dokfkPK.symbol}" title="Symbol" required="true" requiredMessage="The Symbol field is required."/>
+                    <h:outputLabel value="Podatnik:" for="dokfkPK.podatnik" />
+                    <h:inputText id="dokfkPKpodatnik" value="#{dokfkView.dokfkPK.podatnik}" title="Podatnik" required="true" requiredMessage="The Podatnik field is required."/>
                     <h:outputLabel value="Opisdokumentu:" for="opisdokumentu" />
                     <h:inputText id="opisdokumentu" value="#{dokfkView.dokfk.opisdokumentu}" title="Opisdokumentu" required="true" requiredMessage="The Opisdokumentu field is required."/>
                     <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
@@ -31,7 +37,7 @@
                 </h:panelGrid>
                 <p:commandButton value="dodaj" actionListener="#{dokfkView.dodaj()}" type="submit" />
             </h:form>
-
+           
         </f:view>
     </h:body>
 </html>

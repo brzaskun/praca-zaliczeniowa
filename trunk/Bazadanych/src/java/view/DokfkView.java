@@ -5,6 +5,7 @@
 package view;
 
 import entity.Dokfk;
+import entity.DokfkPK;
 import entity.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,14 +26,16 @@ import session.WierszFacade;
 @RequestScoped
 public class DokfkView implements Serializable{
     private Dokfk dokfk;
+    private DokfkPK dokfkPK;
     private Wiersz wiersz;
     private static ArrayList<Dokfk> dokfklist;
-    @Inject private DokfkFacade dokfkFacade;
+    @Inject DokfkFacade dokfkFacade;
     @Inject private WierszFacade wierszFacade;
 
     public DokfkView() {
         dokfklist = new ArrayList<>();
         dokfk = new Dokfk();
+        dokfkPK = new DokfkPK();
         wiersz = new Wiersz();
     }
 
@@ -46,9 +49,11 @@ public class DokfkView implements Serializable{
     
     public void dodaj() {
         List<Wiersz> listatwierszy = new ArrayList<>();
-        wiersz.setIddokumentuobcy(dokfk);
+        //wiersz.setIddokumentuobcy(dokfk);
+        wiersz.setDokfk(dokfk);
         listatwierszy.add(wiersz);
         dokfk.setWierszList(listatwierszy);
+        dokfk.setDokfkPK(dokfkPK);
         dokfkFacade.edit(dokfk);
         Msg.msg("i", "Dodano dokument "+dokfk.getOpisdokumentu());
         Msg.msg("i", "Dodano wiersz "+wiersz.getOpiswiersza());
@@ -83,8 +88,17 @@ public class DokfkView implements Serializable{
         this.wiersz = wiersz;
     }
     
+    public DokfkPK getDokfkPK() {
+        return dokfkPK;
+    }
+
+    public void setDokfkPK(DokfkPK dokfkPK) {
+        this.dokfkPK = dokfkPK;
+    }
     
     //</editor-fold>
+
+    
 
     
 }

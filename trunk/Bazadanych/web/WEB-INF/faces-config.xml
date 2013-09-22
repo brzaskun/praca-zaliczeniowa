@@ -16,10 +16,5 @@
             <to-view-id>/wiersz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
  </navigation-rule>
- <converter>  
-        <converter-id>DokfkConv</converter-id>  
-        <converter-class>  
-            converter.DokfkConv  
-        </converter-class>
-    </converter>
+
 </faces-config>

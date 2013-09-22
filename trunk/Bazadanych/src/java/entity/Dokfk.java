@@ -9,10 +9,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,41 +29,45 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
-    @NamedQuery(name = "Dokfk.findByIddok", query = "SELECT d FROM Dokfk d WHERE d.iddok = :iddok"),
+    @NamedQuery(name = "Dokfk.findBySymbol", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.symbol = :symbol"),
+    @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejny = :nrkolejny"),
+    @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik"),
     @NamedQuery(name = "Dokfk.findByOpisdokumentu", query = "SELECT d FROM Dokfk d WHERE d.opisdokumentu = :opisdokumentu")})
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer iddok;
+    @EmbeddedId
+    protected DokfkPK dokfkPK;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String opisdokumentu;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iddokumentuobcy")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dokfk")
     private List<Wiersz> wierszList;
+    
 
     public Dokfk() {
     }
 
-    public Dokfk(Integer iddok) {
-        this.iddok = iddok;
+    public Dokfk(DokfkPK dokfkPK) {
+        this.dokfkPK = dokfkPK;
     }
 
-    public Dokfk(Integer iddok, String opisdokumentu) {
-        this.iddok = iddok;
+    public Dokfk(DokfkPK dokfkPK, String opisdokumentu) {
+        this.dokfkPK = dokfkPK;
         this.opisdokumentu = opisdokumentu;
     }
 
-    public Integer getIddok() {
-        return iddok;
+    public Dokfk(String symbol, int nrkolejny, String podatnik) {
+        this.dokfkPK = new DokfkPK(symbol, nrkolejny, podatnik);
     }
 
-    public void setIddok(Integer iddok) {
-        this.iddok = iddok;
+    public DokfkPK getDokfkPK() {
+        return dokfkPK;
+    }
+
+    public void setDokfkPK(DokfkPK dokfkPK) {
+        this.dokfkPK = dokfkPK;
     }
 
     public String getOpisdokumentu() {
@@ -88,7 +90,7 @@ public class Dokfk implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iddok != null ? iddok.hashCode() : 0);
+        hash += (dokfkPK != null ? dokfkPK.hashCode() : 0);
         return hash;
     }
 
@@ -99,7 +101,7 @@ public class Dokfk implements Serializable {
             return false;
         }
         Dokfk other = (Dokfk) object;
-        if ((this.iddok == null && other.iddok != null) || (this.iddok != null && !this.iddok.equals(other.iddok))) {
+        if ((this.dokfkPK == null && other.dokfkPK != null) || (this.dokfkPK != null && !this.dokfkPK.equals(other.dokfkPK))) {
             return false;
         }
         return true;
@@ -107,7 +109,7 @@ public class Dokfk implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Dokfk[ iddok=" + iddok + " ]";
+        return "entity.Dokfk[ dokfkPK=" + dokfkPK + " ]";
     }
     
 }
