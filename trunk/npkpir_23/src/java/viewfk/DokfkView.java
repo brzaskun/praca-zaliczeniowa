@@ -8,6 +8,7 @@ import daoFK.DokDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import embeddablefk.FKWiersz;
 import entityfk.Dokfk;
+import entityfk.DokfkPK;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,41 +27,44 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable{
-//    
-//    private Dokfk selected;
-//    private int liczbawierszy;
-//    private List<Wiersze> wiersze;
-//    @Inject private DokDAOfk dokDAOfk;
-//    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
-//    @Inject private Wiersze kontozapisy;
-//    private static List<Dokfk> selecteddokfk;
-//    private List<Dokfk> wykaz;
-//
-//    public DokfkView() {
-//        liczbawierszy = 1;
-//        selected = new Dokfk();
-//        wiersze = new ArrayList<>();
-//        wiersze.add(new Wiersze(1,0));
-//        selected.setKonta(wiersze);
-//        wykaz = new ArrayList<>();
-//        selecteddokfk = new ArrayList<>();
-//    }
-//    
-//    @PostConstruct
-//    private void init(){
-//        wykaz = dokDAOfk.findAll();
-//    }
-//    
-//    public void liczbaw() {
-//        //liczbawierszy = selected.getKonta().size();
-//        double pierwsze = selected.getKonta().get(liczbawierszy-1).getKwotaWn();
-//        double drugie = selected.getKonta().get(liczbawierszy-1).getKwotaMa();
-//        if(pierwsze!=0||drugie!=0){
-//            liczbawierszy++;
-//            selected.getKonta().add(new Wiersze(liczbawierszy,0));
-//        }
-//    }
-//    
+    
+    private Dokfk selected;
+    private int liczbawierszy;
+    private List<Wiersze> wiersze;
+    @Inject private DokDAOfk dokDAOfk;
+    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject private Wiersze kontozapisy;
+    private static List<Dokfk> selecteddokfk;
+    private List<Dokfk> wykaz;
+
+    public DokfkView() {
+        liczbawierszy = 1;
+        selected = new Dokfk();
+        DokfkPK dokfkPK = new DokfkPK();
+        dokfkPK.setRok("2013");
+        selected.setDokfkPK(dokfkPK);
+        wiersze = new ArrayList<>();
+        wiersze.add(new Wiersze(1,0));
+        selected.setKonta(wiersze);
+        wykaz = new ArrayList<>();
+        selecteddokfk = new ArrayList<>();
+    }
+    
+    @PostConstruct
+    private void init(){
+        wykaz = dokDAOfk.findAll();
+    }
+    
+    public void liczbaw() {
+       liczbawierszy = selected.getKonta().size();
+        double pierwsze = selected.getKonta().get(liczbawierszy-1).getKwotaWn();
+        double drugie = selected.getKonta().get(liczbawierszy-1).getKwotaMa();
+        if(pierwsze!=0||drugie!=0){
+            liczbawierszy++;
+            selected.getKonta().add(new Wiersze(liczbawierszy,0));
+        }
+    }
+    
 //   /**
 //    * Usuwanie wierszy z dokumenu ksiegowego
 //    */
@@ -82,63 +86,62 @@ public class DokfkView implements Serializable{
 //        }
 //    }
 //    
-//    public void dodaj(){
-//        //ladnie uzupelnia informacje o wierszu pk
-//        String opisdoprzekazania="";
-//        try {
-//            for(Wiersze p : selected.getKonta()){
-//                String opis = p.getOpis();
-//                if(opis.contains("kontown")){
-//                    p.setKonto(p.getKontoWn());
-//                    p.setKontonumer(p.getKontoWn().getPelnynumer());
-//                    p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-//                    p.setPodatnik("Tymczasowy");
-//                    p.setDataksiegowania(selected.getDatawystawienia());
-//                    p.setKwotaMa(0.0);
-//                    p.setTypwiersza(1);
-//                    p.setZaksiegowane(Boolean.FALSE);
-//                    p.setDokfkPK(selected.getDokfkPK());
-//                } else if (opis.contains("kontoma")){
-//                    p.setKonto(p.getKontoMa());
-//                    p.setKontonumer(p.getKontoMa().getPelnynumer());
-//                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-//                    p.setPodatnik("Tymczasowy");
-//                    p.setDataksiegowania(selected.getDatawystawienia());
-//                    p.setKwotaWn(0.0);
-//                    p.setTypwiersza(2);
-//                    p.setZaksiegowane(Boolean.FALSE);
-//                    p.setDokfkPK(selected.getDokfkPK());
-//                } else {
-//                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p. getKontoMa());
-//                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p. getKontoMa().getPelnynumer());
-//                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p. getKontoWn().getPelnynumer());
-//                    p.setPodatnik("Tymczasowy");
-//                    p.setDataksiegowania(selected.getDatawystawienia());
-//                    p.setTypwiersza(0);
-//                    opisdoprzekazania=p.getOpis();
-//                    p.setZaksiegowane(Boolean.FALSE);
-//                    p.setDokfkPK(selected.getDokfkPK());
-//                }
-//            }
-//            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-//            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-//            if (poszukiwanydokument instanceof Dokfk){
-//                dokDAOfk.destroy(poszukiwanydokument);
-//                dokDAOfk.dodaj(selected);
-//            } else {
-//                dokDAOfk.dodaj(selected);
-//            }
-//            selected = new Dokfk();
-//            wiersze = new ArrayList<>();
-//            wiersze.add(new Wiersze());
-//            selected.setKonta(wiersze);
-//            Msg.msg("i", "Dokument dodany");
-//        } catch (Exception e){
-//            Msg.msg("e", "Nie udało się dodac dokumentu");
-//        }
-//    }
-//    
-//     public void usun(){
+    public void dodaj(){
+        //ladnie uzupelnia informacje o wierszu pk
+        String opisdoprzekazania="";
+        try {
+            for(Wiersze p : selected.getKonta()){
+                String opis = p.getOpis();
+                if(opis.contains("kontown")){
+                    p.setKonto(p.getKontoWn());
+                    p.setKontonumer(p.getKontoWn().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+                    p.setPodatniknazwa("Tymczasowy");
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setKwotaMa(0.0);
+                    p.setTypwiersza(1);
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else if (opis.contains("kontoma")){
+                    p.setKonto(p.getKontoMa());
+                    p.setKontonumer(p.getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                    p.setPodatniknazwa("Tymczasowy");
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setKwotaWn(0.0);
+                    p.setTypwiersza(2);
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else {
+                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p. getKontoMa());
+                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p. getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p. getKontoWn().getPelnynumer());
+                    p.setPodatniknazwa("Tymczasowy");
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setTypwiersza(0);
+                    p.setDokfk(selected);
+                    opisdoprzekazania=p.getOpis();
+                    p.setZaksiegowane(Boolean.FALSE);
+                }
+            }
+            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
+            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
+            if (poszukiwanydokument instanceof Dokfk){
+                dokDAOfk.destroy(poszukiwanydokument);
+                dokDAOfk.dodaj(selected);
+            } else {
+                dokDAOfk.dodaj(selected);
+            }
+            selected = new Dokfk();
+            wiersze = new ArrayList<>();
+            wiersze.add(new Wiersze());
+            selected.setKonta(wiersze);
+            Msg.msg("i", "Dokument dodany");
+        } catch (Exception e){
+            Msg.msg("e", "Nie udało się dodac dokumentu");
+        }
+    }
+
 //        try {
 //            wykaz.remove(selecteddokfk.get(0));
 //            dokDAOfk.usun(selecteddokfk.get(0));
@@ -148,7 +151,7 @@ public class DokfkView implements Serializable{
 //            Msg.msg("e", "Nie udało się usunąć dokumentu");
 //        }
 //    }
-
+//
 //     public void zaksieguj(){
 //         String opis = "";
 //         Dokfk x = selecteddokfk.get(0);
@@ -224,60 +227,60 @@ public class DokfkView implements Serializable{
 //        
 //     }
 //     
-//    //<editor-fold defaultstate="collapsed" desc="comment">
-//    public int getLiczbawierszy() {
-//        return liczbawierszy;
-//    }
-//    
-//    public void setLiczbawierszy(int liczbawierszy) {
-//        this.liczbawierszy = liczbawierszy;
-//    }
-//
-//    public List<Wiersze> getWiersze() {
-//        return wiersze;
-//    }
-//
-//    public void setWiersze(List<Wiersze> wiersze) {
-//        this.wiersze = wiersze;
-//    }
-//    
-//  
-//    
-//    public Dokfk getSelected() {
-//        return selected;
-//    }
-//    
-//    public void setSelected(Dokfk selected) {
-//        this.selected = selected;
-//    }
-//    
-//    public List<Dokfk> getWykaz() {
-//        return wykaz;
-//    }
-//    
-//    public void setWykaz(List<Dokfk> wykaz) {
-//        this.wykaz = wykaz;
-//    }
-//    
-//    public List<Dokfk> getSelecteddokfk() {
-//        return selecteddokfk;
-//    }
-//    
-//    public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
-//        DokfkView.selecteddokfk = selecteddokfk;
-//    }
-//    
-//    
-//    
-//    //</editor-fold>
-//
-//    public Wiersze getKontozapisy() {
-//        return kontozapisy;
-//    }
-//
-//    public void setKontozapisy(Wiersze kontozapisy) {
-//        this.kontozapisy = kontozapisy;
-//    }
-//    
-//    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public int getLiczbawierszy() {
+        return liczbawierszy;
+    }
+    
+    public void setLiczbawierszy(int liczbawierszy) {
+        this.liczbawierszy = liczbawierszy;
+    }
+
+    public List<Wiersze> getWiersze() {
+        return wiersze;
+    }
+
+    public void setWiersze(List<Wiersze> wiersze) {
+        this.wiersze = wiersze;
+    }
+    
+  
+    
+    public Dokfk getSelected() {
+        return selected;
+    }
+    
+    public void setSelected(Dokfk selected) {
+        this.selected = selected;
+    }
+    
+    public List<Dokfk> getWykaz() {
+        return wykaz;
+    }
+    
+    public void setWykaz(List<Dokfk> wykaz) {
+        this.wykaz = wykaz;
+    }
+    
+    public List<Dokfk> getSelecteddokfk() {
+        return selecteddokfk;
+    }
+    
+    public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
+        DokfkView.selecteddokfk = selecteddokfk;
+    }
+    
+    
+    
+    //</editor-fold>
+
+    public Wiersze getKontozapisy() {
+        return kontozapisy;
+    }
+
+    public void setKontozapisy(Wiersze kontozapisy) {
+        this.kontozapisy = kontozapisy;
+    }
+    
+    
 }

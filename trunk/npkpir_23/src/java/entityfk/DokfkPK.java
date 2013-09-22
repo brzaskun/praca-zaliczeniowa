@@ -5,6 +5,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,64 +16,82 @@ import javax.validation.constraints.Size;
  *
  * @author Osito
  */
-//@Embeddable
+@Embeddable
 public class DokfkPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
-    @Column(nullable = false, length = 5)
+    @Column(name = "seriadokfk", nullable = false, length = 5)
     private String seriadokfk;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "nrkolejny", nullable = false)
     private int nrkolejny;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "podatnik", nullable = false, length = 255)
     private String podatnik;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 4, max = 4)
+    @Column(name = "rok", nullable = false, length = 4)
+    private String rok;
 
     public DokfkPK() {
     }
 
-    public DokfkPK(String seriadokfk, int nrkolejny, String podatnik) {
+    public DokfkPK(String seriadokfk, int nrkolejny, String podatnik, String rok) {
         this.seriadokfk = seriadokfk;
         this.nrkolejny = nrkolejny;
         this.podatnik = podatnik;
+        this.rok = rok;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public String getSeriadokfk() {
         return seriadokfk;
     }
-
+    
     public void setSeriadokfk(String seriadokfk) {
         this.seriadokfk = seriadokfk;
     }
-
+    
     public int getNrkolejny() {
         return nrkolejny;
     }
-
+    
     public void setNrkolejny(int nrkolejny) {
         this.nrkolejny = nrkolejny;
     }
-
+    
     public String getPodatnik() {
         return podatnik;
     }
-
+    
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+    
+    public String getRok() {
+        return rok;
+    }
+    
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+    //</editor-fold>
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (seriadokfk != null ? seriadokfk.hashCode() : 0);
-        hash += (int) nrkolejny;
-        hash += (podatnik != null ? podatnik.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.seriadokfk);
+        hash = 97 * hash + this.nrkolejny;
+        hash = 97 * hash + Objects.hashCode(this.podatnik);
+        hash = 97 * hash + Objects.hashCode(this.rok);
         return hash;
     }
+    
 
     @Override
     public boolean equals(Object object) {
@@ -90,12 +109,17 @@ public class DokfkPK implements Serializable {
         if ((this.podatnik == null && other.podatnik != null) || (this.podatnik != null && !this.podatnik.equals(other.podatnik))) {
             return false;
         }
+        if ((this.rok == null && other.rok != null) || (this.rok != null && !this.rok.equals(other.rok))) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "entityfk.DokfkPK[ seriadokfk=" + seriadokfk + ", nrkolejny=" + nrkolejny + ", podatnik=" + podatnik + " ]";
+        return "DokfkPK{" + "seriadokfk=" + seriadokfk + ", nrkolejny=" + nrkolejny + ", podatnik=" + podatnik + ", rok=" + rok + '}';
     }
+
+    
     
 }

@@ -36,6 +36,8 @@ import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.Konto;
+import entityfk.Kontozapisy;
+import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -404,14 +406,14 @@ public class SessionFacade<T> {
     public Dokfk findDokfk(String data, String numer) {
         return (Dokfk) em.createNamedQuery("Dokfk.findByDatawystawieniaNumer").setParameter("datawystawienia", data).setParameter("numer", numer).getSingleResult();
     }
-//
-//    public List<Kontozapisy> findZapisyNumer(String numer) {
-//        return  em.createNamedQuery("Kontozapisy.findByNumer").setParameter("numer", numer).getResultList();
-//    }
-//    
-//    public List<Kontozapisy> findZapisyKonto(String konto) {
-//        return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
-//    }
+
+    public List<Kontozapisy> findZapisyNumer(String numer) {
+        return  em.createNamedQuery("Kontozapisy.findByNumer").setParameter("numer", numer).getResultList();
+    }
+    
+    public List<Kontozapisy> findZapisyKonto(String konto) {
+        return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
+    }
 
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -437,10 +439,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
-//    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
-//        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
-//    }
-//     
+    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
+        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
+    }
+     
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();

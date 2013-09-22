@@ -6,29 +6,27 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Osito
  */
-//@Entity
+@Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
 @NamedQueries({
@@ -42,31 +40,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-     @AttributeOverrides({
-        @AttributeOverride(name = "seriadokfk", column = @Column(name = "seriadokfk")),
-        @AttributeOverride(name = "nrkolejny", column = @Column(name = "nrkolejny")),
-        @AttributeOverride(name = "podatnik", column = @Column(name = "podatnik"))
-    })
-    protected DokfkPK dokfkPK;
+    protected DokfkPK dokfkPK = new DokfkPK();
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(nullable = false, length = 10)
+    @Column(name = "datawystawienia", nullable = false, length = 10)
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "naniesionezapisy", nullable = false)
     private boolean naniesionezapisy;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
-    private String numer;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "seriadokfk")
+    @Column(name = "numer", nullable = false, length = 255)
+    private String numer = "1/2013";
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL)
+    @OrderBy("idwiersza")
     private List<Wiersze> konta;
-
-    
+  
     
     
     public Dokfk() {
@@ -84,8 +76,8 @@ public class Dokfk implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public Dokfk(String seriadokfk, int nrkolejny, String podatnik) {
-        this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik);
+    public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
+        this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik, rok);
     }
     
     public DokfkPK getDokfkPK() {
@@ -119,15 +111,15 @@ public class Dokfk implements Serializable {
     public void setNumer(String numer) {
         this.numer = numer;
     }
-//    
-//    @XmlTransient
-//    public List<Wiersze> getKonta() {
-//        return konta;
-//    }
-//    
-//    public void setKonta(List<Wiersze> konta) {
-//        this.konta = konta;
-//    }
+    
+    @XmlTransient
+    public List<Wiersze> getKonta() {
+        return konta;
+    }
+    
+    public void setKonta(List<Wiersze> konta) {
+        this.konta = konta;
+    }
     //</editor-fold>
 
     @Override
@@ -154,5 +146,7 @@ public class Dokfk implements Serializable {
     public String toString() {
         return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " ]";
     }
+
+   
     
 }

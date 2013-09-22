@@ -3,18 +3,16 @@ package entityfk;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-//@Entity
+@Entity
 @Table(name = "wiersze")
 @XmlRootElement
 @NamedQueries({
@@ -38,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersze.findByKwotaWn", query = "SELECT w FROM Wiersze w WHERE w.kwotaWn = :kwotaWn"),
     @NamedQuery(name = "Wiersze.findByKwotapierwotna", query = "SELECT w FROM Wiersze w WHERE w.kwotapierwotna = :kwotapierwotna"),
     @NamedQuery(name = "Wiersze.findByOpis", query = "SELECT w FROM Wiersze w WHERE w.opis = :opis"),
-    @NamedQuery(name = "Wiersze.findByPodatnik", query = "SELECT w FROM Wiersze w WHERE w.podatnik = :podatnik"),
+    @NamedQuery(name = "Wiersze.findByPodatniknazwa", query = "SELECT w FROM Wiersze w WHERE w.podatniknazwa = :podatniknazwa"),
     @NamedQuery(name = "Wiersze.findByPozostalodorozliczenia", query = "SELECT w FROM Wiersze w WHERE w.pozostalodorozliczenia = :pozostalodorozliczenia"),
     @NamedQuery(name = "Wiersze.findByRozliczono", query = "SELECT w FROM Wiersze w WHERE w.rozliczono = :rozliczono"),
     @NamedQuery(name = "Wiersze.findByTypwiersza", query = "SELECT w FROM Wiersze w WHERE w.typwiersza = :typwiersza"),
@@ -49,62 +47,59 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 public class Wiersze implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManyToOne
-    @JoinColumns({
-    @JoinColumn(name="seriadokfkD",referencedColumnName="seriadokfk"),
-    @JoinColumn(name="nrkolejnyD",referencedColumnName="nrkolejny"),
-    @JoinColumn(name = "podatnikD", referencedColumnName = "podatnik")})
-    private String seriadokfkD;
-    private int nrkolejnyD;
-    private String podatnikD;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seriadokfk")
-    private Dokfk dokfk = new Dokfk();
-    
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idwiersza", nullable = false)
     private Integer idwiersza;
+    @Column(name = "idwierszarozliczenia")
     private Integer idwierszarozliczenia;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "kontonumer", length = 255)
     private String kontonumer;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "kontoprzeciwstawne", length = 255)
     private String kontoprzeciwstawne;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 22)
+    @Column(name = "kwotaMa", precision = 22)
     private Double kwotaMa;
-    @Column(precision = 22)
+    @Column(name = "kwotaWn", precision = 22)
     private Double kwotaWn;
-    @Column(precision = 22)
+    @Column(name = "kwotapierwotna", precision = 22)
     private Double kwotapierwotna;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "opis", length = 255)
     private String opis;
     @Size(max = 255)
-    @Column(length = 255)
-    private String podatnik;
-    @Column(precision = 22)
+    @Column(name = "podatniknazwa", length = 255)
+    private String podatniknazwa;
+    @Column(name = "pozostalodorozliczenia", precision = 22)
     private Double pozostalodorozliczenia;
-    @Column(precision = 22)
+    @Column(name = "rozliczono", precision = 22)
     private Double rozliczono;
+    @Column(name = "typwiersza")
     private Integer typwiersza;
+    @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
     @Lob
     @Column(name = "konto")
+    @OneToOne
     private Konto konto;
     @Lob
     @Column(name = "kontoMa")
+    @OneToOne
     private Konto kontoMa;
     @Lob
     @Column(name = "kontoWn")
+    @OneToOne
     private Konto kontoWn;
-    @Column(name = "dokfkPK")
-    private DokfkPK dokfkPK;
+    @ManyToOne(optional = false)
+    private Dokfk dokfk;
+   
     
 
     public Wiersze() {
@@ -188,12 +183,12 @@ public class Wiersze implements Serializable {
         this.opis = opis;
     }
     
-    public String getPodatnik() {
-        return podatnik;
+    public String getPodatniknazwa() {
+        return podatniknazwa;
     }
     
-    public void setPodatnik(String podatnik) {
-        this.podatnik = podatnik;
+    public void setPodatniknazwa(String podatniknazwa) {
+        this.podatniknazwa = podatniknazwa;
     }
     
     public Double getPozostalodorozliczenia() {
@@ -251,19 +246,16 @@ public class Wiersze implements Serializable {
     public void setKontoWn(Konto kontoWn) {
         this.kontoWn = kontoWn;
     }
-    
-   
 
-    public DokfkPK getDokfkPK() {
-        return dokfkPK;
+    public Dokfk getDokfk() {
+        return dokfk;
     }
 
-    public void setDokfkPK(DokfkPK dokfkPK) {
-        this.dokfkPK = dokfkPK;
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
     }
-    
-  
-    
+
+        
     
     //</editor-fold>
   
