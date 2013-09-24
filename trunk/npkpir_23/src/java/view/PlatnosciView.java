@@ -101,8 +101,8 @@ public class PlatnosciView implements Serializable{
         String mc = selectedZob.getPlatnosciPK().getMiesiac();
         String podatnik = selected.getNazwapelna();
         List<Zusstawki> listapobrana = selected.getZusparametr();
+        if (listapobrana!=null) {
         Zusstawki zusstawki = new Zusstawki();
-        Pitpoz pitpoz = new Pitpoz();
         Iterator it;
         it = listapobrana.iterator();
         while(it.hasNext()){
@@ -115,6 +115,8 @@ public class PlatnosciView implements Serializable{
         selectedZob.setZus52(zusstawki.getZus52());
         selectedZob.setZus53(zusstawki.getZus53());
         selectedZob.setPit4(zusstawki.getPit4());
+        }
+        Pitpoz pitpoz = new Pitpoz();
         //pobierz PIT-5
         try{
             pitpoz = pitDAO.find(rok,mc,podatnik);

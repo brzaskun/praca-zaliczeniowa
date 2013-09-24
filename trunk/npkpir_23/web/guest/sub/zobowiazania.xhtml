@@ -12,7 +12,7 @@
         <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
         <p:growl id="wiad" showDetail="true"/>
         <p:focus for="dokumentyLista"/>
-        <p:panelGrid id="dokumentyLista" >
+        <p:panelGrid id="dokumentyLista" rendered="#{PlatnosciView.selectedZob.zus52 eq null ? false : true}">
             <f:facet name="header">
                 <p:row>
                     <p:column colspan="3">
@@ -118,7 +118,7 @@
     <p:tab id="tab1" title="Wykaz zobowiązań z tytułu podatku dochodowego PIT-5/PIT-5L">
     <h:form id="formZob1">
         <p:growl id="wiad1" showDetail="true"/>
-        <p:panelGrid id="dokumentyLista1" > 
+        <p:panelGrid id="dokumentyLista1" rendered="#{PlatnosciView.selectedZob.pit5 eq 0 ? false : true}"> 
             <f:facet name="header">
                 <p:row>
                     <p:column colspan="3">
@@ -181,7 +181,7 @@
          <p:tab id="tab3" title="Wykaz zobowiązań z tytułu podatku od wynagrodzeń PIT4">
     <h:form id="formZob3">
         <p:growl id="wiad3" showDetail="true"/>
-        <p:panelGrid id="dokumentyLista3" > 
+        <p:panelGrid id="dokumentyLista3" rendered="#{PlatnosciView.selectedZob.pit4 eq null ? false : true}">> 
             <f:facet name="header">
                 <p:row>
                     <p:column colspan="3">
