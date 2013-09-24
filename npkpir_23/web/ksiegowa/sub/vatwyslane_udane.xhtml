@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="udane">
-        <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}">
+        <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
                
             <p:column width="45">
                 <f:facet name="header">
@@ -44,7 +44,7 @@
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
-                <p:dataTable value="#{item.selected}" var="loop">
+                <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
                     <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu}"/></p:column>
@@ -67,13 +67,13 @@
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');" />
+                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}" update=":formX, :formX:msg" style="margin-left: 10px;"/>
             </p:column>
             <p:column width="80">
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7()}" update=":formX, :formX:msg" style="margin-left: 10px;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="margin-left: 10px; display: none;"  />
             </p:column>
         </p:dataTable>
     </p:tab>
