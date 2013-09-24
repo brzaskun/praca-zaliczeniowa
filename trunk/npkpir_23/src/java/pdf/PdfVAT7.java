@@ -41,10 +41,10 @@ public class PdfVAT7 extends Pdf implements Serializable{
    
    
             
-    public void drukuj(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
+    public void drukuj(Deklaracjevat dkl, int index) throws DocumentException, FileNotFoundException, IOException {
         Podatnik p = podatnikDAO.find(dkl.getPodatnik());
         if(dkl.isMiesiackwartal()==true){
-            PdfVAT7K.drukujVAT7K(dkl, p);
+            PdfVAT7K.drukujVAT7K(dkl, p, index);
         } else {
         try{
             String var = dkl.getWzorschemy();
@@ -82,7 +82,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         image = Image.getInstance(vat71);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
-        underContent.add(underContent);
+        //underContent.add(underContent);
         underContent.addImage(image);
         PdfContentByte overContent = pdfStamper.getOverContent(1);
         image = Image.getInstance(golab);
@@ -93,7 +93,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         image = Image.getInstance(vat72);
         image.scaleToFit(610, 850);
         image.setAbsolutePosition(0f, 0f);
-        underContent.add(underContent);
+        //underContent.add(underContent);
         underContent.addImage(image);
         pdfStamper.close();
         reader.close();
@@ -110,9 +110,10 @@ public class PdfVAT7 extends Pdf implements Serializable{
             kombinuj(v.getPodatnik(),1);
         }
          RequestContext.getCurrentInstance().update("formX");
+         RequestContext.getCurrentInstance().execute("wydrukvat7('"+dkl.getPodatnik()+"', "+index+");");
         }
     }
-    
+    //drukuje deklaracje przygotowana do wysylki
      public void drukujwys(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
         Podatnik p = podatnikDAO.find(dkl.getPodatnik());
         if(dkl.isMiesiackwartal()==true){
@@ -660,7 +661,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
             Document PDFCombineUsingJava = new Document();
             PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VAT7Comb"+kto+".pdf"));
             PDFCombineUsingJava.open();
-            PdfReader ReadInputPDF;
+            PdfReader ReadInputPDF = null;
             int number_of_pages;
             for(String p : files){
                 ReadInputPDF = new PdfReader(p);
@@ -669,6 +670,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
                     copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
                 }
             }
+            ReadInputPDF.close();
+            copy.close();
             PDFCombineUsingJava.close();
         } catch (Exception i) {
             System.out.println(i);

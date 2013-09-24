@@ -251,39 +251,33 @@ var wydrukstr = function(kto){
 //  alert("The transfer has been canceled by the user.");
 //}
 
-var wydrukvat7 = function(kto){
-//    var oReq = new XMLHttpRequest();
-//    window.addEventListener("progress", updateProgress, false);
-//    window.addEventListener("load", transferComplete, false);
-//    window.addEventListener("error", transferFailed, false);
-//    window.addEventListener("abort", transferCanceled, false);
-    
+var wydrukvat7 = function(kto, index){
     window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formX:dataList:1:mailbutton").style.display='inline';
-//    var myrequest = window.XMLHttpRequest;
-//    myrequest.status=200;
-}
-
+    document.getElementById("formX:akordeon:dataList:"+index+":mailbutton").style.display='inline';
+};
+ var schowajmailbutton = function (index) {
+     $(document.getElementById("formX:akordeon:dataList:"+index+":mailbutton")).attr('display','none');
+ };
 
 var wydrukobroty = function(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formX:obrotywysylka").style.display='inline';
-}
+};
 
 var wydruksumavat = function(kto){
     window.open('../wydruki/vatsuma'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 
 var wydrukpk = function(kto){
     window.open('../wydruki/pk'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 
 var wydrukfaktura = function(kto){
     window.open('../wydruki/faktura'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 var wydrukpit5 = function(kto){
     window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 
 var wydrukewidencje = function(kto,nazwa){
     if(!nazwa.indexOf("sprzedaż", 0)){
