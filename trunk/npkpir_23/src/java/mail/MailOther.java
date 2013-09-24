@@ -7,6 +7,7 @@ package mail;
 import dao.FakturaDAO;
 import entity.Faktura;
 import entity.Klienci;
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javax.activation.DataHandler;
@@ -240,7 +241,8 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/vat7-13" + klientfile + ".pdf");
+            if (new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf").isFile()) {
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
             mbp2.setDataHandler(new DataHandler(fds));
             mbp2.setFileName(fds.getName());
 
@@ -252,7 +254,11 @@ public class MailOther extends MailSetUp implements Serializable{
             // add the Multipart to the message
             message.setContent(mp);
             Transport.send(message);
-            System.out.println("Wyslano maila z dekalracją VAT-7 do klienta");
+            Msg.msg("i", "Wyslano maila z dekalracją VAT-7 do klienta");
+            RequestContext.getCurrentInstance().execute("alert('Wysłano mail');");
+            } else {
+                Msg.msg("e", "Brak wygenerowanej wcześniej deklaracji VAT. Nie wysłano maila do klienta. Kliknij najpierw na przycisk Pdf właściwej deklaracji VAT.");
+            }
 
               } catch (MessagingException e) {
                   throw new RuntimeException(e);
