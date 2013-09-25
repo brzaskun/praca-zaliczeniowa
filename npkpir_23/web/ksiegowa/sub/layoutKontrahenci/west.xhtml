@@ -6,9 +6,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true">
         <h:form     id="westKsiegowa">
-            <h:messages id="westmsg"/>
-            <p:panel menuTitle="Dane" header="Dane">
+
                 <p:panelGrid columns="2">
+                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <h:outputText value="#{WpisView.podatnikWpisu}"/>
                 <p:outputLabel for="rokWpisu" value="Rok"/>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -24,20 +25,9 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
                 </p:selectOneMenu>
-                <h:commandButton value="Ok" actionListener="#{obrotyView.aktualizujObrotyX}" />
+<!--                <h:commandButton value="Ok" actionListener="{obrotyView.aktualizujObrotyX}" />-->
                 </p:panelGrid>
-            </p:panel>
-            <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
-                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.podatnikWpisu}"/>
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.rokWpisu}"/>
-                 <h:outputText value="Od:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                 <h:outputText value="#{WpisView.miesiacOd}"/>
-                <h:outputText value="Do:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacDo}"/>
-               
-            </p:panelGrid>
+
            <p:panel header="linki">
                 <h:form>
                     <p:menu >
