@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -16,6 +17,7 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfSpotColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.AmoDokDAO;
 import dao.EwidencjeVatDAO;
@@ -150,8 +152,18 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     }
     
     class HeaderFooter extends PdfPageEventHelper {
-
-              
+        Phrase[] header = new Phrase[2];
+        
+        @Override
+        public void onOpenDocument(PdfWriter writer, Document document) {
+             BaseFont helvetica = null;
+            try {
+                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            } catch (Exception ex) {}
+            Font font = new Font(helvetica,6);
+            header[0] = new Phrase("Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
+        }
+        
         @Override
         public void onStartPage(PdfWriter writer, Document document) {
             liczydlo++;
@@ -159,12 +171,17 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
 
         @Override
         public void onEndPage(PdfWriter writer, Document document) {
-            BaseFont helvetica = null;
+            Rectangle rect = writer.getBoxSize("art");
+             BaseFont helvetica = null;
             try {
                 helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             } catch (Exception ex) {}
             Font font = new Font(helvetica,8);
-            Rectangle rect = writer.getBoxSize("art");
+            //dodawanie headera
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                        Element.ALIGN_LEFT, header[0],
+                        25, rect.getBottom() - 18, 0);
+           
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_CENTER, new Phrase(String.format("strona %d", liczydlo),font),
                     (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
@@ -246,6 +263,16 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         document.close();
     }
 
+     protected  void prost(PdfContentByte cb,int x,int y,int x1,int y1){
+        cb.saveState();
+        PdfSpotColor color = new PdfSpotColor(RESULT, BaseColor.BLACK);
+        cb.setLineWidth((float) 0.5);
+        cb.setColorStroke(color, (float) 0.5);
+        cb.setFlatness(y1);
+        cb.rectangle(x,y,x1,y1);
+        cb.stroke();
+        cb.restoreState();
+    }
 
     public WpisView getWpisView() {
         return wpisView;

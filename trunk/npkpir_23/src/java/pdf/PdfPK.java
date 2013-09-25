@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
+import static pdf.PdfVAT7.absText;
 import view.DokTabView;
 
 /**
@@ -44,7 +45,8 @@ public class PdfPK extends Pdf implements Serializable {
         Dok selected = DokTabView.getGosciuwybralS().get(0);
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf"));
+        writer.setInitialLeading(16);
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z PKPiR");
@@ -54,6 +56,13 @@ public class PdfPK extends Pdf implements Serializable {
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
             //rect.setBackgroundColor(BaseColor.RED);
             //document.add(rect);
+            //naglowek
+            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
+            prost(writer.getDirectContent(), 12, 817, 560,10);
+            //stopka
+            absText(writer, "Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
+            absText(writer, "Dokument nie wymaga podpisu.", 15, 18, 6);
+            prost(writer.getDirectContent(), 12, 15, 560,20);
             document.add(new Chunk("Biuro Rachunkowe Taxman"));
             document.add(Chunk.NEWLINE);
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
