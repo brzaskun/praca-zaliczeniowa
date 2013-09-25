@@ -12,7 +12,7 @@
         <p:commandButton value="Zapisz" actionListener="#{adminNews.dodaj()}" update="@form"/>
     </p:panel>
     <p:panel header="wpisane newsy">
-        <p:contextMenu>
+        <p:contextMenu for="form:tablicanews">
             <p:menuitem value="Usuń" update="@form" actionListener="#{adminNews.usun()}" icon="ui-icon-disk" />
         </p:contextMenu>
         <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" selection="#{adminNews.adminnews}" 

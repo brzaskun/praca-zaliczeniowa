@@ -304,16 +304,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         
     }
     
-    private  void prost(PdfContentByte cb,int x,int y,int x1,int y1){
-        cb.saveState();
-        PdfSpotColor color = new PdfSpotColor(RESULT, BaseColor.BLACK);
-        cb.setLineWidth((float) 0.5);
-        cb.setColorStroke(color, (float) 0.5);
-        cb.setFlatness(y1);
-        cb.rectangle(x,y,x1,y1);
-        cb.stroke();
-        cb.restoreState();
-    }
+
     
     private PdfPTable wygenerujtablice (PdfPTable table, List<Pozycjenafakturzebazadanych> poz,Faktura selected) throws DocumentException, IOException{
          NumberFormat formatter = NumberFormat.getCurrencyInstance();

@@ -95,7 +95,7 @@ public class PdfObroty extends Pdf implements Serializable {
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());
-        Paragraph miziu1 = new Paragraph(new Phrase("Biuro Rachunkowe Taxman. Wydruk obrotów z kontrahentem dla klienta: "+wpisView.getPodatnikWpisu()+" od "+wpisView.getMiesiacOd()+"/"+wpisView.getRokWpisu()+" do "+wpisView.getMiesiacDo()+"/"+wpisView.getRokWpisu(),font));
+        Paragraph miziu1 = new Paragraph(new Phrase("Wydruk obrotów z kontrahentem dla klienta: "+wpisView.getPodatnikWpisu()+" od "+wpisView.getMiesiacOd()+"/"+wpisView.getRokWpisu()+" do "+wpisView.getMiesiacDo()+"/"+wpisView.getRokWpisu(),font));
         miziu1.setAlignment(Element.ALIGN_CENTER);
         pdf.add(miziu1);
         pdf.add(new Chunk().NEWLINE);
