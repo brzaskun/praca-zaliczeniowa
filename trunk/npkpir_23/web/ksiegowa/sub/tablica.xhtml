@@ -6,6 +6,13 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
+        <h:form>
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
+            <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
+            <f:facet name="success"><h:outputText value="" /></f:facet>
+            <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
+        </p:ajaxStatus>
+    </h:form>
     <h:form id="form">
             <p:panelGrid id="prezentacjaPodatku" columns="13">
                 <h:outputLabel value="okres: " style="font-style: italic;"/>
@@ -33,7 +40,7 @@
             </p:panelGrid>
 
             <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" onclick="dlg123.show();"/>
+                <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" onclick="dlg123.show();"/>
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
                 <p:menuitem value="Usuń wiele" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
@@ -161,7 +168,7 @@
 
             </p:dataTable>
          </h:form>
-
+<!--edycja faktur z tabeli-->
    <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="przeniesKwotaDoNetto();" dynamic="true" >
         <h:form id="dodWiad">
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Edytowanie zaksięgowanego dokumentu klienta: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1100px;" id="wprowadzanie">
@@ -406,8 +413,8 @@
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <h:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" > 
-                    </h:commandButton>
+                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" update=":form:dokumentyLista" oncomplete="dlg123.hide();"> 
+                    </p:commandButton>
                 </p:panelGrid>
             </p:panel>
         </h:form>

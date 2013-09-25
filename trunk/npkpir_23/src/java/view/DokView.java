@@ -263,25 +263,25 @@ public class DokView implements Serializable {
     }
 
     public void dodajwierszpkpir() {
-            if (liczbawierszy < 4) {
-                KwotaKolumna p = new KwotaKolumna();
-                p.setNetto(0.0);
-                p.setNazwakolumny("nie ma");
-                nettokolumna.add(p);
-                liczbawierszy++;
-            } else {
-                Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
-            }
+        if (liczbawierszy < 4) {
+            KwotaKolumna p = new KwotaKolumna();
+            p.setNetto(0.0);
+            p.setNazwakolumny("nie ma");
+            nettokolumna.add(p);
+            liczbawierszy++;
+        } else {
+            Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
+        }
     }
-    
+
     public void usunwierszpkpir() {
-            if (liczbawierszy > 1) {
-                int wielkosctabeli = nettokolumna.size();
-                nettokolumna.remove(wielkosctabeli-1);
-                liczbawierszy--;
-            } else {
-                Msg.msg("w", "Osiągnięto minimalną liczbę wierszy", "dodWiad:mess_add");
-            }
+        if (liczbawierszy > 1) {
+            int wielkosctabeli = nettokolumna.size();
+            nettokolumna.remove(wielkosctabeli - 1);
+            liczbawierszy--;
+        } else {
+            Msg.msg("w", "Osiągnięto minimalną liczbę wierszy", "dodWiad:mess_add");
+        }
     }
 
     @PostConstruct
@@ -334,8 +334,6 @@ public class DokView implements Serializable {
             }
         }
     }
-
-   
 
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
@@ -1123,7 +1121,6 @@ public class DokView implements Serializable {
                 nettokolumna.clear();
             } else {
                 dokDAO.edit(selDokument);
-                RequestContext.getCurrentInstance().update("form:dokumentyLista");
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
@@ -1178,7 +1175,6 @@ public class DokView implements Serializable {
             grid3.getChildren().clear();
             setRenderujwysz(false);
             setPokazEST(false);
-            RequestContext.getCurrentInstance().update("form:dokumentyLista");
         }
     }
 
@@ -1751,37 +1747,37 @@ public class DokView implements Serializable {
         }
     }
 
-     //kopiuje ostatni dokument celem wykorzystania przy wpisie
+    //kopiuje ostatni dokument celem wykorzystania przy wpisie
     public void skopiujdokument() {
         try {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
             ustawDate2();
-        String skrot = selDokument.getTypdokumentu();
-        String nowynumer = "";
-        String pod = wpisView.findWpisX().getPodatnikWpisu();
-        Podatnik podX = podatnikDAO.find(pod);
-        List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
-        Rodzajedok rodzajdok = new Rodzajedok();
-        for (Rodzajedok p : listaD) {
-            if (p.getSkrot().equals(skrot)) {
-                rodzajdok = p;
-                break;
+            String skrot = selDokument.getTypdokumentu();
+            String nowynumer = "";
+            String pod = wpisView.findWpisX().getPodatnikWpisu();
+            Podatnik podX = podatnikDAO.find(pod);
+            List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+            Rodzajedok rodzajdok = new Rodzajedok();
+            for (Rodzajedok p : listaD) {
+                if (p.getSkrot().equals(skrot)) {
+                    rodzajdok = p;
+                    break;
+                }
             }
-        }
-        typdokumentu = skrot;
-        przekazKontr = selDokument.getKontr();
-        podepnijListe(skrot);
-        nettokolumna.clear();
-        for (KwotaKolumna p : selDokument.getListakwot()) {
-            nettokolumna.add(p);
-        }
-        renderujwyszukiwarke(rodzajdok);
-        renderujtabele(rodzajdok);
+            typdokumentu = skrot;
+            przekazKontr = selDokument.getKontr();
+            podepnijListe(skrot);
+            nettokolumna.clear();
+            for (KwotaKolumna p : selDokument.getListakwot()) {
+                nettokolumna.add(p);
+            }
+            renderujwyszukiwarke(rodzajdok);
+            renderujtabele(rodzajdok);
         } catch (Exception e) {
         }
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
-    
+
     public void skopiujdoedycji() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
         Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
@@ -1808,6 +1804,14 @@ public class DokView implements Serializable {
         renderujwyszukiwarke(rodzajdok);
         renderujtabele(rodzajdok);
         RequestContext.getCurrentInstance().update("dialogEdycja");
+    }
+
+    public void sprawdzczywybranodokumentdoedycji() {
+        if (selDokument.getNetto() != null) {
+        } else {
+            Msg.msg("e", "Nie wybrano dokumentu do edycji!");
+            RequestContext.getCurrentInstance().execute("dlg123.hide();");
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
