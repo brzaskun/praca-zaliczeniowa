@@ -53,7 +53,7 @@ public class Klienci implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 10)
+    @Size(max = 20)
     @Column(name = "NIP")
     private String nip;
     @Size(max = 255)
