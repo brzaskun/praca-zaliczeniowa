@@ -72,6 +72,7 @@ public class FakturaView implements Serializable {
     @Inject private EvewidencjaDAO evewidencjaDAO;
     //tego potrzebuje zeby zachowac wiersz wzorcowy
     @Inject private PodatnikDAO podatnikDAO;
+    private Double podsumowaniewybranych;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -576,6 +577,20 @@ public class FakturaView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
+    
+    public void sumawartosciwybranych(){
+        podsumowaniewybranych = 0.0;
+        if (gosciwybral.size()>0) {
+            for(Faktura p : gosciwybral){
+                podsumowaniewybranych += p.getBrutto();
+            }
+        } else {
+            for(Fakturywystokresowe p : gosciwybralokres){
+                podsumowaniewybranych += p.getBrutto();
+            }
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
 
     public Faktura getSelected() {
@@ -667,7 +682,17 @@ public class FakturaView implements Serializable {
         this.fakturyarchiwum = fakturyarchiwum;
     }
     
+     public Double getPodsumowaniewybranych() {
+        return podsumowaniewybranych;
+    }
+
+    public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
+        this.podsumowaniewybranych = podsumowaniewybranych;
+    }
+
+    
     //</editor-fold>
 
+   
    
 }
