@@ -3,15 +3,13 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:ui="http://java.sun.com/jsf/facelets">
       <p:tab id="okresowe" title="Faktury okresowe">
           <h:form id="formokresowe">
            <p:contextMenu for="dokumentyOkresowe">
                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowych()}" icon="ui-icon-lightbulb" />
-                <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
+                <p:menuitem value="Usuń wiele" update=":form:messages" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
 
             </p:contextMenu>
           <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"

@@ -3,13 +3,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:tab id="archiwum" title="Faktury archiwalne">
         <h:form id="formarchiwum">
             <p:contextMenu for="dokumentyArchiwum" >
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
+                <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
             </p:contextMenu>
             <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"

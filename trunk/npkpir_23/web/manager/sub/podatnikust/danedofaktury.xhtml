@@ -14,6 +14,9 @@
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
                 <h:outputText value="tu sie dodaje dane do faktury podatnika"/>
                 <p:panelGrid id="wprowadzaniefaktura" columns="2">
+                    <h:outputLabel value="miejsce wystawienia faktury"/>
+                    <h:inputText id="miejscewystawienia" value="#{podatnikView.selected.miejscewystawienia}" maxlength="26" style="width: 300px;" required="false">
+                    </h:inputText>
                     <h:outputLabel value="nr konta bankowego dla faktur sprzedaży"/>
                     <h:inputText id="polekonto" value="#{podatnikView.selected.nrkontabankowego}" maxlength="26" style="width: 300px;" required="false">
                     </h:inputText>
