@@ -12,6 +12,10 @@
                 <p:menuitem value="Usuń wiele" update=":form:messages" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
 
             </p:contextMenu>
+              <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
+    <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
+        <f:convertNumber minFractionDigits="2" locale="PL"/>
+    </h:outputText><h:outputText value="zł  "/><br/><br/>
           <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"
                        selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable">
                <f:facet name="header">  
@@ -19,6 +23,9 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="okresTable.filter()" style="width:150px" />  
                 </f:facet>
+               <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
+            <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
+            <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>      
               <p:column selectionMode="multiple" width="50"/>
               <p:column headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
                   <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>

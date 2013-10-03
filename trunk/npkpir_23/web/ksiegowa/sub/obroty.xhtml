@@ -28,7 +28,8 @@
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}" 
                       resizableColumns="true" style="width: 1300px"> 
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
-            <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>                <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
+            <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
+            <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
             <f:facet name="header">  
                 <h:outputText value="Wykaz obrotow z kontrahentem" />  
             </f:facet>
