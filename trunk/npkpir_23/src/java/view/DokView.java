@@ -1472,6 +1472,22 @@ public class DokView implements Serializable {
             System.out.println("Nie znaleziono duplikatu");
         }
     }
+    
+     public void sprawdzCzyNieDuplikatwtrakcie() {
+        try {
+            Dok tmp = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna());
+            if (tmp!=null){
+                String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany u podatnika: " + wpisView.getPodatnikWpisu();
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
+                FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
+                RequestContext.getCurrentInstance().update("messageserror");
+                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
+            }
+        } catch (Exception e) {
+            System.out.println("Nie znaleziono duplikatu");
+        }
+    }
+    
 
     public void ustawDate(AjaxBehaviorEvent e) {
         selDokument.setDokumentProsty(false);

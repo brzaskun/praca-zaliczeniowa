@@ -38,6 +38,10 @@ public class DokDAO extends DAO implements Serializable {
     public Dok znajdzDuplikat(Dok selD) throws Exception {
         return dokFacade.dokumentDuplicat(selD);
     }
+    
+    public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna) {
+        return dokFacade.dokumentDuplicatwtrakcie(selD, nazwapelna);
+    }
 
 //    
 //     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
@@ -73,6 +77,8 @@ public class DokDAO extends DAO implements Serializable {
         Dok tmp = (Dok) dokFacade.findStornoDok(rok, mc, podatnik);
         dokFacade.remove(tmp);
     }
+
+   
     
   
 }

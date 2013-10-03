@@ -208,6 +208,18 @@ public class SessionFacade<T> {
         System.out.println("Znaleziono duplikat - DokFacade");
         return wynik;
     }
+    
+     public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna) {
+        Dok wynik = null;
+        try {
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Nie znaleziono duplikatu - DokFacade");
+            return null;
+        }
+        System.out.println("Znaleziono duplikat - DokFacade");
+        return wynik;
+    }
 
     public Zobowiazanie findZobowiazanie(String rok, String mc) throws Exception {
         try {
@@ -451,5 +463,7 @@ public class SessionFacade<T> {
     public Fakturywystokresowe findOkresowa(Double brutto, String klientnip, String nazwapelna) {
         return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("brutto", brutto).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
     }
+
+   
   
 }

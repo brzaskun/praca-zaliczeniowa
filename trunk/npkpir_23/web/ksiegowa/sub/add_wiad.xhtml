@@ -56,6 +56,7 @@
                 <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
             </h:selectOneMenu> 
             <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
+                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
             </p:inputText>
           
             <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
