@@ -179,6 +179,9 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "wierszwzorcowy")
     private Pozycjenafakturzebazadanych wierszwzorcowy;
+    @Size (max = 512)
+    @Column(name = "miejscewystawienia")
+    private String miejscewystawienia;
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -502,6 +505,14 @@ public class Podatnik implements Serializable {
 
     public void setWierszwzorcowy(Pozycjenafakturzebazadanych wierszwzorcowy) {
         this.wierszwzorcowy = wierszwzorcowy;
+    }
+
+    public String getMiejscewystawienia() {
+        return miejscewystawienia;
+    }
+
+    public void setMiejscewystawienia(String miejscewystawienia) {
+        this.miejscewystawienia = miejscewystawienia;
     }
     
     

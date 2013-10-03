@@ -6,8 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+    xmlns:pe="http://primefaces.org/ui/extensions">
         <p:tab id="nowa" title="Sporządź nową fakturę" >
             <h:form id="formprzygotuj">
                 <p:outputPanel style="padding: 5px;">
@@ -19,7 +18,7 @@
             <p:panelGrid columns="4" style="height: 250px;">
                 <h:outputLabel value="miejsce wystawienia faktury: " />
                 <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="Szczecin" required="true" label="text" style="font-weight: bolder;"/>  
+                    <p:inputText value="#{fakturaView.selected.miejscewystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>  
                 <h:outputLabel value="data wystawienia faktury: " />
                 <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  

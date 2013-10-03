@@ -447,5 +447,9 @@ public class SessionFacade<T> {
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
 }
+
+    public Fakturywystokresowe findOkresowa(Double brutto, String klientnip, String nazwapelna) {
+        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("brutto", brutto).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
+    }
   
 }

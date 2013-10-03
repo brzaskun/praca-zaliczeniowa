@@ -162,6 +162,10 @@ public class Faktura implements Serializable {
     @Lob
     @Column(nullable = false)
     private List<EVatwpis> ewidencjavat;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private boolean wygenerowanaautomatycznie;
 
     public Faktura() {
     }
@@ -420,6 +424,16 @@ public class Faktura implements Serializable {
     public void setEwidencjavat(List<EVatwpis> ewidencjavat) {
         this.ewidencjavat = ewidencjavat;
     }
+
+    public boolean isWygenerowanaautomatycznie() {
+        return wygenerowanaautomatycznie;
+    }
+
+    public void setWygenerowanaautomatycznie(boolean wygenerowanaautomatycznie) {
+        this.wygenerowanaautomatycznie = wygenerowanaautomatycznie;
+    }
+    
+    
 
     @Override
     public int hashCode() {

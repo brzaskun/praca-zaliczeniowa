@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fakturywystokresowe.findAll", query = "SELECT f FROM Fakturywystokresowe f"),
     @NamedQuery(name = "Fakturywystokresowe.findById", query = "SELECT f FROM Fakturywystokresowe f WHERE f.id = :id"),
     @NamedQuery(name = "Fakturywystokresowe.findByPodatnik", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByNipodbiorcy", query = "SELECT f FROM Fakturywystokresowe f WHERE f.nipodbiorcy = :nipodbiorcy"),
+    @NamedQuery(name = "Fakturywystokresowe.findByBrutto", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto"),
+    @NamedQuery(name = "Fakturywystokresowe.findByOkresowa", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto AND f.nipodbiorcy = :nipodbiorcy AND f.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturywystokresowe.findByM1", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m1 = :m1"),
     @NamedQuery(name = "Fakturywystokresowe.findByM2", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m2 = :m2"),
     @NamedQuery(name = "Fakturywystokresowe.findByM3", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m3 = :m3"),
@@ -54,6 +57,12 @@ public class Fakturywystokresowe implements Serializable {
     @Size(min = 1, max = 200)
     @Column(nullable = false, length = 200)
     private String podatnik;
+    @Size(max = 16)
+    @Column(length = 16)
+    private String nipodbiorcy;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(precision = 22)
+    private Double brutto;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -147,6 +156,22 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
+    }
+
+    public String getNipodbiorcy() {
+        return nipodbiorcy;
+    }
+
+    public void setNipodbiorcy(String nipodbiorcy) {
+        this.nipodbiorcy = nipodbiorcy;
+    }
+
+    public Double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(Double brutto) {
+        this.brutto = brutto;
     }
 
     public Faktura getDokument() {

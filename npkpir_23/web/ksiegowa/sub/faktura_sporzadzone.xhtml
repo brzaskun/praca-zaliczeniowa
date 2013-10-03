@@ -3,9 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:ui="http://java.sun.com/jsf/facelets">
       <p:tab id="gotowe" title="Przeglądaj sporządzone">
           <h:form id="formsporzadzone">
            <p:contextMenu for="dokumentyLista">
@@ -13,7 +11,7 @@
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
                 <p:menuitem value="Zaksięguj" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
-                <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
+                <p:menuitem value="Usuń wiele" update=":form:messages" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
             </p:contextMenu>
           <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
                        selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
