@@ -90,7 +90,7 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy."
                     + "\nAdres mailowy, z którego została wysłana nie służy do normalnej korespondencji."
                     + "\n\nPoniewasz program jest jeszcze w fazie testowania, może się zdarzyć, że dokument będzie zawierał błędy."
-                    + "\nProsimy o wyrozumiałość i o informację zwrotną w takim wypadku."
+                    + "\nProsimy o wyrozumiałość i o informację zwrotną w takim wypadku na adres: info@taxman.biz.pl."
                     + "\n\nZ poważaniem"
                     + "\n\n"+podpisfaktury
                     + "\n\n"+firmafaktury);
