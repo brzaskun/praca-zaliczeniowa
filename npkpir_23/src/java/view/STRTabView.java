@@ -257,7 +257,9 @@ public class STRTabView implements Serializable{
                 umorzeniaWyk.addAll(srodek.getUmorzWyk());
                 for(Umorzenie umAkt : umorzeniaWyk){
                     if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
-                        amoDok.getUmorzenia().add(umAkt);
+                        if (umAkt.getKwota().signum()>0) {
+                            amoDok.getUmorzenia().add(umAkt);
+                        }
                     } 
                 }
               srodek.setUmorzeniezaksiegowane(Boolean.TRUE);
