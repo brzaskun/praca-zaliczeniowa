@@ -17,6 +17,7 @@ import entity.Fakturadodelementy;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
+import entity.Klienci;
 import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
@@ -462,6 +463,10 @@ public class SessionFacade<T> {
 
     public Fakturywystokresowe findOkresowa(Double brutto, String klientnip, String nazwapelna) {
         return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("brutto", brutto).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
+    }
+
+    public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
+        return (Dok) em.createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", nazwapelna).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
 
    

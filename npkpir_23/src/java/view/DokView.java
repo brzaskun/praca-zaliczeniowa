@@ -1283,7 +1283,12 @@ public class DokView implements Serializable {
                     throw new Exception();
                 }
             }
-
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Nie ma odpisu w porzednim miesiącu a jest dokumet umorzeniowy za ten okres!", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        try {
             List<Umorzenie> umorzenia = new ArrayList<>();
             umorzenia.addAll(amodok.getUmorzenia());
             Iterator it;
@@ -1352,7 +1357,7 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Nie ma odpisu w porzednim miesiącu!!", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument AMO nie zaksięgowany!", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -1433,7 +1438,7 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd!!", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument strono nie zaksięgowany!", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
         }
@@ -1463,7 +1468,7 @@ public class DokView implements Serializable {
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = dokDAO.znajdzDuplikat(selD);
         if (tmp != null) {
-            String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
+            String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
             FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
             RequestContext.getCurrentInstance().update("messageserror");
@@ -1475,9 +1480,9 @@ public class DokView implements Serializable {
     
      public void sprawdzCzyNieDuplikatwtrakcie() {
         try {
-            Dok tmp = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna());
-            if (tmp!=null){
-                String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany u podatnika: " + wpisView.getPodatnikWpisu();
+            Dok selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna());
+            if (selD!=null){
+                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
                 FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
                 RequestContext.getCurrentInstance().update("messageserror");

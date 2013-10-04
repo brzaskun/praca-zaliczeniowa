@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Dok;
+import entity.Klienci;
 import interceptor.PobranietabeliInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,6 +77,10 @@ public class DokDAO extends DAO implements Serializable {
     public void destroyStornoDok(String rok, String mc, String podatnik) {
         Dok tmp = (Dok) dokFacade.findStornoDok(rok, mc, podatnik);
         dokFacade.remove(tmp);
+    }
+
+    public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
+        return dokFacade.findFaktWystawione(nazwapelna, kontrahent, numerkolejny, brutto);
     }
 
    

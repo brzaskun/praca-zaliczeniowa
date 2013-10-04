@@ -73,6 +73,7 @@ public class FakturaView implements Serializable {
     //tego potrzebuje zeby zachowac wiersz wzorcowy
     @Inject private PodatnikDAO podatnikDAO;
     private Double podsumowaniewybranych;
+    //do usuuwania faktur zaksiegowanych
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -238,20 +239,39 @@ public class FakturaView implements Serializable {
         return null;
     }
 
-    public void destroygrupa() {
+    public void destroysporzadzone() {
         for (Faktura p : gosciwybral) {
             try {
-                fakturaDAO.destroy(p);
-                faktury.remove(p);
-                if (p.isWygenerowanaautomatycznie()==true){
+                    if (p.isWygenerowanaautomatycznie()==true){
                     zaktualizujokresowa(p);
                 }
-                RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
-                RequestContext.getCurrentInstance().update("akordeon:formarchiwum:dokumentyArchiwum");
-                RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
-                Msg.msg("i", "Usunięto fakturę " + p.getFakturaPK().getNumerkolejny());
+                fakturaDAO.destroy(p);
+                faktury.remove(p);
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
-                Msg.msg("e", "Nie usunięto faktury " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+            }
+        }
+    }
+    
+    public void destroyarchiwalne() {
+        for (Faktura p : gosciwybral) {
+            try {
+                    if (p.isWygenerowanaautomatycznie()==true){
+                    zaktualizujokresowa(p);
+                }
+                fakturaDAO.destroy(p);
+                fakturyarchiwum.remove(p);
+                Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getFakturaPK().getNumerkolejny());
+            } catch (Exception e) {
+                Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getFakturaPK().getNumerkolejny());
+            }
+            try {
+                Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca().getNazwapelna(), p.getKontrahent(), p.getFakturaPK().getNumerkolejny(), p.getBrutto());
+                dokDAO.destroy(znajdka);
+                Msg.msg("i", "Usunięto księgowanie faktury: " + p.getFakturaPK().getNumerkolejny());
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd! Nie usunięto księgowania faktury: " + p.getFakturaPK().getNumerkolejny());
             }
         }
     }
@@ -476,16 +496,25 @@ public class FakturaView implements Serializable {
 
     public void dodajfaktureokresowa() {
         for (Faktura p : gosciwybral) {
+            String podatnik = wpisView.getPodatnikWpisu();
             Fakturywystokresowe fakturyokr = new Fakturywystokresowe();
             fakturyokr.setDokument(p);
-            fakturyokr.setPodatnik(wpisView.getPodatnikWpisu());
+            fakturyokr.setPodatnik(podatnik);
             fakturyokr.setBrutto(p.getBrutto());
             fakturyokr.setNipodbiorcy(p.getKontrahent_nip());
-            fakturyokresowe.add(fakturyokr);
-            fakturywystokresoweDAO.dodaj(fakturyokr);
-            Msg.msg("i", "Dodano fakturę okresową");
+            try {
+                Fakturywystokresowe fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), p.getKontrahent_nip(), podatnik);
+                if (fakturatmp != null) {
+                    Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - "+p.getKontrahent().getNpelna()+", przedmiot - "+p.getPozycjenafakturze().get(0).getNazwa()+", kwota - "+p.getBrutto()+" już istnienie!");
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ef) {
+                fakturyokresowe.add(fakturyokr);
+                fakturywystokresoweDAO.dodaj(fakturyokr);
+                Msg.msg("i", "Dodano fakturę okresową");
+            }
         }
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
