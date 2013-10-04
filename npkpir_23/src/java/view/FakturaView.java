@@ -110,7 +110,11 @@ public class FakturaView implements Serializable {
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
-        selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().equals("") ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+        try {
+            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().equals("") ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+        } catch (Exception et) {
+            selected.setMiejscewystawienia("nie ustawiono miejsca");
+        }
         try {
             LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
             selected.setTerminzaplaty(terminplatnosci.toString());
