@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 
@@ -18,17 +19,26 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @SessionScoped
 public class LocaleChanger {
+    
+    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    
     //mozna zaaplikowac do zmiany jezyka - piesn przyszlosci
-    public String polishAction(){
+    public String polishAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(new Locale("pl"));
-        RequestContext.getCurrentInstance().execute("plbuttonOn();");
+        locale = new Locale("pl");
         return null;
     }
-    public String englishAction(){
+    public String englishAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.ENGLISH);
-        RequestContext.getCurrentInstance().execute("enbuttonOn();");
+        locale = Locale.ENGLISH;
         return null;
     }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+       
 }
