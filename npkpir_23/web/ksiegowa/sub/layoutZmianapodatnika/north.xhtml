@@ -7,13 +7,12 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
-    
-        <p:panelGrid columns="2" style="width: 90%">
-           
-      
- 
+        <p:panelGrid columns="3" style="width: 90%">
             <h:outputText value="Biuro Rachunkowe Taxman Grzegorz Grzelczyk - Panel Ksiegowej" style="width: 50%; font-size: 15px"/>
-            
+             <h:form id="formNorth">
+                 <p:commandButton id="pl" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" ajax="falseta"/>
+                 <p:commandButton id="en" value="en" actionListener="#{localeChanger.englishAction}" type="submit" ajax="false"/>
+            </h:form>
         </p:panelGrid>
     </p:layoutUnit>
 </ui:composition>   

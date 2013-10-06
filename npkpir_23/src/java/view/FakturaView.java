@@ -432,7 +432,8 @@ public class FakturaView implements Serializable {
             try {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
-                Msg.msg("i", "Zaksięgowano fakturę sprzedaży");
+                String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: "+selDokument.getNrWlDk()+", kontrahent: "+selDokument.getKontr().getNpelna()+", kwota: "+selDokument.getBrutto();
+                Msg.msg("i", wiadomosc);
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
             } catch (Exception e) {
@@ -559,7 +560,7 @@ public class FakturaView implements Serializable {
             nowa.setWyslana(false);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
-            selected.setAutor(wpisView.getWprowadzil().getLogin());
+            nowa.setAutor(wpisView.getWprowadzil().getLogin());
             fakturaDAO.dodaj(nowa);
             faktury.add(nowa);
             Fakturywystokresowe okresowe = p;
@@ -604,7 +605,7 @@ public class FakturaView implements Serializable {
                     break;
             }
             fakturywystokresoweDAO.edit(okresowe);
-            Msg.msg("i", "Generuje bieżącą fakturę z okresowej");
+            Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: "+nowa.getKontrahent().getNpelna());
         }
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
