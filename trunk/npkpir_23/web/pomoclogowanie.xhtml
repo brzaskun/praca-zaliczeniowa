@@ -5,13 +5,13 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeChanger.locale}">
     <h:head>
         <h:outputStylesheet id="template" name="css/style.css"/>
         <title>Biuro Rachunkowe Taxman</title>
     </h:head>
 
     <h:body style="background-color: #FFFFFF">
-        <f:view>
             <h:form id="formlog1">
                  <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 0% 0% 0% 34%; width: 600px; border-style: none" >
                      <div style="height: 80px;">
@@ -36,7 +36,6 @@
                     </f:facet>
                 </p:panel>
             </h:form>
-           
-        </f:view>
     </h:body>
+    </f:view>
 </html>

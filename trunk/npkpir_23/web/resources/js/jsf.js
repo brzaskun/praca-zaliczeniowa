@@ -726,14 +726,5 @@ var selcolor = function () {
     
 };
 
-var plbuttonOn = function () {
-    $('#formNorth\\:pl').prop('disabled', true).fadeTo( 'slow', 0.2);
-    $('#formNorth\\:en').prop('disabled', false).fadeTo( 'slow', 1);
-};
-
-var enbuttonOn = function () {
-    $('#formNorth\\:en').prop('disabled', true).fadeTo( 'slow', 0.2);
-    $('#formNorth\\:pl').prop('disabled', false).fadeTo( 'slow', 1);
-};
 
  
