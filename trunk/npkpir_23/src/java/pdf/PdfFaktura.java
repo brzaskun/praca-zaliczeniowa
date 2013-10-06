@@ -22,6 +22,7 @@ import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
 import entity.Fakturadodelementy;
+import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -84,12 +85,12 @@ public class PdfFaktura extends Pdf implements Serializable {
    
     
     public void drukujokresowa() throws DocumentException, FileNotFoundException, IOException {
-       List<Faktura> fakturydruk = FakturaView.getGosciwybralS();
+       List<Fakturywystokresowe> fakturydruk = FakturaView.getGosciwybralokresS();
        int i = 0;
-       for (Faktura selected : fakturydruk){
+       for (Fakturywystokresowe selected : fakturydruk){
         try {
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected,fdod,i,"druk");
+            drukujcd(selected.getDokument(),fdod,i,"druk");
             i++;
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wybrano faktury");

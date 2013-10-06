@@ -5,6 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:tab id="archiwum" title="Faktury archiwalne">
+         <h:form>
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
+                <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
+                <f:facet name="success"><h:outputText value="" /></f:facet>
+                <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
+            </p:ajaxStatus>
+        </h:form>
         <h:form id="formarchiwum">
             <p:contextMenu for="dokumentyArchiwum" >
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
