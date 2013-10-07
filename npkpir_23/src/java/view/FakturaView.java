@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
 import serialclone.SerialClone;
 
@@ -557,6 +559,10 @@ public class FakturaView implements Serializable {
                 }
                 nowa.getFakturaPK().setNumerkolejny(numer);
             }
+            int terminplatnosci = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
+            MutableDateTime dateTime = new MutableDateTime(firstDate.toString());  
+            dateTime.addDays(terminplatnosci);
+            nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
             nowa.setWyslana(false);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
