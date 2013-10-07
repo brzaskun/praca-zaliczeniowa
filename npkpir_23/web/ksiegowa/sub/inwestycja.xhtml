@@ -8,6 +8,9 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon">
         <p:tab title="wykaz">
+            <p:commandButton value="#{mgs.drukuj}" type="button" icon="ui-icon-print">  
+                <p:printer target=":form:akordeon:dataList" />  
+            </p:commandButton>  
             <p:contextMenu for="dataList">
                 <p:menuitem value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":form:akordeon:dataList"/>
             </p:contextMenu>

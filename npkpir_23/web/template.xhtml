@@ -31,16 +31,21 @@
      </div>
 <![endif]-->
     <h:body>
-        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
+        <p:growl id="messageslogout" showDetail="true" sticky="true" />  
+        <p:idleMonitor timeout="600000">  
+            <p:ajax event="idle" listener="#{Logowanie.logout()}" update="messageslogout" />  
+<!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
+        </p:idleMonitor>  
+<!--        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
         <p:dialog header="Upłynął czas sesji" resizable="false"  
                   widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
             <h:outputText value="Zostałeś wylogowany" />  
-        </p:dialog>
+        </p:dialog>-->
         <!--        ten button jest bardzo wazny. wylogowuje sejse. nie wolno go usuwac-->
 
-        <h:form id="templateform">
-            <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="display: none;"/>
-        </h:form>
+<!--        <h:form id="templateform">
+            <p:commandButton id="wyloguj" value="Wyloguj" action="{Logowanie.logout()}" style="display: none;"/>
+        </h:form>-->
         <ui:insert name="body"> 
            <!--             Default ajaxErrorHandler   
                         <pe:ajaxErrorHandler button="OK" />  -->
