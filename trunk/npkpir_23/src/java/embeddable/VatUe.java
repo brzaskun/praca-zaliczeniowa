@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 
 /**
  *
@@ -24,6 +25,7 @@ public class VatUe implements Serializable{
     private Klienci kontrahent;
     private Double netto;
     private int liczbadok;
+    @Lob
     private List<Dok> zawiera;
 
     public VatUe() {

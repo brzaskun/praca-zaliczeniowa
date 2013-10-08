@@ -3,26 +3,32 @@
 <glassfish-web-app error-url="">
   <security-role-mapping>
     <role-name>Administrator</role-name>
+    <principal-name>Administrator</principal-name>
     <group-name>Administrator</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>Manager</role-name>
+    <principal-name>Manager</principal-name>
     <group-name>Manager</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>Bookkeeper</role-name>
+    <principal-name>Bookkeeper</principal-name>
     <group-name>Bookkeeper</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>BookkeeperFK</role-name>
+    <principal-name>BookkeeperFK</principal-name>
     <group-name>BookkeeperFK</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>Guest</role-name>
+    <principal-name>Guest</principal-name>
     <group-name>Guest</group-name>
   </security-role-mapping>
   <security-role-mapping>
     <role-name>Noobie</role-name>
+    <principal-name>Noobie</principal-name>
     <group-name>Noobie</group-name>
   </security-role-mapping>
   <resource-ref>
