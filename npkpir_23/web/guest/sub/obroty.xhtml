@@ -20,7 +20,7 @@
         <f:convertNumber minFractionDigits="2" locale="PL"/>
     </h:outputText><h:outputText value="zł  "/>
     <p:separator/>
-    <p:outputPanel id="wrapper">
+    <p:outputPanel id="wrapper" deferred="true">
         
        <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
                       paginator="true" paginatorAlwaysVisible="true" rows="50"
