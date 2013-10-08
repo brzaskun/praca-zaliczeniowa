@@ -3,17 +3,30 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:tab id="archiwum" title="Faktury archiwalne">
+         <h:form>
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
+                <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
+                <f:facet name="success"><h:outputText value="" /></f:facet>
+                <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
+            </p:ajaxStatus>
+        </h:form>
         <h:form id="formarchiwum">
             <p:contextMenu for="dokumentyArchiwum" >
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
-                <p:menuitem value="Usuń wiele" actionListener="#{fakturaView.destroygrupa()}" icon="ui-icon-trash" />
+                <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
             </p:contextMenu>
+             <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
+    <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
+        <f:convertNumber minFractionDigits="2" locale="PL"/>
+    </h:outputText><h:outputText value="zł  "/><br/><br/>
             <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable">
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
+            <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
+            <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>      
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksiegowanych faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  

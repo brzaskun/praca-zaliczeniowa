@@ -157,8 +157,6 @@ public class FakturaView implements Serializable {
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         Msg.msg("i", "Przygotowano fakture");
-        RequestContext.getCurrentInstance().update("akordeon:formstworz:panelfaktury");
-        RequestContext.getCurrentInstance().execute("aktywujpolewyboruklientanafakturze()");
     }
 
     public void dodaj() throws Exception {
