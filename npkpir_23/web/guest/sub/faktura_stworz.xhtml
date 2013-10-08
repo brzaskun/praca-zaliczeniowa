@@ -6,12 +6,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+    xmlns:pe="http://primefaces.org/ui/extensions">
         <p:tab id="nowa" title="Sporządź nową fakturę" >
             <h:form id="formprzygotuj">
                 <p:outputPanel style="padding: 5px;">
-                 <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" update=":akordeon:formstworz" style="margin-bottom: 25px; margin-top: 10px" />
+                    <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz" style="margin-bottom: 25px; margin-top: 10px" />
             </p:outputPanel>
             </h:form>
             <h:form id="formstworz">
@@ -19,7 +18,7 @@
             <p:panelGrid columns="4" style="height: 250px;">
                 <h:outputLabel value="miejsce wystawienia faktury: " />
                 <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                    <p:inputText value="Szczecin" required="true" label="text" style="font-weight: bolder;"/>  
+                    <p:inputText value="#{fakturaView.selected.miejscewystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
                 </p:inplace>  
                 <h:outputLabel value="data wystawienia faktury: " />
                 <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -56,7 +55,7 @@
                 <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                autocomplete="true" forceSelection="true" global="false"
+                                autocomplete="true" forceSelection="true" 
                                 required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
                     <f:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" execute="@this" />
                     <f:facet name="itemtip">  
@@ -116,11 +115,9 @@
                 <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" style="margin-bottom: 25px;"/>
              </p:outputPanel>
             <br/>
-            <p:outputPanel  style="margin-top: 25px;">
+            <p:outputPanel  style="margin-top: 15px;">
                 <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" update=":akordeon:formstworz" style="margin-bottom: 25px;"/>
-             </p:outputPanel>
-             <p:outputPanel  style="margin-top: 25px;">
-             <p:commandButton id="dodajwzorcowywiersz" value="wzorcowy wiersz" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
+                 <p:commandButton style="margin-left: 25px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
             </p:outputPanel>
             </p:outputPanel>
                
