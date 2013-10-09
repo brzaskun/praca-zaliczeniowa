@@ -50,7 +50,7 @@
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                           style="width: 1500px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          scrollable="true" scrollRows="4" selectionMode="multiple" stickyHeader="true"
+                          scrollable="true" scrollRows="4" selectionMode="multiple" 
                           > 
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
                 <f:facet name="header">  
