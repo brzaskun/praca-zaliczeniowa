@@ -11,16 +11,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
 import org.primefaces.event.RowEditEvent;
+import params.Params;
 
 /**
  *
@@ -185,55 +189,70 @@ public class UzView implements Serializable{
         }
     }
     
-     //tabela obiektow
-     public List<Uz> getObiektUZjsf() {
+    public void sprawdzloginduplikat(AjaxBehaviorEvent e){
+       String login = (String) Params.params("pole:login");
+       try {
+           Uz user = uzDAO.find(login);
+           if ( user == null) {
+               System.out.println("Login unikalny");
+           } else {
+               Msg.msg("w", "Użytkownik o takim loginie już istnienie. Wpisz inny.");
+           }
+       } catch (Exception ef) {
+           //Msg.msg("e", "Nie można sprawdzić loginu. Wsytąpił błąd!");
+       }
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    //tabela obiektow
+    public List<Uz> getObiektUZjsf() {
         return obiektUZjsf;
     }
-   
-
+    
+    
     public UzDAO getUzDAO() {
         return uzDAO;
     }
-
+    
     public Uz getSelUzytkownik() {
         return selUzytkownik;
     }
-
+    
     public void setSelUzytkownik(Uz selUzytkownik) {
         this.selUzytkownik = selUzytkownik;
     }
-
+    
     public String getConfPassword() {
         return confPassword;
     }
-
+    
     public void setConfPassword(String confPassword) {
         this.confPassword = confPassword;
     }
-
+    
     public String getLogin() {
         return login;
     }
-
+    
     public void setLogin(String login) {
         this.login = login;
     }
-
+    
     public String getFirstPassword() {
         return firstPassword;
     }
-
+    
     public void setFirstPassword(String firstPassword) {
         this.firstPassword = firstPassword;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    //</editor-fold>
    
 }

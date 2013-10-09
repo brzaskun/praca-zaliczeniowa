@@ -29,7 +29,8 @@ public class UzDAO extends DAO implements Serializable{
     public Uz find(String np){
          return uzFacade.findUzNP(np);
      }
-
+    
+   
        public  List<Uz> findAll(){
         try {
             System.out.println("Pobieram UzDAO");

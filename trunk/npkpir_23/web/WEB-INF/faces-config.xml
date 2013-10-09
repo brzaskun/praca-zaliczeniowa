@@ -291,6 +291,9 @@
            <base-name>messagesbundle.messages</base-name>
            <var>mgs</var>
         </resource-bundle>
+        <message-bundle>
+	  	messagesbundle.messages
+	 </message-bundle>
     </application>
     <application>
         <locale-config>
