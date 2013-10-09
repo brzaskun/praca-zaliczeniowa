@@ -39,6 +39,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
@@ -609,8 +611,207 @@ public class ZestawienieView implements Serializable {
                 }
             }
         }
+        createLinearModel(); 
     }
 
+    //rysuje wykres
+    private CartesianChartModel linearModel;
+    private double maxliczbadowykresu;
+    private double minliczbadowykresu;
+  
+    public CartesianChartModel getLinearModel() {  
+        return linearModel;  
+    }  
+
+    public double getMaxliczbadowykresu() {
+        return maxliczbadowykresu;
+    }
+
+    public double getMinliczbadowykresu() {
+        return minliczbadowykresu;
+    }
+  
+          
+    private void createLinearModel() {  
+        linearModel = new CartesianChartModel();  
+  
+        LineChartSeries series1 = new LineChartSeries();  
+        series1.setLabel("przychody");  
+        series1.setMarkerStyle("circle"); 
+  
+        series1.set("styczeń", styczen.get(7));  
+        series1.set("luty", luty.get(7));  
+        series1.set("marzec", marzec.get(7));  
+        series1.set("kwiecień", kwiecien.get(7));  
+        series1.set("maj", maj.get(7));  
+        series1.set("czerwiec", czerwiec.get(7));  
+        series1.set("lipiec", lipiec.get(7));  
+        series1.set("sierpień", sierpien.get(7));  
+        series1.set("wrzesień", wrzesien.get(7));  
+        series1.set("październik", pazdziernik.get(7));  
+        series1.set("listopad", listopad.get(7));  
+        series1.set("grudzień", grudzien.get(7));  
+  
+        LineChartSeries series2 = new LineChartSeries();  
+        series2.setLabel("koszty");  
+        series2.setMarkerStyle("diamond");  
+  
+        series2.set("styczeń", styczen.get(8));  
+        series2.set("luty", luty.get(8));  
+        series2.set("marzec", marzec.get(8));  
+        series2.set("kwiecień", kwiecien.get(8));  
+        series2.set("maj", maj.get(8));  
+        series2.set("czerwiec", czerwiec.get(8));  
+        series2.set("lipiec", lipiec.get(8));  
+        series2.set("sierpień", sierpien.get(8));  
+        series2.set("wrzesień", wrzesien.get(8));  
+        series2.set("październik", pazdziernik.get(8));  
+        series2.set("listopad", listopad.get(8));  
+        series2.set("grudzień", grudzien.get(8));  
+        
+        LineChartSeries series3 = new LineChartSeries();  
+        series3.setLabel("wynik");  
+        series3.setMarkerStyle("filledSquare");  
+  
+        series3.set("styczeń", styczen.get(9));  
+        series3.set("luty", luty.get(9));  
+        series3.set("marzec", marzec.get(9));  
+        series3.set("kwiecień", kwiecien.get(9));  
+        series3.set("maj", maj.get(9));  
+        series3.set("czerwiec", czerwiec.get(9));  
+        series3.set("lipiec", lipiec.get(9));  
+        series3.set("sierpień", sierpien.get(9));  
+        series3.set("wrzesień", wrzesien.get(9));  
+        series3.set("październik", pazdziernik.get(9));  
+        series3.set("listopad", listopad.get(9));  
+        series3.set("grudzień", grudzien.get(9));  
+  
+  
+        linearModel.addSeries(series1);  
+        linearModel.addSeries(series2); 
+        linearModel.addSeries(series3); 
+        wyliczmaksymalna();
+        wyliczminimalna();
+    } 
+    
+    private void wyliczmaksymalna() {
+        maxliczbadowykresu =0;
+        List<Double> lista = new ArrayList<>();
+        lista.add(styczen.get(7));
+        lista.add(luty.get(7));  
+        lista.add(marzec.get(7));  
+        lista.add(kwiecien.get(7));  
+        lista.add(maj.get(7));  
+        lista.add(czerwiec.get(7));  
+        lista.add(lipiec.get(7));  
+        lista.add(sierpien.get(7));  
+        lista.add(wrzesien.get(7));  
+        lista.add(pazdziernik.get(7));  
+        lista.add(listopad.get(7));  
+        lista.add(grudzien.get(7));
+        lista.add(styczen.get(8));  
+        lista.add(luty.get(8));  
+        lista.add(marzec.get(8));  
+        lista.add(kwiecien.get(8));  
+        lista.add(maj.get(8));  
+        lista.add(czerwiec.get(8));  
+        lista.add(lipiec.get(8));  
+        lista.add(sierpien.get(8));  
+        lista.add(wrzesien.get(8));  
+        lista.add(pazdziernik.get(8));  
+        lista.add(listopad.get(8));  
+        lista.add(grudzien.get(8));
+        lista.add(styczen.get(9));  
+        lista.add(luty.get(9));  
+        lista.add(marzec.get(9));  
+        lista.add(kwiecien.get(9));  
+        lista.add(maj.get(9));  
+        lista.add(czerwiec.get(9));  
+        lista.add(lipiec.get(9));  
+        lista.add(sierpien.get(9));  
+        lista.add(wrzesien.get(9));  
+        lista.add(pazdziernik.get(9));  
+        lista.add(listopad.get(9));  
+        lista.add(grudzien.get(9));
+        for (Double p : lista) {
+            if (maxliczbadowykresu < p) {
+                maxliczbadowykresu = p;
+            }
+        }
+        if (maxliczbadowykresu < 10000) {
+            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu*0.05;
+            maxliczbadowykresu = maxliczbadowykresu/1000;
+            maxliczbadowykresu = Math.round(maxliczbadowykresu);
+            maxliczbadowykresu = maxliczbadowykresu*1000;
+        } else  {
+            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu*0.02;
+            maxliczbadowykresu = maxliczbadowykresu/10000;
+            maxliczbadowykresu = Math.round(maxliczbadowykresu);
+            maxliczbadowykresu = maxliczbadowykresu*10000;
+        }
+        
+        
+    }
+    private void wyliczminimalna() {
+        minliczbadowykresu =0;
+        List<Double> lista = new ArrayList<>();
+        lista.add(styczen.get(7));
+        lista.add(luty.get(7));  
+        lista.add(marzec.get(7));  
+        lista.add(kwiecien.get(7));  
+        lista.add(maj.get(7));  
+        lista.add(czerwiec.get(7));  
+        lista.add(lipiec.get(7));  
+        lista.add(sierpien.get(7));  
+        lista.add(wrzesien.get(7));  
+        lista.add(pazdziernik.get(7));  
+        lista.add(listopad.get(7));  
+        lista.add(grudzien.get(7));
+        lista.add(styczen.get(8));  
+        lista.add(luty.get(8));  
+        lista.add(marzec.get(8));  
+        lista.add(kwiecien.get(8));  
+        lista.add(maj.get(8));  
+        lista.add(czerwiec.get(8));  
+        lista.add(lipiec.get(8));  
+        lista.add(sierpien.get(8));  
+        lista.add(wrzesien.get(8));  
+        lista.add(pazdziernik.get(8));  
+        lista.add(listopad.get(8));  
+        lista.add(grudzien.get(8));
+        lista.add(styczen.get(9));  
+        lista.add(luty.get(9));  
+        lista.add(marzec.get(9));  
+        lista.add(kwiecien.get(9));  
+        lista.add(maj.get(9));  
+        lista.add(czerwiec.get(9));  
+        lista.add(lipiec.get(9));  
+        lista.add(sierpien.get(9));  
+        lista.add(wrzesien.get(9));  
+        lista.add(pazdziernik.get(9));  
+        lista.add(listopad.get(9));  
+        lista.add(grudzien.get(9));
+        for (Double p : lista) {
+            if (minliczbadowykresu > p) {
+                minliczbadowykresu = p;
+            }
+        }
+        if (minliczbadowykresu < -10000) {
+            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu*0.05;
+            minliczbadowykresu = minliczbadowykresu/1000;
+            minliczbadowykresu = Math.round(minliczbadowykresu);
+            minliczbadowykresu = minliczbadowykresu*1000;
+        } else  {
+            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu*0.02;
+            minliczbadowykresu = minliczbadowykresu/10000;
+            minliczbadowykresu = Math.round(minliczbadowykresu);
+            minliczbadowykresu = minliczbadowykresu*10000;
+        }
+        
+    }
+  
+    
+    
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         sprawdzczyzaksiegowanoamortyzacje();
