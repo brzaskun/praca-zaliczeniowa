@@ -222,13 +222,18 @@ var oknoklientanowego = function(){
 var wydrukpkpir = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("form:pkpirwysylka").style.display='inline';
-}
+};
+
+var wydrukzbiorcze = function(kto){
+    window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("akordeon:form:pkpirwysylka").style.display='inline';
+};
 
 var wydrukstr = function(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("formSTR:ewwysylka").style.display='inline';
     
-}
+};
 // progress on transfers from the server to the client (downloads)
 //function updateProgress (oEvent) {
 //  if (oEvent.lengthComputable) {

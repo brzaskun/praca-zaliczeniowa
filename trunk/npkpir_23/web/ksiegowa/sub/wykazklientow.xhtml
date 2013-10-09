@@ -86,7 +86,7 @@
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" 
                  rowKey="#{wpis.nip}" selection="#{KlView.selected}" selectionMode="single"
-                 emptyMessage="Nie ma klientów" style="margin-left: 5%; width: 900px;">
+                 emptyMessage="Nie ma klientów" style="margin-left: 2%; width: 90%;">
             <p:ajax event="rowEdit" update=":formX:mess_add" listener="#{KlView.edit}" />
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
@@ -125,11 +125,17 @@
                     </f:facet>  
                 </p:cellEditor>
         </p:column>
-            <p:column id="Column3" headerText="lp" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="200">  
+            <p:column id="Column3" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="200">  
             <f:facet name="header">  
-                <h:outputText value="adres" />  
+                <h:outputText value="miejscowość" />  
             </f:facet> 
-            <h:outputText value="#{wpis.kodpocztowy} #{wpis.miejscowosc}, #{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
+            <h:outputText value="#{wpis.kodpocztowy} #{wpis.miejscowosc}" />
+        </p:column>
+         <p:column id="Column31" sortBy="#{wpis.ulica}" filterBy="#{wpis.ulica}" filterMatchMode="contains" width="200">  
+            <f:facet name="header">  
+                <h:outputText value="ulica" />  
+            </f:facet> 
+            <h:outputText value="#{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
         </p:column>
             <p:column id="Column4" headerText="lp" sortBy="#{wpis.pkpirKolumna}" filterBy="#{wpis.pkpirKolumna}" filterMatchMode="contains" >  
             <f:facet name="header">  
