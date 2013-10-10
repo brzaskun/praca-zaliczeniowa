@@ -667,7 +667,8 @@ var sprawdzczybrakklienta = function () {
         var text = $('#zobWiad\\:nazwa').html();
         $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
-        $('#dodWiad\\:acForce_input').select();$('#dodWiad\\:acForce_input').trigger('keyup');
+        $('#dodWiad\\:acForce_input').select();
+        $('#dodWiad\\:acForce_input').trigger('keyup');
     }
 };
 

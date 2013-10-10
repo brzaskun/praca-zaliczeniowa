@@ -652,8 +652,10 @@ public class DokView implements Serializable {
         if (!wprowadzonynumer.equals("")) {
         } else {
             String nowynumer = "";
-            String pod = wpisView.findWpisX().getPodatnikWpisu();
-            Podatnik podX = podatnikDAO.find(pod);
+            Podatnik podX = wpisView.getPodatnikObiekt();
+            String podatnikString = wpisView.getPodatnikWpisu();
+            Integer rok = wpisView.getRokWpisu();
+            String mc = wpisView.getMiesiacWpisu();
             List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
@@ -671,7 +673,7 @@ public class DokView implements Serializable {
             String[] elementy;
             try {
                 elementy = wzorzec.split(separator);
-                Dok ostatnidokument = dokDAO.find(skrot, wpisView.findWpisX().getPodatnikWpisu(), wpisView.findWpisX().getRokWpisu());
+                Dok ostatnidokument = dokDAO.find(skrot, podatnikString, rok);
                 String[] elementyold;
                 elementyold = ostatnidokument.getNrWlDk().split(separator);
                 for (int i = 0; i < elementy.length; i++) {
@@ -684,10 +686,10 @@ public class DokView implements Serializable {
                             nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
                             break;
                         case "m":
-                            nowynumer = nowynumer.concat(wpisView.findWpisX().getMiesiacWpisu()).concat(separator);
+                            nowynumer = nowynumer.concat(mc).concat(separator);
                             break;
                         case "r":
-                            nowynumer = nowynumer.concat(wpisView.findWpisX().getRokWpisu().toString()).concat(separator);
+                            nowynumer = nowynumer.concat(rok.toString()).concat(separator);
                             break;
                         //to jest wlasna wstawka typu FVZ
                         case "s":

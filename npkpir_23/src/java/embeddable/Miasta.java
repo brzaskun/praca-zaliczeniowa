@@ -7,6 +7,7 @@ package embeddable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
@@ -908,8 +909,10 @@ static{
  public List<String> complete(String query) {  
         List<String> results = new ArrayList<String>();  
         String kl = new String();
+        query = query.toLowerCase(new Locale("pl"));
          for(String p : getWykazMiast()) {  
-            if(p.startsWith(query)) {
+            String pl = p.toLowerCase(new Locale("pl"));
+            if(pl.startsWith(query)) {
                  results.add(p);
              }
         }  
