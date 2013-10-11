@@ -210,10 +210,10 @@ public class SessionFacade<T> {
         return wynik;
     }
     
-     public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna) {
+     public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
         Dok wynik = null;
         try {
-            wynik = (Dok) em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).getSingleResult();
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getSingleResult();
         } catch (Exception e) {
             System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;
