@@ -88,6 +88,7 @@ import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
+import params.Params;
 
 /**
  *
@@ -1482,7 +1483,7 @@ public class DokView implements Serializable {
     
      public void sprawdzCzyNieDuplikatwtrakcie() {
         try {
-            Dok selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna());
+            Dok selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
             if (selD!=null){
                 String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);

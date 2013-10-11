@@ -40,8 +40,8 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.dokumentDuplicat(selD);
     }
     
-    public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna) {
-        return dokFacade.dokumentDuplicatwtrakcie(selD, nazwapelna);
+    public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
+        return dokFacade.dokumentDuplicatwtrakcie(selD, nazwapelna, typdokumentu);
     }
 
 //    
