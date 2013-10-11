@@ -4,6 +4,7 @@
  */
 package language;
 
+import java.io.Serializable;
 import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,7 +19,7 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 @SessionScoped
-public class LocaleChanger {
+public class LocaleChanger implements Serializable{
     
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     

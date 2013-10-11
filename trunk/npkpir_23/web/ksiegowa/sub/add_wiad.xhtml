@@ -22,15 +22,16 @@
             
 
             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 120px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dania, lub miesiąc i dzień" >
-               <p:ajax event="keypress" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
+               <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:panel"  />
             </p:inputText>
             
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                autocomplete="true" forceSelection="true" widgetVar="dialogklient"
+                                autocomplete="true" forceSelection="true" widgetVar="dialogklient" global="false"
                                 valueChangeListener="#{DokumentView.przekazKontrahenta}"
                                 required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="1" onblur="sprawdzczybrakklienta();">
+                    <f:ajax event="blur" execute="@this"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
