@@ -525,7 +525,7 @@ var updatesum = function(){
 function ustawDate(rok,mc){
     var dataWyst = document.getElementById("dodWiad:dataPole");
     var wart = dataWyst.value;
-    if(mc!=10||mc!=11||mc!=12){
+    if(mc!==10&&mc!==11&&mc!==12){
         mc = "0"+mc;
     }
     var re1 = /[0-3][0-9]/;
