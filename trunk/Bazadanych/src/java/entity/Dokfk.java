@@ -42,7 +42,7 @@ public class Dokfk implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String opisdokumentu;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dokfk")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dokfk", orphanRemoval=true)
     private List<Wiersz> wierszList;
     
 
