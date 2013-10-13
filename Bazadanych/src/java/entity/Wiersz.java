@@ -44,16 +44,19 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
     private String opiswiersza;
-//    @JoinColumns({
-//    @JoinColumn(name="seriadokfkD",referencedColumnName="seriadokfk", insertable=false, updatable=false),
-//    @JoinColumn(name="nrkolejnyD",referencedColumnName="nrkolejny", insertable=false, updatable=false),
-//    @JoinColumn(name = "podatnikD", referencedColumnName = "podatniknazwa", insertable=false, updatable=false)})
+    @Basic(optional = false)
+    @NotNull
+    private double kwotapln;
+    @Basic(optional = false)
+    @NotNull
+    private double kwotawaluta;
+    @Basic(optional = false)
+    @NotNull
+    private double kurs;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
-//    private String seriadokfkD;
-//    private int nrkolejnyD;
-//    private String podatnikD;
-//    
+
+    
     public Wiersz() {
     }
 
@@ -90,6 +93,31 @@ public class Wiersz implements Serializable {
         this.dokfk = dokfk;
     }
 
+    public double getKwotapln() {
+        return kwotapln;
+    }
+
+    public void setKwotapln(double kwotapln) {
+        this.kwotapln = kwotapln;
+    }
+
+    public double getKwotawaluta() {
+        return kwotawaluta;
+    }
+
+    public void setKwotawaluta(double kwotawaluta) {
+        this.kwotawaluta = kwotawaluta;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
+    }
+
+    
   
 
    

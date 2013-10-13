@@ -88,8 +88,11 @@ and open the template in the editor.
                     <p:panel header="elementy wiersza">
                     <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
                     <ui:repeat id="repeat" value="#{dokfkView.dokfk.wierszList}" var="row" varStatus="rowStat">
-                        <p:panelGrid columns="3">
-                        <h:inputText id="opiswiersza" value="#{dokfkView.dokfk.wierszList[rowStat.index].opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                        <p:panelGrid columns="6">
+                        <h:inputText id="opiswiersza" value="#{row.opiswiersza}" title="Opisw iersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                                <h:inputText id="kwotawierszapln" value="#{row.kwotapln}" title="Kwota wiersza pln" required="true" requiredMessage="The Kwota  wiersza pln field is required."/>
+                                <h:inputText id="kurs" value="#{row.kurs}" title="Kurs wiersza waluta" required="true" requiredMessage="The Kurs  wiersza waluta field is required."/>
+                                <h:inputText id="kwotawierszawaluta" value="#{row.kwotawaluta}" title="Kwota wiersza waluta" required="true" requiredMessage="The Kwota  wiersza waluta field is required."/>
                         <p:commandButton actionListener="#{dokfkView.usunwiersz(rowStat.index)}"  id="delete" icon="ui-icon ui-icon-trash" update=":lista:dokumenty" type="submit" />
                         <p:commandButton value="+" actionListener="#{dokfkView.dodajwierszedycja()}" update=":formedycja"/>
                         </p:panelGrid>

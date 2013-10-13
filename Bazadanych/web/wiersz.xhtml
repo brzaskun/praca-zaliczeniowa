@@ -27,18 +27,47 @@ and open the template in the editor.
             </h:form>
             <h:form>
                 <h1><h:outputText value="List"/></h1>
-                <p:dataTable value="#{wierszView.wierszlist}" var="item" style="width: 700px;">
+                <p:dataTable value="#{wierszView.wierszlist}" var="item" style="width: 700px;"
+                             selection="#{wierszView.wiersz}" rowKey="#{item.idwiersza}" selectionMode="single"
+                             >
+                    <p:ajax event="rowSelect"  partialSubmit="true"/>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Idwiersza"/>
+                            <h:outputText value="Id wiersza"/>
                         </f:facet>
                         <h:outputText value="#{item.idwiersza}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Opiswiersza"/>
+                            <h:outputText value="Opis wiersza"/>
                         </f:facet>
-                        <h:outputText value="#{item.opiswiersza}"/>
+                        <p:inplace editor="true">
+                            <h:inputText value="#{item.opiswiersza}" valueChangeListener="#{wierszView.edytujopiswiersza}"/>
+                        </p:inplace>
+                    </p:column>
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kwota pln"/>
+                        </f:facet>
+                        <p:inplace editor="true">
+                            <h:inputText value="#{item.kwotapln}" valueChangeListener="#{wierszView.edytujopiswiersza}"/>
+                        </p:inplace>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kurs"/>
+                        </f:facet>
+                        <p:inplace editor="true">
+                            <h:inputText value="#{item.kurs}" valueChangeListener="#{wierszView.edytujopiswiersza}"/>
+                        </p:inplace>
+                    </p:column>
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kwota waluta"/>
+                        </f:facet>
+                        <p:inplace editor="true">
+                            <h:inputText value="#{item.kwotawaluta}" valueChangeListener="#{wierszView.edytujopiswiersza}"/>
+                        </p:inplace>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
