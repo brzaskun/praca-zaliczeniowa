@@ -55,9 +55,13 @@ public class DokfkView implements Serializable{
             p.setDokfk(dokfk);
         }
         dokfk.setWierszList(wierszelista);
-        dokfkFacade.edit(dokfk);
-        Msg.msg("i", "Dodano dokument "+dokfk.getOpisdokumentu());
-        Msg.msg("i", "Dodano wiersz "+wierszelista.toString());
+        try {
+            dokfkFacade.create(dokfk);
+            Msg.msg("i", "Dodano dokument "+dokfk.getOpisdokumentu());
+            Msg.msg("i", "Dodano wiersz "+wierszelista.toString());
+        } catch (Exception e) {
+            Msg.msg("e", "Taki dokument juz istnieje "+dokfk.getDokfkPK());
+        }
     }
     
      public void edit() {
@@ -79,6 +83,8 @@ public class DokfkView implements Serializable{
             Msg.msg("i", "Nowa wartosc "+source+" to "+newValue);
             // ...
         }
+     
+    
      
      public void usun(Dokfk dokfkusun) {
          dokfklist.remove(dokfkusun);

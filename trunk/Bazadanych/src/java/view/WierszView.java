@@ -8,9 +8,13 @@ import entity.Dokfk;
 import entity.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import session.WierszFacade;
@@ -20,9 +24,9 @@ import session.WierszFacade;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class WierszView implements Serializable {
-    @Inject private Wiersz wiersz;
+    private Wiersz wiersz;
     private ArrayList<Wiersz> wierszlist;
     @Inject private WierszFacade wierszFacade;
     @Inject private Dokfk dokfk;
@@ -34,6 +38,7 @@ public class WierszView implements Serializable {
 
     @PostConstruct
     private void init() {
+        wiersz = new Wiersz();
         try {
             wierszlist.addAll(wierszFacade.findAll());
         } catch (Exception e) {}
@@ -44,6 +49,16 @@ public class WierszView implements Serializable {
         wierszFacade.create(wiersz);
         Msg.msg("i", "Dodano wiersz "+wiersz.getOpiswiersza());
     }
+    
+      public void edytujopiswiersza(ValueChangeEvent event) {
+            Object source = event.getSource();
+            Object oldValue = event.getOldValue();
+            Msg.msg("i", "Stara wartosc obiektu: "+source+" to "+oldValue);
+            Object newValue = event.getNewValue();
+            Msg.msg("i", "Nowa wartosc "+source+" to "+newValue);
+            wiersz.setOpiswiersza(newValue.toString());
+            wierszFacade.edit(wiersz);
+        }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Wiersz getWiersz() {
