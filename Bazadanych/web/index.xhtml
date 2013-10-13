@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -21,19 +22,28 @@
             <h:form>
                 <p:messages autoUpdate="true"/>
             </h:form>
-            <h:form>
+            <h:form id="dodawanie">
                 <h1><h:outputText value="Create/Edit"/></h1>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="Nrkolejny:" for="dokfkPK.nrkolejny" />
-                    <h:inputText id="dokfkPKnrkolejny" value="#{dokfkView.dokfkPK.nrkolejny}" title="Nrkolejny" required="true" requiredMessage="The Nrkolejny field is required."/>
-                    <h:outputLabel value="Symbol:" for="dokfkPK.symbol" />
-                    <h:inputText id="dokfkPKsymbol" value="#{dokfkView.dokfkPK.symbol}" title="Symbol" required="true" requiredMessage="The Symbol field is required."/>
-                    <h:outputLabel value="Podatnik:" for="dokfkPK.podatnik" />
-                    <h:inputText id="dokfkPKpodatnik" value="#{dokfkView.dokfkPK.podatnik}" title="Podatnik" required="true" requiredMessage="The Podatnik field is required."/>
-                    <h:outputLabel value="Opisdokumentu:" for="opisdokumentu" />
-                    <h:inputText id="opisdokumentu" value="#{dokfkView.dokfk.opisdokumentu}" title="Opisdokumentu" required="true" requiredMessage="The Opisdokumentu field is required."/>
-                    <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
-                    <h:inputText id="opiswiersza" value="#{dokfkView.wiersz.opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                    <p:panel header="elementy dokumentu">
+                        <h:outputLabel value="Nrkolejny:" for="dokfkPK.nrkolejny" />
+                        <h:inputText id="dokfkPKnrkolejny" value="#{dokfkView.dokfk.dokfkPK.nrkolejny}" title="Nrkolejny" required="true" requiredMessage="The Nrkolejny field is required."/>
+                        <h:outputLabel value="Symbol:" for="dokfkPK.symbol" />
+                        <h:inputText id="dokfkPKsymbol" value="#{dokfkView.dokfk.dokfkPK.symbol}" title="Symbol" required="true" requiredMessage="The Symbol field is required."/>
+                        <h:outputLabel value="Podatnik:" for="dokfkPK.podatnik" />
+                        <h:inputText id="dokfkPKpodatnik" value="#{dokfkView.dokfk.dokfkPK.podatnik}" title="Podatnik" required="true" requiredMessage="The Podatnik field is required."/>
+                        <h:outputLabel value="Opisdokumentu:" for="opisdokumentu" />
+                        <h:inputText id="opisdokumentu" value="#{dokfkView.dokfk.opisdokumentu}" title="Opisdokumentu" required="true" requiredMessage="The Opisdokumentu field is required."/>
+                    </p:panel><br/>
+                    <p:panel id="wiersze" header="elementy wiersza">
+                        <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
+                        <ui:repeat id="repeat" value="#{dokfkView.wierszelista}" var="row" varStatus="rowStat">
+                            <p:panelGrid columns="2">
+                            <h:inputText id="opiswiersza" value="#{dokfkView.wierszelista[rowStat.index].opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                            <p:commandButton value="+" actionListener="#{dokfkView.dodajwiersz()}" update=":dodawanie:wiersze"/>
+                            </p:panelGrid>
+                        </ui:repeat>
+                    </p:panel>
                 </h:panelGrid>
                 <p:commandButton value="dodaj" actionListener="#{dokfkView.dodaj()}" type="submit" />
             </h:form>

@@ -7,7 +7,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -26,9 +27,10 @@ and open the template in the editor.
                 <p:messages autoUpdate="true"/>
             </h:form>
             
-            <h:form>
+            <h:form id="lista">
                 <h1><h:outputText value="List"/></h1>
-                <p:dataTable value="#{dokfkView.dokfklist}" var="item" style="width: 700px;">
+                <p:dataTable id="dokumenty" value="#{dokfkView.dokfklist}" var="item" style="width: 700px;" rowKey="#{item.dokfkPK}" selectionMode="single" selection="#{dokfkView.dokfk}">
+                    <p:ajax event="rowSelect" update=":formedycja"/>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Symbol"/>
@@ -51,7 +53,9 @@ and open the template in the editor.
                         <f:facet name="header">
                             <h:outputText value="Opisdokumentu"/>
                         </f:facet>
-                        <h:outputText value="#{item.opisdokumentu}"/>
+                        <p:inplace editor="true">
+                            <p:inputText value="#{item.opisdokumentu}" valueChangeListener="#{dokfkView.edytujopisdokumenty}"/>
+                        </p:inplace>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -59,9 +63,40 @@ and open the template in the editor.
                         </f:facet>
                         <h:outputText value="#{item.wierszList[0].opiswiersza}"/>
                     </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Usuń"/>
+                        </f:facet>
+                        <p:commandButton actionListener="#{dokfkView.usun(item)}"  id="delete" icon="ui-icon ui-icon-trash" update=":lista:dokumenty" type="submit" />
+                    </p:column>
                 </p:dataTable>
             </h:form>
 
+            <h:form id="formedycja">
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <h:panelGrid columns="2">
+                    <p:panel header="elementy dokumentu">
+                        <h:outputLabel value="Nrkolejny:" for="dokfkPK.nrkolejny" />
+                        <h:inputText id="dokfkPKnrkolejny" value="#{dokfkView.dokfk.dokfkPK.nrkolejny}" title="Nrkolejny" required="true" requiredMessage="The Nrkolejny field is required."/>
+                        <h:outputLabel value="Symbol:" for="dokfkPK.symbol" />
+                        <h:inputText id="dokfkPKsymbol" value="#{dokfkView.dokfk.dokfkPK.symbol}" title="Symbol" required="true" requiredMessage="The Symbol field is required."/>
+                        <h:outputLabel value="Podatnik:" for="dokfkPK.podatnik" />
+                        <h:inputText id="dokfkPKpodatnik" value="#{dokfkView.dokfk.dokfkPK.podatnik}" title="Podatnik" required="true" requiredMessage="The Podatnik field is required."/>
+                        <h:outputLabel value="Opisdokumentu:" for="opisdokumentu" />
+                        <h:inputText id="opisdokumentu" value="#{dokfkView.dokfk.opisdokumentu}" title="Opisdokumentu" required="true" requiredMessage="The Opisdokumentu field is required."/>
+                    </p:panel><br/>
+                    <p:panel header="elementy wiersza">
+                    <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
+                    <ui:repeat id="repeat" value="#{dokfkView.dokfk.wierszList}" var="row" varStatus="rowStat">
+                        <p:panelGrid columns="2">
+                        <h:inputText id="opiswiersza" value="#{dokfkView.dokfk.wierszList[rowStat.index].opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
+                        <p:commandButton actionListener="#{dokfkView.usunwiersz(rowStat.index)}"  id="delete" icon="ui-icon ui-icon-trash" update=":lista:dokumenty" type="submit" />
+                        </p:panelGrid>
+                    </ui:repeat>
+                    </p:panel>
+                </h:panelGrid>
+                <p:commandButton value="edytuj" actionListener="#{dokfkView.edit()}" update=":lista:dokumenty" type="submit" />
+            </h:form>
               
         </f:view>
     </h:body>
