@@ -88,9 +88,10 @@ and open the template in the editor.
                     <p:panel header="elementy wiersza">
                     <h:outputLabel value="Opiswiersza:" for="opiswiersza" />
                     <ui:repeat id="repeat" value="#{dokfkView.dokfk.wierszList}" var="row" varStatus="rowStat">
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="3">
                         <h:inputText id="opiswiersza" value="#{dokfkView.dokfk.wierszList[rowStat.index].opiswiersza}" title="Opiswiersza" required="true" requiredMessage="The Opiswiersza field is required."/>
                         <p:commandButton actionListener="#{dokfkView.usunwiersz(rowStat.index)}"  id="delete" icon="ui-icon ui-icon-trash" update=":lista:dokumenty" type="submit" />
+                        <p:commandButton value="+" actionListener="#{dokfkView.dodajwierszedycja()}" update=":formedycja"/>
                         </p:panelGrid>
                     </ui:repeat>
                     </p:panel>

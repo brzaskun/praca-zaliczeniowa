@@ -9,6 +9,7 @@ import entity.DokfkPK;
 import entity.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -60,6 +61,10 @@ public class DokfkView implements Serializable{
     }
     
      public void edit() {
+        List<Wiersz> tmp = dokfk.getWierszList();
+        for (Wiersz p : tmp) {
+            p.setDokfk(dokfk);
+        }
         dokfkFacade.edit(dokfk);
         Msg.msg("i", "Wyedtowano dokument "+dokfk.getOpisdokumentu());
     }
@@ -89,6 +94,12 @@ public class DokfkView implements Serializable{
      
      public void dodajwiersz() {
          wierszelista.add(new Wiersz());
+     }
+     
+     public void dodajwierszedycja() {
+         List<Wiersz> tmp = dokfk.getWierszList();
+         tmp.add(new Wiersz());
+         dokfk.setWierszList(tmp);
      }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
