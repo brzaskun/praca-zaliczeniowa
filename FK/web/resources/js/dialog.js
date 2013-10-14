@@ -1,11 +1,11 @@
 var ustaw = function(nazwa) {
         $(document.getElementById(nazwa)).position({
         my: "left top",
-        at: "center center",
+        at: "center top",
         of: $("#dialogmenudokumenty"),
         collision: "none none"
     });
-    $(document.getElementById(nazwa)).width(1100).height(500);
+    $(document.getElementById(nazwa)).width(1000).height(700);
 
 };
 var resetuj = function(nazwa) {
