@@ -18,13 +18,13 @@
                 <h:outputText value="#{loop.idwiersza}"/>
             </p:column>
             <p:column headerText="podatnik" width="100">
-                <h:outputText value="#{loop.podatnik}"/>
+                <h:outputText value="#{loop.podatniknazwa}"/>
             </p:column>
             <p:column headerText="konto" width="200">
                 <h:outputText value="#{loop.kontonumer}"/>
             </p:column>
             <p:column headerText="iddokumentu" width="100">
-                <h:outputText value="#{loop.dokfkId}"/>
+                <h:outputText value="#{loop.dokfk.dokfkPK.nrkolejny}"/>
             </p:column>
             <p:column headerText="opis" width="100">
                 <h:outputText value="#{loop.opis}"/>

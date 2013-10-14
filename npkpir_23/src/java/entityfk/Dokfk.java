@@ -55,7 +55,7 @@ public class Dokfk implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "numer", nullable = false, length = 255)
     private String numer = "1/2013";
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idwiersza")
     private List<Wiersze> konta;
   

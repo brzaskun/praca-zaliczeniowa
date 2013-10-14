@@ -68,12 +68,12 @@ public class DokfkView implements Serializable{
 //   /**
 //    * Usuwanie wierszy z dokumenu ksiegowego
 //    */
-//    public void liczbawu() {
-//        if(liczbawierszy>1){
-//            liczbawierszy--;
-//            selected.getKonta().remove(liczbawierszy);
-//        }
-//    }
+    public void liczbawu() {
+        if(liczbawierszy>1){
+            liczbawierszy--;
+            selected.getKonta().remove(liczbawierszy);
+        }
+    }
 //   
 //    public void edycja(){
 //        try {
@@ -151,7 +151,7 @@ public class DokfkView implements Serializable{
 //            Msg.msg("e", "Nie udało się usunąć dokumentu");
 //        }
 //    }
-//
+
 //     public void zaksieguj(){
 //         String opis = "";
 //         Dokfk x = selecteddokfk.get(0);
@@ -226,7 +226,7 @@ public class DokfkView implements Serializable{
 //        RequestContext.getCurrentInstance().update("dialogrozrachunki");
 //        
 //     }
-//     
+     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczbawierszy() {
         return liczbawierszy;
