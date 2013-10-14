@@ -14,11 +14,14 @@
             <ui:include src="sub/north.xhtml"/>  <!-- panel polnocny-->
             <p:layoutUnit id="centralna" position="center">
                 <div id="ramki">
-                    
+
                 </div>
-            <ui:include src="menudokumenty.xhtml"/>
-            <ui:include src="dialog1.xhtml"/>
-            <ui:include src="dialog2.xhtml"/>
+                <h:form>
+                    <p:messages autoUpdate="true"/>
+                </h:form>
+                <ui:include src="menudokumenty.xhtml"/>
+                <ui:include src="dialog1.xhtml"/>
+                <ui:include src="dialog2.xhtml"/>
             </p:layoutUnit>
         </p:layout>
     </h:body>
