@@ -58,6 +58,9 @@ public class Dokfk implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idwiersza")
     private List<Wiersze> konta;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OrderBy("id")
+    private List<Kontozapisy> zapisynakoncie;
   
     
     
@@ -120,6 +123,18 @@ public class Dokfk implements Serializable {
     public void setKonta(List<Wiersze> konta) {
         this.konta = konta;
     }
+
+    @XmlTransient
+    public List<Kontozapisy> getZapisynakoncie() {
+        return zapisynakoncie;
+    }
+
+    public void setZapisynakoncie(List<Kontozapisy> zapisynakoncie) {
+        this.zapisynakoncie = zapisynakoncie;
+    }
+    
+    
+    
     //</editor-fold>
 
     @Override

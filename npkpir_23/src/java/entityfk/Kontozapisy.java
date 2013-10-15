@@ -13,7 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,8 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Kontozapisy.findAll", query = "SELECT k FROM Kontozapisy k"),
     @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
-    @NamedQuery(name = "Kontozapisy.findByIdDokfk", query = "SELECT k FROM Kontozapisy k WHERE k.idDokfk = :idDokfk"),
-    @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
     @NamedQuery(name = "Kontozapisy.findByKontoprzeciwstawne", query = "SELECT k FROM Kontozapisy k WHERE k.kontoprzeciwstawne = :kontoprzeciwstawne"),
     @NamedQuery(name = "Kontozapisy.findByNumer", query = "SELECT k FROM Kontozapisy k WHERE k.numer = :numer"),
@@ -54,15 +54,6 @@ public class Kontozapisy implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
-    private int idDokfk;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
-    private String podatnik;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String konto;
@@ -70,17 +61,12 @@ public class Kontozapisy implements Serializable {
     @NotNull
     @Lob
     @Column(nullable = false)
-    private byte[] kontoob;
+    private Konto kontoob;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String kontoprzeciwstawne;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(nullable = false)
-    private byte[] dokument;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -121,6 +107,8 @@ public class Kontozapisy implements Serializable {
     private List<Rozrachunki> rozrachunkiList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontozapisy1")
     private List<Rozrachunki> rozrachunkiList1;
+    @ManyToOne(optional = false)
+    private Dokfk dokfk;
 
     public Kontozapisy() {
     }
@@ -129,14 +117,11 @@ public class Kontozapisy implements Serializable {
         this.id = id;
     }
 
-    public Kontozapisy(Integer id, int idDokfk, String podatnik, String konto, byte[] kontoob, String kontoprzeciwstawne, byte[] dokument, String numer, String opis, double kwotawn, String kontown, double kwotama, String kontoma, double wartoscpierwotna, double dorozliczenia) {
+    public Kontozapisy(Integer id, String konto, Konto kontoob, String kontoprzeciwstawne, String numer, String opis, double kwotawn, String kontown, double kwotama, String kontoma, double wartoscpierwotna, double dorozliczenia) {
         this.id = id;
-        this.idDokfk = idDokfk;
-        this.podatnik = podatnik;
         this.konto = konto;
         this.kontoob = kontoob;
         this.kontoprzeciwstawne = kontoprzeciwstawne;
-        this.dokument = dokument;
         this.numer = numer;
         this.opis = opis;
         this.kwotawn = kwotawn;
@@ -155,22 +140,7 @@ public class Kontozapisy implements Serializable {
         this.id = id;
     }
 
-    public int getIdDokfk() {
-        return idDokfk;
-    }
-
-    public void setIdDokfk(int idDokfk) {
-        this.idDokfk = idDokfk;
-    }
-
-    public String getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(String podatnik) {
-        this.podatnik = podatnik;
-    }
-
+   
     public String getKonto() {
         return konto;
     }
@@ -179,11 +149,11 @@ public class Kontozapisy implements Serializable {
         this.konto = konto;
     }
 
-    public byte[] getKontoob() {
+    public Konto getKontoob() {
         return kontoob;
     }
 
-    public void setKontoob(byte[] kontoob) {
+    public void setKontoob(Konto kontoob) {
         this.kontoob = kontoob;
     }
 
@@ -195,15 +165,7 @@ public class Kontozapisy implements Serializable {
         this.kontoprzeciwstawne = kontoprzeciwstawne;
     }
 
-    public byte[] getDokument() {
-        return dokument;
-    }
-
-    public void setDokument(byte[] dokument) {
-        this.dokument = dokument;
-    }
-
-    public String getNumer() {
+     public String getNumer() {
         return numer;
     }
 
@@ -266,6 +228,17 @@ public class Kontozapisy implements Serializable {
     public void setDorozliczenia(double dorozliczenia) {
         this.dorozliczenia = dorozliczenia;
     }
+
+    public Dokfk getDokfk() {
+        return dokfk;
+    }
+
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
+    }
+    
+    
+    
 
     @XmlTransient
     public List<Rozrachunki> getRozrachunkiList() {
