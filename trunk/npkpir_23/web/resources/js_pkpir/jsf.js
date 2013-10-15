@@ -125,6 +125,10 @@ var aktywujsrodek = function(){
         document.getElementById("dodWiad:form:acForce1").focus();
 };
 
+var aktywujnetto = function(){
+    document.getElementById("dodWiad:opis").focus();
+};
+
 var aktywujopis = function (){
     var dokument = $('#dodWiad\\:rodzajTrans').val();
     if(dokument==='IN'){
