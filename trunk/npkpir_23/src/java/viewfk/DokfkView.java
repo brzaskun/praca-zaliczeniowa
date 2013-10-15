@@ -35,6 +35,7 @@ public class DokfkView implements Serializable{
     @Inject private DokDAOfk dokDAOfk;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private Kontozapisy kontozapisy;
+    @Inject private Wiersze wiersz;
     private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
 
@@ -213,7 +214,7 @@ public class DokfkView implements Serializable{
      
      
      public void znajdzdokumentzzapisu(){
-        selected = kontozapisy.getDokfk();
+        selected = wiersz.getDokfk();
         liczbawierszy = selected.getKonta().size();
         RequestContext.getCurrentInstance().update("dialogEdycja");
         RequestContext.getCurrentInstance().update("form");
@@ -263,7 +264,14 @@ public class DokfkView implements Serializable{
     public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
         DokfkView.selecteddokfk = selecteddokfk;
     }
-    
+
+    public Wiersze getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersze wiersz) {
+        this.wiersz = wiersz;
+    }
     
     
     public Kontozapisy getKontozapisy() {
