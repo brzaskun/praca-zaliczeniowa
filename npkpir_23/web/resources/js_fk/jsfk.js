@@ -332,9 +332,7 @@ var usunztablicydok = function(){
 
 // to byly rzeczy dotyczace pelnej ksiegowosci
 
-var aktywujnetto = function(){
-    document.getElementById("dodWiad:opis").focus();
-};
+
 
 //uzupelnia pole Ma wartoscia pola Wn jezeli jego wartosc jest == 0
 var sprawdzwartosc = function(wiersz){

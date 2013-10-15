@@ -640,7 +640,7 @@ public class DokView implements Serializable {
         selDokument.setNrWlDk(wprowadzonynumer);
     }
 
-    public void wygenerujnumerkolejny() {
+   public void wygenerujnumerkolejny() {
         String zawartosc = "";
         try {
             zawartosc = selDokument.getNrWlDk();
@@ -649,7 +649,10 @@ public class DokView implements Serializable {
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:rodzajTrans");
-        String wprowadzonynumer = params.get("dodWiad:numerwlasny");
+        String wprowadzonynumer = "";
+        if (params.get("dodWiad:numerwlasny")!=null) {
+            wprowadzonynumer = params.get("dodWiad:numerwlasny");
+        }
         if (!wprowadzonynumer.equals("")) {
         } else {
             String nowynumer = "";
