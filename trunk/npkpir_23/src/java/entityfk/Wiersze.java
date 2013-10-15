@@ -47,15 +47,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 public class Wiersze implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Size(max = 255)
-    @Column(name = "dataksiegowania", length = 255)
-    private String dataksiegowania;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idwiersza", nullable = false)
     private Integer idwiersza;
+    @Size(max = 255)
+    @Column(name = "dataksiegowania", length = 255)
+    private String dataksiegowania;
     @Column(name = "idwierszarozliczenia")
     private Integer idwierszarozliczenia;
     @Size(max = 255)

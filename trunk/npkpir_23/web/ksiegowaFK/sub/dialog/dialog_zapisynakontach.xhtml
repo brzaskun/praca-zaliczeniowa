@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+
+    
+    <p:dialog id="dialogczwarty" header="Zestawienie zapisów na kontach" widgetVar="czwarty" 
+              resizable="false"  onShow="ustaw('dialogczwarty');" closeOnEscape="true" onHide="resetuj('dialogczwarty');" >
+         <h:form id="zestawieniezapisownakontach">
+             <div style="height: 600px;">
+             <p:dataTable id="dataList" value="#{kontoZapisyFKView.wiersze}" var="loop" rowIndexVar="row" style="width: 1200px;" 
+                     rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.kontozapisy}" selectionMode="single">
+            <p:ajax event="rowSelect" listener="#{dokfkView.znajdzdokumentzzapisu}"/>
+            <p:column headerText="idwiersza" width="100">
+                <h:outputText value="#{loop.idwiersza}"/>
+            </p:column>
+            <p:column headerText="podatnik" width="100">
+                <h:outputText value="#{loop.podatniknazwa}"/>
+            </p:column>
+            <p:column headerText="konto" width="200">
+                <h:outputText value="#{loop.kontonumer}"/>
+            </p:column>
+            <p:column headerText="iddokumentu" width="100">
+                <h:outputText value="#{loop.dokfk.dokfkPK.nrkolejny}"/>
+            </p:column>
+            <p:column headerText="opis" width="100">
+                <h:outputText value="#{loop.opis}"/>
+            </p:column>
+            <p:column headerText="kwotawn" width="100">
+                <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}"/>
+            </p:column>
+            <p:column headerText="kontown" width="100">
+                <h:outputText value="#{loop.kontoWn}" />
+            </p:column>
+            <p:column headerText="kontoma" width="100">
+                <h:outputText value="#{loop.kwotaMa}" rendered="#{loop.kwotaMa eq 0 ? false : true}"/>
+            </p:column>
+            <p:column headerText="kontoma" width="100">
+                <h:outputText value="#{loop.kontoMa}" />
+            </p:column>
+            
+        </p:dataTable>
+                 
+            </div>
+                   
+            </h:form>
+        <f:facet name="footer">
+            <p:commandButton value="zmien" onclick="pierwszy.show();"/>
+        </f:facet>
+    </p:dialog>
+</ui:composition>
