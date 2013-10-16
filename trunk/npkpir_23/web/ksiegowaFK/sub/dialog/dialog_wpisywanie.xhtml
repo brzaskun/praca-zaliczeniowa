@@ -8,8 +8,9 @@
     >
     
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
-              resizable="false" onShow="ustaw('dialogpierwszy');drugi.hide();" closeOnEscape="true" onHide="resetuj('dialogpierwszy');">
-        <h:form id="form" >
+              resizable="false" onShow="ustaw('dialogpierwszy');drugi.hide();" closeOnEscape="true" onHide="resetuj('dialogpierwszy');"
+              >
+        <h:form id="formwpisdokument" >
         <div style="height: 150px;">
         <p:panelGrid columns="8">
             <h:outputText value="data"/><h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"/>
@@ -19,7 +20,7 @@
         </p:panelGrid>
         </div>
         <div style="height: 450px;">
-        <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" rowIndexVar="row" style="width: 1130px;" styleClass="tablicafk">
+        <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" style="width: 1130px;" styleClass="tablicafk">
             <p:column headerText="id" width="10">
                 <h:outputText value="#{loop.idwiersza}" style="width: 10px;"/>
             </p:column>
@@ -48,20 +49,22 @@
                                 var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="10" maxlength="10" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
-                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa" onfocus="sprawdzwartosc(#{loop.idwiersza});">
+                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kasa" onfocus="sprawdzwartosc(#{loop.idwiersza});"
+                                >
                 </p:autoComplete>
                 </p:column>
            <p:column>
-               <p:commandButton value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idwiersza});" rendered="#{dokfkView.liczbawierszy gt loop.idwiersza ? false : true}"/>
+               <p:commandButton id="dodajwierszbutton" value="+" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idwiersza});" rendered="#{dokfkView.liczbawierszy gt loop.idwiersza ? false : true}"/>
             </p:column>
             </p:dataTable>
             <p:panel>
-             <p:commandButton value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":form"  oncomplete="chowanienapoczatekdok();$('#form\\:datka').focus();"/>
+             <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" update=":formwpisdokument :zestawieniedokumentow:dataList"  oncomplete="chowanienapoczatekdok();$('#form\\:datka').focus();"/>
+             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow:dataList"  oncomplete="$('#formwpisdokument\\:wpiszdokbutton').show();pierwszy.hide();"/>
              </p:panel>
                 </div>
         </h:form>
        <f:facet name="footer">
-            <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" update=":form:dataList" oncomplete="aktualizujmape();"/>
+            <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
             <p:commandButton value="rozrachunki" onclick="drugi.show();"/>
         </f:facet>
         

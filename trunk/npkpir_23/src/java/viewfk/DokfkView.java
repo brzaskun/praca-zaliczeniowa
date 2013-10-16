@@ -76,18 +76,24 @@ public class DokfkView implements Serializable{
             selected.getKonta().remove(liczbawierszy);
         }
     }
-//   
-//    public void edycja(){
-//        try {
-//            dokDAOfk.destroy(selecteddokfk.get(0));
-//            dokDAOfk.dodaj(selecteddokfk.get(0));
-//            Msg.msg("i", "Dokument zmeniony");
-//         } catch (Exception e){
-//            System.out.println(e.toString());
-//            Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());
-//        }
-//    }
-//    
+   
+    public void edycja(){
+        try {
+            dokDAOfk.destroy(selected);
+            dokDAOfk.dodaj(selected);
+            wykaz.remove(selected);
+            wykaz.add(selected);
+            Msg.msg("i", "Dokument zmeniony");
+            selected = new Dokfk();
+            wiersze = new ArrayList<>();
+            wiersze.add(new Wiersze(1,0));
+            selected.setKonta(wiersze);
+         } catch (Exception e){
+            System.out.println(e.toString());
+            Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());
+        }
+    }
+    
     public void dodaj(){
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania="";
@@ -136,9 +142,10 @@ public class DokfkView implements Serializable{
             } else {
                 dokDAOfk.dodaj(selected);
             }
+            wykaz.add(selected);
             selected = new Dokfk();
             wiersze = new ArrayList<>();
-            wiersze.add(new Wiersze());
+            wiersze.add(new Wiersze(1,0));
             selected.setKonta(wiersze);
             Msg.msg("i", "Dokument dodany");
         } catch (Exception e){
@@ -146,15 +153,15 @@ public class DokfkView implements Serializable{
         }
     }
 
-//        try {
-//            wykaz.remove(selecteddokfk.get(0));
-//            dokDAOfk.usun(selecteddokfk.get(0));
-//            Msg.msg("i", "Dokument usunięty");
-//            RequestContext.getCurrentInstance().update("form");
-//        } catch (Exception e){
-//            Msg.msg("e", "Nie udało się usunąć dokumentu");
-//        }
-//    }
+    public void usundokument(Dokfk dousuniecia) {
+        try {
+            wykaz.remove(dousuniecia);
+            dokDAOfk.usun(dousuniecia);
+            Msg.msg("i", "Dokument usunięty");
+        } catch (Exception e){
+            Msg.msg("e", "Nie udało się usunąć dokumentu");
+        }
+    }
 
      public void nanieszapisynakontach(){
          List<Kontozapisy> zapisynakontach = new ArrayList<>();
@@ -216,10 +223,16 @@ public class DokfkView implements Serializable{
      public void znajdzdokumentzzapisu(){
         selected = wiersz.getDokfk();
         liczbawierszy = selected.getKonta().size();
-        RequestContext.getCurrentInstance().update("dialogEdycja");
-        RequestContext.getCurrentInstance().update("form");
-        RequestContext.getCurrentInstance().update("dialogrozrachunki");
-        
+     }
+     
+     public void wybranodokmessage(){
+         Msg.msg("i", "Wybrano dokument do edycji");
+         List<Wiersze> wierszedowsadzenia = new ArrayList();
+         //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
+         //Bez tego jednak dostawalem pusty rzad po wpisaniu tej komenty nagle nie dostaje pustego rzedu tylko dzial kopiowanie do selected
+         //totalny odlot. poszedl na to jeden wieczor
+         wierszedowsadzenia.add(new Wiersze(1,0));
+         selected.setKonta(wierszedowsadzenia);
      }
      
     //<editor-fold defaultstate="collapsed" desc="comment">

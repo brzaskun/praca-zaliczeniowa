@@ -8,11 +8,11 @@
 function wywolajdok(opis, numer, loopid) {
     var licz = 1;
     var id = loopid - 1;
-    var zloz = "#form\\:dataList\\:" + id + "\\:opis";
-    var wynikwn = "form:dataList:" + id + ":kontown_hinput";
-    var wynikwn_ = "form:dataList:" + id + ":kontown_input";
-    var wynikma = "form:dataList:" + id + ":kontoma_hinput";
-    var wynikma_ = "form:dataList:" + id + ":kontoma_input";
+    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis";
+    var wynikwn = "formwpisdokument:dataList:" + id + ":kontown_hinput";
+    var wynikwn_ = "formwpisdokument:dataList:" + id + ":kontown_input";
+    var wynikma = "formwpisdokument:dataList:" + id + ":kontoma_hinput";
+    var wynikma_ = "formwpisdokument:dataList:" + id + ":kontoma_input";
     var szukana = $(zloz).val();
     if (szukana.length == 0) {
         licz = 1;
@@ -48,7 +48,7 @@ function wywolajdok(opis, numer, loopid) {
 
 
 var aktywujwiersz = function(wiersz){
-    var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
+    var i = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
     if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffe');
@@ -62,7 +62,7 @@ var obsluzwiersz = function(wiersz){
     } else {
         MYAPP.iloscwierszy += 1;
     }
-    var i = "#form\\:dataList\\:"+wiersz+"\\:opis";
+    var i = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
     if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffb');
@@ -76,35 +76,35 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         return;
     } else {
         var wierszwyzej = wiersz-1;
-        var kwotaWn = "#form\\:dataList\\:"+wierszwyzej+"\\:wn_input";
-        var kwotaMa = "#form\\:dataList\\:"+wierszwyzej+"\\:ma_input";
+        var kwotaWn = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:wn_input";
+        var kwotaMa = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:ma_input";
         var wartoscWn = zrobFloat($(kwotaWn).val());
         var wartoscMa = zrobFloat($(kwotaMa).val());
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").select();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").select();
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").select()
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").select()
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
             
@@ -120,38 +120,38 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
         return;
     } else {
         var wierszwyzej = wiersz-1;
-        var kwotaWn = "#form\\:dataList\\:"+wierszwyzej+"\\:wn_input";
-        var kwotaMa = "#form\\:dataList\\:"+wierszwyzej+"\\:ma_input";
+        var kwotaWn = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:wn_input";
+        var kwotaMa = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:ma_input";
         var wartoscWn = zrobFloat($(kwotaWn).val());
         var wartoscMa = zrobFloat($(kwotaMa).val());
-        var opisbiezacego1 = _.str.include($("#form\\:dataList\\:"+wiersz+"\\:opis").val(),'kontoma');
-        var opisbiezacego2 = _.str.include($("#form\\:dataList\\:"+wiersz+"\\:opis").val(),'kontown');
+        var opisbiezacego1 = _.str.include($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val(),'kontoma');
+        var opisbiezacego2 = _.str.include($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val(),'kontown');
         var opiszawiera = opisbiezacego1 || opisbiezacego2;
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0 && opiszawiera){
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:wn").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_input").select();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").select();
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0 && opiszawiera){
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:ma").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
-            $("#form\\:dataList\\:"+wiersz+"\\:kontoma").hide();
-            $("#form\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#form\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
-            $("#form\\:dataList\\:"+wiersz+"\\:wn_input").select()
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").select()
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
             
@@ -174,25 +174,25 @@ var skopiujopis = function(wiersz){
     } else {
         var starywiersz = wiersz-2;
         wiersz -= 1;
-        var biezacyopis = "#form\\:dataList\\:"+wiersz+"\\:opis";
+        var biezacyopis = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
         var biezacyopisval = $(biezacyopis).val();
-        var poprzedniopis = $("#form\\:dataList\\:"+starywiersz+"\\:opis").val();
+        var poprzedniopis = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
         var tablica = poprzedniopis.split(':');
         for(var w = 0 ; w < MYAPP.iloscwierszy; w++){
             var a = $.isSubstring(tablica,'kontoma');
             var b = $.isSubstring(tablica,'kontown');
         if(a||b){
             starywiersz = starywiersz - 1;
-            biezacyopis = "#form\\:dataList\\:"+wiersz+"\\:opis";
+            biezacyopis = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
             biezacyopisval = $(biezacyopis).val();
-            poprzedniopis = $("#form\\:dataList\\:"+starywiersz+"\\:opis").val();
+            poprzedniopis = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
             tablica = poprzedniopis.split(':');
         }
         }
         if(biezacyopisval === ""){
         $(biezacyopis).val(poprzedniopis);
         }
-        $("#form\\:dataList\\:"+wiersz+"\\:wn").focus();
+        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").focus();
     }
 };
 
@@ -201,20 +201,20 @@ var skopiujopis = function(wiersz){
 var zablokujwnma = function(wiersz,co){
     var w = wiersz-1;
     var ico = co === 'wn' ? 'ma' : 'wn';
-    var blokowany = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
-    var sprawdzany = "#form\\:dataList\\:"+w+"\\:"+ico+"_input";
+    var blokowany = "#formwpisdokument\\:dataList\\:"+w+"\\:"+co+"_input";
+    var sprawdzany = "#formwpisdokument\\:dataList\\:"+w+"\\:"+ico+"_input";
     var cozawiera = $(sprawdzany).val().length;
     if(cozawiera>0){
         $(blokowany).hide();
         $(sprawdzany).show();
         var pozycja = {pozycja: w, blokowany: co};
         zachowajwtablicy(pozycja);
-        var kontopole = '[id="form:dataList:'+w+':konto_input"]';
+        var kontopole = '[id="formwpisdokument:dataList:'+w+':konto_input"]';
         $(kontopole).focus();
     } else {
         $(blokowany).show();
         MYAPP.chowane.splice(w,1);
-        var kontopole = "#form\\:dataList\\:"+w+"\\:"+co+"_input";
+        var kontopole = "#formwpisdokument\\:dataList\\:"+w+"\\:"+co+"_input";
         $(kontopole).focus();
     }
 };
@@ -224,7 +224,7 @@ var chowanienapoczatek = function(){
         MYAPP.chowane = [];
     } else {
         for(i = 0; i < MYAPP.chowane.length; i++){
-            var blokowany = "#form\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
+            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
             $(blokowany).hide();
         }
     }
@@ -247,12 +247,12 @@ var chowanienapoczatekdok = function(){
     } else {
         var dl = MYAPP.chowanedok.length;
         for(i = 0; i < dl; i++){
-            var blokowany = "#form\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:opis";
+            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:opis";
             var pozycja = MYAPP.chowanedok[i].pozycja;
             $(blokowany).hide();
-            blokowany = "#form\\:dataList\\:" + pozycja + "\\:"+MYAPP.chowanedok[i].blokowany;
+            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
-            blokowany = "#form\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
+            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
         };
     };
@@ -337,11 +337,11 @@ var usunztablicydok = function(){
 //uzupelnia pole Ma wartoscia pola Wn jezeli jego wartosc jest == 0
 var sprawdzwartosc = function(wiersz){
     wiersz -= 1;
-    var zloz = "#form\\:dataList\\:"+wiersz+"\\:ma_input";
+    var zloz = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
     var wartosc = $(zloz).val();
     if(wartosc === " zł" || wartosc === "0.00 zł"){
-        $("#form\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#form\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
-        $("#form\\:dataList\\:"+wiersz+"\\:ma_input").val($("#form\\:dataList\\:"+wiersz+"\\:wn_input").val());
+        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
+        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val());
     }
 };
 
