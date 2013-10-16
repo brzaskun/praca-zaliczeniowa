@@ -8,31 +8,40 @@
 
     
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci" 
-              resizable="false"  onShow="ustaw('dialogtrzeci');" closeOnEscape="true" onHide="resetuj('dialogtrzeci');" >
+              resizable="false"  onShow="ustaw('dialogtrzeci');czwarty.hide();" closeOnEscape="true" onHide="resetuj('dialogtrzeci');" >
          <h:form id="zestawieniedokumentow">
+              <p:contextMenu>
+                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();$('#formwpisdokument\\:wpiszdokbutton').hide();$('#formwpisdokument\\:edytujdokbutton').show();" update=":formwpisdokument"/>
+         </p:contextMenu>
+             <h:outputText value="kliknij na mnie"/>
              <div style="height: 600px;">
-                 <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="loop" rowIndexVar="row" widgetVar="tablicadokumenty"
-                              selection="#{dokfkView.selecteddokfk}" rowKey="#{loop.dokfkPK}" editable="true" >
-            <p:column selectionMode="multiple" width="50"/>
+                 <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty"
+                              selection="#{dokfkView.selected}" selectionMode="single" rowKey="#{item.dokfkPK}" editable="true" >
+                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}"/>
             <p:column headerText="data" width="100">
-                <h:outputText value="#{loop.datawystawienia}"/>
+                <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
              <p:column headerText="symbol" width="150">
-                  <h:outputText value="#{loop.dokfkPK.seriadokfk}/#{loop.dokfkPK.nrkolejny}/#{loop.dokfkPK.rok}"/>
+                  <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="numer" width="100">
                 <p:inplace id="ajaxInplace0" editor="true" > 
-                    <p:inputText value="#{loop.numer}"/>
+                    <p:inputText value="#{item.numer}"/>
                 </p:inplace>  
             </p:column>
             <p:column headerText="zaksieg." width="80">
                 <p:inplace>
-                    <p:inputText value="#{loop.naniesionezapisy}"/>
+                    <p:inputText value="#{item.naniesionezapisy}"/>
                 </p:inplace>  
             </p:column>
             <p:column headerText="konta">
-                <p:dataTable var="wpis" value="#{loop.konta}" editable="true">
-                    <p:column headerText="numer" width="200">
+                <p:dataTable var="wpis" value="#{item.konta}" editable="true">
+                    <p:column headerText="id" width="70">
+                        <p:inplace id="ajaxInplace0b" editor="true" >  
+                            <p:inputText value="#{wpis.idwiersza}" />
+                        </p:inplace>
+                    </p:column>
+                    <p:column headerText="opis" width="200">
                         <p:inplace id="ajaxInplace0a" editor="true" rendered="#{wpis.typwiersza eq 0 ? true : false}">  
                             <p:inputText value="#{wpis.opis}" />
                         </p:inplace>
@@ -60,15 +69,16 @@
                     <p:column headerText="typ wiersza" width="100">
                         <h:outputText value="#{wpis.typwiersza eq 1 ? 'konto wn' : (wpis.typwiersza eq 2 ? 'konto ma' : 'oba')}"/>
                     </p:column>
+                   
                 </p:dataTable>
             </p:column>
+             <p:column headerText="" width="100">
+                 <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
+                     </p:column>
+           
         </p:dataTable>
-                 
                     </div>
-                   
             </h:form>
-        <f:facet name="footer">
-            <p:commandButton value="zmien" onclick="pierwszy.show();"/>
-        </f:facet>
+        
     </p:dialog>
 </ui:composition>
