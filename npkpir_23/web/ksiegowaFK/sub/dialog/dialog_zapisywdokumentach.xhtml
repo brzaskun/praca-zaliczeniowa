@@ -8,9 +8,9 @@
 
     
     <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="czwarty" 
-              resizable="false"  onShow="ustaw('dialogczwarty');" closeOnEscape="true" onHide="resetuj('dialogczwarty');" >
+              resizable="false"  onShow="ustaw('dialogczwarty');" closeOnEscape="true" onHide="resetuj('dialogczwarty');" maximizable="true">
          <h:form id="zestawieniezapisownakontach">
-             <div style="height: 600px;">
+
              <p:dataTable id="dataList" value="#{kontoZapisyFKView.wiersze}" var="loop" rowIndexVar="row" style="width: 1100px;" 
                           rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single">
             <p:ajax event="rowSelect" listener="#{dokfkView.znajdzdokumentzzapisu}"/>
@@ -44,7 +44,7 @@
             
         </p:dataTable>
                  
-            </div>
+
                    
             </h:form>
         <f:facet name="footer">
