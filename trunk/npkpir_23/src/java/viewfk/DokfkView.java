@@ -6,7 +6,6 @@ package viewfk;
 
 import daoFK.DokDAOfk;
 import daoFK.KontoZapisyFKDAO;
-import embeddablefk.FKWiersz;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kontozapisy;
@@ -38,6 +37,7 @@ public class DokfkView implements Serializable{
     @Inject private Wiersze wiersz;
     private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
+    private boolean zapisz0edytuj1;
 
     public DokfkView() {
         liczbawierszy = 1;
@@ -48,6 +48,8 @@ public class DokfkView implements Serializable{
         wiersze = new ArrayList<>();
         wiersze.add(new Wiersze(1,0));
         selected.setKonta(wiersze);
+        List<Kontozapisy> zapisynakoncie = new ArrayList<>();
+        selected.setZapisynakoncie(zapisynakoncie);
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
     }
@@ -79,8 +81,9 @@ public class DokfkView implements Serializable{
    
     public void edycja(){
         try {
-            dokDAOfk.destroy(selected);
-            dokDAOfk.dodaj(selected);
+            uzupelnijwierszeodane();
+            nanieszapisynakontach();
+            dokDAOfk.edit(selected);
             wykaz.remove(selected);
             wykaz.add(selected);
             Msg.msg("i", "Dokument zmeniony");
@@ -95,10 +98,34 @@ public class DokfkView implements Serializable{
     }
     
     public void dodaj(){
+        try {
+            uzupelnijwierszeodane();
+            //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
+            nanieszapisynakontach();
+            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
+            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
+            if (poszukiwanydokument instanceof Dokfk){
+                dokDAOfk.destroy(poszukiwanydokument);
+                dokDAOfk.dodaj(selected);
+            } else {
+                dokDAOfk.dodaj(selected);
+            }
+            wykaz.add(selected);
+            selected = new Dokfk();
+            wiersze = new ArrayList<>();
+            wiersze.add(new Wiersze(1,0));
+            selected.setKonta(wiersze);
+            Msg.msg("i", "Dokument dodany");
+        } catch (Exception e){
+            Msg.msg("e", "Nie udało się dodac dokumentu "+e.toString());
+        }
+    }
+    
+    private void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania="";
-        try {
-            for(Wiersze p : selected.getKonta()){
+        List<Wiersze> wierszewdokumencie = selected.getKonta();
+        for(Wiersze p : wierszewdokumencie){
                 String opis = p.getOpis();
                 if(opis.contains("kontown")){
                     p.setKonto(p.getKontoWn());
@@ -131,26 +158,7 @@ public class DokfkView implements Serializable{
                     opisdoprzekazania=p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
                 }
-            }
-            //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
-            nanieszapisynakontach();
-            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-            if (poszukiwanydokument instanceof Dokfk){
-                dokDAOfk.destroy(poszukiwanydokument);
-                dokDAOfk.dodaj(selected);
-            } else {
-                dokDAOfk.dodaj(selected);
-            }
-            wykaz.add(selected);
-            selected = new Dokfk();
-            wiersze = new ArrayList<>();
-            wiersze.add(new Wiersze(1,0));
-            selected.setKonta(wiersze);
-            Msg.msg("i", "Dokument dodany");
-        } catch (Exception e){
-            Msg.msg("e", "Nie udało się dodac dokumentu");
-        }
+                  }
     }
 
     public void usundokument(Dokfk dousuniecia) {
@@ -164,10 +172,14 @@ public class DokfkView implements Serializable{
     }
 
      public void nanieszapisynakontach(){
+         if (!selected.getZapisynakoncie().isEmpty()){
+            usunistniejacezapisy(selected.getZapisynakoncie());
+         }
          List<Kontozapisy> zapisynakontach = new ArrayList<>();
          String opis = "";
          Dokfk x = selected;
-         for(Wiersze p : x.getKonta()){
+         List<Wiersze> wierszewdokumencie = x.getKonta();
+         for(Wiersze p : wierszewdokumencie){
          if(p.getTypwiersza()==1){
              dodajwn(p, x, opis, zapisynakontach);
          } else if(p.getTypwiersza()==2) {
@@ -177,12 +189,22 @@ public class DokfkView implements Serializable{
              dodajwn(p, x, opis, zapisynakontach);
              dodajma(p, x, opis, zapisynakontach);
          }
+         }
          x.setNaniesionezapisy(true);
          x.setZapisynakoncie(zapisynakontach);
-         }
-         RequestContext.getCurrentInstance().update("form:dataList");
-         Msg.msg("i", "Zapisy zaksięgowane "+x.getNumer());
+         RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+         Msg.msg("i", "Zapisy na kontacg wygenerowane "+x.getNumer());
          
+     }
+     
+     private void usunistniejacezapisy(List<Kontozapisy> zachowanezapisy){
+         try {
+         for(Kontozapisy p : zachowanezapisy){
+             kontoZapisyFKDAO.destroy(p);
+         }
+         } catch (Exception ex) {
+             Msg.msg("e", "Błąd przy usuwaniu istniejących zapisó na kontach");
+         }
      }
      
      private void dodajwn(Wiersze p,Dokfk x, String opis, List<Kontozapisy> zapisynakontach){
@@ -228,11 +250,12 @@ public class DokfkView implements Serializable{
      public void wybranodokmessage(){
          Msg.msg("i", "Wybrano dokument do edycji");
          List<Wiersze> wierszedowsadzenia = new ArrayList();
+         setZapisz0edytuj1(true);
          //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
          //Bez tego jednak dostawalem pusty rzad po wpisaniu tej komenty nagle nie dostaje pustego rzedu tylko dzial kopiowanie do selected
          //totalny odlot. poszedl na to jeden wieczor
-         wierszedowsadzenia.add(new Wiersze(1,0));
-         selected.setKonta(wierszedowsadzenia);
+         //wierszedowsadzenia.add(new Wiersze(1,0));
+         //selected.setKonta(wierszedowsadzenia);
      }
      
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -285,6 +308,16 @@ public class DokfkView implements Serializable{
     public void setWiersz(Wiersze wiersz) {
         this.wiersz = wiersz;
     }
+
+    public boolean isZapisz0edytuj1() {
+        return zapisz0edytuj1;
+    }
+
+    public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
+        this.zapisz0edytuj1 = zapisz0edytuj1;
+    }
+
+   
     
     
     public Kontozapisy getKontozapisy() {

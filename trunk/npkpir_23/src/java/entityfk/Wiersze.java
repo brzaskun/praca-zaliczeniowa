@@ -54,6 +54,8 @@ public class Wiersze implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idwiersza", nullable = false)
     private Integer idwiersza;
+    @Column(name="idporzadkowy")
+    private Integer idporzadkowy;
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
@@ -105,9 +107,10 @@ public class Wiersze implements Serializable {
 
     public Wiersze() {
     }
-
-    public Wiersze(int idwiersza, int typwiersza) {
-        this.idwiersza = idwiersza;
+    
+    //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
+    public Wiersze(int idporzadkowy, int typwiersza) {
+        this.idporzadkowy = idporzadkowy;
         this.typwiersza = typwiersza;
     }
     
@@ -127,7 +130,15 @@ public class Wiersze implements Serializable {
     public void setIdwiersza(Integer idwiersza) {
         this.idwiersza = idwiersza;
     }
-    
+
+    public Integer getIdporzadkowy() {
+        return idporzadkowy;
+    }
+
+    public void setIdporzadkowy(Integer idporzadkowy) {
+        this.idporzadkowy = idporzadkowy;
+    }
+            
     public Integer getIdwierszarozliczenia() {
         return idwierszarozliczenia;
     }
