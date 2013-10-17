@@ -27,7 +27,7 @@
                 <h:outputText value="#{loop.dokfk.dokfkPK.nrkolejny}"/>
             </p:column>
             <p:column headerText="opis" width="100">
-                <h:outputText value="#{loop.opis}"/>
+                <h:outputText value="#{loop.opis}" rendered="#{loop.typwiersza eq 0 ? true : false}"/>
             </p:column>
             <p:column headerText="kwotawn" width="100">
                 <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}"/>

@@ -10,10 +10,9 @@
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci" 
               resizable="false"  onShow="ustaw('dialogtrzeci');czwarty.hide();" closeOnEscape="true" onHide="resetuj('dialogtrzeci');" >
          <h:form id="zestawieniedokumentow">
-              <p:contextMenu>
-                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();$('#formwpisdokument\\:wpiszdokbutton').hide();$('#formwpisdokument\\:edytujdokbutton').show();" update=":formwpisdokument"/>
+             <p:contextMenu id="contextmenuwpis">
+                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();"/>
          </p:contextMenu>
-             <h:outputText value="kliknij na mnie"/>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty"
                               selection="#{dokfkView.selected}" selectionMode="single" rowKey="#{item.dokfkPK}" editable="true" >

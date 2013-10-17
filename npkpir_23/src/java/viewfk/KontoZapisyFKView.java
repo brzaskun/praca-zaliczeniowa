@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
@@ -26,7 +27,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class KontoZapisyFKView implements Serializable{
     @Inject private WierszeDAO wierszeDAO;
     private List<Wiersze> wiersze;
