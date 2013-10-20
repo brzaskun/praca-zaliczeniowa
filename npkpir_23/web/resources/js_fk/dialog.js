@@ -5,7 +5,7 @@ var ustaw = function(nazwa) {
         of: $("#dialogmenudokumenty"),
         collision: "none none"
     });
-    $(document.getElementById(nazwa)).width(1170).height(700);
+    $(document.getElementById(nazwa)).width(1250).height(700);
 
 };
 var resetuj = function(nazwa) {

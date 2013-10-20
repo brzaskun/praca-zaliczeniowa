@@ -83,7 +83,6 @@ var pierwszyonShow = function () {
 //robi ukrywanie kolumn dla dialogu edycji
 var przygotujdokumentdoedycji = function (){
     try {
-    trzeci.hide();
     var wiersz = 0;
     while ($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val()){
         wiersz++;
@@ -140,7 +139,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         chowanienapoczatekdok();
         }
         } catch (Exception){
-            alert ("blad w fukncji sprawdzpoprzedniwiersz jsfk wiersz 86 "+Exception);
+            alert ("blad w fukncji sprawdzpoprzedniwiersz jsfk wiersz 101 "+Exception);
         }
 };
 
