@@ -121,6 +121,13 @@ public class DokfkView implements Serializable{
         }
     }
     
+    public void zresetujpoladialogu () {
+        selected = new Dokfk();
+        wiersze = new ArrayList<>();
+        wiersze.add(new Wiersze(1,0));
+        selected.setKonta(wiersze);
+    }
+    
     private void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania="";
