@@ -84,8 +84,8 @@ public class DokfkView implements Serializable{
             uzupelnijwierszeodane();
             nanieszapisynakontach();
             dokDAOfk.edit(selected);
-            wykaz.remove(selected);
-            wykaz.add(selected);
+            wykaz.clear();
+            wykaz = dokDAOfk.findAll();
             Msg.msg("i", "Dokument zmeniony");
             selected = new Dokfk();
             wiersze = new ArrayList<>();
@@ -258,6 +258,7 @@ public class DokfkView implements Serializable{
          Msg.msg("i", "Wybrano dokument do edycji");
          List<Wiersze> wierszedowsadzenia = new ArrayList();
          setZapisz0edytuj1(true);
+         liczbawierszy = selected.getKonta().size();
          //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
          //Bez tego jednak dostawalem pusty rzad po wpisaniu tej komenty nagle nie dostaje pustego rzedu tylko dzial kopiowanie do selected
          //totalny odlot. poszedl na to jeden wieczor
