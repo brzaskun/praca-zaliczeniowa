@@ -10,10 +10,12 @@
     <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="czwarty" 
               resizable="false"  onShow="ustaw('dialogczwarty');" closeOnEscape="true" onHide="resetuj('dialogczwarty');" maximizable="true">
          <h:form id="zestawieniezapisownakontach">
-
+<p:contextMenu id="contextmenuwpis" for=":zestawieniezapisownakontach:dataList">
+    <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();" oncomplete="$(document.getElementById('formwpisdokument:dataList:#{dokfkView.numerwierszazapisu}:opis')).select();"/>
+         </p:contextMenu>
              <p:dataTable id="dataList" value="#{kontoZapisyFKView.wiersze}" var="loop" rowIndexVar="row" style="width: 1100px;" 
-                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single">
-            <p:ajax event="rowSelect" listener="#{dokfkView.znajdzdokumentzzapisu}"/>
+                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" >
+                 <p:ajax event="rowSelect" listener="#{dokfkView.znajdzdokumentzzapisu()}"/>
             <p:column headerText="idwiersza" width="100">
                 <h:outputText value="#{loop.idwiersza}"/>
             </p:column>
