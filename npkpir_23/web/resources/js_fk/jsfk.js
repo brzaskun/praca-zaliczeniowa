@@ -75,6 +75,7 @@ var pierwszyonShow = function () {
     ustawdialog('dialogpierwszy','menudokumenty');
     drugi.hide();
     przygotujdokumentdoedycji();
+    załadujmodelzachowywaniawybranegopola();
     $('#formwpisdokument\\:datka').select();
     } catch (Exception) {
         alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
@@ -95,8 +96,8 @@ var przygotujdokumentdoedycji = function (){
     }
 };
 
-var drugionShow = function (aktywny){
-    var activeObj = aktywny;
+var drugionShow = function (){
+   
     drugi.show();
 };
 
@@ -369,4 +370,16 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
     for(var i = 0 ; i < iloscwierszy; i++){
         sprawdzpoprzedniwierszdialog(i);
     }
+};
+
+var załadujmodelzachowywaniawybranegopola = function () {
+        $(":input").focus(function () {
+         MYAPP.idinputfocus = $(document.getElementById(this.id)).val();
+         var wartosc = $(document.getElementById(this.id)).val();
+         var activeObj = wartosc.split(" ");
+         var a = $.isSubstring(activeObj,"200-1");
+            if (a) {
+                alert('konto rozrachunkowe');
+            }
+       });
 };
