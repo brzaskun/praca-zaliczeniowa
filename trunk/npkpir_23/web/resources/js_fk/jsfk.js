@@ -95,6 +95,10 @@ var przygotujdokumentdoedycji = function (){
     }
 };
 
+var drugionShow = function (aktywny){
+    var activeObj = aktywny;
+    drugi.show();
+};
 
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
 var sprawdzpoprzedniwiersz = function(wiersz){
