@@ -72,7 +72,7 @@ var obsluzwiersz = function(wiersz){
 
 var pierwszyonShow = function () {
     try {
-    ustaw('dialogpierwszy');
+    ustawdialog('dialogpierwszy','menudokumenty');
     drugi.hide();
     przygotujdokumentdoedycji();
     $('#formwpisdokument\\:datka').select();

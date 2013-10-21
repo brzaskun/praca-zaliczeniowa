@@ -273,6 +273,14 @@
             <from-outcome>BookkeeperFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>menudokumentyFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>menurozrachunkiFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>
             <to-view-id>/noobie/noobie.xhtml</to-view-id>
