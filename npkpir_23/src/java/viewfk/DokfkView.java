@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -38,6 +39,7 @@ public class DokfkView implements Serializable{
     private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
     private boolean zapisz0edytuj1;
+    private int numerwierszazapisu;
 
     public DokfkView() {
         liczbawierszy = 1;
@@ -251,7 +253,20 @@ public class DokfkView implements Serializable{
      
      public void znajdzdokumentzzapisu(){
         selected = wiersz.getDokfk();
+        String szukanafrazazzapisu = wiersz.getOpis();
         liczbawierszy = selected.getKonta().size();
+        List<Wiersze> zawartoscselected = new ArrayList<>();
+        zawartoscselected = selected.getKonta();
+        for (Wiersze p : zawartoscselected) {
+            if (szukanafrazazzapisu.equals(p.getOpis())) {
+                numerwierszazapisu = p.getIdporzadkowy();
+                numerwierszazapisu--;
+            }
+        }
+        String makrozaznaczajacepole = "#formwpisdokument\\:dataList\\:"+String.valueOf(numerwierszazapisu)+"\\:opis";
+        RequestContext.getCurrentInstance().update("formwpisdokument");
+        RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
+        //RequestContext.getCurrentInstance().execute("$(#formwpisdokument\\\\:dataList\\\\:5\\\\:opis).select()");
      }
      
      public void wybranodokmessage(){
@@ -282,8 +297,15 @@ public class DokfkView implements Serializable{
     public void setWiersze(List<Wiersze> wiersze) {
         this.wiersze = wiersze;
     }
+
+    public int getNumerwierszazapisu() {
+        return numerwierszazapisu;
+    }
+
+    public void setNumerwierszazapisu(int numerwierszazapisu) {
+        this.numerwierszazapisu = numerwierszazapisu;
+    }
     
-  
     
     public Dokfk getSelected() {
         return selected;

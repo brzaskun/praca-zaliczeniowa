@@ -8,7 +8,7 @@
 <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci" 
               resizable="false"  onShow="ustaw('dialogtrzeci');" closeOnEscape="true" onHide="resetuj('dialogtrzeci');" >
          <h:form id="zestawieniedokumentow">
-             <p:contextMenu id="contextmenuwpis">
+             <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
                   <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
