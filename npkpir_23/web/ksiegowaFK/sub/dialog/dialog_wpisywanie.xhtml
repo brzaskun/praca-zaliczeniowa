@@ -8,7 +8,7 @@
     >
     
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
-              resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="resetuj('dialogpierwszy');"  dynamic="true"
+              resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  dynamic="true"
               >
         <p:ajax event="close" listener="#{dokfkView.zresetujpoladialogu}" update=":formwpisdokument"/>
         <h:form id="formwpisdokument">
@@ -60,7 +60,7 @@
             </p:column>
             </p:dataTable>
             <p:panel>
-                <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument :zestawieniedokumentow:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
+                <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument :zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
              <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="$('#formwpisdokument\\:wpiszdokbutton').show();pierwszy.hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
              </p:panel>
                 </div>
