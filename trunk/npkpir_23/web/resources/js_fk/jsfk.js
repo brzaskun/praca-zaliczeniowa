@@ -97,8 +97,24 @@ var przygotujdokumentdoedycji = function (){
 };
 
 var drugionShow = function (){
-   
-    drugi.show();
+    if(MYAPP.hasOwnProperty('idinputfocus')){
+        drugi.show();
+        MYAPP.idinputfocus = null;
+    } else {
+        alert("Konto nierozracunkowe!");
+    }
+    
+};
+var załadujmodelzachowywaniawybranegopola = function () {
+        $(":input").focus(function () {
+         var wartosc = $(document.getElementById(this.id)).val();
+         var activeObj = wartosc.split(" ");
+         var a = $.isSubstring(activeObj,"200-1");
+            if (a) {
+                MYAPP.idinputfocus = activeObj;
+                $(this).css("background-color","#FFE4B5");
+            }
+       });
 };
 
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
@@ -372,14 +388,3 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
     }
 };
 
-var załadujmodelzachowywaniawybranegopola = function () {
-        $(":input").focus(function () {
-         MYAPP.idinputfocus = $(document.getElementById(this.id)).val();
-         var wartosc = $(document.getElementById(this.id)).val();
-         var activeObj = wartosc.split(" ");
-         var a = $.isSubstring(activeObj,"200-1");
-            if (a) {
-                alert('konto rozrachunkowe');
-            }
-       });
-};
