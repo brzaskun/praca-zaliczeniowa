@@ -33,6 +33,8 @@ public class InwestycjeView implements Serializable{
     @Inject private InwestycjeDAO inwestycjeDAO;
     @Inject private Inwestycje selected;
     @Inject private Inwestycje wybrany;
+    private String mczakonczenia;
+    private String rokzakonczenia;
 
 
     
@@ -41,9 +43,9 @@ public class InwestycjeView implements Serializable{
         inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(),false);
         inwestycjezakonczone = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(),true);
         inwestycjesymbole = new ArrayList<>();
-        if(inwestycjerozpoczete!=null){
+        if (inwestycjerozpoczete != null) {
         int i = 1;
-        for(Inwestycje p : inwestycjerozpoczete){
+        for (Inwestycje p : inwestycjerozpoczete) {
             List<Dok> tmp = p.getDokumenty();
             for(Dok r : tmp){
                 r.setNrWpkpir(i++);
@@ -54,6 +56,19 @@ public class InwestycjeView implements Serializable{
             i=1;
         }
         }
+        if (inwestycjezakonczone != null) {
+        int i = 1;
+        for(Inwestycje p : inwestycjezakonczone) {
+            List<Dok> tmp = p.getDokumenty();
+            for(Dok r : tmp){
+                r.setNrWpkpir(i++);
+            }
+            p.setDokumenty(tmp);
+            i=1;
+        }
+        }
+        mczakonczenia = wpisView.getMiesiacWpisu();
+        rokzakonczenia = String.valueOf(wpisView.getRokWpisu());
     }
 
     public void dodaj() {
@@ -78,13 +93,46 @@ public class InwestycjeView implements Serializable{
             } else {
                 inwestycjeDAO.destroy(wybrany);
                 inwestycjerozpoczete.remove(wybrany);
-                Msg.msg("i","Usunąłem wybrnaą inwestycję","form:messages");
+                Msg.msg("i","Usunąłem wybrną inwestycję","form:messages");
             }
         } catch (Exception e){
             Msg.msg("e","Wystąpił błąd. Nie usunąłem wkazanej inwestycji","form:messages");
         }
     }
+    
+     public void zamknijinwestycje(Inwestycje wybrany){
+        try{
+            wybrany.setZakonczona(Boolean.TRUE);
+            wybrany.setMczakonczenia(mczakonczenia);
+            wybrany.setRokzakonczenia(rokzakonczenia);
+            inwestycjeDAO.edit(wybrany);
+            inwestycjerozpoczete.remove(wybrany);
+            inwestycjezakonczone.add(wybrany);
+            Msg.msg("i","Zamknąłem wybrną inwestycję","form:messages");
+        } catch (Exception e){
+            Msg.msg("e","Wystąpił błąd. Nie zamknąłem wkazanej inwestycji","form:messages");
+        }
+    }
+     
+    public void otworzinwestycje(Inwestycje wybrany){
+        try{
+            wybrany.setZakonczona(Boolean.FALSE);
+            wybrany.setMczakonczenia(null);
+            wybrany.setMczakonczenia("");
+            wybrany.setRokzakonczenia("");
+            inwestycjeDAO.edit(wybrany);
+            inwestycjezakonczone.remove(wybrany);
+            inwestycjerozpoczete.add(wybrany);
+            Msg.msg("i","Otworzyłem ponownie wybrną inwestycję","form:messages");
+        } catch (Exception e){
+            Msg.msg("e","Wystąpił błąd. Nie można było ponownie otworzyć inwestycji","form:messages");
+        }
+    }
 
+    public void wybranoinwestycje() {
+        Msg.msg("i","Wybrano inwestycję "+wybrany.getOpis(),"form:messages");
+    }
+    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -135,6 +183,21 @@ public class InwestycjeView implements Serializable{
     }
     
     
-    //</editor-fold>
+    public String getMczakonczenia() {
+        return mczakonczenia;
+    }
+
+    public void setMczakonczenia(String mczakonczenia) {
+        this.mczakonczenia = mczakonczenia;
+    }
+
+    public String getRokzakonczenia() {
+        return rokzakonczenia;
+    }
+
+    public void setRokzakonczenia(String rokzakonczenia) {
+        this.rokzakonczenia = rokzakonczenia;
+    }
   
+    //</editor-fold>
 }
