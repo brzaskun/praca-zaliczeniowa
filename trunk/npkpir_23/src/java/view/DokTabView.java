@@ -128,7 +128,7 @@ public class DokTabView implements Serializable {
     @PostConstruct
     public void init() {
             try {
-                inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
+                inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
             } catch (Exception e){}
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();

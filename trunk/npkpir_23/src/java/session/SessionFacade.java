@@ -395,8 +395,8 @@ public class SessionFacade<T> {
     }
     
     
-    public List<Inwestycje> findInwestycje(String podatnik) {
-        return em.createNamedQuery("Inwestycje.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    public List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona) {
+        return em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).getResultList();
     }
 
     public List<Amodok> findPod(String podatnik) {

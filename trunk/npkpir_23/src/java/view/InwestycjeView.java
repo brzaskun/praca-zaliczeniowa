@@ -25,7 +25,8 @@ import msg.Msg;
 @ViewScoped
 public class InwestycjeView implements Serializable{
     
-    private List<Inwestycje> inwestycje;
+    private List<Inwestycje> inwestycjerozpoczete;
+    private List<Inwestycje> inwestycjezakonczone;
     private List<String> inwestycjesymbole;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
@@ -37,11 +38,12 @@ public class InwestycjeView implements Serializable{
     
     @PostConstruct
     private void init(){
-        inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
+        inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(),false);
+        inwestycjezakonczone = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(),true);
         inwestycjesymbole = new ArrayList<>();
-        if(inwestycje!=null){
+        if(inwestycjerozpoczete!=null){
         int i = 1;
-        for(Inwestycje p : inwestycje){
+        for(Inwestycje p : inwestycjerozpoczete){
             List<Dok> tmp = p.getDokumenty();
             for(Dok r : tmp){
                 r.setNrWpkpir(i++);
@@ -62,7 +64,7 @@ public class InwestycjeView implements Serializable{
             selected.setOpis("");
             selected.setSkrot("");
             Msg.msg("i","Dodałem nową inwestycję","form:messages");
-            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
+            inwestycjerozpoczete.add(selected);
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie dodałem nowej inwestycji","form:messages");
         }
@@ -75,7 +77,7 @@ public class InwestycjeView implements Serializable{
                 throw new Exception();  
             } else {
                 inwestycjeDAO.destroy(wybrany);
-                inwestycje.remove(wybrany);
+                inwestycjerozpoczete.remove(wybrany);
                 Msg.msg("i","Usunąłem wybrnaą inwestycję","form:messages");
             }
         } catch (Exception e){
@@ -87,41 +89,52 @@ public class InwestycjeView implements Serializable{
         return wpisView;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
     
-    public List<Inwestycje> getInwestycje() {
-        return inwestycje;
+    public List<Inwestycje> getInwestycjerozpoczete() {
+        return inwestycjerozpoczete;
     }
-
-    public void setInwestycje(List<Inwestycje> inwestycje) {
-        this.inwestycje = inwestycje;
+    
+    public void setInwestycjerozpoczete(List<Inwestycje> inwestycjerozpoczete) {
+        this.inwestycjerozpoczete = inwestycjerozpoczete;
     }
-
+    
     public Inwestycje getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Inwestycje selected) {
         this.selected = selected;
     }
-
+    
     public List<String> getInwestycjesymbole() {
         return inwestycjesymbole;
     }
-
+    
     public void setInwestycjesymbole(List<String> inwestycjesymbole) {
         this.inwestycjesymbole = inwestycjesymbole;
     }
-
+    
     public Inwestycje getWybrany() {
         return wybrany;
     }
-
+    
     public void setWybrany(Inwestycje wybrany) {
         this.wybrany = wybrany;
     }
-
+    
+    public List<Inwestycje> getInwestycjezakonczone() {
+        return inwestycjezakonczone;
+    }
+    
+    public void setInwestycjezakonczone(List<Inwestycje> inwestycjezakonczone) {
+        this.inwestycjezakonczone = inwestycjezakonczone;
+    }
+    
+    
+    //</editor-fold>
   
 }
