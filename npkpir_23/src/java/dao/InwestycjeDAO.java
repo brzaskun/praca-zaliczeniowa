@@ -24,10 +24,10 @@ public class InwestycjeDAO  extends DAO implements Serializable {
         super(Inwestycje.class);
     }
     
-     public  List<Inwestycje> findInwestycje(String podatnik){
+     public  List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona){
         try {
             System.out.println("Pobieram InwestycjeDAO");
-            List<Inwestycje> lista = inwestycjeFacade.findInwestycje(podatnik);
+            List<Inwestycje> lista = inwestycjeFacade.findInwestycje(podatnik, zakonczona);
             return lista;
         } catch (Exception e) {
             return null;

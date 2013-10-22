@@ -290,7 +290,7 @@ public class DokView implements Serializable {
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         try {
-            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu());
+            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
             String pod = wpistmp.getPodatnikWpisu();
             podX = podatnikDAO.find(pod);
             opisypkpir.addAll(podX.getOpisypkpir());
