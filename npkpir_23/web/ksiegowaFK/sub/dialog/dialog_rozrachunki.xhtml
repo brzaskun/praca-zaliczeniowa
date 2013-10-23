@@ -8,7 +8,7 @@
        
     
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="drugi" 
-              resizable="false"  onShow="ustawdialog('dialogdrugi','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogdrugi');" >
+              resizable="false"  onShow="ustawdialog('dialogdrugi','menudokumenty');" closeOnEscape="true" onHide="rozrachunkionHide();" >
          <h:form id="rozrachunki">
              <div style="height: 600px;">
                  
@@ -16,7 +16,7 @@
                    
             </h:form>
         <f:facet name="footer">
-            <p:commandButton value="zmien" onclick="pierwszy.show();drugi.hide();"/>
+            <p:commandButton value="powrót" accesskey="o" onclick="pierwszy.show();drugi.hide();"/>
         </f:facet>
     </p:dialog>
 </ui:composition>
