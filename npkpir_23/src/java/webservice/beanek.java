@@ -4,6 +4,7 @@
  */
 package webservice;
 
+import com.sun.xml.ws.client.ClientTransportException;
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
 import java.io.BufferedReader;
@@ -158,6 +159,7 @@ public class beanek {
         System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
+        try {
         sendUnsignDocument(dok, lang, signT, id, stat, opis);
         idMB = id.value;
         idpobierz = id.value;
@@ -170,6 +172,9 @@ public class beanek {
         temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
         deklaracjevatDAO.edit(temp);
         Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        }
 
     }
 
@@ -234,6 +239,7 @@ public class beanek {
         System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
+        try {
         sendUnsignDocument_1(dok, lang, signT, id, stat, opis);
         idMB = id.value;
         idpobierz = id.value;
@@ -247,6 +253,9 @@ public class beanek {
         temp.setTestowa(true);
         deklaracjevatDAO.edit(temp);
         Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        }
 
     }
 

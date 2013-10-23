@@ -62,7 +62,7 @@ public class PdfInwestycja extends Pdf implements Serializable {
         Font font = new Font(helvetica, 8);
         Font fontL = new Font(helvetica, 10);
         pdf.setPageSize(PageSize.A4);
-        Paragraph miziu = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikWpisu()+" NIP: "+wpisView.getPodatnikObiekt().getNip(), fontL));
+        Paragraph miziu = new Paragraph(new Phrase("Rozliczenie wydatków poniesionych na inwestycję w firmie: "+wpisView.getPodatnikWpisu()+" NIP: "+wpisView.getPodatnikObiekt().getNip(), fontL));
         miziu.setAlignment(Element.ALIGN_LEFT);
         pdf.add(miziu);
         pdf.add(new Chunk().NEWLINE);

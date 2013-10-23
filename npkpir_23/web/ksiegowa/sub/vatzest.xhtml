@@ -16,13 +16,13 @@
             <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
         </p:ajaxStatus>
     </h:form>
-    <p:outputPanel deferred="true">
+    <p:outputPanel>
     <p:panel header="firma nievatowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
     <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
     <p:tabView id="akorderonbis" style="width: 1300px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
         <c:forEach  items="#{vatView.listaewidencji.values()}" var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
-                <p:commandButton value="Pdf" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"/>
+                <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
                 <p:separator/>
                 <p:panel id="sumka#{numer.index}">
                     <h:outputText value="suma wybranych wartości netto: "/><h:outputText value="#{vatView.suma1}" style="font-weight: bold;">
@@ -83,7 +83,7 @@
             </p:tab>
         </c:forEach>
         <p:tab title="podsumowanie">
-            <p:commandButton value="Pdf" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');"/>
+            <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:separator/>
             <p:panel id="sumysum">
                 <h:outputText value="suma wybranych wartości netto: "/><h:outputText value="#{vatView.suma1}" style="font-weight: bold;">
