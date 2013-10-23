@@ -23,4 +23,9 @@ public class Params  implements Serializable {
             return wynik;
         }
     }
+    
+    public static Map<String, String> paramsAll() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        return params;
+    }
 }

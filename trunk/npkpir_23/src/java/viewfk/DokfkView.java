@@ -13,6 +13,7 @@ import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -20,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import params.Params;
 
 /**
  *
@@ -281,6 +283,13 @@ public class DokfkView implements Serializable{
          //selected.setKonta(wierszedowsadzenia);
      }
      
+     public void rozrachunki() {
+         String wierszid = (String) Params.params("wpisywaniefooter:wierszid");
+         String wnlubma= (String) Params.params("wpisywaniefooter:wnlubma");
+         String kwota= (String) Params.params("wpisywaniefooter:kwota");
+         String kontonr = (String) Params.params("wpisywaniefooter:kontonr");
+         Msg.msg("i", "Otrzymano: "+wierszid+" "+wnlubma+" "+kwota+" "+kontonr);
+     }
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczbawierszy() {
         return liczbawierszy;

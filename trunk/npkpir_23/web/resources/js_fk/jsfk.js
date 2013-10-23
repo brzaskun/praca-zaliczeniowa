@@ -99,22 +99,42 @@ var przygotujdokumentdoedycji = function (){
 var drugionShow = function (){
     if(MYAPP.hasOwnProperty('idinputfocus')){
         drugi.show();
-        MYAPP.idinputfocus = null;
+        delete MYAPP.idinputfocus;
     } else {
         alert("Konto nierozracunkowe!");
+        $(MYAPP.zaznaczonepole).focus();
+        $(MYAPP.zaznaczonepole).select();
     }
     
 };
+//wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
+var rozrachunkionHide = function () {
+  resetujdialog('dialogdrugi');  
+  $(MYAPP.zaznaczonepole).focus();
+  $(MYAPP.zaznaczonepole).select();
+};
+
 var załadujmodelzachowywaniawybranegopola = function () {
-        $(":input").focus(function () {
+        $(":text").focus(function () {
          var wartosc = $(document.getElementById(this.id)).val();
+         try {
          var activeObj = wartosc.split(" ");
          var a = $.isSubstring(activeObj,"200-1");
             if (a) {
                 MYAPP.idinputfocus = activeObj;
-                $(this).css("background-color","#FFE4B5");
+                MYAPP.zaznaczonepole = this;
+            } else {
+                delete MYAPP.idinputfocus;
+                MYAPP.zaznaczonepole = this;
             }
+         $(this).css("background-color","dodgerblue");
+         } catch (problem) {
+             //alert("jest problem załadujmodelzachowywaniawybranegopola "+problem);
+         }
        });
+        $(":text").focusout(function () {
+            $(this).css("background-color","#FFFFFF");
+        });
 };
 
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
@@ -386,5 +406,12 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
     for(var i = 0 ; i < iloscwierszy; i++){
         sprawdzpoprzedniwierszdialog(i);
     }
+};
+
+var zachowajwiersz = function (wierszid, wnlubma, kwota, kontonr) {
+    $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
+    $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
+    $(document.getElementById("wpisywaniefooter:kwota")).val(kwota);
+    $(document.getElementById("wpisywaniefooter:kontonr")).val(kontonr);
 };
 
