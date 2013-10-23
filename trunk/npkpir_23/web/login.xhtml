@@ -12,11 +12,11 @@
             <h:outputScript library="js_common" name="language.js"/>
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
-        <h:body style="background-color: #FFFFFF;">
+        <h:body>
                 <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top" style="border: none;">  
                     <p style="text-align: center;"><h:outputText value="Witamy w programie księgowym Biura Rachunkowego Taxman" style="color: activecaption; font-size:24px; " /></p>  
                 </p:notificationBar> 
-                <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
+                <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none" >
                     <div style="height: 100px;  margin-left: auto; margin-right: auto;">
                         <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
@@ -34,7 +34,7 @@
                     </p:panelGrid>
                 </p:panel>
             <h:form id="formlog1">
-                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 500px" header="">
+                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="">
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;">
                         <h:outputText value="#{mgs.login}"/>
@@ -44,7 +44,7 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="1" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false" style="width: 200px;"/>
+                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" update=":formlog1:logowanie" ajax="false" style="width: 150px;"/>
                     </p:panelGrid>
                     <!--                        <p:commandButton value="Wyloguj" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
                 </p:panel>
@@ -55,8 +55,6 @@
                     <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" ajax="false"/>
                 </h:form>
             </p:panel>
-
-            <!--            <p:graphicImage url="/resources/images/ninja.png" style="margin-left: 20%" />-->
         </h:body>
     </f:view>
 </html>
