@@ -29,16 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersze.findAll", query = "SELECT w FROM Wiersze w"),
     @NamedQuery(name = "Wiersze.findByDataksiegowania", query = "SELECT w FROM Wiersze w WHERE w.dataksiegowania = :dataksiegowania"),
     @NamedQuery(name = "Wiersze.findByIdwiersza", query = "SELECT w FROM Wiersze w WHERE w.idwiersza = :idwiersza"),
-    @NamedQuery(name = "Wiersze.findByIdwierszarozliczenia", query = "SELECT w FROM Wiersze w WHERE w.idwierszarozliczenia = :idwierszarozliczenia"),
+//    @NamedQuery(name = "Wiersze.findByIdwierszarozliczenia", query = "SELECT w FROM Wiersze w WHERE w.idwierszarozliczenia = :idwierszarozliczenia"),
     @NamedQuery(name = "Wiersze.findByKontonumer", query = "SELECT w FROM Wiersze w WHERE w.kontonumer = :kontonumer"),
     @NamedQuery(name = "Wiersze.findByKontoprzeciwstawne", query = "SELECT w FROM Wiersze w WHERE w.kontoprzeciwstawne = :kontoprzeciwstawne"),
     @NamedQuery(name = "Wiersze.findByKwotaMa", query = "SELECT w FROM Wiersze w WHERE w.kwotaMa = :kwotaMa"),
     @NamedQuery(name = "Wiersze.findByKwotaWn", query = "SELECT w FROM Wiersze w WHERE w.kwotaWn = :kwotaWn"),
-    @NamedQuery(name = "Wiersze.findByKwotapierwotna", query = "SELECT w FROM Wiersze w WHERE w.kwotapierwotna = :kwotapierwotna"),
+//    @NamedQuery(name = "Wiersze.findByKwotapierwotna", query = "SELECT w FROM Wiersze w WHERE w.kwotapierwotna = :kwotapierwotna"),
     @NamedQuery(name = "Wiersze.findByOpis", query = "SELECT w FROM Wiersze w WHERE w.opis = :opis"),
-    @NamedQuery(name = "Wiersze.findByPodatniknazwa", query = "SELECT w FROM Wiersze w WHERE w.podatniknazwa = :podatniknazwa"),
-    @NamedQuery(name = "Wiersze.findByPozostalodorozliczenia", query = "SELECT w FROM Wiersze w WHERE w.pozostalodorozliczenia = :pozostalodorozliczenia"),
-    @NamedQuery(name = "Wiersze.findByRozliczono", query = "SELECT w FROM Wiersze w WHERE w.rozliczono = :rozliczono"),
+//    @NamedQuery(name = "Wiersze.findByPozostalodorozliczenia", query = "SELECT w FROM Wiersze w WHERE w.pozostalodorozliczenia = :pozostalodorozliczenia"),
+//    @NamedQuery(name = "Wiersze.findByRozliczono", query = "SELECT w FROM Wiersze w WHERE w.rozliczono = :rozliczono"),
     @NamedQuery(name = "Wiersze.findByTypwiersza", query = "SELECT w FROM Wiersze w WHERE w.typwiersza = :typwiersza"),
     @NamedQuery(name = "Wiersze.findByZaksiegowane", query = "SELECT w FROM Wiersze w WHERE w.zaksiegowane = :zaksiegowane"),
     @NamedQuery(name = "Wiersze.findByKonto", query = "SELECT w FROM Wiersze w WHERE w.konto = :konto"),
@@ -53,14 +52,15 @@ public class Wiersze implements Serializable {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idwiersza", nullable = false)
+    //to jest id generowany przez serwer
     private Integer idwiersza;
     @Column(name="idporzadkowy")
+    //to jest numer nadawany kazdorazowo od 1 dla numerowania wewnatrz dokumentu
     private Integer idporzadkowy;
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
-    @Column(name = "idwierszarozliczenia")
-    private Integer idwierszarozliczenia;
+   
     @Size(max = 255)
     @Column(name = "kontonumer", length = 255)
     private String kontonumer;
@@ -72,18 +72,9 @@ public class Wiersze implements Serializable {
     private Double kwotaMa;
     @Column(name = "kwotaWn", precision = 22)
     private Double kwotaWn;
-    @Column(name = "kwotapierwotna", precision = 22)
-    private Double kwotapierwotna;
     @Size(max = 255)
     @Column(name = "opis", length = 255)
     private String opis;
-    @Size(max = 255)
-    @Column(name = "podatniknazwa", length = 255)
-    private String podatniknazwa;
-    @Column(name = "pozostalodorozliczenia", precision = 22)
-    private Double pozostalodorozliczenia;
-    @Column(name = "rozliczono", precision = 22)
-    private Double rozliczono;
     @Column(name = "typwiersza")
     private Integer typwiersza;
     @Column(name = "zaksiegowane")
@@ -100,6 +91,16 @@ public class Wiersze implements Serializable {
     @Column(name = "kontoWn")
     @OneToOne
     private Konto kontoWn;
+    
+//    //pola niezbedne do prowadzenia rozrachunków
+//    @Column(name = "idwierszarozliczenia")
+//    private Integer idwierszarozliczenia;
+//    @Column(name = "kwotapierwotna", precision = 22)
+//    private Double kwotapierwotna;
+//    @Column(name = "rozliczono", precision = 22)
+//    private Double rozliczono;
+//    @Column(name = "pozostalodorozliczenia", precision = 22)
+//    private Double pozostalodorozliczenia;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
    
@@ -139,14 +140,7 @@ public class Wiersze implements Serializable {
         this.idporzadkowy = idporzadkowy;
     }
             
-    public Integer getIdwierszarozliczenia() {
-        return idwierszarozliczenia;
-    }
-    
-    public void setIdwierszarozliczenia(Integer idwierszarozliczenia) {
-        this.idwierszarozliczenia = idwierszarozliczenia;
-    }
-    
+     
     public String getKontonumer() {
         return kontonumer;
     }
@@ -178,15 +172,7 @@ public class Wiersze implements Serializable {
     public void setKwotaWn(Double kwotaWn) {
         this.kwotaWn = kwotaWn;
     }
-    
-    public Double getKwotapierwotna() {
-        return kwotapierwotna;
-    }
-    
-    public void setKwotapierwotna(Double kwotapierwotna) {
-        this.kwotapierwotna = kwotapierwotna;
-    }
-    
+     
     public String getOpis() {
         return opis;
     }
@@ -195,30 +181,7 @@ public class Wiersze implements Serializable {
         this.opis = opis;
     }
     
-    public String getPodatniknazwa() {
-        return podatniknazwa;
-    }
-    
-    public void setPodatniknazwa(String podatniknazwa) {
-        this.podatniknazwa = podatniknazwa;
-    }
-    
-    public Double getPozostalodorozliczenia() {
-        return pozostalodorozliczenia;
-    }
-    
-    public void setPozostalodorozliczenia(Double pozostalodorozliczenia) {
-        this.pozostalodorozliczenia = pozostalodorozliczenia;
-    }
-    
-    public Double getRozliczono() {
-        return rozliczono;
-    }
-    
-    public void setRozliczono(Double rozliczono) {
-        this.rozliczono = rozliczono;
-    }
-    
+        
     public Integer getTypwiersza() {
         return typwiersza;
     }

@@ -65,11 +65,10 @@
             </p:panelGrid>
         </p:panel>
     </h:form>
-    <h:form id="wysylkaform">
-        <p:panel header="wysyłka na serwer ministerstwa">
-            <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 120px;" oncomplete="$(document.getElementById('wysylkaform:upobutton')).show();"/>
-        <p:commandButton id="upobutton" value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px; display: none; margin-left: 2%;"/>
-        <p>
+    <h:form>
+        <p:panel header="wysyłka">
+        <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 120px;"/>
+        <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
         <h:outputText value="short instrakszyn: "/>
         <p:panelGrid columns="2">
             <h:outputText value="wysylanie: "/>
@@ -79,12 +78,12 @@
             <h:outputText value="potwierdzenie"/>
             <h:outputText value="Każdorazowo, celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo lub sprawdz"/>
         </p:panelGrid>
-        </p>
         </p:panel>
     </h:form>
     <br/>
     <h:form id="form">
-        <p:panel header="potwierdzenie">
+        <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px;"/>
+        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
         <p:panelGrid columns="2" id="upoform">
             <h:outputText value="id"/>
             <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>
@@ -95,13 +94,6 @@
             <h:outputText value="opis"/>
             <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" cols="150"/>
         </p:panelGrid>
-        </p:panel>
-    </h:form>
-    <h:form id="wysylkatestform">
-        <p:panel header="wysyłka testowa na serwer ministerstwa">
-            <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 120px;" oncomplete="$(document.getElementById('wysylkatestform:upotestform')).show();"/>
-            <p:commandButton id="upotestform" value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="width: 120px; display: none;  margin-left: 2%;"/>
-        </p:panel>
     </h:form>
 </ui:composition>   
 

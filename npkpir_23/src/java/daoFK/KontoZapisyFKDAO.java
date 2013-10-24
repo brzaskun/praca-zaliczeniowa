@@ -16,41 +16,41 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-@Named
-public class KontoZapisyFKDAO extends DAO implements Serializable {
-    @Inject
-    private SessionFacade kontozapisyFacade;
-
-    public KontoZapisyFKDAO() {
-        super(Kontozapisy.class);
-    }
-    
-     public  List<Kontozapisy> findAll(){
-        try {
-            System.out.println("Pobieram KontoZapisyFKDAO");
-            return kontozapisyFacade.findAll(Kontozapisy.class);
-        } catch (Exception e) {
-            return null;
-        }
-   }
-
-    public List<Kontozapisy> findZapisy(String numer) {
-        try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg numeru");
-            return kontozapisyFacade.findZapisyNumer(numer); 
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Kontozapisy> findZapisyKonto(String numerkonta) {
-        try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
-            return kontozapisyFacade.findZapisyKonto(numerkonta); 
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//@Named
+public class KontoZapisyFKDAO {
+//    @Inject
+//    private SessionFacade kontozapisyFacade;
+//
+//    public KontoZapisyFKDAO() {
+//        super(Kontozapisy.class);
+//    }
+//    
+//     public  List<Kontozapisy> findAll(){
+//        try {
+//            System.out.println("Pobieram KontoZapisyFKDAO");
+//            return kontozapisyFacade.findAll(Kontozapisy.class);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//   }
+//
+//    public List<Kontozapisy> findZapisy(String numer) {
+//        try {
+//            System.out.println("Pobieram KontoZapisyFKDAO wg numeru");
+//            return kontozapisyFacade.findZapisyNumer(numer); 
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+//
+//    public List<Kontozapisy> findZapisyKonto(String numerkonta) {
+//        try {
+//            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
+//            return kontozapisyFacade.findZapisyKonto(numerkonta); 
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
 //    public List<Kontozapisy> findZapisyKontoMacierzyste(String pelnynumer) {
 //        List<Kontozapisy> zwrot = new ArrayList<>(); 

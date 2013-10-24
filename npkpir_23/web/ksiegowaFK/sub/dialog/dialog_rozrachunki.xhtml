@@ -5,18 +5,56 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-       
-    
+
+
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="drugi" 
               resizable="false"  onShow="ustawdialog('dialogdrugi','menudokumenty');" closeOnEscape="true" onHide="rozrachunkionHide();" >
-         <h:form id="rozrachunki">
-             <div style="height: 600px;">
-                 
-                    </div>
-                   
-            </h:form>
+        <h:form id="rozrachunki">
+            <div style="height: 600px;">
+                <h:form id="formE" >
+                    <p:panelGrid id="paneledycji" columns="4">
+                        <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.podatnik}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.rok}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.seriadokfk}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.nrkolejny}"/>
+                        <h:outputText value="opis"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.opis}"/>
+                        <h:outputText value="konto"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kontonumer}"/>
+<!--                        <h:outputText value="kwota pierwotna"/><h:outputText value="{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}"/>-->
+                    </p:panelGrid>
+                </h:form>
+                <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" style="width: 1000px;"
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="Dokumenty nie rozliczone"/>
+                    </f:facet>
+                    <p:column headerText="kwota rozliczenia" width="40">
+                        <h:inputText value="#{loop.kwotarozrachunku}"/>
+                    </p:column>
+                    <p:column headerText="kwota transakcji" width="40">
+                        <h:outputText value="#{loop.zapissparowany.wartoscpierwotna}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="termin płatności" width="90">
+                        <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
+                    </p:column>
+                    <p:column headerText="opis transakcji" width="300">
+                        <h:outputText id="opis" value="#{loop.zapissparowany.opis}" />
+                    </p:column>
+                    <p:column headerText="nr rozrachunku" width="40">
+                        <h:outputText value="#{loop.zapissparowany.numer}"/>
+                    </p:column>
+                    <p:column headerText="id dokumentu" width="40">
+                        <h:outputText value="#{loop.zapissparowany.dokument.id}"/>
+                    </p:column>
+                    <p:column headerText="data wystawienia" width="40">
+                        <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <p:commandButton value="zapisz" actionListener="#{kontoZapisyFKView.zachowajrozrachunki()}"  oncomplete="dlgrozrachunki.hide();"/>
+            </div>
+        </h:form>
         <f:facet name="footer">
-            <p:commandButton value="powrót" accesskey="o" onclick="pierwszy.show();drugi.hide();"/>
+            <p:commandButton value="powrót" accesskey="o" onclick="pierwszy.show();
+                    drugi.hide();"/>
         </f:facet>
     </p:dialog>
 </ui:composition>
