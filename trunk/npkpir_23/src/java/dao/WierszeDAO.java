@@ -4,7 +4,6 @@
  */
 package dao;
 
-import embeddablefk.FKWiersz;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.List;

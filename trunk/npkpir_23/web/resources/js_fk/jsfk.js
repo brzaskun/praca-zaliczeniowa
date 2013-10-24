@@ -408,10 +408,5 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
     }
 };
 
-var zachowajwiersz = function (wierszid, wnlubma, kwota, kontonr) {
-    $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
-    $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
-    $(document.getElementById("wpisywaniefooter:kwota")).val(kwota);
-    $(document.getElementById("wpisywaniefooter:kontonr")).val(kontonr);
-};
+
 
