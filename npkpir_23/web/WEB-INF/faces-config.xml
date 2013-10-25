@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =========== FULL CONFIGURATION FILE ================================== -->
 
-<faces-config version="2.1"
+<faces-config version="2.1" 
               xmlns="http://java.sun.com/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
@@ -280,6 +280,10 @@
         <navigation-case>
             <from-outcome>menurozrachunkiFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml</to-view-id>
+        </navigation-case>
+          <navigation-case>
+            <from-outcome>menuustawieniaFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKUstawienia.xhtml</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>
