@@ -42,7 +42,7 @@
                                 var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="15" maxlength="4" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
-                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy});"
+                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy},'Wn');"
                                 ><!--to teraz powoduje blad-->
                     <f:ajax event="blur" execute="@this"/>
                 </p:autoComplete>
@@ -57,7 +57,7 @@
                                 var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                 minQueryLength="1" maxResults="10" maxlength="4" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
-                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});zachowajwiersz(#{loop.idporzadkowy});"
+                                required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});zachowajwiersz(#{loop.idporzadkowy}, 'Ma');"
                                 
                                 >
                                 <f:ajax event="blur" execute="@this"/>
@@ -78,6 +78,7 @@
             <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
             <p:commandButton value="rozrachunki" actionListener="#{dokfkView.rozrachunki}" accesskey="r" />
             <h:inputText id="wierszid" style="display: none;"/>
+            <h:inputText id="wnlubma" style="display: none;"/>
            </h:form>
         </f:facet>
         

@@ -101,7 +101,7 @@ var drugionShow = function (){
         drugi.show();
         delete MYAPP.idinputfocus;
     } else {
-        alert("Konto nierozracunkowe!");
+        //alert("Konto nierozracunkowe!");
         $(MYAPP.zaznaczonepole).focus();
         $(MYAPP.zaznaczonepole).select();
     }
@@ -127,7 +127,7 @@ var załadujmodelzachowywaniawybranegopola = function () {
                 delete MYAPP.idinputfocus;
                 MYAPP.zaznaczonepole = this;
             }
-         $(this).css("background-color","dodgerblue");
+         //$(this).css("background-color","dodgerblue");
          } catch (problem) {
              //alert("jest problem załadujmodelzachowywaniawybranegopola "+problem);
          }

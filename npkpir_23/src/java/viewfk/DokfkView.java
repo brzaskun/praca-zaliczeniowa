@@ -137,6 +137,7 @@ public class DokfkView implements Serializable{
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania="";
         List<Wiersze> wierszewdokumencie = selected.getKonta();
+        try {
         for(Wiersze p : wierszewdokumencie){
                 String opis = p.getOpis();
                 if(opis.contains("kontown")){
@@ -151,7 +152,7 @@ public class DokfkView implements Serializable{
                 } else if (opis.contains("kontoma")){
                     p.setKonto(p.getKontoMa());
                     p.setKontonumer(p.getKontoMa().getPelnynumer());
-                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                    //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setKwotaWn(0.0);
                     p.setTypwiersza(2);
@@ -168,6 +169,9 @@ public class DokfkView implements Serializable{
                     p.setZaksiegowane(Boolean.FALSE);
                 }
                   }
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+        }
     }
 
     public void usundokument(Dokfk dousuniecia) {
@@ -282,7 +286,9 @@ public class DokfkView implements Serializable{
      }
      
      public void rozrachunki () {
-         uzupelnijwierszeodane();
+         RequestContext.getCurrentInstance().execute("drugionShow();");
+         String wnlubma = (String) Params.params("wpisywaniefooter:wnlubma");
+         uzupelnijwierszeodanewtrakcie(wnlubma);
          Dokfk sprawdz = selected;
          String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
          Integer nrwiersza = Integer.parseInt(nrwierszaS);
@@ -300,6 +306,34 @@ public class DokfkView implements Serializable{
          RequestContext.getCurrentInstance().update("rozrachunki");
          RequestContext.getCurrentInstance().execute("drugionShow();");
      }
+     
+     private void uzupelnijwierszeodanewtrakcie(String wnlubma) {
+        //ladnie uzupelnia informacje o wierszu pk
+        String opisdoprzekazania="";
+        List<Wiersze> wierszewdokumencie = selected.getKonta();
+        try {
+        for(Wiersze p : wierszewdokumencie){
+                String opis = p.getOpis();
+                if(wnlubma.equals("Wn")){
+                    p.setKonto(p.getKontoWn());
+                    p.setKontonumer(p.getKontoWn().getPelnynumer());
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setKwotapierwotna(p.getKwotaWn());
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else {
+                    p.setKonto(p.getKontoMa());
+                    p.setKontonumer(p.getKontoMa().getPelnynumer());
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setKwotapierwotna(p.getKwotaMa());
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } 
+                }
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+        }
+    }
      
 //     public void rozrachunki_stare() {
 //         Dokfk sprawdz = selected;
