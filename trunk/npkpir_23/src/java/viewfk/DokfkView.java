@@ -286,28 +286,32 @@ public class DokfkView implements Serializable{
      }
      
      public void rozrachunki () {
-         RequestContext.getCurrentInstance().execute("drugionShow();");
          String wnlubma = (String) Params.params("wpisywaniefooter:wnlubma");
-         uzupelnijwierszeodanewtrakcie(wnlubma);
-         Dokfk sprawdz = selected;
-         String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
-         Integer nrwiersza = Integer.parseInt(nrwierszaS);
-         nrwiersza--;
-         aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
-         //nanieszapisynakontach();
-            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-//            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-//            if (poszukiwanydokument instanceof Dokfk){
-//                dokDAOfk.destroy(poszukiwanydokument);
-//                dokDAOfk.dodaj(selected);
-//            } else {
-//                dokDAOfk.dodaj(selected);
-//            }
-         RequestContext.getCurrentInstance().update("rozrachunki");
-         RequestContext.getCurrentInstance().execute("drugionShow();");
+         String rozrachunkowe = uzupelnijwierszeodanewtrakcie(wnlubma);
+         if (rozrachunkowe.equals("rozrachunkowe")) {
+            Dokfk sprawdz = selected;
+            String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
+            Integer nrwiersza = Integer.parseInt(nrwierszaS);
+            nrwiersza--;
+            aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
+            //nanieszapisynakontach();
+               //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
+   //            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
+   //            if (poszukiwanydokument instanceof Dokfk){
+   //                dokDAOfk.destroy(poszukiwanydokument);
+   //                dokDAOfk.dodaj(selected);
+   //            } else {
+   //                dokDAOfk.dodaj(selected);
+   //            }
+
+            RequestContext.getCurrentInstance().update("rozrachunki");
+            RequestContext.getCurrentInstance().execute("drugionShow();");
+         } else {
+           Msg.msg("e", "Wybierz konto rozrachunkowe");
+         }
      }
      
-     private void uzupelnijwierszeodanewtrakcie(String wnlubma) {
+     private String uzupelnijwierszeodanewtrakcie(String wnlubma) {
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania="";
         List<Wiersze> wierszewdokumencie = selected.getKonta();
@@ -321,6 +325,7 @@ public class DokfkView implements Serializable{
                     p.setKwotapierwotna(p.getKwotaWn());
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
+                    return p.getKontoWn().getZwyklerozrachszczegolne();
                 } else {
                     p.setKonto(p.getKontoMa());
                     p.setKontonumer(p.getKontoMa().getPelnynumer());
@@ -328,11 +333,14 @@ public class DokfkView implements Serializable{
                     p.setKwotapierwotna(p.getKwotaMa());
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
+                    return p.getKontoMa().getZwyklerozrachszczegolne();
                 } 
                 }
         } catch (Exception e) {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+            return null;
         }
+        return null;
     }
      
 //     public void rozrachunki_stare() {

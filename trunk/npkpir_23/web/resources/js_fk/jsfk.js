@@ -97,16 +97,11 @@ var przygotujdokumentdoedycji = function (){
 };
 
 var drugionShow = function (){
-    if(MYAPP.hasOwnProperty('idinputfocus')){
         drugi.show();
-        delete MYAPP.idinputfocus;
-    } else {
-        //alert("Konto nierozracunkowe!");
         $(MYAPP.zaznaczonepole).focus();
-        $(MYAPP.zaznaczonepole).select();
-    }
-    
+        $(MYAPP.zaznaczonepole).select(); 
 };
+
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
 var rozrachunkionHide = function () {
   resetujdialog('dialogdrugi');  
@@ -116,24 +111,24 @@ var rozrachunkionHide = function () {
 
 var załadujmodelzachowywaniawybranegopola = function () {
         $(":text").focus(function () {
-         var wartosc = $(document.getElementById(this.id)).val();
-         try {
-         var activeObj = wartosc.split(" ");
-         var a = $.isSubstring(activeObj,"200-1");
-            if (a) {
-                MYAPP.idinputfocus = activeObj;
+//         var wartosc = $(document.getElementById(this.id)).val();
+//         try {
+//         var activeObj = wartosc.split(" ");
+//         var a = $.isSubstring(activeObj,"200-1");
+//            if (a) {
+//                MYAPP.idinputfocus = activeObj;
                 MYAPP.zaznaczonepole = this;
-            } else {
-                delete MYAPP.idinputfocus;
-                MYAPP.zaznaczonepole = this;
-            }
-         //$(this).css("background-color","dodgerblue");
-         } catch (problem) {
-             //alert("jest problem załadujmodelzachowywaniawybranegopola "+problem);
-         }
-       });
-        $(":text").focusout(function () {
-            $(this).css("background-color","#FFFFFF");
+//            } else {
+//                delete MYAPP.idinputfocus;
+//                MYAPP.zaznaczonepole = this;
+//            }
+//         //$(this).css("background-color","dodgerblue");
+//         } catch (problem) {
+//             //alert("jest problem załadujmodelzachowywaniawybranegopola "+problem);
+//         }
+//       });
+//        $(":text").focusout(function () {
+//            $(this).css("background-color","#FFFFFF");
         });
 };
 
