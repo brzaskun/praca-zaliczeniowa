@@ -95,8 +95,8 @@ public class Wiersze implements Serializable {
 //    //pola niezbedne do prowadzenia rozrachunków
 //    @Column(name = "idwierszarozliczenia")
 //    private Integer idwierszarozliczenia;
-//    @Column(name = "kwotapierwotna", precision = 22)
-//    private Double kwotapierwotna;
+    @Column(name = "kwotapierwotna", precision = 22)
+    private Double kwotapierwotna;
 //    @Column(name = "rozliczono", precision = 22)
 //    private Double rozliczono;
 //    @Column(name = "pozostalodorozliczenia", precision = 22)
@@ -222,6 +222,15 @@ public class Wiersze implements Serializable {
         this.kontoWn = kontoWn;
     }
 
+    public Double getKwotapierwotna() {
+        return kwotapierwotna;
+    }
+
+    public void setKwotapierwotna(Double kwotapierwotna) {
+        this.kwotapierwotna = kwotapierwotna;
+    }
+
+    
     public Dokfk getDokfk() {
         return dokfk;
     }

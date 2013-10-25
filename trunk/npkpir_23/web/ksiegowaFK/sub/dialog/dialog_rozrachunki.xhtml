@@ -12,11 +12,13 @@
         <h:form id="rozrachunki">
             <div style="height: 600px;">
                 <h:form id="formE" >
-                    <p:panelGrid id="paneledycji" columns="4">
+                    <p:panelGrid id="paneledycji" columns="4" style="width: 600px;">
                         <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.podatnik}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.rok}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.seriadokfk}/#{dokfkView.aktualnywierszdorozrachunkow.dokfk.dokfkPK.nrkolejny}"/>
                         <h:outputText value="opis"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.opis}"/>
                         <h:outputText value="konto"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kontonumer}"/>
-<!--                        <h:outputText value="kwota pierwotna"/><h:outputText value="{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}"/>-->
+                        <h:outputText value="kwota do rozliczenia"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                     </p:panelGrid>
                 </h:form>
                 <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" style="width: 1000px;"
