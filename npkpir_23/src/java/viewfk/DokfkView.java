@@ -106,10 +106,16 @@ public class DokfkView implements Serializable{
             wiersze = new ArrayList<>();
             wiersze.add(new Wiersze(1,0));
             selected.setKonta(wiersze);
+            setZapisz0edytuj1(false);
          } catch (Exception e){
             System.out.println(e.toString());
             Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());
         }
+    }
+    
+    public void przywrocwpisbutton() {
+        setZapisz0edytuj1(false);
+        
     }
     
     public void dodaj(){
@@ -358,7 +364,7 @@ public class DokfkView implements Serializable{
            Msg.msg("i", "Rozrachunki naniesione");
        }
        } catch (Exception ex) {
-           Msg.msg("e", "Bład w DokfkView funkcja rozlicznaniesionerozrachunki");
+           Msg.msg("w", "Nie naniesiono rozrachunkow");
        }
    }
    
