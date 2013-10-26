@@ -7,7 +7,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +16,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -101,15 +99,17 @@ public class Wiersze implements Serializable {
     private String wnlubma;
     @Column(name = "dodanydorozrachunkow")
     private boolean dodanydorozrachunkow;
-//    //pola niezbedne do prowadzenia rozrachunków
-//    @Column(name = "idwierszarozliczenia")
-//    private Integer idwierszarozliczenia;
+    //do wyswietlenia calosci w oknie rozrachunkow
     @Column(name = "kwotapierwotna", precision = 22)
     private Double kwotapierwotna;
-//    @Column(name = "rozliczono", precision = 22)
-//    private Double rozliczono;
-//    @Column(name = "pozostalodorozliczenia", precision = 22)
-//    private Double pozostalodorozliczenia;
+    @Column(name = "rozliczonoWn", precision = 22)
+    private Double rozliczonoWn;
+    @Column(name = "pozostalodorozliczeniaWn", precision = 22)
+    private Double pozostalodorozliczeniaWn;
+    @Column(name = "rozliczonoMa", precision = 22)
+    private Double rozliczonoMa;
+    @Column(name = "pozostalodorozliczeniaMa", precision = 22)
+    private Double pozostalodorozliczeniaMa;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wierszsparowany", cascade = CascadeType.ALL, targetEntity = Rozrachunki.class,  orphanRemoval=true)
@@ -259,7 +259,38 @@ public class Wiersze implements Serializable {
         this.dodanydorozrachunkow = dodanydorozrachunkow;
     }
 
-    
+    public Double getRozliczonoWn() {
+        return rozliczonoWn;
+    }
+
+    public void setRozliczonoWn(Double rozliczonoWn) {
+        this.rozliczonoWn = rozliczonoWn;
+    }
+
+    public Double getPozostalodorozliczeniaWn() {
+        return pozostalodorozliczeniaWn;
+    }
+
+    public void setPozostalodorozliczeniaWn(Double pozostalodorozliczeniaWn) {
+        this.pozostalodorozliczeniaWn = pozostalodorozliczeniaWn;
+    }
+
+    public Double getRozliczonoMa() {
+        return rozliczonoMa;
+    }
+
+    public void setRozliczonoMa(Double rozliczonoMa) {
+        this.rozliczonoMa = rozliczonoMa;
+    }
+
+    public Double getPozostalodorozliczeniaMa() {
+        return pozostalodorozliczeniaMa;
+    }
+
+    public void setPozostalodorozliczeniaMa(Double pozostalodorozliczeniaMa) {
+        this.pozostalodorozliczeniaMa = pozostalodorozliczeniaMa;
+    }
+
     
     public Dokfk getDokfk() {
         return dokfk;
