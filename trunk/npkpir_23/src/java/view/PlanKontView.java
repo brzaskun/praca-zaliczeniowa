@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 public class PlanKontView implements Serializable{
  
     private List<Konto> wykazkont;
+    private List<Konto> wykazkontanalityczne;
     private static List<Konto> wykazkontS;
     private static String opiskonta;
     private static String pelnynumerkonta;
@@ -41,8 +42,8 @@ public class PlanKontView implements Serializable{
 
     @PostConstruct
     private void init(){
-     List<Konto> wykazkonttmp = kontoDAO.findAll();
-     for(Konto p : wykazkonttmp){
+     wykazkontanalityczne = kontoDAO.findAll();
+     for(Konto p : wykazkontanalityczne){
             p.setRozwin(false);
             kontoDAO.edit(p);
         }
@@ -54,8 +55,8 @@ public class PlanKontView implements Serializable{
          pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
      }
      //wyszukujemy syntetyczne
-     Collections.sort(wykazkonttmp, new Kontocomparator());
-     for(Konto p : wykazkonttmp){
+     Collections.sort(wykazkontanalityczne, new Kontocomparator());
+     for(Konto p : wykazkontanalityczne){
          if(p.getSyntetyczne().equals("syntetyczne")){
             wykazkont.add(p);
          } 
@@ -189,12 +190,10 @@ public class PlanKontView implements Serializable{
     
      public List<Konto> complete(String query) {  
         List<Konto> results = new ArrayList<>();
-        List<Konto> lista = new ArrayList<>();
-        lista.addAll(kontoDAO.findAll());
         try{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
-        for(Konto p : lista) {  
+        for(Konto p : wykazkontanalityczne) {  
              if(query.length()==4&&!query.contains("-")){
                  //wstawia - do ciagu konta
                  query = query.substring(0,3)+"-"+query.substring(3,4);
@@ -202,8 +201,9 @@ public class PlanKontView implements Serializable{
              if(p.getPelnynumer().startsWith(query)) {
                  results.add(p);
              }
-        }} catch (Exception e){
-          for(Konto p : lista) {  
+        }
+        } catch (Exception e){
+          for(Konto p : wykazkont) {  
              if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                  results.add(p);
              }
