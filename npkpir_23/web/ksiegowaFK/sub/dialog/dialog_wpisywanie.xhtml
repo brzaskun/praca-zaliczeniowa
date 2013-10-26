@@ -21,7 +21,7 @@
                 <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
             <h:outputText value="numer"/><h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
                 <f:ajax event="blur" execute="@this"/></h:inputText>
-            <h:outputText value="podatnik"/><h:selectOneMenu id="podatnik" value="#{dokfkView.selected.dokfkPK.podatnik}">
+            <h:outputText value="podatnik"/><h:selectOneMenu id="podatnik" value="#{dokfkView.selected.dokfkPK.podatnik}" style="width: 200px;">
                 <f:selectItem itemLabel="Kowalski" itemValue="Kowalski"/>
                 <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
         </p:panelGrid>
@@ -53,7 +53,7 @@
                 </p:autoComplete>
                 </p:column> 
             <p:column headerText="kwota"  width="160">
-                <pe:inputNumber id="ma" value="#{loop.kwotaMa}" symbol=" zł" style="float: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" >
+                <pe:inputNumber id="ma" value="#{loop.kwotaMa}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" >
                         <f:ajax event="blur" execute="@this"/>
                 </pe:inputNumber>
             </p:column>
