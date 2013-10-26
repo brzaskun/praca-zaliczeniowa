@@ -91,7 +91,10 @@ public class Wiersze implements Serializable {
     @Column(name = "kontoWn")
     @OneToOne
     private Konto kontoWn;
-    
+    @Column(name = "wnlubma")
+    private String wnlubma;
+    @Column(name = "dodanydorozrachunkow")
+    private boolean dodanydorozrachunkow;
 //    //pola niezbedne do prowadzenia rozrachunków
 //    @Column(name = "idwierszarozliczenia")
 //    private Integer idwierszarozliczenia;
@@ -230,6 +233,23 @@ public class Wiersze implements Serializable {
         this.kwotapierwotna = kwotapierwotna;
     }
 
+    public String getWnlubma() {
+        return wnlubma;
+    }
+
+    public void setWnlubma(String wnlubma) {
+        this.wnlubma = wnlubma;
+    }
+
+    public boolean isDodanydorozrachunkow() {
+        return dodanydorozrachunkow;
+    }
+
+    public void setDodanydorozrachunkow(boolean dodanydorozrachunkow) {
+        this.dodanydorozrachunkow = dodanydorozrachunkow;
+    }
+
+    
     
     public Dokfk getDokfk() {
         return dokfk;

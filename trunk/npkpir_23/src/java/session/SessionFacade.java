@@ -38,6 +38,7 @@ import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.Rozrachunki;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -451,11 +452,11 @@ public class SessionFacade<T> {
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
-//
-//    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
-//        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
-//    }
-//     
+
+    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
+        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
+    }
+     
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
