@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
 
@@ -26,8 +27,8 @@
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-                    <p:column headerText="kwota rozliczenia" width="40">
-                        <h:inputText value="#{loop.kwotarozrachunku}"/>
+                    <p:column headerText="kwota rozliczenia" width="40" style="text-align: right;">
+                        <pe:inputNumber value="#{loop.kwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
                     </p:column>
                     <p:column headerText="kwota transakcji" width="40">
                         <h:outputText value="#{loop.wierszsparowany.kwotapierwotna}" style="float: right;">
@@ -45,7 +46,7 @@
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" actionListener="#{dokfkView.rozlicznaniesionerozrachunki}"  oncomplete="dlgrozrachunki.hide();"/>
+                <p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();"/>
             </div>
         </h:form>
         <f:facet name="footer">

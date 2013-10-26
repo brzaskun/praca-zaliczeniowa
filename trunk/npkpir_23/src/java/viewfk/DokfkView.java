@@ -5,6 +5,7 @@
 package viewfk;
 
 import dao.RozrachunkiDAO;
+import dao.WierszeDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import entityfk.Dokfk;
@@ -38,6 +39,7 @@ public class DokfkView implements Serializable{
     private int liczbawierszy;
     private List<Wiersze> wiersze;
     @Inject private DokDAOfk dokDAOfk;
+    @Inject private WierszeDAO wierszeDAO;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private Kontozapisy kontozapisy;
     @Inject private Wiersze wiersz;
@@ -98,6 +100,9 @@ public class DokfkView implements Serializable{
             wykaz = dokDAOfk.findAll();
             Msg.msg("i", "Dokument zmeniony");
             selected = new Dokfk();
+            DokfkPK dokfkPK = new DokfkPK();
+            dokfkPK.setRok("2013");
+            selected.setDokfkPK(dokfkPK);
             wiersze = new ArrayList<>();
             wiersze.add(new Wiersze(1,0));
             selected.setKonta(wiersze);
@@ -123,9 +128,14 @@ public class DokfkView implements Serializable{
             wykaz.add(selected);
             rozlicznaniesionerozrachunki();
             selected = new Dokfk();
+            DokfkPK dokfkPK = new DokfkPK();
+            dokfkPK.setRok("2013");
+            selected.setDokfkPK(dokfkPK);
             wiersze = new ArrayList<>();
             wiersze.add(new Wiersze(1,0));
             selected.setKonta(wiersze);
+            liczbawierszy = 1;
+            RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument dodany");
         } catch (Exception e){
             Msg.msg("e", "Nie udało się dodac dokumentu "+e.toString());
@@ -182,8 +192,8 @@ public class DokfkView implements Serializable{
 
     public void usundokument(Dokfk dousuniecia) {
         try {
-            wykaz.remove(dousuniecia);
             dokDAOfk.usun(dousuniecia);
+            wykaz.remove(dousuniecia);
             Msg.msg("i", "Dokument usunięty");
         } catch (Exception e){
             Msg.msg("e", "Nie udało się usunąć dokumentu");
@@ -325,7 +335,6 @@ public class DokfkView implements Serializable{
     }
     
    public void rozlicznaniesionerozrachunki() {
-       dokDAOfk.edit(selected);
        try {
        for (RozrachunkiTmp p : rozrachunkiwierszewdokumencie) {
            RozrachunkiPK rPK = new RozrachunkiPK();
@@ -335,11 +344,26 @@ public class DokfkView implements Serializable{
            r.setKwotarozrachunku(p.getKwotarozrachunku());
            r.setWierszrozliczany(p.getWierszrozliczany());
            r.setWierszsparowany(p.getWierszsparowany());
-           rozrachunkiDAO.dodaj(r);
+           for (Wiersze s : selected.getKonta()) {
+               if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())){
+                   s.getRozrachunkijakorozliczany().add(r);
+               }
+           }
+           for (Wiersze s : selected.getKonta()) {
+               if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())){
+                   s.getRozrachunkijakosparowany().add(r);
+               }
+           }
+           dokDAOfk.edit(selected);
+           Msg.msg("i", "Rozrachunki naniesione");
        }
        } catch (Exception ex) {
            Msg.msg("e", "Bład w DokfkView funkcja rozlicznaniesionerozrachunki");
        }
+   }
+   
+   public void zapisanorozrachunek(){
+       Msg.msg("i", "Zapisano rozrachunki");
    }
 
 //     public void nanieszapisynakontach(){
