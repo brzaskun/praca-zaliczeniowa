@@ -98,6 +98,7 @@ public class DokfkView implements Serializable{
             dokDAOfk.edit(selected);
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
+            rozlicznaniesionerozrachunki();
             Msg.msg("i", "Dokument zmeniony");
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
@@ -215,15 +216,6 @@ public class DokfkView implements Serializable{
             aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
             uzupelnijaktualnywiersz(wnlubma);
             pobierzwierszezbiezacegodokumentu();
-            //nanieszapisynakontach();
-               //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-   //            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-   //            if (poszukiwanydokument instanceof Dokfk){
-   //                dokDAOfk.destroy(poszukiwanydokument);
-   //                dokDAOfk.dodaj(selected);
-   //            } else {
-   //                dokDAOfk.dodaj(selected);
-   //            }
           if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().execute("drugionShow();");
@@ -455,6 +447,7 @@ public class DokfkView implements Serializable{
                 numerwierszazapisu--;
             }
         }
+        setZapisz0edytuj1(true);
         String makrozaznaczajacepole = "#formwpisdokument\\:dataList\\:"+String.valueOf(numerwierszazapisu)+"\\:opis";
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
@@ -463,7 +456,6 @@ public class DokfkView implements Serializable{
      
      public void wybranodokmessage(){
          Msg.msg("i", "Wybrano dokument do edycji");
-         List<Wiersze> wierszedowsadzenia = new ArrayList();
          setZapisz0edytuj1(true);
          liczbawierszy = selected.getKonta().size();
          //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
