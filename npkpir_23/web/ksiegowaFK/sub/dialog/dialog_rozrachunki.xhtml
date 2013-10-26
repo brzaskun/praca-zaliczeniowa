@@ -21,7 +21,7 @@
                         </h:outputText>
                     </p:panelGrid>
                 </h:form>
-                <p:dataTable id="dataList" value="#{kontoZapisyFKView.kontorozrachunki}" var="loop" rowIndexVar="row" style="width: 1000px;"
+                <p:dataTable id="dataList" value="#{dokfkView.rozrachunkiwierszewdokumencie}" var="loop" rowIndexVar="row" style="width: 1000px;"
                              >
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
@@ -30,28 +30,22 @@
                         <h:inputText value="#{loop.kwotarozrachunku}"/>
                     </p:column>
                     <p:column headerText="kwota transakcji" width="40">
-                        <h:outputText value="#{loop.zapissparowany.wartoscpierwotna}" style="float: right;">
+                        <h:outputText value="#{loop.wierszsparowany.kwotapierwotna}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="termin płatności" width="90">
-                        <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
-                    </p:column>
                     <p:column headerText="opis transakcji" width="300">
-                        <h:outputText id="opis" value="#{loop.zapissparowany.opis}" />
+                        <h:outputText id="opis" value="#{loop.wierszsparowany.opis}" />
                     </p:column>
                     <p:column headerText="nr rozrachunku" width="40">
-                        <h:outputText value="#{loop.zapissparowany.numer}"/>
+                        <h:outputText value="#{loop.wierszsparowany.idporzadkowy}"/>
                     </p:column>
-                    <p:column headerText="id dokumentu" width="40">
-                        <h:outputText value="#{loop.zapissparowany.dokument.id}"/>
-                    </p:column>
-                    <p:column headerText="data wystawienia" width="40">
-                        <h:outputText value="#{loop.zapissparowany.dokument.datawystawienia}"/>
+                    <p:column headerText="konto przeciwstawne" width="40">
+                        <h:outputText value="#{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" actionListener="#{kontoZapisyFKView.zachowajrozrachunki()}"  oncomplete="dlgrozrachunki.hide();"/>
+                <p:commandButton value="zapisz" actionListener="#{dokfkView.rozlicznaniesionerozrachunki}"  oncomplete="dlgrozrachunki.hide();"/>
             </div>
         </h:form>
         <f:facet name="footer">
