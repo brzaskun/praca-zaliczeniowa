@@ -379,25 +379,41 @@ public class DokfkView implements Serializable{
            for (Wiersze s : selected.getKonta()) {
                if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())){
                    s.getRozrachunkijakorozliczany().add(r);
-               }
                if (s.getWnlubma().equals("Wn")) {
-                   s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
+                   try {
+                        s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
+                   } catch (Exception e1) {
+                        s.setRozliczonoWn(p.getKwotarozrachunku());
+                   }
                    s.setPozostalodorozliczeniaWn(s.getKwotaWn()-s.getRozliczonoWn());
                } else {
-                   s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
-                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoWn());
+                   try {
+                        s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
+                   } catch (Exception e1) {
+                        s.setRozliczonoMa(p.getKwotarozrachunku());
+                   }
+                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoMa());
+               }
                }
            }
            for (Wiersze s : selected.getKonta()) {
                if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())){
                    s.getRozrachunkijakosparowany().add(r);
-               }
                if (s.getWnlubma().equals("Wn")) {
-                   s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
+                   try {
+                     s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
+                   } catch (Exception e1) {
+                     s.setRozliczonoWn(p.getKwotarozrachunku());
+                   }
                    s.setPozostalodorozliczeniaWn(s.getKwotaWn()-s.getRozliczonoWn());
                } else {
-                   s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
-                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoWn());
+                   try {
+                        s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
+                   } catch (Exception e1) {
+                        s.setRozliczonoMa(p.getKwotarozrachunku());
+                   }
+                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoMa());
+               }
                }
            }
            dokDAOfk.edit(selected);
