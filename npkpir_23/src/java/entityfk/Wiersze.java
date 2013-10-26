@@ -2,9 +2,12 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,11 +15,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -106,6 +112,10 @@ public class Wiersze implements Serializable {
 //    private Double pozostalodorozliczenia;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
+    @OneToMany(mappedBy = "wierszsparowany", cascade = CascadeType.ALL, targetEntity = Rozrachunki.class,  orphanRemoval=true)
+    private List<Rozrachunki> rozrachunkijakosparowany;
+    @OneToMany(mappedBy = "wierszrozliczany", cascade = CascadeType.ALL, targetEntity = Rozrachunki.class,  orphanRemoval=true)
+    private List<Rozrachunki> rozrachunkijakorozliczany;
    
     
 
@@ -259,6 +269,25 @@ public class Wiersze implements Serializable {
         this.dokfk = dokfk;
     }
 
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkijakosparowany() {
+        return rozrachunkijakosparowany;
+    }
+
+    public void setRozrachunkijakosparowany(List<Rozrachunki> rozrachunkijakosparowany) {
+        this.rozrachunkijakosparowany = rozrachunkijakosparowany;
+    }
+    
+    @XmlTransient
+    public List<Rozrachunki> getRozrachunkijakorozliczany() {
+        return rozrachunkijakorozliczany;
+    }
+
+    public void setRozrachunkijakorozliczany(List<Rozrachunki> rozrachunkijakorozliczany) {
+        this.rozrachunkijakorozliczany = rozrachunkijakorozliczany;
+    }
+
+    
         
     
     //</editor-fold>

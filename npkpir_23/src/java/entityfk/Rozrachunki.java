@@ -37,10 +37,10 @@ public class Rozrachunki implements Serializable {
     @NotNull
     @Column(nullable = false)
     private double kwotarozrachunku;
-    @JoinColumn(name = "wierszsparowany", referencedColumnName = "idwiersza", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "wierszsparowany", referencedColumnName = "idwiersza")
     @ManyToOne(optional = false)
     private Wiersze wierszsparowany;
-    @JoinColumn(name = "wierszrozliczany", referencedColumnName = "idwiersza", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "wierszrozliczany", referencedColumnName = "idwiersza")
     @ManyToOne(optional = false)
     private Wiersze wierszrozliczany;
 
