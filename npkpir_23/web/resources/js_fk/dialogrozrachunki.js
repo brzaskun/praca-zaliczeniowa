@@ -41,13 +41,17 @@ var doklejsumowaniewprowadzonych = function() {
             }
         }
         if (wprowadzonowpole === " zł") {
-            $(this).val(wartoscpoprawej);
+            if (wartoscpoprawej >= MYAPP.limit) {
+                $(this).val(MYAPP.limit);
+            } else {
+                $(this).val(wartoscpoprawej);
+            }
         }
         var wprowadzono = 0;
         var j = 0;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
             var wiersz = "rozrachunki:dataList:"+j+":pozostalo";
-            wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
+                wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
             if (wprowadzono > MYAPP.limit) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
