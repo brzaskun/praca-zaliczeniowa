@@ -8,7 +8,7 @@
     >
     
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
-              resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');$(document.getElementById('wpisywaniefooter:przywrocwpisbutton')).click();"  dynamic="true"
+              resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="pierwszyOnHide();"  dynamic="true"
               >
         <p:ajax event="close" listener="#{dokfkView.zresetujpoladialogu}" update=":formwpisdokument"/>
         <h:form id="formwpisdokument">
@@ -74,14 +74,14 @@
             </p:dataTable>
             <p:panel>
                 <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument  :zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
-             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="$('#formwpisdokument\\:wpiszdokbutton').show();pierwszy.hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
+             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList :rozrachunki :wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
              </p:panel>
                 </div>
         </h:form>
        <f:facet name="footer">
            <h:form id="wpisywaniefooter">
             <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
-            <p:commandButton value="rozrachunki" actionListener="#{dokfkView.rozrachunki}" accesskey="r" />
+            <p:commandButton value="rozrachunki" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki:formE:paneledycji"/>
              <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
             <h:inputText id="wierszid" style="display: none;"/>
             <h:inputText id="wnlubma" style="display: none;"/>

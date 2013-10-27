@@ -7,4 +7,11 @@ var zachowajwiersz = function (wierszid, wnlubma) {
     }
 };
 
+var pierwszyOnHide = function () {
+    resetujdialog('dialogpierwszy');
+    $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
+    $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
+    $(document.getElementById('wpisywaniefooter:przywrocwpisbutton')).click();
+};
+
 
