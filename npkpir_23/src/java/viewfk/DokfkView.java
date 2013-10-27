@@ -33,23 +33,30 @@ import params.Params;
  */
 @ManagedBean
 @ViewScoped
-public class DokfkView implements Serializable{
-    
+public class DokfkView implements Serializable {
+
     protected Dokfk selected;
     private int liczbawierszy;
     private List<Wiersze> wiersze;
-    @Inject private DokDAOfk dokDAOfk;
-    @Inject private WierszeDAO wierszeDAO;
-    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
-    @Inject private Kontozapisy kontozapisy;
-    @Inject private Wiersze wiersz;
-    @Inject private Wiersze aktualnywierszdorozrachunkow;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private WierszeDAO wierszeDAO;
+    @Inject
+    private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject
+    private Kontozapisy kontozapisy;
+    @Inject
+    private Wiersze wiersz;
+    @Inject
+    private Wiersze aktualnywierszdorozrachunkow;
     private static List<Dokfk> selecteddokfk;
     private List<Dokfk> wykaz;
     private boolean zapisz0edytuj1;
     private int numerwierszazapisu;
     private List<RozrachunkiTmp> rozrachunkiwierszewdokumencie;
-    @Inject private RozrachunkiDAO rozrachunkiDAO;
+    @Inject
+    private RozrachunkiDAO rozrachunkiDAO;
 
     public DokfkView() {
         liczbawierszy = 1;
@@ -58,40 +65,40 @@ public class DokfkView implements Serializable{
         dokfkPK.setRok("2013");
         selected.setDokfkPK(dokfkPK);
         wiersze = new ArrayList<>();
-        wiersze.add(new Wiersze(1,0));
+        wiersze.add(new Wiersze(1, 0));
         selected.setKonta(wiersze);
 //        List<Kontozapisy> zapisynakoncie = new ArrayList<>();
 //        selected.setZapisynakoncie(zapisynakoncie);
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         wykaz = dokDAOfk.findAll();
     }
-    
+
     public void liczbaw() {
-       liczbawierszy = selected.getKonta().size();
-        double pierwsze = selected.getKonta().get(liczbawierszy-1).getKwotaWn();
-        double drugie = selected.getKonta().get(liczbawierszy-1).getKwotaMa();
-        if(pierwsze!=0||drugie!=0){
+        liczbawierszy = selected.getKonta().size();
+        double pierwsze = selected.getKonta().get(liczbawierszy - 1).getKwotaWn();
+        double drugie = selected.getKonta().get(liczbawierszy - 1).getKwotaMa();
+        if (pierwsze != 0 || drugie != 0) {
             liczbawierszy++;
-            selected.getKonta().add(new Wiersze(liczbawierszy,0));
+            selected.getKonta().add(new Wiersze(liczbawierszy, 0));
         }
     }
-    
+
 //   /**
 //    * Usuwanie wierszy z dokumenu ksiegowego
 //    */
     public void liczbawu() {
-        if(liczbawierszy>1){
+        if (liczbawierszy > 1) {
             liczbawierszy--;
             selected.getKonta().remove(liczbawierszy);
         }
     }
-   
-    public void edycja(){
+
+    public void edycja() {
         try {
             uzupelnijwierszeodane();
             //nanieszapisynakontach();
@@ -99,36 +106,37 @@ public class DokfkView implements Serializable{
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
             rozlicznaniesionerozrachunki();
-            selected = new Dokfk();
-            DokfkPK dokfkPK = new DokfkPK();
-            dokfkPK.setRok("2013");
-            selected.setDokfkPK(dokfkPK);
-            wiersze = new ArrayList<>();
-            wiersze.add(new Wiersze(1,0));
-            selected.setKonta(wiersze);
-            setZapisz0edytuj1(false);
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
-            RequestContext.getCurrentInstance().execute("pierwszy.hide();");
-         } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
-            Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());
+            Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
         }
     }
-    
+
+    //on robi nie tylko to ze przywraca button, on jeszcze resetuje selected
+    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
     public void przywrocwpisbutton() {
         setZapisz0edytuj1(false);
-        liczbawierszy=1;
-        
+        liczbawierszy = 1;
+        selected = new Dokfk();
+        DokfkPK dokfkPK = new DokfkPK();
+        dokfkPK.setRok("2013");
+        selected.setDokfkPK(dokfkPK);
+        wiersze = new ArrayList<>();
+        wiersze.add(new Wiersze(1, 0));
+        selected.setKonta(wiersze);
+        setZapisz0edytuj1(false);
+        RequestContext.getCurrentInstance().execute("pierwszy.hide();");
     }
-    
-    public void dodaj(){
+
+    public void dodaj() {
         try {
             uzupelnijwierszeodane();
             //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
             //nanieszapisynakontach();
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
             Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-            if (poszukiwanydokument instanceof Dokfk){
+            if (poszukiwanydokument instanceof Dokfk) {
                 dokDAOfk.destroy(poszukiwanydokument);
                 dokDAOfk.dodaj(selected);
             } else {
@@ -141,31 +149,31 @@ public class DokfkView implements Serializable{
             dokfkPK.setRok("2013");
             selected.setDokfkPK(dokfkPK);
             wiersze = new ArrayList<>();
-            wiersze.add(new Wiersze(1,0));
+            wiersze.add(new Wiersze(1, 0));
             selected.setKonta(wiersze);
             liczbawierszy = 1;
             RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument dodany");
-        } catch (Exception e){
-            Msg.msg("e", "Nie udało się dodac dokumentu "+e.toString());
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się dodac dokumentu " + e.toString());
         }
     }
-    
-    public void zresetujpoladialogu () {
+
+    public void zresetujpoladialogu() {
         selected = new Dokfk();
         wiersze = new ArrayList<>();
-        wiersze.add(new Wiersze(1,0));
+        wiersze.add(new Wiersze(1, 0));
         selected.setKonta(wiersze);
     }
-    
+
     private void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
-        String opisdoprzekazania="";
+        String opisdoprzekazania = "";
         List<Wiersze> wierszewdokumencie = selected.getKonta();
         try {
-        for(Wiersze p : wierszewdokumencie){
+            for (Wiersze p : wierszewdokumencie) {
                 String opis = p.getOpis();
-                if(opis.contains("kontown")){
+                if (opis.contains("kontown")) {
                     p.setKonto(p.getKontoWn());
                     p.setKontonumer(p.getKontoWn().getPelnynumer());
                     p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
@@ -174,7 +182,7 @@ public class DokfkView implements Serializable{
                     p.setTypwiersza(1);
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
-                } else if (opis.contains("kontoma")){
+                } else if (opis.contains("kontoma")) {
                     p.setKonto(p.getKontoMa());
                     p.setKontonumer(p.getKontoMa().getPelnynumer());
                     //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
@@ -184,16 +192,16 @@ public class DokfkView implements Serializable{
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
-                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p. getKontoMa());
-                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p. getKontoMa().getPelnynumer());
-                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p. getKontoWn().getPelnynumer());
+                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
+                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setTypwiersza(0);
                     p.setDokfk(selected);
-                    opisdoprzekazania=p.getOpis();
+                    opisdoprzekazania = p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
                 }
-                  }
+            }
         } catch (Exception e) {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
         }
@@ -204,117 +212,118 @@ public class DokfkView implements Serializable{
             dokDAOfk.usun(dousuniecia);
             wykaz.remove(dousuniecia);
             Msg.msg("i", "Dokument usunięty");
-        } catch (Exception e){
+        } catch (Exception e) {
             Msg.msg("e", "Nie udało się usunąć dokumentu");
         }
     }
-    public void rozrachunki () {
-         String wnlubma = (String) Params.params("wpisywaniefooter:wnlubma");
-         uzupelnijwierszeodanewtrakcie();
-            Dokfk sprawdz = selected;
-            String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
-            Integer nrwiersza = Integer.parseInt(nrwierszaS);
-            nrwiersza--;
-            aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
-            uzupelnijaktualnywiersz(wnlubma);
-            pobierzwierszezbiezacegodokumentu();
-          if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+
+    public void rozrachunki() {
+        String wnlubma = (String) Params.params("wpisywaniefooter:wnlubma");
+        uzupelnijwierszeodanewtrakcie();
+        Dokfk sprawdz = selected;
+        String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
+        Integer nrwiersza = Integer.parseInt(nrwierszaS);
+        nrwiersza--;
+        aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
+        uzupelnijaktualnywiersz(wnlubma);
+        pobierzwierszezbiezacegodokumentu();
+        if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().execute("drugionShow();");
-         } else {
-           Msg.msg("e", "Wybierz konto rozrachunkowe");
-         }
-     }
-    
-     private void uzupelnijwierszeodanewtrakcie() {
+        } else {
+            Msg.msg("e", "Wybierz konto rozrachunkowe");
+        }
+    }
+
+    private void uzupelnijwierszeodanewtrakcie() {
         //ladnie uzupelnia informacje o wierszu pk
         List<Wiersze> wierszewdokumencie = selected.getKonta();
         try {
-        for(Wiersze p : wierszewdokumencie){
-                    p.setDataksiegowania(selected.getDatawystawienia());
-                    p.setDokfk(selected);
-                    p.setZaksiegowane(Boolean.FALSE);
-        }
+            for (Wiersze p : wierszewdokumencie) {
+                p.setDataksiegowania(selected.getDatawystawienia());
+                p.setDokfk(selected);
+                p.setZaksiegowane(Boolean.FALSE);
+            }
         } catch (Exception e) {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
         }
     }
-     
-     private void uzupelnijaktualnywiersz(String wnlubma) {
+
+    private void uzupelnijaktualnywiersz(String wnlubma) {
         //ladnie uzupelnia informacje o wierszu pk
-         Wiersze p = aktualnywierszdorozrachunkow;
-         try {
-                if(wnlubma.equals("Wn")){
-                    p.setKonto(p.getKontoWn());
-                    p.setKontonumer(p.getKontoWn().getPelnynumer());
-                    p.setDataksiegowania(selected.getDatawystawienia());
-                    p.setKwotapierwotna(p.getKwotaWn());
-                    p.setDokfk(selected);
-                    p.setZaksiegowane(Boolean.FALSE);
-                    p.setWnlubma("Wn");
-                } else {
-                    p.setKonto(p.getKontoMa());
-                    p.setKontonumer(p.getKontoMa().getPelnynumer());
-                    p.setDataksiegowania(selected.getDatawystawienia());
-                    p.setKwotapierwotna(p.getKwotaMa());
-                    p.setDokfk(selected);
-                    p.setZaksiegowane(Boolean.FALSE);
-                    p.setWnlubma("Ma");
-                }
+        Wiersze p = aktualnywierszdorozrachunkow;
+        try {
+            if (wnlubma.equals("Wn")) {
+                p.setKonto(p.getKontoWn());
+                p.setKontonumer(p.getKontoWn().getPelnynumer());
+                p.setDataksiegowania(selected.getDatawystawienia());
+                p.setKwotapierwotna(p.getKwotaWn());
+                p.setDokfk(selected);
+                p.setZaksiegowane(Boolean.FALSE);
+                p.setWnlubma("Wn");
+            } else {
+                p.setKonto(p.getKontoMa());
+                p.setKontonumer(p.getKontoMa().getPelnynumer());
+                p.setDataksiegowania(selected.getDatawystawienia());
+                p.setKwotapierwotna(p.getKwotaMa());
+                p.setDokfk(selected);
+                p.setZaksiegowane(Boolean.FALSE);
+                p.setWnlubma("Ma");
+            }
         } catch (Exception e) {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
         }
     }
-     
-     private void pobierzwierszezbiezacegodokumentu() {
+
+    private void pobierzwierszezbiezacegodokumentu() {
         rozrachunkiwierszewdokumencie = new ArrayList<>();
         List<Wiersze> wierszezdokumentu = selected.getKonta();
         try {
-        List<Rozrachunki> zapisanerozrachunkiwbazie = rozrachunkiDAO.findRozliczany(aktualnywierszdorozrachunkow.getIdwiersza());
-        for (Wiersze p : wierszezdokumentu) {
-            //pobieram tylko te konta ktore nie leza po tej samej stronie dokumetu co konto rozrachunkowe i sa takie same jak konto rozrliczane
-            if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
-                if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
-                    aktualnywierszdorozrachunkow.setWnlubma("Wn");
-                    //szukamy bo moze juz byl taki rozrachunek
-                    for (Rozrachunki r : zapisanerozrachunkiwbazie) {
-                        if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow)&&r.getWierszsparowany().equals(p)) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(),p,aktualnywierszdorozrachunkow));
-                            p.setDodanydorozrachunkow(true);
-                        } 
+            List<Rozrachunki> zapisanerozrachunkiwbazie = rozrachunkiDAO.findRozliczany(aktualnywierszdorozrachunkow.getIdwiersza());
+            for (Wiersze p : wierszezdokumentu) {
+                //pobieram tylko te konta ktore nie leza po tej samej stronie dokumetu co konto rozrachunkowe i sa takie same jak konto rozrliczane
+                if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
+                    if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
+                        aktualnywierszdorozrachunkow.setWnlubma("Wn");
+                        //szukamy bo moze juz byl taki rozrachunek
+                        for (Rozrachunki r : zapisanerozrachunkiwbazie) {
+                            if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
+                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                p.setDodanydorozrachunkow(true);
+                            }
+                        }
+                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
+                        if (!p.isDodanydorozrachunkow()) {
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
+                        }
+                        p.setKonto(p.getKontoMa());
+                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                        p.setKwotapierwotna(p.getKwotaMa());
+                        p.setWnlubma("Ma");
                     }
-                    //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
-                    if (!p.isDodanydorozrachunkow()) {
-                        rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p,aktualnywierszdorozrachunkow));
+                } else {
+                    if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
+                        aktualnywierszdorozrachunkow.setWnlubma("Ma");
+                        //szukamy bo moze juz byl taki rozrachunek
+                        for (Rozrachunki r : zapisanerozrachunkiwbazie) {
+                            if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
+                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                p.setDodanydorozrachunkow(true);
+                            }
+                        }
+                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
+                        if (!p.isDodanydorozrachunkow()) {
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
+                        }
+                        p.setKonto(p.getKontoWn());
+                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+                        p.setKwotapierwotna(p.getKwotaWn());
+                        p.setWnlubma("Wn");
                     }
-                    p.setKonto(p.getKontoMa());
-                    p.setKontonumer(p.getKonto().getNazwapelna());
-                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-                    p.setKwotapierwotna(p.getKwotaMa());
-                    p.setWnlubma("Ma");
-                }
-            } else {
-                if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
-                    aktualnywierszdorozrachunkow.setWnlubma("Ma");
-                    //szukamy bo moze juz byl taki rozrachunek
-                     for (Rozrachunki r : zapisanerozrachunkiwbazie) {
-                        if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow)&&r.getWierszsparowany().equals(p)) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(),p,aktualnywierszdorozrachunkow));
-                            p.setDodanydorozrachunkow(true);
-                        } 
-                    }
-                     //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
-                    if (!p.isDodanydorozrachunkow()) {
-                        rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p,aktualnywierszdorozrachunkow));
-                    }
-                    p.setKonto(p.getKontoWn());
-                    p.setKontonumer(p.getKonto().getNazwapelna());
-                    p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-                    p.setKwotapierwotna(p.getKwotaWn());
-                    p.setWnlubma("Wn");
                 }
             }
-        }
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
         }
@@ -323,6 +332,7 @@ public class DokfkView implements Serializable{
     public static class RozrachunkiTmp {
 
         private double kwotarozrachunku;
+        private double kwotapierwotna;
         private Wiersze wierszsparowany;
         private Wiersze wierszrozliczany;
 
@@ -334,10 +344,19 @@ public class DokfkView implements Serializable{
             this.wierszrozliczany = wierszrozliczany;
         }
 
-        public RozrachunkiTmp(double kwotarozrachunku, Wiersze wierszsparowany, Wiersze wierszrozliczany) {
+        public RozrachunkiTmp(double kwotarozrachunku, double kwotapierwotna, Wiersze wierszsparowany, Wiersze wierszrozliczany) {
             this.kwotarozrachunku = kwotarozrachunku;
+            this.kwotapierwotna = kwotapierwotna;
             this.wierszsparowany = wierszsparowany;
             this.wierszrozliczany = wierszrozliczany;
+        }
+
+        public double getKwotapierwotna() {
+            return kwotapierwotna;
+        }
+
+        public void setKwotapierwotna(double kwotapierwotna) {
+            this.kwotapierwotna = kwotapierwotna;
         }
 
         public double getKwotarozrachunku() {
@@ -363,71 +382,75 @@ public class DokfkView implements Serializable{
         public void setWierszrozliczany(Wiersze wierszrozliczany) {
             this.wierszrozliczany = wierszrozliczany;
         }
-
-      
     }
-    
-   public void rozlicznaniesionerozrachunki() {
-       try {
-       for (RozrachunkiTmp p : rozrachunkiwierszewdokumencie) {
-           RozrachunkiPK rPK = new RozrachunkiPK();
-           rPK.setZapisrozliczany(p.getWierszrozliczany().getIdwiersza());
-           rPK.setZapissparowany(p.getWierszsparowany().getIdwiersza());
-           Rozrachunki r = new Rozrachunki(rPK);
-           r.setKwotarozrachunku(p.getKwotarozrachunku());
-           r.setWierszrozliczany(p.getWierszrozliczany());
-           r.setWierszsparowany(p.getWierszsparowany());
-           for (Wiersze s : selected.getKonta()) {
-               if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())){
-                   s.getRozrachunkijakorozliczany().add(r);
-               if (s.getWnlubma().equals("Wn")) {
-                   try {
-                        s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
-                   } catch (Exception e1) {
-                        s.setRozliczonoWn(p.getKwotarozrachunku());
-                   }
-                   s.setPozostalodorozliczeniaWn(s.getKwotaWn()-s.getRozliczonoWn());
-               } else {
-                   try {
-                        s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
-                   } catch (Exception e1) {
-                        s.setRozliczonoMa(p.getKwotarozrachunku());
-                   }
-                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoMa());
-               }
-               }
-           }
-           for (Wiersze s : selected.getKonta()) {
-               if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())){
-                   s.getRozrachunkijakosparowany().add(r);
-               if (s.getWnlubma().equals("Wn")) {
-                   try {
-                     s.setRozliczonoWn(s.getRozliczonoWn()+p.getKwotarozrachunku());
-                   } catch (Exception e1) {
-                     s.setRozliczonoWn(p.getKwotarozrachunku());
-                   }
-                   s.setPozostalodorozliczeniaWn(s.getKwotaWn()-s.getRozliczonoWn());
-               } else {
-                   try {
-                        s.setRozliczonoMa(s.getRozliczonoMa()+p.getKwotarozrachunku());
-                   } catch (Exception e1) {
-                        s.setRozliczonoMa(p.getKwotarozrachunku());
-                   }
-                   s.setPozostalodorozliczeniaMa(s.getKwotaMa()-s.getRozliczonoMa());
-               }
-               }
-           }
-           dokDAOfk.edit(selected);
-           Msg.msg("i", "Rozrachunki naniesione");
-       }
-       } catch (Exception ex) {
-           Msg.msg("w", "Nie naniesiono rozrachunkow");
-       }
-   }
-   
-   public void zapisanorozrachunek(){
-       Msg.msg("i", "Zapisano rozrachunki");
-   }
+
+    public void rozlicznaniesionerozrachunki() {
+        try {
+            for (RozrachunkiTmp p : rozrachunkiwierszewdokumencie) {
+                RozrachunkiPK rPK = new RozrachunkiPK();
+                rPK.setZapisrozliczany(p.getWierszrozliczany().getIdwiersza());
+                rPK.setZapissparowany(p.getWierszsparowany().getIdwiersza());
+                Rozrachunki r = new Rozrachunki(rPK);
+                r.setKwotarozrachunku(p.getKwotarozrachunku());
+                r.setWierszrozliczany(p.getWierszrozliczany());
+                r.setWierszsparowany(p.getWierszsparowany());
+                for (Wiersze s : selected.getKonta()) {
+                    if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
+                        s.getRozrachunkijakorozliczany().add(r);
+                        if (s.getWnlubma().equals("Wn")) {
+                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
+                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
+                            try {
+                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
+                            } catch (Exception e1) {
+                                s.setRozliczonoWn(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
+                        } else {
+                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
+                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
+                            try {
+                                s.setRozliczonoMa(s.getRozliczonoMa() + roznica);
+                            } catch (Exception e1) {
+                                s.setRozliczonoMa(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
+                        }
+                    }
+                }
+                for (Wiersze s : selected.getKonta()) {
+                    if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
+                        s.getRozrachunkijakosparowany().add(r);
+                        if (s.getWnlubma().equals("Wn")) {
+                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
+                            try {
+                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
+                            } catch (Exception e1) {
+                                s.setRozliczonoWn(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
+                        } else {
+                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
+                            try {
+                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
+                            } catch (Exception e1) {
+                                s.setRozliczonoMa(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
+                        }
+                    }
+                }
+                dokDAOfk.edit(selected);
+                Msg.msg("i", "Rozrachunki naniesione");
+            }
+        } catch (Exception ex) {
+            Msg.msg("w", "Nie naniesiono rozrachunkow");
+        }
+    }
+
+    public void zapisanorozrachunek() {
+        Msg.msg("i", "Zapisano rozrachunki");
+    }
 
 //     public void nanieszapisynakontach(){
 //         if (!selected.getZapisynakoncie().isEmpty()){
@@ -454,7 +477,6 @@ public class DokfkView implements Serializable{
 //         Msg.msg("i", "Zapisy na kontacg wygenerowane "+x.getNumer());
 //         
 //     }
-     
 //     private void usunistniejacezapisy(List<Kontozapisy> zachowanezapisy){
 //         try {
 //         for(Kontozapisy p : zachowanezapisy){
@@ -464,7 +486,6 @@ public class DokfkView implements Serializable{
 //             Msg.msg("e", "Błąd przy usuwaniu istniejących zapisó na kontach");
 //         }
 //     }
-     
 //     private void dodajwn(Wiersze p,Dokfk x, String opis, List<Kontozapisy> zapisynakontach){
 //             Kontozapisy kontozapisy = new Kontozapisy();
 //             kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
@@ -498,9 +519,7 @@ public class DokfkView implements Serializable{
 //             kontozapisy.setDorozliczenia(0);
 //             zapisynakontach.add(kontozapisy);
 //     }
-     
-     
-     public void znajdzdokumentzzapisu(){
+    public void znajdzdokumentzzapisu() {
         selected = wiersz.getDokfk();
         String szukanafrazazzapisu = wiersz.getOpis();
         liczbawierszy = selected.getKonta().size();
@@ -513,27 +532,23 @@ public class DokfkView implements Serializable{
             }
         }
         setZapisz0edytuj1(true);
-        String makrozaznaczajacepole = "#formwpisdokument\\:dataList\\:"+String.valueOf(numerwierszazapisu)+"\\:opis";
+        String makrozaznaczajacepole = "#formwpisdokument\\:dataList\\:" + String.valueOf(numerwierszazapisu) + "\\:opis";
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
         //RequestContext.getCurrentInstance().execute("$(#formwpisdokument\\\\:dataList\\\\:5\\\\:opis).select()");
-     }
-     
-     public void wybranodokmessage(){
-         Msg.msg("i", "Wybrano dokument do edycji");
-         setZapisz0edytuj1(true);
-         liczbawierszy = selected.getKonta().size();
-         //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
-         //Bez tego jednak dostawalem pusty rzad po wpisaniu tej komenty nagle nie dostaje pustego rzedu tylko dzial kopiowanie do selected
-         //totalny odlot. poszedl na to jeden wieczor
-         //wierszedowsadzenia.add(new Wiersze(1,0));
-         //selected.setKonta(wierszedowsadzenia);
-     }
-     
-    
-     
-     
-     
+    }
+
+    public void wybranodokmessage() {
+        Msg.msg("i", "Wybrano dokument do edycji");
+        setZapisz0edytuj1(true);
+        liczbawierszy = selected.getKonta().size();
+        //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
+        //Bez tego jednak dostawalem pusty rzad po wpisaniu tej komenty nagle nie dostaje pustego rzedu tylko dzial kopiowanie do selected
+        //totalny odlot. poszedl na to jeden wieczor
+        //wierszedowsadzenia.add(new Wiersze(1,0));
+        //selected.setKonta(wierszedowsadzenia);
+    }
+
 //     public void rozrachunki_stare() {
 //         Dokfk sprawdz = selected;
 //         String nrwiersza = (String) Params.params("wpisywaniefooter:wierszid");
@@ -569,7 +584,7 @@ public class DokfkView implements Serializable{
     public int getLiczbawierszy() {
         return liczbawierszy;
     }
-    
+
     public void setLiczbawierszy(int liczbawierszy) {
         this.liczbawierszy = liczbawierszy;
     }
@@ -593,23 +608,23 @@ public class DokfkView implements Serializable{
     public Dokfk getSelected() {
         return selected;
     }
-    
+
     public void setSelected(Dokfk selected) {
         this.selected = selected;
     }
-    
+
     public List<Dokfk> getWykaz() {
         return wykaz;
     }
-    
+
     public void setWykaz(List<Dokfk> wykaz) {
         this.wykaz = wykaz;
     }
-    
+
     public List<Dokfk> getSelecteddokfk() {
         return selecteddokfk;
     }
-    
+
     public void setSelecteddokfk(List<Dokfk> selecteddokfk) {
         DokfkView.selecteddokfk = selecteddokfk;
     }
@@ -646,9 +661,6 @@ public class DokfkView implements Serializable{
         this.rozrachunkiwierszewdokumencie = rozrachunkiwierszewdokumencie;
     }
 
-   
-    
-    
     public Kontozapisy getKontozapisy() {
         return kontozapisy;
     }
@@ -656,9 +668,5 @@ public class DokfkView implements Serializable{
     public void setKontozapisy(Kontozapisy kontozapisy) {
         this.kontozapisy = kontozapisy;
     }
-
-   //</editor-fold>
-
-    
-    
+    //</editor-fold>
 }
