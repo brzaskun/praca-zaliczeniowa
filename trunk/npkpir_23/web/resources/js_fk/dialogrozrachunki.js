@@ -21,9 +21,17 @@ var rozrachunkionHide = function() {
 var doklejsumowaniewprowadzonych = function() {
     $("#rozrachunki\\:dataList :input").keyup(function() {
         $(this).css("background-color", "#AFEEEE");
+        var numerwiersza = ($(this).attr('id').split(":"))[2];
         var wszystkiewiersze = $("#rozrachunki\\:dataList").find(":input");
         var iloscpozycji = wszystkiewiersze.length;
         var wprowadzonowpole = $(this).val();
+        var wiersz = "rozrachunki:dataList:"+numerwiersza+":pozostalo";
+        var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
+        $(document.getElementById(wiersz)).css("font-weight", "normal");
+        $(document.getElementById(wiersz)).css("color", "black");
+        if (wprowadzonowpole === " zł") {
+            $(this).val(wartoscpoprawej);
+        }
         var wprowadzono = 0;
         var j = 0;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
@@ -32,9 +40,7 @@ var doklejsumowaniewprowadzonych = function() {
             var wartoscwprowadzona = zrobFloat($(wszystkiewiersze[i]).val());
             if (wartoscwprowadzona > wartoscpoprawej) {
                 $(document.getElementById(wiersz)).css("font-weight", "900");
-            }
-            if (wprowadzonowpole === " zł") {
-                $(this).val(wartoscpoprawej);
+                $(document.getElementById(wiersz)).css("color", "red");
             }
             wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
             if (wprowadzono > MYAPP.limit) {
