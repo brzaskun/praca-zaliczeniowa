@@ -36,6 +36,16 @@
                     <p:column headerText="kwota rozliczenia" width="40" style="text-align: right;">
                         <pe:inputNumber value="#{loop.kwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
                     </p:column>
+                     <p:column headerText="zostało do rozliczenia" width="40">
+                        <h:outputText value="#{loop.wierszsparowany.pozostalodorozliczeniaWn gt 0 ? loop.wierszsparowany.pozostalodorozliczeniaWn : loop.wierszsparowany.pozostalodorozliczeniaMa}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column headerText="kwota już rozliczona" width="40">
+                         <h:outputText value="#{loop.wierszsparowany.rozliczonoWn gt 0 ? loop.wierszsparowany.rozliczonoWn : loop.wierszsparowany.rozliczonoMa}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="kwota transakcji" width="40">
                         <h:outputText value="#{loop.wierszsparowany.kwotapierwotna}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -52,7 +62,7 @@
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();"/>
+                <p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"/>
             </div>
         </h:form>
         <f:facet name="footer">

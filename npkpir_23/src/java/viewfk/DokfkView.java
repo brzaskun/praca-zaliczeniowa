@@ -431,47 +431,11 @@ public class DokfkView implements Serializable {
                 for (Wiersze s : selected.getKonta()) {
                     if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
                         s.getRozrachunkijakorozliczany().add(r);
-                        if (s.getWnlubma().equals("Wn")) {
-                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
-                            try {
-                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
-                            } catch (Exception e1) {
-                                s.setRozliczonoWn(p.getKwotarozrachunku());
-                            }
-                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
-                        } else {
-                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
-                            try {
-                                s.setRozliczonoMa(s.getRozliczonoMa() + roznica);
-                            } catch (Exception e1) {
-                                s.setRozliczonoMa(p.getKwotarozrachunku());
-                            }
-                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
-                        }
                     }
                 }
                 for (Wiersze s : selected.getKonta()) {
                     if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
                         s.getRozrachunkijakosparowany().add(r);
-                        if (s.getWnlubma().equals("Wn")) {
-                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
-                            try {
-                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
-                            } catch (Exception e1) {
-                                s.setRozliczonoWn(p.getKwotarozrachunku());
-                            }
-                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
-                        } else {
-                            double roznica = p.getKwotarozrachunku()-p.getKwotapierwotna();
-                            try {
-                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
-                            } catch (Exception e1) {
-                                s.setRozliczonoMa(p.getKwotarozrachunku());
-                            }
-                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
-                        }
                     }
                 }
                 dokDAOfk.edit(selected);
@@ -481,7 +445,72 @@ public class DokfkView implements Serializable {
             Msg.msg("w", "Nie naniesiono rozrachunkow");
         }
     }
+    
+    //robie to w momencie zamkniecia okrna z rozrachunkami aby aktualizowalo pola do rozliczenia i rozliczono juz w trakcie a nie dopiero
+    //podczas wpisywania do bazy
+    private void naniesieniekonsekwencjirozrachunkownawierszach() {
+        wyczyscdotychczasowezapisyrozrachunkow();
+        Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
+        for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
+            for (RozrachunkiTmp p : zestawienielistrozrachunow.get(klucz)) {
+                for (Wiersze s : selected.getKonta()) {
+                    if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
+                        if (s.getWnlubma().equals("Wn")) {
+                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
+                            try {
+                                s.setRozliczonoWn(s.getRozliczonoWn() + p.getKwotarozrachunku());
+                            } catch (Exception e1) {
+                                s.setRozliczonoWn(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
+                        } else {
+                            //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
+                            try {
+                                s.setRozliczonoMa(s.getRozliczonoMa() + p.getKwotarozrachunku());
+                            } catch (Exception e1) {
+                                s.setRozliczonoMa(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
+                        }
+                    }
+                }
+                for (Wiersze s : selected.getKonta()) {
+                    if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
+                        if (s.getWnlubma().equals("Wn")) {
+                            double roznica = p.getKwotarozrachunku() - p.getKwotapierwotna();
+                            try {
+                                s.setRozliczonoWn(s.getRozliczonoWn() + roznica);
+                            } catch (Exception e1) {
+                                s.setRozliczonoWn(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
+                        } else {
+                            try {
+                                s.setRozliczonoMa(s.getRozliczonoMa() + p.getKwotarozrachunku());
+                            } catch (Exception e1) {
+                                s.setRozliczonoMa(p.getKwotarozrachunku());
+                            }
+                            s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
+                        }
+                    }
+                }
+                dokDAOfk.edit(selected);
+            }
+        }
+        Msg.msg("i", "Wiersza zaktulalizowane o kwoty rozliczone");
+    }
 
+    //czyszcze info o rozliczonych i pozostalych do rozliczenia aby wprowadzic nowe wartosc sumowane od nowa
+    private void wyczyscdotychczasowezapisyrozrachunkow() {
+        List<Wiersze> listadowyczyszczenia = selected.getKonta();
+        for (Wiersze p : listadowyczyszczenia) {
+            p.setRozliczonoMa(0.0);
+            p.setRozliczonoWn(0.0);
+            p.setPozostalodorozliczeniaWn(0.0);
+            p.setPozostalodorozliczeniaMa(0.0);
+        }
+    }
+    
     public void zapisanorozrachunek() {
         Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
         Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
@@ -491,6 +520,7 @@ public class DokfkView implements Serializable {
         } else {
             zestawienielistrozrachunow.put(tmp, rozrachunkiwierszewdokumencie);
         }
+        naniesieniekonsekwencjirozrachunkownawierszach();
         Msg.msg("i", "Zapisano rozrachunki");
     }
     
