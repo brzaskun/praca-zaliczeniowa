@@ -16,8 +16,11 @@ import entityfk.RozrachunkiPK;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -54,7 +57,11 @@ public class DokfkView implements Serializable {
     private List<Dokfk> wykaz;
     private boolean zapisz0edytuj1;
     private int numerwierszazapisu;
+    //to jest tablica dla przechowywania rozrachunkow podczas otwierania konkretnego zapisu
     private List<RozrachunkiTmp> rozrachunkiwierszewdokumencie;
+    //to jest zbior list rozrachunkow wykorzystywany do zachowywania list podczas lazenia po kontach aby pozniej zachowac je w bazie po
+    //wcisnieciu klawisza dodaj albo edytuj
+    private Map<Kluczlistyrozrachunkow, List<RozrachunkiTmp>> zestawienielistrozrachunow;
     @Inject
     private RozrachunkiDAO rozrachunkiDAO;
 
@@ -71,6 +78,7 @@ public class DokfkView implements Serializable {
 //        selected.setZapisynakoncie(zapisynakoncie);
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
+        zestawienielistrozrachunow = new HashMap<>();
     }
 
     @PostConstruct
@@ -126,6 +134,7 @@ public class DokfkView implements Serializable {
         wiersze.add(new Wiersze(1, 0));
         selected.setKonta(wiersze);
         setZapisz0edytuj1(false);
+        zestawienielistrozrachunow = new HashMap<>();
         RequestContext.getCurrentInstance().execute("pierwszy.hide();");
     }
 
@@ -152,6 +161,7 @@ public class DokfkView implements Serializable {
             wiersze.add(new Wiersze(1, 0));
             selected.setKonta(wiersze);
             liczbawierszy = 1;
+            zestawienielistrozrachunow = new HashMap<>();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument dodany");
         } catch (Exception e) {
@@ -288,14 +298,14 @@ public class DokfkView implements Serializable {
                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
-                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow, "Wn"));
                                 //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
                         //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow, "Wn"));
                         }
                         p.setDodanydorozrachunkow(false);
                         p.setKonto(p.getKontoMa());
@@ -310,14 +320,14 @@ public class DokfkView implements Serializable {
                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
-                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow, "Ma"));
                                 //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
                         //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow, "Ma"));
                         }
                         p.setDodanydorozrachunkow(false);
                         p.setKonto(p.getKontoWn());
@@ -328,6 +338,8 @@ public class DokfkView implements Serializable {
                     }
                 }
             }
+            //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji
+            sprawdzczyjuzczegosnienaniesiono();
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
         }
@@ -339,53 +351,71 @@ public class DokfkView implements Serializable {
         private double kwotapierwotna;
         private Wiersze wierszsparowany;
         private Wiersze wierszrozliczany;
+        private String wnlubma;
 
         public RozrachunkiTmp() {
         }
 
-        private RozrachunkiTmp(Wiersze wierszsparowany, Wiersze wierszrozliczany) {
+        public RozrachunkiTmp(Wiersze wierszsparowany, Wiersze wierszrozliczany, String wnlubma) {
             this.wierszsparowany = wierszsparowany;
             this.wierszrozliczany = wierszrozliczany;
+            this.wnlubma = wnlubma;
         }
 
-        public RozrachunkiTmp(double kwotarozrachunku, double kwotapierwotna, Wiersze wierszsparowany, Wiersze wierszrozliczany) {
+      
+        public RozrachunkiTmp(double kwotarozrachunku, double kwotapierwotna, Wiersze wierszsparowany, Wiersze wierszrozliczany, String wnlubma) {
             this.kwotarozrachunku = kwotarozrachunku;
             this.kwotapierwotna = kwotapierwotna;
             this.wierszsparowany = wierszsparowany;
             this.wierszrozliczany = wierszrozliczany;
+            this.wnlubma = wnlubma;
         }
 
+       
+
+        //<editor-fold defaultstate="collapsed" desc="comment">
         public double getKwotapierwotna() {
             return kwotapierwotna;
         }
-
+        
         public void setKwotapierwotna(double kwotapierwotna) {
             this.kwotapierwotna = kwotapierwotna;
         }
-
+        
         public double getKwotarozrachunku() {
             return kwotarozrachunku;
         }
-
+        
         public void setKwotarozrachunku(double kwotarozrachunku) {
             this.kwotarozrachunku = kwotarozrachunku;
         }
-
+        
         public Wiersze getWierszsparowany() {
             return wierszsparowany;
         }
-
+        
         public void setWierszsparowany(Wiersze wierszsparowany) {
             this.wierszsparowany = wierszsparowany;
         }
-
+        
         public Wiersze getWierszrozliczany() {
             return wierszrozliczany;
         }
-
+        
         public void setWierszrozliczany(Wiersze wierszrozliczany) {
             this.wierszrozliczany = wierszrozliczany;
         }
+        
+        public String getWnlubma() {
+            return wnlubma;
+        }
+        
+        public void setWnlubma(String wnlubma) {
+            this.wnlubma = wnlubma;
+        }
+        //</editor-fold>
+        
+        
     }
 
     public void rozlicznaniesionerozrachunki() {
@@ -453,7 +483,33 @@ public class DokfkView implements Serializable {
     }
 
     public void zapisanorozrachunek() {
+        Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
+        Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
+        if (zestawienielistrozrachunow.containsKey(tmp)) {
+            zestawienielistrozrachunow.remove(tmp);
+            zestawienielistrozrachunow.put(tmp, rozrachunkiwierszewdokumencie);
+        } else {
+            zestawienielistrozrachunow.put(tmp, rozrachunkiwierszewdokumencie);
+        }
         Msg.msg("i", "Zapisano rozrachunki");
+    }
+    
+    //jak sie lazi po kontach to mozna przy otwartym dokumencie wrocic do zapisu przez zapisaniem calego dokumentu
+    //to odtwarza wprowadzone zapisy
+    private void sprawdzczyjuzczegosnienaniesiono () {
+        Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
+        Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
+        if (zestawienielistrozrachunow.containsKey(tmp)) {
+             List<RozrachunkiTmp> listazapamietana = zestawienielistrozrachunow.get(tmp);
+            for (RozrachunkiTmp p : listazapamietana) {
+                for (RozrachunkiTmp r : rozrachunkiwierszewdokumencie) {
+                    if (p.getWierszrozliczany().getIdporzadkowy()==r.getWierszrozliczany().getIdporzadkowy()&&p.getWierszsparowany().getIdporzadkowy()==r.getWierszsparowany().getIdporzadkowy()&&p.getWnlubma().equals(p.getWnlubma())) {
+                        r.setKwotarozrachunku(p.getKwotarozrachunku());
+                    }
+                }
+            }
+        }
+        Msg.msg("i", "Odtworzono zapamietane rozrachunki");
     }
 
 //     public void nanieszapisynakontach(){
@@ -673,4 +729,67 @@ public class DokfkView implements Serializable {
         this.kontozapisy = kontozapisy;
     }
     //</editor-fold>
+//klasa potrzebna do rozrozniania list rozrachunkow podczas lazenia po kontach
+    private static class Kluczlistyrozrachunkow {
+        private int idporzadkowyrozliczany;
+        private String wnlubma;
+        
+        public Kluczlistyrozrachunkow() {
+            
+        }
+
+        public Kluczlistyrozrachunkow(int idporzadkowyrozliczany, String wnlubma) {
+            this.idporzadkowyrozliczany = idporzadkowyrozliczany;
+            this.wnlubma = wnlubma;
+        }
+        
+        
+        //<editor-fold defaultstate="collapsed" desc="comment">
+        
+        public int getIdporzadkowyrozliczany() {
+            return idporzadkowyrozliczany;
+        }
+        
+        public void setIdporzadkowyrozliczany(int idporzadkowyrozliczany) {
+            this.idporzadkowyrozliczany = idporzadkowyrozliczany;
+        }
+        
+        public String getWnlubma() {
+            return wnlubma;
+        }
+        
+        public void setWnlubma(String wnlubma) {
+            this.wnlubma = wnlubma;
+        }
+        
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 29 * hash + this.idporzadkowyrozliczany;
+            hash = 29 * hash + Objects.hashCode(this.wnlubma);
+            return hash;
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Kluczlistyrozrachunkow other = (Kluczlistyrozrachunkow) obj;
+            if (this.idporzadkowyrozliczany != other.idporzadkowyrozliczany) {
+                return false;
+            }
+            if (!Objects.equals(this.wnlubma, other.wnlubma)) {
+                return false;
+            }
+            return true;
+        }
+        //</editor-fold>
+        
+        
+    }
 }
+
