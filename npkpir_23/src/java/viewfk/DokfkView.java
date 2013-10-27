@@ -289,6 +289,7 @@ public class DokfkView implements Serializable {
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
                                 rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
@@ -296,6 +297,7 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
                         }
+                        p.setDodanydorozrachunkow(false);
                         p.setKonto(p.getKontoMa());
                         p.setKontonumer(p.getKonto().getNazwapelna());
                         p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
@@ -309,6 +311,7 @@ public class DokfkView implements Serializable {
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
                                 rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow));
+                                //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
@@ -316,6 +319,7 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow));
                         }
+                        p.setDodanydorozrachunkow(false);
                         p.setKonto(p.getKontoWn());
                         p.setKontonumer(p.getKonto().getNazwapelna());
                         p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
