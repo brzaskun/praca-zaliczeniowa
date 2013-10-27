@@ -229,7 +229,7 @@ public class DokfkView implements Serializable {
         pobierzwierszezbiezacegodokumentu();
         if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             RequestContext.getCurrentInstance().update("rozrachunki");
-            RequestContext.getCurrentInstance().execute("drugionShow();");
+            RequestContext.getCurrentInstance().execute("drugishow();");
         } else {
             Msg.msg("e", "Wybierz konto rozrachunkowe");
         }
