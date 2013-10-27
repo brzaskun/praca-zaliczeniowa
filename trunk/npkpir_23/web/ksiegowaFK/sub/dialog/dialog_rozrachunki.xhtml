@@ -37,7 +37,7 @@
                         <pe:inputNumber value="#{loop.kwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
-                        <h:outputText value="#{loop.wierszsparowany.pozostalodorozliczeniaWn gt 0 ? loop.wierszsparowany.pozostalodorozliczeniaWn : loop.wierszsparowany.pozostalodorozliczeniaMa}" style="float: right;">
+                        <h:outputText id="pozostalo" value="#{loop.wierszsparowany.rozliczonoWn == null ? loop.wierszsparowany.kwotapierwotna : (loop.wierszsparowany.pozostalodorozliczeniaWn gt 0 ? loop.wierszsparowany.pozostalodorozliczeniaWn : loop.wierszsparowany.pozostalodorozliczeniaMa)}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>

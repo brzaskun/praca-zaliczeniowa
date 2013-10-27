@@ -417,29 +417,33 @@ public class DokfkView implements Serializable {
         
         
     }
-
+    
+//zapisujemy na koniec rozrachunki w bazie danych na trwałe
     public void rozlicznaniesionerozrachunki() {
         try {
-            for (RozrachunkiTmp p : rozrachunkiwierszewdokumencie) {
-                RozrachunkiPK rPK = new RozrachunkiPK();
-                rPK.setZapisrozliczany(p.getWierszrozliczany().getIdwiersza());
-                rPK.setZapissparowany(p.getWierszsparowany().getIdwiersza());
-                Rozrachunki r = new Rozrachunki(rPK);
-                r.setKwotarozrachunku(p.getKwotarozrachunku());
-                r.setWierszrozliczany(p.getWierszrozliczany());
-                r.setWierszsparowany(p.getWierszsparowany());
-                for (Wiersze s : selected.getKonta()) {
-                    if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
-                        s.getRozrachunkijakorozliczany().add(r);
+            Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
+            for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
+                for (RozrachunkiTmp p : zestawienielistrozrachunow.get(klucz)) {
+                    RozrachunkiPK rPK = new RozrachunkiPK();
+                    rPK.setZapisrozliczany(p.getWierszrozliczany().getIdwiersza());
+                    rPK.setZapissparowany(p.getWierszsparowany().getIdwiersza());
+                    Rozrachunki r = new Rozrachunki(rPK);
+                    r.setKwotarozrachunku(p.getKwotarozrachunku());
+                    r.setWierszrozliczany(p.getWierszrozliczany());
+                    r.setWierszsparowany(p.getWierszsparowany());
+                    for (Wiersze s : selected.getKonta()) {
+                        if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
+                            s.getRozrachunkijakorozliczany().add(r);
+                        }
                     }
-                }
-                for (Wiersze s : selected.getKonta()) {
-                    if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
-                        s.getRozrachunkijakosparowany().add(r);
+                    for (Wiersze s : selected.getKonta()) {
+                        if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
+                            s.getRozrachunkijakosparowany().add(r);
+                        }
                     }
+                    dokDAOfk.edit(selected);
+                    Msg.msg("i", "Rozrachunki naniesione");
                 }
-                dokDAOfk.edit(selected);
-                Msg.msg("i", "Rozrachunki naniesione");
             }
         } catch (Exception ex) {
             Msg.msg("w", "Nie naniesiono rozrachunkow");
