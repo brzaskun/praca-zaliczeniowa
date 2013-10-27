@@ -70,17 +70,7 @@ var obsluzwiersz = function(wiersz){
     sprawdzpoprzedniwiersz(wiersz);
 };
 
-var pierwszyonShow = function () {
-    try {
-        ustawdialog('dialogpierwszy','menudokumenty');
-        drugi.hide();
-        przygotujdokumentdoedycji();
-        załadujmodelzachowywaniawybranegopola();
-        $('#formwpisdokument\\:datka').select();
-    } catch (Exception) {
-        alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
-    }
-};
+
 //robi ukrywanie kolumn dla dialogu edycji
 var przygotujdokumentdoedycji = function (){
     try {

@@ -24,6 +24,9 @@
             <h:outputText value="podatnik"/><h:selectOneMenu id="podatnik" value="#{dokfkView.selected.dokfkPK.podatnik}" style="width: 200px;">
                 <f:selectItem itemLabel="Kowalski" itemValue="Kowalski"/>
                 <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
+            <h:outputText value="rok"/><h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;">
+                <f:selectItem itemLabel="2013" itemValue="2013"/>
+                <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
         </p:panelGrid>
         </div>
         <div style="height: 430px;">
