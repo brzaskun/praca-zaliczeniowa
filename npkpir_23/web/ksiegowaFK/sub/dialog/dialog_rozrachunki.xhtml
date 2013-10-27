@@ -9,7 +9,7 @@
 
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="drugi" 
-              resizable="false"  onShow="ustawdialog('dialogdrugi','menudokumenty');" closeOnEscape="true" onHide="rozrachunkionHide();" >
+              resizable="false"  onShow="drugionShow();" closeOnEscape="true" onHide="rozrachunkionHide();" >
         <h:form id="rozrachunki">
             <div style="height: 600px;">
                 <h:form id="formE" >
@@ -23,7 +23,7 @@
                         <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn : dokfkView.aktualnywierszdorozrachunkow.rozliczonoMa}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="do rozliczenia"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa}" style="float: right;">
+                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>

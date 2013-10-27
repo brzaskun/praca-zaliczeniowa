@@ -86,20 +86,13 @@ var przygotujdokumentdoedycji = function (){
     }
 };
 
-var drugionShow = function (){
+var drugishow = function (){
         drugi.show();
         $(MYAPP.zaznaczonepole).focus();
         $(MYAPP.zaznaczonepole).select(); 
 };
 
-//wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
-var rozrachunkionHide = function () {
-  resetujdialog('dialogdrugi');
-  $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
-  $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
-  $(MYAPP.zaznaczonepole).focus();
-  $(MYAPP.zaznaczonepole).select();
-};
+
 
 var załadujmodelzachowywaniawybranegopola = function () {
         $(":text").focus(function () {
