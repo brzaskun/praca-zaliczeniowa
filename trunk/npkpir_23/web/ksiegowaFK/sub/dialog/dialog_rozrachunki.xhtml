@@ -20,6 +20,12 @@
                         <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
+                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn : dokfkView.aktualnywierszdorozrachunkow.rozliczonoMa}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <h:outputText value="do rozliczenia"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                     </p:panelGrid>
                 </h:form>
                 <p:dataTable id="dataList" value="#{dokfkView.rozrachunkiwierszewdokumencie}" var="loop" rowIndexVar="row" style="width: 1000px;"

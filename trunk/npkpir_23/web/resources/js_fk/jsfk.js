@@ -104,7 +104,9 @@ var drugionShow = function (){
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
 var rozrachunkionHide = function () {
-  resetujdialog('dialogdrugi');  
+  resetujdialog('dialogdrugi');
+  $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
+  $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
   $(MYAPP.zaznaczonepole).focus();
   $(MYAPP.zaznaczonepole).select();
 };

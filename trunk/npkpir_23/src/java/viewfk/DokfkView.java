@@ -99,7 +99,6 @@ public class DokfkView implements Serializable{
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
             rozlicznaniesionerozrachunki();
-            Msg.msg("i", "Dokument zmeniony");
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
             dokfkPK.setRok("2013");
@@ -108,6 +107,8 @@ public class DokfkView implements Serializable{
             wiersze.add(new Wiersze(1,0));
             selected.setKonta(wiersze);
             setZapisz0edytuj1(false);
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument");
+            RequestContext.getCurrentInstance().execute("pierwszy.hide();");
          } catch (Exception e){
             System.out.println(e.toString());
             Msg.msg("e", "Nie udało się zmenic dokumentu "+e.toString());

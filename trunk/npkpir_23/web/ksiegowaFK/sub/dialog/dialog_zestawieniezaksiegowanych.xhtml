@@ -22,43 +22,31 @@
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="numer" width="100">
-                <p:inplace id="ajaxInplace0" editor="true" > 
-                    <p:inputText value="#{item.numer}"/>
-                </p:inplace>  
+                    <h:outputText value="#{item.numer}"/>
             </p:column>
             <p:column headerText="zaksieg." width="80">
-                <p:inplace>
-                    <p:inputText value="#{item.naniesionezapisy}"/>
-                </p:inplace>  
+                    <h:outputText value="#{item.naniesionezapisy}"/>
             </p:column>
             <p:column headerText="konta">
                 <p:dataTable var="wpis" value="#{item.konta}" editable="true">
                     <p:column headerText="id" width="70">
-                        <p:inplace id="ajaxInplace0b" editor="true" >  
-                            <p:inputText value="#{wpis.idwiersza}" />
-                        </p:inplace>
+                            <h:outputText value="#{wpis.idwiersza}" />
                     </p:column>
                     <p:column headerText="opis" width="200">
-                        <p:inplace id="ajaxInplace0a" editor="true" rendered="#{wpis.typwiersza eq 0 ? true : false}">  
-                            <p:inputText value="#{wpis.opis}" />
-                        </p:inplace>
+                            <h:outputText value="#{wpis.opis}" rendered="#{wpis.typwiersza eq 0 ? true : false}"/>
                     </p:column>
                     <p:column headerText="wn" width="100">
-                         <p:inplace id="ajaxInplace1" editor="true" rendered="#{wpis.typwiersza eq 1 || wpis.typwiersza eq 0 ? true : false}">  
-                            <p:inputText value="#{wpis.kwotaWn}"  style="float: right;" >
+                            <h:outputText value="#{wpis.kwotaWn}"  style="float: right;" rendered="#{wpis.typwiersza eq 1 || wpis.typwiersza eq 0 ? true : false}">  
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </p:inputText>
-                        </p:inplace>  
-                    </p:column>
+                            </h:outputText>
+                     </p:column>
                        <p:column headerText="konto" width="100">
                         <h:outputText value="#{wpis.kontoWn.pelnynumer}" rendered="#{wpis.typwiersza eq 1 || wpis.typwiersza eq 0 ? true : false}"/>
                     </p:column>
                        <p:column headerText="ma" width="100">
-                           <p:inplace id="ajaxInplace2" editor="true" rendered="#{wpis.typwiersza eq 2 || wpis.typwiersza eq 0 ? true : false}">   
-                               <p:inputText value="#{wpis.kwotaMa}"  style="float: right;" >
+                               <h:outputText value="#{wpis.kwotaMa}"  style="float: right;" rendered="#{wpis.typwiersza eq 2 || wpis.typwiersza eq 0 ? true : false}">   
                                       <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </p:inputText>
-                            </p:inplace>  
+                                </h:outputText>
                     </p:column>
                        <p:column headerText="konto" width="100">
                         <h:outputText value="#{wpis.kontoMa.pelnynumer}" rendered="#{wpis.typwiersza eq 2 || wpis.typwiersza eq 0 ? true : false}"/>
