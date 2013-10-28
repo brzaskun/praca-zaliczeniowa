@@ -10,8 +10,11 @@
         <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
             <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
             <f:facet name="success"><h:outputText value="" /></f:facet>
-            <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
         </p:ajaxStatus>
+    </h:form>
+     <h:form>
+        <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
+        <p:hotkey bind="up"   onstart="wrocwiersz();"/>
     </h:form>
     <h:form id="form">
             <p:panelGrid id="prezentacjaPodatku" columns="13">
@@ -50,7 +53,7 @@
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
                           style="width: 1500px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          scrollable="true" scrollRows="4" selectionMode="multiple" 
+                          selectionMode="multiple" 
                           > 
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
                 <f:facet name="header">  
