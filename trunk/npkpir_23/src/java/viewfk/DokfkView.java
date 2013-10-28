@@ -7,10 +7,8 @@ package viewfk;
 import dao.RozrachunkiDAO;
 import dao.WierszeDAO;
 import daoFK.DokDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
-import entityfk.Kontozapisy;
 import entityfk.Rozrachunki;
 import entityfk.RozrachunkiPK;
 import entityfk.Wiersze;
@@ -25,9 +23,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.FacesEvent;
+import javax.faces.event.FacesListener;
+import javax.faces.model.ArrayDataModel;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.extensions.event.EventDataWrapper;
+import org.primefaces.model.SelectableDataModel;
+import org.primefaces.model.SelectableDataModelWrapper;
+import org.primefaces.util.ComponentUtils;
 import params.Params;
 
 /**
@@ -46,10 +54,6 @@ public class DokfkView implements Serializable {
     @Inject
     private WierszeDAO wierszeDAO;
     @Inject
-    private KontoZapisyFKDAO kontoZapisyFKDAO;
-    @Inject
-    private Kontozapisy kontozapisy;
-    @Inject
     private Wiersze wiersz;
     @Inject
     private Wiersze aktualnywierszdorozrachunkow;
@@ -64,6 +68,7 @@ public class DokfkView implements Serializable {
     private Map<Kluczlistyrozrachunkow, List<RozrachunkiTmp>> zestawienielistrozrachunow;
     @Inject
     private RozrachunkiDAO rozrachunkiDAO;
+    private DokfkDataModel listadatamodel;
 
     public DokfkView() {
         liczbawierszy = 1;
@@ -79,11 +84,13 @@ public class DokfkView implements Serializable {
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
         zestawienielistrozrachunow = new HashMap<>();
+        
     }
 
     @PostConstruct
     private void init() {
         wykaz = dokDAOfk.findAll();
+        listadatamodel = new DokfkDataModel(wykaz);
     }
 
     public void liczbaw() {
@@ -633,7 +640,7 @@ public class DokfkView implements Serializable {
     }
 
     public void wybranodokmessage() {
-        Msg.msg("i", "Wybrano dokument do edycji");
+        Msg.msg("i", "Wybrano dokument do edycji "+selected.getDokfkPK().toString());
         setZapisz0edytuj1(true);
         liczbawierszy = selected.getKonta().size();
         //nie wiem dlaczego to dziala po dodaniu new Wiersze (1,0) - chodzilo o numery rzedu, zaczela dzialac edycja. Wczesniej szwankowal javascript. 
@@ -643,37 +650,7 @@ public class DokfkView implements Serializable {
         //selected.setKonta(wierszedowsadzenia);
     }
 
-//     public void rozrachunki_stare() {
-//         Dokfk sprawdz = selected;
-//         String nrwiersza = (String) Params.params("wpisywaniefooter:wierszid");
-//         aktualnywierszdorozrachunkow.setIdwiersza(Integer.parseInt(nrwiersza));
-//         //uzupelnijwierszeodane();
-//         String wnlubma= (String) Params.params("wpisywaniefooter:wnlubma");
-//         if (wnlubma.equals("kontoWn")) {
-//             aktualnywierszdorozrachunkow.setKwotaWn(Double.parseDouble((String) Params.params("wpisywaniefooter:kwota")));
-//             aktualnywierszdorozrachunkow.setKwotaMa(0.0);
-//             aktualnywierszdorozrachunkow.setKontonumer((String) Params.params("wpisywaniefooter:kontonr"));
-//         } else {
-//             aktualnywierszdorozrachunkow.setKwotaMa(Double.parseDouble((String) Params.params("wpisywaniefooter:kwota")));
-//             aktualnywierszdorozrachunkow.setKwotaWn(0.0);
-//             aktualnywierszdorozrachunkow.setKontonumer((String) Params.params("wpisywaniefooter:kontonr"));
-//             
-//         }
-//         aktualnywierszdorozrachunkow.setDataksiegowania((String) Params.params("wpisywaniefooter:datka"));
-//         aktualnywierszdorozrachunkow.setOpis((String) Params.params("wpisywaniefooter:opis"));
-//         Dokfk newdokfk = new Dokfk();
-//         DokfkPK newdokfkPK = new DokfkPK();
-//         newdokfk.setDatawystawienia((String) Params.params("wpisywaniefooter:datka"));
-//         newdokfkPK.setSeriadokfk((String) Params.params("wpisywaniefooter:symbol"));
-//         String footernumer = (String) Params.params("wpisywaniefooter:numer");
-//         newdokfkPK.setNrkolejny(Integer.parseInt(footernumer));
-//         newdokfkPK.setPodatnik((String) Params.params("wpisywaniefooter:podatnik"));
-//         newdokfkPK.setRok("2013");
-//         newdokfk.setDokfkPK(newdokfkPK);
-//         aktualnywierszdorozrachunkow.setDokfk(newdokfk);
-//         RequestContext.getCurrentInstance().update("rozrachunki");
-//         RequestContext.getCurrentInstance().execute("drugionShow();");
-//     }
+
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczbawierszy() {
         return liczbawierszy;
@@ -755,13 +732,7 @@ public class DokfkView implements Serializable {
         this.rozrachunkiwierszewdokumencie = rozrachunkiwierszewdokumencie;
     }
 
-    public Kontozapisy getKontozapisy() {
-        return kontozapisy;
-    }
-
-    public void setKontozapisy(Kontozapisy kontozapisy) {
-        this.kontozapisy = kontozapisy;
-    }
+  
     //</editor-fold>
 //klasa potrzebna do rozrozniania list rozrachunkow podczas lazenia po kontach
     private static class Kluczlistyrozrachunkow {
@@ -777,53 +748,87 @@ public class DokfkView implements Serializable {
             this.wnlubma = wnlubma;
         }
         
-        
-        //<editor-fold defaultstate="collapsed" desc="comment">
-        
-        public int getIdporzadkowyrozliczany() {
-            return idporzadkowyrozliczany;
-        }
-        
-        public void setIdporzadkowyrozliczany(int idporzadkowyrozliczany) {
-            this.idporzadkowyrozliczany = idporzadkowyrozliczany;
-        }
-        
-        public String getWnlubma() {
-            return wnlubma;
-        }
-        
-        public void setWnlubma(String wnlubma) {
-            this.wnlubma = wnlubma;
-        }
-        
-        @Override
-        public int hashCode() {
-            int hash = 3;
-            hash = 29 * hash + this.idporzadkowyrozliczany;
-            hash = 29 * hash + Objects.hashCode(this.wnlubma);
-            return hash;
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final Kluczlistyrozrachunkow other = (Kluczlistyrozrachunkow) obj;
-            if (this.idporzadkowyrozliczany != other.idporzadkowyrozliczany) {
-                return false;
-            }
-            if (!Objects.equals(this.wnlubma, other.wnlubma)) {
-                return false;
-            }
-            return true;
-        }
-        //</editor-fold>
-        
-        
     }
+    
+    private DataTable tablicazdokumentami;
+    
+    public void moveDown() {
+//        DokfkDataModel cl =   (DokfkDataModel) tablicazdokumentami.getValue();
+//        List<Dokfk> lista = (List<Dokfk>) cl.getWrappedData();
+//        int wybrany = tablicazdokumentami.getRowIndex();
+//        int wierszy = tablicazdokumentami.getRowCount();
+        tablicazdokumentami.setRowIndex(1);
+        tablicazdokumentami.resetValue();
+        tablicazdokumentami.resolveSelectionMode();
+            
+        setSelected(wykaz.get(1));
+        Msg.msg("w", "moveDown() "+selected.getDokfkPK().toString());
+        //tablicazdokumentami.setRowIndex(1);
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0");
+//        String p_code = selected.getNumer();
+//        for (int i = 0; i < cl.size(); i++) {
+//            if (p_code.equalsIgnoreCase(cl.get(i).getNumer())) {
+//                if (i == cl.size() - 1) {
+//                    selected = cl.get(0);
+//                } else {
+//                    selected = cl.get(i + 1);
+//                }
+//                break;
+//            }
+//        }
+    }
+
+    public DataTable getTablicazdokumentami() {
+        return tablicazdokumentami;
+    }
+
+    public void setTablicazdokumentami(DataTable tablicazdokumentami) {
+        this.tablicazdokumentami = tablicazdokumentami;
+    }
+
+    
+    
+
+    public DokfkDataModel getListadatamodel() {
+        return listadatamodel;
+    }
+
+    public void setListadatamodel(DokfkDataModel listadatamodel) {
+        this.listadatamodel = listadatamodel;
+    }
+
+   
+    
+   public static class DokfkDataModel extends ListDataModel<Dokfk> implements SelectableDataModel<Dokfk> {    
+  
+    public DokfkDataModel() {  
+    }  
+  
+    public DokfkDataModel(List<Dokfk> data) {  
+        super(data);  
+    }  
+      
+    @Override  
+    public Dokfk getRowData(String rowKey) {  
+        //In a real app, a more efficient way like a query by rowKey should be implemented to deal with huge data  
+          
+        List<Dokfk> cars = (List<Dokfk>) getWrappedData();  
+          
+        for(Dokfk car : cars) {  
+            if(car.getDokfkPK().equals(rowKey))  
+                return car;  
+        }  
+          
+        return null;  
+    }  
+  
+    @Override  
+    public Object getRowKey(Dokfk car) {  
+        return car.getDokfkPK();  
+    }  
+}  
+            
+    
+
 }
 
