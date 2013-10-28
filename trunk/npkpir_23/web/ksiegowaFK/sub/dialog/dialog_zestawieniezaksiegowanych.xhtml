@@ -9,12 +9,13 @@
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
          <h:form id="zestawieniedokumentow">
              <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();"/>
+                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument" actionListener="#{dokfkView.wybranodokmessage}" oncomplete="pierwszy.show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty"
-                              selection="#{dokfkView.selected}" selectionMode="single" rowKey="#{item.dokfkPK}" editable="true">
-                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}" update=":formwpisdokument"/>
+                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" editable="true">
+            <p:column selectionMode="single">
+            </p:column>
             <p:column headerText="data" width="100">
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
@@ -63,6 +64,7 @@
            
         </p:dataTable>
                     </div>
+             <p:commandButton value="wybierz" actionListener="#{dokfkView.usundokument(item)}" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
             </h:form>
         
     </p:dialog>
