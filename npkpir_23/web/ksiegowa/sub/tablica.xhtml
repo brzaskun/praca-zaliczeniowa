@@ -6,54 +6,59 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-        <h:form>
+    <h:form>
         <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
             <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
             <f:facet name="success"><h:outputText value="" /></f:facet>
         </p:ajaxStatus>
     </h:form>
-     <h:form>
+    <h:form>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
     </h:form>
     <h:form id="form">
-            <p:panelGrid id="prezentacjaPodatku" columns="13">
-                <h:outputLabel value="okres: " style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
-                <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
-                <h:outputLabel value="Przychody:"/>
-                <h:outputLabel value="#{PodatekView.przychody}">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Koszty:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.koszty}">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.dochód}">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.podatek}">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
+        <p:panelGrid id="prezentacjaPodatku" columns="13">
+            <h:outputLabel value="okres: " style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
+            <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
+            <h:outputLabel value="Przychody:"/>
+            <h:outputLabel value="#{PodatekView.przychody}">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Koszty:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.koszty}">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.dochód}">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
+            <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
+            <h:outputLabel value="#{PodatekView.podatek}">
+                <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+            </h:outputLabel>
 
-                <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>
-            </p:panelGrid>
+            <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>
+        </p:panelGrid>
 
-            <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" onclick="dlg123.show();"/>
-                <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
-                <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-                <p:menuitem value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
-                <p:menuitem value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
-            </p:contextMenu>
+        <p:contextMenu for="dokumentyLista">
+            <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" onclick="dlg123.show();"/>
+            <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
+            <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
+            <p:menuitem value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
+            <p:menuitem value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
+        </p:contextMenu>
         <p:outputPanel >
+            <script>
+            $(document).ready(function () {
+                $(document.getElementById('form:dokumentyLista')).find('.ui-datatable-data tr').height(25);
+            });
+            </script>
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
-                          style="width: 1500px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                          style="width: 1500px; height: 900px; overflow: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          selectionMode="multiple" 
+                          selectionMode="multiple" onExpandStart=""
                           > 
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
                 <f:facet name="header">  
@@ -61,7 +66,7 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
                 </f:facet>
-   
+
                 <p:column width="10">
                     <p:rowToggler />
                 </p:column>
@@ -156,12 +161,12 @@
                     <h:outputText value="#{wpis.status}"/>
                 </p:column>
 
-<!--                <p:column id="editColumn" headerText="edytuj" width="50">
-                    <p:rowEditor rendered="{wpis.status eq 'bufor' ? true : false}" />  
-                </p:column>-->
-<!--                <p:column id="editDok" headerText="edytuj" width="50">
-                    <p:commandButton  icon="ui-icon-wrench" actionListener="{DokumentView.przekierowanieEdytujDokument(wpis)}"/>
-                </p:column>-->
+                <!--                <p:column id="editColumn" headerText="edytuj" width="50">
+                                    <p:rowEditor rendered="{wpis.status eq 'bufor' ? true : false}" />  
+                                </p:column>-->
+                <!--                <p:column id="editDok" headerText="edytuj" width="50">
+                                    <p:commandButton  icon="ui-icon-wrench" actionListener="{DokumentView.przekierowanieEdytujDokument(wpis)}"/>
+                                </p:column>-->
 
                 <p:column id="deleteColumn" headerText="usuń" width="50">
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />
@@ -172,9 +177,9 @@
 
             </p:dataTable>
         </p:outputPanel>
-         </h:form>
-<!--edycja faktur z tabeli-->
-   <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="przeniesKwotaDoNetto();" dynamic="true" >
+    </h:form>
+    <!--edycja faktur z tabeli-->
+    <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false" onShow="przeniesKwotaDoNetto();" dynamic="true" >
         <h:form id="dodWiad">
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Edytowanie zaksięgowanego dokumentu klienta: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1100px;" id="wprowadzanie">
                 <p:growl id="mess_add" />
@@ -250,24 +255,24 @@
                                 <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:repeat:kolumnaPkpir" global="false"/>
                                 <p:ajax event="blur" global="false" onstart="przeniesKwotaDoNetto();"/>
                                 <script>
-                                       function zrobF(kwota) {
-                                           var strX = kwota.replace(",", ".");
-                                           strX = strX.replace(/\s/g, "");
-                                           return parseFloat(strX);
-                                       }
-                                       $(function() {
-                                           $("#dodWiad\\:repeat\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
-                                               var roznica;
-                                               if (e.which == 107) {
-                                                   var odjema = zrobF($(this).val());
-                                                   var odjemna = zrobF($("#dodWiad\\:repeat\\:0\\:kwotaPkpir_input").val());
-                                                   roznica = odjemna - odjema;
-                                                   $(this).val(Math.abs(roznica));
-                                                   e.stopImmediatePropagation();
-                                               }
-                                           })
+                function zrobF(kwota) {
+                    var strX = kwota.replace(",", ".");
+                    strX = strX.replace(/\s/g, "");
+                    return parseFloat(strX);
+                }
+                $(function() {
+                    $("#dodWiad\\:repeat\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
+                        var roznica;
+                        if (e.which == 107) {
+                            var odjema = zrobF($(this).val());
+                            var odjemna = zrobF($("#dodWiad\\:repeat\\:0\\:kwotaPkpir_input").val());
+                            roznica = odjemna - odjema;
+                            $(this).val(Math.abs(roznica));
+                            e.stopImmediatePropagation();
+                        }
+                    })
 
-                                       })
+                })
                                 </script>
                             </pe:inputNumber>
                             <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
@@ -425,6 +430,5 @@
         </h:form>
 
     </p:dialog>
-
 </ui:composition>   
 
