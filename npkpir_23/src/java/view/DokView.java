@@ -1805,9 +1805,14 @@ public class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
 
+
     public void skopiujdoedycji() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
         Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
+    }
+    
+    private void skopiujdoedycjidane() {
+        selDokument = DokTabView.getGosciuwybralS().get(0);
         ustawDate2();
         String skrot = selDokument.getTypdokumentu();
         String nowynumer = "";
@@ -1834,7 +1839,9 @@ public class DokView implements Serializable {
     }
 
     public void sprawdzczywybranodokumentdoedycji() {
+        skopiujdoedycjidane();
         if (selDokument.getNetto() != null) {
+            RequestContext.getCurrentInstance().execute("dlg123.show();");
         } else {
             Msg.msg("e", "Nie wybrano dokumentu do edycji!");
             RequestContext.getCurrentInstance().execute("dlg123.hide();");
