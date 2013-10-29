@@ -20,10 +20,10 @@
                         <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn gt 0 ? dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn : dokfkView.aktualnywierszdorozrachunkow.rozliczonoMa}" style="float: right;">
+                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wnlubma eq 'Wn' ? dokfkView.aktualnywierszdorozrachunkow.rozliczonoWn : dokfkView.aktualnywierszdorozrachunkow.rozliczonoMa}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn lt dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa ? (dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa lt 0 ? dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa) : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn}" style="float: right;">
+                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnywierszdorozrachunkow.wnlubma eq 'Wn' ? dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaWn : dokfkView.aktualnywierszdorozrachunkow.pozostalodorozliczeniaMa}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
@@ -37,12 +37,12 @@
                         <pe:inputNumber value="#{loop.kwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
-                         <h:outputText id="pozostalo" value="#{loop.wierszsparowany.pozostalodorozliczeniaWn lt loop.wierszsparowany.pozostalodorozliczeniaMa ? (loop.wierszsparowany.pozostalodorozliczeniaMa lt 0 ? loop.wierszsparowany.kwotapierwotna : loop.wierszsparowany.pozostalodorozliczeniaMa) : loop.wierszsparowany.pozostalodorozliczeniaWn}" style="float: right;">
+                         <h:outputText id="pozostalo" value="#{loop.wierszsparowany.wnlubma eq 'Wn'  ? loop.wierszsparowany.pozostalodorozliczeniaWn :  loop.wierszsparowany.pozostalodorozliczeniaMa}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                      <p:column headerText="kwota już rozliczona" width="40">
-                         <h:outputText value="#{loop.wierszsparowany.rozliczonoWn gt 0 ? loop.wierszsparowany.rozliczonoWn : loop.wierszsparowany.rozliczonoMa}" style="float: right;">
+                         <h:outputText value="#{loop.wierszsparowany.wnlubma eq 'Wn' ? loop.wierszsparowany.rozliczonoWn : loop.wierszsparowany.rozliczonoMa}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>

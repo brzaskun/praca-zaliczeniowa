@@ -275,6 +275,10 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoWn().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaWn());
+                p.setPozostalodorozliczeniaMa(0.0);
+                p.setPozostalodorozliczeniaWn(p.getKwotaWn());
+                p.setRozliczonoMa(0.0);
+                p.setRozliczonoWn(0.0);
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Wn");
@@ -283,6 +287,10 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoMa().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaMa());
+                p.setPozostalodorozliczeniaMa(p.getKwotaMa());
+                p.setPozostalodorozliczeniaWn(0.0);
+                p.setRozliczonoMa(0.0);
+                p.setRozliczonoWn(0.0);
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Ma");
@@ -302,7 +310,14 @@ public class DokfkView implements Serializable {
                 if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
                     if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
                         aktualnywierszdorozrachunkow.setWnlubma("Wn");
-                        //szukamy bo moze juz byl taki rozrachunek
+                        p.setKonto(p.getKontoMa());
+                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                        p.setKwotapierwotna(p.getKwotaMa());
+                        p.setPozostalodorozliczeniaMa(p.getKwotaMa());
+                        p.setRozliczonoMa(0.0);
+                        p.setWnlubma("Ma");
+                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
                                 rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow, "Wn"));
@@ -314,17 +329,18 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow, "Wn"));
                         }
-                        p.setDodanydorozrachunkow(false);
-                        p.setKonto(p.getKontoMa());
-                        p.setKontonumer(p.getKonto().getNazwapelna());
-                        p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-                        p.setKwotapierwotna(p.getKwotaMa());
-                        p.setWnlubma("Ma");
                     }
                 } else {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
                         aktualnywierszdorozrachunkow.setWnlubma("Ma");
-                        //szukamy bo moze juz byl taki rozrachunek
+                        p.setKonto(p.getKontoWn());
+                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+                        p.setKwotapierwotna(p.getKwotaWn());
+                        p.setPozostalodorozliczeniaWn(p.getKwotaWn());
+                        p.setRozliczonoWn(0.0);
+                        p.setWnlubma("Wn");
+                          //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
                                 rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), r.getKwotarozrachunku(), p, aktualnywierszdorozrachunkow, "Ma"));
@@ -336,12 +352,6 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p, aktualnywierszdorozrachunkow, "Ma"));
                         }
-                        p.setDodanydorozrachunkow(false);
-                        p.setKonto(p.getKontoWn());
-                        p.setKontonumer(p.getKonto().getNazwapelna());
-                        p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-                        p.setKwotapierwotna(p.getKwotaWn());
-                        p.setWnlubma("Wn");
                     }
                 }
             }
