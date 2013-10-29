@@ -30,6 +30,9 @@ var doklejsumowaniewprowadzonych = function() {
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
         $(document.getElementById(wiersz)).css("font-weight", "normal");
         $(document.getElementById(wiersz)).css("color", "black");
+        var wierszaktualny = "rozrachunki:formE:dorozliczenia";
+        $(document.getElementById(wierszaktualny)).css("font-weight", "normal");
+        $(document.getElementById(wierszaktualny)).css("color", "black");
         var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
         if (wartoscwprowadzona > wartoscpoprawej) {
             if (wartoscpoprawej===0) {
@@ -55,12 +58,14 @@ var doklejsumowaniewprowadzonych = function() {
             if (wprowadzono > MYAPP.limit) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
+                $(document.getElementById(wierszaktualny)).css("font-weight", "900");
+                $(document.getElementById(wierszaktualny)).css("color", "red");
             }
             j++;
         }
     });
 };
-
+//chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek brakuje przewijania
 var przejdzwiersz = function () {
   var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
    if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){
