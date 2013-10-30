@@ -46,7 +46,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Wiersze.findByZaksiegowane", query = "SELECT w FROM Wiersze w WHERE w.zaksiegowane = :zaksiegowane"),
     @NamedQuery(name = "Wiersze.findByKonto", query = "SELECT w FROM Wiersze w WHERE w.konto = :konto"),
     @NamedQuery(name = "Wiersze.findByKontoMa", query = "SELECT w FROM Wiersze w WHERE w.kontoMa = :kontoMa"),
-    @NamedQuery(name = "Wiersze.findByKontoWn", query = "SELECT w FROM Wiersze w WHERE w.kontoWn = :kontoWn")})
+    @NamedQuery(name = "Wiersze.findByKontoWn", query = "SELECT w FROM Wiersze w WHERE w.kontoWn = :kontoWn"),
+    @NamedQuery(name = "Wiersze.findByRozrachunki", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik AND (w.kontoWn = :konto OR w.kontoMa = :konto) AND NOT w.dokfk.dokfkPK = :dokfkPK"),
+    @NamedQuery(name = "Wiersze.findByRozrachunki1", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
+})
 
 public class Wiersze implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -120,12 +123,20 @@ public class Wiersze implements Serializable {
     
 
     public Wiersze() {
+        this.rozliczonoMa = 0.0;
+        this.rozliczonoWn = 0.0;
+        this.pozostalodorozliczeniaMa = 0.0;
+        this.pozostalodorozliczeniaWn = 0.0;
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersze(int idporzadkowy, int typwiersza) {
         this.idporzadkowy = idporzadkowy;
         this.typwiersza = typwiersza;
+        this.rozliczonoMa = 0.0;
+        this.rozliczonoWn = 0.0;
+        this.pozostalodorozliczeniaMa = 0.0;
+        this.pozostalodorozliczeniaWn = 0.0;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

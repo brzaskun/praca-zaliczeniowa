@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Dokfk;
+import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -43,4 +44,6 @@ public class DokDAOfk extends DAO implements Serializable {
            return null;
        }
     }
+
+    
 }
