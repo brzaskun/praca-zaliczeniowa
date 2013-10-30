@@ -77,7 +77,7 @@
             </p:dataTable>
             <p:panel>
                 <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument  :zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
-             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList :rozrachunki :wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
+             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow :zestawieniezapisownakontach :rozrachunki :wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
              </p:panel>
                 </div>
         </h:form>

@@ -36,8 +36,10 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entityfk.Dokfk;
+import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Rozrachunki;
+import entityfk.Wiersze;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -460,7 +462,15 @@ public class SessionFacade<T> {
     public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
         return (Dok) em.createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", nazwapelna).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
+    
+    public List<Wiersze> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
+        return em.createNamedQuery("Wiersze.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
+    }
 
-   
+//
+//    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
+//        return em.createNamedQuery("Wiersze.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
+//    }
+
   
 }
