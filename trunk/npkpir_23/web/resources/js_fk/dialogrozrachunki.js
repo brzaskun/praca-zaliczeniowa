@@ -78,6 +78,11 @@ var przejdzwiersz = function () {
     }
   var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
   var czynaekranie = isScrolledIntoView(komorki[1]);
+   if (!czynaekranie) {
+    var wysokosc = 70;
+    var elem = document.getElementById('zestawieniedokumentow:dataList');
+    elem.scrollTop = elem.scrollTop + wysokosc;
+  }
   $(komorki[1]).click();
 };
 
@@ -93,13 +98,18 @@ var wrocwiersz = function () {
     }
   var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
   var czynaekranie = isScrolledIntoView(komorki[1]);
+   if (!czynaekranie) {
+    var wysokosc = 70;
+    var elem = document.getElementById('zestawieniedokumentow:dataList');
+    elem.scrollTop = elem.scrollTop - wysokosc;
+  }
   $(komorki[1]).click();
 };
 
 function isScrolledIntoView(elem)
 {
-    var docViewTop = $(window).scrollTop();
-    var docViewBottom = docViewTop + $(window).height();
+    var docViewTop = $(window).scrollTop()+150;
+    var docViewBottom = docViewTop + $(window).height()-300;
 
     var elemTop = $(elem).offset().top;
     var elemBottom = elemTop + $(elem).height();
