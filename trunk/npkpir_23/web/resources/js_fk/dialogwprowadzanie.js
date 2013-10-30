@@ -26,5 +26,28 @@ var pierwszyOnHide = function () {
     $(document.getElementById('wpisywaniefooter:przywrocwpisbutton')).click();
 };
 
+//dodaje do globalnych numer pole na ktore kliknieto
+var załadujmodelzachowywaniawybranegopola = function () {
+        $("#formwpisdokument\\:dataList :text").focus(function () {
+//         var wartosc = $(document.getElementById(this.id)).val();
+//         try {
+//         var activeObj = wartosc.split(" ");
+//         var a = $.isSubstring(activeObj,"200-1");
+//            if (a) {
+//                MYAPP.idinputfocus = activeObj;
+                MYAPP.zaznaczonepole = this;
+//            } else {
+//                delete MYAPP.idinputfocus;
+//                MYAPP.zaznaczonepole = this;
+//            }
+//         //$(this).css("background-color","dodgerblue");
+//         } catch (problem) {
+//             //alert("jest problem załadujmodelzachowywaniawybranegopola "+problem);
+//         }
+//       });
+//        $(":text").focusout(function () {
+//            $(this).css("background-color","#FFFFFF");
+        });
+};
 
 

@@ -65,7 +65,7 @@ var doklejsumowaniewprowadzonych = function() {
         }
     });
 };
-//chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek brakuje przewijania
+//chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek z przewijaniem
 var przejdzwiersz = function () {
   var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
    if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){

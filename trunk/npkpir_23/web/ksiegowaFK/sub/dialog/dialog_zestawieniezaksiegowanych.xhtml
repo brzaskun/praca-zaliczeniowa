@@ -16,8 +16,8 @@
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.wybranodokmessage}" oncomplete="pierwszy.show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
-                 <p:dataTable id="dataList" value="#{dokfkView.listadatamodel}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" binding="#{dokfkView.tablicazdokumentami}" selectionMode="single">
+                 <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single">
                      <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}" update=":formwpisdokument" />
             <p:column headerText="data" width="100">
                 <h:outputText value="#{item.datawystawienia}"/>
