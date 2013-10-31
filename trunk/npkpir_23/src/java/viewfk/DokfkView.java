@@ -336,7 +336,7 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
         }
     }
-        //pobiera wiersze do rozrachunkow z podanego zrodla
+        //pobiera wiersze i i pasujace do niego rozrachunki z podanego zrodla: 
         //albo z biezacego dokumentu albo z innych dokumentow, wywoluje sprawdzczyjuzczegosnienaniesiono ()
         private void pobierzwierszezdokumentow(List<Wiersze> wierszezdokumentu) {
         try {
@@ -392,7 +392,7 @@ public class DokfkView implements Serializable {
                     }
                 }
             }
-            //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji
+            //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji ?????????????????????????????
             sprawdzczyjuzczegosnienaniesiono();
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
@@ -402,20 +402,20 @@ public class DokfkView implements Serializable {
                 //to odtwarza wprowadzone zapisy podczas wpisywania na biezaco bez bazy danych
                 //ale jakos dziwnie pobiera rozliczany - sprawdizc to trzeba
                 private void sprawdzczyjuzczegosnienaniesiono () {
-        Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
-        Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
-        if (zestawienielistrozrachunow.containsKey(tmp)) {
-             List<RozrachunkiTmp> listazapamietana = zestawienielistrozrachunow.get(tmp);
-            for (RozrachunkiTmp p : listazapamietana) {
-                for (RozrachunkiTmp r : rozrachunkiwierszewdokumencie) {
-                    if (p.getWierszrozliczany().getIdporzadkowy()==r.getWierszrozliczany().getIdporzadkowy()&&p.getWierszsparowany().getIdporzadkowy()==r.getWierszsparowany().getIdporzadkowy()&&p.getWnlubma().equals(p.getWnlubma())) {
-                        r.setKwotarozrachunku(p.getKwotarozrachunku());
+                Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
+                Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
+                if (zestawienielistrozrachunow.containsKey(tmp)) {
+                     List<RozrachunkiTmp> listazapamietana = zestawienielistrozrachunow.get(tmp);
+                    for (RozrachunkiTmp p : listazapamietana) {
+                        for (RozrachunkiTmp r : rozrachunkiwierszewdokumencie) {
+                            if (p.getWierszrozliczany().getIdporzadkowy()==r.getWierszrozliczany().getIdporzadkowy()&&p.getWierszsparowany().getIdporzadkowy()==r.getWierszsparowany().getIdporzadkowy()&&p.getWnlubma().equals(p.getWnlubma())) {
+                                r.setKwotarozrachunku(p.getKwotarozrachunku());
+                            }
+                        }
                     }
                 }
+                Msg.msg("i", "Odtworzono zapamietane rozrachunki");
             }
-        }
-        Msg.msg("i", "Odtworzono zapamietane rozrachunki");
-    }
     //<p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" zapisywanie listy danego rozrachunku do listy list
     //kluczem jest numer wiersza odraz Wn lub Ma
     //pod koniec wywoluje naniesieniekonsekwencjirozrachunkownawierszach()
