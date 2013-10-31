@@ -102,7 +102,7 @@ public class DokfkView implements Serializable {
     }
     public void dodaj() {
         try {
-            uzupelnijwierszeodaneDodajEdycja();
+            uzupelnijwierszeodaneDodaj();
             //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
             //nanieszapisynakontach();
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
@@ -131,7 +131,7 @@ public class DokfkView implements Serializable {
     }
     public void edycja() {
         try {
-            uzupelnijwierszeodaneDodajEdycja();
+            uzupelnijwierszeodaneEdycja();
             //nanieszapisynakontach();
             dokDAOfk.edit(selected);
             rozlicznaniesionerozrachunki();
@@ -152,8 +152,54 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się usunąć dokumentu");
         }
     }
-    //uzupeelnia wiersze podczas ich wprowadzania badz edycji i zapisuje do bazy
-    private void uzupelnijwierszeodaneDodajEdycja() {
+    //uzupeelnia wiersze podczas ich wprowadzania badz edycji i zapisuje do bazy ten z dodawania ma oblsuge Rozliczenie i Pozostało do Rozliczenia
+    private void uzupelnijwierszeodaneDodaj() {
+        //ladnie uzupelnia informacje o wierszu pk
+        String opisdoprzekazania = "";
+        List<Wiersze> wierszewdokumencie = selected.getKonta();
+        try {
+            for (Wiersze p : wierszewdokumencie) {
+                String opis = p.getOpis();
+                if (opis.contains("kontown")) {
+                    p.setKonto(p.getKontoWn());
+                    p.setKontonumer(p.getKontoWn().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setPozostalodorozliczeniaWn(p.getKwotaWn());
+                    p.setKwotaMa(0.0);
+                    p.setTypwiersza(1);
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else if (opis.contains("kontoma")) {
+                    p.setKonto(p.getKontoMa());
+                    p.setKontonumer(p.getKontoMa().getPelnynumer());
+                    //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setPozostalodorozliczeniaMa(p.getKwotaMa());
+                    p.setKwotaWn(0.0);
+                    p.setTypwiersza(2);
+                    p.setDokfk(selected);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else {
+                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
+                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
+                    p.setDataksiegowania(selected.getDatawystawienia());
+                    p.setPozostalodorozliczeniaWn(p.getKwotaWn());
+                    p.setPozostalodorozliczeniaMa(p.getKwotaMa());
+                    p.setTypwiersza(0);
+                    p.setDokfk(selected);
+                    opisdoprzekazania = p.getOpis();
+                    p.setZaksiegowane(Boolean.FALSE);
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+        }
+    }
+    
+    //uzupeelnia wiersze podczas ich wprowadzania badz edycji i zapisuje do bazy, nie rusza pol edycji
+    private void uzupelnijwierszeodaneEdycja() {
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania = "";
         List<Wiersze> wierszewdokumencie = selected.getKonta();
@@ -193,6 +239,7 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
         }
     }
+    
     //on robi nie tylko to ze przywraca button, on jeszcze resetuje selected
     //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
     public void przywrocwpisbutton() {
@@ -225,7 +272,6 @@ public class DokfkView implements Serializable {
         //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
         String wnlubma = (String) Params.params("wpisywaniefooter:wnlubma");
         uzupelnijwierszeodanewtrakcie();
-        Dokfk sprawdz = selected;
         String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
         try {
         Integer nrwiersza = Integer.parseInt(nrwierszaS);
@@ -248,6 +294,7 @@ public class DokfkView implements Serializable {
         }
     }
         //uzupelnia pozostale wiersze w zaleznosci od tego po ktorej stronie jest wiersz rozliczany
+        //takie minimum bo przeciez wiersz podczas wpisu moze byc niepelny
         private void uzupelnijwierszeodanewtrakcie() {
         //ladnie uzupelnia informacje o wierszu pk
         List<Wiersze> wierszewdokumencie = selected.getKonta();
@@ -258,12 +305,12 @@ public class DokfkView implements Serializable {
                 p.setZaksiegowane(Boolean.FALSE);
             }
         } catch (Exception e) {
-            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodanew trakcie "+e.getLocalizedMessage());
         }
     }
         //uzupelnia wiersz rozliczanego o dane
         private void uzupelnijaktualnywiersz(String wnlubma) {
-        //ladnie uzupelnia informacje o wierszu pk
+        //ladnie uzupelnia informacje o wierszu pk, bez zerowania kwot rozreachunkow one sa ustawiane na 0 podczas inicjalizacji
         Wiersze p = aktualnywierszdorozrachunkow;
         try {
             if (wnlubma.equals("Wn")) {
@@ -271,10 +318,7 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoWn().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaWn());
-                p.setPozostalodorozliczeniaMa(0.0);
                 p.setPozostalodorozliczeniaWn(p.getKwotaWn());
-                p.setRozliczonoMa(0.0);
-                p.setRozliczonoWn(0.0);
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Wn");
@@ -284,9 +328,6 @@ public class DokfkView implements Serializable {
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaMa());
                 p.setPozostalodorozliczeniaMa(p.getKwotaMa());
-                p.setPozostalodorozliczeniaWn(0.0);
-                p.setRozliczonoMa(0.0);
-                p.setRozliczonoWn(0.0);
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Ma");
@@ -358,7 +399,7 @@ public class DokfkView implements Serializable {
         }
     }
                 //jak sie lazi po kontach to mozna przy otwartym dokumencie wrocic do zapisu przez zapisaniem calego dokumentu
-                //to odtwarza wprowadzone zapisy
+                //to odtwarza wprowadzone zapisy podczas wpisywania na biezaco bez bazy danych
                 //ale jakos dziwnie pobiera rozliczany - sprawdizc to trzeba
                 private void sprawdzczyjuzczegosnienaniesiono () {
         Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
