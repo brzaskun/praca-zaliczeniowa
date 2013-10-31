@@ -34,20 +34,20 @@
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
                     <p:column headerText="kwota rozliczenia" width="40" style="text-align: right;">
-                        <pe:inputNumber value="#{loop.kwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
+                        <pe:inputNumber value="#{loop.biezacakwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
-                         <h:outputText id="pozostalo" value="#{loop.wierszsparowany.wnlubma eq 'Wn'  ? loop.wierszsparowany.pozostalodorozliczeniaWn :  loop.wierszsparowany.pozostalodorozliczeniaMa}" style="float: right;">
+                         <h:outputText id="pozostalo" value="#{loop.pozostalosparowany}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                      <p:column headerText="kwota już rozliczona" width="40">
-                         <h:outputText value="#{loop.wierszsparowany.wnlubma eq 'Wn' ? loop.wierszsparowany.rozliczonoWn : loop.wierszsparowany.rozliczonoMa}" style="float: right;">
+                         <h:outputText value="#{loop.rozliczonosparowany}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="kwota transakcji" width="40">
-                        <h:outputText value="#{loop.wierszsparowany.kwotapierwotna}" style="float: right;">
+                        <h:outputText value="#{loop.kwotapierwotna}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
