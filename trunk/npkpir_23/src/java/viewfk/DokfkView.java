@@ -414,7 +414,7 @@ public class DokfkView implements Serializable {
             //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
             sprawdzczyjuzczegosnienaniesiono();
             podsumujtoconaniesionoizaktualizujpozostale();
-            //usungdyrozrachunekjestNowaTransakcja();
+            usungdyrozrachunekjestNowaTransakcja();
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
         }
@@ -443,6 +443,7 @@ public class DokfkView implements Serializable {
                 private void podsumujtoconaniesionoizaktualizujpozostale () {
                     try {
                     double rozliczono = 0.0;
+                    //tu powstazje problem jak nie ma rozrachunkow a sa kwoty w wierszach
                     for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
                        if (rozrachunek.getWierszsparowany().getWnlubma().equals("Wn")) {
                            rozliczono = rozrachunek.getWierszsparowany().getRozliczonoWn();
@@ -464,6 +465,9 @@ public class DokfkView implements Serializable {
                 //jezeli biezace rozrachunki sa poste a aktualny jwiersz ma pole rozliczono rozne od zera znaczy ze jest Nowa Transakcja
                 //i trzeba jednak usunac pola rozrachunkow
                 private void usungdyrozrachunekjestNowaTransakcja() {
+                    for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
+                        rozrachunek.setPozwolnawpis(true);
+                    }
                     double sumabiezacychkwot = 0.0;
                     for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
                         sumabiezacychkwot += rozrachunek.getBiezacakwotarozrachunku();
@@ -475,7 +479,9 @@ public class DokfkView implements Serializable {
                         czynaniesionorozliczenia += aktualnywierszdorozrachunkow.getRozliczonoMa();
                     }
                     if (sumabiezacychkwot==0.0 && czynaniesionorozliczenia!=0) {
-                        rozrachunkiwierszewdokumencie.clear();
+                        for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
+                                rozrachunek.setPozwolnawpis(false);
+                        }
                     }
                 }
                 
@@ -599,26 +605,6 @@ public class DokfkView implements Serializable {
                     dokDAOfk.edit(selected);
                     Msg.msg("i", "Rozrachunki naniesione");
                 }
-//                //wywalamy zerowe rozrachunki z bazy danych
-//                List<Wiersze> pobranerozrachunkidosprawdzaniazerowych = selected.getKonta();
-//                for (Wiersze s : pobranerozrachunkidosprawdzaniazerowych) {
-//                    Iterator it = s.getRozrachunkijakorozliczany().iterator();
-//                    while (it.hasNext()){
-//                        Rozrachunki sprawdzanyrozrachunek = (Rozrachunki) it.next();
-//                        if (sprawdzanyrozrachunek.getKwotarozrachunku()==0.0) {
-//                            it.remove();
-//                        }
-//                    }
-//                    Iterator itX = s.getRozrachunkijakosparowany().iterator();
-//                    while (itX.hasNext()){
-//                        Rozrachunki sprawdzanyrozrachunek = (Rozrachunki) itX.next();
-//                        if (sprawdzanyrozrachunek.getKwotarozrachunku()==0.0) {
-//                            itX.remove();
-//                        }
-//                    }
-//                }
-//                dokDAOfk.edit(selected);
-//                Msg.msg("i", "Usuniete zerowe rozrachunki");
             }
         } catch (Exception ex) {
             Msg.msg("w", "Nie naniesiono rozrachunkow");
@@ -679,6 +665,7 @@ public class DokfkView implements Serializable {
         private double pozostalosparowany;
         private Wiersze wierszrozliczany;
         private String wnlubma;
+        private boolean pozwolnawpis;
 
         public RozrachunkiTmp() {
         }
@@ -688,6 +675,7 @@ public class DokfkView implements Serializable {
             this.wierszsparowany = wierszsparowany;
             this.wierszrozliczany = wierszrozliczany;
             this.wnlubma = wnlubma;
+            this.pozwolnawpis = true;
         }
 
       
@@ -697,6 +685,7 @@ public class DokfkView implements Serializable {
             this.wierszsparowany = wierszsparowany;
             this.wierszrozliczany = wierszrozliczany;
             this.wnlubma = wnlubma;
+            this.pozwolnawpis = true;
         }
 
        
@@ -710,6 +699,15 @@ public class DokfkView implements Serializable {
             this.kwotapierwotna = kwotapierwotna;
         }
 
+        public boolean isPozwolnawpis() {
+            return pozwolnawpis;
+        }
+
+        public void setPozwolnawpis(boolean pozwolnawpis) {
+            this.pozwolnawpis = pozwolnawpis;
+        }
+
+        
         public double getBiezacakwotarozrachunku() {
             return biezacakwotarozrachunku;
         }
