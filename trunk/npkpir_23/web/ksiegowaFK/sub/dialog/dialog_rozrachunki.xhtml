@@ -29,6 +29,7 @@
                     </p:panelGrid>
                 </h:form>
                 <p:dataTable id="dataList" value="#{dokfkView.rozrachunkiwierszewdokumencie}" var="loop" rowIndexVar="row" style="width: 1000px;"
+                             emptyMessage="Nie ma zapisów po przeciwnej stronie na tym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana"
                              >
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
