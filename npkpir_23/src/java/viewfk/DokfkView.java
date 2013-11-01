@@ -15,6 +15,7 @@ import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -381,6 +382,7 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn"));
                         }
+                        p.setDodanydorozrachunkow(false);
                     }
                 } else {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
@@ -404,6 +406,7 @@ public class DokfkView implements Serializable {
                         if (!p.isDodanydorozrachunkow()) {
                             rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma"));
                         }
+                        p.setDodanydorozrachunkow(false);
                     }
                 }
             }
@@ -411,6 +414,7 @@ public class DokfkView implements Serializable {
             //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
             sprawdzczyjuzczegosnienaniesiono();
             podsumujtoconaniesionoizaktualizujpozostale();
+            //usungdyrozrachunekjestNowaTransakcja();
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
         }
@@ -445,11 +449,33 @@ public class DokfkView implements Serializable {
                        } else {
                            rozliczono = rozrachunek.getWierszsparowany().getRozliczonoMa();
                        }
-                        rozrachunek.setRozliczonosparowany(rozliczono-rozrachunek.getBiezacakwotarozrachunku());
-                        rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna()-rozrachunek.getRozliczonosparowany());
+                       if (rozliczono > 0) {
+                           rozrachunek.setRozliczonosparowany(rozliczono-rozrachunek.getBiezacakwotarozrachunku());
+                           rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna()-rozrachunek.getRozliczonosparowany());
+                       } else {
+                           rozrachunek.setRozliczonosparowany(0.0);
+                           rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna());
+                       }
                     }
                     } catch (Exception ex) {
                         Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
+                    }
+                }
+                //jezeli biezace rozrachunki sa poste a aktualny jwiersz ma pole rozliczono rozne od zera znaczy ze jest Nowa Transakcja
+                //i trzeba jednak usunac pola rozrachunkow
+                private void usungdyrozrachunekjestNowaTransakcja() {
+                    double sumabiezacychkwot = 0.0;
+                    for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
+                        sumabiezacychkwot += rozrachunek.getBiezacakwotarozrachunku();
+                    }
+                    double czynaniesionorozliczenia = 0.0;
+                    if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
+                        czynaniesionorozliczenia += aktualnywierszdorozrachunkow.getRozliczonoWn();
+                    } else {
+                        czynaniesionorozliczenia += aktualnywierszdorozrachunkow.getRozliczonoMa();
+                    }
+                    if (sumabiezacychkwot==0.0 && czynaniesionorozliczenia!=0) {
+                        rozrachunkiwierszewdokumencie.clear();
                     }
                 }
                 
@@ -484,17 +510,14 @@ public class DokfkView implements Serializable {
                         if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
                         if (s.getWnlubma().equals("Wn")) {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                            if(!s.getIdwiersza().equals(aktualnywierszdorozrachunkow.getIdwiersza())) {
                             try {
                                 s.setRozliczonoWn(s.getRozliczonoWn() + p.getBiezacakwotarozrachunku());
                             } catch (Exception e1) {
                                 s.setRozliczonoWn(p.getBiezacakwotarozrachunku());
                             }
-                            }
                             s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                         } else {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                            if(!s.getIdwiersza().equals(aktualnywierszdorozrachunkow.getIdwiersza())) {
                             try {
                                 s.setRozliczonoMa(s.getRozliczonoMa() + p.getBiezacakwotarozrachunku());
                             } catch (Exception e1) {
@@ -502,29 +525,24 @@ public class DokfkView implements Serializable {
                             }
                             s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                         }
-                        }
                     }
                 }
                 //przechodze jeszcze raz przez wiersze zeby rozliczyc sparowane
                 for (Wiersze s : selected.getKonta()) {
                     if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())&&(!s.getIdwiersza().equals(aktualnywierszdorozrachunkow.getIdwiersza()))) {
                         if (s.getWnlubma().equals("Wn")) {
-                            if(!s.getIdwiersza().equals(aktualnywierszdorozrachunkow.getIdwiersza())) {
                             try {
                                 s.setRozliczonoWn(s.getRozliczonoWn() + p.getBiezacakwotarozrachunku());
                             } catch (Exception e1) {
                                 s.setRozliczonoWn(p.getBiezacakwotarozrachunku());
                             }
-                            }
                             s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                         } else {
                             //aby nie podsumowywac wiersza 
-                            if(!s.getIdwiersza().equals(aktualnywierszdorozrachunkow.getIdwiersza())) {
                             try {
                                 s.setRozliczonoMa(s.getRozliczonoMa() + p.getBiezacakwotarozrachunku());
                             } catch (Exception e1) {
                                 s.setRozliczonoMa(p.getBiezacakwotarozrachunku());
-                            }
                             }
                             s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                         }
@@ -562,17 +580,45 @@ public class DokfkView implements Serializable {
                     r.setWierszsparowany(p.getWierszsparowany());
                     for (Wiersze s : selected.getKonta()) {
                         if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
-                            s.getRozrachunkijakorozliczany().add(r);
+                            if(r.getKwotarozrachunku()==0.0) {
+                                s.getRozrachunkijakorozliczany().remove(r);
+                            } else {
+                                s.getRozrachunkijakorozliczany().add(r);
+                            }
                         }
                     }
                     for (Wiersze s : selected.getKonta()) {
                         if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
-                            s.getRozrachunkijakosparowany().add(r);
+                             if(r.getKwotarozrachunku()==0.0) {
+                                s.getRozrachunkijakorozliczany().remove(r);
+                            } else {
+                                s.getRozrachunkijakorozliczany().add(r);
+                            }
                         }
                     }
                     dokDAOfk.edit(selected);
                     Msg.msg("i", "Rozrachunki naniesione");
                 }
+//                //wywalamy zerowe rozrachunki z bazy danych
+//                List<Wiersze> pobranerozrachunkidosprawdzaniazerowych = selected.getKonta();
+//                for (Wiersze s : pobranerozrachunkidosprawdzaniazerowych) {
+//                    Iterator it = s.getRozrachunkijakorozliczany().iterator();
+//                    while (it.hasNext()){
+//                        Rozrachunki sprawdzanyrozrachunek = (Rozrachunki) it.next();
+//                        if (sprawdzanyrozrachunek.getKwotarozrachunku()==0.0) {
+//                            it.remove();
+//                        }
+//                    }
+//                    Iterator itX = s.getRozrachunkijakosparowany().iterator();
+//                    while (itX.hasNext()){
+//                        Rozrachunki sprawdzanyrozrachunek = (Rozrachunki) itX.next();
+//                        if (sprawdzanyrozrachunek.getKwotarozrachunku()==0.0) {
+//                            itX.remove();
+//                        }
+//                    }
+//                }
+//                dokDAOfk.edit(selected);
+//                Msg.msg("i", "Usuniete zerowe rozrachunki");
             }
         } catch (Exception ex) {
             Msg.msg("w", "Nie naniesiono rozrachunkow");
