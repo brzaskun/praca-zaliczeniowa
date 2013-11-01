@@ -289,17 +289,20 @@ public class DokfkView implements Serializable {
             wierszid = "";
             wnlubma = "";
             RequestContext.getCurrentInstance().update("formwpisdokument");
+            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("e", "Wybierz konto rozrachunkowe");
             wierszid = "";
             wnlubma = "";
-            RequestContext.getCurrentInstance().update("formwpisdokument");
+            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+            RequestContext.getCurrentInstance().execute("powrotdopola();");
         }
         } catch (Exception e) {
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             wierszid = "";
             wnlubma = "";
-            RequestContext.getCurrentInstance().update("formwpisdokument");
+            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+            RequestContext.getCurrentInstance().execute("powrotdopola();");
         }
     }
         //uzupelnia pozostale wiersze w zaleznosci od tego po ktorej stronie jest wiersz rozliczany

@@ -15,12 +15,19 @@ var drugionShow = function() {
 var rozrachunkionHide = function() {
     resetujdialog('dialogdrugi');
     try {
-    $(MYAPP.zaznaczonepole).focus();
-    $(MYAPP.zaznaczonepole).select();
-    } catch (e) {}
+    var powrot =  $(MYAPP.zaznaczonepole).attr('id');
+    $(document.getElementById(powrot)).focus();
+    $(document.getElementById(powrot)).select();
+    } catch (e) { }
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
     załadujmodelzachowywaniawybranegopola();
+};
+//sluzy do zaznaczania pol nierozrachunowych
+var powrotdopola = function () {
+    var powrot =  $(MYAPP.zaznaczonepole).attr('id');
+    $(document.getElementById(powrot)).focus();
+    $(document.getElementById(powrot)).select();
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function() {
