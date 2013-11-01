@@ -58,6 +58,8 @@ public class DokfkView implements Serializable {
     private Map<Kluczlistyrozrachunkow, List<RozrachunkiTmp>> zestawienielistrozrachunow;
     @Inject
     private RozrachunkiDAO rozrachunkiDAO;
+    private String wierszid;
+    private String wnlubma;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 
@@ -74,7 +76,6 @@ public class DokfkView implements Serializable {
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
         zestawienielistrozrachunow = new HashMap<>();
-        
     }
 
     @PostConstruct
@@ -263,8 +264,7 @@ public class DokfkView implements Serializable {
         selected.setKonta(wiersze);
     }
     //</editor-fold>  
-    //********************************************funkcje dla rozrachunkow
-
+    //********************************************funkcje dla rozrachunkow odtwarzanie i nanoszenie
     
     //<p:commandButton value="rozrachunki" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>
     //wywoluje: uzupelnijwierszeodanewtrakcie(); uzupelnijaktualnywiersz(wnlubma); pobierzwierszezdokumentow(selected.getKonta());
@@ -276,8 +276,8 @@ public class DokfkView implements Serializable {
         try {
         Integer nrwiersza = Integer.parseInt(nrwierszaS);
         nrwiersza--;
-        uzupelnijaktualnywiersz(wnlubma);
         aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
+        uzupelnijaktualnywiersz(wnlubma);
         if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
         rozrachunkiwierszewdokumencie = new ArrayList<>();
         pobierzwierszezdokumentow(selected.getKonta());
@@ -286,11 +286,20 @@ public class DokfkView implements Serializable {
         //pobierzwierszezdokumentow(wierszezinnychdokumentow);
             RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().execute("drugishow();");
+            wierszid = "";
+            wnlubma = "";
+            RequestContext.getCurrentInstance().update("formwpisdokument");
         } else {
             Msg.msg("e", "Wybierz konto rozrachunkowe");
+            wierszid = "";
+            wnlubma = "";
+            RequestContext.getCurrentInstance().update("formwpisdokument");
         }
         } catch (Exception e) {
             Msg.msg("e", "Wybierz pole zawierające numer konta");
+            wierszid = "";
+            wnlubma = "";
+            RequestContext.getCurrentInstance().update("formwpisdokument");
         }
     }
         //uzupelnia pozostale wiersze w zaleznosci od tego po ktorej stronie jest wiersz rozliczany
@@ -305,7 +314,7 @@ public class DokfkView implements Serializable {
                 p.setZaksiegowane(Boolean.FALSE);
             }
         } catch (Exception e) {
-            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodanew trakcie "+e.getLocalizedMessage());
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodanew trakcie "+e.getMessage());
         }
     }
         //uzupelnia wiersz rozliczanego o dane
@@ -333,7 +342,7 @@ public class DokfkView implements Serializable {
                 p.setWnlubma("Ma");
             }
         } catch (Exception e) {
-            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijwierszeodane");
+            Msg.msg("e", "Błąd w pliku DokfkView w funkcji uzupelnijaktualnywiersz");
         }
     }
         //pobiera wiersze i i pasujace do niego rozrachunki z podanego zrodla: 
@@ -425,6 +434,7 @@ public class DokfkView implements Serializable {
                 //poniewaz rozrachunki en masse sa zsumowane w aktualnym wierszu wystarczy stad wziac kwote jako sume
                 //a potem odjac dany rozrachynek i wpisac roznice do Tylejuzrozliczono, Pozostalodorozliczenie
                 private void podsumujtoconaniesionoizaktualizujpozostale () {
+                    try {
                     double rozliczono = 0.0;
                     for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
                        if (rozrachunek.getWierszsparowany().getWnlubma().equals("Wn")) {
@@ -435,12 +445,18 @@ public class DokfkView implements Serializable {
                         rozrachunek.setRozliczonosparowany(rozliczono-rozrachunek.getBiezacakwotarozrachunku());
                         rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna()-rozrachunek.getRozliczonosparowany());
                     }
+                    } catch (Exception ex) {
+                        Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
+                    }
                 }
+                
+    //********************************************funkcje dla rozrachunkow zapisywanie rozrachunkow
+                
     //<p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" zapisywanie listy danego rozrachunku do listy list
     //kluczem jest numer wiersza odraz Wn lub Ma
     //pod koniec wywoluje naniesieniekonsekwencjirozrachunkownawierszach()
     public void zapisanorozrachunek() {
-        Wiersze rozliczany = rozrachunkiwierszewdokumencie.get(0).wierszrozliczany;
+        Wiersze rozliczany = aktualnywierszdorozrachunkow;
         Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
         if (zestawienielistrozrachunow.containsKey(tmp)) {
             zestawienielistrozrachunow.remove(tmp);
@@ -785,6 +801,24 @@ public class DokfkView implements Serializable {
         DokfkView.selecteddokfk = selecteddokfk;
     }
 
+    public String getWierszid() {
+        return wierszid;
+    }
+
+    public void setWierszid(String wierszid) {
+        this.wierszid = wierszid;
+    }
+
+    public String getWnlubma() {
+        return wnlubma;
+    }
+
+    public void setWnlubma(String wnlubma) {
+        this.wnlubma = wnlubma;
+    }
+
+    
+    
     public Wiersze getWiersz() {
         return wiersz;
     }

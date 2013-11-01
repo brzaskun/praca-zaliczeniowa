@@ -7,15 +7,20 @@ var pilnujwprowadzanychrozrachunkow = function() {
 var drugionShow = function() {
     ustawdialog('dialogdrugi', 'menudokumenty');
     pilnujwprowadzanychrozrachunkow();
+    $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
+    $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
 var rozrachunkionHide = function() {
     resetujdialog('dialogdrugi');
-    $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
-    $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
+    try {
     $(MYAPP.zaznaczonepole).focus();
     $(MYAPP.zaznaczonepole).select();
+    } catch (e) {}
+    $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
+    $(document.getElementById("wpisywaniefooter:wierszid")).val("");
+    załadujmodelzachowywaniawybranegopola();
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function() {
