@@ -61,6 +61,7 @@ public class DokfkView implements Serializable {
     private RozrachunkiDAO rozrachunkiDAO;
     private String wierszid;
     private String wnlubma;
+    List<Wiersze> wierszedoobrobki;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 
@@ -77,6 +78,7 @@ public class DokfkView implements Serializable {
         wykaz = new ArrayList<>();
         selecteddokfk = new ArrayList<>();
         zestawienielistrozrachunow = new HashMap<>();
+        wierszedoobrobki = new ArrayList<>();
     }
 
     @PostConstruct
@@ -291,7 +293,8 @@ public class DokfkView implements Serializable {
         uzupelnijaktualnywiersz(wnlubma);
         if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
         rozrachunkiwierszewdokumencie = new ArrayList<>();
-        pobierzwierszezdokumentow(selected.getKonta());
+        wierszedoobrobki = selected.getKonta();
+        pobierzwierszezdokumentow(wierszedoobrobki);
         //to jest linijak do pobierania wierszy z innych dokumnetow zachowanych w bazie dancyh
         //List<Wiersze> wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
         //pobierzwierszezdokumentow(wierszezinnychdokumentow);
@@ -524,7 +527,7 @@ public class DokfkView implements Serializable {
             List<RozrachunkiTmp> listazachowanychlistrozrachunkow = zestawienielistrozrachunow.get(klucz);
             for (RozrachunkiTmp p : listazachowanychlistrozrachunkow) {
                 //przechodze przez wiersze zeby rozliczyc rozliczane
-                for (Wiersze s : selected.getKonta()) {
+                for (Wiersze s : wierszedoobrobki) {
                     boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK());
                     boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(p.getWierszrozliczany().getIdporzadkowy());
                         if (sprawdzPK&&sprawdzIdporzadkowy){
@@ -548,7 +551,7 @@ public class DokfkView implements Serializable {
                     }
                 }
                 //przechodze jeszcze raz przez wiersze zeby rozliczyc sparowane
-                for (Wiersze s : selected.getKonta()) {
+                for (Wiersze s : wierszedoobrobki) {
                     boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(p.getWierszsparowany().getDokfk().getDokfkPK());
                     boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(p.getWierszsparowany().getIdporzadkowy());
                     if (sprawdzPK&&sprawdzIdporzadkowy){
@@ -577,7 +580,7 @@ public class DokfkView implements Serializable {
     }
                 //czyszcze info o rozliczonych i pozostalych do rozliczenia aby wprowadzic nowe wartosc sumowane od nowa
                 private void wyczyscdotychczasowezapisyrozrachunkow() {
-                List<Wiersze> listadowyczyszczenia = selected.getKonta();
+                List<Wiersze> listadowyczyszczenia = wierszedoobrobki;
                 for (Wiersze p : listadowyczyszczenia) {
                     p.setRozliczonoMa(0.0);
                     p.setRozliczonoWn(0.0);
