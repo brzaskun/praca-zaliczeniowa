@@ -117,7 +117,7 @@ public class DokfkView implements Serializable {
                 dokDAOfk.dodaj(selected);
             }
             wykaz.add(selected);
-            rozlicznaniesionerozrachunki();
+            zapisznaniesionerozrachunkiwbaziedanych();
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
             selected.setDokfkPK(dokfkPK);
@@ -137,7 +137,7 @@ public class DokfkView implements Serializable {
             uzupelnijwierszeodaneEdycja();
             //nanieszapisynakontach();
             dokDAOfk.edit(selected);
-            rozlicznaniesionerozrachunki();
+            zapisznaniesionerozrachunkiwbaziedanych();
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
@@ -150,6 +150,15 @@ public class DokfkView implements Serializable {
         try {
             dokDAOfk.usun(dousuniecia);
             wykaz.remove(dousuniecia);
+            selected = new Dokfk();
+            DokfkPK dokfkPK = new DokfkPK();
+            selected.setDokfkPK(dokfkPK);
+            wiersze = new ArrayList<>();
+            wiersze.add(new Wiersze(1, 0));
+            selected.setKonta(wiersze);
+            liczbawierszy = 1;
+            zestawienielistrozrachunow = new HashMap<>();
+            RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument usunięty");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się usunąć dokumentu");
@@ -579,7 +588,7 @@ public class DokfkView implements Serializable {
     
     
     //zapisujemy na koniec rozrachunki w bazie danych na trwałe!!!! KONICOWA
-    public void rozlicznaniesionerozrachunki() {
+    public void zapisznaniesionerozrachunkiwbaziedanych() {
         Dokfk doktmp = dokDAOfk.findDokfkObj(selected);
         for (Wiersze a : doktmp.getKonta()) {
             for (Wiersze b : selected.getKonta()) {
