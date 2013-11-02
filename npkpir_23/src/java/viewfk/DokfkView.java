@@ -105,7 +105,7 @@ public class DokfkView implements Serializable {
     }
     public void dodaj() {
         try {
-            uzupelnijwierszeodaneDodaj();
+            uzupelnijwierszeodaneEdycja();
             //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
             //nanieszapisynakontach();
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
@@ -360,7 +360,6 @@ public class DokfkView implements Serializable {
                 //pobieram tylko te konta ktore nie leza po tej samej stronie dokumetu co konto rozrachunkowe i sa takie same jak konto rozrliczane
                 if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
                     if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
-                        aktualnywierszdorozrachunkow.setWnlubma("Wn");
                         p.setKonto(p.getKontoMa());
                         p.setKontonumer(p.getKonto().getNazwapelna());
                         p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
@@ -381,13 +380,12 @@ public class DokfkView implements Serializable {
                         }
                         //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn"));
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn"));
                         }
                         p.setDodanydorozrachunkow(false);
                     }
                 } else {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
-                        aktualnywierszdorozrachunkow.setWnlubma("Ma");
                         p.setKonto(p.getKontoWn());
                         p.setKontonumer(p.getKonto().getNazwapelna());
                         p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
@@ -405,20 +403,20 @@ public class DokfkView implements Serializable {
                         }
                         //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma"));
+                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma"));
                         }
                         p.setDodanydorozrachunkow(false);
                     }
                 }
             }
-            //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji bo pierwotnie byly z bazy danych
+        } catch (Exception e) {
+            Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
+        }
+           //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji bo pierwotnie byly z bazy danych
             //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
             sprawdzczyjuzczegosnienaniesiono();
             podsumujtoconaniesionoizaktualizujpozostale();
             usungdyrozrachunekjestNowaTransakcja();
-        } catch (Exception e) {
-            Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
-        }
     }
                 //jak sie lazi po kontach to mozna przy otwartym dokumencie wrocic do zapisu przez zapisaniem calego dokumentu
                 //to odtwarza wprowadzone zapisy podczas wpisywania na biezaco bez bazy danych
@@ -516,7 +514,9 @@ public class DokfkView implements Serializable {
             for (RozrachunkiTmp p : listazachowanychlistrozrachunkow) {
                 //przechodze przez wiersze zeby rozliczyc rozliczane
                 for (Wiersze s : selected.getKonta()) {
-                        if ((s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK()))&&(s.getIdporzadkowy().equals(p.getWierszrozliczany().getIdporzadkowy()))) {
+                    boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK());
+                    boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(p.getWierszrozliczany().getIdporzadkowy());
+                        if (sprawdzPK&&sprawdzIdporzadkowy){
                         if (s.getWnlubma().equals("Wn")) {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
                             try {
@@ -538,8 +538,10 @@ public class DokfkView implements Serializable {
                 }
                 //przechodze jeszcze raz przez wiersze zeby rozliczyc sparowane
                 for (Wiersze s : selected.getKonta()) {
-                    if ((s.getDokfk().getDokfkPK().equals(p.getWierszsparowany().getDokfk().getDokfkPK()))&&(s.getIdporzadkowy().equals(p.getWierszsparowany().getIdporzadkowy()))) {
-                        if (s.getWnlubma().equals("Wn")) {
+                    boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(p.getWierszsparowany().getDokfk().getDokfkPK());
+                    boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(p.getWierszsparowany().getIdporzadkowy());
+                    if (sprawdzPK&&sprawdzIdporzadkowy){
+                            if (s.getWnlubma().equals("Wn")) {
                             try {
                                 s.setRozliczonoWn(s.getRozliczonoWn() + p.getBiezacakwotarozrachunku());
                             } catch (Exception e1) {
@@ -691,10 +693,10 @@ public class DokfkView implements Serializable {
             this.biezacakwotarozrachunku = biezacakwotarozrachunku;
             //odtwarzanie rozrachunku jak jest tylko w bazie a nie w biezacej tablicy
             if (wnlubma.equals("Wn")) {
-                this.rozliczonosparowany = wierszsparowany.getRozliczonoWn()-biezacakwotarozrachunku;
+                this.rozliczonosparowany = wierszsparowany.getRozliczonoMa()-biezacakwotarozrachunku;
                 this.pozostalosparowany = kwotapierwotna-this.rozliczonosparowany;
             } else {
-                this.rozliczonosparowany = wierszsparowany.getRozliczonoMa()-biezacakwotarozrachunku;
+                this.rozliczonosparowany = wierszsparowany.getRozliczonoWn()-biezacakwotarozrachunku;
                 this.pozostalosparowany = kwotapierwotna-this.rozliczonosparowany;
             }
             this.kwotapierwotna = kwotapierwotna;
