@@ -94,6 +94,7 @@ public class DokfkView implements Serializable {
             liczbawierszy++;
             selected.getKonta().add(new Wiersze(liczbawierszy, 0));
         }
+        RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
     }
     //usuwa wiersze z dokumentu
     public void liczbawu() {
@@ -515,7 +516,7 @@ public class DokfkView implements Serializable {
             for (RozrachunkiTmp p : listazachowanychlistrozrachunkow) {
                 //przechodze przez wiersze zeby rozliczyc rozliczane
                 for (Wiersze s : selected.getKonta()) {
-                        if ((s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK()))&&(s.getIdporzadkowy().equals(p.getWierszrozliczany().getIdporzadkowy())) &&(!s.getDokfk().getDokfkPK().equals(aktualnywierszdorozrachunkow.getDokfk().getDokfkPK()))) {
+                        if ((s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK()))&&(s.getIdporzadkowy().equals(p.getWierszrozliczany().getIdporzadkowy()))) {
                         if (s.getWnlubma().equals("Wn")) {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
                             try {
