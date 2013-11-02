@@ -362,7 +362,8 @@ public class DokfkView implements Serializable {
                     if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
                         p.setKonto(p.getKontoMa());
                         p.setKontonumer(p.getKonto().getNazwapelna());
-                        p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+                        //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
+                        //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
                         p.setKwotapierwotna(p.getKwotaMa());
                         //sprawdz czy czegoj juz nie ma baranku!!!
 //                        p.setPozostalodorozliczeniaMa(p.getKwotaMa());
@@ -388,7 +389,8 @@ public class DokfkView implements Serializable {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
                         p.setKonto(p.getKontoWn());
                         p.setKontonumer(p.getKonto().getNazwapelna());
-                        p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+                        //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
+                        //p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
                         p.setKwotapierwotna(p.getKwotaWn());
 //                        p.setPozostalodorozliczeniaWn(p.getKwotaWn());
 //                        p.setRozliczonoWn(0.0);
@@ -507,7 +509,7 @@ public class DokfkView implements Serializable {
         //podczas wpisywania do bazy, wywoluje wyczyscdotychczasowezapisyrozrachunkow() 
         private void naniesieniekonsekwencjirozrachunkownawierszach() {
         //zeruje zapisy na wierszach, problem w tym ze sa potem uzupelnia tylko o te w aktualnej tablicy a nie z bazy danych
-        wyczyscdotychczasowezapisyrozrachunkow();
+        //wyczyscdotychczasowezapisyrozrachunkow();
         Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
         for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
             List<RozrachunkiTmp> listazachowanychlistrozrachunkow = zestawienielistrozrachunow.get(klucz);
@@ -578,10 +580,23 @@ public class DokfkView implements Serializable {
     
     //zapisujemy na koniec rozrachunki w bazie danych na trwałe!!!! KONICOWA
     public void rozlicznaniesionerozrachunki() {
+        Dokfk doktmp = dokDAOfk.findDokfkObj(selected);
+        for (Wiersze a : doktmp.getKonta()) {
+            for (Wiersze b : selected.getKonta()) {
+                if (b.equals(a)) {
+                    b.setIdwiersza(a.getIdwiersza());
+                }
+            }
+        }
         try {
             Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
             for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
                 for (RozrachunkiTmp p : zestawienielistrozrachunow.get(klucz)) {
+                    for (Wiersze s : doktmp.getKonta()) {
+                        if (s.equals(p.getWierszrozliczany())) {
+                            p.getWierszrozliczany().setIdwiersza(s.getIdwiersza());
+                        }
+                    }
                     RozrachunkiPK rPK = new RozrachunkiPK();
                     rPK.setZapisrozliczany(p.getWierszrozliczany().getIdwiersza());
                     rPK.setZapissparowany(p.getWierszsparowany().getIdwiersza());

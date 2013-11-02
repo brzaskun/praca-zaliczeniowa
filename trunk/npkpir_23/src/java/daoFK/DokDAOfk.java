@@ -45,5 +45,13 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
 
+    public Dokfk findDokfkObj(Dokfk selected) {
+       try {
+           return dokFacade.findDokfk(selected);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+
     
 }
