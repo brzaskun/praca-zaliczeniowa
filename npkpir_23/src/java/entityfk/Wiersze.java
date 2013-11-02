@@ -3,6 +3,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -344,17 +345,23 @@ public class Wiersze implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Wiersze)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Wiersze other = (Wiersze) object;
-        if ((this.idwiersza == null && other.idwiersza != null) || (this.idwiersza != null && !this.idwiersza.equals(other.idwiersza))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Wiersze other = (Wiersze) obj;
+        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
+            return false;
+        }
+        if (!Objects.equals(this.dokfk, other.dokfk)) {
             return false;
         }
         return true;
     }
+
 
     @Override
     public String toString() {

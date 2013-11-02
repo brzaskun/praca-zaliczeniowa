@@ -65,7 +65,7 @@ public class SessionFacade<T> {
         return em;
     }
 
-    
+       
     public List<T> findAll(Class<T> entityClass) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -471,6 +471,10 @@ public class SessionFacade<T> {
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
 //        return em.createNamedQuery("Wiersze.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
 //    }
+
+    public Dokfk findDokfk(Dokfk selected) {
+        return (Dokfk) em.createNamedQuery("Dokfk.findByPK").setParameter("dokfkPK", selected.getDokfkPK()).getSingleResult();
+    }
 
   
 }
