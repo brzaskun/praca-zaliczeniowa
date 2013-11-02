@@ -9,6 +9,7 @@ var drugionShow = function() {
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
+
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
@@ -22,6 +23,12 @@ var rozrachunkionHide = function() {
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
     załadujmodelzachowywaniawybranegopola();
+    try {
+        var wiersznr  = MYAPP.wierszrozrachukowy - 1;
+        sprawdzpoprzedniwiersz(wiersznr);
+    } catch (e) {
+        alert("Blad w dialogrozrachunki.js rozrachunkionHide");
+    }
 };
 //sluzy do zaznaczania pol nierozrachunowych
 var powrotdopola = function () {

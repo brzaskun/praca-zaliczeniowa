@@ -52,7 +52,7 @@
                                 global="false" converterMessage="Nieudana konwersja Klient"
                                 required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy},'Wn');"
                                 ><!--to teraz powoduje blad-->
-                    <f:ajax event="blur" execute="@this"/>
+                    <f:ajax event="blur" execute="@this" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
                 </p:autoComplete>
                 </p:column> 
             <p:column headerText="kwota"  width="160">
@@ -66,9 +66,8 @@
                                 minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
                                 global="false" converterMessage="Nieudana konwersja Klient"
                                 required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});zachowajwiersz(#{loop.idporzadkowy}, 'Ma');"
-                                
                                 >
-                                <f:ajax event="blur" execute="@this"/>
+                                <f:ajax event="blur" execute="@this" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
                 </p:autoComplete>
                 </p:column>
                 <p:column  width="50">

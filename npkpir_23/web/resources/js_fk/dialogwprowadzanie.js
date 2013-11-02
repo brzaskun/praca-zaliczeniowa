@@ -1,4 +1,5 @@
 var zachowajwiersz = function (wierszid, wnlubma) {
+    MYAPP.wierszrozrachukowy = wierszid;
     try {
         $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
         $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
