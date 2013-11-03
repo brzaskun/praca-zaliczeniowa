@@ -360,6 +360,9 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoWn().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaWn());
+                if (p.getPozostalodorozliczeniaWn()==0.0) {
+                    p.setPozostalodorozliczeniaWn(p.getKwotapierwotna());
+                }
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Wn");
@@ -368,6 +371,9 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoMa().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaMa());
+                if (p.getPozostalodorozliczeniaMa()==0.0) {
+                    p.setPozostalodorozliczeniaMa(p.getKwotapierwotna());
+                }
                 p.setDokfk(selected);
                 p.setZaksiegowane(Boolean.FALSE);
                 p.setWnlubma("Ma");
@@ -637,11 +643,22 @@ public class DokfkView implements Serializable {
                 }
             }
         }
+        zachowajwiersze(selected.getKonta());
+        dokDAOfk.edit(selected);
+        Msg.msg("i", "Dokument wyedytowany");
+        zachowajwiersze(wierszezinnychdokumentow);
+        for (Wiersze p : wierszezinnychdokumentow) {
+            wierszeDAO.edit(p);
+        }
+        Msg.msg("i", "Wyedytowano wiersze z obcych dokumentow");
+    }
+    
+    private void zachowajwiersze (List<Wiersze> listawierszy) {
         try {
             Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
             for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
                 for (RozrachunkiTmp p : zestawienielistrozrachunow.get(klucz)) {
-                    for (Wiersze s : doktmp.getKonta()) {
+                    for (Wiersze s : listawierszy) {
                         if (s.equals(p.getWierszrozliczany())) {
                             p.getWierszrozliczany().setIdwiersza(s.getIdwiersza());
                         }
@@ -653,7 +670,7 @@ public class DokfkView implements Serializable {
                     r.setKwotarozrachunku(p.getBiezacakwotarozrachunku());
                     r.setWierszrozliczany(p.getWierszrozliczany());
                     r.setWierszsparowany(p.getWierszsparowany());
-                    for (Wiersze s : selected.getKonta()) {
+                    for (Wiersze s : listawierszy) {
                         if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
                             if (r.getKwotarozrachunku() == 0.0) {
                                 s.getRozrachunkijakorozliczany().remove(r);
@@ -662,17 +679,15 @@ public class DokfkView implements Serializable {
                             }
                         }
                     }
-                    for (Wiersze s : selected.getKonta()) {
+                    for (Wiersze s : listawierszy) {
                         if (s.getIdwiersza().equals(p.getWierszsparowany().getIdwiersza())) {
                             if (r.getKwotarozrachunku() == 0.0) {
-                                s.getRozrachunkijakorozliczany().remove(r);
+                                s.getRozrachunkijakosparowany().remove(r);
                             } else {
-                                s.getRozrachunkijakorozliczany().add(r);
+                                s.getRozrachunkijakosparowany() .add(r);
                             }
                         }
                     }
-                    dokDAOfk.edit(selected);
-                    Msg.msg("i", "Rozrachunki naniesione");
                 }
             }
             // edytujposzczegolnewiersze();
