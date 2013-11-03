@@ -296,8 +296,8 @@ public class DokfkView implements Serializable {
         wierszedoobrobki = selected.getKonta();
         pobierzwierszezdokumentow(wierszedoobrobki);
         //to jest linijak do pobierania wierszy z innych dokumnetow zachowanych w bazie dancyh
-        //List<Wiersze> wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
-        //pobierzwierszezdokumentow(wierszezinnychdokumentow);
+        List<Wiersze> wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
+        pobierzwierszezdokumentow(wierszezinnychdokumentow);
             RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().execute("drugishow();");
             wierszid = "";
@@ -445,6 +445,7 @@ public class DokfkView implements Serializable {
                             //tu tylko nanosimy kwote rozrachunku na biezace rozrachunki w dokumencie ktorej nie ma w wierszach, nie ruszamy wierszy
                             if (p.getWierszrozliczany().getIdporzadkowy()==r.getWierszrozliczany().getIdporzadkowy()&&p.getWierszsparowany().getIdporzadkowy()==r.getWierszsparowany().getIdporzadkowy()) {
                                     r.setBiezacakwotarozrachunku(p.getBiezacakwotarozrachunku());
+                                    r.setStarakwotarozrachunku(p.getBiezacakwotarozrachunku());
                                     r.setKwotapierwotna(p.getKwotapierwotna());
                                     r.setPozostalosparowany(p.getPozostalosparowany());
                             }
@@ -498,6 +499,13 @@ public class DokfkView implements Serializable {
                                 rozrachunek.setPozwolnawpis(false);
                         }
                     }
+                    Iterator it = rozrachunkiwierszewdokumencie.iterator();
+                    while(it.hasNext()) {
+                        RozrachunkiTmp biezacy = (RozrachunkiTmp) it.next();
+                        if (biezacy.getRozliczonosparowany() == 0.0) {
+                            it.remove();
+                        }
+                    }
                 }
                 
     //********************************************funkcje dla rozrachunkow zapisywanie rozrachunkow
@@ -521,11 +529,14 @@ public class DokfkView implements Serializable {
         //podczas wpisywania do bazy, wywoluje wyczyscdotychczasowezapisyrozrachunkow() 
         private void naniesieniekonsekwencjirozrachunkownawierszach() {
         //zeruje zapisy na wierszach, problem w tym ze sa potem uzupelnia tylko o te w aktualnej tablicy a nie z bazy danych
-        //wyczyscdotychczasowezapisyrozrachunkow();
         Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
         for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
             List<RozrachunkiTmp> listazachowanychlistrozrachunkow = zestawienielistrozrachunow.get(klucz);
             for (RozrachunkiTmp p : listazachowanychlistrozrachunkow) {
+                double kwotadotychczasowa = p.getStarakwotarozrachunku();
+                double kwotanowa = p.getBiezacakwotarozrachunku();
+                //jak nowa kwota bedzie mniejsza to wydzie minus a jak nie to bedzie plus albo 0 :)
+                double kwotadonaniesienia = kwotanowa - kwotadotychczasowa;
                 //przechodze przez wiersze zeby rozliczyc rozliczane
                 for (Wiersze s : wierszedoobrobki) {
                     boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(p.getWierszrozliczany().getDokfk().getDokfkPK());
@@ -534,7 +545,7 @@ public class DokfkView implements Serializable {
                         if (s.getWnlubma().equals("Wn")) {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
                             try {
-                                s.setRozliczonoWn(s.getRozliczonoWn() + p.getBiezacakwotarozrachunku());
+                                s.setRozliczonoWn(kwotadotychczasowa + kwotadonaniesienia);
                             } catch (Exception e1) {
                                 s.setRozliczonoWn(p.getBiezacakwotarozrachunku());
                             }
@@ -542,7 +553,7 @@ public class DokfkView implements Serializable {
                         } else {
                             //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
                             try {
-                                s.setRozliczonoMa(s.getRozliczonoMa() + p.getBiezacakwotarozrachunku());
+                                s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
                             } catch (Exception e1) {
                                 s.setRozliczonoMa(p.getBiezacakwotarozrachunku());
                             }
@@ -557,7 +568,7 @@ public class DokfkView implements Serializable {
                     if (sprawdzPK&&sprawdzIdporzadkowy){
                             if (s.getWnlubma().equals("Wn")) {
                             try {
-                                s.setRozliczonoWn(s.getRozliczonoWn() + p.getBiezacakwotarozrachunku());
+                                s.setRozliczonoWn(s.getRozliczonoWn() + kwotadonaniesienia);
                             } catch (Exception e1) {
                                 s.setRozliczonoWn(p.getBiezacakwotarozrachunku());
                             }
@@ -565,7 +576,7 @@ public class DokfkView implements Serializable {
                         } else {
                             //aby nie podsumowywac wiersza 
                             try {
-                                s.setRozliczonoMa(s.getRozliczonoMa() + p.getBiezacakwotarozrachunku());
+                                s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
                             } catch (Exception e1) {
                                 s.setRozliczonoMa(p.getBiezacakwotarozrachunku());
                             }
@@ -573,25 +584,26 @@ public class DokfkView implements Serializable {
                         }
                     }
                 }
-                dokDAOfk.edit(selected);
+                p.setStarakwotarozrachunku(p.getBiezacakwotarozrachunku());
             }
         }
         Msg.msg("i", "Wiersza zaktulalizowane o kwoty rozliczone");
     }
-                //czyszcze info o rozliczonych i pozostalych do rozliczenia aby wprowadzic nowe wartosc sumowane od nowa
-                private void wyczyscdotychczasowezapisyrozrachunkow() {
-                List<Wiersze> listadowyczyszczenia = wierszedoobrobki;
-                for (Wiersze p : listadowyczyszczenia) {
-                    p.setRozliczonoMa(0.0);
-                    p.setRozliczonoWn(0.0);
-                    p.setPozostalodorozliczeniaWn(0.0);
-                    p.setPozostalodorozliczeniaMa(0.0);
-                }
-            }
+        //czyszcze info o rozliczonych i pozostalych do rozliczenia aby wprowadzic nowe wartosc sumowane od nowa
+        private void wyczyscdotychczasowezapisyrozrachunkow() {
+        List<Wiersze> listadowyczyszczenia = wierszedoobrobki;
+        for (Wiersze p : listadowyczyszczenia) {
+            p.setRozliczonoMa(0.0);
+            p.setRozliczonoWn(0.0);
+            p.setPozostalodorozliczeniaWn(0.0);
+            p.setPozostalodorozliczeniaMa(0.0);
+        }
+    }
     
     
     //zapisujemy na koniec rozrachunki w bazie danych na trwałe!!!! KONICOWA
     public void zapisznaniesionerozrachunkiwbaziedanych() {
+        dokDAOfk.edit(selected);
         Dokfk doktmp = dokDAOfk.findDokfkObj(selected);
         for (Wiersze a : doktmp.getKonta()) {
             for (Wiersze b : selected.getKonta()) {
@@ -696,6 +708,7 @@ public class DokfkView implements Serializable {
     public static class RozrachunkiTmp {
 
         private double biezacakwotarozrachunku;
+        private double starakwotarozrachunku;
         private double kwotapierwotna;
         private Wiersze wierszsparowany;
         private double rozliczonosparowany;
@@ -718,6 +731,7 @@ public class DokfkView implements Serializable {
       
         public RozrachunkiTmp(double biezacakwotarozrachunku, double kwotapierwotna, Wiersze wierszsparowany, Wiersze wierszrozliczany, String wnlubma) {
             this.biezacakwotarozrachunku = biezacakwotarozrachunku;
+            this.starakwotarozrachunku = biezacakwotarozrachunku;
             //odtwarzanie rozrachunku jak jest tylko w bazie a nie w biezacej tablicy
             if (wnlubma.equals("Wn")) {
                 this.rozliczonosparowany = wierszsparowany.getRozliczonoMa()-biezacakwotarozrachunku;
@@ -744,6 +758,15 @@ public class DokfkView implements Serializable {
             this.kwotapierwotna = kwotapierwotna;
         }
 
+        public double getStarakwotarozrachunku() {
+            return starakwotarozrachunku;
+        }
+
+        public void setStarakwotarozrachunku(double starakwotarozrachunku) {
+            this.starakwotarozrachunku = starakwotarozrachunku;
+        }
+
+        
         public boolean isPozwolnawpis() {
             return pozwolnawpis;
         }
