@@ -312,6 +312,11 @@ public class DokfkView implements Serializable {
                 //to jest linijak do pobierania wierszy z innych dokumnetow zachowanych w bazie dancyh
                 wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
                 pobierzwierszezdokumentow(wierszezinnychdokumentow);
+                //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji bo pierwotnie byly z bazy danych
+                //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
+                sprawdzczyjuzczegosnienaniesiono();
+                podsumujtoconaniesionoizaktualizujpozostale();
+                usungdyrozrachunekjestNowaTransakcja();
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().execute("drugishow();");
                 wierszid = "";
@@ -447,11 +452,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
         }
-        //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji bo pierwotnie byly z bazy danych
-        //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
-        sprawdzczyjuzczegosnienaniesiono();
-        podsumujtoconaniesionoizaktualizujpozostale();
-        usungdyrozrachunekjestNowaTransakcja();
+
     }
     //jak sie lazi po kontach to mozna przy otwartym dokumencie wrocic do zapisu przez zapisaniem calego dokumentu
     //to odtwarza wprowadzone zapisy podczas wpisywania na biezaco bez bazy danych
@@ -482,8 +483,10 @@ public class DokfkView implements Serializable {
     private void podsumujtoconaniesionoizaktualizujpozostale() {
         try {
             double rozliczono = 0.0;
+            double biezacakwotarozrachunkow = 0.0;
             //tu powstazje problem jak nie ma rozrachunkow a sa kwoty w wierszach
             for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
+                biezacakwotarozrachunkow += rozrachunek.getBiezacakwotarozrachunku();
                 if (rozrachunek.getWierszsparowany().getWnlubma().equals("Wn")) {
                     rozliczono = rozrachunek.getWierszsparowany().getRozliczonoWn();
                 } else {
@@ -497,6 +500,13 @@ public class DokfkView implements Serializable {
                     rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna());
                 }
             }
+               if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
+                    aktualnywierszdorozrachunkow.setRozliczonoWn(aktualnywierszdorozrachunkow.getRozliczonoWn()-biezacakwotarozrachunkow);
+                    aktualnywierszdorozrachunkow.setPozostalodorozliczeniaWn(aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoWn());
+                } else {
+                    aktualnywierszdorozrachunkow.setRozliczonoMa(aktualnywierszdorozrachunkow.getRozliczonoMa()-biezacakwotarozrachunkow);
+                    aktualnywierszdorozrachunkow.setPozostalodorozliczeniaMa(aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoMa());
+               }
         } catch (Exception ex) {
             Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
         }
