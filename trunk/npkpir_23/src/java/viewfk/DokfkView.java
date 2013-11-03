@@ -282,6 +282,13 @@ public class DokfkView implements Serializable {
         wiersze = new ArrayList<>();
         wiersze.add(new Wiersze(1, 0));
         selected.setKonta(wiersze);
+        zestawienielistrozrachunow = new HashMap<>();
+        wierszedoobrobki = new ArrayList<>();
+        wierszezinnychdokumentow = new ArrayList<>();
+        rozrachunkiwierszewdokumencie = new ArrayList<>();
+        //to jest raczej pamieciozerne, moze jakos inaczej to zrobic!!!!!!!!!!!!!!!!!!
+        wykaz.clear();
+        wykaz = dokDAOfk.findAll();
     }
     //</editor-fold>  
     //********************************************funkcje dla rozrachunkow odtwarzanie i nanoszenie

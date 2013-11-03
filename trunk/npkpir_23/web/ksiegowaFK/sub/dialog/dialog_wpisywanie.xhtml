@@ -10,7 +10,7 @@
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
               resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="pierwszyOnHide();"  dynamic="true"
               >
-        <p:ajax event="close" listener="#{dokfkView.zresetujpoladialogu}" update=":formwpisdokument"/>
+        <p:ajax event="close" listener="#{dokfkView.zresetujpoladialogu}" update=":formwpisdokument :rozrachunki"/>
         <h:form id="formwpisdokument">
         <div style="height: 150px;">
         <p:panelGrid columns="8">
