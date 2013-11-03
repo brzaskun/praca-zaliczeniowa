@@ -15,24 +15,25 @@ var drugionShow = function() {
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
 var rozrachunkionHide = function() {
     resetujdialog('dialogdrugi');
-    try {
-    var powrot =  $(MYAPP.zaznaczonepole).attr('id');
-    $(document.getElementById(powrot)).focus();
-    $(document.getElementById(powrot)).select();
-    } catch (e) { }
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
     załadujmodelzachowywaniawybranegopola();
     try {
-        var wiersznr  = MYAPP.wierszrozrachukowy - 1;
+        var wiersznr = MYAPP.wierszrozrachukowy - 1;
         sprawdzpoprzedniwiersz(wiersznr);
     } catch (e) {
         alert("Blad w dialogrozrachunki.js rozrachunkionHide");
     }
+    try {
+        var powrot = $(MYAPP.zaznaczonepole).attr('id');
+        $(document.getElementById(powrot)).focus();
+        $(document.getElementById(powrot)).select();
+    } catch (e) {
+    }
 };
 //sluzy do zaznaczania pol nierozrachunowych
-var powrotdopola = function () {
-    var powrot =  $(MYAPP.zaznaczonepole).attr('id');
+var powrotdopola = function() {
+    var powrot = $(MYAPP.zaznaczonepole).attr('id');
     $(document.getElementById(powrot)).focus();
     $(document.getElementById(powrot)).select();
 };
@@ -45,7 +46,7 @@ var doklejsumowaniewprowadzonych = function() {
         var wszystkiewiersze = $("#rozrachunki\\:dataList").find(":input");
         var iloscpozycji = wszystkiewiersze.length;
         var wprowadzonowpole = $(this).val();
-        var wiersz = "rozrachunki:dataList:"+numerwiersza+":pozostalo";
+        var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostalo";
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
         $(document.getElementById(wiersz)).css("font-weight", "normal");
         $(document.getElementById(wiersz)).css("color", "black");
@@ -54,7 +55,7 @@ var doklejsumowaniewprowadzonych = function() {
         $(document.getElementById(wierszaktualny)).css("color", "black");
         var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
         if (wartoscwprowadzona > wartoscpoprawej) {
-            if (wartoscpoprawej===0) {
+            if (wartoscpoprawej === 0) {
                 $(document.getElementById(wiersz)).css("font-weight", "600");
                 $(document.getElementById(wiersz)).css("color", "green");
             } else {
@@ -72,8 +73,8 @@ var doklejsumowaniewprowadzonych = function() {
         var wprowadzono = 0;
         var j = 0;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
-            var wiersz = "rozrachunki:dataList:"+j+":pozostalo";
-                wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
+            var wiersz = "rozrachunki:dataList:" + j + ":pozostalo";
+            wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
             if (wprowadzono > MYAPP.limit) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
@@ -85,9 +86,9 @@ var doklejsumowaniewprowadzonych = function() {
     });
 };
 //chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek z przewijaniem
-var przejdzwiersz = function () {
-  var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
-   if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){
+var przejdzwiersz = function() {
+    var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+    if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
     } else {
         MYAPP.nrbiezacegowiersza += 1;
@@ -95,19 +96,19 @@ var przejdzwiersz = function () {
             MYAPP.nrbiezacegowiersza = lolo.length;
         }
     }
-  var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
-  var czynaekranie = isScrolledIntoView(komorki[1]);
-   if (!czynaekranie) {
-    var wysokosc = 70;
-    var elem = document.getElementById('zestawieniedokumentow:dataList');
-    elem.scrollTop = elem.scrollTop + wysokosc;
-  }
-  $(komorki[1]).click();
+    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var czynaekranie = isScrolledIntoView(komorki[1]);
+    if (!czynaekranie) {
+        var wysokosc = 70;
+        var elem = document.getElementById('zestawieniedokumentow:dataList');
+        elem.scrollTop = elem.scrollTop + wysokosc;
+    }
+    $(komorki[1]).click();
 };
 
-var wrocwiersz = function () {
-  var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
-   if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){
+var wrocwiersz = function() {
+    var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+    if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
     } else {
         MYAPP.nrbiezacegowiersza -= 1;
@@ -115,26 +116,26 @@ var wrocwiersz = function () {
             MYAPP.nrbiezacegowiersza = 0;
         }
     }
-  var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
-  var czynaekranie = isScrolledIntoView(komorki[1]);
-   if (!czynaekranie) {
-    var wysokosc = 70;
-    var elem = document.getElementById('zestawieniedokumentow:dataList');
-    elem.scrollTop = elem.scrollTop - wysokosc;
-  }
-  $(komorki[1]).click();
+    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var czynaekranie = isScrolledIntoView(komorki[1]);
+    if (!czynaekranie) {
+        var wysokosc = 70;
+        var elem = document.getElementById('zestawieniedokumentow:dataList');
+        elem.scrollTop = elem.scrollTop - wysokosc;
+    }
+    $(komorki[1]).click();
 };
 
 function isScrolledIntoView(elem)
 {
-    var docViewTop = $(window).scrollTop()+150;
-    var docViewBottom = docViewTop + $(window).height()-300;
+    var docViewTop = $(window).scrollTop() + 150;
+    var docViewBottom = docViewTop + $(window).height() - 300;
 
     var elemTop = $(elem).offset().top;
     var elemBottom = elemTop + $(elem).height();
 
     return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
-      && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+            && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
 
