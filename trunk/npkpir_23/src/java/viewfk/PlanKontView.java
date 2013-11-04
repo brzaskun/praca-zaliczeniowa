@@ -212,6 +212,9 @@ public class PlanKontView implements Serializable{
         return results;  
     }
      
+    
+     
+     
     public void rozwinkonto(String numer){
         Konto sel = kontoDAO.findKonto(numer);
          if(sel!=null&&sel.getRozwin()==false){
