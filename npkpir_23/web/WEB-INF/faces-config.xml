@@ -226,7 +226,7 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKWykaz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
-            <from-outcome>raportyfk</from-outcome>
+            <from-outcome>raportyFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRaporty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
