@@ -5,4 +5,4 @@ var MYAPP = {};
       strX = strX.replace(/\s/g, "");
       return parseFloat(strX);
  }
-
+ 

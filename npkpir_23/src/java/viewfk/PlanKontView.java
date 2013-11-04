@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package viewfk;
 
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
@@ -190,10 +189,11 @@ public class PlanKontView implements Serializable{
     
      public List<Konto> complete(String query) {  
         List<Konto> results = new ArrayList<>();
+        List<Konto> listakont = kontoDAO.findKontaOstAlityka();
         try{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
-        for(Konto p : wykazkontanalityczne) {  
+        for(Konto p : listakont) {  
              if(query.length()==4&&!query.contains("-")){
                  //wstawia - do ciagu konta
                  query = query.substring(0,3)+"-"+query.substring(3,4);
@@ -203,7 +203,7 @@ public class PlanKontView implements Serializable{
              }
         }
         } catch (Exception e){
-          for(Konto p : wykazkont) {  
+          for(Konto p : listakont) {  
              if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                  results.add(p);
              }

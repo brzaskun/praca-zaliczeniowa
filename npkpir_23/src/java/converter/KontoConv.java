@@ -12,7 +12,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
-import view.PlanKontView;
+import viewfk.PlanKontView;
 
 /**
  *

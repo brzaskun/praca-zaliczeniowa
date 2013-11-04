@@ -5,17 +5,17 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:tabView id="menudokumenty" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
-                <p:tab title="wpisywanie">
+    <p:tabView id="menuraporty" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+                <p:tab title="konta">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 340px; text-align: center;">
-                            <p:menuitem value="FVZ" onclick="pierwszy.show();"></p:menuitem>
-                            <p:menuitem value="FVK"></p:menuitem>
+                            <p:menuitem value="Obroty konta" ></p:menuitem>
+                            <p:menuitem value="Zapisy na koncie" onclick="pierwszy.show();"></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
-                <p:tab title="przeglądanie">
+                <p:tab title="zestawienia">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 340px; text-align: center;">
                             <p:menuitem value="Dokumenty" onclick="trzeci.show();"></p:menuitem>
