@@ -75,17 +75,17 @@
             </p:column>
             </p:dataTable>
             <p:panel>
-                <p:commandButton id="wpiszdokbutton" value="zapisz" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument  :zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
-             <p:commandButton id="edytujdokbutton" value="edytuj" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow :zestawieniezapisownakontach :rozrachunki :wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
+                <p:commandButton id="wpiszdokbutton" value="zapisz" styleClass="fkbutton" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument  :zestawieniedokumentow:dataList :zestawieniezapisownakontach:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
+             <p:commandButton id="edytujdokbutton" value="edytuj" styleClass="fkbutton" actionListener="#{dokfkView.edycja()}" update=":zestawieniedokumentow :zestawieniezapisownakontach :rozrachunki :wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
              
              </p:panel>
                 </div>
         </h:form>
        <f:facet name="footer">
            <h:form id="wpisywaniefooter">
-            <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
-            <p:commandButton value="rozrachunki" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>
-            <p:commandButton id="zakmnijwpis" value="rezygnuj" style="float: right;" update=":zestawieniedokumentow :zestawieniezapisownakontach :rozrachunki :wpisywaniefooter"  onclick="pierwszy.hide()"/>
+            <p:commandButton value="usun" actionListener="#{dokfkView.liczbawu}" styleClass="fkbutton" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
+            <p:commandButton value="rozrachunki" styleClass="fkbutton" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>
+            <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" update=":zestawieniedokumentow :zestawieniezapisownakontach :rozrachunki :wpisywaniefooter"  onclick="pierwszy.hide()"/>
              <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
              <h:inputText id="wierszid" value="#{dokfkView.wierszid}" style="display: none;"/>
              <h:inputText id="wnlubma" value="#{dokfkView.wnlubma}" style="display: none;"/>
