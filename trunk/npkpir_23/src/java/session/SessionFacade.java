@@ -476,5 +476,9 @@ public class SessionFacade<T> {
         return (Dokfk) em.createNamedQuery("Dokfk.findByPK").setParameter("dokfkPK", selected.getDokfkPK()).getSingleResult();
     }
 
+    public List<Konto> findKontaOstAlityka() {
+        return em.createNamedQuery("Konto.findByMapotomkow").setParameter("mapotomkow", false).getResultList();
+    }
+
   
 }

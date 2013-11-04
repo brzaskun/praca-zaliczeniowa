@@ -63,6 +63,9 @@ public class DokfkView implements Serializable {
     private String wnlubma;
     List<Wiersze> wierszedoobrobki;
     List<Wiersze> wierszezinnychdokumentow;
+    //do wyswietlania w oknie rozrachunkow aktualnywiersz
+    private double juzrozliczono;
+    private double pozostalodorozliczenia;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public DokfkView() {
@@ -501,11 +504,11 @@ public class DokfkView implements Serializable {
                 }
             }
                if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
-                    aktualnywierszdorozrachunkow.setRozliczonoWn(aktualnywierszdorozrachunkow.getRozliczonoWn()-biezacakwotarozrachunkow);
-                    aktualnywierszdorozrachunkow.setPozostalodorozliczeniaWn(aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoWn());
+                    juzrozliczono  = (aktualnywierszdorozrachunkow.getRozliczonoWn()-biezacakwotarozrachunkow);
+                    pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoWn());
                 } else {
-                    aktualnywierszdorozrachunkow.setRozliczonoMa(aktualnywierszdorozrachunkow.getRozliczonoMa()-biezacakwotarozrachunkow);
-                    aktualnywierszdorozrachunkow.setPozostalodorozliczeniaMa(aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoMa());
+                    juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoMa()-biezacakwotarozrachunkow);
+                    pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoMa());
                }
         } catch (Exception ex) {
             Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
@@ -938,6 +941,25 @@ public class DokfkView implements Serializable {
         this.selected = selected;
     }
 
+    public double getJuzrozliczono() {
+        return juzrozliczono;
+    }
+
+    public void setJuzrozliczono(double juzrozliczono) {
+        this.juzrozliczono = juzrozliczono;
+    }
+
+   
+
+    public double getPozostalodorozliczenia() {
+        return pozostalodorozliczenia;
+    }
+
+    public void setPozostalodorozliczenia(double pozostalodorozliczenia) {
+        this.pozostalodorozliczenia = pozostalodorozliczenia;
+    }
+
+    
     public List<Dokfk> getWykaz() {
         return wykaz;
     }
