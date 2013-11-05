@@ -5,13 +5,13 @@
         <param-value>Production</param-value>
     </context-param> 
     <context-param>
-    <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
-    <param-value>false</param-value>
-</context-param>
-<context-param>
-    <param-name>org.primefaces.extensions.WRAP_PRIME_FACES_RESOURCES</param-name>
-    <param-value>true</param-value>
-</context-param>
+        <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.primefaces.extensions.WRAP_PRIME_FACES_RESOURCES</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>#{themeSwitcherBean.theme}</param-value>
@@ -21,6 +21,12 @@
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
         <param-value>true</param-value>
     </context-param>
+    <!--    to jest potrzebne zeby CKEditor pracowal-->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name> 
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <!--    to jest potrzebne zeby CKEditor pracowal-->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -51,10 +57,10 @@
     <security-role>
         <role-name>Bookkeeper</role-name>
     </security-role>
-     <security-role>
+    <security-role>
         <role-name>BookkeeperFK</role-name>
     </security-role>
-     <security-role>
+    <security-role>
         <role-name>Noobie</role-name>
     </security-role>
     <security-role>
@@ -91,7 +97,7 @@
             <role-name>BookkeeperFK</role-name>
         </auth-constraint>
     </security-constraint>
-      <security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>BookkeeperFK Area</web-resource-name>
             <url-pattern>/faces/ksiegowaFK/*</url-pattern>
@@ -115,7 +121,7 @@
             <role-name>BookkeeperFK</role-name>
         </auth-constraint>
     </security-constraint>
-     <security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>Noobie Area</web-resource-name>
             <url-pattern>/faces/noobie/*</url-pattern>
@@ -133,13 +139,13 @@
         <error-code>403</error-code>
         <location>/faces/AccessDenied.xhtml</location>
     </error-page>
-     <error-page>
+    <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/AccessDenied.xhtml</location>
     </error-page>
-     <!-- Load custom tag into JSF web application -->
+    <!-- Load custom tag into JSF web application -->
     <context-param>
-       <param-name>facelets.LIBRARIES</param-name>
-       <param-value>/WEB-INF/brzaskun.taglib.xml</param-value>
+        <param-name>facelets.LIBRARIES</param-name>
+        <param-value>/WEB-INF/brzaskun.taglib.xml</param-value>
     </context-param>
 </web-app>

@@ -52,4 +52,11 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
             return null;
         }
     }
+     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
+        try {
+            return fakturywystokresoweFacade.findOkresoweOstatnie(podatnik, mc);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
