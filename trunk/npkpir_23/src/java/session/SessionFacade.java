@@ -480,5 +480,35 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByMapotomkow").setParameter("mapotomkow", false).getResultList();
     }
 
+    public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
+        switch (mc) {
+            case "01" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM1").setParameter("podatnik", podatnik).getResultList();
+            case "02" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM2").setParameter("podatnik", podatnik).getResultList();
+            case "03" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM3").setParameter("podatnik", podatnik).getResultList();
+            case "04" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM4").setParameter("podatnik", podatnik).getResultList();
+            case "05" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM5").setParameter("podatnik", podatnik).getResultList();
+            case "06" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).getResultList();
+            case "07" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).getResultList();
+            case "081" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).getResultList();
+            case "09" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).getResultList();
+            case "10" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM10").setParameter("podatnik", podatnik).getResultList();
+            case "11" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM11").setParameter("podatnik", podatnik).getResultList();
+            case "12" : 
+                return em.createNamedQuery("Fakturywystokresowe.findByM12").setParameter("podatnik", podatnik).getResultList();
+        }
+        return null;
+    }
+
   
 }

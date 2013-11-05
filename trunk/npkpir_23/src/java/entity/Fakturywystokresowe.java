@@ -33,18 +33,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fakturywystokresowe.findByNipodbiorcy", query = "SELECT f FROM Fakturywystokresowe f WHERE f.nipodbiorcy = :nipodbiorcy"),
     @NamedQuery(name = "Fakturywystokresowe.findByBrutto", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto"),
     @NamedQuery(name = "Fakturywystokresowe.findByOkresowa", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto AND f.nipodbiorcy = :nipodbiorcy AND f.podatnik = :podatnik"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM1", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m1 = :m1"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM2", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m2 = :m2"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM3", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m3 = :m3"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM4", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m4 = :m4"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM5", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m5 = :m5"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM6", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m6 = :m6"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM7", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m7 = :m7"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM8", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m8 = :m8"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM9", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m9 = :m9"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM10", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m10 = :m10"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM11", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m11 = :m11"),
-    @NamedQuery(name = "Fakturywystokresowe.findByM12", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m12 = :m12")})
+    @NamedQuery(name = "Fakturywystokresowe.findByM1", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m1 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM2", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m2 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM3", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m3 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM4", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m4 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM5", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m5 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM6", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m6 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM7", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m7 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM8", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m8 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM9", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m9 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM10", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m10 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM11", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m11 > 0 and f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByM12", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m12 > 0 and f.podatnik = :podatnik")
+})
 public class Fakturywystokresowe implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

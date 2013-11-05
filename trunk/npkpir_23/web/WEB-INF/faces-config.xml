@@ -25,6 +25,10 @@
             <from-outcome>news</from-outcome>
             <to-view-id>/admin/adminNews.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>mailAD</from-outcome>
+            <to-view-id>/admin/adminMail.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>gdokumenty</from-outcome>
             <to-view-id>/guest/guestIndex.xhtml?faces-redirect=true</to-view-id>
