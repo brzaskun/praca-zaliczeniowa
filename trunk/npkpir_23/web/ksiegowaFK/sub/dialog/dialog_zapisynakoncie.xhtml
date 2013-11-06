@@ -12,16 +12,17 @@
               >
         <p:layout fullPage="false" style="width: 1225px; height: 650px;">  
             <p:layoutUnit position="north" >
+                <h:form id="formwpiskonta">
                     <h:outputText value="wybierz konto: "/>
                     <p:autoComplete id="kontoma" value="#{kontoView.wybranekonto}" completeMethod="#{kontoView.complete}"
                                     var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                     minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
                                     global="false" converterMessage="Nieudana konwersja Klient"
-                                    required="true" requiredMessage="Pole konta nie może byc puste" styleClass="kontoinput" 
+                                    styleClass="kontoinput" 
                                     >
-                        <f:ajax event="keyup" execute="@this"/>
-                        <p:ajax event="blur" update=":form:dataList" />
+                        <p:ajax event="keyup"  listener="#{kontoView.pobierzZapisyNaKoncie}" update=":form:dataList :tabelazzapisami:tabela"/>
                     </p:autoComplete>
+                </h:form>
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
             </p:layoutUnit>  
@@ -33,7 +34,7 @@
                 <h:form id="form">
                     <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{kontoView.wybranekonto}" rowKey="#{loop.id}"
                                  sortBy="#{loop.pelnynumer}" >
-                        <p:ajax event="rowSelect" update=":kontoma" />
+                        <p:ajax event="rowSelect" update=":formwpiskonta:kontoma :tabelazzapisami:tabela" listener="#{kontoView.pobierzZapisyNaKoncie}" />
                         <p:column>
                             <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                             <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
@@ -51,9 +52,31 @@
 <!--            <p:layoutUnit position="east" size="200">  
             </p:layoutUnit>  -->
             <p:layoutUnit position="center">  
-                <h:form>  
-
-                </h:form>  
+                <h:form id="tabelazzapisami">  
+                    <p:dataTable id="tabela" value="#{kontoView.listazapisownakoncie}" var="loop">
+                        <p:column headerText="id">
+                            <h:outputText value="#{loop.idwiersza}"/>
+                        </p:column>
+                         <p:column headerText="data">
+                             <h:outputText value="#{loop.dataksiegowania}"/>
+                        </p:column>
+                        <p:column headerText="opis">
+                            <h:outputText value="#{loop.opis}"/>
+                        </p:column>
+                         <p:column headerText="Wn">
+                             <h:outputText value="#{loop.kwotaWn}"/>
+                        </p:column>
+                        <p:column headerText="Ma">
+                             <h:outputText value="#{loop.kwotaMa}"/>
+                        </p:column>
+                        <p:column headerText="Kono Wn">
+                            <h:outputText value="#{loop.kontoWn.pelnynumer}"/>
+                        </p:column>
+                        <p:column headerText="Konto Ma">
+                            <h:outputText value="#{loop.kontoMa.pelnynumer}"/>
+                        </p:column>
+                    </p:dataTable>
+               </h:form>  
             </p:layoutUnit>  
         </p:layout>  
     </p:dialog>

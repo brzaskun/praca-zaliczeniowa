@@ -9,7 +9,7 @@ var drugionShow = function() {
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
-
+    $(document.getElementById("rozrachunki:dataList:0:kwotarozliczenia_input")).select();
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami

@@ -15,7 +15,8 @@
         <h:form id="formwpisdokument">
             <div style="height: 120px;">
                 <p:panelGrid columns="10">
-                    <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"  onblur="ustawDateFK(2013, 2);" title="wpisz numer dnia, lub miesiąc i dzień">                    <f:ajax event="blur" execute="@this"/>
+                    <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"  onblur="ustawDateFK(2013, 2);" title="wpisz numer dnia, lub miesiąc i dzień">
+                        <f:ajax event="blur" execute="@this"/>
                     </p:inputText>
                     <h:outputText value="symbol"/><h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
                         <f:selectItem itemLabel="FVS" itemValue="FVS"/>

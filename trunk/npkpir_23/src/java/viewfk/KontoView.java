@@ -4,8 +4,10 @@
  */
 package viewfk;
 
+import dao.WierszeDAO;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,15 @@ import javax.inject.Inject;
 @ViewScoped
 public class KontoView  implements Serializable {
     private Konto wybranekonto;
+    private List<Wiersze> listazapisownakoncie;
+    @Inject private WierszeDAO wierszeDAO;
+
+    public KontoView() {
+        
+    }
+    
+    
+    
     @Inject private KontoDAOfk kontoDAO;
 
      public List<Konto> complete(String query) {  
@@ -48,7 +59,21 @@ public class KontoView  implements Serializable {
         return results;  
     }
     
+     public void pobierzZapisyNaKoncie() {
+         listazapisownakoncie = new ArrayList<>();
+         listazapisownakoncie = wierszeDAO.findWierszeZapisy("Kowalski", wybranekonto.getPelnynumer());
+     }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public List<Wiersze> getListazapisownakoncie() {
+        return listazapisownakoncie;
+    }
+
+    public void setListazapisownakoncie(List<Wiersze> listazapisownakoncie) {
+        this.listazapisownakoncie = listazapisownakoncie;
+    }
+       
+     
     public Konto getWybranekonto() {
         return wybranekonto;
     }
