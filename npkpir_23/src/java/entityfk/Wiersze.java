@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Wiersze.findByKontoMa", query = "SELECT w FROM Wiersze w WHERE w.kontoMa = :kontoMa"),
     @NamedQuery(name = "Wiersze.findByKontoWn", query = "SELECT w FROM Wiersze w WHERE w.kontoWn = :kontoWn"),
     @NamedQuery(name = "Wiersze.findByRozrachunki", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik AND (w.kontoWn = :konto OR w.kontoMa = :konto) AND NOT w.dokfk.dokfkPK = :dokfkPK"),
+    @NamedQuery(name = "Wiersze.findByZapisy", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik AND (w.kontonumer = :konto OR w.kontoprzeciwstawne = :konto)"),
     @NamedQuery(name = "Wiersze.findByRozrachunki1", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
 })
 

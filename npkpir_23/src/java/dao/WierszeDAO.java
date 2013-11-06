@@ -42,4 +42,12 @@ public class WierszeDAO extends DAO implements Serializable{
        }
     }
     
+    public List<Wiersze> findWierszeZapisy(String podatnik, String konto) {
+         try {
+           return wierszeFacade.findWierszeZapisy(podatnik, konto);
+       } catch (Exception e ){
+           System.out.println(e);
+           return null;
+       }
+    }
 }
