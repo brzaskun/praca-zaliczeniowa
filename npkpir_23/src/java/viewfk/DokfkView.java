@@ -9,6 +9,7 @@ import dao.WierszeDAO;
 import daoFK.DokDAOfk;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Kontozapisy;
 import entityfk.Rozrachunki;
 import entityfk.RozrachunkiPK;
 import entityfk.Wiersze;
@@ -114,8 +115,8 @@ public class DokfkView implements Serializable {
     public void dodaj() {
         try {
             uzupelnijwierszeodaneEdycja();
-            //nanosimy zapisy na kontach i dodajemy jako pozycję dokumentu fk
-            //nanieszapisynakontach();
+            //nanosimy zapisy na kontach
+            nanieszapisynakontach(selected.getKonta());
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
             Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
             if (poszukiwanydokument instanceof Dokfk) {
@@ -1024,72 +1025,57 @@ public class DokfkView implements Serializable {
         this.rozrachunkiwierszewdokumencie = rozrachunkiwierszewdokumencie;
     }
     //</editor-fold>
-//klasa potrzebna do rozrozniania list rozrachunkow podczas lazenia po kontach
-    //     public void nanieszapisynakontach(){
-//         if (!selected.getZapisynakoncie().isEmpty()){
-//            usunistniejacezapisy(selected.getZapisynakoncie());
-//         }
-//         List<Kontozapisy> zapisynakontach = new ArrayList<>();
-//         String opis = "";
-//         Dokfk x = selected;
-//         List<Wiersze> wierszewdokumencie = x.getKonta();
-//         for(Wiersze p : wierszewdokumencie){
-//         if(p.getTypwiersza()==1){
-//             dodajwn(p, x, opis, zapisynakontach);
-//         } else if(p.getTypwiersza()==2) {
-//             dodajma(p, x, opis, zapisynakontach);
-//         } else {
-//             opis = p.getOpis();
-//             dodajwn(p, x, opis, zapisynakontach);
-//             dodajma(p, x, opis, zapisynakontach);
-//         }
-//         }
-//         x.setNaniesionezapisy(true);
-//         x.setZapisynakoncie(zapisynakontach);
-//         RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-//         Msg.msg("i", "Zapisy na kontacg wygenerowane "+x.getNumer());
-//         
-//     }
-//     private void usunistniejacezapisy(List<Kontozapisy> zachowanezapisy){
-//         try {
-//         for(Kontozapisy p : zachowanezapisy){
-//             kontoZapisyFKDAO.destroy(p);
-//         }
-//         } catch (Exception ex) {
-//             Msg.msg("e", "Błąd przy usuwaniu istniejących zapisó na kontach");
-//         }
-//     }
-//     private void dodajwn(Wiersze p,Dokfk x, String opis, List<Kontozapisy> zapisynakontach){
-//             Kontozapisy kontozapisy = new Kontozapisy();
-//             kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
-//             kontozapisy.setKontoob(p.getKontoWn());
-//             kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-//             kontozapisy.setNumer(x.getNumer());
-//             kontozapisy.setOpis(opis);
-//             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-//             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-//             kontozapisy.setKwotawn(p.getKwotaWn());
-//             kontozapisy.setKwotama(0);
-//             kontozapisy.setDokfk(x);
-//             kontozapisy.setWartoscpierwotna(p.getKwotaWn());
-//             kontozapisy.setDorozliczenia(0);
-//             zapisynakontach.add(kontozapisy);             
-//     }
-//     
-//     private void dodajma(Wiersze p,Dokfk x, String opis,  List<Kontozapisy> zapisynakontach){
-//             Kontozapisy kontozapisy = new Kontozapisy();
-//             kontozapisy.setKonto(p.getKontoMa().getPelnynumer());
-//             kontozapisy.setKontoob(p.getKontoMa());
-//             kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-//             kontozapisy.setNumer(x.getNumer());
-//             kontozapisy.setOpis(opis);
-//             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-//             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-//             kontozapisy.setKwotawn(0);
-//             kontozapisy.setKwotama(p.getKwotaMa());
-//             kontozapisy.setDokfk(x);
-//             kontozapisy.setWartoscpierwotna(p.getKwotaMa());
-//             kontozapisy.setDorozliczenia(0);
-//             zapisynakontach.add(kontozapisy);
-//     }
+
+         public void nanieszapisynakontach(List<Wiersze> wiersze){
+         String opis = "";
+         for (Wiersze p : wiersze) {
+         if (p.getZapisynakontach() != null) {
+            p.getZapisynakontach().clear();
+         }
+         List<Kontozapisy> zapisynakontach = new ArrayList<>();
+         if(p.getTypwiersza()==1){
+             dodajwn(p, opis, zapisynakontach);
+         } else if(p.getTypwiersza()==2) {
+             dodajma(p, opis, zapisynakontach);
+         } else {
+             opis = p.getOpis();
+             dodajwn(p, opis, zapisynakontach);
+             dodajma(p, opis, zapisynakontach);
+         }
+         p.setZapisynakontach(zapisynakontach);
+         }
+         Msg.msg("i", "Zapisy na kontacg wygenerowane "+wiersz.getIdwiersza());
+     }
+         
+    
+     private void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach){
+             Kontozapisy kontozapisy = new Kontozapisy();
+             kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
+             kontozapisy.setKontoob(p.getKontoWn());
+             kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+             kontozapisy.setWiersz(p);
+             kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+             kontozapisy.setOpis(opis);
+             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
+             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+             kontozapisy.setKwotawn(p.getKwotaWn());
+             kontozapisy.setKwotama(0);
+             zapisynakontach.add(kontozapisy);             
+     }
+     
+     private void dodajma(Wiersze p, String opis,  List<Kontozapisy> zapisynakontach){
+             Kontozapisy kontozapisy = new Kontozapisy();
+             kontozapisy.setKonto(p.getKontoMa().getPelnynumer());
+             kontozapisy.setKontoob(p.getKontoMa());
+             kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+             kontozapisy.setWiersz(p);
+             kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+             kontozapisy.setOpis(opis);
+             kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
+             kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+             kontozapisy.setKwotawn(0);
+             kontozapisy.setKwotama(p.getKwotaMa());
+//           kontozapisy.setDokfk(x);
+             zapisynakontach.add(kontozapisy);
+     }
 }

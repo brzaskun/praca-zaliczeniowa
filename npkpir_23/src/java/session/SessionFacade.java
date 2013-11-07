@@ -38,6 +38,7 @@ import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
+import entityfk.Kontozapisy;
 import entityfk.Rozrachunki;
 import entityfk.Wiersze;
 //import entityfk.Rozrachunki;
@@ -514,6 +515,19 @@ public class SessionFacade<T> {
         }
         return null;
     }
+  public List<Kontozapisy> findZapisyNumer(String numer) {
+        return  em.createNamedQuery("Kontozapisy.findByNumer").setParameter("numer", numer).getResultList();
+    }
+    
+    public List<Kontozapisy> findZapisyKonto(String konto) {
+        return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
+    }
+    
+     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto) {
+        return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
+    }
+
+
 
   
 }

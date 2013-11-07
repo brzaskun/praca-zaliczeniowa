@@ -121,6 +121,8 @@ public class Wiersze implements Serializable {
     private List<Rozrachunki> rozrachunkijakosparowany;
     @OneToMany(mappedBy = "wierszrozliczany", cascade = CascadeType.ALL, targetEntity = Rozrachunki.class,  orphanRemoval=true)
     private List<Rozrachunki> rozrachunkijakorozliczany;
+    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
+    private List<Kontozapisy> zapisynakontach;
    
     
 
@@ -149,6 +151,15 @@ public class Wiersze implements Serializable {
     public void setDataksiegowania(String dataksiegowania) {
         this.dataksiegowania = dataksiegowania;
     }
+
+    public List<Kontozapisy> getZapisynakontach() {
+        return zapisynakontach;
+    }
+
+    public void setZapisynakontach(List<Kontozapisy> zapisynakontach) {
+        this.zapisynakontach = zapisynakontach;
+    }
+    
     
     public Integer getIdwiersza() {
         return idwiersza;
