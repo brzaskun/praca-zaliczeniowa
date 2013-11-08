@@ -69,7 +69,13 @@
                         <p:column headerText="Ma">
                             <h:outputText value="#{loop.kwotama}"/>
                         </p:column>
-                        <p:column headerText="Kono przeciwstawne">
+                        <p:column headerText="Konto nr">
+                             <h:outputText value="#{loop.konto}"/>
+                        </p:column>
+                        <p:column headerText="Konto nazwa">
+                            <h:outputText value="#{loop.kontoob.nazwapelna}"/>
+                        </p:column>
+                        <p:column headerText="Konto przeciwstawne">
                             <h:outputText value="#{loop.kontoprzeciwstawne}"/>
                         </p:column>
                     </p:dataTable>

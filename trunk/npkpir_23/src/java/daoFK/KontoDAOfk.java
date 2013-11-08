@@ -51,6 +51,15 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
    }
+
+    public List<Konto> findKontaPotomne(String macierzyste) {
+        try {
+            System.out.println("Pobieram KontoDAO ostatnie analityki");
+            return kontoFacade.findKontaPotomne(macierzyste);
+        } catch (Exception e) {
+            return null;
+        } 
+    }
    
  
 }

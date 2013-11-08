@@ -527,6 +527,10 @@ public class SessionFacade<T> {
         return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
 
+    public List<Konto> findKontaPotomne(String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
+    }
+
 
 
   
