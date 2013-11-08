@@ -145,7 +145,7 @@ public class DokfkView implements Serializable {
     public void edycja() {
         try {
             uzupelnijwierszeodaneEdycja();
-            //nanieszapisynakontach();
+            nanieszapisynakontach(selected.getKonta());
             dokDAOfk.edit(selected);
             zapisznaniesionerozrachunkiwbaziedanych();
             wykaz.clear();
