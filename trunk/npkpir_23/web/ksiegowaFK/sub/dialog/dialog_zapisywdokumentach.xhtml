@@ -13,7 +13,7 @@
             <p:contextMenu id="contextmenuwpis" for=":zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="pierwszy.show();" oncomplete="$(document.getElementById('formwpisdokument:dataList:#{dokfkView.numerwierszazapisu}:opis')).select();"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1100px;" widgetVar="dokwpisTable"
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1200px;" widgetVar="dokwpisTable"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" scrollable="true" scrollHeight="500">
                 <p:ajax event="rowSelect" listener="#{dokfkView.znajdzdokumentzzapisu()}"/>
                 <f:facet name="header">  
@@ -24,25 +24,29 @@
                 <p:column headerText="idwiersza" width="50">
                     <h:outputText value="#{loop.idwiersza}"/>
                 </p:column>
-                <p:column headerText="konto" width="100" filterBy="#{loop.kontonumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontonumer}">
-                    <h:outputText value="#{loop.kontonumer}"/>
+                <p:column headerText="iddokumentu" width="150">
+                  <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk}/#{loop.dokfk.dokfkPK.nrkolejny}/#{loop.dokfk.dokfkPK.rok}"/>
                 </p:column>
-                <p:column headerText="iddokumentu" width="100">
-                    <h:outputText value="#{loop.dokfk.dokfkPK.nrkolejny}"/>
+                <p:column headerText="nr własny" width="100">
+                    <h:outputText value="#{loop.dokfk.numer}"/>
                 </p:column>
                 <p:column headerText="opis" width="100" filterBy="#{loop.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opis}">
                     <h:outputText value="#{loop.opis}" rendered="#{loop.typwiersza eq 0 ? true : false}"/>
                 </p:column>
-                <p:column headerText="kwotawn" width="100" filterBy="#{loop.kwotaWn}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaWn}">
-                    <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}"/>
+                <p:column headerText="kwota Wn" width="100" filterBy="#{loop.kwotaWn}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaWn}">
+                    <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
-                <p:column headerText="kontown" width="100"  filterBy="#{loop.kontoWn.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoWn.pelnynumer}">
+                <p:column headerText="konto Wn" width="100"  filterBy="#{loop.kontoWn.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoWn.pelnynumer}">
                     <h:outputText value="#{loop.kontoWn.pelnynumer}" />
                 </p:column>
-                <p:column headerText="kontoma" width="100" filterBy="#{loop.kwotaMa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaMa}">
-                    <h:outputText value="#{loop.kwotaMa}" rendered="#{loop.kwotaMa eq 0 ? false : true}"/>
+                <p:column headerText="kwota Ma" width="100" filterBy="#{loop.kwotaMa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaMa}">
+                    <h:outputText value="#{loop.kwotaMa}" rendered="#{loop.kwotaMa eq 0 ? false : true}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                 </p:column>
-                <p:column headerText="kontoma" width="100"   filterBy="#{loop.kontoMa.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoMa.pelnynumer}">
+                <p:column headerText="konto Ma" width="100"   filterBy="#{loop.kontoMa.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoMa.pelnynumer}">
                     <h:outputText value="#{loop.kontoMa.pelnynumer}" />
                 </p:column>
             </p:dataTable>

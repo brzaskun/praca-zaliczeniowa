@@ -596,7 +596,7 @@ public class DokfkView implements Serializable {
         for (Wiersze s : obrabianewiersze) {
             boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(obrabianyrozrachunek.getWierszrozliczany().getDokfk().getDokfkPK());
             boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(obrabianyrozrachunek.getWierszrozliczany().getIdporzadkowy());
-            if (sprawdzPK && sprawdzIdporzadkowy) {
+            if (sprawdzPK && sprawdzIdporzadkowy && kwotadonaniesienia != 0.0) {
                 if (s.getWnlubma().equals("Wn")) {
                     //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
                     if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())){
@@ -628,7 +628,7 @@ public class DokfkView implements Serializable {
         for (Wiersze s : obrabianewiersze) {
             boolean sprawdzPK = s.getDokfk().getDokfkPK().equals(obrabianyrozrachunek.getWierszsparowany().getDokfk().getDokfkPK());
             boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(obrabianyrozrachunek.getWierszsparowany().getIdporzadkowy());
-            if (sprawdzPK && sprawdzIdporzadkowy) {
+            if (sprawdzPK && sprawdzIdporzadkowy && kwotadonaniesienia != 0.0) {
                 if (s.getWnlubma().equals("Wn")) {
                     if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())){
                         try {
@@ -922,6 +922,8 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
         //RequestContext.getCurrentInstance().execute("$(#formwpisdokument\\\\:dataList\\\\:5\\\\:opis).select()");
     }
+    
+    
 
     //mesydz, ze wybrano dokument do edycji
     public void wybranodokmessage() {

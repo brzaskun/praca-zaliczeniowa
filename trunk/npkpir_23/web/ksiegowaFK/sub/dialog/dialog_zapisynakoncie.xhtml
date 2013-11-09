@@ -21,6 +21,7 @@
                                     styleClass="kontoinput" 
                                     >
                         <p:ajax event="keyup"  listener="#{kontoZapisyFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelazzapisami:tabela, :sumy"/>
+                        <p:ajax event="blur"  listener="#{kontoZapisyFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelazzapisami:tabela, :sumy"/>
                     </p:autoComplete>
                 </h:form>
             </p:layoutUnit>  
@@ -53,7 +54,7 @@
             <p:layoutUnit position="center">
                 <h:form id="tabelazzapisami">  
                     <p:dataTable id="tabela" value="#{kontoZapisyFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisyFKView.wybranekontadosumowania}" style="width: 870px;">
+                                 selection="#{kontoZapisyFKView.wybranekontadosumowania}" style="width: 870px;" sortBy="#{loop.wiersz.idwiersza}" >
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
