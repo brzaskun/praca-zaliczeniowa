@@ -206,9 +206,9 @@ public class DokfkView implements Serializable {
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
-                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
-                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
-                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
+                    p.setKonto(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
+                    p.setKontonumer(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setPozostalodorozliczeniaWn(p.getKwotaWn());
                     p.setPozostalodorozliczeniaMa(p.getKwotaMa());
@@ -250,9 +250,9 @@ public class DokfkView implements Serializable {
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
-                    p.setKonto(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
-                    p.setKontonumer(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
-                    p.setKontoprzeciwstawne(p.getKontoWn().getNazwaskrocona().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
+                    p.setKonto(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoWn() : p.getKontoMa());
+                    p.setKontonumer(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoWn().getPelnynumer() : p.getKontoMa().getPelnynumer());
+                    p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoMa().getPelnynumer() : p.getKontoWn().getPelnynumer());
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setTypwiersza(0);
                     p.setDokfk(selected);
@@ -404,7 +404,7 @@ public class DokfkView implements Serializable {
                 if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
                     if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
                         p.setKonto(p.getKontoMa());
-                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontonumer(p.getKonto().getPelnynumer());
                         //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
                         //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
                         p.setKwotapierwotna(p.getKwotaMa());
@@ -431,7 +431,7 @@ public class DokfkView implements Serializable {
                 } else {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
                         p.setKonto(p.getKontoWn());
-                        p.setKontonumer(p.getKonto().getNazwapelna());
+                        p.setKontonumer(p.getKonto().getPelnynumer());
                         //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
                         //p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
                         p.setKwotapierwotna(p.getKwotaWn());
@@ -599,20 +599,24 @@ public class DokfkView implements Serializable {
             if (sprawdzPK && sprawdzIdporzadkowy) {
                 if (s.getWnlubma().equals("Wn")) {
                     //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                    try {
-                        s.setRozliczonoWn(kwotadotychczasowa + kwotadonaniesienia);
-                    } catch (Exception e1) {
-                        s.setRozliczonoWn(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())){
+                        try {
+                            s.setRozliczonoWn(kwotadotychczasowa + kwotadonaniesienia);
+                        } catch (Exception e1) {
+                            s.setRozliczonoWn(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                        }
+                        s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                     }
-                    s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                 } else {
                     //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                    try {
-                        s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
-                    } catch (Exception e1) {
-                        s.setRozliczonoMa(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())){
+                        try {
+                            s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
+                        } catch (Exception e1) {
+                            s.setRozliczonoMa(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                        }
+                        s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                     }
-                    s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                 }
             }
         }
@@ -626,20 +630,24 @@ public class DokfkView implements Serializable {
             boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(obrabianyrozrachunek.getWierszsparowany().getIdporzadkowy());
             if (sprawdzPK && sprawdzIdporzadkowy) {
                 if (s.getWnlubma().equals("Wn")) {
-                    try {
-                        s.setRozliczonoWn(s.getRozliczonoWn() + kwotadonaniesienia);
-                    } catch (Exception e1) {
-                        s.setRozliczonoWn(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())){
+                        try {
+                            s.setRozliczonoWn(s.getRozliczonoWn() + kwotadonaniesienia);
+                        } catch (Exception e1) {
+                            s.setRozliczonoWn(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                        }
+                        s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                     }
-                    s.setPozostalodorozliczeniaWn(s.getKwotaWn() - s.getRozliczonoWn());
                 } else {
                     //aby nie podsumowywac wiersza 
-                    try {
-                        s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
-                    } catch (Exception e1) {
-                        s.setRozliczonoMa(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())){
+                        try {
+                            s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
+                        } catch (Exception e1) {
+                            s.setRozliczonoMa(obrabianyrozrachunek.getBiezacakwotarozrachunku());
+                        }
+                        s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                     }
-                    s.setPozostalodorozliczeniaMa(s.getKwotaMa() - s.getRozliczonoMa());
                 }
             }
         }
