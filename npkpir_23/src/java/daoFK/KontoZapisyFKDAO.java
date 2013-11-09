@@ -5,7 +5,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Konto;
 import entityfk.Kontozapisy;
 import java.io.Serializable;
 import java.util.ArrayList;

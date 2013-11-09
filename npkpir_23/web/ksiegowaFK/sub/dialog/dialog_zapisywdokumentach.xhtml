@@ -33,13 +33,13 @@
                 <p:column headerText="opis" width="100" filterBy="#{loop.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opis}">
                     <h:outputText value="#{loop.opis}" rendered="#{loop.typwiersza eq 0 ? true : false}"/>
                 </p:column>
-                <p:column headerText="kwotawn" width="100">
+                <p:column headerText="kwotawn" width="100" filterBy="#{loop.kwotaWn}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaWn}">
                     <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}"/>
                 </p:column>
                 <p:column headerText="kontown" width="100"  filterBy="#{loop.kontoWn.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoWn.pelnynumer}">
                     <h:outputText value="#{loop.kontoWn.pelnynumer}" />
                 </p:column>
-                <p:column headerText="kontoma" width="100">
+                <p:column headerText="kontoma" width="100" filterBy="#{loop.kwotaMa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaMa}">
                     <h:outputText value="#{loop.kwotaMa}" rendered="#{loop.kwotaMa eq 0 ? false : true}"/>
                 </p:column>
                 <p:column headerText="kontoma" width="100"   filterBy="#{loop.kontoMa.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoMa.pelnynumer}">

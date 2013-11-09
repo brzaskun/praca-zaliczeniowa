@@ -35,64 +35,88 @@ public class Rozrachunki implements Serializable {
     protected RozrachunkiPK rozrachunkiPK;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name="kwotarozrachunku")
     private double kwotarozrachunku;
+    @Column(name="kontorozliczanenr")
+    private String kontorozliczanenr;
+    @Column(name="kontosparowanenr")
+    private String kontosparowanenr;
     @JoinColumn(name = "wierszsparowany", referencedColumnName = "idwiersza")
     @ManyToOne(optional = false)
     private Wiersze wierszsparowany;
     @JoinColumn(name = "wierszrozliczany", referencedColumnName = "idwiersza")
     @ManyToOne(optional = false)
     private Wiersze wierszrozliczany;
+    
 
     public Rozrachunki() {
     }
-
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
     public Rozrachunki(RozrachunkiPK rozrachunkiPK) {
         this.rozrachunkiPK = rozrachunkiPK;
     }
-
+    
     public Rozrachunki(RozrachunkiPK rozrachunkiPK, double kwotarozrachunku) {
         this.rozrachunkiPK = rozrachunkiPK;
         this.kwotarozrachunku = kwotarozrachunku;
     }
-
+    
     public Rozrachunki(int zapisrozliczany, int zapissparowany) {
         this.rozrachunkiPK = new RozrachunkiPK(zapisrozliczany, zapissparowany);
     }
-
+    
     public RozrachunkiPK getRozrachunkiPK() {
         return rozrachunkiPK;
     }
-
+    
     public void setRozrachunkiPK(RozrachunkiPK rozrachunkiPK) {
         this.rozrachunkiPK = rozrachunkiPK;
     }
-
+    
+    public String getKontorozliczanenr() {
+        return kontorozliczanenr;
+    }
+    
+    public void setKontorozliczanenr(String kontorozliczanenr) {
+        this.kontorozliczanenr = kontorozliczanenr;
+    }
+    
+    public String getKontosparowanenr() {
+        return kontosparowanenr;
+    }
+    
+    public void setKontosparowanenr(String kontosparowanenr) {
+        this.kontosparowanenr = kontosparowanenr;
+    }
+    
+    
     public double getKwotarozrachunku() {
         return kwotarozrachunku;
     }
-
+    
     public void setKwotarozrachunku(double kwotarozrachunku) {
         this.kwotarozrachunku = kwotarozrachunku;
     }
-
+    
     public Wiersze getWierszsparowany() {
         return wierszsparowany;
     }
-
+    
     public void setWierszsparowany(Wiersze wierszsparowany) {
         this.wierszsparowany = wierszsparowany;
     }
-
+    
     public Wiersze getWierszrozliczany() {
         return wierszrozliczany;
     }
-
+    
     public void setWierszrozliczany(Wiersze wierszrozliczany) {
         this.wierszrozliczany = wierszrozliczany;
     }
-
     
+    
+    //</editor-fold>
    
 
     @Override

@@ -30,6 +30,7 @@ public class KontoZapisyFKView implements Serializable{
     private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
+    private List<Kontozapisy> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
@@ -41,6 +42,7 @@ public class KontoZapisyFKView implements Serializable{
 
     public KontoZapisyFKView() {
         kontozapisy = new ArrayList<>();
+        wybranekontadosumowania = new ArrayList<>();    
     }
     
     @PostConstruct
@@ -63,6 +65,7 @@ public class KontoZapisyFKView implements Serializable{
          } else {
              kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
          }
+         sumazapisow();
      }
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
@@ -90,49 +93,11 @@ public class KontoZapisyFKView implements Serializable{
           wykaz.addAll(listakontposrednia);
       }
     
-    public void selekcjakont(){
-        kontozapisy = new ArrayList<>();
-        List<Konto> konta = kontoDAOfk.findAll();
-        for(Konto p : konta){
-            if(p.getPelnynumer().startsWith(wybranekonto.getPelnynumer())){
-                kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKonto(p.getPelnynumer()));
-            }
-        }
-        sumazapisow();
-        RequestContext.getCurrentInstance().update("formB:sumy");
-        RequestContext.getCurrentInstance().update("formD:dataList");
-        RequestContext.getCurrentInstance().update("formE:dataList");
-    }
-    
-    public void selekcjakontrozrachunki(){
-        kontorozrachunki = new ArrayList<>();
-//        List<Konto> konta = kontoDAOfk.findAll();
-//        for(Konto p : konta){
-//            if(p.getPelnynumer().startsWith(wybranyzapis.getKonto()){
-                kontorozrachunki.addAll(kontoZapisyFKDAO.findZapisyKonto(wybranyzapis.getKonto()));
-                boolean wn = (wybranyzapis.getKwotawn() > 0 ? true : false);
-                Iterator it;
-                it = kontorozrachunki.iterator();
-                while(it.hasNext()){
-                    Kontozapisy p = (Kontozapisy) it.next();
-                    if(wn && p.getKwotawn()>0){
-                        it.remove();
-                    }
-                    if(!wn && p.getKwotama()>0){
-                        it.remove();
-                    }
-                }
-//            }
-//        }
-        RequestContext.getCurrentInstance().update("formB:sumy");
-        RequestContext.getCurrentInstance().update("formD:dataList");
-        RequestContext.getCurrentInstance().update("formE");
-    }
-    
-    private void sumazapisow(){
+      
+    public void sumazapisow(){
         sumaWn = 0.0;
         sumaMa = 0.0;
-        for(Kontozapisy p : kontozapisy){
+        for(Kontozapisy p : wybranekontadosumowania){
             sumaWn = sumaWn + p.getKwotawn();
             sumaMa = sumaMa + p.getKwotama();
         }
@@ -145,79 +110,88 @@ public class KontoZapisyFKView implements Serializable{
         }
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Kontozapisy> getKontozapisy() {
         return kontozapisy;
     }
-
+    
     public void setKontozapisy(List<Kontozapisy> kontozapisy) {
         this.kontozapisy = kontozapisy;
     }
-
+    
     public KontoZapisyFKDAO getKontoZapisyFKDAO() {
         return kontoZapisyFKDAO;
     }
-
+    
     public void setKontoZapisyFKDAO(KontoZapisyFKDAO kontoZapisyFKDAO) {
         this.kontoZapisyFKDAO = kontoZapisyFKDAO;
     }
-
+    
     public Konto getWybranekonto() {
         return wybranekonto;
     }
-
+    
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
-
-  
-
+    
+    public List<Kontozapisy> getWybranekontadosumowania() {
+        return wybranekontadosumowania;
+    }
+    
+    public void setWybranekontadosumowania(List<Kontozapisy> wybranekontadosumowania) {
+        this.wybranekontadosumowania = wybranekontadosumowania;
+    }
+    
+    
     public Double getSumaWn() {
         return sumaWn;
     }
-
+    
     public void setSumaWn(Double sumaWn) {
         this.sumaWn = sumaWn;
     }
-
+    
     public Double getSumaMa() {
         return sumaMa;
     }
-
+    
     public void setSumaMa(Double sumaMa) {
         this.sumaMa = sumaMa;
     }
-
+    
     public Double getSaldoWn() {
         return saldoWn;
     }
-
+    
     public void setSaldoWn(Double saldoWn) {
         this.saldoWn = saldoWn;
     }
-
+    
     public Double getSaldoMa() {
         return saldoMa;
     }
-
+    
     public void setSaldoMa(Double saldoMa) {
         this.saldoMa = saldoMa;
     }
-
+    
     public List<Kontozapisy> getKontorozrachunki() {
         return kontorozrachunki;
     }
-
+    
     public void setKontorozrachunki(List<Kontozapisy> kontorozrachunki) {
         this.kontorozrachunki = kontorozrachunki;
     }
-
+    
     public Kontozapisy getWybranyzapis() {
         return wybranyzapis;
     }
-
+    
     public void setWybranyzapis(Kontozapisy wybranyzapis) {
         this.wybranyzapis = wybranyzapis;
     }
+    //</editor-fold>
 
    
 }
