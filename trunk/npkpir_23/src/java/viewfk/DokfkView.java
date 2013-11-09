@@ -520,6 +520,7 @@ public class DokfkView implements Serializable {
     //i trzeba jednak usunac pola rozrachunkow
 
     private void usungdyrozrachunekjestNowaTransakcja() {
+        //dezaktywuje kwote do wpisania gdy dany rozrachunek zostal rozliczony chocby czesciowo
         for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
             rozrachunek.setPozwolnawpis(true);
         }
@@ -685,6 +686,13 @@ public class DokfkView implements Serializable {
                     r.setKwotarozrachunku(p.getBiezacakwotarozrachunku());
                     r.setWierszrozliczany(p.getWierszrozliczany());
                     r.setWierszsparowany(p.getWierszsparowany());
+                    if (p.getWnlubma().equals("Wn")) {
+                        r.setKontorozliczanenr(p.getWierszrozliczany().getKontoWn().getPelnynumer());
+                        r.setKontosparowanenr(p.getWierszsparowany().getKontoMa().getPelnynumer());
+                    } else {
+                        r.setKontorozliczanenr(p.getWierszrozliczany().getKontoMa().getPelnynumer());
+                        r.setKontosparowanenr(p.getWierszsparowany().getKontoWn().getPelnynumer());
+                    }
                     for (Wiersze s : listawierszy) {
                         if (s.getIdwiersza().equals(p.getWierszrozliczany().getIdwiersza())) {
                             if (r.getKwotarozrachunku() == 0.0) {
@@ -712,6 +720,16 @@ public class DokfkView implements Serializable {
         } catch (Exception ex) {
             System.out.println("Nie naniesiono rozrachunkow " + ex.getMessage());
             Msg.msg("w", "Nie naniesiono rozrachunkow " + ex.getMessage());
+        }
+    }
+    
+    //***************************************
+    public void znajdzduplicatdokumentu() {
+        Dokfk dokument = dokDAOfk.findDokfkObj(selected);
+        if (dokument != null) {
+            Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+        } else {
+            Msg.msg("i", "Go on Master");
         }
     }
 
