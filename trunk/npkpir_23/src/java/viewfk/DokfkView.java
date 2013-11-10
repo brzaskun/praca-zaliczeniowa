@@ -754,6 +754,13 @@ public class DokfkView implements Serializable {
             Msg.msg("i", "Go on Master");
         }
     }
+    
+    public void wygenerujokreswpisudokumentu() {
+        String data = (String) Params.params("formwpisdokument:datka");
+        String mc = data.split("-")[1];
+        selected.setMiesiac(mc);
+        RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+    }
 
     //********************klasy pomocnicze
     //zlozony klucz listy przechowujacej listy RozrachunkiTmp podczas biezacego wpisywania

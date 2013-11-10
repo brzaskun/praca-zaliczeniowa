@@ -60,10 +60,9 @@ public class Dokfk implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
     private List<Wiersze> konta;
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
-//    @OrderBy("id")
-//    private List<Kontozapisy> zapisynakoncie;
-  
+    @Column(name = "miesiac")
+    private String miesiac;
+
     
     
     public Dokfk() {
@@ -88,6 +87,15 @@ public class Dokfk implements Serializable {
     public DokfkPK getDokfkPK() {
         return dokfkPK;
     }
+
+    public String getMiesiac() {
+        return miesiac;
+    }
+
+    public void setMiesiac(String miesiac) {
+        this.miesiac = miesiac;
+    }
+    
     
     public void setDokfkPK(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
