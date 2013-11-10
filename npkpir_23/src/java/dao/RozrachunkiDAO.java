@@ -39,4 +39,13 @@ public class RozrachunkiDAO extends DAO implements Serializable{
             return null;
         }
    }
+    
+    public  List<Rozrachunki> findSparowany(Integer zapissparowany){
+        try {
+            System.out.println("Pobieram RozrachunkiDAO wg Sparowanego");
+            return rozrachunkiFacade.findSparowany(zapissparowany);
+        } catch (Exception e) {
+            return null;
+        }
+   }
 }

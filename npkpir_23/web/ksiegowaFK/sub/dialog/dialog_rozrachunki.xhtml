@@ -69,7 +69,7 @@
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"/>
+                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki" rendered="#{loop.pozwolnawpis}" />
             </div>
         </h:form>
         <f:facet name="footer">

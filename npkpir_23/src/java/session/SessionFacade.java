@@ -450,7 +450,9 @@ public class SessionFacade<T> {
     public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
         return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
     }
-     
+    public List<Rozrachunki> findSparowany(Integer zapissparowany) {
+        return em.createNamedQuery("Rozrachunki.findByZapissparowany").setParameter("zapissparowany", zapissparowany).getResultList();
+    } 
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
