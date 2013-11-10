@@ -31,7 +31,7 @@ public class KontoObrotyFKView implements Serializable{
     private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
-    private List<Kontozapisy> wybranekontadosumowania;
+    private List<ObrotykontaTabela> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
@@ -105,9 +105,9 @@ public class KontoObrotyFKView implements Serializable{
     public void sumazapisow(){
         sumaWn = 0.0;
         sumaMa = 0.0;
-        for(Kontozapisy p : kontozapisy){
-            sumaWn = sumaWn + p.getKwotawn();
-            sumaMa = sumaMa + p.getKwotama();
+        for(ObrotykontaTabela p : wybranekontadosumowania){
+            sumaWn = sumaWn + p.getKwotaWn();
+            sumaMa = sumaMa + p.getKwotaMa();
         }
         saldoWn = 0.0;
         saldoMa = 0.0;
@@ -132,18 +132,42 @@ public class KontoObrotyFKView implements Serializable{
         lista.add(new ObrotykontaTabela("2013","listopad"));
         lista.add(new ObrotykontaTabela("2013","grudzień"));
         for (Kontozapisy p : kontozapisy) {
-            ObrotykontaTabela tmp = lista.get(1);
+            ObrotykontaTabela tmp = new ObrotykontaTabela();
+            switch (p.getWiersz().getDokfk().getMiesiac()) {
+                case "01" : tmp = lista.get(0); break;
+                case "02" : tmp = lista.get(1); break;
+                case "03" : tmp = lista.get(2); break;
+                case "04" : tmp = lista.get(3); break;
+                case "05" : tmp = lista.get(4); break;
+                case "06" : tmp = lista.get(5); break;
+                case "07" : tmp = lista.get(6); break;
+                case "08" : tmp = lista.get(7); break;
+                case "09" : tmp = lista.get(8); break;
+                case "10" : tmp = lista.get(9); break;
+                case "11" : tmp = lista.get(10); break;
+                case "12" : tmp = lista.get(11); break;
+            }
             tmp.setKwotaWn(tmp.getKwotaWn()+p.getKwotawn());
             tmp.setKwotaMa(tmp.getKwotaMa()+p.getKwotama());
-            tmp.setKwotaWnnarastajaco(tmp.getKwotaWn());
-            tmp.setKwotaManarastajaco(tmp.getKwotaMa());
+        }
+        //a teraz czas na sumowanie narastajaco i wyliczanie sald
+        double sumaWn = 0.0;
+        double sumaMa = 0.0;
+        for (ObrotykontaTabela tmp: lista) {
+            sumaWn += tmp.getKwotaWn();
+            tmp.setKwotaWnnarastajaco(sumaWn);
+            sumaMa += tmp.getKwotaMa();
+            tmp.setKwotaManarastajaco(sumaMa);
             double kwota = tmp.getKwotaWnnarastajaco()-tmp.getKwotaManarastajaco();
             if (kwota > 0) {
                 tmp.setKwotaWnsaldo(kwota);
                 tmp.setKwotaMasaldo(0);
-            } else {
+            } else if (kwota < 0 ) {
                 tmp.setKwotaWnsaldo(0);
                 tmp.setKwotaMasaldo(-kwota);
+            } else {
+                tmp.setKwotaWnsaldo(0);
+                tmp.setKwotaMasaldo(0);
             }
         }
         
@@ -174,12 +198,12 @@ public class KontoObrotyFKView implements Serializable{
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
-    
-    public List<Kontozapisy> getWybranekontadosumowania() {
+
+    public List<ObrotykontaTabela> getWybranekontadosumowania() {
         return wybranekontadosumowania;
     }
-    
-    public void setWybranekontadosumowania(List<Kontozapisy> wybranekontadosumowania) {
+
+    public void setWybranekontadosumowania(List<ObrotykontaTabela> wybranekontadosumowania) {
         this.wybranekontadosumowania = wybranekontadosumowania;
     }
     
