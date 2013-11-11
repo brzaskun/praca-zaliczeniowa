@@ -525,12 +525,20 @@ public class SessionFacade<T> {
         return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
     }
     
+    public List<Kontozapisy> findZapisyWierszID(int wierszID) {
+        return  em.createNamedQuery("Kontozapisy.findByWierszID").setParameter("wierszID", wierszID).getResultList();
+    }
+    
      public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto) {
         return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
 
     public List<Konto> findKontaPotomne(String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
+    }
+
+    public List<Rozrachunki> findRozrachunekByWierszID(Integer wierszID) {
+        return em.createNamedQuery("Rozrachunki.findByWierszID").setParameter("wierszID", wierszID).getResultList();
     }
 
 

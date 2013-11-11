@@ -19,17 +19,17 @@
                  <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single">
                      <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}" update=":formwpisdokument" />
-            <p:column headerText="data" width="100">
+            <p:column headerText="data" width="90">
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
-             <p:column headerText="symbol" width="150">
+            <p:column headerText="okres" width="90">
+                <h:outputText value="#{item.miesiac}/#{item.dokfkPK.rok}"/>
+            </p:column>
+             <p:column headerText="symbol" width="100">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="numer" width="100">
                     <h:outputText value="#{item.numer}"/>
-            </p:column>
-            <p:column headerText="zaksieg." width="80">
-                    <h:outputText value="#{item.naniesionezapisy}"/>
             </p:column>
             <p:column headerText="konta">
                 <p:dataTable var="wpis" value="#{item.konta}" editable="true">

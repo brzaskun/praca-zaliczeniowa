@@ -139,4 +139,36 @@ function isScrolledIntoView(elem)
             && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
+//podswietla powiazane rozrachunki w zapisach konta
+var podswietlrozrachunki = function () {
+    var listawierszy = document.getElementById("zapisydopodswietlenia").innerHTML;
+    listawierszy = listawierszy.replace(/[^0-9\\.]+/g,' ').trim();
+    listawierszy = listawierszy.split(' ');
+    var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
+    var dlugosc = wierszewtabeli.length;
+    var znaleziono = -1;
+    for (var i = 0; i < dlugosc ; i++) {
+        var wierszdoobrobki = wierszewtabeli[i];
+        var komorki = $(wierszdoobrobki).children("td");
+        var nrpolazapisu = komorki[1].innerHTML;
+        znaleziono = $.inArray(nrpolazapisu,listawierszy);
+        if (znaleziono > -1) {
+            var wiersz = "tabelazzapisami:tabela:" + i + ":kontonr";
+            $(document.getElementById(wiersz)).css("font-weight", "600");
+            $(document.getElementById(wiersz)).css("color", "green");
+            var kwotawnwiersz = "tabelazzapisami:tabela:" + i + ":kwotawnwiersz";
+            var kwotamawiersz = "tabelazzapisami:tabela:" + i + ":kwotamawiersz";
+            var wartoscwn = zrobFloat(document.getElementById(kwotawnwiersz).innerHTML.replace('&nbsp;',''));
+            var wartoscma = zrobFloat(document.getElementById(kwotamawiersz).innerHTML.replace('&nbsp;',''));
+            if (wartoscwn!==0) {
+                $(document.getElementById(kwotawnwiersz)).css("font-weight", "600");
+                $(document.getElementById(kwotawnwiersz)).css("color", "green");
+            } else {
+                $(document.getElementById(kwotamawiersz)).css("font-weight", "600");
+                $(document.getElementById(kwotamawiersz)).css("color", "green");
+            }
+        }
+    }
+    
+};
 

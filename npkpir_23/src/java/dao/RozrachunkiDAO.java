@@ -48,4 +48,15 @@ public class RozrachunkiDAO extends DAO implements Serializable{
             return null;
         }
    }
+    
+   public  List<Rozrachunki> findByWierszID (Integer wierszID){
+        try {
+            System.out.println("Pobieram RozrachunkiDAO wg Sparowanego");
+            return rozrachunkiFacade.findRozrachunekByWierszID(wierszID);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+
+    
 }

@@ -53,6 +53,15 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
         }
     }
     
+     public List<Kontozapisy> findZapisyWierszID (int wierszID) {
+        try {
+            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
+            return kontozapisyFacade.findZapisyWierszID(wierszID);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
      public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String numerkonta) {
         try {
             System.out.println("Pobieram KontoZapisyFKDAO wg konta");
