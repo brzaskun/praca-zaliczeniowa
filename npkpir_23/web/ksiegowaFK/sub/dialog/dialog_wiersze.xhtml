@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogwiersze" header="Zestawienie zaksięgowanych dokumentów" widgetVar="dokfkwiersze"  
-              resizable="false"  onShow="ustawdialog('dokfkwiersze','dialogtrzeci');" closeOnEscape="true" onHide="resetujdialog('dokfkwiersze');" >
+              resizable="false"  onShow="ustawdialogwiersze('dialogwiersze','dialogtrzeci');" closeOnEscape="true" onHide="resetujdialog('dialogwiersze');" >
         <p:dataTable var="wpis" value="#{dokfkView.selected.konta}" editable="true" >
             <p:column headerText="id" width="70">
                 <h:outputText value="#{wpis.idwiersza}" />
