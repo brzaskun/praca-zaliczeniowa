@@ -5,10 +5,12 @@
 package viewfk;
 
 import comparator.Kontozapisycomparator;
+import dao.RozrachunkiDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.Rozrachunki;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -34,11 +37,13 @@ public class KontoZapisyFKView implements Serializable{
     private List<Kontozapisy> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private KontoDAOfk kontoDAOfk;
+    @Inject private RozrachunkiDAO rozrachunkiDAO;
     @Inject private Konto wybranekonto;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;
     private Double saldoMa;
+    private List zapisydopodswietlenia;
     
 
     public KontoZapisyFKView() {
@@ -114,6 +119,31 @@ public class KontoZapisyFKView implements Serializable{
         }
     }
     
+    //poszukuje rozrachunkow do sparowania
+    public void odszukajsparowanerozrachunki() {
+        Kontozapisy wybranyrozrachunek = wybranekontadosumowania.get(0);
+        int numerpodswietlonegowiersza = wybranyrozrachunek.getWiersz().getIdwiersza();
+        List<Rozrachunki> pobranezapisy = rozrachunkiDAO.findByWierszID(numerpodswietlonegowiersza);
+        List znalezionenumery = new ArrayList<>();
+        //poszukam innych numerow wierszy
+        for (Rozrachunki p : pobranezapisy) {
+            if (p.getRozrachunkiPK().getZapisrozliczany() == numerpodswietlonegowiersza) {
+                znalezionenumery.add(p.getRozrachunkiPK().getZapissparowany());
+            } else {
+                znalezionenumery.add(p.getRozrachunkiPK().getZapisrozliczany());
+            }
+        }
+        zapisydopodswietlenia = new ArrayList<>();
+        //wyszukujemy numery Kontozapisy dla javascriptu
+        for (Kontozapisy r : kontozapisy) {
+            if (znalezionenumery.contains(r.getWiersz().getIdwiersza())) {
+                zapisydopodswietlenia.add(r.getId());
+            }
+        }
+        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
+        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+    }
+    
  
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Kontozapisy> getKontozapisy() {
@@ -146,6 +176,14 @@ public class KontoZapisyFKView implements Serializable{
     
     public void setWybranekontadosumowania(List<Kontozapisy> wybranekontadosumowania) {
         this.wybranekontadosumowania = wybranekontadosumowania;
+    }
+
+    public List getZapisydopodswietlenia() {
+        return zapisydopodswietlenia;
+    }
+
+    public void setZapisydopodswietlenia(List zapisydopodswietlenia) {
+        this.zapisydopodswietlenia = zapisydopodswietlenia;
     }
     
     

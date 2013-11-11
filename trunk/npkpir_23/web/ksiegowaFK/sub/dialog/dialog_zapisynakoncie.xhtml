@@ -24,6 +24,7 @@
                         <p:ajax event="blur"  listener="#{kontoZapisyFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelazzapisami:tabela, :sumy"/>
                     </p:autoComplete>
                 </h:form>
+                <h:outputText value="#{kontoZapisyFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia" />
             </p:layoutUnit>  
            
             <p:layoutUnit position="west" size="340">
@@ -58,8 +59,12 @@
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisyFKView.sumazapisow}"/>
+                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisyFKView.odszukajsparowanerozrachunki}"/>
                         <p:column selectionMode="multiple" width="35"></p:column>
-                        <p:column headerText="id" width="40" sortBy="#{loop.wiersz.idwiersza}" >
+                        <p:column headerText="id" width="40" sortBy="#{loop.id}" >
+                            <h:outputText value="#{loop.id}"/>
+                        </p:column>
+                        <p:column headerText="id wiersza" width="40" sortBy="#{loop.wiersz.idwiersza}" >
                             <h:outputText value="#{loop.wiersz.idwiersza}"/>
                         </p:column>
                         <p:column headerText="data" width="70" sortBy="#{loop.wiersz.dataksiegowania}">
@@ -69,17 +74,17 @@
                             <h:outputText value="#{loop.opis}"/>
                         </p:column>
                         <p:column headerText="Wn" sortBy="#{loop.kwotawn}">
-                             <h:outputText value="#{loop.kwotawn}" style="float: right;">
+                             <h:outputText id="kwotawnwiersz" value="#{loop.kwotawn}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                              </h:outputText>
                         </p:column>
                         <p:column headerText="Ma" sortBy="#{loop.kwotama}">
-                            <h:outputText value="#{loop.kwotama}" style="float: right;">
+                            <h:outputText id="kwotamawiersz" value="#{loop.kwotama}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                              </h:outputText>
                         </p:column>
                         <p:column headerText="Konto nr" sortBy="#{loop.konto}">
-                             <h:outputText value="#{loop.konto}"/>
+                             <h:outputText id="kontonr" value="#{loop.konto}"/>
                         </p:column>
                         <p:column headerText="Konto nazwa" sortBy="#{loop.kontoob.nazwapelna}">
                             <h:outputText value="#{loop.kontoob.nazwapelna}"/>

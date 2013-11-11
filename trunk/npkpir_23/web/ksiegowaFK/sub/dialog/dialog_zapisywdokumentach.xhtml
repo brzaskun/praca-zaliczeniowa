@@ -21,7 +21,7 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="dokwpisTable.filter()" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="idwiersza" width="50">
+                <p:column headerText="idwiersza" width="50" sortBy="#{loop.idwiersza}">
                     <h:outputText value="#{loop.idwiersza}"/>
                 </p:column>
                 <p:column headerText="iddokumentu" width="150">

@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rozrachunki.findAll", query = "SELECT r FROM Rozrachunki r"),
+    @NamedQuery(name = "Rozrachunki.findByWierszID", query = "SELECT r FROM Rozrachunki r WHERE (r.rozrachunkiPK.zapisrozliczany = :wierszID OR r.rozrachunkiPK.zapissparowany = :wierszID)"),
     @NamedQuery(name = "Rozrachunki.findByZapisrozliczany", query = "SELECT r FROM Rozrachunki r WHERE r.rozrachunkiPK.zapisrozliczany = :zapisrozliczany"),
     @NamedQuery(name = "Rozrachunki.findByZapissparowany", query = "SELECT r FROM Rozrachunki r WHERE r.rozrachunkiPK.zapissparowany = :zapissparowany"),
     @NamedQuery(name = "Rozrachunki.findByKwotarozrachunku", query = "SELECT r FROM Rozrachunki r WHERE r.kwotarozrachunku = :kwotarozrachunku")})
