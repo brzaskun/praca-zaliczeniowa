@@ -88,16 +88,16 @@ var doklejsumowaniewprowadzonych = function() {
 };
 //chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek z przewijaniem
 var przejdzwiersz = function() {
-    var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+    var wierszewbiezacejtabeli = $("#zestawieniedokumentow\\:dataList_data").children("tr");
     if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
     } else {
         MYAPP.nrbiezacegowiersza += 1;
-        if (MYAPP.nrbiezacegowiersza > lolo.length) {
-            MYAPP.nrbiezacegowiersza = lolo.length;
+        if (MYAPP.nrbiezacegowiersza > wierszewbiezacejtabeli.length) {
+            MYAPP.nrbiezacegowiersza = wierszewbiezacejtabeli.length;
         }
     }
-    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var komorki = $(wierszewbiezacejtabeli[MYAPP.nrbiezacegowiersza]).children("td");
     var czynaekranie = isScrolledIntoView(komorki[1]);
     if (!czynaekranie) {
         var wysokosc = 70;
@@ -108,7 +108,7 @@ var przejdzwiersz = function() {
 };
 
 var wrocwiersz = function() {
-    var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+    var wierszewbiezacejtabeli = $("#zestawieniedokumentow\\:dataList_data").children("tr");
     if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
     } else {
@@ -117,7 +117,7 @@ var wrocwiersz = function() {
             MYAPP.nrbiezacegowiersza = 0;
         }
     }
-    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var komorki = $(wierszewbiezacejtabeli[MYAPP.nrbiezacegowiersza]).children("td");
     var czynaekranie = isScrolledIntoView(komorki[1]);
     if (!czynaekranie) {
         var wysokosc = 70;
