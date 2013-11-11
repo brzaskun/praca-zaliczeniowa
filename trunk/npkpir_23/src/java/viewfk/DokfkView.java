@@ -95,14 +95,23 @@ public class DokfkView implements Serializable {
     //********************************************funkcje dla ksiegowania dokumentow
     //dodaje wiersze do dokumentu
     public void liczbaw() {
-        liczbawierszy = selected.getKonta().size();
-        double pierwsze = selected.getKonta().get(liczbawierszy - 1).getKwotaWn();
-        double drugie = selected.getKonta().get(liczbawierszy - 1).getKwotaMa();
+        double pierwsze = 0.0;
+        double drugie = 0.0;
+        try {
+            liczbawierszy = selected.getKonta().size();
+            pierwsze = selected.getKonta().get(liczbawierszy - 1).getKwotaWn();
+            drugie = selected.getKonta().get(liczbawierszy - 1).getKwotaMa();
+        } catch (Exception e) {
+            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        }
         if (pierwsze != 0 || drugie != 0) {
             liczbawierszy++;
             selected.getKonta().add(new Wiersze(liczbawierszy, 0));
+            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+        } else {
+            Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
         }
-        RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+
     }
     //usuwa wiersze z dokumentu
 
@@ -370,7 +379,7 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoWn().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaWn());
-                if (p.getPozostalodorozliczeniaWn()==0.0) {
+                if (p.getPozostalodorozliczeniaWn() == 0.0) {
                     p.setPozostalodorozliczeniaWn(p.getKwotapierwotna());
                 }
                 p.setDokfk(selected);
@@ -381,7 +390,7 @@ public class DokfkView implements Serializable {
                 p.setKontonumer(p.getKontoMa().getPelnynumer());
                 p.setDataksiegowania(selected.getDatawystawienia());
                 p.setKwotapierwotna(p.getKwotaMa());
-                if (p.getPozostalodorozliczeniaMa()==0.0) {
+                if (p.getPozostalodorozliczeniaMa() == 0.0) {
                     p.setPozostalodorozliczeniaMa(p.getKwotapierwotna());
                 }
                 p.setDokfk(selected);
@@ -505,13 +514,13 @@ public class DokfkView implements Serializable {
                     rozrachunek.setPozostalosparowany(rozrachunek.getKwotapierwotna());
                 }
             }
-               if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
-                    juzrozliczono  = (aktualnywierszdorozrachunkow.getRozliczonoWn()-biezacakwotarozrachunkow);
-                    pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoWn());
-                } else {
-                    juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoMa()-biezacakwotarozrachunkow);
-                    pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna()-aktualnywierszdorozrachunkow.getRozliczonoMa());
-               }
+            if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
+                juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoWn() - biezacakwotarozrachunkow);
+                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - aktualnywierszdorozrachunkow.getRozliczonoWn());
+            } else {
+                juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoMa() - biezacakwotarozrachunkow);
+                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - aktualnywierszdorozrachunkow.getRozliczonoMa());
+            }
         } catch (Exception ex) {
             Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
         }
@@ -553,13 +562,13 @@ public class DokfkView implements Serializable {
                     boolean drugapara = biezacy.getWierszrozliczany().getIdwiersza().equals(p.getWierszsparowany().getIdwiersza());
                     if (pierwszapara && drugapara) {
                         znaleziono = 1;
-                    }   
+                    }
                 }
                 if (dousuniecia == 1 || znaleziono == 0) {
                     it.remove();
                 }
             }
-        
+
         }
     }
 
@@ -613,7 +622,7 @@ public class DokfkView implements Serializable {
             if (sprawdzPK && sprawdzIdporzadkowy && kwotadonaniesienia != 0.0) {
                 if (s.getWnlubma().equals("Wn")) {
                     //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())){
+                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())) {
                         try {
                             s.setRozliczonoWn(kwotadotychczasowa + kwotadonaniesienia);
                         } catch (Exception e1) {
@@ -623,7 +632,7 @@ public class DokfkView implements Serializable {
                     }
                 } else {
                     //tu rozlicza sie to czy zmniejszono czy zwiekszono rozrachunek podczas jego edycji
-                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())){
+                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszrozliczany().getKontonumer())) {
                         try {
                             s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
                         } catch (Exception e1) {
@@ -644,7 +653,7 @@ public class DokfkView implements Serializable {
             boolean sprawdzIdporzadkowy = s.getIdporzadkowy().equals(obrabianyrozrachunek.getWierszsparowany().getIdporzadkowy());
             if (sprawdzPK && sprawdzIdporzadkowy && kwotadonaniesienia != 0.0) {
                 if (s.getWnlubma().equals("Wn")) {
-                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())){
+                    if (s.getKontoWn().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())) {
                         try {
                             s.setRozliczonoWn(s.getRozliczonoWn() + kwotadonaniesienia);
                         } catch (Exception e1) {
@@ -654,7 +663,7 @@ public class DokfkView implements Serializable {
                     }
                 } else {
                     //aby nie podsumowywac wiersza 
-                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())){
+                    if (s.getKontoMa().getPelnynumer().equals(obrabianyrozrachunek.getWierszsparowany().getKontonumer())) {
                         try {
                             s.setRozliczonoMa(s.getRozliczonoMa() + kwotadonaniesienia);
                         } catch (Exception e1) {
@@ -690,8 +699,8 @@ public class DokfkView implements Serializable {
         }
         Msg.msg("i", "Wyedytowano wiersze z obcych dokumentow");
     }
-    
-    private void zachowajwiersze (List<Wiersze> listawierszy) {
+
+    private void zachowajwiersze(List<Wiersze> listawierszy) {
         try {
             Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
             for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
@@ -729,7 +738,7 @@ public class DokfkView implements Serializable {
                             if (r.getKwotarozrachunku() == 0.0) {
                                 s.getRozrachunkijakosparowany().remove(r);
                             } else {
-                                s.getRozrachunkijakosparowany() .add(r);
+                                s.getRozrachunkijakosparowany().add(r);
                             }
                         }
                     }
@@ -744,17 +753,21 @@ public class DokfkView implements Serializable {
             Msg.msg("w", "Nie naniesiono rozrachunkow " + ex.getMessage());
         }
     }
-    
+
     //***************************************
     public void znajdzduplicatdokumentu() {
+        //uruchamiaj tylko jak jest wpisywanie a nie edycja
+        if(zapisz0edytuj1==false) {
         Dokfk dokument = dokDAOfk.findDokfkObj(selected);
         if (dokument != null) {
+            RequestContext.getCurrentInstance().execute("document.getElementById('formwpisdokument:numer').select();");
             Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
         } else {
             Msg.msg("i", "Go on Master");
         }
+        }
     }
-    
+
     public void wygenerujokreswpisudokumentu() {
         String data = (String) Params.params("formwpisdokument:datka");
         String mc = data.split("-")[1];
@@ -850,10 +863,8 @@ public class DokfkView implements Serializable {
 
         @Override
         public String toString() {
-            return "RozrachunkiTmp{"+", wierszrozliczany=" + wierszrozliczany + "wierszsparowany=" + wierszsparowany + '}';
+            return "RozrachunkiTmp{" + ", wierszrozliczany=" + wierszrozliczany + "wierszsparowany=" + wierszsparowany + '}';
         }
-        
-        
 
         //<editor-fold defaultstate="collapsed" desc="comment">
         public double getKwotapierwotna() {
@@ -871,7 +882,6 @@ public class DokfkView implements Serializable {
         public void setZapiszbazydanych(boolean zapiszbazydanych) {
             this.zapiszbazydanych = zapiszbazydanych;
         }
-        
 
         public double getStarakwotarozrachunku() {
             return starakwotarozrachunku;
@@ -961,8 +971,6 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
         //RequestContext.getCurrentInstance().execute("$(#formwpisdokument\\\\:dataList\\\\:5\\\\:opis).select()");
     }
-    
-    
 
     //mesydz, ze wybrano dokument do edycji
     public void wybranodokmessage() {
@@ -1018,8 +1026,6 @@ public class DokfkView implements Serializable {
         this.juzrozliczono = juzrozliczono;
     }
 
-   
-
     public double getPozostalodorozliczenia() {
         return pozostalodorozliczenia;
     }
@@ -1028,7 +1034,6 @@ public class DokfkView implements Serializable {
         this.pozostalodorozliczenia = pozostalodorozliczenia;
     }
 
-    
     public List<Dokfk> getWykaz() {
         return wykaz;
     }
@@ -1093,6 +1098,4 @@ public class DokfkView implements Serializable {
         this.rozrachunkiwierszewdokumencie = rozrachunkiwierszewdokumencie;
     }
     //</editor-fold>
-
-    
 }
