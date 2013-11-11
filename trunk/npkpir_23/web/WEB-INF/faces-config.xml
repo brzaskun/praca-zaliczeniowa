@@ -233,6 +233,10 @@
             <from-outcome>raportyFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRaporty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>kartotekiFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKKartoteki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
           <navigation-case>
             <from-outcome>plankont</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true</to-view-id>
