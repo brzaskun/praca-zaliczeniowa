@@ -15,17 +15,22 @@
         </h:form>
         <h:form id="wprowadzonekursy">
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.pobranekursy}" editable="true" emptyMessage="Nie ma wprowadzonych kursow" 
-                         scrollable="true" style="width: 855px;" scrollHeight="550">
-                <p:column headerText="nr tabeli" width="100" >
+                         scrollable="true" style="width: 855px;" scrollHeight="550" widgetVar="dataTablekursy">
+                 <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksięgowanych tabel NBP " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="dataTablekursy.filter()" style="width:150px" />  
+                </f:facet>
+                <p:column headerText="nr tabeli" width="100" sortBy="#{wpis.tabelanbpPK.nrtabeli}" filterBy="#{wpis.tabelanbpPK.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.tabelanbpPK.nrtabeli}" />
                 </p:column>
-                <p:column headerText="data tabeli" width="100" >
+                <p:column headerText="data tabeli" width="100" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.datatabeli}" />
                 </p:column>
-                <p:column headerText="symbol waluty" width="100">
+                <p:column headerText="symbol waluty" width="100" sortBy="#{wpis.tabelanbpPK.symbolwaluty}" filterBy="#{wpis.tabelanbpPK.symbolwaluty}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.tabelanbpPK.symbolwaluty}" />
                 </p:column>
-                <p:column headerText="kurs do pln" width="100">
+                <p:column headerText="kurs do pln" width="100" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
