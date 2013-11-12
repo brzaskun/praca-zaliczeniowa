@@ -34,4 +34,13 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
    }
+   
+    public List<Tabelanbp> findLast(){
+        try {
+            System.out.println("Pobieram Tabelanbp ostatni wiersz");
+            return tabelanbpFacade.findXLast(Tabelanbp.class,1);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

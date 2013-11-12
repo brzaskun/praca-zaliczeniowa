@@ -50,7 +50,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             wiersztabeli.setDatatabeli(data_publikacji);
         }
         startelement = qName;
-        System.out.print("Start Element :" + qName + " ");
+        //System.out.print("Start Element :" + qName + " ");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             wiersztabeli.setKurssredni(Double.parseDouble(replace));
             startelement = "";
         }
-        System.out.println(new String(ch, start, length));
+        //System.out.println(new String(ch, start, length));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
         if (qName.equals("pozycja")) {
             elementy.add(wiersztabeli);
         }
-        System.out.println(" End Element :" + qName);
+        //System.out.println(" End Element :" + qName);
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
