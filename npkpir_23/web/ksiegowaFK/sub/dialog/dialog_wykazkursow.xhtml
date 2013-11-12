@@ -1,0 +1,39 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogkursy" header="Zestawienie kursów walut" widgetVar="wykazkursow"  
+              resizable="false"  onShow="ustawdialog('dialogkursy','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursy');" >
+        <h:form>
+                <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
+                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
+                    <f:facet name="success"><h:outputText value="" /></f:facet>
+                </p:ajaxStatus>
+        </h:form>
+        <h:form id="wprowadzonekursy">
+            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.pobranekursy}" editable="true" emptyMessage="Nie ma wprowadzonych kursow" 
+                         scrollable="true" style="width: 855px;" scrollHeight="550">
+                <p:column headerText="nr tabeli" width="100" >
+                    <h:outputText value="#{wpis.tabelanbpPK.nrtabeli}" />
+                </p:column>
+                <p:column headerText="data tabeli" width="100" >
+                    <h:outputText value="#{wpis.datatabeli}" />
+                </p:column>
+                <p:column headerText="symbol waluty" width="100">
+                    <h:outputText value="#{wpis.tabelanbpPK.symbolwaluty}" />
+                </p:column>
+                <p:column headerText="kurs do pln" width="100">
+                    <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+             <div style="padding: 10px;">
+                 <p:commandButton id="walutynowabutton" value="pobierz" actionListener="#{walutyViewFK.pobierzkursy}" update=":wprowadzonekursy:dataTablekursy" style="width: 120px;"/>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>
