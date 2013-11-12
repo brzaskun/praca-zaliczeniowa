@@ -46,15 +46,15 @@ public class ZusTimer {
 //        System.out.println("Programmatic timeout occurred.");
 //    }
     //tylko tyle wystarczy
-    @Inject private DokDAO dokDAO;
-    
-    @Schedule(minute="*",hour="*", persistent=false)
-    public void automaticTimeout() {
+//    @Inject private DokDAO dokDAO;
+//    
+//    @Schedule(minute="*",hour="*", persistent=false)
+//    public void automaticTimeout() {
 //        this.setLastAutomaticTimeout(new Date());
 //        logger.info("Automatic timeout occured");
         //List<Dok> obiektDOKjsf = dokDAO.zwrocBiezacegoKlientaRokMC("BARCZAK", "2013", "04");
         //System.out.println("Czasomierz biegnie"+obiektDOKjsf.size());
-    }
+    //}
 
 //    public String getLastProgrammaticTimeout() {
 //        if (lastProgrammaticTimeout != null) {

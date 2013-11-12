@@ -15,9 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.Table;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
@@ -29,8 +32,8 @@ import waluty.WalutyNBP;
  *
  * @author Osito
  */
-@ManagedBean
-@RequestScoped
+@Named
+@Singleton
 public class WalutyViewFK implements Serializable {
 
     @Inject
@@ -64,8 +67,10 @@ public class WalutyViewFK implements Serializable {
             Msg.msg("e", "Nie dodano nowej waluty");
         }
     }
-
+    
+    @Schedule(hour="14", persistent=false)
     public void pobierzkursy() throws ParseException {
+        System.out.println("pobierzkursy()");
         String datawstepna;
         Integer numertabeli;
         List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findLast();
@@ -87,9 +92,9 @@ public class WalutyViewFK implements Serializable {
             try {
                 wierszepobranezNBP.addAll(WalutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
+                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }
-            Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+            //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
         }
         for (Tabelanbp p : wierszepobranezNBP) {
             tabelanbpDAO.dodaj(p);
