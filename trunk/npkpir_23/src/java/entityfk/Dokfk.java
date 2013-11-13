@@ -45,7 +45,7 @@ public class Dokfk implements Serializable {
     protected DokfkPK dokfkPK = new DokfkPK();
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 10, message = "Brak wpisanej daty dokumentu")
     @Column(name = "datawystawienia", nullable = false, length = 10)
     private String datawystawienia;
     @Basic(optional = false)

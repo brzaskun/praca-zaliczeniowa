@@ -19,7 +19,7 @@
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel NBP " />  
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="dataTablekursy.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="dataTablekursy.filter();" style="width:150px" />  
                 </f:facet>
                 <p:column headerText="nr tabeli" width="100" sortBy="#{wpis.tabelanbpPK.nrtabeli}" filterBy="#{wpis.tabelanbpPK.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.tabelanbpPK.nrtabeli}" />
