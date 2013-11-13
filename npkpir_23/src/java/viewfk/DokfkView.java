@@ -7,11 +7,14 @@ package viewfk;
 import dao.RozrachunkiDAO;
 import dao.WierszeDAO;
 import daoFK.DokDAOfk;
+import daoFK.WalutyDAOfk;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kontozapisy;
 import entityfk.Rozrachunki;
 import entityfk.RozrachunkiPK;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +71,10 @@ public class DokfkView implements Serializable {
     //do wyswietlania w oknie rozrachunkow aktualnywiersz
     private double juzrozliczono;
     private double pozostalodorozliczenia;
+    //waluta wybrana przez uzytkownika
+    @Inject private WalutyDAOfk walutyDAOfk;
+    private String wybranawaluta;
+    private List<String> wprowadzonesymbolewalut;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public DokfkView() {
@@ -85,11 +92,16 @@ public class DokfkView implements Serializable {
         zestawienielistrozrachunow = new HashMap<>();
         wierszedoobrobki = new ArrayList<>();
         wierszezinnychdokumentow = new ArrayList<>();
+        wprowadzonesymbolewalut = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         wykaz = dokDAOfk.findAll();
+        List<Waluty> pobranekursy = walutyDAOfk.findAll();
+        for (Waluty p : pobranekursy) {
+            wprowadzonesymbolewalut.add(p.getSymbolwaluty());
+        }
     }
 
     //********************************************funkcje dla ksiegowania dokumentow
@@ -1001,6 +1013,23 @@ public class DokfkView implements Serializable {
     public void setWiersze(List<Wiersze> wiersze) {
         this.wiersze = wiersze;
     }
+
+    public String getWybranawaluta() {
+        return wybranawaluta;
+    }
+
+    public void setWybranawaluta(String wybranawaluta) {
+        this.wybranawaluta = wybranawaluta;
+    }
+
+    public List<String> getWprowadzonesymbolewalut() {
+        return wprowadzonesymbolewalut;
+    }
+
+    public void setWprowadzonesymbolewalut(List<String> wprowadzonesymbolewalut) {
+        this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
+    }
+    
 
     public int getNumerwierszazapisu() {
         return numerwierszazapisu;
