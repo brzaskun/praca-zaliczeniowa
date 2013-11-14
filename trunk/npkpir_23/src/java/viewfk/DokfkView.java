@@ -149,6 +149,7 @@ public class DokfkView implements Serializable {
                 dokDAOfk.dodaj(selected);
             }
             wykaz.add(selected);
+            zapisanorozrachunek();
             zapisznaniesionerozrachunkiwbaziedanych();
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
@@ -170,6 +171,7 @@ public class DokfkView implements Serializable {
             uzupelnijwierszeodaneEdycja();
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
             dokDAOfk.edit(selected);
+            zapisanorozrachunek();
             zapisznaniesionerozrachunkiwbaziedanych();
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
