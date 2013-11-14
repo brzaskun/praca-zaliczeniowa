@@ -149,7 +149,7 @@ public class DokfkView implements Serializable {
                 dokDAOfk.dodaj(selected);
             }
             wykaz.add(selected);
-            zapisanorozrachunek();
+            //zapisanorozrachunek();
             zapisznaniesionerozrachunkiwbaziedanych();
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
@@ -171,7 +171,7 @@ public class DokfkView implements Serializable {
             uzupelnijwierszeodaneEdycja();
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
             dokDAOfk.edit(selected);
-            zapisanorozrachunek();
+            //zapisanorozrachunek();
             zapisznaniesionerozrachunkiwbaziedanych();
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
@@ -339,7 +339,10 @@ public class DokfkView implements Serializable {
                 wierszedoobrobki = selected.getKonta();
                 pobierzwierszezdokumentow(wierszedoobrobki);
                 //to jest linijak do pobierania wierszy z innych dokumnetow zachowanych w bazie dancyh
-                wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
+                //ale jak raz juz pobrano i wracamy ponownie do rozrachunkow w trakcie edycji to nie mozemy pobierac danych z bazy bo niszczymy biezace nanoszenia
+                if (wierszezinnychdokumentow.size() == 0) {
+                    wierszezinnychdokumentow = wierszeDAO.findDokfkRozrachunki(selected.getDokfkPK().getPodatnik(), aktualnywierszdorozrachunkow.getKonto(), aktualnywierszdorozrachunkow.getDokfk().getDokfkPK());
+                }
                 pobierzwierszezdokumentow(wierszezinnychdokumentow);
                 //uzupelniamy sporzadzona liste o uprzednio zapamietane kwoty powstale po uprzednim wpisaniu podczas edycji bo pierwotnie byly z bazy danych
                 //a musimy przeciez robic to w trakcie ale moment czy ja po wcisnieciu zapis, nie zapisuje tego w bazie?
@@ -419,23 +422,16 @@ public class DokfkView implements Serializable {
     //pobiera wiersze i i pasujace do niego rozrachunki z podanego zrodla: 
     //albo z biezacego dokumentu albo z innych dokumentow, wywoluje sprawdzczyjuzczegosnienaniesiono ()
 
-    private void pobierzwierszezdokumentow(List<Wiersze> wierszezdokumentu) {
+    private void pobierzwierszezdokumentow(List<Wiersze> wierszeprzekazane) {
         try {
             //pobieram co prawda z bazydanych rozrachunki ale pierwotnie porownuje je tylko z biezacym dokumentem stad rozwiniecie funkcji o dodanie wierszy z bazy
             List<Rozrachunki> zapisanerozrachunkiwbazie = rozrachunkiDAO.findRozliczany(aktualnywierszdorozrachunkow.getIdwiersza());
-            for (Wiersze p : wierszezdokumentu) {
+            //przechodzi te petelke raz dla wierszy z aktualnego wokumentu raz dla wierszy zachowanych w bazie z tym samym kontem co w aktualnymrozrachunku
+            for (Wiersze p : wierszeprzekazane) {
                 //pobieram tylko te konta ktore nie leza po tej samej stronie dokumetu co konto rozrachunkowe i sa takie same jak konto rozrliczane
                 if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
                     if (p.getKontoMa().equals(aktualnywierszdorozrachunkow.getKontoWn())) {
-                        p.setKonto(p.getKontoMa());
-                        p.setKontonumer(p.getKonto().getPelnynumer());
-                        //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
-                        //p.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-                        p.setKwotapierwotna(p.getKwotaMa());
-                        //sprawdz czy czegoj juz nie ma baranku!!!
-//                        p.setPozostalodorozliczeniaMa(p.getKwotaMa());
-//                        p.setRozliczonoMa(0.0);
-                        p.setWnlubma("Ma");
+                        p.setKonto(p.getKontoMa());p.setKontonumer(p.getKonto().getPelnynumer());p.setKwotapierwotna(p.getKwotaMa()); p.setWnlubma("Ma");
                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                             //on dodaje kwote rozrachunku tylko z tego jednego wiersza i to jest dobre. pozniej trzeba bedzie je odpowiednio zsumowac z pozostalych i 
@@ -472,14 +468,7 @@ public class DokfkView implements Serializable {
                     }
                 } else {
                     if (p.getKontoWn().equals(aktualnywierszdorozrachunkow.getKontoMa())) {
-                        p.setKonto(p.getKontoWn());
-                        p.setKontonumer(p.getKonto().getPelnynumer());
-                        //wyrzuca blad podczas wpisywania nowego wiersza niedokonczoneho
-                        //p.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-                        p.setKwotapierwotna(p.getKwotaWn());
-//                        p.setPozostalodorozliczeniaWn(p.getKwotaWn());
-//                        p.setRozliczonoWn(0.0);
-                        p.setWnlubma("Wn");
+                        p.setKonto(p.getKontoWn());p.setKontonumer(p.getKonto().getPelnynumer());p.setKwotapierwotna(p.getKwotaWn());p.setWnlubma("Wn");
                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
                                 if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
@@ -525,7 +514,7 @@ public class DokfkView implements Serializable {
 
     private void sprawdzczyjuzczegosnienaniesiono() {
         Wiersze rozliczany = aktualnywierszdorozrachunkow;
-        Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
+            Kluczlistyrozrachunkow tmp = new Kluczlistyrozrachunkow(rozliczany.getIdporzadkowy(), rozliczany.getWnlubma());
         if (zestawienielistrozrachunow.containsKey(tmp)) {
             List<RozrachunkiTmp> listazapamietana = zestawienielistrozrachunow.get(tmp);
             for (RozrachunkiTmp p : listazapamietana) {
@@ -544,7 +533,6 @@ public class DokfkView implements Serializable {
     }
     //poniewaz rozrachunki en masse sa zsumowane w aktualnym wierszu wystarczy stad wziac kwote jako sume
     //a potem odjac dany rozrachynek i wpisac roznice do Tylejuzrozliczono, Pozostalodorozliczenie
-
     private void podsumujtoconaniesionoizaktualizujpozostale() {
         try {
             double rozliczono = 0.0;
@@ -624,6 +612,7 @@ public class DokfkView implements Serializable {
         }
     }
 
+    
     //********************************************funkcje dla rozrachunkow zapisywanie rozrachunkow
     //<p:commandButton value="zapisz" actionListener="${dokfkView.zapisanorozrachunek}" zapisywanie listy danego rozrachunku do listy list
     //kluczem jest numer wiersza odraz Wn lub Ma
@@ -751,7 +740,8 @@ public class DokfkView implements Serializable {
         }
         Msg.msg("i", "Wyedytowano wiersze z obcych dokumentow");
     }
-
+    
+//pobiera tabele z wierszy rozrachunkow kreuje Rozrachunki w zapisuje w bazie
     private void zachowajwiersze(List<Wiersze> listawierszy) {
         try {
             Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
@@ -798,7 +788,8 @@ public class DokfkView implements Serializable {
             }
             // edytujposzczegolnewiersze();
             //wierszedorozrachunkow = new ArrayList<>();
-            //chyba tu powinienem czyscic rzeczy
+            //chyba tu powinienem czyscic rzeczy bo jak czyscilem wczesniej to jak wlazilem do rozrachunkow raz za racem przy otwarym dokumencie to
+            //wtedy sie nie aktualizowaly sprawy
             rozrachunkiwierszewdokumencie = new ArrayList<>();
             System.out.println("Rozrachunki naniesione");
             Msg.msg("i", "Rozrachunki naniesione");
