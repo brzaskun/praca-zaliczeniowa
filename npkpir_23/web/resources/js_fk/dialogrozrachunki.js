@@ -1,5 +1,5 @@
 var pilnujwprowadzanychrozrachunkow = function() {
-    var limit = zrobFloat($(document.getElementById('rozrachunki:formE:dorozliczenia')).text());
+    var limit = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
     MYAPP.limit = limit;
     doklejsumowaniewprowadzonych();
 };
@@ -51,7 +51,7 @@ var doklejsumowaniewprowadzonych = function() {
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
         $(document.getElementById(wiersz)).css("font-weight", "normal");
         $(document.getElementById(wiersz)).css("color", "black");
-        var wierszaktualny = "rozrachunki:formE:dorozliczenia";
+        var wierszaktualny = "rozrachunki:dorozliczenia";
         $(document.getElementById(wierszaktualny)).css("font-weight", "normal");
         $(document.getElementById(wierszaktualny)).css("color", "black");
         var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
