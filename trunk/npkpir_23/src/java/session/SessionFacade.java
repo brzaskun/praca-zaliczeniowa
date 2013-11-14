@@ -541,6 +541,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Rozrachunki.findByWierszID").setParameter("wierszID", wierszID).getResultList();
     }
 
+    public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
+        return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setMaxResults(1).getSingleResult();
+    }
+
 
 
   

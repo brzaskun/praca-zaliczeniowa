@@ -137,6 +137,8 @@ public class Wiersze implements Serializable {
     public Wiersze(int idporzadkowy, int typwiersza) {
         this.idporzadkowy = idporzadkowy;
         this.typwiersza = typwiersza;
+        this.kontoWn = null;
+        this.kontoMa = null;
         this.rozliczonoMa = 0.0;
         this.rozliczonoWn = 0.0;
         this.pozostalodorozliczeniaMa = 0.0;

@@ -93,6 +93,7 @@ public class DokfkView implements Serializable {
         wierszedoobrobki = new ArrayList<>();
         wierszezinnychdokumentow = new ArrayList<>();
         wprowadzonesymbolewalut = new ArrayList<>();
+        rozrachunkiwierszewdokumencie = new ArrayList<>();
     }
 
     @PostConstruct
@@ -332,7 +333,7 @@ public class DokfkView implements Serializable {
             aktualnywierszdorozrachunkow = selected.getKonta().get(nrwiersza);
             uzupelnijaktualnywiersz(wnlubma);
             if (aktualnywierszdorozrachunkow.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                rozrachunkiwierszewdokumencie = new ArrayList<>();
+                //rozrachunkiwierszewdokumencie = new ArrayList<>();
                 wierszedoobrobki = selected.getKonta();
                 pobierzwierszezdokumentow(wierszedoobrobki);
                 //to jest linijak do pobierania wierszy z innych dokumnetow zachowanych w bazie dancyh
@@ -438,14 +439,32 @@ public class DokfkView implements Serializable {
                             //on dodaje kwote rozrachunku tylko z tego jednego wiersza i to jest dobre. pozniej trzeba bedzie je odpowiednio zsumowac z pozostalych i 
                             //uzupelnic pole setRozliczono, setPozostalodorozliczenia w tym ktory teraz pokazujemy
                             if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
-                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn", true));
+                                RozrachunkiTmp nowyrozrachunek = new RozrachunkiTmp(r.getKwotarozrachunku(), p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn", true);
+                                if (rozrachunkiwierszewdokumencie.size() > 0) {
+                                for (RozrachunkiTmp s : rozrachunkiwierszewdokumencie) {
+                                    if (!s.equals(nowyrozrachunek)) {
+                                        rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                    }
+                                }
+                                } else {
+                                    rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                }
                                 //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
-                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
+                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty, ale przeca trzeba sprawdzic bo moze juz jestw rozrachunkiwierszewdokumencie
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn", false));
+                            RozrachunkiTmp nowyrozrachunek = new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Wn", false);
+                            if (rozrachunkiwierszewdokumencie.size() > 0) {
+                            for (RozrachunkiTmp r : rozrachunkiwierszewdokumencie) {
+                                if (!r.equals(nowyrozrachunek)) {
+                                    rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                }
+                            }
+                            } else {
+                                rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                            }
                         }
                         p.setDodanydorozrachunkow(false);
                     }
@@ -461,22 +480,40 @@ public class DokfkView implements Serializable {
                         p.setWnlubma("Wn");
                         //szukamy bo moze juz byl taki rozrachunek
                         for (Rozrachunki r : zapisanerozrachunkiwbazie) {
-                            if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
-                                rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(r.getKwotarozrachunku(), p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma", true));
+                                if (r.getWierszrozliczany().equals(aktualnywierszdorozrachunkow) && r.getWierszsparowany().equals(p)) {
+                                RozrachunkiTmp nowyrozrachunek = new RozrachunkiTmp(r.getKwotarozrachunku(), p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma", true);
+                                if (rozrachunkiwierszewdokumencie.size() > 0) {
+                                for (RozrachunkiTmp s : rozrachunkiwierszewdokumencie) {
+                                    if (!s.equals(nowyrozrachunek)) {
+                                        rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                    }
+                                }
+                                } else {
+                                    rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                }
                                 //ustawiam flage zeby nie dolozylo tego wiersza ponownie potem go resetuje
                                 p.setDodanydorozrachunkow(true);
                             }
                         }
-                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty
+                        //jak nie ma zachowanego rozrachunku to musze wykreowac nowy pusty,ale przeca trzeba sprawdzic bo moze juz jestw rozrachunkiwierszewdokumencie
                         if (!p.isDodanydorozrachunkow()) {
-                            rozrachunkiwierszewdokumencie.add(new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma", false));
+                            RozrachunkiTmp nowyrozrachunek = new RozrachunkiTmp(0, p.getKwotapierwotna(), p, aktualnywierszdorozrachunkow, "Ma", false);
+                            if (rozrachunkiwierszewdokumencie.size() > 0) {
+                            for (RozrachunkiTmp r : rozrachunkiwierszewdokumencie) {
+                                if (!r.equals(nowyrozrachunek)) {
+                                    rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                                }
+                            }
+                            } else {
+                                rozrachunkiwierszewdokumencie.add(nowyrozrachunek);
+                            }
                         }
                         p.setDodanydorozrachunkow(false);
                     }
                 }
             }
         } catch (Exception e) {
-            Msg.msg("e", "Blad w DokfkView funkcja pobierzwierszezbiezacegodokumentu");
+            Msg.msg("w", "Nie było wierszy w bieżacym dokumencie lub bazie");
         }
 
     }
@@ -555,7 +592,8 @@ public class DokfkView implements Serializable {
         } else {
             czynaniesionorozliczenia += aktualnywierszdorozrachunkow.getRozliczonoMa();
         }
-        if (sumabiezacychkwot == 0.0 && czynaniesionorozliczenia != 0) {
+        //trzeba bylo dodac pozostalodorozliczenia bo blokowalo edycje w przypadki gdy rozliczylem cala kwote przeznaczona do rozliczenia :)
+        if (sumabiezacychkwot == 0.0 && czynaniesionorozliczenia != 0 ) {//&& pozostalodorozliczenia != 0
             for (RozrachunkiTmp rozrachunek : rozrachunkiwierszewdokumencie) {
                 rozrachunek.setPozwolnawpis(false);
             }
@@ -758,6 +796,8 @@ public class DokfkView implements Serializable {
             }
             // edytujposzczegolnewiersze();
             //wierszedorozrachunkow = new ArrayList<>();
+            //chyba tu powinienem czyscic rzeczy
+            rozrachunkiwierszewdokumencie = new ArrayList<>();
             System.out.println("Rozrachunki naniesione");
             Msg.msg("i", "Rozrachunki naniesione");
         } catch (Exception ex) {
@@ -770,7 +810,10 @@ public class DokfkView implements Serializable {
     public void znajdzduplicatdokumentu() {
         //uruchamiaj tylko jak jest wpisywanie a nie edycja
         if(zapisz0edytuj1==false) {
-        Dokfk dokument = dokDAOfk.findDokfkObj(selected);
+        Dokfk dokument = null;
+        try {//bo jak nie znajdzie to bedzie error
+            dokument = dokDAOfk.findDokfkObj(selected);
+        } catch (Exception e) {}
         if (dokument != null) {
             RequestContext.getCurrentInstance().execute("document.getElementById('formwpisdokument:numer').select();");
             Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
@@ -782,11 +825,19 @@ public class DokfkView implements Serializable {
 
     public void wygenerujokreswpisudokumentu() {
         String data = (String) Params.params("formwpisdokument:datka");
-        String mc = data.split("-")[1];
-        selected.setMiesiac(mc);
-        RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+        if (data.length() == 10) {
+            String mc = data.split("-")[1];
+            selected.setMiesiac(mc);
+            RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+        }
     }
 
+    public void pobierzostatninumerdok() {
+        Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType("Kowalski", selected.getDokfkPK().getSeriadokfk());
+        selected.getDokfkPK().setNrkolejny(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejny()+1);
+        RequestContext.getCurrentInstance().update("formwpisdokument:numer");
+    }
+    
     //********************klasy pomocnicze
     //zlozony klucz listy przechowujacej listy RozrachunkiTmp podczas biezacego wpisywania
     private static class Kluczlistyrozrachunkow {
@@ -877,6 +928,35 @@ public class DokfkView implements Serializable {
         public String toString() {
             return "RozrachunkiTmp{" + ", wierszrozliczany=" + wierszrozliczany + "wierszsparowany=" + wierszsparowany + '}';
         }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final RozrachunkiTmp other = (RozrachunkiTmp) obj;
+            if (!Objects.equals(this.wierszsparowany, other.wierszsparowany)) {
+                return false;
+            }
+            if (!Objects.equals(this.wierszrozliczany, other.wierszrozliczany)) {
+                return false;
+            }
+            if (!Objects.equals(this.wnlubma, other.wnlubma)) {
+                return false;
+            }
+            return true;
+        }
+        
+        
 
         //<editor-fold defaultstate="collapsed" desc="comment">
         public double getKwotapierwotna() {
