@@ -140,15 +140,15 @@ public class DokfkView implements Serializable {
             //nanosimy zapisy na kontach
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
-            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
-            if (poszukiwanydokument instanceof Dokfk) {
-                dokDAOfk.destroy(poszukiwanydokument);
-                dokDAOfk.dodaj(selected);
-            } else {
-                dokDAOfk.dodaj(selected);
-            }
-            wykaz.add(selected);
+//            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
+//            if (poszukiwanydokument instanceof Dokfk) {
+//                dokDAOfk.destroy(poszukiwanydokument);
+//                dokDAOfk.dodaj(selected);
+//            } else {
+//                dokDAOfk.dodaj(selected);
+//            }
             zapisznaniesionerozrachunkiwbaziedanych();
+            wykaz.add(selected);
             selected = new Dokfk();
             DokfkPK dokfkPK = new DokfkPK();
             selected.setDokfkPK(dokfkPK);
@@ -168,7 +168,13 @@ public class DokfkView implements Serializable {
         try {
             uzupelnijwierszeodaneEdycja();
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
+            Dokfk poszukiwanydokument = dokDAOfk.findDokfk(selected.getDatawystawienia(), selected.getNumer());
+            if (poszukiwanydokument instanceof Dokfk) {
+                dokDAOfk.destroy(poszukiwanydokument);
+                dokDAOfk.dodaj(selected);
+            } else {
             dokDAOfk.edit(selected);
+            }
             zapisznaniesionerozrachunkiwbaziedanych();
             wykaz.clear();
             wykaz = dokDAOfk.findAll();
@@ -708,17 +714,17 @@ public class DokfkView implements Serializable {
                 }
             }
         }
-        zachowajwiersze(selected.getKonta());
+        zachowajrozrachunki(selected.getKonta());
         dokDAOfk.edit(selected);
         Msg.msg("i", "Dokument wyedytowany");
-        zachowajwiersze(wierszezinnychdokumentow);
+        zachowajrozrachunki(wierszezinnychdokumentow);
         for (Wiersze p : wierszezinnychdokumentow) {
             wierszeDAO.edit(p);
         }
         Msg.msg("i", "Wyedytowano wiersze z obcych dokumentow");
     }
 
-    private void zachowajwiersze(List<Wiersze> listawierszy) {
+    private void zachowajrozrachunki(List<Wiersze> listawierszy) {
         try {
             Set<Kluczlistyrozrachunkow> listakluczyrozrachunkow = zestawienielistrozrachunow.keySet();
             for (Kluczlistyrozrachunkow klucz : listakluczyrozrachunkow) {
