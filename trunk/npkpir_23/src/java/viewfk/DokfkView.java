@@ -716,7 +716,8 @@ public class DokfkView implements Serializable {
         }
         zachowajrozrachunki(selected.getKonta());
         dokDAOfk.edit(selected);
-        Msg.msg("i", "Dokument wyedytowany");
+        Msg.msg("i", "Dokument wyedytowany");//ddd
+        
         zachowajrozrachunki(wierszezinnychdokumentow);
         for (Wiersze p : wierszezinnychdokumentow) {
             wierszeDAO.edit(p);
