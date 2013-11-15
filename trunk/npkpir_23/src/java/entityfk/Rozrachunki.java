@@ -42,12 +42,6 @@ public class Rozrachunki implements Serializable {
     private String kontorozliczanenr;
     @Column(name="kontosparowanenr")
     private String kontosparowanenr;
-    @JoinColumn(name = "wierszsparowany", referencedColumnName = "idwiersza")
-    @ManyToOne(optional = false)
-    private Wiersze wierszsparowany;
-    @JoinColumn(name = "wierszrozliczany", referencedColumnName = "idwiersza")
-    @ManyToOne(optional = false)
-    private Wiersze wierszrozliczany;
     
 
     public Rozrachunki() {
@@ -98,22 +92,6 @@ public class Rozrachunki implements Serializable {
     
     public void setKwotarozrachunku(double kwotarozrachunku) {
         this.kwotarozrachunku = kwotarozrachunku;
-    }
-    
-    public Wiersze getWierszsparowany() {
-        return wierszsparowany;
-    }
-    
-    public void setWierszsparowany(Wiersze wierszsparowany) {
-        this.wierszsparowany = wierszsparowany;
-    }
-    
-    public Wiersze getWierszrozliczany() {
-        return wierszrozliczany;
-    }
-    
-    public void setWierszrozliczany(Wiersze wierszrozliczany) {
-        this.wierszrozliczany = wierszrozliczany;
     }
     
     

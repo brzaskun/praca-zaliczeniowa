@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-<p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci" 
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
 
     <h:form>
@@ -17,7 +17,7 @@
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.wybranodokmessage}" oncomplete="pierwszy.show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
-                 <p:dataTable id="dataList" value="#{dokfkView.wykaz}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                 <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single">
                      <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}" oncomplete="pokazwierszedok();" update=":formwpisdokument :dialogwiersze" />
                      <f:ajax event="rowSelect" execute="@this"/>
