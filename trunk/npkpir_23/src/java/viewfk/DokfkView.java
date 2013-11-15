@@ -937,7 +937,7 @@ public class DokfkView implements Serializable {
                 return false;
             }
             final RozrachunkiTmp other = (RozrachunkiTmp) obj;
-            if (!Objects.equals(this.wierszsparowany.getKwotaWn(), other.wierszsparowany.getKontoWn())) {
+            if (!Objects.equals(this.wierszsparowany.g, other.wierszsparowany.getKontoWn())) {
                 return false;
             }
             if (!Objects.equals(this.wierszrozliczany.getKontoWn(), other.wierszrozliczany.getKontoWn())) {
