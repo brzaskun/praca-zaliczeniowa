@@ -50,6 +50,7 @@ public class DokfkView implements Serializable {
              wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
         } catch (Exception e) {
         }
+        zapisz0edytuj1 = false;
     }
     
     //********************************************funkcje dla ksiegowania dokumentow
@@ -62,6 +63,8 @@ public class DokfkView implements Serializable {
         wiersze.add(new Wiersze(1, 0));
         selected.setKonta(wiersze);
         liczbawierszy = 1;
+        zapisz0edytuj1 = false;
+        
     }
     
     //dodaje wiersze do dokumentu
@@ -109,6 +112,31 @@ public class DokfkView implements Serializable {
         }
     }
     
+      public void edycja() {
+        try {
+            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+            NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
+            dokDAOfk.edit(selected);
+            wykazZaksiegowanychDokumentow.clear();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
+        }
+    }
+    
+    public void usundokument(Dokfk dousuniecia) {
+        try {
+            dokDAOfk.usun(dousuniecia);
+            wykazZaksiegowanychDokumentow.remove(dousuniecia);
+            resetujDokument();
+            RequestContext.getCurrentInstance().update("formwpisdokument");
+            Msg.msg("i", "Dokument usunięty");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się usunąć dokumentu");
+        }
+    }
     
     //***************************************
     public void znajdzduplicatdokumentu() {
@@ -165,6 +193,13 @@ public class DokfkView implements Serializable {
         //RequestContext.getCurrentInstance().execute("$(#formwpisdokument\\\\:dataList\\\\:5\\\\:opis).select()");
     }
 
+     //on robi nie tylko to ze przywraca button, on jeszcze resetuje selected
+    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
+    public void przywrocwpisbutton() {
+        setZapisz0edytuj1(false);
+        resetujDokument();
+        RequestContext.getCurrentInstance().execute("pierwszy.hide();");
+    }
     
     //********************
     
