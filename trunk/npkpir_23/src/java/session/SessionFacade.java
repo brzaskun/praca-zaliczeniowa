@@ -542,7 +542,11 @@ public class SessionFacade<T> {
     }
 
     public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
-        return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setMaxResults(1).getSingleResult();
+        try {
+            return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 

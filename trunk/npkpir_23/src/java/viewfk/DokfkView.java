@@ -528,10 +528,10 @@ public class DokfkView implements Serializable {
             }
             if (aktualnywierszdorozrachunkow.getWnlubma().equals("Wn")) {
                 juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoWn() - biezacakwotarozrachunkow);
-                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - aktualnywierszdorozrachunkow.getRozliczonoWn());
+                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - juzrozliczono);
             } else {
                 juzrozliczono = (aktualnywierszdorozrachunkow.getRozliczonoMa() - biezacakwotarozrachunkow);
-                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - aktualnywierszdorozrachunkow.getRozliczonoMa());
+                pozostalodorozliczenia = (aktualnywierszdorozrachunkow.getKwotapierwotna() - juzrozliczono);
             }
         } catch (Exception ex) {
             Msg.msg("e", "Blad w DokfkView funkcja podsumujtoconaniesionoizaktualizujpozostale");
@@ -788,12 +788,10 @@ public class DokfkView implements Serializable {
 
     public void wygenerujokreswpisudokumentu() {
         String data = (String) Params.params("formwpisdokument:datka");
-        if (data.length() == 10) {
         String mc = data.split("-")[1];
         selected.setMiesiac(mc);
         RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
         Msg.msg("i", "Wygenerowano okres dokumentu");
-    }
     }
 
     public void pobierzostatninumerdok() {
