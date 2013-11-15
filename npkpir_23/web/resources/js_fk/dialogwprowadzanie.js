@@ -11,7 +11,7 @@ var zachowajwiersz = function (wierszid, wnlubma) {
 var pierwszyonShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty');
-        drugi.hide();
+        //drugi.hide();
         przygotujdokumentdoedycji();
         załadujmodelzachowywaniawybranegopola();
         $('#formwpisdokument\\:datka').select();
