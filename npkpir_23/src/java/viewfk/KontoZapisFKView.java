@@ -29,7 +29,7 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 @ViewScoped
-public class KontoZapisyFKView implements Serializable{
+public class KontoZapisFKView implements Serializable{
     private List<Kontozapisy> kontozapisy;
     private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;
@@ -46,7 +46,7 @@ public class KontoZapisyFKView implements Serializable{
     private List zapisydopodswietlenia;
     
 
-    public KontoZapisyFKView() {
+    public KontoZapisFKView() {
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();    
     }
@@ -71,7 +71,8 @@ public class KontoZapisyFKView implements Serializable{
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
+             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer
+());
          }
          sumazapisow();
          }
