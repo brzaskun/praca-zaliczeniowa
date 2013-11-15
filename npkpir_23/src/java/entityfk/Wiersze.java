@@ -374,10 +374,12 @@ public class Wiersze implements Serializable {
         return true;
     }
 
-
     @Override
     public String toString() {
-        return "entityfk.Wiersze[ idwiersza=" + idwiersza + " ]";
+        return "Wiersze{" + "idwiersza=" + idwiersza + ", idporzadkowy=" + idporzadkowy + ", dokfk=" + dokfk + '}';
     }
+
+
+    
     
 }
