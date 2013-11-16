@@ -26,8 +26,10 @@ public class WierszStronafk implements Serializable {
     private Konto konto;
 
     public WierszStronafk() {
+        this.kwota = 0.0;
         this.wierszStronafkPK = new WierszStronafkPK();
     }
+    
 
     @Override
     public int hashCode() {

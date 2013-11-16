@@ -71,7 +71,7 @@
                         </p:autoComplete>
                     </p:column> 
                     <p:column headerText="kwota"  width="160">
-                        <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.konto}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" >
+                        <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.kwota}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" >
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                     </p:column>
@@ -92,8 +92,8 @@
                     </p:column>
                 </p:dataTable>
                 <p:panel>
-                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj()}" accesskey="s" update=":formwpisdokument, :zestawieniedokumentow:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
-                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" actionListener="#{dokfkView.edycja()}" update=":wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
+                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj}" accesskey="s" update=":formwpisdokument, :zestawieniedokumentow:dataList"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
+                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" actionListener="#{dokfkView.edycja}" update=":wpisywaniefooter"  rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>
             </div>
