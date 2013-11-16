@@ -340,9 +340,19 @@ public class DokfkView implements Serializable {
                 it.remove();
             }
         }
+        // tu trzeba wstawic kod pobierajacy rozrachunki z istniejacych rozrachunkow a dotyczacych wierszy w tymczasowych
+        
         if (transakcjetymczasowa.size() > 0) {
             for (Transakcja s : transakcjetymczasowa) {
                 biezacetransakcje.add(s);
+            }
+        }
+        //usuwamy transakcje z innymi aktualnymi wierszami
+        Iterator itX = biezacetransakcje.iterator();
+        while (itX.hasNext()) {
+            Transakcja t = (Transakcja) itX.next();
+            if ((!t.getTransakcjaPK().getRozliczany().getWierszStronafk().getWierszStronafkPK().equals(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK()))) {
+                itX.remove();
             }
         }
     }
@@ -352,8 +362,10 @@ public class DokfkView implements Serializable {
         double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
         for (Transakcja p : biezacetransakcje) {
             double kwota = p.getKwotatransakcji();
+            if ((p.getTransakcjaPK().getRozliczany().getWierszStronafk().getWierszStronafkPK().equals(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK()))){
                     rozliczono = rozliczono + kwota;
                     pozostalo = pozostalo - kwota;
+            }
             }
         aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
