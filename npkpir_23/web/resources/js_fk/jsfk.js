@@ -113,10 +113,12 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_input").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").select();
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
@@ -128,8 +130,10 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_input").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").select();
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};

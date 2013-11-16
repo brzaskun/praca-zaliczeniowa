@@ -5,6 +5,7 @@
 package viewfk;
 
 import daoFK.DokDAOfk;
+import embeddablefk.Rozrachunekfk;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
@@ -40,10 +41,14 @@ public class DokfkView implements Serializable {
     //a to jest w dialog_zapisywdokumentach
     @Inject private Wiersze wiersz;
     private int numerwierszazapisu;
+    //zmienne dla rozrachunkow
+    @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
+    private List<Rozrachunekfk> pobranestronywierszy;
 
     public DokfkView() {
         resetujDokument();
         wykazZaksiegowanychDokumentow = new ArrayList<>();
+        pobranestronywierszy = new ArrayList<>();
     }
     
     @PostConstruct
@@ -88,7 +93,7 @@ public class DokfkView implements Serializable {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
         if (pierwsze != 0 || drugie != 0) {
-            liczbawierszy++;    
+            liczbawierszy++;
             selected.getKonta().add(utworzNowyWiersz());
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
@@ -100,27 +105,28 @@ public class DokfkView implements Serializable {
         Wiersze nowywiersz = new Wiersze(liczbawierszy, 0);
         WierszStronafk wierszStronafkWn = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
-        dodajdanedowiersza(wierszStronafkPKWn);
+        wierszStronafkWn.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKWn, "Wn"));
         nowywiersz.setWierszStronaWn(wierszStronafkWn);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
-        dodajdanedowiersza(wierszStronafkPKMa);
+        wierszStronafkMa.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKMa, "Ma"));
         nowywiersz.setWierszStronaMa(wierszStronafkMa);
         return nowywiersz;
     }
     
-    private void dodajdanedowiersza(WierszStronafkPK w){
-        w.setNrPorzadkowyWiersza(liczbawierszy);
+    private WierszStronafkPK dodajdanedowiersza(int numer, WierszStronafkPK w, String wnma){
+        w.setNrPorzadkowyWiersza(numer);
         w.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
         w.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
-        w.setStronaWnlubMa("Wn");
+        w.setStronaWnlubMa(wnma);
+        return w;
     }
     //wersja dla pierwszegor zedu
     public void dodajdanedowierszaPW(){
         WierszStronafkPK w = selected.getKonta().get(0).getWierszStronaWn().getWierszStronafkPK();
-        dodajdanedowiersza(w);
+        selected.getKonta().get(0).getWierszStronaWn().setWierszStronafkPK(dodajdanedowiersza(1, w, "Wn"));
         w = selected.getKonta().get(0).getWierszStronaMa().getWierszStronafkPK();
-        dodajdanedowiersza(w);
+        selected.getKonta().get(0).getWierszStronaMa().setWierszStronafkPK(dodajdanedowiersza(1, w, "Ma"));
     }
     
     //usuwa wiersze z dokumentu
@@ -238,7 +244,77 @@ public class DokfkView implements Serializable {
     }
     
     //********************
+    //rozrachunki
+    public void rozrachunki(){
+        //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
+        String wnma = (String) Params.params("wpisywaniefooter:wnlubma");
+        String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
+        pobranestronywierszy = new ArrayList<>();
+        try {
+            Integer nrwiersza = Integer.parseInt(nrwierszaS);
+            nrwiersza--;
+            aktualnywierszdorozrachunkow = new Rozrachunekfk();
+            if (wnma.equals("Wn")) {
+                WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaWn();
+                aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
+                aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
+            } else {
+                WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaMa();
+                aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
+                aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
+            }
+            if (aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                pobierzwierszezdokumentow(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK(),selected.getKonta(),wnma);
+                RequestContext.getCurrentInstance().update("rozrachunki");
+                RequestContext.getCurrentInstance().execute("drugishow();");
+                //zerujemy rzeczy w dialogu
+                wierszid = ""; wnlubma = "";
+                RequestContext.getCurrentInstance().update("formwpisdokument");
+                RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+            } else {
+                Msg.msg("e", "Wybierz konto rozrachunkowe");
+                //zerujemy rzeczy w dialogu
+                wierszid = ""; wnlubma = "";
+                RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+                RequestContext.getCurrentInstance().execute("powrotdopola();");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wybierz pole zawierające numer konta");
+            //zerujemy rzeczy w dialogu
+            wierszid = ""; wnlubma = "";
+            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+            RequestContext.getCurrentInstance().execute("powrotdopola();");
+        }
+    }
     
+    private void pobierzwierszezdokumentow(WierszStronafkPK wierszStronafkPK, List<Wiersze> wierszezdokumentu, String wnma) {
+        List<WierszStronafk> wybraneStronyWierszy = new ArrayList<>();
+        if (wierszezdokumentu.size() > 1) {
+        for (Wiersze p : wierszezdokumentu) {
+            if (wnma.equals("Wn")) {
+                WierszStronafk r = p.getWierszStronaWn();
+                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)) {
+                    wybraneStronyWierszy.add(p.getWierszStronaWn());
+                }
+            } else {
+                WierszStronafk r = p.getWierszStronaMa();
+                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)) {
+                    wybraneStronyWierszy.add(p.getWierszStronaMa());
+                }
+            }
+        }
+        for (WierszStronafk s : wybraneStronyWierszy) {
+            Rozrachunekfk tmp = new Rozrachunekfk();
+            tmp.setWierszStronafk(s);
+            tmp.setKwotapierwotna(s.getKwota());
+            pobranestronywierszy.add(tmp);
+            
+        }
+        }
+    }
+    
+    
+    //********************
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -305,7 +381,29 @@ public class DokfkView implements Serializable {
     public void setWiersz(Wiersze wiersz) {
         this.wiersz = wiersz;
     }
+    
+    public Rozrachunekfk getAktualnywierszdorozrachunkow() {
+        return aktualnywierszdorozrachunkow;
+    }
+
+    public void setAktualnywierszdorozrachunkow(Rozrachunekfk aktualnywierszdorozrachunkow) {
+        this.aktualnywierszdorozrachunkow = aktualnywierszdorozrachunkow;
+    }
+ 
+    public List<Rozrachunekfk> getPobranestronywierszy() {
+        return pobranestronywierszy;
+    }
+
+    public void setPobranestronywierszy(List<Rozrachunekfk> pobranestronywierszy) {
+        this.pobranestronywierszy = pobranestronywierszy;
+    }
+
+   
      
     //</editor-fold>
+
+    
+   
+  
 
 }
