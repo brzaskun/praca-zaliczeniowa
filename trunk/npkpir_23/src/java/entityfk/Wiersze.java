@@ -1,6 +1,7 @@
 
 package entityfk;
 
+import embeddablefk.WierszStronafk;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -57,10 +57,12 @@ public class Wiersze implements Serializable {
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
-    @Column(name = "kwotaMa", precision = 22)
-    private Double kwotaMa;
-    @Column(name = "kwotaWn", precision = 22)
-    private Double kwotaWn;
+    @Lob
+    @Column(name = "wierszStronaWn")
+    private WierszStronafk wierszStronaWn;
+    @Lob
+    @Column(name = "wierszStronaMa")
+    private WierszStronafk wierszStronaMa;
     @Size(max = 255)
     @Column(name = "opis", length = 255)
     private String opis;
@@ -68,14 +70,6 @@ public class Wiersze implements Serializable {
     private Integer typwiersza;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @Lob
-    @Column(name = "kontoMa")
-    @OneToOne
-    private Konto kontoMa;
-    @Lob
-    @Column(name = "kontoWn")
-    @OneToOne
-    private Konto kontoWn;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
@@ -98,6 +92,22 @@ public class Wiersze implements Serializable {
     
     public void setDataksiegowania(String dataksiegowania) {
         this.dataksiegowania = dataksiegowania;
+    }
+
+    public WierszStronafk getWierszStronaWn() {
+        return wierszStronaWn;
+    }
+
+    public void setWierszStronaWn(WierszStronafk wierszStronaWn) {
+        this.wierszStronaWn = wierszStronaWn;
+    }
+
+    public WierszStronafk getWierszStronaMa() {
+        return wierszStronaMa;
+    }
+
+    public void setWierszStronaMa(WierszStronafk wierszStronaMa) {
+        this.wierszStronaMa = wierszStronaMa;
     }
 
     public List<Kontozapisy> getZapisynakontach() {
@@ -124,23 +134,7 @@ public class Wiersze implements Serializable {
     public void setIdporzadkowy(Integer idporzadkowy) {
         this.idporzadkowy = idporzadkowy;
     }
-       
-    public Double getKwotaMa() {
-        return kwotaMa;
-    }
-    
-    public void setKwotaMa(Double kwotaMa) {
-        this.kwotaMa = kwotaMa;
-    }
-    
-    public Double getKwotaWn() {
-        return kwotaWn;
-    }
-    
-    public void setKwotaWn(Double kwotaWn) {
-        this.kwotaWn = kwotaWn;
-    }
-     
+            
     public String getOpis() {
         return opis;
     }
@@ -165,23 +159,7 @@ public class Wiersze implements Serializable {
     public void setZaksiegowane(Boolean zaksiegowane) {
         this.zaksiegowane = zaksiegowane;
     }
-    
-    public Konto getKontoMa() {
-        return kontoMa;
-    }
-    
-    public void setKontoMa(Konto kontoMa) {
-        this.kontoMa = kontoMa;
-    }
-    
-    public Konto getKontoWn() {
-        return kontoWn;
-    }
-    
-    public void setKontoWn(Konto kontoWn) {
-        this.kontoWn = kontoWn;
-    }
-
+  
     public Dokfk getDokfk() {
         return dokfk;
     }
