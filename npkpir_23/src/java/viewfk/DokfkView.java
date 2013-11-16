@@ -5,6 +5,8 @@
 package viewfk;
 
 import daoFK.DokDAOfk;
+import embeddablefk.WierszStronafk;
+import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Wiersze;
@@ -60,7 +62,14 @@ public class DokfkView implements Serializable {
         DokfkPK dokfkPK = new DokfkPK();
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
-        wiersze.add(new Wiersze(1, 0));
+        Wiersze nowywiersz = new Wiersze(1, 0);
+        WierszStronafk wierszStronafkWn = new WierszStronafk();
+        nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        WierszStronafk wierszStronafkMa = new WierszStronafk();
+        nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        wiersze.add(nowywiersz);
         selected.setKonta(wiersze);
         liczbawierszy = 1;
         zapisz0edytuj1 = false;
@@ -80,7 +89,16 @@ public class DokfkView implements Serializable {
         }
         if (pierwsze != 0 || drugie != 0) {
             liczbawierszy++;
-            selected.getKonta().add(new Wiersze(liczbawierszy, 0));
+            Wiersze nowywiersz = new Wiersze(1, 0);
+            WierszStronafk wierszStronafkWn = new WierszStronafk();
+            WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
+            wierszStronafkPKWn.setNrPorzadkowyWiersza(liczbawierszy);
+            nowywiersz.setWierszStronaWn(wierszStronafkWn);
+            WierszStronafk wierszStronafkMa = new WierszStronafk();
+            WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
+            wierszStronafkPKMa.setNrPorzadkowyWiersza(liczbawierszy);
+            nowywiersz.setWierszStronaWn(wierszStronafkMa);
+            selected.getKonta().add(nowywiersz);
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
