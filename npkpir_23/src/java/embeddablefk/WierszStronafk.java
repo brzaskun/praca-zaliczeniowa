@@ -17,10 +17,17 @@ import javax.persistence.EmbeddedId;
 @Embeddable
 public class WierszStronafk implements Serializable {
     
-    @EmbeddedId
-    protected WierszStronafkPK wierszStronafkPK = new WierszStronafkPK();
+    /**
+     * to jest klucz ale nie moze byc EmbeddedId bo sie kloci z idwiersza. To pole jest osadzone w Wiersze
+     * zostawilem to jestak zeby latow wyszukiwac i porownywac przez PK
+     */
+    protected WierszStronafkPK wierszStronafkPK;
     private double kwota;
     private Konto konto;
+
+    public WierszStronafk() {
+        this.wierszStronafkPK = new WierszStronafkPK();
+    }
 
     @Override
     public int hashCode() {

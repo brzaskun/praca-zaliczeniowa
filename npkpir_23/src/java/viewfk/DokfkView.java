@@ -269,7 +269,7 @@ public class DokfkView implements Serializable {
     public void setWiersz(Wiersze wiersz) {
         this.wiersz = wiersz;
     }
-    
+     
     //</editor-fold>
 
 }
