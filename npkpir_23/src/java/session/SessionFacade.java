@@ -39,7 +39,6 @@ import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
-import entityfk.Rozrachunki;
 import entityfk.Wiersze;
 //import entityfk.Rozrachunki;
 import java.util.List;
@@ -447,12 +446,6 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
-    public List<Rozrachunki> findRozliczany(Integer zapisrozliczany) {
-        return em.createNamedQuery("Rozrachunki.findByZapisrozliczany").setParameter("zapisrozliczany", zapisrozliczany).getResultList();
-    }
-    public List<Rozrachunki> findSparowany(Integer zapissparowany) {
-        return em.createNamedQuery("Rozrachunki.findByZapissparowany").setParameter("zapissparowany", zapissparowany).getResultList();
-    } 
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
@@ -537,10 +530,7 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
     }
 
-    public List<Rozrachunki> findRozrachunekByWierszID(Integer wierszID) {
-        return em.createNamedQuery("Rozrachunki.findByWierszID").setParameter("wierszID", wierszID).getResultList();
-    }
-
+   
     public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setMaxResults(1).getSingleResult();

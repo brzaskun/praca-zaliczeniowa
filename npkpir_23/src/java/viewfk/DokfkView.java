@@ -73,8 +73,8 @@ public class DokfkView implements Serializable {
         double drugie = 0.0;
         try {
             liczbawierszy = selected.getKonta().size();
-            pierwsze = selected.getKonta().get(liczbawierszy - 1).getKwotaWn();
-            drugie = selected.getKonta().get(liczbawierszy - 1).getKwotaMa();
+            pierwsze = selected.getKonta().get(liczbawierszy - 1).getWierszStronaWn().getKwota();
+            drugie = selected.getKonta().get(liczbawierszy - 1).getWierszStronaMa().getKwota();
         } catch (Exception e) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }

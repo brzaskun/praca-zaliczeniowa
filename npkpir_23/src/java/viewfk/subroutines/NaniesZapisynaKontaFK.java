@@ -42,31 +42,31 @@ public class NaniesZapisynaKontaFK implements Serializable {
 
     private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach) {
         Kontozapisy kontozapisy = new Kontozapisy();
-        kontozapisy.setKonto(p.getKontoWn().getPelnynumer());
-        kontozapisy.setKontoob(p.getKontoWn());
-        kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+        kontozapisy.setKonto(p.getWierszStronaWn().getKonto().getPelnynumer());
+        kontozapisy.setKontoob(p.getWierszStronaWn().getKonto());
+        kontozapisy.setKontoprzeciwstawne(p.getWierszStronaMa().getKonto().getPelnynumer());
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
-        kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-        kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-        kontozapisy.setKwotawn(p.getKwotaWn());
+        kontozapisy.setKontown(p.getWierszStronaWn().getKonto().getNazwapelna());
+        kontozapisy.setKontoma(p.getWierszStronaMa().getKonto().getNazwapelna());
+        kontozapisy.setKwotawn(p.getWierszStronaWn().getKwota());
         kontozapisy.setKwotama(0);
         zapisynakontach.add(kontozapisy);
     }
 
     private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach) {
         Kontozapisy kontozapisy = new Kontozapisy();
-        kontozapisy.setKonto(p.getKontoMa().getPelnynumer());
-        kontozapisy.setKontoob(p.getKontoMa());
-        kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+        kontozapisy.setKonto(p.getWierszStronaMa().getKonto().getPelnynumer());
+        kontozapisy.setKontoob(p.getWierszStronaMa().getKonto());
+        kontozapisy.setKontoprzeciwstawne(p.getWierszStronaWn().getKonto().getPelnynumer());
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
-        kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-        kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+        kontozapisy.setKontown(p.getWierszStronaMa().getKonto().getNazwapelna());
+        kontozapisy.setKontoma(p.getWierszStronaWn().getKonto().getNazwapelna());
+        kontozapisy.setKwotama(p.getWierszStronaMa().getKwota());
         kontozapisy.setKwotawn(0);
-        kontozapisy.setKwotama(p.getKwotaMa());
 //           kontozapisy.setDokfk(x);
         zapisynakontach.add(kontozapisy);
     }
