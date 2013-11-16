@@ -6,6 +6,7 @@ package viewfk;
 
 import daoFK.DokDAOfk;
 import embeddablefk.Rozrachunekfk;
+import embeddablefk.Transakcja;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
@@ -13,6 +14,7 @@ import entityfk.DokfkPK;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -44,11 +46,13 @@ public class DokfkView implements Serializable {
     //zmienne dla rozrachunkow
     @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
     private List<Rozrachunekfk> pobranestronywierszy;
+    private List<Transakcja> biezacetransakcje;
 
     public DokfkView() {
         resetujDokument();
         wykazZaksiegowanychDokumentow = new ArrayList<>();
         pobranestronywierszy = new ArrayList<>();
+        biezacetransakcje = new ArrayList<>();
     }
     
     @PostConstruct
@@ -258,13 +262,18 @@ public class DokfkView implements Serializable {
                 WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaWn();
                 aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
                 aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
+                aktualnywierszdorozrachunkow.setPozostalo(wierszStronafk.getKwota());
             } else {
                 WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaMa();
                 aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
                 aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
+                aktualnywierszdorozrachunkow.setPozostalo(wierszStronafk.getKwota());
             }
             if (aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 pobierzwierszezdokumentow(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK(),selected.getKonta(),wnma);
+                zaktualizujwierszezdokumentow();
+                stworztransakcje();
+                zaktualizujaktualnywiersz();
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().execute("drugishow();");
                 //zerujemy rzeczy w dialogu
@@ -292,13 +301,13 @@ public class DokfkView implements Serializable {
         if (wierszezdokumentu.size() > 1) {
         for (Wiersze p : wierszezdokumentu) {
             if (wnma.equals("Wn")) {
-                WierszStronafk r = p.getWierszStronaWn();
-                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)) {
+                WierszStronafk r = p.getWierszStronaMa();
+                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)&&r.getKonto().getPelnynumer().equals(aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getPelnynumer())) {
                     wybraneStronyWierszy.add(p.getWierszStronaWn());
                 }
             } else {
-                WierszStronafk r = p.getWierszStronaMa();
-                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)) {
+                WierszStronafk r = p.getWierszStronaWn();
+                if (!r.getWierszStronafkPK().equals(wierszStronafkPK)&&r.getKonto().getPelnynumer().equals(aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getPelnynumer())) {
                     wybraneStronyWierszy.add(p.getWierszStronaMa());
                 }
             }
@@ -307,6 +316,7 @@ public class DokfkView implements Serializable {
             Rozrachunekfk tmp = new Rozrachunekfk();
             tmp.setWierszStronafk(s);
             tmp.setKwotapierwotna(s.getKwota());
+            tmp.setPozostalo(s.getKwota());
             pobranestronywierszy.add(tmp);
             
         }
@@ -314,6 +324,70 @@ public class DokfkView implements Serializable {
     }
     
     
+    private void stworztransakcje() {
+        List<Transakcja> transakcjetymczasowa = new ArrayList<>();
+        for (Rozrachunekfk p : pobranestronywierszy) {
+            Transakcja transakcja = new Transakcja();
+            transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
+            transakcja.getTransakcjaPK().setSparowany(p);
+            transakcjetymczasowa.add(transakcja);
+        }
+        //sprawdz czy nowoutworzona transakcja nie znajduje sie w biezacetransakcje
+        Iterator it = transakcjetymczasowa.iterator();
+        while (it.hasNext()) {
+            Transakcja r = (Transakcja) it.next();
+            if (biezacetransakcje.contains(r)) {
+                it.remove();
+            }
+        }
+        if (transakcjetymczasowa.size() > 0) {
+            for (Transakcja s : transakcjetymczasowa) {
+                biezacetransakcje.add(s);
+            }
+        }
+    }
+    
+     private void zaktualizujaktualnywiersz() {
+        double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
+        double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
+        for (Transakcja p : biezacetransakcje) {
+            double kwota = p.getKwotatransakcji();
+                    rozliczono = rozliczono + kwota;
+                    pozostalo = pozostalo - kwota;
+            }
+        aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+        aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+    }
+    
+    
+    private void zaktualizujwierszezdokumentow() {
+        //tu trzeba pobrac transakcje z bazy i z dokumentu i teraz zaktualizowac
+    }
+
+    //nanosi transakcje z kwotami na rozrachunki
+    public void zapistransakcji() {
+        for (Transakcja p : biezacetransakcje) {
+            double kwotanowa = p.getKwotatransakcji();
+            double kwotastara = p.getPoprzedniakwota();
+            double roznica = kwotastara - kwotanowa;
+            double aktualny = p.getTransakcjaPK().getRozliczany().getRozliczono();
+            double aktualny_pierwotna = p.getTransakcjaPK().getRozliczany().getKwotapierwotna();
+            double sparowany = p.getTransakcjaPK().getSparowany().getRozliczono();
+            double sparowany_pierwotna = p.getTransakcjaPK().getSparowany().getKwotapierwotna();
+            if (roznica > 0) {
+                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny + roznica);
+                p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna - roznica);
+                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany + roznica);
+                p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna - roznica);
+            } else if (roznica < 0) {
+                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny - roznica);
+                p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna + roznica);
+                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany - roznica);
+                p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna + roznica);
+            }
+            p.setPoprzedniakwota(kwotanowa);
+        }
+    }
     //********************
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -398,9 +472,21 @@ public class DokfkView implements Serializable {
         this.pobranestronywierszy = pobranestronywierszy;
     }
 
+    public List<Transakcja> getBiezacetransakcje() {
+        return biezacetransakcje;
+    }
+
+    public void setBiezacetransakcje(List<Transakcja> biezacetransakcje) {
+        this.biezacetransakcje = biezacetransakcje;
+    }
    
      
     //</editor-fold>
+
+   
+
+   
+
 
     
    

@@ -45,15 +45,7 @@ public class Rozrachunekfk {
         if (!Objects.equals(this.wierszStronafk, other.wierszStronafk)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.kwotapierwotna) != Double.doubleToLongBits(other.kwotapierwotna)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.rozliczono) != Double.doubleToLongBits(other.rozliczono)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.pozostalo) != Double.doubleToLongBits(other.pozostalo)) {
-            return false;
-        }
+
         return true;
     }
 

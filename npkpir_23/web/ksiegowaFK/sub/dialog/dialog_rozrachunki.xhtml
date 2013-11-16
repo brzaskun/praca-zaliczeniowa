@@ -12,8 +12,10 @@
               resizable="false"  onShow="drugionShow();" closeOnEscape="true" onHide="rozrachunkionHide();" >
         <h:form id="rozrachunki">
             <div style="height: 600px;">
-                    <p:panelGrid id="paneledycji" columns="4" style="width: 600px;">
+                    <p:panelGrid id="paneledycji" columns="6" style="width: 800px;">
                         <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu}"/>
+                        <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.konto.pelnynumer}"/>
+                        <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.konto.podatnik}"/>
                         <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -24,27 +26,27 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
-                <p:dataTable id="dataList" value="#{dokfkView.pobranestronywierszy}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
+                <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
                              emptyMessage="Nie ma zapisów po przeciwnej stronie na tym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana"
                              >
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-<!--                    <p:column headerText="kwota rozliczenia" width="40">
-                        <pe:inputNumber id="kwotarozliczenia" value="{loop.biezacakwotarozrachunku}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="{loop.pozwolnawpis}" style="float: right;"/>
-                    </p:column>-->
+                   <p:column headerText="kwota rozliczenia" width="40">
+                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
+                    </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
-                         <h:outputText id="pozostalo" value="#{loop.pozostalo}" style="float: right;">
+                         <h:outputText id="pozostalo" value="#{loop.transakcjaPK.sparowany.pozostalo}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                      <p:column headerText="kwota już rozliczona" width="40">
-                         <h:outputText value="#{loop.rozliczono}" style="float: right;">
+                         <h:outputText value="#{loop.transakcjaPK.sparowany.rozliczono}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="kwota transakcji" width="40">
-                        <h:outputText value="#{loop.kwotapierwotna}" style="float: right;">
+                        <h:outputText value="#{loop.transakcjaPK.sparowany.kwotapierwotna}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -52,20 +54,20 @@
                         <h:outputText id="opis" value="{loop.wierszsparowan}" />
                     </p:column>-->
                      <p:column headerText="symbol dokumentu" width="150">
-                         <h:outputText id="symboldok" value="#{loop.wierszStronafk.wierszStronafkPK.typdokumentu}" />
+                         <h:outputText id="symboldok" value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
                     </p:column>
                     <p:column headerText="wiersz w dok" width="40"  style="text-align: center;">
-                        <h:outputText value="#{loop.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
+                        <h:outputText value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
                     </p:column>
 <!--                    <p:column headerText="konto przeciwstawne" width="40">
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.wierszStronafk.wierszStronafkPK eq dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK ? 'zapis z bieżącego dokumentu' : null}"/>
+                         <h:outputText value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK eq dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK ? 'zapis z bieżącego dokumentu' : null}"/>
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapisanorozrachunek}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki" rendered="#{loop.pozwolnawpis}" />
+                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"  />
             </div>
         </h:form>
         <f:facet name="footer">
