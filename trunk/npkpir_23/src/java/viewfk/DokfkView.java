@@ -88,23 +88,41 @@ public class DokfkView implements Serializable {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
         if (pierwsze != 0 || drugie != 0) {
-            liczbawierszy++;
-            Wiersze nowywiersz = new Wiersze(1, 0);
-            WierszStronafk wierszStronafkWn = new WierszStronafk();
-            WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
-            wierszStronafkPKWn.setNrPorzadkowyWiersza(liczbawierszy);
-            nowywiersz.setWierszStronaWn(wierszStronafkWn);
-            WierszStronafk wierszStronafkMa = new WierszStronafk();
-            WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
-            wierszStronafkPKMa.setNrPorzadkowyWiersza(liczbawierszy);
-            nowywiersz.setWierszStronaWn(wierszStronafkMa);
-            selected.getKonta().add(nowywiersz);
+            liczbawierszy++;    
+            selected.getKonta().add(utworzNowyWiersz());
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
         }
-
     }
+    
+    private Wiersze utworzNowyWiersz() {
+        Wiersze nowywiersz = new Wiersze(liczbawierszy, 0);
+        WierszStronafk wierszStronafkWn = new WierszStronafk();
+        WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
+        dodajdanedowiersza(wierszStronafkPKWn);
+        nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        WierszStronafk wierszStronafkMa = new WierszStronafk();
+        WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
+        dodajdanedowiersza(wierszStronafkPKMa);
+        nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        return nowywiersz;
+    }
+    
+    private void dodajdanedowiersza(WierszStronafkPK w){
+        w.setNrPorzadkowyWiersza(liczbawierszy);
+        w.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
+        w.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
+        w.setStronaWnlubMa("Wn");
+    }
+    //wersja dla pierwszegor zedu
+    public void dodajdanedowierszaPW(){
+        WierszStronafkPK w = selected.getKonta().get(0).getWierszStronaWn().getWierszStronafkPK();
+        dodajdanedowiersza(w);
+        w = selected.getKonta().get(0).getWierszStronaMa().getWierszStronafkPK();
+        dodajdanedowiersza(w);
+    }
+    
     //usuwa wiersze z dokumentu
 
     public void liczbawu() {
