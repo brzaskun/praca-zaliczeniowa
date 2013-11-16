@@ -85,8 +85,8 @@ public class WierszStronafk implements Serializable {
     public void setKonto(Konto konto) {
         this.konto = konto;
     }
-    
-    
+
+       
     
     
 }

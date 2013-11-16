@@ -24,6 +24,7 @@
                         <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.pobierzostatninumerdok}"/>
                     </h:selectOneMenu>
                     <h:outputText value="numer"/><h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
+                        <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
                     <h:outputText value="podatnik"/><h:selectOneMenu id="podatnik" value="#{dokfkView.selected.dokfkPK.podatnik}" style="width: 200px;">
                         <f:selectItem itemLabel="Kowalski" itemValue="Kowalski"/>
@@ -33,7 +34,7 @@
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/></h:selectOneMenu>
                     <h:outputText value="miesiąc"/><h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}">
                         <f:selectItems value="#{Mce.mceList}"/>
-                        <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
+                        <f:ajax event="blur" listener="#{dokfkView.dodajdanedowierszaPW}" execute="@this"/></h:selectOneMenu>
                 </p:panelGrid>
             </div>
 <!--            <div style="height: 50px;">
@@ -52,7 +53,7 @@
                     </p:column>
                     <p:column headerText="opis transakcji" width="170">
                         <p:inputText id="opis" value="#{loop.opis}" style="width: 165px;" onkeypress="wywolajdok('#{planKontView.opiskonta}', '#{planKontView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
-                            <f:ajax event="blur" listener="#{dokfkView.dodajdanedowierszaPW}" execute="@this"/>
+                            <f:ajax event="blur"  execute="@this"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="kwota"  width="160">
@@ -67,7 +68,7 @@
                                         global="false" converterMessage="Nieudana konwersja Klient"
                                         required="true" requiredMessage="Pole konta Wn nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');"
                                         ><!--to teraz powoduje blad-->
-                            <f:ajax event="blur" execute="@this" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
+                            <f:ajax event="blur" execute="@this" />
                         </p:autoComplete>
                     </p:column> 
                     <p:column headerText="kwota"  width="160">
@@ -101,7 +102,7 @@
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.liczbawu}" styleClass="fkbutton" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
-<!--                <p:commandButton value="{mgs.rozrachunki}" styleClass="fkbutton" actionListener="{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>-->
+                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" update=":wpisywaniefooter"  onclick="pierwszy.hide()"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.wierszid}" style="display: none;"/>
