@@ -67,13 +67,19 @@
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"  rendered="#{dokfkView.zablokujprzyciskzapisz}"/>
+                
             </div>
         </h:form>
-        <f:facet name="footer">
-            <p:commandButton value="powrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();
-                    drugi.hide();"/>
-           
+        <f:facet name="footer" >
+            <div  style="padding: 5px; height: 35px;">
+                <h:form>
+                <h:selectBooleanCheckbox accesskey="t" valueChangeListener="#{dokfkView.zapiszusuntransakcje}" value="#{dokfkView.potraktujjakoNowaTransakcje}"><h:outputText value="potraktuja jako nową transakcję do rozliczenia"/>
+                    <f:ajax event="change" execute="@this"/>
+                </h:selectBooleanCheckbox>
+               <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki" style="margin-left: 10px;" />
+                <p:commandButton value="powrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;"/>
+                </h:form>
+            </div>
         </f:facet>
     </p:dialog>
 </ui:composition>
