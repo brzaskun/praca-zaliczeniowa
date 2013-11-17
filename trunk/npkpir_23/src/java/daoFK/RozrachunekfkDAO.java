@@ -8,6 +8,7 @@ import dao.DAO;
 import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,6 +40,15 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         try {
             System.out.println("Szukam Rozrachunekfk");
             return rozrachunekfkFacade.findRozrachunekfk(p);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma) {
+         try {
+            System.out.println("Szukam Rozrachunekfk");
+            return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma);
         } catch (Exception e) {
             return null;
         }
