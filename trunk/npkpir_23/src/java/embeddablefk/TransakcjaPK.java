@@ -4,6 +4,7 @@
  */
 package embeddablefk;
 
+import entityfk.Rozrachunekfk;
 import java.io.Serializable;
 import java.util.Objects;
 
