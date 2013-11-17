@@ -554,6 +554,20 @@ public class SessionFacade<T> {
         }
     }
 
+    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma) {
+        String wnmaNew = null;
+        if (wnma.equals("Wn")) {
+            wnmaNew = "Ma";
+        } else {
+            wnmaNew = "Wn";
+        }
+         try {
+            return (List<Rozrachunekfk>) em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
   
   
