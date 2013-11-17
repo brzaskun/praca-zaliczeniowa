@@ -5,6 +5,7 @@
 package session;
 
 import embeddable.Mce;
+import embeddablefk.WierszStronafkPK;
 import entity.Amodok;
 import entity.Deklaracjevat;
 import entity.Dok;
@@ -41,6 +42,7 @@ import entityfk.Konto;
 import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
 import entityfk.Wiersze;
+import entityfk.Zestawienielisttransakcji;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -561,12 +563,22 @@ public class SessionFacade<T> {
         } else {
             wnmaNew = "Wn";
         }
-         try {
+        try {
             return (List<Rozrachunekfk>) em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).getResultList();
         } catch (Exception e) {
             return null;
         }
     }
+
+    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
+         try {
+            return (Zestawienielisttransakcji) em.createNamedQuery("Zestawienielisttransakcji.findByKluczlisty").setParameter("kluczlisty", kluczlisty).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    
 
 
   
