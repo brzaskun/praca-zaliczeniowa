@@ -24,6 +24,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -48,9 +49,10 @@ public class DokfkView implements Serializable {
     //a to jest w dialog_zapisywdokumentach
     @Inject private Wiersze wiersz;
     private int numerwierszazapisu;
-    //zmienne dla rozrachunkow
+    //************************************zmienne dla rozrachunkow
+    private boolean potraktujjakoNowaTransakcje;
+    private static List<Rozrachunekfk> zaznaczoneJakoNoweTransakcje;
     @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
-    private List<Rozrachunekfk> pobranestronywierszy;
     //a to sa listy do sortowanie transakcji na poczatku jedna mega do zbiorki wszystkich dodanych coby nie ginely
     private Map<WierszStronafkPK, List<Transakcja>> zestawienielisttransakcji;
     private List<Transakcja> biezacetransakcje;
@@ -61,12 +63,13 @@ public class DokfkView implements Serializable {
     public DokfkView() {
         resetujDokument();
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        this.pobranestronywierszy = new ArrayList<>();
+        zaznaczoneJakoNoweTransakcje = new ArrayList<>();
         this.zestawienielisttransakcji = new HashMap<>();
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
         this.transakcjejakosparowany = new ArrayList<>();
         this.zablokujprzyciskzapisz = false;
+        this.potraktujjakoNowaTransakcje = false;
     }
     
     @PostConstruct
@@ -263,6 +266,18 @@ public class DokfkView implements Serializable {
     }
     
     //</editor-fold>
+    //************************
+    //dodaje nowa transakcje
+    public void zapiszusuntransakcje(ValueChangeEvent el){
+        boolean newvalue = (boolean) el.getNewValue();
+        if (newvalue == true) {
+            zaznaczoneJakoNoweTransakcje.add(aktualnywierszdorozrachunkow);
+            Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
+        } else {
+            zaznaczoneJakoNoweTransakcje.remove(aktualnywierszdorozrachunkow);
+            Msg.msg("i","Usunięto zapis z listy nowych transakcji");
+        }
+    }
    
     //********************
     //rozrachunki
@@ -270,23 +285,23 @@ public class DokfkView implements Serializable {
         //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
         String wnma = (String) Params.params("wpisywaniefooter:wnlubma");
         String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
-        pobranestronywierszy = new ArrayList<>();
+        zaznaczoneJakoNoweTransakcje = new ArrayList<>();
         zablokujprzyciskzapisz = false;
         try {
             Integer nrwiersza = Integer.parseInt(nrwierszaS) - 1;
             inicjalizacjaAktualnego(wnma, nrwiersza);
             if (aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                int onjestnowatransakcja = 0;
-                onjestnowatransakcja = sprawdzczynieBylJakoSparowany();
-                biezacetransakcje = new ArrayList<>();
-                if (onjestnowatransakcja == 0) {
-                    pobierzwierszezdokumentow(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK(),selected.getKonta(),wnma);
-                    stworznowetransakcjezPobranychstronwierszy();
-                    naniesinformacjezwczesniejrozliczonych();
-                } else {
-                   sumujdlaNowejTransakcji(); 
-                   transakcjejakosparowany = new ArrayList<>();
-                }
+//                int onjestnowatransakcja = 0;
+//                onjestnowatransakcja = sprawdzczynieBylJakoSparowany();
+//                biezacetransakcje = new ArrayList<>();
+//                if (onjestnowatransakcja == 0) {
+//                    pobierzwierszezdokumentow(aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK(),selected.getKonta(),wnma);
+//                    stworznowetransakcjezPobranychstronwierszy();
+//                    naniesinformacjezwczesniejrozliczonych();
+//                } else {
+//                   sumujdlaNowejTransakcji(); 
+//                   transakcjejakosparowany = new ArrayList<>();
+//                }
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().execute("drugishow();");
                 //zerujemy rzeczy w dialogu
@@ -335,7 +350,8 @@ public class DokfkView implements Serializable {
                 boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
                 boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
                 boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
-                if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza) {
+                boolean kwoty = x.GetSpRozl()!=0.0 && x.GetSpPoz()!=0.0;
+                if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza&&kwoty) {
                     Msg.msg("w", "on byl jako sparowany");
                     transakcjejakosparowany.add(x);
                     wynikszukania = 1;
@@ -374,7 +390,7 @@ public class DokfkView implements Serializable {
             tmp.setWierszStronafk(s);
             tmp.setKwotapierwotna(s.getKwota());
             tmp.setPozostalo(s.getKwota());
-            pobranestronywierszy.add(tmp);
+            zaznaczoneJakoNoweTransakcje.add(tmp);
             
         }
         }
@@ -384,7 +400,7 @@ public class DokfkView implements Serializable {
     private void stworznowetransakcjezPobranychstronwierszy() {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         transakcjeswiezynki = new ArrayList<>();
-        for (Rozrachunekfk p : pobranestronywierszy) {
+        for (Rozrachunekfk p : zaznaczoneJakoNoweTransakcje) {
             Transakcja transakcja = new Transakcja();
             transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
             transakcja.getTransakcjaPK().setSparowany(p);
@@ -405,14 +421,18 @@ public class DokfkView implements Serializable {
         Iterator it = transakcjeswiezynki.iterator();
         while (it.hasNext()) {
             Transakcja r = (Transakcja) it.next();
-            if (staretransakcjePasujace.contains(r)) {
-                int index = staretransakcjePasujace.indexOf(r);
-                Transakcja donaniesienia = staretransakcjePasujace.get(index);
-                //ja jest to dodaj kwoty ze starych
-                double kwota = donaniesienia.getKwotatransakcji();
-                r.setKwotatransakcji(kwota);
-                r.setPoprzedniakwota(kwota);
-                staretransakcjePasujace.remove(r);
+            if (r.getTransakcjaPK().getSparowany().isNowatransakcja()==true) {
+                it.remove();
+            } else {
+                if (staretransakcjePasujace.contains(r)) {
+                    int index = staretransakcjePasujace.indexOf(r);
+                    Transakcja donaniesienia = staretransakcjePasujace.get(index);
+                    //ja jest to dodaj kwoty ze starych
+                    double kwota = donaniesienia.getKwotatransakcji();
+                    r.setKwotatransakcji(kwota);
+                    r.setPoprzedniakwota(kwota);
+                    staretransakcjePasujace.remove(r);
+                }
             }
         }
         //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
@@ -483,6 +503,7 @@ public class DokfkView implements Serializable {
      //*************************
     //nanosi transakcje z kwotami na rozrachunki
     public void zapistransakcji() {
+        //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
         for (Transakcja p : biezacetransakcje) {
             double kwotanowa = p.getKwotatransakcji();
             double kwotastara = p.getPoprzedniakwota();
@@ -494,6 +515,7 @@ public class DokfkView implements Serializable {
             if (roznica > 0) {
                 p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny + roznica);
                 p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna - roznica);
+                p.getTransakcjaPK().getSparowany().setNowatransakcja(true);
                 p.getTransakcjaPK().getSparowany().setRozliczono(sparowany + roznica);
                 p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna - roznica);
             } else if (roznica < 0) {
@@ -501,6 +523,9 @@ public class DokfkView implements Serializable {
                 p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna + roznica);
                 p.getTransakcjaPK().getSparowany().setRozliczono(sparowany - roznica);
                 p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna + roznica);
+                p.getTransakcjaPK().getSparowany().setNowatransakcja(true);
+            } else {
+                p.getTransakcjaPK().getSparowany().setNowatransakcja(false);
             }
             p.setPoprzedniakwota(kwotanowa);
         }
@@ -591,12 +616,12 @@ public class DokfkView implements Serializable {
         this.aktualnywierszdorozrachunkow = aktualnywierszdorozrachunkow;
     }
  
-    public List<Rozrachunekfk> getPobranestronywierszy() {
-        return pobranestronywierszy;
+    public List<Rozrachunekfk> getZaznaczoneJakoNoweTransakcje() {
+        return zaznaczoneJakoNoweTransakcje;
     }
 
-    public void setPobranestronywierszy(List<Rozrachunekfk> pobranestronywierszy) {
-        this.pobranestronywierszy = pobranestronywierszy;
+    public void setZaznaczoneJakoNoweTransakcje(List<Rozrachunekfk> zaznaczoneJakoNoweTransakcje) {
+        this.zaznaczoneJakoNoweTransakcje = zaznaczoneJakoNoweTransakcje;
     }
 
     public List<Transakcja> getBiezacetransakcje() {
@@ -606,6 +631,15 @@ public class DokfkView implements Serializable {
     public void setBiezacetransakcje(List<Transakcja> biezacetransakcje) {
         this.biezacetransakcje = biezacetransakcje;
     }
+
+    public boolean isPotraktujjakoNowaTransakcje() {
+        return potraktujjakoNowaTransakcje;
+    }
+
+    public void setPotraktujjakoNowaTransakcje(boolean potraktujjakoNowaTransakcje) {
+        this.potraktujjakoNowaTransakcje = potraktujjakoNowaTransakcje;
+    }
+    
     public boolean isZablokujprzyciskzapisz() {
         return zablokujprzyciskzapisz;
     }

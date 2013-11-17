@@ -15,12 +15,14 @@ public class Rozrachunekfk {
     private double kwotapierwotna;
     private double rozliczono;
     private double pozostalo;
+    private boolean nowatransakcja;
 
 
     public Rozrachunekfk() {
         this.kwotapierwotna = 0.0;
         this.rozliczono = 0.0;
         this.pozostalo = 0.0;
+        this.nowatransakcja = false;
     }
 
     @Override
@@ -85,6 +87,16 @@ public class Rozrachunekfk {
     public void setPozostalo(double pozostalo) {
         this.pozostalo = pozostalo;
     }
+
+    public boolean isNowatransakcja() {
+        return nowatransakcja;
+    }
+
+    public void setNowatransakcja(boolean nowatransakcja) {
+        this.nowatransakcja = nowatransakcja;
+    }
+    
+    
     
     
 }
