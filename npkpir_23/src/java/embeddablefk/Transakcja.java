@@ -21,6 +21,33 @@ public class Transakcja implements Serializable {
         this.transakcjaPK = new TransakcjaPK();
     }
     
+    public WierszStronafkPK idSparowany() {
+        return this.getTransakcjaPK().getSparowany().getWierszStronafk().getWierszStronafkPK();
+    }
+    
+    public WierszStronafkPK idRozliczany() {
+        return this.getTransakcjaPK().getRozliczany().getWierszStronafk().getWierszStronafkPK();
+    }
+    
+    public double GetSpRozl() {
+        return this.transakcjaPK.getSparowany().getRozliczono();
+    }
+    
+    public void SetSpRozl(double suma) {
+        transakcjaPK.getSparowany().setRozliczono(suma);
+    }
+    
+     public double GetSpKwotaPier() {
+        return this.transakcjaPK.getSparowany().getKwotapierwotna();
+    }
+    
+    public double GetSpPoz() {
+        return this.transakcjaPK.getSparowany().getPozostalo();
+    }
+    
+    public void SetSpPoz(double suma) {
+        transakcjaPK.getSparowany().setPozostalo(suma);
+    }
     
 
     @Override

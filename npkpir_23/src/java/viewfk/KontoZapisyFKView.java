@@ -61,9 +61,10 @@ public class KontoZapisyFKView implements Serializable{
             }
         }
         sumazapisow();
-        RequestContext.getCurrentInstance().update("formB:sumy");
-        RequestContext.getCurrentInstance().update("formD:dataList");
-        RequestContext.getCurrentInstance().update("formE:dataList");
+        RequestContext.getCurrentInstance().update("formwpiskonta");
+        RequestContext.getCurrentInstance().update("form");
+        RequestContext.getCurrentInstance().update("tabelazzapisami");
+        RequestContext.getCurrentInstance().update("sumy");
     }
     
     public void selekcjakontrozrachunki(){
