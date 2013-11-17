@@ -16,6 +16,7 @@ public class Transakcja implements Serializable {
     private TransakcjaPK transakcjaPK;
     private double kwotatransakcji;
     private double poprzedniakwota;
+    private boolean zablokujnanoszenie;
 
     public Transakcja() {
         this.transakcjaPK = new TransakcjaPK();
@@ -48,6 +49,36 @@ public class Transakcja implements Serializable {
     public void SetSpPoz(double suma) {
         transakcjaPK.getSparowany().setPozostalo(suma);
     }
+    
+    public double GetRRozl() {
+        return this.transakcjaPK.getRozliczany().getRozliczono();
+    }
+    
+    public void SetRRozl(double suma) {
+        transakcjaPK.getRozliczany().setRozliczono(suma);
+    }
+    
+     public double GetRKwotaPier() {
+        return this.transakcjaPK.getRozliczany().getKwotapierwotna();
+    }
+    
+    public double GetRPoz() {
+        return this.transakcjaPK.getRozliczany().getPozostalo();
+    }
+    
+    public void SetRPoz(double suma) {
+        transakcjaPK.getRozliczany().setPozostalo(suma);
+    }
+
+    public boolean isZablokujnanoszenie() {
+        return zablokujnanoszenie;
+    }
+
+    public void setZablokujnanoszenie(boolean zablokujnanoszenie) {
+        this.zablokujnanoszenie = zablokujnanoszenie;
+    }
+    
+    
     
 
     @Override

@@ -33,7 +33,7 @@
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
                    <p:column headerText="kwota rozliczenia" width="40">
-                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/>
+                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}"/>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
                          <h:outputText id="pozostalo" value="#{loop.transakcjaPK.sparowany.pozostalo}" style="float: right;">
@@ -67,7 +67,7 @@
                     </p:column>
 
                 </p:dataTable>
-                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"  />
+                <p:commandButton value="zapisz" styleClass="fkbutton" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki"  rendered="#{dokfkView.zablokujprzyciskzapisz}"/>
             </div>
         </h:form>
         <f:facet name="footer">
