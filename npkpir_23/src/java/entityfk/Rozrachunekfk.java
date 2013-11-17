@@ -2,20 +2,66 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddablefk;
+package entityfk;
 
+import embeddablefk.WierszStronafk;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Osito
  */
-public class Rozrachunekfk {
+@Entity
+@Table(name = "rozrachunekfk")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
+    @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK")
+})
+public class Rozrachunekfk  implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idrozrachunku", nullable = false)
+    private Integer idrozrachunku;
+    @Column(name="wierszStronafk")
+    @JoinColumns({
+        @JoinColumn(name="typdokumentu", referencedColumnName="typdokumentu"),
+        @JoinColumn(name="nrkolejnydokumentu", referencedColumnName="nrkolejnydokumentu"),
+        @JoinColumn(name="nrPorzadkowyWiersza", referencedColumnName="nrPorzadkowyWiersza"),
+        @JoinColumn(name="stronaWnlubMa", referencedColumnName="stronaWnlubMa")
+    })
+    @ManyToOne
     private WierszStronafk wierszStronafk;
+    @Column(name="kwotapierwotna")
     private double kwotapierwotna;
+    @Column(name="rozliczono")
     private double rozliczono;
+    @Column(name="pozostalo")
     private double pozostalo;
+    @Column(name="nowatransakcja")
     private boolean nowatransakcja;
+    @JoinColumn(name = "konto_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne
+    private Konto kontoid;
+    
 
 
     public Rozrachunekfk() {
@@ -96,7 +142,22 @@ public class Rozrachunekfk {
         this.nowatransakcja = nowatransakcja;
     }
     
-    
+    public Konto getKontoid() {
+        return kontoid;
+    }
+
+    public void setKontoid(Konto kontoid) {
+        this.kontoid = kontoid;
+    }
+
+    public Integer getIdrozrachunku() {
+        return idrozrachunku;
+    }
+
+    public void setIdrozrachunku(Integer idrozrachunku) {
+        this.idrozrachunku = idrozrachunku;
+    }
+   
     
     
 }

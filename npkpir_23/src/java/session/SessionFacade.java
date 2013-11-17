@@ -39,6 +39,7 @@ import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.Rozrachunekfk;
 import entityfk.Wiersze;
 //import entityfk.Rozrachunki;
 import java.util.List;
@@ -75,6 +76,12 @@ public class SessionFacade<T> {
     public void create(T entity) {
         getEntityManager().persist(entity);
         getEntityManager().flush();
+    }
+    
+    public T findEntity(Class<T> entityClass, T entityPK) {
+        T find = getEntityManager().find(entityClass, entityPK);
+        getEntityManager().flush();
+        return find;
     }
 
     public void remove(T entity) {
@@ -534,6 +541,14 @@ public class SessionFacade<T> {
     public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
+         try {
+            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", p.getWierszStronafk().getWierszStronafkPK()).getSingleResult();
         } catch (Exception e) {
             return null;
         }

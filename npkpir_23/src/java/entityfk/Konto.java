@@ -5,6 +5,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,10 +16,12 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -109,6 +112,8 @@ public class Konto implements Serializable {
     @NotNull
     @Column(name = "rozwin")
     private boolean rozwin;
+    @OneToMany(mappedBy = "kontoid")
+    private List<Rozrachunekfk> rozrachunekfkList;
 
     public Konto() {
     }
@@ -242,6 +247,15 @@ public class Konto implements Serializable {
 
     public void setRozwin(boolean rozwin) {
         this.rozwin = rozwin;
+    }
+    
+    @XmlTransient
+    public List<Rozrachunekfk> getRozrachunekfkList() {
+        return rozrachunekfkList;
+    }
+
+    public void setRozrachunekfkList(List<Rozrachunekfk> rozrachunekfkList) {
+        this.rozrachunekfkList = rozrachunekfkList;
     }
 
     @Override
