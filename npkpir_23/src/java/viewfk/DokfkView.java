@@ -6,13 +6,16 @@ package viewfk;
 
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
+import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Rozrachunekfk;
 import embeddablefk.Transakcja;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Waluty;
 import entityfk.Wiersze;
+import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class DokfkView implements Serializable {
     private int numerwierszazapisu;
     //************************************zmienne dla rozrachunkow
     @Inject private RozrachunekfkDAO rozrachunekfkDAO;
+    @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private boolean potraktujjakoNowaTransakcje;
     private static List<Rozrachunekfk> zaznaczoneJakoNoweTransakcje;
     @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
@@ -367,6 +371,12 @@ public class DokfkView implements Serializable {
     
     private int pobierztransakcjeJakoSparowany() {
         //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
+        //pobieramy listy z bazy
+        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
+        pobranelisty = zestawienielisttransakcjiDAO.findAll();
+        for (Zestawienielisttransakcji p : pobranelisty) {
+            zestawienielisttransakcji.put(p.getKluczlisty(), p.getListatransakcji());
+        }
         Collection<List<Transakcja>> kolekcje = zestawienielisttransakcji.values();
         int wynikszukania = 0;
         for (List listazkolekcji : kolekcje) {
@@ -416,12 +426,21 @@ public class DokfkView implements Serializable {
         List<Transakcja> staretransakcjePasujace = new ArrayList<>();
         //pobieramy do biezacych zachowane rozrachunki z kluczem jakim jest PK aktualnegowiersza
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+        //
+        zestawienielisttransakcji = new HashMap<>();
+        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
+        pobranelisty = zestawienielisttransakcjiDAO.findAll();
+        for (Zestawienielisttransakcji p : pobranelisty) {
+            zestawienielisttransakcji.put(p.getKluczlisty(), p.getListatransakcji());
+        }
+        //
         if (zestawienielisttransakcji.containsKey(klucz)) {
             staretransakcjePasujace.addAll(zestawienielisttransakcji.get(klucz));
             zestawienielisttransakcji.remove(klucz);
         }
         //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
         //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
+        double sumaddlaaktualnego = 0.0;
         Iterator it = transakcjeswiezynki.iterator();
         while (it.hasNext()) {
             Transakcja r = (Transakcja) it.next();
@@ -430,6 +449,7 @@ public class DokfkView implements Serializable {
                 Transakcja donaniesienia = staretransakcjePasujace.get(index);
                 //ja jest to dodaj kwoty ze starych
                 double kwota = donaniesienia.getKwotatransakcji();
+                sumaddlaaktualnego += kwota;
                 r.setKwotatransakcji(kwota);
                 r.setPoprzedniakwota(kwota);
                 staretransakcjePasujace.remove(r);
@@ -444,7 +464,7 @@ public class DokfkView implements Serializable {
             }
         }
         //a teraz przechodze stare jeszcze raz (wczesniej usunalem identyczne0 i kopiuje rozliczenie biezace do juz rozliczonych
-        double sumaddlaaktualnego = 0.0;
+        
         Iterator itX = transakcjeswiezynki.iterator();
         while (itX.hasNext()) {
             Transakcja r = (Transakcja) itX.next();
@@ -452,7 +472,6 @@ public class DokfkView implements Serializable {
                 //ja jest to dodaj kwoty ze starych
                 if (s.idSparowany().equals(r.idSparowany())) {
                     double kwota = s.getKwotatransakcji();
-                    sumaddlaaktualnego += kwota;
                     r.SetSpRozl(r.GetSpRozl() + kwota);
                     r.SetSpPoz(r.GetSpKwotaPier() - r.GetSpRozl());
                 }
@@ -463,17 +482,15 @@ public class DokfkView implements Serializable {
         //dodajemy nowe transakcje do istniejacej
         if (transakcjeswiezynki.size() > 0) {
             for (Transakcja s : transakcjeswiezynki) {
-                s.SetRRozl(0.0);
-                s.SetRPoz(s.GetRKwotaPier());
+                // smiesznie bo w ten sposob zerujemy aktualny wiersz
+                //s.SetRRozl(0.0);
+                //s.SetRPoz(s.GetRKwotaPier());
                 biezacetransakcje.add(s);//te co nie istnieja dodaj do listy biezace transakcje
             }
         }
     }
     
      private void zaktualizujaktualnywiersz(double kwota) {
-        if (kwota > 0) {
-
-        }
         double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
         double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
         rozliczono = rozliczono + kwota;
@@ -534,12 +551,23 @@ public class DokfkView implements Serializable {
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
         List<Transakcja> doprzechowania = new ArrayList<>();
         doprzechowania.addAll(biezacetransakcje);
-        if (zestawienielisttransakcji.containsKey(klucz)) {
-            zestawienielisttransakcji.remove(klucz);
-            zestawienielisttransakcji.put(klucz, doprzechowania);
-        } else {
-            zestawienielisttransakcji.put(klucz, doprzechowania);
+        //tu zrobie zapis do bazy danych
+        try {
+            Zestawienielisttransakcji szukana = zestawienielisttransakcjiDAO.findByKlucz(klucz);
+            if (szukana instanceof Zestawienielisttransakcji) {
+                zestawienielisttransakcjiDAO.destroy(szukana);
+            }
+            zestawienielisttransakcjiDAO.dodajListeTransakcji(klucz,biezacetransakcje);
+            Msg.msg("i", "Udało się zachować rozrachunki w bazie danych");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się zachować rozrachunków w bazie danych");
         }
+//        if (zestawienielisttransakcji.containsKey(klucz)) {
+//            zestawienielisttransakcji.remove(klucz);
+//            zestawienielisttransakcji.put(klucz, doprzechowania);
+//        } else {
+//            zestawienielisttransakcji.put(klucz, doprzechowania);
+//        }
         biezacetransakcje.clear();
     }
     //********************
