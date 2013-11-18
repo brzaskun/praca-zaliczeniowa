@@ -1808,7 +1808,7 @@ public class DokView implements Serializable {
 
     public void skopiujdoedycji() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
-        Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
+        //Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
     }
     
     private void skopiujdoedycjidane() {
