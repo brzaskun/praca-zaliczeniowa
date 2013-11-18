@@ -428,6 +428,9 @@ public class DokView implements Serializable {
             case "WNT":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
+            case "odwrotne obciążenie":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
             case "usługi poza ter.":
                 dopobrania = kolumna.getKolumnPrzychody();
                 break;
@@ -494,6 +497,9 @@ public class DokView implements Serializable {
                         break;
                     case ("WDT"):
                         opisewidencji = evat.getWdtVList();
+                        break;
+                    case ("odwrotne obciążenie"):
+                        opisewidencji = evat.getRvcVList();
                         break;
                     case ("WNT"):
                         opisewidencji = evat.getWntVList();
@@ -894,6 +900,9 @@ public class DokView implements Serializable {
                 dopobrania = kolumna.getKolumnPrzychody();
                 break;
             case "WNT":
+                dopobrania = kolumna.getKolumnKoszty();
+                break;
+            case "odwrotne obciążenie":
                 dopobrania = kolumna.getKolumnKoszty();
                 break;
             default:
