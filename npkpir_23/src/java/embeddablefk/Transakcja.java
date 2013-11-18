@@ -30,6 +30,7 @@ public class Transakcja implements Serializable {
         return this.getTransakcjaPK().getRozliczany().getWierszStronafk().getWierszStronafkPK();
     }
     
+    
     public double GetSpRozl() {
         return this.transakcjaPK.getSparowany().getRozliczono();
     }

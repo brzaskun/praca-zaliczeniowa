@@ -32,7 +32,7 @@
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-                   <p:column headerText="kwota rozliczenia" width="40">
+                   <p:column headerText="kwota rozliczenia - bieżący dok." width="40">
                        <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}"/>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="40">
@@ -54,7 +54,7 @@
                         <h:outputText id="opis" value="{loop.wierszsparowan}" />
                     </p:column>-->
                      <p:column headerText="symbol dokumentu" width="150">
-                         <h:outputText id="symboldok" value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
+                         <h:outputText id="symboldok" value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
                     </p:column>
                     <p:column headerText="wiersz w dok" width="40"  style="text-align: center;">
                         <h:outputText value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
@@ -63,21 +63,21 @@
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK eq dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK ? 'zapis z bieżącego dokumentu' : null}"/>
+                         <h:outputText value="#{loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu eq dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.transakcjaPK.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
                     </p:column>
 
                 </p:dataTable>
                 
             </div>
-            <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki" style="margin-left: 10px;"/>
+            <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();" update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokfkView.aktualnywierszdorozrachunkow.nowatransakcja}"/>
         </h:form>
         <f:facet name="footer" >
-            <div  style="padding: 5px; height: 35px;">
+            <div style="padding: 5px; height: 35px;">
                 <h:form id="formcheckbox">
-                    <h:selectBooleanCheckbox id="znaczniktransakcji" accesskey="t" valueChangeListener="#{dokfkView.zapiszusuntransakcje}" value="#{dokfkView.potraktujjakoNowaTransakcje}">
-                    <f:ajax event="change" execute="@this"/>
+                    <h:selectBooleanCheckbox id="znaczniktransakcji" onfocus="zablokujcheckbox('#{dokfkView.aktualnywierszdorozrachunkow.rozliczono}');" accesskey="t" valueChangeListener="#{dokfkView.zapiszusuntransakcje}" value="#{dokfkView.potraktujjakoNowaTransakcje}" >
+                        <f:ajax event="change"  execute="@this"/>
                 </h:selectBooleanCheckbox>
-                <h:outputLabel for=":formcheckbox:znaczniktransakcji" value="potraktuj jako nową transakcję do rozliczenia"/>
+                <h:outputLabel for=":formcheckbox:znaczniktransakcji" value="potraktuj jako nową transakcję do rozliczenia" />
                 <p:commandButton value="powrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;"/>
                 </h:form>
             </div>

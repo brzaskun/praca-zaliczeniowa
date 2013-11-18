@@ -57,22 +57,24 @@ public class DokfkView implements Serializable {
     @Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private boolean potraktujjakoNowaTransakcje;
-    private static List<Rozrachunekfk> zaznaczoneJakoNoweTransakcje;
+    private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
     @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
     //a to sa listy do sortowanie transakcji na poczatku jedna mega do zbiorki wszystkich dodanych coby nie ginely
-    private Map<WierszStronafkPK, List<Transakcja>> zestawienielisttransakcji;
+
     private List<Transakcja> biezacetransakcje;
     private List<Transakcja> transakcjeswiezynki;
+    private List<Transakcja> zachowanewczejsniejtransakcje;
     private List<Transakcja> transakcjejakosparowany;
     private boolean zablokujprzyciskzapisz;
 
     public DokfkView() {
         resetujDokument();
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        zaznaczoneJakoNoweTransakcje = new ArrayList<>();
-        this.zestawienielisttransakcji = new HashMap<>();
+        rozrachunekNowaTransakcja = new ArrayList<>();
+
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
+        this.zachowanewczejsniejtransakcje = new ArrayList<>();
         this.transakcjejakosparowany = new ArrayList<>();
         this.zablokujprzyciskzapisz = false;
         this.potraktujjakoNowaTransakcje = false;
@@ -279,16 +281,16 @@ public class DokfkView implements Serializable {
         if (newvalue == true) {
             aktualnywierszdorozrachunkow.setNowatransakcja(true);
             rozrachunekfkDAO.dodaj(aktualnywierszdorozrachunkow);
-            zaznaczoneJakoNoweTransakcje.add(aktualnywierszdorozrachunkow);
+            rozrachunekNowaTransakcja.add(aktualnywierszdorozrachunkow);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
             aktualnywierszdorozrachunkow.setNowatransakcja(false);
             rozrachunekfkDAO.destroy(aktualnywierszdorozrachunkow);
-            zaznaczoneJakoNoweTransakcje.remove(aktualnywierszdorozrachunkow);
+            rozrachunekNowaTransakcja.remove(aktualnywierszdorozrachunkow);
             Msg.msg("i","Usunięto zapis z listy nowych transakcji");
         }
     }
-   
+    
     //********************
     //rozrachunki
     public void rozrachunki(){
@@ -300,12 +302,12 @@ public class DokfkView implements Serializable {
             Integer nrwiersza = Integer.parseInt(nrwierszaS) - 1;
             inicjalizacjaAktualnego(wnma, nrwiersza);
             if (aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                int onjestnowatransakcja = 0;
-                onjestnowatransakcja = zobaczyJestNowaTransakcja();
+                boolean onjestnowatransakcja = aktualnywierszdorozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
-                if (onjestnowatransakcja == 0) {
+                if (onjestnowatransakcja == false) {
                     pobierzNoweTransakcjezBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(),wnma);
                     stworznowetransakcjezPobranychstronwierszy();
+                    pobierzjuzNaniesioneTransakcje();
                     naniesinformacjezwczesniejrozliczonych();
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
@@ -361,37 +363,27 @@ public class DokfkView implements Serializable {
         } 
         }
     
-    private int zobaczyJestNowaTransakcja() {
-        if (zaznaczoneJakoNoweTransakcje.contains(aktualnywierszdorozrachunkow)) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-    
+       
     private int pobierztransakcjeJakoSparowany() {
         //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
         //pobieramy listy z bazy
         List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
+        List<Transakcja> kolekcje = new ArrayList<>();
         pobranelisty = zestawienielisttransakcjiDAO.findAll();
         for (Zestawienielisttransakcji p : pobranelisty) {
-            zestawienielisttransakcji.put(p.getKluczlisty(), p.getListatransakcji());
+            kolekcje.addAll(p.getListatransakcji());
         }
-        Collection<List<Transakcja>> kolekcje = zestawienielisttransakcji.values();
         int wynikszukania = 0;
-        for (List listazkolekcji : kolekcje) {
-            for (Object danatransakcja : listazkolekcji) {
-                Transakcja x = (Transakcja) danatransakcja;
-                WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-                boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
-                boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
-                boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
-                boolean kwoty = x.GetSpRozl()!=0.0 && x.GetSpPoz()!=0.0;
-                if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza&&kwoty) {
-                    Msg.msg("w", "on byl jako sparowany");
-                    transakcjejakosparowany.add(x);
-                    wynikszukania = 1;
-                }
+        for (Transakcja x : kolekcje) {
+            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
+            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
+            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
+            boolean kwoty = x.GetSpRozl()!=0.0 && x.GetSpPoz()!=0.0;
+            if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza&&kwoty) {
+                Msg.msg("w", "on byl jako sparowany");
+                transakcjejakosparowany.add(x);
+                wynikszukania = 1;
             }
         }
         //nie znaleziono transakcji gdzie aktualnybylby sparowanym
@@ -405,8 +397,8 @@ public class DokfkView implements Serializable {
     
     //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     private void pobierzNoweTransakcjezBazy(String nrkonta, String wnma) {
-          zaznaczoneJakoNoweTransakcje = new ArrayList<>();
-          zaznaczoneJakoNoweTransakcje.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma));
+          rozrachunekNowaTransakcja = new ArrayList<>();
+          rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma));
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
@@ -414,90 +406,47 @@ public class DokfkView implements Serializable {
     private void stworznowetransakcjezPobranychstronwierszy() {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         transakcjeswiezynki = new ArrayList<>();
-        for (Rozrachunekfk p : zaznaczoneJakoNoweTransakcje) {
+        for (Rozrachunekfk nowatransakcjazbazy : rozrachunekNowaTransakcja) {
             Transakcja transakcja = new Transakcja();
             transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
-            transakcja.getTransakcjaPK().setSparowany(p);
+            transakcja.getTransakcjaPK().setSparowany(nowatransakcjazbazy);
             transakcjeswiezynki.add(transakcja);
         }
     }
     
-    private void naniesinformacjezwczesniejrozliczonych() {
-        List<Transakcja> staretransakcjePasujace = new ArrayList<>();
-        //pobieramy do biezacych zachowane rozrachunki z kluczem jakim jest PK aktualnegowiersza
+    private void pobierzjuzNaniesioneTransakcje(){
+        zachowanewczejsniejtransakcje = new ArrayList<>();
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        //
-        zestawienielisttransakcji = new HashMap<>();
-        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
-        pobranelisty = zestawienielisttransakcjiDAO.findAll();
-        for (Zestawienielisttransakcji p : pobranelisty) {
-            zestawienielisttransakcji.put(p.getKluczlisty(), p.getListatransakcji());
+        Zestawienielisttransakcji pobranalista = new Zestawienielisttransakcji();
+        pobranalista = zestawienielisttransakcjiDAO.findByKlucz(klucz);
+        if (pobranalista instanceof Zestawienielisttransakcji) {
+            zachowanewczejsniejtransakcje.addAll(pobranalista.getListatransakcji());
         }
-        //
-        if (zestawienielisttransakcji.containsKey(klucz)) {
-            staretransakcjePasujace.addAll(zestawienielisttransakcji.get(klucz));
-            zestawienielisttransakcji.remove(klucz);
-        }
+    }
+    private void naniesinformacjezwczesniejrozliczonych() {
         //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
         //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
         double sumaddlaaktualnego = 0.0;
-        Iterator it = transakcjeswiezynki.iterator();
-        while (it.hasNext()) {
-            Transakcja r = (Transakcja) it.next();
-            if (staretransakcjePasujace.contains(r)) {
-                int index = staretransakcjePasujace.indexOf(r);
-                Transakcja donaniesienia = staretransakcjePasujace.get(index);
-                //ja jest to dodaj kwoty ze starych
-                double kwota = donaniesienia.getKwotatransakcji();
-                sumaddlaaktualnego += kwota;
-                r.setKwotatransakcji(kwota);
-                r.setPoprzedniakwota(kwota);
-                staretransakcjePasujace.remove(r);
+        for (Transakcja r : transakcjeswiezynki) {
+            if (!zachowanewczejsniejtransakcje.contains(r)) {
+                biezacetransakcje.add(r);
             }
         }
-        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
-        Collection<List<Transakcja>> kolekcje = zestawienielisttransakcji.values();
-        List<Transakcja> pozostaletransakcje = new ArrayList<>();
-        for (List p : kolekcje) {
-            for (Object r : p) {
-                pozostaletransakcje.add((Transakcja) r);
-            }
-        }
-        //a teraz przechodze stare jeszcze raz (wczesniej usunalem identyczne0 i kopiuje rozliczenie biezace do juz rozliczonych
-        
-        Iterator itX = transakcjeswiezynki.iterator();
-        while (itX.hasNext()) {
-            Transakcja r = (Transakcja) itX.next();
-            for (Transakcja s : pozostaletransakcje) {
-                //ja jest to dodaj kwoty ze starych
-                if (s.idSparowany().equals(r.idSparowany())) {
-                    double kwota = s.getKwotatransakcji();
-                    r.SetSpRozl(r.GetSpRozl() + kwota);
-                    r.SetSpPoz(r.GetSpKwotaPier() - r.GetSpRozl());
-                }
-            }
+        for (Transakcja s : zachowanewczejsniejtransakcje) {
+            sumaddlaaktualnego += s.getKwotatransakcji();
+            biezacetransakcje.add(s);
         }
         //aktualizujemy biezacy wiersz
-        zaktualizujaktualnywiersz(sumaddlaaktualnego);
-        //dodajemy nowe transakcje do istniejacej
-        if (transakcjeswiezynki.size() > 0) {
-            for (Transakcja s : transakcjeswiezynki) {
-                // smiesznie bo w ten sposob zerujemy aktualny wiersz
-                //s.SetRRozl(0.0);
-                //s.SetRPoz(s.GetRKwotaPier());
-                biezacetransakcje.add(s);//te co nie istnieja dodaj do listy biezace transakcje
-            }
-        }
-    }
-    
-     private void zaktualizujaktualnywiersz(double kwota) {
         double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
         double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-        rozliczono = rozliczono + kwota;
-        pozostalo = pozostalo - kwota;
+        rozliczono = rozliczono + sumaddlaaktualnego;
+        pozostalo = pozostalo - sumaddlaaktualnego;
         aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+
     }
+    
+     
      //*************************
      //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
      private void sumujdlaNowejTransakcji() {
@@ -514,8 +463,13 @@ public class DokfkView implements Serializable {
              biezacetransakcje.add(nowa);
              sumaddlaaktualnego += kwota;
          }
-         zaktualizujaktualnywiersz(sumaddlaaktualnego);
-         transakcjejakosparowany.clear();
+        double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
+        double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
+        rozliczono = rozliczono + sumaddlaaktualnego;
+        pozostalo = pozostalo - sumaddlaaktualnego;
+        aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+        aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+        transakcjejakosparowany.clear();
      }
      
      
@@ -526,24 +480,18 @@ public class DokfkView implements Serializable {
         for (Transakcja p : biezacetransakcje) {
             double kwotanowa = p.getKwotatransakcji();
             double kwotastara = p.getPoprzedniakwota();
-            double roznica = kwotastara - kwotanowa;
-            double aktualny = p.getTransakcjaPK().getRozliczany().getRozliczono();
+            double roznica = kwotanowa - kwotastara;
+            double aktualny_rozliczono = p.getTransakcjaPK().getRozliczany().getRozliczono();
             double aktualny_pierwotna = p.getTransakcjaPK().getRozliczany().getKwotapierwotna();
-            double sparowany = p.getTransakcjaPK().getSparowany().getRozliczono();
+            double sparowany_rozliczono = p.getTransakcjaPK().getSparowany().getRozliczono();
             double sparowany_pierwotna = p.getTransakcjaPK().getSparowany().getKwotapierwotna();
-            if (roznica > 0) {
-                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny + roznica);
-                p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna - roznica);
+            if (roznica != 0) {
+                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny_rozliczono + roznica);
+                p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna - p.getTransakcjaPK().getRozliczany().getRozliczono());
                 p.getTransakcjaPK().getSparowany().setNowatransakcja(true);
-                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany + roznica);
-                p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna - roznica);
-            } else if (roznica < 0) {
-                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny - roznica);
-                p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna + roznica);
-                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany - roznica);
-                p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna + roznica);
-                p.getTransakcjaPK().getSparowany().setNowatransakcja(true);
-            } else {
+                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany_rozliczono + roznica);
+                p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna - p.getTransakcjaPK().getSparowany().getRozliczono());
+            } else if (roznica == 0) {
                 p.getTransakcjaPK().getSparowany().setNowatransakcja(false);
             }
             p.setPoprzedniakwota(kwotanowa);
@@ -646,12 +594,12 @@ public class DokfkView implements Serializable {
         this.aktualnywierszdorozrachunkow = aktualnywierszdorozrachunkow;
     }
  
-    public List<Rozrachunekfk> getZaznaczoneJakoNoweTransakcje() {
-        return zaznaczoneJakoNoweTransakcje;
+    public List<Rozrachunekfk> getRozrachunekNowaTransakcja() {
+        return rozrachunekNowaTransakcja;
     }
 
-    public void setZaznaczoneJakoNoweTransakcje(List<Rozrachunekfk> zaznaczoneJakoNoweTransakcje) {
-        this.zaznaczoneJakoNoweTransakcje = zaznaczoneJakoNoweTransakcje;
+    public void setRozrachunekNowaTransakcja(List<Rozrachunekfk> rozrachunekNowaTransakcja) {
+        this.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
     }
 
     public List<Transakcja> getBiezacetransakcje() {
