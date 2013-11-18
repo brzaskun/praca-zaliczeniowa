@@ -172,3 +172,13 @@ var podswietlrozrachunki = function () {
     
 };
 
+var zablokujcheckbox = function (nowatransakcja) {
+    var wartosc = zrobFloat(nowatransakcja);
+    if (wartosc > 0) {
+        $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+    } else {
+        $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
+    }
+    
+};
+

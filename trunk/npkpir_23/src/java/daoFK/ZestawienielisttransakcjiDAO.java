@@ -56,6 +56,8 @@ public class ZestawienielisttransakcjiDAO  extends DAO implements Serializable {
             zestawienielisttransakcjiFacade.create(nowezestawienie);
         } catch (Exception e) {
         }
+        
+        
     }
     
      
