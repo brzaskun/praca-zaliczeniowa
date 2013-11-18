@@ -78,7 +78,7 @@
                 <h:outputText value="dodaj nowy opis transakcji"/><br/>
                 <p:panelGrid id="parametr" columns="1" >
                     <h:inputText value="#{evopisView.selected.opis}"/>
-                    <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form :akordeon:form1:" type="submit"/>
+                    <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form, :akordeon:form1:tablica1" type="submit"/>
                 </p:panelGrid>
             </h:form>
 

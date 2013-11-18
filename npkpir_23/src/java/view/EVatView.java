@@ -33,6 +33,7 @@ public class EVatView implements Serializable{
     private List<String> srodkitrwaleVList;
     private List<String> wdtVList;
     private List<String> wntVList;
+    private List<String> rvcVList;//reverse charge - odwrotne obciazenie
     private List<String> importuslugList;
     private List<String> uslugiPTK;
     private List<String> eksporttowarow;
@@ -54,6 +55,7 @@ public class EVatView implements Serializable{
         sprzedazVList = new ArrayList<>();
         wdtVList = new ArrayList<>();
         wntVList = new ArrayList<>();
+        rvcVList = new ArrayList<>();
         importuslugList = new ArrayList<>();
         uslugiPTK = new ArrayList<>();
         eksporttowarow = new ArrayList<>();
@@ -85,6 +87,9 @@ public class EVatView implements Serializable{
                     break;
                 case "WNT" : 
                     wntVList.add(up.getNazwa());
+                    break;
+                case "odwrotne obciążenie" : 
+                    rvcVList.add(up.getNazwa());
                     break;
                 case "import uslug" : 
                     importuslugList.add(up.getNazwa());
@@ -138,6 +143,14 @@ public class EVatView implements Serializable{
     
     public List<String> getWntVList() {
         return wntVList;
+    }
+
+    public List<String> getRvcVList() {
+        return rvcVList;
+    }
+
+    public void setRvcVList(List<String> rvcVList) {
+        this.rvcVList = rvcVList;
     }
     
     public void setWntVList(List<String> wntVList) {
