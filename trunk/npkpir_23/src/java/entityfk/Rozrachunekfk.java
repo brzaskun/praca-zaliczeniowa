@@ -42,7 +42,6 @@ public class Rozrachunekfk  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idrozrachunku", nullable = false)
     private Integer idrozrachunku;
-    @Column(name="wierszStronafk")
     @JoinColumns({
         @JoinColumn(name="typdokumentu", referencedColumnName="typdokumentu"),
         @JoinColumn(name="nrkolejnydokumentu", referencedColumnName="nrkolejnydokumentu"),
