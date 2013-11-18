@@ -402,7 +402,6 @@ public class DokfkView implements Serializable {
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
-    
     private void stworznowetransakcjezPobranychstronwierszy() {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         transakcjeswiezynki = new ArrayList<>();
