@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tabelanbp.findByNrtabeli", query = "SELECT t FROM Tabelanbp t WHERE t.tabelanbpPK.nrtabeli = :nrtabeli"),
     @NamedQuery(name = "Tabelanbp.findBySymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.tabelanbpPK.symbolwaluty = :symbolwaluty"),
     @NamedQuery(name = "Tabelanbp.findByDatatabeli", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli"),
+    @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.tabelanbpPK.symbolwaluty = :symbolwaluty"),
     @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni")})
 public class Tabelanbp implements Serializable {
     private static final long serialVersionUID = 1L;

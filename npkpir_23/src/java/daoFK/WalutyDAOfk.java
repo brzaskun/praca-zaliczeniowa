@@ -34,5 +34,6 @@ public class WalutyDAOfk extends DAO implements Serializable {
             return null;
         }
    }
-    
+
+      
 }
