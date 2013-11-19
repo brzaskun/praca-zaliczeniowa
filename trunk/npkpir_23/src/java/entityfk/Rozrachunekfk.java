@@ -71,6 +71,12 @@ public class Rozrachunekfk  implements Serializable {
         this.nowatransakcja = false;
     }
 
+    public Rozrachunekfk(WierszStronafk wierszStronafk) {
+        this.wierszStronafk = wierszStronafk;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 5;
