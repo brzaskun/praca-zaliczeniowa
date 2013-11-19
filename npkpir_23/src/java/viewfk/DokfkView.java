@@ -475,20 +475,12 @@ public class DokfkView implements Serializable {
     }
     
     private void pobierzjuzNaniesioneTransakcjeSparowane(){
-        zachowanewczejsniejtransakcje = new ArrayList<>();
-        WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        List<Zestawienielisttransakcji> pobranalista = zestawienielisttransakcjiDAO.findAll();
-        List<Transakcja> wydobytetransakcje = new ArrayList<>();
-        for (Zestawienielisttransakcji p : pobranalista) {
-            if (!p.getKluczlisty().equals(klucz)) {
-             wydobytetransakcje.addAll(p.getListatransakcji());
-            }
-        }
-        for (Transakcja p : wydobytetransakcje) {
+        rozrachunekNowaTransakcja = new ArrayList<>();
+        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findAll());
+        for (Rozrachunekfk p : rozrachunekNowaTransakcja) {
             for (Transakcja r : biezacetransakcje) {
-                if (r.idSparowany().equals(r.idSparowany())) {
-                    r.SetSpRozl(r.GetSpRozl() + p.getKwotatransakcji());
-                    r.SetSpPoz(r.GetSpKwotaPier() - r.GetSpRozl());
+                if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
+                    r.getTransakcjaPK().setSparowany(p);
                 }
             }
         }
@@ -545,6 +537,14 @@ public class DokfkView implements Serializable {
                 p.getTransakcjaPK().getSparowany().setNowatransakcja(false);
             }
             p.setPoprzedniakwota(kwotanowa);
+            try {
+                Rozrachunekfk dotyczyrozrachunku = rozrachunekfkDAO.findRozrachunkifkByWierszStronafk(p.idSparowany());
+                if (roznica != 0) {
+                    dotyczyrozrachunku.setRozliczono(dotyczyrozrachunku.getRozliczono() + roznica);
+                    dotyczyrozrachunku.setPozostalo(dotyczyrozrachunku.getKwotapierwotna() - dotyczyrozrachunku.getRozliczono());
+                }
+                rozrachunekfkDAO.edit(dotyczyrozrachunku);
+            } catch (Exception r) {}
         }
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
         List<Transakcja> doprzechowania = new ArrayList<>();
@@ -560,12 +560,6 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zachować rozrachunków w bazie danych");
         }
-//        if (zestawienielisttransakcji.containsKey(klucz)) {
-//            zestawienielisttransakcji.remove(klucz);
-//            zestawienielisttransakcji.put(klucz, doprzechowania);
-//        } else {
-//            zestawienielisttransakcji.put(klucz, doprzechowania);
-//        }
         biezacetransakcje.clear();
     }
     //********************

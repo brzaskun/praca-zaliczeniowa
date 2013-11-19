@@ -5,6 +5,8 @@
 package daoFK;
 
 import dao.DAO;
+import embeddablefk.WierszStronafk;
+import embeddablefk.WierszStronafkPK;
 import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
@@ -54,6 +56,14 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
     
+     public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
+         try {
+            System.out.println("Szukam Rozrachunekfk by WierszStronafk");
+            return rozrachunekfkFacade.findRozrachunkifkByWierszStronafk(wierszStronafkPK);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
     
 }

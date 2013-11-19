@@ -5,6 +5,7 @@
 package session;
 
 import embeddable.Mce;
+import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entity.Amodok;
 import entity.Deklaracjevat;
@@ -573,6 +574,14 @@ public class SessionFacade<T> {
     public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
          try {
             return (Zestawienielisttransakcji) em.createNamedQuery("Zestawienielisttransakcji.findByKluczlisty").setParameter("kluczlisty", kluczlisty).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
+        try {
+            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", wierszStronafkPK).getSingleResult();
         } catch (Exception e) {
             return null;
         }
