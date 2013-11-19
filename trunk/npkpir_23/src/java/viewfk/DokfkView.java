@@ -164,24 +164,8 @@ public class DokfkView implements Serializable {
     public void liczbawu() {
         if (liczbawierszy > 1) {
             liczbawierszy--;
-            WierszStronafk wierszWn = selected.getKonta().get(liczbawierszy).getWierszStronaWn();
-            WierszStronafk wierszMa = selected.getKonta().get(liczbawierszy).getWierszStronaMa();
-            Rozrachunekfk r1 = new Rozrachunekfk(wierszWn);
-            Rozrachunekfk r2 = new Rozrachunekfk(wierszMa);
-            try {
-                    Rozrachunekfk r1U = rozrachunekfkDAO.findRozrachunekfk(r1);
-                    rozrachunekfkDAO.destroy(r1U);
-                    Msg.msg("i", "Usunieto rozrachunek Wn");
-                } catch (Exception e) {
-                    Msg.msg("e", "Nieusunieto rozrachunku Wn");
-                }
-                try {
-                    Rozrachunekfk r2U = rozrachunekfkDAO.findRozrachunekfk(r2);
-                    rozrachunekfkDAO.destroy(r2U);
-                    Msg.msg("i", "Usunieto rozrachunek Ma");
-                } catch (Exception e) {
-                    Msg.msg("e", "Nieusunieto rozrachunku Ma");
-                }
+            usunrozrachunek(selected.getKonta().get(liczbawierszy).getWierszStronaWn());
+            usunrozrachunek(selected.getKonta().get(liczbawierszy).getWierszStronaMa());
             selected.getKonta().remove(liczbawierszy);
         }
     }
@@ -220,24 +204,8 @@ public class DokfkView implements Serializable {
         try {
             int iloscwierszy = selected.getKonta().size();
             for (int i = 0; i < iloscwierszy; i++) {
-                WierszStronafk wierszWn = selected.getKonta().get(i).getWierszStronaWn();
-                WierszStronafk wierszMa = selected.getKonta().get(i).getWierszStronaMa();
-                Rozrachunekfk r1 = new Rozrachunekfk(wierszWn);
-                Rozrachunekfk r2 = new Rozrachunekfk(wierszMa);
-                try {
-                    Rozrachunekfk r1U = rozrachunekfkDAO.findRozrachunekfk(r1);
-                    rozrachunekfkDAO.destroy(r1U);
-                    Msg.msg("i", "Usunieto rozrachunek Wn");
-                } catch (Exception e) {
-                    Msg.msg("e", "Nieusunieto rozrachunku Wn");
-                }
-                try {
-                    Rozrachunekfk r2U = rozrachunekfkDAO.findRozrachunekfk(r2);
-                    rozrachunekfkDAO.destroy(r2U);
-                    Msg.msg("i", "Usunieto rozrachunek Ma");
-                } catch (Exception e) {
-                    Msg.msg("e", "Nieusunieto rozrachunku Ma");
-                }
+                usunrozrachunek(selected.getKonta().get(i).getWierszStronaWn());
+                usunrozrachunek(selected.getKonta().get(i).getWierszStronaMa());
             }
             dokDAOfk.usun(dousuniecia);
             wykazZaksiegowanychDokumentow.remove(dousuniecia);
@@ -247,6 +215,28 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się usunąć dokumentu");
         }
+    }
+    
+    private void usunrozrachunek(WierszStronafk wierszStronafk) {
+            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
+            try {
+                Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
+                rozrachunekfkDAO.destroy(rU);
+                Msg.msg("i", "Usunieto rozrachunek");
+            } catch (Exception e) {
+                Msg.msg("e", "Nieusunieto rozrachunku");
+            }
+    }
+    
+    private void usuntransakcje(WierszStronafk wierszStronafk) {
+            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
+            try {
+                Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
+                rozrachunekfkDAO.destroy(rU);
+                Msg.msg("i", "Usunieto rozrachunek");
+            } catch (Exception e) {
+                Msg.msg("e", "Nieusunieto rozrachunku");
+            }
     }
     
     //***************************************
