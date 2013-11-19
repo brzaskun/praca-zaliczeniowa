@@ -6,6 +6,8 @@ package viewfk;
 
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
+import daoFK.TabelanbpDAO;
+import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Rozrachunekfk;
 import embeddablefk.Transakcja;
@@ -13,24 +15,20 @@ import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
@@ -60,12 +58,18 @@ public class DokfkView implements Serializable {
     private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
     @Inject private Rozrachunekfk aktualnywierszdorozrachunkow;
     //a to sa listy do sortowanie transakcji na poczatku jedna mega do zbiorki wszystkich dodanych coby nie ginely
-
     private List<Transakcja> biezacetransakcje;
     private List<Transakcja> transakcjeswiezynki;
     private List<Transakcja> zachowanewczejsniejtransakcje;
     private List<Transakcja> transakcjejakosparowany;
     private boolean zablokujprzyciskzapisz;
+    //waltuty
+     //waluta wybrana przez uzytkownika
+    @Inject private WalutyDAOfk walutyDAOfk;
+    @Inject private TabelanbpDAO tabelanbpDAO;
+    private String wybranawaluta;
+    private List<String> wprowadzonesymbolewalut;   
+    private Tabelanbp tabelanbp;
 
     public DokfkView() {
         resetujDokument();
@@ -78,6 +82,7 @@ public class DokfkView implements Serializable {
         this.transakcjejakosparowany = new ArrayList<>();
         this.zablokujprzyciskzapisz = false;
         this.potraktujjakoNowaTransakcje = false;
+        this.wprowadzonesymbolewalut = new ArrayList<>();
     }
     
     @PostConstruct
@@ -86,14 +91,19 @@ public class DokfkView implements Serializable {
              wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
         } catch (Exception e) {
         }
+        List<Waluty> pobranekursy = walutyDAOfk.findAll();
+        for (Waluty p : pobranekursy) {
+            wprowadzonesymbolewalut.add(p.getSymbolwaluty());
+        }
         zapisz0edytuj1 = false;
     }
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
     
     //********************************************funkcje dla ksiegowania dokumentow
     //RESETUJ DOKUMNETFK
     private void resetujDokument() {
         selected = new Dokfk();
+        tabelanbp = new Tabelanbp();
         DokfkPK dokfkPK = new DokfkPK();
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
@@ -563,6 +573,28 @@ public class DokfkView implements Serializable {
         biezacetransakcje.clear();
     }
     //********************
+    //a to jest rodzial dotyczacy walut
+    
+    public void pobierzkursNBP(ValueChangeEvent  el){
+        String nazwawaluty =  (String) el.getNewValue();
+        String datadokumentu = selected.getDatawystawienia();
+        DateTime dzienposzukiwany = new DateTime(datadokumentu);
+        boolean znaleziono = false;
+        int zabezpieczenie = 0;
+        while (!znaleziono && (zabezpieczenie < 365)) {
+            dzienposzukiwany = dzienposzukiwany.minusDays(1);
+            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania,nazwawaluty);
+            if (tabelanbppobrana instanceof Tabelanbp) {
+                znaleziono = true;
+                tabelanbp = tabelanbppobrana; 
+                RequestContext.getCurrentInstance().update("formwpisdokument:panelwalut");
+            }
+            zabezpieczenie++;
+        }
+    }
+    
+    //********************************
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -669,8 +701,34 @@ public class DokfkView implements Serializable {
     public void setZablokujprzyciskzapisz(boolean zablokujprzyciskzapisz) {
         this.zablokujprzyciskzapisz = zablokujprzyciskzapisz;
     }
-     
-    //</editor-fold>
+
+    public String getWybranawaluta() {
+        return wybranawaluta;
+    }
+
+    public void setWybranawaluta(String wybranawaluta) {
+        this.wybranawaluta = wybranawaluta;
+    }
+
+    public List<String> getWprowadzonesymbolewalut() {
+        return wprowadzonesymbolewalut;
+    }
+
+    public void setWprowadzonesymbolewalut(List<String> wprowadzonesymbolewalut) {
+        this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
+    }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+    
+    //</editor-fold
+    
+    
   
 
 }

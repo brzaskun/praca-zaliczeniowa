@@ -43,4 +43,13 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
     }
+
+    public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {
+         try {
+            System.out.println("Pobieram Tabelanbp ByDate");
+            return tabelanbpFacade.findByDateWaluta(doprzekazania, nazwawaluty);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -42,6 +42,8 @@ import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 //import entityfk.Rozrachunki;
@@ -588,8 +590,11 @@ public class SessionFacade<T> {
     }
 
     
+    public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {
+        return (Tabelanbp) em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", doprzekazania).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
+    }
 
-
+   
   
   
 }
