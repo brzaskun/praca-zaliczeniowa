@@ -334,10 +334,11 @@ public class DokfkView implements Serializable {
                 boolean onjestnowatransakcja = aktualnywierszdorozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 if (onjestnowatransakcja == false) {
-                    pobierzNoweTransakcjezBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(),wnma);
+                    pobierzRozrachunekfkzBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(),wnma);
                     stworznowetransakcjezPobranychstronwierszy();
-                    pobierzjuzNaniesioneTransakcje();
+                    pobierzjuzNaniesioneTransakcjeRozliczony();
                     naniesinformacjezwczesniejrozliczonych();
+                    pobierzjuzNaniesioneTransakcjeSparowane();
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                     pobierztransakcjeJakoSparowany();
@@ -425,7 +426,7 @@ public class DokfkView implements Serializable {
     
     
     //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    private void pobierzNoweTransakcjezBazy(String nrkonta, String wnma) {
+    private void pobierzRozrachunekfkzBazy(String nrkonta, String wnma) {
           rozrachunekNowaTransakcja = new ArrayList<>();
           rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma));
         //pobrano wiersze - a teraz z nich robie rozrachunki
@@ -442,7 +443,7 @@ public class DokfkView implements Serializable {
         }
     }
     
-    private void pobierzjuzNaniesioneTransakcje(){
+    private void pobierzjuzNaniesioneTransakcjeRozliczony(){
         zachowanewczejsniejtransakcje = new ArrayList<>();
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
         Zestawienielisttransakcji pobranalista = new Zestawienielisttransakcji();
@@ -471,8 +472,29 @@ public class DokfkView implements Serializable {
         pozostalo = pozostalo - sumaddlaaktualnego;
         aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-
     }
+    
+    private void pobierzjuzNaniesioneTransakcjeSparowane(){
+        zachowanewczejsniejtransakcje = new ArrayList<>();
+        WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+        List<Zestawienielisttransakcji> pobranalista = zestawienielisttransakcjiDAO.findAll();
+        List<Transakcja> wydobytetransakcje = new ArrayList<>();
+        for (Zestawienielisttransakcji p : pobranalista) {
+            if (!p.getKluczlisty().equals(klucz)) {
+             wydobytetransakcje.addAll(p.getListatransakcji());
+            }
+        }
+        for (Transakcja p : wydobytetransakcje) {
+            for (Transakcja r : biezacetransakcje) {
+                if (r.idSparowany().equals(r.idSparowany())) {
+                    r.SetSpRozl(r.GetSpRozl() + p.getKwotatransakcji());
+                    r.SetSpPoz(r.GetSpKwotaPier() - r.GetSpRozl());
+                }
+            }
+        }
+        
+    }
+    
     
      
      //*************************
