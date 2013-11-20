@@ -24,6 +24,9 @@ public class WierszStronafk implements Serializable {
     protected WierszStronafkPK wierszStronafkPK;
     private double kwota;
     private Konto konto;
+    private String nrwlasnydokumentu;
+    private String opisdokumentu;
+    private String opiswiersza;
 
     public WierszStronafk() {
         this.kwota = 0.0;
@@ -86,6 +89,31 @@ public class WierszStronafk implements Serializable {
         this.konto = konto;
     }
 
+    public String getNrwlasnydokumentu() {
+        return nrwlasnydokumentu;
+    }
+
+    public void setNrwlasnydokumentu(String nrwlasnydokumentu) {
+        this.nrwlasnydokumentu = nrwlasnydokumentu;
+    }
+
+    public String getOpisdokumentu() {
+        return opisdokumentu;
+    }
+
+    public void setOpisdokumentu(String opisdokumentu) {
+        this.opisdokumentu = opisdokumentu;
+    }
+
+    public String getOpiswiersza() {
+        return opiswiersza;
+    }
+
+    public void setOpiswiersza(String opiswiersza) {
+        this.opiswiersza = opiswiersza;
+    }
+
+    
        
     
     
