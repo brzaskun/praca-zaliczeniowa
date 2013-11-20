@@ -63,6 +63,8 @@ public class Dokfk implements Serializable {
     private List<Wiersze> konta;
     @Column(name = "miesiac")
     private String miesiac;
+    @Column(name = "tresc")
+    private String tresc;
 
     
     
@@ -87,6 +89,14 @@ public class Dokfk implements Serializable {
     
     public DokfkPK getDokfkPK() {
         return dokfkPK;
+    }
+
+    public String getTresc() {
+        return tresc;
+    }
+
+    public void setTresc(String tresc) {
+        this.tresc = tresc;
     }
 
     public String getMiesiac() {

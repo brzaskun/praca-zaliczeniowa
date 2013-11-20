@@ -161,12 +161,33 @@ public class DokfkView implements Serializable {
         w.setStronaWnlubMa(wnma);
         return w;
     }
-    //wersja dla pierwszegor zedu
-    public void dodajdanedowierszaPW(){
-        WierszStronafkPK w = selected.getKonta().get(0).getWierszStronaWn().getWierszStronafkPK();
-        selected.getKonta().get(0).getWierszStronaWn().setWierszStronafkPK(dodajdanedowiersza(1, w, "Wn"));
-        w = selected.getKonta().get(0).getWierszStronaMa().getWierszStronafkPK();
-        selected.getKonta().get(0).getWierszStronaMa().setWierszStronafkPK(dodajdanedowiersza(1, w, "Ma"));
+        
+    private WierszStronafk uzupelnijdane( int numer, WierszStronafk w, String wnma, String tresc, String nrwlasnydokfk, String opiswiersza){
+        w.setNrwlasnydokumentu(nrwlasnydokfk);
+        w.setOpisdokumentu(tresc);
+        w.setOpiswiersza(opiswiersza);
+        WierszStronafkPK wPK = w.getWierszStronafkPK();
+        wPK.setNrPorzadkowyWiersza(numer);
+        wPK.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
+        wPK.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
+        wPK.setStronaWnlubMa(wnma);
+        return w;
+    }
+    //wersja dla pierwszegor rzedu i
+    //wersja dla nastepnych
+    public void dodajdanedowiersza(){
+        if (selected.getKonta().size() == 1) {
+            WierszStronafk w = selected.getKonta().get(0).getWierszStronaWn();
+            selected.getKonta().get(0).setWierszStronaWn(uzupelnijdane(1, w, "Wn", selected.getTresc(), selected.getNumer(), selected.getKonta().get(0).getOpis()));
+            w = selected.getKonta().get(0).getWierszStronaMa();
+            selected.getKonta().get(0).setWierszStronaMa(uzupelnijdane(1, w, "Ma", selected.getTresc(), selected.getNumer(), selected.getKonta().get(0).getOpis()));
+        } else {
+            int wiersz = liczbawierszy - 1;
+            WierszStronafk w = selected.getKonta().get(wiersz).getWierszStronaWn();
+            selected.getKonta().get(wiersz).setWierszStronaWn(uzupelnijdane(liczbawierszy, w, "Wn", selected.getTresc(), selected.getNumer(), selected.getKonta().get(wiersz).getOpis()));
+            w = selected.getKonta().get(wiersz).getWierszStronaMa();
+            selected.getKonta().get(wiersz).setWierszStronaMa(uzupelnijdane(liczbawierszy, w, "Ma", selected.getTresc(), selected.getNumer(), selected.getKonta().get(wiersz).getOpis()));
+        }
     }
     
     //usuwa wiersze z dokumentu
@@ -176,6 +197,8 @@ public class DokfkView implements Serializable {
             liczbawierszy--;
             usunrozrachunek(selected.getKonta().get(liczbawierszy).getWierszStronaWn());
             usunrozrachunek(selected.getKonta().get(liczbawierszy).getWierszStronaMa());
+            usuntransakcje(selected.getKonta().get(liczbawierszy).getWierszStronaWn());
+            usuntransakcje(selected.getKonta().get(liczbawierszy).getWierszStronaMa());
             selected.getKonta().remove(liczbawierszy);
         }
     }
@@ -212,10 +235,12 @@ public class DokfkView implements Serializable {
     
     public void usundokument(Dokfk dousuniecia) {
         try {
-            int iloscwierszy = selected.getKonta().size();
+            int iloscwierszy = dousuniecia.getKonta().size();
             for (int i = 0; i < iloscwierszy; i++) {
-                usunrozrachunek(selected.getKonta().get(i).getWierszStronaWn());
-                usunrozrachunek(selected.getKonta().get(i).getWierszStronaMa());
+                usunrozrachunek(dousuniecia.getKonta().get(i).getWierszStronaWn());
+                usunrozrachunek(dousuniecia.getKonta().get(i).getWierszStronaMa());
+                usuntransakcje(dousuniecia.getKonta().get(i).getWierszStronaWn());
+                usuntransakcje(dousuniecia.getKonta().get(i).getWierszStronaMa());
             }
             dokDAOfk.usun(dousuniecia);
             wykazZaksiegowanychDokumentow.remove(dousuniecia);
@@ -239,15 +264,16 @@ public class DokfkView implements Serializable {
     }
     
     private void usuntransakcje(WierszStronafk wierszStronafk) {
-            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
-            try {
-                Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-                rozrachunekfkDAO.destroy(rU);
-                Msg.msg("i", "Usunieto rozrachunek");
-            } catch (Exception e) {
-                Msg.msg("e", "Nieusunieto rozrachunku");
-            }
+        WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
+        try {
+            Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
+            zestawienielisttransakcjiDAO.destroy(znaleziona);
+            Msg.msg("i", "Usunieto transakcje nienowe transakcje");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie usunieto transakcje nienowe transakcje");
+        }
     }
+   
     
     //***************************************
     public void znajdzduplicatdokumentu() {
@@ -404,35 +430,7 @@ public class DokfkView implements Serializable {
         }
     
        
-    private int pobierztransakcjeJakoSparowany() {
-        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
-        //pobieramy listy z bazy
-        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
-        List<Transakcja> kolekcje = new ArrayList<>();
-        pobranelisty = zestawienielisttransakcjiDAO.findAll();
-        for (Zestawienielisttransakcji p : pobranelisty) {
-            kolekcje.addAll(p.getListatransakcji());
-        }
-        int wynikszukania = 0;
-        for (Transakcja x : kolekcje) {
-            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
-            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
-            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
-            boolean kwoty = x.GetSpRozl()!=0.0 && x.GetSpPoz()!=0.0;
-            if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza&&kwoty) {
-                Msg.msg("w", "on byl jako sparowany");
-                transakcjejakosparowany.add(x);
-                wynikszukania = 1;
-            }
-        }
-        //nie znaleziono transakcji gdzie aktualnybylby sparowanym
-        if (wynikszukania == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+   
     
     
     //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
@@ -466,16 +464,16 @@ public class DokfkView implements Serializable {
         //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
         //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
         double sumaddlaaktualnego = 0.0;
+        for (Transakcja s : zachowanewczejsniejtransakcje) {
+            sumaddlaaktualnego += s.getKwotatransakcji();
+            biezacetransakcje.add(s);
+        }
         for (Transakcja r : transakcjeswiezynki) {
             if (!zachowanewczejsniejtransakcje.contains(r)) {
                 biezacetransakcje.add(r);
             }
         }
-        for (Transakcja s : zachowanewczejsniejtransakcje) {
-            sumaddlaaktualnego += s.getKwotatransakcji();
-            biezacetransakcje.add(s);
-        }
-        //aktualizujemy biezacy wiersz
+        //aktualizujemy biezacy wiersz nie bedacy nowa transakcja
         double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
         double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
         rozliczono = rozliczono + sumaddlaaktualnego;
@@ -501,11 +499,44 @@ public class DokfkView implements Serializable {
      
      //*************************
      //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
+    
+     private int pobierztransakcjeJakoSparowany() {
+        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
+        //pobieramy listy z bazy
+        transakcjejakosparowany = new ArrayList<>();
+        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
+        List<Transakcja> kolekcje = new ArrayList<>();
+        pobranelisty = zestawienielisttransakcjiDAO.findAll();
+        for (Zestawienielisttransakcji p : pobranelisty) {
+            kolekcje.addAll(p.getListatransakcji());
+        }
+        int wynikszukania = 0;
+        for (Transakcja x : kolekcje) {
+            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
+            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
+            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
+            boolean kwoty = x.GetSpRozl()!=0.0 && x.GetSpPoz()!=0.0;
+            if (typdokumentu&&nrkolejnydokumentu&&nrPorzadkowyWiersza&&kwoty) {
+                Msg.msg("w", "on byl jako sparowany");
+                transakcjejakosparowany.add(x);
+                wynikszukania = 1;
+            }
+        }
+        //nie znaleziono transakcji gdzie aktualnybylby sparowanym
+        if (wynikszukania == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+     
      private void sumujdlaNowejTransakcji() {
          double sumaddlaaktualnego = 0.0;
          //czyscimy wartosci
          for(Transakcja p : transakcjejakosparowany) {
              double kwota = p.getKwotatransakcji();
+             if (kwota > 0 ) {
              Transakcja nowa = new Transakcja();
              nowa.setZablokujnanoszenie(true);
              nowa.getTransakcjaPK().setRozliczany(p.getTransakcjaPK().getSparowany());
@@ -513,15 +544,8 @@ public class DokfkView implements Serializable {
              nowa.SetSpRozl(kwota);
              nowa.SetSpPoz(nowa.GetSpKwotaPier() - kwota);
              biezacetransakcje.add(nowa);
-             sumaddlaaktualnego += kwota;
+             }
          }
-        double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-        double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-        rozliczono = rozliczono + sumaddlaaktualnego;
-        pozostalo = pozostalo - sumaddlaaktualnego;
-        aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-        aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-        transakcjejakosparowany.clear();
      }
      
      
@@ -577,20 +601,22 @@ public class DokfkView implements Serializable {
     
     public void pobierzkursNBP(ValueChangeEvent  el){
         String nazwawaluty =  (String) el.getNewValue();
-        String datadokumentu = selected.getDatawystawienia();
-        DateTime dzienposzukiwany = new DateTime(datadokumentu);
-        boolean znaleziono = false;
-        int zabezpieczenie = 0;
-        while (!znaleziono && (zabezpieczenie < 365)) {
-            dzienposzukiwany = dzienposzukiwany.minusDays(1);
-            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania,nazwawaluty);
-            if (tabelanbppobrana instanceof Tabelanbp) {
-                znaleziono = true;
-                tabelanbp = tabelanbppobrana; 
-                RequestContext.getCurrentInstance().update("formwpisdokument:panelwalut");
+        if (!nazwawaluty.equals("PLN")) {
+            String datadokumentu = selected.getDatawystawienia();
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania,nazwawaluty);
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    tabelanbp = tabelanbppobrana; 
+                    RequestContext.getCurrentInstance().update("formwpisdokument:panelwalut");
+                }
+                zabezpieczenie++;
             }
-            zabezpieczenie++;
         }
     }
     

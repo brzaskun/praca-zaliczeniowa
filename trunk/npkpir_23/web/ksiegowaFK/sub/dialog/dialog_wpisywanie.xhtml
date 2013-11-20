@@ -14,7 +14,7 @@
         <h:form id="formwpisdokument">
             <div style="height: 100px;">
                 <!--                nagłówek dokumentu-->
-                <p:panelGrid columns="10">
+                <p:panelGrid columns="12">
                     <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"  onblur="ustawDateFK(2013, 11);" title="wpisz numer dnia, lub miesiąc i dzień">
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.wygenerujokreswpisudokumentu}"/>
                     </p:inputText>
@@ -34,7 +34,10 @@
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/></h:selectOneMenu>
                     <h:outputText value="miesiąc"/><h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}">
                         <f:selectItems value="#{Mce.mceList}"/>
-                        <f:ajax event="blur" listener="#{dokfkView.dodajdanedowierszaPW}" execute="@this"/></h:selectOneMenu>
+                        <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
+                    <h:outputText value="treść dok."/><h:inputText value="#{dokfkView.selected.tresc}">
+                        <f:ajax event="blur" execute="@this"/>
+                    </h:inputText>
                 </p:panelGrid>
             </div>
             <div style="height: 70px;">
@@ -62,7 +65,7 @@
                     </p:column>
                     <p:column headerText="opis transakcji" width="170">
                         <p:inputText id="opis" value="#{loop.opis}" style="width: 165px;" onkeypress="wywolajdok('#{planKontView.opiskonta}', '#{planKontView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
-                            <f:ajax event="blur"  execute="@this"/>
+                            <f:ajax event="blur" listener="#{dokfkView.dodajdanedowiersza}"  execute="@this"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="kwota"  width="160">
