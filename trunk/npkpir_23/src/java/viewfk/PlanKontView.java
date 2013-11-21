@@ -187,7 +187,8 @@ public class PlanKontView implements Serializable{
         }
     }
     
-     public List<Konto> complete(String query) {  
+     public List<Konto> complete(String qr) {
+        String query = qr.split(" ")[0];
         List<Konto> results = new ArrayList<>();
         List<Konto> listakont = kontoDAO.findKontaOstAlityka();
         try{

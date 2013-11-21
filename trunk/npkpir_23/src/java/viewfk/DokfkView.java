@@ -613,7 +613,9 @@ public class DokfkView implements Serializable {
                 if (tabelanbppobrana instanceof Tabelanbp) {
                     znaleziono = true;
                     tabelanbp = tabelanbppobrana; 
-                    RequestContext.getCurrentInstance().update("formwpisdokument:panelwalut");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:w11");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:w12");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:w13");
                 }
                 zabezpieczenie++;
             }
