@@ -8,8 +8,8 @@
     >
 
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
-              resizable="false" onShow="pierwszyonShow();" closeOnEscape="true" onHide="pierwszyOnHide();">
-        <p:ajax event="close" listener="#{dokfkView.zresetujpoladialogu}" update=":formwpisdokument "/>
+              resizable="false" onShow="pierwszyonShow();" closable="false" onHide="pierwszyOnHide();">
+        <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
 
         <h:form id="formwpisdokument">
             <div style="height: 100px;">

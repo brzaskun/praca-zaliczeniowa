@@ -16,6 +16,7 @@ import javax.persistence.EmbeddedId;
  */
 @Embeddable
 public class WierszStronafk implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     /**
      * to jest klucz ale nie moze byc EmbeddedId bo sie kloci z idwiersza. To pole jest osadzone w Wiersze
@@ -23,12 +24,21 @@ public class WierszStronafk implements Serializable {
      */
     protected WierszStronafkPK wierszStronafkPK;
     private double kwota;
+    private double kwotaPLN;
+    private double kwotaWaluta;
+    private double kurswaluty;
+    private String symbolwaluty;
+    private String nrtabelinbp;
+    private String datawaluty;
     private Konto konto;
     private String nrwlasnydokumentu;
     private String opisdokumentu;
     private String opiswiersza;
 
     public WierszStronafk() {
+        this.kwotaPLN = 0.0;
+        this.kwotaWaluta = 0.0;
+        this.kurswaluty = 0.0;
         this.kwota = 0.0;
         this.wierszStronafkPK = new WierszStronafkPK();
     }
@@ -111,6 +121,54 @@ public class WierszStronafk implements Serializable {
 
     public void setOpiswiersza(String opiswiersza) {
         this.opiswiersza = opiswiersza;
+    }
+
+    public double getKwotaPLN() {
+        return kwotaPLN;
+    }
+
+    public void setKwotaPLN(double kwotaPLN) {
+        this.kwotaPLN = kwotaPLN;
+    }
+
+    public double getKwotaWaluta() {
+        return kwotaWaluta;
+    }
+
+    public void setKwotaWaluta(double kwotaWaluta) {
+        this.kwotaWaluta = kwotaWaluta;
+    }
+
+    public double getKurswaluty() {
+        return kurswaluty;
+    }
+
+    public void setKurswaluty(double kurswaluty) {
+        this.kurswaluty = kurswaluty;
+    }
+
+    public String getSymbolwaluty() {
+        return symbolwaluty;
+    }
+
+    public void setSymbolwaluty(String symbolwaluty) {
+        this.symbolwaluty = symbolwaluty;
+    }
+
+    public String getNrtabelinbp() {
+        return nrtabelinbp;
+    }
+
+    public void setNrtabelinbp(String nrtabelinbp) {
+        this.nrtabelinbp = nrtabelinbp;
+    }
+
+    public String getDatawaluty() {
+        return datawaluty;
+    }
+
+    public void setDatawaluty(String datawaluty) {
+        this.datawaluty = datawaluty;
     }
 
     

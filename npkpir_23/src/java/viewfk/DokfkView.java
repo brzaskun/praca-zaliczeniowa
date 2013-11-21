@@ -101,7 +101,7 @@ public class DokfkView implements Serializable {
     
     //********************************************funkcje dla ksiegowania dokumentow
     //RESETUJ DOKUMNETFK
-    private void resetujDokument() {
+    public void resetujDokument() {
         selected = new Dokfk();
         tabelanbp = new Tabelanbp();
         DokfkPK dokfkPK = new DokfkPK();
@@ -601,6 +601,7 @@ public class DokfkView implements Serializable {
     
     public void pobierzkursNBP(ValueChangeEvent  el){
         String nazwawaluty =  (String) el.getNewValue();
+        String staranazwa = (String) el.getOldValue();
         if (!nazwawaluty.equals("PLN")) {
             String datadokumentu = selected.getDatawystawienia();
             DateTime dzienposzukiwany = new DateTime(datadokumentu);
@@ -620,6 +621,30 @@ public class DokfkView implements Serializable {
                 zabezpieczenie++;
             }
         }
+        if (staranazwa != null) {
+            przewalutujzapisy(staranazwa, nazwawaluty);
+        }
+    }
+    
+    private void przewalutujzapisy(String staranazwa, String nazwawaluty) {
+       double kurs = tabelanbp.getKurssredni();
+       if (!staranazwa.equals("PLN")) {
+           kurs = Math.round(1/(kurs*10000))/10000;
+       }
+       List<Wiersze> wiersze = selected.getKonta();
+       for (Wiersze p : wiersze) {
+           if (p.getWierszStronaWn().getKwota() != 0.0) {
+               double kwota = p.getWierszStronaWn().getKwota();
+               kwota = Math.round(kwota*(kurs*10000))/10000;
+               p.getWierszStronaWn().setKwota(kwota);
+           }
+           if (p.getWierszStronaMa().getKwota() != 0.0) {
+               double kwota = p.getWierszStronaMa().getKwota();
+               kwota = Math.round(kwota*(kurs*10000))/10000;
+               p.getWierszStronaMa().setKwota(kwota);
+           }
+       }
+       RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
     
     //********************************
