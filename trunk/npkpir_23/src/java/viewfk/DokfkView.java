@@ -69,7 +69,6 @@ public class DokfkView implements Serializable {
     @Inject private TabelanbpDAO tabelanbpDAO;
     private String wybranawaluta;
     private List<String> wprowadzonesymbolewalut;   
-    private Tabelanbp tabelanbp;
 
     public DokfkView() {
         resetujDokument();
@@ -103,7 +102,6 @@ public class DokfkView implements Serializable {
     //RESETUJ DOKUMNETFK
     public void resetujDokument() {
         selected = new Dokfk();
-        tabelanbp = new Tabelanbp();
         DokfkPK dokfkPK = new DokfkPK();
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
@@ -613,7 +611,7 @@ public class DokfkView implements Serializable {
                 Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania,nazwawaluty);
                 if (tabelanbppobrana instanceof Tabelanbp) {
                     znaleziono = true;
-                    tabelanbp = tabelanbppobrana; 
+                    selected.setTabelanbp(tabelanbppobrana); 
                     RequestContext.getCurrentInstance().update("formwpisdokument:w11");
                     RequestContext.getCurrentInstance().update("formwpisdokument:w12");
                     RequestContext.getCurrentInstance().update("formwpisdokument:w13");
@@ -627,24 +625,42 @@ public class DokfkView implements Serializable {
     }
     
     private void przewalutujzapisy(String staranazwa, String nazwawaluty) {
-       double kurs = tabelanbp.getKurssredni();
-       if (!staranazwa.equals("PLN")) {
-           kurs = Math.round(1/(kurs*10000))/10000;
+       double kurs = selected.getTabelanbp().getKurssredni();
+       if (staranazwa.equals("PLN")) {
+           kurs = Math.round((1/kurs)*100000000);
+           kurs = kurs/100000000;
        }
        List<Wiersze> wiersze = selected.getKonta();
        for (Wiersze p : wiersze) {
            if (p.getWierszStronaWn().getKwota() != 0.0) {
                double kwota = p.getWierszStronaWn().getKwota();
-               kwota = Math.round(kwota*(kurs*10000))/10000;
+               kwota = Math.round(kwota*kurs*100);
+               kwota = kwota/100;
                p.getWierszStronaWn().setKwota(kwota);
            }
            if (p.getWierszStronaMa().getKwota() != 0.0) {
                double kwota = p.getWierszStronaMa().getKwota();
-               kwota = Math.round(kwota*(kurs*10000))/10000;
+               kwota = Math.round(kwota*kurs*100);
+               kwota = kwota/100;
                p.getWierszStronaMa().setKwota(kwota);
            }
        }
        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+    
+     public static void main (String[] args){
+       String staranazwa = "EUR";
+       String nazwawaluty = "PLN";
+       double kurs = 4.189;
+       if (!staranazwa.equals("PLN")) {
+           kurs = 1/kurs*100000000;
+           kurs = Math.round(kurs);
+           kurs = kurs/100000000;
+       }
+        double kwota = 40000;
+        kwota = Math.round(kwota*kurs*100);
+        kwota = kwota/100;
+        System.out.println(kwota);
     }
     
     //********************************
@@ -771,13 +787,6 @@ public class DokfkView implements Serializable {
         this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
     }
 
-    public Tabelanbp getTabelanbp() {
-        return tabelanbp;
-    }
-
-    public void setTabelanbp(Tabelanbp tabelanbp) {
-        this.tabelanbp = tabelanbp;
-    }
     
     //</editor-fold
     

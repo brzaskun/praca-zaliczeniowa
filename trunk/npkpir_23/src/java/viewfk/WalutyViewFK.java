@@ -17,14 +17,10 @@ import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Table;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import org.xml.sax.SAXException;
 import waluty.WalutyNBP;
 

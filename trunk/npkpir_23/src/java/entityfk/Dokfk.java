@@ -12,6 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -65,6 +68,14 @@ public class Dokfk implements Serializable {
     private String miesiac;
     @Column(name = "tresc")
     private String tresc;
+    @Column(name = "walutadokumentu")
+    private String walutadokumentu;
+    @JoinColumns({
+        @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
+        @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
+    })
+    @ManyToOne
+    private Tabelanbp tabelanbp;
 
     
     
@@ -95,6 +106,14 @@ public class Dokfk implements Serializable {
         return tresc;
     }
 
+    public String getWalutadokumentu() {
+        return walutadokumentu;
+    }
+
+    public void setWalutadokumentu(String walutadokumentu) {
+        this.walutadokumentu = walutadokumentu;
+    }
+    
     public void setTresc(String tresc) {
         this.tresc = tresc;
     }
@@ -144,6 +163,16 @@ public class Dokfk implements Serializable {
     public void setKonta(List<Wiersze> konta) {
         this.konta = konta;
     }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+    
+    
 
 //    @XmlTransient
 //    public List<Kontozapisy> getZapisynakoncie() {
