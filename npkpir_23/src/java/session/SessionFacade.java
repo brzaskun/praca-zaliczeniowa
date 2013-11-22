@@ -486,7 +486,11 @@ public class SessionFacade<T> {
 //    }
 
     public Dokfk findDokfk(Dokfk selected) {
-        return (Dokfk) em.createNamedQuery("Dokfk.findByPK").setParameter("dokfkPK", selected.getDokfkPK()).getSingleResult();
+        try {
+            return (Dokfk) em.createNamedQuery("Dokfk.findByPK").setParameter("dokfkPK", selected.getDokfkPK()).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Konto> findKontaOstAlityka() {
