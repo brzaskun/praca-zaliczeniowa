@@ -39,6 +39,9 @@ public class Waluty implements Serializable {
     private String symbolwaluty;
     @Column(name = "nazwawaluty")
     private String nazwawaluty;
+    @Column(name = "skrotsymbolu")
+    private String skrotsymbolu;
+            
 
     public Waluty() {
     }
@@ -71,6 +74,16 @@ public class Waluty implements Serializable {
     public void setNazwawaluty(String nazwawaluty) {
         this.nazwawaluty = nazwawaluty;
     }
+
+    public String getSkrotsymbolu() {
+        return skrotsymbolu;
+    }
+
+    public void setSkrotsymbolu(String skrotsymbolu) {
+        this.skrotsymbolu = skrotsymbolu;
+    }
+    
+    
     
    
     //</editor-fold>

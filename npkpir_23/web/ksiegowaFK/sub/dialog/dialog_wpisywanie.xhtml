@@ -42,14 +42,14 @@
             </div>
             <div style="height: 70px;">
                 <p:panelGrid columns="7" style="width: 800px;">
-                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.wybranawaluta}" valueChangeListener="#{dokfkView.pobierzkursNBP}" >
+                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" >
                         <f:ajax event="change" execute="@this" />
                         <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                         <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
                     </h:selectOneMenu>
-                    <h:outputText value="tabela NBP"/><h:outputText id="w11" value="#{dokfkView.tabelanbp.tabelanbpPK.nrtabeli}"/>
-                    <h:outputText value="z dnia"/><h:outputText id="w12" value="#{dokfkView.tabelanbp.datatabeli}"/>
-                    <h:outputText value="kurs średni"/><h:outputText id="w13" value="#{dokfkView.tabelanbp.kurssredni}"/>
+                    <h:outputText value="tabela NBP"/><h:outputText id="w11" value="#{dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}"/>
+                    <h:outputText value="z dnia"/><h:outputText id="w12" value="#{dokfkView.selected.tabelanbp.datatabeli}"/>
+                    <h:outputText value="kurs średni"/><h:outputText id="w13" value="#{dokfkView.selected.tabelanbp.kurssredni}"/>
                 </p:panelGrid>
                
             </div>

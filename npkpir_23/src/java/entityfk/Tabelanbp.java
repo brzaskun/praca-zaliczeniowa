@@ -5,12 +5,14 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,6 +45,8 @@ public class Tabelanbp implements Serializable {
     @NotNull
     @Column(nullable = false)
     private double kurssredni;
+    @OneToMany(mappedBy = "tabelanbp")
+    private List<Dokfk> Dokfk;
 
     public Tabelanbp() {
     }
@@ -84,6 +88,16 @@ public class Tabelanbp implements Serializable {
     public void setKurssredni(double kurssredni) {
         this.kurssredni = kurssredni;
     }
+
+    public List<Dokfk> getDokfk() {
+        return Dokfk;
+    }
+
+    public void setDokfk(List<Dokfk> Dokfk) {
+        this.Dokfk = Dokfk;
+    }
+    
+    
 
     @Override
     public int hashCode() {

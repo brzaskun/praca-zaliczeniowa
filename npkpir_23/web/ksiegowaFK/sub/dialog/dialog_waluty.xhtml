@@ -9,10 +9,13 @@
               resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',400,400);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
         <h:form id="wprowadzonewaluty">
                 <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobranewaluty}" editable="true" emptyMessage="Nie ma wprowadzonych walut">
-                <p:column headerText="symbol waluty" width="100" >
+                <p:column headerText="skrót waluty" width="100" >
                     <h:outputText value="#{wpis.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="nazwa waluty" width="300">
+                    <h:outputText value="#{wpis.nazwawaluty}" />
+                </p:column>
+                <p:column headerText="symbol waluty" width="300">
                     <h:outputText value="#{wpis.nazwawaluty}" />
                 </p:column>
             </p:dataTable>
