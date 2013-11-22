@@ -356,7 +356,7 @@ var sprawdzwartosc = function(wiersz){
     wiersz -= 1;
     var zloz = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
     var wartosc = $(zloz).val();
-    if(wartosc === " zł" || wartosc === "0.00 zł"){
+    if(wartosc === "0.00"){
         $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
         $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val());
     }
