@@ -15,4 +15,14 @@
     border-collapse: initial !important; 
 }
 
+.ui-inputfield .ui-inputtext {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.ui-datatable-data tr td {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
  
