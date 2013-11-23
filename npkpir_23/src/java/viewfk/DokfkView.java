@@ -643,25 +643,43 @@ public class DokfkView implements Serializable {
     }
 
     private void przewalutujzapisy(String staranazwa, String nazwawaluty) {
-        double kurs = selected.getTabelanbp().getKurssredni();
+        double kurs = 0.0;
         if (staranazwa.equals("PLN")) {
+            kurs = selected.getTabelanbp().getKurssredni();
             kurs = Math.round((1 / kurs) * 100000000);
             kurs = kurs / 100000000;
+            List<Wiersze> wiersze = selected.getKonta();
+            for (Wiersze p : wiersze) {
+                if (p.getWierszStronaWn().getKwota() != 0.0) {
+                    double kwota = p.getWierszStronaWn().getKwota();
+                    kwota = Math.round(kwota * kurs * 10000);
+                    kwota = kwota / 10000;
+                    p.getWierszStronaWn().setKwota(kwota);
+                }
+                if (p.getWierszStronaMa().getKwota() != 0.0) {
+                    double kwota = p.getWierszStronaMa().getKwota();
+                    kwota = Math.round(kwota * kurs * 10000);
+                    kwota = kwota / 10000;
+                    p.getWierszStronaMa().setKwota(kwota);
+                }
+            }
+        } else {
+            kurs = selected.getTabelanbp().getKurssredni();
+            List<Wiersze> wiersze = selected.getKonta();
+            for (Wiersze p : wiersze) {
+                if (p.getWierszStronaWn().getKwota() != 0.0) {
+                    double kwota = p.getWierszStronaWn().getKwota();
+                    kwota = Math.round(kwota * kurs * 100);
+                    kwota = kwota / 100;
+                    p.getWierszStronaWn().setKwota(kwota);
+                }
+                if (p.getWierszStronaMa().getKwota() != 0.0) {
+                    double kwota = p.getWierszStronaMa().getKwota();
+                    kwota = Math.round(kwota * kurs * 100);
+                    kwota = kwota / 100;
+                    p.getWierszStronaMa().setKwota(kwota);
+                }
         }
-        List<Wiersze> wiersze = selected.getKonta();
-        for (Wiersze p : wiersze) {
-            if (p.getWierszStronaWn().getKwota() != 0.0) {
-                double kwota = p.getWierszStronaWn().getKwota();
-                kwota = Math.round(kwota * kurs * 100);
-                kwota = kwota / 100;
-                p.getWierszStronaWn().setKwota(kwota);
-            }
-            if (p.getWierszStronaMa().getKwota() != 0.0) {
-                double kwota = p.getWierszStronaMa().getKwota();
-                kwota = Math.round(kwota * kurs * 100);
-                kwota = kwota / 100;
-                p.getWierszStronaMa().setKwota(kwota);
-            }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -675,7 +693,13 @@ public class DokfkView implements Serializable {
             kurs = Math.round(kurs);
             kurs = kurs / 100000000;
         }
-        double kwota = 40000;
+        double kwota = 100000;
+        kwota = Math.round(kwota * kurs * 10000);
+        kwota = kwota / 10000;
+        System.out.println(kwota);
+        staranazwa = "PLN";
+        nazwawaluty = "EUR";
+        kurs = 4.189;
         kwota = Math.round(kwota * kurs * 100);
         kwota = kwota / 100;
         System.out.println(kwota);
@@ -697,6 +721,7 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update(p1);
             RequestContext.getCurrentInstance().update(p2);
         }
+        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
     }
 
     //********************************
