@@ -9,3 +9,10 @@
 .fkbutton {
     width: 120px;
 }
+
+
+.ui-panelgrid {
+    border-collapse: initial !important; 
+}
+
+ 
