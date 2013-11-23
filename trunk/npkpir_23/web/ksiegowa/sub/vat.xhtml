@@ -95,10 +95,14 @@
                             <h:inputText id="pole42" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole42}" title="Pole42"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
                                 </h:inputText>
                         </h:panelGrid>
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="3">
                             <h:outputLabel value="Kwota podatku należnego od towarów i usług objętych spisem z natury, o którym mowa w art.14 ust.5 43. ustawy:" for="pole43" />
                             <h:inputText id="pole43" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole43}" title="Pole43"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
+                                 <p:ajax event="keyup" listener="#{vat7DKView.setPole43zreki(true)}" update=":form:reka43"/>
                                 </h:inputText>
+                            <h:selectBooleanCheckbox id="reka43" label="z ręki" value="#{vat7DKView.pole43zreki}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
                             <h:outputLabel value="Kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w poz.34, podlegająca wpłacie w terminie, o którym mowa w art.103 ust.3, w związku z ust.4 ustawy:" for="pole44" />
                             <h:inputText id="pole44" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole44}" title="Pole44"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
                                 </h:inputText>
@@ -121,7 +125,7 @@
                                 <h:outputLabel value="Kwota nadwyżki z poprzedniej deklaracji:" for="pole47" />
                                 <h:inputText id="pole47" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole47}" title="Pole47"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
                                     </h:inputText>
-                                <h:outputLabel value="Kwota podatnku naliczonego wynikającego ze sposu z natury:" for="pole48" />
+                                <h:outputLabel value="Kwota podatnku naliczonego wynikającego ze spisu z natury:" for="pole48" />
                                 <h:inputText id="pole48" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole48}" title="Pole48"  style="padding-left: 20%; font-weight: 700; float: right; width: 80px;">
                                     </h:inputText>
                             </h:panelGrid>

@@ -9,11 +9,15 @@ body {
     font-size: 9pt !important;
     font-family: TimesNewRoman !important;
     font-weight: 500;
+    width: 70%;
+}
+/*to chyba jest body*/
+.ui-layout-container {
+    width: 99% !important;
+/*    font-size: 0.8em !important;
+    font-weight: 600 !important;*/
 }
 
-root { 
-    display: block;
-}
 
 .korekta {
     color:red !important;
@@ -78,14 +82,19 @@ root {
     background-color: silver;
 }
 
-.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{padding: 4px 10px; overflow: auto !important; white-space: normal !important; border-width: 1px; border-style: solid;}
+.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
+    padding: 4px 10px;
+    overflow: auto !important;
+    white-space: normal !important;
+    border-width: 1px;
+    border-style: solid;}
 
 
-@page {
+/*@page {
     size: landscape;
     object-fit: scale-down;
     width: 50%;
-}
+}*/
 
 #popup {
     width: 150px;

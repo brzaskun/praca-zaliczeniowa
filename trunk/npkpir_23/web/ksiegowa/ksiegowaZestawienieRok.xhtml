@@ -4,7 +4,6 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="/template.xhtml">
-        
         <ui:define name="title">
             <h:outputText value="#{WpisView.podatnikWpisu} - zestawienie kwot z podatkowej księgi przychodów i rozchodów za rok #{WpisView.rokWpisu}"></h:outputText>
         </ui:define>
@@ -12,17 +11,11 @@
             <h:form>
                     <p:confirmDialog id="confirmDialog" message="Wysłać zestawienie do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
-
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
                                          actionListener="#{mailOther.pkpir()}"  />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
-
                     </p:confirmDialog>  
                 </h:form>
-             
-             
-               
-                
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutZestawienie/north.xhtml"/>  <!-- panel polnocny-->
@@ -34,7 +27,6 @@
                         </p:layoutUnit>
                     </p:layout>
                 </f:view>
-            
         </ui:define>
     </ui:composition>
 </html>
