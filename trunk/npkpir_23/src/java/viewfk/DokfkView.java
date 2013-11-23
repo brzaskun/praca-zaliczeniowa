@@ -124,6 +124,7 @@ public class DokfkView implements Serializable {
         nowywiersz.setWierszStronaMa(wierszStronafkMa);
         nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
         wiersze.add(nowywiersz);
+        selected.setWalutadokumentu("PLN");
         selected.setKonta(wiersze);
         liczbawierszy = 1;
         zapisz0edytuj1 = false;
@@ -634,7 +635,7 @@ public class DokfkView implements Serializable {
                     zabezpieczenie++;
                 }
             }
-            if (staranazwa != null) {
+            if (staranazwa != null && selected.getKonta().get(0).getWierszStronaWn().getKwota() != 0.0) {
                 przewalutujzapisy(staranazwa, nazwawaluty);
             }
             pobierzsymbolwaluty();
