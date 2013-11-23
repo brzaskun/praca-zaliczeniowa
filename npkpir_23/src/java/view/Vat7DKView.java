@@ -70,6 +70,7 @@ public class Vat7DKView implements Serializable {
     private String rok;
     private String mc;
     private String podatnik;
+    private boolean pole43zreki;
     private boolean pole56zreki;
     private boolean pole59zreki;
     private boolean pokaz56lub59;
@@ -490,6 +491,9 @@ public class Vat7DKView implements Serializable {
     }
 
     private void podsumujszczegolowe() {
+        if (pole43zreki==true) {
+            pozycjeSzczegoloweVAT.setPoleI43(Integer.parseInt(pozycjeSzczegoloweVAT.getPole43()));
+        }
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -686,6 +690,15 @@ public class Vat7DKView implements Serializable {
     public void setPokaz56lub59(boolean pokaz56lub59) {
         this.pokaz56lub59 = pokaz56lub59;
     }
+
+    public boolean isPole43zreki() {
+        return pole43zreki;
+    }
+
+    public void setPole43zreki(boolean pole43zreki) {
+        this.pole43zreki = pole43zreki;
+    }
+    
     
     
     //</editor-fold>

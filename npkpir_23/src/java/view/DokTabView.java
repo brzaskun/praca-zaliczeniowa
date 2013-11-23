@@ -307,6 +307,14 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
     
+    //usun jak wciaz dziala bez nich
+    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+        obiektDOKmrjsfSel.clear();
+        init();
+        aktualizuj();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+    }
   
      public void aktualizujGuest(String strona) throws IOException {
         aktualizujGuest();

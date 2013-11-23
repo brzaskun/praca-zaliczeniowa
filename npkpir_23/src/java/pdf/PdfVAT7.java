@@ -343,7 +343,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         absText(writer, p.getImie(), 80, 166); absText(writer, p.getNazwisko(), 210, 166);
         absText(writer, "91 8120976", 80, 142); 
         try{
-            absText(writer, l.getDatazlozenia().toString(), 210, 404);  absText(writer, l.getSporzadzil(), 400, 412);
+            absText(writer, l.getDatazlozenia().toString(), 210, 142);  absText(writer, l.getSporzadzil(), 400, 142);
         } catch (Exception e){}     
    }
    }
