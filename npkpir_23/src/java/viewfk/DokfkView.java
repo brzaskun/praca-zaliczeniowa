@@ -407,6 +407,7 @@ public class DokfkView implements Serializable {
                 wnlubma = "";
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
+                RequestContext.getCurrentInstance().execute("znadzpasujacepolerozrachunku();");
             } else {
                 Msg.msg("e", "Wybierz konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
