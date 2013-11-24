@@ -563,7 +563,7 @@ public class SessionFacade<T> {
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma) {
+    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String walutarozrachunku) {
         String wnmaNew = null;
         if (wnma.equals("Wn")) {
             wnmaNew = "Ma";
@@ -571,7 +571,7 @@ public class SessionFacade<T> {
             wnmaNew = "Wn";
         }
         try {
-            return (List<Rozrachunekfk>) em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).getResultList();
+            return (List<Rozrachunekfk>) em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
         } catch (Exception e) {
             return null;
         }

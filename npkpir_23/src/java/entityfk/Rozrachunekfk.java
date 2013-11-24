@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
     @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
-    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa =:wnmaNew")
+    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND W.walutarozrachunku = :walutarozrachunku")
 })
 public class Rozrachunekfk  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,6 +58,8 @@ public class Rozrachunekfk  implements Serializable {
     private double pozostalo;
     @Column(name="nowatransakcja")
     private boolean nowatransakcja;
+    @Column(name = "walutarozrachunku")
+    private String walutarozrachunku;
     @JoinColumn(name = "konto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Konto kontoid;
@@ -162,6 +164,14 @@ public class Rozrachunekfk  implements Serializable {
 
     public void setIdrozrachunku(Integer idrozrachunku) {
         this.idrozrachunku = idrozrachunku;
+    }
+
+    public String getWalutarozrachunku() {
+        return walutarozrachunku;
+    }
+
+    public void setWalutarozrachunku(String walutarozrachunku) {
+        this.walutarozrachunku = walutarozrachunku;
     }
    
     
