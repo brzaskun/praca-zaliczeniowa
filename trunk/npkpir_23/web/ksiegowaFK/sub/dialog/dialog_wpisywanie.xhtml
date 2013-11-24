@@ -123,7 +123,7 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.liczbawu}" styleClass="fkbutton" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.rozrachunki}" accesskey="r" update=":rozrachunki"/>
-                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" update=":wpisywaniefooter"  onclick="pierwszy.hide()"/>
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="pierwszy.hide()"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.wierszid}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.wnlubma}" style="display: none;"/>

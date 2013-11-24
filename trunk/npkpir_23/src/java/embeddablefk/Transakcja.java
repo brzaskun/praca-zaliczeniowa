@@ -15,11 +15,13 @@ public class Transakcja implements Serializable {
     
     private TransakcjaPK transakcjaPK;
     private double kwotatransakcji;
+    private double roznicekursowe;
     private double poprzedniakwota;
     private boolean zablokujnanoszenie;
 
     public Transakcja() {
         this.transakcjaPK = new TransakcjaPK();
+        this.roznicekursowe = 0.0;
     }
     
     public WierszStronafkPK idSparowany() {
@@ -78,6 +80,15 @@ public class Transakcja implements Serializable {
     public void setZablokujnanoszenie(boolean zablokujnanoszenie) {
         this.zablokujnanoszenie = zablokujnanoszenie;
     }
+
+    public double getRoznicekursowe() {
+        return roznicekursowe;
+    }
+
+    public void setRoznicekursowe(double roznicekursowe) {
+        this.roznicekursowe = roznicekursowe;
+    }
+    
     
     
     

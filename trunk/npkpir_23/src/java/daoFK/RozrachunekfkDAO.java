@@ -47,10 +47,10 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma) {
+    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String waluta) {
          try {
             System.out.println("Szukam Rozrachunekfk");
-            return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma);
+            return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma, waluta);
         } catch (Exception e) {
             return null;
         }

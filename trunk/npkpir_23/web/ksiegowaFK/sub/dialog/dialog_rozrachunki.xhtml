@@ -38,7 +38,9 @@
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
                    <p:column headerText="kwota rozliczenia - bieżący dok." width="40">
-                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbol=" zł" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}"/>
+                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
+                           <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
+                       </pe:inputNumber>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="50">
                          <h:outputText id="pozostalo" value="#{loop.transakcjaPK.sparowany.pozostalo}" style="float: right;">
@@ -60,6 +62,11 @@
                     </p:column>
                     <p:column headerText="kurs" width="40">
                         <h:outputText id="kurs" value="#{loop.transakcjaPK.sparowany.wierszStronafk.kurswaluty}"  style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="roznica kursowa" width="40">
+                        <h:outputText id="roznicakursowa" value="#{loop.roznicekursowe}"  style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>

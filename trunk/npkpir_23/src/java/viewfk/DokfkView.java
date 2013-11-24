@@ -22,9 +22,11 @@ import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.AjaxBehaviorListener;
 import javax.faces.event.ValueChangeEvent;
@@ -93,6 +95,7 @@ public class DokfkView implements Serializable {
         this.zablokujprzyciskzapisz = false;
         this.potraktujjakoNowaTransakcje = false;
         this.wprowadzonesymbolewalut = new ArrayList<>();
+        this.symbolwalutydowiersza = "";
     }
 
     @PostConstruct
@@ -395,7 +398,7 @@ public class DokfkView implements Serializable {
                 boolean onjestnowatransakcja = aktualnywierszdorozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 if (onjestnowatransakcja == false) {
-                    pobierzRozrachunekfkzBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(), wnma);
+                    pobierzRozrachunekfkzBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnywierszdorozrachunkow.getWalutarozrachunku());
                     stworznowetransakcjezPobranychstronwierszy();
                     pobierzjuzNaniesioneTransakcjeRozliczony();
                     naniesinformacjezwczesniejrozliczonych();
@@ -439,19 +442,17 @@ public class DokfkView implements Serializable {
 
     private void inicjalizacjaAktualnego(String wnma, int nrwiersza) {
         aktualnywierszdorozrachunkow = new Rozrachunekfk();
+        WierszStronafk wierszStronafk = new WierszStronafk();
         if (wnma.equals("Wn")) {
-            WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaWn();
-            aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
-            aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
-            aktualnywierszdorozrachunkow.setPozostalo(wierszStronafk.getKwota());
-            aktualnywierszdorozrachunkow.setKontoid(wierszStronafk.getKonto());
+            wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaWn();
         } else {
-            WierszStronafk wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaMa();
+            wierszStronafk = selected.getKonta().get(nrwiersza).getWierszStronaMa();
+        }
             aktualnywierszdorozrachunkow.setWierszStronafk(wierszStronafk);
             aktualnywierszdorozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
             aktualnywierszdorozrachunkow.setPozostalo(wierszStronafk.getKwota());
             aktualnywierszdorozrachunkow.setKontoid(wierszStronafk.getKonto());
-        }
+            aktualnywierszdorozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
         Rozrachunekfk pobranyrozrachunek = rozrachunekfkDAO.findRozrachunekfk(aktualnywierszdorozrachunkow);
         if (pobranyrozrachunek instanceof Rozrachunekfk) {
             aktualnywierszdorozrachunkow = pobranyrozrachunek;
@@ -459,9 +460,9 @@ public class DokfkView implements Serializable {
     }
 
     //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    private void pobierzRozrachunekfkzBazy(String nrkonta, String wnma) {
+    private void pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta) {
         rozrachunekNowaTransakcja = new ArrayList<>();
-        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma));
+        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
@@ -624,6 +625,7 @@ public class DokfkView implements Serializable {
 
     public void pobierzkursNBP(ValueChangeEvent el) {
         String nazwawaluty = (String) el.getNewValue();
+        symbolwalutydowiersza = (String) el.getNewValue();
         String staranazwa = (String) el.getOldValue();
         if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
@@ -718,12 +720,16 @@ public class DokfkView implements Serializable {
     }
 
     public void pobierzsymbolwaluty() {
+        try {
         List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
-        symbolwalutydowiersza = "zł";
-        for (Waluty w : wprowadzonewaluty) {
-            if (w.getSymbolwaluty().equals(selected.getWalutadokumentu())) {
-                symbolwalutydowiersza = w.getSkrotsymbolu();
-                break;
+        if (symbolwalutydowiersza.equals("") || symbolwalutydowiersza.equals("PLN")) {
+            symbolwalutydowiersza = "zł";
+        } else {
+            for (Waluty w : wprowadzonewaluty) {
+                if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
+                    symbolwalutydowiersza = w.getSkrotsymbolu();
+                    break;
+                }
             }
         }
         int iloscwierszy = selected.getKonta().size();
@@ -734,6 +740,25 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update(p2);
         }
         RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie moglem zmienic symbolu waluty");
+        }
+    }
+    
+    public void wyliczroznicekursowa(Transakcja loop, int row) {
+        double kursAktualny = loop.getTransakcjaPK().getRozliczany().getWierszStronafk().getKurswaluty();
+        double kursSparowany = loop.getTransakcjaPK().getSparowany().getWierszStronafk().getKurswaluty();
+        String wiersz = "rozrachunki:dataList:"+row+":kwotarozliczenia_input";
+        double kwotarozrachunku = Double.parseDouble((String) Params.params(wiersz));
+        double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
+        double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
+        double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
+        roznicakursowa = Math.round(roznicakursowa);
+        roznicakursowa = roznicakursowa/100;
+        Transakcja analizowanatransakcja = biezacetransakcje.get(row);
+        analizowanatransakcja.setRoznicekursowe(roznicakursowa);
+        wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
+        RequestContext.getCurrentInstance().update(wiersz);
     }
 
     //********************************

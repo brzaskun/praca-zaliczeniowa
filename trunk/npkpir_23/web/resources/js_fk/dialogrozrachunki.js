@@ -24,7 +24,7 @@ var znadzpasujacepolerozrachunku = function() {
             }
             var opisaktualnyrorachunek = document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent;
             dl = opisy.length;
-            var gdzieszukac = 0;
+            var gdzieszukac = -1;
             for (var i = 0; i < dl; i++) {
                 var opisbiezacy = opisy[i];
                 var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacy);
@@ -32,19 +32,29 @@ var znadzpasujacepolerozrachunku = function() {
                     gdzieszukac = i;
                 }
             }
-            var dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":nrwlasnydok";
-            $(document.getElementById(dopasowanywiersz)).css("color", "green");
-            $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
-            dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
-            $(document.getElementById(dopasowanywiersz)).css("color", "green");
-            $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
-            $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
-            $(document.getElementById(dopasowanywiersz)).focus();
-            $(document.getElementById(dopasowanywiersz)).select();
+            if (gdzieszukac > 0) {
+                var dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":nrwlasnydok";
+                $(document.getElementById(dopasowanywiersz)).css("color", "green");
+                $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
+                dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
+                $(document.getElementById(dopasowanywiersz)).css("color", "green");
+                $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
+                $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
+                $(document.getElementById(dopasowanywiersz)).focus();
+                $(document.getElementById(dopasowanywiersz)).select();
+            } else {
+                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+                $(document.getElementById(dopasowanywiersz)).focus();
+                $(document.getElementById(dopasowanywiersz)).select();
+            }
         } catch (el) {
         }
     }
 
+};
+
+var updateroznice = function () {
+    
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
