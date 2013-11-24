@@ -32,6 +32,12 @@
             <p:column headerText="numer" width="100">
                     <h:outputText value="#{item.numer}"/>
             </p:column>
+            <p:column headerText="opis" width="100">
+                <h:outputText value="#{item.tresc}"/>
+            </p:column>
+            <p:column headerText="waluta" width="100">
+                <h:outputText value="#{item.walutadokumentu}"/>
+            </p:column>
             <p:column headerText="" width="100">
                  <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
                      </p:column>
