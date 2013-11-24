@@ -10,7 +10,7 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="drugi" 
               resizable="false"  onShow="drugionShow();" closeOnEscape="true" onHide="rozrachunkionHide();" >
-        <h:form id="rozrachunki">
+        <h:form id="rozrachunki" >
             <div style="height: 600px;">
                     <p:panelGrid id="paneledycji" columns="6" style="width: 800px;">
                         <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu}"/>
@@ -18,7 +18,7 @@
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.konto.podatnik}"/>
                         <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.opisdokumentu}"/>
                         <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.opiswiersza}"/>
-                        <h:outputText value=""/><h:outputText value=""/>
+                        <h:outputText value="waluta dokumentu"/><h:outputText value="#{dokfkView.selected.walutadokumentu}"/>
                         <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -30,7 +30,7 @@
                         </h:outputText>
                     </p:panelGrid>
                 <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
-                             emptyMessage="Nie ma zapisów po przeciwnej stronie na tym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana"
+                             emptyMessage="Nie ma zapisów po przeciwnej stronie na tym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana" 
                              >
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>

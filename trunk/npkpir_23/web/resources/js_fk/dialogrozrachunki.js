@@ -9,7 +9,6 @@ var drugionShow = function() {
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
-    znadzpasujacepolerozrachunku();
     
 };
 
@@ -31,12 +30,15 @@ var znadzpasujacepolerozrachunku = function () {
              gdzieszukac = i;
          }
      }
-     var dopasowanywiersz = "rozrachunki:dataList:"+gdzieszukac+":kwotarozliczenia_input";
+     var dopasowanywiersz = "rozrachunki:dataList:"+gdzieszukac+":nrwlasnydok";
      $(document.getElementById(dopasowanywiersz)).css("color","green");
      $(document.getElementById(dopasowanywiersz)).css("font-weight","bold");
-     dopasowanywiersz = "rozrachunki:dataList:"+gdzieszukac+":nrwlasnydok";
+     dopasowanywiersz = "rozrachunki:dataList:"+gdzieszukac+":kwotarozliczenia_input";
      $(document.getElementById(dopasowanywiersz)).css("color","green");
+     $(document.getElementById(dopasowanywiersz)).css("background-color","#FFFFB4");
      $(document.getElementById(dopasowanywiersz)).css("font-weight","bold");
+     $(document.getElementById(dopasowanywiersz)).focus();
+     $(document.getElementById(dopasowanywiersz)).select();
      
 };
 
