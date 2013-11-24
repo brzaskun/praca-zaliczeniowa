@@ -60,7 +60,7 @@ public class Dokfk implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "numer", nullable = false, length = 255)
-    private String numer = "1/2013";
+    private String numer;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
     private List<Wiersze> konta;

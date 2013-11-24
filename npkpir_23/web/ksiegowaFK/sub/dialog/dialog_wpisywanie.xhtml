@@ -36,7 +36,10 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                         <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
                      </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="4">
+                    <h:outputText value="numer własny"/><h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}">
+                        <f:ajax event="blur" execute="@this"/>
+                    </h:inputText>
                     <h:outputText value="treść dok."/><h:inputText value="#{dokfkView.selected.tresc}" size="80">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>

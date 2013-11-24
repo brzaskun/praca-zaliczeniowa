@@ -17,7 +17,7 @@
                         <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.konto.pelnynumer}"/>
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.konto.podatnik}"/>
                         <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.opisdokumentu}"/>
-                        <h:outputText value="opis wiersza"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.opiswiersza}"/>
+                        <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnywierszdorozrachunkow.wierszStronafk.opiswiersza}"/>
                         <h:outputText value=""/><h:outputText value=""/>
                         <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnywierszdorozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
