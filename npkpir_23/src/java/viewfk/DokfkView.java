@@ -176,11 +176,22 @@ public class DokfkView implements Serializable {
         w.setNrwlasnydokumentu(nrwlasnydokfk);
         w.setOpisdokumentu(tresc);
         w.setOpiswiersza(opiswiersza);
+        //rzeczy dotyczace waluty
         WierszStronafkPK wPK = w.getWierszStronafkPK();
         wPK.setNrPorzadkowyWiersza(numer);
         wPK.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
         wPK.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
         wPK.setStronaWnlubMa(wnma);
+        //uzupelniamy dane do walut jezeli sa
+        try {
+            w.setSymbolwaluty(selected.getWalutadokumentu());
+            w.setDatawaluty(selected.getTabelanbp().getDatatabeli());
+            w.setKurswaluty(selected.getTabelanbp().getKurssredni());
+            w.setNrtabelinbp(selected.getTabelanbp().getTabelanbpPK().getNrtabeli());
+            w.setKwotaWaluta(w.getKwota());
+        } catch (Exception e) {
+            
+        }
         return w;
     }
     //wersja dla pierwszegor rzedu i
