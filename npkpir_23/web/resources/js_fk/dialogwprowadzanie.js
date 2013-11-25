@@ -52,3 +52,5 @@ var załadujmodelzachowywaniawybranegopola = function () {
 };
 
 
+
+
