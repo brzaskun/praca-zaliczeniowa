@@ -385,6 +385,7 @@ public class DokfkView implements Serializable {
             zrobWierszStronafkReadOnly(false);
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
     
     private void zrobWierszStronafkReadOnly(boolean wartosc){

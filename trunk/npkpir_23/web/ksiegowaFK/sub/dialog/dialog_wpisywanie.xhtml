@@ -60,13 +60,13 @@
             </div>
             <div style="height: 430px;">
                 <!--                poszczególne wiersze-->
-                <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" style="width: 1250px; max-height: 370px;" scrollable="true" 
+                <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" style="width: 1260px; max-height: 370px;" scrollable="true" 
                              >
                     <p:column headerText="id" width="15">
                         <h:outputText value="#{loop.idporzadkowy}" />
                     </p:column>
-                    <p:column headerText="opis transakcji" width="220">
-                        <p:inputText id="opis" value="#{loop.opis}" style="width: 245px; margin-left: auto; margin-right: auto;" onkeypress="wywolajdok('#{planKontView.opiskonta}', '#{planKontView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
+                    <p:column headerText="opis transakcji" width="200">
+                        <p:inputText id="opis" value="#{loop.opis}" style="width: 225px; margin-left: auto; margin-right: auto;" onkeypress="wywolajdok('#{planKontView.opiskonta}', '#{planKontView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
                             <f:ajax event="blur" listener="#{dokfkView.dodajdanedowiersza}"  execute="@this"/>
                             <f:ajax event="focus" listener="#{dokfkView.pobierzsymbolwaluty()}" />
                         </p:inputText>
@@ -110,13 +110,13 @@
                         </p:autoComplete>
                     </p:column>
                     <p:column  width="40">
-                        <p:commandButton id="dodajwierszbutton" value="+" style="width: 40px; margin-left: auto; margin-right: auto;" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszy gt loop.idporzadkowy ? false : true}"/>
+                        <p:commandButton id="dodajwierszbutton" value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszy gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
-                    <p:column width="0">
-                        <h:outputText id="wnReadOnly" value="#{loop.wnReadOnly}" style="font-size: 1px;"/>
+                    <p:column width="1" >
+                        <h:outputText id="wnReadOnly" value="#{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>
                     </p:column>
-                    <p:column  width="0">
-                        <h:outputText id="maReadOnly" value="#{loop.maReadOnly}" style="font-size: 1px;"/>
+                    <p:column  width="1">
+                        <h:outputText id="maReadOnly" value="#{loop.maReadOnly}" style="font-size: 1px; color: white;"/>
                     </p:column>
                 </p:dataTable>
                 <p:panel>
