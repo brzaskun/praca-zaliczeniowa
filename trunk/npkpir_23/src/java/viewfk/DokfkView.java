@@ -21,6 +21,7 @@ import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -375,12 +376,35 @@ public class DokfkView implements Serializable {
             aktualnywierszdorozrachunkow.setNowatransakcja(true);
             rozrachunekfkDAO.dodaj(aktualnywierszdorozrachunkow);
             rozrachunekNowaTransakcja.add(aktualnywierszdorozrachunkow);
+            zrobWierszStronafkReadOnly(true);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
             aktualnywierszdorozrachunkow.setNowatransakcja(false);
             rozrachunekfkDAO.destroy(aktualnywierszdorozrachunkow);
             rozrachunekNowaTransakcja.remove(aktualnywierszdorozrachunkow);
+            zrobWierszStronafkReadOnly(false);
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+        }
+    }
+    
+    private void zrobWierszStronafkReadOnly(boolean wartosc){
+        List<Wiersze> wierszebiezace = selected.getKonta();
+        WierszStronafkPK aktualnywiersz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+        for (Wiersze p : wierszebiezace) {
+            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
+                p.setWnReadOnly(wartosc);
+                int i = p.getIdwiersza() - 1;
+                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
+                RequestContext.getCurrentInstance().update(wiersz);
+                break;
+            }
+            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
+                p.setMaReadOnly(wartosc);
+                int i = p.getIdwiersza() - 1;
+                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
+                RequestContext.getCurrentInstance().update(wiersz);
+                break;
+            }
         }
     }
 
@@ -602,6 +626,14 @@ public class DokfkView implements Serializable {
                 }
                 rozrachunekfkDAO.edit(dotyczyrozrachunku);
             } catch (Exception r) {
+            }
+        }
+        //usuwam rozliczenie jak wyzerowano transakcje
+        Iterator it = biezacetransakcje.iterator();
+        while (it.hasNext()) {
+            Transakcja p = (Transakcja) it.next();
+            if (p.getKwotatransakcji() == 0.0) {
+                it.remove();
             }
         }
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();

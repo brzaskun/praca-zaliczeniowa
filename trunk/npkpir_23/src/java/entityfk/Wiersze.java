@@ -56,9 +56,13 @@ public class Wiersze implements Serializable {
     @Lob
     @Column(name = "wierszStronaWn")
     private WierszStronafk wierszStronaWn;
+    @Column(name = "WnReadOnly")
+    private boolean WnReadOnly;
     @Lob
     @Column(name = "wierszStronaMa")
     private WierszStronafk wierszStronaMa;
+    @Column(name = "MaReadOnly")
+    private boolean MaReadOnly;
     @Size(max = 255)
     @Column(name = "opis", length = 255)
     private String opis;
@@ -165,6 +169,23 @@ public class Wiersze implements Serializable {
         this.dokfk = dokfk;
     }
 
+    public boolean isWnReadOnly() {
+        return WnReadOnly;
+    }
+
+    public void setWnReadOnly(boolean WnReadOnly) {
+        this.WnReadOnly = WnReadOnly;
+    }
+
+    public boolean isMaReadOnly() {
+        return MaReadOnly;
+    }
+
+    public void setMaReadOnly(boolean MaReadOnly) {
+        this.MaReadOnly = MaReadOnly;
+    }
+
+    
         
     
     //</editor-fold>

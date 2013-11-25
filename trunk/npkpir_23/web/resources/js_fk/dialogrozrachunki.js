@@ -20,7 +20,7 @@ var znadzpasujacepolerozrachunku = function() {
         try {//moze sie zdarzyc ze nie bedzie nic
             for (var i = 0; i < dl; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
-                opisy[i] = trescwiersza[5].innerText;
+                opisy[i] = trescwiersza[8].innerText;
             }
             var opisaktualnyrorachunek = document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent;
             dl = opisy.length;
@@ -30,20 +30,18 @@ var znadzpasujacepolerozrachunku = function() {
                 var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacy);
                 if (znaleziono > 0) {
                     gdzieszukac = i;
+                    break;
                 }
             }
-            if (gdzieszukac > 0) {
+            if (gdzieszukac > -1) {
                 var dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":nrwlasnydok";
                 $(document.getElementById(dopasowanywiersz)).css("color", "green");
+                $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
                 $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
                 dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).css("color", "green");
                 $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
                 $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
-                $(document.getElementById(dopasowanywiersz)).focus();
-                $(document.getElementById(dopasowanywiersz)).select();
-            } else {
-                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
                 $(document.getElementById(dopasowanywiersz)).select();
             }
@@ -224,5 +222,42 @@ var zablokujcheckbox = function(nowatransakcja) {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
     }
 
+};
+
+var zablokujwierszereadonly = function () {
+    var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
+    var dl = wiersze.size();
+    if (dl > 0) {
+         try {//moze sie zdarzyc ze nie bedzie nic
+            for (var i = 0; i < dl; i++) {
+                var trescwiersza = $(wiersze[i]).children("td");
+                var czyzablokowac = trescwiersza[9].innerText;
+                var cozablokowacWn = "formwpisdokument:dataList:"+i+":wn_input";
+                var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":wn_hinput";
+                if (czyzablokowac === "true") {
+                    $(document.getElementById(cozablokowacWn)).attr("diabled", "disabled").attr('readonly','readonly').css('color','Gainsboro ');
+                    $(document.getElementById(cozablokowacWn2)).attr("disabled", "disabled").attr('readonly','readonly').css('color','Gainsboro ');
+                } else {
+                    $(document.getElementById(cozablokowacWn)).removeAttr("disabled").removeAttr('readonly').css('color','black');
+                    $(document.getElementById(cozablokowacWn2)).removeAttr("disabled").removeAttr('readonly').css('color','black');
+                }
+            }
+            for (var i = 0; i < dl; i++) {
+                var trescwiersza = $(wiersze[i]).children("td");
+                var czyzablokowac = trescwiersza[10].innerText;
+                var cozablokowacWn = "formwpisdokument:dataList:"+i+":ma_input";
+                var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":ma_hinput";
+                if (czyzablokowac === "true") {
+                    $(document.getElementById(cozablokowacWn)).attr("diabled", "disabled").attr('readonly','readonly').css('color','Gainsboro ');
+                    $(document.getElementById(cozablokowacWn2)).attr("disabled", "disabled").attr('readonly','readonly').css('color','Gainsboro ');
+                } else {
+                    $(document.getElementById(cozablokowacWn)).removeAttr("disabled").removeAttr('readonly').css('color','black');
+                    $(document.getElementById(cozablokowacWn2)).removeAttr("disabled").removeAttr('readonly').css('color','black');
+                }
+            }
+        } catch (el) {
+        }
+    }
+    
 };
 
