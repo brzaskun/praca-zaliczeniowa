@@ -228,6 +228,7 @@ var zablokujwierszereadonly = function () {
     var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
     var dl = wiersze.size();
     if (dl > 0) {
+         var blockwaluty = "formwpisdokument:wybranawaluta";
          try {//moze sie zdarzyc ze nie bedzie nic
             for (var i = 0; i < dl; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
@@ -237,9 +238,11 @@ var zablokujwierszereadonly = function () {
                 if (czyzablokowac === "true") {
                     $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
                     $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
+                    $(document.getElementById(blockwaluty)).attr('readonly','readonly');
                 } else {
                     $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
                     $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
+                    $(document.getElementById(blockwaluty)).removeAttr('readonly');
                 }
             }
             for (var i = 0; i < dl; i++) {
@@ -250,9 +253,11 @@ var zablokujwierszereadonly = function () {
                 if (czyzablokowac === "true") {
                     $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
                     $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
+                    $(document.getElementById(blockwaluty)).attr('readonly','readonly');
                 } else {
                     $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
                     $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
+                    $(document.getElementById(blockwaluty)).removeAttr('readonly');
                 }
             }
         } catch (el) {

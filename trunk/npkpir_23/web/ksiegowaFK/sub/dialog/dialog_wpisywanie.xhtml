@@ -14,7 +14,7 @@
         <h:form id="formwpisdokument">
             <div style="height: 100px;">
                 <!--                nagłówek dokumentu-->
-                <p:panelGrid columns="12">
+                <p:panelGrid id="paneldaneogolnefaktury" columns="12">
                     <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"  onblur="ustawDateFK(2013, 11);" title="wpisz numer dnia, lub miesiąc i dzień">
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.wygenerujokreswpisudokumentu}"/>
                     </p:inputText>
@@ -46,15 +46,16 @@
                 </p:panelGrid>
             </div>
             <div style="height: 70px;">
-                <p:panelGrid columns="7" style="width: 800px;">
-                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}">
+                <p:panelGrid columns="8" style="width: 800px;">
+                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}">
                         <f:ajax event="blur" execute="@this"/>
                         <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                         <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
                     </h:selectOneMenu>
-                    <h:outputText value="tabela NBP"/><h:outputText id="w11" value="#{dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}"/>
-                    <h:outputText value="z dnia"/><h:outputText id="w12" value="#{dokfkView.selected.tabelanbp.datatabeli}"/>
-                    <h:outputText value="kurs średni"/><h:outputText id="w13" value="#{dokfkView.selected.tabelanbp.kurssredni}"/>
+                    <h:outputText id="w00" value="#{dokfkView.selected.zablokujzmianewaluty eq true ? 'wprowadzono rozrachunki - nie można zmienić waluty'  : ''}"/>
+                    <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"/><h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}"/>
+                    <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}"/><h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}"/>
+                    <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}"/>
                 </p:panelGrid>
                
             </div>
