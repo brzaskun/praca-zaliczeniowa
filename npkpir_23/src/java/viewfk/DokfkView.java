@@ -131,10 +131,11 @@ public class DokfkView implements Serializable {
         wiersze.add(nowywiersz);
         selected.setWalutadokumentu("PLN");
         selected.setKonta(wiersze);
+        selected.setZablokujzmianewaluty(false);
         liczbawierszy = 1;
         zapisz0edytuj1 = false;
         zablokujprzyciskrezygnuj = false;
-
+        RequestContext.getCurrentInstance().update("wpisywaniefooter");
     }
 
     //dodaje wiersze do dokumentu
@@ -381,6 +382,7 @@ public class DokfkView implements Serializable {
             rozrachunekNowaTransakcja.add(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
+            selected.setZablokujzmianewaluty(true);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
             aktualnywierszdorozrachunkow.setNowatransakcja(false);
@@ -388,10 +390,13 @@ public class DokfkView implements Serializable {
             rozrachunekNowaTransakcja.remove(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(false);
             zablokujprzyciskrezygnuj = false;
+            selected.setZablokujzmianewaluty(false);
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:w00");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
     
     private void zrobWierszStronafkReadOnly(boolean wartosc){
@@ -681,9 +686,6 @@ public class DokfkView implements Serializable {
                     if (tabelanbppobrana instanceof Tabelanbp) {
                         znaleziono = true;
                         selected.setTabelanbp(tabelanbppobrana);
-                        RequestContext.getCurrentInstance().update("formwpisdokument:w11");
-                        RequestContext.getCurrentInstance().update("formwpisdokument:w12");
-                        RequestContext.getCurrentInstance().update("formwpisdokument:w13");
                     }
                     zabezpieczenie++;
                 }
@@ -691,6 +693,12 @@ public class DokfkView implements Serializable {
             if (staranazwa != null && selected.getKonta().get(0).getWierszStronaWn().getKwota() != 0.0) {
                 przewalutujzapisy(staranazwa, nazwawaluty);
             }
+            RequestContext.getCurrentInstance().update("formwpisdokument:w01");
+            RequestContext.getCurrentInstance().update("formwpisdokument:w11");
+            RequestContext.getCurrentInstance().update("formwpisdokument:w02");
+            RequestContext.getCurrentInstance().update("formwpisdokument:w12");
+            RequestContext.getCurrentInstance().update("formwpisdokument:w03");
+            RequestContext.getCurrentInstance().update("formwpisdokument:w13");
             pobierzsymbolwaluty();
         }
     }
