@@ -74,6 +74,7 @@ public class DokfkView implements Serializable {
     private List<Transakcja> zachowanewczejsniejtransakcje;
     private List<Transakcja> transakcjejakosparowany;
     private boolean zablokujprzyciskzapisz;
+    private boolean zablokujprzyciskrezygnuj;
     //waltuty
     //waluta wybrana przez uzytkownika
     @Inject
@@ -132,6 +133,7 @@ public class DokfkView implements Serializable {
         selected.setKonta(wiersze);
         liczbawierszy = 1;
         zapisz0edytuj1 = false;
+        zablokujprzyciskrezygnuj = false;
 
     }
 
@@ -251,6 +253,7 @@ public class DokfkView implements Serializable {
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
+            resetujDokument();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -377,14 +380,17 @@ public class DokfkView implements Serializable {
             rozrachunekfkDAO.dodaj(aktualnywierszdorozrachunkow);
             rozrachunekNowaTransakcja.add(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(true);
+            zablokujprzyciskrezygnuj = true;
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
             aktualnywierszdorozrachunkow.setNowatransakcja(false);
             rozrachunekfkDAO.destroy(aktualnywierszdorozrachunkow);
             rozrachunekNowaTransakcja.remove(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(false);
+            zablokujprzyciskrezygnuj = false;
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
+        RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
     
@@ -394,14 +400,14 @@ public class DokfkView implements Serializable {
         for (Wiersze p : wierszebiezace) {
             if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
                 p.setWnReadOnly(wartosc);
-                int i = p.getIdwiersza() - 1;
+                int i = p.getIdporzadkowy() - 1;
                 String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
                 RequestContext.getCurrentInstance().update(wiersz);
                 break;
             }
             if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
                 p.setMaReadOnly(wartosc);
-                int i = p.getIdwiersza() - 1;
+                int i = p.getIdporzadkowy() - 1;
                 String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
                 RequestContext.getCurrentInstance().update(wiersz);
                 break;
@@ -923,5 +929,17 @@ public class DokfkView implements Serializable {
     public void setWprowadzonesymbolewalut(List<String> wprowadzonesymbolewalut) {
         this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
     }
+   
+    public boolean isZablokujprzyciskrezygnuj() {
+        return zablokujprzyciskrezygnuj;
+    }
+
+    public void setZablokujprzyciskrezygnuj(boolean zablokujprzyciskrezygnuj) {
+        this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
+    }
+    
+     
+    
     //</editor-fold
+
 }

@@ -15,6 +15,8 @@ var pierwszyonShow = function () {
         przygotujdokumentdoedycji();
         załadujmodelzachowywaniawybranegopola();
         $('#formwpisdokument\\:datka').select();
+        //Blokuje te z rozrachunkamio
+        //zablokujwierszereadonly();
     } catch (Exception) {
         alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
     }
