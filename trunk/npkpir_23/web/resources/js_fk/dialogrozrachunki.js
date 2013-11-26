@@ -235,11 +235,11 @@ var zablokujwierszereadonly = function () {
                 var cozablokowacWn = "formwpisdokument:dataList:"+i+":wn_input";
                 var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":wn_hinput";
                 if (czyzablokowac === "true") {
-                    $(document.getElementById(cozablokowacWn)).attr("diabled", "disabled").attr('readonly','readonly');
-                    $(document.getElementById(cozablokowacWn2)).attr("disabled", "disabled").attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
                 } else {
-                    $(document.getElementById(cozablokowacWn)).removeAttr("disabled").removeAttr('readonly');
-                    $(document.getElementById(cozablokowacWn2)).removeAttr("disabled").removeAttr('readonly');
+                    $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
+                    $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
                 }
             }
             for (var i = 0; i < dl; i++) {
@@ -248,11 +248,11 @@ var zablokujwierszereadonly = function () {
                 var cozablokowacWn = "formwpisdokument:dataList:"+i+":ma_input";
                 var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":ma_hinput";
                 if (czyzablokowac === "true") {
-                    $(document.getElementById(cozablokowacWn)).attr("diabled", "disabled").attr('readonly','readonly');
-                    $(document.getElementById(cozablokowacWn2)).attr("disabled", "disabled").attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
                 } else {
-                    $(document.getElementById(cozablokowacWn)).removeAttr("disabled").removeAttr('readonly');
-                    $(document.getElementById(cozablokowacWn2)).removeAttr("disabled").removeAttr('readonly');
+                    $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
+                    $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
                 }
             }
         } catch (el) {
