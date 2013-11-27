@@ -85,6 +85,7 @@ public class DokfkView implements Serializable {
     private String symbolwalutydowiersza;
     private List<String> wprowadzonesymbolewalut;
 
+
     public DokfkView() {
         resetujDokument();
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();

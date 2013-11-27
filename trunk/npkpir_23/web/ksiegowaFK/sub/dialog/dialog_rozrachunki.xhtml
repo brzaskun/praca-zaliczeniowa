@@ -92,7 +92,7 @@
                 </p:dataTable>
                 
             </div>
-            <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();" update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokfkView.aktualnywierszdorozrachunkow.nowatransakcja}"/>
+            <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.konta.size()}');" update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokfkView.aktualnywierszdorozrachunkow.nowatransakcja}"/>
         </h:form>
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px;">
@@ -101,7 +101,7 @@
                         <f:ajax event="change" execute="@this" render=":wpisywaniefooter"/>
                 </h:selectBooleanCheckbox>
                     <h:outputLabel for=":formcheckbox:znaczniktransakcji" value="nowa transakcja" style="font-weight: bolder;"/>
-                <p:commandButton value="powrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;" oncomplete="zablokujwierszereadonly();"/>
+                    <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.konta.size()}');"/>
                 </h:form>
             </div>
         </f:facet>

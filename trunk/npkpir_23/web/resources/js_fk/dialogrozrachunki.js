@@ -265,4 +265,9 @@ var zablokujwierszereadonly = function () {
     }
     
 };
+//to swuzy nam do blokowania rekordow oraz do zakrywani pol niepelnych wierszy gdy robimy nowe rozrachunki
+var porzadkujwierszeporozrachunkach = function (iloscwierszy) {
+    zablokujwierszereadonly();
+    zakryjpolaedycjadokumentu(iloscwierszy);//jest w pliku jsfk.js
+};
 
