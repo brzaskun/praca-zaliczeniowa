@@ -46,8 +46,8 @@
                 </p:panelGrid>
             </div>
             <div style="height: 70px;">
-                <p:panelGrid columns="8" style="width: 800px;">
-                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}">
+                <p:panelGrid id="panelwalutowy" columns="8" style="width: 800px;">
+                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}">
                         <f:ajax event="blur" execute="@this"/>
                         <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                         <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
@@ -78,7 +78,7 @@
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7">
-                        <h:outputText id="symbolWn" value="#{dokfkView.symbolwalutydowiersza}"/>
+                        <h:outputText id="symbolWn" value="#{loop.wierszStronaWn.grafikawaluty}"/>
                     </p:column>
                    
                     <p:column headerText="konto Wn" width="180" >
@@ -97,7 +97,7 @@
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7">
-                        <h:outputText id="symbolMa" value="#{dokfkView.symbolwalutydowiersza}"/>
+                        <h:outputText id="symbolMa" value="#{loop.wierszStronaMa.grafikawaluty}"/>
                     </p:column>
                     <p:column headerText="konto Ma" width="180">
                         <p:autoComplete id="kontoma" value="#{loop.wierszStronaMa.konto}" completeMethod="#{planKontView.complete}"

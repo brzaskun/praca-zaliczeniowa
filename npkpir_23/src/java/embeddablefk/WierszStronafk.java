@@ -28,6 +28,7 @@ public class WierszStronafk implements Serializable {
     private double kwotaWaluta;
     private double kurswaluty;
     private String symbolwaluty;
+    private String grafikawaluty;
     private String nrtabelinbp;
     private String datawaluty;
     private Konto konto;
@@ -169,6 +170,14 @@ public class WierszStronafk implements Serializable {
 
     public void setDatawaluty(String datawaluty) {
         this.datawaluty = datawaluty;
+    }
+
+    public String getGrafikawaluty() {
+        return grafikawaluty;
+    }
+
+    public void setGrafikawaluty(String grafikawaluty) {
+        this.grafikawaluty = grafikawaluty;
     }
 
     

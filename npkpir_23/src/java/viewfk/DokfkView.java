@@ -124,9 +124,11 @@ public class DokfkView implements Serializable {
         List<Wiersze> wiersze = new ArrayList<>();
         Wiersze nowywiersz = new Wiersze(1, 0);
         WierszStronafk wierszStronafkWn = new WierszStronafk();
+        wierszStronafkWn.setGrafikawaluty("zł");
         nowywiersz.setWierszStronaWn(wierszStronafkWn);
         nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
+        wierszStronafkMa.setGrafikawaluty("zł");
         nowywiersz.setWierszStronaMa(wierszStronafkMa);
         nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
         wiersze.add(nowywiersz);
@@ -164,10 +166,12 @@ public class DokfkView implements Serializable {
         WierszStronafk wierszStronafkWn = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
         wierszStronafkWn.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKWn, "Wn"));
+        wierszStronafkWn.setGrafikawaluty("zł");
         nowywiersz.setWierszStronaWn(wierszStronafkWn);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
         wierszStronafkMa.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKMa, "Ma"));
+        wierszStronafkMa.setGrafikawaluty("zł");
         nowywiersz.setWierszStronaMa(wierszStronafkMa);
         return nowywiersz;
     }
@@ -394,7 +398,7 @@ public class DokfkView implements Serializable {
             selected.setZablokujzmianewaluty(false);
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:w00");
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
@@ -707,11 +711,14 @@ public class DokfkView implements Serializable {
     private void przewalutujzapisy(String staranazwa, String nazwawaluty) {
         double kurs = 0.0;
         if (staranazwa.equals("PLN")) {
+            Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
             kurs = selected.getTabelanbp().getKurssredni();
             kurs = Math.round((1 / kurs) * 100000000);
             kurs = kurs / 100000000;
             List<Wiersze> wiersze = selected.getKonta();
             for (Wiersze p : wiersze) {
+                p.getWierszStronaWn().setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
+                p.getWierszStronaMa().setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
                 if (p.getWierszStronaWn().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaWn().getKwota();
                     kwota = Math.round(kwota * kurs * 10000);
@@ -726,9 +733,12 @@ public class DokfkView implements Serializable {
                 }
             }
         } else {
+            //robimy w zlotowkach
             kurs = selected.getTabelanbp().getKurssredni();
             List<Wiersze> wiersze = selected.getKonta();
             for (Wiersze p : wiersze) {
+                p.getWierszStronaWn().setGrafikawaluty("zł");
+                p.getWierszStronaMa().setGrafikawaluty("zł");
                 if (p.getWierszStronaWn().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaWn().getKwota();
                     kwota = Math.round(kwota * kurs * 100);

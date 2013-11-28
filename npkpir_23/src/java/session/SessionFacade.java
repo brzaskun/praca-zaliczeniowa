@@ -598,6 +598,14 @@ public class SessionFacade<T> {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", doprzekazania).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
     }
 
+    public Waluty findWalutaByName(String staranazwa) {
+         try {
+            return (Waluty) em.createNamedQuery("Waluty.findBySymbolwaluty").setParameter("symbolwaluty", staranazwa).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
    
   
   
