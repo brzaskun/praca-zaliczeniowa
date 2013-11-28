@@ -494,6 +494,7 @@ public class DokfkView implements Serializable {
             aktualnywierszdorozrachunkow.setPozostalo(wierszStronafk.getKwota());
             aktualnywierszdorozrachunkow.setKontoid(wierszStronafk.getKonto());
             aktualnywierszdorozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
+        //sprawdza czy nowy rozrachunek nie jest juz w bazie, jak jest to go pobiera
         Rozrachunekfk pobranyrozrachunek = rozrachunekfkDAO.findRozrachunekfk(aktualnywierszdorozrachunkow);
         if (pobranyrozrachunek instanceof Rozrachunekfk) {
             aktualnywierszdorozrachunkow = pobranyrozrachunek;
