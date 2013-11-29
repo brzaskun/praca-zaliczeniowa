@@ -734,15 +734,19 @@ public class DokfkView implements Serializable {
                 uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta);
                 if (p.getWierszStronaWn().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaWn().getKwota();
+                    p.getWierszStronaWn().setKwotaPLN(kwota+0.0);
                     kwota = Math.round(kwota * kurs * 10000);
                     kwota = kwota / 10000;
                     p.getWierszStronaWn().setKwota(kwota);
+                    p.getWierszStronaWn().setKwotaWaluta(kwota);
                 }
                 if (p.getWierszStronaMa().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaMa().getKwota();
+                    p.getWierszStronaMa().setKwotaPLN(kwota+0.0);
                     kwota = Math.round(kwota * kurs * 10000);
                     kwota = kwota / 10000;
                     p.getWierszStronaMa().setKwota(kwota);
+                    p.getWierszStronaMa().setKwotaWaluta(kwota);
                 }
             }
         } else {
@@ -757,12 +761,16 @@ public class DokfkView implements Serializable {
                     kwota = Math.round(kwota * kurs * 100);
                     kwota = kwota / 100;
                     p.getWierszStronaWn().setKwota(kwota);
+                    p.getWierszStronaWn().setKwotaPLN(kwota);
+                    p.getWierszStronaWn().setKwotaWaluta(0.0);
                 }
                 if (p.getWierszStronaMa().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaMa().getKwota();
                     kwota = Math.round(kwota * kurs * 100);
                     kwota = kwota / 100;
                     p.getWierszStronaMa().setKwota(kwota);
+                    p.getWierszStronaMa().setKwotaPLN(kwota);
+                    p.getWierszStronaMa().setKwotaWaluta(0.0);
                 }
         }
         }
