@@ -70,8 +70,10 @@ public class Dokfk implements Serializable {
     private String tresc;
     @Column(name = "walutadokumentu")
     private String walutadokumentu;
-    @Column (name = "zablokujzmianewaluty")
+    @Column(name = "zablokujzmianewaluty")
     private boolean zablokujzmianewaluty;
+    @Column(name = "liczbarozliczonych")
+    private int liczbarozliczonych;
     @JoinColumns({
         @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
         @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
@@ -86,6 +88,7 @@ public class Dokfk implements Serializable {
 
     public Dokfk(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
+        this.liczbarozliczonych = 0;
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, boolean naniesionezapisy, String numer) {
@@ -93,6 +96,7 @@ public class Dokfk implements Serializable {
         this.datawystawienia = datawystawienia;
         this.naniesionezapisy = naniesionezapisy;
         this.numer = numer;
+        this.liczbarozliczonych = 0;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -164,8 +168,15 @@ public class Dokfk implements Serializable {
     public void setZablokujzmianewaluty(boolean zablokujzmianewaluty) {
         this.zablokujzmianewaluty = zablokujzmianewaluty;
     }
-    
-    
+
+    public int getLiczbarozliczonych() {
+        return liczbarozliczonych;
+    }
+
+    public void setLiczbarozliczonych(int liczbarozliczonych) {
+        this.liczbarozliczonych = liczbarozliczonych;
+    }
+ 
     
     @XmlTransient
     public List<Wiersze> getKonta() {
