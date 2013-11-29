@@ -344,9 +344,13 @@ public class DokfkView implements Serializable {
     }
 
     public void wybranodokmessage() {
-        Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
-        setZapisz0edytuj1(true);
-        liczbawierszy = selected.getKonta().size();
+        try {
+            Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
+            setZapisz0edytuj1(true);
+            liczbawierszy = selected.getKonta().size();
+        } catch (Exception e) {
+            Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+        }
     }
 
     public void znajdzdokumentzzapisu() {
@@ -387,7 +391,7 @@ public class DokfkView implements Serializable {
             rozrachunekNowaTransakcja.add(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
-            selected.setZablokujzmianewaluty(true);
+            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
             aktualnywierszdorozrachunkow.setNowatransakcja(false);
@@ -395,8 +399,13 @@ public class DokfkView implements Serializable {
             rozrachunekNowaTransakcja.remove(aktualnywierszdorozrachunkow);
             zrobWierszStronafkReadOnly(false);
             zablokujprzyciskrezygnuj = false;
-            selected.setZablokujzmianewaluty(false);
+            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
             Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+        }
+        if (selected.getLiczbarozliczonych() > 0) {
+            selected.setZablokujzmianewaluty(true);
+        } else {
+            selected.setZablokujzmianewaluty(false);
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
