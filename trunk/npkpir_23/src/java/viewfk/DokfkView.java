@@ -335,11 +335,14 @@ public class DokfkView implements Serializable {
     }
 
     public void pobierzostatninumerdok() {
-        try {
-            Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType("Kowalski", selected.getDokfkPK().getSeriadokfk());
-            selected.getDokfkPK().setNrkolejny(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejny() + 1);
-            RequestContext.getCurrentInstance().update("formwpisdokument:numer");
-        } catch (Exception e) {
+        //zeby nadawal nowy numer tylko przy edycji
+        if (zapisz0edytuj1 == false) {
+            try {
+                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType("Kowalski", selected.getDokfkPK().getSeriadokfk());
+                selected.getDokfkPK().setNrkolejny(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejny() + 1);
+                RequestContext.getCurrentInstance().update("formwpisdokument:numer");
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -727,8 +730,8 @@ public class DokfkView implements Serializable {
             kurs = kurs / 100000000;
             List<Wiersze> wiersze = selected.getKonta();
             for (Wiersze p : wiersze) {
-                p.getWierszStronaWn().setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
-                p.getWierszStronaMa().setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
+                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta);
+                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta);
                 if (p.getWierszStronaWn().getKwota() != 0.0) {
                     double kwota = p.getWierszStronaWn().getKwota();
                     kwota = Math.round(kwota * kurs * 10000);
@@ -766,6 +769,15 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
+    private void uzupelnijwierszprzyprzewalutowaniu(WierszStronafk wierszStronafk, Waluty wybranawaluta) {
+            wierszStronafk.setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
+            Tabelanbp tabelanbp = selected.getTabelanbp();
+            wierszStronafk.setNrtabelinbp(tabelanbp.getTabelanbpPK().getNrtabeli());
+            wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
+            wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
+            wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
+    }
+    
     public static void main(String[] args) {
         String staranazwa = "EUR";
         String nazwawaluty = "PLN";
