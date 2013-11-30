@@ -268,6 +268,20 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
         }
     }
+    
+    public void edycjaDlaRozrachunkow() {
+        try {
+            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+            NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
+            dokDAOfk.edit(selected);
+            wykazZaksiegowanychDokumentow.clear();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
+        }
+    }
 
     public void usundokument(Dokfk dousuniecia) {
         try {
@@ -411,6 +425,9 @@ public class DokfkView implements Serializable {
             selected.setZablokujzmianewaluty(true);
         } else {
             selected.setZablokujzmianewaluty(false);
+        }
+        if (zapisz0edytuj1 == true) {
+            edycjaDlaRozrachunkow();
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -696,6 +713,9 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się zachować rozrachunków w bazie danych");
         }
         biezacetransakcje.clear();
+        if (zapisz0edytuj1 == true) {
+            edycjaDlaRozrachunkow();
+        }
     }
 
     
@@ -727,7 +747,9 @@ public class DokfkView implements Serializable {
             }
             if (staranazwa != null && selected.getKonta().get(0).getWierszStronaWn().getKwota() != 0.0) {
                 przewalutujzapisy(staranazwa, nazwawaluty);
+                selected.setWalutadokumentu(nazwawaluty);
             } else {
+                selected.setWalutadokumentu(nazwawaluty);
                 //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
                 Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
                 List<Wiersze> wiersze = selected.getKonta();
@@ -779,6 +801,8 @@ public class DokfkView implements Serializable {
             kurs = selected.getTabelanbp().getKurssredni();
             List<Wiersze> wiersze = selected.getKonta();
             for (Wiersze p : wiersze) {
+                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaWn());
+                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaMa());
                 p.getWierszStronaWn().setGrafikawaluty("zł");
                 p.getWierszStronaMa().setGrafikawaluty("zł");
                 if (p.getWierszStronaWn().getKwota() != 0.0) {
@@ -809,6 +833,15 @@ public class DokfkView implements Serializable {
             wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
             wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
             wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
+    }
+    
+     private void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {
+            wierszStronafk.setGrafikawaluty("zł");
+            Tabelanbp tabelanbp = null;
+            wierszStronafk.setNrtabelinbp(null);
+            wierszStronafk.setKurswaluty(1);
+            wierszStronafk.setSymbolwaluty("PLN");
+            wierszStronafk.setDatawaluty(null);
     }
     
     public static void main(String[] args) {
