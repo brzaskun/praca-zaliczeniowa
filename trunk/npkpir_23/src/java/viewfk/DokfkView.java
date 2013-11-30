@@ -75,6 +75,7 @@ public class DokfkView implements Serializable {
     private List<Transakcja> transakcjejakosparowany;
     private boolean zablokujprzyciskzapisz;
     private boolean zablokujprzyciskrezygnuj;
+    private int pierwotnailosctransakcjiwbazie;
     //waltuty
     //waluta wybrana przez uzytkownika
     @Inject
@@ -90,7 +91,7 @@ public class DokfkView implements Serializable {
         resetujDokument();
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
         rozrachunekNowaTransakcja = new ArrayList<>();
-
+        this.pierwotnailosctransakcjiwbazie = 0;
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
         this.zachowanewczejsniejtransakcje = new ArrayList<>();
@@ -154,24 +155,25 @@ public class DokfkView implements Serializable {
         }
         if (pierwsze != 0 || drugie != 0) {
             liczbawierszy++;
-            selected.getKonta().add(utworzNowyWiersz());
+            Waluty walutadokumentu = walutyDAOfk.findByName(selected.getWalutadokumentu());
+            selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
         }
     }
 
-    private Wiersze utworzNowyWiersz() {
+    private Wiersze utworzNowyWiersz(String grafikawaluty) {
         Wiersze nowywiersz = new Wiersze(liczbawierszy, 0);
         WierszStronafk wierszStronafkWn = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
         wierszStronafkWn.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKWn, "Wn"));
-        wierszStronafkWn.setGrafikawaluty("zł");
+        wierszStronafkWn.setGrafikawaluty(grafikawaluty);
         nowywiersz.setWierszStronaWn(wierszStronafkWn);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
         wierszStronafkMa.setWierszStronafkPK(dodajdanedowiersza(liczbawierszy, wierszStronafkPKMa, "Ma"));
-        wierszStronafkMa.setGrafikawaluty("zł");
+        wierszStronafkMa.setGrafikawaluty(grafikawaluty);
         nowywiersz.setWierszStronaMa(wierszStronafkMa);
         return nowywiersz;
     }
@@ -542,12 +544,14 @@ public class DokfkView implements Serializable {
     }
 
     private void naniesinformacjezwczesniejrozliczonych() {
+        pierwotnailosctransakcjiwbazie = 0;
         //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
         //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
         double sumaddlaaktualnego = 0.0;
         for (Transakcja s : zachowanewczejsniejtransakcje) {
             sumaddlaaktualnego += s.getKwotatransakcji();
             biezacetransakcje.add(s);
+            pierwotnailosctransakcjiwbazie++;
         }
         for (Transakcja r : transakcjeswiezynki) {
             if (!zachowanewczejsniejtransakcje.contains(r)) {
@@ -666,6 +670,17 @@ public class DokfkView implements Serializable {
                 it.remove();
             }
         }
+        //zanosze ze jest rozliczony
+        int iletransakcjidodano = biezacetransakcje.size() - pierwotnailosctransakcjiwbazie;
+        if (iletransakcjidodano != 0) {
+            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych() + iletransakcjidodano);
+        }
+        if (selected.getLiczbarozliczonych() > 0) {
+            selected.setZablokujzmianewaluty(true);
+        } else {
+            selected.setZablokujzmianewaluty(false);
+        }
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
         List<Transakcja> doprzechowania = new ArrayList<>();
         doprzechowania.addAll(biezacetransakcje);
@@ -682,6 +697,8 @@ public class DokfkView implements Serializable {
         }
         biezacetransakcje.clear();
     }
+
+    
     //********************
     //a to jest rodzial dotyczacy walut
 
@@ -710,6 +727,14 @@ public class DokfkView implements Serializable {
             }
             if (staranazwa != null && selected.getKonta().get(0).getWierszStronaWn().getKwota() != 0.0) {
                 przewalutujzapisy(staranazwa, nazwawaluty);
+            } else {
+                //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+                Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
+                List<Wiersze> wiersze = selected.getKonta();
+                for (Wiersze p : wiersze) {
+                    uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta);
+                    uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta);
+                }
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:w01");
             RequestContext.getCurrentInstance().update("formwpisdokument:w11");
