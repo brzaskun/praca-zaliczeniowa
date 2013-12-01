@@ -173,7 +173,7 @@ public class Rozrachunekfk  implements Serializable {
     public void setWalutarozrachunku(String walutarozrachunku) {
         this.walutarozrachunku = walutarozrachunku;
     }
-   
-    
+
+        
     
 }
