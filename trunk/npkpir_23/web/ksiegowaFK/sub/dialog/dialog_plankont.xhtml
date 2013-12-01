@@ -8,8 +8,7 @@
     >
 
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
-              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  dynamic="true"
-              >
+              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
             <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg321.show();"/>
@@ -29,31 +28,36 @@
                         }
                     }
             </script>
-            <p:panelGrid columns="2" style="width: 1200px;">
+             <p:panelGrid columns="2" >
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
-                             sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.analityka eq 0 ? 'row1' : loop.analityka eq 1 ? 'row2' : loop.analityka eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont">
+                             sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.analityka eq 0 ? 'row1' : loop.analityka eq 1 ? 'row2' : loop.analityka eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
+                             scrollable="true" style="width: 1190px; max-height: 600px;">
                     <p:ajax event="rowSelect" update=":formX" />
-                    <p:column>
+                    <p:column width="40">
                         <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                         <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                         <p:commandButton value="" update=":form:dataList" rendered="#{loop.mapotomkow eq false}" style="width: 25px; height: 25px;"/>
                     </p:column>
-                    <p:column headerText="nr konta" style="width: 120px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 250px;">
+                    <p:column headerText="nazwa pełna" style="width: 150px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
-                    <p:column headerText="nazwa skrócona" style="width: 250px;">
+                    <p:column headerText="nazwa skrócona" style="width: 100px;">
                         <h:outputText value="#{loop.nazwaskrocona}" /> 
                     </p:column>
                     <p:column headerText="bilansowewynikowe" style="width: 80px;">
                         <h:outputText value="#{loop.bilansowewynikowe}" /> 
                     </p:column>
-                    <p:column headerText="rozrachunki" style="width: 80px;">
+                    <p:column headerText="rozrachunki" style="width: 100px;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
-                    <p:column headerText="poziom" style="width: 100px;">
+                    <p:column headerText="poziom" style="width: 50px;">
                         <h:outputText value="#{loop.analityka}" /> 
                     </p:column>
                     <p:column headerText="macierzyste" style="width: 100px;">
@@ -67,10 +71,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
-            </p:panelGrid>
+           
         </h:form>
     </p:dialog>
 </ui:composition>
