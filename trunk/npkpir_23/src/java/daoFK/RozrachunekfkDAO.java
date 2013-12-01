@@ -64,6 +64,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
             return null;
         }
     }
-    
+
     
 }

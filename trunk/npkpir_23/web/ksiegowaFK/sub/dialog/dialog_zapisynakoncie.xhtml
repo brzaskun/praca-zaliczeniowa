@@ -8,9 +8,9 @@
     >
 
     <p:dialog id="zapisy" header="Zapisy na kontach" widgetVar="zapisynakoncie" 
-              resizable="true" onShow="ustawdialog('zapisy','menuraporty',1250,750);" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('zapisy','menuraporty',1250,750);" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="width: 1225px; min-height: 650px; max-height: 1000px;">  
+        <p:layout fullPage="false" style="width: 1225px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <h:form id="formwpiskonta">
                     <h:outputText value="wybierz konto: "/>
@@ -26,12 +26,12 @@
                 </h:form>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia" />
             </p:layoutUnit>  
-           
+
             <p:layoutUnit position="west" size="340">
-                 <p:panelGrid columns="2" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
-            </p:panelGrid>
+                <p:panelGrid columns="2" >
+                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                </p:panelGrid>
                 <h:form id="form">
                     <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop.id}"
                                  sortBy="#{loop.pelnynumer}" >
@@ -50,12 +50,11 @@
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>  
-<!--            <p:layoutUnit position="east" size="200">  
-            </p:layoutUnit>  -->
-            <p:layoutUnit position="center">
+
+            <p:layoutUnit position="center" style="min-width: 850px;">
                 <h:form id="tabelazzapisami">  
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" style="width: 870px;" sortBy="#{loop.wiersz.idwiersza}" >
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop.wiersz.idwiersza}" emptyMessage="Nie ma zapisów na koncie">
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
@@ -64,51 +63,51 @@
                         <p:column headerText="id" width="40" sortBy="#{loop.id}" >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
-                        <p:column headerText="id wiersza" width="40" sortBy="#{loop.wiersz.idwiersza}" >
+                        <p:column headerText="id porz." width="30" sortBy="#{loop.wiersz.idwiersza}" >
                             <h:outputText value="#{loop.wiersz.idwiersza}"/>
                         </p:column>
-                        <p:column headerText="data" width="70" sortBy="#{loop.wiersz.dataksiegowania}">
-                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
+                        <p:column headerText="data" width="120" sortBy="#{loop.wiersz.dataksiegowania}">
+                            <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
                         </p:column>
-                        <p:column headerText="opis" sortBy="#{loop.opis}">
+                        <p:column headerText="opis" width="100" sortBy="#{loop.opis}">
                             <h:outputText value="#{loop.opis}"/>
                         </p:column>
-                        <p:column headerText="Wn" sortBy="#{loop.kwotawn}">
-                             <h:outputText id="kwotawnwiersz" value="#{loop.kwotawn}" style="float: right;">
+                        <p:column headerText="Wn" width="100" sortBy="#{loop.kwotawn}">
+                            <h:outputText id="kwotawnwiersz" value="#{loop.kwotawn}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" sortBy="#{loop.kwotama}">
+                        <p:column headerText="Ma" width="100" sortBy="#{loop.kwotama}">
                             <h:outputText id="kwotamawiersz" value="#{loop.kwotama}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
-                        <p:column headerText="Konto nr" sortBy="#{loop.konto}">
-                             <h:outputText id="kontonr" value="#{loop.konto}"/>
+                        <p:column headerText="Konto nr" width="100" sortBy="#{loop.konto}">
+                            <h:outputText id="kontonr" value="#{loop.konto}"/>
                         </p:column>
-                        <p:column headerText="Konto nazwa" sortBy="#{loop.kontoob.nazwapelna}">
+                        <p:column headerText="Konto nazwa" width="100" sortBy="#{loop.kontoob.nazwapelna}">
                             <h:outputText value="#{loop.kontoob.nazwapelna}"/>
                         </p:column>
-                        <p:column headerText="Konto przeciwstawne"  sortBy="#{loop.kontoprzeciwstawne}">
+                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="#{loop.kontoprzeciwstawne}">
                             <h:outputText value="#{loop.kontoprzeciwstawne}"/>
                         </p:column>
                     </p:dataTable>
-               </h:form>  
+                </h:form>  
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
                 <p:panelGrid id="sumy" columns="8" style="float: right; width: 1000px;">
                     <h:outputText value="suma zapisów Wn"/><h:outputText value="#{kontoZapisFKView.sumaWn}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                     <h:outputText value="suma zapisów Ma"/><h:outputText value="#{kontoZapisFKView.sumaMa}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                     <h:outputText value="saldo zapisów Wn"/><h:outputText value="#{kontoZapisFKView.saldoWn}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                     <h:outputText value="saldo zapisów Ma"/><h:outputText value="#{kontoZapisFKView.saldoMa}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:panelGrid>
             </p:layoutUnit>  
         </p:layout>  
