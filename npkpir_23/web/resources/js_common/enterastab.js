@@ -2,19 +2,38 @@
     var focusable = ":input, a[href]";
  
     TabKeyDown = function (event) {
+        if(!MYAPP.hasOwnProperty('liczydloautocomplete')){
+           MYAPP.liczydloautocomplete = 0;
+        } else {
+            if (MYAPP.liczydloautocomplete > 1) {
+                    MYAPP.liczydloautocomplete = 0;
+            }
+        }
         //Get the element that registered the event
         var $target = $(event.target);
+        var kontoinput = $(event.target).is(".ui-autocomplete-input");
         if($(event.target).is("button")===false){
-        if (isTabKey(event)) {
+        if (isTabKey(event)&&kontoinput === false) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
              if (isTabSuccessful) {
                 event.preventDefault();
                 event.stopPropagation();
                 event.stopImmediatePropagation();
- 
                 return false;
             }
-        }}
+        } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete === 0) {
+            MYAPP.liczydloautocomplete = 1;
+        } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete > 0) {
+            var isTabSuccessful = tab(true, event.shiftKey, $target);
+             MYAPP.liczydloautocomplete = 2;
+             if (isTabSuccessful) {
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                return false;
+            }
+        }
+    }
     };
  
     function LoadKeyDown() {

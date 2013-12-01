@@ -155,8 +155,13 @@ public class DokfkView implements Serializable {
         }
         if (pierwsze != 0 || drugie != 0) {
             liczbawierszy++;
-            Waluty walutadokumentu = walutyDAOfk.findByName(selected.getWalutadokumentu());
-            selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
+            String walutadokS = selected.getWalutadokumentu();
+            if (walutadokS.equals("PLN")) {
+                selected.getKonta().add(utworzNowyWiersz("zł"));
+            } else {
+                Waluty walutadokumentu = walutyDAOfk.findByName(walutadokS);
+                selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
+            }
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");

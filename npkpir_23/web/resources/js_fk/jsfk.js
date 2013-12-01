@@ -371,5 +371,16 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
     }
 };
 
+//var bigscreen = function () {
+//  try {
+//        docElement = document.documentElement;
+//        request = docElement.requestFullScreen || docElement.webkitRequestFullScreen || docElement.mozRequestFullScreen || docElement.msRequestFullScreen;
+//        if(typeof request!=="undefined" && request){
+//        request.call(docElement);
+//        }
+//        } catch (el) {
+//            alert("Blad pelny ekran "+el);
+//        }  
+//};
 
 
