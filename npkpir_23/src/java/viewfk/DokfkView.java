@@ -163,6 +163,7 @@ public class DokfkView implements Serializable {
                 Waluty walutadokumentu = walutyDAOfk.findByName(walutadokS);
                 selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
             }
+            selected.getKonta().get(liczbawierszy-1).setDatawaluty(selected.getKonta().get(liczbawierszy-2).getDatawaluty());
             RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
@@ -381,6 +382,9 @@ public class DokfkView implements Serializable {
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
             setZapisz0edytuj1(true);
+            if (selected.getDokfkPK().getSeriadokfk().equals("WB")) {
+                zablokujpanelwalutowy = true;
+            }
             liczbawierszy = selected.getKonta().size();
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
