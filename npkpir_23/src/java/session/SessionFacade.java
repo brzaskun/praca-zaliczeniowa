@@ -599,14 +599,14 @@ public class SessionFacade<T> {
     }
 
     public Waluty findWalutaByName(String staranazwa) {
-         try {
+        try {
             return (Waluty) em.createNamedQuery("Waluty.findBySymbolwaluty").setParameter("symbolwaluty", staranazwa).getSingleResult();
         } catch (Exception e) {
             return null;
         }
     }
 
-   
+      
   
   
 }

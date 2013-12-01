@@ -6,7 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
+    <style>
+        .ui-inputfield .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
 
+        .ui-datatable-data tr td {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+    </style>
     <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
               resizable="false" onShow="pierwszyonShow();" closable="false" onHide="pierwszyOnHide();">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
