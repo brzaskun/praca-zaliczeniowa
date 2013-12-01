@@ -47,6 +47,8 @@ public class Tabelanbp implements Serializable {
     private double kurssredni;
     @OneToMany(mappedBy = "tabelanbp")
     private List<Dokfk> Dokfk;
+    @OneToMany(mappedBy = "tabelanbp")
+    private List<Wiersze> Wiersze;
 
     public Tabelanbp() {
     }
@@ -96,6 +98,15 @@ public class Tabelanbp implements Serializable {
     public void setDokfk(List<Dokfk> Dokfk) {
         this.Dokfk = Dokfk;
     }
+
+    public List<Wiersze> getWiersze() {
+        return Wiersze;
+    }
+
+    public void setWiersze(List<Wiersze> Wiersze) {
+        this.Wiersze = Wiersze;
+    }
+    
     
     
 

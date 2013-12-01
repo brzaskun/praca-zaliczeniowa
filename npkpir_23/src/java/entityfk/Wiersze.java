@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -74,6 +76,14 @@ public class Wiersze implements Serializable {
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
+    @Column(name = "datawaluty")
+    private String datawaluty;
+    @JoinColumns({
+        @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
+        @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
+    })
+    @ManyToOne
+    private Tabelanbp tabelanbp;
     
    
     
@@ -185,8 +195,23 @@ public class Wiersze implements Serializable {
         this.MaReadOnly = MaReadOnly;
     }
 
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+
+    public String getDatawaluty() {
+        return datawaluty;
+    }
+
+    public void setDatawaluty(String datawaluty) {
+        this.datawaluty = datawaluty;
+    }
     
-        
+    
     
     //</editor-fold>
   
