@@ -232,7 +232,12 @@ var zablokujwierszereadonly = function () {
          try {//moze sie zdarzyc ze nie bedzie nic
             for (var i = 0; i < dl; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
-                var czyzablokowac = trescwiersza[9].innerText;
+                var czyzablokowac;
+                if (trescwiersza[11].parentElement) {
+                    czyzablokowac = trescwiersza[10].innerText;
+                } else {
+                    czyzablokowac = trescwiersza[9].innerText;
+                }
                 var cozablokowacWn = "formwpisdokument:dataList:"+i+":wn_input";
                 var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":wn_hinput";
                 if (czyzablokowac === "true") {
@@ -247,7 +252,12 @@ var zablokujwierszereadonly = function () {
             }
             for (var i = 0; i < dl; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
-                var czyzablokowac = trescwiersza[10].innerText;
+                var czyzablokowac;
+                if (trescwiersza[11].parentElement) {
+                    czyzablokowac = trescwiersza[11].innerText;
+                } else {
+                    czyzablokowac = trescwiersza[10].innerText;
+                }
                 var cozablokowacWn = "formwpisdokument:dataList:"+i+":ma_input";
                 var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":ma_hinput";
                 if (czyzablokowac === "true") {

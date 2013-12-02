@@ -127,7 +127,7 @@
             <url-pattern>/faces/noobie/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>Noobie</role-name>
+                <role-name>Noobie</role-name>
             <role-name>Guest</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
