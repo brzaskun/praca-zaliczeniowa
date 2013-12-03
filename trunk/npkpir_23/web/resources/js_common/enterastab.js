@@ -23,6 +23,10 @@
             }
         } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete === 0) {
             MYAPP.liczydloautocomplete = 1;
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                return false;
         } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete > 0) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
              MYAPP.liczydloautocomplete = 2;
