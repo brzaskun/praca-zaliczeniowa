@@ -60,7 +60,6 @@ var rozrachunkionHide = function() {
     resetujdialog('dialogdrugi');
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
-    załadujmodelzachowywaniawybranegopola();
     try {
         var wiersznr = MYAPP.wierszrozrachukowy - 1;
         sprawdzpoprzedniwiersz(wiersznr);

@@ -78,6 +78,7 @@ var przygotujdokumentdoedycji = function (){
     while ($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val()){
         wiersz++;
     };
+    //moze byc suma wierszy bo potem jest odpowiedni loop
     if (wiersz>1){
         zakryjpolaedycjadokumentu(wiersz);
     };

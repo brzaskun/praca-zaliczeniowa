@@ -25,7 +25,7 @@
             <div style="height: 100px;">
                 <!--                nagłówek dokumentu-->
                 <p:panelGrid id="paneldaneogolnefaktury" columns="12">
-                    <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}"  onblur="ustawDateFK(2013, 11);" title="wpisz numer dnia, lub miesiąc i dzień">
+                    <h:outputText value="data"/><p:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(2013, 11);" title="wpisz numer dnia, lub miesiąc i dzień">
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.wygenerujokreswpisudokumentu}"/>
                     </p:inputText>
                     <h:outputText value="symbol"/><h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
@@ -70,7 +70,6 @@
                         <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
                     </p:panel>
                 </p:panelGrid>
-
             </div>
             <div style="height: 430px;">
                 <!--                poszczególne wiersze-->

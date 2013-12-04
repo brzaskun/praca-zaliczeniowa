@@ -164,7 +164,6 @@ public class DokfkView implements Serializable {
                 selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
             }
             selected.getKonta().get(liczbawierszy-1).setDatawaluty(selected.getKonta().get(liczbawierszy-2).getDatawaluty());
-            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
         }
@@ -350,11 +349,13 @@ public class DokfkView implements Serializable {
     }
 
     public void wygenerujokreswpisudokumentu() {
-        String data = (String) Params.params("formwpisdokument:datka");
-        String mc = data.split("-")[1];
-        selected.setMiesiac(mc);
-        RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
-        Msg.msg("i", "Wygenerowano okres dokumentu");
+        if (zapisz0edytuj1 == false) {
+            String data = (String) Params.params("formwpisdokument:datka");
+            String mc = data.split("-")[1];
+            selected.setMiesiac(mc);
+            RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+            Msg.msg("i", "Wygenerowano okres dokumentu");
+        }
     }
 
     public void przygotujdokument() {
@@ -511,14 +512,12 @@ public class DokfkView implements Serializable {
                 wierszid = "";
                 wnlubma = "";
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
                 RequestContext.getCurrentInstance().execute("znadzpasujacepolerozrachunku();");
             } else {
                 Msg.msg("e", "Wybierz konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
                 wierszid = "";
                 wnlubma = "";
-                RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
                 RequestContext.getCurrentInstance().execute("powrotdopola();");
             }
         } catch (Exception e) {
@@ -526,7 +525,6 @@ public class DokfkView implements Serializable {
             //zerujemy rzeczy w dialogu
             wierszid = "";
             wnlubma = "";
-            RequestContext.getCurrentInstance().execute("załadujmodelzachowywaniawybranegopola();");
             RequestContext.getCurrentInstance().execute("powrotdopola();");
         }
     }
@@ -708,13 +706,27 @@ public class DokfkView implements Serializable {
         }
         //zanosze ze jest rozliczony
         int iletransakcjidodano = biezacetransakcje.size() - pierwotnailosctransakcjiwbazie;
+        boolean wartosc = false;
         if (iletransakcjidodano != 0) {
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych() + iletransakcjidodano);
         }
         if (selected.getLiczbarozliczonych() > 0) {
             selected.setZablokujzmianewaluty(true);
+            wartosc = true;
         } else {
             selected.setZablokujzmianewaluty(false);
+        }
+        // to ma blokowac zmianie kwot gdzie sa rozrachunki
+        List<Wiersze> wierszebiezace = selected.getKonta();
+        WierszStronafkPK aktualnywiersz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+        for (Wiersze p : wierszebiezace) {
+            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
+                p.setWnReadOnly(wartosc);
+                break;
+            } else if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
+                p.setMaReadOnly(wartosc);
+                break;
+            }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
