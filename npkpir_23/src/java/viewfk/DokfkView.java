@@ -747,6 +747,7 @@ public class DokfkView implements Serializable {
         if (zapisz0edytuj1 == true) {
             edycjaDlaRozrachunkow();
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     
