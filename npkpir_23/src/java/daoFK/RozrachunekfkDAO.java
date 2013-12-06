@@ -65,5 +65,14 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
 
+    public List<Rozrachunekfk> findByDokfk(String seriadokfk, int nrkolejny) {
+         try {
+            System.out.println("Szukam Rozrachunekfk by Symbolu i numeru Dokfk");
+            return rozrachunekfkFacade.findRozrachunkifkByDokfk(seriadokfk, nrkolejny);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     
 }

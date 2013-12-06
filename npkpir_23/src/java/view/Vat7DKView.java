@@ -399,7 +399,7 @@ public class Vat7DKView implements Serializable {
                 Integer tmp = Integer.parseInt(mc);
                 tmp = tmp - oilesiecofnac;
                 mcX = tmp.toString();
-                if (!mcX.equals("10") || !mcX.equals("11") || !mcX.equals("12")) {
+                if (!mcX.equals("10") && !mcX.equals("11") && !mcX.equals("12")) {
                     mcX = "0".concat(mcX);
                 }
                 rokX = rok;

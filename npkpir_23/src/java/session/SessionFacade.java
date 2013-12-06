@@ -606,6 +606,14 @@ public class SessionFacade<T> {
         }
     }
 
+    public List<Rozrachunekfk> findRozrachunkifkByDokfk(String seriadokfk, int nrkolejny) {
+         try {
+            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByDokfk").setParameter("typDokfk", seriadokfk).setParameter("nrkolejnyDokfk", nrkolejny).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
       
   
   
