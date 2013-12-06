@@ -43,6 +43,8 @@ public class Zestawienielisttransakcji implements Serializable {
     @Lob
     @Column(name="listatransakcji")
     private List<Transakcja> listatransakcji;
+    @Column(name="zaksiegowanodokument")
+    private boolean zaksiegowanodokument;
 
     public Zestawienielisttransakcji() {
     }
@@ -75,6 +77,17 @@ public class Zestawienielisttransakcji implements Serializable {
     public void setListatransakcji(List<Transakcja> listatransakcji) {
         this.listatransakcji = listatransakcji;
     }
+
+    public boolean isZaksiegowanodokument() {
+        return zaksiegowanodokument;
+    }
+
+    public void setZaksiegowanodokument(boolean zaksiegowanodokument) {
+        this.zaksiegowanodokument = zaksiegowanodokument;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {

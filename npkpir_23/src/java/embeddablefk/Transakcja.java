@@ -18,6 +18,7 @@ public class Transakcja implements Serializable {
     private double roznicekursowe;
     private double poprzedniakwota;
     private boolean zablokujnanoszenie;
+    
 
     public Transakcja() {
         this.transakcjaPK = new TransakcjaPK();
@@ -88,7 +89,8 @@ public class Transakcja implements Serializable {
     public void setRoznicekursowe(double roznicekursowe) {
         this.roznicekursowe = roznicekursowe;
     }
-    
+
+   
     
     
     

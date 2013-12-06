@@ -74,5 +74,17 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
 
+    public void usunniezaksiegowane() {
+        try {
+          List<Rozrachunekfk> pobrane = rozrachunekfkFacade.findAll(Rozrachunekfk.class);
+          for (Rozrachunekfk p : pobrane) {
+              if (p.isZaksiegowanodokument()==false) {
+                  rozrachunekfkFacade.remove(p);
+              }
+          }
+        } catch (Exception e)
+        {}
+    }
+
     
 }
