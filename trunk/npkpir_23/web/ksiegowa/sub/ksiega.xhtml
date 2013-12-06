@@ -46,12 +46,9 @@
     <p:outputPanel id="wrapper">
 
         <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyLista" 
-                      paginator="true" paginatorAlwaysVisible="true" rows="32"
-                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="32,50,100,200, 500" paginatorPosition="top"
                       rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów" 
-                      scrollable="true" scrollRows="5" scrollHeight="600" 
+                      scrollHeight="600" style="width: 1680px;"
                       > 
 
             <p:ajax event="rowSelect" update=":form:display"  />           
@@ -63,21 +60,21 @@
                 <p:row> 
                     <p:column rowspan="2" headerText=""   width="20" />  
                     <p:column rowspan="2" headerText="lp"   width="40" />  
-                    <p:column rowspan="2" headerText="Data zdarzenia gosp." width="80"  />  
-                    <p:column rowspan="2" headerText="Nr dowodu księgowego"   width="170"/>  
-                    <p:column colspan="2" headerText="Kontrahent"   width="300"/>  
+                    <p:column rowspan="2" headerText="Data zdarzenia gosp." width="75"  />  
+                    <p:column rowspan="2" headerText="Nr dowodu księgowego"   width="120"/>  
+                    <p:column colspan="2" headerText="Kontrahent"   width="320"/>  
                     <p:column rowspan="2" headerText="Opis zdarzenia gospodarcz"   width="100"/>  
-                    <p:column colspan="3" headerText="Przychody"   width="300"/>
-                    <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu"   width="100"/>  
-                    <p:column rowspan="2" headerText="Koszty uboczne zakupu"    width="100"/>
-                    <p:column colspan="4" headerText="Wydatki(koszty)"   width="500" />
+                    <p:column colspan="3" headerText="Przychody"   width="270"/>
+                    <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu"   width="90"/>  
+                    <p:column rowspan="2" headerText="Koszty uboczne zakupu"    width="80"/>
+                    <p:column colspan="4" headerText="Wydatki(koszty)"   width="300" />
                     <p:column rowspan="2" headerText="Uwagi"   width="60"/>  
                 </p:row>  
                 <p:row>  
                     <p:column headerText="imię i nazwisko (firma)"  />  
                     <p:column headerText="adres"   />  
                     <p:column headerText="wartość sprzedanych towarów i usług"   />  
-                    <p:column headerText="pozostałe przychody"  />  
+                    <p:column headerText="pozostałe przychody"/>  
                     <p:column headerText="razem przychód (7+8)"   />  
                     <p:column headerText="wynagrodzenia w gotówce i w naturze"  />  
                     <p:column headerText="pozostałe wydatki"  />  
@@ -101,7 +98,7 @@
                     <p:column headerText="14" />  
                     <p:column headerText="15" />  
                     <p:column headerText="16" />  
-                    
+                    <p:column headerText="17" />  
                 </p:row>
 
             </p:columnGroup>  

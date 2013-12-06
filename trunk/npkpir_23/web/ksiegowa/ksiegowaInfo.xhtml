@@ -16,7 +16,8 @@
                         <ui:include src="sub/layoutInfo/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutInfo/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutInfo/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888;">
                             <h:form id="form">
                                 <ui:include src="sub/info.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>

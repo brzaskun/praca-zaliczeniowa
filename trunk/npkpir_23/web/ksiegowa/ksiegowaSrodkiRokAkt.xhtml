@@ -29,7 +29,8 @@
                         <ui:include src="sub/layoutTablicaSrodkiDok/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutTablicaSrodkiDok/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutTablicaSrodkiDok/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888;">
                             <h:form id="formSTR">
                                 
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->

@@ -15,7 +15,8 @@
                         <ui:include src="sub/layoutTablicaSrodki/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutTablicaSrodki/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutTablicaSrodki/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888;">
                             <h:form id="form">
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/inwestycja.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
