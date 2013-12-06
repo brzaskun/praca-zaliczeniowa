@@ -114,12 +114,14 @@ public class DokfkView implements Serializable {
             wprowadzonesymbolewalut.add(p.getSymbolwaluty());
         }
         zapisz0edytuj1 = false;
+        usunrozrachunkiniezaksiegowanychdok();
     }
     //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
 
     //********************************************funkcje dla ksiegowania dokumentow
     //RESETUJ DOKUMNETFK
     public void resetujDokument() {
+        biezacetransakcje = null;
         selected = new Dokfk();
         DokfkPK dokfkPK = new DokfkPK();
         selected.setDokfkPK(dokfkPK);
@@ -258,12 +260,28 @@ public class DokfkView implements Serializable {
                 p.setZaksiegowanodokument(true);
                 rozrachunekfkDAO.edit(p);
             }
+            //zaznaczamy sparowae jako wprowadzone i zaksiegowane
+            for (Wiersze p : selected.getKonta()) {
+                naniesnasparowane(p.getWierszStronaWn());
+                naniesnasparowane(p.getWierszStronaMa());
+            }
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument dodany");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się dodac dokumentu " + e.toString());
         }
+    }
+    
+    private void naniesnasparowane(WierszStronafk wierszStronafk) {
+            if (wierszStronafk.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                    WierszStronafkPK wierszStronafkPK = wierszStronafk.getWierszStronafkPK();
+                    Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafk.getWierszStronafkPK());
+                    if (zestawienielisttransakcji instanceof Zestawienielisttransakcji) {
+                        zestawienielisttransakcji.setZaksiegowanodokument(true);
+                        zestawienielisttransakcjiDAO.edit(zestawienielisttransakcji);
+                    }
+            }
     }
 
     public void edycja() {
@@ -482,6 +500,12 @@ public class DokfkView implements Serializable {
         }
     }
 
+    //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
+    public void usunrozrachunkiniezaksiegowanychdok() {
+        rozrachunekfkDAO.usunniezaksiegowane();
+        zestawienielisttransakcjiDAO.usunniezaksiegowane();
+    }
+    
     //********************
     //rozrachunki
     public void rozrachunki() {
@@ -749,7 +773,6 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zachować rozrachunków w bazie danych");
         }
-        biezacetransakcje.clear();
         if (zapisz0edytuj1 == true) {
             edycjaDlaRozrachunkow();
         }
@@ -932,7 +955,9 @@ public class DokfkView implements Serializable {
         double kursAktualny = loop.getTransakcjaPK().getRozliczany().getWierszStronafk().getKurswaluty();
         double kursSparowany = loop.getTransakcjaPK().getSparowany().getWierszStronafk().getKurswaluty();
         String wiersz = "rozrachunki:dataList:"+row+":kwotarozliczenia_input";
-        double kwotarozrachunku = Double.parseDouble((String) Params.params(wiersz));
+        String zwartywiersz = (String) Params.params(wiersz);
+        zwartywiersz = zwartywiersz.replaceAll("\\s","");
+        double kwotarozrachunku = Double.parseDouble(zwartywiersz);
         double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
         double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
         double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;

@@ -129,10 +129,10 @@
                     <p:column  width="40">
                         <p:commandButton id="dodajwierszbutton" value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszy gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
-                    <p:column width="1" >
+                    <p:column width="3" >
                         <h:outputText id="wnReadOnly" value="#{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>
                     </p:column>
-                    <p:column  width="1">
+                    <p:column  width="3">
                         <h:outputText id="maReadOnly" value="#{loop.maReadOnly}" style="font-size: 1px; color: white;"/>
                     </p:column>
                 </p:dataTable>
