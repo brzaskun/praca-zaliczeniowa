@@ -252,6 +252,12 @@ public class DokfkView implements Serializable {
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
+            //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
+            List<Rozrachunekfk> pobierznowododane = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(), selected.getDokfkPK().getNrkolejny());
+            for (Rozrachunekfk p : pobierznowododane) {
+                p.setZaksiegowanodokument(true);
+                rozrachunekfkDAO.edit(p);
+            }
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument dodany");

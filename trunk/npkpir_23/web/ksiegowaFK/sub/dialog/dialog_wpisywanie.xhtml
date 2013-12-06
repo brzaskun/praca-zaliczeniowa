@@ -58,7 +58,6 @@
             </div>
             <div  style="height: 70px;">
                 <p:panelGrid  columns="8" style="width: 800px;" id="panelwalutowy" >
-                    <p:panel>
                         <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}">
                             <f:ajax event="blur" execute="@this"/>
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
@@ -68,7 +67,6 @@
                         <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
                         <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
                         <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
-                    </p:panel>
                 </p:panelGrid>
             </div>
             <div style="height: 430px;">
