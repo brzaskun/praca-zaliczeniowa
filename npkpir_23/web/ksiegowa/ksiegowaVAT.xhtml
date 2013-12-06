@@ -15,7 +15,8 @@
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888;">
                             <ui:include src="sub/vat.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                         </p:layoutUnit>
                     </p:layout>
