@@ -117,6 +117,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolWn").text("");
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_input").val());
@@ -132,6 +133,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolMa").text("");
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_input").val());
@@ -163,6 +165,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolWn").text("");
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (opisbiezacego2){
@@ -171,6 +174,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolMa").text("");
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
         }
@@ -272,6 +276,13 @@ var chowanienapoczatekdok = function(){
             $(blokowany).hide();
             blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
+            if (MYAPP.chowanedok[i].blojowany === "wn") {
+                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolWn";
+                $(blokowany).hide();
+            } else {
+                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolMa";
+                $(blokowany).hide();
+            }
         };
     };
 };

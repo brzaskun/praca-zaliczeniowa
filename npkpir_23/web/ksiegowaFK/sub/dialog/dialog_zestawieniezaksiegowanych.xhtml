@@ -27,7 +27,7 @@
             <p:column headerText="okres" width="90">
                 <h:outputText value="#{item.miesiac}/#{item.dokfkPK.rok}"/>
             </p:column>
-                <p:column headerText="symbol" width="100">
+            <p:column headerText="symbol" width="100">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="numer" width="100" sortBy="#{item.numer}" filterBy="#{item.numer}" filterMatchMode="contains" >

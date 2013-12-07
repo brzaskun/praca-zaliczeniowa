@@ -144,6 +144,7 @@ public class DokfkView implements Serializable {
         zablokujprzyciskrezygnuj = false;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
+        RequestContext.getCurrentInstance().execute("$('#formwpisdokument\\\\:datka').select();");
     }
 
     //dodaje wiersze do dokumentu
