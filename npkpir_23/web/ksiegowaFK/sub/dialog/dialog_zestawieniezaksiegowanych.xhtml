@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci"
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');dokfkwiersze.hide();" >
 
     
          <h:form id="zestawieniedokumentow">
@@ -20,27 +20,28 @@
                      <f:ajax event="rowSelect" execute="@this"/>
                 <p:hotkey bind="down" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="przejdzwiersz();"/>
                 <p:hotkey bind="up" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="wrocwiersz();"/>
-            <p:column headerText="data" width="90">
+                
+            <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
             <p:column headerText="okres" width="90">
                 <h:outputText value="#{item.miesiac}/#{item.dokfkPK.rok}"/>
             </p:column>
-             <p:column headerText="symbol" width="100">
+                <p:column headerText="symbol" width="100">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
             </p:column>
-            <p:column headerText="numer" width="100">
+            <p:column headerText="numer" width="100" sortBy="#{item.numer}" filterBy="#{item.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numer}"/>
             </p:column>
-            <p:column headerText="opis" width="100">
+            <p:column headerText="opis" width="100" sortBy="#{item.tresc}" filterBy="#{item.tresc}" filterMatchMode="contains" >
                 <h:outputText value="#{item.tresc}"/>
             </p:column>
-            <p:column headerText="wartość" width="100">
+            <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
             <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText>
             </p:column>
-            <p:column headerText="waluta" width="100">
+                <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu}" filterBy="#{item.walutadokumentu}" filterMatchMode="contains" >
                 <h:outputText value="#{item.walutadokumentu}"/>
             </p:column>
             <p:column headerText="" width="100">
