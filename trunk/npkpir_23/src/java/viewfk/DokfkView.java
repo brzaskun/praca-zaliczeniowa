@@ -537,12 +537,13 @@ public class DokfkView implements Serializable {
                 }
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
-                RequestContext.getCurrentInstance().execute("drugishow();");
                 //zerujemy rzeczy w dialogu
                 wierszid = "";
                 wnlubma = "";
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("znadzpasujacepolerozrachunku();");
+                RequestContext.getCurrentInstance().execute("drugishow();");
+                String znajdz = "znadzpasujacepolerozrachunku("+aktualnywierszdorozrachunkow.getPozostalo()+")";
+                RequestContext.getCurrentInstance().execute(znajdz);
             } else {
                 Msg.msg("e", "Wybierz konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu

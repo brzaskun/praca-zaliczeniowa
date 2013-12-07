@@ -9,21 +9,20 @@ var drugionShow = function() {
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
-
 };
 
-var znadzpasujacepolerozrachunku = function() {
+var znadzpasujacepolerozrachunku = function(kwota) {
     var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
     var opisy = new Array();
-    var dl = wiersze.size();
-    if (dl > 0) {
+    var dlwiersze = wiersze.size();
+    if (dlwiersze > 0) {
         try {//moze sie zdarzyc ze nie bedzie nic
-            for (var i = 0; i < dl; i++) {
+            for (var i = 0; i < dlwiersze; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
                 opisy[i] = trescwiersza[8].innerText;
             }
             var opisaktualnyrorachunek = document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent;
-            dl = opisy.length;
+            var dl = opisy.length;
             var gdzieszukac = -1;
             for (var i = 0; i < dl; i++) {
                 var opisbiezacy = opisy[i];
@@ -42,10 +41,25 @@ var znadzpasujacepolerozrachunku = function() {
                 $(document.getElementById(dopasowanywiersz)).css("color", "green");
                 $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
                 $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
+                var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
+                if (zastanakwota === "0.00") {
+                    $(document.getElementById(dopasowanywiersz)).val(kwota);
+                }
+                $(document.getElementById(dopasowanywiersz)).select();
+            } else {
+                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+                var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
+                if (zastanakwota === "0.00" && dlwiersze === 1) {
+                    $(document.getElementById(dopasowanywiersz)).val(kwota);
+                }
+                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
                 $(document.getElementById(dopasowanywiersz)).select();
             }
         } catch (el) {
+             dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+             $(document.getElementById(dopasowanywiersz)).focus();
+             $(document.getElementById(dopasowanywiersz)).select();
         }
     }
 
