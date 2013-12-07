@@ -142,6 +142,7 @@ public class DokfkView implements Serializable {
         liczbawierszy = 1;
         zapisz0edytuj1 = false;
         zablokujprzyciskrezygnuj = false;
+        RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
     }
 
@@ -166,10 +167,14 @@ public class DokfkView implements Serializable {
                 selected.getKonta().add(utworzNowyWiersz(walutadokumentu.getSkrotsymbolu()));
             }
             selected.getKonta().get(liczbawierszy-1).setDatawaluty(selected.getKonta().get(liczbawierszy-2).getDatawaluty());
+            selected.uzupelnijwierszeodane();
+            selected.dodajwartoscwiersza(liczbawierszy-2);
         } else {
             Msg.msg("w", "Uzuwpełnij dane przed dodaniem nowego wiersza");
         }
     }
+    
+
 
     private Wiersze utworzNowyWiersz(String grafikawaluty) {
         Wiersze nowywiersz = new Wiersze(liczbawierszy, 0);
@@ -251,6 +256,7 @@ public class DokfkView implements Serializable {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             //nanosimy zapisy na kontach
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
+            selected.dodajwartoscwiersza(selected.getKonta().size()-1);
             //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
@@ -288,6 +294,9 @@ public class DokfkView implements Serializable {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
+            if (selected.getKonta().size()==1) {
+                selected.dodajwartoscwiersza(0);
+            }
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findAll();

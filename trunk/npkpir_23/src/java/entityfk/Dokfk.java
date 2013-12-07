@@ -80,6 +80,8 @@ public class Dokfk implements Serializable {
     })
     @ManyToOne
     private Tabelanbp tabelanbp;
+    @Column (name = "wartoscdokumentu")
+    private double wartoscdokumentu;
 
     
     
@@ -89,6 +91,7 @@ public class Dokfk implements Serializable {
     public Dokfk(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
         this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, boolean naniesionezapisy, String numer) {
@@ -97,6 +100,7 @@ public class Dokfk implements Serializable {
         this.naniesionezapisy = naniesionezapisy;
         this.numer = numer;
         this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -176,7 +180,16 @@ public class Dokfk implements Serializable {
     public void setLiczbarozliczonych(int liczbarozliczonych) {
         this.liczbarozliczonych = liczbarozliczonych;
     }
+
+    public double getWartoscdokumentu() {
+        return wartoscdokumentu;
+    }
+
+    public void setWartoscdokumentu(double wartoscdokumentu) {
+        this.wartoscdokumentu = wartoscdokumentu;
+    }
  
+    
     
     @XmlTransient
     public List<Wiersze> getKonta() {
@@ -235,6 +248,52 @@ public class Dokfk implements Serializable {
         return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " ]";
     }
 
-   
+    public void dodajwartoscwiersza(int numerwiersza) {
+        Wiersze biezacywiersz = this.konta.get(numerwiersza);
+        int typwiersza = biezacywiersz.getTypwiersza();
+        double suma = 0.0;
+        if (typwiersza==1) {
+            suma += biezacywiersz.getWierszStronaWn().getKwota();
+        } else if (typwiersza==2) {
+            suma += biezacywiersz.getWierszStronaMa().getKwota();
+        } else {
+            double kwotaWn = biezacywiersz.getWierszStronaWn().getKwota();
+            double kwotaMa = biezacywiersz.getWierszStronaMa().getKwota();
+            if (kwotaMa>kwotaWn) {
+                suma += biezacywiersz.getWierszStronaWn().getKwota();
+            } else {
+                suma += biezacywiersz.getWierszStronaMa().getKwota();
+            }
+        }
+        this.wartoscdokumentu = this.wartoscdokumentu + suma;
+    }
     
+    public void uzupelnijwierszeodane() {
+        //ladnie uzupelnia informacje o wierszu pk
+        String opisdoprzekazania = "";
+        List<Wiersze> wierszewdokumencie = this.konta;
+        try {
+            for (Wiersze p : wierszewdokumencie) {
+                String opis = p.getOpis();
+                if (opis.contains("kontown")) {
+                    p.setDataksiegowania(this.datawystawienia);
+                    p.setTypwiersza(1);
+                    p.setDokfk(this);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else if (opis.contains("kontoma")) {
+                    p.setDataksiegowania(this.datawystawienia);
+                    p.setTypwiersza(2);
+                    p.setDokfk(this);
+                    p.setZaksiegowane(Boolean.FALSE);
+                } else {
+                    p.setDataksiegowania(this.datawystawienia);
+                    p.setTypwiersza(0);
+                    p.setDokfk(this);
+                    opisdoprzekazania = p.getOpis();
+                    p.setZaksiegowane(Boolean.FALSE);
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
 }

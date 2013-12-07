@@ -55,6 +55,12 @@
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
                 </p:panelGrid>
+                <p:panelGrid id="wartoscdokumentu" columns="2">
+                    <h:outputText value="wartość dokumentu"/>
+                    <h:outputText value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                 </h:outputText>
+                </p:panelGrid>
             </div>
             <div  style="height: 70px;">
                 <p:panelGrid  columns="8" style="width: 800px;" id="panelwalutowy" >
@@ -127,7 +133,7 @@
                         </p:autoComplete>
                     </p:column>
                     <p:column  width="40">
-                        <p:commandButton id="dodajwierszbutton" value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.liczbaw}" update="@form" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszy gt loop.idporzadkowy ? false : true}"/>
+                        <p:commandButton id="dodajwierszbutton" value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.liczbaw}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszy gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
                     <p:column width="3" >
                         <h:outputText id="wnReadOnly" value="#{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>

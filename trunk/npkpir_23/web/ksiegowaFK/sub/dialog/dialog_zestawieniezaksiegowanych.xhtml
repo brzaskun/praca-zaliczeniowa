@@ -35,6 +35,11 @@
             <p:column headerText="opis" width="100">
                 <h:outputText value="#{item.tresc}"/>
             </p:column>
+            <p:column headerText="wartość" width="100">
+            <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+            </h:outputText>
+            </p:column>
             <p:column headerText="waluta" width="100">
                 <h:outputText value="#{item.walutadokumentu}"/>
             </p:column>
