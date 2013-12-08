@@ -8,7 +8,7 @@ var ustawdialog = function(nazwa,menu) {
     });
     $(document.getElementById(nazwa)).width(1250).height(700);
     } catch (Exception) {
-        alert ("blad w fukncji ustaw w pliku dialog.js wiersz 1 "+Exception);
+        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 1 "+Exception);
     }
 
 };
@@ -23,7 +23,7 @@ var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
     });
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     } catch (Exception) {
-        alert ("blad w fukncji ustaw w pliku dialog.js wiersz 1 "+Exception);
+        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
     }
 
 };

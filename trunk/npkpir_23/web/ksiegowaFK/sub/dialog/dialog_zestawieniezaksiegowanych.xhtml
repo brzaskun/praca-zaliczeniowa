@@ -20,7 +20,9 @@
                      <f:ajax event="rowSelect" execute="@this"/>
                 <p:hotkey bind="down" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="przejdzwiersz();"/>
                 <p:hotkey bind="up" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="wrocwiersz();"/>
-                
+                <p:column headerText="lp." width="30" style="text-align: center;">
+                <h:outputText value="#{row+1}"/>
+            </p:column>
             <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
