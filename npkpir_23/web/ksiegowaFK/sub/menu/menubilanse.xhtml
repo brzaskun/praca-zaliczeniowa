@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:tabView id="menudokumenty" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+    <p:tabView id="menubilanse" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
                 <p:tab title="BO">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 340px; text-align: center;">
@@ -20,7 +20,14 @@
                             <p:menuitem value="przegladaj"></p:menuitem>
                         </p:menu>  
                     </h:form>
+                </p:tab>
+                <p:tab title="RZiS">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m3" styleClass="d1m" style="width: 340px; text-align: center;">
+                            <p:menuitem value="przegladaj"></p:menuitem>
+                            <p:menuitem value="układ" onclick="rzisuklad.show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
                 </p:tab>  
-                <p:tab title="pomoc"></p:tab>  
             </p:tabView>
 </ui:composition>
