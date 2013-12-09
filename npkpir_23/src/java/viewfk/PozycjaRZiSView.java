@@ -5,6 +5,7 @@
 package viewfk;
 
 import embeddablefk.PozycjaRZiS;
+import embeddablefk.TreeNodeExtended;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +31,12 @@ import org.primefaces.model.TreeNode;
 @ViewScoped
 public class PozycjaRZiSView implements Serializable {
 
-    private TreeNode root;
+    private TreeNodeExtended root;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS selected;
 
     public PozycjaRZiSView() {
-        this.root = new DefaultTreeNode("root", null);
+        this.root = new TreeNodeExtended("root", null);
     }
 
     @PostConstruct
@@ -48,12 +49,12 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(5, "A.I", "IV", 1, 1, "Przychody netto ze sprzeda􀄪y towarów i materiałów", true));
         pozycje.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
         pozycje.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje.add(new PozycjaRZiS(8, "B.I.1", "1", 7, 2, "amortyzacja kup", true));
-        pozycje.add(new PozycjaRZiS(9, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        pozycje.add(new PozycjaRZiS(10, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true));
-        pozycje.add(new PozycjaRZiS(11, "B.III", "III", 6, 1, "Usługi obce", true));
-        pozycje.add(new PozycjaRZiS(12, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true));
-        pozycje.add(new PozycjaRZiS(13, "B.V", "V", 6, 1, "Wynagrodzenia", true));
+        pozycje.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true));
+        pozycje.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true));
+        pozycje.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true));
+        pozycje.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true));
+        pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true));
+        pozycje.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
         createTreeNodesForElement(root, getElementTreeFromPlainList(pozycje));
         DefaultTreeNode node = new DefaultTreeNode();
         rozwin(root);
@@ -113,14 +114,14 @@ public class PozycjaRZiSView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public TreeNode getRoot() {
+    public TreeNodeExtended getRoot() {
         return root;
     }
 
-    public void setRoot(TreeNode root) {
+    public void setRoot(TreeNodeExtended root) {
         this.root = root;
     }
-
+   
     public PozycjaRZiS getSelected() {
         return selected;
     }
