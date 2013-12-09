@@ -34,48 +34,53 @@ public class PozycjaRZiSView implements Serializable {
     private TreeNodeExtended root;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS selected;
+    private ArrayList<TreeNodeExtended> finallNodes;
 
     public PozycjaRZiSView() {
         this.root = new TreeNodeExtended("root", null);
+        this.finallNodes = new ArrayList<TreeNodeExtended>();
     }
 
     @PostConstruct
     private void init() {
         ArrayList<PozycjaRZiS> pozycje = new ArrayList<>();
         pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", true));
-        pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", true));
-        pozycje.add(new PozycjaRZiS(3, "A.I", "II", 1, 1, "Zmiana stanu produktów", true));
-        pozycje.add(new PozycjaRZiS(4, "A.I", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true));
-        pozycje.add(new PozycjaRZiS(5, "A.I", "IV", 1, 1, "Przychody netto ze sprzeda􀄪y towarów i materiałów", true));
+        pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", true, 100.0));
+        pozycje.add(new PozycjaRZiS(3, "A.I", "II", 1, 1, "Zmiana stanu produktów", true, 200.0));
+        pozycje.add(new PozycjaRZiS(4, "A.I", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 300.0));
+        pozycje.add(new PozycjaRZiS(5, "A.I", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", true, 400.0));
         pozycje.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
         pozycje.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true));
-        pozycje.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true));
-        pozycje.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true));
-        pozycje.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true));
-        pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true));
+        pozycje.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 600.0));
+        pozycje.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 500.0));
+        pozycje.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 400.0));
+        pozycje.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 300.0));
+        pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 150.0));
         pozycje.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        createTreeNodesForElement(root, getElementTreeFromPlainList(pozycje));
-        DefaultTreeNode node = new DefaultTreeNode();
-        rozwin(root);
+        pozycje.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 33.0));
+        int depth = ustaldepth(pozycje);
+        createTreeNodesForElement(root, getElementTreeFromPlainList(pozycje, depth), depth);
+        root.returnFinallChildren(finallNodes);
+        root.sumNodes(finallNodes);
+        root.expandAll();
     }
 
-    void createTreeNodesForElement(final TreeNode dmtn, final Map<String, ArrayList<PozycjaRZiS>> rzedy) {
-       ArrayList<TreeNode> poprzednie = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            ArrayList<TreeNode> nowe = new ArrayList<>();
+    void createTreeNodesForElement(final TreeNode dmtn, final Map<String, ArrayList<PozycjaRZiS>> rzedy, int depth) {
+       ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
+        for (int i = 0; i < depth; i++) {
+            ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
             ArrayList<PozycjaRZiS> biezaca = rzedy.get(String.valueOf(i));
             for (PozycjaRZiS p : biezaca) {
                 if (i == 0) {
-                    TreeNode tmp = new DefaultTreeNode(p, root);
+                    TreeNodeExtended tmp = new TreeNodeExtended(p, root);
                      nowe.add(tmp);
                 } else {
                     Iterator it = poprzednie.iterator();
                     while (it.hasNext()) {
-                        TreeNode r = (TreeNode) it.next();
+                        TreeNodeExtended r = (TreeNodeExtended) it.next();
                         PozycjaRZiS parent = (PozycjaRZiS) r.getData();
                         if (parent.getLp() == p.getMacierzysty()) {
-                            TreeNode tmp = new DefaultTreeNode(p, r);
+                            TreeNodeExtended tmp = new TreeNodeExtended(p, r);
                             nowe.add(tmp);
                         }
                     }
@@ -88,29 +93,36 @@ public class PozycjaRZiSView implements Serializable {
     
     
     //przeksztalca tresc tabeli w elementy do drzewa
-    Map<String, ArrayList<PozycjaRZiS>> getElementTreeFromPlainList(ArrayList<PozycjaRZiS> pozycje) {
-        Map<String, ArrayList<PozycjaRZiS>> rzedy = new LinkedHashMap<>(4);
+    Map<String, ArrayList<PozycjaRZiS>> getElementTreeFromPlainList(ArrayList<PozycjaRZiS> pozycje, int depth) {
+        Map<String, ArrayList<PozycjaRZiS>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < depth; i++) {
             ArrayList<PozycjaRZiS> values = new ArrayList<>();
             for (PozycjaRZiS s : pozycje) {
                 if (s.getLevel() == i) {
                     values.add(s);
                 }
             }
-            rzedy.put(String.valueOf(i), values);
+            if (values.size()>0) {
+                rzedy.put(String.valueOf(i), values);
+            }
         }
         return rzedy;
     }
-
-    private void rozwin(TreeNode n) {
-        boolean madzieci = n.getChildren().size() > 0;
-        if (madzieci == true) {
-            for (TreeNode o : n.getChildren()) {
-                o.setExpanded(true);
-                rozwin(o);
+    
+    private int ustaldepth(ArrayList<PozycjaRZiS> pozycje) {
+        int depth = 0;
+        for (PozycjaRZiS p : pozycje) {
+            if (depth < p.getLevel()) {
+                depth = p.getLevel();
             }
         }
+        return depth+1;
+    }
+
+        
+    private void sumujNodes() {
+        
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

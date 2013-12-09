@@ -19,6 +19,7 @@ public class PozycjaRZiS implements Serializable{
     private String nazwa;
     private boolean przychod0koszt1;
     private int lp;
+    private double kwota;
 
     public PozycjaRZiS(PozycjaRZiS pozycjaRZiS) {
         this.pozycjanr = pozycjaRZiS.getPozycjanr();
@@ -45,6 +46,18 @@ public class PozycjaRZiS implements Serializable{
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
     }
+    
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
+        this.lp = lp;
+        this.pozycjaString = pozycjaString;
+        this.pozycjaSymbol = pozycjaSymbol;
+        this.macierzysty = macierzysty;
+        this.level = level;
+        this.nazwa = nazwa;
+        this.przychod0koszt1 = przychod0koszt1;
+        this.kwota = kwota;
+    }
+
 
     
     
@@ -110,6 +123,14 @@ public class PozycjaRZiS implements Serializable{
 
     public void setLp(int lp) {
         this.lp = lp;
+    }
+
+    public double getKwota() {
+        return kwota;
+    }
+
+    public void setKwota(double kwota) {
+        this.kwota = kwota;
     }
 
    
