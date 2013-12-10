@@ -15,6 +15,7 @@ import org.primefaces.model.TreeNode;
  */
 public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
     private static final long serialVersionUID = 1L;
+    
 
     public TreeNodeExtended() {
         super();
@@ -39,10 +40,11 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
         int lowestlevel = ustaldepth(finallNodes);
         ArrayList<TreeNodeExtended> parents = new ArrayList<>();
         for (TreeNodeExtended p : finallNodes) {
-            if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String)) {
+            //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
+            if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().equals("")) {
                 if (((PozycjaRZiS) p.getData()).getLevel()==lowestlevel) {
-                    double kwotaparent = ((PozycjaRZiS) p.getParent().getData()).getKwota();
-                    double kwotanode = ((PozycjaRZiS) p.getData()).getKwota();
+                    double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
+                    double kwotanode = p.getKwota();
                     ((PozycjaRZiS) p.getParent().getData()).setKwota(kwotaparent+kwotanode);
                     if (!parents.contains((TreeNodeExtended) p.getParent())) {
                         parents.add((TreeNodeExtended) p.getParent());
@@ -79,4 +81,62 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
             }
         }
     }
+
+    public void resolveFormulas() {
+        ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
+        for (TreeNode p : finallNodes) {
+            if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
+                String formula = ((TreeNodeExtended) p).getFormula();
+                int formulalength = formula.length();
+                Character[] formulaParse = new Character[formulalength];
+                for (int i = 0; i < formulalength; i++) {
+                    formulaParse[i] = formula.charAt(i);
+                }
+                double wynik = dotheMath(finallNodes, formulaParse, formulalength);
+                ((TreeNodeExtended) p).setKwota(wynik);
+            }
+        }
+    }
+    
+    private String getFormula() {
+        return ((PozycjaRZiS) this.getData()).getFormula();
+    }
+    
+    private String getSymbol() {
+        return ((PozycjaRZiS) this.getData()).getPozycjaSymbol();
+    }
+    
+    private double getKwota() {
+        return ((PozycjaRZiS) this.getData()).getKwota();
+    }
+    
+    private void setKwota(double kwota) {
+        ((PozycjaRZiS) this.getData()).setKwota(kwota);
+    }
+
+    private double dotheMath(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength) {
+        double wynik = findBypozycjaSymbol(finallNodes, formulaParse[0]).getKwota();
+        for (int i = 1; i < formulalength; i++) {
+            Character znak = formulaParse[i++];
+            TreeNodeExtended drugi = findBypozycjaSymbol(finallNodes, formulaParse[i]);
+            if (znak == '-') {
+                wynik -= drugi.getKwota();
+            } else {
+                wynik += drugi.getKwota();
+            }
+        }
+        return wynik;
+    }
+
+    private TreeNodeExtended findBypozycjaSymbol(ArrayList<TreeNode> finallNodes, Character character) {
+        for (TreeNode p : finallNodes) {
+            if (((TreeNodeExtended) p).getSymbol().charAt(0) == character) {
+                return (TreeNodeExtended) p;
+            }
+        }
+        return null;
+    }
+
+    
 }
+

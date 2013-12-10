@@ -69,6 +69,7 @@ public class KontoZapisFKView implements Serializable{
          if (wybranekonto.isMapotomkow()==true) {
              List<Konto> kontamacierzyste = new ArrayList<>();
              kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
+             //tu jest ten loop ala TreeeNode
              while (kontamacierzyste.size()>0) {
                  znajdzkontazpotomkami(kontamacierzyste);
              }

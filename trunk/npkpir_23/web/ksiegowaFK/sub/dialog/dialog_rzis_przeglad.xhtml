@@ -7,15 +7,27 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="dialogrzisuklad" header="Dane faktury" widgetVar="rzisuklad" 
-              resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
-        <h:form id="form">
+    <p:dialog id="dialogrzisprzeglad" header="Dane faktury" widgetVar="rzisprzeglad" 
+              resizable="false" onShow="ustawdialog('dialogrzisprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprzeglad');"  >
+        <h:form id="formprzeglad">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg321.show();"/>
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg123.show();"/>
                 <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
--->           
+-->            <script>
+
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode == 43) {
+                            $('#form\\:rozwinwsz').click();
+                        } else if (event.keyCode == 45) {
+                            $('#form\\:zwinwsz').click();
+                        } else {
+                            return event;
+                        }
+                    }
+            </script>
              <p:panelGrid columns="2" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
@@ -23,14 +35,15 @@
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaRZiSView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" 
-                             scrollable="true" style="width: 870px; max-height: 600px;">
+                             scrollable="true" style="width: 570px; max-height: 600px;">
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{loop.przyporzadkowanekonta}">
+                        <h:outputText value="#{loop.kwota}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
                 </p:treeTable>

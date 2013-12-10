@@ -20,6 +20,8 @@ public class PozycjaRZiS implements Serializable{
     private boolean przychod0koszt1;
     private int lp;
     private double kwota;
+    private String przyporzadkowanekonta;
+    private String formula;
 
     public PozycjaRZiS(PozycjaRZiS pozycjaRZiS) {
         this.pozycjanr = pozycjaRZiS.getPozycjanr();
@@ -30,6 +32,7 @@ public class PozycjaRZiS implements Serializable{
         this.nazwa = pozycjaRZiS.getNazwa();
         this.przychod0koszt1 = pozycjaRZiS.isPrzychod0koszt1();
         this.lp = pozycjaRZiS.getLp();
+        this.formula = "";
     }
 
     public PozycjaRZiS(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
@@ -45,6 +48,7 @@ public class PozycjaRZiS implements Serializable{
         this.level = level;
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
+        this.formula = "";
     }
     
     public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
@@ -56,9 +60,20 @@ public class PozycjaRZiS implements Serializable{
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
         this.kwota = kwota;
+        this.formula = "";
     }
 
-
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
+        this.lp = lp;
+        this.pozycjaString = pozycjaString;
+        this.pozycjaSymbol = pozycjaSymbol;
+        this.macierzysty = macierzysty;
+        this.level = level;
+        this.nazwa = nazwa;
+        this.przychod0koszt1 = przychod0koszt1;
+        this.kwota = 0.0;
+        this.formula = formula;
+    }
     
     
     public int getPozycjanr() {
@@ -133,6 +148,23 @@ public class PozycjaRZiS implements Serializable{
         this.kwota = kwota;
     }
 
+    public String getPrzyporzadkowanekonta() {
+        return przyporzadkowanekonta;
+    }
+
+    public void setPrzyporzadkowanekonta(String przyporzadkowanekonta) {
+        this.przyporzadkowanekonta = przyporzadkowanekonta;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
+
+    
    
     
     
