@@ -58,10 +58,21 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 150.0));
         pozycje.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
         pozycje.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 33.0));
+        pozycje.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", true, "A-B"));
+        pozycje.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe przychody operacyjne", true));
+        pozycje.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", true, 100.0));
+        pozycje.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", true, 200.0));
+        pozycje.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne przychody operacyjne", true, 300.0));
+        pozycje.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
+        pozycje.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 100.0));
+        pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 200.0));
+        pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 250.0));
+        pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", true, "C+D-E"));
         int depth = ustaldepth(pozycje);
         createTreeNodesForElement(root, getElementTreeFromPlainList(pozycje, depth), depth);
         root.returnFinallChildren(finallNodes);
         root.sumNodes(finallNodes);
+        root.resolveFormulas();
         root.expandAll();
     }
 
@@ -121,10 +132,7 @@ public class PozycjaRZiSView implements Serializable {
     }
 
         
-    private void sumujNodes() {
-        
-    }
-
+   
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
         return root;
