@@ -68,69 +68,13 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 200.0));
         pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 250.0));
         pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", true, "C+D-E"));
-        createTreeNodesForElement(root, pozycje);
-        root.returnFinallChildren(finallNodes);
-        root.sumNodes(finallNodes);
+        root.createTreeNodesForElement(pozycje);
+        root.sumNodes();
         root.resolveFormulas();
         root.expandAll();
     }
 
-    void createTreeNodesForElement(final TreeNode dmtn, final ArrayList<PozycjaRZiS> pozycje) {
-       int depth = ustaldepth(pozycje);
-       Map<String, ArrayList<PozycjaRZiS>> rzedy = getElementTreeFromPlainList(pozycje, depth);
-       ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
-        for (int i = 0; i < depth; i++) {
-            ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
-            ArrayList<PozycjaRZiS> biezaca = rzedy.get(String.valueOf(i));
-            for (PozycjaRZiS p : biezaca) {
-                if (i == 0) {
-                    TreeNodeExtended tmp = new TreeNodeExtended(p, dmtn);
-                     nowe.add(tmp);
-                } else {
-                    Iterator it = poprzednie.iterator();
-                    while (it.hasNext()) {
-                        TreeNodeExtended r = (TreeNodeExtended) it.next();
-                        PozycjaRZiS parent = (PozycjaRZiS) r.getData();
-                        if (parent.getLp() == p.getMacierzysty()) {
-                            TreeNodeExtended tmp = new TreeNodeExtended(p, r);
-                            nowe.add(tmp);
-                        }
-                    }
-                }
-            }
-            poprzednie.clear();
-            poprzednie.addAll(nowe);
-        }
-    }
-    
-    
-    //przeksztalca tresc tabeli w elementy do drzewa
-    Map<String, ArrayList<PozycjaRZiS>> getElementTreeFromPlainList(ArrayList<PozycjaRZiS> pozycje, int depth) {
-        Map<String, ArrayList<PozycjaRZiS>> rzedy = new LinkedHashMap<>(depth);
-        // builds a map of elements object returned from store
-        for (int i = 0; i < depth; i++) {
-            ArrayList<PozycjaRZiS> values = new ArrayList<>();
-            for (PozycjaRZiS s : pozycje) {
-                if (s.getLevel() == i) {
-                    values.add(s);
-                }
-            }
-            if (values.size()>0) {
-                rzedy.put(String.valueOf(i), values);
-            }
-        }
-        return rzedy;
-    }
-    
-    private int ustaldepth(ArrayList<PozycjaRZiS> pozycje) {
-        int depth = 0;
-        for (PozycjaRZiS p : pozycje) {
-            if (depth < p.getLevel()) {
-                depth = p.getLevel();
-            }
-        }
-        return depth+1;
-    }
+   
 
         
    
