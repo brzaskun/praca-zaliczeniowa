@@ -24,7 +24,7 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
     public TreeNodeExtended(Object object, TreeNode node) {
         super(object,node);
     }
-    
+    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
     public void returnFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
         boolean madzieci = this.getChildren().size() > 0;
         if (madzieci == true) {

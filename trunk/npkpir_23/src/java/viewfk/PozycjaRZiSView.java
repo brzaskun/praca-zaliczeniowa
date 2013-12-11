@@ -68,22 +68,23 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 200.0));
         pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 250.0));
         pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", true, "C+D-E"));
-        int depth = ustaldepth(pozycje);
-        createTreeNodesForElement(root, getElementTreeFromPlainList(pozycje, depth), depth);
+        createTreeNodesForElement(root, pozycje);
         root.returnFinallChildren(finallNodes);
         root.sumNodes(finallNodes);
         root.resolveFormulas();
         root.expandAll();
     }
 
-    void createTreeNodesForElement(final TreeNode dmtn, final Map<String, ArrayList<PozycjaRZiS>> rzedy, int depth) {
+    void createTreeNodesForElement(final TreeNode dmtn, final ArrayList<PozycjaRZiS> pozycje) {
+       int depth = ustaldepth(pozycje);
+       Map<String, ArrayList<PozycjaRZiS>> rzedy = getElementTreeFromPlainList(pozycje, depth);
        ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
         for (int i = 0; i < depth; i++) {
             ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
             ArrayList<PozycjaRZiS> biezaca = rzedy.get(String.valueOf(i));
             for (PozycjaRZiS p : biezaca) {
                 if (i == 0) {
-                    TreeNodeExtended tmp = new TreeNodeExtended(p, root);
+                    TreeNodeExtended tmp = new TreeNodeExtended(p, dmtn);
                      nowe.add(tmp);
                 } else {
                     Iterator it = poprzednie.iterator();
