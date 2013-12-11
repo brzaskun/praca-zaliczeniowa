@@ -6,6 +6,9 @@ package embeddablefk;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -13,17 +16,76 @@ import org.primefaces.model.TreeNode;
  *
  * @author Osito
  */
-public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
+public class TreeNodeExtended extends DefaultTreeNode implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
 
     public TreeNodeExtended() {
         super();
     }
 
     public TreeNodeExtended(Object object, TreeNode node) {
-        super(object,node);
+        super(object, node);
     }
+    
+     public void createTreeNodesForElement(final ArrayList<PozycjaRZiS> pozycje) {
+       int depth = ustaldepthDT(pozycje);
+       Map<String, ArrayList<PozycjaRZiS>> rzedy = getElementTreeFromPlainList(pozycje, depth);
+       ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
+        for (int i = 0; i < depth; i++) {
+            ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
+            ArrayList<PozycjaRZiS> biezaca = rzedy.get(String.valueOf(i));
+            for (PozycjaRZiS p : biezaca) {
+                if (i == 0) {
+                    TreeNodeExtended tmp = new TreeNodeExtended(p, this);
+                     nowe.add(tmp);
+                } else {
+                    Iterator it = poprzednie.iterator();
+                    while (it.hasNext()) {
+                        TreeNodeExtended r = (TreeNodeExtended) it.next();
+                        PozycjaRZiS parent = (PozycjaRZiS) r.getData();
+                        if (parent.getLp() == p.getMacierzysty()) {
+                            TreeNodeExtended tmp = new TreeNodeExtended(p, r);
+                            nowe.add(tmp);
+                        }
+                    }
+                }
+            }
+            poprzednie.clear();
+            poprzednie.addAll(nowe);
+        }
+    }
+    
+    
+    //przeksztalca tresc tabeli w elementy do drzewa
+    private Map<String, ArrayList<PozycjaRZiS>> getElementTreeFromPlainList(ArrayList<PozycjaRZiS> pozycje, int depth) {
+        Map<String, ArrayList<PozycjaRZiS>> rzedy = new LinkedHashMap<>(depth);
+        // builds a map of elements object returned from store
+        for (int i = 0; i < depth; i++) {
+            ArrayList<PozycjaRZiS> values = new ArrayList<>();
+            for (PozycjaRZiS s : pozycje) {
+                if (s.getLevel() == i) {
+                    values.add(s);
+                }
+            }
+            if (values.size()>0) {
+                rzedy.put(String.valueOf(i), values);
+            }
+        }
+        return rzedy;
+    }
+    
+    private int ustaldepthDT(ArrayList<PozycjaRZiS> pozycje) {
+        int depth = 0;
+        for (PozycjaRZiS p : pozycje) {
+            if (depth < p.getLevel()) {
+                depth = p.getLevel();
+            }
+        }
+        return depth+1;
+    }
+    
+    
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
     public void returnFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
         boolean madzieci = this.getChildren().size() > 0;
@@ -35,32 +97,34 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
             finallNodes.remove(this);
         }
     }
-    
-    public void sumNodes(ArrayList<TreeNodeExtended> finallNodes) {
-        int lowestlevel = ustaldepth(finallNodes);
+
+    public void sumNodes() {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.returnFinallChildren(finallNodes);
         ArrayList<TreeNodeExtended> parents = new ArrayList<>();
-        for (TreeNodeExtended p : finallNodes) {
-            //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
-            if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().equals("")) {
-                if (((PozycjaRZiS) p.getData()).getLevel()==lowestlevel) {
-                    double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
-                    double kwotanode = p.getKwota();
-                    ((PozycjaRZiS) p.getParent().getData()).setKwota(kwotaparent+kwotanode);
-                    if (!parents.contains((TreeNodeExtended) p.getParent())) {
-                        parents.add((TreeNodeExtended) p.getParent());
+        do {
+            int lowestlevel = ustaldepth(finallNodes);
+            parents.clear();
+            for (TreeNodeExtended p : finallNodes) {
+                //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
+                if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().equals("")) {
+                    if (((PozycjaRZiS) p.getData()).getLevel() == lowestlevel) {
+                        double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
+                        double kwotanode = p.getKwota();
+                        ((PozycjaRZiS) p.getParent().getData()).setKwota(kwotaparent + kwotanode);
+                        if (!parents.contains((TreeNodeExtended) p.getParent())) {
+                            parents.add((TreeNodeExtended) p.getParent());
+                        }
+                    } else {
+                        parents.add(p);
                     }
-                } else {
-                    parents.add(p);
                 }
             }
-        }
-        finallNodes.clear();
-        finallNodes.addAll(parents);
-        if (parents.size() > 0) {
-            sumNodes(finallNodes);
-        }
+            finallNodes.clear();
+            finallNodes.addAll(parents);
+        } while (parents.size() > 0);
     }
-    
+
     private int ustaldepth(ArrayList<TreeNodeExtended> nodes) {
         int depth = 0;
         for (TreeNodeExtended p : nodes) {
@@ -71,7 +135,7 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
         }
         return depth;
     }
-    
+
     public void expandAll() {
         boolean madzieci = this.getChildren().size() > 0;
         if (madzieci == true) {
@@ -97,19 +161,19 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
             }
         }
     }
-    
+
     private String getFormula() {
         return ((PozycjaRZiS) this.getData()).getFormula();
     }
-    
+
     private String getSymbol() {
         return ((PozycjaRZiS) this.getData()).getPozycjaSymbol();
     }
-    
+
     private double getKwota() {
         return ((PozycjaRZiS) this.getData()).getKwota();
     }
-    
+
     private void setKwota(double kwota) {
         ((PozycjaRZiS) this.getData()).setKwota(kwota);
     }
@@ -136,7 +200,4 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable{
         }
         return null;
     }
-
-    
 }
-
