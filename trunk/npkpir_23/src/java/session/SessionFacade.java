@@ -46,6 +46,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
+import java.util.ArrayList;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -225,15 +226,15 @@ public class SessionFacade<T> {
     }
     
      public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
-        Dok wynik = null;
+        List<Dok> wynik = null;
         try {
-            wynik = (Dok) em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getSingleResult();
+            wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getResultList();
+            System.out.println("Znaleziono duplikat - DokFacade");
+            return wynik.get(wynik.size()-1);
         } catch (Exception e) {
             System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;
         }
-        System.out.println("Znaleziono duplikat - DokFacade");
-        return wynik;
     }
 
     public Zobowiazanie findZobowiazanie(String rok, String mc) throws Exception {

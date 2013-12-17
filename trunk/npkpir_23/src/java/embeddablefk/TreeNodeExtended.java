@@ -16,7 +16,7 @@ import org.primefaces.model.TreeNode;
  *
  * @author Osito
  */
-public class TreeNodeExtended extends DefaultTreeNode implements Serializable {
+public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,15 +27,16 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable {
     public TreeNodeExtended(Object object, TreeNode node) {
         super(object, node);
     }
+
     
-     public void createTreeNodesForElement(final ArrayList<PozycjaRZiS> pozycje) {
+    public void createTreeNodesForElement(ArrayList<T> pozycje) {
        int depth = ustaldepthDT(pozycje);
-       Map<String, ArrayList<PozycjaRZiS>> rzedy = getElementTreeFromPlainList(pozycje, depth);
+       Map<String, ArrayList<T>> rzedy = getElementTreeFromPlainList(pozycje, depth);
        ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
         for (int i = 0; i < depth; i++) {
             ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
-            ArrayList<PozycjaRZiS> biezaca = rzedy.get(String.valueOf(i));
-            for (PozycjaRZiS p : biezaca) {
+            ArrayList<T> biezaca = rzedy.get(String.valueOf(i));
+            for (T p : biezaca) {
                 if (i == 0) {
                     TreeNodeExtended tmp = new TreeNodeExtended(p, this);
                      nowe.add(tmp);
@@ -44,7 +45,7 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable {
                     while (it.hasNext()) {
                         TreeNodeExtended r = (TreeNodeExtended) it.next();
                         PozycjaRZiS parent = (PozycjaRZiS) r.getData();
-                        if (parent.getLp() == p.getMacierzysty()) {
+                        if (parent.getLp() == ((PozycjaRZiS) p).getMacierzysty()) {
                             TreeNodeExtended tmp = new TreeNodeExtended(p, r);
                             nowe.add(tmp);
                         }
@@ -58,28 +59,28 @@ public class TreeNodeExtended extends DefaultTreeNode implements Serializable {
     
     
     //przeksztalca tresc tabeli w elementy do drzewa
-    private Map<String, ArrayList<PozycjaRZiS>> getElementTreeFromPlainList(ArrayList<PozycjaRZiS> pozycje, int depth) {
-        Map<String, ArrayList<PozycjaRZiS>> rzedy = new LinkedHashMap<>(depth);
+    private <T> Map<String, ArrayList<T>> getElementTreeFromPlainList(ArrayList<T> pozycje, int depth) {
+        Map<String, ArrayList<T>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
         for (int i = 0; i < depth; i++) {
             ArrayList<PozycjaRZiS> values = new ArrayList<>();
-            for (PozycjaRZiS s : pozycje) {
-                if (s.getLevel() == i) {
-                    values.add(s);
+            for (T s : pozycje) {
+                if (((PozycjaRZiS) s).getLevel() == i) {
+                    values.add((PozycjaRZiS) s);
                 }
             }
             if (values.size()>0) {
-                rzedy.put(String.valueOf(i), values);
+                rzedy.put(String.valueOf(i), (ArrayList<T>) values);
             }
         }
         return rzedy;
     }
     
-    private int ustaldepthDT(ArrayList<PozycjaRZiS> pozycje) {
+    private int ustaldepthDT(ArrayList<T> pozycje) {
         int depth = 0;
-        for (PozycjaRZiS p : pozycje) {
-            if (depth < p.getLevel()) {
-                depth = p.getLevel();
+        for (T  p : pozycje) {
+            if (depth < ((PozycjaRZiS) p).getLevel()) {
+                depth = ((PozycjaRZiS) p).getLevel();
             }
         }
         return depth+1;

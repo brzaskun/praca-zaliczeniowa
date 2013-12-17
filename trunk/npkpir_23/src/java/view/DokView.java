@@ -1139,7 +1139,7 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getStackTrace().toString(), null);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany "+ e.getMessage() + " " + e.getStackTrace().toString(), null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         //robienie srodkow trwalych
@@ -1481,31 +1481,31 @@ public class DokView implements Serializable {
 //    }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
-        Dok tmp = dokDAO.znajdzDuplikat(selD);
-        if (tmp != null) {
+        Dok tmp = null;
+        tmp = dokDAO.znajdzDuplikat(selD);
+        if (tmp instanceof Dok) {
             String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
-            FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
-            RequestContext.getCurrentInstance().update("messageserror");
+            Msg.msg("e", wiadomosc);
             throw new Exception();
         } else {
             System.out.println("Nie znaleziono duplikatu");
         }
     }
     
-     public void sprawdzCzyNieDuplikatwtrakcie() {
-        try {
-            Dok selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
-            if (selD!=null){
-                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, wiadomosc, null);
-                FacesContext.getCurrentInstance().addMessage("wprowadzenieNowego", msg);
-                RequestContext.getCurrentInstance().update("messageserror");
-                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
-            }
-        } catch (Exception e) {
-            System.out.println("Nie znaleziono duplikatu");
-        }
+     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
+//        try {
+//            Dok selD = null;
+//            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
+//            if (selD instanceof Dok){
+//                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
+//                Msg.msg("e", wiadomosc);
+//                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
+//            } else {
+//                System.out.println("Nie znaleziono duplikatu");
+//            }
+//        } catch (Exception e) {
+//            Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
+//        }
     }
     
 
