@@ -1128,8 +1128,7 @@ public class DokView implements Serializable {
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 0;
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nowy dokument zachowany" + selDokument, null);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Msg.msg("i", "Nowy dokument zachowany" + selDokument);
                 /**
                  * resetowanie pola do wpisywania kwoty netto
                  */
@@ -1139,8 +1138,7 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Dokument nie został zaksiegowany "+ e.getMessage() + " " + e.getStackTrace().toString(), null);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany "+ e.getMessage() + " " + e.getStackTrace().toString());
         }
         //robienie srodkow trwalych
         if (stawkaKST != null) {
@@ -1532,10 +1530,7 @@ public class DokView implements Serializable {
 
     public void ustawDate2() {
         if (liczbawierszy < 1) {
-            KwotaKolumna nowa = new KwotaKolumna();
-            nowa.setNetto(0.0);
-            nowa.setNazwakolumny("");
-            nettokolumna.add(nowa);
+            nettokolumna.add(new KwotaKolumna());
             RequestContext.getCurrentInstance().update("dodWiad:panel");
             liczbawierszy++;
         }

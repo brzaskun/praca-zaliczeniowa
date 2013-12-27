@@ -21,6 +21,12 @@ public class KwotaKolumna implements Serializable{
     private String nazwakolumny;
     private String dowykorzystania;
 
+    public KwotaKolumna() {
+        this.netto = 0.0;
+        this.nazwakolumny = "";
+    }
+
+    
     public Double getNetto() {
         return netto;
     }

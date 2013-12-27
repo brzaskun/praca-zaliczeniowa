@@ -82,7 +82,6 @@ public class Dok implements Serializable {
     private int nrWpkpir;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "nr_wl_dk")
     private String nrWlDk;
     @Basic(optional = false)
