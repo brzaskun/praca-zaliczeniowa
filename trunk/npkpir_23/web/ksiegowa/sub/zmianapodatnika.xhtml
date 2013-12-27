@@ -12,7 +12,7 @@
             <h:outputLabel value="#{mgs.rok}"/>
             <h:outputLabel value="#{mgs.mc}"/>
             <h:outputLabel value=""/>
-            <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;">
+            <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 150px;" height="700">
                 <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                 <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki"/>
             </p:selectOneMenu>
@@ -20,7 +20,7 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
                 <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki" />
             </p:selectOneMenu>
-            <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+            <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" height="280">
                 <f:selectItems value="#{Mce.mceList}"/>
                 <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa:, :form:, :linki"/>
             </p:selectOneMenu>
