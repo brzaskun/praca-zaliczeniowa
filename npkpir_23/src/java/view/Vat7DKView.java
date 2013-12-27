@@ -392,9 +392,12 @@ public class Vat7DKView implements Serializable {
             if(wpisView.getPodatnikObiekt().getVatokres().get(wpisView.getPodatnikObiekt().getVatokres().size()-1).getParametr().equals("kwartalne")){
                 oilesiecofnac = 3;
             }
-            if (mc.equals("01")) {
+            if (mc.equals("01") && oilesiecofnac == 1) {
                 mcX = "12";
-                rokX = String.valueOf(Integer.parseInt(rok) - oilesiecofnac);
+                rokX = String.valueOf(Integer.parseInt(rok) - 1);
+            } else if (mc.equals("03") && oilesiecofnac == 3) {
+                mcX = "12";
+                rokX = String.valueOf(Integer.parseInt(rok) - 1);
             } else {
                 Integer tmp = Integer.parseInt(mc);
                 tmp = tmp - oilesiecofnac;
