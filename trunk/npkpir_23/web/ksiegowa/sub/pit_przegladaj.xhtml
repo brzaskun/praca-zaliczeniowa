@@ -1,0 +1,100 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <p:tab id="tab1" title="Przeglądaj PIT" rendered="#{infoView.ryczaltnieryczalt eq 'Firma aktuanie jest na ryczałcie' ? false : true}" >
+        <p:panelGrid columns="4" style="width: 700px">
+            <h:form id="formpi" style="width: 500px" >
+
+                <p:growl id="messages" autoUpdate="true"/>
+
+                <p:panel header="wprowadzone PIT-y: " /><br/>
+
+                <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" >
+                    <p:ajax event="rowSelect" update=":akordeon:formpi2:zestawieniepitview" global="false" listener="#{pitView.wybranopit}"/>
+                    <p:column headerText="okres rozliczeniowy: ">
+                        <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
+                    </p:column>
+                    <p:column headerText="udzialowiec: ">
+                        <h:outputText value="#{loop.udzialowiec}"/>
+                    </p:column>
+                    <p:column headerText="wynik: ">
+                        <h:outputText value="#{loop.wynik}" style="padding-left: 20%; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="należna zaliczka: ">
+                        <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="usun pit"  actionListener="#{pitView.usun()}" update=":akordeon:formpi:tablicapit" style="width: 120px; margin-top: 2%;"/>
+            </h:form>
+            <h:form id="formpi2">
+                <p:panel header="przegląd wybranego PIT-u" style="margin-left: 50px;width: 350px"/><br/>
+                <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
+                    <h:outputText value="firma"/><h:outputText value="#{pitView.biezacyPit.podatnik}"/>
+                    <h:outputText value="podatnik"/><h:outputText value="#{pitView.biezacyPit.udzialowiec}"/> 
+                    <h:outputText value="pkpirR"/><h:outputText value="#{pitView.biezacyPit.pkpirR}"/>
+                    <h:outputText value="pkpirM"/><h:outputText value="#{pitView.biezacyPit.pkpirM}"/>
+                    <h:outputText value="przychody narast."/>
+                    <h:outputText value="#{pitView.biezacyPit.przychody}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="koszty narast."/>
+                    <h:outputText value="#{pitView.biezacyPit.koszty}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="udział"/><h:outputText value="#{pitView.biezacyPit.udzial}%" style="padding-left: 20%; font-weight: 700; float: right;"/>
+                    <h:outputText value="przychody udział"/>
+                    <h:outputText value="#{pitView.biezacyPit.przychodyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="koszty udział"/>
+                    <h:outputText value="#{pitView.biezacyPit.kosztyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="wynik od pocz. rok"/>
+                    <h:outputText value="#{pitView.biezacyPit.wynik}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="ZUS 51"/>
+                    <h:outputText value="#{pitView.biezacyPit.zus51}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="strata z lat ub"/>
+                    <h:outputText value="#{pitView.biezacyPit.strata}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="podstawa opod."/>
+                    <h:outputText value="#{pitView.biezacyPit.podstawa}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="podatek"/>
+                    <h:outputText value="#{pitView.biezacyPit.podatek}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="ZUS 52"/>
+                    <h:outputText value="#{pitView.biezacyPit.zus52}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="podatek należny od pocz rok"/>
+                    <h:outputText value="#{pitView.biezacyPit.pododpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="zaliczki za pop.m-ce"/>
+                    <h:outputText value="#{pitView.biezacyPit.nalzalodpoczrok}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="należna zal. za m-c"/>
+                    <h:outputText value="#{pitView.biezacyPit.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="do zapłaty"/>
+                    <h:outputText value="#{pitView.biezacyPit.dozaplaty}" style="padding-left: 20%; font-weight: 700; float: right;">
+                        <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="termin płatności"/><h:outputText value="#{pitView.biezacyPit.terminwplaty}"/>
+                    <h:outputText value="przelano"/><h:outputText value="#{pitView.biezacyPit.przelano}"/>
+                    <h:outputText value="zamknięty"/><h:outputText value="#{pitView.biezacyPit.zamkniety}"/>
+
+                </p:panelGrid>
+                <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
+                    <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukujarch()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#akordeon\\:formpi2\\:pitwysylka').show();" style="width: 150px;">
+                    </p:commandButton>
+                    <p:commandButton id="pitwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none; width: 150px;"/>
+                </p:panelGrid>
+            </h:form>
+        </p:panelGrid>
+    </p:tab>
+</ui:composition>   
+
+
+
