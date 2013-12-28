@@ -22,7 +22,7 @@
                         <h:outputText value="#{loop.udzialowiec}"/>
                     </p:column>
                     <p:column headerText="wynik: ">
-                        <h:outputText value="#{loop.wynik}" style="padding-left: 20%; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                        <h:outputText value="#{loop.wynik}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                     </p:column>
                     <p:column headerText="należna zaliczka: ">
                         <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
