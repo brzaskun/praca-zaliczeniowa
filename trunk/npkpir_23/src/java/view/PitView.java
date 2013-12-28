@@ -36,7 +36,6 @@ public class PitView implements Serializable {
     public PitView() {
         lista = new ArrayList<>();
         biezacyPit = new Pitpoz();
-       
     }
     
     public void wybranopit() {
