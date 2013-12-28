@@ -39,6 +39,9 @@ public class PitView implements Serializable {
        
     }
     
+    public void wybranopit() {
+        Msg.msg("i", String.format("Wybrano PIT za %s/%s", biezacyPit.getPkpirR(), biezacyPit.getPkpirM()));
+    }
     
     
     @PostConstruct
