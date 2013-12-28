@@ -40,7 +40,7 @@
                             <h:form id="form">
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                             </h:form>
-                            <p:panel style="width: 1000px">
+                            <p:panel style="width: 1000px" >
                                 <h:form>
                                     <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":form:messages" global="false" style="width: 150px;"/>  
                                     <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="Skopiuj" update=":form:messages" global="false" accesskey="q" style="width: 150px; margin-left: 10px;"/>  
