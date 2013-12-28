@@ -138,8 +138,16 @@
             <to-view-id>/ksiegowa/ksiegowaZestawienieRok.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
-            <from-outcome>pity</from-outcome>
-            <to-view-id>/ksiegowa/ksiegowaPit.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>pitprzegladaj</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPitprzegladaj.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>pitoblicz</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPitoblicz.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pit36</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPit36.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>vaty</from-outcome>
