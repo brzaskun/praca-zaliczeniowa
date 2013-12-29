@@ -29,6 +29,15 @@ public class SesjaDAO extends DAO implements Serializable {
             return null;
         }
    }
+   
+   public  List<Sesja> findUser(String user){
+        try {
+            System.out.println("Pobieram SesjaDAO wg usera");
+            return sesjaFacade.findUser(user);
+        } catch (Exception e) {
+            return null;
+        }
+   }
     
    public Sesja find(String nrsesji){
        try{

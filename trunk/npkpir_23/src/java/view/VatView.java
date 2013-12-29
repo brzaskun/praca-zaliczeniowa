@@ -33,6 +33,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
 
@@ -60,7 +61,7 @@ public class VatView implements Serializable {
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     private List<EVatViewPola> goscwybral;
-     private List<EVatwpisSuma> goscwybralsuma;
+    private static List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
     private List<EVatwpisSuma> sumydowyswietlenia;
     private Double suma1;
@@ -270,7 +271,7 @@ public class VatView implements Serializable {
          suma2 += p.getVat().doubleValue();
          }
          suma3 = suma1+suma2;
-         
+         Msg.msg("i","Sumuję ewidencje vat");
      }
      
      public void sumujwybrane1(){
@@ -284,6 +285,7 @@ public class VatView implements Serializable {
          suma3 = suma1+suma2;
      }
      
+      
       public void odsumujwybrane1(UnselectEvent event){
          EVatViewPola p = (EVatViewPola) event.getObject();
          suma1 -= p.getNetto();

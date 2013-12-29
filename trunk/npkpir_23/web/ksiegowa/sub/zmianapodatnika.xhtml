@@ -27,6 +27,14 @@
             <p:messages id="messages"/>
         </p:panelGrid>
     </p:panel>
+    <p:panel menuTitle="Statystyka:" header="Statystyka użytkownika o loginie - #{WpisView.wprowadzil.login}" style="width: 1200px; height: 120px; margin-top: 3%;">
+        <p:panelGrid columns="1">
+        <h:outputText value="ilość dotychczasowych logowań: #{statisticView.iloscsesji}"/>
+        <h:outputText value="ilość zaksięgowanych dokumentów: #{statisticView.iloscdokumentow}"/>
+        <h:outputText value="ilość wydrukowanych dokumentów: #{statisticView.iloscwydrukow}"/>
+        <h:outputText value="czas pracy z programem #{statisticView.spedzonyczas}"/>
+        </p:panelGrid>
+    </p:panel>
 
 </ui:composition>   
 

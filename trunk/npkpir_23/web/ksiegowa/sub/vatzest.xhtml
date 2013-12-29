@@ -9,13 +9,7 @@
 
     <f:event type="preRenderView" listener="#{pdfVAT.drukujewidencje()}"/>
     <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
-    <h:form>
-        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
-            <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
-            <f:facet name="success"><h:outputText value="" /></f:facet>
-            <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
-        </p:ajaxStatus>
-    </h:form>
+   
     <p:outputPanel>
     <p:panel header="firma nievatowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
     <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
@@ -43,7 +37,7 @@
                              >
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
-                        <p:inputText id="globalFilter" onkeyup="dokTable#{numer.index}.filter()" style="width:150px" />  
+                        <p:inputText id="globalFilter" onkeyup="(dokTable#{numer.index}).filter()" style="width:150px" />  
                     </f:facet>
                     <p:column selectionMode="multiple" width="40"/>
                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
@@ -67,12 +61,12 @@
                         <h:outputText value="#{itemik.opis}"/>
                     </p:column>
                     <p:column headerText="netto" width="110" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
-                        <h:outputText value="#{itemik.netto}" style="float: right;">
+                        <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="vat" width="110" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
-                        <h:outputText value="#{itemik.vat}" style="float: right;">
+                        <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -97,12 +91,15 @@
                 </h:outputText><br/>
             </p:panel>
             <p:dataTable value="#{vatView.sumydowyswietlenia}" var="itemik" scrollable="true" scrollHeight="200" scrollRows="4" 
-                         liveResize="true" selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" 
-                         selectionMode="multiple">
+                         selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 800px;"
+                         >
                 <f:facet name="header">
                     <h:outputText value="zestawienie ewidencji vat"/>
                 </f:facet>
-                <p:ajax event="rowSelect" listener="#{vatView.sumujwybrane()}" update=":form:akorderonbis:sumysum"/>
+                <p:column selectionMode="multiple" width="50"></p:column>
+                <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                <p:ajax event="toggleSelect" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
                 <p:column headerText="nazwa ewidencji" width="200">
                     <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                 </p:column>

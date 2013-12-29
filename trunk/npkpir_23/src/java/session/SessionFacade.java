@@ -615,6 +615,10 @@ public class SessionFacade<T> {
         }
     }
 
+    public List<Sesja> findUser(String user) {
+        return em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
+    }
+
       
   
   
