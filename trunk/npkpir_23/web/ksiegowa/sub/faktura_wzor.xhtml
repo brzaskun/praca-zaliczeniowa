@@ -37,7 +37,7 @@
                 });
             </script>
             <div style="background-color: #6374AB; height: 1672px; width: 1168px;">
-                <p:panel id="odbiorca" style="width: 380px; height: 160px;"  >  
+                <p:panel id="odbiorca" style="width: 480px; height: 160px;"  >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Odbiorca: " style="font-size: larger;"/><br/>
                         <h:outputText value="Jan Kowalski " /><br/>
@@ -48,7 +48,7 @@
                     </p:panelGrid>
                 </p:panel>  
                 <p:draggable for="odbiorca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
-                <p:panel id="wystawca" style="width: 380px; height: 160px;">  
+                <p:panel id="wystawca" style="width: 480px; height: 160px;">  
                     <p:panelGrid columns="2">
                         <h:outputText value="Wystawca: " style="font-size: larger"/><br/>
                         <h:outputText value="Bober Mizialski"/><br/>
@@ -124,7 +124,7 @@
                     </p:panelGrid>
                     <p:draggable for="przewłaszczenie" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                <p:panel id="warunkidostawy" style="width: 450px;" rendered="#{fakturadodelementyView.fakturadodelementy.get(1).getAktywny()}" >  
+                <p:panel id="warunkidostawy" style="width: 650px;" rendered="#{fakturadodelementyView.fakturadodelementy.get(1).getAktywny()}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.fakturadodelementy.get(1).getTrescelementu()}" />
                     </p:panelGrid>

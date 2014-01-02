@@ -163,7 +163,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "akordeon:formwzor:wystawca" :
                         //Dane do modulu sprzedawca
                         pobrane = zwrocpozycje(lista, "wystawca");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:wystawca")-65,190,80);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:wystawca")-65,250,80);
                         absText(writer,"Sprzedawca:", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
                         absText(writer,selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:wystawca")-20, 8);
                         adres = selected.getWystawca().getAdresdlafaktury();
@@ -173,7 +173,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                      case "akordeon:formwzor:odbiorca" :
                         //Dane do modulu odbiorca
                         pobrane = zwrocpozycje(lista, "odbiorca");
-                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:odbiorca")-65,190,80);
+                        prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:odbiorca")-65,250,80);
                         absText(writer,"Nabywca:", (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
                         absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:odbiorca")-20, 8);
                         adres = selected.getKontrahent().getKodpocztowy()+" "+selected.getKontrahent().getMiejscowosc()+" "+selected.getKontrahent().getUlica()+" "+selected.getKontrahent().getDom();
@@ -222,7 +222,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                          //Dane do modulu przewłaszczenie
                         if(fdod.get(1).getAktywny()){
                             pobrane = zwrocpozycje(lista, "warunkidostawy");
-                            prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:warunkidostawy")-5,230,15);
+                            prost(writer.getDirectContent(),(int) (pobrane.getLewy()/dzielnik)-5,wymiary.get("akordeon:formwzor:warunkidostawy")-5,360,15);
                             absText(writer,fdod.get(1).getTrescelementu(), (int) (pobrane.getLewy()/dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
                         }
                         break;
