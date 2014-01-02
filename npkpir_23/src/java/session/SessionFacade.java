@@ -442,6 +442,9 @@ public class SessionFacade<T> {
     public List<Fakturywystokresowe> findPodatnikFaktury(String podatnik) {
         return em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+    public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
+        return em.createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
 
     public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik) {
         return em.createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -464,8 +467,8 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
 }
 
-    public Fakturywystokresowe findOkresowa(Double brutto, String klientnip, String nazwapelna) {
-        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("brutto", brutto).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
+    public Fakturywystokresowe findOkresowa(Double brutto, String rok, String klientnip, String nazwapelna) {
+        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("brutto", brutto).setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
     }
 
     public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {

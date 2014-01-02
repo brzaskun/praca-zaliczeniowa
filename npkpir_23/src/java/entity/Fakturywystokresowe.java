@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,15 +25,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", uniqueConstraints = {@UniqueConstraint(columnNames={"podatnik","rok","nipodbiorcy"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Fakturywystokresowe.findAll", query = "SELECT f FROM Fakturywystokresowe f"),
     @NamedQuery(name = "Fakturywystokresowe.findById", query = "SELECT f FROM Fakturywystokresowe f WHERE f.id = :id"),
     @NamedQuery(name = "Fakturywystokresowe.findByPodatnik", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByRok", query = "SELECT f FROM Fakturywystokresowe f WHERE f.rok = :rok"),
+    @NamedQuery(name = "Fakturywystokresowe.findByPodatnikRok", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik AND f.rok = :rok"),
     @NamedQuery(name = "Fakturywystokresowe.findByNipodbiorcy", query = "SELECT f FROM Fakturywystokresowe f WHERE f.nipodbiorcy = :nipodbiorcy"),
     @NamedQuery(name = "Fakturywystokresowe.findByBrutto", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto"),
-    @NamedQuery(name = "Fakturywystokresowe.findByOkresowa", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto AND f.nipodbiorcy = :nipodbiorcy AND f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturywystokresowe.findByOkresowa", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto AND f.rok = :rok AND f.nipodbiorcy = :nipodbiorcy AND f.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturywystokresowe.findByM1", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m1 > 0 and f.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturywystokresowe.findByM2", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m2 > 0 and f.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturywystokresowe.findByM3", query = "SELECT f FROM Fakturywystokresowe f WHERE f.m3 > 0 and f.podatnik = :podatnik"),
@@ -58,6 +61,9 @@ public class Fakturywystokresowe implements Serializable {
     @Size(min = 1, max = 200)
     @Column(nullable = false, length = 200)
     private String podatnik;
+    @Size(max = 4)
+    @Column(length = 4)
+    private String rok;
     @Size(max = 16)
     @Column(length = 16)
     private String nipodbiorcy;
@@ -125,9 +131,10 @@ public class Fakturywystokresowe implements Serializable {
         this.id = id;
     }
 
-    public Fakturywystokresowe(Integer id, String podatnik, Faktura dokument, int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int m10, int m11, int m12) {
+    public Fakturywystokresowe(Integer id, String podatnik, String rok, Faktura dokument, int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int m10, int m11, int m12) {
         this.id = id;
         this.podatnik = podatnik;
+        this.rok = rok;
         this.dokument = dokument;
         this.m1 = m1;
         this.m2 = m2;
@@ -159,6 +166,15 @@ public class Fakturywystokresowe implements Serializable {
         this.podatnik = podatnik;
     }
 
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    
     public String getNipodbiorcy() {
         return nipodbiorcy;
     }
