@@ -7,6 +7,7 @@ package viewfk;
 import comparator.Kontozapisycomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
+import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
 import java.io.Serializable;
@@ -40,6 +41,7 @@ public class KontoObrotyFKView implements Serializable{
     private Double saldoWn;
     private Double saldoMa;
     List<ObrotykontaTabela> lista;
+    @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     
 
     public KontoObrotyFKView() {
@@ -50,6 +52,10 @@ public class KontoObrotyFKView implements Serializable{
     
     @PostConstruct
     private void init(){
+    }
+     public void pobierzZapisyNaKoncieNode() {
+        wybranekonto = (Konto) wybranekontoNode.getData();
+        pobierzZapisyNaKoncie();
     }
     
       public void pobierzZapisyNaKoncie() {
@@ -181,6 +187,14 @@ public class KontoObrotyFKView implements Serializable{
     
     public void setKontozapisy(List<Kontozapisy> kontozapisy) {
         this.kontozapisy = kontozapisy;
+    }
+
+    public TreeNodeExtended<Konto> getWybranekontoNode() {
+        return wybranekontoNode;
+    }
+
+    public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
+        this.wybranekontoNode = wybranekontoNode;
     }
     
     public KontoZapisyFKDAO getKontoZapisyFKDAO() {
