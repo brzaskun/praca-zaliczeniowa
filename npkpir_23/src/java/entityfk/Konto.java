@@ -101,6 +101,10 @@ public class Konto implements Serializable {
     private String macierzyste;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "macierzysty")
+    private int macierzysty;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "pelnynumer")
     private String pelnynumer;
@@ -172,6 +176,10 @@ public class Konto implements Serializable {
     public int getAnalityka() {
         return analityka;
     }
+    
+    public int getLevel() {
+        return analityka;
+    }
 
     public void setAnalityka(int analityka) {
         this.analityka = analityka;
@@ -221,6 +229,15 @@ public class Konto implements Serializable {
         return macierzyste;
     }
 
+    public int getMacierzysty() {
+        return macierzysty;
+    }
+
+    public void setMacierzysty(int macierzysty) {
+        this.macierzysty = macierzysty;
+    }
+  
+
     public void setMacierzyste(String macierzyste) {
         this.macierzyste = macierzyste;
     }
@@ -248,6 +265,11 @@ public class Konto implements Serializable {
     public void setRozwin(boolean rozwin) {
         this.rozwin = rozwin;
     }
+    
+    public Integer getLp() {
+        return this.id;
+    }
+    
     
     @XmlTransient
     public List<Rozrachunekfk> getRozrachunekfkList() {

@@ -44,6 +44,7 @@ public class PozycjaRZiSView implements Serializable {
     @PostConstruct
     private void init() {
         ArrayList<PozycjaRZiS> pozycje = new ArrayList<>();
+        //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", true));
         pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", true, 100.0));
         pozycje.add(new PozycjaRZiS(3, "A.I", "II", 1, 1, "Zmiana stanu produktów", true, 200.0));
@@ -68,6 +69,7 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 200.0));
         pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 250.0));
         pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", true, "C+D-E"));
+        //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
         root.createTreeNodesForElement(pozycje);
         root.sumNodes();
         root.resolveFormulas();
