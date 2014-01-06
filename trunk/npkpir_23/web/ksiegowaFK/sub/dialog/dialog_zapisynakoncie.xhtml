@@ -27,20 +27,21 @@
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia" />
             </p:layoutUnit>  
 
-            <p:layoutUnit position="west" size="340">
+            <p:layoutUnit position="west" size="350">
                 <p:panelGrid columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
                 <h:form id="form">
-                    <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}"
+                    <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="checkbox" selection="#{kontoZapisFKView.wybranekontoNode}"
                                  >
                         <p:ajax event="select" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
-                      
-                        <p:column headerText="nr konta" style="width: 210px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                        <p:ajax event="unselect" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                        
+                        <p:column headerText="nr konta" style="width: 240px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
-                        <p:column headerText="nazwa pełna" style="width: 130px;">
+                        <p:column headerText="nazwa pełna" style="width: 100px;">
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
                     </p:treeTable>>

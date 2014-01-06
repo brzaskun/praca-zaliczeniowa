@@ -29,6 +29,8 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.NodeUnselectEvent;
 
 /**
  *
@@ -64,9 +66,14 @@ public class KontoZapisFKView implements Serializable{
     private void init(){
     }
     
-    public void pobierzZapisyNaKoncieNode() {
-        wybranekonto = (Konto) wybranekontoNode.getData();
+    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
+        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
+        wybranekonto = (Konto) node.getData();
         pobierzZapisyNaKoncie();
+    }
+     
+    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
+        kontozapisy.clear();
     }
     
       public void pobierzZapisyNaKoncie() {

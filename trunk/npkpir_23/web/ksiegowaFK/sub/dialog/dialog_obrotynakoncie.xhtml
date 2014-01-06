@@ -26,19 +26,20 @@
                 </h:form>
             </p:layoutUnit>  
            
-            <p:layoutUnit position="west" size="340">
+            <p:layoutUnit position="west" size="350">
                  <p:panelGrid columns="2" >
                 <p:commandButton id="rozwinwszobroty" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":formobroty:dataListObroty" style="float: left;" />
                 <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formobroty:dataListObroty" style="float: left;" />
             </p:panelGrid>
                 <h:form id="formobroty">
-                    <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoObrotyFKView.wybranekontoNode}" 
+                    <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="checkbox" selection="#{kontoObrotyFKView.wybranekontoNode}"  
                                   >
                         <p:ajax event="select" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
-                        <p:column headerText="nr konta" style="width: 210px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                        <p:ajax event="unselect" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                        <p:column headerText="nr konta" style="width: 240px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
-                        <p:column headerText="nazwa pełna" style="width: 130px;">
+                        <p:column headerText="nazwa pełna" style="width: 100px;">
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
                     </p:treeTable>>
