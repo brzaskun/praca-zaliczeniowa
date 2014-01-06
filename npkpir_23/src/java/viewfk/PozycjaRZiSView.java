@@ -35,15 +35,16 @@ public class PozycjaRZiSView implements Serializable {
     private TreeNode[] selectedNodes;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
+    private static ArrayList<PozycjaRZiS> pozycje;
 
     public PozycjaRZiSView() {
         this.root = new TreeNodeExtended("root", null);
         this.finallNodes = new ArrayList<TreeNodeExtended>();
+        pozycje = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
-        ArrayList<PozycjaRZiS> pozycje = new ArrayList<>();
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", true));
         pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", true, 100.0));
@@ -76,7 +77,13 @@ public class PozycjaRZiSView implements Serializable {
         root.expandAll();
     }
 
-   
+    public void rozwinwszystkie(){
+        root.expandAll();
+    }  
+    
+    public void zwinwszystkie(){
+        root.foldAll();
+    }    
 
         
    

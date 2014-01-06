@@ -29,8 +29,8 @@
                     }
             </script>
              <p:panelGrid columns="2" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie()}" update=":formprzeglad:dataList" style="float: left;" />
+                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":formprzeglad:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaRZiSView.selectedNodes}" 

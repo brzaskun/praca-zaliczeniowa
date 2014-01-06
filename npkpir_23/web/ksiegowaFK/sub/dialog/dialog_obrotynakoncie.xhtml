@@ -32,21 +32,16 @@
                 <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formobroty:dataListObroty" style="float: left;" />
             </p:panelGrid>
                 <h:form id="formobroty">
-                    <p:dataTable id="dataListObroty" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{kontoObrotyFKView.wybranekonto}" rowKey="#{loop.id}"
-                                 sortBy="#{loop.pelnynumer}" >
-                        <p:ajax event="rowSelect" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" />
-                        <p:column>
-                            <p:commandButton value="+" actionListener="#{planKontView.rozwinkonto(loop.pelnynumer)}" update=":formobroty:dataListObroty" rendered="#{(loop.rozwin eq false)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
-                            <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":formobroty:dataListObroty" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
-                            <p:commandButton value="" update=":formobroty:dataListObroty" rendered="#{loop.mapotomkow eq false}" style="width: 25px; height: 25px;"/>
-                        </p:column>
-                        <p:column headerText="nr konta" style="width: 180px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                    <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoObrotyFKView.wybranekontoNode}" 
+                                  >
+                        <p:ajax event="select" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
+                        <p:column headerText="nr konta" style="width: 210px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
-                        <p:column headerText="nazwa pełna" style="width: 250px;">
+                        <p:column headerText="nazwa pełna" style="width: 130px;">
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
-                    </p:dataTable>
+                    </p:treeTable>>
                 </h:form>
             </p:layoutUnit>  
 <!--            <p:layoutUnit position="east" size="200">  
