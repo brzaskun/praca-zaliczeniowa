@@ -4,11 +4,19 @@
  */
 package embeddablefk;
 
+import comparator.Kontocomparator;
+import entityfk.Konto;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -36,6 +44,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         for (int i = 0; i < depth; i++) {
             ArrayList<TreeNodeExtended> nowe = new ArrayList<>();
             ArrayList<T> biezaca = rzedy.get(String.valueOf(i));
+            uporzadkujbiezaca(biezaca);
             for (T p : biezaca) {
                 if (i == 0) {
                     TreeNodeExtended tmp = new TreeNodeExtended(p, this);
@@ -44,8 +53,18 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     Iterator it = poprzednie.iterator();
                     while (it.hasNext()) {
                         TreeNodeExtended r = (TreeNodeExtended) it.next();
-                        PozycjaRZiS parent = (PozycjaRZiS) r.getData();
-                        if (parent.getLp() == ((PozycjaRZiS) p).getMacierzysty()) {
+                        T parent = (T) r.getData();
+                        int lp = 0;
+                        int macierzysty = 0;
+                        try {
+                            Method method = parent.getClass().getMethod("getLp");
+                            lp = (int) method.invoke(parent);
+                            method = p.getClass().getMethod("getMacierzysty");
+                            macierzysty =  (int) method.invoke(p);
+                        } catch (Exception ex) {
+                           Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (lp == macierzysty) {
                             TreeNodeExtended tmp = new TreeNodeExtended(p, r);
                             nowe.add(tmp);
                         }
@@ -59,28 +78,43 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
     //przeksztalca tresc tabeli w elementy do drzewa
-    private <T> Map<String, ArrayList<T>> getElementTreeFromPlainList(ArrayList<T> pozycje, int depth) {
+    private Map<String, ArrayList<T>> getElementTreeFromPlainList(ArrayList<T> pozycje, int depth) {
         Map<String, ArrayList<T>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
         for (int i = 0; i < depth; i++) {
-            ArrayList<PozycjaRZiS> values = new ArrayList<>();
+            ArrayList<T> values = new ArrayList<>();
             for (T s : pozycje) {
-                if (((PozycjaRZiS) s).getLevel() == i) {
-                    values.add((PozycjaRZiS) s);
+                int level = 0;
+                try {
+                    Method method = s.getClass().getMethod("getLevel");
+                    level = (int) method.invoke(s);
+                } catch (Exception ex) {
+                    Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (level == i) {
+                    values.add(s);
                 }
             }
             if (values.size()>0) {
-                rzedy.put(String.valueOf(i), (ArrayList<T>) values);
+                rzedy.put(String.valueOf(i),  values);
             }
         }
         return rzedy;
     }
     
+       
     private int ustaldepthDT(ArrayList<T> pozycje) {
         int depth = 0;
+        int pobranawartosc = 0;
         for (T  p : pozycje) {
-            if (depth < ((PozycjaRZiS) p).getLevel()) {
-                depth = ((PozycjaRZiS) p).getLevel();
+            try {
+               Method method = p.getClass().getMethod("getLevel");
+               pobranawartosc = (int) method.invoke(p);
+        } catch (Exception ex) {
+           Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            if (depth < pobranawartosc) {
+                depth = pobranawartosc;
             }
         }
         return depth+1;
@@ -146,6 +180,15 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
         }
     }
+     public void foldAll() {
+        boolean madzieci = this.getChildren().size() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : this.getChildren()) {
+                o.setExpanded(false);
+                ((TreeNodeExtended) o).expandAll();
+            }
+        }
+    }
 
     public void resolveFormulas() {
         ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
@@ -200,5 +243,18 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
         }
         return null;
+    }
+
+    public void reset() {
+         this.getChildren().clear();
+    }
+
+    private void uporzadkujbiezaca(ArrayList<T> biezaca) {
+        if (biezaca.size() > 0) {
+            Object pobrany = biezaca.get(0);
+            if (pobrany.getClass().getSimpleName().equals("Konto")) {
+                Collections.sort((ArrayList<Konto>) biezaca, new Kontocomparator());
+            }
+        }
     }
 }

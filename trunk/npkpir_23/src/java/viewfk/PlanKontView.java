@@ -4,12 +4,11 @@
  */
 package viewfk;
 
-import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
+import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -34,86 +33,49 @@ public class PlanKontView implements Serializable{
     @Inject private Konto selected;
     @Inject private Konto nowe;
     @Inject private KontoDAOfk kontoDAO;
+    private TreeNodeExtended<Konto> root;
+    private TreeNodeExtended<Konto> selectednode;
 
     public PlanKontView() {
         this.wykazkont = new ArrayList<>();
+        this.root = new TreeNodeExtended("root", null);
     }
 
     @PostConstruct
     private void init(){
-     wykazkontanalityczne = kontoDAO.findAll();
-     for(Konto p : wykazkontanalityczne){
-            p.setRozwin(false);
-            kontoDAO.edit(p);
+        getNodes();
+        wykazkontS = kontoDAO.findAll();
+        opiskonta="";
+        pelnynumerkonta="";
+        for(Konto t : wykazkontS){
+            opiskonta = opiskonta+t.getNazwaskrocona()+",";
+            pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
         }
-     wykazkontS = kontoDAO.findAll();
-     opiskonta="";
-     pelnynumerkonta="";
-     for(Konto t : wykazkontS){
-         opiskonta = opiskonta+t.getNazwaskrocona()+",";
-         pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
-     }
-     //wyszukujemy syntetyczne
-     Collections.sort(wykazkontanalityczne, new Kontocomparator());
-     for(Konto p : wykazkontanalityczne){
-         if(p.getSyntetyczne().equals("syntetyczne")){
-            wykazkont.add(p);
-         } 
-     }
-     Collections.sort(wykazkont, new Kontocomparator());
     }
     
+    private void getNodes(){
+        this.root = new TreeNodeExtended("root", null);
+        ArrayList<Konto> kontadlanodes = new ArrayList<>();
+        kontadlanodes.addAll(kontoDAO.findAll());
+        root.createTreeNodesForElement(kontadlanodes);
+    }
        
-    private void przebuduj(Konto macierzyste){
-     List<Konto> wykazkonttmp = kontoDAO.findAll();
-     //wyszukujemy syntetyczne
-     //Collections.sort(wykazkonttmp, new Kontocomparator());
-     wykazkont.clear();
-     List<String> rozwiniete = new ArrayList<>();
-     for(Konto p : wykazkonttmp){
-         if(p.getSyntetyczne().equals("syntetyczne")){
-            wykazkont.add(p);
-         }
-         if(p.getRozwin()==true){
-            rozwiniete.add(p.getPelnynumer());
-         }
-         if(rozwiniete.contains(p.getMacierzyste())) {
-            wykazkont.add(p);
-         }
-     }
-     Collections.sort(wykazkont, new Kontocomparator());
-    }
-    
+        
     public void rozwinwszystkie(){
-     wykazkont.clear();
-     List<Konto> wykazkonttmp = kontoDAO.findAll();
-     //wyszukujemy syntetyczne
-     //Collections.sort(wykazkonttmp, new Kontocomparator());
-     for(Konto p : wykazkonttmp){
-            p.setRozwin(true);
-            wykazkont.add(p);
-     }
-     Collections.sort(wykazkont, new Kontocomparator());
+        getNodes();
+        root.expandAll();
     }  
     
     public void zwinwszystkie(){
-     wykazkont.clear();
-     List<Konto> wykazkonttmp = kontoDAO.findAll();
-     //wyszukujemy syntetyczne
-     Collections.sort(wykazkonttmp, new Kontocomparator());
-     for(Konto p : wykazkonttmp){
-            p.setRozwin(false);
-            if(p.getSyntetyczne().equals("syntetyczne")){
-            wykazkont.add(p);
-         } 
-     }
-     Collections.sort(wykazkont, new Kontocomparator());
+        getNodes();
+        root.foldAll();
     }    
     
   
 
     
     public void dodaj(){
+        Konto selected = (Konto) selectednode.getData();
         if(nowe.getBilansowewynikowe()!=null){
             nowe.setSyntetyczne("syntetyczne");
         } else {
@@ -136,15 +98,17 @@ public class PlanKontView implements Serializable{
         nowe.setPodatnik("Testowy");
         //dla syntetycznego informacja jest pusta a dla analitycznego bierzekonto
         if(nowe.getSyntetyczne().equals("syntetyczne")){
-            nowe.setMacierzyste("");
+            nowe.setMacierzyste("0");
         } else {
             nowe.setMacierzyste(selected.getPelnynumer());
+            nowe.setMacierzysty(selected.getLp());
             //zaznacza w macierzystym ze sa potomkowie
             selected.setMapotomkow(true);
             kontoDAO.edit(selected);
         }
-        if(nowe.getMacierzyste().equals("")){
+        if(nowe.getMacierzyste().equals("0")){
             nowe.setAnalityka(0);
+            nowe.setMacierzysty(0);
         } else {
             int i = 1;
             i += StringUtils.countMatches(nowe.getMacierzyste(), "-");
@@ -154,15 +118,22 @@ public class PlanKontView implements Serializable{
         obliczpelnynumerkonta();
         if(znajdzduplikat()==0){
         kontoDAO.dodaj(nowe);
-        wykazkont.add(nowe);
         nowe = new Konto();
-        Collections.sort(wykazkont, new Kontocomparator());
+        odswiezroot();
+        //tu trzeba zrobic zeby dodawac do istniejacych
         Msg.msg("i", "Dodaje konto","formX:messages");
         } else {
             Msg.msg("e", "Konto o takim numerze juz istnieje!","formX:messages");
             nowe = new Konto();
         }
     };
+    
+    private void odswiezroot() {
+        ArrayList<Konto> kontadlanodes = new ArrayList<>();
+        kontadlanodes.addAll(kontoDAO.findAll());
+        root.reset();
+        root.createTreeNodesForElement(kontadlanodes);
+    }
      private int znajdzduplikat() {
             if(wykazkont.contains(nowe)){
             return 1;
@@ -178,9 +149,9 @@ public class PlanKontView implements Serializable{
         }
     }
     public void usun(){
-        if(selected!=null){
-            kontoDAO.destroy(selected);
-            wykazkont.remove(selected);
+        if(selectednode!=null){
+            kontoDAO.destroy(selectednode.getData());
+            root.getChildren().remove(selectednode);
             Msg.msg("i", "Usuwam konto","formX:messages");
         } else {
             Msg.msg("e", "Nie wybrano konta","formX:messages");
@@ -214,35 +185,15 @@ public class PlanKontView implements Serializable{
     }
      
     
-     
-     
-    public void rozwinkonto(String numer){
-        Konto sel = kontoDAO.findKonto(numer);
-         if(sel!=null&&sel.getRozwin()==false){
-            sel.setRozwin(true);
-            kontoDAO.edit(sel);
-            przebuduj(sel);
-            Msg.msg("i", "Rozwijam konto "+sel.getPelnynumer(),"formX:messages");
-        } else {
-            Msg.msg("e", "Konto "+sel.getPelnynumer()+" już rozwinięte","formX:messages");
-        }
-    }
-    public void zwinkonto(String numer){
-         Konto sel = kontoDAO.findKonto(numer);
-         if(sel!=null&&sel.getRozwin()==true){
-            sel.setRozwin(false);
-            kontoDAO.edit(sel);
-            przebuduj(sel);
-            Msg.msg("i", "Zwijam konto "+sel.getPelnynumer(),"formX:messages");
-        } else {
-            Msg.msg("e", "Konto "+sel.getPelnynumer()+" już zwinięte","formX:messages");
-        }
+    
+    public void selrow(Konto p){
+        Msg.msg("i", "Wybrano: "+p.getPelnynumer()+" "+p.getNazwapelna());
     }
     
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
-    
+ 
     public static List<Konto> getWykazkontS() {
         return wykazkontS;
     }
@@ -276,6 +227,17 @@ public class PlanKontView implements Serializable{
     public void setWewy(String wewy) {
         this.wewy = wewy;
     }
+
+    public TreeNodeExtended<Konto> getSelectednode() {
+        return selectednode;
+    }
+
+    public void setSelectednode(TreeNodeExtended<Konto> selectednode) {
+        this.selectednode = selectednode;
+    }
+
+  
+    
    
    private String listajs;
    
@@ -297,6 +259,15 @@ public class PlanKontView implements Serializable{
         return pelnynumerkonta;
     }
 
+    public TreeNodeExtended getRoot() {
+        return root;
+    }
+
+    public void setRoot(TreeNodeExtended root) {
+        this.root = root;
+    }
+
+    
     
     
    

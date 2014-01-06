@@ -10,6 +10,7 @@ import daoFK.KontoZapisyFKDAO;
 import daoFK.RozrachunekfkDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.Transakcja;
+import embeddablefk.TreeNodeExtended;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
@@ -44,6 +45,7 @@ public class KontoZapisFKView implements Serializable{
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
+    @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     @Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private Double sumaWn;
@@ -60,6 +62,11 @@ public class KontoZapisFKView implements Serializable{
     
     @PostConstruct
     private void init(){
+    }
+    
+    public void pobierzZapisyNaKoncieNode() {
+        wybranekonto = (Konto) wybranekontoNode.getData();
+        pobierzZapisyNaKoncie();
     }
     
       public void pobierzZapisyNaKoncie() {
@@ -79,8 +86,7 @@ public class KontoZapisFKView implements Serializable{
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer
-());
+             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
          }
          sumazapisow();
          }
@@ -262,6 +268,14 @@ public class KontoZapisFKView implements Serializable{
     
     public void setKontorozrachunki(List<Kontozapisy> kontorozrachunki) {
         this.kontorozrachunki = kontorozrachunki;
+    }
+
+    public TreeNodeExtended<Konto> getWybranekontoNode() {
+        return wybranekontoNode;
+    }
+
+    public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
+        this.wybranekontoNode = wybranekontoNode;
     }
     
     public Kontozapisy getWybranyzapis() {
