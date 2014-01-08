@@ -267,4 +267,14 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
+
+    public String getKlientfile() {
+        return klientfile;
+    }
+
+    public void setKlientfile(String klientfile) {
+        this.klientfile = klientfile;
+    }
+      
+      
 }

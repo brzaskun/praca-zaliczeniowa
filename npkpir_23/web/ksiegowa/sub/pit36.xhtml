@@ -8,7 +8,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:growl id="messages" autoUpdate="true"/>
-    <p:panelGrid columns="1" style="width: 1000px" rendered="#{WpisView.ksiegaryczalt}" >
+    <p:panelGrid id="dodrukupit" columns="1" style="width: 1000px" rendered="#{WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " /><br/>
                 <p:dataTable id="tablicapit" value="#{pit36View.lista}" var="loop" selectionMode="single"  rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"
                              emptyMessage="Nie zachowano PIT-ow u tego podatnika w danym roku podatkowym">
@@ -43,6 +43,9 @@
                         <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                     </p:column>
                 </p:dataTable>
+                 <p:commandButton value="Print" type="button" icon="ui-icon-print">  
+                    <p:printer target="dodrukupit" />  
+                </p:commandButton> 
        </p:panelGrid>
     <p:panelGrid columns="1" style="width: 1000px" rendered="#{!WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " /><br/>
