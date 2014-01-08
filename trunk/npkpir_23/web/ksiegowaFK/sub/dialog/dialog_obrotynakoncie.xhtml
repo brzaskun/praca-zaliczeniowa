@@ -32,7 +32,9 @@
                 <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formobroty:dataListObroty" style="float: left;" />
             </p:panelGrid>
                 <h:form id="formobroty">
-                    <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="checkbox" selection="#{kontoObrotyFKView.wybranekontoNode}"  
+                    <p:hotkey bind="down"  global="false" onstart="przejdzwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
+                    <p:hotkey bind="up"  global="false" onstart="wrocwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
+                    <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoObrotyFKView.wybranekontoNode}"  
                                   >
                         <p:ajax event="select" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="unselect" update=":formobrotykonta:kontoma, :tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNodeUnselect}" />

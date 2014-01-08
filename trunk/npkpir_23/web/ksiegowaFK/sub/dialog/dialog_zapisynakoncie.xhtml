@@ -32,8 +32,22 @@
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
+                 <script>
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode == 43) {
+                            $('#rozwinwsz').click();
+                        } else if (event.keyCode == 45) {
+                            $('#zwinwsz').click();
+                        } else {
+                            alert(event.which.toString());
+                        }
+                    }
+            </script>
                 <h:form id="form">
-                    <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="checkbox" selection="#{kontoZapisFKView.wybranekontoNode}"
+                    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
+                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
+                    <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}"
                                  >
                         <p:ajax event="select" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="unselect" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
@@ -44,7 +58,7 @@
                         <p:column headerText="nazwa pełna" style="width: 100px;">
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
-                    </p:treeTable>>
+                    </p:treeTable>
                 </h:form>
             </p:layoutUnit>  
 
