@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
 import entity.Ryczpoz;
@@ -14,6 +9,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -23,7 +19,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@RequestScope
+@ViewScoped
 public class RyczView implements Serializable {
     private List<Ryczpoz> lista;
     @Inject private RyczDAO ryczDAO;
@@ -54,6 +50,10 @@ public class RyczView implements Serializable {
         RequestContext.getCurrentInstance().update("formpi:");
         Msg.msg("i", "Usunieto parametr RyczDAO do podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
+     
+     public void inforryczalt() {
+         Msg.msg("i", "Pobrano dane miesiąca");
+     }
 
 
     public List<Ryczpoz> getLista() {

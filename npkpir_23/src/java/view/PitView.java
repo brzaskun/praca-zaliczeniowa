@@ -62,7 +62,7 @@ public class PitView implements Serializable {
     public List<Pitpoz> getLista() {
         return lista;
     }
-
+   
     public void setLista(List<Pitpoz> lista) {
         this.lista = lista;
     }

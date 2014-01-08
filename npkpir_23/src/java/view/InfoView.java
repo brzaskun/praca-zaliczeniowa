@@ -21,6 +21,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 
@@ -29,7 +30,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@RequestScope
+@ViewScoped
 public class InfoView implements Serializable{
     @Inject private Podatnik pod;
     private String podatnik;
@@ -145,7 +146,7 @@ public class InfoView implements Serializable{
             rodzajopodatkowania = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {
             Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
-            rodzajopodatkowania = "Opodatkowanie w roku "+tmp.getRokDo()+": "+tmp.getParametr();
+            rodzajopodatkowania = "Rodzaj opod. pod.doch.: "+tmp.getParametr();
         }
         } catch (Exception e){
             rodzajopodatkowania = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
