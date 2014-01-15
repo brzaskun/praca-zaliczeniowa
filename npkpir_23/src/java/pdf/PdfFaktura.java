@@ -4,16 +4,13 @@
  */
 package pdf;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfSpotColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.Pozycjenafakturzecomparator;
 import dao.FakturadodelementyDAO;
@@ -30,7 +27,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +123,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             }
             Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
             // Set the position of image
-            image.setAbsolutePosition(500f, 40f);
+            image.setAbsolutePosition(500f, 40f); //e
             // Add paragraph to PDF document.
             document.add(image);
             //naglowek
