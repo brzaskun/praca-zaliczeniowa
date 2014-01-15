@@ -238,13 +238,12 @@ public class SessionFacade<T> {
     }
 
     public Zobowiazanie findZobowiazanie(String rok, String mc) throws Exception {
+        String[] nowedane = Mce.zwiekszmiesiac(rok, mc);
         try {
-            Integer przesunmc = Mce.getMapamcyX().get(mc) + 1;
-            String pm = Mce.getMapamcy().get(przesunmc);
-            Zobowiazanie tmp = (Zobowiazanie) em.createQuery("SELECT p FROM Zobowiazanie p WHERE p.zobowiazaniePK.rok = :rok AND p.zobowiazaniePK.mc = :mc").setParameter("rok", rok).setParameter("mc", pm).getSingleResult();
+            Zobowiazanie tmp = (Zobowiazanie) em.createQuery("SELECT p FROM Zobowiazanie p WHERE p.zobowiazaniePK.rok = :rok AND p.zobowiazaniePK.mc = :mc").setParameter("rok", nowedane[0]).setParameter("mc", nowedane[1]).getSingleResult();
             return tmp;
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak danych", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie wprowadzono dat zobowiązań podatkowych w ustawieniach ogólnych", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
         }

@@ -99,6 +99,20 @@ public class Mce implements Serializable{
         mapamcyCalendar.put("12",Calendar.DECEMBER);
     }
     
+    public static String[] zwiekszmiesiac(String rok, String miesiac) {
+        String[] nowedane = new String[2];
+        int mcInt = mapamcyX.get(miesiac);
+        if (mcInt < 12) {
+            nowedane[0] = rok;
+            nowedane[1] = mapamcy.get(++mcInt);
+        } else {
+            int rokInt = Integer.parseInt(rok);
+            nowedane[0] = String.valueOf(++rokInt);
+            nowedane[1] = "01";
+        }
+        return nowedane;
+    }
+    
     public Mce() {
     }
 
