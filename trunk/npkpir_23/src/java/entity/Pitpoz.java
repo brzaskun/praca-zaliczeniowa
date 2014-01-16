@@ -73,6 +73,8 @@ public class Pitpoz implements Serializable {
     private BigDecimal przychody;
     @Column(name = "koszty")
     private BigDecimal koszty;
+    @Column(name = "remanent")
+    private BigDecimal remanent;
     @Column(name = "przychodyudzial")
     private BigDecimal przychodyudzial;
     @Column(name = "kosztyudzial")
@@ -168,6 +170,14 @@ public class Pitpoz implements Serializable {
         this.pkpirR = pkpirR;
     }
 
+    public BigDecimal getRemanent() {
+        return remanent;
+    }
+
+    public void setRemanent(BigDecimal remanent) {
+        this.remanent = remanent;
+    }
+    
     public BigDecimal getPodatek() {
         return podatek;
     }

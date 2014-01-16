@@ -835,6 +835,7 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setKoszty(obliczkoszt());
                 if (wpisView.getMiesiacWpisu().equals("12")) {
                     BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+                    biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
                     biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
                 } else {

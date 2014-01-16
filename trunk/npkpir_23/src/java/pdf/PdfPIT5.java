@@ -111,17 +111,19 @@ public class PdfPIT5 extends Pdf implements Serializable {
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
                 table.addCell(ustawfrazebez("koszty narastająco","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getKoszty())),"right",10));
-                
+                if (selected.getRemanent()!=null) {
+                    table.addCell(ustawfrazebez("różnica remanentów","center",10));
+                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getRemanent())),"right",10));
+                }
                 table.addCell(ustawfrazebez("udział","center",10));
                 table.addCell(ustawfrazebez(selected.getUdzial()+"%","right",10));
                 table.addCell(ustawfrazebez("","center",10));
                 table.addCell(ustawfrazebez("","center",10));
-                
                 table.addCell(ustawfrazebez("przychody narast./udział","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPrzychodyudzial())),"right",10));
                 table.addCell(ustawfrazebez("koszty narast./udział","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getKosztyudzial())),"right",10));
-                
+               
                 table.addCell(ustawfrazebez("wynik od początku roku","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getWynik())),"right",10));
                 table.addCell(ustawfrazebez("","center",10));
