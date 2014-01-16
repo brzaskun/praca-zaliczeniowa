@@ -84,6 +84,8 @@ public class FakturaView implements Serializable {
     //do usuuwania faktur zaksiegowanych
     private double waloryzajca;
     private double kwotaprzedwaloryzacja;
+    //wlasna data dla faktur
+    private String datawystawienia;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -672,13 +674,21 @@ public class FakturaView implements Serializable {
             }
             DateTime dt = new DateTime();
             LocalDate firstDate = dt.toLocalDate();
-            nowa.setDatawystawienia(firstDate.toString());
-            nowa.setDatasprzedazy(firstDate.toString());    
-            nowa.setWygenerowanaautomatycznie(true);
             int terminplatnosci = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
-            MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
-            dateTime.addDays(terminplatnosci);
-            nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+            if (datawystawienia.equals("")) {
+                nowa.setDatawystawienia(firstDate.toString());
+                nowa.setDatasprzedazy(firstDate.toString());    
+                MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
+                dateTime.addDays(terminplatnosci);
+                nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+            } else {
+                nowa.setDatawystawienia(datawystawienia);
+                nowa.setDatasprzedazy(datawystawienia);
+                MutableDateTime dateTime = new MutableDateTime(datawystawienia);
+                dateTime.addDays(terminplatnosci);
+                nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+            }
+            nowa.setWygenerowanaautomatycznie(true);
             nowa.setWyslana(false);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
@@ -887,5 +897,15 @@ public class FakturaView implements Serializable {
     public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
         this.podsumowaniewybranych = podsumowaniewybranych;
     }
-    //</editor-fold>
+    
+   
+    public String getDatawystawienia() {
+        return datawystawienia;
+    }
+
+    public void setDatawystawienia(String datawystawienia) {
+        this.datawystawienia = datawystawienia;
+    }
+     //</editor-fold>
+
 }
