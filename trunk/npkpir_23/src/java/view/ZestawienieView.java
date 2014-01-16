@@ -23,6 +23,7 @@ import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -832,7 +833,13 @@ public class ZestawienieView implements Serializable {
                 double procent = Double.parseDouble(wybranyprocent) / 100;
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
                 biezacyPit.setKoszty(obliczkoszt());
-                biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+                if (wpisView.getMiesiacWpisu().equals("12")) {
+                    BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+                    BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
+                    biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
+                } else {
+                    biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+                }
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
                 biezacyPit.setUdzialowiec(wybranyudzialowiec);
                 biezacyPit.setUdzial(wybranyprocent);
