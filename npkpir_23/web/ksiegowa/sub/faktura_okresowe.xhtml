@@ -4,61 +4,64 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-      <p:tab id="okresowe" title="Faktury okresowe">
-           <h:form>
+    <p:tab id="okresowe" title="Faktury okresowe">
+        <h:form>
             <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
                 <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
                 <f:facet name="success"><h:outputText value="" /></f:facet>
                 <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
             </p:ajaxStatus>
         </h:form>
-          <h:form id="formokresowe">
-              <p:contextMenu for="dokumentyOkresowe" style="width: 200px;">
-               <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa()}" icon="ui-icon-print" />
+        <h:form id="formokresowe">
+            <p:contextMenu for="dokumentyOkresowe" style="width: 200px;">
+                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowych()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
 
             </p:contextMenu>
-              <h:outputText value="suma wartości brutto wybranych dokumentów: "/> 
-    <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
-        <f:convertNumber minFractionDigits="2" locale="PL"/>
-    </h:outputText><h:outputText value="zł  "/><br/>
-    <h:outputText value="Kwota walowyzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
-          <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"
-                       selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.rok}" sortOrder="DESCENDING">
-               <f:facet name="header">  
+            <p:panelGrid columns="2">
+                <h:outputText value="suma wartości brutto wybranych dokumentów: "/> 
+                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych} zł" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+                <h:outputText value="Kwota walowyzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
+                <h:outputText value="Data wystawienia"/><h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
+            </p:panelGrid>
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.rok}" sortOrder="DESCENDING">
+                <f:facet name="header">  
                     <h:outputText value="Zestawienie faktur okresowych: " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="okresTable.filter()" style="width:150px" />  
                 </f:facet>
-               <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
-            <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
-            <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>      
-              <p:column selectionMode="multiple" width="50"/>
-              <p:column headerText="rok" sortBy="#{wpis.rok}" filterBy="#{wpis.rok}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.rok}"/>
-              </p:column>
-              <p:column headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
-              </p:column>
-              <p:column headerText="kontrahent" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
-                   <h:outputText value="#{wpis.dokument.kontrahent}"/>
-              </p:column>
-              <p:column headerText="email" sortBy="#{wpis.dokument.kontrahent.email}" filterBy="#{wpis.dokument.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.dokument.kontrahent.email}"/>
-              </p:column>
-              <p:column headerText="datawystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
-                   <h:outputText value="#{wpis.dokument.datawystawienia}"/>
-              </p:column>
-              <p:column headerText="opis" sortBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}"/>
-              </p:column>
-              <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;">
-                  <h:outputText value="#{wpis.dokument.brutto}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>      
+                <p:column selectionMode="multiple" width="50"/>
+                <p:column headerText="rok" sortBy="#{wpis.rok}" filterBy="#{wpis.rok}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.rok}"/>
+                </p:column>
+                <p:column headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+                </p:column>
+                <p:column headerText="kontrahent" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.kontrahent}"/>
+                </p:column>
+                <p:column headerText="email" sortBy="#{wpis.dokument.kontrahent.email}" filterBy="#{wpis.dokument.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.kontrahent.email}"/>
+                </p:column>
+                <p:column headerText="datawystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="opis" sortBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}"/>
+                </p:column>
+                <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;">
+                    <h:outputText value="#{wpis.dokument.brutto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-              </p:column>
+                </p:column>
                 <p:column headerText="01" width="20">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
@@ -95,8 +98,8 @@
                 <p:column headerText="12" width="20">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-          </p:dataTable>
-            </h:form>
-        </p:tab>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
 </ui:composition>   
 
