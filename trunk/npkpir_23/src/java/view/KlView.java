@@ -36,21 +36,18 @@ public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;
-    
     @Inject private KlienciDAO klDAO;
     @Inject private Klienci selected;
     @Inject PanstwaSymb1 ps1;
-    private static ArrayList<Klienci> kl;
-    private ArrayList<Klienci> kl1;
+    private static ArrayList<Klienci> kl1;
     private static Klienci doUsuniecia;
     private Integer ilesrodkow;
 
     
     @PostConstruct
     private void init(){
-        kl.addAll(klDAO.findAll());
-        kl1 = kl;
-        
+        kl1 = new ArrayList<>();
+        kl1.addAll(klDAO.findAll());
     }
   
     public void dodajKlienta(){
@@ -164,18 +161,16 @@ public class KlView implements Serializable{
   
    public List<Klienci> complete(String query) {  
         List<Klienci> results = new ArrayList<>();
-        List<Klienci> lista = new ArrayList<>();
-        lista.addAll(klDAO.findAll());
         try{
             String q = query.substring(0,1);
             int i = Integer.parseInt(q);
-            for(Klienci p : lista) {  
+            for(Klienci p : kl1) {  
              if(p.getNip().startsWith(query)) {
                  results.add(p);
              }
             }
         } catch (NumberFormatException e){
-            for(Klienci p : lista) {
+            for(Klienci p : kl1) {
             if(p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
                  results.add(p);
              }
@@ -207,7 +202,6 @@ public class KlView implements Serializable{
       
          public void destroy2() {
         try {
-            kl.remove(doUsuniecia);
             kl1.remove(doUsuniecia);
             klDAO.destroy(doUsuniecia);
             RequestContext.getCurrentInstance().update("formY:");
@@ -297,16 +291,13 @@ public class KlView implements Serializable{
         this.klDAO = klDAO;
     }
 
-    public KlView() {
-        kl = new ArrayList<>();
-    }
-
-    public static ArrayList<Klienci> getKl() {
-        return kl;
+   
+    public ArrayList<Klienci> getKl1() {
+        return kl1;
     }
     
-    public ArrayList<Klienci> getKl1() {
-        return kl;
+    public static ArrayList<Klienci> getKl1S() {
+        return kl1;
     }
 
     public Klienci getDoUsuniecia() {
