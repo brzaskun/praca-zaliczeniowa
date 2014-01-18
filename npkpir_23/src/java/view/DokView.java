@@ -1491,19 +1491,19 @@ public class DokView implements Serializable {
     }
     
      public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
-//        try {
-//            Dok selD = null;
-//            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
-//            if (selD instanceof Dok){
-//                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
-//                Msg.msg("e", wiadomosc);
-//                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
-//            } else {
-//                System.out.println("Nie znaleziono duplikatu");
-//            }
-//        } catch (Exception e) {
-//            Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
-//        }
+        try {
+            Dok selD = null;
+            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
+            if (selD instanceof Dok){
+                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
+                Msg.msg("e", wiadomosc);
+                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
+            } else {
+                System.out.println("Nie znaleziono duplikatu");
+            }
+        } catch (Exception e) {
+            Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
+        }
     }
     
 
