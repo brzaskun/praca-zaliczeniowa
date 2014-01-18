@@ -225,7 +225,6 @@ public class DokView implements Serializable {
     private List<String> rows;
     private int liczbawierszy;
     private List<String> kolumny;
-    private List<Inwestycje> inwestycje;
     @Inject
     private InwestycjeDAO inwestycjeDAO;
 
@@ -290,7 +289,6 @@ public class DokView implements Serializable {
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         try {
-            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
             String pod = wpistmp.getPodatnikWpisu();
             podX = podatnikDAO.find(pod);
             opisypkpir.addAll(podX.getOpisypkpir());
@@ -1731,6 +1729,7 @@ public class DokView implements Serializable {
 
     private void aktualizujInwestycje(Dok dok) {
         try {
+            List<Inwestycje> inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
             String symbol = dok.getSymbolinwestycji();
             if (!symbol.equals("wybierz")) {
                 Inwestycje biezaca = null;
