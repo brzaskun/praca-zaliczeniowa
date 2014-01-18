@@ -18,6 +18,7 @@ import entity.Evewidencja;
 import entity.Ewidencjevat;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,6 +70,7 @@ public class VatView implements Serializable {
     private Double suma3;
      //tablica obiektw danego klienta
     @Inject DokDAO dokDAO;
+    private static BigDecimal wynikOkresu;
   
 
     public VatView() {
@@ -208,6 +210,14 @@ public class VatView implements Serializable {
                 zrzucane.setSumaewidencji(sumaewidencji);
                 ewidencjeVatDAO.dodajewidencje(zrzucane);
             }
+            wynikOkresu = new BigDecimal(BigInteger.ZERO);
+            for (EVatwpisSuma p : sumydowyswietlenia) {
+                if (p.getEwidencja().getTypewidencji().equals("s")) {
+                   wynikOkresu = wynikOkresu.add(p.getVat());
+               } else if (p.getEwidencja().getTypewidencji().equals("z")) {
+                   wynikOkresu = wynikOkresu.subtract(p.getVat());
+               }
+            }
         } catch (Exception e) {
             System.out.println("Firma nie vat");
         }
@@ -267,8 +277,8 @@ public class VatView implements Serializable {
          suma2 = 0.0;
          suma3 = 0.0;
          for(EVatwpisSuma p : goscwybralsuma){
-         suma1 += p.getNetto().doubleValue();
-         suma2 += p.getVat().doubleValue();
+            suma1 += p.getNetto().doubleValue();
+            suma2 += p.getVat().doubleValue();
          }
          suma3 = suma1+suma2;
          Msg.msg("i","Sumuję ewidencje vat");
@@ -279,8 +289,8 @@ public class VatView implements Serializable {
          suma2 = 0.0;
          suma3 = 0.0;
          for(EVatViewPola p : goscwybral){
-         suma1 += p.getNetto();
-         suma2 += p.getVat();
+            suma1 += p.getNetto();
+            suma2 += p.getVat();
          }
          suma3 = suma1+suma2;
      }
@@ -565,6 +575,17 @@ public class VatView implements Serializable {
     public void setSuma3(Double suma3) {
         this.suma3 = suma3;
     }
+
+    public BigDecimal getWynikOkresu() {
+        return wynikOkresu;
+    }
+
+    public void setWynikOkresu(BigDecimal wynikOkresu) {
+        this.wynikOkresu = wynikOkresu;
+    }
+
+    
+    
     
     
     
