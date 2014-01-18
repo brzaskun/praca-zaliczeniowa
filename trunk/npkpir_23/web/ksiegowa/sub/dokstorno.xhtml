@@ -20,40 +20,40 @@
                 <h:outputText value="Zawartość dokumentu storno za wybrany okres" />  
             </f:facet>
             
-             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
+             <p:column id="idColumn" headerText="lp" sortBy="nrWpkpir"  width="30">  
                 <f:facet name="header">  
                     <h:outputText value="lp" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
                 
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontr.npelna" filterMatchMode="contains" sortBy="kontr.npelna}">  
                 <f:facet name="header">  
                     <h:outputText value="kontrahent" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
             </p:column>
            
-            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
+            <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="nrWlDk" filterMatchMode="contains" sortBy="nrWlDk}">  
                 <f:facet name="header">  
                     <h:outputText value="nr wł" />  
                 </f:facet> 
                         <h:outputText value="#{wpis.nrWlDk}"/>
             </p:column>
-            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" >  
+            <p:column id="opisColumn" headerText="opis" filterBy="opis" filterMatchMode="contains" sortBy="nrWlDk" >  
                 <f:facet name="header">  
                     <h:outputText value="opis" />  
                 </f:facet> 
                         <h:outputText value="#{wpis.opis}"/>
             </p:column>
             
-            <p:column id="rokColumn" headerText="rok" filterBy="#{wpis.pkpirR}" filterMatchMode="contains" sortBy="#{wpis.pkpirR}">  
+            <p:column id="rokColumn" headerText="rok" filterBy="pkpirR" filterMatchMode="contains" sortBy="pkpirR}">  
                 <f:facet name="header">  
                     <h:outputText value="rok" />  
                 </f:facet> 
                         <h:outputText value="#{wpis.pkpirR}" style="padding-left: 20%; font-weight: 700; float: right;"/>
             </p:column>
-            <p:column id="mcColumn" headerText="mc" filterBy="#{wpis.pkpirM}" filterMatchMode="contains" sortBy="#{wpis.pkpirM}">  
+            <p:column id="mcColumn" headerText="mc" filterBy="pkpirM" filterMatchMode="contains" sortBy="pkpirM}">  
                 <f:facet name="header">  
                     <h:outputText value="mc" />  
                 </f:facet> 
