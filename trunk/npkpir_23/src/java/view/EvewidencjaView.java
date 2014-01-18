@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -63,6 +64,7 @@ public class EvewidencjaView {
             }
             eewidencjaDAO.dodaj(selected);
             lista.add(selected);
+            Msg.msg("i", "Dodano nową ewidencję VAT");
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -72,6 +74,7 @@ public class EvewidencjaView {
     public void edytuj(RowEditEvent ev) {
         try {
             eewidencjaDAO.edit(selected);
+            Msg.msg("i", "Poprawiono ewidencję VAT");
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -81,6 +84,7 @@ public class EvewidencjaView {
     public void usun() {
         eewidencjaDAO.destroy(selected);
         lista.remove(selected);
+        Msg.msg("i", "Usunięto ewidencję VAT"+selected.getNazwa());
         RequestContext.getCurrentInstance().update("akordeon:form0");
     }
 

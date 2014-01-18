@@ -14,15 +14,16 @@
            <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" >
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 80%;">
                     <p:column headerText="nazwa ewidencji"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
-                    <p:column headerText="nazwa pola w deklaracji"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
-                    <p:column headerText="nr pola netto"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nr pola vat"><h:outputText id="in4" value="#{loop.nrpolavat}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="250"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
+                    <p:column headerText="nr pola netto" width="50"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
+                    <p:column headerText="nr pola vat" width="50"><h:outputText id="in4" value="#{loop.nrpolavat}"/></p:column>
                     <p:column headerText="rodzaj transkacji"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
                     <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto}"/></p:column>
-                    <p:column id="deleteColumn" headerText="usuń">
+                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
+                    <p:column id="deleteColumn" headerText="usuń" width="70">
                         <p:commandButton action="#{evewidencjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
                 </p:dataTable>
@@ -52,6 +53,12 @@
                     <h:selectOneMenu value="#{evewidencjaView.selected.tylkoNetto}" style="width: 400px;">
                         <f:selectItem itemLabel="tak" itemValue="true"/>
                         <f:selectItem itemLabel="nie" itemValue="false"/>
+                    </h:selectOneMenu>
+                     <h:outputText value="ujęcie ewidencji"/>
+                     <h:selectOneMenu value="#{evewidencjaView.selected.typewidencji}" style="width: 400px;">
+                        <f:selectItem itemLabel="należny" itemValue="s"/>
+                        <f:selectItem itemLabel="naliczony" itemValue="z"/>
+                        <f:selectItem itemLabel="należny/naliczony" itemValue="sz"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
                  <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form :akordeon:form0:" type="submit"/>

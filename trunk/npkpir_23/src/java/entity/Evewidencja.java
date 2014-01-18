@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evewidencja.findByNrpolavat", query = "SELECT e FROM Evewidencja e WHERE e.nrpolavat = :nrpolavat"),
     @NamedQuery(name = "Evewidencja.findByRodzajzakupu", query = "SELECT e FROM Evewidencja e WHERE e.rodzajzakupu = :rodzajzakupu"),
     @NamedQuery(name = "Evewidencja.findByTransakcja", query = "SELECT e FROM Evewidencja e WHERE e.transakcja = :transakcja"),
-    @NamedQuery(name = "Evewidencja.findByTylkoNetto", query = "SELECT e FROM Evewidencja e WHERE e.tylkoNetto = :tylkoNetto")})
+    @NamedQuery(name = "Evewidencja.findByTypEwidencji", query = "SELECT e FROM Evewidencja e WHERE e.typewidencji = :typewidencji"),
+@NamedQuery(name = "Evewidencja.findByTylkoNetto", query = "SELECT e FROM Evewidencja e WHERE e.tylkoNetto = :tylkoNetto")})
 public class Evewidencja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,6 +58,8 @@ public class Evewidencja implements Serializable {
     private String transakcja;
     @Column(name = "tylkoNetto")
     private boolean tylkoNetto;
+    @Column(name = "typewidencji")
+    private String typewidencji;
 
     public Evewidencja() {
     }
@@ -138,6 +141,15 @@ public class Evewidencja implements Serializable {
         this.tylkoNetto = tylkoNetto;
     }
 
+    public String getTypewidencji() {
+        return typewidencji;
+    }
+
+    public void setTypewidencji(String typewidencji) {
+        this.typewidencji = typewidencji;
+    }
+
+    
   
     
     @Override
