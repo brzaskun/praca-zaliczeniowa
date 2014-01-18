@@ -28,7 +28,7 @@
             <h:outputText value="Moża księgować jedynie płatności późniejsze niż #{stornoDokView.policzdokumentystorno()}/#{WpisView.rokWpisu}"/>
         </f:facet>
    </p:panel>
-    <p:outputPanel id="wrapper">
+    <p:outputPanel id="wrapper"  deferred="true">
         
         
            <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 

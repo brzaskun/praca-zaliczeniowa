@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:growl id="mess_add" />
-  <p:outputPanel id="wrapper2">
+  <p:outputPanel id="wrapper2" deferred="true">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
           <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false"/>  
           </p:panel>
