@@ -229,10 +229,15 @@ public class SessionFacade<T> {
         List<Dok> wynik = null;
         try {
             wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getResultList();
-            System.out.println("Znaleziono duplikat - DokFacade");
-            return wynik.get(wynik.size()-1);
+            if (wynik.size()!=0) {
+                System.out.println("Znaleziono duplikat w trakcie - DokFacade");
+                return wynik.get(wynik.size()-1);
+            } else {
+                System.out.println("Nie znaleziono duplikatu w trakcie - DokFacade");
+                return null;
+            }
         } catch (Exception e) {
-            System.out.println("Nie znaleziono duplikatu - DokFacade");
+            System.out.println("Blad podczas szukania  dokumentDuplicatwtrakcie - DokFacade");
             return null;
         }
     }
