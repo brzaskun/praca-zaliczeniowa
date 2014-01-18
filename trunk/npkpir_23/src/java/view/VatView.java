@@ -49,8 +49,8 @@ public class VatView implements Serializable {
  
     private List<Dok> listadokvat;
     private List<EVatViewPola> listadokvatprzetworzona;
-    private HashMap<String, ArrayList> listaewidencji;
-    private HashMap<String, EVatwpisSuma> sumaewidencji;
+    private static HashMap<String, ArrayList> listaewidencji;
+    private static HashMap<String, EVatwpisSuma> sumaewidencji;
     @Inject
     private Dok selected;
     @Inject

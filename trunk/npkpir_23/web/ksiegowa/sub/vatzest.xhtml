@@ -17,7 +17,7 @@
     <h:outputText value="Wynik za okres rozliczeniowy: #{vatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '} #{vatView.wynikOkresu}" style="#{vatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: blue;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
     <p:tabView id="akorderonbis" style="width: 1300px; margin-top: 1%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
         
-        <c:forEach  items="#{vatView.listaewidencji.values()}" var="item" varStatus="numer">
+        <c:forEach  items="#{vatView.listaewidencji.values()}"  var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
                 <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
                 <p:separator/>
@@ -34,48 +34,45 @@
                 </p:panel>
 
                 <p:separator/>
-                <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" scrollable="true" scrollHeight="700" scrollRows="4" 
-                             rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" style="width: 1200px;"
-                             widgetVar="dokTable#{numer.index}"
+                <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
+                             rowKey="#{itemik.id}" selection="#{vatView.goscwybral}" widgetVar="dokTable#{numer.index}"
                              >
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
                         <p:inputText id="globalFilter" onkeyup="(dokTable#{numer.index}).filter()" style="width:150px" />  
                     </f:facet>
-                    <p:column selectionMode="multiple" width="40"/>
+                    <p:column selectionMode="multiple" style="width: 40px;"/>
                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
-                    <p:column headerText="id" width="40" sortBy="#{itemik.id}">
+                    <p:column headerText="id" style="width: 40px;" sortBy="id}">
                         <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                     </p:column>
-                    <p:column headerText="data wyst." width="90" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="data wyst." style="width: 90px;" sortBy="dataWyst" filterBy="dataWyst" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.dataWyst}"/>
                     </p:column>
-                    <p:column headerText="data sprz." width="90" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
+                    <p:column headerText="data sprz." style="width: 90px;" sortBy="dataSprz" filterMatchMode="contains" filterBy="dataSprz" filterStyle="display: none;">
                         <h:outputText value="#{itemik.dataSprz}"/>
                     </p:column>
-                    <p:column headerText="nr własny" width="140" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="nr własny" style="width: 140px;" sortBy="nrWlDk" filterBy="nrWlDk" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.nrWlDk}"/>
                     </p:column>
-                    <p:column headerText="nazwa kontrhenta" sortBy="#{itemik.kontr}" filterBy="#{itemik.kontr}" filterMatchMode="contains" filterStyle="display: none;">
-                        <h:outputText value="#{itemik.kontr}"/>
+                    <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="kontr.npelna" filterBy="kontr.npelna" filterMatchMode="contains" filterStyle="display: none;">
+                        <h:outputText value="#{itemik.kontr.npelna}"/>
                     </p:column>
-                    <p:column headerText="opis trans." sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="opis trans." style="width: 190px;" sortBy="opis" filterBy="opis" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.opis}"/>
                     </p:column>
-                    <p:column headerText="netto" width="110" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="netto" style="width: 110px;" sortBy="netto" filterBy="netto" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="vat" width="110" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="vat" style="width: 110px;" sortBy="vat" filterBy="vat" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="rodzaj zak." width="60"  rendered="#{itemik.opizw eq 'sprz.op' ? true : false}">
-                        <h:outputText value="#{itemik.opizw}"/>
-                    </p:column>
+                  
                 </p:dataTable>
             </p:tab>
         </c:forEach>
@@ -94,31 +91,29 @@
                 </h:outputText><br/>
             </p:panel>
             <p:dataTable value="#{vatView.sumydowyswietlenia}" var="itemik" scrollable="true" scrollHeight="200" scrollRows="4" 
-                         selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 800px;"
+                         selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">
                     <h:outputText value="zestawienie ewidencji vat"/>
                 </f:facet>
-                <p:column selectionMode="multiple" width="50"></p:column>
+                <p:column selectionMode="multiple" style="width: 50px;"></p:column>
                 <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
                 <p:ajax event="toggleSelect" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
-                <p:column headerText="nazwa ewidencji" width="200">
+                <p:column headerText="nazwa ewidencji">
                     <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                 </p:column>
-                <p:column headerText="wartość netto" width="150">
+                <p:column headerText="wartość netto" >
                     <h:outputText value="#{itemik.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wartosć vat" width="150">
+                <p:column headerText="wartosć vat" >
                     <h:outputText value="#{itemik.vat}"  style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="estawka" width="80">
-                    <h:outputText value="#{itemik.estawka}"/>
-                </p:column>
+               
             </p:dataTable>
         </p:tab>
     </p:tabView>
