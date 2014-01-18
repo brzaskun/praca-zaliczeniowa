@@ -11,7 +11,7 @@
     <p:contextMenu for="dokumentyLista">
         <p:menuitem value="Usuń" update=":formM:messages :form:dokumentyLista" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.usunfaktureokresowa()}"/>
             </p:contextMenu>
-        <p:outputPanel id="wrapper"> 
+        <p:outputPanel id="wrapper"  deferred="true"> 
             <p:dataTable  var="wpis" value="#{fakturyokresoweView.faktury}" id="dokumentyLista" editable="true" 
                           rows="20" style="width: 1200px;"
                           rowKey="#{wpis.id}" selection="#{fakturyokresoweView.selected}" widgetVar="dokTable"

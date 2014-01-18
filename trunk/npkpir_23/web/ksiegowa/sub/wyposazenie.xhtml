@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <p:outputPanel id="wrapper">
+    <p:outputPanel id="wrapper" deferred="true">
         <p:growl id="mess_add" />
         <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKmrjsfSelWyposazenie}" id="srodkiLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="6"

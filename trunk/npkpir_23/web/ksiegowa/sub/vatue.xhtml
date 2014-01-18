@@ -8,7 +8,7 @@
     
 
     <h:form id="form">
-    <p:outputPanel id="wrapper"> 
+    <p:outputPanel id="wrapper" deferred="true"> 
         <p:growl id="messages"/>
         <p:dataTable  var="wpis" value="#{vatUeView.podsumowanie}" id="dokumentyLista" editable="true" 
                       rows="20" paginator="true"
