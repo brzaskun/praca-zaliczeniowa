@@ -8,7 +8,7 @@
     
    
     <p:panel header="informacje o podatniku #{WpisView.podatnikWpisu}" style="width: 1200px;"/>
-    
+    <p:outputPanel deferred="true">
      <p:panelGrid columns="4">
         <p:column>
             <p:dataTable  value="#{infoView.rodzajopodatkowania}" var="wpis" style="width: 250px; padding: 10px;">
@@ -183,5 +183,6 @@
             </p:dataTable>
         </p:column>
     </p:panelGrid>
+        </p:outputPanel>
 </ui:composition>   
 

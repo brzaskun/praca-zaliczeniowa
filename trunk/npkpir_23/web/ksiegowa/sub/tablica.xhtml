@@ -49,7 +49,7 @@
             <p:menuitem value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();"/>
             <p:menuitem value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
         </p:contextMenu>
-        <p:outputPanel >
+        <p:outputPanel deferred="true">
             <script>
             $(document).ready(function () {
                 $(document.getElementById('form:dokumentyLista')).find('.ui-datatable-data tr').height(25);

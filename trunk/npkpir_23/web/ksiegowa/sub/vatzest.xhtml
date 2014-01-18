@@ -10,7 +10,7 @@
     <f:event type="preRenderView" listener="#{pdfVAT.drukujewidencje()}"/>
     <f:event type="preRenderView" listener="#{pdfVATsuma.drukuj()}"/>
    
-    <p:outputPanel>
+    <p:outputPanel deferred="true">
     <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
     <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
              rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
