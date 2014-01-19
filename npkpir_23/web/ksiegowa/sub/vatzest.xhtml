@@ -40,6 +40,7 @@
                         <p:inputText id="globalFilter" onkeyup="(dokTable#{numer.index}).filter()" style="width:150px" />  
                     </f:facet>
                     <p:column selectionMode="multiple" style="width: 40px;"/>
+                    <p:ajax event="toggleSelect" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:ajax event="rowUnselectCheckbox" listener="#{vatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:column headerText="id" style="width: 40px;" sortBy="id}">
