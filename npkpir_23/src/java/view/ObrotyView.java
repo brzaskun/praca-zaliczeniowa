@@ -19,11 +19,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -31,34 +33,34 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ObrotyView implements Serializable{
     
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
      //tablica obiektów danego klienta z określonego roku i miesiecy
-    private List<Dok> obiektDOKmrjsfSelX;
+    private static List<Dok> obiektDOKmrjsfSelX;
      //tablica obiektw danego klienta
-    private List<Dok> obiektDOKjsfSelRok;
+    private static List<Dok> obiektDOKjsfSelRok;
     @Inject  private DokDAO dokDAO;
     @Inject private WpisDAO wpisDAO;
      //lista wybranych dokumentow w panelu Guest
-    private List<Dok> goscwybral;
+    private static List<Dok> goscwybral;
     private Double podsumowaniewybranych;
     private Double podsumowaniewybranychnetto;
 
     public ObrotyView() {
-         //dokumenty podatnika za okres od-do
-        obiektDOKmrjsfSelX = new ArrayList<>();
-        //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = new ArrayList<>();
         //lista porzechowujaca przefiltrowane widoki
         goscwybral = new ArrayList<>();
     }
     
-    @PostConstruct
-    public void init() {
+    public String init() {
+        Msg.msg("i", "pobieram");
+        //dokumenty podatnika za okres od-do
+        obiektDOKmrjsfSelX = new ArrayList<>();
+        //dokumenty podatnika z roku
+        obiektDOKjsfSelRok = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
@@ -88,7 +90,8 @@ public class ObrotyView implements Serializable{
                     for(Dok p :obiektDOKmrjsfSelX){
                          p.setNrWpkpir(nrkol++);
                     }
-            }
+            } 
+          return "/ksiegowa/ksiegowaKontrahenci.xhtml";
      }
     
       public void aktualizujObrotyX(ActionEvent e) {
