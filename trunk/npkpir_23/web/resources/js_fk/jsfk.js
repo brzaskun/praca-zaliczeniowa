@@ -3,8 +3,7 @@
  * and open the template in the editor.
  */
 
-//podpowiadanie kont w raporcie kasowym        
-
+//podpowiadanie kont w dokumencie    
 function wywolajdok(opis, numer, loopid) {
     var licz = 1;
     var id = loopid - 1;
@@ -112,6 +111,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         if(roznica>0){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(roznica);
@@ -128,6 +128,7 @@ var sprawdzpoprzedniwiersz = function(wiersz){
         } else if (roznica<0){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
@@ -161,6 +162,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
         var opiszawiera = opisbiezacego1 || opisbiezacego2;
         if(opisbiezacego1){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
@@ -170,6 +172,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
             zachowajwtablicydok(pozycja);
         } else if (opisbiezacego2){
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
@@ -276,7 +279,8 @@ var chowanienapoczatekdok = function(){
             $(blokowany).hide();
             blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
             $(blokowany).hide();
-            if (MYAPP.chowanedok[i].blojowany === "wn") {
+            //blokowanie symbolu waluty
+            if (MYAPP.chowanedok[i].blokowany === "wn") {
                 blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolWn";
                 $(blokowany).hide();
             } else {
