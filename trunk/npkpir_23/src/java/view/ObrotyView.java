@@ -91,7 +91,7 @@ public class ObrotyView implements Serializable{
                          p.setNrWpkpir(nrkol++);
                     }
             } 
-          return "/ksiegowa/ksiegowaKontrahenci.xhtml";
+          return "/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true";
      }
     
       public void aktualizujObrotyX(ActionEvent e) {
