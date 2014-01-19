@@ -17,7 +17,7 @@
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
-                <h:form>
+                
                     <p:menu >
                         <p:menuitem value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
@@ -38,14 +38,13 @@
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="pity"  outcome="pitprzegladaj" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="ewidencje vat"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>
+                         <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.initA()}" update="westKsiegowa"><f:actionListener binding="#{pdfVAT.drukujewidencje()}"/><f:actionListener binding="#{pdfVATsuma.drukuj()}"/></p:menuitem>
                         <p:menuitem value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
-                </h:form>
             </p:panel>
         </h:form>
     </p:layoutUnit>

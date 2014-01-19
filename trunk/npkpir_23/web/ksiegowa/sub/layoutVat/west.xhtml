@@ -17,18 +17,17 @@
                 <h:outputText value="#{WpisView.miesiacWpisu}"/>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
-         <h:form>
+         
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem value="powrót"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
-                    <p:menuitem value="ewidencje vat"  outcome="vatzest" icon="ui-icon-circle-arrow-e"/>
+                     <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.initA()}" update="westKsiegowa"><f:actionListener binding="#{pdfVAT.drukujewidencje()}"/><f:actionListener binding="#{pdfVATsuma.drukuj()}"/></p:menuitem>
                     <p:menuitem value="zest. vat-ue"  outcome="vatue" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="dekl. do wyslania"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"/>  
                      <p:menuitem value="dekl. wyslane"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e"/>  
                 </p:menu>
                       <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
-            </h:form>
         </p:panel>
             
         </h:form>

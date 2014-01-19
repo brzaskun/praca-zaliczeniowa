@@ -126,9 +126,8 @@ public class PodatekView implements Serializable{
         Podatnik selected=podatnikDAO.find(poszukiwany);
         int index = selected.getPodatekdochodowy().size()-1;
         opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
-        rokmiesiac = selected.getPodatekdochodowy().get(index).getRokOd();
         String rodzajop = opodatkowanie;
-        Podstawki tmpY = podstawkiDAO.find(Integer.parseInt(rokmiesiac));
+        Podstawki tmpY = podstawkiDAO.find(wpisView.getRokWpisu());
         Double stawka;
         try{
         switch (rodzajop){
@@ -178,7 +177,7 @@ public class PodatekView implements Serializable{
             Msg.msg("e", "Brak wprowadzonych stawek ZUS, nie wyliczam podatku!!!");
             return;
         }
-        rokmiesiac = rokmiesiac+"/"+selected.getPodatekdochodowy().get(index).getMcOd();
+        rokmiesiac = wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu();
     }
     
        

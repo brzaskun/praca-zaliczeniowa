@@ -7,6 +7,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
+     <h:form>
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
+            <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
+            <f:facet name="success"><h:outputText value="" /></f:facet>
+        </p:ajaxStatus>
+    </h:form>
     <h:form id="dodWiad">
     <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
              style="width: 1300px; box-shadow: 10px 10px 5px #888; padding: 2%;" id="wprowadzanie">
