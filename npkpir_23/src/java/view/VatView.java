@@ -33,6 +33,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
@@ -64,7 +66,7 @@ public class VatView implements Serializable {
     private List<EVatViewPola> goscwybral;
     private static List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
-    private List<EVatwpisSuma> sumydowyswietlenia;
+    private static List<EVatwpisSuma> sumydowyswietlenia;
     private Double suma1;
     private Double suma2;
     private Double suma3;
@@ -76,19 +78,18 @@ public class VatView implements Serializable {
     public VatView() {
         listadokvat = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
-        listaewidencji = new HashMap<>();
         sumaewidencji = new HashMap<>();
         goscwybral = new ArrayList<>();
         listanowa = new ArrayList<>();
-        sumydowyswietlenia = new ArrayList<>();
         suma1 = 0.0;
         suma2 = 0.0;
         suma3 = 0.0;
     }
 
-    @PostConstruct
-    private void init() {
+    public String initA() {
           try {
+            listaewidencji = new HashMap<>();
+            sumydowyswietlenia = new ArrayList<>();
             String vatokres = sprawdzjakiokresvat();
             try {
                 List<Dok> listatmp = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
@@ -221,6 +222,7 @@ public class VatView implements Serializable {
         } catch (Exception e) {
             System.out.println("Firma nie vat");
         }
+          return "/ksiegowa/ksiegowaVATzest.xhtml";
     }
 
     private String sprawdzjakiokresvat() {
