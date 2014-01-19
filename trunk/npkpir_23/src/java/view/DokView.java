@@ -638,6 +638,15 @@ public class DokView implements Serializable {
         String wprowadzonynumer = params.get("dodWiad:numerwlasny");
         selDokument.setNrWlDk(wprowadzonynumer);
     }
+    
+    public void wybranydokument() {
+        for (Rodzajedok p : rodzajedokKlienta) {
+            if (p.getSkrot().equals((String) Params.params("dodWiad:rodzajTrans"))) {
+                Msg.msg("i", p.getNazwa());
+                break;
+            }
+        }
+    }
 
    public void wygenerujnumerkolejny() {
         String zawartosc = "";
