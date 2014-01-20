@@ -52,7 +52,7 @@ public class PlanKontView implements Serializable{
             pelnynumerkonta = pelnynumerkonta+t.getPelnynumer()+",";
         }
     }
-    
+    //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
@@ -63,16 +63,30 @@ public class PlanKontView implements Serializable{
         
     public void rozwinwszystkie(){
         getNodes();
+        ArrayList<Konto> kontadlanodes = new ArrayList<>();
+        kontadlanodes.addAll(kontoDAO.findAll());
+        level = root.ustaldepthDT(kontadlanodes)-1;
         root.expandAll();
+    }  
+    
+    private static int level = 0;
+    public void rozwin(){
+        ArrayList<Konto> kontadlanodes = new ArrayList<>();
+        kontadlanodes.addAll(kontoDAO.findAll());
+        int maxpoziom = root.ustaldepthDT(kontadlanodes);
+        if (level < --maxpoziom) {
+            root.expandLevel(level++);
+        }
     }  
     
     public void zwinwszystkie(){
         getNodes();
         root.foldAll();
-    }    
-    
-  
-
+        level = 0;
+    }  
+    public void zwin(){
+        root.foldLevel(--level);
+    }  
     
     public void dodaj(){
         Konto selected = (Konto) selectednode.getData();

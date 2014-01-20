@@ -523,6 +523,8 @@ public class DokView implements Serializable {
                     if ((transakcjiRodzaj.equals("sprzedaz") || transakcjiRodzaj.equals("srodek trw sprzedaz") || transakcjiRodzaj.equals("ryczałt")) && tmp.equals("op/zw")) {
                     } else {
                         HtmlOutputText ot = new HtmlOutputText();
+                        String style = "font-weight: 900;";
+                        ot.setStyle(style);
                         ot.setValue((String) tmp);
                         grid1.getChildren().add(ot);
                     }
@@ -566,6 +568,8 @@ public class DokView implements Serializable {
                     ew.setThousandSeparator(" ");
                     ew.setDecimalPlaces("2");
                     ew.setMinValue("-10000000");
+                    String styl = "text-align: right;";
+                    ew.setStyle(styl);
                     String defX = "updatesuma(" + i + ");";
                     ew.setOnblur(defX);
                     String lab1 = "netto" + i;
@@ -581,10 +585,14 @@ public class DokView implements Serializable {
                     ewX.setId(lab2);
                     String def = "updatevat(" + i + ");";
                     ewX.setOnblur(def);
+                    styl = "text-align: right;";
+                    ewX.setStyle(styl);
                     grid1.getChildren().add(ewX);
                     HtmlInputText ewY = new HtmlInputText();
                     String lab3 = "brutto" + i;
                     ewY.setId(lab3);
+                    styl = "text-align: right;";
+                    ewY.setStyle(styl);
                     grid1.getChildren().add(ewY);
                     if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
                         UISelectItems ulista = new UISelectItems();
