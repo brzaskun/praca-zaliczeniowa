@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
+    <p:dialog id="dialogpierwszy" header="Plan kont - struktura" widgetVar="pierwszy" 
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
             <p:contextMenu for="dataList">
@@ -28,9 +28,11 @@
                         }
                     }
             </script>
-              <p:panelGrid columns="2" >
+              <p:panelGrid columns="4">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin()}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin()}" update=":form:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 

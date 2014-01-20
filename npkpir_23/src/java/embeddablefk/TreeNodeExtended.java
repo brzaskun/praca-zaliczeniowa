@@ -103,7 +103,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
        
-    private int ustaldepthDT(ArrayList<T> pozycje) {
+    public int ustaldepthDT(ArrayList<T> pozycje) {
         int depth = 0;
         int pobranawartosc = 0;
         for (T  p : pozycje) {
@@ -119,6 +119,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
         return depth+1;
     }
+    
+    
     
     
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
@@ -180,12 +182,38 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
         }
     }
+    
+    public void expandLevel(int level) {
+        boolean madzieci = this.getChildren().size() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : this.getChildren()) {
+                o.setExpanded(true);
+                if (((Konto) o.getData()).getAnalityka()<level){
+                    ((TreeNodeExtended) o).expandLevel(level);
+                }
+            }
+        }
+    }
+    
+    
      public void foldAll() {
         boolean madzieci = this.getChildren().size() > 0;
         if (madzieci == true) {
             for (TreeNode o : this.getChildren()) {
                 o.setExpanded(false);
-                ((TreeNodeExtended) o).expandAll();
+                ((TreeNodeExtended) o).foldAll();
+            }
+        }
+    }
+     
+      public void foldLevel(int level) {
+        boolean madzieci = this.getChildren().size() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : this.getChildren()) {
+                if (((Konto) o.getData()).getAnalityka()==level){
+                     o.setExpanded(false);
+                }
+                ((TreeNodeExtended) o).foldLevel(level);
             }
         }
     }

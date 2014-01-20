@@ -122,8 +122,14 @@ public class DokfkView implements Serializable {
     //RESETUJ DOKUMNETFK
     public void resetujDokument() {
         biezacetransakcje = null;
+        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
+        String symbolPoprzedniegoDokumentu ="";
+        try {
+            symbolPoprzedniegoDokumentu = new String(selected.getDokfkPK().getSeriadokfk());
+        } catch (Exception e) {}
         selected = new Dokfk();
         DokfkPK dokfkPK = new DokfkPK();
+        dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
         Wiersze nowywiersz = new Wiersze(1, 0);
