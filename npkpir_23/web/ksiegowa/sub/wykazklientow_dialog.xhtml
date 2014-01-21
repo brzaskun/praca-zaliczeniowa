@@ -51,7 +51,7 @@
                     <f:selectItems value="#{kolmn.kolumnList}" />
                 </p:selectOneMenu>
                  
-                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" update="@form" oncomplete="dlg123.hide();$('#dodWiad\\:acForce_input').val($('#formX\\:nipPole').val());$('#dodWiad\\:acForce_hinput').val($('#formX\\:nipPole').val());$('#dodWiad\\:acForce_input').select();$('#dodWiad\\:acForce_input').trigger('keyup');"/>
+                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" update="@form" oncomplete="skopiujdanenowegoklienta();"/>
             
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania1" columns="5" >
