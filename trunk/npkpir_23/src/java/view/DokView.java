@@ -1550,10 +1550,13 @@ public class DokView implements Serializable {
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
         przekazKontr = (Klienci) anAutoComplete.getValue();
+        selDokument.setKontr(przekazKontr);
+        RequestContext.getCurrentInstance().update("dodWiad:acForce");
         if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
             selDokument.setDokumentProsty(true);
             RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
         }
+        //RequestContext.getCurrentInstance().execute("document.getElementById('dodWiad:rodzajTrans').focus();");
     }
 
     public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {

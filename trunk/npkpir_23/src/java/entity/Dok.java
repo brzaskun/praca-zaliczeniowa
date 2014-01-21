@@ -85,7 +85,6 @@ public class Dok implements Serializable {
     @Column(name = "nr_wl_dk")
     private String nrWlDk;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "kontr")
     private Klienci kontr;
     @Basic(optional = false)
