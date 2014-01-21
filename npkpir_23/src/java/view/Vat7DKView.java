@@ -73,6 +73,7 @@ public class Vat7DKView implements Serializable {
     private boolean pole43zreki;
     private boolean pole56zreki;
     private boolean pole59zreki;
+    private boolean pole47zreki;
     private boolean pokaz56lub59;
     private boolean zachowaj;
 
@@ -201,8 +202,12 @@ public class Vat7DKView implements Serializable {
         if (flaga != 1) {
             try {
                 bylajuzdeklaracjawtymmiesiacu();
-                zbadajpobranadeklarajce();
-                pobierz47zpoprzedniej();
+                if (flaga != 3) {
+                    zbadajpobranadeklarajce();
+                    pobierz47zpoprzedniej();
+                } else {
+                    Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                }
             } catch (Exception e) {
                     pobierz47zustawien();
                     najpierwszadeklaracja();
@@ -341,7 +346,7 @@ public class Vat7DKView implements Serializable {
             for(Deklaracjevat p : pobranalistadeklaracji){
                 if(p.getStatus().equals("200")){
                     flaga = 1;
-                    Msg.msg("e", "A po co tworzysz tę deklaracje, jak są już poźniejsze? Wywalam błąd a ty zajrzyj do wysłanych.", "form:msg");
+                    Msg.msg("e", "A po co tworzysz tę deklaracje, jak są już poźniejsze? To błąd, zatrzymuje program, a ty zajrzyj do wysłanych.", "form:msg");
                     break;
                 }
             }
@@ -410,8 +415,14 @@ public class Vat7DKView implements Serializable {
             //dlatego jest inna (deklaracja wyslana) bo ona musi z poprzedniego miesiaca byc. sluzy tylko tutaj
             List<Deklaracjevat> pobranalistadeklaracji2 = new ArrayList<>();
             pobranalistadeklaracji2 = deklaracjevatDAO.findDeklaracjewszystkie(rokX, mcX, podatnik);
-            deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size() - 1);
-            deklaracjakorygowana = null;
+            try {
+                deklaracjawyslana = pobranalistadeklaracji2.get(pobranalistadeklaracji2.size() - 1);
+                deklaracjakorygowana = null;
+            } catch (Exception e1) {
+                //jak nie ma w poprzednim miesiacu to jest luka i trzeba zrobic inaczej
+                flaga = 3;
+                Msg.msg("w", "Wykryto brak ciągłości w złożonych i zachowanych dekalracjach VAT. Trzeba to wytłumaczyć gołębiowi.");
+            }
         }
     }
     private void czynieczekajuzcosdowyslania(){
@@ -506,6 +517,9 @@ public class Vat7DKView implements Serializable {
         p.setPole45(String.valueOf(p.getPoleI45()));
         p.setPoleI46(p.getPoleI26() + p.getPoleI28() + p.getPoleI30() + p.getPoleI34() + p.getPoleI36() + p.getPoleI38() + p.getPoleI42() + p.getPoleI43() + p.getPoleI44());
         p.setPole46(String.valueOf(p.getPoleI46()));
+        if(pole47zreki==true){
+             p.setPoleI47(Integer.parseInt(p.getPole47()));
+        }
         p.setPoleI55(p.getPoleI47() + p.getPoleI48() + p.getPoleI50() + p.getPoleI52() + p.getPoleI53() + p.getPoleI54());
         p.setPole55(String.valueOf(p.getPoleI55()));
         Integer dozaplaty = p.getPoleI46() - p.getPoleI55();
@@ -700,6 +714,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPole43zreki(boolean pole43zreki) {
         this.pole43zreki = pole43zreki;
+    }
+
+    public boolean isPole47zreki() {
+        return pole47zreki;
+    }
+
+    public void setPole47zreki(boolean pole47zreki) {
+        this.pole47zreki = pole47zreki;
     }
     
     
