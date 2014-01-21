@@ -120,10 +120,14 @@
                 <p:column>
                     <h:panelGrid columns="1" frame="box" width="600">
                         <h:panelGrid title="strona podatku naliczonego"  columns="1">
-                            <h:panelGrid columns="2">
+                            <h:panelGrid columns="3">
                                 <h:outputLabel value="Kwota nadwyżki z poprzedniej deklaracji:" for="pole47" />
                                 <h:inputText id="pole47" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole47}" title="Pole47"  style="font-weight: 700; text-align: right; width: 80px;">
-                                    </h:inputText>
+                                     <p:ajax event="keyup" listener="#{vat7DKView.setPole47zreki(true)}" update=":form:reka47"/>
+                                </h:inputText>
+                            <h:selectBooleanCheckbox id="reka47" label="z ręki" value="#{vat7DKView.pole47zreki}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
                                 <h:outputLabel value="Kwota podatnku naliczonego wynikającego ze spisu z natury:" for="pole48" />
                                 <h:inputText id="pole48" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole48}" title="Pole48"  style="font-weight: 700; text-align: right; width: 80px;">
                                     </h:inputText>
@@ -209,6 +213,7 @@
             </h:panelGrid>
         </h:form>
     </p:panelGrid>  
+    
 </ui:composition>   
 
 
