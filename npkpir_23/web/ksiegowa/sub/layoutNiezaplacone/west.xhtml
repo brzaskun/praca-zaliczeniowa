@@ -38,7 +38,11 @@
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="pity"  outcome="pitprzegladaj" icon="ui-icon-circle-arrow-e"/>
-                         <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.initA()}" update="westKsiegowa"><f:actionListener binding="#{pdfVAT.drukujewidencje()}"/><f:actionListener binding="#{pdfVATsuma.drukuj()}"/></p:menuitem>
+                          <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.przekierowanieEwidencji()}" update="westKsiegowa">
+                            <f:actionListener binding="#{vatView.initA()}"/>
+                            <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
+                            <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
+                        </p:menuitem>
                         <p:menuitem value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:menu>
