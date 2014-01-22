@@ -661,5 +661,13 @@ var selcolor = function () {
     
 };
 
+var varzmienkolorpola47deklvat = function () {
+    $("#form\\:pole47").css({
+            backgroundColor: '#ADD8E6'
+    });
+    $("#form\\:pole47").focus();
+    $("#form\\:pole47").select();
+};
+
 
  

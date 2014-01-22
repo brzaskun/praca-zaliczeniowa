@@ -35,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -188,8 +189,11 @@ public class Vat7DKView implements Serializable {
             if(listakwotaautoryzujaca.size()==0){
                 throw new Exception();
             }
+            //bo wazny jet nie rok na deklaracji ale rok z ktorego sie wysyla
+            DateTime datawysylki = new DateTime();
+            String rokwysylki = String.valueOf(datawysylki.getYear());
             for (Parametr par : listakwotaautoryzujaca) {
-                if (par.getRokOd().equals(rok)) {
+                if (par.getRokOd().equals(rokwysylki)) {
                     kwotaautoryzujaca = par.getParametr();
                     break;
                 }
@@ -206,6 +210,8 @@ public class Vat7DKView implements Serializable {
                     zbadajpobranadeklarajce();
                     pobierz47zpoprzedniej();
                 } else {
+                    selected.setCelzlozenia("1");
+                    RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                     Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                 }
             } catch (Exception e) {
