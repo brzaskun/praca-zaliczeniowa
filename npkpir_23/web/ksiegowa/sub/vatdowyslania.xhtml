@@ -84,15 +84,15 @@
     <h:form id="form">
         <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px;"/>
         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
-        <p:panelGrid columns="2" id="upoform">
-            <h:outputText value="id"/>
-            <h:inputText value="#{beanek.idpobierz}" style="width: 250px;"/>
-            <h:outputText value="upo"/>
-            <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" cols="150"/>
-            <h:outputText value="stat"/>
+        <p:panelGrid columns="2" id="upoform" style="width: 50%;">
+            <h:outputText value="id przesyłki" style="width: 10%;"/>
+            <h:inputText value="#{beanek.idpobierz}" style="width: 90%;"/>
+            <h:outputText value="UPO" style="width: 10%;"/>
+            <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
+            <h:outputText value="status przesyłki - symbol"/>
             <h:outputText id="stat" value="#{beanek.statMB}"/>
-            <h:outputText value="opis"/>
-            <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" cols="150"/>
+            <h:outputText value="opis statusu przesyłki" style="width: 10%;"/>
+            <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" style="width: 90%; height: 60px;"/>
         </p:panelGrid>
     </h:form>
 </ui:composition>   

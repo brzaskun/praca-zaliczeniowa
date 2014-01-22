@@ -15,9 +15,11 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.EVatwpisSuma;
+import embeddable.Kwartaly;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
+import entity.Ewidencjevat;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
@@ -94,7 +96,15 @@ public class PdfVATsuma extends Pdf implements Serializable {
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
             List<EVatwpisSuma> suma2 = new ArrayList<>();
-            suma2.addAll(vatView.getSumaewidencji().values());
+            Ewidencjevat lista;
+            try {
+                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+            } catch (Exception e) {
+                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
+            }
+            suma2.addAll(lista.getSumaewidencji().values());
             try {
                 table.addCell(ustawfrazebez("lp","center",10));
                 table.addCell(ustawfrazebez("ewidencja","center",10));
