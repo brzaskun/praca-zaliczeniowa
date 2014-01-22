@@ -13,10 +13,13 @@ import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
+import embeddable.PozycjeSzczegoloweVAT;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -27,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -39,6 +44,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
+import pdf.PdfVAT;
 
 /**
  *
@@ -73,6 +79,7 @@ public class VatView implements Serializable {
      //tablica obiektw danego klienta
     @Inject DokDAO dokDAO;
     private static BigDecimal wynikOkresu;
+   
   
 
     public VatView() {
@@ -86,7 +93,7 @@ public class VatView implements Serializable {
         suma3 = 0.0;
     }
 
-    public String initA() {
+    public void initA() {
           try {
             listaewidencji = new HashMap<>();
             sumydowyswietlenia = new ArrayList<>();
@@ -222,9 +229,13 @@ public class VatView implements Serializable {
         } catch (Exception e) {
             System.out.println("Firma nie vat");
         }
-          return "/ksiegowa/ksiegowaVATzest.xhtml";
+          //drukuj ewidencje
     }
-
+    
+    public String przekierowanieEwidencji() {
+         return "/ksiegowa/ksiegowaVATzest.xhtml";
+    }
+   
     private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -586,8 +597,7 @@ public class VatView implements Serializable {
         this.wynikOkresu = wynikOkresu;
     }
 
-    
-    
+   
     
     
     

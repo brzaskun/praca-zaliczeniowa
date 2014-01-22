@@ -5,23 +5,16 @@
  */
 package view;
 
-import com.sun.org.apache.xml.internal.utils.ListingErrorHandler;
-import dao.STRDAO;
-import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import msg.Msg;
 
 /**
