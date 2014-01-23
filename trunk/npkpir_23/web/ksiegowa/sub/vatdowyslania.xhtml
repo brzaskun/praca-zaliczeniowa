@@ -29,23 +29,28 @@
                 <h:outputText value="#{item.podatnik}"/>
             </p:column>
             <p:column headerText="dane">
-                <p:dataTable value="#{item.selected}" var="loop">
-                    <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
-                    <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu}"/></p:column>
-                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.pole46} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.pole55} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="przeniesienie (p.47)"><h:outputText value="#{loop.pozycjeszczegolowe.pole47} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zapłaty (p.58)"><h:outputText value="#{loop.pozycjeszczegolowe.pole58} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zwrotu(p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.pole60} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="kwota autoryzacyjna"><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
-                          <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                </p:dataTable>
+                <p:dataGrid columns="1" value="#{item.selected}" var="loop">
+                    <h:panelGrid columns="2">
+                    <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}"/>
+                    <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}"/>
+                    <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/>
+                    <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">
+                     <h:outputText value="należny (p.46)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                     <h:outputText value="naliczony (p.55)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                    <h:outputText value="przeniesienie (p.47)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI47}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                    <h:outputText value="do zapłaty (p.58)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI58}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                    <h:outputText value="do zwrotu(p.60)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                    <h:outputText value="kwota autoryzacyjna"/><h:outputText value="#{loop.kwotaautoryzacja}" style="float: right;">
+                          <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                    </h:panelGrid>
+                </p:dataGrid>
             </p:column>
             <p:column id="previewColumn" headerText="podgląd" width="70">
                 <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatdowysylki.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukujwys(item)}" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');"/>
