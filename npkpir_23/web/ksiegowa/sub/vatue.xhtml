@@ -11,38 +11,37 @@
     <p:outputPanel id="wrapper" deferred="true"> 
         <p:growl id="messages"/>
         <p:dataTable  var="wpis" value="#{vatUeView.podsumowanie}" id="dokumentyLista" editable="true" 
-                      rows="20" paginator="true"
-                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="20,50,100,200" paginatorPosition="top"
                       rowKey="#{wpis.kontrahent.nip}" selection="#{vatUeView.listawybranych}"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                      style="width: 1000px"
+                      style="max-width: 55%" widgetVar="dokTable"
                       > 
             <f:facet name="header">  
-                <h:outputText value="Zestawienie dokumentów do deklaracji VAT-UE" /> 
+                <h:outputText value="#{WpisView.podatnikWpisu} - Zestawienie dokumentów do deklaracji VAT-UE z okres #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" /> 
+                <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
             </f:facet>
             
-            <p:column width="10">
+            <p:column style="width: 5%;">
                 <p:rowToggler />
             </p:column>
-            <p:column id="typdokColumn" headerText="transakcja" filterBy="transakcja" filterMatchMode="contains" sortBy="transakcja" width="110">  
+            <p:column id="typdokColumn" headerText="transakcja" filterBy="transakcja" filterMatchMode="contains" sortBy="transakcja" style="width: 15%;" filterStyle="display : none;" >  
                 <h:outputText value="#{wpis.transakcja}"/>
             </p:column>
-            <p:column id="krajkodColumn" headerText="kod kraju" filterBy="kontrahent.krajkod" filterMatchMode="contains" sortBy="kontrahent.krajkod" width="110">  
+            <p:column id="krajkodColumn" headerText="kod kraju" filterBy="kontrahent.krajkod" filterMatchMode="contains" sortBy="kontrahent.krajkod" style="width: 15%;" filterStyle="display : none;" >  
                 <h:outputText value="#{wpis.kontrahent.krajkod}"/>
             </p:column>
-            <p:column id="nipColumn" headerText="nip" filterBy="kontrahent.nip" filterMatchMode="contains" sortBy="kontrahent.nip" width="110">  
+            <p:column id="nipColumn" headerText="nip" filterBy="kontrahent.nip" filterMatchMode="contains" sortBy="kontrahent.nip" style="width: 15%;" filterStyle="display : none;" >  
                 <h:outputText value="#{wpis.kontrahent.nip}" />
             </p:column>
-             <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontrahent.npelna" filterMatchMode="contains" sortBy="kontrahent.npelna" width="150">  
+             <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontrahent.npelna" filterMatchMode="contains" sortBy="kontrahent.npelna" style="width: 20%;" filterStyle="display : none;" >  
                 <h:outputText value="#{wpis.kontrahent.npelna}"  />
             </p:column>
-            <p:column id="nettoColumn" headerText="netto" filterBy="netto" filterMatchMode="contains" sortBy="netto" width="110">  
+            <p:column id="nettoColumn" headerText="netto" filterBy="netto" filterMatchMode="contains" sortBy="netto" style="width: 15%;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
             </p:column>
-             <p:column id="liczbaColumn" headerText="ilość dok" filterBy="liczbadok" filterMatchMode="contains" sortBy="liczbadok" width="110">  
+             <p:column id="liczbaColumn" headerText="ilość dok" filterBy="liczbadok" filterMatchMode="contains" sortBy="liczbadok" style="width: 15%;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis.liczbadok}" style="float: right;">
                           <f:convertNumber minFractionDigits="0" locale="PL"/>
                         </h:outputText>
@@ -74,6 +73,9 @@
             
             
         </p:dataTable>
+        <p:commandButton value="Print" style="margin: 3%; width: 120px;">
+            <p:printer target="form:dokumentyLista"/>
+        </p:commandButton>
     </p:outputPanel>
     </h:form>
 </ui:composition>   
