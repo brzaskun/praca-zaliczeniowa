@@ -52,7 +52,9 @@
             <p:layoutUnit position="center" style="min-width: 850px;">
                 <h:form id="tabelazobrotami">  
                     <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}" 
-                                 selection="#{kontoObrotyFKView.wybranekontadosumowania}" style="width: 870px;"  >
+                                 selection="#{kontoObrotyFKView.wybranekontadosumowania}" style="width: 870px;" rowIndexVar="index"
+                                 rowStyleClass="#{index eq 0 ? 'niebieskietlo' : null}"
+                                 >
                         <p:ajax event="rowSelectCheckbox" update=":sumyobroty" listener="#{kontoObrotyFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumyobroty" listener="#{kontoObrotyFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumyobroty" listener="#{kontoObrotyFKView.sumazapisow}"/>
