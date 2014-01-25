@@ -15,7 +15,7 @@
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg123.show();"/>
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
-            <script>
+<!--            <script>
 
                     document.onkeypress = wcisnij;
                     function wcisnij() {
@@ -27,7 +27,7 @@
                             return event;
                         }
                     }
-            </script>
+            </script>-->
               <p:panelGrid columns="4">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin()}" update=":form:dataList" style="float: left;" />
@@ -38,7 +38,7 @@
                 <p:treeTable id="dataList" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
-                    <p:ajax event="select" update=":formX" listener="#{planKontView.selrow(loop)}"/>
+                    <p:ajax event="select" update=":formX" listener="#{planKontView.selrow}"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
@@ -62,6 +62,9 @@
                     </p:column>
                     <p:column headerText="potmostwo" style="width: 100px;">
                         <h:outputText value="#{loop.mapotomkow}" /> 
+                    </p:column>
+                    <p:column headerText="zablokowane" style="width: 100px;">
+                        <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 
                     </p:column>
                 </p:treeTable>>
             </p:panelGrid>

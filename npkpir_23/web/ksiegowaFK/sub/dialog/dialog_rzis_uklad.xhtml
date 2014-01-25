@@ -6,6 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
+     <script type="text/javascript">
+			function handleDrop(event, ui) {
+                var droppedCar = ui.draggable;
+
+                droppedCar.fadeOut('fast');
+			}
+		</script>
+        
 
     <p:dialog id="dialogrzisuklad" header="Układ Rachunku Zysków i Strat" widgetVar="rzisuklad" 
               resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
@@ -24,20 +32,35 @@
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaRZiSView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" 
-                             scrollable="true" style="width: 870px; max-height: 600px;">
-                    <p:column style="width: 440px;">
+                             styleClass="tablicaplankont" style="width: 100%; max-height: 600px;">
+                    <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
-                        <h:outputText value=" " /> 
+                        <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
-                    <p:column>
-                        <h:outputText value="#{loop.przyporzadkowanekonta}">
-                    </h:outputText>
-                    </p:column>
                 </p:treeTable>
-            </p:panelGrid>
-           
+                <p:panelGrid columns="1">
+                <p:fieldset legend="DostepneKonta">
+                    <p:dataGrid id="dostepnekonta" columns="3" var="konto" value="#{planKontView.wykazkont}" rows="9">
+                        <p:column>
+                           <p:panel id="pnl" header="#{konto.pelnynumer}" style="text-align:center; width: 160px;">  
+                               <h:outputText value="#{konto.nazwapelna}"/>
+                           </p:panel>
+                           <p:draggable for="pnl" revert="true"  handle=".ui-panel-titlebar" stack=".ui-panel"/> 
+                        </p:column>
+                    </p:dataGrid>
+                </p:fieldset>
+                <p:fieldset id="selected" legend="Przyporządkowane konta">
+                     <p:outputPanel id="dropArea">
+                         
+                     </p:outputPanel>
+                     <p:droppable for="selected" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="dostepnekonta" onDrop="handleDrop">  
+<!--                        <p:ajax listener="{tableBean.onCarDrop}" update="dropArea availableCars" />  -->
+                    </p:droppable>  
+                </p:fieldset>
+                   
+                    </p:panelGrid>
+              </p:panelGrid>
         </h:form>
     </p:dialog>
 </ui:composition>
