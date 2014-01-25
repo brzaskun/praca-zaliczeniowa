@@ -65,7 +65,9 @@
             <p:layoutUnit position="center" style="min-width: 850px;">
                 <h:form id="tabelazzapisami">  
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop.wiersz.idwiersza}" emptyMessage="Nie ma zapisów na koncie">
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop.wiersz.idwiersza}" emptyMessage="Nie ma zapisów na koncie"
+                                 rowStyleClass="#{loop.kontoprzeciwstawne eq '000' ? 'niebieskietlo' : null}"
+                                 >
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
