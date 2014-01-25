@@ -47,6 +47,7 @@ import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.util.ArrayList;
+import java.util.Collection;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -549,6 +550,10 @@ public class SessionFacade<T> {
      public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto) {
         return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
+     
+     public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String konto) {
+        return  em.createNamedQuery("Kontozapisy.findByKontoBO").setParameter("podatnik", podatnik).setParameter("kontoprzeciwstawne", konto).getResultList();
+    }
 
     public List<Konto> findKontaPotomne(String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
@@ -624,6 +629,10 @@ public class SessionFacade<T> {
 
     public List<Sesja> findUser(String user) {
         return em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
+    }
+
+    public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {
+        return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
     }
 
       

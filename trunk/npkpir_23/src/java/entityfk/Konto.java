@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "konto")
+@Table(name = "konto", uniqueConstraints = {@UniqueConstraint(columnNames={"podatnik","pelnynumer","rok"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Konto.findAll", query = "SELECT k FROM Konto k"),
@@ -36,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByNrkonta", query = "SELECT k FROM Konto k WHERE k.nrkonta = :nrkonta"),
     @NamedQuery(name = "Konto.findBySyntetyczne", query = "SELECT k FROM Konto k WHERE k.syntetyczne = :syntetyczne"),
-    @NamedQuery(name = "Konto.findByAnalityka", query = "SELECT k FROM Konto k WHERE k.analityka = :analityka"),
+    @NamedQuery(name = "Konto.findByLevel", query = "SELECT k FROM Konto k WHERE k.level = :level"),
     @NamedQuery(name = "Konto.findByNazwapelna", query = "SELECT k FROM Konto k WHERE k.nazwapelna = :nazwapelna"),
     @NamedQuery(name = "Konto.findByNazwaskrocona", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona"),
     @NamedQuery(name = "Konto.findByBilansowewynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe"),
@@ -45,7 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin")})
-public class Konto implements Serializable {
+public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,7 +72,7 @@ public class Konto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "analityka")
-    private int analityka;
+    private int level;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 350)
@@ -116,6 +118,18 @@ public class Konto implements Serializable {
     @NotNull
     @Column(name = "rozwin")
     private boolean rozwin;
+    @Basic(optional = false)
+    @Column(name = "rok")
+    private int rok;
+    @Basic(optional = false)
+    @Column(name = "boWn")
+    private double boWn;
+    @Basic(optional = false)
+    @Column(name = "boMa")
+    private double boMa;
+    @Basic(optional = false)
+    @Column(name = "blokada")
+    private boolean blokada;
     @OneToMany(mappedBy = "kontoid")
     private List<Rozrachunekfk> rozrachunekfkList;
 
@@ -126,12 +140,12 @@ public class Konto implements Serializable {
         this.id = id;
     }
 
-    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin) {
+    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok) {
         this.id = id;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
         this.syntetyczne = syntetyczne;
-        this.analityka = analityka;
+        this.level = analityka;
         this.nazwapelna = nazwapelna;
         this.nazwaskrocona = nazwaskrocona;
         this.bilansowewynikowe = bilansowewynikowe;
@@ -139,7 +153,11 @@ public class Konto implements Serializable {
         this.macierzyste = macierzyste;
         this.pelnynumer = pelnynumer;
         this.rozwin = rozwin;
-    }
+        this.rok = rok;
+        this.boWn = 0.0;
+        this.boMa = 0.0;
+    }   
+   
 
     public Integer getId() {
         return id;
@@ -173,16 +191,15 @@ public class Konto implements Serializable {
         this.syntetyczne = syntetyczne;
     }
 
-    public int getAnalityka() {
-        return analityka;
+    @Override
+    public int getLevel() {
+        return level;
     }
     
-    public int getLevel() {
-        return analityka;
-    }
-
-    public void setAnalityka(int analityka) {
-        this.analityka = analityka;
+  
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public String getNazwapelna() {
@@ -229,10 +246,12 @@ public class Konto implements Serializable {
         return macierzyste;
     }
 
+    @Override
     public int getMacierzysty() {
         return macierzysty;
     }
 
+    @Override
     public void setMacierzysty(int macierzysty) {
         this.macierzysty = macierzysty;
     }
@@ -269,6 +288,42 @@ public class Konto implements Serializable {
     public Integer getLp() {
         return this.id;
     }
+
+    public int getRok() {
+        return rok;
+    }
+
+    public void setRok(int rok) {
+        this.rok = rok;
+    }
+
+    public double getBoWn() {
+        return boWn;
+    }
+
+    public void setBoWn(double boWn) {
+        this.boWn = boWn;
+    }
+
+    public double getBoMa() {
+        return boMa;
+    }
+
+    public void setBoMa(double boMa) {
+        this.boMa = boMa;
+    }
+
+   
+
+    public boolean isBlokada() {
+        return blokada;
+    }
+
+    public void setBlokada(boolean blokada) {
+        this.blokada = blokada;
+    }
+    
+    
     
     
     @XmlTransient

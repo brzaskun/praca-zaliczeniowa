@@ -34,7 +34,7 @@
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
-                             sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.analityka eq 0 ? 'row1' : loop.analityka eq 1 ? 'row2' : loop.analityka eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
+                             sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
                     <p:ajax event="rowSelect" update=":formX" />
                     <p:column width="40">
@@ -42,7 +42,7 @@
                         <p:commandButton value="-" actionListener="#{planKontView.zwinkonto(loop.pelnynumer)}" update=":form:dataList" rendered="#{(loop.rozwin eq true)and(loop.mapotomkow eq true)}" style="width: 25px; height: 25px;"/>
                         <p:commandButton value="" update=":form:dataList" rendered="#{loop.mapotomkow eq false}" style="width: 25px; height: 25px;"/>
                     </p:column>
-                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
                     <p:column headerText="nazwa pełna" style="width: 150px;">
@@ -58,7 +58,7 @@
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
                     <p:column headerText="poziom" style="width: 50px;">
-                        <h:outputText value="#{loop.analityka}" /> 
+                        <h:outputText value="#{loop.level}" /> 
                     </p:column>
                     <p:column headerText="macierzyste" style="width: 100px;">
                         <h:outputText value="#{loop.macierzyste}" /> 

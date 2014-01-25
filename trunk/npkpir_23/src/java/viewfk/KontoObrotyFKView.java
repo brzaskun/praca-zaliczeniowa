@@ -78,11 +78,13 @@ public class KontoObrotyFKView implements Serializable{
              }
              for(Konto p : kontaprzejrzane) {
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", p.getPelnynumer()));
+                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik("Kowalski", p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
              kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
+             kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik("Kowalski", wybranekonto.getPelnynumer()));
          }
          sumamiesiecy();
          sumazapisow();
@@ -132,6 +134,7 @@ public class KontoObrotyFKView implements Serializable{
     }
     
      private void sumamiesiecy() {
+        lista.add(new ObrotykontaTabela("2013","BO"));
         lista.add(new ObrotykontaTabela("2013","styczeń"));
         lista.add(new ObrotykontaTabela("2013","luty"));
         lista.add(new ObrotykontaTabela("2013","marzec"));
@@ -146,19 +149,23 @@ public class KontoObrotyFKView implements Serializable{
         lista.add(new ObrotykontaTabela("2013","grudzień"));
         for (Kontozapisy p : kontozapisy) {
             ObrotykontaTabela tmp = new ObrotykontaTabela();
+            if (p.getKonto().equals("000")) {
+                tmp = lista.get(0);
+            } else if (!p.getKontoprzeciwstawne().equals("000")){
             switch (p.getWiersz().getDokfk().getMiesiac()) {
-                case "01" : tmp = lista.get(0); break;
-                case "02" : tmp = lista.get(1); break;
-                case "03" : tmp = lista.get(2); break;
-                case "04" : tmp = lista.get(3); break;
-                case "05" : tmp = lista.get(4); break;
-                case "06" : tmp = lista.get(5); break;
-                case "07" : tmp = lista.get(6); break;
-                case "08" : tmp = lista.get(7); break;
-                case "09" : tmp = lista.get(8); break;
-                case "10" : tmp = lista.get(9); break;
-                case "11" : tmp = lista.get(10); break;
-                case "12" : tmp = lista.get(11); break;
+                case "01" : tmp = lista.get(1); break;
+                case "02" : tmp = lista.get(2); break;
+                case "03" : tmp = lista.get(3); break;
+                case "04" : tmp = lista.get(4); break;
+                case "05" : tmp = lista.get(5); break;
+                case "06" : tmp = lista.get(6); break;
+                case "07" : tmp = lista.get(7); break;
+                case "08" : tmp = lista.get(8); break;
+                case "09" : tmp = lista.get(9); break;
+                case "10" : tmp = lista.get(10); break;
+                case "11" : tmp = lista.get(11); break;
+                case "12" : tmp = lista.get(12); break;
+            }
             }
             tmp.setKwotaWn(tmp.getKwotaWn()+p.getKwotawn());
             tmp.setKwotaMa(tmp.getKwotaMa()+p.getKwotama());

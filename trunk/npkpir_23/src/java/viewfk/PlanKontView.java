@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
+import view.WpisView;
 
 /**
  *
@@ -110,6 +111,7 @@ public class PlanKontView implements Serializable{
         }
         System.out.println("Dodaje konto");
         nowe.setPodatnik("Testowy");
+        nowe.setRok(2014);
         //dla syntetycznego informacja jest pusta a dla analitycznego bierzekonto
         if(nowe.getSyntetyczne().equals("syntetyczne")){
             nowe.setMacierzyste("0");
@@ -121,12 +123,12 @@ public class PlanKontView implements Serializable{
             kontoDAO.edit(selected);
         }
         if(nowe.getMacierzyste().equals("0")){
-            nowe.setAnalityka(0);
+            nowe.setLevel(0);
             nowe.setMacierzysty(0);
         } else {
             int i = 1;
             i += StringUtils.countMatches(nowe.getMacierzyste(), "-");
-            nowe.setAnalityka(i);
+            nowe.setLevel(i);
         }
         nowe.setMapotomkow(false);
         obliczpelnynumerkonta();
@@ -156,7 +158,7 @@ public class PlanKontView implements Serializable{
         }
     }
     private void obliczpelnynumerkonta(){
-       if(nowe.getAnalityka()==0){
+       if(nowe.getLevel()==0){
             nowe.setPelnynumer(nowe.getNrkonta());
         } else {
             nowe.setPelnynumer(nowe.getMacierzyste()+"-"+nowe.getNrkonta());

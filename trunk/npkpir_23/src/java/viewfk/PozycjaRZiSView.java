@@ -6,21 +6,12 @@ package viewfk;
 
 import embeddablefk.PozycjaRZiS;
 import embeddablefk.TreeNodeExtended;
+import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.swing.tree.DefaultMutableTreeNode;
-import org.primefaces.component.tree.Tree;
-import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -71,20 +62,41 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 250.0));
         pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", true, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
-        root.createTreeNodesForElement(pozycje);
+        getNodes();
         root.sumNodes();
         root.resolveFormulas();
         root.expandAll();
+        level = root.ustaldepthDT(pozycje)-1;
     }
 
+     //tworzy nody z bazy danych dla tablicy nodow plan kont
+    private void getNodes(){
+        root.createTreeNodesForElement(pozycje);
+    }
+    
     public void rozwinwszystkie(){
+        getNodes();
+        level = root.ustaldepthDT(pozycje)-1;
         root.expandAll();
     }  
     
+    private static int level = 0;
+    public void rozwin(){
+        int maxpoziom = root.ustaldepthDT(pozycje);
+        if (level < --maxpoziom) {
+            root.expandLevel(level++);
+        }
+    }  
+    
     public void zwinwszystkie(){
+        getNodes();
         root.foldAll();
+        level = 0;
     }    
 
+    public void zwin(){
+        root.foldLevel(--level);
+    } 
         
    
     //<editor-fold defaultstate="collapsed" desc="comment">
