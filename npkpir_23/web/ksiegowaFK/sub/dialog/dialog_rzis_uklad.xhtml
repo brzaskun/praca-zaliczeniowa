@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="dialogrzisuklad" header="Dane faktury" widgetVar="rzisuklad" 
+    <p:dialog id="dialogrzisuklad" header="Układ Rachunku Zysków i Strat" widgetVar="rzisuklad" 
               resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
         <h:form id="form">
 <!--            <p:contextMenu for="dataList">
@@ -16,9 +16,11 @@
                 <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
             </p:contextMenu>
 -->           
-              <p:panelGrid columns="2" >
+              <p:panelGrid columns="4" >
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin()}" update=":form:dataList" style="float: left;" />
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin()}" update=":form:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaRZiSView.selectedNodes}" 

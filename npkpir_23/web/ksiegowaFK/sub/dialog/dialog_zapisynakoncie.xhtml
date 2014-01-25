@@ -52,7 +52,7 @@
                         <p:ajax event="select" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="unselect" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                         
-                        <p:column headerText="nr konta" style="width: 240px;" styleClass="#{loop.analityka eq 2 ? 'druga' : null}">
+                        <p:column headerText="nr konta" style="width: 240px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
                         <p:column headerText="nazwa pełna" style="width: 100px;">
@@ -100,7 +100,7 @@
                             <h:outputText value="#{loop.kontoob.nazwapelna}"/>
                         </p:column>
                         <p:column headerText="Konto przeciwstawne" width="90" sortBy="#{loop.kontoprzeciwstawne}">
-                            <h:outputText value="#{loop.kontoprzeciwstawne}"/>
+                            <h:outputText value="#{loop.kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>  

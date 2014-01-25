@@ -4,13 +4,15 @@
  */
 package embeddablefk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import java.io.Serializable;
 
 /**
  *
  * @author Osito
  */
-public class PozycjaRZiS implements Serializable{
+public class PozycjaRZiS extends ToBeATreeNodeObject implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int pozycjanr;
     private String pozycjaString;
     private String pozycjaSymbol;
@@ -100,18 +102,22 @@ public class PozycjaRZiS implements Serializable{
         this.pozycjaSymbol = pozycjaSymbol;
     }
 
+    @Override
     public int getMacierzysty() {
         return macierzysty;
     }
 
+    @Override
     public void setMacierzysty(int macierzysty) {
         this.macierzysty = macierzysty;
     }
    
+    @Override
      public int getLevel() {
         return level;
     }
 
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }

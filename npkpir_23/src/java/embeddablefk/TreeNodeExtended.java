@@ -4,6 +4,7 @@
  */
 package embeddablefk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
 import entityfk.Konto;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +29,7 @@ import org.primefaces.model.TreeNode;
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private boolean display;
 
     public TreeNodeExtended() {
         super();
@@ -36,7 +39,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         super(object, node);
     }
 
-    
+    //robi drzewko z elementów bazy danych
     public void createTreeNodesForElement(ArrayList<T> pozycje) {
        int depth = ustaldepthDT(pozycje);
        Map<String, ArrayList<T>> rzedy = getElementTreeFromPlainList(pozycje, depth);
@@ -57,6 +60,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         int lp = 0;
                         int macierzysty = 0;
                         try {
+                            //tutaj wyszukujemy funkcje, a mozna bylo uzyc abstrakcji
                             Method method = parent.getClass().getMethod("getLp");
                             lp = (int) method.invoke(parent);
                             method = p.getClass().getMethod("getMacierzysty");
@@ -124,20 +128,29 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
     //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
-    public void returnFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
-        boolean madzieci = this.getChildren().size() > 0;
+    public void getFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
+        List<TreeNode> children = this.getChildren();
+        boolean madzieci = this.getChildCount() > 0;
         if (madzieci == true) {
-            for (TreeNode o : this.getChildren()) {
+            for (TreeNode o : children) {
                 finallNodes.add((TreeNodeExtended) o);
-                ((TreeNodeExtended) o).returnFinallChildren(finallNodes);
+                ((TreeNodeExtended) o).getFinallChildren(finallNodes);
             }
             finallNodes.remove(this);
+        }
+    }
+    //ustawia paramentr display na true tylko dla ostatnich elementow
+    public void displayOnlyFinallChildren() {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (TreeNodeExtended p : finallNodes) {
+            p.display = true;
         }
     }
 
     public void sumNodes() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
-        this.returnFinallChildren(finallNodes);
+        this.getFinallChildren(finallNodes);
         ArrayList<TreeNodeExtended> parents = new ArrayList<>();
         do {
             int lowestlevel = ustaldepth(finallNodes);
@@ -174,9 +187,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
 
     public void expandAll() {
-        boolean madzieci = this.getChildren().size() > 0;
+        boolean madzieci = this.getChildCount() > 0;
+        List<TreeNode> lista = this.getChildren();
         if (madzieci == true) {
-            for (TreeNode o : this.getChildren()) {
+            for (TreeNode o : lista) {
                 o.setExpanded(true);
                 ((TreeNodeExtended) o).expandAll();
             }
@@ -184,11 +198,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     public void expandLevel(int level) {
-        boolean madzieci = this.getChildren().size() > 0;
+        boolean madzieci = this.getChildCount() > 0;
+        List<TreeNode> lista = this.getChildren();
         if (madzieci == true) {
-            for (TreeNode o : this.getChildren()) {
+            for (TreeNode o : lista) {
                 o.setExpanded(true);
-                if (((Konto) o.getData()).getAnalityka()<level){
+                if (((ToBeATreeNodeObject) o.getData()).getLevel()<level){
                     ((TreeNodeExtended) o).expandLevel(level);
                 }
             }
@@ -197,9 +212,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
      public void foldAll() {
-        boolean madzieci = this.getChildren().size() > 0;
+        boolean madzieci = this.getChildCount() > 0;
+        List<TreeNode> lista = this.getChildren();
         if (madzieci == true) {
-            for (TreeNode o : this.getChildren()) {
+            for (TreeNode o : lista) {
                 o.setExpanded(false);
                 ((TreeNodeExtended) o).foldAll();
             }
@@ -207,10 +223,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
      
       public void foldLevel(int level) {
-        boolean madzieci = this.getChildren().size() > 0;
+        boolean madzieci = this.getChildCount() > 0;
+        List<TreeNode> lista = this.getChildren();
         if (madzieci == true) {
-            for (TreeNode o : this.getChildren()) {
-                if (((Konto) o.getData()).getAnalityka()==level){
+            for (TreeNode o : lista) {
+                if (((ToBeATreeNodeObject) o.getData()).getLevel()==level){
                      o.setExpanded(false);
                 }
                 ((TreeNodeExtended) o).foldLevel(level);
@@ -285,4 +302,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             }
         }
     }
+
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+    
+    
 }

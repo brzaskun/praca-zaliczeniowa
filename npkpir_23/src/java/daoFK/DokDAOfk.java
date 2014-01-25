@@ -8,6 +8,7 @@ import dao.DAO;
 import entityfk.Dokfk;
 import entityfk.Wiersze;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,6 +58,14 @@ public class DokDAOfk extends DAO implements Serializable {
      public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
        try {
            return dokFacade.findDokfkLastofaType(podatnik,seriadokfk);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+
+    public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {
+        try {
+           return dokFacade.findDokByTypeYear(BO,rok);
        } catch (Exception e ){
            return null;
        }
