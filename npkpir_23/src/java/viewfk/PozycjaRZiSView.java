@@ -4,14 +4,25 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
+import daoFK.KontoDAOfk;
 import embeddablefk.PozycjaRZiS;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
+import javax.inject.Inject;
+import org.bouncycastle.asn1.ocsp.Request;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.DragDropEvent;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -27,15 +38,23 @@ public class PozycjaRZiSView implements Serializable {
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private static ArrayList<PozycjaRZiS> pozycje;
+    private static ArrayList<Konto> przyporzadkowanekonta;
+    private List<Konto> wykazkont;
+    @Inject
+    private KontoDAOfk kontoDAO;
 
     public PozycjaRZiSView() {
+        this.wykazkont = new ArrayList<>();
         this.root = new TreeNodeExtended("root", null);
+        this.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
         pozycje = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
+        wykazkont = kontoDAO.findKontaPotomne("0");
+        Collections.sort(wykazkont, new Kontocomparator());
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", true));
         pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", true, 100.0));
@@ -97,6 +116,15 @@ public class PozycjaRZiSView implements Serializable {
     public void zwin(){
         root.foldLevel(--level);
     } 
+    
+    public void onKontoDrop(Konto konto) {
+        przyporzadkowanekonta.add(konto);
+        wykazkont.remove(konto);
+    }
+    public void onKontoRemove(Konto konto) {
+        wykazkont.add(konto);
+        przyporzadkowanekonta.remove(konto);
+    }
         
    
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -123,5 +151,24 @@ public class PozycjaRZiSView implements Serializable {
     public void setSelectedNodes(TreeNode[] selectedNodes) {
         this.selectedNodes = selectedNodes;
     }
+    
+    
     //</editor-fold>
+
+    public ArrayList<Konto> getPrzyporzadkowanekonta() {
+        return przyporzadkowanekonta;
+    }
+
+    public void setPrzyporzadkowanekonta(ArrayList<Konto> przyporzadkowanekonta) {
+        PozycjaRZiSView.przyporzadkowanekonta = przyporzadkowanekonta;
+    }
+
+    public List<Konto> getWykazkont() {
+        return wykazkont;
+    }
+
+    public void setWykazkont(List<Konto> wykazkont) {
+        this.wykazkont = wykazkont;
+    }
+    
 }
