@@ -21,30 +21,32 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin()}" update=":form:dataList" style="float: left;" />
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 100%;">
-                <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaRZiSView.selectedNodes}" 
-                             styleClass="tablicaplankont" style=" max-height: 600px; margin-top: 0%; float: left;" >
+            <p:panelGrid columns="3" style="width: 320px;">
+                <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 500px; margin-top: 0%; margin-bottom: 50px;" >
+                    <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}" update=":form:selected"/>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
                 </p:treeTable>
-                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px;">
+                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
                         <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaRZiSView.wykazkont}">
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaRZiSView.onKontoDrop(konto)}" update=":form:dataList, :form:dostepnekonta, :form:selected">
+                                               actionListener="#{pozycjaRZiSView.onKontoDrop(konto)}" update=":form:dostepnekonta, :form:selected">
                                     <p:menuitem value="analityka" actionListener="#{buttonBean.update}" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
-                    <p:fieldset id="selected" legend="Przyporządkowane konta"  style="margin-top: 0%; float: left; height: 600px;">
+                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaRZiSView.wybranapozycja}" 
+                            style="margin-top: 0%; float: left; height: 600px; width: 320px;">
                         <p:dataTable var="konto" value="#{pozycjaRZiSView.przyporzadkowanekonta}">
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaRZiSView.onKontoRemove(konto)}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                                                 actionListener="#{pozycjaRZiSView.onKontoRemove(konto)}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
