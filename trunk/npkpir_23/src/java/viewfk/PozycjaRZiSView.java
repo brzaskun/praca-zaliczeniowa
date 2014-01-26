@@ -11,18 +11,13 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.inject.Inject;
-import org.bouncycastle.asn1.ocsp.Request;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.DragDropEvent;
+import msg.Msg;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -35,6 +30,7 @@ public class PozycjaRZiSView implements Serializable {
 
     private TreeNodeExtended root;
     private TreeNode[] selectedNodes;
+    private static TreeNode wybranynodekonta;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private static ArrayList<PozycjaRZiS> pozycje;
@@ -42,6 +38,7 @@ public class PozycjaRZiSView implements Serializable {
     private List<Konto> wykazkont;
     @Inject
     private KontoDAOfk kontoDAO;
+    private static String wybranapozycja;
 
     public PozycjaRZiSView() {
         this.wykazkont = new ArrayList<>();
@@ -125,7 +122,11 @@ public class PozycjaRZiSView implements Serializable {
         wykazkont.add(konto);
         przyporzadkowanekonta.remove(konto);
     }
-        
+    
+    public void wybranopozycjeRZiS() {
+        wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
+        Msg.msg("i", "Wybrano pozycję "+((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
+    }
    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
@@ -170,5 +171,24 @@ public class PozycjaRZiSView implements Serializable {
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
     }
+
+    public String getWybranapozycja() {
+        return wybranapozycja;
+    }
+
+    public TreeNode getWybranynodekonta() {
+        return wybranynodekonta;
+    }
+
+    public void setWybranynodekonta(TreeNode wybranynodekonta) {
+        PozycjaRZiSView.wybranynodekonta = wybranynodekonta;
+    }
+    
+    
+
+    
+    
+    
+    
     
 }
