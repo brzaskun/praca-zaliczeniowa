@@ -121,6 +121,15 @@ public class MailOther extends MailSetUp implements Serializable{
        i++;
        }
 }
+     public void oznaczonejakowyslane() {
+         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+         for (Faktura faktura : fakturydomaila){
+            Klienci klientf = faktura.getKontrahent(); 
+            Msg.msg("i","Oznaczono fakturę jako wysłaną do klienta "+klientf.getNpelna());
+            faktura.setWyslana(true);
+            fakturaDAO.edit(faktura);
+         }
+     }
      
      public void pit5() {
        try {

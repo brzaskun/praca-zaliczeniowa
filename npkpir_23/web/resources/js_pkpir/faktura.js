@@ -1,6 +1,7 @@
 var aktywujpolewyboruklientanafakturze = function (){
                        $(document.getElementById("akordeon:formstworz:acForce_input")).focus();
                        $(document.getElementById("akordeon:formstworz:acForce_input")).select();
+                       $(document.getElementById("akordeon:formstworz:acForce_input")).trigger("keyup");
                    };
  
 var wybierzrzadfaktury = function (){

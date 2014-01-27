@@ -462,6 +462,10 @@ public class SessionFacade<T> {
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
         return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
     }
+    
+    public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
+        return em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList();
+    }
 
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -470,6 +474,9 @@ public class SessionFacade<T> {
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
+}
+    public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
+        return em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
 }
 
     public Fakturywystokresowe findOkresowa(Double brutto, String rok, String klientnip, String nazwapelna) {

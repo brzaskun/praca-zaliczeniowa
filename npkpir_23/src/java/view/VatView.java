@@ -97,6 +97,9 @@ public class VatView implements Serializable {
           try {
             listaewidencji = new HashMap<>();
             sumydowyswietlenia = new ArrayList<>();
+            listadokvat = new ArrayList<>();
+            listadokvatprzetworzona = new ArrayList<>();
+            sumaewidencji = new HashMap<>();
             String vatokres = sprawdzjakiokresvat();
             try {
                 List<Dok> listatmp = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());

@@ -99,7 +99,7 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnik(wpisView.getPodatnikWpisu());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (fakturytmp == null) {
             faktury = new ArrayList<>();
             fakturyarchiwum = new ArrayList<>();
@@ -112,7 +112,7 @@ public class FakturaView implements Serializable {
                 }
             }
         }
-        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
 
     public void przygotujfakture() {
@@ -198,15 +198,21 @@ public class FakturaView implements Serializable {
             p.setBrutto(bruttop);
             EVatwpis eVatwpis = new EVatwpis();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
-            for (EVatwpis r : el) {
-                if (r.getEwidencja().equals(ewidencja)) {
-                    eVatwpis = r;
+            //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
+            //jesli nie to dodaj nowy wiersz
+            if (el.size() > 0) {
+                for (EVatwpis r : el) {
+                    if (r.getEwidencja().equals(ewidencja)) {
+                        r.setNetto(r.getNetto() + p.getNetto());
+                        r.setVat(r.getVat() + p.getPodatekkwota());
+                    } else {
+                        eVatwpis.setEwidencja(ewidencja);
+                        eVatwpis.setNetto(p.getNetto());
+                        eVatwpis.setVat(p.getPodatekkwota());
+                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                        el.add(eVatwpis);
+                    }
                 }
-            }
-            if (eVatwpis.getNetto() != 0) {
-                eVatwpis.setNetto(eVatwpis.getNetto() + p.getNetto());
-                eVatwpis.setVat(eVatwpis.getVat() + p.getPodatekkwota());
-                el.add(eVatwpis);
             } else {
                 eVatwpis.setEwidencja(ewidencja);
                 eVatwpis.setNetto(p.getNetto());
@@ -219,6 +225,7 @@ public class FakturaView implements Serializable {
         selected.setEwidencjavat(el);
         selected.setNetto(netto);
         selected.setVat(vat);
+        selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         double wartosc = brutto * 100;
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
@@ -241,7 +248,7 @@ public class FakturaView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }
-    
+
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
         kwotaprzedwaloryzacja = faktura.getBrutto();
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
@@ -258,9 +265,9 @@ public class FakturaView implements Serializable {
             p.setBrutto(nowacena);
             brutto += nowacena;
             double podatekstawka = p.getPodatek();
-            double podatek = nowacena * podatekstawka / (100+podatekstawka) * 100;
+            double podatek = nowacena * podatekstawka / (100 + podatekstawka) * 100;
             podatek = Math.round(podatek);
-            podatek = podatek /100;
+            podatek = podatek / 100;
             vat += podatek;
             p.setPodatekkwota(podatek);
             double nettop = nowacena - podatek;
@@ -506,6 +513,7 @@ public class FakturaView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         }
+        Msg.msg("i", "Dokument zaksięgowany");
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
@@ -519,7 +527,7 @@ public class FakturaView implements Serializable {
     }
 
     public void wgenerujnumerfaktury() throws IOException {
-        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahent_nip(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu());
+        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
         int rozpoznaj = 0;
         try {
             if (wykazfaktur.size() > 0) {
@@ -599,45 +607,45 @@ public class FakturaView implements Serializable {
         }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
-    
-     public void dodajfaktureokresowanowyrok(Faktura p) {
-            String podatnik = wpisView.getPodatnikWpisu();
-            Fakturywystokresowe fakturyokr = new Fakturywystokresowe();
-            fakturyokr.setDokument(p);
-            fakturyokr.setPodatnik(podatnik);
-            fakturyokr.setRok(wpisView.getRokWpisu().toString());
-            fakturyokr.setBrutto(p.getBrutto());
-            fakturyokr.setNipodbiorcy(p.getKontrahent_nip());
-            String rok = p.getDatasprzedazy().split("-")[0];
-            try {
-               Fakturywystokresowe fakturatmp = null;
-                if (kwotaprzedwaloryzacja > 0) {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(kwotaprzedwaloryzacja, rok, p.getKontrahent_nip(), podatnik);
-                    //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
-                    if (fakturatmp == null) {
-                        fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
-                    }
-                } else {
+
+    public void dodajfaktureokresowanowyrok(Faktura p) {
+        String podatnik = wpisView.getPodatnikWpisu();
+        Fakturywystokresowe fakturyokr = new Fakturywystokresowe();
+        fakturyokr.setDokument(p);
+        fakturyokr.setPodatnik(podatnik);
+        fakturyokr.setRok(wpisView.getRokWpisu().toString());
+        fakturyokr.setBrutto(p.getBrutto());
+        fakturyokr.setNipodbiorcy(p.getKontrahent_nip());
+        String rok = p.getDatasprzedazy().split("-")[0];
+        try {
+            Fakturywystokresowe fakturatmp = null;
+            if (kwotaprzedwaloryzacja > 0) {
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(kwotaprzedwaloryzacja, rok, p.getKontrahent_nip(), podatnik);
+                //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
+                if (fakturatmp == null) {
                     fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
                 }
-                if (fakturatmp != null) {
-                    if (kwotaprzedwaloryzacja > 0) {
-                        fakturatmp.setBrutto(p.getBrutto());
-                    }
-                     fakturatmp.setM1(1);
-                     fakturywystokresoweDAO.edit(fakturatmp);
-                     fakturyokresowe.clear();
-                     fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
-                     Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
-                } else {
-                    throw new Exception();
-                }
-            } catch (Exception ef) {
-                fakturyokr.setM1(1);
-                fakturyokresowe.add(fakturyokr);
-                fakturywystokresoweDAO.dodaj(fakturyokr);
-                Msg.msg("i", "Dodano fakturę okresową");
+            } else {
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
             }
+            if (fakturatmp != null) {
+                if (kwotaprzedwaloryzacja > 0) {
+                    fakturatmp.setBrutto(p.getBrutto());
+                }
+                fakturatmp.setM1(1);
+                fakturywystokresoweDAO.edit(fakturatmp);
+                fakturyokresowe.clear();
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
+                Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception ef) {
+            fakturyokr.setM1(1);
+            fakturyokresowe.add(fakturyokr);
+            fakturywystokresoweDAO.dodaj(fakturyokr);
+            Msg.msg("i", "Dodano fakturę okresową");
+        }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
@@ -651,7 +659,7 @@ public class FakturaView implements Serializable {
     }
 
     public void wygenerujzokresowychwaloryzacja() {
-        if (waloryzajca==0.0) {
+        if (waloryzajca == 0.0) {
             waloryzajca = 0.05;
         }
         wygenerujzokresowych();
@@ -661,13 +669,13 @@ public class FakturaView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
-    
+
     public void wygenerujzokresowych() {
         for (Fakturywystokresowe p : gosciwybralokres) {
             Faktura nowa = SerialClone.clone(p.getDokument());
             if (waloryzajca > 0) {
                 try {
-                    waloryzacjakwoty(nowa,waloryzajca);
+                    waloryzacjakwoty(nowa, waloryzajca);
                 } catch (Exception e) {
                     Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:641");
                 }
@@ -677,7 +685,7 @@ public class FakturaView implements Serializable {
             int terminplatnosci = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
             if (datawystawienia.equals("")) {
                 nowa.setDatawystawienia(firstDate.toString());
-                nowa.setDatasprzedazy(firstDate.toString());    
+                nowa.setDatasprzedazy(firstDate.toString());
                 MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
                 dateTime.addDays(terminplatnosci);
                 nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
@@ -729,7 +737,7 @@ public class FakturaView implements Serializable {
             }
             fakturaDAO.dodaj(nowa);
             faktury.add(nowa);
-            if (fakturanowyrok==0) {
+            if (fakturanowyrok == 0) {
                 Fakturywystokresowe okresowe = p;
                 String datawystawienia = nowa.getDatawystawienia();
                 String miesiac = datawystawienia.substring(5, 7);
@@ -897,8 +905,7 @@ public class FakturaView implements Serializable {
     public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
         this.podsumowaniewybranych = podsumowaniewybranych;
     }
-    
-   
+
     public String getDatawystawienia() {
         return datawystawienia;
     }
@@ -906,6 +913,5 @@ public class FakturaView implements Serializable {
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
-     //</editor-fold>
-
+    //</editor-fold>
 }

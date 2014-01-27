@@ -14,11 +14,13 @@
         </h:form>
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Mail do kontr." update=":form:messages" icon="ui-icon-mail-closed" actionListener="#{mailOther.faktura()}" />
+                <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.faktura()}" />
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
-                <p:menuitem value="Zaksięguj" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
-                <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
+                <p:menuitem value="Zaksięguj" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
+                <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Oznacz jako wysłaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.oznaczonejakowyslane()}" />
             </p:contextMenu>
             <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
             <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">

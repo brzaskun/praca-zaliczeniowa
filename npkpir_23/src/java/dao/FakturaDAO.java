@@ -52,10 +52,29 @@ public class FakturaDAO extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public List<Faktura> findbyKontrahentNipRok(String kontrahentnip, String podatnik, String rok) {
+         try {
+            System.out.println("Pobieram FakturaDAO wg NIP i rok");
+            return fakturaFacade.findByKontrahentNipRok(kontrahentnip, podatnik, rok);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
      public List<Faktura> findbyPodatnik(String podatnik) {
          try {
             System.out.println("Pobieram FakturaDAO wg nazwy Podatnika");
             return fakturaFacade.findByPodatnik(podatnik);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+     
+      public List<Faktura> findbyPodatnikRok(String podatnik, String rok) {
+         try {
+            System.out.println("Pobieram FakturaDAO wg nazwy Podatnika i Rok");
+            return fakturaFacade.findByPodatnikRok(podatnik, rok);
         } catch (Exception e) {
             return null;
         }
