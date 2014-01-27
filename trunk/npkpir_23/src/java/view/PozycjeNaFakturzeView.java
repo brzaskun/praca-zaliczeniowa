@@ -60,6 +60,7 @@ public class PozycjeNaFakturzeView implements Serializable{
     }
 
    public void odchowaj(){
+       try {
        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
        if(!lista.isEmpty()){
            lewyTablica = "";
@@ -70,6 +71,9 @@ public class PozycjeNaFakturzeView implements Serializable{
         goraTablica = goraTablica + p.getGora()+",";
         coTablica = coTablica + p.getPozycjenafakturzePK().getNazwa()+",";
        }
+       }
+       } catch (Exception e){
+           Msg.msg("i", "Elementy faktury nie są ustawione");
        }
    }
 

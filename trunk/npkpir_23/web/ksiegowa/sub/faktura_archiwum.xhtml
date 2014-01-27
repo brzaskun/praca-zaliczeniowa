@@ -17,6 +17,8 @@
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Zaksięguj ponownie" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
             </p:contextMenu>
              <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
     <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
@@ -33,31 +35,31 @@
                     <p:inputText id="globalFilter" onkeyup="archTable.filter()" style="width:150px" />  
                 </f:facet>
                 <p:column selectionMode="multiple" width="50"/>
-                <p:column headerText="wystawca" sortBy="fakturaPK.wystawcanazwa}" filterBy="fakturaPK.wystawcanazwa" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="wystawca" sortBy="fakturaPK.wystawcanazwa" filterBy="fakturaPK.wystawcanazwa" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
                 </p:column>
-                <p:column headerText="nr kolejny" sortBy="fakturaPK.numerkolejny}" filterBy="fakturaPK.numerkolejny" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="nr kolejny" sortBy="fakturaPK.numerkolejny" filterBy="fakturaPK.numerkolejny" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
-                <p:column headerText="kontrahent" sortBy="kontrahent.npelna}" filterBy="kontrahent.npelna" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="kontrahent" sortBy="kontrahent.npelna" filterBy="kontrahent.npelna" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="email" sortBy="kontrahent.email}" filterBy="kontrahent.email" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="email" sortBy="kontrahent.email" filterBy="kontrahent.email" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.email}"/>
                 </p:column>
-                <p:column headerText="datawystawienia" sortBy="datawystawienia}" filterBy="datawystawienia" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="datawystawienia" sortBy="datawystawienia" filterBy="datawystawienia" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="brutto}" filterBy="brutto" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="brutto"  sortBy="brutto" filterBy="brutto" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.brutto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     <h:outputText value="#{wpis.walutafaktury}"/>
                 </p:column>
-                <p:column headerText="wysłana" sortBy="wyslana}">
+                <p:column headerText="wysłana" sortBy="wyslana">
                     <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column headerText="zaksiegowana" sortBy="wyslana}">
+                <p:column headerText="zaksiegowana" sortBy="wyslana">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
             </p:dataTable>

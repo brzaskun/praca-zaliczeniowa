@@ -33,6 +33,7 @@ public class WpisView implements Serializable{
 
     private String podatnikWpisu;
     private Integer rokWpisu;
+    private String rokWpisuSt;
     private String miesiacWpisu;
     private String miesiacNastepny;
     private String miesiacUprzedni;
@@ -76,6 +77,7 @@ public class WpisView implements Serializable{
             this.miesiacWpisu = wpis.getMiesiacWpisu();
         }
         this.rokWpisu = wpis.getRokWpisu();
+        this.rokWpisuSt = String.valueOf(wpis.getRokWpisu());
         try {
             if(miesiacOd==null){
                 this.miesiacOd = wpis.getMiesiacOd();
@@ -307,6 +309,15 @@ public class WpisView implements Serializable{
     public void setSumarokmiesiac(Integer sumarokmiesiac) {
         this.sumarokmiesiac = sumarokmiesiac;
     }
+
+    public String getRokWpisuSt() {
+        return rokWpisuSt;
+    }
+
+    public void setRokWpisuSt(String rokWpisuSt) {
+        this.rokWpisuSt = rokWpisuSt;
+    }
+    
 
    
 }
