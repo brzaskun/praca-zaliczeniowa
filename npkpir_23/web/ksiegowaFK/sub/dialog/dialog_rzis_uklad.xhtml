@@ -32,18 +32,18 @@
                     </p:column>
                 </p:treeTable>
                     <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaRZiSView.wykazkont}">
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaRZiSView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                actionListener="#{pozycjaRZiSView.onKontoDrop(konto)}" update=":form:dostepnekonta, :form:selected">
-                                    <p:menuitem value="analityka" actionListener="#{buttonBean.update}" icon="ui-icon-arrowrefresh-1-w"/>  
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaRZiSView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
                 <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaRZiSView.wybranapozycja}" 
                             style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable var="konto" value="#{pozycjaRZiSView.przyporzadkowanekonta}">
+                    <p:dataTable var="konto" value="#{pozycjaRZiSView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                  actionListener="#{pozycjaRZiSView.onKontoRemove(konto)}" update=":form:dostepnekonta, :form:selected"/>

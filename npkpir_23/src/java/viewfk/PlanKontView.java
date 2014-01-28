@@ -102,7 +102,7 @@ public class PlanKontView implements Serializable {
         if (nowe.getBilansowewynikowe() != null) {
             nowe.setSyntetyczne("syntetyczne");
         } else {
-            if (selected.isBlokada() == false) {
+            if (selected.isBlokada() == false || selected.isMapotomkow() == true) {
                 ArrayList<Konto> lista = new ArrayList<>();
                 wykazkont = kontoDAO.findAll();
                 for (Konto p : wykazkont) {
@@ -133,6 +133,7 @@ public class PlanKontView implements Serializable {
             nowe.setMacierzyste(selected.getPelnynumer());
             nowe.setMacierzysty(selected.getLp());
             //zaznacza w macierzystym ze sa potomkowie
+            selected.setBlokada(true);
             selected.setMapotomkow(true);
             kontoDAO.edit(selected);
         }
@@ -190,10 +191,28 @@ public class PlanKontView implements Serializable {
             if (((Konto) selectednode.getData()).isBlokada()==true) {
                 Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
                 return;
+            } else if (((Konto) selectednode.getData()).isMapotomkow()==true) {
+                Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 kontoDAO.destroy(selectednode.getData());
                 odswiezroot();
                 Msg.msg("i", "Usuwam konto", "formX:messages");
+            }
+        } else {
+            Msg.msg("e", "Nie wybrano konta", "formX:messages");
+        }
+    }
+    
+    public void zablokujkonto() {
+        if (selectednode != null) {
+            Konto konto = (Konto) selectednode.getData();
+            if (konto.isBlokada()==false) {
+                konto.setBlokada(true);
+                Msg.msg("e", "Zabezpieczono konto przed edycją.");
+                return;
+            } else if (konto.getBoWn()== 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada()==true){
+                konto.setBlokada(false);
+                Msg.msg("e", "Odblokowano edycję konta.");
             }
         } else {
             Msg.msg("e", "Nie wybrano konta", "formX:messages");
