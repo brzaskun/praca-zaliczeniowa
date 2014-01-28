@@ -565,6 +565,21 @@ public class SessionFacade<T> {
     public List<Konto> findKontaPotomne(String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
     }
+    
+    public List<Konto> findKontaPotomne(String macierzyste, String bilansowewynikowe) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).getResultList();
+        }
+    }
+     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).getResultList();
+        }
+    }
 
    
     public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {

@@ -12,6 +12,7 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -50,7 +51,8 @@ public class PozycjaRZiSView implements Serializable {
 
     @PostConstruct
     private void init() {
-        wykazkont = kontoDAO.findKontaPotomne("0");
+        List<Konto> pobranekonta = kontoDAO.findKontaPotomne("0", "wynikowe");
+        zmodyfikujwykazkont(pobranekonta);
         Collections.sort(wykazkont, new Kontocomparator());
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", true));
@@ -85,6 +87,28 @@ public class PozycjaRZiSView implements Serializable {
         level = root.ustaldepthDT(pozycje)-1;
     }
 
+    private void drugiinit() {
+        wykazkont.clear();
+        List<Konto> pobranekonta = kontoDAO.findKontaPotomne("0", "wynikowe");
+        zmodyfikujwykazkont(pobranekonta);
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
+    
+    private void zmodyfikujwykazkont(List<Konto> macierzyste) {
+        for (Konto p: macierzyste) {
+            if (p.getPozycja() == null) {
+                if (!wykazkont.contains(p)) {
+                    wykazkont.add(p);
+                }
+            } else if (p.getPozycja().equals("analit")) {
+                List<Konto> potomki = kontoDAO.findKontaPotomne(p.getPelnynumer());
+                for (Konto r : potomki) {
+                    zmodyfikujwykazkont(potomki);
+                }
+            } 
+        }
+    }
+    
      //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         root.createTreeNodesForElement(pozycje);
@@ -113,21 +137,119 @@ public class PozycjaRZiSView implements Serializable {
     public void zwin(){
         root.foldLevel(--level);
     } 
+    public void rozwinrzadanalityki (Konto konto) {
+        List<Konto> lista = kontoDAO.findKontaPotomne(konto.getPelnynumer());
+        if (lista.size()>0) {
+            wykazkont.addAll(kontoDAO.findKontaPotomne(konto.getPelnynumer()));
+            wykazkont.remove(konto);
+            Collections.sort(wykazkont,new Kontocomparator());
+        } else {
+            Msg.msg("e", "Konto nie posiada analityk");
+        }
+    }
     
     public void onKontoDrop(Konto konto) {
-        przyporzadkowanekonta.add(konto);
-        wykazkont.remove(konto);
+        if (wybranapozycja==null) {
+            Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
+        } else {
+            przyporzadkowanekonta.add(konto);
+            Collections.sort(przyporzadkowanekonta,new Kontocomparator());
+            wykazkont.remove(konto);
+            konto.setPozycja(wybranapozycja);
+            konto.setPozycjonowane(true);
+            kontoDAO.edit(konto);
+            if (konto.isMapotomkow()==true) {
+                przyporzadkujpotkomkow(konto.getPelnynumer(), wybranapozycja);
+            }
+            if (konto.getMacierzysty()>0) {
+                oznaczmacierzyste(konto.getMacierzyste());
+            }
+           
+        }
+        drugiinit();
     }
+    
     public void onKontoRemove(Konto konto) {
         wykazkont.add(konto);
+        Collections.sort(wykazkont,new Kontocomparator());
         przyporzadkowanekonta.remove(konto);
+        konto.setPozycja(null);
+        konto.setPozycjonowane(false);
+        kontoDAO.edit(konto);
+        //zerujemy potomkow
+           if (konto.isMapotomkow()==true) {
+               przyporzadkujpotkomkow(konto.getPelnynumer(), null);
+           }
+        //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
+           if (konto.getMacierzysty()>0) {
+                odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
+            }
+        drugiinit();
+    }
+    private void przyporzadkujpotkomkow(String konto, String pozycja) {
+        List<Konto> lista = kontoDAO.findKontaPotomne(konto);
+        for (Konto p : lista) {
+            if (pozycja == null) {
+                p.setPozycja(null);
+            } else {
+                p.setPozycja(pozycja);
+            }
+            kontoDAO.edit(p);
+            if (p.isMapotomkow()==true) {
+                    przyporzadkujpotkomkow(p.getPelnynumer(), pozycja);
+            }
+        }
+    }
+    
+    private void oznaczmacierzyste (String macierzyste) {
+        Konto konto = kontoDAO.findKonto(macierzyste);
+        konto.setPozycja("analit");
+        kontoDAO.edit(konto);
+        if (konto.getMacierzysty()>0) {
+            oznaczmacierzyste(konto.getMacierzyste());
+        }
+    }
+    private void odznaczmacierzyste (String macierzyste, String kontoanalizowane) {
+            List<Konto> siostry = kontoDAO.findKontaPotomne(macierzyste);
+              if (siostry.size() > 1) {
+                  boolean sainne = false;
+                  for (Konto p : siostry) {
+                      if (p.isPozycjonowane()==true && !p.getPelnynumer().equals(kontoanalizowane)) {
+                          sainne = true;
+                      }
+                  }
+                if (sainne==false) {
+                    Konto konto = kontoDAO.findKonto(macierzyste);
+                    konto.setPozycja(null);
+                    kontoDAO.edit(konto);
+                    if (konto.getMacierzysty()>0) {
+                        odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
+                    }
+                }
+              }
     }
     
     public void wybranopozycjeRZiS() {
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
+        przyporzadkowanekonta.clear();
+        przyporzadkowanekonta.addAll(wyszukajprzyporzadkowane(wybranapozycja));
         Msg.msg("i", "Wybrano pozycję "+((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
     }
    
+    private List<Konto> wyszukajprzyporzadkowane(String pozycja) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe");
+        List<Konto> returnlist = new ArrayList<>();
+        int level = 0;
+        for (Konto p : lista) {
+            if (p.getPozycja().equals(pozycja)) {
+                returnlist.add(p);
+            }
+        }
+        return returnlist;
+        
+    }
+    
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
         return root;
@@ -183,6 +305,8 @@ public class PozycjaRZiSView implements Serializable {
     public void setWybranynodekonta(TreeNode wybranynodekonta) {
         PozycjaRZiSView.wybranynodekonta = wybranynodekonta;
     }
+
+  
     
     
 

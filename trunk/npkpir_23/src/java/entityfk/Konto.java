@@ -43,7 +43,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Konto.findByNazwaskrocona", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona"),
     @NamedQuery(name = "Konto.findByBilansowewynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.findByZwyklerozrachszczegolne", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne"),
-    @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste"),
+    @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000'"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.pozycja = :pozycja AND k.bilansowewynikowe = 'wynikowe' AND k.pozycjonowane = 1"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.pozycja = :pozycja AND k.bilansowewynikowe = 'bilansowe' AND k.pozycjonowane = 1"),
+    @NamedQuery(name = "Konto.findByMacierzysteWynikowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe'"),
+    @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin")})
@@ -95,7 +99,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String zwyklerozrachszczegolne;
     @Lob
     @Column(name = "pozycja")
-    private byte[] pozycja;
+    private String pozycja;
+    @Column(name = "pozycjonowane")
+    private boolean pozycjonowane;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -202,6 +208,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.level = level;
     }
 
+    public boolean isPozycjonowane() {
+        return pozycjonowane;
+    }
+
+    public void setPozycjonowane(boolean pozycjonowane) {
+        this.pozycjonowane = pozycjonowane;
+    }
+    
+
     public String getNazwapelna() {
         return nazwapelna;
     }
@@ -234,14 +249,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
     }
 
-    public byte[] getPozycja() {
+    public String getPozycja() {
         return pozycja;
     }
 
-    public void setPozycja(byte[] pozycja) {
+    public void setPozycja(String pozycja) {
         this.pozycja = pozycja;
     }
 
+   
     public String getMacierzyste() {
         return macierzyste;
     }
