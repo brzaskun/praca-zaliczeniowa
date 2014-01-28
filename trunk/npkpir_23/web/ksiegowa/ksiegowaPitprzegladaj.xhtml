@@ -19,7 +19,23 @@
 
                     </p:confirmDialog>  
                 </h:form>
-             
+             <h:form>
+                <p:confirmDialog id="confirmDialogPIT" message="Usunąć ostatni PIT? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Usuwanie PIT" severity="alert" widgetVar="usunPIT">
+                        <p:commandButton id="confirm" value="Tak, usunąć"  oncomplete="usunPIT.hide()"  
+                                         actionListener="#{pitView.usun()}"/>  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="usunPIT.hide();" type="button" style="float: right;" />   
+                    </p:confirmDialog>  
+                </h:form>
+            <h:form>
+                <p:confirmDialog id="confirmDialogR" message="Usunąć ostatnim PIT-Ryczałt? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                     header="Usuwanie PIT-Ryczałt" severity="alert" widgetVar="usunPITR">
+                        <p:commandButton id="confirm" value="Tak, usunąć"  oncomplete="usunPITR.hide()"  
+                                         actionListener="#{ryczView.usun()}" update=":formpi1:tablicapit"  />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="usunPITR.hide();" type="button" style="float: right;" />   
+                    </p:confirmDialog>  
+                </h:form>
+            
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">

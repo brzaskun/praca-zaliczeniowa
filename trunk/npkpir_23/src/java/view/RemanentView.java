@@ -31,6 +31,13 @@ public class RemanentView implements Serializable {
     @Inject
     private Podatnik pod;
 
+    public RemanentView() {
+        remanentPoczRoku = 0.0;
+        remanentKoniecRoku = 0.0;
+    }
+    
+    
+
     @PostConstruct
     private void init() {
         try {

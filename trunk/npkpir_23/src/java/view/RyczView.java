@@ -21,7 +21,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class RyczView implements Serializable {
-    private List<Ryczpoz> lista;
+    private static List<Ryczpoz> lista;
     @Inject private RyczDAO ryczDAO;
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
@@ -47,8 +47,8 @@ public class RyczView implements Serializable {
         Ryczpoz selected = lista.get(index);
         ryczDAO.destroy(selected);
         lista.remove(selected);
-        RequestContext.getCurrentInstance().update("formpi:");
-        Msg.msg("i", "Usunieto parametr RyczDAO do podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
+        RequestContext.getCurrentInstance().update("formpi1:tablicapit");
+        Msg.msg("i", "Usunieto ostatni PIT ryczałt"+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
      
      public void inforryczalt() {

@@ -355,6 +355,12 @@ public class DokTabView implements Serializable {
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
     
+     public void aktualizujPIT(AjaxBehaviorEvent e) {
+        aktualizuj();
+        Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
+    }
+    
+    
      public void aktualizujTablicaGuest(AjaxBehaviorEvent e) {
         aktualizujGuest();
         RequestContext.getCurrentInstance().update("form:dokumentyLista");
