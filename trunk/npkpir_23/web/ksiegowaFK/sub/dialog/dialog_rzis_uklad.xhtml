@@ -23,12 +23,12 @@
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 320px;">
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.root}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
-                             styleClass="tablicaplankont" style="height: 500px; margin-top: 0%; margin-bottom: 50px;" >
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; overflow-y: scroll;">
                     <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}" update=":form:selected"/>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
-                        <h:outputText value="#{loop.nazwa}" /> 
+                        <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
                 </p:treeTable>
                     <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
