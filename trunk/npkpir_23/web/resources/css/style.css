@@ -47,6 +47,9 @@ body {
     padding: 1px 0px !important;
 }
 
+.ui-panelgrid {
+    border-collapse: separate !important;
+}
 
 .ui-panelgrid td {
     

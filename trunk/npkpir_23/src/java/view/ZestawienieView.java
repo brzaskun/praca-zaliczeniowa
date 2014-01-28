@@ -9,6 +9,7 @@ import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
+import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
@@ -19,6 +20,7 @@ import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
+import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
@@ -38,7 +40,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.CartesianChartModel;
@@ -67,21 +71,21 @@ public class ZestawienieView implements Serializable {
     private List<Pitpoz> listapit;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    List<Double> styczen;
-    List<Double> luty;
-    List<Double> marzec;
-    List<Double> kwiecien;
-    List<Double> maj;
-    List<Double> czerwiec;
-    List<Double> lipiec;
-    List<Double> sierpien;
-    List<Double> wrzesien;
-    List<Double> pazdziernik;
-    List<Double> listopad;
-    List<Double> grudzien;
-    List<Double> Ipolrocze;
-    List<Double> IIpolrocze;
-    List<Double> rok;
+    private static List<Double> styczen;
+    private static List<Double> luty;
+    private static List<Double> marzec;
+    private static List<Double> kwiecien;
+    private static List<Double> maj;
+    private static List<Double> czerwiec;
+    private static List<Double> lipiec;
+    private static List<Double> sierpien;
+    private static List<Double> wrzesien;
+    private static List<Double> pazdziernik;
+    private static List<Double> listopad;
+    private static List<Double> grudzien;
+    private static List<Double> Ipolrocze;
+    private static List<Double> IIpolrocze;
+    private static List<Double> rok;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
     private List<List> zebranieMcy;
@@ -92,12 +96,13 @@ public class ZestawienieView implements Serializable {
     @Inject
     private ZobowiazanieDAO zobowiazanieDAO;
     //dane niezbedne do wyliczania pit
-    private String wybranyudzialowiec;
+    private static String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
+    @Inject private WpisDAO wpisDAO;
     
     private int flaga = 0;
 
@@ -1021,25 +1026,44 @@ public class ZestawienieView implements Serializable {
     }
 
     public void zachowajPit() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
         if (biezacyPit.getWynik() != null) {
             try {
                 Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
                 pitDAO.destroy(find);
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:", biezacyPit.getPkpirM());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
+                Msg.msg("i", wiad );
             } catch (Exception e) {
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:", biezacyPit.getPkpirM());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                String wiad = String.format("Zachowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
+                Msg.msg("i", wiad );
             }
 
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie można zachować. PIT nie wypełniony", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e", "Nie można zachować. PIT nie wypełniony");
         }
+    }
+    
+    public void zachowajPit13() {
+        biezacyPit.setPkpirM("13");
+        zachowajPit();
+    }
+    
+    public void aktualizujPIT(AjaxBehaviorEvent e) {
+        wybranyudzialowiec = "wybierz osobe";
+        RequestContext.getCurrentInstance().update("formpit");
+        aktualizuj();
+        Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
+    }
+    
+    private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
     }
 
     public Pitpoz skumulujpity(String mcDo, String udzialowiec) {
