@@ -8,6 +8,7 @@ import dao.DokDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
+import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
@@ -18,6 +19,7 @@ import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Ryczpoz;
+import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import java.io.Serializable;
@@ -36,7 +38,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 
@@ -84,12 +88,13 @@ public class ZestawienieRyczaltView implements Serializable {
     @Inject private PodStawkiDAO podstawkiDAO;
     @Inject private ZobowiazanieDAO zobowiazanieDAO;
     //dane niezbedne do wyliczania pit
-    private String wybranyudzialowiec;
+    private static String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
      //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
+    @Inject private WpisDAO wpisDAO;
 
     public ZestawienieRyczaltView() {
         styczen = Arrays.asList(new Double[4]);
@@ -537,11 +542,11 @@ public class ZestawienieRyczaltView implements Serializable {
                 Ryczpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
                 pitDAO.destroy(find);
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } catch (Exception e) {
                 pitDAO.dodaj(biezacyPit);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
 
@@ -549,6 +554,28 @@ public class ZestawienieRyczaltView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie można zachować. PIT nie wypełniony", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+     public void zachowajPit13() {
+        biezacyPit.setPkpirM("13");
+        zachowajPit();
+    }
+     
+      public void aktualizujPIT(AjaxBehaviorEvent e) {
+        aktualizuj();
+        RequestContext.getCurrentInstance().update("formpit1");
+        wybranyudzialowiec = "wybierz osobe";
+        Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
+    }
+    
+    private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
     }
 
     

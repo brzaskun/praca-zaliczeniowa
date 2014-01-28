@@ -43,6 +43,10 @@
                     <h:outputText value="koszty narast."/>
                     <h:outputText value="#{pitView.biezacyPit.koszty}" style="padding-left: 20%; font-weight: 700; float: right;">
                         <f:convertNumber locale="PL"/></h:outputText>
+                    <h:outputText value="rozliczenie remanentów" rendered="#{pitView.biezacyPit.pkpirM eq '13'}"/>
+                        <h:outputText value="#{remanentView.roznica}" style="font-weight: 700; float: right; color: green;" rendered="#{pitView.biezacyPit.pkpirM eq '13'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                     <h:outputText value="udział"/><h:outputText value="#{pitView.biezacyPit.udzial}%" style="padding-left: 20%; font-weight: 700; float: right;"/>
                     <h:outputText value="przychody udział"/>
                     <h:outputText value="#{pitView.biezacyPit.przychodyudzial}" style="padding-left: 20%; font-weight: 700; float: right;">

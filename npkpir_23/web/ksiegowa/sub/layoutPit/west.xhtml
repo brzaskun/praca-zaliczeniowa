@@ -17,11 +17,11 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;" rendered="#{WpisView.ksiegaryczalt}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujPIT}" update=":akordeon:formpit"/>
+                    <p:ajax event="change" listener="#{ZestawienieView.aktualizujPIT}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu1" value="#{WpisView.miesiacWpisu}" style="width: 70px;" rendered="#{!WpisView.ksiegaryczalt}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujPIT}" update=":akordeon:formpit1"/>
+                    <p:ajax event="change" listener="#{ZestawienieRyczaltView.aktualizujPIT}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
