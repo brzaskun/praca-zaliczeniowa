@@ -25,7 +25,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class PitView implements Serializable {
-    private List<Pitpoz> lista;
+    private static List<Pitpoz> lista;
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
@@ -54,8 +54,8 @@ public class PitView implements Serializable {
         Pitpoz selected = lista.get(index);
         pitDAO.destroy(selected);
         lista.remove(selected);
-        RequestContext.getCurrentInstance().update("formpi:");
-        Msg.msg("i", "Usunieto parametr ZUS do podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
+        RequestContext.getCurrentInstance().update("formpi:tablicapit");
+        Msg.msg("i", "Usunieto ostatni PIT dla podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
 
 

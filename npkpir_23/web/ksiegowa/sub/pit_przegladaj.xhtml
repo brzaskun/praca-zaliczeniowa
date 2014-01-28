@@ -13,7 +13,7 @@
 
                 <p:panel header="wprowadzone PIT-y: " /><br/>
 
-                <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" >
+                <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="pkpirM" >
                     <p:ajax event="rowSelect" update=":formpi2" global="false" listener="#{pitView.wybranopit}"/>
                     <p:column headerText="okres rozliczeniowy: ">
                         <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
@@ -28,7 +28,7 @@
                         <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="usun pit"  actionListener="#{pitView.usun()}" update=":formpi" style="width: 120px; margin-top: 2%;"/>
+                <p:commandButton value="usun pit"  onclick="usunPIT.show();"  style="width: 120px; margin-top: 2%;"/>
             </h:form>
             <h:form id="formpi2">
                 <p:panel header="przegląd wybranego PIT-u za #{pitView.biezacyPit.pkpirR}/#{pitView.biezacyPit.pkpirM}" style="margin-left: 50px;width: 350px"/><br/>
@@ -97,7 +97,7 @@
                     <p:growl id="messages" autoUpdate="true"/>
 
                     <p:panel header="wprowadzone PIT-y (ryczałt): " /><br/>
-                    <p:dataTable id="tablicapit" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" >
+                    <p:dataTable id="tablicapit" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="pkpirM" >
                         <p:ajax event="rowSelect" listener="#{ryczView.inforryczalt}" update=":formpi3:zestawieniepitview" global="false"/>
                         <p:column headerText="okres rozliczeniowy: ">
                             <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
@@ -109,7 +109,7 @@
                             <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton value="usun pit"  actionListener="#{ryczView.usun()}" update=":formpi1:tablicapit" style="width: 120px;"/>
+                    <p:commandButton value="usun pit"  onclick="usunPITR.show();" style="width: 120px;"/>
                 </h:form>
                 <h:form id="formpi3">
                     <p:panel header="przegląd wybranego PIT-u (ryczałt)" style="margin-left: 50px;width: 400px"/><br/>

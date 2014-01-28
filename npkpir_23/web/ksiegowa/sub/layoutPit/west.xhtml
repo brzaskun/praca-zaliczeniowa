@@ -15,14 +15,21 @@
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.rokWpisu}"/>
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
+                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;" rendered="#{WpisView.ksiegaryczalt}">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujPIT}" update=":akordeon:formpit"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="miesiacWpisu1" value="#{WpisView.miesiacWpisu}" style="width: 70px;" rendered="#{!WpisView.ksiegaryczalt}">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujPIT}" update=":akordeon:formpit1"/>
+                </p:selectOneMenu>
             </p:panelGrid>
            <p:panel id="linki" header="linki">
          
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem value="powrót"  outcome="tablica" icon="ui-icon-circle-arrow-e"/> 
-                    <p:menuitem value="pity miesięczne"  outcome="pitprzegladaj" icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem value="archiwum pit"  outcome="pitprzegladaj" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="oblicz pit"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="PIT36"  outcome="pit36" icon="ui-icon-circle-arrow-e"/>
                 </p:menu>
