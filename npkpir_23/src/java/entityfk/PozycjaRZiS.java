@@ -6,27 +6,54 @@ package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Osito
  */
 @Entity
+@Table(name = "pozycjaRZiS")
 public class PozycjaRZiS extends ToBeATreeNodeObject implements Serializable{
     private static final long serialVersionUID = 1L;
+    @Column(name = "pozycjanr")
     private int pozycjanr;
+    @Column(name = "pozycjaString")
     private String pozycjaString;
+    @Column(name = "pozycjaSymbol")
     private String pozycjaSymbol;
+    @Column(name = "macierzysty")
     private int macierzysty;
+    @Column(name = "level")
     private int level;
+    @Column(name = "nazwa")
     private String nazwa;
+    @Column(name = "przychod0koszt1")
     private boolean przychod0koszt1;
+    @Id
+    @Column(name = "lp")
     private int lp;
+    @Column(name = "kwota")
     private double kwota;
+    @Column(name = "przyporzadkowanekonta")
     private String przyporzadkowanekonta;
+    @Column(name = "formula")
     private String formula;
+    @Column(name = "uklad")
+    private String uklad;
+    @Column(name = "podatnik")
+    private String podatnik;
+    @Column(name = "rok")
+    private String rok;
 
+    public PozycjaRZiS() {
+    }
+
+    
+    
     public PozycjaRZiS(PozycjaRZiS pozycjaRZiS) {
         this.pozycjanr = pozycjaRZiS.getPozycjanr();
         this.pozycjaString = pozycjaRZiS.getPozycjaString();
