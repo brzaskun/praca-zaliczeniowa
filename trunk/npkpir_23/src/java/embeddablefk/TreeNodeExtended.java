@@ -7,6 +7,7 @@ package embeddablefk;
 import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
 import entityfk.Konto;
+import entityfk.Kontozapisy;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -148,6 +149,34 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
 
+    public void addNumbers(List<Kontozapisy> zapisynakontach, List<Konto> plankont) {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (Kontozapisy p: zapisynakontach) {
+            //pobiermay dane z poszczegolnego konta
+            double kwotaWn = p.getKwotawn();
+            double kwotaMa = p.getKwotama();
+            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKontoob()));
+            String pozycjaRZiS = kontopobrane.getPozycja();
+            for (TreeNodeExtended r : finallNodes) {
+                //sprawdzamy czy dane konto nalezy do danego wezla
+                PozycjaRZiS pozycja = (PozycjaRZiS) r.getData();
+                if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
+                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                    double kwotapierwotna = pozycja.getKwota();
+                    double donaniesienia = 0.0;
+                    boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
+                    if (przychod0koszt1 == false) {
+                        donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
+                    } else {
+                        donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
+                    }
+                    pozycja.setKwota(donaniesienia);
+                }
+            }
+        }
+    }
+    
     public void sumNodes() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
