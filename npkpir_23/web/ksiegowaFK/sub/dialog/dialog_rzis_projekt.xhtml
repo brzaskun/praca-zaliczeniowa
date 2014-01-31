@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+    <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat" widgetVar="rzisprojekt" 
+              resizable="false" onShow="ustawdialog('dialogrzisprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojekt');"  >
+        <h:form id="formprojekt">
+             <p:contextMenu for="formprojekt:dataList">
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektsyntetyczne.show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="dlg123.show();"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
+                <p:separator/>
+                <p:menuitem value="blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":formprojekt"/>
+            </p:contextMenu>
+            <p:panelGrid columns="4" >
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin()}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin()}" update=":formprojekt:dataList" style="float: left;" />
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="width: 920px;">
+                <p:treeTable id="dataList" value="#{pozycjaRZiSView.rootProjekt}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; overflow-y: scroll;"
+                             emptyMessage="Brak pozycji w RZiS">
+                    <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}"/>
+                    <p:column >
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{loop.nazwa}"/> 
+                    </p:column>
+                </p:treeTable>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+
