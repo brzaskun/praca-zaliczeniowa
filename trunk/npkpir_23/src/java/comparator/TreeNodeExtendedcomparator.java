@@ -4,8 +4,9 @@
  */
 package comparator;
 
-import embeddablefk.PozycjaRZiS;
+
 import embeddablefk.TreeNodeExtended;
+import entityfk.PozycjaRZiS;
 import java.util.Comparator;
 import javax.inject.Named;
 
