@@ -7,6 +7,7 @@ package viewfk;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
+import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
@@ -32,7 +33,9 @@ import org.primefaces.model.TreeNode;
 public class PozycjaRZiSView implements Serializable {
 
     private TreeNodeExtended root;
+    private TreeNodeExtended rootProjekt;
     private TreeNode[] selectedNodes;
+    private PozycjaRZiS nowyelementRZiS;
     private static TreeNode wybranynodekonta;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
@@ -43,10 +46,13 @@ public class PozycjaRZiSView implements Serializable {
     private KontoDAOfk kontoDAO;
     private static String wybranapozycja;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject private PozycjaRZiSDAO pozycjaRZiSDAO;
+    
 
     public PozycjaRZiSView() {
         this.wykazkont = new ArrayList<>();
         this.root = new TreeNodeExtended("root", null);
+        this.rootProjekt = new TreeNodeExtended("root", null);
         this.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
         pozycje = new ArrayList<>();
@@ -58,41 +64,51 @@ public class PozycjaRZiSView implements Serializable {
         zmodyfikujwykazkont(pobranekonta);
         Collections.sort(wykazkont, new Kontocomparator());
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
-        pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
-        pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
-        pozycje.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
-        pozycje.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
-        pozycje.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
-        pozycje.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
-        pozycje.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
-        pozycje.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
-        pozycje.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
-        pozycje.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
-        pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
-        pozycje.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        pozycje.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
-        pozycje.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
-        pozycje.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
-        pozycje.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
-        pozycje.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
-        pozycje.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
-        pozycje.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
-        pozycje.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
-        pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
-        pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
-        pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
+//        pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
+//        pozycje.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
+//        pozycje.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
+//        pozycje.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
+//        pozycje.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
+//        pozycje.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
+//        pozycje.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
+//        pozycje.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
+//        pozycje.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
+//        pozycje.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
-        getNodes();
-        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
-        List<Konto> plankont = kontoDAO.findAll();
-        root.addNumbers(zapisy, plankont);
-        root.sumNodes();
-        root.resolveFormulas();
-        root.expandAll();
-        level = root.ustaldepthDT(pozycje)-1;
+        pozycje.addAll(pozycjaRZiSDAO.findAll());
+        if (pozycje.size() == 0) {
+            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+        }
+        if (pozycje.size() > 0) {
+            List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
+            List<Konto> plankont = kontoDAO.findAll();
+            ustawRoota(rootProjekt, pozycje, zapisy, plankont);
+        }
     }
 
+    private void ustawRoota(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pz, List<Kontozapisy> zapisy, List<Konto> plankont) {
+        rt.createTreeNodesForElement(pz);
+        rt.addNumbers(zapisy, plankont);
+        rt.sumNodes();
+        rt.resolveFormulas();
+        rt.expandAll();
+        level = rt.ustaldepthDT(pz)-1;
+    }
+    
     private void drugiinit() {
         wykazkont.clear();
         List<Konto> pobranekonta = kontoDAO.findKontaPotomne("0", "wynikowe");
@@ -115,13 +131,9 @@ public class PozycjaRZiSView implements Serializable {
         }
     }
     
-     //tworzy nody z bazy danych dla tablicy nodow plan kont
-    private void getNodes(){
-        root.createTreeNodesForElement(pozycje);
-    }
-    
+       
     public void rozwinwszystkie(){
-        getNodes();
+        root.createTreeNodesForElement(pozycje);
         level = root.ustaldepthDT(pozycje)-1;
         root.expandAll();
     }  
@@ -135,7 +147,7 @@ public class PozycjaRZiSView implements Serializable {
     }  
     
     public void zwinwszystkie(){
-        getNodes();
+        root.createTreeNodesForElement(pozycje);
         root.foldAll();
         level = 0;
     }    
@@ -255,6 +267,10 @@ public class PozycjaRZiSView implements Serializable {
         
     }
     
+    public void dodajnowapozycje() {
+        Msg.msg("i", "Dodaję nową pozycję w RZiS");
+    }
+    
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
@@ -312,13 +328,21 @@ public class PozycjaRZiSView implements Serializable {
         PozycjaRZiSView.wybranynodekonta = wybranynodekonta;
     }
 
-  
-    
-    
+    public TreeNodeExtended getRootProjekt() {
+        return rootProjekt;
+    }
 
-    
-    
-    
-    
+    public void setRootProjekt(TreeNodeExtended rootProjekt) {
+        this.rootProjekt = rootProjekt;
+    }
+
+    public PozycjaRZiS getNowyelementRZiS() {
+        return nowyelementRZiS;
+    }
+
+    public void setNowyelementRZiS(PozycjaRZiS nowyelementRZiS) {
+        this.nowyelementRZiS = nowyelementRZiS;
+    }
+  
     
 }
