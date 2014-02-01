@@ -342,6 +342,12 @@
             converter.DateConv  
         </converter-class>
     </converter>
+     <converter>  
+        <converter-id>RzisukladConv</converter-id>  
+        <converter-class>  
+            converter.RzisukladConv  
+        </converter-class>
+    </converter>
     <converter>  
         <converter-id>RodzajedokConv</converter-id>  
         <converter-class>  

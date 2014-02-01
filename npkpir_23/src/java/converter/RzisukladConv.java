@@ -4,36 +4,34 @@
  */
 package converter;
 
-import entity.Rodzajedok;
+import entityfk.Rzisuklad;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import view.RodzajedokView;
+import viewfk.RzisukladView;
 
 /**
  *
  * @author Osito
  */
-public class RodzajedokConv implements javax.faces.convert.Converter{
+public class RzisukladConv  implements javax.faces.convert.Converter{
+    
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        RodzajedokView rodzajedokView = new RodzajedokView();
-        List<Rodzajedok> kl = rodzajedokView.getLista();
+        List<Rzisuklad> kl = RzisukladView.getListaS();
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {  
                 String skrot = submittedValue;  
-  
-                for (Rodzajedok p : kl) {  
-                    if (p.getSkrot().equals(skrot)) {  
+                for (Rzisuklad p : kl) {  
+                    if (p.getRzisukladPK().getUklad().equals(skrot)) {  
                         return p;  
                     }  
                 }  
-  
             } catch(NumberFormatException exception) {  
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid rodzajdok"));  
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid rzisuklad"));  
             }  
         }  
   
@@ -44,8 +42,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Rodzajedok) value).getSkrot());  
+            return String.valueOf(((Rzisuklad) value).getRzisukladPK().getUklad());  
         }  
-    }  
-    
+    }   
 }

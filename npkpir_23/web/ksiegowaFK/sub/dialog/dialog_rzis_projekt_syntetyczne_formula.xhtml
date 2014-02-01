@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-     <p:dialog header="Wpisz dane pozycji głównej" widgetVar="rzisprojektsyntetyczne" resizable="false">  
-        <h:form id="formXrzisprojekt">
+     <p:dialog header="Wpisz dane pozycji głównej" widgetVar="rzisprojektsyntetyczneformula" resizable="false">  
+        <h:form id="formXrzisprojektformula">
         <p:growl id="messages"/>
         <p:focus for="dkp">
         <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
@@ -18,7 +18,11 @@
                             <f:selectItem itemLabel="przychód" itemValue="0"/>
                             <f:selectItem itemLabel="koszt" itemValue="1"/>
                         </p:selectOneMenu>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczne.hide()"/>
+                       <h:outputLabel value="Formuła (np. A+B):" for="formula" />
+                       <p:inputText id="formula" value="#{pozycjaRZiSView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">
+                           <f:validateRegex pattern="[A-Z]([+-][A-Z])*" for="formula" />
+                       </p:inputText>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojektformula, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczne.hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

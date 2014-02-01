@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.PozycjaRZiS;
+import entityfk.Rzisuklad;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,6 +33,13 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
             return null;
         }
    }
-     
+     public  List<PozycjaRZiS> findRzisuklad(Rzisuklad rzisuklad){
+        try {
+            System.out.println("Pobieram PozycjaRZiSDAO wg rzisuklad");
+            return sessionFacade.findRzisuklad(rzisuklad);
+        } catch (Exception e) {
+            return null;
+        }
+   }
     
 }
