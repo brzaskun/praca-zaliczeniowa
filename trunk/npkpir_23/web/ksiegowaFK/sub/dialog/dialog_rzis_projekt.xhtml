@@ -6,11 +6,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-    <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat" widgetVar="rzisprojekt" 
+    <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat - uklad #{pozycjaRZiSView.rzisuklad}" widgetVar="rzisprojekt" 
               resizable="false" onShow="ustawdialog('dialogrzisprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojekt');"  >
         <h:form id="formprojekt">
-             <p:contextMenu for="formprojekt:dataList">
+            <p:contextMenu for="formprojekt:dataList" style="width: 200px;">
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektsyntetyczne.show();"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektsyntetyczneformula.show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektanalityczne.show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
             </p:contextMenu>
@@ -22,7 +23,7 @@
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 920px;">
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.rootProjekt}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
-                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; overflow-y: scroll;"
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji w RZiS">
                     <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
@@ -37,6 +38,13 @@
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'przychód' : 'koszt'}"/>
                     </p:column>
                 </p:treeTable>
+                <p:panel header="pobierz układ" style="margin-top: -50px;">
+                    <h:outputText value="wybierz nazwę kreowanego układu"/>
+                    <p:selectOneListbox value="#{pozycjaRZiSView.rzisuklad}" style="height: 200px;" converter="RzisukladConv">
+                        <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
+                    </p:selectOneListbox>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaRZiSView.pobierzuklad}" update=":formprojekt:dataList"/>
+                </p:panel>
             </p:panelGrid>
         </h:form>
     </p:dialog>

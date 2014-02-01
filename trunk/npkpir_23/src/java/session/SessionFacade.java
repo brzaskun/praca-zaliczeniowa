@@ -41,7 +41,9 @@ import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.PozycjaRZiS;
 import entityfk.Rozrachunekfk;
+import entityfk.Rzisuklad;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
@@ -655,6 +657,13 @@ public class SessionFacade<T> {
 
     public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {
         return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
+    }
+
+    public List<PozycjaRZiS> findRzisuklad(Rzisuklad rzisuklad) {
+        String uklad = rzisuklad.getRzisukladPK().getUklad();
+        String podatnik = rzisuklad.getRzisukladPK().getPodatnik();
+        String rok = rzisuklad.getRzisukladPK().getRok();
+        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
       
