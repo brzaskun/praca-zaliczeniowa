@@ -11,14 +11,21 @@
         <p:growl id="messages"/>
         <p:focus for="dkp">
         <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
-            <h:outputLabel value="Nazwa pozycji:" for="nazwa" />
+            <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
                         <p:inputText id="nazwa" value="#{pozycjaRZiSView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+                        <h:outputLabel value="Przychód koszt:*" for="nazwa" />
+                        <p:selectOneMenu id="rodzaj" value="#{pozycjaRZiSView.nowyelementRZiS.przychod0koszt1}">
+                            <f:selectItem itemLabel="przychód" itemValue="0"/>
+                            <f:selectItem itemLabel="koszt" itemValue="1"/>
+                        </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
                        <p:inputText id="formula" value="#{pozycjaRZiSView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;"/>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje}" accesskey="d" type="submit" update=":formXrzisprojekt, :form" style="float: right;" onclick="rzisprojektsyntetyczne.hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczne.hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>
+         <p:separator/>
+         <h:outputText value="* - pola obowiązkowe"/>   
         </p:dialog> 
    
 </ui:composition>

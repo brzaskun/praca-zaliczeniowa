@@ -15,7 +15,6 @@ import entityfk.PozycjaRZiS;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -51,6 +50,7 @@ public class PozycjaRZiSView implements Serializable {
 
     public PozycjaRZiSView() {
         this.wykazkont = new ArrayList<>();
+        this.nowyelementRZiS = new PozycjaRZiS();
         this.root = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
         this.przyporzadkowanekonta = new ArrayList<>();
@@ -92,6 +92,7 @@ public class PozycjaRZiSView implements Serializable {
         pozycje.addAll(pozycjaRZiSDAO.findAll());
         if (pozycje.size() == 0) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            Msg.msg("i", "Dodaje pusta pozycje");
         }
         if (pozycje.size() > 0) {
             List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
@@ -105,6 +106,12 @@ public class PozycjaRZiSView implements Serializable {
         rt.addNumbers(zapisy, plankont);
         rt.sumNodes();
         rt.resolveFormulas();
+        rt.expandAll();
+        level = rt.ustaldepthDT(pz)-1;
+    }
+    
+    private void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pz) {
+        rt.createTreeNodesForElement(pz);
         rt.expandAll();
         level = rt.ustaldepthDT(pz)-1;
     }
@@ -267,10 +274,60 @@ public class PozycjaRZiSView implements Serializable {
         
     }
     
-    public void dodajnowapozycje() {
+    public void dodajnowapozycje(String syntetycznaanalityczna) {
         Msg.msg("i", "Dodaję nową pozycję w RZiS");
+        if (syntetycznaanalityczna.equals("syntetyczna")){
+            //dodaje nowa syntetyke
+            if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
+                pozycje.remove(0);
+            }
+            if (pozycje.size()==0) {
+                Msg.msg("i", nowyelementRZiS.getNazwa()+"zachowam pod A");
+                nowyelementRZiS.setPozycjaSymbol("A");
+                nowyelementRZiS.setPozycjaString("A");
+                nowyelementRZiS.setLevel(0);
+                nowyelementRZiS.setMacierzysty(0);
+            } else {
+                String poprzednialitera = pozycje.get(pozycje.size()-1).getPozycjaSymbol();
+                int charValue = poprzednialitera.charAt(0);
+                String nowalitera = String.valueOf( (char) (charValue + 1));
+                nowyelementRZiS.setPozycjaSymbol(nowalitera);
+                nowyelementRZiS.setPozycjaString(nowalitera);
+                nowyelementRZiS.setLevel(0);
+                nowyelementRZiS.setMacierzysty(0);
+                Msg.msg("i", nowyelementRZiS.getNazwa()+"zachowam pod "+nowalitera);
+            }
+            try {
+                pozycjaRZiSDAO.dodaj(nowyelementRZiS);
+                pozycje.add(nowyelementRZiS);
+                rootProjekt = new TreeNodeExtended("root", null);
+                ustawRootaprojekt(rootProjekt, pozycje);
+                Msg.msg("i", "Dodano nowa pozycję");
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji");
+            }
+            nowyelementRZiS = new PozycjaRZiS();
+            
+        } else {
+            
+        }
     }
     
+    public void usunpozycje() {
+        try {
+            pozycje.remove(wybranynodekonta.getData());
+            pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
+            if (pozycje.size() == 0) {
+                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+                   Msg.msg("i", "Dodaje pusta pozycje");
+               }
+            rootProjekt = new TreeNodeExtended("root", null);
+            ustawRootaprojekt(rootProjekt, pozycje);
+            Msg.msg("i", "Usuwam w RZiS");
+        } catch (Exception e) {
+             Msg.msg("i", "Nie udało się usunąć pozycji w RZiS");
+        }
+    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
