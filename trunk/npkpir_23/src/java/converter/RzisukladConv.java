@@ -38,11 +38,15 @@ public class RzisukladConv  implements javax.faces.convert.Converter{
         return null;  
     }  
   
-    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
-        if (value == null || value.equals("")) {  
-            return "";  
-        } else {  
-            return String.valueOf(((Rzisuklad) value).getRzisukladPK().getUklad());  
-        }  
+    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
+        try {
+            if (value == null || value.equals("")) {  
+                return "";  
+            } else {  
+                return String.valueOf(((Rzisuklad) value).getRzisukladPK().getUklad());  
+            }  
+        } catch (Exception e) {
+            return "";
+        }
     }   
 }
