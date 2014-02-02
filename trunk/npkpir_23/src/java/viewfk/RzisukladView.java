@@ -56,7 +56,7 @@ public class RzisukladView implements Serializable{
             lista.add(rzisuklad);
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
-            Msg.msg("e", "Nieudana próba dodania układu.");
+            Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class RzisukladView implements Serializable{
             lista.remove(rzisuklad);
             Msg.msg("i", "Usunięto wybrany układ");
         } catch (Exception e) {
-            Msg.msg("e", "Nieudana próba usuniecia układu.");
+            Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
         }
     }
     public Rzisuklad getSelected() {
