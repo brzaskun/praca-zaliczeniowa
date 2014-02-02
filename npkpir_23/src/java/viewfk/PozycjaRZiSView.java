@@ -34,6 +34,7 @@ import org.primefaces.model.TreeNode;
 public class PozycjaRZiSView implements Serializable {
 
     private TreeNodeExtended root;
+    private TreeNodeExtended rootUklad;
     private TreeNodeExtended rootProjekt;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS nowyelementRZiS;
@@ -56,6 +57,7 @@ public class PozycjaRZiSView implements Serializable {
         this.wykazkont = new ArrayList<>();
         this.nowyelementRZiS = new PozycjaRZiS();
         this.root = new TreeNodeExtended("root", null);
+        this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
         this.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
@@ -95,15 +97,15 @@ public class PozycjaRZiSView implements Serializable {
         pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
         pozycje.addAll(pozycjaRZiSDAO.findAll());
-        if (pozycje.size() == 0) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
-            Msg.msg("i", "Dodaje pusta pozycje");
-        }
-        if (pozycje.size() > 0) {
-            List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
-            List<Konto> plankont = kontoDAO.findAll();
-            ustawRoota(rootProjekt, pozycje, zapisy, plankont);
-        }
+//        if (pozycje.size() == 0) {
+//            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+//            Msg.msg("i", "Dodaje pusta pozycje");
+//        }
+//        if (pozycje.size() > 0) {
+//            List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
+//            List<Konto> plankont = kontoDAO.findAll();
+//            ustawRoota(rootProjekt, pozycje, zapisy, plankont);
+//        }
         List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
         List<Konto> plankont = kontoDAO.findAll();
         ustawRoota(root, pozycje_old, zapisy, plankont);
@@ -497,7 +499,16 @@ public class PozycjaRZiSView implements Serializable {
     public void setRzisuklad(Rzisuklad rzisuklad) {
         this.rzisuklad = rzisuklad;
     }
+
+    public TreeNodeExtended getRootUklad() {
+        return rootUklad;
+    }
+
+    public void setRootUklad(TreeNodeExtended rootUklad) {
+        this.rootUklad = rootUklad;
+    }
   
+    
     
     
 }
