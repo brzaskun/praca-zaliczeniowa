@@ -35,17 +35,36 @@ import org.xml.sax.SAXException;
 @Named
 public class WalutyNBP implements Serializable {
 
+    private static int zmianaroku = 0;
+
     private static String numertabeli(int numer) {
-        Integer numertabeli = numer;
-        String numertabeliStr;
-        if (numertabeli.toString().length() == 1) {
-            numertabeliStr = "00" + numertabeli;
-        } else if (numertabeli.toString().length() == 2) {
-            numertabeliStr = "0" + numertabeli;
+        if (zmianaroku == 1) {
+            zmianaroku = 0;
+            return "001";
         } else {
-            numertabeliStr = numertabeli.toString();
+            Integer numertabeli = numer;
+            String numertabeliStr;
+            if (numertabeli.toString().length() == 1) {
+                numertabeliStr = "00" + numertabeli;
+            } else if (numertabeli.toString().length() == 2) {
+                numertabeliStr = "0" + numertabeli;
+            } else {
+                numertabeliStr = numertabeli.toString();
+            }
+            return numertabeliStr;
         }
-        return numertabeliStr;
+    }
+
+    private static int sprawdzzmianeroku(String przekazanadata, int numer) {
+        DateTime staradata = new DateTime(przekazanadata);
+        int staryrok = staradata.getYear();
+        DateTime nowadata = staradata.plusDays(1);
+        int nowyrok = nowadata.getYear();
+        if (staryrok < nowyrok) {
+            zmianaroku = 1;
+            return 1;
+        }
+        return numer;
     }
 
     private static String zmiendate(String przekazanadata, int ktora) {
@@ -76,6 +95,7 @@ public class WalutyNBP implements Serializable {
 
     public static List<Tabelanbp> pobierzpliknbp(String data, int numer, String waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
         List<Tabelanbp> wynik = new ArrayList<>();
+        numer = sprawdzzmianeroku(data, numer);
         while (porownajdaty(data)) {
             InputStream inputStream = null;
             while (inputStream == null && porownajdaty(data)) {
@@ -88,21 +108,21 @@ public class WalutyNBP implements Serializable {
                 }
             }
             if (inputStream != null) {
-            Reader reader = new InputStreamReader(inputStream, "ISO-8859-2");
-            InputSource is = new InputSource(reader);
-            is.setEncoding("UTF-8");
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-            WalutyParseHandler handler = new WalutyParseHandler();
-            saxParser.parse(is, handler);
-            List<Tabelanbp> wyniktmp = WalutyParseHandler.getElementy();
-            for (Tabelanbp p : wyniktmp) {
-                if (p.getTabelanbpPK().getSymbolwaluty().equals(waluta)) {
-                    wynik.add(p);
+                Reader reader = new InputStreamReader(inputStream, "ISO-8859-2");
+                InputSource is = new InputSource(reader);
+                is.setEncoding("UTF-8");
+                SAXParserFactory factory = SAXParserFactory.newInstance();
+                SAXParser saxParser = factory.newSAXParser();
+                WalutyParseHandler handler = new WalutyParseHandler();
+                saxParser.parse(is, handler);
+                List<Tabelanbp> wyniktmp = WalutyParseHandler.getElementy();
+                for (Tabelanbp p : wyniktmp) {
+                    if (p.getTabelanbpPK().getSymbolwaluty().equals(waluta)) {
+                        wynik.add(p);
+                    }
                 }
-            }
-            //System.out.print(wynik.toString());
-            numer++;
+                //System.out.print(wynik.toString());
+                numer++;
             }
         }
         return wynik;
