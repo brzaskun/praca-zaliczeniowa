@@ -4,11 +4,14 @@
  */
 package entityfk;
 
+import entity.Kontopozycjarzis;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -69,6 +72,9 @@ public class Rzisuklad implements Serializable {
     public void setBlokada(boolean blokada) {
         this.blokada = blokada;
     }
+
+ 
+    
 
     @Override
     public int hashCode() {
