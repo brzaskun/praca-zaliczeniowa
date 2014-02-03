@@ -40,6 +40,7 @@ import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
+import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rozrachunekfk;
@@ -433,6 +434,10 @@ public class SessionFacade<T> {
     public Konto findKonto(String numer) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumer").setParameter("pelnynumer", numer).getSingleResult();
     }
+    
+    public Konto findKonto(int id) {
+        return (Konto) em.createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
+    }
 
     public Dokfk findZZapisu(String numer) {
         return (Dokfk) em.createNamedQuery("Dokfk.findByNumer").setParameter("numer", numer).getSingleResult();
@@ -664,6 +669,10 @@ public class SessionFacade<T> {
         String podatnik = rzisuklad.getRzisukladPK().getPodatnik();
         String rok = rzisuklad.getRzisukladPK().getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+
+    public List<Kontopozycjarzis> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
+        return em.createNamedQuery("Kontopozycjarzis.findByPodatnikRokUklad").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("uklad", uklad).getResultList();
     }
 
       

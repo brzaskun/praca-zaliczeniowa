@@ -13,6 +13,7 @@ import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
+import entityfk.KontopozycjarzisPK;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
@@ -72,9 +73,7 @@ public class PozycjaRZiSView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<Konto> pobranekonta = kontoDAO.findKontaPotomne("0", "wynikowe");
-        zmodyfikujwykazkont(pobranekonta);
-        Collections.sort(wykazkont, new Kontocomparator());
+        
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
         pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
@@ -144,6 +143,8 @@ public class PozycjaRZiSView implements Serializable {
     }
     
     public void pobierzukladkonto () {
+        pobierzzachowanepozycjedlakont();
+        drugiinit();
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
@@ -462,18 +463,38 @@ public class PozycjaRZiSView implements Serializable {
          for (Konto p : plankont) {
              Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
              if (p.getPozycja() != null) {
-                 kontopozycjarzis.setKonto(p);
-                 kontopozycjarzis.setUklad(rzisuklad);
-                 kontopozycjarzis.setPozycjaString(p.getPozycja());
+                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                 kontopozycjarzisPK.setKontoId(p.getId());
+                 kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
+                 kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
+                 kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
+                 kontopozycjarzis.setPozycjastring(p.getPozycja());
+                 kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
                  kontopozycjarzisDAO.edit(kontopozycjarzis);
              } else {
-                 kontopozycjarzis.setKonto(p);
-                 kontopozycjarzis.setUklad(rzisuklad);
+                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                 kontopozycjarzisPK.setKontoId(p.getId());
+                 kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
+                 kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
+                 kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
                  try {
                     kontopozycjarzisDAO.destroy(kontopozycjarzis);
                  } catch (Exception e) {}
              }
          }
+    }
+    
+    public void pobierzzachowanepozycjedlakont() {
+        List<Kontopozycjarzis> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
+        for (Kontopozycjarzis p : kontopozycjarzis) {
+            int konto_id = p.getKontopozycjarzisPK().getKontoId();
+            Konto konto = kontoDAO.findKonto(p.getKontopozycjarzisPK().getKontoId());
+            konto.setPozycja(p.getPozycjastring());
+            konto.setPozycjonowane(p.isPozycjonowane());
+            kontoDAO.edit(konto);
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
