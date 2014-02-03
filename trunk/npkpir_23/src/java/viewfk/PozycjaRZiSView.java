@@ -36,6 +36,7 @@ public class PozycjaRZiSView implements Serializable {
     private TreeNodeExtended root;
     private TreeNodeExtended rootUklad;
     private TreeNodeExtended rootProjekt;
+    private TreeNodeExtended rootProjektKonta;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS nowyelementRZiS;
     private static TreeNode wybranynodekonta;
@@ -59,6 +60,7 @@ public class PozycjaRZiSView implements Serializable {
         this.root = new TreeNodeExtended("root", null);
         this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
+        this.rootProjektKonta = new TreeNodeExtended("root", null);
         this.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
         pozycje = new ArrayList<>();
@@ -122,6 +124,20 @@ public class PozycjaRZiSView implements Serializable {
         }
         rootProjekt = new TreeNodeExtended("root", null);
         ustawRootaprojekt(rootProjekt, pozycje);
+        Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
+    }
+    
+    public void pobierzukladkonto () {
+        pozycje = new ArrayList<>();
+        try {
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
+        } catch (Exception e){}
+        if (pozycje.size() == 0) {
+            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            Msg.msg("i", "Dodaje pusta pozycje");
+        }
+        rootProjektKonta = new TreeNodeExtended("root", null);
+        ustawRootaprojekt(rootProjektKonta, pozycje);
         Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
     }
     
@@ -506,6 +522,14 @@ public class PozycjaRZiSView implements Serializable {
 
     public void setRootUklad(TreeNodeExtended rootUklad) {
         this.rootUklad = rootUklad;
+    }
+
+    public TreeNodeExtended getRootProjektKonta() {
+        return rootProjektKonta;
+    }
+
+    public void setRootProjektKonta(TreeNodeExtended rootProjektKonta) {
+        this.rootProjektKonta = rootProjektKonta;
     }
   
     
