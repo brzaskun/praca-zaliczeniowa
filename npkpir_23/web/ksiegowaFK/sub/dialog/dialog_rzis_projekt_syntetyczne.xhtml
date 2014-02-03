@@ -15,8 +15,8 @@
                         <p:inputText id="nazwa" value="#{pozycjaRZiSView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
                         <p:selectOneMenu id="rodzaj" value="#{pozycjaRZiSView.nowyelementRZiS.przychod0koszt1}">
-                            <f:selectItem itemLabel="przychód" itemValue="0"/>
-                            <f:selectItem itemLabel="koszt" itemValue="1"/>
+                            <f:selectItem itemLabel="przychód" itemValue="false"/>
+                            <f:selectItem itemLabel="koszt" itemValue="true"/>
                         </p:selectOneMenu>
                        <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczne.hide()"/>
         </p:panelGrid>
