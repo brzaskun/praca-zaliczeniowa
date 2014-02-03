@@ -8,9 +8,11 @@ import comparator.Kontocomparator;
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
+import daoFK.KontopozycjarzisDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
+import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
@@ -52,6 +54,7 @@ public class PozycjaRZiSView implements Serializable {
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject private Rzisuklad rzisuklad;
+    @Inject private KontopozycjarzisDAO kontopozycjarzisDAO;
     
 
     public PozycjaRZiSView() {
@@ -454,6 +457,25 @@ public class PozycjaRZiSView implements Serializable {
         }
     }
     
+    public void zaksiegujzmianypozycji () {
+         List<Konto> plankont = kontoDAO.findAll();
+         for (Konto p : plankont) {
+             Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
+             if (p.getPozycja() != null) {
+                 kontopozycjarzis.setKonto(p);
+                 kontopozycjarzis.setUklad(rzisuklad);
+                 kontopozycjarzis.setPozycjaString(p.getPozycja());
+                 kontopozycjarzisDAO.edit(kontopozycjarzis);
+             } else {
+                 kontopozycjarzis.setKonto(p);
+                 kontopozycjarzis.setUklad(rzisuklad);
+                 try {
+                    kontopozycjarzisDAO.destroy(kontopozycjarzis);
+                 } catch (Exception e) {}
+             }
+         }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public TreeNodeExtended getRoot() {
         return root;
@@ -478,9 +500,6 @@ public class PozycjaRZiSView implements Serializable {
     public void setSelectedNodes(TreeNode[] selectedNodes) {
         this.selectedNodes = selectedNodes;
     }
-    
-    
-    //</editor-fold>
 
     public ArrayList<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
@@ -550,7 +569,8 @@ public class PozycjaRZiSView implements Serializable {
         this.rootProjektKonta = rootProjektKonta;
     }
   
-    
+    //</editor-fold>
+
     
     
 }
