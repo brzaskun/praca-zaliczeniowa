@@ -5,14 +5,9 @@
 package entityfk;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,67 +23,63 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kontopozycjarzis.findAll", query = "SELECT k FROM Kontopozycjarzis k"),
-    @NamedQuery(name = "Kontopozycjarzis.findByLp", query = "SELECT k FROM Kontopozycjarzis k WHERE k.lp = :lp"),
-    @NamedQuery(name = "Kontopozycjarzis.findByPozycjaString", query = "SELECT k FROM Kontopozycjarzis k WHERE k.pozycjaString = :pozycjaString")
-   })
+    @NamedQuery(name = "Kontopozycjarzis.findByPozycjastring", query = "SELECT k FROM Kontopozycjarzis k WHERE k.pozycjastring = :pozycjastring"),
+    @NamedQuery(name = "Kontopozycjarzis.findByPodatnik", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.podatnik = :podatnik"),
+    @NamedQuery(name = "Kontopozycjarzis.findByPodatnikRokUklad", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.podatnik = :podatnik AND k.kontopozycjarzisPK.rok = :rok AND k.kontopozycjarzisPK.uklad = :uklad"),
+    @NamedQuery(name = "Kontopozycjarzis.findByUklad", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.uklad = :uklad"),
+    @NamedQuery(name = "Kontopozycjarzis.findByKontoId", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
+    @NamedQuery(name = "Kontopozycjarzis.findByRok", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.rok = :rok")})
 public class Kontopozycjarzis implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer lp;
+    @EmbeddedId
+    protected KontopozycjarzisPK kontopozycjarzisPK;
     @Size(max = 255)
-    @Column(length = 255)
-    private String pozycjaString;
-    private Rzisuklad uklad;
-    private Konto konto;
+    @Column(length = 255, name = "pozycjastring")
+    private String pozycjastring;
+    @Column(name = "pozycjonowane")
+    private boolean pozycjonowane;
 
     public Kontopozycjarzis() {
     }
 
-    public Kontopozycjarzis(Integer lp) {
-        this.lp = lp;
+    public Kontopozycjarzis(KontopozycjarzisPK kontopozycjarzisPK) {
+        this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
-    public Integer getLp() {
-        return lp;
+    public Kontopozycjarzis(String podatnik, String uklad, int kontoId, String rok) {
+        this.kontopozycjarzisPK = new KontopozycjarzisPK(podatnik, uklad, kontoId, rok);
     }
 
-    public void setLp(Integer lp) {
-        this.lp = lp;
+    public KontopozycjarzisPK getKontopozycjarzisPK() {
+        return kontopozycjarzisPK;
     }
 
-    public String getPozycjaString() {
-        return pozycjaString;
+    public void setKontopozycjarzisPK(KontopozycjarzisPK kontopozycjarzisPK) {
+        this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
-    public void setPozycjaString(String pozycjaString) {
-        this.pozycjaString = pozycjaString;
+    public String getPozycjastring() {
+        return pozycjastring;
     }
 
-    public Rzisuklad getUklad() {
-        return uklad;
+    public void setPozycjastring(String pozycjastring) {
+        this.pozycjastring = pozycjastring;
     }
 
-    public void setUklad(Rzisuklad uklad) {
-        this.uklad = uklad;
+    public boolean isPozycjonowane() {
+        return pozycjonowane;
     }
 
-    public Konto getKonto() {
-        return konto;
+    public void setPozycjonowane(boolean pozycjonowane) {
+        this.pozycjonowane = pozycjonowane;
     }
-
-    public void setKonto(Konto konto) {
-        this.konto = konto;
-    }
-
+    
     
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (lp != null ? lp.hashCode() : 0);
+        hash += (kontopozycjarzisPK != null ? kontopozycjarzisPK.hashCode() : 0);
         return hash;
     }
 
@@ -99,7 +90,7 @@ public class Kontopozycjarzis implements Serializable {
             return false;
         }
         Kontopozycjarzis other = (Kontopozycjarzis) object;
-        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
+        if ((this.kontopozycjarzisPK == null && other.kontopozycjarzisPK != null) || (this.kontopozycjarzisPK != null && !this.kontopozycjarzisPK.equals(other.kontopozycjarzisPK))) {
             return false;
         }
         return true;
@@ -107,7 +98,7 @@ public class Kontopozycjarzis implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kontopozycjarzis[ lp=" + lp + " ]";
+        return "entityfk.Kontopozycjarzis[ kontopozycjarzisPK=" + kontopozycjarzisPK + " ]";
     }
     
 }
