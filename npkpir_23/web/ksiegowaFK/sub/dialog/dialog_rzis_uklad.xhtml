@@ -15,9 +15,9 @@
                             <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
                         </p:contextMenu>
             -->           
-            <p:panelGrid columns="5" >
+            <p:panelGrid columns="5">
                 <p:panelGrid columns="3">
-                    <h:outputText value="   nazwa układu"/>
+                    <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaRZiSView.rzisuklad}" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>

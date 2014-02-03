@@ -108,9 +108,7 @@ public class PozycjaRZiSView implements Serializable {
 //            List<Konto> plankont = kontoDAO.findAll();
 //            ustawRoota(rootProjekt, pozycje, zapisy, plankont);
 //        }
-        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
-        List<Konto> plankont = kontoDAO.findAll();
-        ustawRoota(root, pozycje_old, zapisy, plankont);
+        
     }
 
     public void pobierzuklad () {
@@ -124,6 +122,21 @@ public class PozycjaRZiSView implements Serializable {
         }
         rootProjekt = new TreeNodeExtended("root", null);
         ustawRootaprojekt(rootProjekt, pozycje);
+        Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
+    }
+     public void pobierzukladprzeglad () {
+        pozycje = new ArrayList<>();
+        try {
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
+        } catch (Exception e){}
+        if (pozycje.size() == 0) {
+            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            Msg.msg("i", "Dodaje pusta pozycje");
+        }
+        root = new TreeNodeExtended("root", null);
+        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
+        List<Konto> plankont = kontoDAO.findAll();
+        ustawRoota(root, pozycje, zapisy, plankont);
         Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
     }
     
@@ -217,15 +230,19 @@ public class PozycjaRZiSView implements Serializable {
         if (wybranapozycja==null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
+            //to duperele porzadkujace sytuacje w okienkach
             przyporzadkowanekonta.add(konto);
             Collections.sort(przyporzadkowanekonta,new Kontocomparator());
             wykazkont.remove(konto);
+            //czesc przekazujaca przyporzadkowanie do konta do wymiany
             konto.setPozycja(wybranapozycja);
             konto.setPozycjonowane(true);
             kontoDAO.edit(konto);
+            //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow()==true) {
                 przyporzadkujpotkomkow(konto.getPelnynumer(), wybranapozycja);
             }
+            //czesc nanoszaca informacje na macierzyste
             if (konto.getMacierzysty()>0) {
                 oznaczmacierzyste(konto.getMacierzyste());
             }
@@ -375,6 +392,7 @@ public class PozycjaRZiSView implements Serializable {
             }
             nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
             nowyelementRZiS.setPozycjaString(parent.getPozycjaString()+"."+nastepnysymbol);
+            nowyelementRZiS.setPrzychod0koszt1(parent.isPrzychod0koszt1());
             nowyelementRZiS.setLevel(level+1);
             nowyelementRZiS.setMacierzysty(parent.getLp());
             if (!(nowyelementRZiS.getFormula() instanceof String)) {
