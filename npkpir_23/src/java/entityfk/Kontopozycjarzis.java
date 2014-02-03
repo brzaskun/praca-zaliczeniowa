@@ -42,7 +42,7 @@ public class Kontopozycjarzis implements Serializable {
     @Column(length = 255)
     private String pozycjaString;
     private Rzisuklad uklad;
-    private Konto kONTOid;
+    private Konto konto;
 
     public Kontopozycjarzis() {
     }
@@ -75,23 +75,15 @@ public class Kontopozycjarzis implements Serializable {
         this.uklad = uklad;
     }
 
-    public Konto getkONTOid() {
-        return kONTOid;
+    public Konto getKonto() {
+        return konto;
     }
 
-    public void setkONTOid(Konto kONTOid) {
-        this.kONTOid = kONTOid;
+    public void setKonto(Konto konto) {
+        this.konto = konto;
     }
 
     
-
-    public Konto getKONTOid() {
-        return kONTOid;
-    }
-
-    public void setKONTOid(Konto kONTOid) {
-        this.kONTOid = kONTOid;
-    }
 
     @Override
     public int hashCode() {
