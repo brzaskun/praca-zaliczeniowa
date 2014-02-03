@@ -484,6 +484,7 @@ public class PozycjaRZiSView implements Serializable {
                  } catch (Exception e) {}
              }
          }
+         Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: "+rzisuklad.getRzisukladPK().getUklad());
     }
     
     public void pobierzzachowanepozycjedlakont() {
