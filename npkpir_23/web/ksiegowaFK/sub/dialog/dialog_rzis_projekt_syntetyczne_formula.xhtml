@@ -9,8 +9,8 @@
      <p:dialog header="Wpisz dane pozycji głównej" widgetVar="rzisprojektsyntetyczneformula" resizable="false">  
         <h:form id="formXrzisprojektformula">
         <p:growl id="messages"/>
-        <p:focus for="dkp">
-        <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
+        <p:focus for="dkpf">
+        <p:panelGrid id="dkpf" columns="2" style=" width: 500px;">
             <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
                         <p:inputText id="nazwa" value="#{pozycjaRZiSView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
@@ -22,7 +22,7 @@
                        <p:inputText id="formula" value="#{pozycjaRZiSView.nowyelementRZiS.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">
                            <f:validateRegex pattern="[A-Z]([+-][A-Z])*" for="formula" />
                        </p:inputText>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojektformula, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczne.hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojektformula, :formprojekt" style="width: 120px;" onclick="rzisprojektsyntetyczneformula.hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>
