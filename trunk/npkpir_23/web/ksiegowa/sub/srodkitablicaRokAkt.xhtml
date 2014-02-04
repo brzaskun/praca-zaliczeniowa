@@ -18,7 +18,7 @@
                       emptyMessage="W firmie nie ma środków trwałych"> 
          
             <f:facet name="header">  
-                <h:outputText value="Wykaz środków trwałych za rok" />  
+                <h:outputText value="Wykaz środków trwałych za rok #{WpisView.rokWpisuSt}" />  
             </f:facet>
             
              <p:column id="Column0" headerText="nr" width="20">  
@@ -41,7 +41,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
               </h:outputText>
             </p:column>
-          <p:column id="Column5" headerText="odpis roczny" width="60">  
+          <p:column id="Column5" headerText="odpis za #{WpisView.rokWpisuSt}" width="60">  
               <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
               </h:outputText>

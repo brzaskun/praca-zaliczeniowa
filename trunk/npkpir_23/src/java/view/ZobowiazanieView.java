@@ -7,15 +7,19 @@ package view;
 import dao.ZobowiazanieDAO;
 import entity.Zobowiazanie;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -28,6 +32,8 @@ public class ZobowiazanieView implements Serializable{
     private ZobowiazanieDAO zobowiazanieDAO;
     @Inject
     private Zobowiazanie selected;
+    @ManagedProperty(value = "#{WpisView}") 
+    private WpisView wpisView;
     
     private List<Zobowiazanie> listapobranychstawek;
 
@@ -41,6 +47,12 @@ public class ZobowiazanieView implements Serializable{
         Collection c  = zobowiazanieDAO.findAll();
         try{
             listapobranychstawek.addAll(c);
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            String rok = String.valueOf(new DateTime().getYear());
+            if(request.isUserInRole("Manager")){
+                wpisView.setRokWpisuSt(rok);
+            }
         } catch (Exception e){}
     }
     
@@ -87,6 +99,16 @@ public class ZobowiazanieView implements Serializable{
     public void setSelected(Zobowiazanie selected) {
         this.selected = selected;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
+    
     
       
 }

@@ -898,7 +898,14 @@ public class ZestawienieView implements Serializable {
                 BigDecimal dochód = biezacyPit.getPodstawa();
                 BigDecimal przychody = biezacyPit.getPrzychody();
                 Podstawki tmpY;
-                tmpY = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
+                try {
+                    tmpY = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
+                } catch (Exception e) {
+                    biezacyPit = new Pitpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    Msg.msg("e", "Brak wprowadzonej skali opodatkowania w obecny rok. Przerywam wyliczanie PIT-u");
+                    return;
+                }
                 switch (rodzajop) {
                     case "zasady ogólne":
                         stawka = tmpY.getStawka1();
@@ -965,15 +972,21 @@ public class ZestawienieView implements Serializable {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonego rodzaju opodatkowania!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Pitpoz();
+                wybranyudzialowiec = "wybierz osobe";
+                return;
             }
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
+                wybranyudzialowiec = "wybierz osobe";
+                RequestContext.getCurrentInstance().update("formpit:");
             } catch (Exception e) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych kwot ZUS za dany miesiąc!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Pitpoz();
+                wybranyudzialowiec = "wybierz osobe";
                 RequestContext.getCurrentInstance().update("formpit:");
+                return;
             }
 
         }
