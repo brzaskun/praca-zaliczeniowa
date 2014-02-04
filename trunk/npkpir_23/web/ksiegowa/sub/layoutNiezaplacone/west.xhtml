@@ -38,7 +38,7 @@
                     </p:menu>
                     <p:menu>
                         <p:menuitem value="pity"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
-                          <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.przekierowanieEwidencji()}" update="westKsiegowa">
+                          <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.przekierowanieEwidencji()}" update="westKsiegowa" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                             <f:actionListener binding="#{vatView.initA()}"/>
                             <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
                             <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>

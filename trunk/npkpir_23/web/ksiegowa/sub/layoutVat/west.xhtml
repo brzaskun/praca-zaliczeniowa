@@ -21,7 +21,7 @@
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem value="powrót"  outcome="tablica" icon="ui-icon-circle-arrow-e"/>
-                       <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.przekierowanieEwidencji()}" update="westWpis">
+                       <p:menuitem value="ewidencje vat" icon="ui-icon-circle-arrow-e" action="#{vatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                             <f:actionListener binding="#{vatView.initA()}"/>
                             <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
                             <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
