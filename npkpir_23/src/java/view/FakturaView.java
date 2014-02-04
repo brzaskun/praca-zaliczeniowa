@@ -8,7 +8,6 @@ import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
-import dao.FakturyokresoweDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
 import dao.WpisDAO;
@@ -19,7 +18,6 @@ import entity.Dok;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
-import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
 import entity.Wpis;
@@ -42,7 +40,6 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
 import serialclone.SerialClone;
 
@@ -177,6 +174,24 @@ public class FakturaView implements Serializable {
     }
 
     public void dodaj() throws Exception {
+        ewidencjavat(selected);
+        selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        selected.setRok(String.valueOf(wpisView.getRokWpisu()));
+        selected.setMc(wpisView.getMiesiacWpisu());
+        faktury.add(selected);
+        try {
+            fakturaDAO.dodaj(selected);
+            Msg.msg("i", "Dodano fakturę.");
+            pokazfakture = false;
+            selected = new Faktura();
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. "+e.getMessage());
+        }
+        RequestContext.getCurrentInstance().update("akordeon:formstworz");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+    }
+    
+    private void ewidencjavat(Faktura selected) throws Exception {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         double netto = 0.0;
         double vat = 0.0;
@@ -226,33 +241,13 @@ public class FakturaView implements Serializable {
                 el.add(eVatwpis);
             }
         }
-        selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setEwidencjavat(el);
         selected.setNetto(netto);
         selected.setVat(vat);
-        selected.setRok(String.valueOf(wpisView.getRokWpisu()));
-        selected.setMc(wpisView.getMiesiacWpisu());
         double wartosc = brutto * 100;
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
         selected.setBrutto(wartosc);
-        faktury.add(selected);
-        String wynik = fakturaDAO.dodaj(selected);
-        if (wynik.equals("ok")) {
-            Msg.msg("i", "Dodano fakturę.");
-            pokazfakture = false;
-            selected = new Faktura();
-//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            if (request.isUserInRole("Guest")) {
-//                FacesContext.getCurrentInstance().getExternalContext().redirect("guestFaktura.xhtml");
-//            } else {
-//                FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaFaktura.xhtml");
-//            }
-        } else {
-            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + wynik);
-        }
-        RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }
 
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
@@ -305,6 +300,7 @@ public class FakturaView implements Serializable {
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
         faktura.setBrutto(wartosc);
+        
     }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
@@ -665,9 +661,6 @@ public class FakturaView implements Serializable {
     }
 
     public void wygenerujzokresowychwaloryzacja() {
-        if (waloryzajca == 0.0) {
-            waloryzajca = 0.05;
-        }
         wygenerujzokresowych();
         waloryzajca = 0.0;
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:kwotawaloryzacji");
@@ -684,6 +677,13 @@ public class FakturaView implements Serializable {
                     waloryzacjakwoty(nowa, waloryzajca);
                 } catch (Exception e) {
                     Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:641");
+                }
+            } else if (waloryzajca == -1){
+                try {
+                    ewidencjavat(nowa);
+                    Msg.msg("i", "Generowanie nowej ewidencji vat");
+                } catch (Exception e) {
+                    Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
                 }
             }
             DateTime dt = new DateTime();
@@ -746,9 +746,10 @@ public class FakturaView implements Serializable {
             String roksprzedazy = datasprzedazy.substring(0, 4);
             nowa.setRok(roksprzedazy);
             nowa.setMc(miesiacsprzedazy);
-            fakturaDAO.dodaj(nowa);
-            faktury.add(nowa);
-            if (fakturanowyrok == 0) {
+            try {
+                fakturaDAO.dodaj(nowa);
+                faktury.add(nowa);
+             if (fakturanowyrok == 0) {
                 Fakturywystokresowe okresowe = p;
                 String datawystawienia = nowa.getDatawystawienia();
                 String miesiac = datawystawienia.substring(5, 7);
@@ -793,6 +794,9 @@ public class FakturaView implements Serializable {
                 fakturywystokresoweDAO.edit(okresowe);
             }
             Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+            } catch (Exception e) {
+                Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: "+nowa.getFakturaPK().getNumerkolejny());
+            }
         }
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
