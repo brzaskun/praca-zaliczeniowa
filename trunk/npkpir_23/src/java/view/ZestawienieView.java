@@ -1077,6 +1077,7 @@ public class ZestawienieView implements Serializable {
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
     }
 
     public Pitpoz skumulujpity(String mcDo, String udzialowiec) {

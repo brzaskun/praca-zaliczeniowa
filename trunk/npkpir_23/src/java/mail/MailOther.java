@@ -131,6 +131,16 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
      
+     public void oznaczonejakozaksiegowane() {
+         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+         for (Faktura faktura : fakturydomaila){
+            Klienci klientf = faktura.getKontrahent(); 
+            Msg.msg("i","Oznaczono fakturę jako zaksięgowaną "+klientf.getNpelna());
+            faktura.setZaksiegowana(true);
+            fakturaDAO.edit(faktura);
+         }
+     }
+     
      public void pit5() {
        try {
             Message message = logintoMail();

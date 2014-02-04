@@ -376,6 +376,7 @@ public class DokTabView implements Serializable {
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
     }
      private void aktualizujGuest(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);

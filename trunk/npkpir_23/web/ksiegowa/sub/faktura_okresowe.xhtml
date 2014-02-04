@@ -13,20 +13,23 @@
             </p:ajaxStatus>
         </h:form>
         <h:form id="formokresowe">
-            <p:contextMenu for="dokumentyOkresowe" style="width: 200px;">
+            <p:contextMenu for="dokumentyOkresowe" style="width: 250px;">
                 <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowych()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
-
+                <p:separator/>
+                <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-trash" />
+                <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-trash" />
             </p:contextMenu>
             <p:panelGrid columns="2">
-                <h:outputText value="suma wartości brutto wybranych dokumentów: "/> 
-                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych} zł" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                <h:outputText value="Suma wartości brutto wybranych dokumentów zł: "/> 
+                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}" style="float: right;">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                 </h:outputText>
-                <h:outputText value="Kwota walowyzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
-                <h:outputText value="Data wystawienia"/><h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
+                <h:outputText value="Kwota waloryzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
+                <h:outputText value="Data wystawienia"/>
+                <h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
             </p:panelGrid>
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"
                          selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="rok}" sortOrder="DESCENDING">
