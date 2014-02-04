@@ -272,6 +272,7 @@ public class KsiegaView implements Serializable {
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

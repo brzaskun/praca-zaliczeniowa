@@ -11,6 +11,7 @@ import dao.FakturaDAO;
 import dao.FakturyokresoweDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
+import dao.WpisDAO;
 import embeddable.EVatwpis;
 import embeddable.KwotaKolumna;
 import embeddable.Pozycjenafakturzebazadanych;
@@ -21,6 +22,7 @@ import entity.FakturaPK;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
+import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -32,8 +34,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -86,6 +90,7 @@ public class FakturaView implements Serializable {
     private double kwotaprzedwaloryzacja;
     //wlasna data dla faktur
     private String datawystawienia;
+    @Inject private WpisDAO wpisDAO;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -99,7 +104,7 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (fakturytmp == null) {
             faktury = new ArrayList<>();
             fakturyarchiwum = new ArrayList<>();
@@ -226,6 +231,7 @@ public class FakturaView implements Serializable {
         selected.setNetto(netto);
         selected.setVat(vat);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
+        selected.setMc(wpisView.getMiesiacWpisu());
         double wartosc = brutto * 100;
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
@@ -635,7 +641,7 @@ public class FakturaView implements Serializable {
                 fakturatmp.setM1(1);
                 fakturywystokresoweDAO.edit(fakturatmp);
                 fakturyokresowe.clear();
-                fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu());
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
             } else {
                 throw new Exception();
@@ -701,7 +707,7 @@ public class FakturaView implements Serializable {
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
-            List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahent_nip(nowa.getKontrahent().getNip(), wpisView.getPodatnikWpisu());
+            List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(nowa.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             int fakturanowyrok = 0;
             if (wykazfaktur.size() == 0) {
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
@@ -735,6 +741,11 @@ public class FakturaView implements Serializable {
                     fakturanowyrok = 1;
                 }
             }
+            String datasprzedazy = nowa.getDatasprzedazy();
+            String miesiacsprzedazy = datasprzedazy.substring(5, 7);
+            String roksprzedazy = datasprzedazy.substring(0, 4);
+            nowa.setRok(roksprzedazy);
+            nowa.setMc(miesiacsprzedazy);
             fakturaDAO.dodaj(nowa);
             faktury.add(nowa);
             if (fakturanowyrok == 0) {
@@ -787,6 +798,106 @@ public class FakturaView implements Serializable {
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
+    
+    public void resetujbiezacymiesiac() {
+        if (gosciwybralokres.size() == 0 ) {
+            Msg.msg("e", "Nie wybrano faktury do resetu");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            Fakturywystokresowe okresowe = p;
+                String miesiac = wpisView.getMiesiacWpisu();
+                switch (miesiac) {
+                    case "01":
+                        okresowe.setM1(0);
+                        break;
+                    case "02":
+                        okresowe.setM2(0);
+                        break;
+                    case "03":
+                        okresowe.setM3(0);
+                        break;
+                    case "04":
+                        okresowe.setM4(0);
+                        break;
+                    case "05":
+                        okresowe.setM5(0);
+                        break;
+                    case "06":
+                        okresowe.setM6(0);
+                        break;
+                    case "07":
+                        okresowe.setM7(0);
+                        break;
+                    case "08":
+                        okresowe.setM8(0);
+                        break;
+                    case "09":
+                        okresowe.setM9(0);
+                        break;
+                    case "10":
+                        okresowe.setM10(0);
+                        break;
+                    case "11":
+                        okresowe.setM11(0);
+                        break;
+                    case "12":
+                        okresowe.setM12(0);
+                        break;
+                }
+                fakturywystokresoweDAO.edit(okresowe);
+    }
+    }
+    
+    public void oznaczbiezacymiesiac() {
+        if (gosciwybralokres.size() == 0 ) {
+            Msg.msg("e", "Nie wybrano faktury do resetu");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            Fakturywystokresowe okresowe = p;
+                String miesiac = wpisView.getMiesiacWpisu();
+                switch (miesiac) {
+                    case "01":
+                        okresowe.setM1(1);
+                        break;
+                    case "02":
+                        okresowe.setM2(1);
+                        break;
+                    case "03":
+                        okresowe.setM3(1);
+                        break;
+                    case "04":
+                        okresowe.setM4(1);
+                        break;
+                    case "05":
+                        okresowe.setM5(1);
+                        break;
+                    case "06":
+                        okresowe.setM6(1);
+                        break;
+                    case "07":
+                        okresowe.setM7(1);
+                        break;
+                    case "08":
+                        okresowe.setM8(1);
+                        break;
+                    case "09":
+                        okresowe.setM9(1);
+                        break;
+                    case "10":
+                        okresowe.setM10(1);
+                        break;
+                    case "11":
+                        okresowe.setM11(1);
+                        break;
+                    case "12":
+                        okresowe.setM12(1);
+                        break;
+                }
+                fakturywystokresoweDAO.edit(okresowe);
+    }
+    }
 
     public void sumawartosciwybranych() {
         podsumowaniewybranych = 0.0;
@@ -799,6 +910,24 @@ public class FakturaView implements Serializable {
                 podsumowaniewybranych += p.getBrutto();
             }
         }
+    }
+    
+    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+        fakturyarchiwum.clear();
+        aktualizuj();
+        init();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+    }
+     
+       private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

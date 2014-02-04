@@ -1605,6 +1605,7 @@ public class DokView implements Serializable {
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
     }
 
     public String aktualizujPop() throws IOException {
