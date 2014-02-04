@@ -12,7 +12,6 @@ import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
-import embeddable.Mce;
 import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
@@ -26,18 +25,15 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -304,16 +300,14 @@ public class DokTabView implements Serializable {
     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
     
     //usun jak wciaz dziala bez nich
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         obiektDOKmrjsfSel.clear();
-        init();
         aktualizuj();
+        init();
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
     }
   
      public void aktualizujGuest(String strona) throws IOException {

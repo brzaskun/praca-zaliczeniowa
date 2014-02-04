@@ -7,6 +7,7 @@ package view;
 import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.SumypkpirDAO;
+import dao.WpisDAO;
 import embeddable.DokKsiega;
 import embeddable.KwotaKolumna;
 import entity.Dok;
@@ -14,6 +15,8 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.SumypkpirPK;
+import entity.Wpis;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +25,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+import msg.Msg;
 
 /**
  *
@@ -42,6 +49,7 @@ public class KsiegaView implements Serializable {
     private SumypkpirDAO sumypkpirDAO;
     @Inject
     private DokDAO dokDAO;
+    @Inject private WpisDAO wpisDAO;
 
     public KsiegaView() {
         lista = new ArrayList<>();
@@ -247,6 +255,23 @@ public class KsiegaView implements Serializable {
         } else {
             System.out.println("podsumowanie - nie!");
         }
+    }
+    
+     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+        lista.clear();
+        aktualizuj();
+        init();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+    }
+     
+       private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
