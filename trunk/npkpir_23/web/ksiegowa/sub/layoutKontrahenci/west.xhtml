@@ -14,7 +14,7 @@
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}"  />
-                    <p:ajax event="change" listener="#{obrotyView.init()}"  />
+                    <p:ajax event="change" listener="#{obrotyView.init()}" />
                 </p:selectOneMenu>
                 <p:outputLabel for="miesiacOd" value="Mc od"/>
                 <p:selectOneMenu id="miesiacOd" value="#{WpisView.miesiacOd}" >

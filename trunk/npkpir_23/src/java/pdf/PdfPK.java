@@ -80,8 +80,16 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(miziu);
             document.add(new Chunk().NEWLINE);
             Paragraph miziu1;
-            if(selected.getTypdokumentu().equals("PK")||selected.getTypdokumentu().equals("OT")||selected.getTypdokumentu().equals("IN")||selected.getTypdokumentu().equals("ZUS")){
+            if(selected.getTypdokumentu().equals("PK")||selected.getTypdokumentu().equals("OT")||selected.getTypdokumentu().equals("IN")){
                 miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
+            } else if (selected.getTypdokumentu().equals("AMO")) {
+                miziu1 = new Paragraph(new Phrase("Umorzenie miesięczne "+selected.getNrWlDk(),font));
+            } else if (selected.getTypdokumentu().equals("LP")) {
+                miziu1 = new Paragraph(new Phrase("Lista płac "+selected.getNrWlDk(),font));
+            } else if (selected.getTypdokumentu().equals("ZUS")) {
+                miziu1 = new Paragraph(new Phrase("Ubezpieczenia społeczne "+selected.getNrWlDk(),font));
+            } else if (selected.getTypdokumentu().equals("RF")) {
+                miziu1 = new Paragraph(new Phrase("zestawienie - kasa fiskalna "+selected.getNrWlDk(),font));
             } else {
                 miziu1 = new Paragraph(new Phrase("Faktura VAT "+selected.getNrWlDk(),font));
             }
