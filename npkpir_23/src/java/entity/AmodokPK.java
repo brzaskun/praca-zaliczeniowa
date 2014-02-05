@@ -68,7 +68,6 @@ public class AmodokPK implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (int) mc;
-        hash += (podatnik != null ? podatnik.hashCode() : 0);
         hash += (int) rok;
         return hash;
     }
