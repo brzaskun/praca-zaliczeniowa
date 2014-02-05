@@ -10,7 +10,7 @@
     <h:form id="dodWiad">
         <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
                  style="width: 1300px; box-shadow: 10px 10px 5px #888; padding: 2%;" id="wprowadzanie">
-            <p:growl id="mess_add" />
+            <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania"/>
             <p:panelGrid id="polawprowadzania" columns="6" style="width: 1000px;">
                 <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
