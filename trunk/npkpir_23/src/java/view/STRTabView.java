@@ -64,6 +64,7 @@ public class STRTabView implements Serializable{
     private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
     //dokumenty amortyzacyjne
     private List<Amodok> amodoklist;
+    private List<Amodok> amodoklistselected;
     /**
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
@@ -356,6 +357,14 @@ public class STRTabView implements Serializable{
 //     }
 //    }
     }
+    
+    public void oznaczjakozaksiegowane() {
+        for (Amodok p : amodoklistselected) {
+            p.setZaksiegowane(true);
+            amoDokDAO.edit(p);
+            Msg.msg("i", "Oznaczono AMO jako zaksięgowany");
+        }
+    }
    
      public STRDAO getsTRDAO() {
         return sTRDAO;
@@ -475,6 +484,14 @@ public class STRTabView implements Serializable{
 
     public void setSprzedane(List<SrodekTrw> sprzedane) {
         this.sprzedane = sprzedane;
+    }
+
+    public List<Amodok> getAmodoklistselected() {
+        return amodoklistselected;
+    }
+
+    public void setAmodoklistselected(List<Amodok> amodoklistselected) {
+        this.amodoklistselected = amodoklistselected;
     }
 
        
