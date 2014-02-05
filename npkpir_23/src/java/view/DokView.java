@@ -1276,7 +1276,6 @@ public class DokView implements Serializable {
         double kwotaumorzenia = 0.0;
         List<Amodok> lista = new ArrayList<Amodok>();
         lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
-
         Amodok amodokPoprzedni = null;
         Amodok amodok = null;
         Iterator itx;
@@ -1286,33 +1285,23 @@ public class DokView implements Serializable {
             Integer mctmp = tmp.getAmodokPK().getMc();
             String mc = Mce.getMapamcy().get(mctmp);
             Integer rok = tmp.getAmodokPK().getRok();
+            if (wpisView.getMiesiacWpisu().equals("01")&&rok==wpisView.getRokWpisu()) {
+                rok = rok - 1; 
+            }
             if (wpisView.getRokWpisu().equals(rok) && wpisView.getMiesiacWpisu().equals(mc)) {
                 amodok = tmp;
                 break;
             }
             amodokPoprzedni = tmp;
         }
-
-        try {
-            boolean temp = amodokPoprzedni.getZaksiegowane();
-            List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
-        } catch (Exception e) {
-        }
-
-        try {
-
-            if (amodokPoprzedni != null) {
-                if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
-                    throw new Exception();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Nie ma odpisu w porzednim miesiącu a jest dokumet umorzeniowy za ten okres!", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-        try {
-            List<Umorzenie> umorzenia = new ArrayList<>();
+//nie wiem co to. trzeba chyba usunac
+//        try {
+//            boolean temp = amodokPoprzedni.getZaksiegowane();
+//            List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
+//        } catch (Exception e) {
+//        }
+        //wyliczam kwote umorzenia
+         List<Umorzenie> umorzenia = new ArrayList<>();
             umorzenia.addAll(amodok.getUmorzenia());
             Iterator it;
             it = umorzenia.iterator();
@@ -1320,7 +1309,25 @@ public class DokView implements Serializable {
                 Umorzenie tmp = (Umorzenie) it.next();
                 kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
             }
-
+        try {
+            if (amodokPoprzedni != null) {
+                if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
+                    //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
+                    Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getMapamcy().get(amodokPoprzedni.getAmodokPK().getMc()));
+                    if (znaleziony instanceof Dok && znaleziony.getNetto() == kwotaumorzenia) {
+                        amodokPoprzedni.setZaksiegowane(true);
+                        amoDokDAO.edit(amodokPoprzedni);
+                    } else {
+                        throw new Exception();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokumet umorzeniowy za ten okres!");
+            return;
+        }
+        try {
             selDokument.setEwidencjaVAT(null);
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -1370,13 +1377,14 @@ public class DokView implements Serializable {
             if (selDokument.getNetto() > 0) {
                 dokDAO.dodaj(selDokument);
                 String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, wiadomosc, selDokument.getIdDok().toString());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Msg.msg("i", wiadomosc);
                 amodok.setZaksiegowane(true);
                 amoDokDAO.edit(amodok);
+                Msg.msg("i", "Informacje naniesione na dokumencie umorzenia");
             } else {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
+                return;
             }
         } catch (Exception e) {
             System.out.println(e.getStackTrace().toString());
