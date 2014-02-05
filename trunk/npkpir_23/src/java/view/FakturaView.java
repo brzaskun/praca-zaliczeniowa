@@ -580,6 +580,7 @@ public class FakturaView implements Serializable {
             fakturyokr.setBrutto(p.getBrutto());
             fakturyokr.setNipodbiorcy(p.getKontrahent_nip());
             String rok = p.getDatasprzedazy().split("-")[0];
+            fakturyokr.setRok(rok);
             try {
                 Fakturywystokresowe fakturatmp = null;
                 if (kwotaprzedwaloryzacja > 0) {
@@ -602,9 +603,14 @@ public class FakturaView implements Serializable {
                     throw new Exception();
                 }
             } catch (Exception ef) {
-                fakturyokresowe.add(fakturyokr);
+                Msg.msg("w", "Błąd podczas wyszukiwania poprzedniej faktury");
+            }
+            try {
                 fakturywystokresoweDAO.dodaj(fakturyokr);
+                fakturyokresowe.add(fakturyokr);
                 Msg.msg("i", "Dodano fakturę okresową");
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd podczas zachowania faktury w bazie danych "+e.getMessage());
             }
         }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
