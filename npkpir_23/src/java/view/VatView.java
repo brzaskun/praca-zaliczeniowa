@@ -102,14 +102,14 @@ public class VatView implements Serializable {
             sumaewidencji = new HashMap<>();
             String vatokres = sprawdzjakiokresvat();
             try {
-                List<Dok> listatmp = dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu());
+                List<Dok> listatmp = dokDAO.zwrocBiezacegoKlientaRokVAT(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 //sortowanie dokumentów
                 Collections.sort(listatmp, new Dokcomparator());
                 //
-                Integer r = wpisView.getRokWpisu();
+                String rokvat = wpisView.getRokWpisuSt();
                 int numerk = 1;
                 for (Dok tmpx : listatmp) {
-                    if (tmpx.getPkpirR().equals(r.toString())) {
+                    if (tmpx.getPkpirR().equals(rokvat)) {
                         tmpx.setNrWpkpir(numerk++);
                         listadokvat.add(tmpx);
                     }

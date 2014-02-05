@@ -54,6 +54,9 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokPod(pod);
     }
 
+    public List<Dok> zwrocBiezacegoKlientaRokVAT(String pod, String rok) {
+        return dokFacade.findDokBKVAT(pod,rok);
+    }
   
      public List<Dok> zwrocBiezacegoKlientaRok(String pod, String rok) {
         return dokFacade.findDokBK(pod,rok);

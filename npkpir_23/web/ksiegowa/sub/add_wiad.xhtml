@@ -240,25 +240,23 @@
                 <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
                 </p:panelGrid>
             </p:panel>
-
             <!--pola ewidencji VAT-->
             <div>
                 <p:panelGrid id="grid1" columns="#{DokumentView.wielkoscopisuewidencji}" binding="#{DokumentView.grid1}">
                 </p:panelGrid>
             </div>
             <!--pola ewidencji VAT-->
-            <p:panelGrid columns="4" style="width: 1000px;">
+            <p:panelGrid columns="4" style="width: 400px;">
 
                 <h:outputLabel value="v m-c" style="font-weight: 700"/>
                 <h:outputLabel value="v rok" style="font-weight: 700"/>
                 <h:outputLabel value="uwagi" style="font-weight: 700"/>
                 <h:outputLabel value=""/>
-
-
                 <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
                     <f:selectItems id="vatr" value="#{DokumentView.listamiesiecyewidencjavat}"/>
                 </h:selectOneMenu>
                 <h:selectOneMenu value="#{DokumentView.selDokument.vatR}">
+                    <f:selectItem itemLabel="#{WpisView.rokWpisuSt}" itemValue="#{WpisView.rokWpisuSt}"/>
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                 <h:inputText value="#{DokumentView.selDokument.uwagi}" />
