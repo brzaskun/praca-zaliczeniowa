@@ -143,7 +143,7 @@
                                 </h:outputText>
                             </p:column>
                              <p:column id="SubColumn2a" headerText="brutto">  
-                                <h:outputText value="#{subwpis.brutto}" style="float: right;">
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
