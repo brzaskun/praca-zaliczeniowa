@@ -383,6 +383,11 @@ public class SessionFacade<T> {
     public List<Dok> findDokBK(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }
+    
+    public List<Dok> findDokBKVAT(String pod, String rok) {
+        return em.createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
+    }
+    
     public Dok findDokTPR(String typdokumentu,String pod, String rok) {
         List<Dok> lista = em.createNamedQuery("Dok.findByTPR").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).getResultList();
         return lista.get(lista.size()-1);
