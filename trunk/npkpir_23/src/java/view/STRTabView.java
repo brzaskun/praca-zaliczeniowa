@@ -360,9 +360,13 @@ public class STRTabView implements Serializable{
     
     public void oznaczjakozaksiegowane() {
         for (Amodok p : amodoklistselected) {
-            p.setZaksiegowane(true);
-            amoDokDAO.edit(p);
-            Msg.msg("i", "Oznaczono AMO jako zaksięgowany");
+            if (p.getZaksiegowane()==false) {
+                p.setZaksiegowane(true);
+            } else {
+                p.setZaksiegowane(false);
+            }
+                amoDokDAO.edit(p);
+                Msg.msg("i", "Oznaczono AMO jako zaksięgowany");
         }
     }
    
