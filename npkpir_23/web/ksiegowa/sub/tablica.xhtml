@@ -72,7 +72,8 @@
                 </f:facet>
 
                 <p:column style="width: 4%;">
-                    <p:rowToggler />
+                    <p:rowToggler rendered="#{wpis.ewidencjaVAT.size() gt 0}"/>
+                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT.size() eq null}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="nrWpkpir"  style="width: 3%;">  
                     <h:outputText value="#{wpis.nrWpkpir}" />
@@ -82,7 +83,9 @@
                     <h:outputText value="#{wpis.dataWyst}"/>
                 </p:column>
                 <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontr.npelna" filterStyle="display : none;" filterMatchMode="contains" sortBy="kontr.npelna" style="width: 14%;">  
-                    <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  />
+                    <h:outputText style="font-weight: bold;" value="#{wpis.kontr.npelna}"  />
+                    <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
+                    <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
                 <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="typdokumentu" filterStyle="display : none;" filterMatchMode="contains" sortBy="typdokumentu"  style="width: 4%;text-align: center;">  
                     <h:outputText value="#{wpis.typdokumentu}"/>
@@ -157,14 +160,7 @@
                     </p:column>
                 </p:rowExpansion>
                 <p:column id="vatMcColumn" headerText="v m-c" filterBy="vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="vatM"  style="width: 5%;" filterMaxLength="2">  
-                    <p:cellEditor>  
-                        <f:facet name="output">  
-                            <h:outputText value="#{wpis.vatM}"/>
-                        </f:facet>  
-                        <f:facet name="input">  
-                            <p:inputText value="#{wpis.vatM}"/>
-                        </f:facet>  
-                    </p:cellEditor>
+                    <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column >
                 <p:column id="status" headerText="status"  style="width: 5%;">
                     <h:outputText value="#{wpis.status}"/>

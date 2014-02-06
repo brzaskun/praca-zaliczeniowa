@@ -21,7 +21,7 @@
         </p:dataTable>
             <br/>
             <p:panelGrid columns="4"  >
-                <p:column width="100">
+                <p:column >
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 130px;">
                         <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     </p:selectOneMenu>
@@ -38,7 +38,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                <p:commandButton action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
+                    <p:commandButton  action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
                 </p:column>
             </p:panelGrid>
         </p:panel>
