@@ -492,14 +492,17 @@ public class ZestawienieRyczaltView implements Serializable {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych paramterów!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
+                wybranyudzialowiec = "wybierz osobe";
             }
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
+                wybranyudzialowiec = "wybierz osobe";
             } catch (Exception e) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych dat zobowiazan!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
+                wybranyudzialowiec = "wybierz osobe";
                 RequestContext.getCurrentInstance().update("formpit1:");
             }
             RequestContext.getCurrentInstance().update("formpit1:");
