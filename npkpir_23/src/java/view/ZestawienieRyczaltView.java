@@ -432,7 +432,7 @@ public class ZestawienieRyczaltView implements Serializable {
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
-            try {
+           
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
                 List<Udzialy> lista = tmpP.getUdzialy();
                 for (Udzialy p : lista) {
@@ -451,6 +451,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial());
                 biezacyPit.setUdzialowiec(wybranyudzialowiec);
                 biezacyPit.setUdzial(wybranyprocent);
+                try {
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Iterator it;
                 it = selected.getZusparametr().iterator();
@@ -475,6 +476,13 @@ public class ZestawienieRyczaltView implements Serializable {
                     }
                 }
                 }
+                } catch (Exception e) {
+                    Msg.msg("e", "Brak wpisanych stawek ZUS indywidualnych dla danego klienta");
+                    biezacyPit = new Ryczpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    return;
+                }
+             try {
                 rozliczstrate(tmpP);
                 obliczpodatek();
                 if(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
@@ -489,7 +497,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 }
             } catch (Exception e) {
                 System.out.println(e.toString());
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych paramterów!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych stawek podatkowych na dany rok! Nie można przeliczyć ryczałtu za okres ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
                 wybranyudzialowiec = "wybierz osobe";
@@ -497,9 +505,8 @@ public class ZestawienieRyczaltView implements Serializable {
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
-                wybranyudzialowiec = "wybierz osobe";
             } catch (Exception e) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych dat zobowiazan!! Nie można przeliczyć PIT za: ", biezacyPit.getPkpirM());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych dat płatności zobowiazan  w danym okresie! Nie można przeliczyć ryczałtu", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
                 wybranyudzialowiec = "wybierz osobe";

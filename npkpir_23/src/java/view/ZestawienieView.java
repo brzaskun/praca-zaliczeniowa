@@ -986,7 +986,6 @@ public class ZestawienieView implements Serializable {
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
-                wybranyudzialowiec = "wybierz osobe";
                 RequestContext.getCurrentInstance().update("formpit:");
             } catch (Exception e) {
                 Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
