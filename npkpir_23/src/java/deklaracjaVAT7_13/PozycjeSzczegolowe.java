@@ -65,8 +65,10 @@ class PozycjeSzczegolowe {
             } catch (Exception e){}
             j++;
         }
-        if(pozycjelista.getPoleI61()>0){
+        if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()==0){
             PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_61>1</P_61>");
+        } if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()>0){
+            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_62>1</P_62>");
         }
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>"+today+"</P_69>");
         PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");

@@ -118,6 +118,8 @@ public class Deklaracjevat implements Serializable {
     private String sporzadzil;
     @Column(name = "ordzu")
     private String ordzu;
+    @Column(name = "vatzt")
+    private String vatzt;
     @Column(name="testowa")
     private boolean testowa;
     @Column(name = "wzorschemy")
@@ -300,6 +302,14 @@ public class Deklaracjevat implements Serializable {
         this.ordzu = ordzu;
     }
 
+    public String getVatzt() {
+        return vatzt;
+    }
+
+    public void setVatzt(String vatzt) {
+        this.vatzt = vatzt;
+    }
+    
     public boolean isTestowa() {
         return testowa;
     }
