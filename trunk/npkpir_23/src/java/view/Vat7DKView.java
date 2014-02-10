@@ -392,6 +392,7 @@ public class Vat7DKView implements Serializable {
                 Deklaracjevat tmp = (Deklaracjevat) it.next();
                 if(tmp.isTestowa()==true){
                         it.remove();
+                        Msg.msg("i", "Dobrym zwyczajem jest usuwać deklaracje testowe przed sporządzeniem tej do wysłania.");
                 }
             }
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
@@ -427,7 +428,7 @@ public class Vat7DKView implements Serializable {
             } catch (Exception e1) {
                 //jak nie ma w poprzednim miesiacu to jest luka i trzeba zrobic inaczej
                 flaga = 3;
-                Msg.msg("w", "Wykryto brak ciągłości w złożonych i zachowanych dekalracjach VAT. Trzeba to wytłumaczyć gołębiowi.");
+                Msg.msg("w", "Nie mogę odnaleźć deklaracji z poprzedniego okresu rozliczeniowego. Kwotę z przeniesienia trzeba wprowadzić ręcznie.");
             }
         }
     }
