@@ -35,10 +35,10 @@
                         <p:panelGrid  columns="1" >
                             <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>
                             <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
-                                <h:outputText value="firma:"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
-                                <h:outputText value="podatnik:"/><h:outputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
-                                <h:outputText value="rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
-                                <h:outputText value="miesiąc"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
+                                <h:outputText value="firma:"/><h:inputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
+                                <h:outputText value="podatnik:"/><h:inputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
+                                <h:outputText value="rok"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
+                                <h:outputText value="miesiąc"/><h:inputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>
                              </p:panelGrid>
                                 <p:panelGrid id="zestawieniepit" columns="2" style="width: 450px;">
                                 <p:separator/><p:separator/>
@@ -138,10 +138,10 @@
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane nowego PIT-u: #{ZestawienieRyczaltView.wybranyudzialowiec} #{ZestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
-                            <h:outputText value="firma"/><h:outputText value="#{ZestawienieRyczaltView.biezacyPit.podatnik}"/>
-                            <h:outputText value="podatnik"/><h:outputText value="#{ZestawienieRyczaltView.biezacyPit.udzialowiec}"/>
-                            <h:outputText value="rok"/><h:outputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirR}"/>
-                            <h:outputText value="miesiąc"/><h:outputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirM}"/>
+                            <h:outputText value="firma"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podatnik}"/>
+                            <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.udzialowiec}"/>
+                            <h:outputText value="rok"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirR}"/>
+                            <h:outputText value="miesiąc"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirM}"/>
                             </p:panelGrid>
                             <p:panelGrid id="zestawieniepit" columns="2" style="width: 450px;">
                                 <p:separator/><p:separator/>
