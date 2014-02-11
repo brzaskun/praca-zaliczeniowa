@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="testowo   ">
-        <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}">
+        <p:dataTable id="dataList2" value="#{deklaracjevatView.wyslanetestowe}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row">
             <p:column width="240">
                 <f:facet name="header">
                     <h:outputText value="Identyfikator"/>
@@ -70,7 +70,7 @@
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item)}" update=":formX, :formX:msg" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');"/>
+                <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item, row)}" update=":formX, :formX:msg" style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');"/>
             </p:column>
 
             <p:column width="80">

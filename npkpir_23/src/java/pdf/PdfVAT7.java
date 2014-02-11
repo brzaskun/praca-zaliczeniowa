@@ -61,7 +61,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf"));
-        document.addTitle("Polecenie księgowania");
+        document.addTitle("Deklaracja VAT");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji VAT " + dkl.getPodatnik());
         document.addKeywords("VAT-7, PDF");
@@ -99,15 +99,24 @@ public class PdfVAT7 extends Pdf implements Serializable{
         reader.close();
         writer.close();
         try{
-            String czek = dkl.getOrdzu();
-            if(czek!=null){
+            String ordzu = dkl.getOrdzu();
+            String vatzt = dkl.getVatzt();
+            if(ordzu !=null){
                 PdfORDZU.drukujORDZU(dkl, p);
-                kombinuj(v.getPodatnik(),2);
+            } else if (vatzt != null) {
+                PdfVATZT.drukujZT(dkl, p);
+            }
+            if (ordzu !=null && vatzt == null) {
+               kombinuj(v.getPodatnik(),"ordzu");
+            } else if (ordzu ==null && vatzt != null) {
+               kombinuj(v.getPodatnik(),"vatzt");
+            } else if (ordzu !=null && vatzt != null) {
+               kombinuj(v.getPodatnik(),"ordzu+vatzt"); 
             } else {
-                kombinuj(v.getPodatnik(),1);
+                kombinuj(v.getPodatnik(),"nic");
             }
         } catch(Exception e){
-            kombinuj(v.getPodatnik(),1);
+            kombinuj(v.getPodatnik(),"nic");
         }
          RequestContext.getCurrentInstance().update("formX");
          RequestContext.getCurrentInstance().execute("wydrukvat7('"+dkl.getPodatnik()+"', "+index+");");
@@ -133,7 +142,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf"));
-        document.addTitle("Polecenie księgowania");
+        document.addTitle("Deklaracja VAT wysyłka");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk deklaracji tetsowej VAT " + dkl.getPodatnik());
         document.addKeywords("VAT-7 test, PDF");
@@ -170,16 +179,25 @@ public class PdfVAT7 extends Pdf implements Serializable{
         pdfStamper.close();
         reader.close();
         writer.close();
-         try{
-            String czek = dkl.getOrdzu();
-            if(czek!=null){
+        try{
+            String ordzu = dkl.getOrdzu();
+            String vatzt = dkl.getVatzt();
+            if(ordzu !=null){
                 PdfORDZU.drukujORDZU(dkl, p);
-                kombinuj(v.getPodatnik(),2);
+            } else if (vatzt != null) {
+                PdfVATZT.drukujZT(dkl, p);
+            } 
+            if (ordzu !=null && vatzt == null) {
+               kombinuj(v.getPodatnik(),"ordzu");
+            } else if (ordzu ==null && vatzt != null) {
+               kombinuj(v.getPodatnik(),"vatzt");
+            } else if (ordzu !=null && vatzt != null) {
+               kombinuj(v.getPodatnik(),"ordzu+vatzt"); 
             } else {
-                kombinuj(v.getPodatnik(),1);
+                kombinuj(v.getPodatnik(),"nic");
             }
         } catch(Exception e){
-            kombinuj(v.getPodatnik(),1);
+            kombinuj(v.getPodatnik(),"nic");
         }
          RequestContext.getCurrentInstance().update("formX");
         }
@@ -649,14 +667,17 @@ public class PdfVAT7 extends Pdf implements Serializable{
        
       }
 
-    private void kombinuj(String kto, int ile) {
+    private void kombinuj(String kto, String zalaczniki) {
           try {
             List<String> files = new ArrayList<>();
-            if(ile==1){
+            if(zalaczniki.equals("nic")){
                 files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
-            } else {
+            } else if (zalaczniki.equals("ordzu")){
                 files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
                 files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/ord-zu"+kto+".pdf");
+            } else if (zalaczniki.equals("vatzt")){
+                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
+                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-zt"+kto+".pdf");
             }
             Document PDFCombineUsingJava = new Document();
             PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VAT7Comb"+kto+".pdf"));
