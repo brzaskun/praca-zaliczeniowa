@@ -70,7 +70,7 @@
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" action="/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="margin-left: 10px;" oncomplete="wydrukvat7('#{item.podatnik}');"
+                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="margin-left: 10px;" onclick="wydrukvat7('#{item.podatnik}');"
                                  rendered="#{!(item.status eq '')}"  />
             </p:column>
 
