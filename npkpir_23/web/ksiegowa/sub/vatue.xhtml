@@ -10,7 +10,7 @@
     <h:form id="form">
     <p:outputPanel id="wrapper" deferred="true"> 
         <p:growl id="messages"/>
-        <p:dataTable  var="wpis" value="#{vatUeView.podsumowanie}" id="dokumentyLista" editable="true" 
+        <p:dataTable  var="wpis" value="#{vatUeView.klienciWDTWNT}" id="dokumentyLista" editable="true" 
                       rowKey="#{wpis.kontrahent.nip}" selection="#{vatUeView.listawybranych}"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       style="max-width: 55%" widgetVar="dokTable"
@@ -50,6 +50,9 @@
              <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true">  
                     <p:dataTable var="subwpis" value="#{wpis.zawiera}" emptyMessage="błąd!"  resizableColumns="true" style="width: 600px;">
+                    <p:column id="SubColumn0" headerText="lp">  
+                        <h:outputText value="#{subwpis.nrWpkpir}" />
+                    </p:column>
                     <p:column id="SubColumn1" headerText="data wyst">  
                         <h:outputText value="#{subwpis.dataWyst}" />
                     </p:column>
