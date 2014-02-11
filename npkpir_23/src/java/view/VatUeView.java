@@ -11,7 +11,6 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.VatUe;
 import entity.Dok;
-import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Vatuepodatnik;
@@ -20,16 +19,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -41,40 +37,26 @@ import msg.Msg;
 @ManagedBean(name = "vatUeView")
 @ViewScoped
 public class VatUeView implements Serializable {
-    //tablica obiektów
 
-    private List<Dok> obiektDOKjsf;
-    //tablica obiektw danego klienta
-    private List<Dok> obiektDOKjsfSel;
-    //tablica obiektw danego klienta
-    private List<Dok> obiektDOKjsfSelRok;
-    //dokumenty o tym samym okresie vat
-    private List<Dok> dokvatmc;
-    /*pkpir*/
+
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
-    private List<Dok> listawybranych;
     @Inject
     private Uz uzytkownik;
     //lista gdzie beda podsumowane wartosci
-    private List<VatUe> klienciWDTWNT;
+    private static List<VatUe> klienciWDTWNT;
     @Inject private VatuepodatnikDAO vatuepodatnikDAO;
 
     public VatUeView() {
-        //dokumenty podatnika
-        obiektDOKjsfSel = new ArrayList<>();
-        //dokumenty podatnika z roku
-        obiektDOKjsfSelRok = new ArrayList<>();
-        //dekumenty o tym samym okresie vat
-        dokvatmc = new ArrayList<>();
-        listawybranych = new ArrayList<>();
         klienciWDTWNT = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
+        List<Dok> obiektDOKjsfSel = new ArrayList<>();
+        List<Dok> dokvatmc = new ArrayList<>();
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -112,7 +94,7 @@ public class VatUeView implements Serializable {
                 }
             }
         }
-        zachowajwbazie(rok,m, podatnik);
+        zachowajwbazie(String.valueOf(rok), m, podatnik);
         System.out.println("l");
     }
     
@@ -174,35 +156,25 @@ public class VatUeView implements Serializable {
         }
     }
 
-    public List<Dok> getDokvatmc() {
-        return dokvatmc;
-    }
-
-    public void setDokvatmc(List<Dok> dokvatmc) {
-        this.dokvatmc = dokvatmc;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
-    public List<Dok> getListawybranych() {
-        return listawybranych;
-    }
-
-    public void setListawybranych(List<Dok> listawybranych) {
-        this.listawybranych = listawybranych;
-    }
-
+    
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
     }
-
+    
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
         this.klienciWDTWNT = klienciWDTWNT;
     }
+    public static List<VatUe> getKlienciWDTWNTS() {
+        return klienciWDTWNT;
+    }
+    //</editor-fold>
+    
 }
