@@ -184,7 +184,11 @@ public class WpisView implements Serializable{
     
     private void obliczsumarokmiesiac() {
         if((rokWpisu>0)&&(!miesiacWpisu.isEmpty())){
-            sumarokmiesiac = rokWpisu + Integer.parseInt(miesiacWpisu);
+            sumarokmiesiac = 2016;
+            //jest takie robienie bo jak bylo 01/2014 to bylo mniej niz 2014 i pobieralo stara scheme
+            if (rokWpisu>2013 || (rokWpisu == 2013 && Integer.parseInt(miesiacWpisu)>4)) {
+                sumarokmiesiac = 2018;
+            }
         }
     }
 

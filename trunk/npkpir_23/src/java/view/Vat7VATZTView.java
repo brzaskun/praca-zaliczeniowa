@@ -46,7 +46,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         //dodajemy usuniete zakonczenie
         trescdeklaracji = trescdeklaracji+koncowka;
         temp.setDeklaracja(trescdeklaracji);
-        temp.setOrdzu(informacja);
+        temp.setVatzt(informacja);
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono VAT-ZT.","formX:msg");

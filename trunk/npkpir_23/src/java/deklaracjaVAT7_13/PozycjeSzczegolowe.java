@@ -40,7 +40,7 @@ class PozycjeSzczegolowe {
             String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
-        if(Rok>2012&&Miesiac<4){
+        if(Rok == 2013 && Miesiac<4){
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         int j = 20;
         for(String p : lista){

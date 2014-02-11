@@ -49,7 +49,7 @@ class Podmiot {
         Miejscowosc = adres.getMiejscowosc();
         KodPocztowy = adres.getKodPocztowy();
         Poczta = adres.getPoczta();
-        if(Rok>2012&&Miesiac<4){
+        if(Rok == 2013 && Miesiac<4){
         Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
