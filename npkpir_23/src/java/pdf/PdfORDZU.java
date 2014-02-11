@@ -22,7 +22,6 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -59,7 +58,7 @@ public class PdfORDZU extends PdfVAT7{
         pdfStamper.close();
         reader.close();
         writer.close();
- RequestContext.getCurrentInstance().update("formX");
+ 
     }
   
     

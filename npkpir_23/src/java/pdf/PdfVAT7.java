@@ -118,7 +118,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
         } catch(Exception e){
             kombinuj(v.getPodatnik(),"nic");
         }
-         RequestContext.getCurrentInstance().update("formX");
          RequestContext.getCurrentInstance().execute("wydrukvat7('"+dkl.getPodatnik()+"', "+index+");");
         }
     }
@@ -176,8 +175,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
         underContent.addImage(image);
-        pdfStamper.close();
         reader.close();
+        pdfStamper.close();
         writer.close();
         try{
             String ordzu = dkl.getOrdzu();
@@ -199,7 +198,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
         } catch(Exception e){
             kombinuj(v.getPodatnik(),"nic");
         }
-         RequestContext.getCurrentInstance().update("formX");
         }
     }
   
@@ -682,16 +680,15 @@ public class PdfVAT7 extends Pdf implements Serializable{
             Document PDFCombineUsingJava = new Document();
             PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VAT7Comb"+kto+".pdf"));
             PDFCombineUsingJava.open();
-            PdfReader ReadInputPDF = null;
             int number_of_pages;
             for(String p : files){
-                ReadInputPDF = new PdfReader(p);
+                PdfReader ReadInputPDF = new PdfReader(p);
                 number_of_pages = ReadInputPDF.getNumberOfPages();
                 for (int page = 0; page < number_of_pages;) {
                     copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
                 }
+                ReadInputPDF.close();
             }
-            ReadInputPDF.close();
             copy.close();
             PDFCombineUsingJava.close();
         } catch (Exception i) {

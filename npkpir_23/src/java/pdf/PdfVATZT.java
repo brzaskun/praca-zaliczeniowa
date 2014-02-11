@@ -12,7 +12,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -22,7 +21,6 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 
 /**
@@ -60,8 +58,7 @@ public class PdfVATZT extends PdfVAT7{
         pdfStamper.close();
         reader.close();
         writer.close();
- RequestContext.getCurrentInstance().update("formX");
-    }
+     }
   
     
    private static void pierwszastrona(PdfWriter writer,Vatpoz d,Deklaracjevat l, Podatnik p) throws DocumentException{
