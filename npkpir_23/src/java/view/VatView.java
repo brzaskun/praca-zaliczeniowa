@@ -72,7 +72,8 @@ public class VatView implements Serializable {
     private List<EVatViewPola> goscwybral;
     private static List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
-    private static List<EVatwpisSuma> sumydowyswietlenia;
+    private static List<EVatwpisSuma> sumydowyswietleniasprzedaz;
+    private static List<EVatwpisSuma> sumydowyswietleniazakupy;
     private Double suma1;
     private Double suma2;
     private Double suma3;
@@ -96,7 +97,8 @@ public class VatView implements Serializable {
     public void initA() {
           try {
             listaewidencji = new HashMap<>();
-            sumydowyswietlenia = new ArrayList<>();
+            sumydowyswietleniasprzedaz = new ArrayList<>();
+            sumydowyswietleniazakupy = new ArrayList<>();
             listadokvat = new ArrayList<>();
             listadokvatprzetworzona = new ArrayList<>();
             sumaewidencji = new HashMap<>();
@@ -165,7 +167,30 @@ public class VatView implements Serializable {
                 sumaewidencji.put(nazwaewidencji, ew);
                 listaewidencji.put(nazwaewidencji, listatmp);
             }
-            sumydowyswietlenia.addAll(sumaewidencji.values());
+            for (EVatwpisSuma ew : sumaewidencji.values()) {
+                String typeewidencji = ew.getEwidencja().getTypewidencji();
+                switch (typeewidencji) {
+                    case "s" : sumydowyswietleniasprzedaz.add(ew);
+                        break;
+                    case "z" : sumydowyswietleniazakupy.add(ew);
+                        break;
+                    case "sz": sumydowyswietleniasprzedaz.add(ew);
+                               sumydowyswietleniazakupy.add(ew);
+                        break;
+                }
+            }
+            EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO,"");
+            for (EVatwpisSuma ew : sumydowyswietleniasprzedaz) {
+                sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
+                sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
+            }
+            sumydowyswietleniasprzedaz.add(sumasprzedaz);
+            EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO,"");
+            for (EVatwpisSuma ew : sumydowyswietleniazakupy) {
+                sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
+                sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
+            }
+            sumydowyswietleniazakupy.add(sumazakup);
             /**
              * Dodaj sumy do ewidencji dla wydruku
              */
@@ -222,7 +247,7 @@ public class VatView implements Serializable {
                 ewidencjeVatDAO.dodajewidencje(zrzucane);
             }
             wynikOkresu = new BigDecimal(BigInteger.ZERO);
-            for (EVatwpisSuma p : sumydowyswietlenia) {
+            for (EVatwpisSuma p : sumydowyswietleniasprzedaz) {
                 if (p.getEwidencja().getTypewidencji().equals("s")) {
                    wynikOkresu = wynikOkresu.add(p.getVat());
                } else if (p.getEwidencja().getTypewidencji().equals("z")) {
@@ -552,12 +577,12 @@ public class VatView implements Serializable {
         this.listanowa = listanowa;
     }
 
-    public List<EVatwpisSuma> getSumydowyswietlenia() {
-        return sumydowyswietlenia;
+    public List<EVatwpisSuma> getSumydowyswietleniasprzedaz() {
+        return sumydowyswietleniasprzedaz;
     }
 
-    public void setSumydowyswietlenia(List<EVatwpisSuma> sumydowyswietlenia) {
-        this.sumydowyswietlenia = sumydowyswietlenia;
+    public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
+        this.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
     }
 
     public List<EVatwpisSuma> getGoscwybralsuma() {
@@ -598,6 +623,14 @@ public class VatView implements Serializable {
 
     public void setWynikOkresu(BigDecimal wynikOkresu) {
         this.wynikOkresu = wynikOkresu;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
+        return sumydowyswietleniazakupy;
+    }
+
+    public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
+        VatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
     }
 
    

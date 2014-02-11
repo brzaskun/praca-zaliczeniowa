@@ -16,9 +16,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
-import embeddable.Umorzenie;
-import entity.Amodok;
-import entity.Dok;
 import entity.Ewidencjevat;
 import entity.Podatnik;
 import entity.Uz;
@@ -35,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import msg.Msg;
 import view.VatView;
 
 /**
@@ -89,13 +85,16 @@ public class PdfVATsuma extends Pdf implements Serializable {
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
-            PdfPTable table = new PdfPTable(5);
-            table.setWidths(new int[]{1, 5, 2, 2, 2});
+            PdfPTable tableSprzedaz = new PdfPTable(5);
+            tableSprzedaz.setWidths(new int[]{1, 5, 2, 2, 2});
+            PdfPTable tableZakup = new PdfPTable(5);
+            tableZakup.setWidths(new int[]{1, 5, 2, 2, 2});
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
-            List<EVatwpisSuma> suma2 = new ArrayList<>();
+            List<EVatwpisSuma> sumaVatSprzedaz = new ArrayList<>();
+            List<EVatwpisSuma> sumaVatZakup = new ArrayList<>();
             Ewidencjevat lista;
             try {
                 lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
@@ -104,24 +103,39 @@ public class PdfVATsuma extends Pdf implements Serializable {
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
             }
-            suma2.addAll(lista.getSumaewidencji().values());
+            for (EVatwpisSuma ew : lista.getSumaewidencji().values()) {
+                String typeewidencji = ew.getEwidencja().getTypewidencji();
+                switch (typeewidencji) {
+                    case "s" : sumaVatSprzedaz.add(ew);
+                        break;
+                    case "z" : sumaVatZakup.add(ew);
+                        break;
+                    case "sz": sumaVatSprzedaz.add(ew);
+                               sumaVatZakup.add(ew);
+                        break;
+                }
+            }
+            //tu robimy wykaz ewidencji sprzedazy
+            document.add(Chunk.NEWLINE);
+            miziu1 = new Paragraph(new Phrase("zestawienie ewidencji sprzedaży",fontM));
+            document.add(miziu1);
             try {
-                table.addCell(ustawfrazebez("lp","center",10));
-                table.addCell(ustawfrazebez("ewidencja","center",10));
-                table.addCell(ustawfrazebez("netto","center",10));
-                table.addCell(ustawfrazebez("vat","center",10));
-                table.addCell(ustawfrazebez("brutto","center",10));
-                table.setHeaderRows(1);
+                tableSprzedaz.addCell(ustawfrazebez("lp","center",10));
+                tableSprzedaz.addCell(ustawfrazebez("ewidencja","center",10));
+                tableSprzedaz.addCell(ustawfrazebez("netto","center",10));
+                tableSprzedaz.addCell(ustawfrazebez("vat","center",10));
+                tableSprzedaz.addCell(ustawfrazebez("brutto","center",10));
+                tableSprzedaz.setHeaderRows(1);
                 int i = 1;
-                for(EVatwpisSuma p : suma2){
-                    table.addCell(ustawfrazebez(String.valueOf(i),"center",10));
-                    table.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
+                for(EVatwpisSuma p : sumaVatSprzedaz){
+                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(i),"center",10));
+                    tableSprzedaz.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
+                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
+                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
                     try {
-                        table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                        tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
                     } catch (Exception e){
-                        table.addCell(ustawfrazebez("","right",10));
+                        tableSprzedaz.addCell(ustawfrazebez("","right",10));
                     }
                     i++;
                 }
@@ -129,7 +143,36 @@ public class PdfVATsuma extends Pdf implements Serializable {
                 
             }
             document.add(Chunk.NEWLINE);
-            document.add(table);
+            document.add(tableSprzedaz);
+            document.add(Chunk.NEWLINE);
+            //tu robimy wykaz ewidencji zakupu
+            miziu1 = new Paragraph(new Phrase("zestawienie ewidencji zakupu",fontM));
+            document.add(miziu1);
+            try {
+                tableZakup.addCell(ustawfrazebez("lp","center",10));
+                tableZakup.addCell(ustawfrazebez("ewidencja","center",10));
+                tableZakup.addCell(ustawfrazebez("netto","center",10));
+                tableZakup.addCell(ustawfrazebez("vat","center",10));
+                tableZakup.addCell(ustawfrazebez("brutto","center",10));
+                tableZakup.setHeaderRows(1);
+                int i = 1;
+                for(EVatwpisSuma p : sumaVatZakup){
+                    tableZakup.addCell(ustawfrazebez(String.valueOf(i),"center",10));
+                    tableZakup.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
+                    tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
+                    tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
+                    try {
+                        tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                    } catch (Exception e){
+                        tableZakup.addCell(ustawfrazebez("","right",10));
+                    }
+                    i++;
+                }
+               } catch (DocumentException | IOException e){
+                
+            }
+            document.add(Chunk.NEWLINE);
+            document.add(tableZakup);
             document.add(Chunk.NEWLINE);
             Uz uz = wpisView.getWprowadzil();
             document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
