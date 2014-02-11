@@ -78,24 +78,22 @@
         <p:tab title="podsumowanie">
             <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:separator/>
-            <p:panel id="sumysum">
-                <h:outputText value="suma wybranych wartości netto: "/><h:outputText value="#{vatView.suma1}" style="font-weight: bold;">
+            <p:panelGrid id="sumysum" columns="6" style="padding: 1%;">
+                <h:outputText value="suma wybranych ewiedencji - netto: "/><h:outputText value="#{vatView.suma1}" style="font-weight: bold;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><br/>
-                <h:outputText value="suma wybranych wartości vat:  "/><h:outputText value="#{vatView.suma2}"  style="font-weight: bold;">
+                <h:outputText value="suma wybranych ewidencji - vat:  "/><h:outputText value="#{vatView.suma2}"  style="font-weight: bold;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><br/>
-                <h:outputText value="suma wybranych wartości brutto:  "/><h:outputText value="#{vatView.suma3}"  style="font-weight: bold;">
-                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                </h:outputText><br/>
-            </p:panel>
-            <p:dataTable value="#{vatView.sumydowyswietlenia}" var="itemik" 
+            </p:panelGrid>
+            <p:dataTable value="#{vatView.sumydowyswietleniasprzedaz}" var="itemik" 
                          selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">
-                    <h:outputText value="zestawienie ewidencji vat"/>
+                    <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
                 </f:facet>
-                <p:column selectionMode="multiple" style="width: 50px;"></p:column>
+                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                 <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
                 <p:ajax event="toggleSelect" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
@@ -107,7 +105,33 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wartosć vat" >
+                <p:column headerText="wartosć vat należny" >
+                    <h:outputText value="#{itemik.vat}"  style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+               
+            </p:dataTable>
+             <p:dataTable value="#{vatView.sumydowyswietleniazakupy}" var="itemik" 
+                         selection="#{vatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zestawienie ewidencji vat - koszty"/>
+                </f:facet>
+                 <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                 <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                <p:ajax event="rowSelectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                <p:ajax event="toggleSelect" listener="#{vatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                <p:column headerText="nazwa ewidencji">
+                    <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                </p:column>
+                <p:column headerText="wartość netto" >
+                    <h:outputText value="#{itemik.netto}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="wartosć vat naliczony" >
                     <h:outputText value="#{itemik.vat}"  style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
