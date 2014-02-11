@@ -6,6 +6,7 @@ package view;
 
 import comparator.Dokcomparator;
 import dao.DokDAO;
+import daoFK.VatuepodatnikDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.VatUe;
@@ -13,6 +14,8 @@ import entity.Dok;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
+import entityfk.Vatuepodatnik;
+import entityfk.VatuepodatnikPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +32,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -56,6 +60,7 @@ public class VatUeView implements Serializable {
     private Uz uzytkownik;
     //lista gdzie beda podsumowane wartosci
     private List<VatUe> klienciWDTWNT;
+    @Inject private VatuepodatnikDAO vatuepodatnikDAO;
 
     public VatUeView() {
         //dokumenty podatnika
@@ -107,7 +112,26 @@ public class VatUeView implements Serializable {
                 }
             }
         }
+        zachowajwbazie(rok,m, podatnik);
         System.out.println("l");
+    }
+    
+    private void zachowajwbazie(String rok, String symbolokresu, String klient) {
+        Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
+        VatuepodatnikPK vatuepodatnikPK = new VatuepodatnikPK();
+        vatuepodatnikPK.setRok(rok);
+        vatuepodatnikPK.setSymbolokresu(symbolokresu);
+        vatuepodatnikPK.setKlient(klient);
+        vatuepodatnik.setVatuepodatnikPK(vatuepodatnikPK);
+        vatuepodatnik.setKlienciwdtwnt(klienciWDTWNT);
+        vatuepodatnik.setMc0kw1(Boolean.TRUE);
+        vatuepodatnik.setRozliczone(Boolean.FALSE);
+        try {
+            vatuepodatnikDAO.edit(vatuepodatnik);
+            Msg.msg("i", "Zachowano dane do VAT-EU");
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
+        }
     }
 
     private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
