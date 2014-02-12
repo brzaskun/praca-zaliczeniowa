@@ -46,6 +46,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.Rozrachunekfk;
 import entityfk.Rzisuklad;
 import entityfk.Tabelanbp;
+import entityfk.Vatuepodatnik;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
@@ -679,6 +680,10 @@ public class SessionFacade<T> {
 
     public List<Kontopozycjarzis> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
         return em.createNamedQuery("Kontopozycjarzis.findByPodatnikRokUklad").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("uklad", uklad).getResultList();
+    }
+
+    public Object findVatuepodatnik(String rokWpisu, String symbolokresu, String podatnikWpisu) {
+        return em.createNamedQuery("Vatuepodatnik.findByRokKlientSymbolokresu").setParameter("rok", rokWpisu).setParameter("klient", podatnikWpisu).setParameter("symbolokresu", symbolokresu).getSingleResult();
     }
 
       

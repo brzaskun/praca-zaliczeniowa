@@ -76,8 +76,8 @@
             
             
         </p:dataTable>
-        <p:commandButton value="Print" style="margin: 3%; width: 120px;">
-            <p:printer target="form:dokumentyLista"/>
+        <p:commandButton value="Drukuj" style="margin: 3%; width: 120px;" actionListener="#{pdfVatUE.drukujewidencje}">
+<!--            <p:printer target="form:dokumentyLista" />-->
         </p:commandButton>
     </p:outputPanel>
     </h:form>

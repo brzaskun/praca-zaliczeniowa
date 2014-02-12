@@ -34,5 +34,14 @@ public class VatuepodatnikDAO extends DAO<Vatuepodatnik> implements Serializable
             return null;
         }
    }
+
+    public Vatuepodatnik find(String rokWpisu, String miesiacWpisu, String podatnikWpisu) {
+        try {
+            System.out.println("Szukam wg okresu VatuepodatnikDAO");
+            return (Vatuepodatnik) sessionFacade.findVatuepodatnik(rokWpisu, miesiacWpisu, podatnikWpisu);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }

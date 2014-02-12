@@ -47,6 +47,7 @@ public class VatUeView implements Serializable {
     private Uz uzytkownik;
     //lista gdzie beda podsumowane wartosci
     private static List<VatUe> klienciWDTWNT;
+    private static List<VatUe> listawybranych;
     @Inject private VatuepodatnikDAO vatuepodatnikDAO;
 
     public VatUeView() {
@@ -155,6 +156,7 @@ public class VatUeView implements Serializable {
             return listatymczasowa;
         }
     }
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
@@ -164,6 +166,15 @@ public class VatUeView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public List<VatUe> getListawybranych() {
+        return listawybranych;
+    }
+
+    public void setListawybranych(List<VatUe> listawybranych) {
+        VatUeView.listawybranych = listawybranych;
+    }
+    
     
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
