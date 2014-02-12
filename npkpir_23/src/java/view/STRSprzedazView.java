@@ -53,7 +53,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             p.setDatasprzedazy(data);
             p.setNrwldokumentu(nrwlasny);
             int rok = Integer.parseInt(data.substring(0,4));
-            int mc = Integer.parseInt(data.substring(6,7));
+            int mc = Integer.parseInt(data.substring(5,7));
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
             for(Umorzenie x : p.getUmorzWyk()){
@@ -69,9 +69,9 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             }
             try{
                 sTRDAO.edit(p);
-                Msg.msg("i","Naniesiono sprzedaż. Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+                Msg.msg("i","Naniesiono sprzedaż/przekazanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) {
-                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży","dodWiad:mess_add");
+                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży/przekazania: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }
 
@@ -88,9 +88,9 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             p.setNrwldokumentu("");
             try{
                 sTRDAO.edit(p);
-                Msg.msg("i","Cofnięto sprzedaż. Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+                Msg.msg("i","Cofnięto sprzedaż/przekazanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) {
-                Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży","dodWiad:mess_add");
+                Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży/przekazania: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }
 
