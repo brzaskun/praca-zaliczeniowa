@@ -33,13 +33,10 @@ public class STREwidencja implements Serializable{
       
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    
-    //tablica obiektów
-    private List<SrodekTrw> obiektDOKjsf;
     //tablica obiektw danego klienta
-    private List<SrodekTrw> obiektDOKjsfSel;
+    private List<SrodekTrw> listaSrodkiTrwale;
     //wyposazenie
-    private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
+    private List<SrodekTrw> listaWyposazenia;
     //srodki trwale wykaz rok biezacy
     private List<STRtabela> strtabela;
     /**
@@ -51,47 +48,45 @@ public class STREwidencja implements Serializable{
    
     
     public STREwidencja() {
-        obiektDOKjsf = new ArrayList<>();
-        obiektDOKjsfSel = new ArrayList<>();
-        obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
+        listaSrodkiTrwale = new ArrayList<>();
+        listaWyposazenia = new ArrayList<>();
         strtabela = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
-        String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        String rokdzisiejszyS = wpisView.getRokWpisuSt();
+        int rokdzisiejszyI = wpisView.getRokWpisu();
+        String podatnikwpisu = wpisView.getPodatnikWpisu();
         zakupionewbiezacyrok = 0;
         if (wpisView.getPodatnikWpisu() != null) {
             List<SrodekTrw> c = new ArrayList<>();
             try {
-                c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+                c = sTRDAO.findStrPod(podatnikwpisu);
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (!c.isEmpty()) {
                 int i = 1;
                 int j = 1;
-                for (SrodekTrw tmp : c) {
-                    obiektDOKjsf.add(tmp);
-                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        if (tmp.getTyp().equals("wyposazenie")) {
-                            tmp.setNrsrodka(i++);
-                            obiektDOKmrjsfSelWyposazenie.add(tmp);
+                for (SrodekTrw przegladanySrodek : c) {
+                        if (przegladanySrodek.getTyp().equals("wyposazenie")) {
+                            przegladanySrodek.setNrsrodka(i++);
+                            listaWyposazenia.add(przegladanySrodek);
 
                         } else {
-                            tmp.setNrsrodka(j++);
-                            if(tmp.getDatazak().substring(0, 4).equals(rokdzisiejszy)){
+                            przegladanySrodek.setNrsrodka(j++);
+                            if(przegladanySrodek.getDatazak().substring(0, 4).equals(rokdzisiejszyS)){
                                 zakupionewbiezacyrok++;
                             }
-                            obiektDOKjsfSel.add(tmp);
+                            listaSrodkiTrwale.add(przegladanySrodek);
                         }
-                    }
                 }
-                iloscsrodkow = obiektDOKjsfSel.size();
+                iloscsrodkow = listaSrodkiTrwale.size();
             }
         }
          List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(obiektDOKjsfSel);
+        lista.addAll(listaSrodkiTrwale);
         int i=1;
         for (SrodekTrw str : lista){
             STRtabela strdocelowy = new STRtabela();
@@ -120,10 +115,10 @@ public class STREwidencja implements Serializable{
             List<Double> miesiace = new ArrayList<>();
             Iterator itX;
             itX = str.getUmorzWyk().iterator();
-            BigDecimal umnar = new BigDecimal(0);
+            BigDecimal umorzenianarastajaco = new BigDecimal(0);
             while (itX.hasNext()) {
                 Umorzenie um = (Umorzenie) itX.next();
-                if (um.getRokUmorzenia().equals(wpisView.getRokWpisu())) {
+                if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
                     Integer mc = um.getMcUmorzenia();
                     switch (mc) {
                         case 1:
@@ -163,12 +158,14 @@ public class STREwidencja implements Serializable{
                             strdocelowy.setGrudzien(um.getKwota().doubleValue());
                             break;
                     }
-                } else if (um.getRokUmorzenia()<wpisView.getRokWpisu()) {
-                    umnar = umnar.add(um.getKwota());
+                } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
+                    umorzenianarastajaco = umorzenianarastajaco.add(um.getKwota());
+                } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()){
+                    break;
                 }
             }
             try{
-            strdocelowy.setUmorzeniaDo(umnar.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
+            strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
             } catch (Exception e){
                 strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO) );
             }
@@ -238,28 +235,21 @@ public class STREwidencja implements Serializable{
         this.wpisView = wpisView;
     }
 
-   public List<SrodekTrw> getObiektDOKjsf() {
-        return obiektDOKjsf;
+
+    public List<SrodekTrw> getListaSrodkiTrwale() {
+        return listaSrodkiTrwale;
     }
 
-    public void setObiektDOKjsf(List<SrodekTrw> obiektDOKjsf) {
-        this.obiektDOKjsf = obiektDOKjsf;
+    public void setListaSrodkiTrwale(List<SrodekTrw> listaSrodkiTrwale) {
+        this.listaSrodkiTrwale = listaSrodkiTrwale;
     }
 
-    public List<SrodekTrw> getObiektDOKjsfSel() {
-        return obiektDOKjsfSel;
+    public List<SrodekTrw> getListaWyposazenia() {
+        return listaWyposazenia;
     }
 
-    public void setObiektDOKjsfSel(List<SrodekTrw> obiektDOKjsfSel) {
-        this.obiektDOKjsfSel = obiektDOKjsfSel;
-    }
-
-    public List<SrodekTrw> getObiektDOKmrjsfSelWyposazenie() {
-        return obiektDOKmrjsfSelWyposazenie;
-    }
-
-    public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
-        this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
+    public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
+        this.listaWyposazenia = listaWyposazenia;
     }
 
     public List<STRtabela> getStrtabela() {
