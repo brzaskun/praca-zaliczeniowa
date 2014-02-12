@@ -15,10 +15,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.RyczaltPodatek;
-import embeddable.Umorzenie;
-import entity.Amodok;
-import entity.Dok;
-import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Ryczpoz;
 import entity.Uz;
@@ -31,13 +27,10 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
-import view.DokTabView;
 import view.ZestawienieRyczaltView;
-import view.ZestawienieView;
 
 /**
  *

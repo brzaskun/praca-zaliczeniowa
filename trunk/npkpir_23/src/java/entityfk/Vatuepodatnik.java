@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Vatuepodatnik.findByRozliczone", query = "SELECT v FROM Vatuepodatnik v WHERE v.rozliczone = :rozliczone"),
     @NamedQuery(name = "Vatuepodatnik.findByRok", query = "SELECT v FROM Vatuepodatnik v WHERE v.vatuepodatnikPK.rok = :rok"),
     @NamedQuery(name = "Vatuepodatnik.findByKlient", query = "SELECT v FROM Vatuepodatnik v WHERE v.vatuepodatnikPK.klient = :klient"),
-    @NamedQuery(name = "Vatuepodatnik.findBySymbolokresu", query = "SELECT v FROM Vatuepodatnik v WHERE v.vatuepodatnikPK.symbolokresu = :symbolokresu")})
+    @NamedQuery(name = "Vatuepodatnik.findBySymbolokresu", query = "SELECT v FROM Vatuepodatnik v WHERE v.vatuepodatnikPK.symbolokresu = :symbolokresu"),
+    @NamedQuery(name = "Vatuepodatnik.findByRokKlientSymbolokresu", query = "SELECT v FROM Vatuepodatnik v WHERE v.vatuepodatnikPK.rok = :rok AND v.vatuepodatnikPK.klient = :klient AND v.vatuepodatnikPK.symbolokresu = :symbolokresu"),
+})
 public class Vatuepodatnik implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
