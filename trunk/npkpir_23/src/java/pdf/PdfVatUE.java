@@ -150,7 +150,7 @@ public class PdfVatUE extends Pdf implements Serializable {
             document.add(new Paragraph("sporządził", fontS));
             document.close();
         } catch (Exception e) {
-            Msg.msg("e", "Blad vateu" + e.getMessage());
+            Msg.msg("e", "Blad w drukowaniu vateu" + e.getMessage());
         }
         RequestContext.getCurrentInstance().execute("wydrukvatue('"+wpisView.getPodatnikWpisu()+"');");
     }
