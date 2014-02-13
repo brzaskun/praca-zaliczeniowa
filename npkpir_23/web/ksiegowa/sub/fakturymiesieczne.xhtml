@@ -6,7 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <f:event type="preRenderView" listener="#{fakturyokresoweView.przeliczfaktury()}"/>
     <h:form id="form">
     <p:contextMenu for="dokumentyLista">
         <p:menuitem value="Usuń" update=":formM:messages :form:dokumentyLista" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.usunfaktureokresowa()}"/>
@@ -22,16 +21,16 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
                 </f:facet>
-                <p:column selectionMode="single" width="50"/>
+<!--                <p:column selectionMode="single" width="50"/>
                 <p:column width="10">
                     <p:rowToggler />
-                </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="id"  width="20">  
-                    <h:outputText value="#{wpis.id}" />
+                </p:column>-->
+<!--                <p:column id="idColumn" headerText="lp" sortBy="id"  width="20">  
+                    <h:outputText value="{wpis.id}" />
                 </p:column>
                 <p:column id="kontrColumn" headerText="kontrahent" filterBy="dokument.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="dokument.kontr.npelna" width="110">  
-                    <h:outputText value="#{wpis.dokument.kontr.npelna} #{wpis.dokument.kontr.miejscowosc} #{wpis.dokument.kontr.nip}"  />
-                </p:column>
+                    <h:outputText value="{wpis.dokument.kontr.npelna} {wpis.dokument.kontr.miejscowosc} {wpis.dokument.kontr.nip}"  />
+                </p:column>-->
                 <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="dokument.typdokumentu}" filterStyle="display : none;" filterMatchMode="contains" sortBy="dokument.typdokumentu" width="110">  
                     <h:outputText value="#{wpis.dokument.typdokumentu}" />
                 </p:column>
