@@ -4,6 +4,7 @@
  */
 package dao;
 
+import data.Data;
 import entity.Amodok;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,7 +57,8 @@ public class AmoDokDAO extends DAO implements Serializable {
      public void destroy(String podatnik, int rok, int mc){
         List<Amodok> lista = amodokFacade.findAmodok(podatnik);
         for(Amodok tmp : lista){
-            if((tmp.getAmodokPK().getRok()+tmp.getAmodokPK().getMc())>=(rok+mc)){
+            int wynikporownywania = Data.compare(tmp.getAmodokPK().getRok(), tmp.getAmodokPK().getMc(), rok, mc);
+            if(wynikporownywania >= 0) {
                 amodokFacade.remove(tmp);
             }
         }

@@ -5,6 +5,7 @@
  */
 package view;
 
+import data.Data;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import java.io.Serializable;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import msg.Msg;
 
 /**
@@ -30,6 +33,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     private static String data;
     private static String nrwlasny;
     private STRTabView sTRTabView;
+    
    
     
     public STRSprzedazView() {
@@ -69,9 +73,9 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             }
             try{
                 sTRDAO.edit(p);
-                Msg.msg("i","Naniesiono sprzedaż/przekazanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+                Msg.msg("i","Naniesiono sprzedaż: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) {
-                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży/przekazania: "+p.getNazwa(),"dodWiad:mess_add");
+                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }
 
@@ -88,14 +92,16 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             p.setNrwldokumentu("");
             try{
                 sTRDAO.edit(p);
-                Msg.msg("i","Cofnięto sprzedaż/przekazanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+                Msg.msg("i","Cofnięto sprzedaż/wycofanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) {
-                Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży/przekazania: "+p.getNazwa(),"dodWiad:mess_add");
+                Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży/wycofania: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }
 
     }
-    
+     
+
+
   
 
     public List<SrodekTrw> getWybranesrodkitrwale() {
@@ -113,9 +119,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     public void setsTRTabView(STRTabView sTRTabView) {
         this.sTRTabView = sTRTabView;
     }
-    
-    
 
-      
+        
   
 }

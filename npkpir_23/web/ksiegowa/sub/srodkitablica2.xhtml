@@ -8,10 +8,10 @@
     <p:growl id="mess_add" autoUpdate="true"/>
   <p:outputPanel id="wrapper2" deferred="true">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
-          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false"/>  
+          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false" update=":formSTR:dokumsrodkiLista"/>  
           </p:panel>
        <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
-           <p:menuitem value="Oznacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTR:dokumsrodkiLista" icon="ui-icon-locked" />
+           <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTR:dokumsrodkiLista" icon="ui-icon-locked" />
             </p:contextMenu>
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
                     paginator="true" paginatorAlwaysVisible="true" rows="12" selection="#{STRTableView.amodoklistselected}"
