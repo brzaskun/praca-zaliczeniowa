@@ -74,7 +74,7 @@
                 <h:outputLabel value="dok.prosty" style="font-weight: 700;"/>
                 <h:outputLabel value="rozliczony" style="font-weight: 700"/>
                 <h:outputLabel value="termin płatności" style="font-weight: 700"/>
-                <h:outputLabel value="kwota brutto" style="font-weight: 700"/>
+                <h:outputLabel value="wartość dokumentu" style="font-weight: 700"/>
 
                 <h:outputLabel id="inwestycjas" value="inwestycja" style="font-weight: 700; display: none;"/>
                 <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
@@ -85,7 +85,7 @@
                     <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
                         <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
                             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:repeat:kolumnaPkpir" global="false"/>
-                            <p:ajax event="blur" global="false" onstart="przeniesKwotaDoNetto();"/>
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" onsuccess="przeniesKwotaDoNetto();"/>
                             <script>
                                 function zrobF(kwota) {
                                     var strX = kwota.replace(",", ".");
@@ -139,7 +139,6 @@
                 <p:menuitem value="Odkup" onclick="confirmation1.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
             </p:contextMenu>
             <p:panel id="panelewidencji" style="width: 300px;">
-                <h:outputText value="Wybierz prawym plawiszem myszy wycofywany środek trwały"/>
                 <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" rendered="#{DokumentView.pokazEST}"
                               paginator="true" paginatorAlwaysVisible="true" rows="6"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -242,9 +241,29 @@
                 </p:panelGrid>
             </p:panel>
             <!--pola ewidencji VAT-->
+  
             <div>
-                <p:panelGrid id="grid1" columns="#{DokumentView.wielkoscopisuewidencji}" binding="#{DokumentView.grid1}">
-                </p:panelGrid>
+<!--                alternatywne pola ewidencji vat-->
+        <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="Nie ma pozycji" style="width: 60%;">
+                <p:column headerText="rodzaj ewidencji" style="width: 25%;">
+                    <h:outputText value="#{item.opis}"/>
+                </p:column>
+                <p:column headerText="netto" style="width: 20%;">
+                    <pe:inputNumber value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                </p:column>
+                <p:column headerText="vat" style="width: 20%;">
+                    <pe:inputNumber value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                </p:column>
+                <p:column headerText="brutto" style="width: 20%;">
+                    <pe:inputNumber value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                </p:column>
+                <p:column headerText="op/zw" style="width: 15%;">
+                    <h:selectOneMenu value="#{item.opzw}">
+                        <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
+                        <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
+                    </h:selectOneMenu>
+                </p:column>
+            </p:dataTable>
             </div>
             <!--pola ewidencji VAT-->
             <p:panelGrid columns="4" style="width: 400px;">

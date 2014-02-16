@@ -67,6 +67,10 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokBK(pod, rok, mc);
     }
     
+    public List<Dok> zwrocBiezacegoKlientaDuplikat(String pod, String rok) {
+        return dokFacade.findDokDuplikat(pod, rok);
+    }
+    
     private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
     
     public Dok find(String typdokumentu, String podatnik, Integer rok){
