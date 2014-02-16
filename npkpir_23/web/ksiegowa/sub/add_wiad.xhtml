@@ -248,13 +248,17 @@
                     <h:outputText value="#{item.opis}"/>
                 </p:column>
                 <p:column headerText="netto" style="width: 20%;">
-                    <pe:inputNumber value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    <pe:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
+                    </pe:inputNumber>
                 </p:column>
                 <p:column headerText="vat" style="width: 20%;">
-                    <pe:inputNumber value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
+                    </pe:inputNumber>
                 </p:column>
                 <p:column headerText="brutto" style="width: 20%;">
-                    <pe:inputNumber value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                 </p:column>
                 <p:column headerText="op/zw" style="width: 15%;">
                     <h:selectOneMenu value="#{item.opzw}">

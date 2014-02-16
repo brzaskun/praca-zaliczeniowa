@@ -6,6 +6,9 @@ package embeddable;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
@@ -13,6 +16,8 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class EwidencjaAddwiad implements Serializable{
+
+    private int lp;
     private String opis;
     private double netto;
     private double vat;
@@ -29,6 +34,14 @@ public class EwidencjaAddwiad implements Serializable{
         this.vat = vat;
         this.brutto = brutto;
         this.opzw = opzw;
+    }
+
+    public int getLp() {
+        return lp;
+    }
+
+    public void setLp(int lp) {
+        this.lp = lp;
     }
 
     
