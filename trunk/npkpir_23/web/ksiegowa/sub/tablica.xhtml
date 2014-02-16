@@ -301,13 +301,6 @@
                         <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":formM:messages" global="false" accesskey="g" style="display: none;" />  
-                <!--            <h:selectBooleanCheckbox id="dodatkowakolumna" value="{DokumentView.selDokument.dodatkowaKolumna}">
-                                <p:ajax event="click" listener="{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
-                            </h:selectBooleanCheckbox>-->
-                <!--dodatkowa kolumna pkpir-->
-                <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
-                </p:panelGrid>
                 <p:panel id="panelewidencji" style="width: 300px;">
                     <p:dataTable  var="wpis" value="#{STRTableView.listaSrodkiTrwale}" id="srodkiLista" editable="true" rendered="#{DokumentView.pokazEST}"
                                   paginator="true" paginatorAlwaysVisible="true" rows="6"

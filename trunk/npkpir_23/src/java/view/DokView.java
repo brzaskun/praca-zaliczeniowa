@@ -97,7 +97,6 @@ public class DokView implements Serializable {
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
     private HtmlSelectOneMenu srodkitrwalewyposazenie;
-    private PanelGrid grid2;
     private PanelGrid grid3;
     @Inject
     private Dok selDokument;
@@ -810,96 +809,7 @@ public class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:grid3");
     }
 
-    /**
-     * Generuje nową dodatkową kolumnę
-     */
-    public void wygenerujNowaKolumnePkpir() {
-        /*wyswietlamy ewidencje VAT*/
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String nazwadok = params.get("dodWiad:rodzajTrans");
-        Rodzajedok rodzaj = rodzajedokDAO.find(nazwadok);
-        String transakcjiRodzaj = rodzaj.getRodzajtransakcji();
-        List valueList = new ArrayList();
-        UISelectItems ulista = new UISelectItems();
-        List dopobrania = new ArrayList();
-        switch (transakcjiRodzaj) {
-            case "ryczałt":
-                dopobrania = kolumna.getKolumnRyczalt();
-                break;
-            case "ryczałt bez VAT":
-                dopobrania = kolumna.getKolumnRyczalt();
-                break;
-            case "zakup":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "srodek trw":
-                dopobrania = kolumna.getKolumnST();
-                setPokazSTR(true);
-                wygenerujSTRKolumne();
-                break;
-            case "inwestycja":
-                dopobrania = kolumna.getKolumnST();
-                break;
-            case "import usług":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "WDT":
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-            case "WNT":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "odwrotne obciążenie":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            default:
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-        }
-        Iterator it;
-        it = dopobrania.iterator();
-        while (it.hasNext()) {
-            String poz = (String) it.next();
-            SelectItem selectItem = new SelectItem(poz, poz);
-            valueList.add(selectItem);
-        }
-        ulista.setValue(valueList);
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
-        ELContext elContext = facesCtx.getELContext();
-        grid2 = getGrid2();
-        grid2.getChildren().clear();
-        ExpressionFactory ef = ExpressionFactory.newInstance();
-        RequestContext.getCurrentInstance().update("dodWiad:grid2");
-        InputNumber ew = new InputNumber();
-        final String binding = "#{DokumentView.nettopkpir1}";
-        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-        ew.setValueExpression("value", ve2);
-        ew.setStyle("width: 120px");
-        ew.setId("kwotaPkpirX");
-//            AjaxBehavior dragStart = new AjaxBehavior();
-//            dragStart.setGlobal(false);
-//            MethodExpression me = ef.createMethodExpression(elContext, "#{DokumentView.przeniesKwotaDoNettoX}", String.class, new Class[0]);
-//            dragStart.addAjaxBehaviorListener(new AjaxBehaviorListenerImpl(me,me));
-//            dragStart.setUpdate(":dodWiad:grid1");
-//            ew.addClientBehavior("blur", dragStart);
-        ew.setSymbol(" zł");
-        ew.setSymbolPosition("s");
-        ew.setDecimalSeparator(".");
-        ew.setDecimalPlaces("2");
-        ew.setThousandSeparator(" ");
-        ew.setMinValue("-10000000");
-        grid2.getChildren().add(ew);
-        final String bindingX = "#{DokumentView.opiskolumny1}";
-        ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-        HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
-        htmlSelectOneMenu.setValueExpression("value", ve2X);
-        htmlSelectOneMenu.setStyle("min-width: 150px");
-        htmlSelectOneMenu.setStyleClass("ui-selectonemenu-label  ui-corner");
-        htmlSelectOneMenu.getChildren().add(ulista);
-        htmlSelectOneMenu.setOnblur("updatesum();");
-        grid2.getChildren().add(htmlSelectOneMenu);
-        RequestContext.getCurrentInstance().update("dodWiad:grid2");
-    }
+   
 
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
@@ -1073,8 +983,6 @@ public class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             setPokazSTR(false);
-            grid2 = getGrid2();
-            grid2.getChildren().clear();
             grid3 = getGrid3();
             grid3.getChildren().clear();
             selDokument = new Dok();
@@ -1085,8 +993,6 @@ public class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
             setPokazSTR(false);
-            grid2 = getGrid2();
-            grid2.getChildren().clear();
             grid3 = getGrid3();
             grid3.getChildren().clear();
             ewidencjaAddwiad.clear();
@@ -1842,15 +1748,6 @@ public class DokView implements Serializable {
 
     public void setPkpirLista(HtmlSelectOneMenu pkpirLista) {
         this.pkpirLista = pkpirLista;
-    }
-
-    
-    public PanelGrid getGrid2() {
-        return grid2;
-    }
-
-    public void setGrid2(PanelGrid grid2) {
-        this.grid2 = grid2;
     }
 
     public HtmlInputText getKontrahentNIP() {

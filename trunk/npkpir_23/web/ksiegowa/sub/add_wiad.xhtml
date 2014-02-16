@@ -126,13 +126,6 @@
                     <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
                 </h:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton id="dodatkowaKolumna" action="#{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" style="display: none;" />  
-            <!--            <h:selectBooleanCheckbox id="dodatkowakolumna" value="{DokumentView.selDokument.dodatkowaKolumna}">
-                            <p:ajax event="click" listener="{DokumentView.wygenerujNowaKolumnePkpir}" global="false"/>
-                        </h:selectBooleanCheckbox>-->
-            <!--dodatkowa kolumna pkpir-->
-            <p:panelGrid id="grid2" columns="2" binding="#{DokumentView.grid2}">
-            </p:panelGrid>
             <p:contextMenu for="panelewidencji">
                 <p:menuitem value="Sprzedaż" onclick="confirmation.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
                 <p:menuitem value="Odkup" onclick="confirmation1.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
