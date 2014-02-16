@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -186,6 +189,25 @@ public class DokTabView implements Serializable {
 //            Msg.msg("e",  "Wystąpił błąd. Dokument nie zachowany po  edycji.","form:messages");
 //        }
 //    }
+    
+     public void sprawdzCzyNieDuplikat() {
+        Msg.msg("i", "Rozpoczynam badanie bazy na obecność duplikatów");
+        List<Dok> pobranedokumentypodatnika = dokDAO.zwrocBiezacegoKlientaDuplikat(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Iterator it = pobranedokumentypodatnika.iterator();
+        while (it.hasNext()) {
+            Dok badany = (Dok) it.next();
+            it.remove();
+            boolean tmp = false;
+            try {
+                tmp = pobranedokumentypodatnika.contains(badany);
+            } catch (Exception ex) {}
+            if (tmp == true) {
+                String wiadomosc = "Dokument typu "+badany.getTypdokumentu()+" dla tego klienta, o numerze "+badany.getNrWlDk()+" i kwocie netto "+badany.getNetto()+" jest juz zaksiegowany u podatnika: " + badany.getPodatnik();
+                Msg.msg("e", wiadomosc);
+            }
+        }
+        Msg.msg("i", "Skończono badanie bazy na obecność duplikatów");
+    }
 
     public void destroy(Dok selDok) {
         dokdoUsuniecia = new Dok();

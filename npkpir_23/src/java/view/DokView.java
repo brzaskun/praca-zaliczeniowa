@@ -18,6 +18,7 @@ import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.WpisDAO;
 import embeddable.EVatwpis;
+import embeddable.EwidencjaAddwiad;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
@@ -96,7 +97,6 @@ public class DokView implements Serializable {
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
     private HtmlSelectOneMenu srodkitrwalewyposazenie;
-    private PanelGrid grid1;
     private PanelGrid grid2;
     private PanelGrid grid3;
     @Inject
@@ -124,28 +124,6 @@ public class DokView implements Serializable {
     private Kolmn kolumna;
     private String opis;
     /*pkpir*/
-    /* Rozliczenia vat*/
-    private String opis1;
-    private double netto1;
-    private double vat1;
-    private String vat1S;
-    private String opis2;
-    private double netto2;
-    private double vat2;
-    private String vat2S;
-    private String opis3;
-    private double netto3;
-    private double vat3;
-    private String vat3S;
-    private String opis4;
-    private double netto4;
-    private double vat4;
-    private String vat4S;
-    private String opizw;
-    private String opis5;
-    private double netto5;
-    private double vat5;
-    private String vat5S;
     @Inject
     private EVatView evat;
     @Inject
@@ -209,6 +187,11 @@ public class DokView implements Serializable {
      */
     List<KwotaKolumna> nettokolumna;
     /**
+     * Lista gdzie przechowywane są wartości ewidencji vat wprowadzone w
+     * formularzy na stronie add_wiad.xhtml
+     */
+    private List<EwidencjaAddwiad> ewidencjaAddwiad;
+    /**
      * pola pobierajace dane
      */
     private double nettopkpir0;
@@ -251,6 +234,7 @@ public class DokView implements Serializable {
         opisypkpir = new ArrayList();
         listamiesiecyewidencjavat = new ArrayList<>();
         nettokolumna = new ArrayList<>();
+        ewidencjaAddwiad = new ArrayList<>();
     }
 
     public void setLiczbawierszy(int liczbawierszy) {
@@ -450,12 +434,20 @@ public class DokView implements Serializable {
         //selDokument.setNrWlDk("");
         ulista.setValue(valueList);
         pkpirLista.getChildren().add(ulista);
-        podepnijEwidencjeVat(transakcjiRodzaj);
     }
 
-    public void podepnijEwidencjeVat(String transakcjiRodzaj) {
+    public void podepnijEwidencjeVat() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:dokumentprosty");
+        String skrotRT = params.get("dodWiad:rodzajTrans");
+        String transakcjiRodzaj = "";
+        for (Rodzajedok temp : rodzajedokKlienta) {
+            if (temp.getSkrot().equals(skrotRT)) {
+                transakcjiRodzaj = temp.getRodzajtransakcji();
+                break;
+            }
+        }
+        
         //takie gupie rozwiazanie dla umozliwienia dzialania przy edycji dokumentu
         try {
             if (skrot.equals(test));
@@ -472,8 +464,6 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             if (opodatkowanieryczalt == false) {
                 /*wyswietlamy ewidencje VAT*/
-                FacesContext facesCtx = FacesContext.getCurrentInstance();
-                ELContext elContext = facesCtx.getELContext();
                 List opisewidencji = new ArrayList();
                 switch (transakcjiRodzaj) {
                     case ("zakup"):
@@ -509,137 +499,35 @@ public class DokView implements Serializable {
                     default:
                         opisewidencji = evat.getSprzedazVList();
                 }
-
-                grid1 = getGrid1();
-                grid1.getChildren().clear();
-                RequestContext ctx = null;
-                ctx.getCurrentInstance().update("dodWiad:grid1");
-                Iterator itx;
-                List naglowekewidencji = evat.getNaglowekVList();
-                itx = naglowekewidencji.iterator();
-                //dodawanie naglowka: rodzaj ewidencji atto vat op/zw
-                while (itx.hasNext()) {
-                    String tmp = (String) itx.next();
-                    if ((transakcjiRodzaj.equals("sprzedaz") || transakcjiRodzaj.equals("srodek trw sprzedaz") || transakcjiRodzaj.equals("ryczałt")) && tmp.equals("op/zw")) {
-                    } else {
-                        HtmlOutputText ot = new HtmlOutputText();
-                        String style = "font-weight: 900;";
-                        ot.setStyle(style);
-                        ot.setValue((String) tmp);
-                        grid1.getChildren().add(ot);
-                    }
-
+                int iloscwierszypkpir = nettokolumna.size();
+                double sumanetto = 0.0;
+                for (int j=0 ; j < iloscwierszypkpir; j++) {
+                    String wiersz = "dodWiad:repeat:"+0+":kwotaPkpir_input";
+                    String trescwiersza = ((String) Params.params(wiersz)).replaceAll(" ", "");
+                    double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length()-3));
+                    sumanetto += kwota;
                 }
-                //usuwanie ostatniego opisu jak jest sprzedaz
-
-                Integer tmpw = grid1.getChildCount();
-                wielkoscopisuewidencji = tmpw.toString();
-                ExpressionFactory ef = ExpressionFactory.newInstance();
-                itx = opisewidencji.iterator();
-                int i = 1;
-                while (itx.hasNext()) {
-                    String poz = (String) itx.next();
-                    HtmlOutputText otX = new HtmlOutputText();
-                    otX.setValue(poz);
-                    //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
-                    //to jest problem przy ViewScoped jak nie beda wyzrowane opisy
-                    if (opis1 == null) {
-                        setOpis1(poz);
-                    } else if (opis2 == null) {
-                        setOpis2(poz);
-                    } else if (opis3 == null) {
-                        setOpis3(poz);
-                    } else if (opis4 == null) {
-                        setOpis4(poz);
-                    } else {
-                        setOpis5(poz);
-                    }
-                    final String bindingA = "#{DokumentView.opis" + i + "}";
-                    ValueExpression ve = ef.createValueExpression(elContext, bindingA, String.class);
-                    otX.setValueExpression("value", ve);
-                    grid1.getChildren().add(otX);
-                    InputNumber ew = new InputNumber();
-                    final String binding = "#{DokumentView.netto" + i + "}";
-                    ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-                    ew.setValueExpression("value", ve2);
-                    ew.setSymbol(" zł");
-                    ew.setSymbolPosition("s");
-                    ew.setDecimalPlaces(".");
-                    ew.setThousandSeparator(" ");
-                    ew.setDecimalPlaces("2");
-                    ew.setMinValue("-10000000");
-                    String styl = "text-align: right;";
-                    ew.setStyle(styl);
-                    String defX = "updatesuma(" + i + ");";
-                    ew.setOnblur(defX);
-                    String lab1 = "netto" + i;
-                    ew.setId(lab1);
-                    String klasa = "nettorow";
-                    ew.setStyleClass(klasa);
-                    grid1.getChildren().add(ew);
-                    HtmlInputText ewX = new HtmlInputText();
-                    final String bindingX = "#{DokumentView.vat" + i + "S}";
-                    ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-                    ewX.setValueExpression("value", ve2X);
-                    String lab2 = "vat" + i;
-                    ewX.setId(lab2);
-                    String def = "updatevat(" + i + ");";
-                    ewX.setOnblur(def);
-                    styl = "text-align: right;";
-                    ewX.setStyle(styl);
-                    grid1.getChildren().add(ewX);
-                    HtmlInputText ewY = new HtmlInputText();
-                    String lab3 = "brutto" + i;
-                    ewY.setId(lab3);
-                    styl = "text-align: right;";
-                    ewY.setStyle(styl);
-                    grid1.getChildren().add(ewY);
-                    if (transakcjiRodzaj.equals("zakup") || transakcjiRodzaj.equals("srodek trw")) {
-                        UISelectItems ulista = new UISelectItems();
-                        List valueList = new ArrayList();
-                        SelectItem selectItem = new SelectItem("sprz.op", "sprz.op");
-                        valueList.add(selectItem);
-                        selectItem = new SelectItem("sprzed.op.izw.", "sprzed.op.izw.");
-                        valueList.add(selectItem);
-                        ulista.setValue(valueList);
-                        final String bindingY = "#{DokumentView.opizw}";
-                        ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
-                        HtmlSelectOneMenu htmlSelectOneMenu = new HtmlSelectOneMenu();
-                        htmlSelectOneMenu.setValueExpression("value", ve2Y);
-                        htmlSelectOneMenu.setStyle("min-width: 150px");
-                        htmlSelectOneMenu.getChildren().add(ulista);
-                        grid1.getChildren().add(htmlSelectOneMenu);
-                    }
-                    i++;
+                ewidencjaAddwiad = new ArrayList<>();
+                for (Object p : opisewidencji ) {
+                    EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                    ewidencjaAddwiad.setOpis((String) p);
+                    ewidencjaAddwiad.setNetto(0.0);
+                    ewidencjaAddwiad.setVat(0.0);
+                    ewidencjaAddwiad.setBrutto(0.0);
+                    ewidencjaAddwiad.setOpzw("op");
+                    this.ewidencjaAddwiad.add(ewidencjaAddwiad);
                 }
-                //to jest potrzebne zeby wyswietlic ostatnio wpisany dokumnet add_wiad.html
-                eVatOpisDAO.clear();
-                EVatOpis eVO = new EVatOpis(wpisView.getWprowadzil().getLogin(), opis1, opis2, opis3, opis4, opis5);
-                try {
-                    eVatOpisDAO.dodaj(eVO);
-                } catch (Exception ei) {
-                    eVatOpisDAO.edit(eVO);
-                }
-                opis1 = null;
-                opis2 = null;
-                opis3 = null;
-                opis4 = null;
-                opis5 = null;
-                netto1 = 0;
-                netto2 = 0;
-                netto3 = 0;
-                netto4 = 0;
-                netto5 = 0;
-                vat1 = 0;
-                vat2 = 0;
-                vat3 = 0;
-                vat4 = 0;
-                vat5 = 0;
-
-                RequestContext.getCurrentInstance().update("dodWiad:grid1");
+                //obliczam 23% dla pierwszego
+                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
+                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto()+ewidencjaAddwiad.get(0).getVat());
+                RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             }
         }
     }
+    
+    
+   
 
     public void pobierzwprowadzonynumer() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -968,12 +856,8 @@ public class DokView implements Serializable {
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void dokumentProstuSchowajEwidencje() {
-        netto1 = 0;
-        vat1 = 0;
         selDokument.setEwidencjaVAT(null);
-        grid1 = getGrid1();
-        grid1.getChildren().clear();
-        RequestContext.getCurrentInstance().update("dodWiad:grid1");
+        RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
     }
 
     public void sformatuj() {
@@ -1011,19 +895,19 @@ public class DokView implements Serializable {
                 pobierzOpisy.add(eVO.getOpis5());
                 List<Double> pobierzNetto = new ArrayList<>();
 
-                pobierzNetto.add(netto1);
-                pobierzNetto.add(netto2);
-                pobierzNetto.add(netto3);
-                pobierzNetto.add(netto4);
-                pobierzNetto.add(netto5);
-                pobierzVat.add(extractDouble(vat1S));
-                try {
-                    pobierzVat.add(extractDouble(vat2S));
-                    pobierzVat.add(extractDouble(vat3S));
-                    pobierzVat.add(extractDouble(vat4S));
-                    pobierzVat.add(extractDouble(vat5S));
-                } catch (Exception e) {
-                }
+//                pobierzNetto.add(netto1);
+//                pobierzNetto.add(netto2);
+//                pobierzNetto.add(netto3);
+//                pobierzNetto.add(netto4);
+//                pobierzNetto.add(netto5);
+//                pobierzVat.add(extractDouble(vat1S));
+//                try {
+//                    pobierzVat.add(extractDouble(vat2S));
+//                    pobierzVat.add(extractDouble(vat3S));
+//                    pobierzVat.add(extractDouble(vat4S));
+//                    pobierzVat.add(extractDouble(vat5S));
+//                } catch (Exception e) {
+//                }
                 List<EVatwpis> el = new ArrayList<>();
 
                 int i = 0;
@@ -1039,7 +923,7 @@ public class DokView implements Serializable {
                             eVatwpis.setEwidencja(eVidencja);
                             eVatwpis.setNetto(pobierzNetto.get(j));
                             eVatwpis.setVat(pobierzVat.get(j));
-                            eVatwpis.setEstawka(opizw);
+                            //eVatwpis.setEstawka(opizw);
                             el.add(eVatwpis);
                             eVidencja = null;
                         }
@@ -1178,8 +1062,6 @@ public class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             setPokazSTR(false);
-            grid1 = getGrid1();
-            grid1.getChildren().clear();
             grid2 = getGrid2();
             grid2.getChildren().clear();
             grid3 = getGrid3();
@@ -1190,8 +1072,6 @@ public class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
             setPokazSTR(false);
-            grid1 = getGrid1();
-            grid1.getChildren().clear();
             grid2 = getGrid2();
             grid2.getChildren().clear();
             grid3 = getGrid3();
@@ -1884,6 +1764,15 @@ public class DokView implements Serializable {
         this.pokazSTR = pokazSTR;
     }
 
+    public List<EwidencjaAddwiad> getEwidencjaAddwiad() {
+        return ewidencjaAddwiad;
+    }
+
+    public void setEwidencjaAddwiad(List<EwidencjaAddwiad> ewidencjaAddwiad) {
+        this.ewidencjaAddwiad = ewidencjaAddwiad;
+    }
+
+    
     public KlView getKlView() {
         return klView;
     }
@@ -1940,14 +1829,7 @@ public class DokView implements Serializable {
         this.pkpirLista = pkpirLista;
     }
 
-    public PanelGrid getGrid1() {
-        return grid1;
-    }
-
-    public void setGrid1(PanelGrid grid1) {
-        this.grid1 = grid1;
-    }
-
+    
     public PanelGrid getGrid2() {
         return grid2;
     }
@@ -1996,118 +1878,7 @@ public class DokView implements Serializable {
         DokView.przekazKontr = przekazKontr;
     }
 
-    public double getNetto1() {
-        return netto1;
-    }
-
-    public void setNetto1(double netto1) {
-        this.netto1 = netto1;
-    }
-
-    public double getVat1() {
-        return vat1;
-    }
-
-    public void setVat1(double vat1) {
-        this.vat1 = vat1;
-    }
-
-    public double getNetto2() {
-        return netto2;
-    }
-
-    public void setNetto2(double netto2) {
-        this.netto2 = netto2;
-    }
-
-    public double getVat2() {
-        return vat2;
-    }
-
-    public void setVat2(double vat2) {
-        this.vat2 = vat2;
-    }
-
-    public double getNetto3() {
-        return netto3;
-    }
-
-    public void setNetto3(double netto3) {
-        this.netto3 = netto3;
-    }
-
-    public double getVat3() {
-        return vat3;
-    }
-
-    public void setVat3(double vat3) {
-        this.vat3 = vat3;
-    }
-
-    public double getNetto4() {
-        return netto4;
-    }
-
-    public void setNetto4(double netto4) {
-        this.netto4 = netto4;
-    }
-
-    public double getVat4() {
-        return vat4;
-    }
-
-    public void setVat4(double vat4) {
-        this.vat4 = vat4;
-    }
-
-    public double getNetto5() {
-        return netto5;
-    }
-
-    public void setNetto5(double netto5) {
-        this.netto5 = netto5;
-    }
-
-    public double getVat5() {
-        return vat5;
-    }
-
-    public void setVat5(double vat5) {
-        this.vat5 = vat5;
-    }
-
-    public String getOpis1() {
-        return opis1;
-    }
-
-    public void setOpis1(String opis1) {
-        this.opis1 = opis1;
-    }
-
-    public String getOpis2() {
-        return opis2;
-    }
-
-    public void setOpis2(String opis2) {
-        this.opis2 = opis2;
-    }
-
-    public String getOpis3() {
-        return opis3;
-    }
-
-    public void setOpis3(String opis3) {
-        this.opis3 = opis3;
-    }
-
-    public String getOpis4() {
-        return opis4;
-    }
-
-    public void setOpis4(String opis4) {
-        this.opis4 = opis4;
-    }
-
+   
     public Dok getWysDokument() {
         return wysDokument;
     }
@@ -2180,13 +1951,7 @@ public class DokView implements Serializable {
         this.typKST = typKST;
     }
 
-    public String getOpizw() {
-        return opizw;
-    }
-
-    public void setOpizw(String opizw) {
-        this.opizw = opizw;
-    }
+  
 
     public String getWielkoscopisuewidencji() {
         return wielkoscopisuewidencji;
@@ -2252,13 +2017,7 @@ public class DokView implements Serializable {
         this.srodekkategoriawynik = srodekkategoriawynik;
     }
 
-    public String getOpis5() {
-        return opis5;
-    }
-
-    public void setOpis5(String opis5) {
-        this.opis5 = opis5;
-    }
+   
 
     public List<String> getListamiesiecyewidencjavat() {
         return listamiesiecyewidencjavat;
@@ -2324,45 +2083,7 @@ public class DokView implements Serializable {
         this.opiskolumny1 = opiskolumny1;
     }
 
-    public String getVat1S() {
-        return vat1S;
-    }
-
-    public void setVat1S(String vat1S) {
-        this.vat1S = vat1S;
-    }
-
-    public String getVat2S() {
-        return vat2S;
-    }
-
-    public void setVat2S(String vat2S) {
-        this.vat2S = vat2S;
-    }
-
-    public String getVat3S() {
-        return vat3S;
-    }
-
-    public void setVat3S(String vat3S) {
-        this.vat3S = vat3S;
-    }
-
-    public String getVat4S() {
-        return vat4S;
-    }
-
-    public void setVat4S(String vat4S) {
-        this.vat4S = vat4S;
-    }
-
-    public String getVat5S() {
-        return vat5S;
-    }
-
-    public void setVat5S(String vat5S) {
-        this.vat5S = vat5S;
-    }
+    
 
     public boolean isPokazEST() {
         return pokazEST;
