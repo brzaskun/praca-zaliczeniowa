@@ -191,6 +191,7 @@ public class DokView implements Serializable {
      * formularzy na stronie add_wiad.xhtml
      */
     private List<EwidencjaAddwiad> ewidencjaAddwiad;
+    private double sumbrutto;
     /**
      * pola pobierajace dane
      */
@@ -521,7 +522,9 @@ public class DokView implements Serializable {
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
                 ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto()+ewidencjaAddwiad.get(0).getVat());
+                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+                RequestContext.getCurrentInstance().update("dodWiad:sumbrutto");
             }
         }
     }
@@ -886,44 +889,22 @@ public class DokView implements Serializable {
                 ArrayList<Evewidencja> ew = new ArrayList<>();
                 ew.addAll(evewidencjaDAO.findAll());
                 Collections.sort(ew, new Evewidencjacomparator());
-                EVatOpis eVO = (EVatOpis) eVatOpisDAO.findS(wpisView.getWprowadzil().getLogin());
-                List<String> pobierzOpisy = new ArrayList<>();
-                pobierzOpisy.add(eVO.getOpis1());
-                pobierzOpisy.add(eVO.getOpis2());
-                pobierzOpisy.add(eVO.getOpis3());
-                pobierzOpisy.add(eVO.getOpis4());
-                pobierzOpisy.add(eVO.getOpis5());
-                List<Double> pobierzNetto = new ArrayList<>();
-
-//                pobierzNetto.add(netto1);
-//                pobierzNetto.add(netto2);
-//                pobierzNetto.add(netto3);
-//                pobierzNetto.add(netto4);
-//                pobierzNetto.add(netto5);
-//                pobierzVat.add(extractDouble(vat1S));
-//                try {
-//                    pobierzVat.add(extractDouble(vat2S));
-//                    pobierzVat.add(extractDouble(vat3S));
-//                    pobierzVat.add(extractDouble(vat4S));
-//                    pobierzVat.add(extractDouble(vat5S));
-//                } catch (Exception e) {
-//                }
                 List<EVatwpis> el = new ArrayList<>();
-
                 int i = 0;
                 int rozmiar = evewidencjaDAO.findAll().size();
+                int rozmiarewvatwprowadzonej = ewidencjaAddwiad.size();
                 while (i < rozmiar) {
                     int j = 0;
-                    while (j < 5 && (pobierzOpisy.get(j) != null)) {
-                        String op = pobierzOpisy.get(j);
+                    while (j < 5 && j < rozmiarewvatwprowadzonej) {
+                        String op = ewidencjaAddwiad.get(j).getOpis();
                         String naz = ew.get(i).getNazwa();
                         if (naz.equals(op)) {
                             eVidencja = ew.get(i);
                             eVatwpis = new EVatwpis();
                             eVatwpis.setEwidencja(eVidencja);
-                            eVatwpis.setNetto(pobierzNetto.get(j));
-                            eVatwpis.setVat(pobierzVat.get(j));
-                            //eVatwpis.setEstawka(opizw);
+                            eVatwpis.setNetto(ewidencjaAddwiad.get(j).getNetto());
+                            eVatwpis.setVat(ewidencjaAddwiad.get(j).getVat());
+                            eVatwpis.setEstawka(ewidencjaAddwiad.get(j).getOpzw());
                             el.add(eVatwpis);
                             eVidencja = null;
                         }
@@ -954,22 +935,6 @@ public class DokView implements Serializable {
             }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            //obliczanie netto
-//            List<KwotaKolumna> pobranekwotokolumny = new ArrayList<>();
-//            KwotaKolumna element = new KwotaKolumna();
-//            KwotaKolumna element1 = new KwotaKolumna();
-//            element.setNetto(nettopkpir0);
-//            element.setVat(vatpkpir0);
-//            element.setBrutto(nettopkpir0+vatpkpir0);
-//            element.setNazwakolumny(opiskolumny0);
-//            pobranekwotokolumny.add(element);
-//            try{
-//            element1.setNetto(nettopkpir1);
-//            element1.setVat(vatpkpir1);
-//            element1.setBrutto(nettopkpir1+vatpkpir1);
-//            element1.setNazwakolumny(opiskolumny1);
-//            pobranekwotokolumny.add(element1);
-//            } catch (Exception e){}
             selDokument.setListakwot(nettokolumna);
             selDokument.setNetto(0.0);
             for (KwotaKolumna p : nettokolumna) {
@@ -2093,6 +2058,15 @@ public class DokView implements Serializable {
         this.pokazEST = pokazEST;
     }
 
+    public double getSumbrutto() {
+        return sumbrutto;
+    }
+
+    public void setSumbrutto(double sumbrutto) {
+        this.sumbrutto = sumbrutto;
+    }
+
+    
 //   public DokTabView getDokTabView() {
 //       return dokTabView;
 //   }

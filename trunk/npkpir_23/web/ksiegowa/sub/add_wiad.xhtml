@@ -120,8 +120,7 @@
                 </h:selectBooleanCheckbox>
                 <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
                 </p:inputText>
-                <p:inputText id="sumbrutto"  readonly="true" style="text-align: right;" onfocus="updatesum();"/>
-
+                <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
 
                 <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="width: 120px; display: none;">
                     <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
