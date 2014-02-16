@@ -448,7 +448,6 @@ public class DokView implements Serializable {
                 break;
             }
         }
-        
         //takie gupie rozwiazanie dla umozliwienia dzialania przy edycji dokumentu
         try {
             if (skrot.equals(test));
@@ -509,8 +508,10 @@ public class DokView implements Serializable {
                     sumanetto += kwota;
                 }
                 ewidencjaAddwiad = new ArrayList<>();
+                int k = 0;
                 for (Object p : opisewidencji ) {
                     EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                    ewidencjaAddwiad.setLp(k++);
                     ewidencjaAddwiad.setOpis((String) p);
                     ewidencjaAddwiad.setNetto(0.0);
                     ewidencjaAddwiad.setVat(0.0);
@@ -520,7 +521,11 @@ public class DokView implements Serializable {
                 }
                 //obliczam 23% dla pierwszego
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
+                if(transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("UPTK")  || transakcjiRodzaj.equals("EXP")) {
+                    ewidencjaAddwiad.get(0).setVat(0.0);
+                } else {
+                    ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
+                }
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto()+ewidencjaAddwiad.get(0).getVat());
                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
@@ -528,9 +533,50 @@ public class DokView implements Serializable {
             }
         }
     }
-    
-    
+   public void updatenetto(EwidencjaAddwiad e) {
+       int lp = e.getLp();
+       String stawkavat = ewidencjaAddwiad.get(lp).getOpis().replaceAll("[^\\d]", "" );
+       try {
+           double stawkaint = Double.parseDouble(stawkavat) / 100;
+           ewidencjaAddwiad.get(lp).setVat(e.getNetto()*stawkaint);
+       } catch (Exception ex) {
+           String opis = ewidencjaAddwiad.get(lp).getOpis();
+           if(opis.contains("WDT") || opis.contains("UPTK")  || opis.contains("EXP")) {
+              ewidencjaAddwiad.get(0).setVat(0.0);
+           } else {
+              ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto()*0.23);
+           }
+       }
+       ewidencjaAddwiad.get(lp).setBrutto(e.getNetto()+e.getVat());
+       sumbruttoAddwiad();
+       String update = "dodWiad:tablicavat:"+lp+":vat";
+       RequestContext.getCurrentInstance().update(update);
+       update = "dodWiad:tablicavat:"+lp+":brutto";
+       RequestContext.getCurrentInstance().update(update);
+       update = "dodWiad:sumbrutto";
+       RequestContext.getCurrentInstance().update(update);
+       String activate = "document.getElementById('dodWiad:tablicavat:"+lp+":vat_input').select();";
+       RequestContext.getCurrentInstance().execute(activate);
+   }
    
+   public void updatevat(EwidencjaAddwiad e) {
+       int lp = e.getLp();
+       ewidencjaAddwiad.get(lp).setBrutto(e.getNetto()+e.getVat());
+       sumbruttoAddwiad();
+       String update = "dodWiad:tablicavat:"+lp+":brutto";
+       RequestContext.getCurrentInstance().update(update);
+       update = "dodWiad:sumbrutto";
+       RequestContext.getCurrentInstance().update(update);
+       String activate = "document.getElementById('dodWiad:tablicavat:"+lp+":brutto_input').select();";
+       RequestContext.getCurrentInstance().execute(activate);
+   }
+   
+   private void sumbruttoAddwiad() {
+       sumbrutto = 0.0;
+       for (EwidencjaAddwiad p : ewidencjaAddwiad) {
+            sumbrutto += p.getBrutto();
+       }
+   }
 
     public void pobierzwprowadzonynumer() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -1032,8 +1078,10 @@ public class DokView implements Serializable {
             grid3 = getGrid3();
             grid3.getChildren().clear();
             selDokument = new Dok();
+            ewidencjaAddwiad.clear();
             setRenderujwysz(false);
             setPokazEST(false);
+            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
             setPokazSTR(false);
@@ -1041,6 +1089,8 @@ public class DokView implements Serializable {
             grid2.getChildren().clear();
             grid3 = getGrid3();
             grid3.getChildren().clear();
+            ewidencjaAddwiad.clear();
+            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             setRenderujwysz(false);
             setPokazEST(false);
         }
