@@ -528,7 +528,7 @@ public class DokView implements Serializable {
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto()+ewidencjaAddwiad.get(0).getVat());
                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
-                RequestContext.getCurrentInstance().update("dodWiad:sumbrutto");
+                RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             }
         }
     }
@@ -552,7 +552,7 @@ public class DokView implements Serializable {
        RequestContext.getCurrentInstance().update(update);
        update = "dodWiad:tablicavat:"+lp+":brutto";
        RequestContext.getCurrentInstance().update(update);
-       update = "dodWiad:sumbrutto";
+       update = "dodWiad:tabelapkpir2:0:sumbrutto";
        RequestContext.getCurrentInstance().update(update);
        String activate = "document.getElementById('dodWiad:tablicavat:"+lp+":vat_input').select();";
        RequestContext.getCurrentInstance().execute(activate);
@@ -564,7 +564,7 @@ public class DokView implements Serializable {
        sumbruttoAddwiad();
        String update = "dodWiad:tablicavat:"+lp+":brutto";
        RequestContext.getCurrentInstance().update(update);
-       update = "dodWiad:sumbrutto";
+       update = "dodWiad:tabelapkpir2:0:sumbrutto";
        RequestContext.getCurrentInstance().update(update);
        String activate = "document.getElementById('dodWiad:tablicavat:"+lp+":brutto_input').select();";
        RequestContext.getCurrentInstance().execute(activate);
@@ -1350,7 +1350,7 @@ public class DokView implements Serializable {
     public void ustawDate2() {
         if (liczbawierszy < 1) {
             nettokolumna.add(new KwotaKolumna());
-            RequestContext.getCurrentInstance().update("dodWiad:panel");
+            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir");
             liczbawierszy++;
         }
     }

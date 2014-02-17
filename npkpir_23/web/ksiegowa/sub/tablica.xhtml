@@ -191,6 +191,8 @@
     <!--edycja faktur z tabeli-->
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dlg123" resizable="false"  >
         <h:form id="dodWiad">
+              <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
+                <p:commandButton id="usunkol" value="F8" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Edytowanie zaksięgowanego dokumentu klienta: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" style="width: 1100px;" id="wprowadzanie">
                 <p:growl id="mess_add" />
                 <p:focus for="polawprowadzania"/>
@@ -248,66 +250,68 @@
                 </p:panelGrid>
                 <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
                 <!--        <span id="log"></span>-->
-                <p:panelGrid columns="8">
-                    <h:outputLabel value="dod.kol" style="font-weight: 700; display: none;"/>
-                <h:outputLabel value="usun.kol" style="font-weight: 700; display: none;"/>
-                <h:outputLabel value="" style="font-weight: 700"/>
-                <h:outputLabel value="dok.prosty" style="font-weight: 700;"/>
-                <h:outputLabel value="rozliczony" style="font-weight: 700"/>
-                <h:outputLabel value="termin płatności" style="font-weight: 700"/>
-                <h:outputLabel value="wartość dokumentu" style="font-weight: 700"/>
-                <h:outputLabel id="inwestycjas" value="inwestycja" style="font-weight: 700; display: none;"/>
-                <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
-                <p:commandButton id="usunkol" value="F8" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
+                  <p:panelGrid columns="4" style="width: 80%; margin-left: -2%;">
 
-                     <script>
-                                /* <![CDATA[ */ 
-                                function zrobF(kwota) {
-                                    var strX = kwota.replace(",", ".");
-                                    strX = strX.replace(/\s/g, "");
-                                    return parseFloat(strX);
-                                }
-                                $(function() {
-                                    $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
-                                        var roznica;
-                                        if (e.which == 107) {
-                                            var odjema = zrobF($(this).val());
-                                            var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
-                                            roznica = odjemna - odjema;
-                                            $(this).val(Math.abs(roznica));
-                                            e.stopImmediatePropagation();
-                                        }
-                                    })
+                <script>
+                    /* <![CDATA[ */
+                    function zrobF(kwota) {
+                        var strX = kwota.replace(",", ".");
+                        strX = strX.replace(/\s/g, "");
+                        return parseFloat(strX);
+                    }
+                    $(function() {
+                        $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
+                            var roznica;
+                            if (e.which == 107) {
+                                var odjema = zrobF($(this).val());
+                                var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
+                                roznica = odjemna - odjema;
+                                $(this).val(Math.abs(roznica));
+                                e.stopImmediatePropagation();
+                            }
+                        })
 
-                                })
-                                /* ]]> */  
-                            </script>
-                    <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
-                    <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny">
-                        <p:column headerText="kwota faktury netto">
+                    })
+                            /* ]]> */
+                </script>
+                <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
+                <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
+                    <p:column headerText="kwota faktury netto">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" />
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false"/>
                         </pe:inputNumber>
-                        </p:column>
-                        <p:column headerText="kolumna pkpir">
-                            <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="min-width: 150px" >
-                                <f:selectItems value="#{DokumentView.kolumny}"/>
-                            </h:selectOneMenu><br/>
-                        </p:column>
-                    </p:dataTable>
-                    <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}" style="width: 20px; height: 20px;">
-                        <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
-                    </h:selectBooleanCheckbox>
-                    <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()" style="width: 20px; height: 20px;">
-                        <!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
-                    </h:selectBooleanCheckbox>
-                    <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
-                    </p:inputText>
-                    <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
-                    <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="width: 120px; display: none;">
-                        <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
-                    </h:selectOneMenu>
-                </p:panelGrid>
+                    </p:column>
+                    <p:column headerText="kolumna pkpir">
+                        <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="min-width: 150px">
+                            <f:selectItems value="#{DokumentView.kolumny}"/>
+                        </h:selectOneMenu><br/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
+                    <p:column headerText="dok.prosty" style="text-align: center;">
+                        <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" style="width: 20px; height: 20px;">
+                            <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+                        </h:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="rozliczony" style="text-align: center;">
+                        <h:selectBooleanCheckbox id="rozliczony" value="#{item.rozliczony}" onchange="przekazdate()"  style="width: 20px; height: 20px;">
+                            <!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
+                        </h:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="termin płatności">
+                        <p:inputText id="dataTPole" value="#{item.terminPlatnosci}" maxlength="10" style="width: 120px" required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="wartość dokumentu">
+                        <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="inwestycja">
+                        <h:selectOneMenu id="inwestycja" value="#{item.symbolinwestycji}" style="width: 120px; display: none;">
+                            <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
                 <p:panel id="panelewidencji" style="width: 300px;">
                     <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" editable="true" rendered="#{DokumentView.pokazEST}"
                                   paginator="true" paginatorAlwaysVisible="true" rows="6"
