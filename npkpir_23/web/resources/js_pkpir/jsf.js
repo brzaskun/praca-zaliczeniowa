@@ -497,7 +497,7 @@ var przeniesKwotaDoNetto = function () {
         var vat = 0.0;
         var rodzajtransakcji = $('#dodWiad\\:rodzajTrans').val();
         while(kwotanetto){
-            kwotanetto = $('#dodWiad\\:repeat\\:' + i + '\\:kwotaPkpir_hinput').val() - 0;
+            kwotanetto = $('#dodWiad\\:tabelapkpir\\:' + i + '\\:kwotaPkpir_hinput').val() - 0;
             if(!isNaN(kwotanetto)){
                 suma += kwotanetto;
             }
