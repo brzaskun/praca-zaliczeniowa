@@ -33,11 +33,11 @@ public class Data implements Serializable {
         }
     }
 
-    public static int compare(int rok1, int mc1, int rok2, int mc2) {
-        int rokO1 = rok1;
-        int rokO2 = rok2;
-        int mcO1 = mc1;
-        int mcO2 = mc2;
+    public static int compare(int rok1P, int mc1P, int rok2W, int mc2W) {
+        int rokO1 = rok1P;
+        int rokO2 = rok2W;
+        int mcO1 = mc1P;
+        int mcO2 = mc2W;
         if (rokO1 < rokO2) {
             return -1;
         } else if (rokO1 > rokO2) {

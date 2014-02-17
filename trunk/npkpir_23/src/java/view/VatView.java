@@ -8,6 +8,7 @@ import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
+import data.Data;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
@@ -272,14 +273,14 @@ public class VatView implements Serializable {
         //odszukaj date w parametrze - kandydat na metode statyczna
         for(Parametr p : parametry){
             if(p.getRokDo()!=null&&!"".equals(p.getRokDo())){
-            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
-            Integer gornagranica = Integer.parseInt(p.getRokDo()) + Integer.parseInt(p.getMcDo());
-            if(sumaszukana>=dolnagranica&&sumaszukana<=gornagranica){
+            int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+            int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+            if(wynikPo > 1 && wynikPrzed < 0){
                 return p.getParametr();
             }
             } else {
-            Integer dolnagranica = Integer.parseInt(p.getRokOd()) + Integer.parseInt(p.getMcOd());
-            if(sumaszukana>=dolnagranica){
+            int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+            if(wynik > 0){
                 return p.getParametr();
             }
             }
@@ -289,6 +290,7 @@ public class VatView implements Serializable {
       
      private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
          if(vatokres.equals("blad")){
+            Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
             throw new Exception("Nie ma ustawionego parametru vat za dany okres");
          } else if (vatokres.equals("miesięczne")){
              List<Dok> listatymczasowa = new ArrayList<>();
