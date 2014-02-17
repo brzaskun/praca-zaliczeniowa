@@ -112,7 +112,7 @@ public class VatView implements Serializable {
                 String rokvat = wpisView.getRokWpisuSt();
                 int numerk = 1;
                 for (Dok tmpx : listatmp) {
-                    if (tmpx.getPkpirR().equals(rokvat)) {
+                    if (tmpx.getVatR().equals(rokvat)) {
                         tmpx.setNrWpkpir(numerk++);
                         listadokvat.add(tmpx);
                     }
