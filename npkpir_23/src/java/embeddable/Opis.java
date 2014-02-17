@@ -69,7 +69,10 @@ public class Opis implements Serializable{
             if(p.contains(query.toLowerCase())) {
                  results.add(p);
              }
-        }  
+        }
+        if (results.size()==0) {
+            results.add(query);
+        }
         return results;  
     }  
 

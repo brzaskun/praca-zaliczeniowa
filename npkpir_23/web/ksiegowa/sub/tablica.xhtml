@@ -234,7 +234,9 @@
                     </h:selectBooleanCheckbox>
                     <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" title="wybierz rodzaj księgowanego dokumentu">
                         <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
-                        <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
+                        <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
+                        <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
+                        <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
                     </h:selectOneMenu> 
                     <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
                     </p:inputText>
@@ -259,37 +261,42 @@
                     <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.liczbaw()}" update=":dodWiad:panel" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
 
                     <p:outputPanel id="panel">
-                        <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
-                        <ui:repeat id="repeat" value="#{DokumentView.nettokolumna}" var="row" varStatus="rowStat"  >
-                            <pe:inputNumber id="kwotaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                            <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update=":dodWiad:repeat:kolumnaPkpir" global="false"/>
-                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" onsuccess="przeniesKwotaDoNetto();"/>
-                                <script>
-                function zrobF(kwota) {
-                    var strX = kwota.replace(",", ".");
-                    strX = strX.replace(/\s/g, "");
-                    return parseFloat(strX);
-                }
-                $(function() {
-                    $("#dodWiad\\:repeat\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
-                        var roznica;
-                        if (e.which == 107) {
-                            var odjema = zrobF($(this).val());
-                            var odjemna = zrobF($("#dodWiad\\:repeat\\:0\\:kwotaPkpir_input").val());
-                            roznica = odjemna - odjema;
-                            $(this).val(Math.abs(roznica));
-                            e.stopImmediatePropagation();
-                        }
-                    })
+                     <script>
+                                /* <![CDATA[ */ 
+                                function zrobF(kwota) {
+                                    var strX = kwota.replace(",", ".");
+                                    strX = strX.replace(/\s/g, "");
+                                    return parseFloat(strX);
+                                }
+                                $(function() {
+                                    $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
+                                        var roznica;
+                                        if (e.which == 107) {
+                                            var odjema = zrobF($(this).val());
+                                            var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
+                                            roznica = odjemna - odjema;
+                                            $(this).val(Math.abs(roznica));
+                                            e.stopImmediatePropagation();
+                                        }
+                                    })
 
-                })
-                                </script>
-                            </pe:inputNumber>
-                            <h:selectOneMenu id="kolumnaPkpir" value="#{DokumentView.nettokolumna[rowStat.index].nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
+                                })
+                                /* ]]> */  
+                            </script>
+                    <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
+                    <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny">
+                        <p:column headerText="kwota faktury netto">
+                        <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" onsuccess="przeniesKwotaDoNetto();"/>
+                        </pe:inputNumber>
+                        </p:column>
+                        <p:column headerText="kolumna pkpir">
+                            <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="min-width: 150px" onblur="updatesum();">
                                 <f:selectItems value="#{DokumentView.kolumny}"/>
                             </h:selectOneMenu><br/>
-                        </ui:repeat>
-                    </p:outputPanel>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
 
                     <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()">
                         <!--                <p:ajax event="click" listener="{DokumentView.skopiujdoTerminuPlatnosci}" update=":dodWiad:dataTPole" global="false" />-->
