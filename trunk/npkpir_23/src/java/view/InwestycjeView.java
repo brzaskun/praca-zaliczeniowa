@@ -69,6 +69,9 @@ public class InwestycjeView implements Serializable{
         }
         mczakonczenia = wpisView.getMiesiacWpisu();
         rokzakonczenia = String.valueOf(wpisView.getRokWpisu());
+        if (inwestycjesymbole.size()==0) {
+            inwestycjesymbole.add("brak rozpoczętych");
+        }
     }
 
     public void dodaj() {

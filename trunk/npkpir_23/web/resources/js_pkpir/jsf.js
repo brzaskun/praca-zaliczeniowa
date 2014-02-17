@@ -132,20 +132,18 @@ var aktywujnetto = function(){
 var aktywujopis = function (){
     var dokument = $('#dodWiad\\:rodzajTrans').val();
     if(dokument==='IN'){
-        $('#dodWiad\\:inwestycja').show();
-        $('#dodWiad\\:inwestycjas').show();
-//        $("#dodWiad\\:inwestycja").bind('mouseover', function() {
-//        alert($('#dodWiad\\:inwestycja').val());
+        $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').show();
+//        $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('mouseover', function() {
+//        alert($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val());
 //            });
-    $("#dodWiad\\:inwestycja").bind('blur', function() {
+    $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('blur', function() {
 
-        if( $('#dodWiad\\:inwestycja').val()==="wybierz"){
-            $('#dodWiad\\:inwestycja').focus();
+        if( $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val()==="wybierz"){
+            $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').focus();
         }
         });
     } else {
-        $('#dodWiad\\:inwestycja').hide();
-        $('#dodWiad\\:inwestycjas').hide();
+        $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').hide();
     }
     if(dokument==='LP'){
         $('#dodWiad\\:dokumentprosty').attr('checked', true);

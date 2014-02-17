@@ -19,9 +19,9 @@ function ustawDate(rok,mc){
      if (!testw.match(re)){
          dataWyst.value = "b\u0142ędna data";
      } else {
-         var dataplatnosc = document.getElementById("dodWiad:dataTPole");
+         var dataplatnosc = document.getElementById("dodWiad:tabelapkpir2:0:dataTPole");
          var datasprzedazy = document.getElementById("dodWiad:dataSPole");
-         var rozliczony = document.getElementById("dodWiad:rozliczony");
+         var rozliczony = document.getElementById("dodWiad:tabelapkpir2:0:rozliczony");
          dataplatnosc.value = dataWyst.value;
          datasprzedazy.value = dataWyst.value;
          $(rozliczony).attr('checked', true);
