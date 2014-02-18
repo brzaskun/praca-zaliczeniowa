@@ -47,7 +47,8 @@ public class Zamknietemiesiace implements Serializable {
     public Zamknietemiesiace(String podatnik) {
         this.podatnik = podatnik;
     }
-
+    
+   
     public List<Okresrozliczeniowy> getZamkniete() {
         return zamkniete;
     }

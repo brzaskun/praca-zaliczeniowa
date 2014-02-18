@@ -108,11 +108,11 @@
                                 <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieView.biezacyPit.zamkniety}"/>
                             </p:panelGrid>
                             <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto; width: 480px;">
-                                <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;">
+                                <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok(WpisView.rokWpisuSt,WpisView.miesiacWpisu)}">
                                 </p:commandButton>
 
                                 <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form" type="submit" style="width: 140px"/>
-                                <p:splitButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form" type="submit" >
+                                <p:splitButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok(WpisView.rokWpisuSt,WpisView.miesiacWpisu)}">
                                     <p:menuitem value="dodatkowy-13" actionListener="#{ZestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:panelGrid>
