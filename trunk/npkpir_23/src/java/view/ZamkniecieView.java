@@ -86,7 +86,7 @@ public class ZamkniecieView implements Serializable {
             zamknietemiesiace.setZamkniete(mapaokresow);
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
             //utworzenie edycja jest niepotrzebna bo my tworzymy zupelnie nowa
-            zDAO.dodaj(zamknietemiesiace);
+            zDAO.edit(zamknietemiesiace);
         }
         Collections.sort(mapaokresowPobrane, new Okresrozliczeniowycomparator());
         Collections.sort(mapaokresowPobraneZapas, new Okresrozliczeniowycomparator());

@@ -79,9 +79,12 @@ public class WpisView implements Serializable{
             this.miesiacWpisu = wpis.getMiesiacWpisu();
         }
         this.rokWpisu = wpis.getRokWpisu();
-        this.rokUprzedni = wpis.getRokWpisu()-1;
+        try {
+            this.rokUprzedni = wpis.getRokWpisu()-1;
+            this.rokUprzedniSt = String.valueOf(this.rokUprzedni);
+        } catch (Exception er) {}
         this.rokWpisuSt = String.valueOf(wpis.getRokWpisu());
-        this.rokUprzedniSt = String.valueOf(this.rokUprzedni);
+        
         try {
             if(miesiacOd==null){
                 this.miesiacOd = wpis.getMiesiacOd();
