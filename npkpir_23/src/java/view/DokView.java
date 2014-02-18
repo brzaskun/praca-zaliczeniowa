@@ -459,6 +459,10 @@ public class DokView implements Serializable {
         }
         try {
             if (skrot.equals("on")) {
+                for (KwotaKolumna p : nettokolumna) {
+                    sumbrutto += p.getNetto();
+                }
+                RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             }
         } catch (Exception e) {
             if (opodatkowanieryczalt == false) {
