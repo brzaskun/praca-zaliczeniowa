@@ -146,13 +146,13 @@ var aktywujopis = function (){
         $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').hide();
     }
     if(dokument==='LP'){
-        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
     }
     if(dokument==='PK'){
-        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
     }
     if(dokument==='ZUS'){
-        $('#dodWiad\\:dokumentprosty').attr('checked', true);
+        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
     }
     $('#dodWiad\\:opis').on('keydown',function(e){
         if(e.which=='120'){
