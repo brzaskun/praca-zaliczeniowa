@@ -438,7 +438,7 @@ public class DokView implements Serializable {
 
     public void podepnijEwidencjeVat() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:dokumentprosty");
+        String skrot = params.get("dodWiad:tabelapkpir2:0:dokumentprosty");
         String skrotRT = params.get("dodWiad:rodzajTrans");
         String transakcjiRodzaj = "";
         for (Rodzajedok temp : rodzajedokKlienta) {
@@ -816,6 +816,7 @@ public class DokView implements Serializable {
      */
     public void dokumentProstuSchowajEwidencje() {
         selDokument.setEwidencjaVAT(null);
+        ewidencjaAddwiad.clear();
         RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
     }
 
