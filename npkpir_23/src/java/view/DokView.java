@@ -507,7 +507,7 @@ public class DokView implements Serializable {
                 for (int j=0 ; j < iloscwierszypkpir; j++) {
                     String wiersz = "dodWiad:tabelapkpir:"+0+":kwotaPkpir_input";
                     String trescwiersza = ((String) Params.params(wiersz)).replaceAll(" ", "");
-                    double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length()-3));
+                    double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length()-2));
                     sumanetto += kwota;
                 }
                 ewidencjaAddwiad = new ArrayList<>();
