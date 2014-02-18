@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Okresrozliczeniowycomparator;
 import dao.DokDAO;
 import dao.ZamknietemiesiaceDAO;
 import embeddable.Mce;
@@ -13,6 +14,7 @@ import entity.Dok;
 import entity.Zamknietemiesiace;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -86,6 +88,8 @@ public class ZamkniecieView implements Serializable {
             //utworzenie edycja jest niepotrzebna bo my tworzymy zupelnie nowa
             zDAO.dodaj(zamknietemiesiace);
         }
+        Collections.sort(mapaokresowPobrane, new Okresrozliczeniowycomparator());
+        Collections.sort(mapaokresowPobraneZapas, new Okresrozliczeniowycomparator());
     }
 
     public void zapisokresy(){
@@ -147,30 +151,41 @@ public class ZamkniecieView implements Serializable {
         }
     }
     
+     public boolean sprawdzMiesiacRok(String rok, String mc) {
+        for (Okresrozliczeniowy p : mapaokresowPobrane) {
+            if(p.getRok().equals(rok)&&(p.getMiesiac().equals(mc))) {
+                return p.isZamkniety();
+            }
+        }
+        Msg.msg("i", "Sprawdzono miesiac");
+        return false;
+    }
+
       
-    public ArrayList<Okresrozliczeniowy> getMapaokresowPobrane() {
-        return mapaokresowPobrane;
-    }
-
-    public void setMapaokresowPobrane(ArrayList<Okresrozliczeniowy> mapaokresowPobrane) {
-        this.mapaokresowPobrane = mapaokresowPobrane;
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public boolean isMoznaksiegowac() {
-        return moznaksiegowac;
-    }
-
-    public void setMoznaksiegowac(boolean moznaksiegowac) {
-        this.moznaksiegowac = moznaksiegowac;
-    }
-
+     //<editor-fold defaultstate="collapsed" desc="comment">
+     public ArrayList<Okresrozliczeniowy> getMapaokresowPobrane() {
+         return mapaokresowPobrane;
+     }
+     
+     public void setMapaokresowPobrane(ArrayList<Okresrozliczeniowy> mapaokresowPobrane) {
+         this.mapaokresowPobrane = mapaokresowPobrane;
+     }
+     
+     public WpisView getWpisView() {
+         return wpisView;
+     }
+     
+     public void setWpisView(WpisView wpisView) {
+         this.wpisView = wpisView;
+     }
+     
+     public boolean isMoznaksiegowac() {
+         return moznaksiegowac;
+     }
+     
+     public void setMoznaksiegowac(boolean moznaksiegowac) {
+         this.moznaksiegowac = moznaksiegowac;
+     }
+     //</editor-fold>
     
  }

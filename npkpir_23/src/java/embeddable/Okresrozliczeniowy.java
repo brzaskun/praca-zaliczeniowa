@@ -20,39 +20,41 @@ public class Okresrozliczeniowy implements Serializable {
     private boolean edytuj;
 
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public String getRok() {
         return rok;
     }
-
+    
     public void setRok(String rok) {
         this.rok = rok;
     }
-
+    
     public String getMiesiac() {
         return miesiac;
     }
-
+    
     public void setMiesiac(String miesiac) {
         this.miesiac = miesiac;
     }
-
+    
     public boolean isZamkniety() {
         return zamkniety;
     }
-
+    
     public void setZamkniety(boolean zamkniety) {
         this.zamkniety = zamkniety;
     }
-
+    
     public boolean isEdytuj() {
         return edytuj;
     }
-
+    
     public void setEdytuj(boolean edytuj) {
         this.edytuj = edytuj;
     }
-
- 
+    
+    //</editor-fold>
+   
 
     @Override
     public boolean equals(Object obj) {
@@ -81,6 +83,12 @@ public class Okresrozliczeniowy implements Serializable {
         hash = 89 * hash + (this.edytuj ? 1 : 0);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "Okresrozliczeniowy{" + "rok=" + rok + ", miesiac=" + miesiac + ", zamkniety=" + zamkniety + '}';
+    }
+   
     
     
 }
