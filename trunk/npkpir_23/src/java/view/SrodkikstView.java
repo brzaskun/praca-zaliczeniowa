@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -22,7 +22,7 @@ import javax.inject.Inject;
  * @author Osito
  */ 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class SrodkikstView implements Serializable {
     private static List<Srodkikst> lista;
     @Inject private SrodkikstDAO srodkikstDAO;

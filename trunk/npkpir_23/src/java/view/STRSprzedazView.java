@@ -58,9 +58,13 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             p.setNrwldokumentu(nrwlasny);
             int rok = Integer.parseInt(data.substring(0,4));
             int mc = Integer.parseInt(data.substring(5,7));
+            String datazakupu = p.getDatazak();
+            int rokzakupu = Integer.parseInt(datazakupu.substring(0,4));
+            int mczakupu = Integer.parseInt(datazakupu.substring(5,7));
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
             for(Umorzenie x : p.getUmorzWyk()){
+                
                 if(x.getRokUmorzenia()<=rok&&x.getMcUmorzenia()<mc){
                     suma += x.getKwota().doubleValue();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
@@ -71,6 +75,18 @@ public class STRSprzedazView extends STRTabView implements Serializable {
                     x.setKwota(BigDecimal.ZERO);
                 }
             }
+            //wypadek gdy jest zakup i sprzedaz w jednym mcu
+            if (rok == rokzakupu && mc == mczakupu) {
+                Umorzenie y = new Umorzenie();
+                y.setKwota(new BigDecimal(p.getNetto()));
+                y.setRokUmorzenia(rokzakupu);
+                y.setMcUmorzenia(mczakupu);
+                y.setNazwaSrodka(p.getNazwa());
+                y.setNrUmorzenia(1);
+                p.getUmorzWyk().clear();
+                p.getUmorzWyk().add(y);
+            }
+
             try{
                 sTRDAO.edit(p);
                 Msg.msg("i","Naniesiono sprzedaż: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
