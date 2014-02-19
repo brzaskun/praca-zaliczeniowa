@@ -12,6 +12,7 @@ import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Straty;
+import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -798,6 +799,26 @@ public class PodatnikView implements Serializable{
          }
      }
      
+     public void skopiujstraty() {
+         List<Podatnik> podatnicy = podatnikDAO.findAll();
+         for (Podatnik p : podatnicy) {
+             if (p.getStratyzlatub() != null) {
+                List<Straty1> straty = new ArrayList<>();
+                for (Straty r : p.getStratyzlatub()) {
+                    Straty1 s = new Straty1();
+                    s.setRok(r.getRok());
+                    s.setKwota(r.getKwota());
+                    s.setPolowakwoty(r.getPolowakwoty());
+                    s.setWykorzystano(r.getWykorzystano());
+                    s.setZostalo(r.getZostalo());
+                    straty.add(s);
+                }
+                p.setStratyzlatub1(straty);
+                podatnikDAO.edit(p);
+                Msg.msg("i", "Przeniesiono straty podatnika "+p.getNazwapelna());
+             }
+         }
+     }
      
       public WpisView getWpisView() {
         return wpisView;

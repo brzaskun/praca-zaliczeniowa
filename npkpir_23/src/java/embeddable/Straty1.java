@@ -5,6 +5,7 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Embeddable;
 
@@ -13,18 +14,19 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class Straty implements Serializable{
+public class Straty1 implements Serializable{
     private static final long serialVersionUID = 1L;
     private String rok;
     private String kwota;
     private String polowakwoty;
     private String wykorzystano;
     private String zostalo;
+    private List lolo;
 
-    public Straty() {
+    public Straty1() {
     }
 
-    public Straty(String rok, String kwota, String polowakwoty, String wykorzystano, String zostalo) {
+    public Straty1(String rok, String kwota, String polowakwoty, String wykorzystano, String zostalo) {
         this.rok = rok;
         this.kwota = kwota;
         this.polowakwoty = polowakwoty;
@@ -72,6 +74,15 @@ public class Straty implements Serializable{
     public void setZostalo(String zostalo) {
         this.zostalo = zostalo;
     }
+
+    public List getLolo() {
+        return lolo;
+    }
+
+    public void setLolo(List lolo) {
+        this.lolo = lolo;
+    }
+    
     
 
     

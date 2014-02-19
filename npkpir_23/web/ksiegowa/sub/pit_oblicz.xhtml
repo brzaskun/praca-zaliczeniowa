@@ -216,7 +216,7 @@
     
     <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{podatnikView.selectedStrata.nazwapelna}">
             <h:form id="form1">
-                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub}" emptyMessage="Nie ma nic" var="loop" style="width: 600px;">
+                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="width: 600px;">
                     <p:column headerText="rok">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
