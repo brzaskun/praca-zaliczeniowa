@@ -285,6 +285,7 @@ public class VatView implements Serializable {
             }
             }
         }
+        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
         return "blad";
     }
       
