@@ -11,7 +11,6 @@ import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
-import embeddable.Straty;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Podatnik;
@@ -89,7 +88,7 @@ public class PodatnikView implements Serializable{
     @Inject private WpisDAO wpisDAO;
     @Inject private Udzialy udzialy;
     //straty z lat ubieglych
-    private List<Straty> stratyzlatub;
+    private List<Straty1> stratyzlatub;
     private String stratarok;
     private String stratakwota;
     private String strata50;
@@ -752,10 +751,10 @@ public class PodatnikView implements Serializable{
         BigDecimal polowa = new BigDecimal(stratakwota);
         polowa = polowa.divide(new BigDecimal(2)).setScale(2, RoundingMode.HALF_EVEN);
         strata50 = polowa.toString();
-        Straty tmps = new Straty(stratarok, stratakwota, strata50, stratawykorzystano, stratazostalo);
-        Straty ostatnirok = new Straty();
+        Straty1 tmps = new Straty1(stratarok, stratakwota, strata50, stratawykorzystano, stratazostalo);
+        Straty1 ostatnirok = new Straty1();
         try {
-            stratyzlatub = selected.getStratyzlatub();
+            stratyzlatub = selected.getStratyzlatub1();
             ostatnirok = stratyzlatub.get(stratyzlatub.size() - 1);
 
         } catch (Exception e) {
@@ -772,7 +771,7 @@ public class PodatnikView implements Serializable{
                 throw new Exception();
             }
             stratyzlatub.add(tmps);
-            selectedStrata.setStratyzlatub(stratyzlatub);
+            selectedStrata.setStratyzlatub1(stratyzlatub);
             podatnikDAO.edit(selectedStrata);
             stratarok = "";
             stratakwota = "";
@@ -786,9 +785,9 @@ public class PodatnikView implements Serializable{
         }
     }
     
-     public void usunstrate(Straty loop){
+     public void usunstrate(Straty1 loop){
          try {
-            stratyzlatub = selectedStrata.getStratyzlatub();
+            stratyzlatub = selectedStrata.getStratyzlatub1();
             stratyzlatub.size();
             stratyzlatub.remove(loop);
             podatnikDAO.edit(selectedStrata);
@@ -799,26 +798,26 @@ public class PodatnikView implements Serializable{
          }
      }
      
-     public void skopiujstraty() {
-         List<Podatnik> podatnicy = podatnikDAO.findAll();
-         for (Podatnik p : podatnicy) {
-             if (p.getStratyzlatub1() != null) {
-                List<Straty> straty = new ArrayList<>();
-                for (Straty1 r : p.getStratyzlatub1()) {
-                    Straty s = new Straty();
-                    s.setRok(r.getRok());
-                    s.setKwota(r.getKwota());
-                    s.setPolowakwoty(r.getPolowakwoty());
-                    s.setWykorzystano(r.getWykorzystano());
-                    s.setZostalo(r.getZostalo());
-                    straty.add(s);
-                }
-                p.setStratyzlatub(straty);
-                podatnikDAO.edit(p);
-                Msg.msg("i", "Przeniesiono straty podatnika "+p.getNazwapelna());
-             }
-         }
-     }
+//     public void skopiujstraty() {
+//         List<Podatnik> podatnicy = podatnikDAO.findAll();
+//         for (Podatnik p : podatnicy) {
+//             if (p.getStratyzlatub1() != null) {
+//                List<Straty> straty = new ArrayList<>();
+//                for (Straty1 r : p.getStratyzlatub1()) {
+//                    Straty s = new Straty();
+//                    s.setRok(r.getRok());
+//                    s.setKwota(r.getKwota());
+//                    s.setPolowakwoty(r.getPolowakwoty());
+//                    s.setWykorzystano(r.getWykorzystano());
+//                    s.setZostalo(r.getZostalo());
+//                    straty.add(s);
+//                }
+//                p.setStratyzlatub(straty);
+//                podatnikDAO.edit(p);
+//                Msg.msg("i", "Przeniesiono straty podatnika "+p.getNazwapelna());
+//             }
+//         }
+//     }
      
       public WpisView getWpisView() {
         return wpisView;
@@ -955,11 +954,11 @@ public class PodatnikView implements Serializable{
         this.udzialy = udzialy;
     }
 
-    public List<Straty> getStratyzlatub() {
+    public List<Straty1> getStratyzlatub() {
         return stratyzlatub;
     }
 
-    public void setStratyzlatub(List<Straty> stratyzlatub) {
+    public void setStratyzlatub(List<Straty1> stratyzlatub) {
         this.stratyzlatub = stratyzlatub;
     }
 
