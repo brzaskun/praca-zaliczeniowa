@@ -802,10 +802,10 @@ public class PodatnikView implements Serializable{
      public void skopiujstraty() {
          List<Podatnik> podatnicy = podatnikDAO.findAll();
          for (Podatnik p : podatnicy) {
-             if (p.getStratyzlatub() != null) {
-                List<Straty1> straty = new ArrayList<>();
-                for (Straty r : p.getStratyzlatub()) {
-                    Straty1 s = new Straty1();
+             if (p.getStratyzlatub1() != null) {
+                List<Straty> straty = new ArrayList<>();
+                for (Straty1 r : p.getStratyzlatub1()) {
+                    Straty s = new Straty();
                     s.setRok(r.getRok());
                     s.setKwota(r.getKwota());
                     s.setPolowakwoty(r.getPolowakwoty());
@@ -813,7 +813,7 @@ public class PodatnikView implements Serializable{
                     s.setZostalo(r.getZostalo());
                     straty.add(s);
                 }
-                p.setStratyzlatub1(straty);
+                p.setStratyzlatub(straty);
                 podatnikDAO.edit(p);
                 Msg.msg("i", "Przeniesiono straty podatnika "+p.getNazwapelna());
              }
