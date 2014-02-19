@@ -13,7 +13,7 @@ import dao.ZobowiazanieDAO;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
-import embeddable.Straty;
+import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Dok;
 import entity.Pitpoz;
@@ -517,10 +517,10 @@ public class ZestawienieRyczaltView implements Serializable {
     }
 
     private void rozliczstrate(Podatnik tmp) {
-        List<Straty> straty = tmp.getStratyzlatub();
+        List<Straty1> straty = tmp.getStratyzlatub1();
         double sumastrat = 0.0;
         try {
-            for (Straty p : straty) {
+            for (Straty1 p : straty) {
                 Double wyliczmaks = Double.parseDouble(p.getZostalo()) - Double.parseDouble(p.getPolowakwoty());
                 if (wyliczmaks > 0) {
                     sumastrat += Double.parseDouble(p.getPolowakwoty());

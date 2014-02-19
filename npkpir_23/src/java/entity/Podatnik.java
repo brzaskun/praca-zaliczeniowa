@@ -6,7 +6,6 @@ package entity;
 
 import embeddable.Parametr;
 import embeddable.Pozycjenafakturzebazadanych;
-import embeddable.Straty;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import java.io.Serializable;
@@ -160,9 +159,6 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "udzialy")
     private List<Udzialy> udzialy;
-    @Lob
-    @Column(name = "stratyzlatub")
-    private List<Straty> stratyzlatub;
     @Lob
     @Column(name = "stratyzlatub1")
     private List<Straty1> stratyzlatub1;
@@ -453,14 +449,7 @@ public class Podatnik implements Serializable {
         this.udzialy = udzialy;
     }
     
-    public List<Straty> getStratyzlatub() {
-        return stratyzlatub;
-    }
-    
-    public void setStratyzlatub(List<Straty> stratyzlatub) {
-        this.stratyzlatub = stratyzlatub;
-    }
-    
+   
     public List<Parametr> getNumerpkpir() {
         return numerpkpir;
     }
