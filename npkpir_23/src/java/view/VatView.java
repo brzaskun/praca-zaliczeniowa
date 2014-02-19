@@ -248,13 +248,14 @@ public class VatView implements Serializable {
                 ewidencjeVatDAO.dodajewidencje(zrzucane);
             }
             wynikOkresu = new BigDecimal(BigInteger.ZERO);
-            for (EVatwpisSuma p : sumydowyswietleniasprzedaz) {
+            for (EVatwpisSuma p : sumaewidencji.values()) {
                 if (p.getEwidencja().getTypewidencji().equals("s")) {
                    wynikOkresu = wynikOkresu.add(p.getVat());
                } else if (p.getEwidencja().getTypewidencji().equals("z")) {
                    wynikOkresu = wynikOkresu.subtract(p.getVat());
                }
             }
+        
         } catch (Exception e) {
             System.out.println("Firma nie vat");
         }

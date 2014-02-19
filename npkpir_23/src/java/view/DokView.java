@@ -524,7 +524,7 @@ public class DokView implements Serializable {
                 }
                 //obliczam 23% dla pierwszego
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                if(transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("UPTK")  || transakcjiRodzaj.equals("EXP")) {
+                if(transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.")  || transakcjiRodzaj.equals("eksport towarów")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else {
                     ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
