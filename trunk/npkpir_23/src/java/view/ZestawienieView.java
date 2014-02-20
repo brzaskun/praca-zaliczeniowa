@@ -892,7 +892,7 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setPodstawa(tmp);
                 }
                 } catch (Exception e) {
-                    Msg.msg("e", "Brak wpisanych stawek ZUS indywidualnych dla danego klienta");
+                    Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
                     return;

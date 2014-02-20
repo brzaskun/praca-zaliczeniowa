@@ -5,8 +5,10 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Embeddable;
 
 /**
@@ -21,7 +23,10 @@ public class Straty1 implements Serializable{
     private String polowakwoty;
     private String wykorzystano;
     private String zostalo;
-    private List lolo;
+    //tu wpisujemu co zosatlo wykorszystane w latach
+    private HashMap<String,String> lolo;
+    
+    
 
     public Straty1() {
     }
@@ -75,15 +80,15 @@ public class Straty1 implements Serializable{
         this.zostalo = zostalo;
     }
 
-    public List getLolo() {
+    public HashMap<String, String> getLolo() {
         return lolo;
     }
 
-    public void setLolo(List lolo) {
+    public void setLolo(HashMap<String, String> lolo) {
         this.lolo = lolo;
     }
-    
-    
+
+       
 
     
     
