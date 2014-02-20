@@ -262,7 +262,7 @@ public class StornoDokView implements Serializable {
         Iterator it;
         it = dokumentystorno.iterator();
         while(it.hasNext()){
-            Dok tmp = dokDAO.znajdzDuplikat((Dok) it.next());
+            Dok tmp = dokDAO.znajdzDuplikat((Dok) it.next(), wpisView.getRokWpisuSt());
             if(tmp!=null){
                 ArrayList<Stornodoch> stornodoch = tmp.getStorno();
                 String data = stornodoch.get(stornodoch.size()-1).getDataplatnosci();
