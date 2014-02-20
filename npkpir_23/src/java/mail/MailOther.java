@@ -14,6 +14,7 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -32,7 +33,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class MailOther extends MailSetUp implements Serializable{
     
     //bo musze odnotowac ze jest wyslana
@@ -286,14 +287,62 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
+    public static String nazwaewidencji;
+    
+    public void ustawNazwaewidencji(String nazwa) {
+        String nowanazwa;
+         if (nazwa.contains("sprzedaż")) {
+            nowanazwa = nazwa.substring(0, nazwa.length() - 1);
+        } else {
+            nowanazwa = nazwa;
+        }
+         MailOther.nazwaewidencji = nowanazwa;
+    }
+    
+    public void vatewidencja() {
+       try {
+            Message message = logintoMail();
+            message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc");
+            // create and fill the first message part
+            MimeBodyPart mbp1 = new MimeBodyPart();
+            mbp1.setText("Szanowny "+klient
+                    + "\n\n"+"W niniejszym mailu znajdziesz"
+                    + "\nzamówiony przez Ciebie wydruk ewidencji VAT "+nazwaewidencji
+                    + "\n\nZ poważaniem"
+                    + "\n\n"+wysylajacy);
 
-    public String getKlientfile() {
-        return klientfile;
+            // create the second message part
+            MimeBodyPart mbp2 = new MimeBodyPart();
+            // attach the file to the message
+            FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
+            mbp2.setDataHandler(new DataHandler(fds));
+            mbp2.setFileName(fds.getName());
+
+            // create the Multipart and add its parts to it
+            Multipart mp = new MimeMultipart();
+            mp.addBodyPart(mbp1);
+            mp.addBodyPart(mbp2);
+
+            // add the Multipart to the message
+            message.setContent(mp);
+            Transport.send(message);
+            System.out.println("Wyslano ewidencje VAT do klienta");
+
+              } catch (MessagingException e) {
+                  throw new RuntimeException(e);
+              }
+}
+
+    public String getNazwaewidencji() {
+        return nazwaewidencji;
     }
 
-    public void setKlientfile(String klientfile) {
-        this.klientfile = klientfile;
+    public void setNazwaewidencji(String nazwaewidencji) {
+        MailOther.nazwaewidencji = nazwaewidencji;
     }
+
+  
+    
       
       
 }

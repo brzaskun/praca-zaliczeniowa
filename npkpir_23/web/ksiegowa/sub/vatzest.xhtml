@@ -18,6 +18,9 @@
         <c:forEach  items="#{vatView.listaewidencji.values()}"  var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
                 <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
+                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="confirmation.show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
+                    <f:ajax event="click" listener="#{mailOther.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
+                </p:commandButton>    
                 <p:separator/>
                 <p:panel id="sumka#{numer.index}">
                     <h:outputText value="suma wybranych wartości netto: "/><h:outputText value="#{vatView.suma1}" style="font-weight: bold;">

@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -44,7 +45,7 @@ import view.FakturaView;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PdfFaktura extends Pdf implements Serializable {
     @Inject private PozycjenafakturzeDAO pozycjeDAO;
     @Inject private FakturadodelementyDAO fakturadodelementyDAO;
