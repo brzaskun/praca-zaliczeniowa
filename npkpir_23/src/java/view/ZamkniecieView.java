@@ -106,6 +106,13 @@ public class ZamkniecieView implements Serializable {
              p.setEdytuj(false);
         }
         zDAO.edit(zamknietemiesiace);
+        Iterator it = mapaokresowPobrane.iterator();
+            while (it.hasNext()) {
+              Okresrozliczeniowy p = (Okresrozliczeniowy) it.next();
+                if((p.getRok().equals(wpisView.getRokWpisu().toString()))&&p.getMiesiac().equals(wpisView.getMiesiacWpisu())){
+                    moznaksiegowac = p.isZamkniety();
+                }
+            }
         RequestContext.getCurrentInstance().update("form:dataTable");
     }
     
