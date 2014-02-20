@@ -175,8 +175,8 @@ public class PdfVAT7 extends Pdf implements Serializable{
         image.setAbsolutePosition(0f, 0f);
         underContent.add(underContent);
         underContent.addImage(image);
-        reader.close();
         pdfStamper.close();
+        reader.close();
         writer.close();
         try{
             String ordzu = dkl.getOrdzu();

@@ -36,8 +36,8 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findAll(Dok.class);
     }
     
-    public Dok znajdzDuplikat(Dok selD) throws Exception {
-        return dokFacade.dokumentDuplicat(selD);
+    public Dok znajdzDuplikat(Dok selD, String rok) throws Exception {
+        return dokFacade.dokumentDuplicat(selD, rok);
     }
     
     public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
