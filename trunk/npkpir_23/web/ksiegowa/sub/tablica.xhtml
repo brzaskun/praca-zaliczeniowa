@@ -400,10 +400,34 @@
                         </f:facet>
                     </p:autoComplete>
                 </p:panel>
-                <p:panel>
-                    <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
-                    </p:panelGrid>
-                </p:panel>
+                <p:panel id="nowypanelsrodki" style="width: 79%; margin-left: -1%;">
+                <p:dataTable id="tabelasrodkitrwaleOT" value="#{DokumentView.selectedSTR}" var="loops" rendered="#{DokumentView.renderujwysz}"> 
+                    <p:column headerText="nazwa środka">
+                        <h:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
+                    </p:column>
+                     <p:column headerText="data przyjecia">
+                         <h:inputText id="dataprz" value="#{loops.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                    </p:column>
+                    <p:column headerText="symbol KST">
+                         <h:inputText value="#{loops.kst}"/>
+                    </p:column>
+                    <p:column headerText="stawka amort">
+                         <h:inputText value="#{loops.stawka}"/>
+                    </p:column>
+                    <p:column headerText="dotychczasowe umorzenie">
+                         <h:inputText value="#{loops.umorzeniepoczatkowe}"/>
+                    </p:column>
+                    <p:column headerText="nie podlega umorzeniu">
+                         <h:inputText value="#{loops.niepodlegaamortyzacji}"/>
+                    </p:column>
+                    <p:column headerText="środek trw/wyposazenie">
+                        <h:selectOneMenu value="#{loops.typ}">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
             <div>
 <!--                alternatywne pola ewidencji vat-->
         <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 60%;">

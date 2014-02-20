@@ -57,15 +57,24 @@
 
                         <h:outputText value="#{wpis.nrwldokzak}"  />
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="netto" filterMatchMode="contains" sortBy="netto}">  
-
+                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="netto" filterMatchMode="contains" sortBy="netto">  
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatColumn" headerText="umorzenie początkowe" filterBy="umorzeniepoczatkowe" filterMatchMode="contains" sortBy="umorzeniepoczatkowe}">  
+                    <p:column id="vatwarColumn" headerText="vat" filterBy="vat" filterMatchMode="contains" sortBy="vat">  
+                        <h:outputText value="#{wpis.vat}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
 
+                    <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="umorzeniepoczatkowe" filterMatchMode="contains" sortBy="umorzeniepoczatkowe">  
                         <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="niest. k.u.p." filterMatchMode="contains" sortBy="niepodlegaamortyzacji">  
+                        <h:outputText value="#{wpis.niepodlegaamortyzacji}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>

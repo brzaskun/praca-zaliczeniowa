@@ -68,7 +68,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
                 if(x.getRokUmorzenia()<=rok&&x.getMcUmorzenia()<mc){
                     suma += x.getKwota().doubleValue();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
-                    umorzeniesprzedaz = p.getNetto()-p.getUmorzeniepoczatkowe()-suma;
+                    umorzeniesprzedaz = p.getNetto()-p.getUmorzeniepoczatkowe()-suma+p.getNiepodlegaamortyzacji();
                     x.setKwota(BigDecimal.valueOf(umorzeniesprzedaz).setScale(2, RoundingMode.HALF_EVEN));
                     p.setKwotaodpislikwidacja(x.getKwota().doubleValue());
                 } else {

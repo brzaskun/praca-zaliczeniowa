@@ -97,7 +97,6 @@ public class DokView implements Serializable {
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
     private HtmlSelectOneMenu srodkitrwalewyposazenie;
-    private PanelGrid grid3;
     @Inject
     private Dok selDokument;
     @Inject
@@ -141,12 +140,6 @@ public class DokView implements Serializable {
     private boolean pokazSTR;
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     private String test;
-    private String nazwaSTR;
-    private String dataPrzSTR;
-    private String symbolKST;
-    private String stawkaKST;
-    private String typKST;
-    private Double umorzeniepoczatkowe;
     @Inject
     private Srodkikst srodekkategoria;
     @Inject
@@ -383,7 +376,7 @@ public class DokView implements Serializable {
             case "srodek trw":
                 dopobrania = kolumna.getKolumnST();
                 setPokazSTR(true);
-                wygenerujSTRKolumne();
+                //wygenerujSTRKolumne();
                 break;
             case "srodek trw sprzedaz":
                 dopobrania = kolumna.getKolumnSTsprz();
@@ -693,6 +686,7 @@ public class DokView implements Serializable {
             setRenderujwysz(false);
         }
         RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
+        RequestContext.getCurrentInstance().update("dodWiad:nowypanelsrodki");
     }
 
     private void renderujtabele(Rodzajedok rodzajdok) {
@@ -704,114 +698,114 @@ public class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
     }
 
-    public void wygenerujSTRKolumne() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        FacesContext facesCtx = FacesContext.getCurrentInstance();
-        ELContext elContext = facesCtx.getELContext();
-        grid3 = getGrid3();
-        grid3.getChildren().clear();
-        RequestContext.getCurrentInstance().update("dodWiad:grid3");
-        ExpressionFactory ef = ExpressionFactory.newInstance();
-        HtmlOutputText ot = new HtmlOutputText();
-        ot.setValue("nazwa Srodka");
-        grid3.getChildren().add(ot);
-        HtmlInputText ew = new HtmlInputText();
-        final String binding = "#{DokumentView.nazwaSTR}";
-        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-        ew.setValueExpression("value", ve2);
-        ew.setId("nazwasrodka");
-        ew.setAccesskey("t");
-        grid3.getChildren().add(ew);
-
-        HtmlOutputText ot1 = new HtmlOutputText();
-        ot1.setValue("data przyjecia");
-        grid3.getChildren().add(ot1);
-        HtmlInputText ew1 = new HtmlInputText();
-        final String binding1 = "#{DokumentView.dataPrzSTR}";
-        ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
-        ew1.setValueExpression("value", ve1);
-        ew1.setId("dataprz");
-        ew1.setOnblur("ustawDateSrodekTrw();");
-        grid3.getChildren().add(ew1);
-
-        HtmlOutputText ot3 = new HtmlOutputText();
-        ot3.setValue("symbol KST");
-        grid3.getChildren().add(ot3);
-        HtmlInputText ew3 = new HtmlInputText();
-        final String binding3 = "#{DokumentView.symbolKST}";
-        ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
-        ew3.setValueExpression("value", ve3);
-        ew3.setId("symbolKST");
-        grid3.getChildren().add(ew3);
-
-//            HtmlOutputText ot4 = new HtmlOutputText();
-//            ot4.setValue("wybierz kategoria");
-//            grid3.getChildren().add(ot4);
-
-//            "id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
-//                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
-//                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
-//                                    effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
-//                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK()">
-//             "                               
-//            AutoComplete autoComplete = new AutoComplete();
-//            final String bindingY = "#{DokumentView.srodekkategoria}";
-//            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
-//            autoComplete.setValueExpression("value", ve2Y);
-//            autoComplete.setVar("p");
-//            autoComplete.setItemLabel("#{p.nazwa}");
-//            autoComplete.setItemValue("#{p.nazwa}");
-//            autoComplete.setMinQueryLength(3);
-//            FacesContext context = FacesContext.getCurrentInstance();
-//            MethodExpression actionListener = context.getApplication().getExpressionFactory()
-//    .createMethodExpression(context.getELContext(), "#{srodkikstView.complete}", null, new Class[] {ActionEvent.class});
-//            autoComplete.setCompleteMethod(actionListener);
-//            grid3.getChildren().add(autoComplete);
-//            
-
-        HtmlOutputText ot4 = new HtmlOutputText();
-        ot4.setValue("stawka amort");
-        grid3.getChildren().add(ot4);
-        HtmlInputText ew4 = new HtmlInputText();
-        final String binding4 = "#{DokumentView.stawkaKST}";
-        ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
-        ew4.setValueExpression("value", ve4);
-        ew4.setId("stawkaKST");
-        grid3.getChildren().add(ew4);
-
-        HtmlOutputText ot5 = new HtmlOutputText();
-        ot5.setValue("dotychczasowe umorzenie");
-        grid3.getChildren().add(ot5);
-        InputNumber ew5 = new InputNumber();
-        final String binding5 = "#{DokumentView.umorzeniepoczatkowe}";
-        ValueExpression ve5 = ef.createValueExpression(elContext, binding5, String.class);
-        ew5.setValueExpression("value", ve5);
-        ew5.setSymbol(" zł");
-        ew5.setSymbolPosition("s");
-        ew5.setDecimalPlaces(".");
-        ew5.setThousandSeparator(" ");
-        ew5.setDecimalPlaces("2");
-        ew5.setValue(0);
-        grid3.getChildren().add(ew5);
-        umorzeniepoczatkowe = 0.0;
-
-        UISelectItems ulistaX = new UISelectItems();
-        List valueListX = new ArrayList();
-        SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
-        valueListX.add(selectItem);
-        selectItem = new SelectItem("wyposazenie", "wyposazenie");
-        valueListX.add(selectItem);
-        ulistaX.setValue(valueListX);
-        final String bindingX = "#{DokumentView.typKST}";
-        ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-        HtmlSelectOneMenu htmlSelectOneMenuX = new HtmlSelectOneMenu();
-        htmlSelectOneMenuX.setValueExpression("value", ve2X);
-        htmlSelectOneMenuX.setStyle("min-width: 150px");
-        htmlSelectOneMenuX.getChildren().add(ulistaX);
-        grid3.getChildren().add(htmlSelectOneMenuX);
-
-        RequestContext.getCurrentInstance().update("dodWiad:grid3");
-    }
+//    public void wygenerujSTRKolumne() {
+//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//        FacesContext facesCtx = FacesContext.getCurrentInstance();
+//        ELContext elContext = facesCtx.getELContext();
+//        grid3 = getGrid3();
+//        grid3.getChildren().clear();
+//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+//        ExpressionFactory ef = ExpressionFactory.newInstance();
+//        HtmlOutputText ot = new HtmlOutputText();
+//        ot.setValue("nazwa Srodka");
+//        grid3.getChildren().add(ot);
+//        HtmlInputText ew = new HtmlInputText();
+//        final String binding = "#{DokumentView.nazwaSTR}";
+//        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
+//        ew.setValueExpression("value", ve2);
+//        ew.setId("nazwasrodka");
+//        ew.setAccesskey("t");
+//        grid3.getChildren().add(ew);
+//
+//        HtmlOutputText ot1 = new HtmlOutputText();
+//        ot1.setValue("data przyjecia");
+//        grid3.getChildren().add(ot1);
+//        HtmlInputText ew1 = new HtmlInputText();
+//        final String binding1 = "#{DokumentView.dataPrzSTR}";
+//        ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
+//        ew1.setValueExpression("value", ve1);
+//        ew1.setId("dataprz");
+//        ew1.setOnblur("ustawDateSrodekTrw();");
+//        grid3.getChildren().add(ew1);
+//
+//        HtmlOutputText ot3 = new HtmlOutputText();
+//        ot3.setValue("symbol KST");
+//        grid3.getChildren().add(ot3);
+//        HtmlInputText ew3 = new HtmlInputText();
+//        final String binding3 = "#{DokumentView.symbolKST}";
+//        ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
+//        ew3.setValueExpression("value", ve3);
+//        ew3.setId("symbolKST");
+//        grid3.getChildren().add(ew3);
+//
+////            HtmlOutputText ot4 = new HtmlOutputText();
+////            ot4.setValue("wybierz kategoria");
+////            grid3.getChildren().add(ot4);
+//
+////            "id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
+////                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
+////                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
+////                                    effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
+////                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK()">
+////             "                               
+////            AutoComplete autoComplete = new AutoComplete();
+////            final String bindingY = "#{DokumentView.srodekkategoria}";
+////            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
+////            autoComplete.setValueExpression("value", ve2Y);
+////            autoComplete.setVar("p");
+////            autoComplete.setItemLabel("#{p.nazwa}");
+////            autoComplete.setItemValue("#{p.nazwa}");
+////            autoComplete.setMinQueryLength(3);
+////            FacesContext context = FacesContext.getCurrentInstance();
+////            MethodExpression actionListener = context.getApplication().getExpressionFactory()
+////    .createMethodExpression(context.getELContext(), "#{srodkikstView.complete}", null, new Class[] {ActionEvent.class});
+////            autoComplete.setCompleteMethod(actionListener);
+////            grid3.getChildren().add(autoComplete);
+////            
+//
+//        HtmlOutputText ot4 = new HtmlOutputText();
+//        ot4.setValue("stawka amort");
+//        grid3.getChildren().add(ot4);
+//        HtmlInputText ew4 = new HtmlInputText();
+//        final String binding4 = "#{DokumentView.stawkaKST}";
+//        ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
+//        ew4.setValueExpression("value", ve4);
+//        ew4.setId("stawkaKST");
+//        grid3.getChildren().add(ew4);
+//
+//        HtmlOutputText ot5 = new HtmlOutputText();
+//        ot5.setValue("dotychczasowe umorzenie");
+//        grid3.getChildren().add(ot5);
+//        InputNumber ew5 = new InputNumber();
+//        final String binding5 = "#{DokumentView.umorzeniepoczatkowe}";
+//        ValueExpression ve5 = ef.createValueExpression(elContext, binding5, String.class);
+//        ew5.setValueExpression("value", ve5);
+//        ew5.setSymbol(" zł");
+//        ew5.setSymbolPosition("s");
+//        ew5.setDecimalPlaces(".");
+//        ew5.setThousandSeparator(" ");
+//        ew5.setDecimalPlaces("2");
+//        ew5.setValue(0);
+//        grid3.getChildren().add(ew5);
+//        umorzeniepoczatkowe = 0.0;
+//
+//        UISelectItems ulistaX = new UISelectItems();
+//        List valueListX = new ArrayList();
+//        SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
+//        valueListX.add(selectItem);
+//        selectItem = new SelectItem("wyposazenie", "wyposazenie");
+//        valueListX.add(selectItem);
+//        ulistaX.setValue(valueListX);
+//        final String bindingX = "#{DokumentView.typKST}";
+//        ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
+//        HtmlSelectOneMenu htmlSelectOneMenuX = new HtmlSelectOneMenu();
+//        htmlSelectOneMenuX.setValueExpression("value", ve2X);
+//        htmlSelectOneMenuX.setStyle("min-width: 150px");
+//        htmlSelectOneMenuX.getChildren().add(ulistaX);
+//        grid3.getChildren().add(htmlSelectOneMenuX);
+//
+//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+//    }
 
    
 
@@ -961,22 +955,16 @@ public class DokView implements Serializable {
             Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany "+ e.getMessage() + " " + e.getStackTrace().toString());
         }
         //robienie srodkow trwalych
-        if (stawkaKST != null) {
+        if (selectedSTR.getStawka() != null) {
             try {
                 selectedSTR.setNetto(selDokument.getNetto());
                 BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
-                tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-                tmp1 = tmp1.multiply(BigDecimal.valueOf(0.23));
-                tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-                Double vat = Double.parseDouble(tmp1.toString());
+                double vat = 0.0;
+                for (EVatwpis p : selDokument.getEwidencjaVAT()) {
+                    vat += p.getVat();
+                }
                 selectedSTR.setVat(vat);
                 selectedSTR.setDatazak(selDokument.getDataWyst());
-                selectedSTR.setDataprzek(dataPrzSTR);
-                selectedSTR.setStawka(Double.parseDouble(stawkaKST));
-                selectedSTR.setKst(symbolKST);
-                selectedSTR.setNazwa(nazwaSTR.toLowerCase());
-                selectedSTR.setTyp(typKST);
-                selectedSTR.setUmorzeniepoczatkowe(umorzeniepoczatkowe);
                 selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
                 selectedSTR.setNrwldokzak(selDokument.getNrWlDk());
                 selectedSTR.setZlikwidowany(0);
@@ -988,9 +976,8 @@ public class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             setPokazSTR(false);
-            grid3 = getGrid3();
-            grid3.getChildren().clear();
             selDokument = new Dok();
+            selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();
             setRenderujwysz(false);
             setPokazEST(false);
@@ -998,8 +985,7 @@ public class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
             setPokazSTR(false);
-            grid3 = getGrid3();
-            grid3.getChildren().clear();
+            selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();
             RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             setRenderujwysz(false);
@@ -1514,9 +1500,10 @@ public class DokView implements Serializable {
         if (!nazwa.equals("")) {
             try {
                 srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
-                symbolKST = srodekkategoriawynik.getSymbol();
-                stawkaKST = srodekkategoriawynik.getStawka();
-                RequestContext.getCurrentInstance().update("dodWiad:grid3");
+                selectedSTR.setKst(srodekkategoriawynik.getSymbol());
+                selectedSTR.setUmorzeniepoczatkowe(0.0);
+                selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
+                RequestContext.getCurrentInstance().update("dodWiad:nowypanelsrodki");
             } catch (Exception e) {
             }
         }
@@ -1666,6 +1653,18 @@ public class DokView implements Serializable {
         for (KwotaKolumna p : selDokument.getListakwot()) {
             nettokolumna.add(p);
         }
+        ewidencjaAddwiad.clear();;
+        int j = 1;
+        for (EVatwpis s : selDokument.getEwidencjaVAT()) {
+            EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+            ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
+            ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
+            ewidencjaAddwiad.setNetto(s.getNetto());
+            ewidencjaAddwiad.setVat(s.getVat());
+            ewidencjaAddwiad.setBrutto(s.getNetto()+s.getVat());
+            ewidencjaAddwiad.setLp(j++);
+            this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+        }
         renderujwyszukiwarke(rodzajdok);
         renderujtabele(rodzajdok);
         RequestContext.getCurrentInstance().update("dialogEdycja");
@@ -1673,6 +1672,11 @@ public class DokView implements Serializable {
 
     public void sprawdzczywybranodokumentdoedycji() {
         skopiujdoedycjidane();
+        if (selDokument.getTypdokumentu().equals("OT")) {
+            Msg.msg("e", "Nie można edytować dokumnetu zakupu środków trwałych!");
+            RequestContext.getCurrentInstance().execute("dlg123.hide();");
+            return;
+        }
         if (selDokument.getNetto() != null) {
             RequestContext.getCurrentInstance().execute("dlg123.show();");
         } else {
@@ -1811,47 +1815,7 @@ public class DokView implements Serializable {
     public void setTest(String test) {
         this.test = test;
     }
-
-    public PanelGrid getGrid3() {
-        return grid3;
-    }
-
-    public void setGrid3(PanelGrid grid3) {
-        this.grid3 = grid3;
-    }
-
-    public String getNazwaSTR() {
-        return nazwaSTR;
-    }
-
-    public void setNazwaSTR(String nazwaSTR) {
-        this.nazwaSTR = nazwaSTR;
-    }
-
-    public String getDataPrzSTR() {
-        return dataPrzSTR;
-    }
-
-    public void setDataPrzSTR(String dataPrzSTR) {
-        this.dataPrzSTR = dataPrzSTR;
-    }
-
-    public String getSymbolKST() {
-        return symbolKST;
-    }
-
-    public void setSymbolKST(String symbolKST) {
-        this.symbolKST = symbolKST;
-    }
-
-    public String getStawkaKST() {
-        return stawkaKST;
-    }
-
-    public void setStawkaKST(String stawkaKST) {
-        this.stawkaKST = stawkaKST;
-    }
-
+   
     public HtmlSelectOneMenu getSrodkitrwalewyposazenie() {
         return srodkitrwalewyposazenie;
     }
@@ -1860,16 +1824,7 @@ public class DokView implements Serializable {
         this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
     }
 
-    public String getTypKST() {
-        return typKST;
-    }
-
-    public void setTypKST(String typKST) {
-        this.typKST = typKST;
-    }
-
   
-
     public String getWielkoscopisuewidencji() {
         return wielkoscopisuewidencji;
     }
@@ -1902,14 +1857,7 @@ public class DokView implements Serializable {
         this.typdokumentu = typdokumentu;
     }
 
-    public Double getUmorzeniepoczatkowe() {
-        return umorzeniepoczatkowe;
-    }
-
-    public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
-        this.umorzeniepoczatkowe = umorzeniepoczatkowe;
-    }
-
+  
     public List<Rodzajedok> getRodzajedokKlienta() {
         return rodzajedokKlienta;
     }
