@@ -25,7 +25,7 @@ public class Roki implements Serializable{
  //       rokiList.add(new Integer(2012));
         rokiList.add(new Integer(2013));
         rokiList.add(new Integer(2014));
-        rokiList.add(new Integer(2015));
+//        rokiList.add(new Integer(2015));
 //        rokiList.add(new Integer(2016));
 //        rokiList.add(new Integer(2017));
 //        rokiList.add(new Integer(2018));
