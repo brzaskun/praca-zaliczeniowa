@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Osito
  */
-    @Named
+@Named
 @ViewScoped
 public class SesjaView implements Serializable{
     @Inject private Sesja sesja;
