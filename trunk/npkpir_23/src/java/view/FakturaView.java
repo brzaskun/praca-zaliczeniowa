@@ -519,7 +519,7 @@ public class FakturaView implements Serializable {
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
-        Dok tmp = dokDAO.znajdzDuplikat(selD);
+        Dok tmp = dokDAO.znajdzDuplikat(selD, selD.getPkpirR());
         if (tmp != null) {
             String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany: " + tmp.getDataK();
             throw new Exception(wiadomosc);
