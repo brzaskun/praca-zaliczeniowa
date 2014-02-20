@@ -408,15 +408,15 @@ return s+" zł"; };
  function dataprzyjecia(){
      if(document.getElementById("dodWiad:acForce1_hinput").value===null){
      } else {
-         document.getElementById("dodWiad:dataprz").value = document.getElementById("dodWiad:dataPole").value;
-         document.getElementById("dodWiad:nazwasrodka").focus();
+         document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = document.getElementById("dodWiad:dataPole").value;
+         document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
      }
  };
 
      
      
      function ustawDateSrodekTrw(){
-    var dataWyst = document.getElementById("dodWiad:dataprz");
+    var dataWyst = document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
      var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
      var testw = dataWyst.value;
      if (!testw.match(re)){

@@ -52,7 +52,7 @@ public class STRView implements Serializable {
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
     public void dodajSrodekTrwaly(SrodekTrw STR) {
         try {
-            Double netto = STR.getNetto();
+            Double netto = STR.getNetto()-STR.getNiepodlegaamortyzacji();
             Double stawkaamortyzacji = STR.getStawka();
             BigDecimal tmp1 = BigDecimal.valueOf(stawkaamortyzacji);
             tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
@@ -71,7 +71,7 @@ public class STRView implements Serializable {
             }
             //oblicza planowane umorzenia
             Double opm = STR.getOdpismc();
-            Double max = STR.getNetto();
+            Double max = STR.getNetto()-STR.getNiepodlegaamortyzacji();
             //uwzglednia umorzenie poczatkowe przy odpisach
             try{
             max = max - STR.getUmorzeniepoczatkowe();

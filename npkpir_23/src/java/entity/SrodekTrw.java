@@ -105,6 +105,8 @@ public class SrodekTrw implements Serializable {
     private String typ;
     @Column(name = "umorzeniepoczatkowe")
     private Double umorzeniepoczatkowe;
+    @Column(name = "niepodlegaamortyzacji")
+    private Double niepodlegaamortyzacji;
     @Basic(optional = false)
     @NotNull
     @Column (name = "umorzeniezaksiegowane")
@@ -129,6 +131,7 @@ public class SrodekTrw implements Serializable {
             
             
     public SrodekTrw() {
+        this.niepodlegaamortyzacji = 0.0;
     }
 
     public SrodekTrw(Integer id) {
@@ -344,6 +347,14 @@ public class SrodekTrw implements Serializable {
 
     public void setStyl(String styl) {
         this.styl = styl;
+    }
+
+    public Double getNiepodlegaamortyzacji() {
+        return niepodlegaamortyzacji;
+    }
+
+    public void setNiepodlegaamortyzacji(Double niepodlegaamortyzacji) {
+        this.niepodlegaamortyzacji = niepodlegaamortyzacji;
     }
    
     

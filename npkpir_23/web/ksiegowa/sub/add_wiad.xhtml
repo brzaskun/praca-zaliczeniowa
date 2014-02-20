@@ -237,9 +237,33 @@
                     </f:facet>
                 </p:autoComplete>
             </p:panel>
-            <p:panel>
-                <p:panelGrid id="grid3" columns="8" binding="#{DokumentView.grid3}">
-                </p:panelGrid>
+            <p:panel id="nowypanelsrodki" style="width: 79%; margin-left: -1%;">
+                <p:dataTable id="tabelasrodkitrwaleOT" value="#{DokumentView.selectedSTR}" var="loops" rendered="#{DokumentView.renderujwysz}"> 
+                    <p:column headerText="nazwa środka">
+                        <p:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
+                    </p:column>
+                     <p:column headerText="data przyjecia">
+                         <p:inputText id="dataprz" value="#{loops.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                    </p:column>
+                    <p:column headerText="symbol KST">
+                         <p:inputText value="#{loops.kst}"/>
+                    </p:column>
+                    <p:column headerText="stawka amort">
+                         <p:inputText value="#{loops.stawka}"/>
+                    </p:column>
+                    <p:column headerText="dotychczasowe umorzenie">
+                         <pe:inputNumber value="#{loops.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="nie podlega umorzeniu">
+                         <pe:inputNumber value="#{loops.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="środek trw/wyposazenie">
+                        <h:selectOneMenu value="#{loops.typ}">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
             </p:panel>
             <!--pola ewidencji VAT-->
 
