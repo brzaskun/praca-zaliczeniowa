@@ -15,12 +15,12 @@ import entity.Zamknietemiesiace;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -73,11 +73,17 @@ public class ZamkniecieView implements Serializable {
             //pobieram cały rekord dlatego potem moge go zachowac
             zamknietemiesiace = zDAO.findZM(wpisView.getPodatnikWpisu());
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
-            for(Okresrozliczeniowy p : mapaokresowPobrane){
+            Iterator it = mapaokresowPobrane.iterator();
+            while (it.hasNext()) {
+              Okresrozliczeniowy p = (Okresrozliczeniowy) it.next();
                 if((p.getRok().equals(wpisView.getRokWpisu().toString()))&&p.getMiesiac().equals(wpisView.getMiesiacWpisu())){
                     moznaksiegowac = p.isZamkniety();
                 }
+                if (!lata.contains(Integer.parseInt(p.getRok()))) {
+                    it.remove();
+                }
             }
+            zDAO.edit(zamknietemiesiace);
         //przenoszenie danych od podatnika do tabeli tymczasowej
         } catch (Exception ex){
             //tworzenie archiwum dla podatnika
