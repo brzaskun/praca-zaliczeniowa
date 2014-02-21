@@ -126,8 +126,28 @@ var aktywujsrodek = function(){
 };
 
 var aktywujnetto = function(){
+    dolaczwyliczenie();
     document.getElementById("dodWiad:opis").focus();
 };
+
+var zrobF = function (kwota) {
+        var strX = kwota.replace(",", ".");
+        strX = strX.replace(/\s/g, "");
+        return parseFloat(strX);
+ }
+ var dolaczwyliczenie = function () {
+        $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
+            var roznica;
+            if (e.which == 107) {
+                var odjema = zrobF($(this).val());
+                var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
+                roznica = odjemna - odjema;
+                $(this).val(Math.abs(roznica));
+                e.stopImmediatePropagation();
+            }
+         });
+     };
+
 
 var aktywujopis = function (){
     var dokument = $('#dodWiad\\:rodzajTrans').val();
