@@ -28,7 +28,7 @@
                     <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:tabelapkpir"  />
                 </p:inputText>
                 <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 100px" onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" />
-                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
+                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{DokumentView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                 autocomplete="true" forceSelection="true" widgetVar="dialogklient" 

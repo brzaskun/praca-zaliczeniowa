@@ -5,7 +5,6 @@
 package session;
 
 import embeddable.Mce;
-import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entity.Amodok;
 import entity.Deklaracjevat;
@@ -46,17 +45,13 @@ import entityfk.PozycjaRZiS;
 import entityfk.Rozrachunekfk;
 import entityfk.Rzisuklad;
 import entityfk.Tabelanbp;
-import entityfk.Vatuepodatnik;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
-import java.util.ArrayList;
 import java.util.Collection;
 //import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
