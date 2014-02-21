@@ -341,6 +341,14 @@ public class MailOther extends MailSetUp implements Serializable{
         MailOther.nazwaewidencji = nazwaewidencji;
     }
 
+    public String getKlientfile() {
+        return klientfile;
+    }
+
+    public void setKlientfile(String klientfile) {
+        this.klientfile = klientfile;
+    }
+
   
     
       
