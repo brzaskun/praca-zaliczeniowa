@@ -234,7 +234,7 @@ public class STRTabView implements Serializable {
         amoDokDAO.destroy(pod, rokOd, mcOd);
         Roki roki = new Roki();
         int ostatni = roki.getRokiList().size();
-        while (rokOd < roki.getRokiList().get(ostatni - 1)) {
+        while (rokOd <= roki.getRokiList().get(ostatni-1)) {
             Amodok amoDok = new Amodok();
             AmodokPK amodokPK = new AmodokPK();
             amodokPK.setPodatnik(pod);

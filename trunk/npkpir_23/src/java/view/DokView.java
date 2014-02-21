@@ -11,6 +11,7 @@ import dao.DokDAO;
 import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
 import dao.InwestycjeDAO;
+import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
@@ -22,11 +23,11 @@ import embeddable.EwidencjaAddwiad;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
+import embeddable.PanstwaSymb1;
 import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
-import entity.EVatOpis;
 import entity.Evewidencja;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
@@ -56,9 +57,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -66,7 +64,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
@@ -81,9 +78,7 @@ import msg.Msg;
 
 
 import org.primefaces.component.autocomplete.AutoComplete;
-import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
-import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 
 /**
@@ -228,6 +223,7 @@ public class DokView implements Serializable {
         listamiesiecyewidencjavat = new ArrayList<>();
         nettokolumna = new ArrayList<>();
         ewidencjaAddwiad = new ArrayList<>();
+        kl1 = new ArrayList<>();
     }
 
     public void setLiczbawierszy(int liczbawierszy) {
@@ -258,6 +254,7 @@ public class DokView implements Serializable {
 
     @PostConstruct
     private void init() {
+        kl1.addAll(klDAO.findAll());
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         try {
@@ -1685,6 +1682,127 @@ public class DokView implements Serializable {
         }
     }
 
+    @Inject private Klienci selectedKlient;
+    @Inject private KlienciDAO klDAO;
+    private static ArrayList<Klienci> kl1;
+    @Inject PanstwaSymb1 ps1;
+    
+     public void dodajKlienta(){
+      try {
+        if(selectedKlient.getNip().equals("")){
+            wygenerujnip();
+        }
+        //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko
+//        String formatka = selectedKlient.getNpelna().substring(0, 1).toUpperCase();
+//        formatka = formatka.concat(selectedKlient.getNpelna().substring(1).toLowerCase());
+//        selectedKlient.setNpelna(formatka);
+        String formatka = selectedKlient.getNskrocona().toUpperCase();
+        selectedKlient.setNskrocona(formatka);
+        formatka = selectedKlient.getUlica().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selectedKlient.getUlica().substring(1).toLowerCase());
+        selectedKlient.setUlica(formatka);
+        try {
+            selectedKlient.getKrajnazwa();
+        } catch (Exception e){
+            selectedKlient.setKrajnazwa("Polska");
+        }
+        String kraj = selectedKlient.getKrajnazwa();
+        String symbol = ps1.getWykazPanstwSX().get(kraj);
+        selectedKlient.setKrajkod(symbol);
+        poszukajnip();
+        klDAO.dodaj(selectedKlient);
+        kl1.add(selectedKlient);
+        selDokument.setKontr(selectedKlient);
+        RequestContext.getCurrentInstance().update("formX:");
+        RequestContext.getCurrentInstance().update("formY:tabelaKontr");
+        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+        Msg.msg("i","Dodano nowego klienta"+selectedKlient.getNpelna(),"formX:mess_add");
+        } catch (Exception e) {
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
+        }
+         
+         
+   }
+     
+       private void poszukajnip() throws Exception {
+         String nippoczatkowy = selectedKlient.getNip();
+         if(!nippoczatkowy.equals("0000000000")){
+         List<Klienci> kliencitmp  = new ArrayList<>();
+         kliencitmp = klDAO.findAll();     
+         List<String> kliencinip = new ArrayList<>();
+         for (Klienci p : kliencitmp){
+             if(p.getNip().equals(nippoczatkowy)){
+                 System.out.println("tak nip juz jest, wyrzucam blad");
+                 throw new Exception();
+             }
+         }
+         }
+    }
+     
+    
+     private void wygenerujnip() {
+       List<Klienci> kliencitmp  = klDAO.findAll();
+       List<Klienci> kliencinip = new ArrayList<>();
+       //odnajduje klientow jednorazowych
+       for (Klienci p : kliencitmp){
+           if(p.getNip().startsWith("XX")){
+               kliencinip.add(p);
+           }
+       }
+       //wyciaga nipy
+       List<Integer> nipy = new ArrayList<>();
+       for (Klienci p : kliencinip){
+             nipy.add(Integer.parseInt(p.getNip().substring(2)));
+       }
+       Collections.sort(nipy);
+       Integer max;
+       if(nipy.size()>0){
+          max = nipy.get(nipy.size()-1);
+          max++;
+       } else {
+          max = 0;
+       }
+       //uzupelnia o zera i robi stringa;
+       String wygenerowanynip = max.toString();
+       while(wygenerowanynip.length()<10){
+           wygenerowanynip = "0"+wygenerowanynip;
+       }
+       wygenerowanynip = "XX"+wygenerowanynip;
+       selectedKlient.setNip(wygenerowanynip);
+    }
+
+     public List<Klienci> completeKL(String query) {  
+        List<Klienci> results = new ArrayList<>();
+        try{
+            String q = query.substring(0,1);
+            int i = Integer.parseInt(q);
+            for(Klienci p : kl1) {  
+             if(p.getNip().startsWith(query)) {
+                 results.add(p);
+             }
+            }
+        } catch (NumberFormatException e){
+            for(Klienci p : kl1) {
+            if(p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
+                 results.add(p);
+             }
+            }
+        }  
+        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
+        return results;  
+    }  
+     
+  
+    public Klienci getSelectedKlient() {
+        return selectedKlient;
+    }
+
+    public void setSelectedKlient(Klienci selectedKlient) {
+        this.selectedKlient = selectedKlient;
+    }
+
+    
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public boolean isPokazSTR() {
         return pokazSTR;

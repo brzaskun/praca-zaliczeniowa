@@ -3,6 +3,7 @@ package view;
 
 import dao.KlienciDAO;
 import embeddable.PanstwaSymb1;
+import entity.Dok;
 import entity.Klienci;
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,11 +17,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import javax.annotation.PostConstruct;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -74,6 +77,8 @@ public class KlView implements Serializable{
         selected.setKrajkod(symbol);
         poszukajnip();
         klDAO.dodaj(selected);
+        kl1.add(selected);
+        
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");

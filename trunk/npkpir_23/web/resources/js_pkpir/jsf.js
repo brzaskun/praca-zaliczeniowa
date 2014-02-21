@@ -470,21 +470,21 @@ var sprawdzczybrakklienta = function () {
 };
 
 var skopiujdanenowegoklienta = function () {
+//    document.getElementById('dodWiad:acForce_input').value = document.getElementById('formX:nazwaPole').defaultValue;
+//    document.getElementById('dodWiad:acForce_input').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
+//    document.getElementById('dodWiad:acForce_input').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
+//    document.getElementById('dodWiad:acForce_hinput').value = document.getElementById('formX:nazwaPole').defaultValue;
+//    document.getElementById('dodWiad:acForce_hinput').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
+//    document.getElementById('dodWiad:acForce_hinput').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
     dlg123.hide();
-    document.getElementById('dodWiad:acForce_input').value = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:acForce_input').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:acForce_input').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:acForce_hinput').value = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:acForce_hinput').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:acForce_hinput').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
-    document.getElementById('dodWiad:rodzajTrans').focus();
-    //$('#dodWiad\\:acForce_input').trigger('keyup');
-    //$('#dodWiad\\:acForce_hinput').trigger('keyup');
-//    $('#dodWiad\\:acForce').trigger('keyup');
-//    event.stopPropagation();
-//    event.stopImmediatePropagation();
-//    $('#dodWiad\\:acForce').focus();
-//    $('#dodWiad\\:acForce').select();
+    $('#dodWiad\\:acForce_input').trigger('keydown');
+    $('#dodWiad\\:acForce_hinput').trigger('keydown');
+    $('#dodWiad\\:acForce').trigger('click');
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    $('#dodWiad\\:acForce_input').focus();
+    $('#dodWiad\\:acForce_input').select();
+    
 };
 
 
