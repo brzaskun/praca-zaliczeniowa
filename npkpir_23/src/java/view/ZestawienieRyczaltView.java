@@ -520,12 +520,13 @@ public class ZestawienieRyczaltView implements Serializable {
         List<Straty1> straty = tmp.getStratyzlatub1();
         double sumastrat = 0.0;
         try {
+            Double zostalo = wyliczStrataZostalo(tmp);
             for (Straty1 p : straty) {
-                Double wyliczmaks = Double.parseDouble(p.getZostalo()) - Double.parseDouble(p.getPolowakwoty());
+                Double wyliczmaks = zostalo - Double.parseDouble(p.getPolowakwoty());
                 if (wyliczmaks > 0) {
                     sumastrat += Double.parseDouble(p.getPolowakwoty());
                 } else {
-                    sumastrat += Double.parseDouble(p.getZostalo());
+                    sumastrat += zostalo;
                 }
             }
              BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
@@ -544,6 +545,26 @@ public class ZestawienieRyczaltView implements Serializable {
         }
     }
 
+    //wyliczenie niezbedne przy wracaniu do historycznych pitow
+    private double wyliczStrataZostalo(Podatnik tmp) {
+        double zostalo = 0.0;
+        for (Straty1 r : tmp.getStratyzlatub1()) {
+            double sumabiezace = 0.0;
+             for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
+                 if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+                    sumabiezace += s.getKwotawykorzystania();
+                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+                 }
+             }
+             double kwota = Double.parseDouble(r.getKwota());
+             double uprzednio = Double.parseDouble(r.getWykorzystano());
+             double biezace = sumabiezace;
+             zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
+         }
+        return zostalo;
+    }
+    
+    
     public void zachowajPit() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         FacesContext facesCtx = FacesContext.getCurrentInstance();

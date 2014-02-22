@@ -396,6 +396,7 @@ public class DokTabView implements Serializable {
         Wpis wpistmp = wpisDAO.find(user);
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
         wpisView.findWpis();
@@ -404,6 +405,7 @@ public class DokTabView implements Serializable {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpisDAO.edit(wpistmp);

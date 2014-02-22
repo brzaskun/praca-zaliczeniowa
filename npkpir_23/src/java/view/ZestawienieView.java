@@ -1021,11 +1021,12 @@ public class ZestawienieView implements Serializable {
         double sumastrat = 0.0;
         try {
             for (Straty1 p : straty) {
-                Double wyliczmaks = Double.parseDouble(p.getZostalo()) - Double.parseDouble(p.getPolowakwoty());
+                Double zostalo = wyliczStrataZostalo(p);
+                Double wyliczmaks = zostalo - Double.parseDouble(p.getPolowakwoty());
                 if (wyliczmaks > 0) {
                     sumastrat += Double.parseDouble(p.getPolowakwoty());
                 } else {
-                    sumastrat += Double.parseDouble(p.getZostalo());
+                    sumastrat += zostalo;
                 }
             }
            BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
@@ -1042,6 +1043,22 @@ public class ZestawienieView implements Serializable {
         } catch (Exception e) {
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
+    }
+    //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu
+    private double wyliczStrataZostalo(Straty1 tmp) {
+        double zostalo = 0.0;
+            double sumabiezace = 0.0;
+             for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
+                 if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+                    sumabiezace += s.getKwotawykorzystania();
+                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+                 }
+             }
+             double kwota = Double.parseDouble(tmp.getKwota());
+             double uprzednio = Double.parseDouble(tmp.getWykorzystano());
+             double biezace = sumabiezace;
+             zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
+        return Math.round(zostalo * 100.0) / 100.0;
     }
 
     public void zachowajPit() {

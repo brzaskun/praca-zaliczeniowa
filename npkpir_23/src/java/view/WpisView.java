@@ -117,6 +117,7 @@ public class WpisView implements Serializable{
         wpis = wpisDAO.find(wprowadzilX);
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpis.setMiesiacWpisu(miesiacWpisu);
+        wpis.setRokWpisuSt(String.valueOf(rokWpisu));
         wpis.setRokWpisu(rokWpisu);
         wpis.setMiesiacOd(miesiacOd);
         wpis.setMiesiacDo(miesiacDo);
