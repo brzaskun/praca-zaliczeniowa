@@ -5,10 +5,8 @@
 package embeddable;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Embeddable;
 
 /**
@@ -22,13 +20,15 @@ public class Straty1 implements Serializable{
     private String kwota;
     private String polowakwoty;
     private String wykorzystano;
+    private String sumabiezace;
     private String zostalo;
     //tu wpisujemu co zosatlo wykorszystane w latach
-    private HashMap<String,String> lolo;
+    private List<Wykorzystanie> wykorzystanieBiezace;
     
     
 
     public Straty1() {
+        wykorzystanieBiezace = new ArrayList<>();
     }
 
     public Straty1(String rok, String kwota, String polowakwoty, String wykorzystano, String zostalo) {
@@ -37,6 +37,7 @@ public class Straty1 implements Serializable{
         this.polowakwoty = polowakwoty;
         this.wykorzystano = wykorzystano;
         this.zostalo = zostalo;
+        this.wykorzystanieBiezace = new ArrayList<>();
     }
 
         
@@ -80,13 +81,54 @@ public class Straty1 implements Serializable{
         this.zostalo = zostalo;
     }
 
-    public HashMap<String, String> getLolo() {
-        return lolo;
+    public List<Wykorzystanie> getWykorzystanieBiezace() {
+        return wykorzystanieBiezace;
     }
 
-    public void setLolo(HashMap<String, String> lolo) {
-        this.lolo = lolo;
+    public void setWykorzystanieBiezace(List<Wykorzystanie> wykorzystanieBiezace) {
+        this.wykorzystanieBiezace = wykorzystanieBiezace;
     }
+
+    public String getSumabiezace() {
+        return sumabiezace;
+    }
+
+    public void setSumabiezace(String sumabiezace) {
+        this.sumabiezace = sumabiezace;
+    }
+
+  
+    
+
+    public static class Wykorzystanie implements Serializable{
+        private static final long serialVersionUID = 2L;
+        private String rokwykorzystania;
+        private Double kwotawykorzystania;
+        
+        public Wykorzystanie() {
+        }
+        
+
+        public String getRokwykorzystania() {
+            return rokwykorzystania;
+        }
+
+        public void setRokwykorzystania(String rokwykorzystania) {
+            this.rokwykorzystania = rokwykorzystania;
+        }
+
+        public Double getKwotawykorzystania() {
+            return kwotawykorzystania;
+        }
+
+        public void setKwotawykorzystania(Double kwotawykorzystania) {
+            this.kwotawykorzystania = kwotawykorzystania;
+        }
+        
+      
+    }
+
+   
 
        
 

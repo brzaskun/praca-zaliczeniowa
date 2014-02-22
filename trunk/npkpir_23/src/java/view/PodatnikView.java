@@ -6,6 +6,7 @@ package view;
 
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
+import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.WpisDAO;
 import dao.ZUSDAO;
@@ -13,6 +14,7 @@ import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Straty1;
 import embeddable.Udzialy;
+import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Zusstawki;
@@ -94,7 +96,7 @@ public class PodatnikView implements Serializable{
     private String strata50;
     private String stratawykorzystano;
     private String stratazostalo;
-    
+    @Inject private PitDAO pitDAO;
     
     public  List<Podatnik> getLi() {
         return li;
@@ -798,6 +800,102 @@ public class PodatnikView implements Serializable{
          }
      }
      
+     public void naniesRozliczenieStrat() {
+         Msg.msg("i", "Rozpoczynam rozliczanie strat");
+         List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "12", wpisView.getPodatnikWpisu());
+         if (pitpoz.size() == 0) {
+             Msg.msg("e", "Nie sporządzono pitu za grudzień poprzedniego roku. Przerywam nanoszenie strat");
+             return;
+         }
+         Double strataRozliczonaWDanymRoku = 0.0;
+         for (Pitpoz p : pitpoz) {
+            strataRozliczonaWDanymRoku = p.getStrata().doubleValue();
+         }
+         //zerowanie strat w przypadku codniecia sie niezbedne
+         for (Straty1 r : selectedStrata.getStratyzlatub1()) {
+             List<Straty1.Wykorzystanie> wykorzystanie = r.getWykorzystanieBiezace();
+                Iterator it = wykorzystanie.iterator();
+                while (it.hasNext()) {
+                    Straty1.Wykorzystanie w = (Straty1.Wykorzystanie) it.next();
+                    if (Integer.parseInt(w.getRokwykorzystania()) >= wpisView.getRokUprzedni()) {
+                        it.remove();
+                    }
+                }
+         }
+         for (Straty1 r : selectedStrata.getStratyzlatub1()) {
+             Double zostalo = wyliczStrataZostalo(r);
+             List<Straty1.Wykorzystanie> wykorzystanie = r.getWykorzystanieBiezace();
+             if (zostalo <= 0 || strataRozliczonaWDanymRoku <= 0) {
+                 break;
+             }
+             if (wykorzystanie == null) {
+                 wykorzystanie = new ArrayList<>();
+                 Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
+                 w.setRokwykorzystania(wpisView.getRokUprzedniSt());
+                 w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+                 wykorzystanie.add(w);
+                 strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+                 r.setWykorzystanieBiezace(wykorzystanie);
+             } else if (wykorzystanie.size() == 0) {
+                 wykorzystanie = new ArrayList<>();
+                 Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
+                 w.setRokwykorzystania(wpisView.getRokUprzedniSt());
+                 w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+                 wykorzystanie.add(w);
+                 strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+                 r.setWykorzystanieBiezace(wykorzystanie);
+             } else {
+                 for (Straty1.Wykorzystanie s : wykorzystanie) {
+                     if (s.getRokwykorzystania().equals(wpisView.getRokUprzedniSt())) {
+                         s.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+                         strataRozliczonaWDanymRoku -= s.getKwotawykorzystania();
+                         strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
+                         break;
+                     } else {
+                         Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
+                         w.setRokwykorzystania(wpisView.getRokUprzedniSt());
+                         w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
+                         wykorzystanie.add(w);
+                         strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
+                         strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
+                     }
+                 }
+                 r.setWykorzystanieBiezace(wykorzystanie);
+             }
+         }
+         for (Straty1 r : selectedStrata.getStratyzlatub1()) {
+             double sumabiezace = 0.0;
+             for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
+                 sumabiezace += s.getKwotawykorzystania();
+                 sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+             }
+             r.setSumabiezace(String.valueOf(sumabiezace));
+             double kwota = Double.parseDouble(r.getKwota());
+             double uprzednio = Double.parseDouble(r.getWykorzystano());
+             double biezace = Double.parseDouble(r.getSumabiezace());
+             r.setZostalo(String.valueOf(Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0));
+         }
+         podatnikDAO.edit(selectedStrata);
+         Msg.msg("i", "Ukończyłem rozliczanie strat");
+     }
+     
+     //wyliczenie niezbedne przy wracaniu do historycznych pitow
+    private double wyliczStrataZostalo(Straty1 tmp) {
+        double zostalo = 0.0;
+            double sumabiezace = 0.0;
+             for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
+                 if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokUprzedni()) {
+                    sumabiezace += s.getKwotawykorzystania();
+                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+                 }
+             }
+             double kwota = Double.parseDouble(tmp.getKwota());
+             double uprzednio = Double.parseDouble(tmp.getWykorzystano());
+             double biezace = sumabiezace;
+             zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
+        return Math.round(zostalo * 100.0) / 100.0;
+    }
+     
 //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
 //         for (Podatnik p : podatnicy) {
@@ -1010,6 +1108,15 @@ public class PodatnikView implements Serializable{
         this.selectedStrata = selectedStrata;
     }
 
+    public PitDAO getPitDAO() {
+        return pitDAO;
+    }
+
+    public void setPitDAO(PitDAO pitDAO) {
+        this.pitDAO = pitDAO;
+    }
+
+    
    
    
     

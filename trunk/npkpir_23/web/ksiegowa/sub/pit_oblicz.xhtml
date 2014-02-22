@@ -216,39 +216,66 @@
     
     <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{podatnikView.selectedStrata.nazwapelna}">
             <h:form id="form1">
-                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="width: 600px;">
+                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="width: 40%;">
+                     <p:column style="width: 4%;">
+                        <p:rowToggler />
+                    </p:column>
                     <p:column headerText="rok">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
                     <p:column headerText="kwota" width="100">
-                        <h:outputText value="#{loop.kwota}" style="padding-left: 10%; float: right;">
-                            <f:convertNumber currencyCode="GBP" type="currency" />
-                        </h:outputText>
+                        <h:outputText value="#{loop.kwota}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                     </p:column>
                     <p:column headerText="50%" width="100">
-                        <h:outputText value="#{loop.polowakwoty}" style="padding-left: 10%; float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL" />
-                        </h:outputText>
+                        <h:outputText value="#{loop.polowakwoty}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                     </p:column>
-                    <p:column headerText="wykorzystano" width="100">
-                        <h:outputText value="#{loop.wykorzystano}" style="padding-left: 10%; float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL" />
-                        </h:outputText>
+                    <p:column headerText="wykorzyst. uprzednio" width="100">
+                        <h:outputText value="#{loop.wykorzystano}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                    </p:column>
+                     <p:column headerText="do bieżącego wykorzystania" width="100">
+                         <h:outputText value="#{loop.kwota - loop.wykorzystano}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                    </p:column>
+                    <p:column headerText="wykorzyst. bieżące" width="100">
+                        <h:outputText value="#{loop.sumabiezace}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                     </p:column>
                     <p:column headerText="zostało" width="100">
-                        <h:outputText value="#{loop.zostalo}" style="padding-left: 10%; float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL" />
-                        </h:outputText>
+                        <h:outputText value="#{loop.zostalo}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                     </p:column>
                     <p:column headerText="usuń">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{podatnikView.usunstrate(loop)}"/>
                     </p:column>
+                        <p:rowExpansion>
+                       <p:column id="wykorzystanie" headerText="wykorzystanie bieżące" width="300" resizable="true">  
+                           <p:dataTable var="subwpis" value="#{loop.wykorzystanieBiezace}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 50%;">
+                               <p:column id="SubColumn1" headerText="rok">  
+                                   <h:outputText value="#{subwpis.rokwykorzystania}" />
+                               </p:column>
+                               <p:column id="SubColumn2" headerText="kwota">  
+                                   <h:outputText value="#{subwpis.kwotawykorzystania}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                               </p:column>
+                           </p:dataTable>
+                       </p:column>
+                   </p:rowExpansion>
                 </p:dataTable>
             </h:form>
             <h:form id="form2">
                 <p:growl id="messages"/>
                 <p:focus for="panelstraty">
-                    <p:panelGrid columns="2" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
+                    <p:panelGrid columns="6" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
                         <h:outputText value="rok"/>
                         <h:inputText value="#{podatnikView.stratarok}" accesskey="s"/>
                         <h:outputText value="kwota"/>
@@ -259,6 +286,10 @@
                 </p:focus>
                 <p:commandButton value="dodaj" actionListener="#{podatnikView.dodajstrate()}" update="@form"/>
             </h:form>
+        <h:form id="form3">
+            <p:separator/>
+            <p:commandButton value="Nanieś wykorzystanie strat" actionListener="#{podatnikView.naniesRozliczenieStrat}" rendered="#{WpisView.miesiacWpisu eq '01'}" update=":akordeon:form1"/>
+        </h:form>
         </p:tab>
     </p:tabView>
 </ui:composition>

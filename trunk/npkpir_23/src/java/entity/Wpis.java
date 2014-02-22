@@ -47,6 +47,8 @@ public class Wpis implements Serializable {
     private String podatnikWpisu;
     @Column(name = "rokWpisu")
     private Integer rokWpisu;
+    @Column(name = "rokWpisuSt")
+    private String rokWpisuSt;
     @Size(max = 2)
     @Column(name = "miesiacWpisu")
     private String miesiacWpisu;
@@ -103,6 +105,14 @@ public class Wpis implements Serializable {
         this.rokWpisu = rokWpisu;
     }
 
+    public String getRokWpisuSt() {
+        return rokWpisuSt;
+    }
+
+    public void setRokWpisuSt(String rokWpisuSt) {
+        this.rokWpisuSt = rokWpisuSt;
+    }
+ 
     public String getMiesiacWpisu() {
         return miesiacWpisu;
     }
