@@ -808,8 +808,10 @@ public class PodatnikView implements Serializable{
              return;
          }
          Double strataRozliczonaWDanymRoku = 0.0;
+         Double wynikzarok = 0.0;
          for (Pitpoz p : pitpoz) {
-            strataRozliczonaWDanymRoku = p.getStrata().doubleValue();
+            strataRozliczonaWDanymRoku = Math.round(p.getStrata().doubleValue() * 100.0) / 100.0;
+            wynikzarok = Math.round(p.getWynik().doubleValue() * 100.0) / 100.0;
          }
          //zerowanie strat w przypadku codniecia sie niezbedne
          for (Straty1 r : selectedStrata.getStratyzlatub1()) {
@@ -821,6 +823,40 @@ public class PodatnikView implements Serializable{
                         it.remove();
                     }
                 }
+         }
+         //dodawanie straty jak nie bylo zysku
+         if (wynikzarok < 0) {
+             Msg.msg("i", "W roku poprzednim była strata. Dopisuję stratę do listy");
+             Iterator it = selectedStrata.getStratyzlatub1().iterator();
+             while (it.hasNext()) {
+                 Straty1 y = (Straty1) it.next();
+                 if (y.getRok().equals(wpisView.getRokUprzedniSt())) {
+                     it.remove();
+                 }
+             }
+             Straty1 nowastrata = new Straty1();
+             nowastrata.setRok(wpisView.getRokUprzedniSt());
+             nowastrata.setKwota(String.valueOf(wynikzarok));
+             nowastrata.setPolowakwoty(String.valueOf(Math.round((wynikzarok / 2) * 100.0) / 100.0));
+             nowastrata.setWykorzystano("0.0");
+             nowastrata.setSumabiezace("0.0");
+             nowastrata.setZostalo(String.valueOf(wynikzarok));
+             selectedStrata.getStratyzlatub1().add(nowastrata);
+             //wczesniej usunieto zapisy z roku ale nie zaktualizowano podsumowan
+             for (Straty1 r : selectedStrata.getStratyzlatub1()) {
+                double sumabiezace = 0.0;
+                for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
+                    sumabiezace += s.getKwotawykorzystania();
+                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+                }
+                r.setSumabiezace(String.valueOf(sumabiezace));
+                double kwota = Double.parseDouble(r.getKwota());
+                double uprzednio = Double.parseDouble(r.getWykorzystano());
+                double biezace = Double.parseDouble(r.getSumabiezace());
+                r.setZostalo(String.valueOf(Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0));
+             }  
+             podatnikDAO.edit(selectedStrata);
+             return;
          }
          for (Straty1 r : selectedStrata.getStratyzlatub1()) {
              Double zostalo = wyliczStrataZostalo(r);
