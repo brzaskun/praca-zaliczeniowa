@@ -39,7 +39,7 @@ public class Mail {
                     + "\nMoże to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową."
                     + "\n\nZ poważaniem"
                     + "\n\nObsługa serwisu"
-                    + "\nBiura Rachunkowe Taxman"
+                    + "\nBiuro Rachunkowe Taxman"
                     + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
                     + "\ntel. 91 8120976");
 
@@ -71,7 +71,7 @@ public class Mail {
                     + "\n\nW przypadku zagubienia hasła wybierz odpowiednią opcję na stronie serwisu."
                     + "\n\nZ poważaniem"
                      + "\n\nObsługa serwisu"
-                    + "\nBiura Rachunkowe Taxman"
+                    + "\nBiuro Rachunkowe Taxman"
                     + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
                     + "\ntel. 91 8120976");
 
@@ -104,7 +104,7 @@ public class Mail {
                     + "\noraz zmienić je niezwłocznie(!!!) na swoje własne."
                     + "\n\nZ poważaniem"
                     + "\n\nObsługa serwisu"
-                    + "\nBiura Rachunkowe Taxman"
+                    + "\nBiuro Rachunkowe Taxman"
                     + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
                     + "\ntel. 91 8120976");
 

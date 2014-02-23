@@ -13,7 +13,6 @@ import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -24,9 +23,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import pdf.PdfFaktura;
 import view.FakturaView;
-import view.WpisView;
 
 /**
  *
@@ -50,7 +47,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówiony przez Ciebie wydruk podatkowej księgi przychodów i rozchodów"
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -94,7 +94,9 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\nProsimy o wyrozumiałość i o informację zwrotną w takim wypadku na adres: info@taxman.biz.pl."
                     + "\n\nZ poważaniem"
                     + "\n\n"+podpisfaktury
-                    + "\n\n"+firmafaktury);
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -152,7 +154,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówiony przez Ciebie wydruk deklaracji podatkowej w podatku dochodowym PIT5"
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -188,7 +193,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówione przez Ciebie zestawienie obrotów z kontrahentem"
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -222,7 +230,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówiony przez Ciebie wydruk aktualnej ewidencji środków trwałych"
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -256,7 +267,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\ndeklarację VAT-7 złożoną w Twoim imieniu w ostatnim okresie rozliczeniowym."
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
@@ -309,7 +323,10 @@ public class MailOther extends MailSetUp implements Serializable{
                     + "\n\n"+"W niniejszym mailu znajdziesz"
                     + "\nzamówiony przez Ciebie wydruk ewidencji VAT "+nazwaewidencji
                     + "\n\nZ poważaniem"
-                    + "\n\n"+wysylajacy);
+                    + "\n\n"+wysylajacy
+                    + "\nBiuro Rachunkowe Taxman"
+                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
+                    + "\ntel. 91 8120976");
 
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
