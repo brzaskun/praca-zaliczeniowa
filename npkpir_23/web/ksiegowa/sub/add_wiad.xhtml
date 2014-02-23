@@ -17,7 +17,7 @@
             <p:focus for="polawprowadzania"/>
             <p:panelGrid id="polawprowadzania" columns="6" style="width: 1000px;">
                 <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
-                <h:outputLabel value="data sprzedaży" style="font-weight: 700"/>
+                <h:outputLabel value="data powst.ob." style="font-weight: 700"/>
                 <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>
                 <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
                 <h:outputLabel value="nr własny" style="font-weight: 700;"/>
@@ -26,8 +26,11 @@
 
                 <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 100px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień" >
                     <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:tabelapkpir"  />
+                    <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                 </p:inputText>
-                <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 100px" onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" />
+                <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" maxlength="10" style="width: 100px" onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
+                    <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
+                </p:inputText>
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{DokumentView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
@@ -295,17 +298,16 @@
                 </p:dataTable>
             </div>
             <!--pola ewidencji VAT-->
-            <p:panelGrid columns="4" style="width: 400px;">
+            <p:panelGrid id="ostatnipanel" columns="4" style="width: 400px;">
 
                 <h:outputLabel value="v m-c" style="font-weight: 700"/>
                 <h:outputLabel value="v rok" style="font-weight: 700"/>
                 <h:outputLabel value="uwagi" style="font-weight: 700"/>
                 <h:outputLabel value=""/>
                 <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
-                    <f:selectItems id="vatr" value="#{DokumentView.listamiesiecyewidencjavat}"/>
+                    <f:selectItems value="#{Mce.mceList}"/>
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{DokumentView.selDokument.vatR}">
-                    <f:selectItem itemLabel="#{WpisView.rokWpisuSt}" itemValue="#{WpisView.rokWpisuSt}"/>
+                <h:selectOneMenu id="rokm" value="#{DokumentView.selDokument.vatR}">
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                 <h:inputText value="#{DokumentView.selDokument.uwagi}" />
