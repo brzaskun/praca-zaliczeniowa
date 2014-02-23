@@ -14,4 +14,11 @@
             <name>rendered</name>
         </attribute>
     </tag>
+    <tag>
+	<tag-name>ajaxs</tag-name>
+	<source>tags/ajaxS.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+    </tag>
 </facelet-taglib>

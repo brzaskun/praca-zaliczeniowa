@@ -164,7 +164,9 @@ public class ZamkniecieView implements Serializable {
         }
     }
     
-     public boolean sprawdzMiesiacRok(String rok, String mc) {
+     public boolean sprawdzMiesiacRok() {
+        String rok = wpisView.getRokWpisuSt();
+        String mc = wpisView.getMiesiacWpisu();
         for (Okresrozliczeniowy p : mapaokresowPobrane) {
             if(p.getRok().equals(rok)&&(p.getMiesiac().equals(mc))) {
                 return p.isZamkniety();

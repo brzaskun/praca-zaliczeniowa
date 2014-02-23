@@ -5,7 +5,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <f:view locale="#{localeChanger.locale}">
         <h:head>
             <meta http-equiv="Accept-Encoding" content="gzip"/>
@@ -14,15 +15,11 @@
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body style="background-color: #FFFFFF">
+            <bcf:ajaxs value="Trwa przetwarzanie danych rejestracyjnych nowego użytkownika"/>
             <h:form>
-                <p:ajaxStatus>
-                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                    <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
-                </p:ajaxStatus>
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto; width: 600px;" >
-                    <div style="height: 100px;">
+                    <div style="height: 150px;">
                         <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
                     <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  7%; width: 362px; border-style: hidden !important;">
@@ -41,32 +38,35 @@
                     <p:focus id="focus" context="rejestrowaniepanel"/>
                     <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
                         <h:outputText value="imię"/>
-                        <h:inputText id="imie" value="#{UzView.selUzytkownik.imie}" title="wpisz swoje imię" accesskey="s" required="true" requiredMessage="Wpisz imię!" autocomplete="true"/>
+                        <p:inputText id="imie" value="#{UzView.selUzytkownik.imie}" title="wpisz swoje imię" accesskey="s" required="true" requiredMessage="Wpisz imię!" autocomplete="true"/>
                         <h:outputText value="nazwisko"/>
-                        <h:inputText id="nazwisko" value="#{UzView.selUzytkownik.nazw}" title="wpisz nazwisko" required="true" requiredMessage="Wpisz nazwisko!" autocomplete="true"/>
+                        <p:inputText id="nazwisko" value="#{UzView.selUzytkownik.nazw}" title="wpisz nazwisko" required="true" requiredMessage="Wpisz nazwisko!" autocomplete="true"/>
                         <h:outputText value="login"/>
-                        <h:inputText id="login" value="#{UzView.selUzytkownik.login}" title="login musi zawierac minimum 6 znaków" required="true" requiredMessage="Wpisz login!" autocomplete="true">
+                        <p:inputText id="login" value="#{UzView.selUzytkownik.login}" title="login musi zawierac minimum 6 znaków" required="true" requiredMessage="Wpisz login!" autocomplete="true">
                             <f:validateLength minimum="6"/>
                             <f:ajax event="blur" listener="#{UzView.sprawdzloginduplikat}"/>
-                        </h:inputText>
+                        </p:inputText>
                         <h:outputText value="email"/>
-                        <h:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true" />
+                        <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true"  validatorMessage="Nie prawidłowy adres email">
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                        </p:inputText>
                         <h:outputText value="nip firmy"/>
-                        <h:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip twojej firmy!" autocomplete="true" maxlength="10">
+                        <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip twojej firmy!" autocomplete="true" maxlength="10">
                             <f:validateLength minimum="10"/>
-                        </h:inputText>
+                        </p:inputText>
                         <h:outputText value="hasło"/>
                         <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
-                                    promptLabel="wprowadź hasło o min 6 znakach" weakLabel="słabe"  
-                                    goodLabel="może być" strongLabel="dobre" required="true" requiredMessage="Wpisz hasło!" autocomplete="true"/> 
-
+                                    promptLabel="wprowadź hasło o min 6 znakach" weakLabel="słabe"  validatorMessage="Minimum 6 znaków"
+                                    goodLabel="może być" strongLabel="dobre" required="true" requiredMessage="Wpisz hasło!" autocomplete="true"> 
+                        <f:validateLength minimum="6"/>
+                        </p:password>
                         <h:outputText value="potwierdz hasło"/>
-                        <h:inputSecret id="haslo2" value="#{UzView.confPassword}" title="hasła musza być zgodne" required="true" requiredMessage="Wpisz potwierdzenie hasła!" autocomplete="true" >
+                        <p:password id="haslo2" value="#{UzView.confPassword}" title="hasła musza być zgodne" required="true" requiredMessage="Wpisz potwierdzenie hasła!" autocomplete="true" >
                             <f:validateLength minimum="6"/>
-                        </h:inputSecret>
+                        </p:password>
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton value="Zrejestruj" action="#{UzView.dodaj()}" ajax="false"/>
+                    <p:commandButton value="Zrejestruj" action="#{UzView.dodaj()}" style="width: 150px;"/>
                 </p:panel>
             </h:form>
         </h:body>

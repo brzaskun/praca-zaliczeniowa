@@ -6,19 +6,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <h:form>
         <p:stack icon="/resources/images/menustack/stack.png" >  
             <p:menuitem value="wynik" icon="/resources/images/menustack/pgb-chip-math.png" actionListener="#{PodatekView.sprawozdaniePodatkowe}" update=":form:prezentacjaPodatku"/>
             <p:menuitem value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}" />  
         </p:stack>
         </h:form>
-    <h:form>
-        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
-            <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
-            <f:facet name="success"><h:outputText value="" /></f:facet>
-        </p:ajaxStatus>
-    </h:form>
+    
     <h:form>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
@@ -49,11 +45,11 @@
             <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>
         </p:panelGrid>
 
-        <p:contextMenu for="dokumentyLista">
-            <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok(WpisView.rokWpisuSt,WpisView.miesiacWpisu)}"/>
+        <p:contextMenu id="menutablica" for="dokumentyLista">
+            <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-            <p:menuitem value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok(WpisView.rokWpisuSt,WpisView.miesiacWpisu)}"/>
+            <p:menuitem value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="confirmation1.show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" />
         </p:contextMenu>
         <p:outputPanel deferred="true">
