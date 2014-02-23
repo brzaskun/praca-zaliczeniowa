@@ -4,24 +4,38 @@
  */
 package view;
 
+import dao.PismoadminDAO;
 import entity.Pismoadmin;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
+import msg.Msg;
+import org.joda.time.DateTime;
 
 /**
  *
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PismoAdminView implements Serializable{
-    private Pismoadmin pismoadmin;
-    
+    @Inject private Pismoadmin pismoadmin;
     private static final List<String> listamenu;
     private static final List<String> waznosc;
+    private static final List<String> status;
+    private List<Pismoadmin> listapism;
+    @Inject private PismoadminDAO pismoadminDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
     static {
         listamenu = new ArrayList<>();
@@ -43,18 +57,67 @@ public class PismoAdminView implements Serializable{
         listamenu.add("faktury - panel");
         listamenu.add("napisz do admina");
         waznosc = new ArrayList<>();
-        waznosc.add("pali się");
-        waznosc.add("ważne");
-        waznosc.add("wypada naprawić");
-        waznosc.add("takie tam");
         waznosc.add("nie wiem po co to zgłaszam");
+        waznosc.add("takie tam");
+        waznosc.add("wypada naprawić");
+        waznosc.add("ważne");
+        waznosc.add("pali się");
+        status = new ArrayList<>();
+        status.add("wysłana");
+        status.add("admin przeczytał");
+        status.add("admin pracuje");
+        status.add("odrzucona");
+        status.add("zmiany naniesione");
     }
     
     public void molestujadmina() {
-        
+        try {
+            pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
+            pismoadmin.setStatus("wysłana");
+            pismoadminDAO.dodaj(pismoadmin);
+            listapism.add(pismoadmin);
+            Msg.msg("i", "Udało się dodać infomację dla Admina");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
+        }
+    }
+    
+     public void edytujpismoadmin(Pismoadmin p) {
+        try {
+            p.setDatastatus(new Date());
+            pismoadminDAO.edit(p);
+            listapism.clear();
+            listapism.addAll(pismoadminDAO.findAll());
+            Msg.msg("i", "Udało się dodać infomację dla Admina");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
+        }
+    }
+    
+    public void walidacjaobszaru(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        String obszar = value.toString();
+        if (!obszar.equals("wybierz obszar")) {
+            return;
+        } else {
+            throw new ValidatorException(Msg.validator("w","Wybierz temat wiadomości, obszar programu gdzie pojawił się błąd"));
+        }
+    }
+    
+    public void walidacjawaznosc(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        String obszar = value.toString();
+        if (!obszar.equals("wybierz ważność")) {
+            return;
+        } else {
+            throw new ValidatorException(Msg.validator("w","Określ jak bardzo pilna jest to wiadomość"));
+        }
     }
 
     public PismoAdminView() {
+    }
+    
+    @PostConstruct
+    private void init() {
+        listapism = pismoadminDAO.findAll();
     }
 
     public Pismoadmin getPismoadmin() {
@@ -73,8 +136,27 @@ public class PismoAdminView implements Serializable{
         return waznosc;
     }
 
+    public List<Pismoadmin> getListapism() {
+        return listapism;
+    }
+
+    public void setListapism(List<Pismoadmin> listapism) {
+        this.listapism = listapism;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public List<String> getStatus() {
+        return status;
+    }
+
     
-   
     
     
 }
