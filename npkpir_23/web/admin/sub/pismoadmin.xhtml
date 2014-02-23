@@ -74,10 +74,11 @@
                  <p:column width="80">
                      <p:commandButton value="edytuj" actionListener="#{pismoAdminView.edytujpismoadmin(item)}" update="@(form)"/>
                 </p:column>
+                <p:column width="80">
+                     <p:commandButton value="usuń" actionListener="#{pismoAdminView.usunpismoadmin(item)}" update="@(form)"/>
+                </p:column>
             </p:dataTable>
         </h:form>
     </f:view>
-
-   
 </ui:composition>   
 

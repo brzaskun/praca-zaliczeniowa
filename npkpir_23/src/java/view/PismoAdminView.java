@@ -74,9 +74,12 @@ public class PismoAdminView implements Serializable{
         try {
             pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
             pismoadmin.setStatus("wysłana");
-            pismoadminDAO.dodaj(pismoadmin);
-            listapism.add(pismoadmin);
-            Msg.msg("i", "Udało się dodać infomację dla Admina");
+            int wynik = sprawdzduplikat();
+            if (wynik == 0) {
+                pismoadminDAO.dodaj(pismoadmin);
+                listapism.add(pismoadmin);
+                Msg.msg("i", "Udało się dodać infomację dla Admina");
+            }
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
         }
@@ -91,6 +94,26 @@ public class PismoAdminView implements Serializable{
             Msg.msg("i", "Udało się dodać infomację dla Admina");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
+        }
+    }
+     
+     private int sprawdzduplikat() {
+         List<Pismoadmin> lista = pismoadminDAO.findAll();
+         for (Pismoadmin p : lista) {
+             if (p.equals(pismoadmin)) {
+                 return 1;
+             }
+         }
+         return 0;
+     }
+     
+     public void usunpismoadmin(Pismoadmin p) {
+        try {
+            pismoadminDAO.destroy(p);
+            listapism.remove(p);
+            Msg.msg("i", "Udało się usunąć infomację dla Admina");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie udało się usunąć infomacji dla Admina");
         }
     }
     
