@@ -24,7 +24,7 @@
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form"/>
                 </p:selectOneMenu>
-                <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok(WpisView.rokWpisuSt,WpisView.miesiacWpisu)}" style="font-weight: 900; color: blue;"/>
+                <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 900; color: blue;"/>
             </p:panelGrid>
             <p:messages id="messages"/>
         </p:panel>

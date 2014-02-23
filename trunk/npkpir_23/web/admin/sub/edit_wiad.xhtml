@@ -4,9 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" rendered="#{UzytkownikView.edytujUz==true}">
+    <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
              <h:messages id="mess_edit" tooltip="true" />
-              <h:commandButton actionListener="#{UzytkownikView.setEdytujUz(false)}" value="Wroc" />    
            <p:panelGrid columns="7" >
                          
               <h:outputLabel value="login"/>

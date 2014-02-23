@@ -139,11 +139,13 @@ public class UzView implements Serializable{
         System.out.println("Hex format : " + sb.toString());
     }
     
-     public void destroy() {
+     public void destroy(Uz uzytkownik) {
         try {
-        uzDAO.destroy(selUzytkownik);
+        uzDAO.destroy(uzytkownik);
+        obiektUZjsf.remove(uzytkownik);
+        Msg.msg("i", "Usunąłem użytkownika "+uzytkownik.getLogin());
         } catch (Exception e) {
-            System.out.println("Nie usnieto "+selUzytkownik.getLogin()+" "+e.toString());
+            Msg.msg("e", "Wystąpił błąd. Nie usunąłem użytkownika "+uzytkownik.getLogin());
         }
     }
      public void edit(RowEditEvent ex){

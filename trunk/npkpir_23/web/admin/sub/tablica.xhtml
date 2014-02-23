@@ -9,9 +9,9 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{UzView.obiektUZjsf}" id="uzytkownicyLista" editable="true"
-                      paginator="true" paginatorAlwaysVisible="true" rows="8"
+                      paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="8,12,16,20,50" 
+                      rowsPerPageTemplate="12,16,20,50" 
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.edit}" />
             <f:facet name="header">  
@@ -73,9 +73,7 @@
                 <p:rowEditor />  
             </p:column>
             <p:column id="deleteColumn" headerText="usuń">
-                <h:commandButton  action="#{UzView.destroy()}" value="Usuń" >
-                    <f:setPropertyActionListener target="#{UzDAO.selUzytkownik}" value="#{wpis}"/>
-                </h:commandButton>
+                <p:commandButton  action="#{UzView.destroy(wpis)}" value="Usuń"  update=":form:uzytkownicyLista"/>
             </p:column>
         </p:dataTable>
         
