@@ -4,8 +4,6 @@
  */
 package data;
 
-import entity.Amodok;
-import entity.AmodokPK;
 import java.io.Serializable;
 import javax.inject.Named;
 
@@ -16,6 +14,12 @@ import javax.inject.Named;
 @Named
 public class Data implements Serializable {
 
+    /**
+     *
+     * @param rok
+     * @param mc
+     * @return
+     */
     public static String datapk(String rok, String mc) {
         switch (mc) {
             case "01":
@@ -53,4 +57,36 @@ public class Data implements Serializable {
         }
         return 0;
     }
+    
+     /**
+     * Porównywanie dwóch dat. Data późniejsza i data wcześniejsza.
+     * Data w formacie rrrr-MM-dd
+     * 
+     * @param datapozniejsza data późniejsza do porównywania
+     * @param datawczesniejsza data wcześniejsza do porównywania
+     * @return    <code>true</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej 
+     *            <code>0</code> jeżeli daty są równe
+     *            <code>false</code> jeżeli wcześniejsza jest jednak późniejsza
+     */
+    public static int compare(String datapozniejsza, String datawczesniejsza) {
+        int rokO1 = Integer.parseInt(datapozniejsza.substring(0,4));
+        int rokO2 = Integer.parseInt(datawczesniejsza.substring(0, 4));
+        int mcO1 = Integer.parseInt(datapozniejsza.substring(5, 7));
+        int mcO2 = Integer.parseInt(datawczesniejsza.substring(5, 7));
+        if (rokO1 < rokO2) {
+            return -1;
+        } else if (rokO1 > rokO2) {
+            return 1;
+        } else if (rokO1 == rokO2) {
+            if (mcO1 == mcO2) {
+                return 0;
+            } else if (mcO1 < mcO2) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    
 }

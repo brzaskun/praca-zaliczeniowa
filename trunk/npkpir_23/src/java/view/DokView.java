@@ -18,6 +18,7 @@ import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.WpisDAO;
+import data.Data;
 import embeddable.EVatwpis;
 import embeddable.EwidencjaAddwiad;
 import embeddable.Kolmn;
@@ -277,11 +278,11 @@ public class DokView implements Serializable {
         //pobranie ostatniego dokumentu
         wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
         try {
-            selDokument.setVatR(wpistmp.getRokWpisu().toString());
-            selDokument.setVatM(wpistmp.getMiesiacWpisu());
+            selDokument.setVatR("");
+            selDokument.setVatM("");
         } catch (Exception e) {
         }
-        ukrocmiesiace();
+        //ukrocmiesiace();
 
     }
 
@@ -1353,7 +1354,24 @@ public class DokView implements Serializable {
             selDokument.setDokumentProsty(true);
             RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
         }
-        //RequestContext.getCurrentInstance().execute("document.getElementById('dodWiad:rodzajTrans').focus();");
+    }
+    
+    public void zmienokresVAT() {
+        String datafaktury = (String) Params.params("dodWiad:dataPole");
+        String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
+        int porownaniedat = Data.compare(datafaktury, dataobowiazku);
+        String rok;
+        String mc;
+        if (porownaniedat >= 0) {
+            rok = dataobowiazku.substring(0,4);
+            mc = dataobowiazku.substring(5,7);
+        } else {
+            rok = datafaktury.substring(0,4);
+            mc = datafaktury.substring(5,7);
+        }
+        selDokument.setVatR(rok);
+        selDokument.setVatM(mc);
+        RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
     }
 
     public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {

@@ -11,31 +11,26 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs value="Trwa przetwarzanie danych"/>
-  <h:form>
-                    <p:confirmDialog id="confirmDialog" message="Wysłać pkpir do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
-                                     header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
+            <h:form>
+                <p:confirmDialog id="confirmDialog" message="Wysłać pkpir do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                 header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
+                    <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
+                                     actionListener="#{mailOther.pkpir()}"  />  
+                    <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
 
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
-                                         actionListener="#{mailOther.pkpir()}"  />  
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" />   
-
-                    </p:confirmDialog>  
-                </h:form>
-             
-             
-                <f:view contentType="text/html">
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                        <ui:include src="sub/layoutKsiega/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutKsiega/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutKsiega/east.xhtml"/>   <!-- panel wchodni-->
-                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
-                           <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </p:layoutUnit>
-
-                    </p:layout>
-                </f:view>
-            
+                </p:confirmDialog>  
+            </h:form>
+            <f:view contentType="text/html">
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutKsiega/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutKsiega/south.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
+                    <ui:include src="sub/layoutKsiega/east.xhtml"/>   <!-- panel wchodni-->
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>
