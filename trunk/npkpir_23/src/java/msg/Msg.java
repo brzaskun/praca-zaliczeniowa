@@ -31,6 +31,8 @@ public class Msg implements Serializable {
                   break;
               case "w": sl = FacesMessage.SEVERITY_WARN;
                   break;
+              case "f": sl = FacesMessage.SEVERITY_FATAL;
+                  break;
           }
           FacesMessage msg = new FacesMessage(sl,messagetext, null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -46,8 +48,25 @@ public class Msg implements Serializable {
                   break;
               case "w": sl = FacesMessage.SEVERITY_WARN;
                   break;
+              case "f": sl = FacesMessage.SEVERITY_FATAL;
+                  break;
           }
           FacesMessage msg = new FacesMessage(sl,messagetext, null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public static FacesMessage validator(String severitylevel,String messagetext){
+          Severity sl = null;
+          switch (severitylevel){
+              case "i": sl = FacesMessage.SEVERITY_INFO;
+                  break;
+              case "e": sl = FacesMessage.SEVERITY_ERROR;
+                  break;
+              case "w": sl = FacesMessage.SEVERITY_WARN;
+                  break;
+              case "f": sl = FacesMessage.SEVERITY_FATAL;
+                  break;
+          }
+          return new FacesMessage(sl,messagetext, null);
     }
 }

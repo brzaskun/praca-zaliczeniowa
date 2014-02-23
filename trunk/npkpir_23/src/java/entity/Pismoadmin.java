@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
 /**
  *
  * @author Osito
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pismoadmin.findByDatawiadomosci", query = "SELECT p FROM Pismoadmin p WHERE p.datawiadomosci = :datawiadomosci"),
     @NamedQuery(name = "Pismoadmin.findByMenulink", query = "SELECT p FROM Pismoadmin p WHERE p.menulink = :menulink"),
     @NamedQuery(name = "Pismoadmin.findByWaznosc", query = "SELECT p FROM Pismoadmin p WHERE p.waznosc = :waznosc"),
+    @NamedQuery(name = "Pismoadmin.findByNadawca", query = "SELECT p FROM Pismoadmin p WHERE p.nadawca = :nadawca"),
     @NamedQuery(name = "Pismoadmin.findByStatus", query = "SELECT p FROM Pismoadmin p WHERE p.status = :status"),
     @NamedQuery(name = "Pismoadmin.findByDatastatus", query = "SELECT p FROM Pismoadmin p WHERE p.datastatus = :datastatus")})
 public class Pismoadmin implements Serializable {
@@ -65,6 +67,11 @@ public class Pismoadmin implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String waznosc;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 20, max = 150)
+    @Column(nullable = false, length = 150)
+    private String nadawca;
     @Size(max = 150)
     @Column(length = 150)
     private String status;
@@ -78,12 +85,13 @@ public class Pismoadmin implements Serializable {
         this.lp = lp;
     }
 
-    public Pismoadmin(Integer lp, Date datawiadomosci, String menulink, String tresc, String waznosc) {
+    public Pismoadmin(Integer lp, Date datawiadomosci, String menulink, String tresc, String waznosc, String nadawca) {
         this.lp = lp;
         this.datawiadomosci = datawiadomosci;
         this.menulink = menulink;
         this.tresc = tresc;
         this.waznosc = waznosc;
+        this.nadawca = nadawca;
     }
 
     public Integer getLp() {
@@ -124,6 +132,14 @@ public class Pismoadmin implements Serializable {
 
     public void setWaznosc(String waznosc) {
         this.waznosc = waznosc;
+    }
+
+    public String getNadawca() {
+        return nadawca;
+    }
+
+    public void setNadawca(String nadawca) {
+        this.nadawca = nadawca;
     }
 
     public String getStatus() {
