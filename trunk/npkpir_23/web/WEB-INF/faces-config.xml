@@ -89,6 +89,10 @@
             <from-outcome>ksiega</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaKsiega.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>pismoadmin</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPismoadmin.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>inwestycje</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaInwestycje.xhtml?faces-redirect=true</to-view-id>

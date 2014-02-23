@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <h:form id="form">
+        <p:panelGrid columns="2" style="width: 50%;">
+            <f:facet name="header">
+                <h:outputText value="Treść wiadomości"/>
+            </f:facet>
+            <h:outputLabel for="menulink" value="gdzie wystąpił problem?" />
+            <p:selectOneMenu id="menulink" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 40%;">
+                <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar"/>
+                <f:selectItems value="#{pismoAdminView.listamenu}"/>
+            </p:selectOneMenu>
+            <h:outputLabel for="problem" value="na czym polega problem?"/>
+            <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" style="width: 100%" rows="9" autoResize="false" cols="80"/>
+            <h:outputLabel for="waznosc" value="jak wazny jest problem?"/>
+            <p:selectOneMenu id="waznosc" value="#{pismoAdminView.pismoadmin.waznosc}" style="width: 40%;">
+                <f:selectItem itemLabel="wybierz ważność" itemValue="wybierz ważność"/>
+                <f:selectItems value="#{pismoAdminView.waznosc}"/>
+            </p:selectOneMenu>
+            <p:commandButton value="molestuj admina" actionListener="#{pismoAdminView.molestujadmina}" style="width: 150px;"/>
+        </p:panelGrid>
+    </h:form>
+   
+</ui:composition>   
+
