@@ -326,7 +326,7 @@ public class Vat7DKView implements Serializable {
             }
             } else {
             int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-            if(wynik > 0){
+            if(wynik >= 0){
                 return p.getParametr();
             }
             }

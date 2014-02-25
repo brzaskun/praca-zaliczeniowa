@@ -257,7 +257,7 @@ public class VatView implements Serializable {
             }
         
         } catch (Exception e) {
-            System.out.println("Firma nie vat");
+            System.out.println("Firma nie vat. VatView linia 260");
         }
           //drukuj ewidencje
     }
@@ -291,6 +291,7 @@ public class VatView implements Serializable {
     }
       
      private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
+         try {
          if(vatokres.equals("blad")){
             Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
             throw new Exception("Nie ma ustawionego parametru vat za dany okres");
@@ -314,6 +315,11 @@ public class VatView implements Serializable {
                  }
              }
              return listatymczasowa;
+         }
+         } catch (Exception e) {
+             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+             System.out.println("Blada nietypowy plik VatView zmodyfikujliste ");
+             return null;
          }
     }
 
