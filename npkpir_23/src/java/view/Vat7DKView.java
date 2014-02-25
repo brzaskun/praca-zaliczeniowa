@@ -78,6 +78,7 @@ public class Vat7DKView implements Serializable {
     private boolean pole47zreki;
     private boolean pokaz56lub59;
     private boolean zachowaj;
+    private boolean pierwotnazamiastkorekty;
 
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -308,7 +309,7 @@ public class Vat7DKView implements Serializable {
     }
 
     public void odswiezprzycisk(ValueChangeEvent e){
-        RequestContext.getCurrentInstance().update("form:przycisk1");
+        RequestContext.getCurrentInstance().update("formvat:przycisk1");
     }
     
      private String sprawdzjakiokresvat() {
@@ -475,12 +476,16 @@ public class Vat7DKView implements Serializable {
                     selected.setCelzlozenia("1");
                     Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                } else if (badana.getStatus().equals("200")) {
+                } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==false) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     selected.setCelzlozenia("2");
                     Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                     Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty", "form:msg");
-                    
+                } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==true) {
+                    nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
+                    selected.setCelzlozenia("1");
+                    Msg.msg("i", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej", "form:msg");
+                    Msg.msg("i", "Utworzono drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                 } else {
                     setFlaga(1);
                     Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa", "form:msg");
@@ -730,6 +735,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPole47zreki(boolean pole47zreki) {
         this.pole47zreki = pole47zreki;
+    }
+
+    public boolean isPierwotnazamiastkorekty() {
+        return pierwotnazamiastkorekty;
+    }
+
+    public void setPierwotnazamiastkorekty(boolean pierwotnazamiastkorekty) {
+        this.pierwotnazamiastkorekty = pierwotnazamiastkorekty;
     }
     
     
