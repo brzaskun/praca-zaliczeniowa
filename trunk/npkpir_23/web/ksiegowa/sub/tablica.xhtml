@@ -460,12 +460,12 @@
                     <h:outputLabel value=""/>
 
                     
-                    <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
-                        <f:selectItems id="vatr" value="#{DokumentView.listamiesiecyewidencjavat}"/>
-                    </h:selectOneMenu>
-                    <h:selectOneMenu value="#{DokumentView.selDokument.vatR}">
-                        <f:selectItems value="#{Roki.rokiList}"/>
-                    </h:selectOneMenu>
+                     <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}">
+                    <f:selectItems value="#{Mce.mceList}"/>
+                </h:selectOneMenu>
+                <h:selectOneMenu id="rokm" value="#{DokumentView.selDokument.vatR}">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
                     <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" update=":form:dokumentyLista" oncomplete="dlg123.hide();"> 
                     </p:commandButton>
