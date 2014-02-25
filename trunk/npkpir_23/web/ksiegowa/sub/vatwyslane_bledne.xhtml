@@ -8,6 +8,9 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="błędne">
         <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}" >
+            <p:column style="width: 3%;">
+                <p:rowToggler/>
+            </p:column>
             <p:column width="240">
                 <f:facet name="header">
                     <h:outputText value="Identyfikator"/>
@@ -68,6 +71,11 @@
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="70">
                 <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/></p:column>
+                 <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                        <h:outputText value="#{item.deklaracja}"/>
+                    </p:column>
+                </p:rowExpansion>
         </p:dataTable>
     </p:tab>
 

@@ -8,7 +8,9 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="udane">
         <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
-               
+            <p:column style="width: 3%;">
+                <p:rowToggler/>
+            </p:column>
             <p:column width="45">
                 <f:facet name="header">
                     <h:outputText value="Status"/>
@@ -75,6 +77,12 @@
                 </f:facet>
                 <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="margin-left: 10px; display: none;"  />
             </p:column>
+            
+                <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                        <h:outputText value="#{item.deklaracja}"/>
+                    </p:column>
+                </p:rowExpansion>
         </p:dataTable>
     </p:tab>
 
