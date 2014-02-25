@@ -13,6 +13,9 @@
         <p:growl id="msg"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
+            <p:column style="width: 3%;">
+                <p:rowToggler/>
+            </p:column>
             <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
             <p:column headerText="deklaracja za okres" width="100">
                 <h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}"/>
@@ -55,6 +58,11 @@
             <p:column id="deleteColumn" headerText="usuń" width="70">
                 <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/>
             </p:column>
+             <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                        <h:outputText value="#{item.deklaracja}"/>
+                    </p:column>
+                </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
     <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : flase}"/>
