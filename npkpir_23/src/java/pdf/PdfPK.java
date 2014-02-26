@@ -89,7 +89,7 @@ public class PdfPK extends Pdf implements Serializable {
             } else if (selected.getTypdokumentu().equals("ZUS")) {
                 miziu1 = new Paragraph(new Phrase("Ubezpieczenia społeczne "+selected.getNrWlDk(),font));
             } else if (selected.getTypdokumentu().equals("RF")) {
-                miziu1 = new Paragraph(new Phrase("zestawienie - kasa fiskalna "+selected.getNrWlDk(),font));
+                miziu1 = new Paragraph(new Phrase("Zestawienie - kasa fiskalna "+selected.getNrWlDk(),font));
             } else {
                 miziu1 = new Paragraph(new Phrase("Faktura VAT "+selected.getNrWlDk(),font));
             }

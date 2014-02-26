@@ -836,6 +836,7 @@ public class DokView implements Serializable {
         selDokument.setPkpirR(wpisbiezacy.getRokWpisu().toString());
         selDokument.setPodatnik(wpisbiezacy.getPodatnikWpisu());
         Podatnik podtmp = podatnikDAO.find(wpisbiezacy.getPodatnikWpisu());
+        zweryfikujokresvat();
         List<Double> pobierzVat = new ArrayList<>();
         try {
             if ((!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size() - 1).getParametr().contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
@@ -860,6 +861,8 @@ public class DokView implements Serializable {
                             eVatwpis.setEstawka(ewidencjaAddwiad.get(j).getOpzw());
                             el.add(eVatwpis);
                             eVidencja = null;
+                            //to musi być bo inaczej nie obliczy kwoty vat;
+                            pobierzVat.add(eVatwpis.getVat());
                         }
                         j++;
                     }
@@ -1372,6 +1375,26 @@ public class DokView implements Serializable {
         selDokument.setVatR(rok);
         selDokument.setVatM(mc);
         RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
+    }
+    
+    public void zweryfikujokresvat() {
+        if (selDokument.getVatR()==null || selDokument.getVatM()==null) {
+            String datafaktury = selDokument.getDataWyst();
+            String dataobowiazku = selDokument.getDataSprz();
+            int porownaniedat = Data.compare(datafaktury, dataobowiazku);
+            String rok;
+            String mc;
+            if (porownaniedat >= 0) {
+                rok = dataobowiazku.substring(0,4);
+                mc = dataobowiazku.substring(5,7);
+            } else {
+                rok = datafaktury.substring(0,4);
+                mc = datafaktury.substring(5,7);
+            }
+            selDokument.setVatR(rok);
+            selDokument.setVatM(mc);
+            RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
+        }
     }
 
     public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {
