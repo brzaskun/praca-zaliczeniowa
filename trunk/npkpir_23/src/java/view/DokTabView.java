@@ -189,22 +189,25 @@ public class DokTabView implements Serializable {
 //    }
     
      public void sprawdzCzyNieDuplikat() {
-        Msg.msg("i", "Rozpoczynam badanie bazy na obecność duplikatów");
+        Msg.msg("i", "Rozpoczynam badanie bazy klienta "+wpisView.getPodatnikWpisu()+" na obecność duplikatów");
         List<Dok> pobranedokumentypodatnika = dokDAO.zwrocBiezacegoKlientaDuplikat(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Iterator it = pobranedokumentypodatnika.iterator();
+        int licznik = 0;
         while (it.hasNext()) {
             Dok badany = (Dok) it.next();
             it.remove();
             boolean tmp = false;
             try {
                 tmp = pobranedokumentypodatnika.contains(badany);
+                ++licznik;
             } catch (Exception ex) {}
             if (tmp == true) {
                 String wiadomosc = "Dokument typu "+badany.getTypdokumentu()+" dla tego klienta, o numerze "+badany.getNrWlDk()+" i kwocie netto "+badany.getNetto()+" jest juz zaksiegowany u podatnika: " + badany.getPodatnik();
                 Msg.msg("e", wiadomosc);
+                return;
             }
         }
-        Msg.msg("i", "Skończono badanie bazy na obecność duplikatów");
+        Msg.msg("i", "Skończono badanie "+licznik+" dokumenów na obecność duplikatów. Nie znaleziono ani jednego");
     }
 
     public void destroy(Dok selDok) {

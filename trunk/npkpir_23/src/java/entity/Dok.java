@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -463,17 +464,36 @@ public class Dok implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Dok)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Dok other = (Dok) object;
-        if ((this.idDok == null && other.idDok != null) || (this.idDok != null && !this.idDok.equals(other.idDok))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Dok other = (Dok) obj;
+        if (!Objects.equals(this.nrWlDk, other.nrWlDk)) {
+            return false;
+        }
+        if (!Objects.equals(this.kontr, other.kontr)) {
+            return false;
+        }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataWyst, other.dataWyst)) {
+            return false;
+        }
+        if (!Objects.equals(this.rodzTrans, other.rodzTrans)) {
+            return false;
+        }
+        if (!Objects.equals(this.netto, other.netto)) {
             return false;
         }
         return true;
     }
+
+   
 
     @Override
     public String toString() {
