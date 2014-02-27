@@ -17,8 +17,8 @@ public class Rodzajedokcomparator implements Comparator<Rodzajedok> {
 
     @Override
     public int compare(Rodzajedok o1, Rodzajedok o2) {
-        String datao1 = o1.getNazwa().toLowerCase();
-        String datao2 = o2.getNazwa().toLowerCase();
+        String datao1 = o1.getSkrot().toLowerCase();
+        String datao2 = o2.getSkrot().toLowerCase();
         return datao1.compareTo(datao2);
     }
     
