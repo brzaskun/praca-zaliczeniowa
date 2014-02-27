@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import view.DokView;
 import view.KlView;
 
 /**
@@ -28,7 +29,7 @@ public class KlientConv implements javax.faces.convert.Converter{
             try {  
                 String number = submittedValue;  
                 List<Klienci> lista = new ArrayList<>();
-                lista.addAll(KlView.getKl1S());
+                lista.addAll(DokView.getKl1S());
                 for (Klienci p : lista) {  
                     if (p.getNpelna().equals(number)) {  
                         return p;  

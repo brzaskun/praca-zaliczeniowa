@@ -408,8 +408,8 @@ public class DokView implements Serializable {
         }
         kolumny = dopobrania;
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-        if (przekazKontr.getPkpirKolumna() != null) {
-            String kol = przekazKontr.getPkpirKolumna();
+        if (selDokument.getKontr().getPkpirKolumna() != null) {
+            String kol = selDokument.getKontr().getPkpirKolumna();
             SelectItem selectI = new SelectItem(kol, kol);
             valueList.add(selectI);
         }
@@ -1349,14 +1349,14 @@ public class DokView implements Serializable {
 
     //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
     public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
-        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
-        przekazKontr = (Klienci) anAutoComplete.getValue();
-        selDokument.setKontr(przekazKontr);
-        RequestContext.getCurrentInstance().update("dodWiad:acForce");
-        if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
-            selDokument.setDokumentProsty(true);
-            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
-        }
+//        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
+//        przekazKontr = (Klienci) anAutoComplete.getValue();
+//        selDokument.setKontr(przekazKontr);
+//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+//        if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
+//            selDokument.setDokumentProsty(true);
+//            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+//        }
     }
     
     public void zmienokresVAT() {
@@ -1754,9 +1754,9 @@ public class DokView implements Serializable {
         klDAO.dodaj(selectedKlient);
         kl1.add(selectedKlient);
         selDokument.setKontr(selectedKlient);
+        RequestContext.getCurrentInstance().update("dodWiad:acForce");
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
-        RequestContext.getCurrentInstance().update("dodWiad:acForce");
         Msg.msg("i","Dodano nowego klienta"+selectedKlient.getNpelna(),"formX:mess_add");
         } catch (Exception e) {
         Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
@@ -1764,6 +1764,15 @@ public class DokView implements Serializable {
          
          
    }
+
+    public ArrayList<Klienci> getKl1() {
+        return kl1;
+    }
+    public static ArrayList<Klienci> getKl1S() {
+        return kl1;
+    }
+    
+     
      
        private void poszukajnip() throws Exception {
          String nippoczatkowy = selectedKlient.getNip();

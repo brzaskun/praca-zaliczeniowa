@@ -34,9 +34,8 @@
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{DokumentView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                autocomplete="true" forceSelection="true" widgetVar="dialogklient" 
-                                valueChangeListener="#{DokumentView.przekazKontrahenta}" 
-                                required="true" requiredMessage="Pole klienta nie może byc puste" onkeyup="sprawdzczybrakklienta();">
+                                autocomplete="true" widgetVar="dialogklient" 
+                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczybrakklienta();">
                     <f:ajax event="blur" execute="@this"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -51,10 +50,10 @@
                             <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
                         </h:panelGrid>
                     </f:facet>
-                    <f:param name="passedValue" value="#{p}" />
                 </p:autoComplete>
-                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" valueChangeListener="#{DokumentView.wybranydokument}">
-                    <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
+                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true" title="wybierz rodzaj księgowanego dokumentu" valueChangeListener="#{DokumentView.wybranydokument}"
+                                 style="width: 180px; word-break: break-all;">
+                    <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot} - #{loop.nazwa}" itemValue="#{loop.skrot}"/>
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
