@@ -80,6 +80,7 @@ import msg.Msg;
 
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import params.Params;
 
 /**
@@ -1771,7 +1772,9 @@ public class DokView implements Serializable {
     public static ArrayList<Klienci> getKl1S() {
         return kl1;
     }
-    
+    public void handleSelect() {
+        Msg.msg("i", "Selected Item:");
+    }    
      
      
        private void poszukajnip() throws Exception {
