@@ -479,32 +479,22 @@ var sprawdzczybrakklienta = function () {
         var text = $('#zobWiad\\:nazwa').html();
         $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
-//        $('#dodWiad\\:acForce_input').focus();
-//        $('#dodWiad\\:acForce_hinput').trigger('click');
-//        $('#dodWiad\\:acForce_input').trigger('click');
-//        $('#dodWiad\\:acForce_input').select();
-//        event.cancelBubble = true;
-//        event.stopPropagation();
-//        event.stopImmediatePropagation();
+        $('#dodWiad\\:acForce_input').focus();
+        $('#dodWiad\\:acForce_hinput').trigger('click');
+        $('#dodWiad\\:acForce_input').trigger('click');
+        $('#dodWiad\\:acForce_input').select();
+        event.cancelBubble = true;
+        event.stopPropagation();
+        event.stopImmediatePropagation();
     }
 };
 
 var skopiujdanenowegoklienta = function () {
-//    document.getElementById('dodWiad:acForce_input').value = document.getElementById('formX:nazwaPole').defaultValue;
-//    document.getElementById('dodWiad:acForce_input').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
-//    document.getElementById('dodWiad:acForce_input').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
-//    document.getElementById('dodWiad:acForce_hinput').value = document.getElementById('formX:nazwaPole').defaultValue;
-//    document.getElementById('dodWiad:acForce_hinput').defaultValue = document.getElementById('formX:nazwaPole').defaultValue;
-//    document.getElementById('dodWiad:acForce_hinput').innerHTML = document.getElementById('formX:nazwaPole').defaultValue;
     dlg123.hide();
-    $('#dodWiad\\:acForce_input').trigger('keydown');
-    $('#dodWiad\\:acForce_hinput').trigger('keydown');
-    $('#dodWiad\\:acForce').trigger('click');
-    event.stopPropagation();
-    event.stopImmediatePropagation();
     $('#dodWiad\\:acForce_input').focus();
-    $('#dodWiad\\:acForce_input').select();
-    
+    var szukana = document.getElementById('formX:nazwaPole').value;
+    dialogklient.search(szukana);
+
 };
 
 
