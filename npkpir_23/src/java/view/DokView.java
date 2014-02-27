@@ -1307,7 +1307,7 @@ public class DokView implements Serializable {
             Dok selD = null;
             selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt().getNazwapelna(), (String) Params.params("dodWiad:rodzajTrans"));
             if (selD instanceof Dok){
-                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
+                String wiadomosc = "Dokument typu "+selD.getTypdokumentu()+" dla tego klienta, o numerze "+selD.getNrWlDk()+" i kwocie netto "+selD.getNetto()+" jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " w miesiącu "+selD.getPkpirM();
                 Msg.msg("e", wiadomosc);
                 RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
