@@ -11,7 +11,7 @@
         }
         //Get the element that registered the event
         var $target = $(event.target);
-        var kontoinput = $(event.target).is(".ui-autocomplete-input");
+        var kontoinput = false;//$(event.target).is(".ui-autocomplete-input");
         if($(event.target).is("button")===false){
         if (isTabKey(event)&&kontoinput === false) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
