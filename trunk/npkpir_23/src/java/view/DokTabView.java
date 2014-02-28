@@ -12,6 +12,7 @@ import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import embeddable.EVatwpis;
 import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
@@ -565,7 +566,20 @@ public class DokTabView implements Serializable {
 		Msg.msg("i","Data deleted","form:messages");
 	}
 
-      
+      public void naprawiamdokumenty() {
+          List<Dok> dok = dokDAO.zwrocRok("2014");
+          for (Dok p : dok) {
+              List<EVatwpis> vatlist = p.getEwidencjaVAT();
+              if (vatlist != null) {
+                double vatsuma = 0.0;
+                for (EVatwpis r : vatlist) {
+                    vatsuma += r.getVat();
+                }
+                p.setBrutto(Math.round((p.getNetto()+vatsuma) * 100.0) / 100.0);
+                dokDAO.edit(p);
+              }
+          }
+      }
     
         //<editor-fold defaultstate="collapsed" desc="comment">
         public List<Dok> getObiektDOKjsf() {
