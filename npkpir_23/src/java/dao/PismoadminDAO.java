@@ -33,5 +33,15 @@ public class PismoadminDAO extends DAO implements Serializable{
         }
    }
     
+    public  List<Pismoadmin> findBiezace(){
+        try {
+            System.out.println("Pobieram PismoadminDAO biezace");
+            List<Pismoadmin> lista = sessionFacade.findPismoadminBiezace();
+            return lista;
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
     
 }

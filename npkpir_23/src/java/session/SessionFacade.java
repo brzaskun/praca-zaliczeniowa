@@ -19,6 +19,7 @@ import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
 import entity.Klienci;
+import entity.Pismoadmin;
 import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
@@ -691,6 +692,10 @@ public class SessionFacade<T> {
 
     public Object findVatuepodatnik(String rokWpisu, String symbolokresu, String podatnikWpisu) {
         return em.createNamedQuery("Vatuepodatnik.findByRokKlientSymbolokresu").setParameter("rok", rokWpisu).setParameter("klient", podatnikWpisu).setParameter("symbolokresu", symbolokresu).getSingleResult();
+    }
+
+    public List<Pismoadmin> findPismoadminBiezace() {
+        return em.createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList();
     }
 
       
