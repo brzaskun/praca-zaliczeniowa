@@ -140,7 +140,7 @@ public class PismoAdminView implements Serializable{
     
     @PostConstruct
     private void init() {
-        listapism = pismoadminDAO.findAll();
+        listapism = pismoadminDAO.findBiezace();
     }
 
     public Pismoadmin getPismoadmin() {

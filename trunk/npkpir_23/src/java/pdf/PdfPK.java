@@ -53,6 +53,10 @@ public class PdfPK extends Pdf implements Serializable {
         document.addKeywords("PKPiR, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
+         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica,12);  
+            Font fontM = new Font(helvetica,10);
+            Font fontS = new Font(helvetica,6);
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
             //rect.setBackgroundColor(BaseColor.RED);
             //document.add(rect);
@@ -64,11 +68,10 @@ public class PdfPK extends Pdf implements Serializable {
             absText(writer, "Dokument nie wymaga podpisu.", 15, 18, 6);
             prost(writer.getDirectContent(), 12, 15, 560,20);
             document.add(new Chunk("Biuro Rachunkowe Taxman"));
+            Paragraph zaksiegowany = new Paragraph(new Phrase("dokument zaksięgowany pod lp: "+selected.getNrWpkpir(),fontM));
+            zaksiegowany.setAlignment(Element.ALIGN_RIGHT);
+            document.add(zaksiegowany);
             document.add(Chunk.NEWLINE);
-            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica,12);  
-            Font fontM = new Font(helvetica,10);
-            Font fontS = new Font(helvetica,6);
             document.add(Chunk.NEWLINE);
             Date date = Calendar.getInstance().getTime();
             DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");

@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pismoadmin.findByWaznosc", query = "SELECT p FROM Pismoadmin p WHERE p.waznosc = :waznosc"),
     @NamedQuery(name = "Pismoadmin.findByNadawca", query = "SELECT p FROM Pismoadmin p WHERE p.nadawca = :nadawca"),
     @NamedQuery(name = "Pismoadmin.findByStatus", query = "SELECT p FROM Pismoadmin p WHERE p.status = :status"),
+    @NamedQuery(name = "Pismoadmin.findByNOTStatus", query = "SELECT p FROM Pismoadmin p WHERE p.status != :status"),
     @NamedQuery(name = "Pismoadmin.findByDatastatus", query = "SELECT p FROM Pismoadmin p WHERE p.datastatus = :datastatus")})
 public class Pismoadmin implements Serializable {
     private static final long serialVersionUID = 1L;
