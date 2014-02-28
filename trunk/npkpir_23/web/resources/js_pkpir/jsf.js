@@ -37,80 +37,7 @@ var kolorujpola = function() {
 $(document).ready(kolorujpola());
 
 
-//nie wiem po co to
-//$(window).bind('beforeunload', function(){
-//    document.getElementById("ft:wt").click();
-//    alert("Good Bye");
-//});
 
-// function check_form(param){
-//     if(document.getElementById(param).value){
-//            var date_array = document.getElementById(param).value.split('-');
-//            var day = date_array[2];
-//            // Attention! Javascript consider months in the range 0 - 11
-//            var month = date_array[1]-1;
-//            var year = date_array[0];
-//            // This instruction will create a date object
-//            source_date = new Date(year,month,day);
-//            if(year != source_date.getFullYear()){
-//               alert('Nieprawid\u0142owa data - sprawdź! ');
-//               document.getElementById(param).focus();
-//               return false;
-//            }
-//            if(month != source_date.getMonth()){
-//               alert('Nieprawid\u0142owa data - sprawdź!');
-//               document.getElementById(param).focus();
-//               return false;
-//            }
-//      return true;
-//}};
-//
-// function validate(){
-//        txt = parseInt(document.getElementById("dodWiad:dataPole").value.length,10);
-//        if (txt>1&&txt<10) {
-//            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
-//            document.getElementById("dodWiad:dataPole").focus();
-//            return false;
-//        } else {
-//            check_form("dodWiad:dataPole");
-//        }};
-// 
-// function validateK(){
-//        document.getElementById("dodWiad:acForce_hinput").focus();
-//        txt = parseInt(document.getElementById("dodWiad:acForce_hinput").value.length,10);
-//        tekst = document.getElementById("dodWiad:acForce_input").value;
-//        if (txt<3) {
-//            document.getElementById("dodWiad:acForce_input").focus();
-//            return false
-//        }else{
-//            if(tekst == ""){
-//                window.location.href = "klienci.xhtml";
-////                window.open('klienci.xhtml?redirect=true', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300'); 
-//            }
-//            return true;
-//        }};
- 
-// var validateOpis = function (){
-//        document.getElementById("dodWiad:opis_hinput").focus();
-//        var txt = parseInt(document.getElementById("dodWiad:opis_hinput").value.length,10);
-//        if (txt < 3) {
-//            alert("Brak opisu!");
-//            document.getElementById("dodWiad:opis_input").focus();
-//            return false
-//        }else{
-//            return true;
-//        }};
-// 
-// function validateTermin(){
-//            txt = parseInt(document.getElementById("dodWiad:dataTPole").value.length,10);
-//        if (txt>=0&&txt<10) {
-//            alert("Niepe\u0142na data. Wymagany format RRRR-MM-DD");
-//            document.getElementById("dodWiad:dataTPole").focus();
-//            return false
-//        }else{
-//            check_form("dodWiad:dataTPole");
-//        }};
-//    
 
  var wyloguj = function(){
         document.getElementById("templateform:wyloguj").click();
@@ -475,14 +402,17 @@ var sprawdzczybrakklienta = function () {
     if(zawartosc==="nowy klient"){
         dlg123.show();
     }
+};
+
+var sprawdzczykopiowacklienta = function () {
+    var zawartosc = $('#dodWiad\\:acForce_input').val();
     if(zawartosc==="+"){
         var text = $('#zobWiad\\:nazwa').html();
         $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_input').focus();
-        $('#dodWiad\\:acForce_hinput').trigger('click');
-        $('#dodWiad\\:acForce_input').trigger('click');
         $('#dodWiad\\:acForce_input').select();
+        dialogklient.search(text);
         event.cancelBubble = true;
         event.stopPropagation();
         event.stopImmediatePropagation();
@@ -524,35 +454,7 @@ var przeniesKwotaDoNetto = function () {
         $('#dodWiad\\:sumbrutto').val(number_format(suma + vat));
     };
 
-//var ustawzus52ryczaltrecznie = function(){
-//    $('#akordeon\\:formpit1\\:reka52').click();
-//    var podatek = zrobFloat($("#akordeon\\:formpit1\\:podatek").val());
-//    var zus52 = zrobFloat($("#akordeon\\:formpit1\\:zus52").val());
-//    if(isNaN(zus52)){
-//        zus52 = 0;
-//    }
-//    $("#akordeon\\:formpit1\\:naleznazal").val(podatek-zus52);
-//}
-//
-//var ustawzus51ryczaltrecznie = function(){
-//    $('#akordeon\\:formpit1\\:reka51').click();
-//    var wynik = zrobFloat($("#akordeon\\:formpit1\\:wynik").val());
-//    var zus51 = zrobFloat($("#akordeon\\:formpit1\\:zus51").val());
-//    if(isNaN(zus51)){
-//        zus51 = 0;
-//    }
-//    var strata = zrobFloat($("#akordeon\\:formpit1\\:strata").val());
-//    var przejsciowa = wynik-zus51;
-//    if(przejsciowa<strata){
-//        strata = przejsciowa;
-//        $("#akordeon\\:formpit1\\:strata").val(strata)
-//    }
-//    var podstawa = wynik-zus51-strata;
-//    if(podstawa<0){
-//        podstawa = 0;
-//    }
-//    $("#akordeon\\:formpit1\\:podstawa").val(podstawa);
-//}
+
 var selcolor = function () {
     
 };
