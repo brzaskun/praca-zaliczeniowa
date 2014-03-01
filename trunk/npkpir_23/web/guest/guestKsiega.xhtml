@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -20,6 +21,7 @@
                 </h:form>
              
                 <f:view contentType="text/html">
+                    <bcf:ajaxs value="Trwa przetwarzanie danych"/>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutKsiega/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
