@@ -29,7 +29,11 @@ public class KlientConv implements javax.faces.convert.Converter{
             try {  
                 String number = submittedValue;  
                 List<Klienci> lista = new ArrayList<>();
-                lista.addAll(DokView.getKl1S());
+                try {
+                    lista.addAll(DokView.getKl1S());
+                } catch (Exception e) {
+                    lista.addAll(KlView.getKl1S());
+                }
                 for (Klienci p : lista) {  
                     if (p.getNpelna().equals(number)) {  
                         return p;  
