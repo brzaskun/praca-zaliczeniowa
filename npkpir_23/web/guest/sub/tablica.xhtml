@@ -8,39 +8,46 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
             <p:panelGrid id="prezentacjaPodatku" columns="13">
-                <h:outputLabel value="okres: " style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
                 <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
                 <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
                 <h:outputLabel value="Przychody:"/>
-                <h:outputLabel value="#{PodatekView.przychody}">
+                <h:outputLabel value="#{PodatekView.przychody}" style="font-weight: 900;">
                     <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
                 </h:outputLabel>
                 <h:outputLabel value="Koszty:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.koszty}">
+                <h:outputLabel value="#{PodatekView.koszty}" style="font-weight: 900;">
                     <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
                 </h:outputLabel>
                 <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.dochód}">
+                <h:outputLabel value="#{PodatekView.dochód}" style="font-weight: 900;">
                     <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
                 </h:outputLabel>
                 <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.podatek}">
+                <h:outputLabel value="#{PodatekView.podatek}" style="font-weight: 900;">
                     <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
                 </h:outputLabel>
 
-                <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>
+                <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz wynik za miesiąc" update=":form:prezentacjaPodatku"/>
             </p:panelGrid>
 
             <p:contextMenu for="dokumentyLista">
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
             </p:contextMenu>
-        <p:outputPanel>
+         <p:outputPanel deferred="true">
+            <script>
+                $(document).ready(function() {
+                    $(document.getElementById('form:dokumentyLista')).find('.ui-datatable-data tr').height(25);
+//                $("#form\\:dokumentyLista_data").children("tr").hover(function () {
+//                    alert($(this).attr('id'));
+//                    MYAPP.nrbiezacegowiersza = 5;
+//                });
+                });
+            </script>
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
-                          style="width: 1500px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                          style="width: 100%; height: 850px; overflow: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          scrollable="true" scrollRows="4" selectionMode="multiple"
+                          selectionMode="multiple" 
                           > 
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji}"/>
                 <f:facet name="header">  
@@ -91,17 +98,15 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" width="250" resizable="true" >  
-                    <p:dataTable id="tablicakolumn" var="subwpis" value="#{wpis.listakwot}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 250px;" lazy="false"   >
-                        <p:column id="SubColumnP1" width="100">  
-                            <h:outputText value="#{subwpis.netto}" style="float: right;">
+                 <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
+                    <ui:repeat value="#{wpis.listakwot}" var="item" varStatus="nr">
+                        <h:outputText value="#{wpis.listakwot.get(nr.index).netto}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText value="#{subwpis.nazwakolumny}" style="float: left;">
+                            <h:outputText value="#{wpis.listakwot.get(nr.index).nazwakolumny}" style="float: left;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                    </p:dataTable>
+                            </h:outputText><br/>
+                        </ui:repeat>
                 </p:column>
 
                 <p:rowExpansion>
