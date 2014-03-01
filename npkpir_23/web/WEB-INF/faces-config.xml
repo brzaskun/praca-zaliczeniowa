@@ -62,6 +62,10 @@
             <to-view-id>/guest/guestZestawienie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>gfmiesieczne</from-outcome>
+            <to-view-id>/guest/ksiegowaFakturyMc.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>gniezaplacone</from-outcome>
             <to-view-id>/guest/ksiegowaNiezaplacone.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
