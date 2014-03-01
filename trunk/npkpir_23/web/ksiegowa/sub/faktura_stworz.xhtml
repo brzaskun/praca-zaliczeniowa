@@ -86,28 +86,37 @@
                     <p:outputLabel value="ilość" style="margin-right: 135px; font-weight: bolder;"/>
                     <p:outputLabel value="cena jednostkowa" style="margin-right: 45px; font-weight: bolder;"/>
                     <p:outputLabel value="stawka podatku VAT" style="font-weight: bolder;"/>
-                    <c:forEach id="rzad" items="#{fakturaView.pozycje}" var="row" varStatus="rowStat"  >
-                        <p:panelGrid columns="6">
-                            <p:inputText id="nazwa#{rowStat.index}" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa#{rowStat.index}" value="nazwa towaru lub usługi" /></p:inputText>   
-                            <p:inputText id="pkwiu#{rowStat.index}" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu#{rowStat.index}" value="symbol PKWiU" /></p:inputText>   
-                            <h:selectOneMenu id="jednmiary#{rowStat.index}" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 150px;">
+                   <p:dataTable id="rzad" value="#{fakturaView.pozycje}" var="row" rowIndexVar="rowStat" style="width: 70%;">
+                        <p:column headerText="nazwa">
+                            <p:inputText id="nazwa" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
+                        </p:column>
+                        <p:column headerText="pkwiu">
+                            <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>    
+                        </p:column>
+                        <p:column headerText="jednosta miary">
+                            <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 150px;">
                                 <f:selectItem itemLabel="szt." itemValue="szt."/>
                                 <f:selectItem itemLabel="kg" itemValue="kg"/>
                                 <f:selectItem itemLabel="kpl" itemValue="kpl"/>
                                 <f:selectItem itemLabel="m-c" itemValue="m-c"/>
                                 <f:selectItem itemLabel="osb." itemValue="osb."/>
                             </h:selectOneMenu>
-                            <p:inputText id="ilosc#{rowStat.index}" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc#{rowStat.index}" value="ilość" /></p:inputText>
-                            <pe:inputNumber id="cena#{rowStat.index}" value="#{row.cena}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
-
-                            <h:selectOneMenu id="podatek#{rowStat.index}" value="#{row.podatek}" title="stawka podatku VAT" style="width: 150px;" >
+                        </p:column>
+                        <p:column headerText="ilość">
+                            <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
+                        </p:column>
+                        <p:column headerText="cena jednostkowa">
+                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
+                        <p:column headerText="stawka podatku VAT">
+                            <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 150px;" >
                                 <f:selectItem itemLabel="23%" itemValue="23"/>
                                 <f:selectItem itemLabel="8%" itemValue="8"/>
                                 <f:selectItem itemLabel="5%" itemValue="5"/>
                                 <f:selectItem itemLabel="0%" itemValue="0"/>
                             </h:selectOneMenu>
-                        </p:panelGrid>
-                    </c:forEach>
+                        </p:column>
+                    </p:dataTable>
                 </p:outputPanel>
                 <br/>
                 <p:outputPanel  style="margin-top: 25px;">

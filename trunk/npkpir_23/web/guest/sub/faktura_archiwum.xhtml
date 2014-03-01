@@ -11,6 +11,8 @@
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
+                <p:separator/>
+                <p:menuitem value="Zaksięguj ponownie" update=":formM:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
             </p:contextMenu>
              <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
     <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
