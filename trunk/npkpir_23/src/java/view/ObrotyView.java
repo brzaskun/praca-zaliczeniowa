@@ -92,6 +92,45 @@ public class ObrotyView implements Serializable{
           return "/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true";
      }
     
+     public String initG() {
+        Msg.msg("i", "pobieram");
+        //dokumenty podatnika za okres od-do
+        obiektDOKmrjsfSelX = new ArrayList<>();
+        //dokumenty podatnika z roku
+        obiektDOKjsfSelRok = new ArrayList<>();
+          if (wpisView.getMiesiacOd() != null) {
+               obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+                obiektDOKmrjsfSelX.clear();
+                String mOd = wpisView.getMiesiacOd();
+                Integer mOdI = Integer.parseInt(mOd);
+                String mDo = wpisView.getMiesiacDo();
+                Integer mDoI = Integer.parseInt(mDo);
+                List<String> zakres = new ArrayList<>();
+                for(int i = mOdI; i <= mDoI; i++){
+                    zakres.add(Mce.getMapamcy().get(i));
+                }
+                for (Dok tmpx : obiektDOKjsfSelRok){
+                    Iterator it;
+                    it = zakres.iterator();
+                    while(it.hasNext()){
+                        String miesiaczakres = (String) it.next();
+                        if (tmpx.getPkpirM().equals(miesiaczakres)) {
+                           
+                            obiektDOKmrjsfSelX.add(tmpx);
+                        }
+                    }
+                }
+                 //sortowanie dokumentów
+                    Collections.sort(obiektDOKmrjsfSelX, new Dokcomparator());
+                //
+                    int nrkol =1;
+                    for(Dok p :obiektDOKmrjsfSelX){
+                         p.setNrWpkpir(nrkol++);
+                    }
+            } 
+          return "/guest/ksiegowaKontrahenci.xhtml?faces-redirect=true";
+     }
+    
       public void aktualizujObrotyX(ActionEvent e) {
         aktualizujGuest();
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");

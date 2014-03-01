@@ -26,7 +26,7 @@
                 <p:panelGrid columns="1">
                         <p:menu style="width: 180px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
-                            <p:menuitem value="obroty w roku"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
+                            <p:menuitem value="obroty w roku" icon="ui-icon-circle-arrow-e" action="#{obrotyView.initG()}" update="@form"/>
                             <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
