@@ -18,10 +18,11 @@
                         <ui:include src="sub/layoutPodatki/west.xhtml"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center">
                                
-                         <p:panel toggleable="true" closable="true" style="width: 1000px;">
+                         <p:panel toggleable="true" closable="true" style="width: 85%;">
                             <f:facet name="header">
-                                <h:outputText value="Strona służy do wyświetlania zestawienia  kwot twoich podatków oraz ZUS w roku podatkowym."/>
-                                <h:outputText value="Kwoty pojawią się po naniesieniu ich na podstronie: płatności podatków, kwot wpłat."/>
+                                <h:outputText value="Strona służy do wyświetlania zestawienia  kwot twoich podatków oraz ZUS w roku podatkowym."/><br/>
+                                <h:outputText value="Kwoty za poszczególne miesiące pojawią się jedynie po uprzednim wybraniu miesiąca
+                                              i naniesieniu na podstronie: `płatności podatków` odpowiednich kwot wpłat."/>
                             </f:facet>
                                 </p:panel>
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
