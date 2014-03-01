@@ -8,17 +8,20 @@
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
             <p:panelGrid columns="3" >
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}"  />
+                    <p:ajax event="change" listener="#{obrotyView.init()}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacOd" value="#{WpisView.miesiacOd}" >
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{obrotyView.init()}"  />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacDo" value="#{WpisView.miesiacDo}">
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
+                    <p:ajax event="change" listener="#{obrotyView.init()}"  />
                 </p:selectOneMenu>
                 </p:panelGrid>
                        <p:panel header="linki">
