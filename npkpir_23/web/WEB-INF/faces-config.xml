@@ -65,6 +65,18 @@
             <from-outcome>gniezaplacone</from-outcome>
             <to-view-id>/guest/ksiegowaNiezaplacone.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gadmin</from-outcome>
+            <to-view-id>/guest/ksiegowaPismoadmin.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gpit</from-outcome>
+            <to-view-id>/guest/ksiegowaPitprzegladaj.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>gvat</from-outcome>
+            <to-view-id>/guest/ksiegowaVatwyslane.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gzobow</from-outcome>
             <to-view-id>/guest/guestZobowiazania.xhtml?faces-redirect=true</to-view-id>

@@ -23,19 +23,30 @@
                     </p:column>
             </p:panelGrid>
             <p:panel header="Tu możesz sprawdzić:">
-                <p:panelGrid columns="1" >
-                    <p:menu style="width: 180px;">
-                        <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="obroty w roku"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="płatności podatków"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="zobowiązania"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
-                        <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="faktury - panel"  outcome="gfaktura" icon="ui-icon-circle-arrow-e"/>
-                    </p:menu> 
-                    <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
-                </p:panelGrid>
+                <p:panelGrid columns="1">
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="obroty w roku"  outcome="gobroty" icon="ui-icon-circle-arrow-e"/>  
+                            <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="płatności podatków"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="zobowiązania"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
+                        </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="PIT-y"  outcome="gpit" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="VAT-y"  outcome="gvat" icon="ui-icon-circle-arrow-e" />
+                        </p:menu>
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="faktury - panel"  outcome="gfaktura" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu> 
+                        <p:menu style="width: 180px;">
+                            <p:menuitem value="uwagi do programu"  outcome="gadmin" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu> 
+                        <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
+                    </p:panelGrid>
 
             </p:panel>
 
