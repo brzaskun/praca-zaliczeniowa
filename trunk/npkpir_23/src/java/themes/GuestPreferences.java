@@ -38,7 +38,7 @@ import view.WpisView;
 @RequestScoped
 public class GuestPreferences implements Serializable {
 
-        private String theme = "glass-x"; //default
+        private String theme = "redmond"; //default
         @Inject private UzDAO uzDAO;
         @ManagedProperty(value="#{WpisView}")
         private WpisView wpisView;

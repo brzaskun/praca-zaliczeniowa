@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-     <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="dlg321" resizable="false">  
+     <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false">  
         <h:form id="formX">
         <p:growl id="messages"/>
         <p:focus for="dkp">
@@ -30,8 +30,8 @@
                             <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                             <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                        </p:selectOneMenu>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form" style="display: none;" onclick="dlg321.hide()"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form" style="float: right;" onclick="dlg321.hide()"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form" style="display: none;" onclick="nowekontosyntetyczne.hide()"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form" style="float: right;" onclick="nowekontosyntetyczne.hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

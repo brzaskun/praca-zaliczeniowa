@@ -10,9 +10,9 @@
     <p:dialog id="dialogpierwszy" header="Plan kont - struktura" widgetVar="pierwszy" 
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
-            <p:contextMenu for="dataList">
-                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg321.show();"/>
-                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg123.show();"/>
+            <p:contextMenu id="contextforplankont" for="dataList">
+                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="nowekontosyntetyczne.show();" />
+                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="nowekontoanalityczne.show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
                 <p:menuitem value="blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form"/>
