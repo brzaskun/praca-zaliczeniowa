@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import comparator.Tabelanbpcomparator;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -38,6 +41,7 @@ public class WalutyViewFK implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     private List<Waluty> pobranewaluty;
     private List<Tabelanbp> pobranekursy;
+    private List<Tabelanbp> pobranekursyRok;
     @Inject
     private Waluty nowawaluta;
 
@@ -50,6 +54,7 @@ public class WalutyViewFK implements Serializable {
     private void init() {
         pobranewaluty = walutyDAOfk.findAll();
         pobranekursy = tabelanbpDAO.findAll();
+        pobranekursyRok = tabelanbpDAO.findKursyRok();
     }
 
     public void dodajnowawalute() {
@@ -69,10 +74,11 @@ public class WalutyViewFK implements Serializable {
         System.out.println("pobierzkursy()");
         String datawstepna;
         Integer numertabeli;
-        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findLast();
+        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
+        Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
         Tabelanbp wiersz = null;
         if (wierszejuzzapisane.size() > 0) {
-            wiersz = wierszejuzzapisane.get(0);
+            wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size()-1);
         }
         if (wiersz == null) {
             datawstepna = "2012-12-31";
@@ -122,5 +128,17 @@ public class WalutyViewFK implements Serializable {
     public void setNowawaluta(Waluty nowawaluta) {
         this.nowawaluta = nowawaluta;
     }
+    
+    
+    public List<Tabelanbp> getPobranekursyRok() {
+        return pobranekursyRok;
+    }
+
+    public void setPobranekursyRok(List<Tabelanbp> pobranekursyRok) {
+        this.pobranekursyRok = pobranekursyRok;
+    }
+    
+    
     //</editor-fold>
+
 }
