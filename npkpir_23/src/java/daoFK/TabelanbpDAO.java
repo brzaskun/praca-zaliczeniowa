@@ -7,9 +7,12 @@ package daoFK;
 import dao.DAO;
 import entityfk.Tabelanbp;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.joda.time.DateTime;
 import session.SessionFacade;
 
 /**
@@ -30,6 +33,26 @@ public class TabelanbpDAO extends DAO implements Serializable {
         try {
             System.out.println("Pobieram Tabelanbp");
             return tabelanbpFacade.findAll(Tabelanbp.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    public  List<Tabelanbp> findKursyRok(){
+        try {
+            System.out.println("Pobieram Tabelanbp Kursy za rok");
+            DateTime dzisiejszadata = new DateTime();
+            String rok = String.valueOf(dzisiejszadata.getYear());
+            List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
+            List<Tabelanbp> nowalista = new ArrayList<>();
+            Iterator it = kursyrok.iterator();
+            while (it.hasNext()) {
+                Tabelanbp p = (Tabelanbp) it.next();
+                String rokp = p.getDatatabeli().substring(0,4);
+                if (rokp.equals(rok)) {
+                    nowalista.add(p);
+                }
+            }
+            return nowalista;
         } catch (Exception e) {
             return null;
         }
