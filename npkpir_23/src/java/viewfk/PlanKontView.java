@@ -229,14 +229,16 @@ public class PlanKontView implements Serializable {
             Konto konto = (Konto) selectednode.getData();
             if (konto.isBlokada()==false) {
                 konto.setBlokada(true);
-                Msg.msg("e", "Zabezpieczono konto przed edycją.");
+                kontoDAO.edit(konto);
+                Msg.msg("w", "Zabezpieczono konto przed edycją.");
                 return;
             } else if (konto.getBoWn()== 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada()==true){
                 konto.setBlokada(false);
-                Msg.msg("e", "Odblokowano edycję konta.");
+                kontoDAO.edit(konto);
+                Msg.msg("w", "Odblokowano edycję konta.");
             }
         } else {
-            Msg.msg("e", "Nie wybrano konta", "formX:messages");
+            Msg.msg("f", "Nie wybrano konta", "formX:messages");
         }
     }
 
