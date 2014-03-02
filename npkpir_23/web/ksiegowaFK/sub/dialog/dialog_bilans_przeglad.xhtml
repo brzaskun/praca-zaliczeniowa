@@ -10,11 +10,7 @@
     <p:dialog id="dialogpierwszy" header="Bilans otwarcia - przegląd sald" widgetVar="pierwszy" 
               resizable="false" onShow="ustawdialog('dialogpierwszy','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="formbilans">
-            <p:contextMenu for="dataList">
-<!--                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg321.show();"/>
-                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="dlg123.show();"/>
-                <p:menuitem value="Usuń" actionListener="{bilansPodgladView.usun()}" icon="ui-icon-trash" update=":form"/>-->
-            </p:contextMenu>
+
             <script>
 
                     document.onkeypress = wcisnij;
@@ -66,7 +62,7 @@
                     <p:column headerText="zablokowane" style="width: 100px;">
                         <h:outputText value="#{loop.blokada eq true ? 'zablokowane' : null}" /> 
                     </p:column>
-                </p:treeTable>>
+                </p:treeTable>
             </p:panelGrid>
            
         </h:form>

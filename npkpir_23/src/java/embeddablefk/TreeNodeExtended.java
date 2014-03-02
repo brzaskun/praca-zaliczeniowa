@@ -139,6 +139,23 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             finallNodes.remove(this);
         }
     }
+    
+    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
+    public void getFinallChildrenData(ArrayList<TreeNodeExtended> finallNodes, List<Object> listazwrotna) {
+        List<TreeNode> children = this.getChildren();
+        boolean madzieci = this.getChildCount() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : children) {
+                finallNodes.add((TreeNodeExtended) o);
+                ((TreeNodeExtended) o).getFinallChildrenData(finallNodes, listazwrotna);
+            }
+            finallNodes.remove(this);
+        } else {
+          listazwrotna.add(this.getData());
+        }
+    }
+    
+    
     //ustawia paramentr display na true tylko dla ostatnich elementow
     public void displayOnlyFinallChildren() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();

@@ -17,6 +17,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
@@ -188,19 +189,39 @@ public class PlanKontView implements Serializable {
 
     public void usun() {
         if (selectednode != null) {
-            if (((Konto) selectednode.getData()).isBlokada()==true) {
+            Konto zawartosc = (Konto) selectednode.getData();
+            if (zawartosc.isBlokada()==true) {
                 Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
                 return;
-            } else if (((Konto) selectednode.getData()).isMapotomkow()==true) {
+            } else if (zawartosc.isMapotomkow()==true) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 kontoDAO.destroy(selectednode.getData());
+                boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc);
+                if (!sadzieci) {
+                    Konto konto = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                    konto.setMapotomkow(false);
+                    kontoDAO.edit(konto);
+                }
                 odswiezroot();
                 Msg.msg("i", "Usuwam konto", "formX:messages");
             }
         } else {
             Msg.msg("e", "Nie wybrano konta", "formX:messages");
         }
+    }
+    
+    private boolean sprawdzczymacierzystymapotomne(Konto konto) {
+        int macierzyste = konto.getMacierzysty();
+        List<Object> finallChildrenData = new ArrayList<>();
+        root.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
+        finallChildrenData.remove(konto);
+        for (Object p: finallChildrenData) {
+            if (((Konto) p).getMacierzysty()==macierzyste) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public void zablokujkonto() {
@@ -247,7 +268,8 @@ public class PlanKontView implements Serializable {
 
     public void selrow(NodeSelectEvent e) {
         TreeNode p = e.getTreeNode();
-        Msg.msg("i", "Wybrano: " + ((Konto) p.getData()).getPelnynumer() + " " + ((Konto) p.getData()).getNazwapelna());
+        Konto zawartosc = (Konto) p.getData();
+        Msg.msg("i", "Wybrano: " + zawartosc.getPelnynumer() + " " + zawartosc.getNazwapelna());
     }
 
     public List<Konto> getWykazkont() {
@@ -320,4 +342,7 @@ public class PlanKontView implements Serializable {
     public void setRoot(TreeNodeExtended root) {
         this.root = root;
     }
+
+  
+    
 }

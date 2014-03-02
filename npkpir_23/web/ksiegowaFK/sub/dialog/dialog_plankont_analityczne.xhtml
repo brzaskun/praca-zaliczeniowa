@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-    <p:dialog header="Wpisz dane konta analitycznego:" widgetVar="dlg123" resizable="false">  
+    <p:dialog header="Wpisz dane konta analitycznego:" widgetVar="nowekontoanalityczne" resizable="false">  
         <h:form id="formY">  
         <p:focus for="dkp">
             <p:panelGrid id="dkp" columns="2" style="width: 400px;">
@@ -15,8 +15,8 @@
                         <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                         <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form" style="display: none;" oncomplete="dlg123.hide();"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form" style="float: right;" oncomplete="dlg123.hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form" style="display: none;" oncomplete="nowekontoanalityczne.hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form" style="float: right;" oncomplete="nowekontoanalityczne.hide();"/>
             </p:panelGrid>
             </p:focus>
     </h:form>  
