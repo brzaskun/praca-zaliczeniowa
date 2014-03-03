@@ -85,6 +85,14 @@
             <from-outcome>gzobow</from-outcome>
             <to-view-id>/guest/guestZobowiazania.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>gsrodki</from-outcome>
+            <to-view-id>/guest/ksiegowaSrodkiRokAkt.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+          <navigation-case>
+            <from-outcome>ginwestycje</from-outcome>
+            <to-view-id>/guest/ksiegowaInwestycje.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>

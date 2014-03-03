@@ -9,14 +9,6 @@
     <p:tabView id="akordeon">
         <p:tab title="rozpoczęte">
           
-            <p:panelGrid columns="4" style="margin-left: 65%;">
-                <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
-                    <f:selectItems value="#{Mce.mceList}"/>
-                </h:selectOneMenu>
-                <h:outputText value="rok zakończenia"/><h:selectOneMenu value="#{inwestycjeView.rokzakonczenia}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                </h:selectOneMenu>
-            </p:panelGrid>
             <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1600px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
@@ -127,41 +119,12 @@
                     </f:facet>
                      <p:commandButton value="Drukuj" actionListener="#{pdfInwestycja.drukujinwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
                 </p:column>
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <p:commandButton value="Zakończ" actionListener="#{inwestycjeView.zamknijinwestycje(item)}" icon="ui-icon-locked" update=":form:akordeon:dataList :form:akordeon:zakonczoneList" style="width: 90px;"/>
-                </p:column>
-                <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <p:commandButton value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":form:akordeon:dataList" style="width: 90px;"/>
-                </p:column>
+              
                 
             </p:dataTable>
+           
         </p:tab>
 
-        <p:tab id="nowa" title="nowa">
-            <p:focus for="nowapanel">
-                <p:panelGrid id="nowapanel" columns="2">
-                    <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
-                    <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" required="true" style="width: 70px;">
-                        <f:selectItems value="#{Roki.rokiList}"/>
-                    </p:selectOneMenu>
-                    <h:outputLabel value="Mc rozpoczecia:" for="mcrozpoczecia" />
-                    <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" required="true"  style="width: 70px;">
-                        <f:selectItems value="#{Mce.mceList}"/>
-                    </p:selectOneMenu>
-                    <h:outputLabel value="Skrót:" for="skrot" />
-                    <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" />
-                    <h:outputLabel value="Opis:" for="opis" />
-                    <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="Opis"/>
-                </p:panelGrid>
-            </p:focus>
-            <p:commandButton value="Dodaj" actionListener="#{inwestycjeView.dodaj}" update="@form :form:akordeon:dataList"/>
-        </p:tab>
         <p:tab title="zakończone">
             <p:contextMenu for="zakonczoneList">
             </p:contextMenu>
@@ -275,12 +238,7 @@
                     </f:facet>
                      <p:commandButton value="Drukuj" actionListener="#{pdfInwestycja.drukujinwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
                 </p:column>
-                 <p:column style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                     <p:commandButton value="Otwórz" actionListener="#{inwestycjeView.otworzinwestycje(item)}" icon="ui-icon-unlocked" update=":form:akordeon:dataList :form:akordeon:zakonczoneList" style="width: 90px;"/>
-                </p:column>
+                
             </p:dataTable>
         </p:tab>
     </p:tabView>
