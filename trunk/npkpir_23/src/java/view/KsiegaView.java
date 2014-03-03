@@ -30,6 +30,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -273,6 +274,24 @@ public class KsiegaView implements Serializable {
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
         wpisView.findWpis();
+    }
+    
+     public void aktualizujGuest(String strona) throws IOException {
+         lista = new ArrayList<>();
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
+    }
+       
+      private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
