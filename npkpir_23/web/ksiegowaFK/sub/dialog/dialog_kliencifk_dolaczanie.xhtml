@@ -5,11 +5,30 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialog_kliencifk_dolaczanie" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_dolaczanie"  
+    <p:dialog id="dialog_kliencifk_dolaczanie" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_dolaczanie" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_dolaczanie');" >
        
-        <h:form id="klienty1">
-            
+        <h:form id="kliencifk">
+            <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
+                                widgetVar="dialogklient" style="width: 300px;" onkeyup="sprawdzczybrakklienta();"
+                                required="true" requiredMessage="Pole klienta nie może być puste" >
+                    <f:ajax event="blur" execute="@this"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane kontrahenta"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna" value="#{p.npelna}" />  
+                            <h:outputText value="NIP: " />  
+                            <h:outputText id="nip" value="#{p.nip}" />  
+                            <h:outputText value="Adres " />  
+                            <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
         </h:form>
     </p:dialog>
 </ui:composition>
