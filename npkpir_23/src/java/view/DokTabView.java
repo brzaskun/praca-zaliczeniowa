@@ -336,7 +336,9 @@ public class DokTabView implements Serializable {
   
      public void aktualizujGuest(String strona) throws IOException {
         aktualizujGuest();
-        FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
   
