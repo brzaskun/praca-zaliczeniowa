@@ -101,6 +101,7 @@ public class WalutyViewFK implements Serializable {
         for (Tabelanbp p : wierszepobranezNBP) {
             tabelanbpDAO.dodaj(p);
             pobranekursy.add(p);
+            pobranekursyRok.add(p);
         }
     }
 

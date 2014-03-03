@@ -4,15 +4,11 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogkursy" header="Zestawienie kursów walut" widgetVar="wykazkursow"  
               resizable="false"  onShow="ustawdialog('dialogkursy','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursy');" >
-        <h:form>
-                <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
-                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
-                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                </p:ajaxStatus>
-        </h:form>
+        <bcf:ajaxs/>
         <h:form id="wprowadzonekursy">
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.pobranekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych kursow" 
                          scrollable="true" style="width: 855px;" scrollHeight="550" widgetVar="dataTablekursy">
