@@ -10,3 +10,14 @@ var sprawdzczybrakklienta = function () {
     }
 };
 
+var skopiujdanenowegoklientafk = function () {
+    dlgwprowadzanieklienta.hide();
+    $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formX:nazwaPole').value);
+    $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formX:nazwaPole').value);
+    $('#kliencifk\\:wyborkontrahenta_input').focus();
+    $('#kliencifk\\:wyborkontrahenta_input').select();
+    var szukana = document.getElementById('formX:nazwaPole').value;
+    dialogklient.search(szukana);
+
+};
+

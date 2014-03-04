@@ -78,12 +78,44 @@ public class KlView implements Serializable{
         poszukajnip();
         klDAO.dodaj(selected);
         kl1.add(selected);
-        
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
         } catch (Exception e) {
         Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
+        }
+         
+         
+   }
+    
+    public void dodajKlientafk(){
+      try {
+        if(selected.getNip().equals("")){
+            wygenerujnip();
+        }
+        //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko
+//        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
+//        formatka = formatka.concat(selected.getNpelna().substring(1).toLowerCase());
+//        selected.setNpelna(formatka);
+        String formatka = selected.getNskrocona().toUpperCase();
+        selected.setNskrocona(formatka);
+        formatka = selected.getUlica().substring(0, 1).toUpperCase();
+        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
+        selected.setUlica(formatka);
+        try {
+            selected.getKrajnazwa();
+        } catch (Exception e){
+            selected.setKrajnazwa("Polska");
+        }
+        String kraj = selected.getKrajnazwa();
+        String symbol = ps1.getWykazPanstwSX().get(kraj);
+        selected.setKrajkod(symbol);
+        poszukajnip();
+        klDAO.dodaj(selected);
+        kl1.add(selected);
+        Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
+        } catch (Exception e) {
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje");
         }
          
          
