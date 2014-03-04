@@ -51,6 +51,11 @@ public class AdminMailView implements Serializable {
         int month = dt.getMonthOfYear();
         String mc = Mce.getMapamcy().get(month);
         List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+        if (wykazfaktur.size() == 0) {
+            month = dt.getMonthOfYear();
+            mc = Mce.getMapamcy().get(--month);
+            wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+        }
         for (Fakturywystokresowe p : wykazfaktur) {
             klientList.add(p.getDokument().getKontrahent());
         }
