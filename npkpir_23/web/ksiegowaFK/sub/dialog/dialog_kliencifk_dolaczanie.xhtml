@@ -11,10 +11,11 @@
         <h:form id="kliencifk">
             <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                widgetVar="dialogklient" style="width: 300px;" onkeyup="sprawdzczybrakklienta();"
-                                required="true" requiredMessage="Pole klienta nie może być puste" >
-                    <f:ajax event="blur" execute="@this"/>
+                                minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
+                                widgetVar="dialogklient" style="width: 500px;" onkeyup="sprawdzczybrakklienta();"
+                                required="true" requiredMessage="Pole klienta nie może być puste" onfocus="$('#kliencifk\\:wyborkontrahenta_input').width('400px');" >
+                <f:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFK}"/>
+                <p:ajax event="blur" update=":kontoform"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
@@ -29,6 +30,24 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
+            <p:commandButton value="Zamknij"/>
         </h:form>
+        <h:form id="kontoform">
+            <p:dataTable id="infokonta" value="#{kliencifkView.kliencifk}" var="wpis"  rendered="#{kliencifkView.kliencifk.nrkonta eq null ? false : true}"
+                         style="margin-top: 2%;">
+                <f:facet name="header">
+                    <h:outputText value="Klient ma przyporządkowane konto"/>
+                </f:facet>
+            <p:column headerText="nazwa">
+                <h:outputText value="#{wpis.nazwa}"/>
+            </p:column>
+            <p:column headerText="nip">
+                <h:outputText value="#{wpis.nip}"/>
+            </p:column>
+            <p:column headerText="nrkonta">
+                <h:outputText value="#{wpis.nrkonta}"/>
+            </p:column>
+        </p:dataTable>
+            </h:form>
     </p:dialog>
 </ui:composition>
