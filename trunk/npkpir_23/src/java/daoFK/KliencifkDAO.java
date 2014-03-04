@@ -23,6 +23,9 @@ public class KliencifkDAO extends DAO implements Serializable{
         super(Kliencifk.class);
     }
     
+    public Kliencifk znajdzkontofk(String nip, String podatniknip) {
+        return (Kliencifk) sessionFacade.znajdzkontofk(nip, podatniknip);
+    }
     
     
 }

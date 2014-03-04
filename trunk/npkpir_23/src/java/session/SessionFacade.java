@@ -39,6 +39,7 @@ import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
@@ -697,6 +698,10 @@ public class SessionFacade<T> {
 
     public List<Pismoadmin> findPismoadminBiezace() {
         return em.createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList();
+    }
+
+    public Object znajdzkontofk(String nip, String podatniknip) {
+        return em.createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
     }
 
       
