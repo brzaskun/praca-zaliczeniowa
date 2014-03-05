@@ -813,6 +813,7 @@ public class PodatnikView implements Serializable{
             strataRozliczonaWDanymRoku = Math.round(p.getStrata().doubleValue() * 100.0) / 100.0;
             wynikzarok = Math.round(p.getWynik().doubleValue() * 100.0) / 100.0;
          }
+         try {
          //zerowanie strat w przypadku codniecia sie niezbedne
          for (Straty1 r : selectedStrata.getStratyzlatub1()) {
              List<Straty1.Wykorzystanie> wykorzystanie = r.getWykorzystanieBiezace();
@@ -824,6 +825,7 @@ public class PodatnikView implements Serializable{
                     }
                 }
          }
+         } catch (Exception e){}
          //dodawanie straty jak nie bylo zysku
          if (wynikzarok < 0) {
              Msg.msg("i", "W roku poprzednim była strata. Dopisuję stratę do listy");
@@ -901,10 +903,12 @@ public class PodatnikView implements Serializable{
          }
          for (Straty1 r : selectedStrata.getStratyzlatub1()) {
              double sumabiezace = 0.0;
+             try {
              for (Straty1.Wykorzystanie s : r.getWykorzystanieBiezace()) {
                  sumabiezace += s.getKwotawykorzystania();
                  sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
              }
+             } catch (Exception e){}
              r.setSumabiezace(String.valueOf(sumabiezace));
              double kwota = Double.parseDouble(r.getKwota());
              double uprzednio = Double.parseDouble(r.getWykorzystano());
@@ -919,12 +923,14 @@ public class PodatnikView implements Serializable{
     private double wyliczStrataZostalo(Straty1 tmp) {
         double zostalo = 0.0;
             double sumabiezace = 0.0;
+             try {
              for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
                  if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokUprzedni()) {
                     sumabiezace += s.getKwotawykorzystania();
                     sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
                  }
              }
+             } catch (Exception e){}
              double kwota = Double.parseDouble(tmp.getKwota());
              double uprzednio = Double.parseDouble(tmp.getWykorzystano());
              double biezace = sumabiezace;
