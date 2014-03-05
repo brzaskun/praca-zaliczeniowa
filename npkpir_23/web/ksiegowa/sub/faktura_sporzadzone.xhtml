@@ -21,6 +21,9 @@
             <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
                 <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText><h:outputText value="zł  "/><br/><br/>
+            <p:panel header="dołącz wiadomość do maila">
+                <h:inputText value="#{mailOther.wiadomoscdodatkowa}" style="width: 800px;"/>
+            </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
                 <f:facet name="header">  
