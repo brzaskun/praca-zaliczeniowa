@@ -6,7 +6,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ck="http://code.google.com/ck-jsf-editor"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="wprowadź treść">
             <h:form id="formmail">
@@ -40,12 +41,7 @@
             </p:dataTable>
         </p:tab>
         <p:tab title="wyslij maila">
-            <h:form>
-                <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px">
-                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax_loaderc.gif"/></f:facet>
-                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                </p:ajaxStatus>
-            </h:form>
+            <bcf:ajaxs/>
             <h:form id="wysylanie">
                 <p:panelGrid columns="1">
                     <p:column>
