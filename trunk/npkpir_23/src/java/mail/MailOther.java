@@ -73,6 +73,8 @@ public class MailOther extends MailSetUp implements Serializable{
                   Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
               }
 }
+     private String wiadomoscdodatkowa;
+     
      public void faktura() {
        try {
         pdfFaktura.drukujmail();
@@ -90,8 +92,7 @@ public class MailOther extends MailSetUp implements Serializable{
             mbp1.setText("Witam"
                     + "\n\n"+"W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy."
                     + "\nAdres mailowy, z którego została wysłana nie służy do normalnej korespondencji."
-                    + "\n\nPonieważ program jest jeszcze w fazie testowania, może się zdarzyć, że dokument będzie zawierał błędy."
-                    + "\nProsimy o wyrozumiałość i o informację zwrotną w takim wypadku na adres: info@taxman.biz.pl."
+                    + "\n\n" + wiadomoscdodatkowa
                     + "\n\nZ poważaniem"
                     + "\n\n"+podpisfaktury
                     + "\nBiuro Rachunkowe Taxman"
@@ -364,6 +365,14 @@ public class MailOther extends MailSetUp implements Serializable{
 
     public void setKlientfile(String klientfile) {
         this.klientfile = klientfile;
+    }
+
+    public String getWiadomoscdodatkowa() {
+        return wiadomoscdodatkowa;
+    }
+
+    public void setWiadomoscdodatkowa(String wiadomoscdodatkowa) {
+        this.wiadomoscdodatkowa = wiadomoscdodatkowa;
     }
 
   
