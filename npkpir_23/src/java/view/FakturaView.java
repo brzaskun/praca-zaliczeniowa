@@ -274,6 +274,7 @@ public class FakturaView implements Serializable {
             double nettop = nowacena - podatek;
             netto += nettop;
             p.setNetto(nettop);
+            p.setCena(p.getNetto()/p.getIlosc());
             EVatwpis eVatwpis = new EVatwpis();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
             for (EVatwpis r : el) {
@@ -327,6 +328,18 @@ public class FakturaView implements Serializable {
         }
     }
 
+    public void wymusdestroysporzadzone() {
+        for (Faktura p : gosciwybral) {
+            try {
+                fakturaDAO.destroy(p);
+                faktury.remove(p);
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+            } catch (Exception e) {
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+            }
+        }
+    }
+    
     public void destroyarchiwalne() {
         for (Faktura p : gosciwybral) {
             try {
