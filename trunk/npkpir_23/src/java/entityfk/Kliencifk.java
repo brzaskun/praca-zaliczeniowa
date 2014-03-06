@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nip", "podatniknip", "nrkonta"})})
+    @UniqueConstraint(columnNames = {"podatniknip", "nrkonta"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kliencifk.findAll", query = "SELECT k FROM Kliencifk k"),
@@ -44,36 +44,36 @@ public class Kliencifk implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "lp", nullable = false)
     private Integer lp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(nullable = false, length = 15)
+    @Column(name = "nip", nullable = false, length = 15)
     private String nip;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "nazwa", nullable = false, length = 255)
     private String nazwa;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "podatniknip", nullable = false, length = 255)
     private String podatniknip;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "podatniknazwa", nullable = false, length = 255)
     private String podatniknazwa;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
-    @Column(nullable = false, length = 5)
+    @Column(name = "nrkonta", nullable = false, length = 5)
     private String nrkonta;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "aktywny", nullable = false)
     private boolean aktywny;
 
     public Kliencifk() {
