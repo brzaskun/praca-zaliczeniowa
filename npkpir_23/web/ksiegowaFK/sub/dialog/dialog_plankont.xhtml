@@ -13,6 +13,7 @@
             <p:contextMenu id="contextforplankont" for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="nowekontosyntetyczne.show();" />
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="nowekontoanalityczne.show();" />
+                <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="nowekontoslownik.show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form"/>
