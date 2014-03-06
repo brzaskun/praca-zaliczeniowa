@@ -451,6 +451,7 @@ public class DokView implements Serializable {
         }
         try {
             if (skrot.equals("on")) {
+                sumbrutto = 0.0;
                 for (KwotaKolumna p : nettokolumna) {
                     sumbrutto += p.getNetto();
                 }
@@ -1693,16 +1694,24 @@ public class DokView implements Serializable {
             nettokolumna.add(p);
         }
         ewidencjaAddwiad.clear();;
+        sumbrutto = 0.0;
         int j = 1;
-        for (EVatwpis s : selDokument.getEwidencjaVAT()) {
-            EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
-            ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
-            ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
-            ewidencjaAddwiad.setNetto(s.getNetto());
-            ewidencjaAddwiad.setVat(s.getVat());
-            ewidencjaAddwiad.setBrutto(s.getNetto()+s.getVat());
-            ewidencjaAddwiad.setLp(j++);
-            this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+        try {//trzeba ignorowac w przypadku dokumentow prostych
+            for (EVatwpis s : selDokument.getEwidencjaVAT()) {
+                EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
+                ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
+                ewidencjaAddwiad.setNetto(s.getNetto());
+                ewidencjaAddwiad.setVat(s.getVat());
+                ewidencjaAddwiad.setBrutto(s.getNetto() + s.getVat());
+                ewidencjaAddwiad.setLp(j++);
+                sumbrutto += s.getNetto() + s.getVat();
+                this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+            }
+        } catch (Exception e) {
+            for (KwotaKolumna p : nettokolumna) {
+                sumbrutto += p.getNetto();
+            }
         }
         renderujwyszukiwarke(rodzajdok);
         renderujtabele(rodzajdok);
