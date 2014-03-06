@@ -31,29 +31,60 @@ public class KliencifkView implements Serializable{
     @Inject private KlienciDAO klienciDAO;
     @Inject private Klienci wybranyklient;
     private List<Klienci> listawszystkichklientow;
+    private List<Kliencifk> listawszystkichklientowFk;
     @Inject private Kliencifk kliencifk;
+    @Inject private Kliencifk nowekliencifk;
     @Inject private KliencifkDAO kliencifkDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
     public KliencifkView() {
         listawszystkichklientow = new ArrayList<>();
+        listawszystkichklientowFk = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         listawszystkichklientow = klienciDAO.findAll();
+        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient("8511005008");
     }
     
     public void pobieraniekontaFK(){
+        kliencifk = new Kliencifk();
+        nowekliencifk = new Kliencifk();
         Msg.msg("Pobieram kontofk");
         try {
             kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), "8511005008");
         } catch (Exception e) {
             //tworzenie nowego
+            nowekliencifk.setNazwa(wybranyklient.getNpelna());
+            nowekliencifk.setNip(wybranyklient.getNip());
+            nowekliencifk.setPodatniknazwa("Podatnik");
+            nowekliencifk.setPodatniknip("8511005008");
+            nowekliencifk.setNrkonta(pobierznastepnynumer());
         }
     }
     
+    public void przyporzadkujdokonta(){
+        try {
+            klienciDAO.dodaj(nowekliencifk);
+            Msg.msg("Przyporządkowano klienta do konta");
+        } catch (Exception e) {
+            Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
+        }
+        kliencifk = new Kliencifk();
+        nowekliencifk = new Kliencifk();
+    }
+
+    private String pobierznastepnynumer() {
+        try {
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient("8511005008");
+            return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size()-1).getNrkonta())+1);
+        } catch (Exception e) {
+            return "1";
+        }
+    }
+
 
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
@@ -87,6 +118,23 @@ public class KliencifkView implements Serializable{
         this.kliencifk = kliencifk;
     }
 
+    public Kliencifk getNowekliencifk() {
+        return nowekliencifk;
+    }
+
+    public void setNowekliencifk(Kliencifk nowekliencifk) {
+        this.nowekliencifk = nowekliencifk;
+    }
+
+    public List<Kliencifk> getListawszystkichklientowFk() {
+        return listawszystkichklientowFk;
+    }
+
+    public void setListawszystkichklientowFk(List<Kliencifk> listawszystkichklientowFk) {
+        this.listawszystkichklientowFk = listawszystkichklientowFk;
+    }
+
+    
     
     
     

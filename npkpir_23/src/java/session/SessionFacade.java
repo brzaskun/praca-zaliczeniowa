@@ -704,7 +704,9 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
     }
 
-      
+    public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
+        return em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
+    } 
   
   
 }
