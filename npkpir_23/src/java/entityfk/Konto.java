@@ -136,10 +136,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "blokada")
     private boolean blokada;
+    @Basic(optional = false)
+    @Column(name = "slownikowe")
+    private boolean slownikowe;
     @OneToMany(mappedBy = "kontoid")
     private List<Rozrachunekfk> rozrachunekfkList;
 
     public Konto() {
+        this.slownikowe = false;
     }
 
     public Konto(Integer id) {
@@ -162,6 +166,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.rok = rok;
         this.boWn = 0.0;
         this.boMa = 0.0;
+        this.slownikowe = false;
     }   
    
 
@@ -338,6 +343,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setBlokada(boolean blokada) {
         this.blokada = blokada;
     }
+
+    public boolean isSlownikowe() {
+        return slownikowe;
+    }
+
+    public void setSlownikowe(boolean slownikowe) {
+        this.slownikowe = slownikowe;
+    }
+    
     
     
     
