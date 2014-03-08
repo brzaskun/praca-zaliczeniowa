@@ -65,7 +65,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String podatnik;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
+    @Size(min = 1, max = 5)
     @Column(name = "nrkonta")
     private String nrkonta;
     @Basic(optional = false)

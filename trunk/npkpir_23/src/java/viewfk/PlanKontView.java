@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beans.PlanKontBean;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -96,69 +97,84 @@ public class PlanKontView implements Serializable {
     }
 
     public void dodaj() {
-        Konto selected = (Konto) selectednode.getData();
+        Konto kontomacierzyste = (Konto) selectednode.getData();
         if (nowe.getBilansowewynikowe() != null) {
-            nowe.setSyntetyczne("syntetyczne");
-        } else {
-            if (selected.isBlokada() == false || selected.isMapotomkow() == true) {
-                ArrayList<Konto> lista = new ArrayList<>();
-                wykazkont = kontoDAO.findAll();
-                for (Konto p : wykazkont) {
-                    if (p.getMacierzyste().equals(selected.getPelnynumer())) {
-                        lista.add(p);
-                    }
-                }
-                if (lista.size() > 0) {
-                    nowe.setNrkonta(String.valueOf(Integer.parseInt(lista.get(lista.size() - 1).getNrkonta()) + 1));
-                } else {
-                    nowe.setNrkonta("1");
-                }
-                nowe.setSyntetyczne("analityczne");
-                nowe.setBilansowewynikowe(selected.getBilansowewynikowe());
-                nowe.setZwyklerozrachszczegolne(selected.getZwyklerozrachszczegolne());
+            int wynikdodaniakonta = PlanKontBean.dodajsyntetyczne(nowe, kontomacierzyste, kontoDAO);
+            if (wynikdodaniakonta == 0) {
+                nowe = new Konto();
+                odswiezroot();
+                Msg.msg("i", "Dodaje konto", "formX:messages");
             } else {
-                Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
-                return;
+                nowe = new Konto();
+                Msg.msg("e", "Konto o takim numerze juz istnieje!", "formX:messages");
             }
-        }
-        System.out.println("Dodaje konto");
-        nowe.setPodatnik("Testowy");
-        nowe.setRok(2014);
-        //dla syntetycznego informacja jest pusta a dla analitycznego bierzekonto
-        if (nowe.getSyntetyczne().equals("syntetyczne")) {
-            nowe.setMacierzyste("0");
         } else {
-            nowe.setMacierzyste(selected.getPelnynumer());
-            nowe.setMacierzysty(selected.getLp());
-            //zaznacza w macierzystym ze sa potomkowie
-            selected.setBlokada(true);
-            selected.setMapotomkow(true);
-            kontoDAO.edit(selected);
-        }
-        if (nowe.getMacierzyste().equals("0")) {
-            nowe.setLevel(0);
-            nowe.setMacierzysty(0);
-        } else {
-            int i = 1;
-            i += StringUtils.countMatches(nowe.getMacierzyste(), "-");
-            nowe.setLevel(i);
-        }
-        nowe.setMapotomkow(false);
-        obliczpelnynumerkonta();
-        if (znajdzduplikat() == 0) {
-            kontoDAO.dodaj(nowe);
-            nowe = new Konto();
-            odswiezroot();
-            //tu trzeba zrobic zeby dodawac do istniejacych
-            Msg.msg("i", "Dodaje konto", "formX:messages");
-        } else {
-            Msg.msg("e", "Konto o takim numerze juz istnieje!", "formX:messages");
-            nowe = new Konto();
+            if (nowe.getNrkonta().equals("kontr")) {
+                nowe.setNazwapelna("Słownik kontrahenci");
+                nowe.setNazwaskrocona("Kontrahenci");
+                nowe.setSyntetyczne("analityczne");
+                nowe.setBilansowewynikowe(kontomacierzyste.getBilansowewynikowe());
+                nowe.setZwyklerozrachszczegolne(kontomacierzyste.getZwyklerozrachszczegolne());
+                nowe.setBlokada(true);
+                nowe.setMapotomkow(false);
+            } else {
+                if (kontomacierzyste.isBlokada() == false || kontomacierzyste.isMapotomkow() == true) {
+//                    ArrayList<Konto> lista = new ArrayList<>();
+//                    wykazkont = kontoDAO.findAll();
+//                    for (Konto p : wykazkont) {
+//                        if (p.getMacierzyste().equals(kontomacierzyste.getPelnynumer())) {
+//                            lista.add(p);
+//                        }
+//                    }
+//                    if (lista.size() > 0) {
+//                        nowe.setNrkonta(String.valueOf(Integer.parseInt(lista.get(lista.size() - 1).getNrkonta()) + 1));
+//                    } else {
+//                        nowe.setNrkonta("1");
+//                    }
+//                    nowe.setSyntetyczne("analityczne");
+//                    nowe.setBilansowewynikowe(kontomacierzyste.getBilansowewynikowe());
+//                    nowe.setZwyklerozrachszczegolne(kontomacierzyste.getZwyklerozrachszczegolne());
+                } else {
+                    Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
+                    return;
+                }
+            }
+//            System.out.println("Dodaje konto");
+//            nowe.setPodatnik("Testowy");
+//            nowe.setRok(2014);
+            //dla syntetycznego informacja jest pusta a dla analitycznego bierzekonto
+            if (nowe.getSyntetyczne().equals("syntetyczne")) {
+                nowe.setMacierzyste("0");
+            } else {
+//                nowe.setMacierzyste(kontomacierzyste.getPelnynumer());
+//                nowe.setMacierzysty(kontomacierzyste.getLp());
+                //zaznacza w macierzystym ze sa potomkowie
+                kontomacierzyste.setBlokada(true);
+                kontomacierzyste.setMapotomkow(true);
+                kontoDAO.edit(kontomacierzyste);
+            }
+            if (nowe.getMacierzyste().equals("0")) {
+                nowe.setLevel(0);
+                nowe.setMacierzysty(0);
+            } else {
+//                int i = 1;
+//                i += StringUtils.countMatches(nowe.getMacierzyste(), "-");
+//                nowe.setLevel(i);
+            }
+            nowe.setMapotomkow(false);
+            obliczpelnynumerkonta();
+            if (znajdzduplikat() == 0) {
+                kontoDAO.dodaj(nowe);
+                nowe = new Konto();
+                odswiezroot();
+                Msg.msg("i", "Dodaje konto", "formX:messages");
+            } else {
+                Msg.msg("e", "Konto o takim numerze juz istnieje!", "formX:messages");
+                nowe = new Konto();
+            }
         }
 
     }
-
-    ;
     
     private void odswiezroot() {
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
