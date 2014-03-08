@@ -5,6 +5,7 @@
 package viewfk;
 
 import beans.PlanKontBean;
+import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -39,6 +40,8 @@ public class PlanKontView implements Serializable {
     private Konto nowe;
     @Inject
     private KontoDAOfk kontoDAO;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
 
@@ -103,79 +106,62 @@ public class PlanKontView implements Serializable {
             if (wynikdodaniakonta == 0) {
                 nowe = new Konto();
                 odswiezroot();
-                Msg.msg("i", "Dodaje konto", "formX:messages");
+                Msg.msg("i", "Dodano konto syntetyczne", "formX:messages");
             } else {
                 nowe = new Konto();
-                Msg.msg("e", "Konto o takim numerze juz istnieje!", "formX:messages");
+                Msg.msg("e", "Konto syntetyczne o takim numerze juz istnieje!", "formX:messages");
+                return;
             }
         } else {
-            if (nowe.getNrkonta().equals("kontr")) {
-                nowe.setNazwapelna("Słownik kontrahenci");
-                nowe.setNazwaskrocona("Kontrahenci");
-                nowe.setSyntetyczne("analityczne");
-                nowe.setBilansowewynikowe(kontomacierzyste.getBilansowewynikowe());
-                nowe.setZwyklerozrachszczegolne(kontomacierzyste.getZwyklerozrachszczegolne());
-                nowe.setBlokada(true);
-                nowe.setMapotomkow(false);
-            } else {
-                if (kontomacierzyste.isBlokada() == false || kontomacierzyste.isMapotomkow() == true) {
-//                    ArrayList<Konto> lista = new ArrayList<>();
-//                    wykazkont = kontoDAO.findAll();
-//                    for (Konto p : wykazkont) {
-//                        if (p.getMacierzyste().equals(kontomacierzyste.getPelnynumer())) {
-//                            lista.add(p);
-//                        }
-//                    }
-//                    if (lista.size() > 0) {
-//                        nowe.setNrkonta(String.valueOf(Integer.parseInt(lista.get(lista.size() - 1).getNrkonta()) + 1));
-//                    } else {
-//                        nowe.setNrkonta("1");
-//                    }
-//                    nowe.setSyntetyczne("analityczne");
-//                    nowe.setBilansowewynikowe(kontomacierzyste.getBilansowewynikowe());
-//                    nowe.setZwyklerozrachszczegolne(kontomacierzyste.getZwyklerozrachszczegolne());
+            //jezeli to nie slownik to wyrzuca blad i dodaje analityke
+            try {
+                if (nowe.getNrkonta().equals("kontr")) {
+                    if (kontomacierzyste.isMapotomkow()==true) {
+                     Msg.msg("e","Konto już ma analitykę, nie można dodać słownika");
+                     return;
+                    } else {
+                        int wynikdodaniakonta = PlanKontBean.dodajslownik(nowe, kontomacierzyste, kontoDAO);
+                        if (wynikdodaniakonta == 0) {
+                            kontomacierzyste.setBlokada(true);
+                            kontomacierzyste.setMapotomkow(true);
+                            kontoDAO.edit(kontomacierzyste);
+                            Msg.msg("i", "Dodaje słownik", "formX:messages");
+                        } else {
+                            nowe = new Konto();
+                            Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
+                            return;
+                        }
+                        wynikdodaniakonta = PlanKontBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO);
+                        if (wynikdodaniakonta == 0) {
+                            nowe = new Konto();
+                            odswiezroot();
+                            Msg.msg("Dodano elementy słownika");
+                        } else {
+                            Msg.msg("e", "Wystąpił błąd przy dodawani elementów słownika");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                if (kontomacierzyste.isBlokada() == false) {
+                    int wynikdodaniakonta = PlanKontBean.dodajanalityczne(nowe, kontomacierzyste, kontoDAO);
+                    if (wynikdodaniakonta == 0) {
+                        kontomacierzyste.setMapotomkow(true);
+                        kontoDAO.edit(kontomacierzyste);
+                        nowe = new Konto();
+                        odswiezroot();
+                        Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
+                    } else {
+                        nowe = new Konto();
+                        Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+                    }
                 } else {
                     Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
                     return;
                 }
             }
-//            System.out.println("Dodaje konto");
-//            nowe.setPodatnik("Testowy");
-//            nowe.setRok(2014);
-            //dla syntetycznego informacja jest pusta a dla analitycznego bierzekonto
-            if (nowe.getSyntetyczne().equals("syntetyczne")) {
-                nowe.setMacierzyste("0");
-            } else {
-//                nowe.setMacierzyste(kontomacierzyste.getPelnynumer());
-//                nowe.setMacierzysty(kontomacierzyste.getLp());
-                //zaznacza w macierzystym ze sa potomkowie
-                kontomacierzyste.setBlokada(true);
-                kontomacierzyste.setMapotomkow(true);
-                kontoDAO.edit(kontomacierzyste);
-            }
-            if (nowe.getMacierzyste().equals("0")) {
-                nowe.setLevel(0);
-                nowe.setMacierzysty(0);
-            } else {
-//                int i = 1;
-//                i += StringUtils.countMatches(nowe.getMacierzyste(), "-");
-//                nowe.setLevel(i);
-            }
-            nowe.setMapotomkow(false);
-            obliczpelnynumerkonta();
-            if (znajdzduplikat() == 0) {
-                kontoDAO.dodaj(nowe);
-                nowe = new Konto();
-                odswiezroot();
-                Msg.msg("i", "Dodaje konto", "formX:messages");
-            } else {
-                Msg.msg("e", "Konto o takim numerze juz istnieje!", "formX:messages");
-                nowe = new Konto();
-            }
         }
-
     }
-    
+
     private void odswiezroot() {
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
         kontadlanodes.addAll(kontoDAO.findAll());
@@ -203,16 +189,25 @@ public class PlanKontView implements Serializable {
     public void usun() {
         if (selectednode != null) {
             Konto zawartosc = (Konto) selectednode.getData();
-            if (zawartosc.isBlokada()==true) {
+            if (zawartosc.isBlokada() == true) {
                 Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
                 return;
-            } else if (zawartosc.isMapotomkow()==true) {
+            } else if (zawartosc.isMapotomkow() == true) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 kontoDAO.destroy(selectednode.getData());
+                if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
+                    int wynik = PlanKontBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO);
+                    if (wynik == 0) {
+                        Msg.msg("Usunięto elementy słownika");
+                    } else {
+                        Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
+                    }
+                }
                 boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc);
                 if (!sadzieci) {
                     Konto konto = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                    konto.setBlokada(false);
                     konto.setMapotomkow(false);
                     kontoDAO.edit(konto);
                 }
@@ -223,29 +218,29 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta", "formX:messages");
         }
     }
-    
+
     private boolean sprawdzczymacierzystymapotomne(Konto konto) {
         int macierzyste = konto.getMacierzysty();
         List<Object> finallChildrenData = new ArrayList<>();
         root.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
         finallChildrenData.remove(konto);
-        for (Object p: finallChildrenData) {
-            if (((Konto) p).getMacierzysty()==macierzyste) {
+        for (Object p : finallChildrenData) {
+            if (((Konto) p).getMacierzysty() == macierzyste) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public void zablokujkonto() {
         if (selectednode != null) {
             Konto konto = (Konto) selectednode.getData();
-            if (konto.isBlokada()==false) {
+            if (konto.isBlokada() == false) {
                 konto.setBlokada(true);
                 kontoDAO.edit(konto);
                 Msg.msg("w", "Zabezpieczono konto przed edycją.");
                 return;
-            } else if (konto.getBoWn()== 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada()==true){
+            } else if (konto.getBoWn() == 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada() == true) {
                 konto.setBlokada(false);
                 kontoDAO.edit(konto);
                 Msg.msg("w", "Odblokowano edycję konta.");
@@ -358,6 +353,4 @@ public class PlanKontView implements Serializable {
         this.root = root;
     }
 
-  
-    
 }

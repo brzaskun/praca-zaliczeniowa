@@ -72,6 +72,9 @@
                     <p:column headerText="zablokowane" style="width: 100px;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 
                     </p:column>
+                    <p:column headerText="słownikowe" style="width: 100px;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownikowe' : null}" /> 
+                    </p:column>
                 </p:treeTable>>
             </p:panelGrid>
            

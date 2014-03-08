@@ -6,13 +6,13 @@
 
 package beans;
 
+import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
@@ -47,7 +47,58 @@ public class PlanKontBean {
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
+         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
          return zachowajkonto(nowekonto, kontoDAOfk);
+    }
+     
+    public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
+         nowekonto.setNazwapelna("Słownik kontrahenci");
+         nowekonto.setNazwaskrocona("Kontrahenci");
+         nowekonto.setBlokada(true);
+         nowekonto.setSyntetyczne("analityczne");
+         nowekonto.setPodatnik("Testowy");
+         nowekonto.setRok(2014);
+         nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
+         nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
+         nowekonto.setNrkonta(oblicznumerkonta(nowekonto, macierzyste, kontoDAOfk));
+         nowekonto.setMapotomkow(false);
+         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
+         nowekonto.setMacierzysty(macierzyste.getLp());
+         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
+         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         return zachowajkonto(nowekonto, kontoDAOfk);
+    }
+    
+    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO) {
+        List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient("8511005008");
+        if (listaprzyporzadkowanychklientow != null) {
+            for (Kliencifk p : listaprzyporzadkowanychklientow) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(p.getNazwa());
+                nowekonto.setNazwaskrocona(p.getNip());
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+    
+    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO) {
+        List<Konto> listakont = kontoDAO.findKontaPotomne(kontomacierzyste);
+        if (listakont != null) {
+            for (Konto p : listakont) {
+                kontoDAO.destroy(p);
+            }
+            return 0;
+        } else {
+            return 0;
+        }
     }
     
     private static int obliczlevel(String macierzyste) {
@@ -88,4 +139,6 @@ public class PlanKontBean {
             return "1";
         }
     }
+
+   
 }
