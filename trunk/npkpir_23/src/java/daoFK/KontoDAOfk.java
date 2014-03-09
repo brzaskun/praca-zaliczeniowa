@@ -86,5 +86,14 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+    
+    public List<Konto> findKontaMaSlownik() {
+        try {
+            System.out.println("Pobieram KontoDAO konta majace podlaczone slownik");
+            return kontoFacade.findKontaMaSlownik();
+        } catch (Exception e) {
+            return null;
+        } 
+    }
  
 }
