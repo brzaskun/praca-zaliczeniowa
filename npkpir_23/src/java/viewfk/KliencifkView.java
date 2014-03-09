@@ -6,8 +6,10 @@
 
 package viewfk;
 
+import beans.PlanKontBean;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
+import daoFK.KontoDAOfk;
 import entity.Klienci;
 import entityfk.Kliencifk;
 import java.io.Serializable;
@@ -35,6 +37,7 @@ public class KliencifkView implements Serializable{
     @Inject private Kliencifk kliencifk;
     @Inject private Kliencifk nowekliencifk;
     @Inject private KliencifkDAO kliencifkDAO;
+    @Inject private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
@@ -68,6 +71,7 @@ public class KliencifkView implements Serializable{
     public void przyporzadkujdokonta(){
         try {
             klienciDAO.dodaj(nowekliencifk);
+            int wynik = PlanKontBean.aktualizujslownik(kliencifk, kontoDAOfk);
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");

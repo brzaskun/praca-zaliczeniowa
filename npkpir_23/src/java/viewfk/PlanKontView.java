@@ -124,6 +124,7 @@ public class PlanKontView implements Serializable {
                         if (wynikdodaniakonta == 0) {
                             kontomacierzyste.setBlokada(true);
                             kontomacierzyste.setMapotomkow(true);
+                            kontomacierzyste.setMaslownik(true);
                             kontoDAO.edit(kontomacierzyste);
                             Msg.msg("i", "Dodaje słownik", "formX:messages");
                         } else {
@@ -199,17 +200,23 @@ public class PlanKontView implements Serializable {
                 if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
                     int wynik = PlanKontBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO);
                     if (wynik == 0) {
+                        Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                        kontomacierzyste.setBlokada(false);
+                        kontomacierzyste.setMapotomkow(false);
+                        kontomacierzyste.setMaslownik(false);
+                        kontoDAO.edit(kontomacierzyste);
                         Msg.msg("Usunięto elementy słownika");
                     } else {
                         Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                     }
-                }
-                boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc);
-                if (!sadzieci) {
-                    Konto konto = kontoDAO.findKonto(zawartosc.getMacierzysty());
-                    konto.setBlokada(false);
-                    konto.setMapotomkow(false);
-                    kontoDAO.edit(konto);
+                } else {
+                    boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc);
+                    if (!sadzieci) {
+                        Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                        kontomacierzyste.setBlokada(false);
+                        kontomacierzyste.setMapotomkow(false);
+                        kontoDAO.edit(kontomacierzyste);
+                    }
                 }
                 odswiezroot();
                 Msg.msg("i", "Usuwam konto", "formX:messages");

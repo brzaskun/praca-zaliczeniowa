@@ -50,6 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),
+    @NamedQuery(name = "Konto.findByMaSlownik", query = "SELECT k FROM Konto k WHERE k.maslownik = :maslownik"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin")})
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -139,11 +140,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "slownikowe")
     private boolean slownikowe;
+    @Basic(optional = false)
+    @Column(name = "maslownik")
+    private boolean maslownik;
     @OneToMany(mappedBy = "kontoid")
     private List<Rozrachunekfk> rozrachunekfkList;
 
     public Konto() {
         this.slownikowe = false;
+        this.maslownik = false;
     }
 
     public Konto(Integer id) {
@@ -167,6 +172,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boWn = 0.0;
         this.boMa = 0.0;
         this.slownikowe = false;
+        this.maslownik = false;
     }   
    
 
@@ -350,6 +356,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setSlownikowe(boolean slownikowe) {
         this.slownikowe = slownikowe;
+    }
+
+    public boolean isMaslownik() {
+        return maslownik;
+    }
+
+    public void setMaslownik(boolean maslownik) {
+        this.maslownik = maslownik;
     }
     
     

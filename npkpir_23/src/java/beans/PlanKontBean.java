@@ -50,6 +50,21 @@ public class PlanKontBean {
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
          return zachowajkonto(nowekonto, kontoDAOfk);
     }
+    
+    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta) {
+         nowekonto.setSyntetyczne("analityczne");
+         nowekonto.setPodatnik("Testowy");
+         nowekonto.setRok(2014);
+         nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
+         nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
+         nowekonto.setNrkonta(numerkonta);
+         nowekonto.setMapotomkow(false);
+         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
+         nowekonto.setMacierzysty(macierzyste.getLp());
+         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
+         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         return zachowajkonto(nowekonto, kontoDAOfk);
+    }
      
     public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
          nowekonto.setNazwapelna("Słownik kontrahenci");
@@ -60,7 +75,7 @@ public class PlanKontBean {
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
-         nowekonto.setNrkonta(oblicznumerkonta(nowekonto, macierzyste, kontoDAOfk));
+         nowekonto.setNrkonta("0");
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
@@ -78,7 +93,7 @@ public class PlanKontBean {
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO);
+                int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta());
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -88,7 +103,22 @@ public class PlanKontBean {
             return 0;
         }
     }
-    
+    public static int aktualizujslownik(Kliencifk kliencifk, KontoDAOfk kontoDAO) {
+        List<Konto> kontamacierzyste = kontoDAO.findKontaMaSlownik();
+        for (Konto p : kontamacierzyste) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(kliencifk.getNazwa());
+            nowekonto.setNazwaskrocona(kliencifk.getNip());
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta());
+            if (wynikdodania == 1) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+            
     public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO) {
         List<Konto> listakont = kontoDAO.findKontaPotomne(kontomacierzyste);
         if (listakont != null) {

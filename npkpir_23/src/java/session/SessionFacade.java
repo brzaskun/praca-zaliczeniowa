@@ -590,6 +590,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByMacierzyste").setParameter("macierzyste", macierzyste).getResultList();
     }
     
+    public List<Konto> findKontaMaSlownik() {
+        return em.createNamedQuery("Konto.findByMacierzyste").setParameter("maslownik", true).getResultList();
+    }
+    
     public List<Konto> findKontaPotomne(String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).getResultList();
@@ -597,7 +601,7 @@ public class SessionFacade<T> {
             return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).getResultList();
         }
     }
-     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe) {
+    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).getResultList();
         } else {
