@@ -22,11 +22,13 @@ import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -386,7 +388,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void wygenerujokreswpisudokumentu() {
+    public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         if (zapisz0edytuj1 == false) {
             String data = (String) Params.params("formwpisdokument:datka");
             String mc = data.split("-")[1];
@@ -1025,6 +1027,7 @@ public class DokfkView implements Serializable {
         Object item = event.getObject();
         if (stronawiersza.equals("wn")) {
             selected.getKonta().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
+            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
         } else {
             selected.getKonta().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
         }
