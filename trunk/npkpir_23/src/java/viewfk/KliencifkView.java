@@ -71,7 +71,7 @@ public class KliencifkView implements Serializable{
     public void przyporzadkujdokonta(){
         try {
             klienciDAO.dodaj(nowekliencifk);
-            int wynik = PlanKontBean.aktualizujslownik(kliencifk, kontoDAOfk);
+            int wynik = PlanKontBean.aktualizujslownik(nowekliencifk, kontoDAOfk);
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");

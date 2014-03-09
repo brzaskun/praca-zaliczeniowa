@@ -78,7 +78,7 @@
             <div style="height: 430px;">
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.konta}" var="loop" style="width: 1260px; max-height: 370px;" scrollable="true" 
-                             >
+                             rowIndexVar="rowindex">
                     <p:column headerText="id" width="15">
                         <h:outputText value="#{loop.idporzadkowy}" />
                     </p:column>
@@ -110,7 +110,8 @@
                                         global="false" converterMessage="Nieudana konwersja Klient" style="width: 10px; margin-left: auto; margin-right: auto;"
                                         required="true" requiredMessage="Pole konta Wn nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.wnReadOnly}"
                                         ><!--to teraz powoduje blad-->
-                            <f:ajax event="blur" execute="@this" />
+                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoRow(rowindex, 'wn')}"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoSelect}" partialSubmit="true"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota"  width="140">
@@ -129,7 +130,9 @@
                                         required="true" requiredMessage="Pole konta Ma nie może byc puste" styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});
                             zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >
-                            <f:ajax event="blur" execute="@this" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoRow(rowindex, 'ma')}"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoSelect}" partialSubmit="true"/>
+                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column  width="40">

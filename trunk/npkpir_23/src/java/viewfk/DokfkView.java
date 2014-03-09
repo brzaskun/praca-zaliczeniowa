@@ -15,6 +15,7 @@ import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Konto;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import params.Params;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
 import viewfk.subroutines.UzupelnijWierszeoDane;
@@ -1011,6 +1013,26 @@ public class DokfkView implements Serializable {
                 uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
 
+    private static int numerwiersza = 0;
+    private static String stronawiersza;
+    
+    public void handleKontoRow(int numer, String wnma) {
+        numerwiersza = numer;
+        stronawiersza = wnma;
+    }
+    
+    public void handleKontoSelect(SelectEvent event) {
+        Object item = event.getObject();
+        if (stronawiersza.equals("wn")) {
+            selected.getKonta().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
+        } else {
+            selected.getKonta().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
+        }
+    }
+    
+    
+    
+    
     //********************************
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Dokfk getSelected() {

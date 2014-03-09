@@ -29,7 +29,7 @@ public class KontoConv implements javax.faces.convert.Converter{
             return null;  
         } else {  
             try {  
-                String number = submittedValue;  
+                String number = submittedValue.split(" ")[0];
                 for (Konto p : konta ){  
                     if (p.getPelnynumer().equals(number)) {  
                         return p;  
