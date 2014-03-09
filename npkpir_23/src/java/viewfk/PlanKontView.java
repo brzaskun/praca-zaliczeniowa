@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.TreeNode;
 
 /**
@@ -282,6 +283,8 @@ public class PlanKontView implements Serializable {
         }
         return results;
     }
+    
+    
 
     public void selrow(NodeSelectEvent e) {
         TreeNode p = e.getTreeNode();

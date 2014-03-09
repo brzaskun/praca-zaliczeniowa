@@ -534,7 +534,7 @@ public class SessionFacade<T> {
     }
 
     public List<Konto> findKontaOstAlityka() {
-        return em.createNamedQuery("Konto.findByMapotomkow").setParameter("mapotomkow", false).getResultList();
+        return em.createNamedQuery("Konto.findByMapotomkowMaSlownik").setParameter("mapotomkow", false).getResultList();
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
@@ -591,7 +591,7 @@ public class SessionFacade<T> {
     }
     
     public List<Konto> findKontaMaSlownik() {
-        return em.createNamedQuery("Konto.findByMacierzyste").setParameter("maslownik", true).getResultList();
+        return em.createNamedQuery("Konto.findByMaSlownik").setParameter("maslownik", true).getResultList();
     }
     
     public List<Konto> findKontaPotomne(String macierzyste, String bilansowewynikowe) {
