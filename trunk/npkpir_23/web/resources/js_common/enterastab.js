@@ -11,7 +11,13 @@
         }
         //Get the element that registered the event
         var $target = $(event.target);
-        var kontoinput = false;//$(event.target).is(".ui-autocomplete-input");
+        var taregetid = event.target.id;
+        var czyzawierawn = taregetid.indexOf("kontown");
+        var czyzawierama = taregetid.indexOf("kontoma");
+        var kontoinput = false;
+        if (czyzawierawn > 0 || czyzawierama > 0) {
+            kontoinput = true;
+        }
         if($(event.target).is("button")===false){
         if (isTabKey(event)&&kontoinput === false) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
