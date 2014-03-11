@@ -102,6 +102,8 @@ public class PdfPIT5 extends Pdf implements Serializable {
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
             try {
+                table.addCell(ustawfrazebez("imię i nazwisko podatnika","center",10));
+                table.addCell(ustawfrazebez(selected.getUdzialowiec(),"right",10));
                 table.addCell(ustawfrazebez("przychody narastająco","center",10));
                 table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
                 table.addCell(ustawfrazebez("koszty narastająco","center",10));
