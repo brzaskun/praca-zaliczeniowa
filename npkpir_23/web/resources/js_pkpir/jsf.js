@@ -71,6 +71,7 @@ var zrobF = function (kwota) {
                 var odjemna = zrobF($(document.getElementById("dodWiad:tabelapkpir:0:kwotaPkpir_input")).val());
                 roznica = odjemna - odjema;
                 $(this).val(Math.abs(roznica));
+                $(document.getElementById("dodWiad:tabelapkpir:1:kwotaPkpir_hinput")).val(Math.abs(roznica));
                 event.preventDefault();
             }
          });
