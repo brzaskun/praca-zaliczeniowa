@@ -12,8 +12,11 @@
         <title>Wstęp wzbroniony :)</title>
     </h:head>
     <h:body styleClass="body">
+         <p:idleMonitor timeout="700000">  
+            <p:ajax event="idle" listener="#{Logowanie.autologin()}"  />  
+        </p:idleMonitor>  
             <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
-                <h:outputText value="Jeśli byłeś wcześniej zalogowany, to twoja sesja niestety wygasła - zaloguj się ponownie" style="font-weight: bold;"></h:outputText>
+                <h:outputText value="Jeśli byłeś wcześniej zalogowany, to twoja sesja niestety wygasła - zaloguj się ponownie." style="font-weight: bold;"></h:outputText>
                 <p></p>
                 <h:outputText
                     value="Jeżeli nie byłeś zalogowany, to wygląda na to, ze próbowałeś się dostać do strony, do której 
@@ -22,7 +25,7 @@
                     ></h:outputText>
                 <p></p>
                 <h:form>
-                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" ajax="false" action="/login.xhtml?faces-redirect=true"/>
+                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" action="/login.xhtml?faces-redirect=true"/>
                 </h:form>
             </p:panel>
       
