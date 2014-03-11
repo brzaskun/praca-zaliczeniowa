@@ -31,35 +31,40 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean(name="Logowanie")
+@ManagedBean(name = "Logowanie")
 @SessionScoped
-public class Logowanie implements Serializable{
- 
+public class Logowanie implements Serializable {
+    
     private String uzytk;
     private String haslo;
-    @Inject UzDAO uzDAO;
-    @Inject PodatnikDAO podatnikDAO;
-    @Inject private Sesja sesja;
-    @Inject private SesjaDAO sesjaDAO;
-    @Inject private WpisDAO wpisDAO;
-    @Inject private Wpis wpis;
-    @Inject private SesjaView sesjaView;
+    @Inject
+    UzDAO uzDAO;
+    @Inject
+    PodatnikDAO podatnikDAO;
+    @Inject
+    private Sesja sesja;
+    @Inject
+    private SesjaDAO sesjaDAO;
+    @Inject
+    private WpisDAO wpisDAO;
+    @Inject
+    private Wpis wpis;
+    @Inject
+    private SesjaView sesjaView;
     private WpisView wpisView;
-    @Inject OstatnidokumentDAO ostatnidokumentDAO;
+    @Inject
+    OstatnidokumentDAO ostatnidokumentDAO;
     
-    
- 
-    public Logowanie(){
+    public Logowanie() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
     }
-
-   
-    public String login(){
+    
+    public String login() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
         String message = "";
@@ -72,29 +77,29 @@ public class Logowanie implements Serializable{
             //Retrieve the Principal
             principal = request.getUserPrincipal();
             //Display a message based on the User role
-            if(request.isUserInRole("Administrator")){
+            if (request.isUserInRole("Administrator")) {
                 message = "Username : " + principal.getName() + " You are an Administrator, you can really f**k things up now";
-                navto="Administrator";
-            }else if(request.isUserInRole("Manager")){
+                navto = "Administrator";
+            } else if (request.isUserInRole("Manager")) {
                 message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
                 navto = "Manager";
-            }else if(request.isUserInRole("Bookkeeper")){
+            } else if (request.isUserInRole("Bookkeeper")) {
                 message = "Username : " + principal.getName() + " You are only a Bookkeeper, Don't you have a Spreadsheet to be working on??";
                 navto = "Bookkeeper";
-            }else if(request.isUserInRole("BookkeeperFK")){
+            } else if (request.isUserInRole("BookkeeperFK")) {
                 message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
                 navto = "BookkeeperFK";
-            }else if(request.isUserInRole("Guest")){
+            } else if (request.isUserInRole("Guest")) {
                 String nip = uzDAO.find(uzytk).getFirma();
                 String firma = podatnikDAO.findN(nip).getNazwapelna();
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
-            } else if(request.isUserInRole("Noobie")){
+            } else if (request.isUserInRole("Noobie")) {
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Noobie";
             }
-            if (haslo.equals("haslo")){
+            if (haslo.equals("haslo")) {
                 navto = "nowehaslo";
             }
             session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -105,16 +110,16 @@ public class Logowanie implements Serializable{
             sesja.setIloscdokumentow(0);
             sesja.setIloscmaili(0);
             sesja.setIloscwydrukow(0);
-            HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();  
-            String ip = httpServletRequest.getRemoteAddr();  
+            HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();            
+            String ip = httpServletRequest.getRemoteAddr();            
             sesja.setIp(ip);
             Calendar calendar = Calendar.getInstance();
             sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
-                try {
-                    sesjaDAO.dodaj(sesja);
-                } catch (Exception e) {
-                    sesjaDAO.edit(sesja);
-                }
+            try {
+                sesjaDAO.dodaj(sesja);
+            } catch (Exception e) {
+                sesjaDAO.edit(sesja);
+            }
             Uz wpr = uzDAO.find(uzytk);
             wpr.setBiezacasesja(nrsesji);
             uzDAO.edit(wpr);
@@ -123,68 +128,69 @@ public class Logowanie implements Serializable{
             wpisDAO.edit(wpisX);
             return navto;
         } catch (ServletException e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Błąd - nieprawidłowy login lub hasło",null);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd - nieprawidłowy login lub hasło", null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return "failure";
         }
     }
- 
-    public void logout(){
-     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if(session != null){
+    
+    public void logout() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if (session != null) {
             session.invalidate();
         }
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/AccessDenied.xhtml");
         System.gc();
     }
-    
-       
-     public String getUzytk() {
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getUzytk() {
         return uzytk;
     }
-
+    
     public void setUzytk(String uzytk) {
         this.uzytk = uzytk;
     }
-
+    
     public String getHaslo() {
         return haslo;
     }
-
+    
     public void setHaslo(String haslo) {
         this.haslo = haslo;
     }
-
+    
     public UzDAO getUzDAO() {
         return uzDAO;
     }
-
+    
     public void setUzDAO(UzDAO uzDAO) {
         this.uzDAO = uzDAO;
     }
-
+    
     public PodatnikDAO getPodatnikDAO() {
         return podatnikDAO;
     }
-
+    
     public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
         this.podatnikDAO = podatnikDAO;
     }
-
+    
     public Sesja getSesja() {
         return sesja;
     }
-
+    
     public void setSesja(Sesja sesja) {
         this.sesja = sesja;
     }
-
+    
     public SesjaDAO getSesjaDAO() {
         return sesjaDAO;
     }
-
+    
     public void setSesjaDAO(SesjaDAO sesjaDAO) {
         this.sesjaDAO = sesjaDAO;
     }
+//</editor-fold>
 
 }

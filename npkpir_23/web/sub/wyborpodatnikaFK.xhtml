@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <h:form id="westIndex">
-       
+        <p:messages id="messages" autoUpdate="true"/>
         <p:focus id="focus" context="panelwyboru"/>
         <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 450px; margin-left: 37%;">
             <f:facet name="header">
@@ -38,7 +38,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton  action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
+                    <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
                 </p:column>
             </p:panelGrid>
         </p:panel>
