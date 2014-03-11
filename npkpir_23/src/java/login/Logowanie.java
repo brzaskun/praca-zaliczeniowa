@@ -136,10 +136,26 @@ public class Logowanie implements Serializable {
     
     public void logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        try {
+            String nrsesji = session.getId();
+            sesja = sesjaDAO.find(nrsesji);
+            Calendar calendar = Calendar.getInstance();
+            sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
+            sesjaDAO.edit(sesja);
+        } catch (Exception e) {
+        }
         if (session != null) {
             session.invalidate();
         }
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/AccessDenied.xhtml");
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/AccessDenied.xhtml?faces-redirect=true");
+        System.gc();
+    }
+    
+    public void invalidatesession() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         System.gc();
     }
 

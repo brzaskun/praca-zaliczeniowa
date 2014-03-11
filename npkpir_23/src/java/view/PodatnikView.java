@@ -136,13 +136,15 @@ public class PodatnikView implements Serializable{
    
     
      public void dodaj(){
-         System.out.println("Wpis do bazy zaczynam");
+         System.out.println("Wpis nowej firmy do bazy zaczynam");
+         if (selectedDod.getPesel().isEmpty()) {
+             selectedDod.setPesel("99999999999");
+         }
          sformatuj(selectedDod);
              try {
                  podatnikDAO.dodaj(selectedDod);
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno nowego podatnika-klienta.", selectedDod.getNazwapelna());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
-                 
              } catch (Exception e) {
                  System.out.println(e.getStackTrace().toString());
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim NIP już istnieje.Probuje edycji", e.getStackTrace().toString());

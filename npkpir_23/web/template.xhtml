@@ -36,7 +36,7 @@
      </div>
 <![endif]-->
     <h:body>
-        <p:growl id="messageslogout" showDetail="true" sticky="true" />  
+        <p:growl id="messageslogout" showDetail="true" sticky="true" autoUpdate="true"/>  
         <p:idleMonitor timeout="600000">  
             <p:ajax event="idle" listener="#{Logowanie.logout()}" update="messageslogout" />  
 <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
