@@ -128,8 +128,9 @@ public class PodatnikView implements Serializable{
         try{
         selected=podatnikDAO.find(nazwaWybranegoPodatnika);
          pobierzogolneDokKsi();
+         selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e){}
-        selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
+        
     }
 
    
