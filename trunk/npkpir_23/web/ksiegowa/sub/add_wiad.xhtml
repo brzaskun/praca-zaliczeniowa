@@ -18,7 +18,7 @@
             <p:panelGrid id="polawprowadzania1" columns="2" style="width: 400px;">
                 <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
                 <h:outputLabel value="data powst.ob." style="font-weight: 700"/>
-                 <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 100px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień" >
+                 <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10" style="width: 100px" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
                     <p:ajax event="blur" listener="#{DokumentView.ustawDate2}" update=":dodWiad:tabelapkpir"  />
                     <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                 </p:inputText>
@@ -57,6 +57,7 @@
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
+                    <p:ajax event="blur" onstart="dolaczwyliczenie();"/>
                 </h:selectOneMenu> 
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
                     <f:validateLength minimum="1" maximum="50"/>
@@ -75,30 +76,7 @@
             <!--        <span id="log"></span>-->
                 
             <p:panelGrid columns="4" style="width: 80%; margin-left: -2%;">
-
-                <script>
-                    /* <![CDATA[ */
-                    function zrobF(kwota) {
-                        var strX = kwota.replace(",", ".");
-                        strX = strX.replace(/\s/g, "");
-                        return parseFloat(strX);
-                    }
-                    $(function() {
-                        $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
-                            var roznica;
-                            if (e.which == 107) {
-                                var odjema = zrobF($(this).val());
-                                var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
-                                roznica = odjemna - odjema;
-                                $(this).val(Math.abs(roznica));
-                                e.stopImmediatePropagation();
-                            }
-                        })
-
-                    })
-                            /* ]]> */
-                </script>
-                <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
+              <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
                     <p:column headerText="kwota faktury netto">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
