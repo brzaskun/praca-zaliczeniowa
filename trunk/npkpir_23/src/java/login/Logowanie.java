@@ -158,6 +158,12 @@ public class Logowanie implements Serializable {
         }
         System.gc();
     }
+    
+    //po okreslonym czasie bezczynnosci na stronie Access denied przerzuci do strony logowania
+    public void autologin() {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
+        System.gc();
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getUzytk() {
