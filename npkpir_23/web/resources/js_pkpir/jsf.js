@@ -63,16 +63,20 @@ var zrobF = function (kwota) {
         return parseFloat(strX);
  }
  var dolaczwyliczenie = function () {
-        $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
+     try {
+        $(document.getElementById("dodWiad:tabelapkpir:1:kwotaPkpir_input")).on('keyup', function(event) {
             var roznica;
-            if (e.which == 107) {
+            if (event.which == 107) {
                 var odjema = zrobF($(this).val());
-                var odjemna = zrobF($("#dodWiad\\:tabelapkpir\\:0\\:kwotaPkpir_input").val());
+                var odjemna = zrobF($(document.getElementById("dodWiad:tabelapkpir:0:kwotaPkpir_input")).val());
                 roznica = odjemna - odjema;
                 $(this).val(Math.abs(roznica));
-                e.stopImmediatePropagation();
+                event.preventDefault();
             }
          });
+     } catch (ec) {
+         alert("bladzik");
+     }
      };
 
 
