@@ -79,7 +79,7 @@
                     <f:facet name="header">
                         <h:outputText value="Status"/>
                     </f:facet>
-                    <h:outputText value="#{item.status}"/>
+                    <h:outputText value="#{item.status}" style="#{item.status eq 'odrzucona' ? 'color: red;' : null}"/>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
