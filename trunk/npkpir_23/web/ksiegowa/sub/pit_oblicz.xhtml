@@ -8,9 +8,10 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:pe="http://primefaces.org/ui/extensions">
      <p:tabView id="akordeon" >
+         
     <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
                 <h:form id="formpit">
-                    <p:growl id="messages" autoUpdate="true"/>
+                   <p:growl id="messages" autoUpdate="true" />
                     <p:panelGrid  columns="2">
                         <p:panelGrid  columns="1" >
                             <p:panel header="rozliczenie remanentów: " style="width: 250px;" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
@@ -125,7 +126,7 @@
     
     </h:form> 
             <h:form id="formpit1">
-                <p:growl id="messages" autoUpdate="true"/>
+                <p:growl id="messages" autoUpdate="true" />
                 <p:panelGrid  columns="2" >
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
@@ -273,7 +274,6 @@
                 </p:dataTable>
             </h:form>
             <h:form id="form2">
-                <p:growl id="messages"/>
                 <p:focus for="panelstraty">
                     <p:panelGrid columns="6" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
                         <h:outputText value="rok"/>

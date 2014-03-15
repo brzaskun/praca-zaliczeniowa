@@ -818,6 +818,9 @@ public class ZestawienieView implements Serializable {
     
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
+        if (sprawdzczyjestpitwpoprzednimmiesiacu()!=0) {
+            return;
+        }
         sprawdzczyzaksiegowanoamortyzacje();
         if (!wybranyudzialowiec.equals("wybierz osobe")&&flaga==0) {
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
@@ -1615,6 +1618,19 @@ public class ZestawienieView implements Serializable {
 
     public void setZus52zreki(boolean zus52zreki) {
         this.zus52zreki = zus52zreki;
+    }
+
+    private int sprawdzczyjestpitwpoprzednimmiesiacu() {
+        if (!wpisView.getMiesiacWpisu().equals("01")) {
+            try {
+                Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), biezacyPit.getUdzialowiec());
+            } catch (Exception e) {
+                Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
+                return 1;
+            }
+        }
+        return 0;
+        
     }
 
     
