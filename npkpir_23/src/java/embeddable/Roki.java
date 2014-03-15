@@ -43,4 +43,14 @@ public class Roki implements Serializable{
         return rokiList;
     }
     
+    public List<Integer> RokiListM(Integer biezacyrok) {
+        List<Integer> listalat = new ArrayList<>();
+        for (Integer p : rokiList) {
+            if (p >= biezacyrok) {
+                listalat.add(p);
+            }
+        }
+        return listalat;
+    }
+    
 }
