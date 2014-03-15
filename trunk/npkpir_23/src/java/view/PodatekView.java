@@ -9,6 +9,7 @@ import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
+import embeddable.Parametr;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Podstawki;
@@ -124,8 +125,7 @@ public class PodatekView implements Serializable{
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
         String poszukiwany = wpisView.getPodatnikWpisu();
         Podatnik selected=podatnikDAO.find(poszukiwany);
-        int index = selected.getPodatekdochodowy().size()-1;
-        opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
+        opodatkowanie = wpisView.getRodzajopodatkowania();
         String rodzajop = opodatkowanie;
         Podstawki tmpY = podstawkiDAO.find(wpisView.getRokWpisu());
         Double stawka;
@@ -295,6 +295,8 @@ public class PodatekView implements Serializable{
     public void setPrzychodyRyczalt(HashMap<String, BigDecimal> przychodyRyczalt) {
         this.przychodyRyczalt = przychodyRyczalt;
     }
+
+   
 
    
     
