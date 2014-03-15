@@ -8,11 +8,13 @@ import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
+import embeddable.Parametr;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
@@ -22,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import msg.Msg;
 
 /**
  *
@@ -167,7 +170,7 @@ public class WpisView implements Serializable{
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
             }
         try{
-        rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(podatnikObiekt.getPodatekdochodowy().size()-1).getParametr();
+        rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(zwrocindexparametrzarok(podatnikObiekt.getPodatekdochodowy())).getParametr();
         if (rodzajopodatkowania.contains("ryczałt")){
             ksiegaryczalt = false;
         } else {
@@ -200,6 +203,22 @@ public class WpisView implements Serializable{
         }
     }
 
+    private int zwrocindexparametrzarok(List<Parametr> podatekdochodowy) {
+        int i = 0;
+        for (Parametr p : podatekdochodowy) {
+            String rokod = p.getRokOd();
+            String rokdo = p.getRokDo();
+            String rokwpisuS = String.valueOf(this.rokWpisu);
+            boolean rokzamkniety = rokod.equals(rokwpisuS) && rokod.equals(rokwpisuS);
+            boolean rokotwarty = rokod.equals(rokwpisuS) && rokod == (null);
+            if (rokzamkniety || rokotwarty) {
+                return i;
+            }
+            i++;
+        }
+        Msg.msg("e", "Parametr opodatkowania nie wprowadzony za dany rok");
+        return -1;
+    }
 
       
     public String getPodatnikWpisu() {

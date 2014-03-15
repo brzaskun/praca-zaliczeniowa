@@ -32,6 +32,7 @@
                                 <f:selectItems value="#{ZestawienieView.listawybranychudzialowcow}"/>
                                 <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}"/>
                             </p:selectOneMenu>
+                            <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         </p:panelGrid>
                         <p:panelGrid  columns="1" >
                             <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>

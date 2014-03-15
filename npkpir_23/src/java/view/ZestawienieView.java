@@ -1623,7 +1623,7 @@ public class ZestawienieView implements Serializable {
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
         if (!wpisView.getMiesiacWpisu().equals("01")) {
             try {
-                Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), biezacyPit.getUdzialowiec());
+                Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
             } catch (Exception e) {
                 Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
                 return 1;
