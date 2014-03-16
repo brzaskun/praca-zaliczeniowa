@@ -12,12 +12,16 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class Parametr implements Serializable{
+public class Parametr implements Serializable {
+
     private String mcOd;
     private String rokOd;
     private String mcDo;
     private String rokDo;
     private String parametr;
+
+   
+//<editor-fold defaultstate="collapsed" desc="comment">
 
     public String getMcOd() {
         return mcOd;
@@ -58,6 +62,6 @@ public class Parametr implements Serializable{
     public void setParametr(String parametr) {
         this.parametr = parametr;
     }
-    
-    
+
+//</editor-fold>
 }

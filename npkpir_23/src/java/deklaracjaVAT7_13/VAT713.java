@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import view.ParametrView;
 import view.WpisView;
 
 /**
@@ -70,22 +71,7 @@ public class VAT713 implements Serializable{
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         Integer sumaszukana = rok+mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
-        //odszukaj date w parametrze - kandydat na metode statyczna
-      for(Parametr p : parametry){
-            if(p.getRokDo()!=null&&!"".equals(p.getRokDo())){
-            int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-            int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-            if(wynikPo > 1 && wynikPrzed < 0){
-                return p.getParametr();
-            }
-            } else {
-            int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
-            if(wynik > 0){
-                return p.getParametr();
-            }
-            }
-        }
-        return "blad";
+        return ParametrView.zwrocParametr(parametry, rok, mc);
     }
     
     public String getWiersz() {
