@@ -36,20 +36,58 @@ public class Data implements Serializable {
                 return rok + "-" + mc + "-30";
         }
     }
-
-    public static int compare(int rok1P, int mc1P, int rok2W, int mc2W) {
-        int rokO1 = rok1P;
-        int rokO2 = rok2W;
-        int mcO1 = mc1P;
-        int mcO2 = mc2W;
-        if (rokO1 < rokO2) {
+    /**
+     * Porównywanie dwóch rokow i mce. Przyjmuje integer
+     * 
+     * @param rokP rok późniejszy
+     * @param mcP miesiąc poźniejszy
+     * @param rokW rok wcześniejszy
+     * @param mcW miesiąc wcześniejszy
+     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej <br/>
+     *            <code>0</code> jeżeli lata i mce są równe<br/>
+     *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
+     */
+    public static int compare(int rokP, int mcP, int rokW, int mcW) {
+        if (rokP < rokW) {
             return -1;
-        } else if (rokO1 > rokO2) {
+        } else if (rokP > rokW) {
             return 1;
-        } else if (rokO1 == rokO2) {
-            if (mcO1 == mcO2) {
+        } else if (rokP == rokW) {
+            if (mcP == mcW) {
                 return 0;
-            } else if (mcO1 < mcO2) {
+            } else if (mcP < mcW) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    
+    /**
+     * Porównywanie dwóch rokow i mce. Przyjmuje String
+     * 
+     * @param rokP1 rok późniejszy
+     * @param mcP1 miesiąc poźniejszy
+     * @param rokW1 rok wcześniejszy
+     * @param mcW1 miesiąc wcześniejszy
+     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej <br/>
+     *            <code>0</code> jeżeli lata i mce są równe<br/>
+     *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
+     */
+    public static int compare(String rokP1, String mcP1, String rokW1, String mcW1) {
+        int rokP = Integer.parseInt(rokP1);
+        int mcP = Integer.parseInt(mcP1);
+        int rokW = Integer.parseInt(rokW1);
+        int mcW = Integer.parseInt(mcW1);
+        if (rokP < rokW) {
+            return -1;
+        } else if (rokP > rokW) {
+            return 1;
+        } else if (rokP == rokW) {
+            if (mcP == mcW) {
+                return 0;
+            } else if (mcP < mcW) {
                 return -1;
             } else {
                 return 1;
@@ -64,8 +102,8 @@ public class Data implements Serializable {
      * 
      * @param datapozniejsza data późniejsza do porównywania
      * @param datawczesniejsza data wcześniejsza do porównywania
-     * @return    <code>true</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej 
-     *            <code>0</code> jeżeli daty są równe
+     * @return    <code>true</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej<br/>
+     *            <code>0</code> jeżeli daty są równe<br/>
      *            <code>false</code> jeżeli wcześniejsza jest jednak późniejsza
      */
     public static int compare(String datapozniejsza, String datawczesniejsza) {

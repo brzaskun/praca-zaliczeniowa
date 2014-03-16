@@ -9,6 +9,7 @@ import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import data.Data;
 import deklaracjaVAT7_13.VAT713;
+import deklaracjeSchemy.SchemaVAT7;
 import embeddable.Daneteleadresowe;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
@@ -275,20 +276,8 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja.setUpo("");
             nowadeklaracja.setStatus("");
             nowadeklaracja.setOpis("");
-            if(nowadeklaracja.isMiesiackwartal()){
-                 if(wpisView.getSumarokmiesiac()>2017){
-                    nowadeklaracja.setWzorschemy("K-8");
-                } else {
-                    nowadeklaracja.setWzorschemy("K-7");
-                }
-            } else {
-                if(wpisView.getSumarokmiesiac()>2017){
-                    nowadeklaracja.setWzorschemy("M-14");
-                } else {
-                    nowadeklaracja.setWzorschemy("M-13");
-                }
-            }
-        }
+            nowadeklaracja.setWzorschemy(SchemaVAT7.odnajdzscheme(vatokres, rok, mc).getNazwaschemy());
+         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if(zachowaj==true){
             if (flaga == 2) {
