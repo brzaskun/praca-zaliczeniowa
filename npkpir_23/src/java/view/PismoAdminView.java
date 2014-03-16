@@ -32,6 +32,7 @@ public class PismoAdminView implements Serializable{
     private static final List<String> listamenu;
     private static final List<String> waznosc;
     private static final List<String> status;
+    private static final List<String> statusadmin;
     private List<Pismoadmin> listapism;
     @Inject private PismoadminDAO pismoadminDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -68,6 +69,13 @@ public class PismoAdminView implements Serializable{
         status.add("admin pracuje");
         status.add("odrzucona");
         status.add("zmiany naniesione");
+        statusadmin = new ArrayList<>();
+        statusadmin.add("wysłana");
+        statusadmin.add("admin przeczytał");
+        statusadmin.add("admin pracuje");
+        statusadmin.add("odrzucona");
+        statusadmin.add("zmiany naniesione");
+        statusadmin.add("archiwalna");
     }
     
     public void molestujadmina() {
@@ -179,6 +187,11 @@ public class PismoAdminView implements Serializable{
         return status;
     }
 
+    public List<String> getStatusadmin() {
+        return statusadmin;
+    }
+
+    
     
     
     
