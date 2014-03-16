@@ -34,6 +34,7 @@ public class PismoAdminView implements Serializable{
     private static final List<String> status;
     private static final List<String> statusadmin;
     private List<Pismoadmin> listapism;
+    private List<Pismoadmin> listapismwszytskie;
     @Inject private PismoadminDAO pismoadminDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -149,6 +150,7 @@ public class PismoAdminView implements Serializable{
     @PostConstruct
     private void init() {
         listapism = pismoadminDAO.findBiezace();
+        listapismwszytskie = pismoadminDAO.findAll();
     }
 
     public Pismoadmin getPismoadmin() {
@@ -189,6 +191,14 @@ public class PismoAdminView implements Serializable{
 
     public List<String> getStatusadmin() {
         return statusadmin;
+    }
+
+    public List<Pismoadmin> getListapismwszytskie() {
+        return listapismwszytskie;
+    }
+
+    public void setListapismwszytskie(List<Pismoadmin> listapismwszytskie) {
+        this.listapismwszytskie = listapismwszytskie;
     }
 
     
