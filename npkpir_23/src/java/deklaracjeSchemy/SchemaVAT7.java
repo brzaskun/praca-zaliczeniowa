@@ -7,6 +7,7 @@
 package deklaracjeSchemy;
 
 import data.Data;
+import embeddable.Kwartaly;
 import embeddable.Schema;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class SchemaVAT7 implements Serializable{
        schemalist = new ArrayList<>();
        schemalist.add(new Schema("miesięczne", "2013", "04", null, "M-14", "2013/04/09/1113/"));
        schemalist.add(new Schema("miesięczne", "2013", "01", null, "M-13", "2013/01/17/1085/"));
-       schemalist.add(new Schema("kwartalnie", "2013", null, "2", "K-7", "2013/04/09/1114/"));
-       schemalist.add(new Schema("kwartalnie", "2013", null, "1", "K-7", "2013/01/17/1084/"));
+       schemalist.add(new Schema("kwartalne", "2013", null, "2", "K-8", "2013/04/09/1114/"));
+       schemalist.add(new Schema("kwartalne", "2013", null, "1", "K-7", "2013/01/17/1084/"));
    }
    /**
      * Porównywanie dwóch rokow i mce. Przyjmuje String
@@ -50,7 +51,8 @@ public class SchemaVAT7 implements Serializable{
         } else {
             for (Schema p : schemalist) {
                 if (p.getOkres().equals(okres)) {
-                    int wynik = Data.compare(rok, mckw, p.getRok(), p.getKw());
+                    String kwartal = Kwartaly.getMapanrkw().get(Integer.parseInt(mckw));
+                    int wynik = Data.compare(rok, kwartal, p.getRok(), p.getKw());
                     if (wynik > -1) {
                         return p;
                     }
