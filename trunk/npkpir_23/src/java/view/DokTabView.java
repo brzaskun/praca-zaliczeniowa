@@ -159,7 +159,7 @@ public class DokTabView implements Serializable {
             } catch (Exception e) {
                 System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
-
+            numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik)+1;
             obiektDOKmrjsfSel.clear();
             for(Dok tmpx : obiektDOKjsfSel){
                    tmpx.setNrWpkpir(numerkolejny++);

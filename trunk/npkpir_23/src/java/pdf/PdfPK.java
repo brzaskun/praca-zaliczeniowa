@@ -75,9 +75,9 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(Chunk.NEWLINE);
             Date date = Calendar.getInstance().getTime();
             DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
-            String today = formatt.format(date);
-            System.out.println("Today : " + today);
-            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+today,font));
+            //String today = formatt.format(date);
+            //System.out.println("Today : " + today);
+            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+selected.getDataWyst(),font));
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);

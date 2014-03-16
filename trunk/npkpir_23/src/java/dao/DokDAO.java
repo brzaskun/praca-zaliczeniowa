@@ -4,17 +4,14 @@
  */
 package dao;
 
+import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
-import interceptor.PobranietabeliInterceptor;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 import session.SessionFacade;
 
 /**
@@ -43,12 +40,6 @@ public class DokDAO extends DAO implements Serializable {
     public Dok znajdzDuplikatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
         return dokFacade.dokumentDuplicatwtrakcie(selD, nazwapelna, typdokumentu);
     }
-
-//    
-//     public Dok znajdzPoprzednika(Integer rok, Integer mc) throws Exception{
-//        return dokFacade.poprzednik(rok,mc);
-//        }
-
   
     public List<Dok> zwrocBiezacegoKlienta(String pod) {
         return dokFacade.findDokPod(pod);
@@ -94,6 +85,14 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findFaktWystawione(nazwapelna, kontrahent, numerkolejny, brutto);
     }
 
+    public int liczdokumenty(String rok, String mc, String podatnik) {
+        List<String> poprzedniemce = Mce.poprzedniemce(mc);
+        int iloscdok = 0;
+        for (String p : poprzedniemce) {
+            iloscdok += Integer.parseInt(dokFacade.findDokBKCount(podatnik, rok, p).toString());
+        }
+        return iloscdok;
+    }
    
     
   

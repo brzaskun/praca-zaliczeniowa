@@ -402,6 +402,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
     }
     
+    public Object findDokBKCount(String pod, String rok, String mc) {
+        return em.createNamedQuery("Dok.findByPkpirRMCount").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+    }
+    
     public List<Dok> findDokDuplikat(String pod, String rok) {
         return em.createNamedQuery("Dok.findByDuplikat").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }

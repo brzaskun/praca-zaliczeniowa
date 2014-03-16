@@ -258,7 +258,7 @@ public class MailOther extends MailSetUp implements Serializable{
               }
 }
      
-      public void vat7(int index) {
+      public void vat7() {
        try {
             Message message = logintoMail();
             message.setSubject("Wydruk dekalracji VAT-7");
@@ -302,6 +302,10 @@ public class MailOther extends MailSetUp implements Serializable{
                   throw new RuntimeException(e);
               }
 }
+      
+      
+      
+      
     public static String nazwaewidencji;
     
     public void ustawNazwaewidencji(String nazwa) {
