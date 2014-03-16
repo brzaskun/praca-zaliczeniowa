@@ -552,10 +552,8 @@ public class FakturaView implements Serializable {
         }
         if (selected.getKontrahent().getNskrocona() == null) {
             Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane.");
-            setPokazfakture(true);
             pokazfakture = false;
             RequestContext.getCurrentInstance().update("akordeon:formstworz");
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         } else {
             if (rozpoznaj == 0) {
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
