@@ -112,6 +112,19 @@ public class Mce implements Serializable{
         }
         return nowedane;
     }
+    /*
+    * zwraca liste uprzednich mcy
+    */
+    public static List<String> poprzedniemce(String miesiac) {
+        List<String> poprzedniemce = new ArrayList<>();
+        int miesiacasint = mapamcyX.get(miesiac);
+        for (int p : mapamcy.keySet()) {
+            if (p < miesiacasint) {
+                poprzedniemce.add(mapamcy.get(p));
+            }
+        }
+        return poprzedniemce;
+    }
     
     public Mce() {
     }

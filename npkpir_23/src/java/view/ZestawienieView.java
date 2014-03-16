@@ -1621,7 +1621,7 @@ public class ZestawienieView implements Serializable {
     }
 
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
-        if (!wpisView.getMiesiacWpisu().equals("01")) {
+        if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
             try {
                 Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
             } catch (Exception e) {
