@@ -200,8 +200,8 @@
                 <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
-                                queryDelay="100" size="50" valueChangeListener="#{DokumentView.skopiujSTR()}" rendered="#{DokumentView.renderujwysz}">
-                    <p:ajax event="blur" async="true" oncomplete="dataprzyjecia();"/>
+                                queryDelay="100" size="50" rendered="#{DokumentView.renderujwysz}">
+                    <p:ajax event="blur" async="true" listener="#{DokumentView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400" >  
                             <f:facet name="header">  
