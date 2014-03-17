@@ -36,7 +36,10 @@ public class SrodkikstView implements Serializable {
         lista = srodkikstDAO.findAll();
     }
     
-     public List<Srodkikst> complete(String query) {  
+     public List<Srodkikst> complete(String query) {
+        if (lista.size() == 0) {
+            lista = srodkikstDAO.findAll();
+        }
         List<Srodkikst> results = new ArrayList<>();  
          for(Srodkikst p : lista) {  
             if(p.getNazwa().contains(query.toLowerCase())) {

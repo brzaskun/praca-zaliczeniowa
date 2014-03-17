@@ -428,7 +428,7 @@ public class DokView implements Serializable {
         pkpirLista.getChildren().add(ulista);
     }
 
-    public void podepnijEwidencjeVat() {
+        public void podepnijEwidencjeVat() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String skrot = params.get("dodWiad:tabelapkpir2:0:dokumentprosty");
         String skrotRT = params.get("dodWiad:rodzajTrans");
@@ -495,14 +495,7 @@ public class DokView implements Serializable {
                     default:
                         opisewidencji = evat.getSprzedazVList();
                 }
-                int iloscwierszypkpir = nettokolumna.size();
-                double sumanetto = 0.0;
-                for (int j=0 ; j < iloscwierszypkpir; j++) {
-                    String wiersz = "dodWiad:tabelapkpir:"+j+":kwotaPkpir_input";
-                    String trescwiersza = ((String) Params.params(wiersz)).replaceAll(" ", "");
-                    double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length()-2));
-                    sumanetto += kwota;
-                }
+                double sumanetto = sumujnetto();
                 ewidencjaAddwiad = new ArrayList<>();
                 int k = 0;
                 for (Object p : opisewidencji ) {
@@ -529,6 +522,23 @@ public class DokView implements Serializable {
             }
         }
     }
+   
+    private double sumujnetto() {
+        int iloscwierszypkpir = nettokolumna.size();
+        double sumanetto = 0.0;
+        for (int j = 0; j < iloscwierszypkpir; j++) {
+            String wiersz = "dodWiad:tabelapkpir:" + j + ":kwotaPkpir_input";
+            String trescwiersza = ((String) Params.params(wiersz)).replaceAll(" ", "");
+            double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length() - 2));
+            sumanetto += kwota;
+        }
+        return sumanetto;
+    }
+    
+    public void sumujbruttoPK() {
+        sumbrutto = sumujnetto();
+    }
+        
    public void updatenetto(EwidencjaAddwiad e) {
        int lp = e.getLp();
        String stawkavat = ewidencjaAddwiad.get(lp).getOpis().replaceAll("[^\\d]", "" );
@@ -815,6 +825,8 @@ public class DokView implements Serializable {
     public void dokumentProstuSchowajEwidencje() {
         selDokument.setEwidencjaVAT(null);
         ewidencjaAddwiad.clear();
+        sumujbruttoPK();
+        RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
         RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
     }
 
@@ -959,13 +971,17 @@ public class DokView implements Serializable {
         }
         //robienie srodkow trwalych
         if (selectedSTR.getStawka() != null) {
+            double vat = 0.0;
+            //dla dokumentu bez vat bedzie blad
             try {
-                selectedSTR.setNetto(selDokument.getNetto());
-                BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
-                double vat = 0.0;
                 for (EVatwpis p : selDokument.getEwidencjaVAT()) {
                     vat += p.getVat();
                 }
+            } catch (Exception e) {
+            }
+            try {
+                selectedSTR.setNetto(selDokument.getNetto());
+                BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
                 selectedSTR.setVat(vat);
                 selectedSTR.setDatazak(selDokument.getDataWyst());
                 selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
@@ -974,6 +990,7 @@ public class DokView implements Serializable {
                 selectedSTR.setDatasprzedazy("");
                 dodajSTR();
 
+
             } catch (Exception e) {
             }
         }
@@ -981,6 +998,7 @@ public class DokView implements Serializable {
             setPokazSTR(false);
             selDokument = new Dok();
             selectedSTR = new SrodekTrw();
+            RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
             setRenderujwysz(false);
             setPokazEST(false);
@@ -1459,7 +1477,6 @@ public class DokView implements Serializable {
         ValueBinding binding = application.createValueBinding("#{SrodkiTrwaleView}");
         STRView sTRView = (STRView) binding.getValue(facesContext);
         String podatnik = wpisView.getPodatnikWpisu();
-        String name = podatnik;
         selectedSTR.setPodatnik(podatnik);
         sTRView.dodajSrodekTrwaly(selectedSTR);
         RequestContext.getCurrentInstance().update("srodki:panelekXA");
