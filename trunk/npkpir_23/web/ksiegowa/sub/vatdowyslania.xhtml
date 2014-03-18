@@ -9,8 +9,7 @@
     >
 
     <h:form id="formX">
-
-        <p:growl id="msg"/>
+        <p:growl id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
             <p:column style="width: 3%;">
@@ -61,11 +60,11 @@
             <p:column id="deleteColumn" headerText="usuń" width="70">
                 <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
             </p:column>
-             <p:rowExpansion>
-                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
-                        <h:outputText value="#{item.deklaracja}"/>
-                    </p:column>
-                </p:rowExpansion>
+            <p:rowExpansion>
+                <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                    <h:outputText value="#{item.deklaracja}"/>
+                </p:column>
+            </p:rowExpansion>
         </p:dataTable>
     </h:form><br/>
     <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : flase}"/>
@@ -90,37 +89,46 @@
             </p:panelGrid>
         </p:panel>
     </h:form>
-
-    <h:form>
-        <p:panel header="wysyłka">
-            <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 120px;"/>
-            <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":form:upoform" style="margin-left: 30px; width: 120px;"/><br/><br/>
-            <h:outputText value="short instrakszyn: "/>
-            <p:panelGrid columns="2">
-                <h:outputText value="wysylanie: "/>
-                <h:outputText value="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij"/>
-                <h:outputText value="testowanie"/>
-                <h:outputText value="Można też przetestować wysyłke deklaracji. Jeżeli 'nie przejdzie', oznacza to błąd w danych autoryzujących"/>
-                <h:outputText value="potwierdzenie"/>
-                <h:outputText value="Każdorazowo, celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo lub sprawdz"/>
+    <p:panel header="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
+        <p:panelGrid columns="2" style="width: 60%;">
+        <h:form>
+            <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":form:upoform" style="width: 150px;"/>
+            <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":form:upoform" style="margin-left: 3%; width: 150px;"/>
+        </h:form>
+        <h:form id="form">
+            <p:panelGrid columns="2" id="upoform" style="width: 100%;">
+                <h:outputText value="id przesyłki" />
+                <h:inputText value="#{beanek.idpobierz}" style="width: 90%;"/>
+                <h:outputText value="UPO" />
+                <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
+                <h:outputText value="status przesyłki - symbol"/>
+                <h:outputText id="stat" value="#{beanek.statMB}"  style="#{beanek.statMB eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                <h:outputText value="opis statusu przesyłki" />
+                <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" style="width: 90%; height: 60px;"/>
             </p:panelGrid>
-        </p:panel>
-    </h:form>
-    <br/>
-    <h:form id="form">
-        <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":formX:msg" style="width: 120px;"/>
-        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":form:upo, :form:stat, :form:opis, :formX:msg" style="margin-left: 30px; width: 120px;"/><br/><br/>
-        <p:panelGrid columns="2" id="upoform" style="width: 50%;">
-            <h:outputText value="id przesyłki" style="width: 10%;"/>
-            <h:inputText value="#{beanek.idpobierz}" style="width: 90%;"/>
-            <h:outputText value="UPO" style="width: 10%;"/>
-            <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
-            <h:outputText value="status przesyłki - symbol"/>
-            <h:outputText id="stat" value="#{beanek.statMB}"/>
-            <h:outputText value="opis statusu przesyłki" style="width: 10%;"/>
-            <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" style="width: 90%; height: 60px;"/>
-        </p:panelGrid>
-    </h:form>
+        </h:form>
+            </p:panelGrid>
+    </p:panel>
+    <p:panel header="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
+        <p:panelGrid columns="2" style="width: 60%;">
+        <h:form>
+            <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":formtest:upoformtest" style="width: 150px;"/>
+            <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":formtest:upoformtest" style="margin-left: 3%; width: 150px;"/>
+        </h:form>
+        <h:form id="formtest">
+            <p:panelGrid columns="2" id="upoformtest" style="width: 100%;">
+                <h:outputText value="id przesyłki"/>
+                <h:inputText value="#{beanek.idpobierzT}" style="width: 90%;"/>
+                <h:outputText value="UPO"/>
+                <h:inputTextarea id="upotest" value="#{beanek.upoMBT}" readonly="true" style="width: 90%; height: 60px;"/>
+                <h:outputText value="status przesyłki - symbol"/>
+                <h:outputText id="stattest" value="#{beanek.statMBT}" style="#{beanek.statMBT eq '200' ? 'color: green; font-weight: 900;' : null}"/>
+                <h:outputText value="opis statusu przesyłki"/>
+                <h:inputTextarea id="opistest" value="#{beanek.opisMBT}" readonly="true" style="width: 90%; height: 60px;"/>
+            </p:panelGrid>
+        </h:form>
+            </p:panelGrid>
+    </p:panel>
 </ui:composition>   
 
 

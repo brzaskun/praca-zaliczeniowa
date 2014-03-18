@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -55,24 +56,33 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
+@ViewScoped
 public class beanek {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdok.wsdl")
     private testservice.GateService service_1;
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
     private GateService service;
     private byte[] dok;
-    private String lang;
-    private String signT;
+    private final String lang;
+    private final String signT;
     private Holder<String> id;
     private Holder<Integer> stat;
     private Holder<String> opis;
     private Holder<String> upo;
-    private String idpobierz;
+    //wartosci wysylka
     private String idMB;
+    private String idpobierz;
     private Integer statMB;
     private String opisMB;
     private String upoMB;
+    //wartosci test
+    private String idMBT;
+    private String idpobierzT;
+    private Integer statMBT;
+    private String opisMBT;
+    private String upoMBT;
     @Inject
     DeklaracjevatDAO deklaracjevatDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -136,9 +146,9 @@ public class beanek {
         try {
             port.requestUPO(refId, language, upo, status, statusOpis);
         } catch (Exception e) {
-            Msg.msg("e","Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada","formX:msg");
+            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
         }
-        
+
     }
 
     private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
@@ -150,12 +160,12 @@ public class beanek {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
-        if(temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0&&!temp.getDeklaracja().contains("Wniosek_VAT-ZT")){
+        Deklaracjevat temp = deklaracje.get(deklaracje.size() - 1);
+        if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
             Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
-        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik_ORD-ZU")){
+        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
@@ -164,36 +174,43 @@ public class beanek {
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
-        sendUnsignDocument(dok, lang, signT, id, stat, opis);
-        idMB = id.value;
-        idpobierz = id.value;
-        statMB = stat.value;
-        opisMB = opis.value;
-        temp.setIdentyfikator(idMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
-        temp.setDatazlozenia(new Date());
-        temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
-        deklaracjevatDAO.edit(temp);
-        Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            sendUnsignDocument(dok, lang, signT, id, stat, opis);
+            idMB = id.value;
+            idpobierz = id.value;
+            statMB = stat.value;
+            opisMB = opis.value;
+            temp.setIdentyfikator(idMB);
+            temp.setStatus(statMB.toString());
+            temp.setOpis(opisMB);
+            temp.setDatazlozenia(new Date());
+            temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracjevatDAO.edit(temp);
+            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
-            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         }
 
     }
 
     public void pobierz() {
-      requestUPO(idpobierz, lang, upo, stat, opis);
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
-        if(temp.getStatus().equals(stat.value)){
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO(idMB, lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB);
+        if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            if(stat.value == 200){
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3") ){
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            if (stat.value == 200) {
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3")) {
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
             } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
             }
         }
         upoMB = upo.value;
@@ -206,17 +223,24 @@ public class beanek {
     }
 
     public void pobierzwyslane(String identyfikator) {
-        requestUPO(identyfikator, lang, upo, stat, opis);
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO(idMB, lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
-        if(temp.getStatus().equals(stat.value)){
+        if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            if(stat.value == 200){
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3") ){
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            if (stat.value == 200) {
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3")) {
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
             } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
             }
         }
         upoMB = upo.value;
@@ -229,17 +253,31 @@ public class beanek {
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
-    
-     public void robtest(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+
+    private void requestUPO_Test(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        try {
+            port.requestUPO(refId, language, upo, status, statusOpis);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
+        }
+    }
+
+    private void sendUnsignDocument_Test(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
+        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
+    }
+
+    public void robtest(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
-        if(temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0&&!temp.getDeklaracja().contains("Wniosek_VAT-ZT")){
+        Deklaracjevat temp = deklaracje.get(deklaracje.size() - 1);
+        if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
             Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
-        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik_ORD-ZU")){
+        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
@@ -248,76 +286,97 @@ public class beanek {
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
-        sendUnsignDocument_1(dok, lang, signT, id, stat, opis);
-        idMB = id.value;
-        idpobierz = id.value;
-        statMB = stat.value;
-        opisMB = opis.value;
-        temp.setIdentyfikator(idMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
-        temp.setDatazlozenia(new Date());
-        temp.setSporzadzil(wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw());
-        temp.setTestowa(true);
-        deklaracjevatDAO.edit(temp);
-        Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
+            idMBT = id.value;
+            idpobierzT = id.value;
+            statMBT = stat.value;
+            opisMBT = opis.value;
+            temp.setIdentyfikator(idMBT);
+            temp.setStatus(statMBT.toString());
+            temp.setOpis(opisMBT);
+            temp.setDatazlozenia(new Date());
+            temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            temp.setTestowa(true);
+            deklaracjevatDAO.edit(temp);
+            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
-            Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         }
 
     }
 
     public void pobierztest() {
-        requestUPO_1(idpobierz, lang, upo, stat, opis);
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idpobierz);
-        if(temp.getStatus().equals(stat.value)){
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO_Test(idMBT, lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT);
+        if (temp.getStatus().equals(stat.value)) {
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
         } else {
-            if(stat.value == 200){
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3") ){
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            if (stat.value == 200) {
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value);
+            } else if (stat.value.toString().startsWith("3")) {
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
             } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value);
             }
         }
-        upoMB = upo.value;
-        statMB = stat.value;
-        opisMB = opis.value;
-        temp.setUpo(upoMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
+        upoMBT = upo.value;
+        statMBT = stat.value;
+        opisMBT = opis.value;
+        temp.setUpo(upoMBT);
+        temp.setStatus(statMBT.toString());
+        temp.setOpis(opisMBT);
         temp.setDataupo(new Date());
         deklaracjevatDAO.edit(temp);
-        
-        
+
     }
 
     public void pobierzwyslanetest(String identyfikator) {
-        requestUPO_1(identyfikator, lang, upo, stat, opis);
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        try {
+            requestUPO_Test(idMBT, lang, upo, stat, opis);
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
+        }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
-        if(temp.getStatus().equals(stat.value)){
+        if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            if(stat.value == 200){
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: "+stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3") ){
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: "+stat.value, "formX:msg");
+            if (stat.value == 200) {
+                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
+            } else if (stat.value.toString().startsWith("3")) {
+                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
             } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: "+stat.value, "formX:msg");
+                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
             }
         }
-        upoMB = upo.value;
-        statMB = stat.value;
-        opisMB = opis.value;
-        temp.setUpo(upoMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
+        upoMBT = upo.value;
+        statMBT = stat.value;
+        opisMBT = opis.value;
+        temp.setUpo(upoMBT);
+        temp.setStatus(statMBT.toString());
+        temp.setOpis(opisMBT);
         deklaracjevatDAO.edit(temp);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
-    
-    
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getIdMBT() {
+        return idMBT;
+    }
+
+    public void setIdMBT(String idMBT) {
+        this.idMBT = idMBT;
+    }
+
     public String getIdMB() {
         return idMB;
     }
@@ -366,6 +425,39 @@ public class beanek {
         this.wpisView = wpisView;
     }
 
+    public String getIdpobierzT() {
+        return idpobierzT;
+    }
+
+    public void setIdpobierzT(String idpobierzT) {
+        this.idpobierzT = idpobierzT;
+    }
+
+    public Integer getStatMBT() {
+        return statMBT;
+    }
+
+    public void setStatMBT(Integer statMBT) {
+        this.statMBT = statMBT;
+    }
+
+    public String getOpisMBT() {
+        return opisMBT;
+    }
+
+    public void setOpisMBT(String opisMBT) {
+        this.opisMBT = opisMBT;
+    }
+
+    public String getUpoMBT() {
+        return upoMBT;
+    }
+
+    public void setUpoMBT(String upoMBT) {
+        this.upoMBT = upoMBT;
+    }
+
+//</editor-fold>
     static public void main(String[] args) {
         try {
             BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -382,13 +474,4 @@ public class beanek {
         }
     }
 
-    private void requestUPO_1(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
-        port.requestUPO(refId, language, upo, status, statusOpis);
-    }
-
-    private void sendUnsignDocument_1(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
-        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
-    }
 }
