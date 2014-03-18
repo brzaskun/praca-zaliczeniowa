@@ -14,6 +14,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Uz;
@@ -76,7 +77,7 @@ public class PdfPIT5 extends Pdf implements Serializable {
             DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
             String today = formatt.format(date);
             System.out.println("Today : " + today);
-            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+today,font));
+            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+Data.datapk(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()),font));
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);

@@ -15,10 +15,10 @@ import javax.inject.Named;
 public class Data implements Serializable {
 
     /**
-     *
+     * Zwraca string bedacy ostatnim dniem miesiaca dla wydrukow i pk
      * @param rok
      * @param mc
-     * @return
+     * @return <code>String</code> data w formacie yyyy-MM-dd
      */
     public static String datapk(String rok, String mc) {
         switch (mc) {
@@ -36,6 +36,8 @@ public class Data implements Serializable {
                 return rok + "-" + mc + "-30";
         }
     }
+    
+   
     /**
      * Porównywanie dwóch rokow i mce. Przyjmuje integer
      * 

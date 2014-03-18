@@ -1153,25 +1153,7 @@ public class DokView implements Serializable {
             selDokument.setPodatnik(wpisView.getPodatnikWpisu());
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
-            String data;
-            switch (wpisView.getMiesiacWpisu()) {
-                case "01":
-                case "03":
-                case "05":
-                case "07":
-                case "08":
-                case "10":
-                case "12":
-                    data = wpisView.getRokWpisu().toString() + "-" + wpisView.getMiesiacWpisu() + "-31";
-                    break;
-                case "02":
-                    data = wpisView.getRokWpisu().toString() + "-" + wpisView.getMiesiacWpisu() + "-28";
-                    break;
-                default:
-                    data = wpisView.getRokWpisu().toString() + "-" + wpisView.getMiesiacWpisu() + "-30";
-                    break;
-            }
-            selDokument.setDataWyst(data);
+            selDokument.setDataWyst(Data.datapk(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
             selDokument.setRodzTrans("amortyzacja");
             selDokument.setTypdokumentu("AMO");
