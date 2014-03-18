@@ -26,17 +26,19 @@ public class Schema implements Serializable{
     private String kw;
     private String nazwaschemy;
     private String wstep;
+    private String pouczenie;
 
     public Schema() {
     }
 
-    public Schema(String okres, String rok, String mc, String kw, String nazwaschemy, String wstep) {
+    public Schema(String okres, String rok, String mc, String kw, String nazwaschemy, String wstep, String pouczenie) {
         this.okres = okres;
         this.rok = rok;
         this.mc = mc;
         this.kw = kw;
         this.nazwaschemy = nazwaschemy;
         this.wstep = wstep;
+        this.pouczenie = pouczenie;
     }
 
     @Override
@@ -123,11 +125,12 @@ public class Schema implements Serializable{
         this.wstep = wstep;
     }
 
+    public String getPouczenie() {
+        return pouczenie;
+    }
 
-   
-    
-    
-
-    
+    public void setPouczenie(String pouczenie) {
+        this.pouczenie = pouczenie;
+    }
 
 }
