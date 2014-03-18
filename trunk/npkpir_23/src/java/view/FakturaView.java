@@ -474,6 +474,15 @@ public class FakturaView implements Serializable {
         String nazwafunkcji = "wybierzrzadfaktury()";
         RequestContext.getCurrentInstance().execute(nazwafunkcji);
     }
+    
+    public void usunwiersz() {
+        if (!pozycje.isEmpty()) {
+            pozycje.remove(pozycje.size()-1);
+            RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
+            String nazwafunkcji = "wybierzrzadfaktury()";
+            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+        }
+    }
 
     public void zaksieguj() throws Exception {
         for (Faktura p : gosciwybral) {
