@@ -1082,6 +1082,8 @@ public class ZestawienieView implements Serializable {
     
     public void zachowajPit13() {
         biezacyPit.setPkpirM("13");
+        BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+        biezacyPit.setRemanent(roznicaremanentow);
         zachowajPit();
     }
     
@@ -1621,12 +1623,26 @@ public class ZestawienieView implements Serializable {
     }
 
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
-        if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
-            try {
-                Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
-            } catch (Exception e) {
-                Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
-                return 1;
+        if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
+             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
+                int numermiesiaca = Mce.getMapamcyX().get(wpisView.getMiesiacWpisu());
+                String numermiesiacaS = Mce.getMapamcy().get(numermiesiaca-3);
+                try {
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
+                } catch (Exception e) {
+                    Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
+                    return 1;
+                }
+            }
+            
+        } else {
+            if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
+                try {
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
+                } catch (Exception e) {
+                    Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
+                    return 1;
+                }
             }
         }
         return 0;
