@@ -12,12 +12,8 @@ class Pouczenie {
     
     static String Pouczenie;
 
-    public Pouczenie(int numer) {
-        if(numer==13){
-        Pouczenie = "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.58 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>";
-        } else {
-        Pouczenie = "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.48 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>";
-        }
+    public Pouczenie(String pouczenie) {
+        Pouczenie = pouczenie;
     }
     
     public String getPouczenie() {

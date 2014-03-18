@@ -151,8 +151,12 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
-        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
-            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłąna!", "formX:msg");
+        if(temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0&&!temp.getDeklaracja().contains("Wniosek_VAT-ZT")){
+            Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+            return;
+        }
+        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik_ORD-ZU")){
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
         String strFileContent = temp.getDeklaracja();
@@ -231,8 +235,12 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracje.get(deklaracje.size()-1);
-        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik")){
-            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
+        if(temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0&&!temp.getDeklaracja().contains("Wniosek_VAT-ZT")){
+            Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+            return;
+        }
+        if(temp.getSelected().getCelzlozenia().equals("2")&&!temp.getDeklaracja().contains("Zalacznik_ORD-ZU")){
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
         String strFileContent = temp.getDeklaracja();

@@ -5,6 +5,7 @@
 package deklaracjaVAT7_13;
 
 import data.Data;
+import deklaracjeSchemy.SchemaVAT7;
 import embeddable.Parametr;
 import embeddable.Vatpoz;
 import java.io.Serializable;
@@ -38,38 +39,19 @@ public class VAT713 implements Serializable{
     public VAT713(Vatpoz selected, WpisView wpisView) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         this.selected = selected;
         String vatokres = sprawdzjakiokresvat(wpisView);
-        if(vatokres.equals("miesięczne")){
-            if(wpisView.getSumarokmiesiac()<2017){
-                wstep = new Wstep("2013/01/17/1085/");
-                pouczenie = new Pouczenie(13);
-            } else {
-                wstep = new Wstep("2013/04/09/1113/");
-                pouczenie = new Pouczenie(14);
-            }
-            
-        } else {
-            if(wpisView.getSumarokmiesiac()<2017){
-                //kwartalne do 04/2013
-               wstep = new Wstep("2013/01/17/1084/");
-               pouczenie = new Pouczenie(13);
-            } else {
-               wstep = new Wstep("2013/04/09/1114/");
-               pouczenie = new Pouczenie(14);
-            }
-            
-        }
+        wstep = new Wstep(SchemaVAT7.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).getWstep());
         naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
+        pozycjeSzczegolowe = new PozycjeSzczegolowe(selected);
         oswiadczenie = new Oswiadczenie();
         daneAutoryzujace = new DaneAutoryzujace(selected);
-        pozycjeSzczegolowe = new PozycjeSzczegolowe(selected);
+        pouczenie = new Pouczenie(SchemaVAT7.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).getPouczenie());
         wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
     }
 
     private String sprawdzjakiokresvat(WpisView wpisView) {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        Integer sumaszukana = rok+mc;
         List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
         return ParametrView.zwrocParametr(parametry, rok, mc);
     }
