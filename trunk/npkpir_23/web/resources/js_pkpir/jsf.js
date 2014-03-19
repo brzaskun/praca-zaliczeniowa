@@ -407,12 +407,6 @@ function petlawywolujaca(lw,gr,co){
 
   }};
 
-var sprawdzczybrakklienta = function () {
-    var zawartosc = $('#dodWiad\\:acForce_input').val();
-    if(zawartosc==="nowy klient"){
-        dlg123.show();
-    }
-};
 
 var sprawdzczykopiowacklienta = function () {
     var zawartosc = $('#dodWiad\\:acForce_input').val();
