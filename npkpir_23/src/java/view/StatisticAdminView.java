@@ -4,12 +4,18 @@
  */
 package view;
 
+import dao.DokDAO;
 import dao.SesjaDAO;
+import entity.Dok;
 import entity.Sesja;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -27,20 +33,25 @@ import org.joda.time.Duration;
 public class StatisticAdminView implements Serializable {
     private List<Statystyka> statystyka;
     private List<Sesja> sesje;
+    private List<Obrabiani> obrabiani;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private SesjaDAO sesjaDAO;
+    @Inject private DokDAO dokDAO;
 
     public StatisticAdminView() {
         this.sesje = new ArrayList<>();
         this.statystyka = new ArrayList<>();
+        this.obrabiani = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
        obliczstatystyki();
+       obliczkontrahentow();
     }
+    
     
     private void obliczstatystyki() {
         List<String> pracownicy = new ArrayList<>();
@@ -67,6 +78,33 @@ public class StatisticAdminView implements Serializable {
             statystyka.add(stat);
         }
     }
+    
+    private void obliczkontrahentow() {
+        Map<String, String> klienci = new HashMap<>();
+        List<Dok> dok = dokDAO.findAll();
+        Set<String> wprowadzil = new LinkedHashSet<>();
+        for (Dok p : dok) {
+            klienci.put(p.getPodatnik(), p.getWprowadzil());
+            wprowadzil.add(p.getWprowadzil());
+        }
+        for (String s :wprowadzil) {
+            Obrabiani obrab = new Obrabiani();
+            if (s!=null) {
+                obrab.wprowadzajacy = s;
+                obrab.liczbaklientow = 0;
+                obrabiani.add(obrab);
+            }
+        }
+        for (String r : klienci.values()) {
+            if (r!=null) {
+                for (Obrabiani t : obrabiani) {
+                    if (r.equals(t.wprowadzajacy)) {
+                        t.liczbaklientow += 1;
+                    }
+                }
+            }
+        }
+    }
 
     public List<Statystyka> getStatystyka() {
         return statystyka;
@@ -75,6 +113,15 @@ public class StatisticAdminView implements Serializable {
     public void setStatystyka(List<Statystyka> statystyka) {
         this.statystyka = statystyka;
     }
+
+    public List<Obrabiani> getObrabiani() {
+        return obrabiani;
+    }
+
+    public void setObrabiani(List<Obrabiani> obrabiani) {
+        this.obrabiani = obrabiani;
+    }
+    
     
 
     public WpisView getWpisView() {
@@ -139,5 +186,33 @@ public class StatisticAdminView implements Serializable {
         
         //</editor-fold>
         
+    }
+
+    public static class Obrabiani {
+        private String wprowadzajacy;
+        private int liczbaklientow;
+        
+        public Obrabiani() {
+        }
+
+        //<editor-fold defaultstate="collapsed" desc="comment">
+        public String getWprowadzajacy() {
+            return wprowadzajacy;
+        }
+        
+        public void setWprowadzajacy(String wprowadzajacy) {
+            this.wprowadzajacy = wprowadzajacy;
+        }
+        
+        public int getLiczbaklientow() {
+            return liczbaklientow;
+        }
+        
+        public void setLiczbaklientow(int liczbaklientow) {
+            this.liczbaklientow = liczbaklientow;
+        }
+        
+        
+//</editor-fold>
     }
 }
