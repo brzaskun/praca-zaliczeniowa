@@ -5,8 +5,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <bcf:ajaxs/>
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{statisticAdminView.statystyka}" id="lista" 
                       paginator="true" paginatorAlwaysVisible="true" rows="20"
@@ -30,6 +31,23 @@
             </p:column>
             <p:column headerText="czas" filterBy="#{wpis.spedzonyczas}" filterMatchMode="contains" sortBy="#{wpis.spedzonyczas}">  
                 <h:outputText value="#{wpis.spedzonyczas}" />
+            </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+    <p:outputPanel id="wrapper2">
+        <p:dataTable  var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2" 
+                      paginator="true" paginatorAlwaysVisible="true" rows="20"
+                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                      rowsPerPageTemplate="20,50,100" 
+                      rowKey="#{wpis.ksiegowa}" > 
+            <f:facet name="header">  
+                <h:outputText value="Ilośc klientów" />  
+            </f:facet>
+            <p:column headerText="osoba" filterBy="#{wpis.wprowadzajacy}" sortBy="#{wpis.wprowadzajacy}">  
+                <h:outputText value="#{wpis.wprowadzajacy}" />
+            </p:column>
+            <p:column headerText="liczba klientów" filterBy="#{wpis.liczbaklientow}" filterMatchMode="contains" sortBy="#{wpis.liczbaklientow}">  
+                <h:outputText value="#{wpis.liczbaklientow}" />
             </p:column>
         </p:dataTable>
     </p:outputPanel>
