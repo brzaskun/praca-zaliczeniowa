@@ -10,7 +10,6 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <h:form>
         <p:stack icon="/resources/images/menustack/stack.png" >  
-            <p:menuitem value="wynik" icon="/resources/images/menustack/pgb-chip-math.png" actionListener="#{PodatekView.sprawozdaniePodatkowe}" update=":form:prezentacjaPodatku"/>
             <p:menuitem value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}"  />  
         </p:stack>
         </h:form>
@@ -43,7 +42,7 @@
             </h:outputLabel>
 
             <p:commandButton actionListener="{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>-->
-        </p:panelGrid>
+<!--        </p:panelGrid>-->
 
         <p:contextMenu id="menutablica" for="dokumentyLista">
             <p:menuitem value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
