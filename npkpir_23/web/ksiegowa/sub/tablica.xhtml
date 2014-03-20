@@ -20,29 +20,29 @@
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
     </h:form>
     <h:form id="form">
-        <p:panelGrid id="prezentacjaPodatku" columns="13" style="border-color: buttonface !important; border:3px solid; border-radius:25px;">
+<!--        <p:panelGrid id="prezentacjaPodatku" columns="13" style="border-color: buttonface !important; border:3px solid; border-radius:25px;">
             <h:outputLabel value="okres: " style="font-style: italic;" />
-            <h:outputLabel value="#{PodatekView.rokmiesiac}"/>
+            <h:outputLabel value="{PodatekView.rokmiesiac}"/>
             <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
-            <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
+            <h:outputLabel value="{PodatekView.opodatkowanie}"/>
             <h:outputLabel value="Przychody:"/>
-            <h:outputLabel value="#{PodatekView.przychody}">
+            <h:outputLabel value="{PodatekView.przychody}">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
             <h:outputLabel value="Koszty:" style="font-style: italic;"/>
-            <h:outputLabel value="#{PodatekView.koszty}">
+            <h:outputLabel value="{PodatekView.koszty}">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
             <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
-            <h:outputLabel value="#{PodatekView.dochód}">
+            <h:outputLabel value="{PodatekView.dochód}">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
             <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
-            <h:outputLabel value="#{PodatekView.podatek}">
+            <h:outputLabel value="{PodatekView.podatek}">
                 <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
             </h:outputLabel>
 
-            <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>
+            <p:commandButton actionListener="{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz" update=":form:prezentacjaPodatku"/>-->
         </p:panelGrid>
 
         <p:contextMenu id="menutablica" for="dokumentyLista">
