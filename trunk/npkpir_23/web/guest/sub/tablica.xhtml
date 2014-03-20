@@ -7,28 +7,6 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
-            <p:panelGrid id="prezentacjaPodatku" columns="13">
-                <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
-                <h:outputLabel value="Przychody:"/>
-                <h:outputLabel value="#{PodatekView.przychody}" style="font-weight: 900;">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Koszty:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.koszty}" style="font-weight: 900;">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Wynik podatkowy:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.dochód}" style="font-weight: 900;">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-                <h:outputLabel value="Zaliczka za m-c:" style="font-style: italic;"/>
-                <h:outputLabel value="#{PodatekView.podatek}" style="font-weight: 900;">
-                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
-                </h:outputLabel>
-
-                <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz wynik za miesiąc" update=":form:prezentacjaPodatku"/>
-            </p:panelGrid>
 
             <p:contextMenu for="dokumentyLista">
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
