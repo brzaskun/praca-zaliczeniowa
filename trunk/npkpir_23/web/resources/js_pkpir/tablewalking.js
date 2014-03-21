@@ -1,3 +1,5 @@
+"use strict";
+
 var przejdzwiersz = function () {
   var lolo = $("#form\\:dokumentyLista_data").children("tr");
    if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){
@@ -38,8 +40,7 @@ var wrocwiersz = function () {
   $(komorki[1]).click();
 };
 
-function isScrolledIntoView(elem)
-{
+function isScrolledIntoView(elem) {
     var docViewTop = $(window).scrollTop()+150;
     var docViewBottom = docViewTop + $(window).height()-300;
 
@@ -48,6 +49,6 @@ function isScrolledIntoView(elem)
 
     return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
       && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
-}
+};
 
 

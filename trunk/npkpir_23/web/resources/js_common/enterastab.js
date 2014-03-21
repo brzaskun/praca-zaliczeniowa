@@ -1,3 +1,5 @@
+"use strict";
+
 (function ($) {
     var focusable = ":input, a[href]";
  
@@ -53,7 +55,7 @@
  
     function isTabKey(event) {
  
-        if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode == 13) {
+        if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode === 13) {
             return true;
         }
  
@@ -88,6 +90,6 @@
         return $next;
     }
  
-    $(LoadKeyDown)
+    $(LoadKeyDown);
 })(jQuery);
 

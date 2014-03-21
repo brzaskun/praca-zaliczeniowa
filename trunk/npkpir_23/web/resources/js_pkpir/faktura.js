@@ -1,3 +1,5 @@
+"use strict";
+
 var aktywujpolewyboruklientanafakturze = function (){
                        $(document.getElementById("akordeon:formstworz:acForce_input")).focus();
                        $(document.getElementById("akordeon:formstworz:acForce_input")).select();

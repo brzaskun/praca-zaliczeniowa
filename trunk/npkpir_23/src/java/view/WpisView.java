@@ -9,6 +9,7 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
+import embeddable.Roki;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
@@ -83,7 +84,17 @@ public class WpisView implements Serializable {
             this.podatnikWpisu = wpis.getPodatnikWpisu();
             if (wpis.getPodatnikWpisu() == null) {
                 this.miesiacWpisu = "01";
-                wpis.setPodatnikWpisu("GRZELCZYK");
+                wpis.setMiesiacWpisu("01");
+                wpis.setMiesiacOd("01");
+                wpis.setMiesiacDo("01");
+                wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size()-1));
+                Uz podatnikwpisu = uzDAO.find(wpis.getWprowadzil());
+                String nipfirmy = podatnikwpisu.getFirma();
+                String nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                this.podatnikWpisu = nazwapodatnika;
+                wpis.setPodatnikWpisu(nazwapodatnika);
+                wpis.setMiesiacWpisu(miesiacWpisu);
+                wpisDAO.edit(wpis);
             } else {
                 this.miesiacWpisu = wpis.getMiesiacWpisu();
             }

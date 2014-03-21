@@ -187,6 +187,7 @@ public class SessionFacade<T> {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
         return tmp;
     }
+    
 
     public Sesja findSesja(String nrsesji) {
         try {

@@ -1,4 +1,4 @@
-
+"use strict";
 ////function al(){
 //    alert("document.getElementById(dodWiad:rodzajTrans).focus();");
 //}
@@ -32,7 +32,7 @@ var kolorujpola = function() {
     function(){
         $(this).css({'background-color' : '#DFD8D1'});
     });
-}
+};
 
 $(document).ready(kolorujpola());
 
@@ -61,12 +61,12 @@ var zrobF = function (kwota) {
         var strX = kwota.replace(",", ".");
         strX = strX.replace(/\s/g, "");
         return parseFloat(strX);
- }
+ };
  var dolaczwyliczenie = function () {
      try {
         $(document.getElementById("dodWiad:tabelapkpir:1:kwotaPkpir_input")).on('keyup', function(event) {
             var roznica;
-            if (event.which == 107) {
+            if (event.which === 107) {
                 var odjema = zrobF($(this).val());
                 var odjemna = zrobF($(document.getElementById("dodWiad:tabelapkpir:0:kwotaPkpir_input")).val());
                 roznica = odjemna - odjema;
@@ -107,7 +107,7 @@ var aktywujopis = function (){
         $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
     }
     $('#dodWiad\\:opis').on('keydown',function(e){
-        if(e.which=='120'){
+        if(e.which==='120'){
             $('#dodWiad\\:dodajopis').click();
             $('#dodWiad\\:opis').focus();
         }
@@ -161,7 +161,6 @@ var aktywujopis = function (){
             hourText: 'Godzina',
             minuteText: 'Minuta',
             secondText: 'Sekunda',
-            currentText: 'Teraz',
             ampm: false,
             month: 'Miesi\u0105c',
             week: 'Tydzie\u0144',
@@ -260,7 +259,7 @@ var wydrukewidencje = function(kto,nazwa){
         nazwanowa = nazwa;
     }
     window.open('../wydruki/vat-'+nazwanowa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-}
+};
 
 var focusdatavalidate = function(){
         document.getElementById("dodWiad:dataPole").focus();
@@ -389,7 +388,7 @@ function generujoknowyboru(){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
 });
 
-}
+};
 
 
 //rodzial dotyczacy umiejscawiania pozycji z  faktury
