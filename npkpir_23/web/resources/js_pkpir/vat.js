@@ -1,3 +1,5 @@
+"use strict";
+
 var dodajinfopole62 = function (pole) {
     var pole2 = parseInt(document.getElementById("form:pole62").value);
     if (pole2>0) {

@@ -1,3 +1,5 @@
+"use strict";
+
 var MYAPP = {};
 
  function zrobFloat(kwota){

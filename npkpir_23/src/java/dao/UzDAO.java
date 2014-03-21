@@ -30,6 +30,7 @@ public class UzDAO extends DAO implements Serializable{
          return uzFacade.findUzNP(np);
      }
     
+    
    
        public  List<Uz> findAll(){
         try {
