@@ -57,21 +57,17 @@ var aktywujnetto = function(){
     document.getElementById("dodWiad:opis").focus();
 };
 
-var zrobF = function (kwota) {
-        var strX = kwota.replace(",", ".");
-        strX = strX.replace(/\s/g, "");
-        return parseFloat(strX);
- };
+
  var dolaczwyliczenie = function () {
      try {
-        $(document.getElementById("dodWiad:tabelapkpir:1:kwotaPkpir_input")).on('keyup', function(event) {
+        r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
             var roznica;
             if (event.which === 107) {
-                var odjema = zrobF($(this).val());
-                var odjemna = zrobF($(document.getElementById("dodWiad:tabelapkpir:0:kwotaPkpir_input")).val());
+                var odjema = zrobFloat($(this).val());
+                var odjemna = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
                 roznica = odjemna - odjema;
                 $(this).val(Math.abs(roznica));
-                $(document.getElementById("dodWiad:tabelapkpir:1:kwotaPkpir_hinput")).val(Math.abs(roznica));
+                r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(roznica));
                 event.preventDefault();
             }
          });
@@ -172,26 +168,7 @@ var oknoklientanowego = function(){
     window.open("kliencipopup.xhtml?redirect=true","",'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydrukpkpir = function(kto){
-    window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("form:pkpirwysylka").style.display='inline';
-};
 
-var wydrukinwestycja = function(kto){
-    window.open('../wydruki/inwestycja'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    //document.getElementById("form:pkpirwysylka").style.display='inline';
-};
-
-var wydrukzbiorcze = function(kto){
-    window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("akordeon:form:pkpirwysylka").style.display='inline';
-};
-
-var wydrukstr = function(kto){
-    window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formSTR:ewwysylka").style.display='inline';
-    
-};
 // progress on transfers from the server to the client (downloads)
 //function updateProgress (oEvent) {
 //  if (oEvent.lengthComputable) {
@@ -213,54 +190,6 @@ var wydrukstr = function(kto){
 //function transferCanceled(evt) {
 //  alert("The transfer has been canceled by the user.");
 //}
-
-var wydrukvat7 = function(kto, index){
-    window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formX:akordeon:dataList:"+index+":mailbutton").style.display='inline';
-};
-
-var wydrukvat7wysylka = function(kto){
-    window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formX:dokumentyLista:0:mailbutton").style.display='inline';
-};
-
-var wydrukvatue = function(kto){
-    window.open('../wydruki/VATUE'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
-
- var schowajmailbutton = function (index) {
-     $(document.getElementById("formX:akordeon:dataList:"+index+":mailbutton")).attr('display','none');
- };
- 
-
-var wydrukobroty = function(kto){
-    window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formX:obrotywysylka").style.display='inline';
-};
-
-var wydruksumavat = function(kto){
-    window.open('../wydruki/vatsuma'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
-
-var wydrukpk = function(kto){
-    window.open('../wydruki/pk'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
-
-var wydrukfaktura = function(kto){
-    window.open('../wydruki/faktura'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
-var wydrukpit5 = function(kto){
-    window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
-
-var wydrukewidencje = function(kto,nazwa){
-    if(!nazwa.indexOf("sprzedaż", 0)){
-    var nazwanowa = nazwa.substr(0, nazwa.length-1);
-    } else {
-        nazwanowa = nazwa;
-    }
-    window.open('../wydruki/vat-'+nazwanowa+'-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-};
 
 var focusdatavalidate = function(){
         document.getElementById("dodWiad:dataPole").focus();
@@ -350,11 +279,11 @@ else if (prec >= 1 && decPos === -1) {
 return s+" zł"; };
 
 
- function przekazdate(){
+ var przekazdate = function (){
      document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
  };
  
- function dodajPkpirX(){
+ var dodajPkpirX = function (){
      document.getElementById("dodWiad:netto1").value = number_format((document.getElementById("dodWiad:kwotaPkpir_hinput").value -0)+(document.getElementById("dodWiad:kwotaPkpirX_hinput").value -0));
       document.getElementById("dodWiad:sumbrutto").value = number_format(
             (document.getElementById("dodWiad:netto1_hinput").value -0)
@@ -362,7 +291,7 @@ return s+" zł"; };
      document.getElementById("dodWiad:brutto1").value = number_format((document.getElementById("dodWiad:netto1_hinput").value -0)+(document.getElementById("dodWiad:vat1_hinput").value -0));
  };
  
- function dataprzyjecia(){
+ var dataprzyjecia = function (){
      if(document.getElementById("dodWiad:acForce1_hinput").value===null){
      } else {
          document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = document.getElementById("dodWiad:dataPole").value;
@@ -372,28 +301,27 @@ return s+" zł"; };
 
      
      
-     function ustawDateSrodekTrw(){
+var ustawDateSrodekTrw = function (){
     var dataWyst = document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
-     var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
-     var testw = dataWyst.value;
-     if (!testw.match(re)){
-         dataWyst.value = "b\u0142ędna data";
-     }
+    var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+    var testw = dataWyst.value;
+    if (!testw.match(re)){
+        dataWyst.value = "b\u0142ędna data";
+    }
 };
 
 
         
  
 
-function generujoknowyboru(){
+var generujoknowyboru = function (){
     $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
 });
-
 };
 
 
 //rodzial dotyczacy umiejscawiania pozycji z  faktury
-function petlawywolujaca(lw,gr,co){
+var petlawywolujaca = function (lw,gr,co){
         //alert('petlawywolujaca');
         var dlugosc = lw.length-1;
         for(var j = 0; j < dlugosc; j++){
