@@ -1,4 +1,5 @@
 "use strict";
+var TabKeyDown;
 
 (function ($) {
     var focusable = ":input, a[href]";
