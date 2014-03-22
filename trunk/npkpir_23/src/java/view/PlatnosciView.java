@@ -43,100 +43,108 @@ import org.primefaces.context.RequestContext;
  *
  * @author Osito
  */
-@ManagedBean(name="PlatnosciView")
+@ManagedBean(name = "PlatnosciView")
 @ViewScoped
-public class PlatnosciView implements Serializable{
-  
-    @Inject PodatnikDAO podatnikDAO;
-    @Inject PlatnosciDAO platnosciDAO;
-    @Inject OdsetkiDAO odsetkiDAO;
-    @Inject PitDAO pitDAO;
-    @Inject private Podatnik selected;
+public class PlatnosciView implements Serializable {
+
+    @Inject
+    PodatnikDAO podatnikDAO;
+    @Inject
+    PlatnosciDAO platnosciDAO;
+    @Inject
+    OdsetkiDAO odsetkiDAO;
+    @Inject
+    PitDAO pitDAO;
+    @Inject
+    private Podatnik biezacyPodanik;
     private static Platnosci selectedZob;
-    @Inject private ZobowiazanieDAO zv;
-    @Inject private DeklaracjevatDAO deklaracjevatDAO;
-    @Inject private WpisView wpisView;
-    
+    @Inject
+    private ZobowiazanieDAO zv;
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private WpisView wpisView;
 
     private boolean edytujplatnosc;
 
     public PlatnosciView() {
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String nazwapodatnika = principal.getName();
-        try{
-        selected = podatnikDAO.find(wpisView.findNazwaPodatnika());
-        } catch (Exception e){}
+        try {
+            biezacyPodanik = podatnikDAO.find(wpisView.findNazwaPodatnika());
+        } catch (Exception e) {
+        }
         pokazzobowiazania();
     }
-    
-    public void pokazzobowiazania(){
+
+    public void pokazzobowiazania() {
         selectedZob = new Platnosci();
         PlatnosciPK platnosciPK = new PlatnosciPK();
         platnosciPK.setRok(wpisView.getRokWpisu().toString());
         platnosciPK.setMiesiac(wpisView.getMiesiacWpisu());
-        platnosciPK.setPodatnik(selected.getNazwapelna());
+        platnosciPK.setPodatnik(biezacyPodanik.getNazwapelna());
         selectedZob.setPlatnosciPK(platnosciPK);
-         try {
-           selectedZob = platnosciDAO.findPK(platnosciPK);
+        try {
+            selectedZob = platnosciDAO.findPK(platnosciPK);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci były już raz zachowane. Pobrano je z archiwum", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             edytujplatnosc = true;
             RequestContext.getCurrentInstance().update("form:formZob");
         } catch (Exception e) {
-           nowezobowiazanie();
+            nowezobowiazanie();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe daty przelewów.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("form:formZob");
         }
     }
-            
-    public void nowezobowiazanie(){
+
+    public void nowezobowiazanie() {
         String rok = selectedZob.getPlatnosciPK().getRok();
         String mc = selectedZob.getPlatnosciPK().getMiesiac();
-        String podatnik = selected.getNazwapelna();
-        List<Zusstawki> listapobrana = selected.getZusparametr();
-        if (listapobrana!=null) {
-        Zusstawki zusstawki = new Zusstawki();
-        Iterator it;
-        it = listapobrana.iterator();
-        while(it.hasNext()){
-            Zusstawki tmp = (Zusstawki) it.next();
-            if(tmp.getZusstawkiPK().getRok().equals(rok) && tmp.getZusstawkiPK().getMiesiac().equals(mc)){
-                zusstawki = tmp;
+        String podatnik = biezacyPodanik.getNazwapelna();
+        List<Zusstawki> listapobrana = biezacyPodanik.getZusparametr();
+        if (listapobrana != null) {
+            Zusstawki zusstawki = new Zusstawki();
+            Iterator it;
+            it = listapobrana.iterator();
+            while (it.hasNext()) {
+                Zusstawki tmp = (Zusstawki) it.next();
+                if (tmp.getZusstawkiPK().getRok().equals(rok) && tmp.getZusstawkiPK().getMiesiac().equals(mc)) {
+                    zusstawki = tmp;
+                }
             }
-        }
-        selectedZob.setZus51(zusstawki.getZus51ch());
-        selectedZob.setZus52(zusstawki.getZus52());
-        selectedZob.setZus53(zusstawki.getZus53());
-        selectedZob.setPit4(zusstawki.getPit4());
+            selectedZob.setZus51(zusstawki.getZus51ch());
+            selectedZob.setZus52(zusstawki.getZus52());
+            selectedZob.setZus53(zusstawki.getZus53());
+            selectedZob.setPit4(zusstawki.getPit4());
         }
         Pitpoz pitpoz = new Pitpoz();
         //pobierz PIT-5
-        try{
-            pitpoz = pitDAO.find(rok,mc,podatnik);
+        try {
+            pitpoz = pitDAO.find(rok, mc, podatnik);
             selectedZob.setPit5(pitpoz.getNaleznazal().doubleValue());
         } catch (Exception e) {
             selectedZob.setPit5(0.0);
         }
         //pobierz VAT-7
-        try{
+        try {
             Deklaracjevat dekl = new Deklaracjevat();
             try {
                 List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
-                dekl = deklaracje.get(deklaracje.size()-1);
-                if(dekl.getPozycjeszczegolowe().getPoleI58()!=0){
+                dekl = deklaracje.get(deklaracje.size() - 1);
+                if (dekl.getPozycjeszczegolowe().getPoleI58() != 0) {
                     selectedZob.setVat(Double.parseDouble(dekl.getPozycjeszczegolowe().getPole58()));
                 } else {
-                selectedZob.setVat(0-Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+                    selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
                 }
-            }  catch (Exception e)  {
-                selectedZob.setVat(0-Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+            } catch (Exception e) {
+                selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
             }
         } catch (Exception e) {
             selectedZob.setVat(0.0);
@@ -146,10 +154,10 @@ public class PlatnosciView implements Serializable{
         Zobowiazanie termin = new Zobowiazanie();
         Iterator itx;
         itx = terminy.iterator();
-        while(itx.hasNext()){
+        while (itx.hasNext()) {
             Zobowiazanie tmp = (Zobowiazanie) itx.next();
-            if(tmp.getZobowiazaniePK().getRok().equals(selectedZob.getPlatnosciPK().getRok())&&
-                    tmp.getZobowiazaniePK().getMc().equals(selectedZob.getPlatnosciPK().getMiesiac())){
+            if (tmp.getZobowiazaniePK().getRok().equals(selectedZob.getPlatnosciPK().getRok())
+                    && tmp.getZobowiazaniePK().getMc().equals(selectedZob.getPlatnosciPK().getMiesiac())) {
                 termin = tmp;
             }
         }
@@ -163,32 +171,32 @@ public class PlatnosciView implements Serializable{
         selectedZob.setPit4ods(0.0);
         selectedZob.setPit5ods(0.0);
         selectedZob.setVatods(0.0);
-        try{
-        selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
-        selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus51ods());
-        selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus51ods());
-        selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
-        selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
-        Platnosci platnosci = new Platnosci();
-        platnosci.setPit4(selectedZob.getPit4());
-        platnosci.setPit5(selectedZob.getPit5());
-        platnosci.setVat(selectedZob.getVat());
-        platnosci.setZus51(selectedZob.getZus51());
-        platnosci.setZus52(selectedZob.getZus52());
-        platnosci.setZus53(selectedZob.getZus53());
-        PlatnosciPK platnosciPK = new PlatnosciPK();
-        platnosciPK.setMiesiac(mc);
-        platnosciPK.setRok(rok);
-        platnosciPK.setPodatnik(podatnik);
-        platnosci.setPlatnosciPK(platnosciPK);
-        platnosciDAO.edit(platnosci);
-        } catch (Exception e){}
-        //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
+        try {
+            selectedZob.setZus51suma(selectedZob.getZus51() + selectedZob.getZus51ods());
+            selectedZob.setZus52suma(selectedZob.getZus52() + selectedZob.getZus51ods());
+            selectedZob.setZus53suma(selectedZob.getZus53() + selectedZob.getZus51ods());
+            selectedZob.setPit4suma(selectedZob.getPit4() + selectedZob.getPit4ods());
+            selectedZob.setPit5suma(selectedZob.getPit5() + selectedZob.getPit5ods());
+            Platnosci platnosci = new Platnosci();
+            platnosci.setPit4(selectedZob.getPit4());
+            platnosci.setPit5(selectedZob.getPit5());
+            platnosci.setVat(selectedZob.getVat());
+            platnosci.setZus51(selectedZob.getZus51());
+            platnosci.setZus52(selectedZob.getZus52());
+            platnosci.setZus53(selectedZob.getZus53());
+            PlatnosciPK platnosciPK = new PlatnosciPK();
+            platnosciPK.setMiesiac(mc);
+            platnosciPK.setRok(rok);
+            platnosciPK.setPodatnik(podatnik);
+            platnosci.setPlatnosciPK(platnosciPK);
+            platnosciDAO.edit(platnosci);
+        } catch (Exception e) {
         }
-   
+        //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
+    }
 
-    public void przeliczodsetki(int opcja){
-        String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzuz();
+    public void przeliczodsetki(int opcja) {
+        String datatmp = selectedZob.getPlatnosciPK().getRok() + "-" + selectedZob.getPlatnosciPK().getMiesiac() + "-" + selectedZob.getTerminzuz();
         Date datatmp51 = selectedZob.getZus51zapl();
         Date datatmp52 = selectedZob.getZus52zapl();
         Date datatmp53 = selectedZob.getZus53zapl();
@@ -198,17 +206,17 @@ public class PlatnosciView implements Serializable{
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             dataod = (Date) formatter.parse(datatmp);
-            selectedZob.setZus51ods(odsetki(dataod, datatmp51,selectedZob.getZus51().toString()));
-            selectedZob.setZus52ods(odsetki(dataod, datatmp52,selectedZob.getZus52().toString()));
-            selectedZob.setZus53ods(odsetki(dataod, datatmp53,selectedZob.getZus53().toString()));
-            selectedZob.setZus51suma(selectedZob.getZus51()+selectedZob.getZus51ods());
-            selectedZob.setZus52suma(selectedZob.getZus52()+selectedZob.getZus52ods());
-            selectedZob.setZus53suma(selectedZob.getZus53()+selectedZob.getZus53ods());
+            selectedZob.setZus51ods(odsetki(dataod, datatmp51, selectedZob.getZus51().toString()));
+            selectedZob.setZus52ods(odsetki(dataod, datatmp52, selectedZob.getZus52().toString()));
+            selectedZob.setZus53ods(odsetki(dataod, datatmp53, selectedZob.getZus53().toString()));
+            selectedZob.setZus51suma(selectedZob.getZus51() + selectedZob.getZus51ods());
+            selectedZob.setZus52suma(selectedZob.getZus52() + selectedZob.getZus52ods());
+            selectedZob.setZus53suma(selectedZob.getZus53() + selectedZob.getZus53ods());
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
         }
-        try{
-            if(opcja==1){
+        try {
+            if (opcja == 1) {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -219,15 +227,15 @@ public class PlatnosciView implements Serializable{
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
         }
     }
-    
-    public void przeliczodsetkiPIT4(int opcja){
-        String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzpit4();
+
+    public void przeliczodsetkiPIT4(int opcja) {
+        String datatmp = selectedZob.getPlatnosciPK().getRok() + "-" + selectedZob.getPlatnosciPK().getMiesiac() + "-" + selectedZob.getTerminzpit4();
         Date datatmpPIT4 = selectedZob.getPit4zapl();
         Date dataod;
         Date datado;
@@ -235,13 +243,13 @@ public class PlatnosciView implements Serializable{
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             dataod = (Date) formatter.parse(datatmp);
-            selectedZob.setPit4ods(odsetki(dataod, datatmpPIT4,selectedZob.getPit4().toString()));
-            selectedZob.setPit4suma(selectedZob.getPit4()+selectedZob.getPit4ods());
+            selectedZob.setPit4ods(odsetki(dataod, datatmpPIT4, selectedZob.getPit4().toString()));
+            selectedZob.setPit4suma(selectedZob.getPit4() + selectedZob.getPit4ods());
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
         }
-        try{
-            if(opcja==1){
+        try {
+            if (opcja == 1) {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -252,15 +260,15 @@ public class PlatnosciView implements Serializable{
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
         }
     }
-    
-    public void przeliczodsetkiPIT5(int opcja){
-        String datatmp = selectedZob.getPlatnosciPK().getRok()+"-"+selectedZob.getPlatnosciPK().getMiesiac()+"-"+selectedZob.getTerminzpit4();
+
+    public void przeliczodsetkiPIT5(int opcja) {
+        String datatmp = selectedZob.getPlatnosciPK().getRok() + "-" + selectedZob.getPlatnosciPK().getMiesiac() + "-" + selectedZob.getTerminzpit4();
         Date datatmpPIT5 = selectedZob.getPit5zapl();
         Date dataod;
         Date datado;
@@ -268,13 +276,13 @@ public class PlatnosciView implements Serializable{
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             dataod = (Date) formatter.parse(datatmp);
-            selectedZob.setPit5ods(odsetki(dataod, datatmpPIT5,selectedZob.getPit5().toString()));
-            selectedZob.setPit5suma(selectedZob.getPit5()+selectedZob.getPit5ods());
+            selectedZob.setPit5ods(odsetki(dataod, datatmpPIT5, selectedZob.getPit5().toString()));
+            selectedZob.setPit5suma(selectedZob.getPit5() + selectedZob.getPit5ods());
         } catch (ParseException e) {
             System.out.println("Exception :" + e);
         }
-        try{
-            if(opcja==1){
+        try {
+            if (opcja == 1) {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -285,13 +293,13 @@ public class PlatnosciView implements Serializable{
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
         }
     }
-  
+
     private Double odsetki(Date dataod, Date datadotmp, String podstawa) {
         Boolean wymuszonykoniec = false;
         Date dataDozwiersza = new Date();
@@ -302,65 +310,65 @@ public class PlatnosciView implements Serializable{
         while (dataod.getTime() < datadotmp.getTime()) {
             Odsetki odsetkiwiersz = zwrocokres(dataod);
             dataDozwiersza = odsetkiwiersz.getDatadoD();
-            if(dataDozwiersza==null){
+            if (dataDozwiersza == null) {
                 dataDozwiersza = datadotmp;
-                wymuszonykoniec=true;
+                wymuszonykoniec = true;
             }
             //obliczanie nie konczy sie na jednymwierszu wiec trzeba przestawic daty od i do
-            if(dataDozwiersza.getTime()<datadotmp.getTime()){
+            if (dataDozwiersza.getTime() < datadotmp.getTime()) {
                 datado = dataDozwiersza;
             } else {
                 datado = datadotmp;
             }
             odsetki = new BigDecimal(odsetkiwiersz.getStopaodsetek().replace(",", "."));
-                //te 20 to zaokraglenie
-                odsetki = odsetki.divide(new BigDecimal("36500"), 20, RoundingMode.HALF_EVEN);
-                long x = datado.getTime();
-                long y = dataod.getTime();
-                Long wynik = Math.abs(x - y);
-                if(datado.equals(datadotmp)){
-                    wynik = (wynik / (1000 * 60 * 60 * 24))+1;
-                } else {
-                    wynik = (wynik / (1000 * 60 * 60 * 24))+2;
-                }
-                kwota = kwota.add(odsetki.multiply(new BigDecimal(podstawa)).multiply(new BigDecimal(wynik.toString())).setScale(2, RoundingMode.HALF_EVEN));
-                if(wymuszonykoniec==false){
-                dataod = new Date(dataDozwiersza.getTime()+(1000*60*60*24));
-                } else {
-                    dataod = datadotmp;
-                }                
+            //te 20 to zaokraglenie
+            odsetki = odsetki.divide(new BigDecimal("36500"), 20, RoundingMode.HALF_EVEN);
+            long x = datado.getTime();
+            long y = dataod.getTime();
+            Long wynik = Math.abs(x - y);
+            if (datado.equals(datadotmp)) {
+                wynik = (wynik / (1000 * 60 * 60 * 24)) + 1;
+            } else {
+                wynik = (wynik / (1000 * 60 * 60 * 24)) + 2;
+            }
+            kwota = kwota.add(odsetki.multiply(new BigDecimal(podstawa)).multiply(new BigDecimal(wynik.toString())).setScale(2, RoundingMode.HALF_EVEN));
+            if (wymuszonykoniec == false) {
+                dataod = new Date(dataDozwiersza.getTime() + (1000 * 60 * 60 * 24));
+            } else {
+                dataod = datadotmp;
+            }
         }
         kwota = kwota.setScale(0, RoundingMode.HALF_EVEN);
         return kwota.doubleValue();
     }
-    
-   private Odsetki zwrocokres(Date dataod){
-       List<Odsetki> lista = new ArrayList<>();
+
+    private Odsetki zwrocokres(Date dataod) {
+        List<Odsetki> lista = new ArrayList<>();
         lista.addAll(odsetkiDAO.findAll());
         Iterator it;
         it = lista.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Odsetki tmp = (Odsetki) it.next();
-            try{
-            if((dataod.getTime()>=tmp.getDataodD().getTime())&&(dataod.getTime()<=tmp.getDatadoD().getTime())){
-                return tmp;
-            }
-            } catch (Exception e){
+            try {
+                if ((dataod.getTime() >= tmp.getDataodD().getTime()) && (dataod.getTime() <= tmp.getDatadoD().getTime())) {
+                    return tmp;
+                }
+            } catch (Exception e) {
                 break;
             }
         }
-        return lista.get(lista.size()-1);
-   }
-    
-    private long roznicaDni(Date date_od, Date date_do){ 
-                long x=date_do.getTime(); 
-                long y=date_od.getTime(); 
-                long wynik=Math.abs(x-y); 
-                wynik=wynik/(1000*60*60*24); 
-                System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
-                return wynik;
-     }
-    
+        return lista.get(lista.size() - 1);
+    }
+
+    private long roznicaDni(Date date_od, Date date_do) {
+        long x = date_do.getTime();
+        long y = date_od.getTime();
+        long wynik = Math.abs(x - y);
+        wynik = wynik / (1000 * 60 * 60 * 24);
+        System.out.println("Roznica miedzy datami to " + wynik + " dni...");
+        return wynik;
+    }
+
     public PodatnikDAO getPodatnikDAO() {
         return podatnikDAO;
     }
@@ -377,12 +385,12 @@ public class PlatnosciView implements Serializable{
         this.wpisView = wpisView;
     }
 
-    public Podatnik getSelected() {
-        return selected;
+    public Podatnik getBiezacyPodanik() {
+        return biezacyPodanik;
     }
 
-    public void setSelected(Podatnik selected) {
-        this.selected = selected;
+    public void setBiezacyPodanik(Podatnik biezacyPodanik) {
+        this.biezacyPodanik = biezacyPodanik;
     }
 
     public ZobowiazanieDAO getZv() {
@@ -432,6 +440,5 @@ public class PlatnosciView implements Serializable{
     public void setPitDAO(PitDAO pitDAO) {
         this.pitDAO = pitDAO;
     }
-    
-    
+
 }
