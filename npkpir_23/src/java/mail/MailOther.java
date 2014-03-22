@@ -258,7 +258,7 @@ public class MailOther extends MailSetUp implements Serializable{
               }
 }
      
-      public void vat7() {
+      public void vat7(int row) {
        try {
             Message message = logintoMail();
             message.setSubject("Wydruk dekalracji VAT-7");
@@ -290,10 +290,9 @@ public class MailOther extends MailSetUp implements Serializable{
             message.setContent(mp);
             Transport.send(message);
             Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient);
-            RequestContext.getCurrentInstance().execute("schowajmailbutton();");
             File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
             f.delete();
-            RequestContext.getCurrentInstance().execute("schowajmailbutton();");
+            RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
             } else {
                 Msg.msg("e", "Brak wygenerowanej wcześniej deklaracji VAT. Nie wysłano maila do klienta. Kliknij najpierw na przycisk Pdf właściwej deklaracji VAT.");
             }

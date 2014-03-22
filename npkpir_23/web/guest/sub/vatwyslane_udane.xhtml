@@ -5,7 +5,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
     <p:tab title="Deklaracje wysłane z otrzymanym potwierdzeniem. Można je wydrukować i wysłać mailem">
         <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
             <p:column style="width: 3%;">
@@ -75,7 +77,7 @@
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="margin-left: 10px; display: none;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX" style="margin-left: 10px; display: none;"  />
             </p:column>
             
                 <p:rowExpansion>
