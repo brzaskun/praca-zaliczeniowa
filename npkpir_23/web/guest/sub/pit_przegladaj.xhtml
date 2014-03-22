@@ -38,7 +38,6 @@
                         <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="usun pit"  onclick="usunPIT.show();"  style="width: 120px; margin-top: 2%;"/>
             </h:form>
             <h:form id="formpi2">
                 <p:panel header="przegląd wybranego PIT-u za #{pitView.biezacyPit.pkpirR}/#{pitView.biezacyPit.pkpirM}" style="margin-left: 50px;width: 350px"/><br/>
@@ -128,7 +127,6 @@
                             <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton value="usun pit"  onclick="usunPITR.show();" style="width: 120px;"/>
                 </h:form>
                 <h:form id="formpi3">
                     <p:panel header="przegląd wybranego PIT-u (ryczałt)" style="margin-left: 50px;width: 400px"/><br/>
