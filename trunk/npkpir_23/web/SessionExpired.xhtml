@@ -12,17 +12,11 @@
         <title>Wstęp wzbroniony :)</title>
     </h:head>
     <h:body styleClass="body">
-         <p:idleMonitor timeout="700000">  
+         <p:idleMonitor timeout="7000">  
             <p:ajax event="idle" listener="#{Logowanie.autologin()}"  />  
         </p:idleMonitor>  
             <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
-                
-                <p></p>
-                <h:outputText
-                    value="Wygląda na to, ze próbowałeś się dostać do strony, do której 
-                    nie masz wystarczającyc uprawnień. Skontaktuj się z Administratorem, aby zapewnić sobie dostęp następnym razem."
-                    style="font-weight: bold;"
-                    ></h:outputText>
+                <h:outputText value="Twoja sesja niestety wygasła  z powodu bezczynności - zaloguj się ponownie." style="font-weight: bold;"></h:outputText>
                 <p></p>
                 <h:form>
                     <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" action="/login.xhtml?faces-redirect=true"/>
