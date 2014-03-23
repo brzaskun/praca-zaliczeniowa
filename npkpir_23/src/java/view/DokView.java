@@ -512,8 +512,10 @@ public class DokView implements Serializable {
                 ewidencjaAddwiad.get(0).setNetto(sumanetto);
                 if(transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.")  || transakcjiRodzaj.equals("eksport towarów")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
-                } else {
-                    ewidencjaAddwiad.get(0).setVat(sumanetto*0.23);
+                 } else if (skrotRT.contains("ZZP")){
+                    ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto()*0.23)/2);
+                 } else {
+                    ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto()*0.23);
                 }
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto()+ewidencjaAddwiad.get(0).getVat());
                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
@@ -540,6 +542,7 @@ public class DokView implements Serializable {
     }
         
    public void updatenetto(EwidencjaAddwiad e) {
+       String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
        int lp = e.getLp();
        String stawkavat = ewidencjaAddwiad.get(lp).getOpis().replaceAll("[^\\d]", "" );
        try {
@@ -549,6 +552,8 @@ public class DokView implements Serializable {
            String opis = ewidencjaAddwiad.get(lp).getOpis();
            if(opis.contains("WDT") || opis.contains("UPTK")  || opis.contains("EXP")) {
               ewidencjaAddwiad.get(0).setVat(0.0);
+           } else if (skrotRT.contains("ZZP")){
+              ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto()*0.23)/2);
            } else {
               ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto()*0.23);
            }

@@ -57,7 +57,6 @@
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
-                    <p:ajax event="blur" onstart="dolaczwyliczenie();"/>
                 </h:selectOneMenu> 
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
                     <f:validateLength minimum="1" maximum="50"/>

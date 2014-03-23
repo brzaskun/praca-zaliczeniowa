@@ -74,12 +74,12 @@ var aktywujopis = function (){
     }
     if(dokument==='LP'){
         $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
-    }
-    if(dokument==='PK'){
+    } else if (dokument==='PK'){
         $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
-    }
-    if(dokument==='ZUS'){
+    } else if(dokument==='ZUS'){
         $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
+    } else {
+        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', false);
     }
     $('#dodWiad\\:opis').on('keydown',function(e){
         if(e.which==='120'){
@@ -87,22 +87,18 @@ var aktywujopis = function (){
             $('#dodWiad\\:opis').focus();
         }
     }); 
-   
-    
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu
-    $('#dodWiad\\:opis_input').on('keyup',function(e){
+    r('dodWiad:opis_input').on('keyup',function(e){
         var kodklawisza = e.which;
         if(kodklawisza===107){
-            $('#dodWiad\\:dodkol').click();
-            var wartoscpola = $('#dodWiad\\:opis_input').val();
-            $('#dodWiad\\:opis_input').val(wartoscpola.slice(0,-1));
-            $(':kwotaPkpir_hinput').last().focus();
+            r('dodWiad:dodkol').click();
+            var wartoscpola = r('dodWiad:opis_input').val();
+            r('dodWiad:opis_input').val(wartoscpola.slice(0,-1));
         }
          if(kodklawisza===109){
-            $('#dodWiad\\:usunkol').click();
-            var wartoscpola = $('#dodWiad\\:opis_input').val();
-            $('#dodWiad\\:opis_input').val(wartoscpola.slice(0,-1));
-            $(':kwotaPkpir_hinput').last().focus();
+            r('dodWiad:usunkol').click();
+            var wartoscpola = r('dodWiad:opis_input').val();
+            r('dodWiad:opis_input').val(wartoscpola.slice(0,-1));
         }
     });
     $('#dodWiad\\:numerwlasny').focus();
@@ -153,17 +149,17 @@ var focusdatavalidate = function(){
  
  
  var dataprzyjecia = function (){
-     if(document.getElementById("dodWiad:acForce1_hinput").value===null){
+     if(rj("dodWiad:acForce1_hinput").value===null){
      } else {
-         document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = document.getElementById("dodWiad:dataPole").value;
-         document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
+         rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
+         rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
      }
  };
 
      
      
 var ustawDateSrodekTrw = function (){
-    var dataWyst = document.getElementById("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
+    var dataWyst = rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
     var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
     var testw = dataWyst.value;
     if (!testw.match(re)){
