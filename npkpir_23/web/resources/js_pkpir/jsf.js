@@ -1,19 +1,18 @@
 "use strict";
 
 //nadaje odpowiednie kolory podświetlanym polom formularza
-var kolorujpola = function() {
-    $(':input').focus(
-    function(){
-        $(this).css({'background-color' : '#CEE4F0'});
-    });
+//var kolorujpola = function() {
+//    $("*[name*='dodWiad'").focus(
+//    function(){
+//        $(this).css({'color' : 'red'});
+//    });
+//
+//    $("*[name*='dodWiad'").blur(
+//    function(){
+//        $(this).css({'background-color' : '#DFD8D1'});
+//    });
+//};
 
-    $(':input').blur(
-    function(){
-        $(this).css({'background-color' : '#DFD8D1'});
-    });
-};
-
-$(document).ready(kolorujpola());
 
 
 
