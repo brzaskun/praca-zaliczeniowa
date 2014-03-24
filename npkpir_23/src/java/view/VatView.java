@@ -263,7 +263,7 @@ public class VatView implements Serializable {
     }
     
     public String przekierowanieEwidencji() {
-         return "/ksiegowa/ksiegowaVATzest.xhtml";
+         return "/ksiegowa/ksiegowaVATzest.xhtml?faces-redirect=true";
     }
    
     private String sprawdzjakiokresvat() {
