@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -36,6 +37,7 @@ import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
+import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
@@ -86,6 +88,9 @@ public class DokfkView implements Serializable {
     private String wybranawaluta;
     private String symbolwalutydowiersza;
     private List<String> wprowadzonesymbolewalut;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    
 
 
     public DokfkView() {
@@ -403,7 +408,7 @@ public class DokfkView implements Serializable {
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
-                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType("Kowalski", skrotnazwydokumentu);
+                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikWpisu(), skrotnazwydokumentu);
                 selected.getDokfkPK().setNrkolejny(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejny() + 1);
             } catch (Exception e) {
                 selected.getDokfkPK().setNrkolejny(1);
@@ -1038,6 +1043,15 @@ public class DokfkView implements Serializable {
     
     //********************************
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
     public Dokfk getSelected() {
         return selected;
     }

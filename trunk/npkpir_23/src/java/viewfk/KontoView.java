@@ -12,8 +12,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import view.WpisView;
 
 /**
  *
@@ -25,6 +27,8 @@ public class KontoView  implements Serializable {
     private Konto wybranekonto;
     private List<Wiersze> listazapisownakoncie;
     @Inject private WierszeDAO wierszeDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public KontoView() {
         
@@ -61,10 +65,19 @@ public class KontoView  implements Serializable {
     
      public void pobierzZapisyNaKoncie() {
          listazapisownakoncie = new ArrayList<>();
-         listazapisownakoncie = wierszeDAO.findWierszeZapisy("Kowalski", wybranekonto.getPelnynumer());
+         listazapisownakoncie = wierszeDAO.findWierszeZapisy(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
      }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+     
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+     
     public List<Wiersze> getListazapisownakoncie() {
         return listazapisownakoncie;
     }

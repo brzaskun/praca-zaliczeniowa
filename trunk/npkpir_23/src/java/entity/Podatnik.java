@@ -54,6 +54,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Podatnik.findByUlica", query = "SELECT p FROM Podatnik p WHERE p.ulica = :ulica"),
     @NamedQuery(name = "Podatnik.findByUrzadskarbowy", query = "SELECT p FROM Podatnik p WHERE p.urzadskarbowy = :urzadskarbowy"),
     @NamedQuery(name = "Podatnik.findByVatokres", query = "SELECT p FROM Podatnik p WHERE p.vatokres = :vatokres"),
+    @NamedQuery(name = "Podatnik.findByFirmafk", query = "SELECT p FROM Podatnik p WHERE p.firmafk = :firmafk"),
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
 public class Podatnik implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -182,8 +183,18 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "miejscewystawienia")
     private String miejscewystawienia;
+    @Column(name = "firmafk")
+    private boolean firmafk;
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public boolean isFirmafk() {
+        return firmafk;
+    }
+
+    public void setFirmafk(boolean firmafk) {
+        this.firmafk = firmafk;
+    }
+    
     
     public Podatnik() {
     }

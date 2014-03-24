@@ -13,8 +13,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import view.WpisView;
 
 /**
  *
@@ -28,6 +30,8 @@ public class BilansPodgladView  implements Serializable{
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public BilansPodgladView() {
         this.root = new TreeNodeExtended("root", null);
@@ -40,7 +44,7 @@ public class BilansPodgladView  implements Serializable{
     
     public void generujBO() {
         ArrayList<Kontozapisy> kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", "000"));
+        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), "000"));
         resetujBO();
         ArrayList<Konto> konta = new ArrayList<>();
         konta.addAll(kontoDAO.findAll());
@@ -129,6 +133,15 @@ public class BilansPodgladView  implements Serializable{
     public void setRoot(TreeNodeExtended root) {
         this.root = root;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
 
     
 }

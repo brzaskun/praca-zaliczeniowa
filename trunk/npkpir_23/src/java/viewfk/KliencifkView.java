@@ -49,7 +49,7 @@ public class KliencifkView implements Serializable{
     @PostConstruct
     private void init() {
         listawszystkichklientow = klienciDAO.findAll();
-        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient("8511005008");
+        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
     }
     
     public void pobieraniekontaFK(){
@@ -57,13 +57,13 @@ public class KliencifkView implements Serializable{
         nowekliencifk = new Kliencifk();
         Msg.msg("Pobieram kontofk");
         try {
-            kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), "8511005008");
+            kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
             //tworzenie nowego
             nowekliencifk.setNazwa(wybranyklient.getNpelna());
             nowekliencifk.setNip(wybranyklient.getNip());
-            nowekliencifk.setPodatniknazwa("Podatnik");
-            nowekliencifk.setPodatniknip("8511005008");
+            nowekliencifk.setPodatniknazwa(wpisView.getPodatnikWpisu());
+            nowekliencifk.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             nowekliencifk.setNrkonta(pobierznastepnynumer());
         }
     }
@@ -82,7 +82,7 @@ public class KliencifkView implements Serializable{
 
     private String pobierznastepnynumer() {
         try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient("8511005008");
+            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size()-1).getNrkonta())+1);
         } catch (Exception e) {
             return "1";
