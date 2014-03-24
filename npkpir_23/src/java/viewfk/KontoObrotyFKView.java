@@ -17,11 +17,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
+import view.WpisView;
 
 /**
  *
@@ -44,6 +46,8 @@ public class KontoObrotyFKView implements Serializable{
     private Double saldoMa;
     List<ObrotykontaTabela> lista;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
 
     public KontoObrotyFKView() {
@@ -77,14 +81,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", p.getPelnynumer()));
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik("Kowalski", p.getPelnynumer()));
+                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
-             kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik("Kowalski", wybranekonto.getPelnynumer()));
+             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+             kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
          sumamiesiecy();
          sumazapisow();
@@ -195,6 +199,15 @@ public class KontoObrotyFKView implements Serializable{
     
  
     //<editor-fold defaultstate="collapsed" desc="comment">
+     
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+     
     public List<Kontozapisy> getKontozapisy() {
         return kontozapisy;
     }
@@ -322,6 +335,7 @@ public class KontoObrotyFKView implements Serializable{
         }
 
         //<editor-fold defaultstate="collapsed" desc="comment">
+        
         public String getRok() {
             return rok;
         }

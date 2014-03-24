@@ -25,12 +25,14 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
+import view.WpisView;
 
 /**
  *
@@ -55,6 +57,8 @@ public class KontoZapisFKView implements Serializable{
     private Double saldoWn;
     private Double saldoMa;
     private List zapisydopodswietlenia;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
 
     public KontoZapisFKView() {
@@ -88,12 +92,12 @@ public class KontoZapisFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", p.getPelnynumer()));
+                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik("Kowalski", wybranekonto.getPelnynumer());
+             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
          }
          sumazapisow();
          }
@@ -196,6 +200,15 @@ public class KontoZapisFKView implements Serializable{
     
  
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
     public List<Kontozapisy> getKontozapisy() {
         return kontozapisy;
     }

@@ -716,6 +716,10 @@ public class SessionFacade<T> {
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
         return em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
     } 
+
+    public List<Podatnik> findPodatnikFK() {
+        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
+    }
   
   
 }
