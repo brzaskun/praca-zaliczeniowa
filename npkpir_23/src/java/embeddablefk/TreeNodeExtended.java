@@ -19,13 +19,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
+import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 /**
  *
  * @author Osito
+ * @param <T>
  */
+@Named
+@Singleton
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
