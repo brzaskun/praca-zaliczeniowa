@@ -21,4 +21,23 @@
             <name>value</name>
         </attribute>
     </tag>
+    <tag>
+	<tag-name>confirm</tag-name>
+	<source>tags/confirm.xhtml</source>
+        <attribute>
+            <name>lp</name>
+        </attribute>
+         <attribute>
+            <name>wiadomosc</name>
+        </attribute>
+         <attribute>
+            <name>naglowek</name>
+        </attribute>
+         <attribute>
+            <name>listener</name>
+        </attribute>
+        <attribute>
+            <name>listenerPresent</name>
+        </attribute>
+    </tag>
 </facelet-taglib>

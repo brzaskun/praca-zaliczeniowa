@@ -161,6 +161,10 @@ public class PlanKontView implements Serializable {
             }
         }
     }
+    
+    public void mesyd() {
+        Msg.msg("lolololo");
+    }
 
     private void odswiezroot() {
         ArrayList<Konto> kontadlanodes = new ArrayList<>();

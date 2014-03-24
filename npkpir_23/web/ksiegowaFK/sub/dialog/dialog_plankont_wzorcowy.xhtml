@@ -32,12 +32,12 @@
                     }
             </script>-->
               <p:panelGrid columns="6">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin()}" update=":form:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin()}" update=":form:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implementuj" actionListener="#{planKontView.implementuj()}" update=":form:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataListwzorcowy" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
