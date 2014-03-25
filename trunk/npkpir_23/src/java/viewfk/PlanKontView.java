@@ -13,9 +13,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -24,8 +26,9 @@ import org.primefaces.model.TreeNode;
  *
  * @author Osito
  */
-@ManagedBean
+@Stateless
 @ViewScoped
+@Named("planKontView")
 public class PlanKontView implements Serializable {
 
     private List<Konto> wykazkont;
@@ -162,6 +165,7 @@ public class PlanKontView implements Serializable {
         }
     }
     
+    @RolesAllowed("BookkeeperFK")
     public void mesyd() {
         Msg.msg("lolololo");
     }
