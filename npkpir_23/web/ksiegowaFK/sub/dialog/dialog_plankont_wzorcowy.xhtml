@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
-
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
@@ -14,9 +14,9 @@
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="nowekontosyntetyczne.show();" />
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="nowekontoanalityczne.show();" />
                 <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="nowekontoslownik.show();" />
-                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form, :formwzorcowy"/>
                 <p:separator/>
-                <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
             </p:contextMenu>
 <!--            <script>
 
@@ -37,7 +37,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":formwzorcowy:dataListwzorcowy" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '1'}" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataListwzorcowy" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
