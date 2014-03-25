@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,7 +25,7 @@ import org.primefaces.model.TreeNode;
  *
  * @author Osito
  */
-@Stateless
+
 @ViewScoped
 @Named("planKontView")
 public class PlanKontView implements Serializable {
@@ -34,8 +33,6 @@ public class PlanKontView implements Serializable {
     private List<Konto> wykazkont;
     private List<Konto> wykazkontanalityczne;
     private static List<Konto> wykazkontS;
-    private static String opiskonta;
-    private static String pelnynumerkonta;
     @Inject
     private Konto selected;
     @Inject
@@ -57,12 +54,6 @@ public class PlanKontView implements Serializable {
         rozwinwszystkie();
         wykazkont = kontoDAO.findAll();
         wykazkontS = kontoDAO.findAll();
-        opiskonta = "";
-        pelnynumerkonta = "";
-        for (Konto t : wykazkontS) {
-            opiskonta = opiskonta + t.getNazwaskrocona() + ",";
-            pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
-        }
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
@@ -353,14 +344,7 @@ public class PlanKontView implements Serializable {
         return "jeden,dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec";
     }
 
-    public String getOpiskonta() {
-        return opiskonta;
-    }
-
-    public String getPelnynumerkonta() {
-        return pelnynumerkonta;
-    }
-
+   
     public TreeNodeExtended getRoot() {
         return root;
     }
