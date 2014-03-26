@@ -86,7 +86,7 @@ import params.Params;
  */
 @ManagedBean(name = "DokumentView")
 @ViewScoped
-public class DokView implements Serializable {
+public final class DokView implements Serializable {
     private static Klienci przekazKontr;
     private static String wielkoscopisuewidencji;
     private static String przechowajdatejakdodaje;

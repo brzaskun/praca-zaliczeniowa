@@ -20,6 +20,7 @@ public class SrodkiConv implements javax.faces.convert.Converter{
     
     
     
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         SrodkikstView srodkikstView = new SrodkikstView();
         List<Srodkikst> kl = srodkikstView.getLista();
@@ -43,6 +44,7 @@ public class SrodkiConv implements javax.faces.convert.Converter{
         return null;  
     }  
   
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  

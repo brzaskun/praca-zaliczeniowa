@@ -18,6 +18,7 @@ import viewfk.RzisukladView;
  */
 public class RzisukladConv  implements javax.faces.convert.Converter{
     
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         List<Rzisuklad> kl = RzisukladView.getListaS();
         if (submittedValue.trim().equals("")) {  
@@ -38,6 +39,7 @@ public class RzisukladConv  implements javax.faces.convert.Converter{
         return null;  
     }  
   
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
         try {
             if (value == null || value.equals("")) {  
