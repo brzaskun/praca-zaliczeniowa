@@ -12,6 +12,7 @@ import embeddable.Vatpoz;
  * @author Osito
  */
 class Podmiot {
+    static String Podmiot;
     Integer Rok;
     Integer Miesiac;
     
@@ -30,7 +31,6 @@ class Podmiot {
     String KodPocztowy;
     String Poczta;
     
-    static String Podmiot;
 
     public Podmiot(Vatpoz selected) {
         Rok = Integer.parseInt(selected.getRok());

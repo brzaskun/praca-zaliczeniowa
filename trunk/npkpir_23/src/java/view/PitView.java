@@ -26,11 +26,15 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class PitView implements Serializable {
     private static List<Pitpoz> lista;
+    private static Pitpoz biezacyPit;
+
+    public static Pitpoz getBiezacyPitS() {
+        return biezacyPit;
+    }
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    private static Pitpoz biezacyPit;
    
 
     public PitView() {
@@ -87,13 +91,10 @@ public class PitView implements Serializable {
         return biezacyPit;
     }
     
-    public static Pitpoz getBiezacyPitS() {
-        return biezacyPit;
-    }
-
     public void setBiezacyPit(Pitpoz biezacyPit) {
         this.biezacyPit = biezacyPit;
     }
+
 
    
     

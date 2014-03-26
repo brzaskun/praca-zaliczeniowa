@@ -34,16 +34,16 @@ public class Opis implements Serializable{
     private WpisView wpisView;
      
 
-    @PostConstruct
-    private void init(){
-        podatnik = podatnikDAO.find(wpisView.getPodatnikWpisu());
-        try{
-        opisy.addAll(podatnik.getOpisypkpir());
-        } catch (Exception e){}
+    public Opis(){
+        opisy = new ArrayList();
     }
     
-    public Opis() {
-        opisy = new ArrayList();
+    @PostConstruct
+    private void init() {
+        podatnik = podatnikDAO.find(wpisView.getPodatnikWpisu());
+        try{
+            opisy.addAll(podatnik.getOpisypkpir());
+        } catch (Exception e){}
     }
 
 

@@ -90,6 +90,165 @@ import params.Params;
 @ManagedBean(name = "DokumentView")
 @ViewScoped
 public class DokView implements Serializable {
+    private static Klienci przekazKontr;
+    private static String wielkoscopisuewidencji;
+    private static String przechowajdatejakdodaje;
+    private static ArrayList<Klienci> kl1;
+
+    public static ArrayList<Klienci> getKl1S() {
+        return kl1;
+    }
+
+    public static Klienci getPrzekazKontr() {
+        return przekazKontr;
+    }
+
+    public static void setPrzekazKontr(Klienci przekazKontr) {
+        DokView.przekazKontr = przekazKontr;
+    }
+
+//   public DokTabView getDokTabView() {
+//       return dokTabView;
+//   }
+//
+//   public void setDokTabView(DokTabView dokTabView) {
+//       this.dokTabView = dokTabView;
+//   }
+//
+    //    public static void main(String[] args) throws ParseException{
+    //        String data = "2012-02-02";
+    //        Calendar c = Calendar.getInstance();
+    //        DateFormat formatter;
+    //        formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //        Date terminplatnosci = (Date) formatter.parse(data);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 30);
+    //        String nd30 = formatter.format(c.getTime());
+    ////        selDokument.setTermin30(nd30);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 90);
+    //        String nd90 = formatter.format(c.getTime());
+    //      //  selDokument.setTermin90(nd90);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 150);
+    //        String nd150 = formatter.format(c.getTime());
+    //        //selDokument.setTermin150(nd150);
+    //    }
+    public static void main(String[] args) {
+        Map<String, Object> lolo = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        //        addDays("2008-03-08");
+        //        addDays("2009-03-07");
+        //        addDays("2010-03-13");
+    }
+    //
+    //    public static void addDays(String dateString) {
+    //        System.out.println("Got dateString: " + dateString);
+    //
+    //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    //
+    //        Calendar calendar = Calendar.getInstance();
+    //        try {
+    //            calendar.setTime(sdf.parse(dateString));
+    //            Date day1 = calendar.getTime();
+    //            System.out.println("  day1 = " + sdf.format(day1));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day2 = calendar.getTime();
+    //            System.out.println("  day2 = " + sdf.format(day2));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day3 = calendar.getTime();
+    //            System.out.println("  day3 = " + sdf.format(day3));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day4 = calendar.getTime();
+    //            System.out.println("  day4 = " + sdf.format(day4));
+    //
+    //            // Skipping a few days ahead:
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
+    //            Date day5 = calendar.getTime();
+    //            System.out.println("  day5 = " + sdf.format(day5));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day6 = calendar.getTime();
+    //            System.out.println("  day6 = " + sdf.format(day6));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day7 = calendar.getTime();
+    //            System.out.println("  day7 = " + sdf.format(day7));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day8 = calendar.getTime();
+    //            System.out.println("  day8 = " + sdf.format(day8));
+    //
+    //        } catch (Exception e) {
+    //        }
+    //    }
+    //      public void uporzadkujbrutto(){
+    //          List<Dok> lista = dokDAO.findAll();
+    //          for(Dok sel : lista){
+    //                Double kwota = sel.getKwota();
+    //                try{
+    //                kwota = kwota + sel.getKwotaX();
+    //                } catch (Exception e){}
+    //
+    //                double kwotavat = 0;
+    //                try{
+    //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
+    //                    for(EVatwpis p : listavat){
+    //                        kwotavat = kwotavat + p.getVat();
+    //                    }
+    //                } catch (Exception e){}
+    //                try{
+    //                kwota = kwota + kwotavat;
+    //                } catch (Exception e){}
+    //                sel.setBrutto(kwota);
+    //                dokDAO.edit(sel);
+    //          }
+    //      }
+    //       public void uporzadkujekstra(){
+    //          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
+    //          for(Dok sel : lista){
+    //                Double kwota = sel.getKwota();
+    //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
+    //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
+    //                }
+    //                System.out.println("Zmienilem dokument");
+    //                dokDAO.edit(sel);
+    //          }
+    //      }
+    //      public void przeksiegujkwoty(){
+    //          List<Dok> lista = dokDAO.findAll();
+    //          for(Dok p : lista){
+    //              List<KwotaKolumna> wiersz = new ArrayList<>();
+    //              KwotaKolumna pierwszy = new KwotaKolumna();
+    //              KwotaKolumna drugi = new KwotaKolumna();
+    //              try {
+    //                  pierwszy.setNetto(p.getKwota());
+    //                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
+    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+    //                  pierwszy.setVat(tmp1.doubleValue());
+    //                  tmp1 = BigDecimal.valueOf(p.getBrutto());
+    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+    //                  pierwszy.setBrutto(tmp1.doubleValue());
+    //                  pierwszy.setNazwakolumny(p.getPkpirKol());
+    //                  wiersz.add(pierwszy);
+    //              } catch (Exception e){}
+    //              try {
+    //                  drugi.setNetto(p.getKwotaX());
+    //                  drugi.setVat(0.0);
+    //                  drugi.setBrutto(p.getKwotaX().doubleValue());
+    //                  drugi.setNazwakolumny(p.getPkpirKolX());
+    //                  drugi.setDowykorzystania("dosprawdzenia");
+    //                  wiersz.add(drugi);
+    //              } catch (Exception e){}
+    //              p.setListakwot(wiersz);
+    //              dokDAO.edit(p);
+    //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
+    //          }
+    //      }
+    //</editor-fold>
 
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
@@ -104,7 +263,6 @@ public class DokView implements Serializable {
     private AmoDokDAO amoDokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
-    private static Klienci przekazKontr;
 
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
@@ -128,7 +286,6 @@ public class DokView implements Serializable {
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
     private EVatwpis eVatwpis;
-    private static String wielkoscopisuewidencji;
     /* Rozliczenia vat*/
     /*Środki trwałe*/
     @Inject
@@ -161,7 +318,6 @@ public class DokView implements Serializable {
     //pobieram wykaz KŚT
     @Inject
     private SrodkikstDAO srodkikstDAO;
-    private static String przechowajdatejakdodaje;
     @Inject
     OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
@@ -195,6 +351,25 @@ public class DokView implements Serializable {
     private List<String> kolumny;
     @Inject
     private InwestycjeDAO inwestycjeDAO;
+    public boolean renderujwysz;
+    @Inject
+    private Klienci selectedKlient;
+    @Inject
+    private KlienciDAO klDAO;
+    @Inject
+            PanstwaSymb1 ps1;
+
+    public DokView() {
+        setPokazSTR(false);
+        opis = "ewidencja opis";
+        setWysDokument(null);
+        wpisView = new WpisView();
+        opisypkpir = new ArrayList();
+        listamiesiecyewidencjavat = new ArrayList<>();
+        nettokolumna = new ArrayList<>();
+        ewidencjaAddwiad = new ArrayList<>();
+        kl1 = new ArrayList<>();
+    }
 
     public List<String> getKolumny() {
         return kolumny;
@@ -214,18 +389,6 @@ public class DokView implements Serializable {
 
     public int getLiczbawierszy() {
         return liczbawierszy;
-    }
-
-    public DokView() {
-        setPokazSTR(false);
-        opis = "ewidencja opis";
-        setWysDokument(null);
-        wpisView = new WpisView();
-        opisypkpir = new ArrayList();
-        listamiesiecyewidencjavat = new ArrayList<>();
-        nettokolumna = new ArrayList<>();
-        ewidencjaAddwiad = new ArrayList<>();
-        kl1 = new ArrayList<>();
     }
 
     public void setLiczbawierszy(int liczbawierszy) {
@@ -684,7 +847,6 @@ public class DokView implements Serializable {
         }
 
     }
-    public boolean renderujwysz;
 
     public boolean isRenderujwysz() {
         return renderujwysz;
@@ -1737,10 +1899,6 @@ public class DokView implements Serializable {
         }
     }
 
-    @Inject private Klienci selectedKlient;
-    @Inject private KlienciDAO klDAO;
-    private static ArrayList<Klienci> kl1;
-    @Inject PanstwaSymb1 ps1;
     
      public void dodajKlienta(){
       try {
@@ -1782,98 +1940,91 @@ public class DokView implements Serializable {
     public ArrayList<Klienci> getKl1() {
         return kl1;
     }
-    public static ArrayList<Klienci> getKl1S() {
-        return kl1;
-    }
     public void handleSelect() {
         Msg.msg("i", "Selected Item:");
+    }
+    private void poszukajnip() throws Exception {
+        String nippoczatkowy = selectedKlient.getNip();
+        if(!nippoczatkowy.equals("0000000000")){
+            List<Klienci> kliencitmp  = new ArrayList<>();
+            kliencitmp = klDAO.findAll();
+            List<String> kliencinip = new ArrayList<>();
+            for (Klienci p : kliencitmp){
+                if(p.getNip().equals(nippoczatkowy)){
+                    System.out.println("tak nip juz jest, wyrzucam blad");
+                    throw new Exception();
+                }
+            }
+        }
     }    
      
      
-       private void poszukajnip() throws Exception {
-         String nippoczatkowy = selectedKlient.getNip();
-         if(!nippoczatkowy.equals("0000000000")){
-         List<Klienci> kliencitmp  = new ArrayList<>();
-         kliencitmp = klDAO.findAll();     
-         List<String> kliencinip = new ArrayList<>();
-         for (Klienci p : kliencitmp){
-             if(p.getNip().equals(nippoczatkowy)){
-                 System.out.println("tak nip juz jest, wyrzucam blad");
-                 throw new Exception();
-             }
-         }
-         }
-    }
+       private void wygenerujnip() {
+           List<Klienci> kliencitmp  = klDAO.findAll();
+           List<Klienci> kliencinip = new ArrayList<>();
+           //odnajduje klientow jednorazowych
+           for (Klienci p : kliencitmp){
+               if(p.getNip().startsWith("XX")){
+                   kliencinip.add(p);
+               }
+           }
+           //wyciaga nipy
+           List<Integer> nipy = new ArrayList<>();
+           for (Klienci p : kliencinip){
+               nipy.add(Integer.parseInt(p.getNip().substring(2)));
+           }
+           Collections.sort(nipy);
+           Integer max;
+           if(nipy.size()>0){
+               max = nipy.get(nipy.size()-1);
+               max++;
+           } else {
+               max = 0;
+           }
+           //uzupelnia o zera i robi stringa;
+           String wygenerowanynip = max.toString();
+           while(wygenerowanynip.length()<10){
+               wygenerowanynip = "0"+wygenerowanynip;
+           }
+           wygenerowanynip = "XX"+wygenerowanynip;
+           selectedKlient.setNip(wygenerowanynip);
+       }
      
     
-     private void wygenerujnip() {
-       List<Klienci> kliencitmp  = klDAO.findAll();
-       List<Klienci> kliencinip = new ArrayList<>();
-       //odnajduje klientow jednorazowych
-       for (Klienci p : kliencitmp){
-           if(p.getNip().startsWith("XX")){
-               kliencinip.add(p);
-           }
-       }
-       //wyciaga nipy
-       List<Integer> nipy = new ArrayList<>();
-       for (Klienci p : kliencinip){
-             nipy.add(Integer.parseInt(p.getNip().substring(2)));
-       }
-       Collections.sort(nipy);
-       Integer max;
-       if(nipy.size()>0){
-          max = nipy.get(nipy.size()-1);
-          max++;
-       } else {
-          max = 0;
-       }
-       //uzupelnia o zera i robi stringa;
-       String wygenerowanynip = max.toString();
-       while(wygenerowanynip.length()<10){
-           wygenerowanynip = "0"+wygenerowanynip;
-       }
-       wygenerowanynip = "XX"+wygenerowanynip;
-       selectedKlient.setNip(wygenerowanynip);
-    }
-
      public List<Klienci> completeKL(String query) {  
-        List<Klienci> results = new ArrayList<>();
-        try{
-            String q = query.substring(0,1);
-            int i = Integer.parseInt(q);
-            for(Klienci p : kl1) {  
-             if(p.getNip().startsWith(query)) {
-                 results.add(p);
+         List<Klienci> results = new ArrayList<>();
+         try{
+             String q = query.substring(0,1);
+             int i = Integer.parseInt(q);
+             for(Klienci p : kl1) {
+                 if(p.getNip().startsWith(query)) {
+                     results.add(p);
+                 }
              }
-            }
-        } catch (NumberFormatException e){
-            for(Klienci p : kl1) {
-            if(p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                 results.add(p);
+         } catch (NumberFormatException e){
+             for(Klienci p : kl1) {
+                 if(p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
+                     results.add(p);
+                 }
              }
-            }
-        }  
-        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
-        return results;  
-    }  
+         }
+         results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
+         return results;
+     }
+  
+     public Klienci getSelectedKlient() {
+         return selectedKlient;
+     }  
      
   
-    public Klienci getSelectedKlient() {
-        return selectedKlient;
-    }
-
     public void setSelectedKlient(Klienci selectedKlient) {
         this.selectedKlient = selectedKlient;
     }
 
-    
-    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public boolean isPokazSTR() {
         return pokazSTR;
     }
-
     public void setPokazSTR(boolean pokazSTR) {
         this.pokazSTR = pokazSTR;
     }
@@ -1886,11 +2037,11 @@ public class DokView implements Serializable {
         this.ewidencjaAddwiad = ewidencjaAddwiad;
     }
 
-    
     public KlView getKlView() {
         return klView;
     }
 
+    
     public void setKlView(KlView klView) {
         this.klView = klView;
     }
@@ -1975,15 +2126,6 @@ public class DokView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public static Klienci getPrzekazKontr() {
-        return przekazKontr;
-    }
-
-    public static void setPrzekazKontr(Klienci przekazKontr) {
-        DokView.przekazKontr = przekazKontr;
-    }
-
-   
     public Dok getWysDokument() {
         return wysDokument;
     }
@@ -1996,6 +2138,7 @@ public class DokView implements Serializable {
         return test;
     }
 
+   
     public void setTest(String test) {
         this.test = test;
     }
@@ -2008,7 +2151,6 @@ public class DokView implements Serializable {
         this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
     }
 
-  
     public String getWielkoscopisuewidencji() {
         return wielkoscopisuewidencji;
     }
@@ -2021,6 +2163,7 @@ public class DokView implements Serializable {
         return rozrachunek;
     }
 
+  
     public void setRozrachunek(Rozrachunek rozrachunek) {
         this.rozrachunek = rozrachunek;
     }
@@ -2041,7 +2184,6 @@ public class DokView implements Serializable {
         this.typdokumentu = typdokumentu;
     }
 
-  
     public List<Rodzajedok> getRodzajedokKlienta() {
         return rodzajedokKlienta;
     }
@@ -2054,6 +2196,7 @@ public class DokView implements Serializable {
         return srodekkategoria;
     }
 
+  
     public void setSrodekkategoria(Srodkikst srodekkategoria) {
         this.srodekkategoria = srodekkategoria;
     }
@@ -2066,8 +2209,6 @@ public class DokView implements Serializable {
         this.srodekkategoriawynik = srodekkategoriawynik;
     }
 
-   
-
     public List<String> getListamiesiecyewidencjavat() {
         return listamiesiecyewidencjavat;
     }
@@ -2079,6 +2220,8 @@ public class DokView implements Serializable {
     public List<KwotaKolumna> getNettokolumna() {
         return nettokolumna;
     }
+
+   
 
     public void setNettokolumna(List<KwotaKolumna> nettokolumna) {
         this.nettokolumna = nettokolumna;
@@ -2132,8 +2275,6 @@ public class DokView implements Serializable {
         this.opiskolumny1 = opiskolumny1;
     }
 
-    
-
     public boolean isPokazEST() {
         return pokazEST;
     }
@@ -2146,151 +2287,10 @@ public class DokView implements Serializable {
         return sumbrutto;
     }
 
+    
+
     public void setSumbrutto(double sumbrutto) {
         this.sumbrutto = sumbrutto;
     }
 
-    
-//   public DokTabView getDokTabView() {
-//       return dokTabView;
-//   }
-//   
-//   public void setDokTabView(DokTabView dokTabView) {
-//       this.dokTabView = dokTabView;
-//   }
-//   
-    //    public static void main(String[] args) throws ParseException{
-    //        String data = "2012-02-02";
-    //        Calendar c = Calendar.getInstance();
-    //        DateFormat formatter;
-    //        formatter = new SimpleDateFormat("yyyy-MM-dd");
-    //        Date terminplatnosci = (Date) formatter.parse(data);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 30);
-    //        String nd30 = formatter.format(c.getTime());
-    ////        selDokument.setTermin30(nd30);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 90);
-    //        String nd90 = formatter.format(c.getTime());
-    //      //  selDokument.setTermin90(nd90);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 150);
-    //        String nd150 = formatter.format(c.getTime());
-    //        //selDokument.setTermin150(nd150);
-    //    }
-    public static void main(String[] args) {
-        Map<String, Object> lolo = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        //        addDays("2008-03-08");
-        //        addDays("2009-03-07");
-        //        addDays("2010-03-13");
-    }
-    //
-    //    public static void addDays(String dateString) {
-    //        System.out.println("Got dateString: " + dateString);
-    //
-    //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-    //
-    //        Calendar calendar = Calendar.getInstance();
-    //        try {
-    //            calendar.setTime(sdf.parse(dateString));
-    //            Date day1 = calendar.getTime();
-    //            System.out.println("  day1 = " + sdf.format(day1));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day2 = calendar.getTime();
-    //            System.out.println("  day2 = " + sdf.format(day2));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day3 = calendar.getTime();
-    //            System.out.println("  day3 = " + sdf.format(day3));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day4 = calendar.getTime();
-    //            System.out.println("  day4 = " + sdf.format(day4));
-    //
-    //            // Skipping a few days ahead:
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
-    //            Date day5 = calendar.getTime();
-    //            System.out.println("  day5 = " + sdf.format(day5));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day6 = calendar.getTime();
-    //            System.out.println("  day6 = " + sdf.format(day6));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day7 = calendar.getTime();
-    //            System.out.println("  day7 = " + sdf.format(day7));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day8 = calendar.getTime();
-    //            System.out.println("  day8 = " + sdf.format(day8));
-    //
-    //        } catch (Exception e) {
-    //        }
-    //    }
-    //      public void uporzadkujbrutto(){
-    //          List<Dok> lista = dokDAO.findAll();
-    //          for(Dok sel : lista){
-    //                Double kwota = sel.getKwota();
-    //                try{
-    //                kwota = kwota + sel.getKwotaX();
-    //                } catch (Exception e){}
-    //
-    //                double kwotavat = 0;
-    //                try{
-    //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
-    //                    for(EVatwpis p : listavat){
-    //                        kwotavat = kwotavat + p.getVat();
-    //                    }
-    //                } catch (Exception e){}
-    //                try{
-    //                kwota = kwota + kwotavat;
-    //                } catch (Exception e){}
-    //                sel.setBrutto(kwota);
-    //                dokDAO.edit(sel);
-    //          }
-    //      }
-    //       public void uporzadkujekstra(){
-    //          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
-    //          for(Dok sel : lista){
-    //                Double kwota = sel.getKwota();
-    //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
-    //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
-    //                }
-    //                System.out.println("Zmienilem dokument");
-    //                dokDAO.edit(sel);
-    //          }
-    //      }
-    //      public void przeksiegujkwoty(){
-    //          List<Dok> lista = dokDAO.findAll();
-    //          for(Dok p : lista){
-    //              List<KwotaKolumna> wiersz = new ArrayList<>();
-    //              KwotaKolumna pierwszy = new KwotaKolumna();
-    //              KwotaKolumna drugi = new KwotaKolumna();
-    //              try {
-    //                  pierwszy.setNetto(p.getKwota());
-    //                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
-    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-    //                  pierwszy.setVat(tmp1.doubleValue());
-    //                  tmp1 = BigDecimal.valueOf(p.getBrutto());
-    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-    //                  pierwszy.setBrutto(tmp1.doubleValue());
-    //                  pierwszy.setNazwakolumny(p.getPkpirKol());
-    //                  wiersz.add(pierwszy);
-    //              } catch (Exception e){}
-    //              try {
-    //                  drugi.setNetto(p.getKwotaX());
-    //                  drugi.setVat(0.0);
-    //                  drugi.setBrutto(p.getKwotaX().doubleValue());
-    //                  drugi.setNazwakolumny(p.getPkpirKolX());
-    //                  drugi.setDowykorzystania("dosprawdzenia");
-    //                  wiersz.add(drugi);
-    //              } catch (Exception e){}
-    //              p.setListakwot(wiersz);
-    //              dokDAO.edit(p);
-    //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
-    //          }
-    //      }
-    //</editor-fold>
 }

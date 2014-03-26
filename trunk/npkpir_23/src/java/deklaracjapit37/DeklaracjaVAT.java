@@ -15,20 +15,8 @@ import java.util.logging.Logger;
  * @author Osito
  */
 public class DeklaracjaVAT {
-     final String wiersz;
-     Wstep wstep;
-     Naglowek naglowek;
-     Podmiot podmiot;
-     PozycjeSzczegolowe pozycjeSzczegolowe;
-     Pouczenie pouczenie;
-     Oswiadczenie oswiadczenie;
-     DaneAutoryzujace daneAutoryzujace;
 
-    public DeklaracjaVAT() {
-        this.wiersz = wstep.getWestep()+naglowek.getNaglowek();
-    }
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
         final String wiersz;
         Wstep wstep = new Wstep();
         Naglowek naglowek = new Naglowek();
@@ -56,4 +44,17 @@ public class DeklaracjaVAT {
             }
         }
     }
+     final String wiersz;
+     Wstep wstep;
+     Naglowek naglowek;
+     Podmiot podmiot;
+     PozycjeSzczegolowe pozycjeSzczegolowe;
+     Pouczenie pouczenie;
+     Oswiadczenie oswiadczenie;
+     DaneAutoryzujace daneAutoryzujace;
+
+    public DeklaracjaVAT() {
+        this.wiersz = wstep.getWestep()+naglowek.getNaglowek();
+    }
+
 }

@@ -25,6 +25,10 @@ import javax.inject.Inject;
 @ViewScoped
 public class SrodkikstView implements Serializable {
     private static List<Srodkikst> lista;
+
+    public static List<Srodkikst> getListaS() {
+        return lista;
+    }
     @Inject private SrodkikstDAO srodkikstDAO;
 
     public SrodkikstView() {
@@ -103,8 +107,5 @@ public class SrodkikstView implements Serializable {
         this.lista = lista;
     }
     
-    public static List<Srodkikst> getListaS() {
-        return lista;
-    }
     
 }

@@ -36,14 +36,14 @@ public class Roki implements Serializable{
 //        rokiList.add(new Integer(2023));
     }
     
-    public Roki() {
-    }
-
-    public List<Integer> getRokiList() {
+    public static List<Integer> getRokiListS() {
         return rokiList;
     }
+
+    public Roki() {
+    }
     
-    public static List<Integer> getRokiListS() {
+    public List<Integer> getRokiList() {
         return rokiList;
     }
     

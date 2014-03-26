@@ -24,10 +24,18 @@ import javax.inject.Inject;
 @ManagedBean(name="EVatView")
 @SessionScoped
 public class EVatView implements Serializable{
-    @Inject
-    private EvewidencjaDAO eVDAO;
    
     private static final List<String> naglowekVList;
+    static {
+        naglowekVList = new ArrayList<String>();
+        naglowekVList.add("rodzaj ewidencji");
+        naglowekVList.add("netto");
+        naglowekVList.add("vat");
+        naglowekVList.add("brutto");
+        naglowekVList.add("op/zw");
+    }
+    @Inject
+    private EvewidencjaDAO eVDAO;
     private List<String> sprzedazVList;
     private List<String> zakupVList;
     private List<String> srodkitrwaleVList;
@@ -39,14 +47,6 @@ public class EVatView implements Serializable{
     private List<String> eksporttowarow;
     private List<String> listadostepnychewidencji;
 
-    static{
-        naglowekVList = new ArrayList<String>();
-        naglowekVList.add("rodzaj ewidencji");
-        naglowekVList.add("netto");
-        naglowekVList.add("vat");
-        naglowekVList.add("brutto");
-        naglowekVList.add("op/zw");
-   }
 
     public EVatView() {
         //kategorie do generowania

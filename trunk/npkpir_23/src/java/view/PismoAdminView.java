@@ -28,17 +28,10 @@ import org.joda.time.DateTime;
 @ManagedBean
 @ViewScoped
 public class PismoAdminView implements Serializable{
-    @Inject private Pismoadmin pismoadmin;
     private static final List<String> listamenu;
     private static final List<String> waznosc;
     private static final List<String> status;
     private static final List<String> statusadmin;
-    private List<Pismoadmin> listapism;
-    private List<Pismoadmin> listapismwszytskie;
-    @Inject private PismoadminDAO pismoadminDAO;
-    @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
-    
     static {
         listamenu = new ArrayList<>();
         listamenu.add("zmiana podatnika");
@@ -78,33 +71,44 @@ public class PismoAdminView implements Serializable{
         statusadmin.add("zmiany naniesione");
         statusadmin.add("archiwalna");
     }
+    @Inject
+    private Pismoadmin pismoadmin;
+    private List<Pismoadmin> listapism;
+    private List<Pismoadmin> listapismwszytskie;
+    @Inject private PismoadminDAO pismoadminDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
-    public void molestujadmina() {
-        try {
-            pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
-            pismoadmin.setStatus("wysłana");
-            int wynik = sprawdzduplikat();
-            if (wynik == 0) {
-                pismoadminDAO.dodaj(pismoadmin);
-                listapism.add(pismoadmin);
-                Msg.msg("i", "Udało się dodać infomację dla Admina");
-            }
-        } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
-        }
+    
+    public PismoAdminView() {
     }
     
+     public void molestujadmina() {
+         try {
+             pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
+             pismoadmin.setStatus("wysłana");
+             int wynik = sprawdzduplikat();
+             if (wynik == 0) {
+                 pismoadminDAO.dodaj(pismoadmin);
+                 listapism.add(pismoadmin);
+                 Msg.msg("i", "Udało się dodać infomację dla Admina");
+             }
+         } catch (Exception e) {
+             Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
+         }
+     }
+     
      public void edytujpismoadmin(Pismoadmin p) {
-        try {
-            p.setDatastatus(new Date());
-            pismoadminDAO.edit(p);
-            listapism.clear();
-            listapism.addAll(pismoadminDAO.findAll());
-            Msg.msg("i", "Udało się dodać infomację dla Admina");
-        } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
-        }
-    }
+         try {
+             p.setDatastatus(new Date());
+             pismoadminDAO.edit(p);
+             listapism.clear();
+             listapism.addAll(pismoadminDAO.findAll());
+             Msg.msg("i", "Udało się dodać infomację dla Admina");
+         } catch (Exception e) {
+             Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
+         }
+     }
      
      private int sprawdzduplikat() {
          List<Pismoadmin> lista = pismoadminDAO.findAll();
@@ -115,8 +119,8 @@ public class PismoAdminView implements Serializable{
          }
          return 0;
      }
-     
-     public void usunpismoadmin(Pismoadmin p) {
+    
+    public void usunpismoadmin(Pismoadmin p) {
         try {
             pismoadminDAO.destroy(p);
             listapism.remove(p);
@@ -142,9 +146,6 @@ public class PismoAdminView implements Serializable{
         } else {
             throw new ValidatorException(Msg.validator("w","Określ jak bardzo pilna jest to wiadomość"));
         }
-    }
-
-    public PismoAdminView() {
     }
     
     @PostConstruct

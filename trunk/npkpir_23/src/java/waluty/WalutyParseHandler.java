@@ -20,9 +20,19 @@ import org.xml.sax.helpers.DefaultHandler;
 public class WalutyParseHandler extends DefaultHandler implements Serializable {
 
     private static List<Tabelanbp> elementy;
-    private Tabelanbp wiersztabeli;
     private static String numer_tabeli;
     private static String data_publikacji;
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public static List<Tabelanbp> getElementy() {
+        return elementy;
+    }
+
+    public static void setElementy(List<Tabelanbp> elementy) {
+        WalutyParseHandler.elementy = elementy;
+    }
+    //</editor-fold>
+    private Tabelanbp wiersztabeli;
     private String startelement;
     
     boolean bnumer_tabeli;
@@ -87,13 +97,4 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
         //System.out.println(" End Element :" + qName);
     }
 
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    public static List<Tabelanbp> getElementy() {
-        return elementy;
-    }
-
-    public static void setElementy(List<Tabelanbp> elementy) {
-        WalutyParseHandler.elementy = elementy;
-    }
-    //</editor-fold>
 }

@@ -24,13 +24,8 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class FakturadodelementyView implements Serializable{
-    private List<Fakturadodelementy> fakturadodelementy;
-    @Inject private FakturadodelementyDAO fakturadodelementyDAO;
-    @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
     private static final List<String> elementynazwa;
     private static final List<String> trescelementu;
-            
     static {
         elementynazwa = new ArrayList<>();
         elementynazwa.add("wezwaniedozapłaty");
@@ -41,6 +36,10 @@ public class FakturadodelementyView implements Serializable{
         trescelementu.add("Dostawa na warunkach exworks");
         trescelementu.add("Do momentu zapłaty towar jest własnością sprzedawcy");
     }
+    private List<Fakturadodelementy> fakturadodelementy;
+    @Inject private FakturadodelementyDAO fakturadodelementyDAO;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
     
 
     public FakturadodelementyView() {

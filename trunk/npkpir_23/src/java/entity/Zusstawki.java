@@ -50,17 +50,17 @@ public class Zusstawki implements Serializable {
         zusstawkiPK = new ZusstawkiPK();
     }
 
-    @PostConstruct
-    public void init(){
-        zusstawkiPK = new ZusstawkiPK();
-    }
-    
-    public Zusstawki(ZusstawkiPK zusstawkiPK) {
+    public Zusstawki(ZusstawkiPK zusstawkiPK){
         this.zusstawkiPK = zusstawkiPK;
     }
 
     public Zusstawki(String rok, String miesiac) {
         this.zusstawkiPK = new ZusstawkiPK(rok, miesiac);
+    }
+
+    @PostConstruct
+    public void init() {
+        zusstawkiPK = new ZusstawkiPK();
     }
 
     public ZusstawkiPK getZusstawkiPK() {

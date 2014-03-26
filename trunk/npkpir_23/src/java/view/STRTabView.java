@@ -41,14 +41,22 @@ import org.primefaces.context.RequestContext;
 @ManagedBean(name = "STRTableView")
 @RequestScoped
 public class STRTabView implements Serializable {
+    private static SrodekTrw dokdoUsuniecia;
+    private static boolean napewnousunac;
+
+    public static SrodekTrw getDokdoUsuniecia() {
+        return dokdoUsuniecia;
+    }
+
+    public static void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
+        STRTabView.dokdoUsuniecia = dokdoUsuniecia;
+    }
 
     @Inject
     protected STRDAO sTRDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
     private SrodekTrw selectedSTR;
-    private static SrodekTrw dokdoUsuniecia;
-    private static boolean napewnousunac;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     //tablica obiektów
@@ -501,14 +509,6 @@ public class STRTabView implements Serializable {
         this.amodoklist = amodoklist;
     }
 
-    public static SrodekTrw getDokdoUsuniecia() {
-        return dokdoUsuniecia;
-    }
-
-    public static void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
-        STRTabView.dokdoUsuniecia = dokdoUsuniecia;
-    }
-
     public List<SrodekTrw> getPosiadane() {
         return posiadane;
     }
@@ -540,8 +540,7 @@ public class STRTabView implements Serializable {
     public void setWybranysrodektrwalyPosiadane(SrodekTrw wybranysrodektrwalyPosiadane) {
         this.wybranysrodektrwalyPosiadane = wybranysrodektrwalyPosiadane;
     }
-    
-    
+
     public SrodekTrw getWybranysrodektrwalySprzedane() {
         return wybranysrodektrwalySprzedane;
     }
@@ -549,7 +548,8 @@ public class STRTabView implements Serializable {
     public void setWybranysrodektrwalySprzedane(SrodekTrw wybranysrodektrwalySprzedane) {
         this.wybranysrodektrwalySprzedane = wybranysrodektrwalySprzedane;
     }
-    
     //</editor-fold>
+        
+    
 
 }

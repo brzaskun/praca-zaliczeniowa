@@ -40,7 +40,12 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 public class PdfInwestycja extends Pdf implements Serializable {
     
-     public void drukujinwestycje(Inwestycje inwestycja) throws DocumentException, FileNotFoundException, IOException {
+     public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
+         PdfInwestycja tmp = new PdfInwestycja();
+         tmp.drukujinwestycje(new Inwestycje());
+     }
+     
+    public void drukujinwestycje (Inwestycje inwestycja) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycja" + wpisView.getPodatnikWpisu() + ".pdf"));
         //PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycjaTesting.pdf"));
@@ -150,10 +155,5 @@ public class PdfInwestycja extends Pdf implements Serializable {
         pdf.close();
         RequestContext.getCurrentInstance().execute("wydrukinwestycja('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano wybraną inwestycję", "form:messages");
-    }
-     
-    public static void main (String[] args) throws DocumentException, FileNotFoundException, IOException {
-        PdfInwestycja tmp = new PdfInwestycja();
-        tmp.drukujinwestycje(new Inwestycje());
     }
 }

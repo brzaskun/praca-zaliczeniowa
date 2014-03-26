@@ -24,12 +24,12 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScope
 public class EvpozycjaView {
+    private static List<Evpozycja> lista;
 
     @Inject
     private Evpozycja selected;
     @Inject
     private EvpozycjaDAO epozycjaDAO;
-    private static List<Evpozycja> lista;
 
     public EvpozycjaView() {
         lista = new ArrayList<>();

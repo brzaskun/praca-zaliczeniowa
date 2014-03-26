@@ -28,6 +28,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScoped
 public class DeklaracjevatView implements Serializable {
+    private static Deklaracjevat selected;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> wyslane;
     private List<Deklaracjevat> wyslanenormalne;
@@ -37,7 +38,6 @@ public class DeklaracjevatView implements Serializable {
     private List<Deklaracjevat> oczekujace;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    private static Deklaracjevat selected;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();

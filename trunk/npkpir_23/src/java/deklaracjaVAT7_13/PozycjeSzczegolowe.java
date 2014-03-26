@@ -21,9 +21,9 @@ import org.joda.time.DateTime;
  * @author Osito
  */
 class PozycjeSzczegolowe {
+    static String PozycjeSzczegolowe;
     Integer Rok;
     Integer Miesiac;
-    static String PozycjeSzczegolowe;
 
     public PozycjeSzczegolowe(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Rok = Integer.parseInt(selected.getRok());

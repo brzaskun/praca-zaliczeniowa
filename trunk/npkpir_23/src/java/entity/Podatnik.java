@@ -185,22 +185,21 @@ public class Podatnik implements Serializable {
     private String miejscewystawienia;
     @Column(name = "firmafk")
     private boolean firmafk;
+    public Podatnik() {
+    }
+
+    public Podatnik(String nip) {
+        this.nip = nip;
+    }
+    
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public boolean isFirmafk() {
         return firmafk;
     }
-
+    
     public void setFirmafk(boolean firmafk) {
         this.firmafk = firmafk;
-    }
-    
-    
-    public Podatnik() {
-    }
-    
-    public Podatnik(String nip) {
-        this.nip = nip;
     }
     
     public String getNip() {

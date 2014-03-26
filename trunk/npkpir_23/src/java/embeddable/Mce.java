@@ -126,13 +126,6 @@ public class Mce implements Serializable{
         return poprzedniemce;
     }
     
-    public Mce() {
-    }
-
-    public List<String> getMceList() {
-        return mceList;
-    }
-
     public static Map<Integer, String> getMapamcy() {
         return mapamcy;
     }
@@ -147,6 +140,13 @@ public class Mce implements Serializable{
 
     public static Map<Integer, String> getMapamcynazwa() {
         return mapamcynazwa;
+    }
+
+    public Mce() {
+    }
+
+    public List<String> getMceList() {
+        return mceList;
     }
     
     

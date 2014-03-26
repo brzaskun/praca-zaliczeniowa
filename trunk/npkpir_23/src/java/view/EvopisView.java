@@ -24,12 +24,12 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScope
 public class EvopisView {
+    private static List<Evopis> lista;
 
     @Inject
     private Evopis selected;
     @Inject
     private EvopisDAO eopisDAO;
-    private static List<Evopis> lista;
 
     public EvopisView() {
         lista = new ArrayList<>();

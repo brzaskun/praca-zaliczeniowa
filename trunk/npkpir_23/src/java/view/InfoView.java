@@ -63,27 +63,6 @@ public class InfoView implements Serializable{
     private String liczbavatdopotw;
     private String ryczaltnieryczalt;
 
-    public class Rodzdok{
-        private String rodzajdok;
-        private int ilosc;
-
-        public String getRodzajdok() {
-            return rodzajdok;
-        }
-
-        public void setRodzajdok(String rodzajdok) {
-            this.rodzajdok = rodzajdok;
-        }
-
-        public int getIlosc() {
-            return ilosc;
-        }
-
-        public void setIlosc(int ilosc) {
-            this.ilosc = ilosc;
-        }
-        
-    }
     
     
     public InfoView() {
@@ -454,6 +433,28 @@ public class InfoView implements Serializable{
 
     public void setRyczaltnieryczalt(String ryczaltnieryczalt) {
         this.ryczaltnieryczalt = ryczaltnieryczalt;
+    }
+
+    public class Rodzdok {
+
+        private String rodzajdok;
+        private int ilosc;
+
+        public String getRodzajdok() {
+            return rodzajdok;
+        }
+
+        public void setRodzajdok(String rodzajdok) {
+            this.rodzajdok = rodzajdok;
+        }
+
+        public int getIlosc() {
+            return ilosc;
+        }
+
+        public void setIlosc(int ilosc) {
+            this.ilosc = ilosc;
+        }
     }
 
    

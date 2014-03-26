@@ -47,6 +47,9 @@ import view.FakturaView;
 @ManagedBean
 @ViewScoped
 public class PdfFaktura extends Pdf implements Serializable {
+
+    public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException {
+    }
     @Inject private PozycjenafakturzeDAO pozycjeDAO;
     @Inject private FakturadodelementyDAO fakturadodelementyDAO;
     
@@ -372,96 +375,6 @@ public class PdfFaktura extends Pdf implements Serializable {
         return null;
     }
     
-    public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException{
-//        Document document = new Document();
-//        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaPodatnik" + ".pdf"));
-//        document.addTitle("Faktura");
-//        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-//        document.addSubject("Wydruk faktury w formacie pdf");
-//        document.addKeywords("Faktura, PDF");
-//        document.addCreator("Grzegorz Grzelczyk");
-//        document.open();
-//            //Rectangle rect = new Rectangle(0, 832, 136, 800);
-//            //rect.setBackgroundColor(BaseColor.RED);
-//            //document.add(rect);
-//        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-//            Font fontXS = new Font(helvetica,4);
-//            Font fontS = new Font(helvetica,6);
-//            Font font = new Font(helvetica,8);  
-//            Font fontL = new Font(helvetica,10);
-//            Font fontXL = new Font(helvetica,12);
-//            //miary pdf szerokosc dla jednej litery od 0 do 584 wysokosc kierunek w dol od 0 do 836
-//            //miary javascript dla jednej litery poziomo od lewej od 78 do 1038 = 960; wysokosc kierunek w dol od 53 do 1607 = 1554;
-//            // a wiec dane z tabeli mnozymy przez 2 :) ;
-//            absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 0, 836, 6); 
-//            document.add(dodpar("Biuro Rachunkowe Taxman - program księgowy online", fontXS, "l", 0, 10));
-//            document.add(dodpar("D", font, "l", 540, 800));
-//            document.add(dodpar("Miejsce wystawienia faktury: ", font, "l", 370, 10));
-//            document.add(dodpar("Faktura nr ", fontL, "c", 0, 40));
-//            //wystawca
-//            document.add(dodpar("Sprzedawca: ", fontL, "l", 0, 40));
-//            document.add(dodpar("Jestem Sprzedawca", font, "l", 0, 20));
-//            String adres = "To moj adres";
-//            document.add(dodpar(adres, font, "l", 0, 20));
-//            document.add(dodpar("NIP: ", font, "l", 0, 20));
-//            document.add(dodpar("Nabywca: ", fontL, "l", 0, 30));
-//            document.add(dodpar("Jestem anbywca", font, "l", 0, 20));
-//            adres = "to jest moj adres";
-//            document.add(dodpar(adres, font, "l", 0, 20));
-//            document.add(dodpar("NIP: ", font, "l", 0, 20));
-//            document.add(dodpar("Sposób zapłaty: gotowka", font, "l", 0, 30));
-//            document.add(dodpar("Termin płatności: dzis", font, "l", 100, 0));
-//            document.add(dodpar(" ", font, "l", 0, 50));
-//            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-//                formatter.setMaximumFractionDigits(2);
-//                formatter.setMinimumFractionDigits(2);
-//                formatter.setGroupingUsed(true);
-//            PdfPTable table = new PdfPTable(11);
-//            //table.setTotalWidth(1090);
-//            //table.setWidthPercentage(new float[]{ 144, 72, 72 }, rect);
-//            Rectangle rect = new Rectangle(523, 200);
-//            table.setWidthPercentage(new float[]{ 20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30},rect);
-//            table.addCell(ustawfrazebez("lp","center",8));
-//            table.addCell(ustawfrazebez("opis","center",8));
-//            table.addCell(ustawfrazebez("PKWiU","center",8));
-//            table.addCell(ustawfrazebez("ilość","center",8));
-//            table.addCell(ustawfrazebez("jedn.m.","center",8));
-//            table.addCell(ustawfrazebez("cena netto","center",8));
-//            table.addCell(ustawfrazebez("wartość netto","center",8));
-//            table.addCell(ustawfrazebez("stawka vat","center",8));
-//            table.addCell(ustawfrazebez("kwota vat","center",8));
-//            table.addCell(ustawfrazebez("wartość brutto","center",8));
-//            table.addCell(ustawfrazebez("uwagi","center",8));
-//            table.setHeaderRows(1);
-//            table.addCell(ustawfrazebez("1","center",8));
-//            //Pozycjenafakturzebazadanych pozycje = selected.getPozycjenafakturze();
-//            table.addCell(ustawfrazebez("nazwa","left",8));
-//            table.addCell(ustawfrazebez("pkwiu","center",8));
-//            table.addCell(ustawfrazebez("123","center",8));
-//            table.addCell(ustawfrazebez("kg","center",8));
-//            table.addCell(ustawfrazebez("100","center",8));
-//            table.addCell(ustawfrazebez("200","center",8));
-//            table.addCell(ustawfrazebez("23%","center",8));
-//            table.addCell(ustawfrazebez("1200","center",8));
-//            table.addCell(ustawfrazebez("brutto","center",8));
-//            table.addCell(ustawfrazebez("uwagi","center",8));
-//            //podsumowanie
-//            table.addCell(ustawfraze("Razem", 6, 0));
-//            table.addCell(ustawfrazebez("netto","center",8));
-//            table.addCell(ustawfrazebez("stvat","center",8));
-//            table.addCell(ustawfrazebez("vatwar","center",8));
-//            table.addCell(ustawfrazebez("brutto","center",8));
-//            table.addCell(ustawfrazebez(" ","center",8));
-//            
-//            document.add(table);
-//            document.add(dodpar("Do zapłaty: 100zł", font, "l", 0, 50));
-//            document.add(dodpar("Słownie: sto złotych", font, "l", 0, 20));
-//            document.add(dodpar("Nr konta bankowego: 12121", font, "l", 0, 20));
-//            document.add(dodpar("podpis", font, "l", 10, 50));
-//            document.add(dodpar("..........................................", font, "l", 0, 20));
-//            document.add(dodpar("wystawca faktury", font, "l", 15, 20));
-//            document.close();
-    }
 
     
 }

@@ -56,10 +56,24 @@ import pdf.PdfVAT;
 public class VatView implements Serializable {
 
  
-    private List<Dok> listadokvat;
-    private List<EVatViewPola> listadokvatprzetworzona;
     private static HashMap<String, ArrayList> listaewidencji;
     private static HashMap<String, EVatwpisSuma> sumaewidencji;
+    private static List<EVatwpisSuma> goscwybralsuma;
+    private static List<EVatwpisSuma> sumydowyswietleniasprzedaz;
+    private static List<EVatwpisSuma> sumydowyswietleniazakupy;
+    private static BigDecimal wynikOkresu;
+
+    public static void main(String[] args) {
+        String wiersz = "35.23 zł";
+        String prices = wiersz.replaceAll("\\s","");
+        Pattern p = Pattern.compile("(-?(\\d+(?:\\.\\d+)))");
+        Matcher m = p.matcher(prices);
+        while (m.find()) {
+            System.out.println(Double.parseDouble(m.group()));
+        }
+    }
+    private List<Dok> listadokvat;
+    private List<EVatViewPola> listadokvatprzetworzona;
     @Inject
     private Dok selected;
     @Inject
@@ -71,16 +85,12 @@ public class VatView implements Serializable {
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     private List<EVatViewPola> goscwybral;
-    private static List<EVatwpisSuma> goscwybralsuma;
     private List<String> listanowa;
-    private static List<EVatwpisSuma> sumydowyswietleniasprzedaz;
-    private static List<EVatwpisSuma> sumydowyswietleniazakupy;
     private Double suma1;
     private Double suma2;
     private Double suma3;
      //tablica obiektw danego klienta
     @Inject DokDAO dokDAO;
-    private static BigDecimal wynikOkresu;
    
   
 
@@ -553,19 +563,9 @@ public class VatView implements Serializable {
         this.wpisView = wpisView;
     }
 
-   public static void main(String[] args){
-       String wiersz = "35.23 zł";
-        String prices = wiersz.replaceAll("\\s","");
-        Pattern p = Pattern.compile("(-?(\\d+(?:\\.\\d+)))");
-        Matcher m = p.matcher(prices);
-        while (m.find()) {
-            System.out.println(Double.parseDouble(m.group()));
-            }
+   public List<EVatViewPola> getGoscwybral(){
+       return goscwybral;
    }
-
-    public List<EVatViewPola> getGoscwybral() {
-        return goscwybral;
-    }
 
     public void setGoscwybral(List<EVatViewPola> goscwybral) {
         this.goscwybral = goscwybral;
@@ -613,8 +613,8 @@ public class VatView implements Serializable {
    
     public Double getSuma2() {
         return suma2;
-}
-
+    }
+   
     public void setSuma2(Double suma2) {
         this.suma2 = suma2;
     }
@@ -642,6 +642,7 @@ public class VatView implements Serializable {
     public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
         VatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
     }
+
 
    
     

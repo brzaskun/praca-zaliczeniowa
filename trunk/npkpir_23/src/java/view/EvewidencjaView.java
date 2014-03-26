@@ -28,12 +28,12 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @SessionScoped
 public class EvewidencjaView {
+    private static List<Evewidencja> lista;
 
     @Inject
     private Evewidencja selected;
     @Inject private EvewidencjaDAO eewidencjaDAO;
     @Inject private EvpozycjaDAO evpozycjaDAO;
-    private static List<Evewidencja> lista;
 
     public EvewidencjaView() {
         lista = new ArrayList<>();

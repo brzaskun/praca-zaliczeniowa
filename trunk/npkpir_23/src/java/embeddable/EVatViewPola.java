@@ -18,6 +18,23 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class EVatViewPola implements Serializable{
+    private static final List<String> opispol;
+    static {
+        opispol = new ArrayList<>();
+        opispol.add("id");
+        opispol.add("dataWyst");
+        opispol.add("dataSprz");
+        opispol.add("nrWlDk");
+        opispol.add("kontr");
+        opispol.add("opis");
+        opispol.add("netto");
+        opispol.add("vat");
+        opispol.add("opizw");
+    }
+
+    public static List<String> getOpispol() {
+        return opispol;
+    }
     private int id;
     private String dataWyst;
     private String dataSprz;
@@ -31,20 +48,6 @@ public class EVatViewPola implements Serializable{
     private String nrpolanetto;
     private String nrpolavat;
 
-    private static final List<String> opispol;
-    
-    static{
-        opispol = new ArrayList<>();
-        opispol.add("id");
-        opispol.add("dataWyst");
-        opispol.add("dataSprz");
-        opispol.add("nrWlDk");
-        opispol.add("kontr");
-        opispol.add("opis");
-        opispol.add("netto");
-        opispol.add("vat");
-        opispol.add("opizw");
-    }
     
     
     public EVatViewPola() {
@@ -131,10 +134,6 @@ public class EVatViewPola implements Serializable{
         this.nazwaewidencji = nazwaewidencji;
     }
 
-    public static List<String> getOpispol() {
-        return opispol;
-    }
-
     public String getNrpolanetto() {
         return nrpolanetto;
     }
@@ -150,6 +149,7 @@ public class EVatViewPola implements Serializable{
     public void setNrpolavat(String nrpolavat) {
         this.nrpolavat = nrpolavat;
     }
+
 
     
 }

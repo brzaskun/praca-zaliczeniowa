@@ -30,10 +30,15 @@ import org.primefaces.model.TreeNode;
 @ViewScoped
 @Named("planKontView")
 public class PlanKontView implements Serializable {
+    private static List<Konto> wykazkontS;
+    private static int level = 0;
+
+    public static List<Konto> getWykazkontS() {
+        return wykazkontS;
+    }
 
     private List<Konto> wykazkont;
     private List<Konto> wykazkontanalityczne;
-    private static List<Konto> wykazkontS;
     @Inject
     private Konto selected;
     @Inject
@@ -44,6 +49,8 @@ public class PlanKontView implements Serializable {
     private KliencifkDAO kliencifkDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
+    private String wewy;
+    private String listajs;
 
     public PlanKontView() {
         this.wykazkont = new ArrayList<>();
@@ -72,7 +79,6 @@ public class PlanKontView implements Serializable {
         level = root.ustaldepthDT(kontadlanodes) - 1;
         root.expandAll();
     }
-    private static int level = 0;
 
     public void rozwin() {
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
@@ -294,10 +300,6 @@ public class PlanKontView implements Serializable {
         return wykazkont;
     }
 
-    public static List<Konto> getWykazkontS() {
-        return wykazkontS;
-    }
-
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
     }
@@ -317,7 +319,6 @@ public class PlanKontView implements Serializable {
     public void setNowe(Konto nowe) {
         this.nowe = nowe;
     }
-    private String wewy;
 
     public String getWewy() {
         return wewy;
@@ -334,24 +335,19 @@ public class PlanKontView implements Serializable {
     public void setSelectednode(TreeNodeExtended<Konto> selectednode) {
         this.selectednode = selectednode;
     }
-    private String listajs;
 
 //   static{
-//       listajs = new String[2];
-//       listajs[0] = "jeden";
-//       listajs[1] = "dwa";
-//   }
     public String getListajs() {
         return "jeden,dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec";
     }
-
-   
     public TreeNodeExtended getRoot() {
         return root;
     }
 
+   
     public void setRoot(TreeNodeExtended root) {
         this.root = root;
     }
+
 
 }

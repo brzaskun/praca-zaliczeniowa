@@ -40,9 +40,9 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class KsiegaView implements Serializable {
 
+    private static ArrayList<DokKsiega> lista;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private static ArrayList<DokKsiega> lista;
     private DokKsiega selDokument;
     @Inject
     private DokKsiega podsumowanie;

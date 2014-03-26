@@ -13,45 +13,6 @@ import java.text.*;
 
 public class Slownie {
 
-     /**
-     * @param args the command line arguments
-      * Wartość obliczana
-     */
-    public static String slownie(String param) {
-        // TODO code application logic here
-       try
-       {
-           {
-               String kwota = param;               
-               double dkwota = 0;
-               //Odczyt parametrów plików
-               
-               int argumenty = param.length();
-               if (argumenty == 0)
-               {
-                System.out.println("Nie podałeś kwoty !");
-                return null;
-               }                               
-                try
-                {                   
-                   dkwota =  Double.parseDouble(kwota);
-                }
-                catch (Exception ex)
-                {
-                    System.out.print("Niewłaściwa kwota "+ex.getMessage().toString());
-                    return null;
-                }
-                String kwotaSlownie = "";
-                kwotaSlownie = procKwotaSlownie (dkwota);
-                return kwotaSlownie;
-           }
-       }
-       catch (Exception ex)
-       {
-            //Wyjątek błędu aplikacji
-            return "Bład "+ex.getMessage();
-       }
-    }
 
     // Tblica opisów wartości jednostek.
     static String[] Units =
@@ -84,6 +45,46 @@ public class Slownie {
         { "milion", "miliony", "milionów"    },
         { "miliard", "miliardy", "miliardów" }
     };
+
+    /**
+     * @param args the command line arguments
+     * Wartość obliczana
+     */    public static String slownie(String param)
+     {
+         // TODO code application logic here
+         try
+         {
+             {
+                 String kwota = param;
+                 double dkwota = 0;
+                 //Odczyt parametrów plików
+                 
+                 int argumenty = param.length();
+                 if (argumenty == 0)
+                 {
+                     System.out.println("Nie podałeś kwoty !");
+                     return null;
+                 }
+                 try
+                 {
+                     dkwota =  Double.parseDouble(kwota);
+                 }
+                 catch (Exception ex)
+                 {
+                     System.out.print("Niewłaściwa kwota "+ex.getMessage().toString());
+                     return null;
+                 }
+                 String kwotaSlownie = "";
+                 kwotaSlownie = procKwotaSlownie (dkwota);
+                 return kwotaSlownie;
+             }
+         }
+         catch (Exception ex)
+         {
+             //Wyjątek błędu aplikacji
+             return "Bład "+ex.getMessage();
+         }
+     }
 
     //Konwersja małych liczb ....
     static String SmallValueToWords(int n)
@@ -143,7 +144,7 @@ public class Slownie {
         int lastDigit = (int)n % 10;
 
         if ((n >= 10 && (n <= 20 || lastDigit == 0)) ||
-            (lastDigit > 4))
+                (lastDigit > 4))
         {
             return 2;
         }
@@ -180,8 +181,9 @@ public class Slownie {
         return n - smallValue * divisor;
     }
 
-    static String ToWords(long value)
-    {
+ 
+
+    static String ToWords(long value) {
         if (value == 0)
         {
             // Zero.
@@ -200,17 +202,16 @@ public class Slownie {
         return valueInWords.toString();
     }
 
- 
+    static long liczba_zlotych(double kwota) 
+    {
+        
+        String kwotaString = "" + kwota;
+        kwotaString = kwotaString.substring(0, kwotaString.indexOf("."));
+        Long dzlote = new Long(kwotaString);
+        return dzlote;
+    }
 
-    static long liczba_zlotych(double kwota) {
-
-         String kwotaString = "" + kwota;
-         kwotaString = kwotaString.substring(0, kwotaString.indexOf("."));
-         Long dzlote = new Long(kwotaString);
-         return dzlote;
-     }
-
-    static long liczba_groszy(double grosze)
+    static long liczba_groszy (double grosze)
     {
         //Tworzę format zmiennych aby uzyskać liczbę w frmie tekstowej
         DecimalFormat dfx =  new DecimalFormat("0.00");
@@ -223,8 +224,7 @@ public class Slownie {
         return groszy;
     }
 
-    static String procKwotaSlownie (double kwota)
-    {
+    static String procKwotaSlownie(double kwota) {
         //Generalna funkcja ptzetworzenia zmiennej
         if (kwota < 0)
         {

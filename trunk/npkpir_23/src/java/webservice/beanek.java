@@ -59,6 +59,23 @@ import view.WpisView;
 @ViewScoped
 public class beanek {
 
+//</editor-fold>
+    public static void main(String[] args) {
+        try {
+            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse("c:/uslugi/Deklaracja.xml");
+            StringWriter stringWriter = new StringWriter();
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(doc), new StreamResult(stringWriter));
+            String strFileContent = stringWriter.toString(); //This is string data of xml file
+            System.out.println(strFileContent);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdok.wsdl")
     private testservice.GateService service_1;
 
@@ -457,21 +474,5 @@ public class beanek {
         this.upoMBT = upoMBT;
     }
 
-//</editor-fold>
-    static public void main(String[] args) {
-        try {
-            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse("c:/uslugi/Deklaracja.xml");
-            StringWriter stringWriter = new StringWriter();
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(new DOMSource(doc), new StreamResult(stringWriter));
-            String strFileContent = stringWriter.toString(); //This is string data of xml file
-            System.out.println(strFileContent);
-        } catch (Exception e) {
-            e.getMessage();
-        }
-    }
 
 }

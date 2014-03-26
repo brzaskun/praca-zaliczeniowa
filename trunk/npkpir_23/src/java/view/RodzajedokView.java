@@ -30,12 +30,16 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class RodzajedokView implements Serializable{
+    private static Rodzajedok doUsuniecia;
+    private static HashMap<String, String> rodzajedokMap;
+
+    public static HashMap<String, String> getRodzajedokMapS() {
+        return rodzajedokMap;
+    }
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private Rodzajedok selected;
-    private static Rodzajedok doUsuniecia;
-    private static HashMap<String, String> rodzajedokMap;
     
     private List<Rodzajedok> lista;
 
@@ -123,7 +127,4 @@ public class RodzajedokView implements Serializable{
         RodzajedokView.rodzajedokMap = rodzajedokMap;
     }
     
-     public static HashMap<String, String> getRodzajedokMapS() {
-        return rodzajedokMap;
-    } 
 }

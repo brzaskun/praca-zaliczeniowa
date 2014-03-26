@@ -37,6 +37,14 @@ import msg.Msg;
 @ManagedBean(name = "vatUeView")
 @ViewScoped
 public class VatUeView implements Serializable {
+    //lista gdzie beda podsumowane wartosci
+    private static List<VatUe> klienciWDTWNT;
+    private static List<VatUe> listawybranych;
+
+    public static List<VatUe> getKlienciWDTWNTS() {
+        return klienciWDTWNT;
+    }
+    //</editor-fold>
 
 
     @ManagedProperty(value = "#{WpisView}")
@@ -45,9 +53,6 @@ public class VatUeView implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private Uz uzytkownik;
-    //lista gdzie beda podsumowane wartosci
-    private static List<VatUe> klienciWDTWNT;
-    private static List<VatUe> listawybranych;
     @Inject private VatuepodatnikDAO vatuepodatnikDAO;
 
     public VatUeView() {
@@ -183,9 +188,5 @@ public class VatUeView implements Serializable {
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
         this.klienciWDTWNT = klienciWDTWNT;
     }
-    public static List<VatUe> getKlienciWDTWNTS() {
-        return klienciWDTWNT;
-    }
-    //</editor-fold>
     
 }

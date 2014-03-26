@@ -59,6 +59,13 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @ViewScoped
 public class PodatnikView implements Serializable {
+    private static ArrayList<Podatnik> listapodatnikow;
+    //
+    private static String nazwaWybranegoPodatnika;
+    //tak sie sklada ze to jest glowna lista z podatnikami :)
+    private static List<Podatnik> li;
+    //tak sie sklada ze to jest glowna lista z podatnikami :)
+    private static List<Podatnik> listaPodatnikowFK;
 
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -72,10 +79,6 @@ public class PodatnikView implements Serializable {
     private Rodzajedok selectedDokKsi;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
-    private static ArrayList<Podatnik> listapodatnikow;
-
-    //
-    private static String nazwaWybranegoPodatnika;
     private List<String> pojList;
     private PanelGrid grid;
     private String[] listka;
@@ -89,10 +92,6 @@ public class PodatnikView implements Serializable {
     private Parametr parametr;
     @Inject
     private Parametr ostatniparametr;
-    //tak sie sklada ze to jest glowna lista z podatnikami :)
-    private static List<Podatnik> li;
-     //tak sie sklada ze to jest glowna lista z podatnikami :)
-    private static List<Podatnik> listaPodatnikowFK;
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -113,14 +112,6 @@ public class PodatnikView implements Serializable {
     @Inject
     private PitDAO pitDAO;
 
-    public List<Podatnik> getLi() {
-        return li;
-    }
-
-    public void setLi(List<Podatnik> li) {
-        PodatnikView.li = li;
-    }
-
     public PodatnikView() {
         miesiacepoweryfikacji = new ArrayList<>();
         li = new ArrayList<>();
@@ -130,7 +121,15 @@ public class PodatnikView implements Serializable {
         listka[0] = "zero";
         listka[1] = "jeden";
         listka[2] = "dwa";
+        
+    }
 
+    public List<Podatnik> getLi() {
+        return li;
+    }
+
+    public void setLi(List<Podatnik> li) {
+        PodatnikView.li = li;
     }
 
     @PostConstruct

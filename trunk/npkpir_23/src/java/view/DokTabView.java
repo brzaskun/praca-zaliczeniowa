@@ -53,6 +53,24 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean(name = "DokTabView")
 @ViewScoped
 public class DokTabView implements Serializable {
+    //wybranedokumenty do druku
+    private static List<Dok> gosciuwybral;
+    //wybranedokumenty do usuniecia
+    private static List<Dok> grupausun;
+    private static boolean pokaztablice;
+    //wartosc przefiltrowana
+    private static List<Dok> filteredValue;
+    private static Dok dokdoUsuniecia;
+    private static final List frozenrows;
+    static {
+        frozenrows = new ArrayList<>();
+        frozenrows.add("lolo");
+        frozenrows.add("manolo");
+    }
+
+    public static List<Dok> getGosciuwybralS() {
+        return gosciuwybral;
+    }
     //tablica obiektów
 
     private List<Dok> obiektDOKjsf;
@@ -68,20 +86,12 @@ public class DokTabView implements Serializable {
     private List<Dok> zaplacone;
     //dokumenty okresowe
     private List<Dok> dokumentyokresowe;
-    //wybranedokumenty do druku
-    private static List<Dok> gosciuwybral;
-    //wybranedokumenty do usuniecia
-    private static List<Dok> grupausun;
-    private static boolean pokaztablice;
-   //wartosc przefiltrowana
-    private static List<Dok> filteredValue;
     
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject private DokDAO dokDAO;
     @Inject private Dok selDokument;
-    private static Dok dokdoUsuniecia;
     @Inject private StornoDokDAO stornoDokDAO;
     @Inject private STRDAO sTRDAO;
     private boolean button;
@@ -91,13 +101,7 @@ public class DokTabView implements Serializable {
     @Inject private AmoDokDAO amoDokDAO;
     
      private List<Inwestycje> inwestycje;
-     private static final List frozenrows;
      @Inject private InwestycjeDAO inwestycjeDAO;
-
-    public List getFrozenrows() {
-        return frozenrows;
-    }
-          
 
     public DokTabView() {
         //dokumenty podatnika
@@ -116,12 +120,12 @@ public class DokTabView implements Serializable {
         filteredValue = new ArrayList<>();
        
     }
+          
 
-    static {
-        frozenrows = new ArrayList<>();
-        frozenrows.add("lolo");
-        frozenrows.add("manolo");
+    public List getFrozenrows() {
+        return frozenrows;
     }
+
     
     @PostConstruct
     public void init() {
@@ -694,10 +698,6 @@ public class DokTabView implements Serializable {
             return gosciuwybral;
         }
         
-        public static List<Dok> getGosciuwybralS() {
-            return gosciuwybral;
-        }
-        
         public void setGosciuwybral(List<Dok> gosciuwybral) {
             this.gosciuwybral = gosciuwybral;
         }
@@ -725,7 +725,8 @@ public class DokTabView implements Serializable {
         public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
             this.dokumentyokresowe = dokumentyokresowe;
         }
-        //</editor-fold>
+    //</editor-fold>
+            
     
    
         
