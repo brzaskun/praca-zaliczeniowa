@@ -28,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
-import org.bouncycastle.asn1.ocsp.Request;
 import org.primefaces.context.RequestContext;
 
 /**

@@ -51,12 +51,10 @@ import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.util.Collection;
-//import entityfk.Rozrachunki;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.joda.time.DateTime;
 
 /**
  *

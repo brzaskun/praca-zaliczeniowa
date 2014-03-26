@@ -4,7 +4,6 @@
  */
 package dao;
 
-import entity.Pitpoz;
 import entity.Ryczpoz;
 import java.io.Serializable;
 import java.util.List;

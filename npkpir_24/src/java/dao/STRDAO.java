@@ -4,7 +4,6 @@
  */
 package dao;
 
-import entity.Podatnik;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.util.List;

@@ -4,8 +4,6 @@
  */
 package deklaracjapit37;
 
-import javax.annotation.PostConstruct;
-
 /**
  *
  * @author Osito

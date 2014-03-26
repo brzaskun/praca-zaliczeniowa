@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;

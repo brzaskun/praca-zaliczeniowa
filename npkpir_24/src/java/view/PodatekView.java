@@ -9,7 +9,6 @@ import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
-import embeddable.Parametr;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Podstawki;

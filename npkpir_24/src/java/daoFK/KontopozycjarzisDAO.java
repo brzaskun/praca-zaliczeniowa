@@ -8,7 +8,6 @@ import dao.DAO;
 import entityfk.Kontopozycjarzis;
 import entityfk.Rzisuklad;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;

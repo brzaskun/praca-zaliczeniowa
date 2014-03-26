@@ -19,7 +19,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import msg.Msg;
-import org.joda.time.DateTime;
 
 /**
  *

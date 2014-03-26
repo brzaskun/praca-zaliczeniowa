@@ -4,11 +4,9 @@
  */
 package view;
 
-import comparator.Amodokcomparator;
 import dao.AmoDokDAO;
 import dao.STRDAO;
 import data.Data;
-import embeddable.Mce;
 import embeddable.Roki;
 import embeddable.Umorzenie;
 import entity.Amodok;
@@ -16,14 +14,10 @@ import entity.AmodokPK;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

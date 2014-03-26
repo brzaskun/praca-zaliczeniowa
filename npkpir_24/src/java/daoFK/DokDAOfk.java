@@ -6,7 +6,6 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Dokfk;
-import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;

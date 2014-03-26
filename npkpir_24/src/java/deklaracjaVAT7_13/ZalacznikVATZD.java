@@ -4,8 +4,6 @@
  */
 package deklaracjaVAT7_13;
 
-import com.sun.xml.rpc.processor.modeler.j2ee.xml.warPathType;
-
 /**
  *
  * @author Osito
