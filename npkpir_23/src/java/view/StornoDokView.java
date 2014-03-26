@@ -213,8 +213,8 @@ public class StornoDokView implements Serializable {
     private long roznicaDni(String da_od, String da_do) throws ParseException {
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date_od = (Date) formatter.parse(da_od);
-        Date date_do = (Date) formatter.parse(da_do);
+        Date date_od = formatter.parse(da_od);
+        Date date_do = formatter.parse(da_do);
         long x = date_do.getTime();
         long y = date_od.getTime();
         long wynik = (x - y);

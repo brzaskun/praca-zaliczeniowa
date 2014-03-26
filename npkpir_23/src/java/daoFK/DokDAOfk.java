@@ -28,7 +28,7 @@ public class DokDAOfk extends DAO implements Serializable {
     
     public List<Dokfk> findAll(){
         System.out.println("Pobierak dokfk");
-        return (List<Dokfk>) dokFacade.findAll(Dokfk.class);
+        return dokFacade.findAll(Dokfk.class);
     }
 
     public void usun(Dokfk selected) {

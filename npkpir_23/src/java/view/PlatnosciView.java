@@ -205,7 +205,7 @@ public class PlatnosciView implements Serializable {
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
-            dataod = (Date) formatter.parse(datatmp);
+            dataod = formatter.parse(datatmp);
             selectedZob.setZus51ods(odsetki(dataod, datatmp51, selectedZob.getZus51().toString()));
             selectedZob.setZus52ods(odsetki(dataod, datatmp52, selectedZob.getZus52().toString()));
             selectedZob.setZus53ods(odsetki(dataod, datatmp53, selectedZob.getZus53().toString()));
@@ -242,7 +242,7 @@ public class PlatnosciView implements Serializable {
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
-            dataod = (Date) formatter.parse(datatmp);
+            dataod = formatter.parse(datatmp);
             selectedZob.setPit4ods(odsetki(dataod, datatmpPIT4, selectedZob.getPit4().toString()));
             selectedZob.setPit4suma(selectedZob.getPit4() + selectedZob.getPit4ods());
         } catch (ParseException e) {
@@ -275,7 +275,7 @@ public class PlatnosciView implements Serializable {
         try {
             DateFormat formatter;
             formatter = new SimpleDateFormat("yyyy-MM-dd");
-            dataod = (Date) formatter.parse(datatmp);
+            dataod = formatter.parse(datatmp);
             selectedZob.setPit5ods(odsetki(dataod, datatmpPIT5, selectedZob.getPit5().toString()));
             selectedZob.setPit5suma(selectedZob.getPit5() + selectedZob.getPit5ods());
         } catch (ParseException e) {

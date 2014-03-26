@@ -597,7 +597,7 @@ public class DokView implements Serializable {
     
     public void wybranydokument() {
         for (Rodzajedok p : rodzajedokKlienta) {
-            if (p.getSkrot().equals((String) Params.params("dodWiad:rodzajTrans"))) {
+            if (p.getSkrot().equals(Params.params("dodWiad:rodzajTrans"))) {
                 Msg.msg("i", p.getNazwa());
                 break;
             }
@@ -1054,9 +1054,9 @@ public class DokView implements Serializable {
         Calendar c = Calendar.getInstance();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date datawystawienia = (Date) formatter.parse(dataWyst);
-        Date terminplatnosci = (Date) formatter.parse(dataPlat);
-        Date dataujeciawkosztach = (Date) formatter.parse(data);
+        Date datawystawienia = formatter.parse(dataWyst);
+        Date terminplatnosci = formatter.parse(dataPlat);
+        Date dataujeciawkosztach = formatter.parse(data);
         if (roznicaDni(datawystawienia, terminplatnosci) == true) {
             c.setTime(terminplatnosci);
             c.add(Calendar.DAY_OF_MONTH, 30);

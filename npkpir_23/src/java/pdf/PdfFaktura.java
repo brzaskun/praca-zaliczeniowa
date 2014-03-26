@@ -119,7 +119,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             Map<String, Integer> wymiary = new HashMap<>();
             int gornylimit = 836;
             for(Pozycjenafakturze p : lista){
-                int wymiargora = (int) (p.getGora()/2);
+                int wymiargora = (p.getGora()/2);
                     wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit-wymiargora);
             }
             Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
@@ -205,7 +205,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         PdfPTable table = new PdfPTable(11);
                         wygenerujtablice(table, selected.getPozycjenafakturze(),selected);
                         // write the table to an absolute position
-                        table.writeSelectedRows(0,table.getRows().size(),(int) (pobrane.getLewy()/dzielnik),wymiary.get("akordeon:formwzor:towary"),writer.getDirectContent());
+                        table.writeSelectedRows(0,table.getRows().size(), (pobrane.getLewy()/dzielnik),wymiary.get("akordeon:formwzor:towary"),writer.getDirectContent());
                         break;
                      case "akordeon:formwzor:przewłaszczenie" :
                          //Dane do modulu przewłaszczenie

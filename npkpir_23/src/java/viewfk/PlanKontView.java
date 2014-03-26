@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import beans.PlanKontBean;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -230,7 +231,7 @@ public class PlanKontView implements Serializable {
         root.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
         finallChildrenData.remove(konto);
         for (Object p : finallChildrenData) {
-            if (((Konto) p).getMacierzysty() == macierzyste) {
+            if (((ToBeATreeNodeObject) p).getMacierzysty() == macierzyste) {
                 return true;
             }
         }

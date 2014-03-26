@@ -38,7 +38,7 @@ public class RyczView implements Serializable {
     
     @PostConstruct
     private void init(){
-        lista = (List<Ryczpoz>) ryczDAO.findRyczPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
+        lista = ryczDAO.findRyczPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
        
     }
     

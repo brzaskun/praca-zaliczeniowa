@@ -57,7 +57,7 @@ public class StatisticView implements Serializable {
             iloscwydrukow += p.getIloscwydrukow();
             if (p.getWylogowanie() instanceof Date && p.getZalogowanie() instanceof Date) {
                 Duration duration = new Duration(new DateTime(p.getZalogowanie()),new DateTime(p.getWylogowanie()));
-                milis += (int) duration.getMillis();
+                milis += duration.getMillis();
             }
         }
         int minuty = (int) (milis/1000/60);
