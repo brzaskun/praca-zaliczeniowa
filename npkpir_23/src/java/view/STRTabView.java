@@ -332,7 +332,7 @@ public class STRTabView implements Serializable {
             }
             obiektDOKjsfSel.remove(dokdoUsuniecia);
             sTRDAO.destroy(dokdoUsuniecia);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             Msg.msg("e", "Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");

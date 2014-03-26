@@ -326,7 +326,7 @@ public class Vat7DKView implements Serializable {
         try {
             //pobiera liste deklaracji poprzednich z danego miesiaca, jezeli nie ma wyrzuca blad
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
-            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
+            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
 
         } catch (Exception er) {}
@@ -372,7 +372,7 @@ public class Vat7DKView implements Serializable {
         try {
             //pobiera liste deklaracji poprzednich z danego miesiaca
             List<Deklaracjevat> pobranalistadeklaracji = new ArrayList<>();
-            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok.toString(), mc, podatnik);
+            pobranalistadeklaracji = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
             //eliminowanie testowych
             ListIterator it;
             it = pobranalistadeklaracji.listIterator();

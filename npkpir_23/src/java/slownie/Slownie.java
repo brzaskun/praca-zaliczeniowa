@@ -204,7 +204,7 @@ public class Slownie {
     {
         
         String kwotaString = "" + kwota;
-        kwotaString = kwotaString.substring(0, kwotaString.indexOf("."));
+        kwotaString = kwotaString.substring(0, kwotaString.indexOf('.'));
         Long dzlote = new Long(kwotaString);
         return dzlote;
     }

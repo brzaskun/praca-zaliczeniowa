@@ -1634,7 +1634,7 @@ public final class DokView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         try {
             stornoDok = stornoDokDAO.find(r, m, podatnik);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument storno. Za późno wprowadzasz te płatność", stornoDok.getMc().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument storno. Za późno wprowadzasz te płatność", stornoDok.getMc());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("form:messages");
         } catch (Exception ec) {
