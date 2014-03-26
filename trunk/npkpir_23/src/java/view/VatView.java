@@ -247,11 +247,14 @@ public class VatView implements Serializable {
             }
             wynikOkresu = new BigDecimal(BigInteger.ZERO);
             for (EVatwpisSuma p : sumaewidencji.values()) {
-                if (p.getEwidencja().getTypewidencji().equals("s")) {
-                   wynikOkresu = wynikOkresu.add(p.getVat());
-               } else if (p.getEwidencja().getTypewidencji().equals("z")) {
-                   wynikOkresu = wynikOkresu.subtract(p.getVat());
-               }
+                switch (p.getEwidencja().getTypewidencji()) {
+                    case "s":
+                        wynikOkresu = wynikOkresu.add(p.getVat());
+                        break;
+                    case "z":
+                        wynikOkresu = wynikOkresu.subtract(p.getVat());
+                        break;
+                }
             }
         
         } catch (Exception e) {
@@ -289,30 +292,33 @@ public class VatView implements Serializable {
       
      private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
          try {
-         if(vatokres.equals("blad")){
-            Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-            throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-         } else if (vatokres.equals("miesięczne")){
-             List<Dok> listatymczasowa = new ArrayList<>();
-             for(Dok p : listadokvat){
-                 if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
-                     listatymczasowa.add(p);
-                 }
-             }
-             return listatymczasowa;
-         } else {
+             switch (vatokres) {
+                 case "blad":
+                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                 case "miesięczne":
+                 {
+                     List<Dok> listatymczasowa = new ArrayList<>();
+                     for(Dok p : listadokvat){
+                         if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
+                             listatymczasowa.add(p);
+                         }
+                     }
+                     return listatymczasowa;
+                 }       default:
+         {
              List<Dok> listatymczasowa = new ArrayList<>();
              Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
              List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
              for(Dok p : listadokvat){
                  if(p.getVatM().equals(miesiacewkwartale.get(0))||p.getVatM().equals(miesiacewkwartale.get(1))||p.getVatM().equals(miesiacewkwartale.get(2))){
                      if(p.getUsunpozornie()==false){
-                        listatymczasowa.add(p);
+                         listatymczasowa.add(p);
                      }
                  }
              }
              return listatymczasowa;
-         }
+         }   }
          } catch (Exception e) {
              Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
              return null;

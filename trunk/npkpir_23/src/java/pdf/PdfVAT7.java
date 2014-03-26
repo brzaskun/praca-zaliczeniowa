@@ -664,14 +664,18 @@ public class PdfVAT7 extends Pdf implements Serializable{
     private void kombinuj(String kto, String zalaczniki) {
         try {
             List<String> files = new ArrayList<>();
-            if(zalaczniki.equals("nic")){
-                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
-            } else if (zalaczniki.equals("ordzu")){
-                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
-                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/ord-zu"+kto+".pdf");
-            } else if (zalaczniki.equals("vatzt")){
-                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
-                files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-zt"+kto+".pdf");
+            switch (zalaczniki) {
+                case "nic":
+                    files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
+                    break;
+                case "ordzu":
+                    files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
+                    files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/ord-zu"+kto+".pdf");
+                    break;
+                case "vatzt":
+                    files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13"+kto+".pdf");
+                    files.add("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-zt"+kto+".pdf");
+                    break;
             }
             Document PDFCombineUsingJava = new Document();
             PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VAT7Comb"+kto+".pdf"));
