@@ -135,7 +135,7 @@ public class PodatnikView implements Serializable {
 
     @PostConstruct
     public void init() {
-        li.addAll((Collection) podatnikDAO.findAll());
+        li.addAll(podatnikDAO.findAll());
         Collections.sort(li, new Podatnikcomparator());
         listaPodatnikowFK.addAll(podatnikDAO.findPodatnikFK());
         Collections.sort(listaPodatnikowFK, new Podatnikcomparator());

@@ -85,7 +85,7 @@ public class WalutyNBP implements Serializable {
         Date datao1date = null;
         Date datao2date = null;
         try {
-            datao1date = (Date) formatter.parse(data);
+            datao1date = formatter.parse(data);
             datao2date = new Date();
         } catch (ParseException ex) {
             Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);

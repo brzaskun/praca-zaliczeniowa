@@ -107,7 +107,7 @@ public class SessionFacade<T> {
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
-        int ilosc = ((Long) q.getSingleResult()).intValue();
+        int ilosc = ((Number) q.getSingleResult()).intValue();
         int kontrolailosci = ilosc-ile;
         if(kontrolailosci<0){
             kontrolailosci=0;
@@ -639,7 +639,7 @@ public class SessionFacade<T> {
             wnmaNew = "Wn";
         }
         try {
-            return (List<Rozrachunekfk>) em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
+            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
         } catch (Exception e) {
             return null;
         }

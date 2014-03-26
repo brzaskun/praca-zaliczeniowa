@@ -207,7 +207,7 @@ public class Slownie {
          String kwotaString = "" + kwota;
          kwotaString = kwotaString.substring(0, kwotaString.indexOf("."));
          Long dzlote = new Long(kwotaString);
-         return (long) dzlote;
+         return dzlote;
      }
 
     static long liczba_groszy(double grosze)
@@ -216,7 +216,7 @@ public class Slownie {
         DecimalFormat dfx =  new DecimalFormat("0.00");
         String szlote = dfx.format(grosze);
         //Odcinam grosze
-        String bgzlote = (String)szlote.substring(0,szlote.length()-3);        
+        String bgzlote = szlote.substring(0,szlote.length()-3);        
         Double dzlote = new Double(bgzlote);
         //Od kowty z groszami odejmuję kwotę bez.
         Long groszy  = (long)(grosze*100 - dzlote*100);        

@@ -30,12 +30,12 @@ public class Dokcomparator implements Comparator<Dok> {
         Date datao1date = null;
         Date datao2date = null;
         try {
-             datao1date = (Date) formatter.parse(datao1);
+             datao1date = formatter.parse(datao1);
         } catch (ParseException ex) {
             Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            datao2date = (Date) formatter.parse(datao2);
+            datao2date = formatter.parse(datao2);
         } catch (ParseException ex) {
             Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
         }
