@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.persistence.Parameter;
 
 /**
  *

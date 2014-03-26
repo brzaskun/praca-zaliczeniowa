@@ -7,7 +7,6 @@ package viewfk;
 import dao.WierszeDAO;
 import entityfk.Wiersze;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

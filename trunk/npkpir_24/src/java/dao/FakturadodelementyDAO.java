@@ -5,12 +5,10 @@
 package dao;
 
 import entity.Fakturadodelementy;
-import entity.Klienci;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-import javax.inject.Named;
 import session.SessionFacade;
 
 /**

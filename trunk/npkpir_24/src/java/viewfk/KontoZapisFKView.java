@@ -16,7 +16,6 @@ import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
-import entityfk.Rozrachunekfk;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;

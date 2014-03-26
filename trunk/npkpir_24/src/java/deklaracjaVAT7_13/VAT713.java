@@ -4,7 +4,6 @@
  */
 package deklaracjaVAT7_13;
 
-import data.Data;
 import deklaracjeSchemy.SchemaVAT7;
 import embeddable.Parametr;
 import embeddable.Vatpoz;

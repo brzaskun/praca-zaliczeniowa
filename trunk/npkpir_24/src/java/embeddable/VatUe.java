@@ -7,7 +7,6 @@ package embeddable;
 import entity.Dok;
 import entity.Klienci;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Named;

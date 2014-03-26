@@ -4,18 +4,7 @@
  */
 package timer;
 
-import dao.DokDAO;
-import entity.Dok;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerService;
-import javax.inject.Inject;
 
 /**
  *
