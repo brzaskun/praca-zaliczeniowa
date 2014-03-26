@@ -202,7 +202,7 @@ public class Vat7DKView implements Serializable {
         }
         try {
             List<Parametr> listakwotaautoryzujaca = pod.getKwotaautoryzujaca();
-            if(listakwotaautoryzujaca.size()==0){
+            if(listakwotaautoryzujaca.isEmpty()){
                 throw new Exception();
             }
             //bo wazny jet nie rok na deklaracji ale rok z ktorego sie wysyla

@@ -119,7 +119,7 @@ public class PozycjaRZiSView implements Serializable {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
         } catch (Exception e){}
-        if (pozycje.size() == 0) {
+        if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
@@ -132,7 +132,7 @@ public class PozycjaRZiSView implements Serializable {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
         } catch (Exception e){}
-        if (pozycje.size() == 0) {
+        if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
@@ -150,7 +150,7 @@ public class PozycjaRZiSView implements Serializable {
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
         } catch (Exception e){}
-        if (pozycje.size() == 0) {
+        if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
@@ -341,7 +341,7 @@ public class PozycjaRZiSView implements Serializable {
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
                 pozycje.remove(0);
             }
-            if (pozycje.size()==0) {
+            if (pozycje.isEmpty()) {
                 Msg.msg("i", nowyelementRZiS.getNazwa()+"zachowam pod A");
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
@@ -446,7 +446,7 @@ public class PozycjaRZiSView implements Serializable {
             }
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
-            if (pozycje.size() == 0) {
+            if (pozycje.isEmpty()) {
                    pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
                    Msg.msg("i", "Dodaje pusta pozycje");
                }

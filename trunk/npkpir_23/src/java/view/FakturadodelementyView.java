@@ -49,7 +49,7 @@ public class FakturadodelementyView implements Serializable{
     private void init(){
         try{
             fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            if(fakturadodelementy.size()==0){
+            if(fakturadodelementy.isEmpty()){
                 int index = 0;
                 for (String p : elementynazwa){
                     String podatnik = wpisView.getPodatnikWpisu();

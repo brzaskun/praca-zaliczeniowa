@@ -41,7 +41,7 @@ public class SrodkikstView implements Serializable {
     }
     
      public List<Srodkikst> complete(String query) {
-        if (lista.size() == 0) {
+        if (lista.isEmpty()) {
             lista = srodkikstDAO.findAll();
         }
         List<Srodkikst> results = new ArrayList<>();  

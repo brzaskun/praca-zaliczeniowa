@@ -742,7 +742,7 @@ public class FakturaView implements Serializable {
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
             List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(nowa.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             int fakturanowyrok = 0;
-            if (wykazfaktur.size() == 0) {
+            if (wykazfaktur.isEmpty()) {
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
                 nowa.getFakturaPK().setNumerkolejny(numer);
             } else {
@@ -837,7 +837,7 @@ public class FakturaView implements Serializable {
     }
     
     public void resetujbiezacymiesiac() {
-        if (gosciwybralokres.size() == 0 ) {
+        if (gosciwybralokres.isEmpty() ) {
             Msg.msg("e", "Nie wybrano faktury do resetu");
             return;
         }
@@ -887,7 +887,7 @@ public class FakturaView implements Serializable {
     }
     
     public void oznaczbiezacymiesiac() {
-        if (gosciwybralokres.size() == 0 ) {
+        if (gosciwybralokres.isEmpty() ) {
             Msg.msg("e", "Nie wybrano faktury do resetu");
             return;
         }
