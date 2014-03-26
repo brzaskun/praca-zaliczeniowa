@@ -2,9 +2,7 @@
 package dao;
 
 import entity.Podatnik;
-import entity.Sesja;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;

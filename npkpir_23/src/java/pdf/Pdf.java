@@ -35,7 +35,6 @@ import javax.inject.Inject;
 import javax.naming.NamingException;
 import view.KsiegaView;
 import view.ObrotyView;
-import view.STREwidencja;
 import view.WpisView;
 
 /**

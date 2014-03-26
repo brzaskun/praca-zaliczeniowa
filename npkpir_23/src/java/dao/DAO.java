@@ -4,10 +4,8 @@
  */
 package dao;
 
-import interceptor.ZmianatabeliInterceptor;
 import java.util.ArrayList;
 import javax.inject.Inject;
-import javax.interceptor.Interceptors;
 import javax.persistence.PersistenceException;
 import session.SessionFacade;
 

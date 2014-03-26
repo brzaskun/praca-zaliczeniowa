@@ -4,7 +4,6 @@
  */
 package view;
 
-import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.FakturyokresoweDAO;
 import entity.Dok;
@@ -12,7 +11,6 @@ import entity.Fakturyokresowe;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

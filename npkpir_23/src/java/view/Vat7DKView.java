@@ -7,7 +7,6 @@ package view;
 import dao.DeklaracjevatDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
-import data.Data;
 import deklaracjaVAT7_13.VAT713;
 import deklaracjeSchemy.SchemaVAT7;
 import embeddable.Daneteleadresowe;

@@ -5,12 +5,9 @@
 package daoFK;
 
 import dao.DAO;
-import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
-import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;

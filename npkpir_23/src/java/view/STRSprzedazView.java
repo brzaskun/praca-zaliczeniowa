@@ -5,7 +5,6 @@
  */
 package view;
 
-import data.Data;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import java.io.Serializable;
@@ -15,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import msg.Msg;
 
 /**

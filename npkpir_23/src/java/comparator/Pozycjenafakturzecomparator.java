@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import java.util.Comparator;
 import javax.inject.Named;

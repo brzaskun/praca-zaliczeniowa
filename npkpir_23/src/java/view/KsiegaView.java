@@ -30,7 +30,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 /**
  *
