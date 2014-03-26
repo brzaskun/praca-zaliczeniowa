@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Faktura;
-import entity.Klienci;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;

@@ -7,7 +7,6 @@ package comparator;
 import embeddable.Okresrozliczeniowy;
 import java.util.Comparator;
 import javax.inject.Named;
-import javax.persistence.Embeddable;
 
 /**
  *

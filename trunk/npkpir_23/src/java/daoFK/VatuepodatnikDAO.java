@@ -5,7 +5,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Rzisuklad;
 import entityfk.Vatuepodatnik;
 import java.io.Serializable;
 import java.util.List;

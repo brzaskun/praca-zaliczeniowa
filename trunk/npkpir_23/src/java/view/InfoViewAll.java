@@ -12,7 +12,6 @@ import embeddable.Mce;
 import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;

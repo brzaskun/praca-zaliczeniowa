@@ -9,7 +9,7 @@
  */
 package slownie;
 
-import java.text.*;
+import java.text.DecimalFormat;
 
 public class Slownie {
 

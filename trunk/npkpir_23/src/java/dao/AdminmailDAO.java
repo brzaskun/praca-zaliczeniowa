@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Adminmail;
-import entity.Amodok;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;

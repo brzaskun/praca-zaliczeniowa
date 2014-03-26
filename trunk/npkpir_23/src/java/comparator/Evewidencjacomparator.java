@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import entity.Dok;
 import entity.Evewidencja;
 import java.util.Comparator;
 import javax.inject.Named;

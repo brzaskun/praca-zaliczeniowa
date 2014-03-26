@@ -14,13 +14,10 @@ import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
-import embeddable.PozycjeSzczegoloweVAT;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -29,23 +26,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
-import pdf.PdfVAT;
 
 /**
  *

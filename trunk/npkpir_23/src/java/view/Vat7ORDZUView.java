@@ -5,7 +5,6 @@
 package view;
 
 import deklaracjaVAT7_13.ORDZU;
-import deklaracjaVAT7_13.VATZT;
 import entity.Deklaracjevat;
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 
 /**
  *

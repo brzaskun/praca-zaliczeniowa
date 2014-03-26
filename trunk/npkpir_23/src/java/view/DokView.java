@@ -76,11 +76,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
-
-
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import params.Params;
 
 /**
