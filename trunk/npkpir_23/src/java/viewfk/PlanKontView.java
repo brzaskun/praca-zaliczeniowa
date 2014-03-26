@@ -110,7 +110,6 @@ public class PlanKontView implements Serializable {
             } else {
                 nowe = new Konto();
                 Msg.msg("e", "Konto syntetyczne o takim numerze juz istnieje!", "formX:messages");
-                return;
             }
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
@@ -118,7 +117,6 @@ public class PlanKontView implements Serializable {
                 if (nowe.getNrkonta().equals("kontr")) {
                     if (kontomacierzyste.isMapotomkow()==true) {
                      Msg.msg("e","Konto już ma analitykę, nie można dodać słownika");
-                     return;
                     } else {
                         int wynikdodaniakonta = PlanKontBean.dodajslownik(nowe, kontomacierzyste, kontoDAO);
                         if (wynikdodaniakonta == 0) {
@@ -157,7 +155,6 @@ public class PlanKontView implements Serializable {
                     }
                 } else {
                     Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
-                    return;
                 }
             }
         }
@@ -197,7 +194,6 @@ public class PlanKontView implements Serializable {
             Konto zawartosc = (Konto) selectednode.getData();
             if (zawartosc.isBlokada() == true) {
                 Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
-                return;
             } else if (zawartosc.isMapotomkow() == true) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
@@ -251,7 +247,6 @@ public class PlanKontView implements Serializable {
                 konto.setBlokada(true);
                 kontoDAO.edit(konto);
                 Msg.msg("w", "Zabezpieczono konto przed edycją.");
-                return;
             } else if (konto.getBoWn() == 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada() == true) {
                 konto.setBlokada(false);
                 kontoDAO.edit(konto);

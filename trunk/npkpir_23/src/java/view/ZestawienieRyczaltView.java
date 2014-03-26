@@ -664,7 +664,6 @@ public class ZestawienieRyczaltView implements Serializable {
         } catch (Exception e){
            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak przychodow w miesiacu", "");
            FacesContext.getCurrentInstance().addMessage(null, msg);
-           return;
         }
     }
     private void wyliczodliczenieZmniejszenia(){
