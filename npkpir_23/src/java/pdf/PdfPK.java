@@ -82,19 +82,28 @@ public class PdfPK extends Pdf implements Serializable {
             document.add(miziu);
             document.add(new Chunk().NEWLINE);
             Paragraph miziu1;
-            if(selected.getTypdokumentu().equals("PK")||selected.getTypdokumentu().equals("OT")||selected.getTypdokumentu().equals("IN")){
+        switch (selected.getTypdokumentu()) {
+            case "PK":
+            case "OT":
+            case "IN":
                 miziu1 = new Paragraph(new Phrase("Polecenie księgowania "+selected.getNrWlDk(),font));
-            } else if (selected.getTypdokumentu().equals("AMO")) {
+                break;
+            case "AMO":
                 miziu1 = new Paragraph(new Phrase("Umorzenie miesięczne "+selected.getNrWlDk(),font));
-            } else if (selected.getTypdokumentu().equals("LP")) {
+                break;
+            case "LP":
                 miziu1 = new Paragraph(new Phrase("Lista płac "+selected.getNrWlDk(),font));
-            } else if (selected.getTypdokumentu().equals("ZUS")) {
+                break;
+            case "ZUS":
                 miziu1 = new Paragraph(new Phrase("Ubezpieczenia społeczne "+selected.getNrWlDk(),font));
-            } else if (selected.getTypdokumentu().equals("RF")) {
+                break;
+            case "RF":
                 miziu1 = new Paragraph(new Phrase("Zestawienie - kasa fiskalna "+selected.getNrWlDk(),font));
-            } else {
+                break;
+            default:
                 miziu1 = new Paragraph(new Phrase("Faktura VAT "+selected.getNrWlDk(),font));
-            }
+                break;
+        }
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
             document.add(new Chunk().NEWLINE);
