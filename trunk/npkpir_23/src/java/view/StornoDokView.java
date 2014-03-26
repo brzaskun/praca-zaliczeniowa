@@ -274,7 +274,7 @@ public class StornoDokView implements Serializable {
             Integer mci = Integer.parseInt(mc)+1;
             String mcn = Mce.getMapamcy().get(mci);
             StornoDok tmp = stornoDokDAO.find(rok, mcn, podatnik);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", tmp.getMc().toString());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", tmp.getMc());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("super:super");
         } catch (Exception x){
@@ -294,7 +294,7 @@ public class StornoDokView implements Serializable {
                         tmp.setStorno(stornodoch);
                         dokDAO.edit(tmp);
                     } else {
-                         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", stornodok.getMc().toString());
+                         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", stornodok.getMc());
         FacesContext.getCurrentInstance().addMessage(null, msg);
         RequestContext.getCurrentInstance().update("form:niezaplaconech");
                 }

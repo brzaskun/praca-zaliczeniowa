@@ -227,7 +227,7 @@ public class KlView implements Serializable{
             //sformatuj();
             klDAO.edit(selected);
             //refresh();
-            FacesMessage msg = new FacesMessage("Klient zedytowany DAO" + ex.getObject().toString(), selected.getNpelna().toString());
+            FacesMessage msg = new FacesMessage("Klient zedytowany DAO" + ex.getObject().toString(), selected.getNpelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Klient nie zedytowany DAO", e.getStackTrace().toString());

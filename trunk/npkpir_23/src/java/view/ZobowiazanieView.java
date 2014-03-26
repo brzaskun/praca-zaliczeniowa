@@ -60,7 +60,7 @@ public class ZobowiazanieView implements Serializable{
          try{
          zobowiazanieDAO.dodaj(selected);
          listapobranychstawek.add(selected);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().toString().concat(selected.getZobowiazaniePK().getMc()) );
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().concat(selected.getZobowiazaniePK().getMc()) );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
          } catch (Exception e) {
