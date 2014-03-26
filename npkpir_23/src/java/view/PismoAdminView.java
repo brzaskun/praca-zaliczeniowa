@@ -133,7 +133,6 @@ public class PismoAdminView implements Serializable{
     public void walidacjaobszaru(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         String obszar = value.toString();
         if (!obszar.equals("wybierz obszar")) {
-            return;
         } else {
             throw new ValidatorException(Msg.validator("w","Wybierz temat wiadomości, obszar programu gdzie pojawił się błąd"));
         }
@@ -142,7 +141,6 @@ public class PismoAdminView implements Serializable{
     public void walidacjawaznosc(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         String obszar = value.toString();
         if (!obszar.equals("wybierz ważność")) {
-            return;
         } else {
             throw new ValidatorException(Msg.validator("w","Określ jak bardzo pilna jest to wiadomość"));
         }

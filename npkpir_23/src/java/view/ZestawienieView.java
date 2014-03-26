@@ -990,7 +990,6 @@ public class ZestawienieView implements Serializable {
                 biezacyPit = new Pitpoz();
                 wybranyudzialowiec = "wybierz osobe";
                 RequestContext.getCurrentInstance().update("formpit:");
-                return;
             }
 
         }
