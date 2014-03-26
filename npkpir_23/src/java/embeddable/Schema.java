@@ -59,7 +59,7 @@ public class Schema implements Serializable{
             return false;
         }
         final Schema other = (Schema) obj;
-        if (this.okres != other.okres) {
+        if (this.okres == null ? other.okres != null : !this.okres.equals(other.okres)) {
             return false;
         }
         if (!Objects.equals(this.rok, other.rok)) {

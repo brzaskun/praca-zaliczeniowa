@@ -239,7 +239,7 @@ public class DokTabView implements Serializable {
             if(dokdoUsuniecia.getTypdokumentu().equals("AMO")){
                 //poszukiwanie czy nie ma po nim jakiegos
                 Amodok amotmpnas = new Amodok();
-                if(wpisView.getMiesiacWpisu()!="12"){
+                if(!"12".equals(wpisView.getMiesiacWpisu())){
                     amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
                 }
                 if(amotmpnas.getZaksiegowane()&&(!amotmpnas.getUmorzenia().isEmpty())){

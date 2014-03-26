@@ -559,7 +559,7 @@ public class Vat7DKView implements Serializable {
             p.setPole60("0");
             p.setPoleI60(0);
         }
-        if (p.getPole61() != "") {
+        if (!"".equals(p.getPole61())) {
             p.setPoleI61(Integer.parseInt(p.getPole61()));
             if (p.getPoleI61() > p.getPoleI60()) {
                 p.setPoleI61(p.getPoleI60());
@@ -569,21 +569,21 @@ public class Vat7DKView implements Serializable {
             p.setPole61("0");
             p.setPoleI61(0);
         }
-        if (p.getPole62() != "") {
+        if (!"".equals(p.getPole62())) {
             p.setPoleI62(Integer.parseInt(p.getPole62()));
             if (p.getPoleI62() > p.getPoleI61()) {
                 p.setPoleI62(p.getPoleI61());
                 p.setPole62(p.getPoleI62().toString());
             }
         }
-        if (p.getPole63() != "") {
+        if (!"".equals(p.getPole63())) {
             p.setPoleI63(Integer.parseInt(p.getPole63()));
             if (p.getPoleI63() > p.getPoleI61()) {
                 p.setPoleI63(p.getPoleI61());
                 p.setPole63(p.getPoleI63().toString());
             }
         }
-        if (p.getPole64() != "") {
+        if (!"".equals(p.getPole64())) {
             p.setPoleI64(Integer.parseInt(p.getPole64()));
             if (p.getPoleI64() > p.getPoleI61()) {
                 p.setPoleI64(p.getPoleI61());
