@@ -338,7 +338,7 @@ public class PodatnikView implements Serializable {
     }
 
     private int sprawdzrok(Parametr nowe, List<Parametr> stare) {
-        if (stare.size() == 0) {
+        if (stare.isEmpty()) {
             Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
             parametr.setMcOd("01");
             parametr.setMcDo("12");
@@ -387,7 +387,7 @@ public class PodatnikView implements Serializable {
     }
 
     private int sprawdzvat(Parametr nowe, List<Parametr> stare) {
-        if (stare.size() == 0) {
+        if (stare.isEmpty()) {
             parametr.setMcDo("");
             parametr.setRokDo("");
             return 0;
@@ -848,7 +848,7 @@ public class PodatnikView implements Serializable {
     public void naniesRozliczenieStrat() {
         Msg.msg("i", "Rozpoczynam rozliczanie strat");
         List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "12", wpisView.getPodatnikWpisu());
-        if (pitpoz.size() == 0) {
+        if (pitpoz.isEmpty()) {
             Msg.msg("e", "Nie sporządzono pitu za grudzień poprzedniego roku. Przerywam nanoszenie strat");
             return;
         }
@@ -920,7 +920,7 @@ public class PodatnikView implements Serializable {
                 wykorzystanie.add(w);
                 strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
                 r.setWykorzystanieBiezace(wykorzystanie);
-            } else if (wykorzystanie.size() == 0) {
+            } else if (wykorzystanie.isEmpty()) {
                 wykorzystanie = new ArrayList<>();
                 Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
                 w.setRokwykorzystania(wpisView.getRokUprzedniSt());

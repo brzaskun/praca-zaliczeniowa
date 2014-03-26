@@ -68,7 +68,7 @@ public class Opis implements Serializable{
                  results.add(p);
              }
         }
-        if (results.size()==0) {
+        if (results.isEmpty()) {
             results.add(query);
         }
         return results;  

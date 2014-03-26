@@ -189,7 +189,7 @@ public class StornoDokView implements Serializable {
                 } catch (Exception ex) {
                 }
                 double doplacono;
-                if (wystornowane.size() == 0) {
+                if (wystornowane.isEmpty()) {
                     //jezeli nie bylo storna to wyksieguj
                     ArrayList<Stornodoch> storno = new ArrayList<>();
                     storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));

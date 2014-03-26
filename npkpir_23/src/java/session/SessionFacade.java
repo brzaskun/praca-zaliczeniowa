@@ -234,7 +234,7 @@ public class SessionFacade<T> {
         List<Dok> wynik = null;
         try {
             wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getResultList();
-            if (wynik.size()!=0) {
+            if (!wynik.isEmpty()) {
                 return wynik.get(wynik.size()-1);
             } else {
                 return null;
