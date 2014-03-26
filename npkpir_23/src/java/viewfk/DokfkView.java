@@ -46,7 +46,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
  */
 @ManagedBean
 @ViewScoped
-public class DokfkView implements Serializable {
+public final class DokfkView implements Serializable {
     private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
     private static int numerwiersza = 0;
     private static String stronawiersza;

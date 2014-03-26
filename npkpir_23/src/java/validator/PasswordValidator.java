@@ -16,6 +16,7 @@ import javax.faces.validator.ValidatorException;
  * @author Osito
  */
 public class PasswordValidator implements Validator{
+     @Override
      public void validate(FacesContext context, UIComponent
       component, Object toValidate) {
     boolean isValid = true;
