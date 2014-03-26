@@ -23,7 +23,7 @@ public class KlientConv implements javax.faces.convert.Converter{
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         Klienci kl = new Klienci();
-        if (submittedValue.trim().equals("")) {  
+        if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  

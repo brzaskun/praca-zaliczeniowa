@@ -21,7 +21,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         RodzajedokView rodzajedokView = new RodzajedokView();
         List<Rodzajedok> kl = rodzajedokView.getLista();
-        if (submittedValue.trim().equals("")) {  
+        if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  

@@ -24,7 +24,7 @@ public class PodatConv implements javax.faces.convert.Converter{
         List<Podatnik> value;
         PodatnikDAO podatnikDAO = new PodatnikDAO();
         List<Podatnik> lista = new ArrayList<>();
-        if (submittedValue.trim().equals("")) {  
+        if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  

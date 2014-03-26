@@ -21,7 +21,7 @@ public class RzisukladConv  implements javax.faces.convert.Converter{
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         List<Rzisuklad> kl = RzisukladView.getListaS();
-        if (submittedValue.trim().equals("")) {  
+        if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  

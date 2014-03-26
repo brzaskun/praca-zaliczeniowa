@@ -252,7 +252,7 @@ public class DokTabView implements Serializable {
             }
             try {
                 String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
-                if(!probsymbolu.equals("wybierz")&&(!probsymbolu.equals(""))){
+                if(!probsymbolu.equals("wybierz")&&(!probsymbolu.isEmpty())){
                     usunDokInwestycje(dokdoUsuniecia);
                 }
             } catch (Exception e){

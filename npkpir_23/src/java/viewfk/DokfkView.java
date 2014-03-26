@@ -948,7 +948,7 @@ public final class DokfkView implements Serializable {
     public void pobierzsymbolwaluty() {
         try {
             List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
-            if (symbolwalutydowiersza.equals("") || symbolwalutydowiersza.equals("PLN")) {
+            if (symbolwalutydowiersza.isEmpty() || symbolwalutydowiersza.equals("PLN")) {
                 symbolwalutydowiersza = "zł";
             } else {
                 for (Waluty w : wprowadzonewaluty) {

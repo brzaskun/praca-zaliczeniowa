@@ -45,7 +45,7 @@ class PozycjeSzczegolowe {
         for(String p : lista){
             try {
                 boolean i = !p.isEmpty();
-                if(!p.equals("")){
+                if(!p.isEmpty()){
                     PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
                 }
             } catch (Exception e){}
@@ -58,7 +58,7 @@ class PozycjeSzczegolowe {
         for(String p : lista){
             try {
                 boolean i = !p.isEmpty();
-                if(!p.equals("")){
+                if(!p.isEmpty()){
                     PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
                 }
             } catch (Exception e){}
