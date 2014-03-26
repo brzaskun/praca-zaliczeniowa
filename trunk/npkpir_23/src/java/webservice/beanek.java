@@ -70,7 +70,6 @@ public class beanek {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(new DOMSource(doc), new StreamResult(stringWriter));
             String strFileContent = stringWriter.toString(); //This is string data of xml file
-            System.out.println(strFileContent);
         } catch (Exception e) {
             e.getMessage();
         }
@@ -187,7 +186,6 @@ public class beanek {
             return;
         }
         String strFileContent = temp.getDeklaracja();
-        System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
@@ -299,7 +297,6 @@ public class beanek {
             return;
         }
         String strFileContent = temp.getDeklaracja();
-        System.out.println("wartosc stringu: " + strFileContent);
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {

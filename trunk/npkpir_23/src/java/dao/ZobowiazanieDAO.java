@@ -31,7 +31,6 @@ public class ZobowiazanieDAO extends DAO implements Serializable{
      
      public  List<Zobowiazanie> findAll(){
         try {
-            System.out.println("Pobieram ZobowiazanieDAO");
             return zobowiazanieFacade.findAll(Zobowiazanie.class);
         } catch (Exception e) {
             return null;

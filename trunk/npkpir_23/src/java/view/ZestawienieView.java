@@ -146,7 +146,6 @@ public class ZestawienieView implements Serializable {
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
                 for (int i = 0; i < 10; i++) {

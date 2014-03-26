@@ -96,7 +96,6 @@ public class FakturyokresoweView implements Serializable{
             try {
                 dokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             for(Dok p : dokumenty){
                 for (Fakturyokresowe r : faktury){

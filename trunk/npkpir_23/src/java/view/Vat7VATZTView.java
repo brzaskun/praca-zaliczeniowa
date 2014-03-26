@@ -27,7 +27,6 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         int lastIndexOf = dekl.lastIndexOf("<podp:DaneAutoryzujace");
         System.out.println(lastIndexOf);
         dekl = dekl.substring(0, lastIndexOf);
-        System.out.println(dekl);
     }
     private String kwota;
     private String informacja;

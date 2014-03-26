@@ -28,7 +28,6 @@ public class EvewidencjaDAO extends DAO implements Serializable {
 
      public  List<Evewidencja> findAll(){
         try {
-            System.out.println("Pobieram EvewidencjaDAO");
             return evewidencjaFacade.findAll(Evewidencja.class);
         } catch (Exception e) {
             return null;

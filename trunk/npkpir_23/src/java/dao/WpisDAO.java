@@ -30,7 +30,6 @@ public class WpisDAO extends DAO implements Serializable {
     
     public  List<Wpis> findAll(){
         try {
-            System.out.println("Pobieram WpisDAO");
             return wpisFacade.findAll(Wpis.class);
         } catch (Exception e) {
             return null;

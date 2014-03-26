@@ -27,7 +27,6 @@ public class PodatnikDAO extends DAO implements Serializable{
 
     public  List<Podatnik> findAll(){
         try {
-            System.out.println("Pobieram PodatnikDAO");
             return podatnikFacade.findAll(Podatnik.class);
         } catch (Exception e) {
             return null;
@@ -36,7 +35,6 @@ public class PodatnikDAO extends DAO implements Serializable{
     
     public  List<Podatnik> findPodatnikFK(){
         try {
-            System.out.println("Pobieram podatnikow FK PodatnikDAO");
             return podatnikFacade.findPodatnikFK();
         } catch (Exception e) {
             return null;

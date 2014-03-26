@@ -70,7 +70,6 @@ public class DokfkView implements Serializable {
         kurs = 4.189;
         kwota = Math.round(kwota * kurs * 100);
         kwota = kwota / 100;
-        System.out.println(kwota);
     }
 
     private Dokfk selected;
@@ -338,7 +337,6 @@ public class DokfkView implements Serializable {
             resetujDokument();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
         } catch (Exception e) {
-            System.out.println(e.toString());
             Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
         }
     }
@@ -352,7 +350,6 @@ public class DokfkView implements Serializable {
             wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
         } catch (Exception e) {
-            System.out.println(e.toString());
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
         }
     }

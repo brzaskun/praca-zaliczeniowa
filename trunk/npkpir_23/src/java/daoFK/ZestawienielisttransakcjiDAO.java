@@ -31,7 +31,6 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
 
     public List<Zestawienielisttransakcji> findAll() {
         try {
-            System.out.println("Pobieram ZestawienielisttransakcjiDAO");
             return zestawienielisttransakcjiFacade.findAll(Zestawienielisttransakcji.class);
         } catch (Exception e) {
             return null;
@@ -40,7 +39,6 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
 
     public Zestawienielisttransakcji findByKlucz(WierszStronafkPK klucz) {
         try {
-            System.out.println("Pobieram ZestawienielisttransakcjiDAO by klucz");
             return zestawienielisttransakcjiFacade.findByKlucz(klucz);
         } catch (Exception e) {
             return null;
@@ -49,7 +47,6 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
 
     public void dodajListeTransakcji(WierszStronafkPK klucz, List<Transakcja> lista) {
         try {
-            System.out.println("Zachowuje ZestawienielisttransakcjiDAO");
             Zestawienielisttransakcji nowezestawienie = new Zestawienielisttransakcji();
             nowezestawienie.setKluczlisty(klucz);
             nowezestawienie.setListatransakcji(lista);

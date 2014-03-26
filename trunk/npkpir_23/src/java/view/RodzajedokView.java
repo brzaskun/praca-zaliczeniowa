@@ -96,7 +96,6 @@ public class RodzajedokView implements Serializable{
             } catch (Exception e) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wzorzec NIE usunięty", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                System.out.println("Nie usnieto wzorca dokumenty");
             }
             
         }

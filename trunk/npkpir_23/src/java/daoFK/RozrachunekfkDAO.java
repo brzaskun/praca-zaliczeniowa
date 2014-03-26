@@ -31,7 +31,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
     
     public  List<Rozrachunekfk> findAll(){
         try {
-            System.out.println("Pobieram RozrachunekfkDAO");
             return rozrachunekfkFacade.findAll(Rozrachunekfk.class);
         } catch (Exception e) {
             return null;
@@ -40,7 +39,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
     
     public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
         try {
-            System.out.println("Szukam Rozrachunekfk");
             return rozrachunekfkFacade.findRozrachunekfk(p);
         } catch (Exception e) {
             return null;
@@ -49,7 +47,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
 
     public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String waluta) {
          try {
-            System.out.println("Szukam Rozrachunekfk");
             return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma, waluta);
         } catch (Exception e) {
             return null;
@@ -58,7 +55,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
     
      public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
          try {
-            System.out.println("Szukam Rozrachunekfk by WierszStronafk");
             return rozrachunekfkFacade.findRozrachunkifkByWierszStronafk(wierszStronafkPK);
         } catch (Exception e) {
             return null;
@@ -67,7 +63,6 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
 
     public List<Rozrachunekfk> findByDokfk(String seriadokfk, int nrkolejny) {
          try {
-            System.out.println("Szukam Rozrachunekfk by Symbolu i numeru Dokfk");
             return rozrachunekfkFacade.findRozrachunkifkByDokfk(seriadokfk, nrkolejny);
         } catch (Exception e) {
             return null;

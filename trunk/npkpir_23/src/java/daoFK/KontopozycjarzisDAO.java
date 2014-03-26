@@ -29,7 +29,6 @@ public class KontopozycjarzisDAO extends DAO implements Serializable{
     
     public List<Kontopozycjarzis> findKontaPodatnikUklad (Rzisuklad rzisuklad) {
        try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg numeru");
             return sessionFacade.findKontaPodatnikUklad(rzisuklad.getRzisukladPK().getPodatnik(), rzisuklad.getRzisukladPK().getRok(), rzisuklad.getRzisukladPK().getUklad());
         } catch (Exception e) {
             return null;

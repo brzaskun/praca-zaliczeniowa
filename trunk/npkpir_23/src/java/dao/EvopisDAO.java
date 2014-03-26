@@ -27,7 +27,6 @@ public class EvopisDAO extends DAO implements Serializable {
     
     public  List<Evopis> findAll(){
         try {
-            System.out.println("Pobieram EvopisDAO");
             return evopisFacade.findAll(Evopis.class);
         } catch (Exception e) {
             return null;

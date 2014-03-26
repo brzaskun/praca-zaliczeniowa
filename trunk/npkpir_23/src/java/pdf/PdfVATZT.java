@@ -31,7 +31,6 @@ public class PdfVATZT extends PdfVAT7{
     static String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-ZT.jpg";
     
     public static void drukujZT(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
-        System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vatzt"+v.getPodatnik()+".pdf"));

@@ -141,7 +141,6 @@ public class DokTabView implements Serializable {
                 StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
                 setButton(false);
             } catch (Exception ef) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
                 setButton(true);
             }
             int numerkolejny = 1;
@@ -153,7 +152,6 @@ public class DokTabView implements Serializable {
              numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e){
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
-                System.out.println(e.toString());
             }
             }
             try {
@@ -161,7 +159,6 @@ public class DokTabView implements Serializable {
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik)+1;
             obiektDOKmrjsfSel.clear();
@@ -265,7 +262,6 @@ public class DokTabView implements Serializable {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
             } catch (Exception e) {
-                System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
             }
             Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
         }
@@ -292,7 +288,6 @@ public class DokTabView implements Serializable {
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
                 dokDAO.destroy(dokdoUsuniecia);
             } catch (Exception e) {
-                System.out.println("Nie usnieto " + dokdoUsuniecia.getIdDok() + " " + e.toString());
                 throw new Exception();
             }
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
@@ -359,7 +354,6 @@ public class DokTabView implements Serializable {
             setButton(false);
             FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
         } catch (Exception ef) {
-            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + ef.toString());
             setButton(true);
             FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
         }
@@ -510,7 +504,6 @@ public class DokTabView implements Serializable {
                 long y=date_od.getTime(); 
                 long wynik=Math.abs(x-y); 
                 wynik=wynik/(1000*60*60*24); 
-                System.out.println("Roznica miedzy datami to "+wynik+" dni..."); 
                 if(wynik<=61){
                     return true;
                 } else {

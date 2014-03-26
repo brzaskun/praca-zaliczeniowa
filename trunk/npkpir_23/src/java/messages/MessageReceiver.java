@@ -42,10 +42,8 @@ public class MessageReceiver implements MessageListener{
             TextMessage tm = (TextMessage) message;
             Date date = new Date(tm.getJMSTimestamp());
             wiadomosc = date.toGMTString().substring(12, 20) +" "+tm.getText();
-            System.out.println("Consumed message: " + tm.getText());
             
         } catch (JMSException jex) {
-            System.out.println("Exception: " + jex);
         }
     }
 

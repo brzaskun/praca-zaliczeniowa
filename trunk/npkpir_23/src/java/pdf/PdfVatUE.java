@@ -76,7 +76,6 @@ public class PdfVatUE extends Pdf implements Serializable {
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 pobranyVatue = vatuepodatnikDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
             }
-            System.out.println("Drukuje Vat-UE sumowanie");
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
             writer.setInitialLeading(16);

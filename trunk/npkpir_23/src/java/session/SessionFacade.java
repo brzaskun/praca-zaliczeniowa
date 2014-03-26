@@ -227,10 +227,8 @@ public class SessionFacade<T> {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;
         }
-        System.out.println("Znaleziono duplikat - DokFacade");
         return wynik;
     }
     
@@ -239,14 +237,11 @@ public class SessionFacade<T> {
         try {
             wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getResultList();
             if (wynik.size()!=0) {
-                System.out.println("Znaleziono duplikat w trakcie - DokFacade");
                 return wynik.get(wynik.size()-1);
             } else {
-                System.out.println("Nie znaleziono duplikatu w trakcie - DokFacade");
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Blad podczas szukania  dokumentDuplicatwtrakcie - DokFacade");
             return null;
         }
     }
@@ -286,10 +281,8 @@ public class SessionFacade<T> {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR", rok).setParameter("pkpirM", mcS).setParameter("opis", "umorzenie za miesiac").getSingleResult();
         } catch (Exception e) {
-            System.out.println("Nie znaleziono duplikatu - DokFacade");
             return null;
         }
-        System.out.println("Znaleziono poprzednika - DokFacade");
         return wynik;
     }
 
@@ -309,10 +302,8 @@ public class SessionFacade<T> {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findStornoDok").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", podatnik).setParameter("opis", "storno za miesiac").getSingleResult();
         } catch (Exception e) {
-            System.out.println("Nie znaleziono storno dok - DokFacade");
             return null;
         }
-        System.out.println("Znaleziono storno dok - DokFacade");
         return wynik;
     }
 
@@ -445,7 +436,6 @@ public class SessionFacade<T> {
         try{
             return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e){
-            System.out.println("Nie ma dokumentow amo");
             return null;
         }
     }

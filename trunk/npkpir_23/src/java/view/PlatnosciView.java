@@ -213,7 +213,6 @@ public class PlatnosciView implements Serializable {
             selectedZob.setZus52suma(selectedZob.getZus52() + selectedZob.getZus52ods());
             selectedZob.setZus53suma(selectedZob.getZus53() + selectedZob.getZus53ods());
         } catch (ParseException e) {
-            System.out.println("Exception :" + e);
         }
         try {
             if (opcja == 1) {
@@ -246,7 +245,6 @@ public class PlatnosciView implements Serializable {
             selectedZob.setPit4ods(odsetki(dataod, datatmpPIT4, selectedZob.getPit4().toString()));
             selectedZob.setPit4suma(selectedZob.getPit4() + selectedZob.getPit4ods());
         } catch (ParseException e) {
-            System.out.println("Exception :" + e);
         }
         try {
             if (opcja == 1) {
@@ -279,7 +277,6 @@ public class PlatnosciView implements Serializable {
             selectedZob.setPit5ods(odsetki(dataod, datatmpPIT5, selectedZob.getPit5().toString()));
             selectedZob.setPit5suma(selectedZob.getPit5() + selectedZob.getPit5ods());
         } catch (ParseException e) {
-            System.out.println("Exception :" + e);
         }
         try {
             if (opcja == 1) {
@@ -365,7 +362,6 @@ public class PlatnosciView implements Serializable {
         long y = date_od.getTime();
         long wynik = Math.abs(x - y);
         wynik = wynik / (1000 * 60 * 60 * 24);
-        System.out.println("Roznica miedzy datami to " + wynik + " dni...");
         return wynik;
     }
 

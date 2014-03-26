@@ -50,7 +50,6 @@ public class KlView implements Serializable{
         String mse = "XX0000000001";
         mse = mse.substring(2);
         mse = String.valueOf(Integer.parseInt(mse));
-        System.out.println(mse);
     }
     @Inject private KlienciDAO klDAO;
     @Inject private Klienci selected;
@@ -236,7 +235,6 @@ public class KlView implements Serializable{
             FacesMessage msg = new FacesMessage("Klient zedytowany DAO" + ex.getObject().toString(), selected.getNpelna().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage("Klient nie zedytowany DAO", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -255,7 +253,6 @@ public class KlView implements Serializable{
             RequestContext.getCurrentInstance().update("formY:");
             Msg.msg("i","Usunięto wskazanego klienta","formX:mess_add");
         } catch (Exception e) {
-            System.out.println("Nie usnieto klienta View" + doUsuniecia.getNpelna() + " " + e.toString());
             Msg.msg("i","Nie usunięto klienta. Wystąpił błąd","formX:mess_add");
         }
       
@@ -274,7 +271,6 @@ public class KlView implements Serializable{
          List<String> kliencinip = new ArrayList<>();
          for (Klienci p : kliencitmp){
              if(p.getNip().equals(nippoczatkowy)){
-                 System.out.println("tak nip juz jest, wyrzucam blad");
                  throw new Exception();
              }
          }

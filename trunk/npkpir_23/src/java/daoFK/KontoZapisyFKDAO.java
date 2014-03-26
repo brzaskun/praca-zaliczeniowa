@@ -28,7 +28,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
     
      public  List<Kontozapisy> findAll(){
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO");
             return kontozapisyFacade.findAll(Kontozapisy.class);
         } catch (Exception e) {
             return null;
@@ -37,7 +36,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
 
     public List<Kontozapisy> findZapisy(String numer) {
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg numeru");
             return kontozapisyFacade.findZapisyNumer(numer);
         } catch (Exception e) {
             return null;
@@ -46,7 +44,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
 
     public List<Kontozapisy> findZapisyKonto(String numerkonta) {
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
             return kontozapisyFacade.findZapisyKonto(numerkonta);
         } catch (Exception e) {
             return null;
@@ -55,7 +52,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
     
      public List<Kontozapisy> findZapisyWierszID (int wierszID) {
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
             return kontozapisyFacade.findZapisyWierszID(wierszID);
         } catch (Exception e) {
             return null;
@@ -64,7 +60,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
     
      public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String numerkonta) {
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg konta");
             return kontozapisyFacade.findZapisyKontoPodatnik(podatnik, numerkonta);
         } catch (Exception e) {
             return null;
@@ -73,7 +68,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
     
      public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String numerkonta) {
         try {
-            System.out.println("Pobieram KontoZapisyBOFKDAO wg konta");
             return kontozapisyFacade.findZapisyKontoBOPodatnik(podatnik, numerkonta);
         } catch (Exception e) {
             return null;
@@ -84,7 +78,6 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
     public List<Kontozapisy> findZapisyKontoMacierzyste(String pelnynumer) {
         List<Kontozapisy> zwrot = new ArrayList<>(); 
         try {
-            System.out.println("Pobieram KontoZapisyFKDAO wg konta macierzystego");
             List<Kontozapisy> worek = kontozapisyFacade.findAll(Kontozapisy.class);
             for(Kontozapisy p : worek){
                 if(p.getKontoob().getMacierzyste().equals(pelnynumer)){

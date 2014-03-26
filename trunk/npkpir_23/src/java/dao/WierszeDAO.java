@@ -26,7 +26,6 @@ public class WierszeDAO extends DAO implements Serializable{
     
     public  List<Wiersze> findAll(){
         try {
-            System.out.println("Pobieram WierszeDAO");
             return wierszeFacade.findAll(Wiersze.class);
         } catch (Exception e) {
             return null;
@@ -37,7 +36,6 @@ public class WierszeDAO extends DAO implements Serializable{
          try {
            return wierszeFacade.findWierszefkRozrachunki(podatnik, konto, dokfkPK);
        } catch (Exception e ){
-           System.out.println(e);
            return null;
        }
     }
@@ -46,7 +44,6 @@ public class WierszeDAO extends DAO implements Serializable{
          try {
            return wierszeFacade.findWierszeZapisy(podatnik, konto);
        } catch (Exception e ){
-           System.out.println(e);
            return null;
        }
     }

@@ -151,7 +151,6 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodaj() {
-        System.out.println("Wpis nowej firmy do bazy zaczynam");
         if (selectedDod.getPesel() == null) {
             selectedDod.setPesel("99999999999");
         }
@@ -160,13 +159,11 @@ public class PodatnikView implements Serializable {
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         }
     }
 
     public void dodajfk() {
-        System.out.println("Wpis nowej firmy do bazy zaczynam");
         if (selectedDod.getPesel() == null) {
             selectedDod.setPesel("99999999999");
         }
@@ -176,7 +173,6 @@ public class PodatnikView implements Serializable {
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
         selectedDod = new Podatnik();
@@ -185,13 +181,11 @@ public class PodatnikView implements Serializable {
     }
 
     public void edytuj() {
-        System.out.println("Wpis do bazy zaczynam");
         try {
             sformatuj(selected);
             podatnikDAO.edit(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
     }
@@ -273,7 +267,6 @@ public class PodatnikView implements Serializable {
             }
         }
         System.out.println("To jest listka: " + listkakopia.toString());
-        System.out.println("To jest listka: " + nowalista.toString());
     }
 
     public void dodajrzad(ActionEvent e) {

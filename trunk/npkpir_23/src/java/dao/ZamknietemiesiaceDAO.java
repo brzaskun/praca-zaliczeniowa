@@ -31,7 +31,6 @@ public class ZamknietemiesiaceDAO extends DAO implements Serializable{
    
    public  List<Zamknietemiesiace> findAll(){
         try {
-            System.out.println("Pobieram ZamknietemiesiaceDAO");
             return zamknietemiesiaceFacade.findAll(Zamknietemiesiace.class);
         } catch (Exception e) {
             return null;

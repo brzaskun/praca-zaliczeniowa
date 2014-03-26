@@ -68,11 +68,6 @@ public class StornoDokView implements Serializable {
         //
         System.out.println("Last Date: " + calendar.getTime());
         
-        //
-        // The lastDay will be in a value from 1 to 7 where 1 = monday and 7 =
-        // saturday respectively.
-        //
-        System.out.println("Last Day : " + lastDay);
     }
 
     @Inject
@@ -106,14 +101,12 @@ public class StornoDokView implements Serializable {
             StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
             lista = (ArrayList<Dok>) tmp.getDokument();
         } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
         }
         ArrayList<Dok> tmplist = new ArrayList<>();
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 tmplist.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             Integer r = wpisView.getRokWpisu();
             Iterator itx;
@@ -166,7 +159,6 @@ public class StornoDokView implements Serializable {
                 termin = tmp.getTermin90();
             }
             if (roznicaDni(termin, stornonadzien) > 0) {
-                System.out.println("trzeba stornowac " + roznicaDni(termin, stornonadzien));
                 ArrayList<Rozrachunek> rozrachunki = new ArrayList<>();
                 try {
                     rozrachunki.addAll(tmp.getRozrachunki());
@@ -203,7 +195,6 @@ public class StornoDokView implements Serializable {
                     storno.add(new Stornodoch(stornonadzien, wyst, wyst, true));
                     tmp.setStorno(storno);
                     dokDAO.edit(tmp);
-                    System.out.println("Udalo sie");
                     stornodokument(tmp);
                 } else {
                     if ((-wyst) < tmp.getNetto()) {
@@ -213,7 +204,6 @@ public class StornoDokView implements Serializable {
                         storno.add(new Stornodoch(stornonadzien, -doplacono, wyst, true));
                         tmp.setStorno(storno);
                         dokDAO.edit(tmp);
-                        System.out.println("Udalo sie");
                         stornodokument(tmp);
                     }
                 }
@@ -238,7 +228,6 @@ public class StornoDokView implements Serializable {
         calendar.set(rok, mcCalendar, 1);
         Integer lastDate = calendar.getActualMaximum(Calendar.DATE);
         calendar.set(Calendar.DATE, lastDate);
-        System.out.println("Last Date: " + calendar.getTime());
         return rok.toString().concat("-").concat(mc).concat("-").concat(lastDate.toString());
 
     }
@@ -252,7 +241,6 @@ public class StornoDokView implements Serializable {
         long y = date_od.getTime();
         long wynik = (x - y);
         wynik = wynik / (1000 * 60 * 60 * 24);
-        System.out.println("Roznica miedzy datami to " + wynik + " dni...");
         return wynik;
     }
 

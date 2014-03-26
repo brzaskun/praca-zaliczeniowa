@@ -31,7 +31,6 @@ public class TabelanbpDAO extends DAO implements Serializable {
     
     public  List<Tabelanbp> findAll(){
         try {
-            System.out.println("Pobieram Tabelanbp");
             return tabelanbpFacade.findAll(Tabelanbp.class);
         } catch (Exception e) {
             return null;
@@ -39,7 +38,6 @@ public class TabelanbpDAO extends DAO implements Serializable {
    }
     public  List<Tabelanbp> findKursyRok(){
         try {
-            System.out.println("Pobieram Tabelanbp Kursy za rok");
             DateTime dzisiejszadata = new DateTime();
             String rok = String.valueOf(dzisiejszadata.getYear());
             List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
@@ -60,7 +58,6 @@ public class TabelanbpDAO extends DAO implements Serializable {
    
     public List<Tabelanbp> findLast(){
         try {
-            System.out.println("Pobieram Tabelanbp ostatni wiersz");
             return tabelanbpFacade.findXLast(Tabelanbp.class,1);
         } catch (Exception e) {
             return null;
@@ -69,7 +66,6 @@ public class TabelanbpDAO extends DAO implements Serializable {
 
     public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {
          try {
-            System.out.println("Pobieram Tabelanbp ByDate");
             return tabelanbpFacade.findByDateWaluta(doprzekazania, nazwawaluty);
         } catch (Exception e) {
             return null;

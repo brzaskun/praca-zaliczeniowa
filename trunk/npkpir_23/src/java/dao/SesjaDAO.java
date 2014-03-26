@@ -23,7 +23,6 @@ public class SesjaDAO extends DAO implements Serializable {
    
    public  List<Sesja> findAll(){
         try {
-            System.out.println("Pobieram SesjaDAO");
             return sesjaFacade.findAll(Sesja.class);
         } catch (Exception e) {
             return null;
@@ -32,7 +31,6 @@ public class SesjaDAO extends DAO implements Serializable {
    
    public  List<Sesja> findUser(String user){
         try {
-            System.out.println("Pobieram SesjaDAO wg usera");
             return sesjaFacade.findUser(user);
         } catch (Exception e) {
             return null;

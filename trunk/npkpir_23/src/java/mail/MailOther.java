@@ -115,7 +115,6 @@ public class MailOther extends MailSetUp implements Serializable{
                  // add the Multipart to the message
                  message.setContent(mp);
                  Transport.send(message);
-                 System.out.println("Wyslano maila z fakturą do klienta");
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
                  fakturaDAO.edit(faktura);
@@ -179,7 +178,6 @@ public class MailOther extends MailSetUp implements Serializable{
              // add the Multipart to the message
              message.setContent(mp);
              Transport.send(message);
-             System.out.println("Wyslano maila z PIT5 do klienta");
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
@@ -216,7 +214,6 @@ public class MailOther extends MailSetUp implements Serializable{
              // add the Multipart to the message
              message.setContent(mp);
              Transport.send(message);
-             System.out.println("Wyslano maila z obrotami do klienta");
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
@@ -253,7 +250,6 @@ public class MailOther extends MailSetUp implements Serializable{
               // add the Multipart to the message
               message.setContent(mp);
               Transport.send(message);
-              System.out.println("Wyslano maila z obrotami do klienta");
               
           } catch (MessagingException e) {
               throw new RuntimeException(e);
@@ -348,7 +344,6 @@ public class MailOther extends MailSetUp implements Serializable{
             // add the Multipart to the message
             message.setContent(mp);
             Transport.send(message);
-            System.out.println("Wyslano ewidencje VAT do klienta");
             
         } catch (MessagingException e) {
             throw new RuntimeException(e);

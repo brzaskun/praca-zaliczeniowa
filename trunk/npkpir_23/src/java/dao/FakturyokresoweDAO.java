@@ -28,7 +28,6 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
     
     public  List<Fakturyokresowe> findAll(){
         try {
-            System.out.println("Pobieram FakturyokresoweDAO");
             return fakturyokresoweFacade.findAll(Fakturyokresowe.class);
         } catch (Exception e) {
             return null;
@@ -38,7 +37,6 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
     public List<Fakturyokresowe> findPodatnik(String podatnik){
         List<Fakturyokresowe> zwrot = new ArrayList<>();
         try {
-            System.out.println("Pobieram FakturyokresoweDAO");
             zwrot = fakturyokresoweFacade.findPodatnik(podatnik);
         } catch (Exception e) {}
         return zwrot;

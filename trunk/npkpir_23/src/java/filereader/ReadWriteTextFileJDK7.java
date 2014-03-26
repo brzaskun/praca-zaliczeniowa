@@ -70,9 +70,7 @@ public class ReadWriteTextFileJDK7 implements Serializable{
         String wynik = String.valueOf(aMsg);
         if (wynik.contains("Kontrahent")) {
             System.out.println("Wykryłem kontrahenta");
-            System.out.println(String.valueOf(aMsg));
         } else if (wynik.contains("nazwa")) {
-            System.out.println(String.valueOf(aMsg).substring(8).trim());
             String tmp = String.valueOf(aMsg).substring(8).trim();
             try {
                 przechowalnia = tmp;
@@ -81,10 +79,8 @@ public class ReadWriteTextFileJDK7 implements Serializable{
                 klientX.setNpelna(przechowalnia);
                 str.setNazwa(tmp);
             } catch (Exception e) {
-                System.out.println("Blad magazyn.setJeden" + e.toString());
             }
         } else if (wynik.contains("nip")) {
-            System.out.println(String.valueOf(aMsg).substring(6).trim());
             String tmp = String.valueOf(aMsg).substring(6).trim();
             przechowalnia = tmp;
             try {
@@ -93,14 +89,12 @@ public class ReadWriteTextFileJDK7 implements Serializable{
                 klientX.setNip(przechowalnia);
                 str.setSymbol(tmp);
             } catch (Exception e) {
-                System.out.println("Blad magazyn.setDwa" + e.toString());
             }
             
         } else {
             try {
                 sf.create(str);
             } catch (Exception e) {
-                System.out.println("Blad KlienciDAO" + e.toString());
             }
         }
     }

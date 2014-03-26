@@ -43,7 +43,6 @@ public class PdfPK extends Pdf implements Serializable {
     
     public void drukujPK() throws DocumentException, FileNotFoundException, IOException {
         Dok selected = DokTabView.getGosciuwybralS().get(0);
-        System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf"));
         writer.setInitialLeading(16);
@@ -167,7 +166,6 @@ public class PdfPK extends Pdf implements Serializable {
     private void dodajamo(Document document, NumberFormat formatter) throws DocumentException, IOException{
         Amodok odpis = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         List<Umorzenie> umorzenia = odpis.getUmorzenia();
-        System.out.println("Drukuje " +odpis.toString());
         PdfPTable table = new PdfPTable(4);
         table.setWidths(new int[]{1, 6, 2, 2});
         table.addCell(ustawfrazebez("lp","center",10));

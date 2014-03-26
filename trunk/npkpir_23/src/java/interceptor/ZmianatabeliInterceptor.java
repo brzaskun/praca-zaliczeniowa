@@ -36,7 +36,6 @@ public class ZmianatabeliInterceptor implements Serializable{
            result = ctx.proceed();
            return result;
        }catch (Exception e) {
-        System.out.println("Error calling ctx.proceed in modifyGreeting()");
         return null;
        } finally {
            // PostInvoke: do something (cleanup, etc) after the main processing is done

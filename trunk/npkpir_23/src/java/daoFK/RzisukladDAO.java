@@ -28,7 +28,6 @@ public class RzisukladDAO extends DAO implements Serializable{
     
      public  List<Rzisuklad> findAll(){
         try {
-            System.out.println("Pobieram RzisukladDAO");
             return sessionFacade.findAll(Rzisuklad.class);
         } catch (Exception e) {
             return null;

@@ -30,7 +30,6 @@ public class MailAdmin extends MailSetUp implements Serializable {
             mp.addBodyPart(mbp1);
             message.setContent(mp);
             Transport.send(message);
-            System.out.println("Done sending Adminmail");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

@@ -31,7 +31,6 @@ public class PodStawkiDAO extends DAO implements Serializable{
    
     public  List<Podstawki> findAll(){
         try {
-            System.out.println("Pobieram PodstawkiDAO");
             return podstawkiFacade.findAll(Podstawki.class);
         } catch (Exception e) {
             return null;

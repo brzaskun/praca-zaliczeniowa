@@ -41,7 +41,6 @@ private static Map<String,String> wykazPanstwSX;
             try {
                 wykazPanstwS.put(itX.next().toString(),it.next().toString());
             } catch (Exception e){
-                System.out.println("Blad "+e.toString());
             }
         }
         

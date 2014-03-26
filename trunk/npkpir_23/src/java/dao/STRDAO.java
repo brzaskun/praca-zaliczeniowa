@@ -40,7 +40,6 @@ public class STRDAO extends DAO implements Serializable{
    
    public  List<SrodekTrw> findAll(){
         try {
-            System.out.println("Pobieram SrodekTrwDAO");
             return strFacade.findAll(SrodekTrw.class);
         } catch (Exception e) {
             return null;
@@ -49,7 +48,6 @@ public class STRDAO extends DAO implements Serializable{
    
    public  List<SrodekTrw> findStrPod(String pod){
         try {
-            System.out.println("Pobieram SrodekTrwDAO");
             return strFacade.findStrPod(pod);
         } catch (Exception e) {
             return null;

@@ -27,7 +27,6 @@ public class OdsetkiDAO extends DAO implements Serializable {
     
     public  List<Odsetki> findAll(){
         try {
-            System.out.println("Pobieram OdsetkiDAO");
             return odsetkiFacade.findAll(Odsetki.class);
         } catch (Exception e) {
             return null;

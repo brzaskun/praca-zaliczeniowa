@@ -29,7 +29,6 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     
     public  List<Fakturadodelementy> findAll(){
         try {
-            System.out.println("Pobieram FakturadodelementyDAO");
             return fakturadodelementyFacade.findAll(Fakturadodelementy.class);
         } catch (Exception e) {
             return null;
@@ -38,7 +37,6 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     
     public  List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik){
         try {
-            System.out.println("Pobieram FakturadodelementyDAO wg Podatnik");
             return fakturadodelementyFacade.findFaktElementyPodatnik(podatnik);
         } catch (Exception e) {
             return null;

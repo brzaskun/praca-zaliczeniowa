@@ -121,7 +121,6 @@ public class WpisView implements Serializable {
             obliczsumarokmiesiac();
         } catch (Exception e) {
         }
-        System.out.println("Wywolano wpisView");
     }
 
     public void wpisAktualizuj() {
@@ -194,7 +193,6 @@ public class WpisView implements Serializable {
                     ksiegaryczalt = true;
                 }
             } catch (Exception e) {
-                System.out.println("brak wpisanego rodzaju opodatkowania");
             }
         }
         if (miesiacWpisu != null) {

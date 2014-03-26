@@ -26,7 +26,6 @@ public class AdminmailDAO  extends DAO implements Serializable {
     
     public  List<Adminmail> findAll(){
         try {
-            System.out.println("Pobieram AdminmailDAO");
             return adminmailFacade.findAll(Adminmail.class);
         } catch (Exception e) {
             return null;

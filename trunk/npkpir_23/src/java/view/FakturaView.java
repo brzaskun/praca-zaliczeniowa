@@ -554,7 +554,6 @@ public class FakturaView implements Serializable {
             String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany: " + tmp.getDataK();
             throw new Exception(wiadomosc);
         } else {
-            System.out.println("Nie znaleziono duplikatu");
         }
     }
 

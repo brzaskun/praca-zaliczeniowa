@@ -157,7 +157,6 @@ public class WalutyNBP implements Serializable {
                         wynik.add(p);
                     }
                 }
-                System.out.print(wynik.toString());
                 numer++;
             }
         }
