@@ -19,7 +19,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 @SessionScoped
 public class Panstwa implements Serializable {
-    private String miasto;
     private final static List<String> wykazPanstw;
     
 static{
@@ -287,19 +286,20 @@ wykazPanstw.add("Zjedn.Emiraty Arabskie");
 
 }
 
- public List<String> complete(String query) {  
-        List<String> results = new ArrayList<String>();  
-        String kl = new String();
-         for(String p : getWykazPanstw()) {  
-            if(p.startsWith(query)) {
-                 results.add(p);
-             }
-        }  
-        return results;  
-    }  
+ public static List<String> getWykazPanstw() {
+     return wykazPanstw;  
+ }  
+    private String miasto;
 
-    public static List<String> getWykazPanstw() {
-        return wykazPanstw;
+    public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();
+        String kl = new String();
+        for(String p : getWykazPanstw()) {  
+            if(p.startsWith(query)) {
+                results.add(p);
+            }
+        }
+        return results;
     }
 
     

@@ -48,6 +48,30 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
+    private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
+    private static int numerwiersza = 0;
+    private static String stronawiersza;
+
+    public static void main(String[] args) {
+        String staranazwa = "EUR";
+        String nazwawaluty = "PLN";
+        double kurs = 4.189;
+        if (!staranazwa.equals("PLN")) {
+            kurs = 1 / kurs * 100000000;
+            kurs = Math.round(kurs);
+            kurs = kurs / 100000000;
+        }
+        double kwota = 100000;
+        kwota = Math.round(kwota * kurs * 10000);
+        kwota = kwota / 10000;
+        System.out.println(kwota);
+        staranazwa = "PLN";
+        nazwawaluty = "EUR";
+        kurs = 4.189;
+        kwota = Math.round(kwota * kurs * 100);
+        kwota = kwota / 100;
+        System.out.println(kwota);
+    }
 
     private Dokfk selected;
     @Inject
@@ -67,7 +91,6 @@ public class DokfkView implements Serializable {
     @Inject
     private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private boolean potraktujjakoNowaTransakcje;
-    private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
     @Inject
     private Rozrachunekfk aktualnywierszdorozrachunkow;
     //a to sa listy do sortowanie transakcji na poczatku jedna mega do zbiorki wszystkich dodanych coby nie ginely
@@ -926,48 +949,27 @@ public class DokfkView implements Serializable {
             wierszStronafk.setDatawaluty(null);
     }
     
-    public static void main(String[] args) {
-        String staranazwa = "EUR";
-        String nazwawaluty = "PLN";
-        double kurs = 4.189;
-        if (!staranazwa.equals("PLN")) {
-            kurs = 1 / kurs * 100000000;
-            kurs = Math.round(kurs);
-            kurs = kurs / 100000000;
-        }
-        double kwota = 100000;
-        kwota = Math.round(kwota * kurs * 10000);
-        kwota = kwota / 10000;
-        System.out.println(kwota);
-        staranazwa = "PLN";
-        nazwawaluty = "EUR";
-        kurs = 4.189;
-        kwota = Math.round(kwota * kurs * 100);
-        kwota = kwota / 100;
-        System.out.println(kwota);
-    }
-
     public void pobierzsymbolwaluty() {
         try {
-        List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
-        if (symbolwalutydowiersza.equals("") || symbolwalutydowiersza.equals("PLN")) {
-            symbolwalutydowiersza = "zł";
-        } else {
-            for (Waluty w : wprowadzonewaluty) {
-                if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
-                    symbolwalutydowiersza = w.getSkrotsymbolu();
-                    break;
+            List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
+            if (symbolwalutydowiersza.equals("") || symbolwalutydowiersza.equals("PLN")) {
+                symbolwalutydowiersza = "zł";
+            } else {
+                for (Waluty w : wprowadzonewaluty) {
+                    if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
+                        symbolwalutydowiersza = w.getSkrotsymbolu();
+                        break;
+                    }
                 }
             }
-        }
-        int iloscwierszy = selected.getKonta().size();
-        for (int i = 0; i < iloscwierszy; i++) {
-            String p1 = "formwpisdokument:dataList:" + i + ":symbolWn";
-            String p2 = "formwpisdokument:dataList:" + i + ":symbolMa";
-            RequestContext.getCurrentInstance().update(p1);
-            RequestContext.getCurrentInstance().update(p2);
-        }
-        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+            int iloscwierszy = selected.getKonta().size();
+            for (int i = 0; i < iloscwierszy; i++) {
+                String p1 = "formwpisdokument:dataList:" + i + ":symbolWn";
+                String p2 = "formwpisdokument:dataList:" + i + ":symbolMa";
+                RequestContext.getCurrentInstance().update(p1);
+                RequestContext.getCurrentInstance().update(p2);
+            }
+            RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
         } catch (Exception e) {
             Msg.msg("e", "Nie moglem zmienic symbolu waluty");
         }
@@ -991,7 +993,6 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update(wiersz);
     }
     
-
     //a to jest rodzial dotyczacy walut w wierszu
     public void pobierzkursNBPwiersz(String datawiersza, Wiersze wierszbiezacy) {
         String nazwawaluty = selected.getWalutadokumentu();
@@ -1000,33 +1001,30 @@ public class DokfkView implements Serializable {
             datawiersza = "0".concat(datawiersza);
         }
         datadokumentu = datadokumentu.substring(0,8).concat(datawiersza);
-                DateTime dzienposzukiwany = new DateTime(datadokumentu);
-                boolean znaleziono = false;
-                int zabezpieczenie = 0;
-                Tabelanbp tabelanbp = null;
-                while (!znaleziono && (zabezpieczenie < 365)) {
-                    dzienposzukiwany = dzienposzukiwany.minusDays(1);
-                    String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                    Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
-                    if (tabelanbppobrana instanceof Tabelanbp) {
-                        znaleziono = true;
-                        tabelanbp = tabelanbppobrana;
-                    }
-                    zabezpieczenie++;
-                }
-                //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-                uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
-                uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
+        DateTime dzienposzukiwany = new DateTime(datadokumentu);
+        boolean znaleziono = false;
+        int zabezpieczenie = 0;
+        Tabelanbp tabelanbp = null;
+        while (!znaleziono && (zabezpieczenie < 365)) {
+            dzienposzukiwany = dzienposzukiwany.minusDays(1);
+            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
+            if (tabelanbppobrana instanceof Tabelanbp) {
+                znaleziono = true;
+                tabelanbp = tabelanbppobrana;
+            }
+            zabezpieczenie++;
+        }
+        //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+        Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
+        uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
+        uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
-
-    private static int numerwiersza = 0;
-    private static String stronawiersza;
-    
     public void handleKontoRow(int numer, String wnma) {
         numerwiersza = numer;
         stronawiersza = wnma;
     }
+
     
     public void handleKontoSelect(SelectEvent event) {
         Object item = event.getObject();
@@ -1038,12 +1036,7 @@ public class DokfkView implements Serializable {
         }
     }
     
-    
-    
-    
     //********************************
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -1187,12 +1180,8 @@ public class DokfkView implements Serializable {
     public void setZablokujprzyciskrezygnuj(boolean zablokujprzyciskrezygnuj) {
         this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
     }
-    
-    
-     
-    
-    //</editor-fold
 
+    //</editor-fold
     public boolean isZablokujpanelwalutowy() {
         return zablokujpanelwalutowy;
     }
@@ -1200,5 +1189,6 @@ public class DokfkView implements Serializable {
     public void setZablokujpanelwalutowy(boolean zablokujpanelwalutowy) {
         this.zablokujpanelwalutowy = zablokujpanelwalutowy;
     }
+
 
 }

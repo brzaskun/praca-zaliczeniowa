@@ -33,10 +33,11 @@ import params.Params;
 @ManagedBean(name="UzView")
 @RequestScoped
 public class UzView implements Serializable{
-    @Inject private UzDAO uzDAO;
     //tablica obiektów
     private static List<Uz> obiektUZjsf;
     private static Uz uzObject;
+    @Inject
+    private UzDAO uzDAO;
     private String uzString;
     @Inject private Uz selUzytkownik;
     private String confPassword;

@@ -29,6 +29,16 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class InfoViewAll implements Serializable{
+
+    public static void main(String[] args) {
+        int datadzisiejsza = Calendar.getInstance().get(Calendar.MONTH);
+        String mc = Mce.getMapamcy().get(datadzisiejsza);
+        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        Calendar c = Calendar.getInstance();
+        System.out.println(c.get(Calendar.DAY_OF_MONTH));
+        System.out.println(c.get(Calendar.DAY_OF_WEEK));
+        System.out.println(c.get(Calendar.DAY_OF_YEAR));
+    }
     @Inject private Podatnik pod;
     private String podatnik;
     @Inject private DokDAO dokDAO;
@@ -76,18 +86,7 @@ public class InfoViewAll implements Serializable{
 //        System.out.println(kliencinieruszeni);
     }
     
-    public static void main(String[] args){
-        int datadzisiejsza = Calendar.getInstance().get(Calendar.MONTH);
-        String mc = Mce.getMapamcy().get(datadzisiejsza);
-        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        Calendar c = Calendar.getInstance();
-    System.out.println(c.get(Calendar.DAY_OF_MONTH));
-    System.out.println(c.get(Calendar.DAY_OF_WEEK));
-    System.out.println(c.get(Calendar.DAY_OF_YEAR));
-       
-    }
-
-    public List<String> getDeklaracjeniewyslane() {
+    public List<String> getDeklaracjeniewyslane(){
         return deklaracjeniewyslane;
     }
 
@@ -114,6 +113,7 @@ public class InfoViewAll implements Serializable{
     public void setKliencinieruszeni(List<String> kliencinieruszeni) {
         this.kliencinieruszeni = kliencinieruszeni;
     }
+
   
     
     

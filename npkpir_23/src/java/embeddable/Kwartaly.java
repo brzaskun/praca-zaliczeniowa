@@ -67,12 +67,32 @@ public class Kwartaly implements Serializable{
         mapakwnr.put(4, Szeregmcy.kwmce4);
     }
     
+    
+    public static List<String> getKwList() {
+        return kwList;
+    }
+
+    public static Map<Integer, String> getMapanrkw() {
+        return mapanrkw;
+    }
+
+    public static Map<Integer, List<String>> getMapakwnr() {
+        return mapakwnr;
+    }
+
+    public Kwartaly() {
+    }
+
+    public List<String> getMceList() {
+        return mceList;
+    }
+
     public static class Szeregmcy {
+
         private static final List<String> kwmce1;
         private static final List<String> kwmce2;
         private static final List<String> kwmce3;
         private static final List<String> kwmce4;
-        
         static {
             kwmce1 = new ArrayList<>();
             kwmce1.add("01");
@@ -91,25 +111,6 @@ public class Kwartaly implements Serializable{
             kwmce4.add("11");
             kwmce4.add("12");
         }
-    }
-    
-    public Kwartaly() {
-    }
-
-    public List<String> getMceList() {
-        return mceList;
-    }
-
-    public static List<String> getKwList() {
-        return kwList;
-    }
-
-    public static Map<Integer, String> getMapanrkw() {
-        return mapanrkw;
-    }
-
-    public static Map<Integer, List<String>> getMapakwnr() {
-        return mapakwnr;
     }
  
 }

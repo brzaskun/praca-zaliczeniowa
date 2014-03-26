@@ -50,6 +50,19 @@ import serialclone.SerialClone;
 @ManagedBean
 @ViewScoped
 public class FakturaView implements Serializable {
+    private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
+    //faktury wybrane z listy
+    private static List<Faktura> gosciwybral;
+    //faktury okresowe wybrane z listy
+    private static List<Fakturywystokresowe> gosciwybralokres;
+
+    public static List<Faktura> getGosciwybralS() {
+        return gosciwybral;
+    }
+
+    public static List<Fakturywystokresowe> getGosciwybralokresS() {
+        return gosciwybralokres;
+    }
 
     @Inject
     protected Faktura selected;
@@ -58,7 +71,6 @@ public class FakturaView implements Serializable {
     private boolean pokazfakture;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
@@ -69,10 +81,6 @@ public class FakturaView implements Serializable {
     private List<Faktura> fakturyarchiwum;
     //faktury okresowe z bazy danych
     private List<Fakturywystokresowe> fakturyokresowe;
-    //faktury wybrane z listy
-    private static List<Faktura> gosciwybral;
-    //faktury okresowe wybrane z listy
-    private static List<Fakturywystokresowe> gosciwybralokres;
     //do zaksiegowania faktury
     @Inject
     private DokDAO dokDAO;
@@ -1017,20 +1025,12 @@ public class FakturaView implements Serializable {
         this.faktury = faktury;
     }
 
-    public static List<Faktura> getGosciwybralS() {
-        return gosciwybral;
-    }
-
     public List<Faktura> getGosciwybral() {
         return gosciwybral;
     }
 
     public void setGosciwybral(List<Faktura> gosciwybral) {
         this.gosciwybral = gosciwybral;
-    }
-
-    public static List<Fakturywystokresowe> getGosciwybralokresS() {
-        return gosciwybralokres;
     }
 
     public List<Fakturywystokresowe> getGosciwybralokres() {
@@ -1073,4 +1073,5 @@ public class FakturaView implements Serializable {
         this.datawystawienia = datawystawienia;
     }
     //</editor-fold>
+    
 }

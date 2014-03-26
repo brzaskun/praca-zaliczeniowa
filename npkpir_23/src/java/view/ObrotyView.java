@@ -34,17 +34,17 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class ObrotyView implements Serializable{
     
-    /*pkpir*/
-    @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
      //tablica obiektów danego klienta z określonego roku i miesiecy
     private static List<Dok> obiektDOKmrjsfSelX;
      //tablica obiektw danego klienta
     private static List<Dok> obiektDOKjsfSelRok;
+    //lista wybranych dokumentow w panelu Guest
+    private static List<Dok> goscwybral;
+    /*pkpir*/
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     @Inject  private DokDAO dokDAO;
     @Inject private WpisDAO wpisDAO;
-     //lista wybranych dokumentow w panelu Guest
-    private static List<Dok> goscwybral;
     private Double podsumowaniewybranych;
     private Double podsumowaniewybranychnetto;
 

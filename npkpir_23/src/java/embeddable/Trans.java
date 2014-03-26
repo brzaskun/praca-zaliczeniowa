@@ -23,15 +23,10 @@ import view.WpisView;
 @RequestScoped
 public class Trans implements Serializable{
 
-    @Inject private PodatnikDAO podatnikDAO;
     private static final List<String> transList;
     private static final List<String> transListZO;
     private static final List<String> transListRY;
-     
-    @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
-
-    static{
+    static {
         transList = new ArrayList<>();
         transList.add("zakup");
         transList.add("srodek trw");
@@ -69,18 +64,24 @@ public class Trans implements Serializable{
         transListRY.add("eksport towarów");
         transListRY.add("odwrotne obciążenie");
     }
-    
-    public Trans() {
-    }
 
     public static List<String> getTransList() {
         return transList;
     }
+    @Inject
+    private PodatnikDAO podatnikDAO;
+     
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
+
     
+    public Trans() {
+    }
+
     public List<String> getTransListView() {
         Podatnik tmp = podatnikDAO.find(wpisView.getPodatnikWpisu());
         int index = tmp.getPodatekdochodowy().size()-1;
-            return transList;
+        return transList;
     }
 
     public WpisView getWpisView() {
@@ -90,6 +91,7 @@ public class Trans implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
     
     
 }

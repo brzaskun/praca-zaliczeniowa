@@ -86,27 +86,6 @@ public class Inwestycje implements Serializable {
     @Column(name = "zakonczona")
     private Boolean zakonczona;
 
-    public class Sumazalata implements Serializable{
-        private String rok;
-        private Double kwota;
-
-        public String getRok() {
-            return rok;
-        }
-
-        public void setRok(String rok) {
-            this.rok = rok;
-        }
-
-        public Double getKwota() {
-            return kwota;
-        }
-
-        public void setKwota(Double kwota) {
-            this.kwota = kwota;
-        }
-        
-    }
     
 
     public Inwestycje(Integer id) {
@@ -258,6 +237,28 @@ public class Inwestycje implements Serializable {
     @Override
     public String toString() {
         return "entity.Inwestycje[ id=" + id + " ]";
+    }
+
+    public class Sumazalata implements Serializable {
+
+        private String rok;
+        private Double kwota;
+
+        public String getRok() {
+            return rok;
+        }
+
+        public void setRok(String rok) {
+            this.rok = rok;
+        }
+
+        public Double getKwota() {
+            return kwota;
+        }
+
+        public void setKwota(Double kwota) {
+            this.kwota = kwota;
+        }
     }
     
 }

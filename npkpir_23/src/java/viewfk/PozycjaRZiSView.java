@@ -35,6 +35,12 @@ import org.primefaces.model.TreeNode;
 @ManagedBean
 @ViewScoped
 public class PozycjaRZiSView implements Serializable {
+    private static TreeNode wybranynodekonta;
+    private static ArrayList<PozycjaRZiS> pozycje;
+    private static ArrayList<PozycjaRZiS> pozycje_old;
+    private static ArrayList<Konto> przyporzadkowanekonta;
+    private static String wybranapozycja;
+    private static int level = 0;
 
     private TreeNodeExtended root;
     private TreeNodeExtended rootUklad;
@@ -42,16 +48,11 @@ public class PozycjaRZiSView implements Serializable {
     private TreeNodeExtended rootProjektKonta;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS nowyelementRZiS;
-    private static TreeNode wybranynodekonta;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
-    private static ArrayList<PozycjaRZiS> pozycje;
-    private static ArrayList<PozycjaRZiS> pozycje_old;
-    private static ArrayList<Konto> przyporzadkowanekonta;
     private List<Konto> wykazkont;
     @Inject
     private KontoDAOfk kontoDAO;
-    private static String wybranapozycja;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject private Rzisuklad rzisuklad;
@@ -202,7 +203,6 @@ public class PozycjaRZiSView implements Serializable {
         root.expandAll();
     }  
     
-    private static int level = 0;
     public void rozwin(){
         int maxpoziom = root.ustaldepthDT(pozycje);
         if (level < --maxpoziom) {

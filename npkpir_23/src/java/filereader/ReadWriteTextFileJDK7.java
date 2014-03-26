@@ -22,43 +22,41 @@ import session.SessionFacade;
 public class ReadWriteTextFileJDK7 implements Serializable{
   
   
-  public static void main(String... aArgs) throws IOException{
-    ReadWriteTextFileJDK7 text = new ReadWriteTextFileJDK7();
-    //treat as a large file - use some buffering
-    text.readLargerTextFile(FILE_NAME);
-    List<String> lines = Arrays.asList("Down to the Waterline", "Water of Love");
-    text.writeLargerTextFile(OUTPUT_FILE_NAME, lines);   
-  }
 
   final static String FILE_NAME = "C:\\Temp\\dane.txt";
   final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
   final static Charset ENCODING = StandardCharsets.UTF_8;
   
- 
-
-  //For larger files
-  
-  void readLargerTextFile(String aFileName) throws IOException {
-    Path path = Paths.get(aFileName);
-
-    try (Scanner scanner =  new Scanner(path, ENCODING.name())){
-      while (scanner.hasNextLine()){
-        //process each line in some way
-        log(scanner.nextLine());
-      }      
-    }
+  public static void main(String... aArgs) throws IOException {
+      ReadWriteTextFileJDK7 text = new ReadWriteTextFileJDK7();
+      //treat as a large file - use some buffering
+      text.readLargerTextFile(FILE_NAME);
+      List<String> lines = Arrays.asList("Down to the Waterline", "Water of Love");
+      text.writeLargerTextFile(OUTPUT_FILE_NAME, lines);
   }
   
     
-  void writeLargerTextFile(String aFileName, List<String> aLines) throws IOException {
-    Path path = Paths.get(aFileName);
-    try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
-      for(String line : aLines){
-        writer.write(line);
-        writer.newLine();
-      }
+  //For larger files
+  void readLargerTextFile(String aFileName) throws IOException {
+        Path path = Paths.get(aFileName);
+        
+        try (Scanner scanner =  new Scanner(path, ENCODING.name())){
+            while (scanner.hasNextLine()){
+                //process each line in some way
+                log(scanner.nextLine());
+            }
+        }
     }
-  }
+
+    void writeLargerTextFile(String aFileName, List<String> aLines) throws IOException {
+        Path path = Paths.get(aFileName);
+        try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
+            for(String line : aLines){
+                writer.write(line);
+                writer.newLine();
+            }
+        }
+    }
 
     public void log(Object aMsg) {
         Klienci klient = new Klienci();
@@ -100,11 +98,10 @@ public class ReadWriteTextFileJDK7 implements Serializable{
             
         } else {
             try {
-              sf.create(str);
+                sf.create(str);
             } catch (Exception e) {
                 System.out.println("Blad KlienciDAO" + e.toString());
             }
         }
-        
     }
 }

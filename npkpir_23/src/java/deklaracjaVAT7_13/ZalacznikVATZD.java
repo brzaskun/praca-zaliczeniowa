@@ -11,12 +11,12 @@ import com.sun.xml.rpc.processor.modeler.j2ee.xml.warPathType;
  * @author Osito
  */
 public class ZalacznikVATZD {
+    static String ZalacznikVATZD;
     
     String WariantFormularza;
     String P_10;
     String P_11;
     
-    static String ZalacznikVATZD;
 
     public ZalacznikVATZD() {
         WariantFormularza = "1";

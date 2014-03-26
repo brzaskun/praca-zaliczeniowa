@@ -23,9 +23,13 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class RzisukladView implements Serializable{
+    private static List<Rzisuklad> lista;
+
+    public static List<Rzisuklad> getListaS() {
+        return lista;
+    }
     @Inject private Rzisuklad selected;
     private String nowy;
-    private static List<Rzisuklad> lista;
     @Inject private RzisukladDAO rzisukladDAO;
 
     public RzisukladView() {
@@ -90,10 +94,6 @@ public class RzisukladView implements Serializable{
         return lista;
     }
 
-    public static List<Rzisuklad> getListaS() {
-        return lista;
-    }
-    
     public void setLista(List<Rzisuklad> lista) {
         RzisukladView.lista = lista;
     }
@@ -105,6 +105,7 @@ public class RzisukladView implements Serializable{
     public void setRzisukladDAO(RzisukladDAO rzisukladDAO) {
         this.rzisukladDAO = rzisukladDAO;
     }
+
     
     
 }

@@ -25,6 +25,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class BilansPodgladView  implements Serializable{
+    private static int level = 0;
 
     @Inject private KontoDAOfk kontoDAO;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
@@ -97,7 +98,6 @@ public class BilansPodgladView  implements Serializable{
         root.expandAll();
     }  
     
-    private static int level = 0;
     public void rozwin(){
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
         kontadlanodes.addAll(kontoDAO.findAll());

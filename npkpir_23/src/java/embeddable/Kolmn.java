@@ -79,6 +79,17 @@ public class Kolmn implements Serializable{
         kolumnRyczalt.add("3%");
     }
     
+    public static void main(String[] args) {
+        
+        String pricesString = "1 100.00zł";
+        String prices = pricesString.replaceAll("\\s","");
+        Pattern p = Pattern.compile("(\\d*.\\d)");
+        Matcher m = p.matcher(prices);
+        while (m.find()) {
+            System.out.println("double "+Double.parseDouble(m.group()));
+        }
+    }
+
     public Kolmn() {
     }
 
@@ -90,11 +101,11 @@ public class Kolmn implements Serializable{
         return kolumnPrzychody;
     }
 
-    public List<String> getKolumnKoszty() {
+    public  List<String> getKolumnKoszty() {
         return kolumnKoszty;
     }
 
-    public  List<String> getKolumnST() {
+    public List<String> getKolumnST() {
         return kolumnST;
     }
 
@@ -105,22 +116,11 @@ public class Kolmn implements Serializable{
     public List<String> getKolumnRyczalt() {
         return kolumnRyczalt;
     }
-
-    public List<String> getKolumnSTsprz() {
+    
+    
+    
+    public List<String> getKolumnSTsprz(){
         return kolumnSTsprz;
-    }
-    
-    
-    
-    public static void main(String[] args){
-        
-        String pricesString = "1 100.00zł";
-        String prices = pricesString.replaceAll("\\s","");
-        Pattern p = Pattern.compile("(\\d*.\\d)");
-        Matcher m = p.matcher(prices);
-        while (m.find()) {
-            System.out.println("double "+Double.parseDouble(m.group()));
-}
     }
     
 }

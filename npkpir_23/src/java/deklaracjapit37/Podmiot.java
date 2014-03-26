@@ -9,6 +9,7 @@ package deklaracjapit37;
  * @author Osito
  */
 class Podmiot {
+    static String Podmiot;
     String Pesel;
     String ImiePierwsze;
     String Nazwisko;
@@ -23,7 +24,6 @@ class Podmiot {
     String KodPocztowy;
     String Poczta;
     
-    static String Podmiot;
 
     public Podmiot() {
         Pesel = "70052809810";

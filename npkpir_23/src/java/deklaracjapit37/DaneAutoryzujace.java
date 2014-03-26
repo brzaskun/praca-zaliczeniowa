@@ -9,6 +9,7 @@ package deklaracjapit37;
  * @author Osito
  */
 class DaneAutoryzujace {
+    static String DaneAutoryzujace;
     
     String Pesel;
     String ImiePierwsze;
@@ -16,7 +17,6 @@ class DaneAutoryzujace {
     String DataUrodzenia;
     String Kwota;
     
-    static String DaneAutoryzujace;
 
     public DaneAutoryzujace() {
         Podmiot podmiot = new Podmiot();

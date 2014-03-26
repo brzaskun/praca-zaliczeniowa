@@ -20,6 +20,7 @@ import session.SessionFacade;
  */
 @Named(value = "DokDAO")
 public class DokDAO extends DAO implements Serializable {
+    private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
 
     @Inject private SessionFacade dokFacade;
     
@@ -66,7 +67,6 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.findDokDuplikat(pod, rok);
     }
     
-    private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
     
     public Dok find(String typdokumentu, String podatnik, Integer rok){
         return  dokFacade.findDokTPR(typdokumentu,podatnik,rok.toString());

@@ -47,6 +47,22 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScope
 public class Vat7DKView implements Serializable {
+    private static PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
+
+    //</editor-fold>
+    public static void main(String args[]) {
+        List< String> list = new ArrayList< String>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        
+        for (Iterator< String> it = list.iterator(); it.hasNext();) {
+            String str = it.next();
+            if (str.equals("B")) {
+                it.remove();
+            }
+        }
+    }
 
     @Inject
     private Deklaracjevat deklaracjakorygowana;
@@ -58,7 +74,6 @@ public class Vat7DKView implements Serializable {
     protected WpisView wpisView;
     @Inject
     private Vatpoz selected;
-    static private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
     @Inject
     private Daneteleadresowe adres;
     @Inject
@@ -720,20 +735,4 @@ public class Vat7DKView implements Serializable {
     
     
     
-    //</editor-fold>
-   
-    
-    public static void main(String args[]) {
-        List< String> list = new ArrayList< String>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-
-        for (Iterator< String> it = list.iterator(); it.hasNext();) {
-            String str = it.next();
-            if (str.equals("B")) {
-                it.remove();
-            }
-        }
-    }
 }

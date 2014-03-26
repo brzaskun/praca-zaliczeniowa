@@ -51,6 +51,8 @@ import org.primefaces.context.RequestContext;
 @ManagedBean(name = "ZestawienieRyczaltView")
 @ViewScoped
 public class ZestawienieRyczaltView implements Serializable {
+    //dane niezbedne do wyliczania pit
+    private static String wybranyudzialowiec;
 
     @Inject
     private DokDAO dokDAO;
@@ -87,8 +89,6 @@ public class ZestawienieRyczaltView implements Serializable {
     @Inject private Ryczpoz biezacyPit;
     @Inject private PodStawkiDAO podstawkiDAO;
     @Inject private ZobowiazanieDAO zobowiazanieDAO;
-    //dane niezbedne do wyliczania pit
-    private static String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
      //z reki

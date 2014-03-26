@@ -53,21 +53,6 @@ import org.primefaces.model.chart.LineChartSeries;
 @RequestScoped
 public class ZestawienieView implements Serializable {
 
-    @Inject
-    private DokDAO dokDAO;
-    @Inject
-    private PitDAO pitDAO;
-    @Inject
-    private PodatnikDAO podatnikDAO;
-    @Inject AmoDokDAO amoDokDAO;
-    //bieżący pit
-    private Pitpoz pitpoz;
-    //sumowanie poprzednich pitów jeżeli są zachowane
-    private Pitpoz narPitpoz;
-    //lista pitow
-    private List<Pitpoz> listapit;
-    @ManagedProperty(value = "#{WpisView}")
-    private WpisView wpisView;
     private static List<Double> styczen;
     private static List<Double> luty;
     private static List<Double> marzec;
@@ -83,6 +68,24 @@ public class ZestawienieView implements Serializable {
     private static List<Double> Ipolrocze;
     private static List<Double> IIpolrocze;
     private static List<Double> rok;
+    //dane niezbedne do wyliczania pit
+    private static String wybranyudzialowiec;
+    @Inject
+    private DokDAO dokDAO;
+    @Inject
+    private PitDAO pitDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    @Inject
+            AmoDokDAO amoDokDAO;
+    //bieżący pit
+    private Pitpoz pitpoz;
+    //sumowanie poprzednich pitów jeżeli są zachowane
+    private Pitpoz narPitpoz;
+    //lista pitow
+    private List<Pitpoz> listapit;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
     private List<List> zebranieMcy;
@@ -92,8 +95,6 @@ public class ZestawienieView implements Serializable {
     private PodStawkiDAO podstawkiDAO;
     @Inject
     private ZobowiazanieDAO zobowiazanieDAO;
-    //dane niezbedne do wyliczania pit
-    private static String wybranyudzialowiec;
     private String wybranyprocent;
     private List<String> listawybranychudzialowcow;
     //z reki
@@ -103,6 +104,12 @@ public class ZestawienieView implements Serializable {
     
     private int flaga = 0;
 
+
+    //rysuje wykres
+    private CartesianChartModel linearModel;
+    private double maxliczbadowykresu;
+    private double minliczbadowykresu;
+  
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[10]);
         styczen = Arrays.asList(new Double[10]);
@@ -556,37 +563,37 @@ public class ZestawienieView implements Serializable {
                     styczen.set(7, styczen.get(0)+styczen.get(1));
                     styczen.set(8, styczen.get(2)+styczen.get(3)+styczen.get(4)+styczen.get(5));
                     styczen.set(9, styczen.get(7)-styczen.get(8));
-                     luty.set(7, luty.get(0)+luty.get(1));
+                    luty.set(7, luty.get(0)+luty.get(1));
                     luty.set(8, luty.get(2)+luty.get(3)+luty.get(4)+luty.get(5));
                     luty.set(9, luty.get(7)-luty.get(8));
                     marzec.set(7, marzec.get(0) + marzec.get(1));
                     marzec.set(8, marzec.get(2) + marzec.get(3) + marzec.get(4) + marzec.get(5));
                     marzec.set(9, marzec.get(7) - marzec.get(8));
-                     kwiecien.set(7, kwiecien.get(0)+kwiecien.get(1));
+                    kwiecien.set(7, kwiecien.get(0)+kwiecien.get(1));
                     kwiecien.set(8, kwiecien.get(2)+kwiecien.get(3)+kwiecien.get(4)+kwiecien.get(5));
                     kwiecien.set(9, kwiecien.get(7)-kwiecien.get(8));
-                     maj.set(7, maj.get(0)+maj.get(1));
+                    maj.set(7, maj.get(0)+maj.get(1));
                     maj.set(8, maj.get(2)+maj.get(3)+maj.get(4)+maj.get(5));
                     maj.set(9, maj.get(7)-maj.get(8));
-                     czerwiec.set(7, czerwiec.get(0)+czerwiec.get(1));
+                    czerwiec.set(7, czerwiec.get(0)+czerwiec.get(1));
                     czerwiec.set(8, czerwiec.get(2)+czerwiec.get(3)+czerwiec.get(4)+czerwiec.get(5));
                     czerwiec.set(9, czerwiec.get(7)-czerwiec.get(8));
-                     lipiec.set(7, lipiec.get(0)+lipiec.get(1));
+                    lipiec.set(7, lipiec.get(0)+lipiec.get(1));
                     lipiec.set(8, lipiec.get(2)+lipiec.get(3)+lipiec.get(4)+lipiec.get(5));
                     lipiec.set(9, lipiec.get(7)-lipiec.get(8));
-                     sierpien.set(7, sierpien.get(0)+sierpien.get(1));
+                    sierpien.set(7, sierpien.get(0)+sierpien.get(1));
                     sierpien.set(8, sierpien.get(2)+sierpien.get(3)+sierpien.get(4)+sierpien.get(5));
                     sierpien.set(9, sierpien.get(7)-sierpien.get(8));
-                     wrzesien.set(7, wrzesien.get(0)+wrzesien.get(1));
+                    wrzesien.set(7, wrzesien.get(0)+wrzesien.get(1));
                     wrzesien.set(8, wrzesien.get(2)+wrzesien.get(3)+wrzesien.get(4)+wrzesien.get(5));
                     wrzesien.set(9, wrzesien.get(7)-wrzesien.get(8));
-                     pazdziernik.set(7, pazdziernik.get(0)+pazdziernik.get(1));
+                    pazdziernik.set(7, pazdziernik.get(0)+pazdziernik.get(1));
                     pazdziernik.set(8, pazdziernik.get(2)+pazdziernik.get(3)+pazdziernik.get(4)+pazdziernik.get(5));
                     pazdziernik.set(9, pazdziernik.get(7)-pazdziernik.get(8));
-                     listopad.set(7, listopad.get(0)+listopad.get(1));
+                    listopad.set(7, listopad.get(0)+listopad.get(1));
                     listopad.set(8, listopad.get(2)+listopad.get(3)+listopad.get(4)+listopad.get(5));
                     listopad.set(9, listopad.get(7)-listopad.get(8));
-                     grudzien.set(7, grudzien.get(0)+grudzien.get(1));
+                    grudzien.set(7, grudzien.get(0)+grudzien.get(1));
                     grudzien.set(8, grudzien.get(2)+grudzien.get(3)+grudzien.get(4)+grudzien.get(5));
                     grudzien.set(9, grudzien.get(7)-grudzien.get(8));
                     //pobierzPity();
@@ -618,123 +625,116 @@ public class ZestawienieView implements Serializable {
         createLinearModel(); 
     }
 
-    //rysuje wykres
-    private CartesianChartModel linearModel;
-    private double maxliczbadowykresu;
-    private double minliczbadowykresu;
-  
     public CartesianChartModel getLinearModel() {  
-        return linearModel;  
-    }  
-
-    public double getMaxliczbadowykresu() {
-        return maxliczbadowykresu;
-    }
-
-    public double getMinliczbadowykresu() {
-        return minliczbadowykresu;
+        return linearModel;
     }
   
           
-    private void createLinearModel() {  
-        linearModel = new CartesianChartModel();  
-  
-        LineChartSeries series1 = new LineChartSeries();  
-        series1.setLabel("przychody");  
-        series1.setMarkerStyle("circle"); 
-  
-        series1.set("styczeń", styczen.get(7));  
-        series1.set("luty", luty.get(7));  
-        series1.set("marzec", marzec.get(7));  
-        series1.set("kwiecień", kwiecien.get(7));  
-        series1.set("maj", maj.get(7));  
-        series1.set("czerwiec", czerwiec.get(7));  
-        series1.set("lipiec", lipiec.get(7));  
-        series1.set("sierpień", sierpien.get(7));  
-        series1.set("wrzesień", wrzesien.get(7));  
-        series1.set("październik", pazdziernik.get(7));  
-        series1.set("listopad", listopad.get(7));  
-        series1.set("grudzień", grudzien.get(7));  
-  
-        LineChartSeries series2 = new LineChartSeries();  
-        series2.setLabel("koszty");  
-        series2.setMarkerStyle("diamond");  
-  
-        series2.set("styczeń", styczen.get(8));  
-        series2.set("luty", luty.get(8));  
-        series2.set("marzec", marzec.get(8));  
-        series2.set("kwiecień", kwiecien.get(8));  
-        series2.set("maj", maj.get(8));  
-        series2.set("czerwiec", czerwiec.get(8));  
-        series2.set("lipiec", lipiec.get(8));  
-        series2.set("sierpień", sierpien.get(8));  
-        series2.set("wrzesień", wrzesien.get(8));  
-        series2.set("październik", pazdziernik.get(8));  
-        series2.set("listopad", listopad.get(8));  
-        series2.set("grudzień", grudzien.get(8));  
-        
-        LineChartSeries series3 = new LineChartSeries();  
-        series3.setLabel("wynik");  
-        series3.setMarkerStyle("filledSquare");  
-  
-        series3.set("styczeń", styczen.get(9));  
-        series3.set("luty", luty.get(9));  
-        series3.set("marzec", marzec.get(9));  
-        series3.set("kwiecień", kwiecien.get(9));  
-        series3.set("maj", maj.get(9));  
-        series3.set("czerwiec", czerwiec.get(9));  
-        series3.set("lipiec", lipiec.get(9));  
-        series3.set("sierpień", sierpien.get(9));  
-        series3.set("wrzesień", wrzesien.get(9));  
-        series3.set("październik", pazdziernik.get(9));  
-        series3.set("listopad", listopad.get(9));  
-        series3.set("grudzień", grudzien.get(9));  
-  
-  
-        linearModel.addSeries(series1);  
-        linearModel.addSeries(series2); 
-        linearModel.addSeries(series3); 
-        wyliczmaksymalna();
-        wyliczminimalna();
+    public double getMaxliczbadowykresu() {
+        return maxliczbadowykresu;
     } 
     
+    public double getMinliczbadowykresu() {
+        return minliczbadowykresu;
+    }
+    private void createLinearModel() {  
+        linearModel = new CartesianChartModel();  
+        
+        LineChartSeries series1 = new LineChartSeries();
+        series1.setLabel("przychody");
+        series1.setMarkerStyle("circle");
+        
+        series1.set("styczeń", styczen.get(7));
+        series1.set("luty", luty.get(7));
+        series1.set("marzec", marzec.get(7));
+        series1.set("kwiecień", kwiecien.get(7));
+        series1.set("maj", maj.get(7));
+        series1.set("czerwiec", czerwiec.get(7));
+        series1.set("lipiec", lipiec.get(7));
+        series1.set("sierpień", sierpien.get(7));
+        series1.set("wrzesień", wrzesien.get(7));
+        series1.set("październik", pazdziernik.get(7));
+        series1.set("listopad", listopad.get(7));
+        series1.set("grudzień", grudzien.get(7));
+        
+        LineChartSeries series2 = new LineChartSeries();
+        series2.setLabel("koszty");
+        series2.setMarkerStyle("diamond");
+         
+        series2.set("styczeń", styczen.get(8));
+        series2.set("luty", luty.get(8));
+        series2.set("marzec", marzec.get(8));
+        series2.set("kwiecień", kwiecien.get(8));
+        series2.set("maj", maj.get(8));
+        series2.set("czerwiec", czerwiec.get(8));
+        series2.set("lipiec", lipiec.get(8));
+        series2.set("sierpień", sierpien.get(8));
+        series2.set("wrzesień", wrzesien.get(8));
+        series2.set("październik", pazdziernik.get(8));
+        series2.set("listopad", listopad.get(8));
+        series2.set("grudzień", grudzien.get(8));
+        
+        LineChartSeries series3 = new LineChartSeries();
+        series3.setLabel("wynik");
+        series3.setMarkerStyle("filledSquare");
+        
+        series3.set("styczeń", styczen.get(9));
+        series3.set("luty", luty.get(9));
+        series3.set("marzec", marzec.get(9));
+        series3.set("kwiecień", kwiecien.get(9));
+        series3.set("maj", maj.get(9));
+        series3.set("czerwiec", czerwiec.get(9));
+        series3.set("lipiec", lipiec.get(9));
+        series3.set("sierpień", sierpien.get(9));
+        series3.set("wrzesień", wrzesien.get(9));
+        series3.set("październik", pazdziernik.get(9));
+        series3.set("listopad", listopad.get(9));
+        series3.set("grudzień", grudzien.get(9));
+        
+        
+        linearModel.addSeries(series1);
+        linearModel.addSeries(series2);
+        linearModel.addSeries(series3);
+        wyliczmaksymalna();
+        wyliczminimalna();
+    }
     private void wyliczmaksymalna() {
         maxliczbadowykresu =0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
-        lista.add(luty.get(7));  
-        lista.add(marzec.get(7));  
-        lista.add(kwiecien.get(7));  
-        lista.add(maj.get(7));  
-        lista.add(czerwiec.get(7));  
-        lista.add(lipiec.get(7));  
-        lista.add(sierpien.get(7));  
-        lista.add(wrzesien.get(7));  
-        lista.add(pazdziernik.get(7));  
+        lista.add(luty.get(7));
+        lista.add(marzec.get(7));
+        lista.add(kwiecien.get(7));
+        lista.add(maj.get(7));
+        lista.add(czerwiec.get(7));
+        lista.add(lipiec.get(7));
+        lista.add(sierpien.get(7));
+        lista.add(wrzesien.get(7));
+        lista.add(pazdziernik.get(7));
         lista.add(listopad.get(7));  
         lista.add(grudzien.get(7));
-        lista.add(styczen.get(8));  
-        lista.add(luty.get(8));  
-        lista.add(marzec.get(8));  
-        lista.add(kwiecien.get(8));  
-        lista.add(maj.get(8));  
-        lista.add(czerwiec.get(8));  
-        lista.add(lipiec.get(8));  
-        lista.add(sierpien.get(8));  
-        lista.add(wrzesien.get(8));  
-        lista.add(pazdziernik.get(8));  
+        lista.add(styczen.get(8));
+        lista.add(luty.get(8));
+        lista.add(marzec.get(8));
+        lista.add(kwiecien.get(8));
+        lista.add(maj.get(8));
+        lista.add(czerwiec.get(8));
+        lista.add(lipiec.get(8));
+        lista.add(sierpien.get(8));
+        lista.add(wrzesien.get(8));
+        lista.add(pazdziernik.get(8));
         lista.add(listopad.get(8));  
         lista.add(grudzien.get(8));
-        lista.add(styczen.get(9));  
-        lista.add(luty.get(9));  
-        lista.add(marzec.get(9));  
-        lista.add(kwiecien.get(9));  
-        lista.add(maj.get(9));  
-        lista.add(czerwiec.get(9));  
-        lista.add(lipiec.get(9));  
-        lista.add(sierpien.get(9));  
-        lista.add(wrzesien.get(9));  
-        lista.add(pazdziernik.get(9));  
+        lista.add(styczen.get(9));
+        lista.add(luty.get(9));
+        lista.add(marzec.get(9));
+        lista.add(kwiecien.get(9));
+        lista.add(maj.get(9));
+        lista.add(czerwiec.get(9));
+        lista.add(lipiec.get(9));
+        lista.add(sierpien.get(9));
+        lista.add(wrzesien.get(9));
+        lista.add(pazdziernik.get(9));
         lista.add(listopad.get(9));  
         lista.add(grudzien.get(9));
         for (Double p : lista) {
@@ -756,43 +756,44 @@ public class ZestawienieView implements Serializable {
         
         
     }
+    
     private void wyliczminimalna() {
         minliczbadowykresu =0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
-        lista.add(luty.get(7));  
-        lista.add(marzec.get(7));  
-        lista.add(kwiecien.get(7));  
-        lista.add(maj.get(7));  
-        lista.add(czerwiec.get(7));  
-        lista.add(lipiec.get(7));  
-        lista.add(sierpien.get(7));  
-        lista.add(wrzesien.get(7));  
-        lista.add(pazdziernik.get(7));  
+        lista.add(luty.get(7));
+        lista.add(marzec.get(7));
+        lista.add(kwiecien.get(7));
+        lista.add(maj.get(7));
+        lista.add(czerwiec.get(7));
+        lista.add(lipiec.get(7));
+        lista.add(sierpien.get(7));
+        lista.add(wrzesien.get(7));
+        lista.add(pazdziernik.get(7));
         lista.add(listopad.get(7));  
         lista.add(grudzien.get(7));
-        lista.add(styczen.get(8));  
-        lista.add(luty.get(8));  
-        lista.add(marzec.get(8));  
-        lista.add(kwiecien.get(8));  
-        lista.add(maj.get(8));  
-        lista.add(czerwiec.get(8));  
-        lista.add(lipiec.get(8));  
-        lista.add(sierpien.get(8));  
-        lista.add(wrzesien.get(8));  
-        lista.add(pazdziernik.get(8));  
+        lista.add(styczen.get(8));
+        lista.add(luty.get(8));
+        lista.add(marzec.get(8));
+        lista.add(kwiecien.get(8));
+        lista.add(maj.get(8));
+        lista.add(czerwiec.get(8));
+        lista.add(lipiec.get(8));
+        lista.add(sierpien.get(8));
+        lista.add(wrzesien.get(8));
+        lista.add(pazdziernik.get(8));
         lista.add(listopad.get(8));  
         lista.add(grudzien.get(8));
-        lista.add(styczen.get(9));  
-        lista.add(luty.get(9));  
-        lista.add(marzec.get(9));  
-        lista.add(kwiecien.get(9));  
-        lista.add(maj.get(9));  
-        lista.add(czerwiec.get(9));  
-        lista.add(lipiec.get(9));  
-        lista.add(sierpien.get(9));  
-        lista.add(wrzesien.get(9));  
-        lista.add(pazdziernik.get(9));  
+        lista.add(styczen.get(9));
+        lista.add(luty.get(9));
+        lista.add(marzec.get(9));
+        lista.add(kwiecien.get(9));
+        lista.add(maj.get(9));
+        lista.add(czerwiec.get(9));
+        lista.add(lipiec.get(9));
+        lista.add(sierpien.get(9));
+        lista.add(wrzesien.get(9));
+        lista.add(pazdziernik.get(9));
         lista.add(listopad.get(9));  
         lista.add(grudzien.get(9));
         for (Double p : lista) {
@@ -813,9 +814,7 @@ public class ZestawienieView implements Serializable {
         }
         
     }
-  
-    
-    
+
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         if (sprawdzczyjestpitwpoprzednimmiesiacu()!=0) {
@@ -823,39 +822,39 @@ public class ZestawienieView implements Serializable {
         }
         sprawdzczyzaksiegowanoamortyzacje();
         if (!wybranyudzialowiec.equals("wybierz osobe")&&flaga==0) {
-                Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
-                List<Udzialy> lista = tmpP.getUdzialy();
-                for (Udzialy p : lista) {
-                    if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
-                        wybranyprocent = p.getUdzial();
-                        break;
-                    }
+            Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            List<Udzialy> lista = tmpP.getUdzialy();
+            for (Udzialy p : lista) {
+                if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
+                    wybranyprocent = p.getUdzial();
+                    break;
                 }
-                biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
-                biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
-                biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
-                biezacyPit.setPrzychody(obliczprzychod());
-                double procent = Double.parseDouble(wybranyprocent) / 100;
-                biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
-                biezacyPit.setKoszty(obliczkoszt());
-                if (wpisView.getMiesiacWpisu().equals("12")) {
-                    BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
-                    biezacyPit.setRemanent(roznicaremanentow);
-                    BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
-                    biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
-                } else {
-                    biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
-                }
-                biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
-                biezacyPit.setUdzialowiec(wybranyudzialowiec);
-                biezacyPit.setUdzial(wybranyprocent);
-                String poszukiwany = wpisView.getPodatnikWpisu();
-                Podatnik selected = podatnikDAO.find(poszukiwany);
-                Pitpoz sumapoprzednichmcy;
-                try {
-                    Iterator it;
-                    it = selected.getZusparametr().iterator();
-                    if(zus51zreki==false){
+            }
+            biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
+            biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
+            biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
+            biezacyPit.setPrzychody(obliczprzychod());
+            double procent = Double.parseDouble(wybranyprocent) / 100;
+            biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
+            biezacyPit.setKoszty(obliczkoszt());
+            if (wpisView.getMiesiacWpisu().equals("12")) {
+                BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+                biezacyPit.setRemanent(roznicaremanentow);
+                BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
+                biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
+            } else {
+                biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+            }
+            biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
+            biezacyPit.setUdzialowiec(wybranyudzialowiec);
+            biezacyPit.setUdzial(wybranyprocent);
+            String poszukiwany = wpisView.getPodatnikWpisu();
+            Podatnik selected = podatnikDAO.find(poszukiwany);
+            Pitpoz sumapoprzednichmcy;
+            try {
+                Iterator it;
+                it = selected.getZusparametr().iterator();
+                if(zus51zreki==false){
                     while (it.hasNext()) {
                         Zusstawki tmpX = (Zusstawki) it.next();
                         if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
@@ -870,16 +869,16 @@ public class ZestawienieView implements Serializable {
                                 biezacyPit.setZus51(new BigDecimal(0));
                             }
                             if(zus52zreki==false){
-                            biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
+                                biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
                             }
                             break;
                         }
                     }
-                    }
-               
+                }
+                
                 sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
-                    if (selected.getOdliczaczus51() == true) {
-                        biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
+                if (selected.getOdliczaczus51() == true) {
+                    biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                 }
                 rozliczstrate(tmpP);
                 BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
@@ -891,98 +890,98 @@ public class ZestawienieView implements Serializable {
                     //wyliczenie podatku poczatek
                     biezacyPit.setPodstawa(tmp);
                 }
-                } catch (Exception e) {
-                    Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
-                    biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
-                    return;
+            } catch (Exception e) {
+                Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
+                biezacyPit = new Pitpoz();
+                wybranyudzialowiec = "wybierz osobe";
+                return;
+            }
+            Podstawki tmpY;
+            try {
+                tmpY = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
+            } catch (Exception e) {
+                biezacyPit = new Pitpoz();
+                wybranyudzialowiec = "wybierz osobe";
+                Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
+                return;
+            }
+            
+            int index = selected.getPodatekdochodowy().size() - 1;
+            String opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
+            String rodzajop = opodatkowanie;
+            Double stawka = 0.0;
+            BigDecimal podatek = BigDecimal.ZERO;
+            BigDecimal dochód = biezacyPit.getPodstawa();
+            BigDecimal przychody = biezacyPit.getPrzychody();
+            try {
+                switch (rodzajop) {
+                    case "zasady ogólne":
+                        stawka = tmpY.getStawka1();
+                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
+                    case "zasady ogólne bez VAT":
+                        stawka = tmpY.getStawka1();
+                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
+                    case "podatek liniowy":
+                        stawka = tmpY.getStawkaliniowy();
+                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
+                    case "podatek liniowy bez VAT":
+                        stawka = tmpY.getStawkaliniowy();
+                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
+                    case "ryczałt":
+                        stawka = tmpY.getStawkaryczalt1();
+                        podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
+                    case "ryczałt bez VAT":
+                        stawka = tmpY.getStawkaryczalt1();
+                        podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                        break;
                 }
-                Podstawki tmpY;
-                try {
-                    tmpY = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
-                } catch (Exception e) {
-                    biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
-                    Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
-                    return;
-                }
-                
-                int index = selected.getPodatekdochodowy().size() - 1;
-                String opodatkowanie = selected.getPodatekdochodowy().get(index).getParametr();
-                String rodzajop = opodatkowanie;
-                Double stawka = 0.0;
-                BigDecimal podatek = BigDecimal.ZERO;
-                BigDecimal dochód = biezacyPit.getPodstawa();
-                BigDecimal przychody = biezacyPit.getPrzychody();
-                try {
-                    switch (rodzajop) {
-                        case "zasady ogólne":
-                            stawka = tmpY.getStawka1();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "zasady ogólne bez VAT":
-                            stawka = tmpY.getStawka1();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "podatek liniowy":
-                            stawka = tmpY.getStawkaliniowy();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "podatek liniowy bez VAT":
-                            stawka = tmpY.getStawkaliniowy();
-                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "ryczałt":
-                            stawka = tmpY.getStawkaryczalt1();
-                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                        case "ryczałt bez VAT":
-                            stawka = tmpY.getStawkaryczalt1();
-                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                            break;
-                    }
-                } catch (Exception e) {
-                    Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: "+ biezacyPit.getPkpirM());
-                    biezacyPit = new Pitpoz();
-                    wybranyudzialowiec = "wybierz osobe";
-                    return;
-                }
-                if (podatek.signum() == 1) {
-                    biezacyPit.setPodatek(podatek);
-                } else {
-                    biezacyPit.setPodatek(BigDecimal.ZERO);
-                }
-                if(zus52zreki==false){
-                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-                }
-                BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
-                tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
-                if (tmpX.signum() == -1) {
-                    biezacyPit.setPododpoczrok(BigDecimal.ZERO);
-                } else {
-                    biezacyPit.setPododpoczrok(tmpX);
-                }
-                //wyliczenie podatku koniec
-
-                biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
-                if(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum()==1){
-                    biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
-                } else {
-                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
-                }
-                if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
-                    biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
-                } else {
-                    biezacyPit.setDozaplaty(BigDecimal.ZERO);
-                }
+            } catch (Exception e) {
+                Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: "+ biezacyPit.getPkpirM());
+                biezacyPit = new Pitpoz();
+                wybranyudzialowiec = "wybierz osobe";
+                return;
+            }
+            if (podatek.signum() == 1) {
+                biezacyPit.setPodatek(podatek);
+            } else {
+                biezacyPit.setPodatek(BigDecimal.ZERO);
+            }
+            if(zus52zreki==false){
+                biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+            }
+            BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
+            tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+            if (tmpX.signum() == -1) {
+                biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+            } else {
+                biezacyPit.setPododpoczrok(tmpX);
+            }
+            //wyliczenie podatku koniec
+            
+            biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
+            if(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum()==1){
+                biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+            } else {
+                biezacyPit.setNaleznazal(BigDecimal.ZERO);
+            }
+            if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
+                biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
+            } else {
+                biezacyPit.setDozaplaty(BigDecimal.ZERO);
+            }
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
@@ -997,7 +996,6 @@ public class ZestawienieView implements Serializable {
 
         }
     }
-    
     private void sprawdzczyzaksiegowanoamortyzacje() {
         Amodok amortyzacjawmiesiacu = null;
         Dok dokumentamo = null;
@@ -1011,8 +1009,8 @@ public class ZestawienieView implements Serializable {
             dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         } catch (Exception e){}
         if(amortyzacjawmiesiacu!=null&&dokumentamo==null){
-           Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
-           flaga = 1;
+            Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
+            flaga = 1;
         }
     }
 
@@ -1029,7 +1027,7 @@ public class ZestawienieView implements Serializable {
                     sumastrat += zostalo;
                 }
             }
-           BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
+            BigDecimal wynikpozus = biezacyPit.getWynik().subtract(biezacyPit.getZus51());
             if (wynikpozus.signum() == 1) {
                 BigDecimal stratadoujecia = wynikpozus.subtract(new BigDecimal(sumastrat));
                 if (stratadoujecia.signum() == -1) {
@@ -1044,20 +1042,21 @@ public class ZestawienieView implements Serializable {
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
     }
+    
     //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu
     private double wyliczStrataZostalo(Straty1 tmp) {
         double zostalo = 0.0;
-            double sumabiezace = 0.0;
-             for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
-                 if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
-                    sumabiezace += s.getKwotawykorzystania();
-                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
-                 }
-             }
-             double kwota = Double.parseDouble(tmp.getKwota());
-             double uprzednio = Double.parseDouble(tmp.getWykorzystano());
-             double biezace = sumabiezace;
-             zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
+        double sumabiezace = 0.0;
+        for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
+            if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+                sumabiezace += s.getKwotawykorzystania();
+                sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+            }
+        }
+        double kwota = Double.parseDouble(tmp.getKwota());
+        double uprzednio = Double.parseDouble(tmp.getWykorzystano());
+        double biezace = sumabiezace;
+        zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
         return Math.round(zostalo * 100.0) / 100.0;
     }
 
@@ -1080,7 +1079,7 @@ public class ZestawienieView implements Serializable {
         }
     }
     
-    public void zachowajPit13() {
+    public void zachowajPit13(){
         biezacyPit.setPkpirM("13");
         BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
         biezacyPit.setRemanent(roznicaremanentow);
@@ -1093,8 +1092,8 @@ public class ZestawienieView implements Serializable {
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }
-    
-    private void aktualizuj(){
+
+    private void aktualizuj() {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
@@ -1144,90 +1143,90 @@ public class ZestawienieView implements Serializable {
 
     private BigDecimal obliczprzychod() {
         try {
-        BigDecimal suma = new BigDecimal(0);
-        String selekcja = wpisView.getMiesiacWpisu();
-        switch (selekcja) {
-            case "01":
-                for (int i = 0; i < 1; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "02":
-                for (int i = 0; i < 2; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "03":
-                for (int i = 0; i < 3; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "04":
-                for (int i = 0; i < 4; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "05":
-                for (int i = 0; i < 5; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "06":
-                for (int i = 0; i < 6; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "07":
-                for (int i = 0; i < 7; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "08":
-                for (int i = 0; i < 8; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "09":
-                for (int i = 0; i < 9; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "10":
-                for (int i = 0; i < 10; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "11":
-                for (int i = 0; i < 11; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-            case "12":
-                for (int i = 0; i < 12; i++) {
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
-                    suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
-                }
-                break;
-        }
-        return suma;
+            BigDecimal suma = new BigDecimal(0);
+            String selekcja = wpisView.getMiesiacWpisu();
+            switch (selekcja) {
+                case "01":
+                    for (int i = 0; i < 1; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "02":
+                    for (int i = 0; i < 2; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "03":
+                    for (int i = 0; i < 3; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "04":
+                    for (int i = 0; i < 4; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "05":
+                    for (int i = 0; i < 5; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "06":
+                    for (int i = 0; i < 6; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "07":
+                    for (int i = 0; i < 7; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "08":
+                    for (int i = 0; i < 8; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "09":
+                    for (int i = 0; i < 9; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "10":
+                    for (int i = 0; i < 10; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "11":
+                    for (int i = 0; i < 11; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+                case "12":
+                    for (int i = 0; i < 12; i++) {
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(0).toString())));
+                        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(i).get(1).toString())));
+                    }
+                    break;
+            }
+            return suma;
         } catch (Exception e) {
             Msg.msg("e", "Nie było w tym roku żadnych przychodów");
             return new BigDecimal(BigInteger.ZERO);
         }
     }
 
-    private BigDecimal obliczkoszt() {
+    private BigDecimal obliczkoszt(){
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
@@ -1330,13 +1329,13 @@ public class ZestawienieView implements Serializable {
                     break;
             }
             return suma;
-           } catch (Exception e) {
+        } catch (Exception e) {
             Msg.msg("e", "Nie było w tym roku żadnych kosztów");
             return new BigDecimal(BigInteger.ZERO);
+        }
     }
-}
-
-    public void pobierzPity() {
+    
+    public void pobierzPity(){
         try {
             pobierzPity.addAll(pitDAO.findAll());
         } catch (Exception e) {
@@ -1357,12 +1356,12 @@ public class ZestawienieView implements Serializable {
         narPitpoz = pobierzPity.get(index);
         biezacyPit = narPitpoz;
     }
-
-    public void ustawZus51(){
+    
+    public void ustawZus51() {
         setZus51zreki(true);
     }
-    
-    public void ustawZus52(){
+
+    public void ustawZus52() {
         setZus52zreki(true);
     }
     
@@ -1624,7 +1623,7 @@ public class ZestawienieView implements Serializable {
 
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
         if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
-             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
+            if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
                 int numermiesiaca = Mce.getMapamcyX().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getMapamcy().get(numermiesiaca-3);
                 try {
@@ -1646,7 +1645,6 @@ public class ZestawienieView implements Serializable {
             }
         }
         return 0;
-        
     }
 
     

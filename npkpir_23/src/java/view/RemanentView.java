@@ -26,6 +26,10 @@ public class RemanentView implements Serializable {
     private static double remanentPoczRoku;
     private static double remanentKoniecRoku;
     private static double roznica;
+
+    public static double getRoznicaS() {
+        return roznica;
+    }
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -103,10 +107,6 @@ public class RemanentView implements Serializable {
         return roznica;
     }
     
-    public static double getRoznicaS() {
-        return roznica;
-    }
-
     public void setRoznica(double roznica) {
         RemanentView.roznica = roznica;
     }
@@ -118,6 +118,7 @@ public class RemanentView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
     
     
     

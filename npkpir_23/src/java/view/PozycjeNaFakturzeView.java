@@ -25,11 +25,6 @@ import msg.Msg;
 @ManagedBean
 @RequestScoped
 public class PozycjeNaFakturzeView implements Serializable{
-    @ManagedProperty(value="#{WpisView}")
-    private WpisView wpisView;
-    private int lewy;
-    private int gora;
-    private String co;
     private static String lewyTablica;
     private static String goraTablica;
     private static String coTablica;
@@ -41,6 +36,11 @@ public class PozycjeNaFakturzeView implements Serializable{
         zestaw.add(new Pozycjenafakturzebazadanych(1, "koperek topiony", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
         zestaw.add(new Pozycjenafakturzebazadanych(1, "marchewka topiona", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
     }
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    private int lewy;
+    private int gora;
+    private String co;
         
     
     @Inject private PozycjenafakturzeDAO pozycjeDAO;

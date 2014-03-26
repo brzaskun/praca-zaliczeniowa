@@ -12,13 +12,13 @@ import embeddable.Vatpoz;
  * @author Osito
  */
 class Naglowek {
+    static String Naglowek;
 
     String CelZlozenia;
     String Rok;
     String Miesiac;
     String KodUrzedu;
     
-    static String Naglowek;
 
     public Naglowek() {
     }

@@ -11,6 +11,7 @@ import embeddable.Vatpoz;
  * @author Osito
  */
 class DaneAutoryzujace {
+    static String DaneAutoryzujace;
     
     String NIP;
     String ImiePierwsze;
@@ -18,7 +19,6 @@ class DaneAutoryzujace {
     String DataUrodzenia;
     String Kwota;
     
-    static String DaneAutoryzujace;
 
     public DaneAutoryzujace(Vatpoz selected) {
         Podmiot podmiot = new Podmiot(selected);

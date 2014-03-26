@@ -20,7 +20,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 @SessionScoped
 public class Miasta implements Serializable {
-    private String miasto;
     private final static List<String> wykazMiast;
     
 static{
@@ -906,21 +905,22 @@ static{
     wykazMiast.add("Żywiec");
 }
 
- public List<String> complete(String query) {  
-        List<String> results = new ArrayList<String>();  
+ public static List<String> getWykazMiast() {
+     return wykazMiast;  
+ }  
+    private String miasto;
+
+    public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();
         String kl = new String();
         query = query.toLowerCase(new Locale("pl"));
-         for(String p : getWykazMiast()) {  
+        for(String p : getWykazMiast()) {  
             String pl = p.toLowerCase(new Locale("pl"));
             if(pl.startsWith(query)) {
-                 results.add(p);
-             }
-        }  
-        return results;  
-    }  
-
-    public static List<String> getWykazMiast() {
-        return wykazMiast;
+                results.add(p);
+            }
+        }
+        return results;
     }
 
 }

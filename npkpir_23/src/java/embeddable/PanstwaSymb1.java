@@ -26,46 +26,46 @@ public class PanstwaSymb1 implements Serializable {
 
 private static Map<String,String> wykazPanstwSX;
 
-    public PanstwaSymb1() {
-        wykazPanstwSX = new HashMap<>();
+    public static void main(String[] args) {
+        Map<String,String> wykazPanstwS = new HashMap<>();
+        List<String> panstwa = new ArrayList<>();
+        List<String> symbole = new ArrayList<>();
+        panstwa.addAll(Panstwa.getWykazPanstw());
+        symbole.addAll(PanstwaSymb.getWykazPanstwS());
+        Iterator it;
+        it = panstwa.iterator();
+        Iterator itX;
+        itX = symbole.iterator();
+        while(it.hasNext()&&itX.hasNext()){
+            
+            try {
+                wykazPanstwS.put(itX.next().toString(),it.next().toString());
+            } catch (Exception e){
+                System.out.println("Blad "+e.toString());
+            }
+        }
+        
     }
 
-@PostConstruct
-public void init(){
-    List<String> panstwa = new ArrayList<>();
-    List<String> symbole = new ArrayList<>();
-    panstwa.addAll(Panstwa.getWykazPanstw());
-    symbole.addAll(PanstwaSymb.getWykazPanstwS());
-    Iterator it;
-    it = panstwa.iterator();
-    Iterator itX;
-    itX = symbole.iterator();
-    while(it.hasNext()&&itX.hasNext()){
-        wykazPanstwSX.put(it.next().toString(),itX.next().toString());
-    }
-    
+public PanstwaSymb1(){
+    wykazPanstwSX = new HashMap<>();
 }
 
 
-    public static void main(String[] args){
-    Map<String,String> wykazPanstwS = new HashMap<>();
-    List<String> panstwa = new ArrayList<>();
-    List<String> symbole = new ArrayList<>();
-    panstwa.addAll(Panstwa.getWykazPanstw());
-    symbole.addAll(PanstwaSymb.getWykazPanstwS());
-    Iterator it;
-    it = panstwa.iterator();
-    Iterator itX;
-    itX = symbole.iterator();
-    while(it.hasNext()&&itX.hasNext()){
-       
-        try {
-                wykazPanstwS.put(itX.next().toString(),it.next().toString());
-        } catch (Exception e){
-            System.out.println("Blad "+e.toString());
+@PostConstruct
+    public void init(){
+        List<String> panstwa = new ArrayList<>();
+        List<String> symbole = new ArrayList<>();
+        panstwa.addAll(Panstwa.getWykazPanstw());
+        symbole.addAll(PanstwaSymb.getWykazPanstwS());
+        Iterator it;
+        it = panstwa.iterator();
+        Iterator itX;
+        itX = symbole.iterator();
+        while(it.hasNext()&&itX.hasNext()){
+            wykazPanstwSX.put(it.next().toString(),itX.next().toString());
         }
-    }
-    
+
     }
 
     public  Map<String, String> getWykazPanstwSX() {

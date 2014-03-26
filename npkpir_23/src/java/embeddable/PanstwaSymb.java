@@ -265,19 +265,19 @@ static{
 
 }
 
- public List<String> complete(String query) {  
-        List<String> results = new ArrayList<String>();  
-        String kl = new String();
-         for(String p : getWykazPanstwS()) {  
-            if(p.startsWith(query)) {
-                 results.add(p);
-             }
-        }  
-        return results;  
-    }  
+ public static List<String> getWykazPanstwS() {
+     return wykazPanstwS;  
+ }  
 
-    public static List<String> getWykazPanstwS() {
-        return wykazPanstwS;
+    public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();
+        String kl = new String();
+        for(String p : getWykazPanstwS()) {  
+            if(p.startsWith(query)) {
+                results.add(p);
+            }
+        }
+        return results;
     }
    
     

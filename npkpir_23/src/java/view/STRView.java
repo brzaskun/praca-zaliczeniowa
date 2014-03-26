@@ -29,6 +29,23 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class STRView implements Serializable {
 
+    public static void main(String[] args) {
+        Double opm = 9.33;
+        Double max = 45.11;
+        Double nar = 0.0;
+        List<Double> listaplanum = new ArrayList<>();
+        while (max - nar > 0) {
+            Double odp = (max - nar) > opm ? opm : max - nar;
+            DecimalFormat df2 = new DecimalFormat("###.##");
+            double tmp = odp.doubleValue();
+            String tmpX = df2.format(tmp);
+            tmpX = tmpX.replace(",", ".");
+            odp = Double.valueOf(tmpX);
+            listaplanum.add(odp);
+            nar = nar + odp;
+        }
+    }
+
     @Inject
     private STRDAO sTRDAO;
     private Integer ilesrodkow;
@@ -119,20 +136,4 @@ public class STRView implements Serializable {
         return sTRDAO.findAll().size();
     }
 
-    public static void main(String[] args) {
-        Double opm = 9.33;
-        Double max = 45.11;
-        Double nar = 0.0;
-        List<Double> listaplanum = new ArrayList<>();
-        while (max - nar > 0) {
-            Double odp = (max - nar) > opm ? opm : max - nar;
-            DecimalFormat df2 = new DecimalFormat("###.##");
-            double tmp = odp.doubleValue();
-            String tmpX = df2.format(tmp);
-            tmpX = tmpX.replace(",", ".");
-            odp = Double.valueOf(tmpX);
-            listaplanum.add(odp);
-            nar = nar + odp;
-        }
-    }
 }

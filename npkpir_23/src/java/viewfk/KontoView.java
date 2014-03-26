@@ -30,46 +30,46 @@ public class KontoView  implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
-    public KontoView() {
-        
-    }
     
     
     
     @Inject private KontoDAOfk kontoDAO;
 
-     public List<Konto> complete(String query) {  
-        List<Konto> results = new ArrayList<>();
-        List<Konto> listakont = kontoDAO.findAll();
-        try{
-            String q = query.substring(0,1);
-            int i = Integer.parseInt(q);
-        for(Konto p : listakont) {  
-             if(query.length()==4&&!query.contains("-")){
-                 //wstawia - do ciagu konta
-                 query = query.substring(0,3)+"-"+query.substring(3,4);
-             }
-             if(p.getPelnynumer().startsWith(query)) {
-                 results.add(p);
-             }
-        }
-        } catch (Exception e){
-          for(Konto p : listakont) {  
-             if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
-                 results.add(p);
-             }
-        }   
-        }
-        return results;  
-    }
-    
-     public void pobierzZapisyNaKoncie() {
-         listazapisownakoncie = new ArrayList<>();
-         listazapisownakoncie = wierszeDAO.findWierszeZapisy(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+     public KontoView() {
+         
      }
     
-    //<editor-fold defaultstate="collapsed" desc="comment">
+     public List<Konto> complete(String query) {  
+         List<Konto> results = new ArrayList<>();
+         List<Konto> listakont = kontoDAO.findAll();
+         try{
+             String q = query.substring(0,1);
+             int i = Integer.parseInt(q);
+             for(Konto p : listakont) {
+                 if(query.length()==4&&!query.contains("-")){
+                     //wstawia - do ciagu konta
+                     query = query.substring(0,3)+"-"+query.substring(3,4);
+                 }
+                 if(p.getPelnynumer().startsWith(query)) {
+                     results.add(p);
+                 }
+             }
+         } catch (Exception e){
+             for(Konto p : listakont) {
+                 if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                     results.add(p);
+                 }
+             }
+         }
+         return results;
+     }
      
+    public void pobierzZapisyNaKoncie() {
+        listazapisownakoncie = new ArrayList<>();
+        listazapisownakoncie = wierszeDAO.findWierszeZapisy(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -82,11 +82,11 @@ public class KontoView  implements Serializable {
         return listazapisownakoncie;
     }
 
+     
     public void setListazapisownakoncie(List<Wiersze> listazapisownakoncie) {
         this.listazapisownakoncie = listazapisownakoncie;
     }
-       
-     
+
     public Konto getWybranekonto() {
         return wybranekonto;
     }
@@ -94,7 +94,5 @@ public class KontoView  implements Serializable {
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
-    
-    
     //</editor-fold>
 }

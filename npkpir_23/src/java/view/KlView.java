@@ -39,11 +39,22 @@ public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;
+    private static ArrayList<Klienci> kl1;
+    private static Klienci doUsuniecia;
+
+    public static ArrayList<Klienci> getKl1S() {
+        return kl1;
+    }
+
+    public static void main(String[] args) {
+        String mse = "XX0000000001";
+        mse = mse.substring(2);
+        mse = String.valueOf(Integer.parseInt(mse));
+        System.out.println(mse);
+    }
     @Inject private KlienciDAO klDAO;
     @Inject private Klienci selected;
     @Inject PanstwaSymb1 ps1;
-    private static ArrayList<Klienci> kl1;
-    private static Klienci doUsuniecia;
     private Integer ilesrodkow;
 
     
@@ -333,10 +344,6 @@ public class KlView implements Serializable{
         return kl1;
     }
     
-    public static ArrayList<Klienci> getKl1S() {
-        return kl1;
-    }
-
     public Klienci getDoUsuniecia() {
         return doUsuniecia;
     }
@@ -345,11 +352,5 @@ public class KlView implements Serializable{
         this.doUsuniecia = doUsuniecia;
     }
 
-   public static void main(String[] args){
-       String mse = "XX0000000001";
-       mse = mse.substring(2);
-       mse = String.valueOf(Integer.parseInt(mse));
-       System.out.println(mse);
-   }
    
 }
