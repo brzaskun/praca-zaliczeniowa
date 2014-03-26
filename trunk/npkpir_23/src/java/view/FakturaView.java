@@ -136,7 +136,7 @@ public class FakturaView implements Serializable {
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
         selected.setFakturaPK(fakturaPK);
         try {
-            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().equals("") ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
         } catch (Exception et) {
             selected.setMiejscewystawienia("nie ustawiono miejsca");
         }
@@ -722,7 +722,7 @@ public class FakturaView implements Serializable {
             DateTime dt = new DateTime();
             LocalDate firstDate = dt.toLocalDate();
             int terminplatnosci = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
-            if (datawystawienia.equals("")) {
+            if (datawystawienia.isEmpty()) {
                 nowa.setDatawystawienia(firstDate.toString());
                 nowa.setDatasprzedazy(firstDate.toString());
                 MutableDateTime dateTime = new MutableDateTime(firstDate.toString());

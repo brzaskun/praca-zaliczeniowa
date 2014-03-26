@@ -60,7 +60,7 @@ public class KlView implements Serializable{
   
     public void dodajKlienta(){
       try {
-        if(selected.getNip().equals("")){
+        if(selected.getNip().isEmpty()){
             wygenerujnip();
         }
         //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko
@@ -95,7 +95,7 @@ public class KlView implements Serializable{
     
     public void dodajKlientafk(){
       try {
-        if(selected.getNip().equals("")){
+        if(selected.getNip().isEmpty()){
             wygenerujnip();
         }
         //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko

@@ -24,7 +24,7 @@ public class SrodkiConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         SrodkikstView srodkikstView = new SrodkikstView();
         List<Srodkikst> kl = srodkikstView.getLista();
-        if (submittedValue.trim().equals("")) {  
+        if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  

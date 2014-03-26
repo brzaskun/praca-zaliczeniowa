@@ -178,7 +178,7 @@ public class Vat7DKView implements Serializable {
                 met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             }
-            if ((nrpolavat != null) && (!nrpolavat.equals(""))) {
+            if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
                 paramString = new Class[1];
                 paramString[0] = String.class;
                 met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolavat, paramString);
@@ -195,7 +195,7 @@ public class Vat7DKView implements Serializable {
          String kwotaautoryzujaca = null;
         String kodus = tKodUS.getLista().get(pod.getUrzadskarbowy());
         try {
-            boolean equals = kodus.equals("");
+            boolean equals = kodus.isEmpty();
         } catch (Exception e) {
             Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
             setFlaga(1);
@@ -423,7 +423,7 @@ public class Vat7DKView implements Serializable {
     private void czynieczekajuzcosdowyslania(){
         try{
             Deklaracjevat badana = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
-            if(badana.getStatus().equals("")&&!badana.getMiesiac().equals(mc)){
+            if(badana.getStatus().isEmpty()&&!badana.getMiesiac().equals(mc)){
                 flaga = 1;
                 Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!", "form:msg");
             }
@@ -449,13 +449,13 @@ public class Vat7DKView implements Serializable {
         Deklaracjevat badana;
         try {
             badana = deklaracjakorygowana;
-            if (badana.getIdentyfikator().equals("")) {
+            if (badana.getIdentyfikator().isEmpty()) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "form:msg");
                 selected.setCelzlozenia("1");
                 nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                 setFlaga(2);
             } else {
-               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().isEmpty()) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
@@ -480,11 +480,11 @@ public class Vat7DKView implements Serializable {
             }
         } catch (Exception e) {
             badana = deklaracjawyslana;
-            if (badana.getIdentyfikator().equals("")) {
+            if (badana.getIdentyfikator().isEmpty()) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");
                 setFlaga(1);
             } else {
-               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().equals("")) {
+               if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().isEmpty()) {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {

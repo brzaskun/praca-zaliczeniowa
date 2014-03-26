@@ -777,7 +777,7 @@ public final class DokView implements Serializable {
         if (params.get("dodWiad:numerwlasny")!=null) {
             wprowadzonynumer = params.get("dodWiad:numerwlasny");
         }
-        if (!wprowadzonynumer.equals("")) {
+        if (!wprowadzonynumer.isEmpty()) {
         } else {
             String nowynumer = "";
             Podatnik podX = wpisView.getPodatnikObiekt();
@@ -833,11 +833,11 @@ public final class DokView implements Serializable {
             }
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
-            if (!nowynumer.equals("") && selDokument.getNrWlDk() == null) {
+            if (!nowynumer.isEmpty() && selDokument.getNrWlDk() == null) {
                 selDokument.setNrWlDk(nowynumer);
                 RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
             }
-            if (!nowynumer.equals("") && selDokument.getNrWlDk().equals("")) {
+            if (!nowynumer.isEmpty() && selDokument.getNrWlDk().isEmpty()) {
                 selDokument.setNrWlDk(nowynumer);
                 RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
             }
@@ -1691,7 +1691,7 @@ public final class DokView implements Serializable {
     public void skopiujSTR() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String nazwa = params.get("dodWiad:acForce1_input");
-        if (!nazwa.equals("")) {
+        if (!nazwa.isEmpty()) {
             try {
                 srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
                 selectedSTR.setKst(srodekkategoriawynik.getSymbol());
@@ -1890,7 +1890,7 @@ public final class DokView implements Serializable {
     
      public void dodajKlienta(){
       try {
-        if(selectedKlient.getNip().equals("")){
+        if(selectedKlient.getNip().isEmpty()){
             wygenerujnip();
         }
         //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko

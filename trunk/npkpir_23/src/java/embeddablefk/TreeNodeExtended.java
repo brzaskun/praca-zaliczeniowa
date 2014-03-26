@@ -207,7 +207,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             parents.clear();
             for (TreeNodeExtended p : finallNodes) {
                 //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
-                if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().equals("")) {
+                if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().isEmpty()) {
                     if (((PozycjaRZiS) p.getData()).getLevel() == lowestlevel) {
                         double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
                         double kwotanode = p.getKwota();
