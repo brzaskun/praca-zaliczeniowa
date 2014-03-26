@@ -1133,7 +1133,6 @@ public class DokView implements Serializable {
                 dokDAO.edit(selDokument);
             }
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany "+ e.getMessage() + " " + e.getStackTrace().toString());
         }
         //robienie srodkow trwalych
@@ -1243,7 +1242,6 @@ public class DokView implements Serializable {
         long y = date_od.getTime();
         long wynik = Math.abs(x - y);
         wynik = wynik / (1000 * 60 * 60 * 24);
-        System.out.println("Roznica miedzy datami to " + wynik + " dni...");
         if (wynik <= 61) {
             return true;
         } else {
@@ -1303,7 +1301,6 @@ public class DokView implements Serializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokumet umorzeniowy za ten okres!");
             return;
         }
@@ -1349,7 +1346,6 @@ public class DokView implements Serializable {
                 return;
             }
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument AMO nie zaksięgowany!", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -1430,7 +1426,6 @@ public class DokView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument strono nie zaksięgowany!", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
@@ -1466,7 +1461,6 @@ public class DokView implements Serializable {
             Msg.msg("e", wiadomosc);
             throw new Exception();
         } else {
-            System.out.println("Nie znaleziono duplikatu");
         }
     }
     
@@ -1479,7 +1473,6 @@ public class DokView implements Serializable {
                 Msg.msg("e", wiadomosc);
                 RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
-                System.out.println("Nie znaleziono duplikatu");
             }
         } catch (Exception e) {
             Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
@@ -1682,7 +1675,6 @@ public class DokView implements Serializable {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Płatność zachowana" + selDokument, null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } catch (Exception ex) {
-                System.out.println(ex.getStackTrace().toString());
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Płatność niezachowana " + ex.getStackTrace().toString(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
@@ -1951,7 +1943,6 @@ public class DokView implements Serializable {
             List<String> kliencinip = new ArrayList<>();
             for (Klienci p : kliencitmp){
                 if(p.getNip().equals(nippoczatkowy)){
-                    System.out.println("tak nip juz jest, wyrzucam blad");
                     throw new Exception();
                 }
             }

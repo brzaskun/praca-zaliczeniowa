@@ -31,7 +31,6 @@ public class PdfORDZU extends PdfVAT7{
     static String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/ORD-ZU.jpg";
     
     public static void drukujORDZU(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
-        System.out.println("Drukuje " + dkl);
         Vatpoz v = dkl.getSelected();
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/ordzu"+v.getPodatnik()+".pdf"));
@@ -125,7 +124,6 @@ public static void main(String[] args) throws IOException, DocumentException{
             }
             PDFCombineUsingJava.close();
         } catch (Exception i) {
-            System.out.println(i);
         }
 }
 }

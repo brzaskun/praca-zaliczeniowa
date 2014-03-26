@@ -27,7 +27,6 @@ public class DeklaracjaVAT {
         DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace();
         wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+pouczenie.getPouczenie()
                 +oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
-        System.out.println(wiersz);
         FileWriter fileWriter = null;
         try {
             File newTextFile = new File("C:/uslugi/test6.xml");

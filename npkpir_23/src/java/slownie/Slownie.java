@@ -62,7 +62,6 @@ public class Slownie {
                  int argumenty = param.length();
                  if (argumenty == 0)
                  {
-                     System.out.println("Nie podałeś kwoty !");
                      return null;
                  }
                  try
@@ -71,7 +70,6 @@ public class Slownie {
                  }
                  catch (Exception ex)
                  {
-                     System.out.print("Niewłaściwa kwota "+ex.getMessage().toString());
                      return null;
                  }
                  String kwotaSlownie = "";

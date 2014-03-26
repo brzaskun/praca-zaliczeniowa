@@ -28,7 +28,6 @@ public class WalutyDAOfk extends DAO implements Serializable {
     
     public  List<Waluty> findAll(){
         try {
-            System.out.println("Pobieram WalutyDAOfk");
             return walutyFacade.findAll(Waluty.class);
         } catch (Exception e) {
             return null;
@@ -37,7 +36,6 @@ public class WalutyDAOfk extends DAO implements Serializable {
 
     public Waluty findByName(String staranazwa) {
         try {
-            System.out.println("Pobieram WalutyDAOfk by Name");
             return walutyFacade.findWalutaByName(staranazwa);
         } catch (Exception e) {
             return null;

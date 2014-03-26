@@ -63,7 +63,6 @@ public class STREwidencja implements Serializable {
             try {
                 c = sTRDAO.findStrPod(podatnikwpisu);
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (!c.isEmpty()) {
                 int i = 1;

@@ -31,7 +31,6 @@ public class EvpozycjaDAO extends DAO implements Serializable {
     
     public  List<Evpozycja> findAll(){
         try {
-            System.out.println("Pobieram EvpozycjaDAO");
             return evpozycjaFacade.findAll(Evpozycja.class);
         } catch (Exception e) {
             return null;

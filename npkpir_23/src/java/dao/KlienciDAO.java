@@ -28,7 +28,6 @@ public class KlienciDAO extends DAO implements Serializable {
     
     public  List<Klienci> findAll(){
         try {
-            System.out.println("Pobieram KlienciDAO");
             return klienciFacade.findAll(Klienci.class);
         } catch (Exception e) {
             return null;

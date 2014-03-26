@@ -162,7 +162,6 @@ public class Vat7DKView implements Serializable {
 
         //
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
-            System.out.println("Ewidencja :" + ew.toString());
             String nrpolanetto = ew.getEwidencja().getNrpolanetto();
             String nrpolavat = ew.getEwidencja().getNrpolavat();
             String netto = String.valueOf(ew.getNetto());
@@ -605,7 +604,6 @@ public class Vat7DKView implements Serializable {
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }
         String wiersz = vat713.getWiersz();
-        System.out.println(wiersz);
         nowadeklaracja.setDeklaracja(wiersz);
     }
 

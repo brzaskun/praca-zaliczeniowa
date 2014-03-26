@@ -27,7 +27,6 @@ public class ZUSDAO extends DAO implements Serializable {
     
     public  List<Zusstawki> findAll(){
         try {
-            System.out.println("Pobieram ZusstawkiDAO");
             return zusstawkiFacade.findAll(Zusstawki.class);
         } catch (Exception e) {
             return null;

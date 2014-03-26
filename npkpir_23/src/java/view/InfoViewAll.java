@@ -37,7 +37,6 @@ public class InfoViewAll implements Serializable{
         Calendar c = Calendar.getInstance();
         System.out.println(c.get(Calendar.DAY_OF_MONTH));
         System.out.println(c.get(Calendar.DAY_OF_WEEK));
-        System.out.println(c.get(Calendar.DAY_OF_YEAR));
     }
     @Inject private Podatnik pod;
     private String podatnik;

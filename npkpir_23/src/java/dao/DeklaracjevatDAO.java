@@ -28,7 +28,6 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
 
      public  List<Deklaracjevat> findAll(){
         try {
-            System.out.println("Pobieram DeklaracjevatDAO");
             return deklaracjevatFacade.findAll(Deklaracjevat.class);
         } catch (Exception e) {
             return null;
@@ -48,7 +47,6 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         try {
         return deklaracjevatFacade.findDeklaracjewysylka(pod);
         } catch (Exception e){
-            System.out.println("Brak deklaracji do wyslania");
             return null;
         }
     }

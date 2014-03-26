@@ -29,7 +29,6 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
     
     public  List<Fakturywystokresowe> findAll(){
         try {
-            System.out.println("Pobieram FakturyokresoweDAO");
             return fakturywystokresoweFacade.findAll(Fakturywystokresowe.class);
         } catch (Exception e) {
             return null;
@@ -39,7 +38,6 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
     public List<Fakturywystokresowe> findPodatnik(String podatnik){
         List<Fakturywystokresowe> zwrot = new ArrayList<>();
         try {
-            System.out.println("Pobieram FakturywystokresoweDAO");
             zwrot = fakturywystokresoweFacade.findPodatnikFaktury(podatnik);
         } catch (Exception e) {}
         return zwrot;
@@ -48,7 +46,6 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
      public List<Fakturywystokresowe> findPodatnik(String podatnik, String rok){
         List<Fakturywystokresowe> zwrot = new ArrayList<>();
         try {
-            System.out.println("Pobieram POdatnik Rok FakturywystokresoweDAO");
             zwrot = fakturywystokresoweFacade.findPodatnikRokFaktury(podatnik, rok);
         } catch (Exception e) {}
         return zwrot;

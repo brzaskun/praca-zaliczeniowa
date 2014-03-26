@@ -71,7 +71,6 @@ public class KsiegaView implements Serializable {
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) {
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
-                System.out.println(e.toString());
             }
         }
         List<Dok> obiektDOKjsfSel = new ArrayList<>();
@@ -80,7 +79,6 @@ public class KsiegaView implements Serializable {
             //sortowanie dokumentów
             Collections.sort(obiektDOKjsfSel, new Dokcomparator());
         } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
         }
         List<Dok> obiektDOKmrjsfSel = new ArrayList<>();
         for (Dok tmpx : obiektDOKjsfSel) {
@@ -251,10 +249,8 @@ public class KsiegaView implements Serializable {
             lista.add(sumaposrednia);
             System.out.println("dodanie sumy posredniej");
             lista.add(sumakoncowa);
-            System.out.println("dodanie sumy koncowej");
 
         } else {
-            System.out.println("podsumowanie - nie!");
         }
     }
     

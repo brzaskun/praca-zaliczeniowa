@@ -46,7 +46,6 @@ public class PozycjeNaFakturzeView implements Serializable{
     @Inject private PozycjenafakturzeDAO pozycjeDAO;
     
     public void zachowajpozycje(){
-    System.out.println("lolo");
     PozycjenafakturzePK klucz = new PozycjenafakturzePK();
         klucz.setNazwa(co);
         klucz.setPodatnik(wpisView.getPodatnikWpisu());

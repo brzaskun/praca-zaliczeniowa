@@ -132,7 +132,6 @@ public class ZestawienieRyczaltView implements Serializable {
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
                 for (int i = 0; i < 4; i++) {
@@ -496,7 +495,6 @@ public class ZestawienieRyczaltView implements Serializable {
                     biezacyPit.setDozaplaty(BigDecimal.ZERO);
                 }
             } catch (Exception e) {
-                System.out.println(e.toString());
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych stawek podatkowych na dany rok! Nie można przeliczyć ryczałtu za okres ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();

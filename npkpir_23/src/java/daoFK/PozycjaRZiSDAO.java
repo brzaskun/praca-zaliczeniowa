@@ -27,7 +27,6 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
     }
       public  List<PozycjaRZiS> findAll(){
         try {
-            System.out.println("Pobieram PozycjaRZiSDAO");
             return sessionFacade.findAll(PozycjaRZiS.class);
         } catch (Exception e) {
             return null;
@@ -35,7 +34,6 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
    }
      public  List<PozycjaRZiS> findRzisuklad(Rzisuklad rzisuklad){
         try {
-            System.out.println("Pobieram PozycjaRZiSDAO wg rzisuklad");
             return sessionFacade.findRzisuklad(rzisuklad);
         } catch (Exception e) {
             return null;

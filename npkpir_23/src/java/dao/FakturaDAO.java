@@ -28,7 +28,6 @@ public class FakturaDAO extends DAO implements Serializable {
     
     public  List<Faktura> findAll(){
         try {
-            System.out.println("Pobieram FakturaDAO");
             return fakturaFacade.findAll(Faktura.class);
         } catch (Exception e) {
             return null;
@@ -41,7 +40,6 @@ public class FakturaDAO extends DAO implements Serializable {
 
     public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, String podatnik) {
          try {
-            System.out.println("Pobieram FakturaDAO wg NIP");
             return fakturaFacade.findByKontrahent_nip(kontrahent_nip, podatnik);
         } catch (Exception e) {
             return null;
@@ -50,7 +48,6 @@ public class FakturaDAO extends DAO implements Serializable {
     
     public List<Faktura> findbyKontrahentNipRok(String kontrahentnip, String podatnik, String rok) {
          try {
-            System.out.println("Pobieram FakturaDAO wg NIP i rok");
             return fakturaFacade.findByKontrahentNipRok(kontrahentnip, podatnik, rok);
         } catch (Exception e) {
             return null;
@@ -59,7 +56,6 @@ public class FakturaDAO extends DAO implements Serializable {
     
      public List<Faktura> findbyPodatnik(String podatnik) {
          try {
-            System.out.println("Pobieram FakturaDAO wg nazwy Podatnika");
             return fakturaFacade.findByPodatnik(podatnik);
         } catch (Exception e) {
             return null;
@@ -68,7 +64,6 @@ public class FakturaDAO extends DAO implements Serializable {
      
       public List<Faktura> findbyPodatnikRok(String podatnik, String rok) {
          try {
-            System.out.println("Pobieram FakturaDAO wg nazwy Podatnika i Rok");
             return fakturaFacade.findByPodatnikRok(podatnik, rok);
         } catch (Exception e) {
             return null;
@@ -76,7 +71,6 @@ public class FakturaDAO extends DAO implements Serializable {
     }
       public List<Faktura> findbyPodatnikRokMc(String podatnik, String rok, String mc) {
          try {
-            System.out.println("Pobieram FakturaDAO wg nazwy Podatnika i Rok i Mc");
             return fakturaFacade.findByPodatnikRokMc(podatnik, rok, mc);
         } catch (Exception e) {
             return null;

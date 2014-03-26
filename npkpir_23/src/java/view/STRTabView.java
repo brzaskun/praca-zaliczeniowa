@@ -105,7 +105,6 @@ public class STRTabView implements Serializable {
             try {
                 c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (!c.isEmpty()) {
                 int i = 1;
@@ -166,7 +165,6 @@ public class STRTabView implements Serializable {
             try {
                 c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
                 int ie = 1;
@@ -310,7 +308,6 @@ public class STRTabView implements Serializable {
             try {
                 c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
             if (c != null) {
                 int ie = 1;
@@ -345,7 +342,6 @@ public class STRTabView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             Msg.msg("e", "Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
-            System.out.println("Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach");
         }
 
 //    } else {

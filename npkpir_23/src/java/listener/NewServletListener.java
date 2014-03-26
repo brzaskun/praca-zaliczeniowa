@@ -29,13 +29,11 @@ public class NewServletListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         String sessionId = se.getSession().getId();
-        System.out.println("NewServlettListner.java: Sesja utworzona " + sessionId );
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         String nrsesji = se.getSession().getId();
-        System.out.println("Sesja zlikwidowana "+nrsesji);
         try{
         sesja = sesjaDAO.find(nrsesji);
         Calendar calendar = Calendar.getInstance();

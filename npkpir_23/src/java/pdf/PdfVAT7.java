@@ -218,7 +218,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
                 vat72 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-72-p1.jpg";
             }
             
-            System.out.println("Drukuje " + dkl);
             Vatpoz v = dkl.getSelected();
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf"));
@@ -299,7 +298,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
                 vat71 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-71-p1.jpg";
                 vat72 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-72-p1.jpg";
             }
-            System.out.println("Drukuje " + dkl);
             Vatpoz v = dkl.getSelected();
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf"));
@@ -691,7 +689,6 @@ public class PdfVAT7 extends Pdf implements Serializable{
             copy.close();
             PDFCombineUsingJava.close();
         } catch (Exception i) {
-            System.out.println(i);
         }
     }
 }

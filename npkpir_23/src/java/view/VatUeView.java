@@ -78,7 +78,6 @@ public class VatUeView implements Serializable {
                 p.setNrWpkpir(numerkolejny++);
             }
         } catch (Exception e) {
-            System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
         }
         String m = wpisView.getMiesiacWpisu();
         Integer m1 = Integer.parseInt(m);
@@ -101,7 +100,6 @@ public class VatUeView implements Serializable {
             }
         }
         zachowajwbazie(String.valueOf(rok), m, podatnik);
-        System.out.println("l");
     }
     
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {

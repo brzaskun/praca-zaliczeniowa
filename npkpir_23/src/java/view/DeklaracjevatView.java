@@ -87,7 +87,6 @@ public class DeklaracjevatView implements Serializable {
             FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany " + ex.getObject().toString(), selected.getPodatnik());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage("Dokytkownik nie zedytowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -104,7 +103,6 @@ public class DeklaracjevatView implements Serializable {
                 Msg.msg("i","Deklaracja usunięta","formX:msg");
             } catch (Exception e) {
                 Msg.msg("e","Deklaracja nie usunięta","formX:msg");
-                System.out.println("Nie usunieto " + selected.getIdentyfikator() + " " + e.toString());
             }
            
         }
@@ -117,7 +115,6 @@ public class DeklaracjevatView implements Serializable {
                 Msg.msg("i","Deklaracja usunięta","formX:msg");
             } catch (Exception e) {
                 Msg.msg("e","Deklaracja nie usunięta","formX:msg");
-                System.out.println("Nie usunieto " + selected.getIdentyfikator() + " " + e.toString());
             }
            
         }

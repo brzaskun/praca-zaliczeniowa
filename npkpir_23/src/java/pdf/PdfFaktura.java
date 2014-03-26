@@ -99,7 +99,6 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
      
     private void drukujcd(Faktura selected, List<Fakturadodelementy> fdod, int nrfakt, String przeznaczenie)  throws DocumentException, FileNotFoundException, IOException {
-        System.out.println("Drukuje Fakture "+selected.toString());
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(nrfakt)+wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Faktura");

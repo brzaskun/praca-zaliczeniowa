@@ -70,7 +70,6 @@ public class WalutyViewFK implements Serializable {
     
     @Schedule(hour="14", persistent=false)
     public void pobierzkursy() throws ParseException {
-        System.out.println("pobierzkursy()");
         String datawstepna;
         Integer numertabeli;
         List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();

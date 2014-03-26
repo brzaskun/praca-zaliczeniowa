@@ -30,7 +30,6 @@ public class EVatOpisDAO extends DAO implements Serializable {
     
     public  List<EVatOpis> findAll(){
         try {
-            System.out.println("Pobieram EVatOpisDAO");
             return eVatOpisFacade.findAll(EVatOpis.class);
         } catch (Exception e) {
             return null;

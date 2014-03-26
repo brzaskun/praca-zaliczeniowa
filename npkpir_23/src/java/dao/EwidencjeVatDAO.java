@@ -40,7 +40,6 @@ public class EwidencjeVatDAO extends DAO implements Serializable {
     }
     public  List<Ewidencjevat> findAll(){
         try {
-            System.out.println("Pobieram EwidencjevatDAO");
             return ewidencjevatFacade.findAll(Ewidencjevat.class);
         } catch (Exception e) {
             return null;

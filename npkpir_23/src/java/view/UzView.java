@@ -57,7 +57,6 @@ public class UzView implements Serializable{
         try {
             c.addAll(uzDAO.findAll());
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala"+e.toString());
             }
             for(Uz p : c){
             obiektUZjsf.add(p);
@@ -67,7 +66,6 @@ public class UzView implements Serializable{
       
 
      public void dodaj(){
-         System.out.println("Wpis do bazy zaczynam");
          selUzytkownik.setUprawnienia("Noobie");
          selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
          selUzytkownik.setIloscwierszy("12");
@@ -82,7 +80,6 @@ public class UzView implements Serializable{
                  Mail.nadajMail(selUzytkownik.getEmail(), selUzytkownik.getLogin());
                  
              } catch (Exception e) {
-                 System.out.println(e.getStackTrace().toString());
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim loginie już istnieje. Wprowadź inny login.", e.getStackTrace().toString());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
              }
@@ -90,7 +87,6 @@ public class UzView implements Serializable{
     }
      
      public String dodajnowe(){
-         System.out.println("Wpis do bazy zaczynam");
          try {
             selUzytkownik = uzDAO.find(login);
             selUzytkownik.setHaslo(firstPassword);
@@ -108,7 +104,6 @@ public class UzView implements Serializable{
                  return "failure";
                  
              } catch (Exception e) {
-                 System.out.println(e.getStackTrace().toString());
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
              }
@@ -137,7 +132,6 @@ public class UzView implements Serializable{
          sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
         getSelUzytkownik().setHaslo(sb.toString());
-        System.out.println("Hex format : " + sb.toString());
     }
     
      public void destroy(Uz uzytkownik) {
@@ -157,7 +151,6 @@ public class UzView implements Serializable{
             FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
             FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -197,7 +190,6 @@ public class UzView implements Serializable{
        try {
            Uz user = uzDAO.find(login);
            if ( user == null) {
-               System.out.println("Login unikalny");
            } else {
                Msg.msg("w", "Użytkownik o takim loginie już istnienie. Wpisz inny.");
            }

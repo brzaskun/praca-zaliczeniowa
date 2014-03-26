@@ -37,14 +37,10 @@ public abstract class DAO<T> {
     public void dodaj(T selected) {
         try {
             if(sessionFacade==null){
-                System.out.println("SessionFacade w pliku DAO jest null - nie utworzona " + selected);
             } else {
-                System.out.println("Utworzono SessionFacade w pliku DAO " + selected);
             }
             sessionFacade.create(selected);
-            System.out.println("Dodano wpis " + selected);
         } catch (Exception e) {
-            System.out.println("Nie dodano wpisu " + selected + " " + e.getMessage());
             throw new PersistenceException();
         }
     }
@@ -56,9 +52,7 @@ public abstract class DAO<T> {
     public void destroy(T selected) {
         try {
             sessionFacade.remove(selected);
-            System.out.println("Usunieto " + selected);
         } catch (Exception e) {
-            System.out.println("Nie usnieto " + selected + " " + e.toString());
         }
     }
 
@@ -69,9 +63,7 @@ public abstract class DAO<T> {
     public void edit(T selected) {
         try {
             sessionFacade.edit(selected);
-            System.out.println("Edycja udana " + selected);
         } catch (Exception e) {
-            System.out.println("Edycja nieudana " + selected + " " + e.toString());
         }
     }
 

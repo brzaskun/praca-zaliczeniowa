@@ -69,7 +69,6 @@ public class VatView implements Serializable {
         Pattern p = Pattern.compile("(-?(\\d+(?:\\.\\d+)))");
         Matcher m = p.matcher(prices);
         while (m.find()) {
-            System.out.println(Double.parseDouble(m.group()));
         }
     }
     private List<Dok> listadokvat;
@@ -128,7 +127,6 @@ public class VatView implements Serializable {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Blad w pobieraniu z bazy danych. Spradzic czy nie pusta, iniekcja oraz  lacze z baza dziala" + e.toString());
             }
 
             listadokvat = zmodyfikujliste(listadokvat, vatokres);
@@ -267,7 +265,6 @@ public class VatView implements Serializable {
             }
         
         } catch (Exception e) {
-            System.out.println("Firma nie vat. VatView linia 260");
         }
           //drukuj ewidencje
     }
@@ -328,7 +325,6 @@ public class VatView implements Serializable {
          }
          } catch (Exception e) {
              Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
-             System.out.println("Blada nietypowy plik VatView zmodyfikujliste ");
              return null;
          }
     }

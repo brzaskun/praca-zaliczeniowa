@@ -31,7 +31,6 @@ public class RodzajedokDAO extends DAO implements Serializable{
     
     public  List<Rodzajedok> findAll(){
         try {
-            System.out.println("Pobieram RodzajedokDAO");
             return rodzajedokFacade.findAll(Rodzajedok.class);
         } catch (Exception e) {
             return null;

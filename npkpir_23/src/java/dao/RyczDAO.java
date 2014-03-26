@@ -39,7 +39,6 @@ public class RyczDAO extends DAO implements Serializable {
     
     public  List<Ryczpoz> findAll(){
         try {
-            System.out.println("Pobieram RyczDAO");
             List<Ryczpoz> lista = ryczFacade.findRyczAll()   ;
             return lista;
         } catch (Exception e) {
