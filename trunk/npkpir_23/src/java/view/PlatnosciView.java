@@ -402,7 +402,7 @@ public class PlatnosciView implements Serializable {
     }
 
     public void setSelectedZob(Platnosci selectedZob) {
-        this.selectedZob = selectedZob;
+        PlatnosciView.selectedZob = selectedZob;
     }
 
     public PlatnosciDAO getPlatnosciDAO() {

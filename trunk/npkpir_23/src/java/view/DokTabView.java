@@ -692,7 +692,7 @@ public class DokTabView implements Serializable {
         }
         
         public void setGosciuwybral(List<Dok> gosciuwybral) {
-            this.gosciuwybral = gosciuwybral;
+            DokTabView.gosciuwybral = gosciuwybral;
         }
         
         public boolean isPokaztablice() {

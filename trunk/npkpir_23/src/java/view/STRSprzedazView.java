@@ -122,7 +122,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     }
 
     public void setWybranesrodkitrwale(List<SrodekTrw> wybranesrodkitrwale) {
-        this.wybranesrodkitrwale = wybranesrodkitrwale;
+        STRSprzedazView.wybranesrodkitrwale = wybranesrodkitrwale;
     }
 
     public STRTabView getsTRTabView() {

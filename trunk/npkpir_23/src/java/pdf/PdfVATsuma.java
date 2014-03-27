@@ -70,14 +70,14 @@ public class PdfVATsuma extends Pdf implements Serializable {
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             Paragraph miziu1 = new Paragraph(new Phrase("Zestawienie ewidencji VAT ",font));
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu(),fontM));
             document.add(miziu1);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikWpisu(),fontM));
             document.add(miziu1);
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());

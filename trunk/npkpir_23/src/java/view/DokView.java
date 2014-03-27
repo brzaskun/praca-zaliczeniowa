@@ -2143,7 +2143,7 @@ public final class DokView implements Serializable {
     }
 
     public void setWielkoscopisuewidencji(String wielkoscopisuewidencji) {
-        this.wielkoscopisuewidencji = wielkoscopisuewidencji;
+        DokView.wielkoscopisuewidencji = wielkoscopisuewidencji;
     }
 
     public Rozrachunek getRozrachunek() {

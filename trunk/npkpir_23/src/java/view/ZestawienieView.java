@@ -1400,7 +1400,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setStyczen(List<Double> styczen) {
-        this.styczen = styczen;
+        ZestawienieView.styczen = styczen;
     }
 
     public List<Double> getLuty() {
@@ -1408,7 +1408,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setLuty(List<Double> luty) {
-        this.luty = luty;
+        ZestawienieView.luty = luty;
     }
 
     public List<Double> getMarzec() {
@@ -1416,7 +1416,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setMarzec(List<Double> marzec) {
-        this.marzec = marzec;
+        ZestawienieView.marzec = marzec;
     }
 
     public List<Double> getKwiecien() {
@@ -1424,7 +1424,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setKwiecien(List<Double> kwiecien) {
-        this.kwiecien = kwiecien;
+        ZestawienieView.kwiecien = kwiecien;
     }
 
     public List<Double> getMaj() {
@@ -1432,7 +1432,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setMaj(List<Double> maj) {
-        this.maj = maj;
+        ZestawienieView.maj = maj;
     }
 
     public List<Double> getCzerwiec() {
@@ -1440,7 +1440,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setCzerwiec(List<Double> czerwiec) {
-        this.czerwiec = czerwiec;
+        ZestawienieView.czerwiec = czerwiec;
     }
 
     public List<Double> getLipiec() {
@@ -1448,7 +1448,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setLipiec(List<Double> lipiec) {
-        this.lipiec = lipiec;
+        ZestawienieView.lipiec = lipiec;
     }
 
     public List<Double> getSierpien() {
@@ -1456,7 +1456,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setSierpien(List<Double> sierpien) {
-        this.sierpien = sierpien;
+        ZestawienieView.sierpien = sierpien;
     }
 
     public List<Double> getWrzesien() {
@@ -1464,7 +1464,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setWrzesien(List<Double> wrzesien) {
-        this.wrzesien = wrzesien;
+        ZestawienieView.wrzesien = wrzesien;
     }
 
     public List<Double> getPazdziernik() {
@@ -1472,7 +1472,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setPazdziernik(List<Double> pazdziernik) {
-        this.pazdziernik = pazdziernik;
+        ZestawienieView.pazdziernik = pazdziernik;
     }
 
     public List<Double> getListopad() {
@@ -1480,7 +1480,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setListopad(List<Double> listopad) {
-        this.listopad = listopad;
+        ZestawienieView.listopad = listopad;
     }
 
     public List<Double> getGrudzien() {
@@ -1488,7 +1488,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setGrudzien(List<Double> grudzien) {
-        this.grudzien = grudzien;
+        ZestawienieView.grudzien = grudzien;
     }
 
     public List<Double> getIpolrocze() {
@@ -1496,7 +1496,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setIpolrocze(List<Double> Ipolrocze) {
-        this.Ipolrocze = Ipolrocze;
+        ZestawienieView.Ipolrocze = Ipolrocze;
     }
 
     public List<Double> getIIpolrocze() {
@@ -1504,7 +1504,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setIIpolrocze(List<Double> IIpolrocze) {
-        this.IIpolrocze = IIpolrocze;
+        ZestawienieView.IIpolrocze = IIpolrocze;
     }
 
     public List<Double> getRok() {
@@ -1512,7 +1512,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setRok(List<Double> rok) {
-        this.rok = rok;
+        ZestawienieView.rok = rok;
     }
 
     public Pitpoz getPitpoz() {
@@ -1584,7 +1584,7 @@ public class ZestawienieView implements Serializable {
     }
 
     public void setWybranyudzialowiec(String wybranyudzialowiec) {
-        this.wybranyudzialowiec = wybranyudzialowiec;
+        ZestawienieView.wybranyudzialowiec = wybranyudzialowiec;
     }
 
     public String getWybranyprocent() {

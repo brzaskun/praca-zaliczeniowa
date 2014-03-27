@@ -68,7 +68,7 @@ public class PitView implements Serializable {
     }
    
     public void setLista(List<Pitpoz> lista) {
-        this.lista = lista;
+        PitView.lista = lista;
     }
 
     public PitDAO getPitDAO() {
@@ -92,7 +92,7 @@ public class PitView implements Serializable {
     }
     
     public void setBiezacyPit(Pitpoz biezacyPit) {
-        this.biezacyPit = biezacyPit;
+        PitView.biezacyPit = biezacyPit;
     }
 
 

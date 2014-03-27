@@ -66,7 +66,7 @@ public class PozycjaRZiSView implements Serializable {
         this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
         this.rootProjektKonta = new TreeNodeExtended("root", null);
-        this.przyporzadkowanekonta = new ArrayList<>();
+        PozycjaRZiSView.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
         pozycje = new ArrayList<>();
         pozycje_old = new ArrayList<>();

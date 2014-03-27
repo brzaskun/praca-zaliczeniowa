@@ -113,7 +113,7 @@ public class STRView implements Serializable {
             STR.setUmorzPlan(listaplanum);
             sTRDAO.dodaj(STR);
             RequestContext ctx = null;
-            ctx.getCurrentInstance().update("srodki:panelekXA");
+            RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+STR.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nowy srodek nie zachowany", STR.getNazwa());

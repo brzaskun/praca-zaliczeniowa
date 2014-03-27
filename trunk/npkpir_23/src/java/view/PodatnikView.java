@@ -1092,7 +1092,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void setNazwaWybranegoPodatnika(String nazwaWybranegoPodatnika) {
-        this.nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
+        PodatnikView.nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
     }
 
     public Podatnik getSelected() {

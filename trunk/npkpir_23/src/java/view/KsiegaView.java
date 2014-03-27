@@ -295,7 +295,7 @@ public class KsiegaView implements Serializable {
     }
 
     public void setLista(ArrayList<DokKsiega> lista) {
-        this.lista = lista;
+        KsiegaView.lista = lista;
     }
 
     public DokKsiega getSelDokument() {

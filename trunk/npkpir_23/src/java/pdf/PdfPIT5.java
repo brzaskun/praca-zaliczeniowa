@@ -80,14 +80,14 @@ public class PdfPIT5 extends Pdf implements Serializable {
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             Paragraph miziu1 = new Paragraph(new Phrase("Zestawienie PIT-5",font));
             miziu1.setAlignment(Element.ALIGN_CENTER);
             document.add(miziu1);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("okres rozliczeniony "+selected.getPkpirM()+"/"+selected.getPkpirR(),fontM));
             document.add(miziu1);
-            document.add(new Chunk().NEWLINE);
+            document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+selected.getPodatnik(),fontM));
             document.add(miziu1);
             Podatnik pod = podatnikDAO.find(selected.getPodatnik());
