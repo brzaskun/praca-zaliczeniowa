@@ -67,7 +67,7 @@ public class PdfInwestycja extends Pdf implements Serializable {
         Paragraph miziu = new Paragraph(new Phrase("Rozliczenie wydatków poniesionych na inwestycję w firmie: "+wpisView.getPodatnikWpisu()+" NIP: "+wpisView.getPodatnikObiekt().getNip(), fontL));
         miziu.setAlignment(Element.ALIGN_LEFT);
         pdf.add(miziu);
-        pdf.add(new Chunk().NEWLINE);
+        pdf.add(Chunk.NEWLINE);
         //tabela naglowek inwestycji
         PdfPTable tableheader = new PdfPTable(7);
         tableheader.setWidths(new int[]{2, 1, 4, 1, 1, 2, 1});
@@ -104,11 +104,11 @@ public class PdfInwestycja extends Pdf implements Serializable {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex1);
         }
         pdf.add(tableyear);
-        pdf.add(new Chunk().NEWLINE);
+        pdf.add(Chunk.NEWLINE);
         miziu = new Paragraph(new Phrase("zestawienie rachunków składających się na sumę inwestycji", fontL));
         miziu.setAlignment(Element.ALIGN_LEFT);
         pdf.add(miziu);
-        pdf.add(new Chunk().NEWLINE);
+        pdf.add(Chunk.NEWLINE);
         //tablica z dokumentami
         PdfPTable table = new PdfPTable(9);
         table.setWidths(new int[]{1, 2, 5, 4, 3, 3, 3, 3, 3});

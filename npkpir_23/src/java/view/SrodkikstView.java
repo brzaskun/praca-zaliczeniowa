@@ -104,7 +104,7 @@ public class SrodkikstView implements Serializable {
     }
 
     public void setLista(List<Srodkikst> lista) {
-        this.lista = lista;
+        SrodkikstView.lista = lista;
     }
     
     

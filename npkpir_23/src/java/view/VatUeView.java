@@ -189,7 +189,7 @@ public class VatUeView implements Serializable {
     }
     
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
-        this.klienciWDTWNT = klienciWDTWNT;
+        VatUeView.klienciWDTWNT = klienciWDTWNT;
     }
     
 }

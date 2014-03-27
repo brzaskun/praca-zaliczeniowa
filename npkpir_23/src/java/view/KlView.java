@@ -340,7 +340,7 @@ public class KlView implements Serializable{
     }
 
     public void setDoUsuniecia(Klienci doUsuniecia) {
-        this.doUsuniecia = doUsuniecia;
+        KlView.doUsuniecia = doUsuniecia;
     }
 
    

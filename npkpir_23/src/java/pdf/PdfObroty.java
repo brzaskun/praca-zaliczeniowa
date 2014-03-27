@@ -97,7 +97,7 @@ public class PdfObroty extends Pdf implements Serializable {
         Paragraph miziu1 = new Paragraph(new Phrase("Wydruk obrotów z kontrahentem dla klienta: "+wpisView.getPodatnikWpisu()+" od "+wpisView.getMiesiacOd()+"/"+wpisView.getRokWpisu()+" do "+wpisView.getMiesiacDo()+"/"+wpisView.getRokWpisu(),font));
         miziu1.setAlignment(Element.ALIGN_CENTER);
         pdf.add(miziu1);
-        pdf.add(new Chunk().NEWLINE);
+        pdf.add(Chunk.NEWLINE);
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();

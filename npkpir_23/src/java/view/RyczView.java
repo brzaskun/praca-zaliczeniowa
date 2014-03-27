@@ -61,7 +61,7 @@ public class RyczView implements Serializable {
     }
 
     public void setLista(List<Ryczpoz> lista) {
-        this.lista = lista;
+        RyczView.lista = lista;
     }
 
     public RyczDAO getRyczDAO() {

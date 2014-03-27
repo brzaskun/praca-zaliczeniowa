@@ -51,7 +51,7 @@ public class MessageReceiver implements MessageListener{
     }
 
     public void setWiadomosc(String wiadomosc) {
-        this.wiadomosc = wiadomosc;
+        MessageReceiver.wiadomosc = wiadomosc;
     }
     
     

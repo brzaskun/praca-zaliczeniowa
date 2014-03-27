@@ -997,7 +997,7 @@ public class FakturaView implements Serializable {
     }
 
     public void setPozycje(ArrayList<Pozycjenafakturzebazadanych> pozycje) {
-        this.pozycje = pozycje;
+        FakturaView.pozycje = pozycje;
     }
 
     public FakturaPK getFakturaPK() {
@@ -1029,7 +1029,7 @@ public class FakturaView implements Serializable {
     }
 
     public void setGosciwybral(List<Faktura> gosciwybral) {
-        this.gosciwybral = gosciwybral;
+        FakturaView.gosciwybral = gosciwybral;
     }
 
     public List<Fakturywystokresowe> getGosciwybralokres() {

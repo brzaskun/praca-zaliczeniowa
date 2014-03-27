@@ -536,7 +536,7 @@ public class VatView implements Serializable {
     }
 
     public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
-        this.listaewidencji = listaewidencji;
+        VatView.listaewidencji = listaewidencji;
     }
 
     public TabView getAkordeon() {
@@ -568,7 +568,7 @@ public class VatView implements Serializable {
     }
 
     public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
-        this.sumaewidencji = sumaewidencji;
+        VatView.sumaewidencji = sumaewidencji;
     }
 
     public List<String> getListanowa() {
@@ -584,7 +584,7 @@ public class VatView implements Serializable {
     }
 
     public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
-        this.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
+        VatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
     }
 
     public List<EVatwpisSuma> getGoscwybralsuma() {
@@ -592,7 +592,7 @@ public class VatView implements Serializable {
     }
 
     public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
-        this.goscwybralsuma = goscwybralsuma;
+        VatView.goscwybralsuma = goscwybralsuma;
     }
 
     public Double getSuma1() {
@@ -624,7 +624,7 @@ public class VatView implements Serializable {
     }
 
     public void setWynikOkresu(BigDecimal wynikOkresu) {
-        this.wynikOkresu = wynikOkresu;
+        VatView.wynikOkresu = wynikOkresu;
     }
 
     public List<EVatwpisSuma> getSumydowyswietleniazakupy() {

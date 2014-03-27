@@ -1118,7 +1118,7 @@ public final class DokfkView implements Serializable {
     }
 
     public void setRozrachunekNowaTransakcja(List<Rozrachunekfk> rozrachunekNowaTransakcja) {
-        this.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
+        DokfkView.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
     }
 
     public List<Transakcja> getBiezacetransakcje() {

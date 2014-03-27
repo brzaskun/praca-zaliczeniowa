@@ -148,7 +148,7 @@ public class DeklaracjevatView implements Serializable {
     }
 
     public void setSelected(Deklaracjevat selected) {
-        this.selected = selected;
+        DeklaracjevatView.selected = selected;
     }
 
     public List<Deklaracjevat> getWyslanenormalne() {

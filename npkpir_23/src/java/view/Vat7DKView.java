@@ -631,7 +631,7 @@ public class Vat7DKView implements Serializable {
     }
     
     public void setPozycjeSzczegoloweVAT(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
-        this.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
+        Vat7DKView.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
     }
     
     public Deklaracjevat getNowadeklaracja() {

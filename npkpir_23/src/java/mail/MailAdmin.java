@@ -36,7 +36,6 @@ public class MailAdmin extends MailSetUp implements Serializable {
     }
     
     public static void main (String[] args) throws MessagingException {
-        MailAdmin mailAdmin = new MailAdmin();
-        mailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test");
+        MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test");
     }
 }

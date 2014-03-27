@@ -939,7 +939,7 @@ public class ZestawienieRyczaltView implements Serializable {
     }
 
     public void setWybranyudzialowiec(String wybranyudzialowiec) {
-        this.wybranyudzialowiec = wybranyudzialowiec;
+        ZestawienieRyczaltView.wybranyudzialowiec = wybranyudzialowiec;
     }
 
     public String getWybranyprocent() {

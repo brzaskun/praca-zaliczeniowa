@@ -120,7 +120,7 @@ public class PdfSTR extends Pdf implements Serializable {
         Paragraph miziu1 = new Paragraph(new Phrase("Biuro Rachunkowe Taxman. Ewidencja środków trwałych klienta: "+wpisView.getPodatnikWpisu()+" za rok "+wpisView.getRokWpisu(),font));
         miziu1.setAlignment(Element.ALIGN_CENTER);
         pdf.add(miziu1);
-        pdf.add(new Chunk().NEWLINE);
+        pdf.add(Chunk.NEWLINE);
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
