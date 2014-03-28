@@ -137,9 +137,7 @@ public class PodatnikView implements Serializable {
         Collections.sort(li, new Podatnikcomparator());
         listaPodatnikowFK.addAll(podatnikDAO.findPodatnikFK());
         Collections.sort(listaPodatnikowFK, new Podatnikcomparator());
-        if (nazwaWybranegoPodatnika == null) {
             nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
-        }
         try {
             selected = podatnikDAO.find(nazwaWybranegoPodatnika);
             pobierzogolneDokKsi();

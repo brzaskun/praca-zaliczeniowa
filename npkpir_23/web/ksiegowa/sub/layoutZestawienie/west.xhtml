@@ -21,9 +21,12 @@
       
         <p:panel id="linki" header="linki">
                 
-                    <p:menu >
+                   <p:menu >
                         <p:menuitem value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
+                        <p:menuitem value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
+                    </p:menu>
+                    <p:menu >
                         <p:menuitem value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                     </p:menu>
                     <p:menu>
