@@ -1,0 +1,28 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:outputLabel value="Parametryzowanie indywidualne podatnika: #{podatnikView.nazwaWybranegoPodatnika}" style="font-size: 18px; font-weight: bold;"/>
+    <br/><br/>
+    <p:tabView id="akordeon" style="width: 1000px;">
+       <ui:include src="podatnikust/edycjadanychpodatnika.xhtml"/>
+       <ui:include src="podatnikust/aktywnedokumentyksiegowe.xhtml"/>
+       <ui:include src="podatnikust/udzialywfirmie.xhtml"/>
+       <ui:include src="podatnikust/wyboropodatkowania.xhtml"/>
+       <ui:include src="podatnikust/wyborvat.xhtml"/>
+       <ui:include src="podatnikust/zusrokpodatkowy.xhtml"/>
+       <ui:include src="podatnikust/inwentaryzacja.xhtml"/>
+       <ui:include src="podatnikust/kwotaautoryzujaca.xhtml"/>
+       <ui:include src="podatnikust/pole47.xhtml"/>
+       <ui:include src="podatnikust/numeracja.xhtml"/>
+       <ui:include src="podatnikust/danedofaktury.xhtml"/>
+ 
+    </p:tabView>
+</ui:composition>   
+
