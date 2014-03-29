@@ -328,7 +328,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Manager</from-outcome>
-            <to-view-id>/manager/managerPodUstaw.xhtml</to-view-id>
+            <to-view-id>/manager/managerIndex.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>
