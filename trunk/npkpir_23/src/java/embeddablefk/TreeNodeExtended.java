@@ -112,7 +112,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
        
-    public int ustaldepthDT(ArrayList<T> pozycje) {
+    public int ustaldepthDT(List<T> pozycje) {
         int depth = 0;
         int pobranawartosc = 0;
         for (T  p : pozycje) {

@@ -17,7 +17,7 @@
             margin: 0px !important;
         }
     </style>
-    <p:dialog id="dialogpierwszy" header="Dane faktury" widgetVar="pierwszy" 
+    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="pierwszy" 
               resizable="false" onShow="pierwszyonShow();" closable="false" onHide="pierwszyOnHide();">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
@@ -38,9 +38,6 @@
                     <h:outputText value="numer"/><h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                    <h:outputText value="podatnik"/><h:selectOneMenu id="podatnik" value="#{dokfkView.selected.dokfkPK.podatnik}" style="width: 200px;">
-                        <f:selectItem itemLabel="#{WpisView.podatnikWpisu}" itemValue="#{WpisView.podatnikWpisu}"/>
-                        <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
                     <h:outputText value="rok"/><h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;">
                         <f:selectItem itemLabel="2013" itemValue="2013"/>
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/></h:selectOneMenu>

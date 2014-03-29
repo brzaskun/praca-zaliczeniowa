@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:body>
        <ui:composition>
-           <f:view>
+           <f:view >
             <p:dialog closable="false" height="150" width="200" position="center" widgetVar="dialogAjaxCzekaj" draggable="false" modal="true" style="text-align: center;">
                 <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 20px;">
                     <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto;" />
@@ -17,7 +17,9 @@
             </p:dialog>
             <h:form>
                  <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px" onstart="dialogAjaxCzekaj.show();" onsuccess="dialogAjaxCzekaj.hide();">
-                     <f:facet name="error"><h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie" style="color: red; font-weight: 900;"/></f:facet>
+                     <f:facet name="error">
+                         <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie" style="color: red; font-weight: 900;"/>
+                     </f:facet>
                 </p:ajaxStatus>
             </h:form>
             </f:view>
