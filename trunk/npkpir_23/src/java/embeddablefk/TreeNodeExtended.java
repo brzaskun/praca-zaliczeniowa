@@ -10,6 +10,7 @@ import entityfk.Konto;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
 
     //robi drzewko z elementów bazy danych
-    public void createTreeNodesForElement(ArrayList<T> pozycje) {
+    public void createTreeNodesForElement(List<T> pozycje) {
        int depth = ustaldepthDT(pozycje);
        Map<String, ArrayList<T>> rzedy = getElementTreeFromPlainList(pozycje, depth);
        ArrayList<TreeNodeExtended> poprzednie = new ArrayList<>();
@@ -87,7 +88,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     
     
     //przeksztalca tresc tabeli w elementy do drzewa
-    private Map<String, ArrayList<T>> getElementTreeFromPlainList(ArrayList<T> pozycje, int depth) {
+    private Map<String, ArrayList<T>> getElementTreeFromPlainList(List<T> pozycje, int depth) {
         Map<String, ArrayList<T>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
         for (int i = 0; i < depth; i++) {
@@ -111,22 +112,25 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return rzedy;
     }
     
-       
-    public int ustaldepthDT(List<T> pozycje) {
+      public int ustaldepthDT(List<T> pozycje) {
         int depth = 0;
         int pobranawartosc = 0;
-        for (T  p : pozycje) {
-            try {
-               Method method = p.getClass().getMethod("getLevel");
-               pobranawartosc = (int) method.invoke(p);
-        } catch (Exception ex) {
-           Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            if (depth < pobranawartosc) {
-                depth = pobranawartosc;
+        try {
+            for (T p : pozycje) {
+                try {
+                    Method method = p.getClass().getMethod("getLevel");
+                    pobranawartosc = (int) method.invoke(p);
+                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (depth < pobranawartosc) {
+                    depth = pobranawartosc;
+                }
             }
+            return depth + 1;
+        } catch (NullPointerException e) {
+            return 0;
         }
-        return depth+1;
     }
     
     

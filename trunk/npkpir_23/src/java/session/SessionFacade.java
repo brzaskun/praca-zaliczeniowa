@@ -438,8 +438,8 @@ public class SessionFacade<T> {
         }
     }
 
-    public Konto findKonto(String numer) {
-        return (Konto) em.createNamedQuery("Konto.findByPelnynumer").setParameter("pelnynumer", numer).getSingleResult();
+    public Konto findKonto(String numer, String podatnik) {
+        return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).getSingleResult();
     }
     
     public Konto findKonto(int id) {
@@ -707,6 +707,10 @@ public class SessionFacade<T> {
 
     public List<Podatnik> findPodatnikFK() {
         return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
+    }
+
+    public List<Konto> findKontoPodatnik(String podatnik) {
+        return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
   
   

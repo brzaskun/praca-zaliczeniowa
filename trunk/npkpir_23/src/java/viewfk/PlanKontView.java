@@ -16,12 +16,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
+import view.WpisView;
 
 /**
  *
@@ -38,8 +39,8 @@ public class PlanKontView implements Serializable {
     public static List<Konto> getWykazkontS() {
         return wykazkontS;
     }
-
     private List<Konto> wykazkont;
+    private List<Konto> wykazkontwzor;
     private List<Konto> wykazkontanalityczne;
     @Inject
     private Konto selected;
@@ -50,71 +51,98 @@ public class PlanKontView implements Serializable {
     @Inject
     private KliencifkDAO kliencifkDAO;
     private TreeNodeExtended<Konto> root;
+    private TreeNodeExtended<Konto> rootwzorcowy;
     private TreeNodeExtended<Konto> selectednode;
     private String wewy;
     private String listajs;
+    private boolean czyoddacdowzorca;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public PlanKontView() {
-        this.wykazkont = new ArrayList<>();
-        this.root = new TreeNodeExtended("root", null);
     }
 
     @PostConstruct
     private void init() {
-        wykazkont = kontoDAO.findAll();
-        wykazkontS = kontoDAO.findAll();
-        rootInit();
-        rozwinwszystkie();
+        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        root = rootInit(wykazkont);
+        rozwinwszystkie(root);
+        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        rootwzorcowy = rootInit(wykazkontwzor);
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
-    private void rootInit() {
-        this.root = new TreeNodeExtended("root", null);
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
-        root.createTreeNodesForElement(kontadlanodes);
+    private TreeNodeExtended<Konto> rootInit(List<Konto> wykaz) {
+        TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
+        if (!wykaz.isEmpty()) {
+            r.createTreeNodesForElement(wykaz);
+        }
+        return r;
     }
 
-    private int ustalLevel() {
-        int level = root.ustaldepthDT(wykazkont);
+    private int ustalLevel(TreeNodeExtended<Konto> r) {
+        int level = 0;
+        if (czywzorcowe(r.getChildren().get(0))) {
+            level = r.ustaldepthDT(wykazkontwzor);
+        } else {
+            level = r.ustaldepthDT(wykazkont);
+        }
         levelMaksymalny = level;
        return level;
     }
-
-    public void rozwinwszystkie() {
-        levelBiezacy = ustalLevel();
-        root.expandAll();
+    
+    private boolean czywzorcowe(TreeNode nodeR) {
+        Konto konto = (Konto) nodeR.getData();
+        return konto.getPodatnik().equals("Testowy");      
     }
 
-    public void rozwin() {
-        int maxpoziom = ustalLevel();
+    public void rozwinwszystkie(TreeNodeExtended<Konto> r) {
+        if (r.getChildCount()>0) {
+            levelBiezacy = ustalLevel(r);
+            r.expandAll();
+        }
+    }
+
+    public void rozwin(TreeNodeExtended<Konto> r) {
+        int maxpoziom = ustalLevel(r);
         if (levelBiezacy < --maxpoziom) {
-            root.expandLevel(levelBiezacy++);
+            r.expandLevel(levelBiezacy++);
         } else {
             Msg.msg("Osiągnięto maksymalny poziom szczegółowości analityki");
         }
     }
 
-    public void zwinwszystkie() {
-        root.foldAll();
+    public void zwinwszystkie(TreeNodeExtended<Konto> r) {
+        r.foldAll();
         levelBiezacy = 0;
     }
 
-    public void zwin() {
+    public void zwin(TreeNodeExtended<Konto> r) {
         if (levelBiezacy != 0) {
-            root.foldLevel(--levelBiezacy);
+            r.foldLevel(--levelBiezacy);
         } else {
             Msg.msg("Wyświetlane są tylko konta syntetyczne");
         }
     }
 
+    public void dodajdowzorca() {
+        czyoddacdowzorca = true;
+    }
+    
     public void dodaj() {
+        TreeNodeExtended<Konto> r;
+        if (czyoddacdowzorca == true) {
+            r = rootwzorcowy;
+        } else {
+            r = root;
+        }
         Konto kontomacierzyste = (Konto) selectednode.getData();
         if (nowe.getBilansowewynikowe() != null) {
             int wynikdodaniakonta = PlanKontBean.dodajsyntetyczne(nowe, kontomacierzyste, kontoDAO);
             if (wynikdodaniakonta == 0) {
                 nowe = new Konto();
-                odswiezroot();
+                odswiezroot(r);
                 Msg.msg("i", "Dodano konto syntetyczne", "formX:messages");
             } else {
                 nowe = new Konto();
@@ -142,7 +170,7 @@ public class PlanKontView implements Serializable {
                         wynikdodaniakonta = PlanKontBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO);
                         if (wynikdodaniakonta == 0) {
                             nowe = new Konto();
-                            odswiezroot();
+                            odswiezroot(r);
                             Msg.msg("Dodano elementy słownika");
                         } else {
                             Msg.msg("e", "Wystąpił błąd przy dodawani elementów słownika");
@@ -156,7 +184,7 @@ public class PlanKontView implements Serializable {
                         kontomacierzyste.setMapotomkow(true);
                         kontoDAO.edit(kontomacierzyste);
                         nowe = new Konto();
-                        odswiezroot();
+                        odswiezroot(r);
                         Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
                     } else {
                         nowe = new Konto();
@@ -169,27 +197,65 @@ public class PlanKontView implements Serializable {
         }
     }
     
-    @RolesAllowed("BookkeeperFK")
-    public void mesyd() {
-        Msg.msg("lolololo");
-    }
-
-    private void odswiezroot() {
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
-        root.reset();
-        root.createTreeNodesForElement(kontadlanodes);
-        root.expandAll();
-    }
-
-    private int znajdzduplikat() {
-        if (wykazkont.contains(nowe)) {
-            return 1;
+    public void implementacjaKontWzorcowych() {
+        if (!wykazkontwzor.isEmpty()) {
+            for (Konto p : wykazkontwzor) {
+                p.setPodatnik(wpisView.getPodatnikWpisu());
+                try {
+                    kontoDAO.dodaj(p);
+                } catch (Exception e) {
+                    Msg.msg("e","Wystąpił błąd przy implementowaniu kont. Przerywam wykonywanie funkcji");
+                }
+            }
+            List<Konto> wykazkonttmp = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
+            for (Konto p : wykazkonttmp) {
+                if (!p.getMacierzyste().equals("0")) {
+                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu());
+                    p.setMacierzysty(macierzyste.getId());
+                    kontoDAO.edit(p);
+                }
+            }
+            wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            root = rootInit(wykazkont);
+            rozwinwszystkie(root);
+            Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
         } else {
-            return 0;
+            Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
+        }
+    }
+    
+    public void usunieciewszystkichKontPodatnika() {
+        if (!wykazkont.isEmpty()) {
+            for (Konto p : wykazkont) {
+                try {
+                    kontoDAO.destroy(p);
+                } catch (Exception e) {
+                    Msg.msg("e","Wystąpił błąd przy usuwaniu wszytskich kont. Przerywam wykonywanie funkcji");
+                }
+            }
+            wykazkont = new ArrayList<>();
+            wykazkontS = new ArrayList<>();
+            root =  new TreeNodeExtended("root", null);
+            Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
 
+    private void odswiezroot(TreeNodeExtended<Konto> r) {
+        r.reset();
+        if (czywzorcowe(r.getChildren().get(0))) {
+            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik("Testowy"));
+        } else {
+            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu()));
+        }
+
+        r.expandAll();
+    }
+
+    
     private void obliczpelnynumerkonta() {
         if (nowe.getLevel() == 0) {
             nowe.setPelnynumer(nowe.getNrkonta());
@@ -198,7 +264,7 @@ public class PlanKontView implements Serializable {
         }
     }
 
-    public void usun() {
+    public void usun(TreeNodeExtended<Konto> r) {
         if (selectednode != null) {
             Konto zawartosc = (Konto) selectednode.getData();
             if (zawartosc.isBlokada() == true) {
@@ -220,7 +286,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                     }
                 } else {
-                    boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc);
+                    boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc, r);
                     if (!sadzieci) {
                         Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
                         kontomacierzyste.setBlokada(false);
@@ -228,7 +294,7 @@ public class PlanKontView implements Serializable {
                         kontoDAO.edit(kontomacierzyste);
                     }
                 }
-                odswiezroot();
+                odswiezroot(r);
                 Msg.msg("i", "Usuwam konto", "formX:messages");
             }
         } else {
@@ -236,10 +302,10 @@ public class PlanKontView implements Serializable {
         }
     }
 
-    private boolean sprawdzczymacierzystymapotomne(Konto konto) {
+    private boolean sprawdzczymacierzystymapotomne(Konto konto, TreeNodeExtended<Konto> r) {
         int macierzyste = konto.getMacierzysty();
         List<Object> finallChildrenData = new ArrayList<>();
-        root.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
+        r.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
         finallChildrenData.remove(konto);
         for (Object p : finallChildrenData) {
             if (((ToBeATreeNodeObject) p).getMacierzysty() == macierzyste) {
@@ -282,7 +348,7 @@ public class PlanKontView implements Serializable {
                     results.add(p);
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             for (Konto p : listakont) {
                 if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                     results.add(p);
@@ -353,5 +419,25 @@ public class PlanKontView implements Serializable {
         this.root = root;
     }
 
+    public TreeNodeExtended<Konto> getRootwzorcowy() {
+        return rootwzorcowy;
+    }
 
+    public void setRootwzorcowy(TreeNodeExtended<Konto> rootwzorcowy) {
+        this.rootwzorcowy = rootwzorcowy;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    
+   
+
+
+    
 }

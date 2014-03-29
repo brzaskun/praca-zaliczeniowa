@@ -23,10 +23,12 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
+import view.WpisView;
 
 /**
  *
@@ -57,6 +59,8 @@ public class PozycjaRZiSView implements Serializable {
     @Inject private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject private Rzisuklad rzisuklad;
     @Inject private KontopozycjarzisDAO kontopozycjarzisDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
 
     public PozycjaRZiSView() {
@@ -288,7 +292,7 @@ public class PozycjaRZiSView implements Serializable {
     }
     
     private void oznaczmacierzyste (String macierzyste) {
-        Konto konto = kontoDAO.findKonto(macierzyste);
+        Konto konto = kontoDAO.findKonto(macierzyste, wpisView.getPodatnikWpisu());
         konto.setPozycja("analit");
         kontoDAO.edit(konto);
         if (konto.getMacierzysty()>0) {
@@ -305,7 +309,7 @@ public class PozycjaRZiSView implements Serializable {
                       }
                   }
                 if (sainne==false) {
-                    Konto konto = kontoDAO.findKonto(macierzyste);
+                    Konto konto = kontoDAO.findKonto(macierzyste, wpisView.getPodatnikWpisu());
                     konto.setPozycja(null);
                     kontoDAO.edit(konto);
                     if (konto.getMacierzysty()>0) {
@@ -499,6 +503,15 @@ public class PozycjaRZiSView implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
     public TreeNodeExtended getRoot() {
         return root;
     }
