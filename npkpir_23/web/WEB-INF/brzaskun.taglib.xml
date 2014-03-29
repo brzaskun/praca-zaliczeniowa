@@ -39,5 +39,8 @@
         <attribute>
             <name>listenerPresent</name>
         </attribute>
+        <attribute>
+            <name>update</name>
+        </attribute>
     </tag>
 </facelet-taglib>

@@ -15,7 +15,7 @@
                                      header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" >
                         <c:choose>
                             <c:when test="#{listenerPresent}">
-                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="confirm#{lp != null ? lp : '1'}.hide()" style="float: left; width: 120px; margin-left: 2%;">
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="confirm#{lp != null ? lp : '1'}.hide()" style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
                                     <f:actionListener binding="#{listener}"/>
                                 </p:commandButton>
                             </c:when>

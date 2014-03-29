@@ -33,9 +33,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
     
-   public Konto findKonto(String numer){
+   public Konto findKonto(String numer, String podatnik){
        try {
-            return kontoFacade.findKonto(numer);
+            return kontoFacade.findKonto(numer, podatnik);
         } catch (Exception e) {
             return null;
         }
@@ -44,6 +44,14 @@ public class KontoDAOfk extends DAO implements Serializable{
    public Konto findKonto(int id){
        try {
             return kontoFacade.findKonto(id);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+   
+    public List<Konto> findKontoPodatnik(String podatnik){
+       try {
+            return kontoFacade.findKontoPodatnik(podatnik);
         } catch (Exception e) {
             return null;
         }

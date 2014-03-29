@@ -8,10 +8,10 @@
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy">
-                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="nowekontosyntetyczne.show();" />
-                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="nowekontoanalityczne.show();" />
+                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="nowekontosyntetyczne.show();" />
+                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="nowekontoanalityczne.show();" />
                 <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="nowekontoslownik.show();" />
-                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form, :formwzorcowy"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":form, :formwzorcowy"/>
                 <p:separator/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
             </p:contextMenu>
@@ -29,15 +29,15 @@
                     }
             </script>-->
               <p:panelGrid columns="6">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin()}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":formwzorcowy:dataListwzorcowy" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
+                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataListwzorcowy" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
+                <p:treeTable id="dataListwzorcowy" value="#{planKontView.rootwzorcowy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
                     <p:ajax event="select" update=":formX" listener="#{planKontView.selrow}"/>
