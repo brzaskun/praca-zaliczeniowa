@@ -88,8 +88,16 @@ public class WpisView implements Serializable {
                 wpis.setMiesiacDo("01");
                 wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size()-1));
                 Uz podatnikwpisu = uzDAO.find(wpis.getWprowadzil());
-                String nipfirmy = podatnikwpisu.getFirma();
-                String nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                String nipfirmy;
+                String nazwapodatnika;
+                try {
+                    nipfirmy = podatnikwpisu.getFirma();
+                    nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                } catch (Exception e) {
+                    //laduje demofirme jak cos pojdzie zle
+                    nipfirmy = "1111005008";
+                    nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                }
                 this.podatnikWpisu = nazwapodatnika;
                 wpis.setPodatnikWpisu(nazwapodatnika);
                 wpis.setMiesiacWpisu(miesiacWpisu);

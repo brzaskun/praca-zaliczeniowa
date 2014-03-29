@@ -9,7 +9,7 @@
     <h:head>
         <meta http-equiv="Accept-Encoding" content="gzip"/>
         <link rel="stylesheet" type="text/css" href="../resources/css/style.css" />
-        <title>Wstęp wzbroniony :)</title>
+        <title>Zostałeś wylogowany :)</title>
     </h:head>
     <h:body styleClass="body">
          <p:idleMonitor timeout="7000">  
@@ -19,7 +19,7 @@
                 <h:outputText value="Twoja sesja niestety wygasła  z powodu bezczynności - zaloguj się ponownie." style="font-weight: bold;"></h:outputText>
                 <p></p>
                 <h:form>
-                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" action="/login.xhtml?faces-redirect=true"/>
+                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" action="login.xhtml?faces-redirect=true" />
                 </h:form>
             </p:panel>
       
