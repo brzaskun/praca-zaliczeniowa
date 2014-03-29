@@ -404,7 +404,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Konto[ id=" + id + " ]";
+        return "Konto{" + "nazwapelna=" + nazwapelna + ", pelnynumer=" + pelnynumer + ", mapotomkow=" + mapotomkow + '}';
     }
+
+    
     
 }

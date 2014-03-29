@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,10 +29,11 @@ import org.primefaces.model.TreeNode;
  */
 
 @ViewScoped
-@Named("planKontView")
+@ManagedBean
 public class PlanKontView implements Serializable {
     private static List<Konto> wykazkontS;
-    private static int level = 0;
+    private static int levelBiezacy = 0;
+    private static int levelMaksymalny = 0;
 
     public static List<Konto> getWykazkontS() {
         return wykazkontS;
@@ -59,44 +61,51 @@ public class PlanKontView implements Serializable {
 
     @PostConstruct
     private void init() {
-        rozwinwszystkie();
         wykazkont = kontoDAO.findAll();
         wykazkontS = kontoDAO.findAll();
+        rootInit();
+        rozwinwszystkie();
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
-    private void getNodes() {
+    private void rootInit() {
         this.root = new TreeNodeExtended("root", null);
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
         kontadlanodes.addAll(kontoDAO.findAll());
         root.createTreeNodesForElement(kontadlanodes);
     }
 
+    private int ustalLevel() {
+        int level = root.ustaldepthDT(wykazkont);
+        levelMaksymalny = level;
+       return level;
+    }
+
     public void rozwinwszystkie() {
-        getNodes();
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
-        level = root.ustaldepthDT(kontadlanodes) - 1;
+        levelBiezacy = ustalLevel();
         root.expandAll();
     }
 
     public void rozwin() {
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
-        int maxpoziom = root.ustaldepthDT(kontadlanodes);
-        if (level < --maxpoziom) {
-            root.expandLevel(level++);
+        int maxpoziom = ustalLevel();
+        if (levelBiezacy < --maxpoziom) {
+            root.expandLevel(levelBiezacy++);
+        } else {
+            Msg.msg("Osiągnięto maksymalny poziom szczegółowości analityki");
         }
     }
 
     public void zwinwszystkie() {
-        getNodes();
         root.foldAll();
-        level = 0;
+        levelBiezacy = 0;
     }
 
     public void zwin() {
-        root.foldLevel(--level);
+        if (levelBiezacy != 0) {
+            root.foldLevel(--levelBiezacy);
+        } else {
+            Msg.msg("Wyświetlane są tylko konta syntetyczne");
+        }
     }
 
     public void dodaj() {
