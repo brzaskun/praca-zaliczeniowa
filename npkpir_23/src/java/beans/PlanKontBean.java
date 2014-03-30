@@ -24,21 +24,21 @@ import org.apache.commons.lang3.StringUtils;
 @Singleton
 public class PlanKontBean {
    
-     public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
+     public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
          nowekonto.setSyntetyczne("syntetyczne");
-         nowekonto.setPodatnik("Testowy");
+         nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(2014);
          nowekonto.setMacierzyste("0");
          nowekonto.setLevel(0);
          nowekonto.setMacierzysty(0);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk);
+         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
      }
      
-     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
+     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik("Testowy");
+         nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
@@ -48,12 +48,12 @@ public class PlanKontBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk);
+         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
     }
     
-    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta) {
+    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta, String podatnik) {
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik("Testowy");
+         nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
@@ -63,15 +63,15 @@ public class PlanKontBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk);
+         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
     }
      
-    public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
+    public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
          nowekonto.setNazwapelna("Słownik kontrahenci");
          nowekonto.setNazwaskrocona("Kontrahenci");
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik("Testowy");
+         nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
@@ -81,10 +81,10 @@ public class PlanKontBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk);
+         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
     }
     
-    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO) {
+    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, String podatnik) {
         List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient("8511005008");
         if (listaprzyporzadkowanychklientow != null) {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
@@ -103,7 +103,7 @@ public class PlanKontBean {
             return 0;
         }
     }
-    public static int aktualizujslownik(Kliencifk kliencifk, KontoDAOfk kontoDAO) {
+    public static int aktualizujslownik(Kliencifk kliencifk, KontoDAOfk kontoDAO, String podatnik) {
         List<Konto> kontamacierzyste = kontoDAO.findKontaMaSlownik();
         for (Konto p : kontamacierzyste) {
             Konto nowekonto = new Konto();
@@ -119,7 +119,7 @@ public class PlanKontBean {
         return 0;
     }
             
-    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO) {
+    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, String podatnik) {
         List<Konto> listakont = kontoDAO.findKontaPotomne(kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
@@ -137,8 +137,8 @@ public class PlanKontBean {
          return i;
     }
      
-    private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk) {
-        List<Konto> wykazkont = kontoDAOfk.findAll();
+    private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, String podatnik) {
+        List<Konto> wykazkont = kontoDAOfk.findKontoPodatnik(podatnik);
         if (wykazkont.contains(nowe)) {
             return 1;
         } else {
@@ -146,8 +146,8 @@ public class PlanKontBean {
         }
     }
 
-    private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk) {
-        if (znajdzduplikat(nowekonto, kontoDAOfk) == 0) {
+    private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk, String podatnik) {
+        if (0 == znajdzduplikat(nowekonto, kontoDAOfk, podatnik)) {
             kontoDAOfk.dodaj(nowekonto);
             return 0;
         } else {

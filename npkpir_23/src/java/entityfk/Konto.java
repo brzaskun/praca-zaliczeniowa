@@ -388,7 +388,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         return hash;
     }
 
-  @Override
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -397,7 +397,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
             return false;
         }
         final Konto other = (Konto) obj;
-        if (!Objects.equals(this.pelnynumer, other.pelnynumer)) {
+        if (Objects.equals(this.podatnik, other.podatnik) && !Objects.equals(this.pelnynumer, other.pelnynumer)) {
             return false;
         }
         return true;
@@ -405,9 +405,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "Konto{" + "nazwapelna=" + nazwapelna + ", pelnynumer=" + pelnynumer + ", mapotomkow=" + mapotomkow + '}';
+        return "Konto{" + "id=" + id + ", podatnik=" + podatnik + ", nazwapelna=" + nazwapelna + ", pozycjonowane=" + pozycjonowane + ", pelnynumer=" + pelnynumer + ", mapotomkow=" + mapotomkow + '}';
     }
 
+  
+
+   
     
     
 }
