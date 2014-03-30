@@ -5,6 +5,9 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import session.SessionFacade;
@@ -34,12 +37,13 @@ public abstract class DAO<T> {
     
     public void dodaj(T selected) {
         try {
-            if(sessionFacade==null){
-            } else {
-            }
             sessionFacade.create(selected);
-        } catch (Exception e) {
-            throw new PersistenceException();
+        }  catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        }  catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
         }
     }
 
@@ -50,7 +54,12 @@ public abstract class DAO<T> {
     public void destroy(T selected) {
         try {
             sessionFacade.remove(selected);
-        } catch (Exception e) {
+        }  catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        }  catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
         }
     }
 
@@ -61,7 +70,12 @@ public abstract class DAO<T> {
     public void edit(T selected) {
         try {
             sessionFacade.edit(selected);
-        } catch (Exception e) {
+        }  catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        }  catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
         }
     }
 
