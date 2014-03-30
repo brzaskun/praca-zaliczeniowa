@@ -6,6 +6,7 @@ package viewfk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import beans.PlanKontBean;
+import dao.DokDAO;
 import dao.PodatnikDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -15,6 +16,7 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -62,6 +64,7 @@ public class PlanKontView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+
 
     public PlanKontView() {
     }
@@ -240,17 +243,17 @@ public class PlanKontView implements Serializable {
             List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
             for (Podatnik p : listapodatnikowfk) {
                 Konto konto = ((Konto) selectednode.getData());
-                konto.setPodatnik(wpisView.getPodatnikWpisu());
+                konto.setPodatnik(p.getNazwapelna());
                 if (!konto.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu());
+                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
                     konto.setMacierzysty(macierzyste.getId());
                 }
                 try {
-                    kontoDAO.dodaj(selectednode);
+                    kontoDAO.dodaj(konto);
                 } catch (PersistenceException e) {
                     Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
                 } catch (Exception ef) {
-                    Msg.msg("e", "Wystąpił błąd podczas dodawania konta. Nie dodano: " + konto.getPelnynumer());
+                    Msg.msg("e", "Wystąpił błąd podczas dodawania konta. "+ef.getMessage()+" Nie dodano: " + konto.getPelnynumer());
                 }
             }
             wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
