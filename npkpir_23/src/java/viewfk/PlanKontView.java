@@ -283,6 +283,30 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
+    
+    public void porzadkowanieKontPodatnika(){
+        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        //resetuj kolumne macierzyste
+        int wynik = kontoDAO.resetujKolumneMapotomkow();
+        for (Konto p : wykazkont) {
+            if (!"0".equals(p.getMacierzyste())) {
+                try {
+                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu());
+                    macierzyste.setMapotomkow(true);
+                    kontoDAO.edit(macierzyste);
+                } catch (PersistenceException e) {
+                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
+                } catch (Exception ef) {
+                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
+                }
+               
+            }
+        }
+        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        root = rootInit(wykazkont);
+        rozwinwszystkie(root);
+    }
 
     private void odswiezroot(TreeNodeExtended<Konto> r) {
         if (czywzorcowe(r.getChildren().get(0))) {
