@@ -712,6 +712,10 @@ public class SessionFacade<T> {
     public List<Konto> findKontoPodatnik(String podatnik) {
         return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+
+    public int resetujKolumneMapotomkow() {
+        return em.createNamedQuery("Konto.updateMapotomkow").executeUpdate();
+    }
   
   
 }

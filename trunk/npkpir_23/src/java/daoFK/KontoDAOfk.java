@@ -95,5 +95,13 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+
+    public int resetujKolumneMapotomkow() {
+        try {
+            return kontoFacade.resetujKolumneMapotomkow();
+        } catch (Exception e) {
+            return 1;
+        }
+    }
  
 }

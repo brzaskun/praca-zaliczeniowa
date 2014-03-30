@@ -14,7 +14,8 @@
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.root)}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form"/>
-                <p:menuitem value="Usuń wszystkie" onclick="confirm2.show();" icon="ui-icon-trash" update=":form"/>
+                <p:menuitem value="Porządkuj konta" onclick="confirm3.show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Usuń wszystkie" onclick="confirm2.show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
 <!--            <script>
 
