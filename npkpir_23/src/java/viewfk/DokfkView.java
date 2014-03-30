@@ -286,6 +286,7 @@ public final class DokfkView implements Serializable {
 
     public void dodaj() {
         try {
+            selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             //nanosimy zapisy na kontach
             NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getKonta());
