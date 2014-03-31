@@ -227,19 +227,24 @@ public class WpisView implements Serializable {
     }
 
     private int zwrocindexparametrzarok(List<Parametr> podatekdochodowy) {
-        int i = 0;
-        for (Parametr p : podatekdochodowy) {
-            String rokod = p.getRokOd();
-            String rokdo = p.getRokDo();
-            String rokwpisuS = String.valueOf(this.rokWpisu);
-            boolean rokzamkniety = rokod.equals(rokwpisuS) && rokod.equals(rokwpisuS);
-            boolean rokotwarty = rokod.equals(rokwpisuS) && rokod == (null);
-            if (rokzamkniety || rokotwarty) {
-                return i;
+        boolean manager = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Manager");
+        boolean admin = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Administrator");
+        if ((manager == false) && (admin == false)) {
+            int i = 0;
+            for (Parametr p : podatekdochodowy) {
+                String rokod = p.getRokOd();
+                String rokdo = p.getRokDo();
+                String rokwpisuS = String.valueOf(this.rokWpisu);
+                boolean rokzamkniety = rokod.equals(rokwpisuS) && rokdo.equals(rokwpisuS);
+                boolean rokotwarty = rokod.equals(rokwpisuS) && rokod == (null);
+                if (rokzamkniety || rokotwarty) {
+                    return i;
+                }
+                i++;
             }
-            i++;
+            Msg.msg("e", "Parametr opodatkowania nie wprowadzony za dany rok");
+            return -1;
         }
-        Msg.msg("e", "Parametr opodatkowania nie wprowadzony za dany rok");
         return -1;
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
