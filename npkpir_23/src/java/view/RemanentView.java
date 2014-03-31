@@ -38,6 +38,7 @@ public class RemanentView implements Serializable {
     public RemanentView() {
         remanentPoczRoku = 0.0;
         remanentKoniecRoku = 0.0;
+        roznica = 0.0;
     }
     
     
