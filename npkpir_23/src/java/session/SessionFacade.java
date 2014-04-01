@@ -713,8 +713,12 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
-    public int resetujKolumneMapotomkow() {
-        return em.createNamedQuery("Konto.updateMapotomkow").executeUpdate();
+    public int resetujKolumneMapotomkow(String podatnik) {
+        return em.createNamedQuery("Konto.updateMapotomkow").setParameter("podatnik", podatnik).executeUpdate();
+    }
+    
+    public int resetujKolumneZablokowane(String podatnik) {
+        return em.createNamedQuery("Konto.updateZablokowane").setParameter("podatnik", podatnik).executeUpdate();
     }
   
   

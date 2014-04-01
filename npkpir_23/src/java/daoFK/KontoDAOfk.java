@@ -96,9 +96,17 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
     }
 
-    public int resetujKolumneMapotomkow() {
+    public int resetujKolumneMapotomkow(String podatnikWpisu) {
         try {
-            return kontoFacade.resetujKolumneMapotomkow();
+            return kontoFacade.resetujKolumneMapotomkow(podatnikWpisu);
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
+    public int resetujKolumneZablokowane(String podatnikWpisu) {
+        try {
+            return kontoFacade.resetujKolumneZablokowane(podatnikWpisu);
         } catch (Exception e) {
             return 1;
         }
