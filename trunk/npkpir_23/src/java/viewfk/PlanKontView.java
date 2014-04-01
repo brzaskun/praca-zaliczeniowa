@@ -5,6 +5,7 @@
 package viewfk;
 
 import abstractClasses.ToBeATreeNodeObject;
+import beans.KontaFK;
 import beans.PlanKontBean;
 import dao.DokDAO;
 import dao.PodatnikDAO;
@@ -269,10 +270,15 @@ public class PlanKontView implements Serializable {
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
             for (Konto p : wykazkont) {
-                try {
-                    kontoDAO.destroy(p);
-                } catch (Exception e) {
-                    Msg.msg("e","Wystąpił błąd przy usuwaniu wszytskich kont. Przerywam wykonywanie funkcji");
+                if (!p.getPodatnik().equals("Testowy")) {
+                    try {
+                        kontoDAO.destroy(p);
+                    } catch (Exception e) {
+                        Msg.msg("e","Wystąpił błąd przy usuwaniu wszytskich kont. Przerywam wykonywanie funkcji");
+                    }
+                } else {
+                    Msg.msg("e","Próbujesz usunąć konta wzorcowe. Przerywam działanie.");
+                    return; 
                 }
             }
             wykazkont = new ArrayList<>();
@@ -287,25 +293,20 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika(){
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         //resetuj kolumne macierzyste
-        int wynik = kontoDAO.resetujKolumneMapotomkow();
-        for (Konto p : wykazkont) {
-            if (!"0".equals(p.getMacierzyste())) {
-                try {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu());
-                    macierzyste.setMapotomkow(true);
-                    kontoDAO.edit(macierzyste);
-                } catch (PersistenceException e) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
-                } catch (Exception ef) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
-                }
-               
-            }
-        }
+        KontaFK.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
+    }
+    
+     public void porzadkowanieKontWzorcowych(){
+        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        //resetuj kolumne macierzyste
+        KontaFK.czyszczenieKont(wykazkontwzor, kontoDAO, "Testowy");
+        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        rootwzorcowy = rootInit(wykazkontwzor);
+        rozwinwszystkie(rootwzorcowy);
     }
 
     private void odswiezroot(TreeNodeExtended<Konto> r) {
