@@ -486,7 +486,9 @@ public class Faktura implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Faktura[ fakturaPK=" + fakturaPK + " ]";
+        return "Faktura{" + "fakturaPK=" + fakturaPK + "kontrahent "+ kontrahent.getNpelna() +"}";
     }
+
+   
     
 }

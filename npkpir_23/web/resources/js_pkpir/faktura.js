@@ -7,7 +7,7 @@ var aktywujpolewyboruklientanafakturze = function (){
                    };
  
 var wybierzrzadfaktury = function (){
-                       nazwa = ".komorka";
+                       var nazwa = ".komorka";
                        $(nazwa).last().focus();
                        $(nazwa).last().select();
                    };

@@ -10,6 +10,7 @@ import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokKsiega;
 import embeddable.KwotaKolumna;
+import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
 import entity.Podatnik;
@@ -65,8 +66,7 @@ public class KsiegaView implements Serializable {
         if (wpisView.getPodatnikObiekt().getNumerpkpir() != null) {
             try {
                 //zmienia numer gdy srodek roku
-                int index = wpisView.getPodatnikObiekt().getNumerpkpir().size() - 1;
-                String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
+                String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getNumerpkpir(),rok,Mce.getMapamcyCalendar().get(mc));
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) {
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");

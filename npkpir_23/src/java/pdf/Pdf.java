@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.naming.NamingException;
@@ -41,6 +42,7 @@ import view.WpisView;
  *
  * @author Osito
  */
+@ManagedBean
 public class Pdf extends PdfPageEventHelper implements  Serializable {
     /** The resulting PDF. */
     public static final String RESULT = "c:/graphics_state.pdf";

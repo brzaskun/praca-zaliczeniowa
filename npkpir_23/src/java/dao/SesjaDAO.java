@@ -20,6 +20,11 @@ public class SesjaDAO extends DAO implements Serializable {
     public SesjaDAO() {
         super(Sesja.class);
     }
+
+    public SesjaDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
    
    public  List<Sesja> findAll(){
         try {
