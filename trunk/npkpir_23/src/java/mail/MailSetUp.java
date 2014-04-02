@@ -9,6 +9,7 @@ import entity.Uz;
 import java.io.Serializable;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -25,7 +26,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Named
+@ManagedBean
 public class MailSetUp implements Serializable{
 
     private static Session session;

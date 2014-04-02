@@ -18,7 +18,7 @@
             <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}">
                 <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText><h:outputText value="zł  "/><br/><br/>
-            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"
+            <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable">
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
@@ -29,9 +29,6 @@
                     <p:inputText id="globalFilter" onkeyup="archTable.filter()" style="width:150px" />  
                 </f:facet>
                 <p:column selectionMode="multiple" width="50"/>
-                <p:column headerText="wystawca" sortBy="fakturaPK.wystawcanazwa" filterBy="fakturaPK.wystawcanazwa" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
-                </p:column>
                 <p:column headerText="nr kolejny" sortBy="fakturaPK.numerkolejny" filterBy="fakturaPK.numerkolejny" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
@@ -55,6 +52,9 @@
                 </p:column>
                 <p:column headerText="zaksiegowana" sortBy="wyslana">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
                 </p:column>
             </p:dataTable>
         </h:form>

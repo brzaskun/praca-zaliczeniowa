@@ -79,7 +79,7 @@ public class ZamkniecieView implements Serializable {
                 if((p.getRok().equals(wpisView.getRokWpisu().toString()))&&p.getMiesiac().equals(wpisView.getMiesiacWpisu())){
                     moznaksiegowac = p.isZamkniety();
                 }
-                if (!lata.contains(Integer.parseInt(p.getRok()))) { 
+                if (!p.getRok().equals(wpisView.getRokWpisuSt())) { 
                     it.remove();
                 }//dwd
             }

@@ -120,7 +120,7 @@
                 </p:outputPanel>
                 <br/>
                 <p:outputPanel  style="margin-top: 25px;">
-                    <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" style="margin-bottom: 25px;"/>
+                    <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" oncomplete="wybierzrzadfaktury();" style="margin-bottom: 25px;"/>
                     <p:commandButton id="usunkol" value="usuń wiersz" actionListener="#{fakturaView.usunwiersz()}" style="margin-bottom: 25px;"/>
                 </p:outputPanel>
                 <br/>

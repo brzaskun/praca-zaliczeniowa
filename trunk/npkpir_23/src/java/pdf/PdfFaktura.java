@@ -21,6 +21,7 @@ import entity.Faktura;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -44,7 +45,7 @@ import view.FakturaView;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class PdfFaktura extends Pdf implements Serializable {
 
     public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException {
@@ -65,7 +66,22 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
        }
     }
-     
+   
+     public void drukuj(Faktura selected, int row) throws DocumentException, FileNotFoundException, IOException {
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(row)+wpisView.getPodatnikWpisu() + ".pdf";
+            File file = new File(nazwapliku);
+            if (file.isFile()) {
+                file.delete();
+            }
+            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            drukujcd(selected,fdod,row,"druk");
+            
+        } catch (DocumentException | IOException e) {
+            Msg.msg("e", "Błąd - nie wybrano faktury");
+
+       }
+    }
     
     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
        List<Faktura> fakturydruk = FakturaView.getGosciwybralS();
@@ -81,6 +97,19 @@ public class PdfFaktura extends Pdf implements Serializable {
        }
     }
     
+     public void drukujokresowa(Fakturywystokresowe selected, int row) throws DocumentException, FileNotFoundException, IOException {
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(row)+wpisView.getPodatnikWpisu() + ".pdf";
+        File file = new File(nazwapliku);
+        if (file.isFile()) {
+            file.delete();
+        }
+        try {
+            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            drukujcd(selected.getDokument(),fdod,row,"druk");
+        } catch (Exception e) {
+            Msg.msg("e", "Błąd - nie wybrano faktury");
+        }
+    }
    
     
     public void drukujokresowa() throws DocumentException, FileNotFoundException, IOException {
@@ -99,7 +128,8 @@ public class PdfFaktura extends Pdf implements Serializable {
      
     private void drukujcd(Faktura selected, List<Fakturadodelementy> fdod, int nrfakt, String przeznaczenie)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(nrfakt)+wpisView.getPodatnikWpisu() + ".pdf"));
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(nrfakt)+wpisView.getPodatnikWpisu() + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         document.addTitle("Faktura");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk faktury w formacie pdf");
@@ -240,7 +270,6 @@ public class PdfFaktura extends Pdf implements Serializable {
             String funkcja = "wydrukfaktura('"+String.valueOf(nrfakt)+wpisView.getPodatnikWpisu()+"');";
             RequestContext.getCurrentInstance().execute(funkcja);
         }
-
     }
     
     private String przerobkwote(double kwota){

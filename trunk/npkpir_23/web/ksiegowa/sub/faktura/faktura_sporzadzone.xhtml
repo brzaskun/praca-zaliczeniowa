@@ -25,7 +25,7 @@
             <p:panel header="dołącz wiadomość do maila">
                 <h:inputText value="#{mailOther.wiadomoscdodatkowa}" style="width: 800px;"/>
             </p:panel>
-            <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"
+            <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowancyh faktur: " />  
@@ -36,9 +36,6 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto"/>      
                 <p:column selectionMode="multiple" width="50"/>
-                <p:column headerText="wystawca" sortBy="fakturaPK.wystawcanazwa}" filterBy="fakturaPK.wystawcanazwa" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.fakturaPK.wystawcanazwa}"/>
-                </p:column>
                 <p:column headerText="nr kolejny" sortBy="fakturaPK.numerkolejny}" filterBy="fakturaPK.numerkolejny" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
@@ -62,6 +59,9 @@
                 </p:column>
                 <p:column headerText="zaksiegowana" sortBy="zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
                 </p:column>
             </p:dataTable>
         </h:form>

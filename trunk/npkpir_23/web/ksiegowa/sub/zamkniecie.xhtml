@@ -38,13 +38,11 @@
         <p:messages id="messages"/>
     </div>
     </div>
-    <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"  paginator="true" paginatorAlwaysVisible="true" rows="12"
-                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                 rowsPerPageTemplate="12,18,24,32,50" id="dataTable"
+    <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"     id="dataTable"
                  rowKey="#{wpis}" selectionMode="single" 
                  emptyMessage="W danym miesiącu nie było żadnych zapisów" resizableColumns="true" style="width: 700px;">
         <f:facet name="header">  
-            <h:outputText value="Lata obrachunkowe" />  
+            <h:outputText value="Zamykanie miesięcy" />  
         </f:facet>
         <p:column id="rok" headerText="rok" >  
             <h:outputText value="#{wpis.rok}" style="padding-left: 40%;" />

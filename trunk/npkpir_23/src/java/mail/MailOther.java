@@ -15,6 +15,7 @@ import javax.activation.FileDataSource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -30,7 +31,6 @@ import view.FakturaView;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
 public class MailOther extends MailSetUp implements Serializable{
     public static String nazwaewidencji;
     
