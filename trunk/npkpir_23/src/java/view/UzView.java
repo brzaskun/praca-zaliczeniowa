@@ -16,8 +16,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
@@ -195,6 +197,8 @@ public class UzView implements Serializable{
            //Msg.msg("e", "Nie można sprawdzić loginu. Wsytąpił błąd!");
        }
     }
+    
+
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     //tabela obiektow

@@ -56,8 +56,9 @@ public class Uz implements Serializable {
     @Size(max = 255)
     @Column(name = "uprawnienia")
     private String uprawnienia;
-    @Size(max = 11)
+    @Size(max = 10)
     @Column(name = "firma")
+    @Pattern(regexp="\\d+",message="Numer NIP firmy powinien składać się wyłącznie z cyfr. Bez '-'")
     private String firma;
     @Size(max = 2)
     @Column(name = "iloscwierszy")

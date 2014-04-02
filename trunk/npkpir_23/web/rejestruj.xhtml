@@ -50,7 +50,7 @@
                             <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                         </p:inputText>
                         <h:outputText value="nip firmy"/>
-                        <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip twojej firmy!" autocomplete="true" maxlength="10">
+                        <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="Wpisz nip twojej firmy!" autocomplete="true" maxlength="10" >
                             <f:validateLength minimum="10"/>
                         </p:inputText>
                         <h:outputText value="hasło"/>
