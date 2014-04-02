@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import params.Params;
 
 /**
  *
@@ -82,7 +83,8 @@ public class KlView implements Serializable{
         selected.setKrajkod(symbol);
         poszukajnip();
         klDAO.dodaj(selected);
-        kl1.add(selected);
+        kl1 = new ArrayList<>();
+        kl1.addAll(klDAO.findAll());
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
@@ -261,12 +263,22 @@ public class KlView implements Serializable{
      private void poszukajnip() throws Exception {
          String nippoczatkowy = selected.getNip();
          if(!nippoczatkowy.equals("0000000000")){
-         List<Klienci> kliencitmp  = new ArrayList<>();
-         kliencitmp = klDAO.findAll();     
-         List<String> kliencinip = new ArrayList<>();
-         for (Klienci p : kliencitmp){
-             if(p.getNip().equals(nippoczatkowy)){
+         List<String> kliencitmp  = klDAO.findNIP();
+         if (!kliencitmp.isEmpty()) {
+             if (kliencitmp.contains(nippoczatkowy)) {
                  throw new Exception();
+             }
+         }
+         }
+    }
+     
+      public void poszukajnipWTrakcie() throws Exception {
+         String nippoczatkowy = (String) Params.params("formX:nipPole");
+         if(!nippoczatkowy.equals("0000000000")){
+         List<String> kliencitmp  = klDAO.findNIP();
+         if (!kliencitmp.isEmpty()) {
+             if (kliencitmp.contains(nippoczatkowy)) {
+                 Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
              }
          }
          }
