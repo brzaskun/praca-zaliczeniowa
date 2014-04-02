@@ -4,6 +4,7 @@
  */
 package session;
 
+import com.sun.xml.messaging.saaj.soap.impl.ElementFactory;
 import embeddable.Mce;
 import embeddablefk.WierszStronafkPK;
 import entity.Amodok;
@@ -719,6 +720,10 @@ public class SessionFacade<T> {
     
     public int resetujKolumneZablokowane(String podatnik) {
         return em.createNamedQuery("Konto.updateZablokowane").setParameter("podatnik", podatnik).executeUpdate();
+    }
+
+    public List<String> findKlienciNIP() {
+        return em.createNamedQuery("Klienci.findKlienciNip").getResultList();
     }
   
   

@@ -9,7 +9,7 @@
     <h:form id="formX">
     <p:panel id="panelDodawaniaDokumentu">
         <p:panel menuTitle="Wprowadzanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
-            <p:growl id="mess_add" />
+            <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
                 <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
@@ -25,6 +25,7 @@
                 </p:inputText>
                 <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
                     <p:watermark for="nipPole" value="bez -" /> 
+                    <p:ajax event="blur" listener="#{KlView.poszukajnipWTrakcie}"/>
                 </p:inputText>
                 <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
                 <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
