@@ -56,6 +56,9 @@
                     <p:column>
                         <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 500px;" update=":akordeon:formmaile:wyslenemaile"/>
                     </p:column>
+                    <p:column>
+                        <p:commandButton value="test" actionListener="#{adminMailView.wyslijAdminMailTest()}" label="temat wiadomości" style="width: 500px;" update=":akordeon:formmaile:wyslenemaile"/>
+                    </p:column>
                 </p:panelGrid>
             </h:form>
         </p:tab>
