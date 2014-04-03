@@ -77,7 +77,7 @@ public class UzView implements Serializable{
                  uzDAO.dodaj(selUzytkownik);
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejestracja udana. Administrator musi teraz nadac Ci uprawnienia. Nastąpi to w ciągu najbliższej godziny. Dopiero wtedy będzie możliwe zalogowanie się.", selUzytkownik.getLogin());
                  FacesContext.getCurrentInstance().addMessage(null, msg);
-                 Mail.nadajMail(selUzytkownik.getEmail(), selUzytkownik.getLogin());
+                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
                  
              } catch (Exception e) {
                  FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim loginie już istnieje. Wprowadź inny login.", e.getStackTrace().toString());
