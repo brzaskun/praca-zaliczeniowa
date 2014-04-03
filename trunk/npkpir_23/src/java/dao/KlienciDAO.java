@@ -40,6 +40,14 @@ public class KlienciDAO extends DAO implements Serializable {
             return null;
         }
    }
+    
+    public  List<String> findNazwaPelna(String nowanazwa){
+        try {
+            return klienciFacade.findNazwaPelna(nowanazwa);
+        } catch (Exception e) {
+            return null;
+        }
+   }
    
    
 }

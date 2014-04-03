@@ -725,6 +725,10 @@ public class SessionFacade<T> {
     public List<String> findKlienciNIP() {
         return em.createNamedQuery("Klienci.findKlienciNip").getResultList();
     }
+    
+    public List<String> findNazwaPelna(String nowanazwa) {
+        return em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList();
+    }
   
   
 }
