@@ -1912,7 +1912,8 @@ public final class DokView implements Serializable {
         selectedKlient.setKrajkod(symbol);
         poszukajnip();
         klDAO.dodaj(selectedKlient);
-        kl1.add(selectedKlient);
+        kl1 = new ArrayList<>();
+        kl1.addAll(klDAO.findAll());
         selDokument.setKontr(selectedKlient);
         RequestContext.getCurrentInstance().update("dodWiad:acForce");
         RequestContext.getCurrentInstance().update("formX:");

@@ -56,7 +56,7 @@
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                     minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                     autocomplete="true" forceSelection="true" 
-                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
+                                    required="true" requiredMessage="Dane klienta niedawno edytowane" queryDelay="10" >
                         <f:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" execute="@this" />
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
