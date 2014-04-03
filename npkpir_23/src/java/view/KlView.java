@@ -81,7 +81,8 @@ public class KlView implements Serializable{
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
-        poszukajnip();
+        poszukajDuplikatNip();
+        poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
         kl1 = new ArrayList<>();
         kl1.addAll(klDAO.findAll());
@@ -89,7 +90,7 @@ public class KlView implements Serializable{
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
         } catch (Exception e) {
-        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje","formX:mess_add");
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje","formX:mess_add");
         }
          
          
@@ -117,12 +118,13 @@ public class KlView implements Serializable{
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
-        poszukajnip();
+        poszukajDuplikatNip();
+        poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
         kl1.add(selected);
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
         } catch (Exception e) {
-        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip juz istnieje");
+        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }
          
          
@@ -260,7 +262,7 @@ public class KlView implements Serializable{
         RequestContext.getCurrentInstance().update("formX:emailpole");
     }
     
-     private void poszukajnip() throws Exception {
+    private void poszukajDuplikatNip() throws Exception {
          String nippoczatkowy = selected.getNip();
          if(!nippoczatkowy.equals("0000000000")){
          List<String> kliencitmp  = klDAO.findNIP();
@@ -271,8 +273,8 @@ public class KlView implements Serializable{
          }
          }
     }
-     
-      public void poszukajnipWTrakcie() throws Exception {
+    
+     public void poszukajDuplikatNipWTrakcie() throws Exception {
          String nippoczatkowy = (String) Params.params("formX:nipPole");
          if(!nippoczatkowy.equals("0000000000")){
          List<String> kliencitmp  = klDAO.findNIP();
@@ -281,6 +283,23 @@ public class KlView implements Serializable{
                  Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
              }
          }
+         }
+    }
+    
+    private void poszukajDuplikatNazwa() throws Exception {
+         String nowanazwa = selected.getNpelna();
+         List<String> kliencitmp  = klDAO.findNazwaPelna(nowanazwa.trim());
+         if (!kliencitmp.isEmpty()) {
+                 throw new Exception();
+         }
+    }
+     
+    
+    public void poszukajDuplikatNazwaWTrakcie() throws Exception {
+         String nowanazwa = (String) Params.params("formX:nazwaPole");
+         List<String> kliencitmp  = klDAO.findNazwaPelna(nowanazwa.trim());
+         if (!kliencitmp.isEmpty()) {
+                 Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
          }
     }
      
