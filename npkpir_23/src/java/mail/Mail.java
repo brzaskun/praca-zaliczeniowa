@@ -23,11 +23,36 @@ import javax.mail.internet.MimeMessage;
 @Singleton
 public class Mail {
     private static Session session;
+    protected static final String stopka;
+
+   static {
+       stopka = " <div>Z poważaniem</div>"
+               + "<div> &nbsp;</div>"
+               + "<div> Grzegorz Grzelczyk</div>"
+               + "<div> doradca podatkowy</div>"
+               + "<div> &nbsp;</div>"
+               + "<div> ul. J.H. Dąbrowskiego 38/40 p.313</div>"
+               + "<div> PL-70-100 Szczecin</div>"
+               + "<div> tel. +4891 8128287</div>"
+               + "<div> fax. +4891 8120977</div>"
+               + "<div> mobil +48 603133396</div>"
+               + "<div> &nbsp;</div>"
+               + "<div> <a href=\"http://taxman.biz.pl\">http://taxman.biz.pl</a></div>"
+               + "<div> info@taxman.biz.pl&nbsp;</div>"
+               + "<div> SKYPE: taxman777</div>"
+               + "<div> &nbsp;</div>"
+               + "<div> <a href=\"http://www.facebook.com/BiuroRachunkowe.Szczecin\">http://www.facebook.com/BiuroRachunkowe.Szczecin</a></div>"
+               + "<div> &nbsp;</div>"
+               + "<div> BRE BANK: 11402004 SWIFT: BREXPLPWMUL&nbsp;</div>"
+               + "<div> Numer konta EBAN-nr: 57114020040000340209035790</div>";
+   }
     
-    public static void nadajMail(String adres, String login) {
 
+   
+    
+    
+    public static void nadajMailRejestracjaNowegoUzera(String adres, String login) {
         logintoMail();
-
         try {
 
             Message message = new MimeMessage(session);
@@ -35,19 +60,14 @@ public class Mail {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman");
-            message.setText("Szanowny Kliencie,"
-                    + "\n\nWłaśnie zarejestrowałeś się w naszym serwisie z loginem: \n    "+login
-                    + "\nZe względów bezpieczeństwa Twoje konto wymaga jeszcze aktywacji przez administratora."
-                    + "\nMoże to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową."
-                    + "\n\nZ poważaniem"
-                    + "\n\nObsługa serwisu"
-                    + "\nBiuro Rachunkowe Taxman"
-                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
-                    + "\ntel. 91 8120976");
-
+            message.setContent("Szanowny Użytkowniku,"
+                    + "<p>Właśnie zarejestrowałeś się w naszym serwisie z loginem: </p>"
+                    + "<span style=\"color: green;\">"+login+"</span>"
+                    + "<p>Ze względów bezpieczeństwa Twoje konto wymaga jeszcze aktywacji przez administratora.</p>"
+                    + "<p>Może to potrwać do godziny. O udanej aktywacji zostaniesz poinformowany kolejną wiadomością mailową.</p>"
+                    + stopka,  "text/html; charset=utf-8");
             Transport.send(message);
-
-
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
@@ -64,18 +84,15 @@ public class Mail {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman");
-            message.setText("Szanowny Kliencie,"
-                    + "\n\nAdministrator własnie nadał ci uprawnienia "+uprawnienia
-                    + "\nw naszym serwisie z loginem: \n    "+login+"."
-                    + "\nOd teraz możesz logować się do naszego serwisu pod adresem http://213.136.236.104:8080"
-                    + "\nużywając wybranego loginu: "+login+" i wybranego hasła."
-                    + "\n\nW przypadku zagubienia hasła wybierz odpowiednią opcję na stronie serwisu."
-                    + "\n\nZ poważaniem"
-                     + "\n\nObsługa serwisu"
-                    + "\nBiuro Rachunkowe Taxman"
-                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
-                    + "\ntel. 91 8120976");
-
+            message.setContent("Szanowny Użytkowniku,"
+                    + "<p>Administrator własnie nadał ci następujące uprawnienia: <strong>"+uprawnienia+"</strong><br/>"
+                    + "w naszym serwisie powiązane z loginem: <br/>"+login+".</p>"
+                    + "<p>Od teraz możesz logować się do naszego serwisu pod adresem <a href=\"http://213.136.236.104:8080\">http://213.136.236.104:8080</a><br/>"
+                    + "używając wybranego loginu: "+login+" i wybranego podczas rejestracji hasła.</p>"
+                    + "<p>W przypadku zagubienia hasła wybierz <a href=\"http://213.136.236.104:8080/faces/zapomnialemhasla.xhtml?faces-redirect=true\">"
+                    + "zapomnialem hasla</a> na stronie serwisu.</p>"
+                    + stopka,  "text/html; charset=utf-8");
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
 
 
@@ -95,22 +112,16 @@ public class Mail {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
-            message.setText("Szanowny Kliencie,"
-                    + "\n\nAdministrator własnie zresetował ci hasło"
-                    + "\nw naszym serwisie"
-                    + "\nNowe hasło brzmi po prostu - 'haslo'"
-                    + "\nTeraz powinieneś zalogować się do naszego serwisu http://213.136.236.104:8080"
-                    + "\nużywając swojego loginu: "+login+" i nowego hasła nadanego przez administratora"
-                    + "\noraz zmienić je niezwłocznie(!!!) na swoje własne."
-                    + "\n\nZ poważaniem"
-                    + "\n\nObsługa serwisu"
-                    + "\nBiuro Rachunkowe Taxman"
-                    + "\nSzczecin, ul. Gen.Dąbrowskiego 38/40 l.313"
-                    + "\ntel. 91 8120976");
-
+            message.setContent("Szanowny Użytkowniku,"
+                    + "<p>Administrator własnie zresetował Ci hasło"
+                    + "w naszym serwisie</p>"
+                    + "<p>Nowe hasło brzmi po prostu - <strong>haslo</strong></p>"
+                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"http://213.136.236.104:8080\">http://213.136.236.104:8080</a><br/>"
+                    + "używając swojego loginu: "+login+" i nowego hasła nadanego przez administratora</p>"
+                    + "<p><strong>oraz zmienić je niezwłocznie(!!!) na swoje własne.</strong></p>"
+                    + stopka,  "text/html; charset=utf-8");
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
-
-
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
