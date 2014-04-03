@@ -5,7 +5,9 @@
 package view;
 
 import dao.PismoadminDAO;
+import dao.UzDAO;
 import entity.Pismoadmin;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import mail.MailAdmin;
 import msg.Msg;
 
 /**
@@ -27,6 +30,8 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class PismoAdminView implements Serializable{
+    @Inject
+    private UzDAO uzDAO;
     private static final List<String> listamenu;
     private static final List<String> waznosc;
     private static final List<String> status;
@@ -104,6 +109,11 @@ public class PismoAdminView implements Serializable{
              listapism.clear();
              listapism.addAll(pismoadminDAO.findAll());
              Msg.msg("i", "Udało się dodać infomację dla Admina");
+             if (p.getStatus().equals("zmiany naniesione")){
+                 Uz uz = uzDAO.find(p.getNadawca());
+                 MailAdmin.usterkausunieta(p, uz);
+                 Msg.msg("i", "Poinformowano zlecającego o załatwieniu sprawy.");
+             }
          } catch (Exception e) {
              Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
          }

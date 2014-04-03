@@ -6,10 +6,13 @@ package viewadmin;
 
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
+import dao.UzDAO;
 import embeddable.Mce;
 import entity.Adminmail;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
+import entity.Pismoadmin;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,7 +80,17 @@ public class AdminMailView implements Serializable {
         Msg.msg("i", "Wyslano wiadomości");
         zachowajmail();
     }
-
+    
+    public void wyslijAdminMailTest() {
+        try {
+            MailAdmin.mailAdmin("info@taxman.biz.pl", tematwiadomosci, zawartoscmaila);
+        } catch (Exception e) {
+            Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
+        }
+        Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
+    }
+    
+    
     private void zachowajmail() {
         try {
             Adminmail adminmail = new Adminmail();

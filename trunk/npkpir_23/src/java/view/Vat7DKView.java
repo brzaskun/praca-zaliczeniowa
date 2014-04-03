@@ -224,7 +224,10 @@ public class Vat7DKView implements Serializable {
                 bylajuzdeklaracjawtymmiesiacu();
                 if (flaga != 3) {
                     zbadajpobranadeklarajce();
-                    pobierz47zpoprzedniej();
+                    //pobiera tylko wtedy jak nie ma z reki
+                    if(pole47zreki==false) {
+                        pobierz47zpoprzedniej();
+                    }
                 } else {
                     selected.setCelzlozenia("1");
                     RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
@@ -355,11 +358,14 @@ public class Vat7DKView implements Serializable {
 
     private void pobierz47zustawien() {
         try {
-            Podatnik pod = podatnikDAO.find(podatnik);
-            String Pole47 = pod.getPole47();
-            Integer PoleI47 = Integer.parseInt(Pole47);
-            pozycjeSzczegoloweVAT.setPole47(Pole47);
-            pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
+            //jak jest z reki to zeby nie bralo z ustawien
+            if(pole47zreki==false) {
+                Podatnik pod = podatnikDAO.find(podatnik);
+                String Pole47 = pod.getPole47();
+                Integer PoleI47 = Integer.parseInt(Pole47);
+                pozycjeSzczegoloweVAT.setPole47(Pole47);
+                pozycjeSzczegoloweVAT.setPoleI47(PoleI47);
+            }
             deklaracjawyslana.setIdentyfikator("lolo");
             deklaracjawyslana.setPodatnik("manolo");
         } catch (Exception e) {
@@ -516,7 +522,7 @@ public class Vat7DKView implements Serializable {
         p.setPole45(String.valueOf(p.getPoleI45()));
         p.setPoleI46(p.getPoleI26() + p.getPoleI28() + p.getPoleI30() + p.getPoleI34() + p.getPoleI36() + p.getPoleI38() + p.getPoleI42() + p.getPoleI43() + p.getPoleI44());
         p.setPole46(String.valueOf(p.getPoleI46()));
-        if(pole47zreki==true){
+        if(pole47zreki==true) {
              p.setPoleI47(Integer.parseInt(p.getPole47()));
         }
         p.setPoleI55(p.getPoleI47() + p.getPoleI48() + p.getPoleI50() + p.getPoleI52() + p.getPoleI53() + p.getPoleI54());
