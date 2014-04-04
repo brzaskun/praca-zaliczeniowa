@@ -817,176 +817,181 @@ public class ZestawienieView implements Serializable {
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
-        if (sprawdzczyjestpitwpoprzednimmiesiacu()!=0) {
-            return;
-        }
-        sprawdzczyzaksiegowanoamortyzacje();
-        if (!wybranyudzialowiec.equals("wybierz osobe")&&flaga==0) {
-            Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
-            List<Udzialy> lista = tmpP.getUdzialy();
-            for (Udzialy p : lista) {
-                if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
-                    wybranyprocent = p.getUdzial();
-                    break;
-                }
+        if (wybranyudzialowiec.equals("wybierz osobe")) {
+            Msg.msg("e", "Nie wybrałeś podatnika");
+        } else {
+            if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
+                return;
             }
-            biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
-            biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
-            biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
-            biezacyPit.setPrzychody(obliczprzychod());
-            double procent = Double.parseDouble(wybranyprocent) / 100;
-            biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
-            biezacyPit.setKoszty(obliczkoszt());
-            if (wpisView.getMiesiacWpisu().equals("12")) {
-                BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
-                biezacyPit.setRemanent(roznicaremanentow);
-                BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
-                biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
-            } else {
-                biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
-            }
-            biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
-            biezacyPit.setUdzialowiec(wybranyudzialowiec);
-            biezacyPit.setUdzial(wybranyprocent);
-            String poszukiwany = wpisView.getPodatnikWpisu();
-            Podatnik selected = podatnikDAO.find(poszukiwany);
-            Pitpoz sumapoprzednichmcy;
-            try {
-                Iterator it;
-                it = selected.getZusparametr().iterator();
-                if(zus51zreki==false){
-                    while (it.hasNext()) {
-                        Zusstawki tmpX = (Zusstawki) it.next();
-                        if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
-                                && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                            if (selected.getOdliczaczus51() == true) {
-                                if (tmpX.getZus51ch() != null) {
-                                    biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
-                                } else {
-                                    biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
-                                }
-                            } else {
-                                biezacyPit.setZus51(new BigDecimal(0));
-                            }
-                            if(zus52zreki==false){
-                                biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
-                            }
-                            break;
-                        }
+            sprawdzczyzaksiegowanoamortyzacje();
+            if (flaga == 0) {
+                Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
+                List<Udzialy> lista = tmpP.getUdzialy();
+                for (Udzialy p : lista) {
+                    if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
+                        wybranyprocent = p.getUdzial();
+                        break;
                     }
                 }
-                
-                sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
-                if (selected.getOdliczaczus51() == true) {
-                    biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
-                }
-                rozliczstrate(tmpP);
-                BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
-                tmp = tmp.subtract(biezacyPit.getZus51());
-                tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
-                if (tmp.signum() == -1) {
-                    biezacyPit.setPodstawa(BigDecimal.ZERO);
+                biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
+                biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
+                biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
+                biezacyPit.setPrzychody(obliczprzychod());
+                double procent = Double.parseDouble(wybranyprocent) / 100;
+                biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
+                biezacyPit.setKoszty(obliczkoszt());
+                if (wpisView.getMiesiacWpisu().equals("12")) {
+                    BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+                    biezacyPit.setRemanent(roznicaremanentow);
+                    BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
+                    biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
                 } else {
-                    //wyliczenie podatku poczatek
-                    biezacyPit.setPodstawa(tmp);
+                    biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
                 }
-            } catch (Exception e) {
-                Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
-                biezacyPit = new Pitpoz();
-                wybranyudzialowiec = "wybierz osobe";
-                return;
-            }
-            Podstawki skalaPodatkowaZaDanyRok;
-            try {
-                skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
-            } catch (Exception e) {
-                biezacyPit = new Pitpoz();
-                wybranyudzialowiec = "wybierz osobe";
-                Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
-                return;
-            }
-            String opodatkowanie = ParametrView.zwrocParametr(selected.getPodatekdochodowy(), wpisView.getRokWpisu(), Mce.getMapamcyCalendar().get(wpisView.getMiesiacWpisu())) ;
-            String rodzajop = opodatkowanie;
-            Double stawka = 0.0;
-            BigDecimal podatek = BigDecimal.ZERO;
-            BigDecimal dochód = biezacyPit.getPodstawa();
-            BigDecimal przychody = biezacyPit.getPrzychody();
-            try {
-                switch (rodzajop) {
-                    case "zasady ogólne":
-                        podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
-                        break;
-                    case "zasady ogólne bez VAT":
-                        podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
-                        break;
-                    case "podatek liniowy":
-                        stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
-                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                        break;
-                    case "podatek liniowy bez VAT":
-                        stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
-                        podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                        break;
-                    case "ryczałt":
-                        stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-                        podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                        break;
-                    case "ryczałt bez VAT":
-                        stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
-                        podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
-                        podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
-                        break;
-                }
-            } catch (Exception e) {
-                Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: "+ biezacyPit.getPkpirM());
-                biezacyPit = new Pitpoz();
-                wybranyudzialowiec = "wybierz osobe";
-                return;
-            }
-            if (podatek.signum() == 1) {
-                biezacyPit.setPodatek(podatek);
-            } else {
-                biezacyPit.setPodatek(BigDecimal.ZERO);
-            }
-            if(zus52zreki==false){
-                biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-            }
-            BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
-            tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
-            if (tmpX.signum() == -1) {
-                biezacyPit.setPododpoczrok(BigDecimal.ZERO);
-            } else {
-                biezacyPit.setPododpoczrok(tmpX);
-            }
-            //wyliczenie podatku koniec
-            
-            biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
-            if(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum()==1){
-                biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
-            } else {
-                biezacyPit.setNaleznazal(BigDecimal.ZERO);
-            }
-            if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
-                biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
-            } else {
-                biezacyPit.setDozaplaty(BigDecimal.ZERO);
-            }
-            try {
-                Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
-                biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
-                RequestContext.getCurrentInstance().update("formpit:");
-            } catch (Exception e) {
-                Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
-                biezacyPit = new Pitpoz();
-                wybranyudzialowiec = "wybierz osobe";
-                RequestContext.getCurrentInstance().update("formpit:");
-            }
+                biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
+                biezacyPit.setUdzialowiec(wybranyudzialowiec);
+                biezacyPit.setUdzial(wybranyprocent);
+                String poszukiwany = wpisView.getPodatnikWpisu();
+                Podatnik selected = podatnikDAO.find(poszukiwany);
+                Pitpoz sumapoprzednichmcy;
+                try {
+                    Iterator it;
+                    it = selected.getZusparametr().iterator();
+                    if (zus51zreki == false) {
+                        while (it.hasNext()) {
+                            Zusstawki tmpX = (Zusstawki) it.next();
+                            if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
+                                    && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                                if (selected.getOdliczaczus51() == true) {
+                                    if (tmpX.getZus51ch() != null) {
+                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
+                                    } else {
+                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
+                                    }
+                                } else {
+                                    biezacyPit.setZus51(new BigDecimal(0));
+                                }
+                                if (zus52zreki == false) {
+                                    biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
+                                }
+                                break;
+                            }
+                        }
+                    }
 
+                    sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
+                    if (selected.getOdliczaczus51() == true) {
+                        biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
+                    }
+                    rozliczstrate(tmpP);
+                    BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
+                    tmp = tmp.subtract(biezacyPit.getZus51());
+                    tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
+                    if (tmp.signum() == -1) {
+                        biezacyPit.setPodstawa(BigDecimal.ZERO);
+                    } else {
+                        //wyliczenie podatku poczatek
+                        biezacyPit.setPodstawa(tmp);
+                    }
+                } catch (Exception e) {
+                    Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
+                    biezacyPit = new Pitpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    return;
+                }
+                Podstawki skalaPodatkowaZaDanyRok;
+                try {
+                    skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
+                } catch (Exception e) {
+                    biezacyPit = new Pitpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
+                    return;
+                }
+                String opodatkowanie = ParametrView.zwrocParametr(selected.getPodatekdochodowy(), wpisView.getRokWpisu(), Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
+                String rodzajop = opodatkowanie;
+                Double stawka = 0.0;
+                BigDecimal podatek = BigDecimal.ZERO;
+                BigDecimal dochód = biezacyPit.getPodstawa();
+                BigDecimal przychody = biezacyPit.getPrzychody();
+                try {
+                    switch (rodzajop) {
+                        case "zasady ogólne":
+                            podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
+                            break;
+                        case "zasady ogólne bez VAT":
+                            podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
+                            break;
+                        case "podatek liniowy":
+                            stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
+                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                            break;
+                        case "podatek liniowy bez VAT":
+                            stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
+                            podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
+                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                            break;
+                        case "ryczałt":
+                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                            break;
+                        case "ryczałt bez VAT":
+                            stawka = skalaPodatkowaZaDanyRok.getStawkaryczalt1();
+                            podatek = (przychody.multiply(BigDecimal.valueOf(stawka)));
+                            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                            break;
+                    }
+                } catch (Exception e) {
+                    Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
+                    biezacyPit = new Pitpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    return;
+                }
+                if (podatek.signum() == 1) {
+                    biezacyPit.setPodatek(podatek);
+                } else {
+                    biezacyPit.setPodatek(BigDecimal.ZERO);
+                }
+                if (zus52zreki == false) {
+                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                }
+                BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
+                tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+                if (tmpX.signum() == -1) {
+                    biezacyPit.setPododpoczrok(BigDecimal.ZERO);
+                } else {
+                    biezacyPit.setPododpoczrok(tmpX);
+                }
+            //wyliczenie podatku koniec
+
+                biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
+                if (biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum() == 1) {
+                    biezacyPit.setNaleznazal(biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()));
+                } else {
+                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                }
+                if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
+                    biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
+                } else {
+                    biezacyPit.setDozaplaty(BigDecimal.ZERO);
+                }
+                try {
+                    Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
+                    biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
+                    RequestContext.getCurrentInstance().update("formpit:");
+                } catch (Exception e) {
+                    Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
+                    biezacyPit = new Pitpoz();
+                    wybranyudzialowiec = "wybierz osobe";
+                    RequestContext.getCurrentInstance().update("formpit:");
+                }
+
+            }
         }
     }
+    
     private void sprawdzczyzaksiegowanoamortyzacje() {
         Amodok amortyzacjawmiesiacu = null;
         Dok dokumentamo = null;
