@@ -44,9 +44,9 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setSubject("Wydruk podatkowej księgi przychodów i rozchodów za miesiąc");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
              mbp1.setContent("Szanowna/y "+klient
-                     + "<p>W niniejszym mailu znajdziesz"
-                     + "zamówiony przez Ciebie wydruk podatkowej księgi przychodów i rozchodów.</p>"
+                     + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk podatkowej księgi przychodów i rozchodów.</p>"
                      + Mail.reklama
                      + Mail.stopka,  "text/html; charset=utf-8");
              
@@ -64,7 +64,6 @@ public class MailOther extends MailSetUp implements Serializable{
              
              // add the Multipart to the message
              message.setContent(mp);
-             message.setHeader("Content-Type", "text/html; charset=utf-8");
              Transport.send(message);
              Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
              
@@ -86,6 +85,7 @@ public class MailOther extends MailSetUp implements Serializable{
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
+                 mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
                  mbp1.setContent("Szanowna/y "+klient
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                      + "<p>"+wiadomoscdodatkowa+"</p>"
@@ -106,7 +106,6 @@ public class MailOther extends MailSetUp implements Serializable{
                  
                  // add the Multipart to the message
                  message.setContent(mp);
-                 message.setHeader("Content-Type", "text/html; charset=utf-8");
                  Transport.send(message);
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
@@ -147,9 +146,9 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setSubject("Wydruk deklaracji PIT za miesiąc");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
              mbp1.setContent("Szanowna/y "+klient
-                     + "<p>"+"W niniejszym mailu znajdziesz"
-                     + "zamówiony przez Ciebie wydruk deklaracji podatkowej w podatku dochodowym PIT5</p>"
+                     + "<p>"+"W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk deklaracji podatkowej w podatku dochodowym PIT5</p>"
                      + Mail.reklama
                      + Mail.stopka,  "text/html; charset=utf-8");             
              // create the second message part
@@ -166,7 +165,6 @@ public class MailOther extends MailSetUp implements Serializable{
              
              // add the Multipart to the message
              message.setContent(mp);
-             message.setHeader("Content-Type", "text/html; charset=utf-8");
              Transport.send(message);
              
          } catch (MessagingException e) {
@@ -180,9 +178,9 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setSubject("Wydruk obrotów z kontrahentem");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
              mbp1.setContent("Szanowna/y "+klient
-                     + "<p>W niniejszym mailu znajdziesz"
-                     + "zamówione przez Ciebie zestawienie obrotów z kontrahentem</p>"
+                     + "<p>W niniejszym mailu znajdziesz zamówione przez Ciebie zestawienie obrotów z kontrahentem</p>"
                      + Mail.reklama
                      + Mail.stopka,  "text/html; charset=utf-8");             
              
@@ -200,7 +198,6 @@ public class MailOther extends MailSetUp implements Serializable{
              
              // add the Multipart to the message
              message.setContent(mp);
-             message.setHeader("Content-Type", "text/html; charset=utf-8");
              Transport.send(message);
              
          } catch (MessagingException e) {
@@ -214,9 +211,9 @@ public class MailOther extends MailSetUp implements Serializable{
               message.setSubject("Wydruk ewidencji środków trwałych");
               // create and fill the first message part
               MimeBodyPart mbp1 = new MimeBodyPart();
-              mbp1.setText("Szanowna/y "+klient
-                      + "<p>W niniejszym mailu znajdziesz"
-                      + "zamówiony przez Ciebie wydruk aktualnej ewidencji środków trwałych</p>"
+              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+              mbp1.setContent("Szanowna/y "+klient
+                      + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk aktualnej ewidencji środków trwałych</p>"
                       + Mail.reklama
                       + Mail.stopka,  "text/html; charset=utf-8");  
               
@@ -234,7 +231,6 @@ public class MailOther extends MailSetUp implements Serializable{
               
               // add the Multipart to the message
               message.setContent(mp);
-              message.setHeader("Content-Type", "text/html; charset=utf-8");
               Transport.send(message);
               
           } catch (MessagingException e) {
@@ -252,9 +248,9 @@ public class MailOther extends MailSetUp implements Serializable{
             message.setSubject("Wydruk dekalracji VAT-7");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setText("Szanowna/y "+klient
-                    + "<p>W niniejszym mailu znajdziesz"
-                    + "deklarację VAT-7 złożoną w Twoim imieniu w ostatnim okresie rozliczeniowym.</p>"
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            mbp1.setContent("Szanowna/y "+klient
+                    + "<p>W niniejszym mailu znajdziesz deklarację VAT-7 złożoną w Twoim imieniu w ostatnim okresie rozliczeniowym.</p>"
                     + Mail.reklama
                     + Mail.stopka,  "text/html; charset=utf-8");  
 
@@ -273,7 +269,6 @@ public class MailOther extends MailSetUp implements Serializable{
                 
                 // add the Multipart to the message
                 message.setContent(mp);
-                message.setHeader("Content-Type", "text/html; charset=utf-8");
                 Transport.send(message);
                 Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient);
                 File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
@@ -304,9 +299,9 @@ public class MailOther extends MailSetUp implements Serializable{
             message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setText("Szanowna/y "+klient
-                    + "<p>W niniejszym mailu znajdziesz"
-                    + "zamówiony przez Ciebie wydruk ewidencji VAT "+nazwaewidencji+"</p>"
+            mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            mbp1.setContent("Szanowna/y "+klient
+                    + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk ewidencji VAT "+nazwaewidencji+"</p>"
                     + Mail.reklama
                     + Mail.stopka,  "text/html; charset=utf-8");
 
@@ -324,7 +319,6 @@ public class MailOther extends MailSetUp implements Serializable{
 
             // add the Multipart to the message
             message.setContent(mp);
-            message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
             
         } catch (MessagingException e) {
