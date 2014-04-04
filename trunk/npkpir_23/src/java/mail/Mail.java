@@ -24,12 +24,16 @@ import javax.mail.internet.MimeMessage;
 public class Mail {
     private static Session session;
     protected static final String stopka;
+    protected static final String reklama;
+    protected static final String fake;
 
    static {
        stopka = " <div>Z poważaniem</div>"
                + "<div> &nbsp;</div>"
                + "<div> Grzegorz Grzelczyk</div>"
                + "<div> doradca podatkowy</div>"
+               + "<div> &nbsp;</div>"
+               + "<div style=\"color: green;\">Adres mailowy, z którego została wysłana ta wiadomość nie służy do normalnej korespondencji. Prosimy nie odpowiadać na niniejszą wiadomość.</div>"
                + "<div> &nbsp;</div>"
                + "<div> ul. J.H. Dąbrowskiego 38/40 p.313</div>"
                + "<div> PL-70-100 Szczecin</div>"
@@ -45,6 +49,12 @@ public class Mail {
                + "<div> &nbsp;</div>"
                + "<div> BRE BANK: 11402004 SWIFT: BREXPLPWMUL&nbsp;</div>"
                + "<div> Numer konta EBAN-nr: 57114020040000340209035790</div>";
+       reklama = "<div> &nbsp;</div>"
+               + "<div>Możesz zawsze samodzielnie pobierać wszelkie informacje na temat twoje firmy</div>"
+               + "<div>Wystarczy zarejestrować się w naszym programie księgowym online </div>"
+               + "<div>Tutaj jest adres http tego programu http://213.136.236.104:8080</div>"
+               + "<div> &nbsp;</div>";
+       fake = "<div style=\"color: green;\">Adres mailowy, z którego została wysłana ta wiadomość nie służy do normalnej korespondencji. Prosimy nie odpowiadać na niniejszą wiadomość.</div>";
    }
     
 
