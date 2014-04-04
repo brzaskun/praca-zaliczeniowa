@@ -52,7 +52,7 @@ public class Mail {
        reklama = "<div> &nbsp;</div>"
                + "<div>Możesz zawsze samodzielnie pobierać wszelkie informacje na temat twoje firmy</div>"
                + "<div>Wystarczy zarejestrować się w naszym programie księgowym online </div>"
-               + "<div>Tutaj jest adres http tego programu http://213.136.236.104:8080</div>"
+               + "<div>Tutaj jest adres http tego programu <span style=\"color: blue;\">http://213.136.236.104:8080</span>. Wystarczy go skopiować do okna przeglądarki i można rozpocząć rejestrację.</div>"
                + "<div> &nbsp;</div>";
        fake = "<div style=\"color: green;\">Adres mailowy, z którego została wysłana ta wiadomość nie służy do normalnej korespondencji. Prosimy nie odpowiadać na niniejszą wiadomość.</div>";
    }
