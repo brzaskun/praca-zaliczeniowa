@@ -79,7 +79,7 @@
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
                     <p:column headerText="kwota faktury netto">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false"/>
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="kolumna pkpir">
