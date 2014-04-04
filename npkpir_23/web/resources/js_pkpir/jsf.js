@@ -31,28 +31,48 @@ var aktywujsrodek = function(){
 };
 
 var aktywujnetto = function(){
-    dolaczwyliczenie();
+    //dolaczwyliczenie();
     document.getElementById("dodWiad:opis").focus();
 };
 
 
  var dolaczwyliczenie = function () {
-     try {
-        r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
-            var roznica;
-            if (event.which === 107) {
-                var odjema = zrobFloat($(this).val());
-                var odjemna = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
-                roznica = odjemna - odjema;
-                $(this).val(Math.abs(roznica));
-                r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(roznica));
-                event.preventDefault();
-            }
-         });
-     } catch (ec) {
-         alert("bladzik");
-     }
+//     try {
+//        r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
+//            var roznica;
+//            if (event.which === 107) {
+//                var odjema = zrobFloat($(this).val());
+//                var odjemna = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
+//                roznica = odjemna - odjema;
+//                $(this).val(Math.abs(roznica));
+//                r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(roznica));
+//                event.preventDefault();
+//            }
+//         });
+//     } catch (ec) {
+//         alert("bladzik");
+//     }
      };
+     
+  var dolaczwyliczenieKopiowanie = function() {
+    if (r("dodWiad:tabelapkpir:1:kwotaPkpir_input")) {
+        try {
+            r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
+                if (event.which === 107) {
+                    var roznica;
+                    var odjema = zrobFloat($(this).val());
+                    var odjemna = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
+                    roznica = odjemna - odjema;
+                    $(this).val(Math.abs(roznica));
+                    r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(roznica));
+                    event.preventDefault();
+                }
+            });
+        } catch (ec) {
+            alert("bladzik");
+        }
+    };
+};
 
 
 var aktywujopis = function (){
