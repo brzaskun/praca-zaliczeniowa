@@ -92,6 +92,9 @@
                 <p:column headerText="12" width="20">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
+                <p:column>
+                    <p:commandButton value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row)}" icon="ui-icon-print" />
+                </p:column>
           </p:dataTable>
             </h:form>
         </p:tab>

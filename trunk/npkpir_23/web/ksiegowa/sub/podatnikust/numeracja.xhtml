@@ -13,7 +13,8 @@
             <p:focus for="parametrypodatnika4a"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.numerpkpir}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                <p:dataList value="#{podatnikView.selected.numerpkpir}"  var="loop" itemType="disc" 
+                            paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
                     <h:outputText value="od: " />
                     <h:outputText value="#{loop.mcOd}-" />
                     <h:outputText value="#{loop.rokOd}" />

@@ -56,6 +56,9 @@
                 <p:column headerText="zaksiegowana" sortBy="#{wpis.wyslana}">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
+                 <p:column>
+                    <p:commandButton value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
+                </p:column>
             </p:dataTable>
         </h:form>
     </p:tab>
