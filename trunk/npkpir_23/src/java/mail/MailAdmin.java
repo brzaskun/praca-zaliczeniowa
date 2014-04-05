@@ -26,7 +26,8 @@ public class MailAdmin extends MailSetUp implements Serializable {
         try {
             message.setSubject(temat);
             MimeBodyPart mbp1 = new MimeBodyPart();
-            mbp1.setContent(tresc, "text/html; charset=utf-8");
+            String tresczpodpisem = tresc.concat(Mail.stopka);
+            mbp1.setContent(tresczpodpisem, "text/html; charset=utf-8");
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(mbp1);
