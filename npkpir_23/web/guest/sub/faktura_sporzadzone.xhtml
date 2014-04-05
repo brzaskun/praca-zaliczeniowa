@@ -58,6 +58,9 @@
                 <p:column headerText="zaksiegowana" sortBy="#{wpis.zaksiegowana}" filterBy="#{wpis.zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
+                 <p:column>
+                    <p:commandButton value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
+                </p:column>
             </p:dataTable>
         </h:form>
     </p:tab>
