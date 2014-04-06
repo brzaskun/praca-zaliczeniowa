@@ -42,7 +42,7 @@
                              scrollable="true" style="width: 1190px; max-height: 600px;">
                     <p:ajax event="select" update=":formX" listener="#{planKontView.selrow}"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
-                        <h:outputText value="#{loop.pelnynumer}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nazwapelna eq 'Słownik kontrahenci' ? false : true}"/> 
                     </p:column>
                     <p:column headerText="nazwa pełna" style="width: 150px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 

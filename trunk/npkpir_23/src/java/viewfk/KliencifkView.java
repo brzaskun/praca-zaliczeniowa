@@ -53,18 +53,20 @@ public class KliencifkView implements Serializable{
     }
     
     public void pobieraniekontaFK(){
-        kliencifk = new Kliencifk();
-        nowekliencifk = new Kliencifk();
-        Msg.msg("Pobieram kontofk");
-        try {
-            kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
-        } catch (Exception e) {
-            //tworzenie nowego
-            nowekliencifk.setNazwa(wybranyklient.getNpelna());
-            nowekliencifk.setNip(wybranyklient.getNip());
-            nowekliencifk.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            nowekliencifk.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-            nowekliencifk.setNrkonta(pobierznastepnynumer());
+        if (wybranyklient instanceof Klienci) {
+            kliencifk = new Kliencifk();
+            nowekliencifk = new Kliencifk();
+            Msg.msg("Pobieram kontofk");
+            try {
+                kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
+            } catch (Exception e) {
+                //tworzenie nowego
+                nowekliencifk.setNazwa(wybranyklient.getNpelna());
+                nowekliencifk.setNip(wybranyklient.getNip());
+                nowekliencifk.setPodatniknazwa(wpisView.getPodatnikWpisu());
+                nowekliencifk.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                nowekliencifk.setNrkonta(pobierznastepnynumer());
+            }
         }
     }
     
@@ -72,6 +74,7 @@ public class KliencifkView implements Serializable{
         try {
             klienciDAO.dodaj(nowekliencifk);
             int wynik = PlanKontBean.aktualizujslownik(nowekliencifk, kontoDAOfk, wpisView.getPodatnikWpisu());
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");

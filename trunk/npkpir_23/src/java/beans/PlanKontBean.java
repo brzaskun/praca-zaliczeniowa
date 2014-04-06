@@ -73,6 +73,7 @@ public class PlanKontBean {
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(2014);
+         nowekonto.setSlownikowe(true);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
          nowekonto.setNrkonta("0");
@@ -111,7 +112,7 @@ public class PlanKontBean {
             nowekonto.setNazwaskrocona(kliencifk.getNip());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta());
+            int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), podatnik);
             if (wynikdodania == 1) {
                 return 1;
             }

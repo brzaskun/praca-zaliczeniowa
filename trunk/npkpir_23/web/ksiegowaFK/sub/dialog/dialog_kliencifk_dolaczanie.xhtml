@@ -12,9 +12,9 @@
             <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
-                                widgetVar="dialogklient" style="width: 500px;" onkeyup="sprawdzczybrakklienta();"
+                                widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();"
                                 required="true" requiredMessage="Pole klienta nie może być puste" onfocus="$('#kliencifk\\:wyborkontrahenta_input').width('400px');" >
-                <f:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFK}"/>
+                <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFK}"/>
                 <p:ajax event="blur" update=":kontoformV, :kontoformE"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -65,8 +65,8 @@
                 <h:outputText value="#{wpis.nrkonta}"/>
             </p:column>
         </p:dataTable>
-            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.nowekliencifk.nrkonta eq null ? false : true}" update=":kontoformV, :kontoformE"
-                             oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
+            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.nowekliencifk.nrkonta eq null ? false : true}" 
+                             update=":kontoformLista:infokonta, :kontoformV, :kontoformE" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
          </h:form>
     </p:dialog>
 </ui:composition>
