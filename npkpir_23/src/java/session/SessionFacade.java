@@ -527,8 +527,8 @@ public class SessionFacade<T> {
         }
     }
 
-    public List<Konto> findKontaOstAlityka() {
-        return em.createNamedQuery("Konto.findByMapotomkowMaSlownik").setParameter("mapotomkow", false).getResultList();
+    public List<Konto> findKontaOstAlityka(String podatnik) {
+        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).getResultList();
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {

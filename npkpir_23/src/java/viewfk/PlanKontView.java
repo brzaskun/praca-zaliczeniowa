@@ -406,23 +406,25 @@ public class PlanKontView implements Serializable {
     public List<Konto> complete(String qr) {
         String query = qr.split(" ")[0];
         List<Konto> results = new ArrayList<>();
-        List<Konto> listakont = kontoDAO.findKontaOstAlityka();
-        try {
-            String q = query.substring(0, 1);
-            int i = Integer.parseInt(q);
-            for (Konto p : listakont) {
-                if (query.length() == 4 && !query.contains("-")) {
-                    //wstawia - do ciagu konta
-                    query = query.substring(0, 3) + "-" + query.substring(3, 4);
+        List<Konto> listakont = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
+        if (listakont != null) {
+            try {
+                String q = query.substring(0, 1);
+                int i = Integer.parseInt(q);
+                for (Konto p : listakont) {
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
+                    if (p.getPelnynumer().startsWith(query)) {
+                        results.add(p);
+                    }
                 }
-                if (p.getPelnynumer().startsWith(query)) {
-                    results.add(p);
-                }
-            }
-        } catch (NumberFormatException e) {
-            for (Konto p : listakont) {
-                if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
-                    results.add(p);
+            } catch (NumberFormatException e) {
+                for (Konto p : listakont) {
+                    if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                        results.add(p);
+                    }
                 }
             }
         }
