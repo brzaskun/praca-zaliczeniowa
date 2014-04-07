@@ -40,4 +40,22 @@ public class WyliczPodatekZasadyOgolne implements Serializable{
         }
         return podatek;
     }
+    
+    public static BigDecimal wyliczopodateksymulacja(Podstawki skalaPodatkowaZaDanyRok, BigDecimal dochod) {
+        BigDecimal podatek = BigDecimal.ZERO;
+        Double stawka;
+        Double dochodDouble = dochod.doubleValue();
+        if (dochodDouble < skalaPodatkowaZaDanyRok.getProg()) {
+            stawka = skalaPodatkowaZaDanyRok.getStawka1();
+            podatek = (dochod.multiply(BigDecimal.valueOf(stawka)));
+            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+        } else if (dochodDouble >= skalaPodatkowaZaDanyRok.getProg()) {
+            stawka = skalaPodatkowaZaDanyRok.getStawka2();
+            Double roznica = dochodDouble - skalaPodatkowaZaDanyRok.getProg();
+            podatek = (BigDecimal.valueOf(roznica).multiply(BigDecimal.valueOf(stawka)));
+            podatek = podatek.add(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getNadwyzka()));
+            podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+        }
+        return podatek;
+    }
 }
