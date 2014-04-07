@@ -7,6 +7,27 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
+            <p:panelGrid id="prezentacjaPodatku" columns="6">
+                <h:outputLabel value="rodzaj opodatkowania: " style="font-style: italic;"/>
+                <h:outputLabel value="#{PodatekView.opodatkowanie}"/>
+                <h:outputLabel value="Przychody za mc:"/>
+                <h:outputLabel value="#{PodatekView.przychody}" style="font-weight: 900;">
+                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+                </h:outputLabel>
+                <h:outputLabel value="Koszty za mc:" style="font-style: italic;"/>
+                <h:outputLabel value="#{PodatekView.koszty}" style="font-weight: 900;">
+                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+                </h:outputLabel>
+                <h:outputLabel value="Wynik podatkowy za mc:" style="font-style: italic;"/>
+                <h:outputLabel value="#{PodatekView.dochód}" style="font-weight: 900;">
+                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+                </h:outputLabel>
+                <h:outputLabel value="Zaliczka za mc:" style="font-style: italic;"/>
+                <h:outputLabel value="#{PodatekView.podatek}" style="font-weight: 900;">
+                    <f:convertNumber locale="PL" currencyCode="PLN" maxFractionDigits="2" type="currency" />
+                </h:outputLabel>
+            </p:panelGrid>
+            <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz wstępny wynik za miesiąc bez odliczeń zus" update=":form:prezentacjaPodatku"/>
 
             <p:contextMenu for="dokumentyLista">
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>

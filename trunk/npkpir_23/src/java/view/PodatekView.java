@@ -4,12 +4,14 @@
  */
 package view;
 
+import beans.WyliczPodatekZasadyOgolne;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Kolmn;
 import embeddable.KwotaKolumna;
 import entity.Dok;
+import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
 import java.io.Serializable;
@@ -126,49 +128,47 @@ public class PodatekView implements Serializable{
         Podatnik selected=podatnikDAO.find(poszukiwany);
         opodatkowanie = wpisView.getRodzajopodatkowania();
         String rodzajop = opodatkowanie;
-        Podstawki tmpY = podstawkiDAO.find(wpisView.getRokWpisu());
         Double stawka;
+        Podstawki skalaPodatkowaZaDanyRok;
+        try {
+            skalaPodatkowaZaDanyRok = podstawkiDAO.find(wpisView.getRokWpisu());
+        } catch (Exception e) {
+            Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
+            return;
+        }
         try{
         switch (rodzajop){
             case "zasady ogólne" :
-                stawka = tmpY.getStawka1();
-                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
-                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                podatek = WyliczPodatekZasadyOgolne.wyliczopodateksymulacja(skalaPodatkowaZaDanyRok, dochód);
                 break;
             case "zasady ogólne bez VAT" :
-                stawka = tmpY.getStawka1();
-                podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
-                podatek = podatek.subtract(BigDecimal.valueOf(tmpY.getKwotawolna()));
-                podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
-                podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
+                podatek = WyliczPodatekZasadyOgolne.wyliczopodateksymulacja(skalaPodatkowaZaDanyRok, dochód);
                 break;
             case "podatek liniowy" :
-                stawka = tmpY.getStawkaliniowy();
+                stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "podatek liniowy bez VAT" :
-                stawka = tmpY.getStawkaliniowy();
+                stawka = skalaPodatkowaZaDanyRok.getStawkaliniowy();
                 podatek = (dochód.multiply(BigDecimal.valueOf(stawka)));
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt" :
-                podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt4())));
-                podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt3())));
-                podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt2())));
-                podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt1())));
+                podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt4())));
+                podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt3())));
+                podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt2())));
+                podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt1())));
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
             case "ryczałt bez VAT" :
-                podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt4())));
-                podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt3())));
-                podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt2())));
-                podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(tmpY.getStawkaryczalt1())));
+                podatek = (przychodyRyczalt.get("17%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt4())));
+                podatek = podatek.add(przychodyRyczalt.get("8.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt3())));
+                podatek = podatek.add(przychodyRyczalt.get("5.5%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt2())));
+                podatek = podatek.add(przychodyRyczalt.get("3%").multiply(BigDecimal.valueOf(skalaPodatkowaZaDanyRok.getStawkaryczalt1())));
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
