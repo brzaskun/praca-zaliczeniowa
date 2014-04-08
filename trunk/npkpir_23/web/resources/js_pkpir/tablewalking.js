@@ -1,6 +1,11 @@
 "use strict";
 
+var zachowajnumerwiersza = function (numer) {
+        MYAPP.nrbiezacegowiersza = numer;
+};
+
 var przejdzwiersz = function () {
+  var ev = event.target;
   var lolo = $("#form\\:dokumentyLista_data").children("tr");
    if(!MYAPP.hasOwnProperty('nrbiezacegowiersza')){
         MYAPP.nrbiezacegowiersza = 0;
@@ -41,14 +46,16 @@ var wrocwiersz = function () {
 };
 
 function isScrolledIntoView(elem) {
-    var docViewTop = $(window).scrollTop()+150;
-    var docViewBottom = docViewTop + $(window).height()-300;
-
-    var elemTop = $(elem).offset().top;
-    var elemBottom = elemTop + $(elem).height();
-
-    return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
-      && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+    try {
+       var docViewTop = $(window).scrollTop()+150;
+       var docViewBottom = docViewTop + $(window).height()-300;
+       var elemTop = $(elem).offset().top;
+       var elemBottom = elemTop + $(elem).height();
+       return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
+            && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+    } catch (e) {
+    }
+    return true;
 };
 
 

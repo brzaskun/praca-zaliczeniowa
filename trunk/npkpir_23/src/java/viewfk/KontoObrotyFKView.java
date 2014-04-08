@@ -82,6 +82,7 @@ public class KontoObrotyFKView implements Serializable{
              }
              for(Konto p : kontaprzejrzane) {
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                 //tu jest BO, to nie podwojnie wpisana linia
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
