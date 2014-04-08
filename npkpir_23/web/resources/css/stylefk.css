@@ -19,6 +19,12 @@
     background: lightblue;
 }
 
+.ui-treetable .ui-treetable-data td {
+    word-wrap: normal;
+    overflow: auto !important;
+    white-space: normal !important;
+}
+
 
 
  

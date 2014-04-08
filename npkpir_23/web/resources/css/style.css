@@ -81,6 +81,8 @@ body {
     word-break: normal !important;
 }
 
+
+
 .tablicaplankont tr :hover{
     background-color: silver;
 }
