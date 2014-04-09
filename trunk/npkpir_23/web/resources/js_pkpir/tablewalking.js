@@ -42,13 +42,14 @@ var wrocwiersz = function() {
 function isScrolledIntoView(elem) {
     try {
         var parent = ((((elem.parentNode).parentNode).parentNode).parentNode).parentNode;
-        var docViewTop = $(parent).scrollTop();
+        var docViewTop = elem.parentNode.offsetParent.offsetTop;
         var docViewBottom = $(parent).height();
+        var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
         var przesuniecie = 0;
-        if (elemTop < docViewTop) {
-            przesuniecie += elemTop - docViewTop;
+        if (elemTop < (docViewTop+viewableheight)) {
+            przesuniecie += -viewableheight;
         }
         if (elemBottom > docViewBottom) {
             przesuniecie += elemBottom - docViewBottom;
