@@ -8,12 +8,11 @@ import dao.ZUSDAO;
 import entity.Zusstawki;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -22,7 +21,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ZUSstawkiView implements Serializable{
     @Inject
     private ZUSDAO zusDAO;
@@ -37,11 +36,11 @@ public class ZUSstawkiView implements Serializable{
     }
 
     @PostConstruct
-    private void init(){
-        Collection c = zusDAO.findAll();
-        try{
-        listapobranychstawek.addAll(c); 
-        } catch (Exception e){}
+    private void init() {
+        try {
+            listapobranychstawek = zusDAO.findAll();
+        } catch (Exception e) {
+        }
     }
     
      public void dodajzus(){
@@ -52,7 +51,7 @@ public class ZUSstawkiView implements Serializable{
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
          } catch (Exception e) {
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Wystapil błąd.", "");
+         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Wpis za taki miesiąc już istnieje", "");
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
        
          }

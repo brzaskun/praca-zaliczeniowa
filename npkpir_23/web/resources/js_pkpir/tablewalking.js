@@ -39,7 +39,7 @@ var wrocwiersz = function() {
     $(komorki[1]).click();
 };
 
-function isScrolledIntoView(elem) {
+var isScrolledIntoView = function(elem) {
     try {
         var parent = ((((elem.parentNode).parentNode).parentNode).parentNode).parentNode;
         var docViewTop = elem.parentNode.offsetParent.offsetTop;
@@ -58,7 +58,10 @@ function isScrolledIntoView(elem) {
     } catch (e) {
     }
     return 0;
-}
-;
+};
+
+var okreslwysokosctabeli = function() {
+    return "400px";
+};
 
 
