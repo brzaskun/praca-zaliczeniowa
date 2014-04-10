@@ -41,7 +41,7 @@
          <p:hotkey bind="up"   onstart="wrocwiersz();"/>
          <p:outputPanel id="kontenertabeli" deferred="true">
              <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true"
-                           style="width: 100%; height: #{DokTabView.wysokosctabeli()};  overflow: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                           style="width: 100%; height: 850px;  overflow: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid"
                           >
