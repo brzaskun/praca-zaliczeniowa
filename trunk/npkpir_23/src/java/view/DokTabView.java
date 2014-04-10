@@ -579,6 +579,15 @@ public class DokTabView implements Serializable {
               }
           }
       }
+      
+    
+    public String wysokosctabeli() {
+        //FacesContext.getCurrentInstance().getExternalContext().get
+        return "500px";
+    }
+
+      
+      
     
         //<editor-fold defaultstate="collapsed" desc="comment">
         public List<Dok> getObiektDOKjsf() {
