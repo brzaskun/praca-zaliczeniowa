@@ -582,7 +582,7 @@ public class DokTabView implements Serializable {
       
     
     public String wysokosctabeli() {
-        //FacesContext.getCurrentInstance().getExternalContext().get
+              //FacesContext.getCurrentInstance().getExternalContext().get
         return "500px";
     }
 
