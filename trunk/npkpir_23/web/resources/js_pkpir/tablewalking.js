@@ -41,14 +41,18 @@ var wrocwiersz = function() {
 
 var isScrolledIntoView = function(elem) {
     try {
-        var parent = ((((elem.parentNode).parentNode).parentNode).parentNode).parentNode;
+        //tak daleko zeby dotrzec do kontenera
+        var parent = elem.parentNode
+        do {
+            parent = parent.parentNode;
+        } while (parent.className !== "ui-layout-unit-content ui-widget-content");
         var docViewTop = elem.parentNode.offsetParent.offsetTop;
         var docViewBottom = $(parent).height();
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
         var przesuniecie = 0;
-        if (elemTop < (docViewTop+viewableheight)) {
+        if (elemTop < (docViewTop + viewableheight)) {
             przesuniecie += -viewableheight;
         }
         if (elemBottom > docViewBottom) {
