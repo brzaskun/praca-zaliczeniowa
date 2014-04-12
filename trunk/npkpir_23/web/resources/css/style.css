@@ -27,6 +27,10 @@ body {
     color: blue !important;
 }
 
+.odd{
+    background: #e4e3e3 !important;
+}
+
 .druga{
     font-style: italic !important;
     background-image:none !important;

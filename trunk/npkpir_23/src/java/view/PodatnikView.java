@@ -47,6 +47,7 @@ import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
@@ -110,6 +111,7 @@ public class PodatnikView implements Serializable {
     private String stratazostalo;
     @Inject
     private PitDAO pitDAO;
+     private String biezacadata;
 
     public PodatnikView() {
         miesiacepoweryfikacji = new ArrayList<>();
@@ -144,6 +146,7 @@ public class PodatnikView implements Serializable {
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
+        biezacadata = String.valueOf(new DateTime().getYear());
 
     }
 
@@ -983,6 +986,10 @@ public class PodatnikView implements Serializable {
         zostalo += Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0;
         return Math.round(zostalo * 100.0) / 100.0;
     }
+    
+    public void wybranowiadomosc() {
+        Msg.msg("Wybrano stawki ZUS.");
+    }
 
 //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
@@ -1196,5 +1203,15 @@ public class PodatnikView implements Serializable {
     public void setPitDAO(PitDAO pitDAO) {
         this.pitDAO = pitDAO;
     }
+
+    public String getBiezacadata() {
+        return biezacadata;
+    }
+
+    public void setBiezacadata(String biezacadata) {
+        this.biezacadata = biezacadata;
+    }
+    
+    
 
 }
