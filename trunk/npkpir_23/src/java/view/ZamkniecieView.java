@@ -59,6 +59,7 @@ public class ZamkniecieView implements Serializable {
     private void init() {
         //Wrzucalistemiesiecy
         List<Integer> lata = roki.getRokiList();
+        Collections.sort(lata);
         List<String> miesiace =  mce.getMceList();
         for (Integer tmp : lata){
             for (String tmpx : miesiace){
@@ -73,7 +74,20 @@ public class ZamkniecieView implements Serializable {
             //pobieram cały rekord dlatego potem moge go zachowac
             zamknietemiesiace = zDAO.findZM(wpisView.getPodatnikWpisu());
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
-            Iterator it = mapaokresowPobrane.iterator();
+            //dodamy brakujacy rok bo z jakiegos powodu znika?
+            for (Okresrozliczeniowy p : mapaokresow) {
+                if (!mapaokresowPobrane.contains(p)) {
+                    Okresrozliczeniowy t = new Okresrozliczeniowy();
+                    t.setRok(p.getRok());
+                    t.setMiesiac(p.getMiesiac());
+                    t.setZamkniety(false);
+                    t.setEdytuj(false);
+                    mapaokresowPobrane.add(t);
+                }
+            }
+            zamknietemiesiace.setZamkniete(mapaokresowPobrane);
+            zDAO.edit(zamknietemiesiace);
+             Iterator it = mapaokresowPobrane.iterator();
             while (it.hasNext()) {
               Okresrozliczeniowy p = (Okresrozliczeniowy) it.next();
                 if((p.getRok().equals(wpisView.getRokWpisu().toString()))&&p.getMiesiac().equals(wpisView.getMiesiacWpisu())){
@@ -83,7 +97,7 @@ public class ZamkniecieView implements Serializable {
                     it.remove();
                 }//dwd
             }
-            zDAO.edit(zamknietemiesiace);
+            Msg.msg("Pobrano archiwum zamykania miesięcy.");
         //przenoszenie danych od podatnika do tabeli tymczasowej
         } catch (Exception ex){
             //tworzenie archiwum dla podatnika
@@ -93,6 +107,7 @@ public class ZamkniecieView implements Serializable {
             mapaokresowPobrane.addAll(zamknietemiesiace.getZamkniete());
             //utworzenie edycja jest niepotrzebna bo my tworzymy zupelnie nowa
             zDAO.edit(zamknietemiesiace);
+            Msg.msg("Stworzono nowe archiwum zamykania miesięcy.");
         }
         Collections.sort(mapaokresowPobrane, new Okresrozliczeniowycomparator());
         Collections.sort(mapaokresowPobraneZapas, new Okresrozliczeniowycomparator());

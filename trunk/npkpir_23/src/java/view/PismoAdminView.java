@@ -132,7 +132,7 @@ public class PismoAdminView implements Serializable{
     public void usunpismoadmin(Pismoadmin p) {
         try {
             pismoadminDAO.destroy(p);
-            listapism.remove(p);
+            listapismwszytskie.remove(p);
             Msg.msg("i", "Udało się usunąć infomację dla Admina");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie udało się usunąć infomacji dla Admina");
