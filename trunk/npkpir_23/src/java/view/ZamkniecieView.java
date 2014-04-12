@@ -97,7 +97,6 @@ public class ZamkniecieView implements Serializable {
                     it.remove();
                 }//dwd
             }
-            Msg.msg("Pobrano archiwum zamykania miesięcy.");
         //przenoszenie danych od podatnika do tabeli tymczasowej
         } catch (Exception ex){
             //tworzenie archiwum dla podatnika
