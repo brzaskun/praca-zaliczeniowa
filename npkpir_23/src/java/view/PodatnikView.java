@@ -87,7 +87,8 @@ public class PodatnikView implements Serializable {
 
     @Inject
     private Zusstawki zusstawki;
-  
+    @Inject
+    private Zusstawki zusstawkiWybierz;
     @Inject
     private Parametr parametr;
     @Inject
@@ -111,6 +112,7 @@ public class PodatnikView implements Serializable {
     private String stratazostalo;
     @Inject
     private PitDAO pitDAO;
+    private String biezacadata;
     
 
     public PodatnikView() {
@@ -146,7 +148,7 @@ public class PodatnikView implements Serializable {
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
-
+        biezacadata = String.valueOf(new DateTime().getYear());
     }
 
     public void dodaj() {
@@ -451,24 +453,53 @@ public class PodatnikView implements Serializable {
             }
         }
     }
+    
+     public void edytujzus() {
+        try {
+            selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+            List<Zusstawki> tmp = new ArrayList<>();
+            try {
+                tmp.addAll(selected.getZusparametr());
+            } catch (Exception e) {
+            }
+            if (tmp.contains(zusstawki)) {
+                // to niby gupawe ale jest madre bo on rozpoznaje zus stawki po roku i miesiacu tylko
+                tmp.remove(zusstawki);
+                tmp.add(serialclone.SerialClone.clone(zusstawki));
+                selected.setZusparametr(tmp);
+                podatnikDAO.edit(selected);
+                zusstawki =  new Zusstawki();
+                Msg.msg("Udana edycja stawek ZUS");
+            } else {
+                Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (PodatnikView - edytujzus");
+            }
+        } catch (Exception e) {
+        }
+    }
 
-    public void usunzus() {
+    public void usunzus(Zusstawki loop) {
         selected = podatnikDAO.find(nazwaWybranegoPodatnika);
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(selected.getZusparametr());
-        tmp.remove(tmp.size() - 1);
+        tmp.remove(loop);
         selected.setZusparametr(tmp);
         podatnikDAO.edit(selected);
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void wybranowiadomosc() {
+        zusstawki = serialclone.SerialClone.clone(zusstawkiWybierz);
+        Msg.msg("Wybrano stawki ZUS.");
+    }
     
 
     public void pobierzzus() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String rokzus = params.get("akordeon:form3:rokzus");
-        String mczus = params.get("akordeon:form3:miesiaczus");
+        String rokzus = (String) params.Params.paramsContains("rokzus");
+        String mczus = (String) params.Params.paramsContains("miesiaczus");
+        if (rokzus == null || mczus == null) {
+            Msg.msg("e", "Problem z pobieraniem okresu rozliczeniowego.");
+        }
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(zusDAO.findAll());
         ZusstawkiPK key = new ZusstawkiPK();
@@ -964,7 +995,17 @@ public class PodatnikView implements Serializable {
 //             }
 //         }
 //     }
+    
+    
        
+    public String getBiezacadata() {
+        return biezacadata;
+    }
+
+    public void setBiezacadata(String biezacadata) {
+        this.biezacadata = biezacadata;
+    }
+
     public List<Podatnik> getListaPodatnikowFK() {
         return listaPodatnikowFK;
     }
@@ -1156,6 +1197,14 @@ public class PodatnikView implements Serializable {
 
     public void setPitDAO(PitDAO pitDAO) {
         this.pitDAO = pitDAO;
+    }
+
+    public Zusstawki getZusstawkiWybierz() {
+        return zusstawkiWybierz;
+    }
+
+    public void setZusstawkiWybierz(Zusstawki zusstawkiWybierz) {
+        this.zusstawkiWybierz = zusstawkiWybierz;
     }
 
  
