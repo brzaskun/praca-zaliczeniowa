@@ -87,7 +87,7 @@ public class PodatnikView implements Serializable {
 
     @Inject
     private Zusstawki zusstawki;
-
+  
     @Inject
     private Parametr parametr;
     @Inject
@@ -111,7 +111,7 @@ public class PodatnikView implements Serializable {
     private String stratazostalo;
     @Inject
     private PitDAO pitDAO;
-     private String biezacadata;
+    
 
     public PodatnikView() {
         miesiacepoweryfikacji = new ArrayList<>();
@@ -146,7 +146,6 @@ public class PodatnikView implements Serializable {
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
-        biezacadata = String.valueOf(new DateTime().getYear());
 
     }
 
@@ -441,23 +440,7 @@ public class PodatnikView implements Serializable {
         }
     }
 
-    public void dodajzusZbiorcze(Podatnik pod) {
-        try {
-            selected = podatnikDAO.find(pod.getNazwapelna());
-            List<Zusstawki> tmp = new ArrayList<>();
-            try {
-                tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) {
-            }
-            sprawdzzus(tmp);
-            tmp.add(zusstawki);
-            pod.setZusparametr(tmp);
-            selected.setZusparametr(tmp);
-            podatnikDAO.edit(selected);
-        } catch (Exception e) {
-        }
-    }
-
+  
     private void sprawdzzus(List tmp) throws Exception {
         Iterator it;
         it = tmp.iterator();
@@ -480,16 +463,7 @@ public class PodatnikView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void usunzusZbiorcze(Podatnik pod) {
-        selected = pod;
-        List<Zusstawki> tmp = new ArrayList<>();
-        tmp.addAll(selected.getZusparametr());
-        tmp.remove(tmp.size() - 1);
-        selected.setZusparametr(tmp);
-        podatnikDAO.edit(selected);
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+    
 
     public void pobierzzus() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -511,26 +485,7 @@ public class PodatnikView implements Serializable {
         }
     }
 
-    public void pobierzzusZbiorcze() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        List lista = new ArrayList(params.values());
-        String rokzus = (String) lista.get(6);
-        String mczus = (String) lista.get(7);
-        List<Zusstawki> tmp = new ArrayList<>();
-        tmp.addAll(zusDAO.findAll());
-        ZusstawkiPK key = new ZusstawkiPK();
-        key.setRok(rokzus);
-        key.setMiesiac(mczus);
-        Iterator it;
-        it = tmp.iterator();
-        while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
-            if (tmpX.getZusstawkiPK().equals(key)) {
-                zusstawki = tmpX;
-                break;
-            }
-        }
-    }
+   
 
     public String przejdzdoStrony() {
         selected = podatnikDAO.find(nazwaWybranegoPodatnika);
@@ -987,9 +942,7 @@ public class PodatnikView implements Serializable {
         return Math.round(zostalo * 100.0) / 100.0;
     }
     
-    public void wybranowiadomosc() {
-        Msg.msg("Wybrano stawki ZUS.");
-    }
+  
 
 //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
@@ -1011,6 +964,7 @@ public class PodatnikView implements Serializable {
 //             }
 //         }
 //     }
+       
     public List<Podatnik> getListaPodatnikowFK() {
         return listaPodatnikowFK;
     }
@@ -1204,14 +1158,6 @@ public class PodatnikView implements Serializable {
         this.pitDAO = pitDAO;
     }
 
-    public String getBiezacadata() {
-        return biezacadata;
-    }
-
-    public void setBiezacadata(String biezacadata) {
-        this.biezacadata = biezacadata;
-    }
-    
-    
+ 
 
 }
