@@ -54,8 +54,6 @@ public class Okresrozliczeniowy implements Serializable {
     }
     
     //</editor-fold>
-   
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -65,15 +63,15 @@ public class Okresrozliczeniowy implements Serializable {
             return false;
         }
         final Okresrozliczeniowy other = (Okresrozliczeniowy) obj;
-        if (this.zamkniety != other.zamkniety) {
+        if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
-        if (this.edytuj != other.edytuj) {
+        if (!Objects.equals(this.miesiac, other.miesiac)) {
             return false;
         }
         return true;
     }
-
+   
     @Override
     public int hashCode() {
         int hash = 7;
