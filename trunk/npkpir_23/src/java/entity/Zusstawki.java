@@ -50,6 +50,16 @@ public class Zusstawki implements Serializable {
         zusstawkiPK = new ZusstawkiPK();
     }
 
+    public Zusstawki(Zusstawki stary) {
+        this.zusstawkiPK = stary.zusstawkiPK;
+        this.zus51ch = stary.zus51ch;
+        this.zus51bch = stary.zus51bch;
+        this.zus52 = stary.zus52;
+        this.zus52odl = stary.zus52odl;
+        this.zus53 = stary.zus53;
+        this.pit4 = stary.pit4;
+    }
+
     public Zusstawki(ZusstawkiPK zusstawkiPK){
         this.zusstawkiPK = zusstawkiPK;
     }

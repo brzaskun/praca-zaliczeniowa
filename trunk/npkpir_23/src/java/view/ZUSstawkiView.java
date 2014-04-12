@@ -6,6 +6,7 @@ package view;
 
 import dao.ZUSDAO;
 import entity.Zusstawki;
+import entity.ZusstawkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class ZUSstawkiView implements Serializable{
     private ZUSDAO zusDAO;
     @Inject
     private Zusstawki selected;
+    @Inject
+    private Zusstawki wprowadzanie;
     private List<Zusstawki> listapobranychstawek;
     public ZUSstawkiView() {
         listapobranychstawek = new ArrayList<>();
@@ -46,23 +49,27 @@ public class ZUSstawkiView implements Serializable{
     
      public void dodajzus(){
          try{
-            zusDAO.dodaj(selected);
-            listapobranychstawek.add(selected);
-            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+selected.getZusstawkiPK().getMiesiac());
+            zusDAO.dodaj(wprowadzanie);
+            listapobranychstawek = new ArrayList<>();
+            listapobranychstawek = zusDAO.findAll();
+            wprowadzanie = new Zusstawki();
+            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+wprowadzanie.getZusstawkiPK().getMiesiac());
          } catch (Exception e) {
-             Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+selected.getZusstawkiPK().getRok()+" i miesiąc "+selected.getZusstawkiPK().getMiesiac()+" już istnieje");
+             Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+wprowadzanie.getZusstawkiPK().getRok()+" i miesiąc "+wprowadzanie.getZusstawkiPK().getMiesiac()+" już istnieje");
        }
         
      }
      
       public void edytujzus(){
          try{
-         zusDAO.edit(selected);
+         zusDAO.edit(wprowadzanie);
+         listapobranychstawek = new ArrayList<>();
          listapobranychstawek = zusDAO.findAll();
-         Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+selected.getZusstawkiPK().getMiesiac());
+         wprowadzanie = new Zusstawki();
+         Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
        
          } catch (Exception e) {
-         Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+selected.getZusstawkiPK().getMiesiac());
+         Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
          }
         
      }
@@ -71,13 +78,41 @@ public class ZUSstawkiView implements Serializable{
       public void usunzus(Zusstawki zusstawki){
         try {
             zusDAO.destroy(zusstawki);
-            listapobranychstawek.remove(zusstawki);
+            listapobranychstawek = new ArrayList<>();
+            listapobranychstawek = zusDAO.findAll();
+            wprowadzanie = new Zusstawki();
             Msg.msg("Usunieto parametr ZUS do podatnika za m-c: "+zusstawki.getZusstawkiPK().getMiesiac());
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
         }
      }
+      
+      public void wybranowiadomosc() {
+        wprowadzanie = serialclone.SerialClone.clone(selected);
+        Msg.msg("Wybrano stawki ZUS.");
+    }
     
+    public int sortujZUSstawki(Object obP, Object obW)  {
+        int rokO1 = Integer.parseInt(((ZusstawkiPK) obP).getRok());
+        int rokO2 = Integer.parseInt(((ZusstawkiPK) obW).getRok());
+        int mcO1 = Integer.parseInt(((ZusstawkiPK) obP).getMiesiac());
+        int mcO2 = Integer.parseInt(((ZusstawkiPK) obW).getMiesiac());
+        if (rokO1 < rokO2) {
+            return -1;
+        } else if (rokO1 > rokO2) {
+            return 1;
+        } else if (rokO1 == rokO2) {
+            if (mcO1 == mcO2) {
+                return 0;
+            } else if (mcO1 < mcO2) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     
     public ZUSDAO getZusDAO() {
         return zusDAO;
@@ -105,6 +140,14 @@ public class ZUSstawkiView implements Serializable{
 
     public void setBiezacadata(String biezacadata) {
         this.biezacadata = biezacadata;
+    }
+
+    public Zusstawki getWprowadzanie() {
+        return wprowadzanie;
+    }
+
+    public void setWprowadzanie(Zusstawki wprowadzanie) {
+        this.wprowadzanie = wprowadzanie;
     }
   
     
