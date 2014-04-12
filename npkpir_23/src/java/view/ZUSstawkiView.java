@@ -15,6 +15,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -27,13 +29,11 @@ public class ZUSstawkiView implements Serializable{
     private ZUSDAO zusDAO;
     @Inject
     private Zusstawki selected;
-    
     private List<Zusstawki> listapobranychstawek;
-
     public ZUSstawkiView() {
         listapobranychstawek = new ArrayList<>();
-       
     }
+    private String biezacadata;
 
     @PostConstruct
     private void init() {
@@ -41,32 +41,41 @@ public class ZUSstawkiView implements Serializable{
             listapobranychstawek = zusDAO.findAll();
         } catch (Exception e) {
         }
+        biezacadata = String.valueOf(new DateTime().getYear());
     }
     
      public void dodajzus(){
          try{
-         zusDAO.dodaj(selected);
-          listapobranychstawek.add(selected);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika za m-c:", selected.getZusstawkiPK().getMiesiac());
-         FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
+            zusDAO.dodaj(selected);
+            listapobranychstawek.add(selected);
+            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+selected.getZusstawkiPK().getMiesiac());
+         } catch (Exception e) {
+             Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+selected.getZusstawkiPK().getRok()+" i miesiąc "+selected.getZusstawkiPK().getMiesiac()+" już istnieje");
+       }
+        
+     }
+     
+      public void edytujzus(){
+         try{
+         zusDAO.edit(selected);
+         listapobranychstawek = zusDAO.findAll();
+         Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+selected.getZusstawkiPK().getMiesiac());
        
          } catch (Exception e) {
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Wpis za taki miesiąc już istnieje", "");
-         FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
-       
+         Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+selected.getZusstawkiPK().getMiesiac());
          }
         
      }
 
      
-      public void usunzus(){
-        int index = listapobranychstawek.size()-1;
-        selected = listapobranychstawek.get(index);
-        zusDAO.destroy(selected);
-        listapobranychstawek.remove(index);
-         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametr ZUS do podatnika za m-c:", selected.getZusstawkiPK().getMiesiac());
-         FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
-      
+      public void usunzus(Zusstawki zusstawki){
+        try {
+            zusDAO.destroy(zusstawki);
+            listapobranychstawek.remove(zusstawki);
+            Msg.msg("Usunieto parametr ZUS do podatnika za m-c: "+zusstawki.getZusstawkiPK().getMiesiac());
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
+        }
      }
     
     
@@ -89,6 +98,15 @@ public class ZUSstawkiView implements Serializable{
     public List<Zusstawki> getListapobranychstawek() {
         return listapobranychstawek;
     }
+
+    public String getBiezacadata() {
+        return biezacadata;
+    }
+
+    public void setBiezacadata(String biezacadata) {
+        this.biezacadata = biezacadata;
+    }
   
+    
     
 }

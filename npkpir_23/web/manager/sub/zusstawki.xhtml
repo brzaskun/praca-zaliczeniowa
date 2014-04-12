@@ -5,60 +5,83 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <h:form id="formzus" >
+    <h:form id="formlista">
         <p:growl id="msgzus" autoUpdate="true"/>
-        <p:focus for="parametryzus"/><br/>
-        <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
-                <p:dataTable value="#{zUSstawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                             sortBy="zusstawkiPK.rok" sortOrder="descending" >
-                    <f:facet name="header">
-                        <h:outputText value="Lista wprowadzonych stawek"/>
-                    </f:facet>
-                    <p:column headerText="rok" sortBy="zusstawkiPK.rok">
-                        <h:outputText value="#{loop.zusstawkiPK.rok}" />
-                    </p:column>
-                    <p:column headerText="miesiąc" >
-                        <h:outputText value="#{loop.zusstawkiPK.miesiac}" />
-                    </p:column>
-                    <p:column headerText="ZUS 51">
-                        <h:outputText value="#{loop.zus51ch}" />
-                    </p:column>
-                    <p:column headerText="ZUS 51/bch">
-                        <h:outputText value="#{loop.zus51bch}" />
-                    </p:column>
-                    <p:column headerText="ZUS 52">
-                        <h:outputText value="#{loop.zus52}" />
-                    </p:column>
-                    <p:column headerText="ZUS 52 odl.">
-                        <h:outputText value="#{loop.zus52odl}" />
-                    </p:column>
-                    <p:column headerText="ZUS 53">
-                        <h:outputText value="#{loop.zus53}" />
-                    </p:column>
-                    <br/>
-                </p:dataTable>
+        <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 70%;">
+            <p:dataTable value="#{zUSstawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                         sortBy="zusstawkiPK.rok" sortOrder="descending" selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
+                <p:ajax event="rowSelect" update=":formzus"/>
+                <f:facet name="header">
+                    <h:outputText value="Lista wprowadzonych stawek"/>
+                </f:facet>
+                <p:column headerText="rok" sortBy="zusstawkiPK.rok" style="text-align: center">
+                    <h:outputText value="#{loop.zusstawkiPK.rok}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; "/>
+                </p:column>
+                <p:column headerText="miesiąc"  style="text-align: center">
+                    <h:outputText value="#{loop.zusstawkiPK.miesiac}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
+                </p:column>
+                <p:column headerText="ZUS 51">
+                    <h:outputText value="#{loop.zus51ch}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ZUS 51/bch">
+                    <h:outputText value="#{loop.zus51bch}"  style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ZUS 52">
+                    <h:outputText value="#{loop.zus52}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ZUS 52 odl.">
+                    <h:outputText value="#{loop.zus52odl}"  style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ZUS 53">
+                    <h:outputText value="#{loop.zus53}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="ZUS 53">
+                    <h:outputText value="#{loop.zus53}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:commandButton action="#{zUSstawkiView.usunzus(loop)}" value="usun" update="@form" type="submit" />
+                </p:column>
+            </p:dataTable>
         </p:panel>
-        <br/>
-        <p:panel header="wybierz parametry aktualne" style="width: 700px;">
-            <p:panelGrid id="parametryzus" columns="2">
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zUSstawkiView.selected.zusstawkiPK.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <h:outputText value="miesiac : "/><h:selectOneMenu value="#{zUSstawkiView.selected.zusstawkiPK.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-                <h:outputText value="kwota zus51 z chor.: "/><h:inputText value="#{zUSstawkiView.selected.zus51ch}"><f:convertNumber /></h:inputText>
-                <h:outputText value="kwota zus51 bez chor.: "/><h:inputText value="#{zUSstawkiView.selected.zus51bch}"><f:convertNumber /></h:inputText>
-                <h:outputText value="kwota zus52: "/><h:inputText value="#{zUSstawkiView.selected.zus52}"><f:convertNumber  /></h:inputText>
-                <h:outputText value="kwota zus52odlicz: "/><h:inputText value="#{zUSstawkiView.selected.zus52odl}"><f:convertNumber  /></h:inputText>
-                <h:outputText value="kwota zus53: "/><h:inputText value="#{zUSstawkiView.selected.zus53}"><f:convertNumber /></h:inputText>
+    </h:form>
+    <h:form id="formzus" >
+        <p:focus for="parametryzus"/>
+        <p:panel header="Wprowadź parametry aktualne" style="width: 700px;">
+            <p:panelGrid id="parametryzus" columns="4">
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSstawkiView.selected.zusstawkiPK.rok}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
+                <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSstawkiView.selected.zusstawkiPK.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="kwota zus51 z chor.: "/>
+                <pe:inputNumber value="#{zUSstawkiView.selected.zus51ch}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                <h:outputText value="kwota zus51 bez chor.: "/>
+                <pe:inputNumber value="#{zUSstawkiView.selected.zus51bch}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                <h:outputText value="kwota zus52: "/>
+                <pe:inputNumber value="#{zUSstawkiView.selected.zus52}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
+                <h:outputText value="kwota zus52odlicz: "/>
+                <pe:inputNumber value="#{zUSstawkiView.selected.zus52odl}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />                         
+                <h:outputText value="kwota zus53: "/>
+                <pe:inputNumber value="#{zUSstawkiView.selected.zus53}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />
             </p:panelGrid>
         </p:panel>
-        <br/>
-        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-            <p:commandButton action="#{zUSstawkiView.usunzus()}" value="usun parametr" update="@form" type="submit" />
-            <p:commandButton action="#{zUSstawkiView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
+        <p:panelGrid columns="2" style="column-width: 350px; width: 700px; text-align: center;">
+            <p:commandButton action="#{zUSstawkiView.dodajzus()}" value="dodaj parametr" update="@form, :formlista"  type="submit" />
+            <p:commandButton action="#{zUSstawkiView.edytujzus()}" value="edytuj parametr" update="@form, :formlista"  type="submit" />
         </p:panelGrid>
     </h:form>
-
-
 </ui:composition>   
 
