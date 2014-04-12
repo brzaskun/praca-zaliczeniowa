@@ -6,7 +6,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton action="{zUSstawkiView.usunzus()}" value="usun parametr" update="@form" type="submit" />
@@ -14,6 +15,7 @@
             </p:panelGrid>
         </h:form>-->
    <p:growl id="msgzus" autoUpdate="true"/>
+
    <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="width: 60%;" >
         
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
@@ -22,7 +24,7 @@
                 <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                              sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="zusstawkiPK" sortOrder="descending" selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                              rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
-                    <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc()}" update="@(form)"/>       
+                    <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc()}" update="@form:parametryp"/>       
                     <f:facet name="header">
                         <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe"/>
                     </f:facet>
