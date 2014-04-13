@@ -31,9 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zusmail.findAll", query = "SELECT z FROM Zusmail z"),
+    @NamedQuery(name = "Zusmail.findByPK", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.podatnik = :podatnik AND z.zusmailPK.rok = :rok AND z.zusmailPK.mc = :mc"),
     @NamedQuery(name = "Zusmail.findByPodatnik", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.podatnik = :podatnik"),
     @NamedQuery(name = "Zusmail.findByRok", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.rok = :rok"),
     @NamedQuery(name = "Zusmail.findByMc", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.mc = :mc"),
+    @NamedQuery(name = "Zusmail.findByRokMc", query = "SELECT z FROM Zusmail z WHERE z.zusmailPK.rok = :rok AND z.zusmailPK.mc = :mc"),
     @NamedQuery(name = "Zusmail.findByZus51ch", query = "SELECT z FROM Zusmail z WHERE z.zus51ch = :zus51ch"),
     @NamedQuery(name = "Zusmail.findByZus51bch", query = "SELECT z FROM Zusmail z WHERE z.zus51bch = :zus51bch"),
     @NamedQuery(name = "Zusmail.findByZus52", query = "SELECT z FROM Zusmail z WHERE z.zus52 = :zus52"),
