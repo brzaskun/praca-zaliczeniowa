@@ -7,6 +7,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:form>
+        <p:panel header="Wybierz rok i miesiąc wysyłki" style="width: 70%">
+            <p:panelGrid id="parametryzus" columns="4">
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.rok}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
+                <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
 
     <h:form id="formlista">
         <p:growl id="msgzus" autoUpdate="true"/>
@@ -79,8 +87,8 @@
             </p:panelGrid>
         </p:panel>
         <p:panelGrid columns="2" style="width: 40%; text-align: center;">
-            <p:commandButton action="#{zUSstawkiView.edytujzus()}" value="edytuj parametr" update="@form, :formlista"  type="submit" />
             <p:commandButton action="#{zUSstawkiView.dodajzus()}" value="dodaj parametr" update="@form, :formlista"  type="submit" />
+            <p:commandButton action="#{zUSstawkiView.edytujzus()}" value="edytuj parametr" update="@form, :formlista"  type="submit" />
         </p:panelGrid>
     </h:form>
 </ui:composition>   

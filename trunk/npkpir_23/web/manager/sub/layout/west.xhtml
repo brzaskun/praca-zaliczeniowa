@@ -12,7 +12,6 @@
                 <p:menu >
                     <p:menuitem value="rodz. dokumentów"  outcome="rodzajedok" icon="ui-icon-circle-arrow-e" />  
                     <p:menuitem value="stawki podatkowe"  outcome="podstawki" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="zus stawki"  outcome="zusstawki" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="terminy płatności."  outcome="terminy" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="ewidencje vat"  outcome="ewidvat" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="dodaj os.fizyczną"  outcome="dodpodatnika" icon="ui-icon-circle-arrow-e"/>  
@@ -20,19 +19,20 @@
                 </p:menu>
             </h:form>
         </p:panel>
-         <p:separator/>
-        <p:panel style="padding: 5px,5px,5px,5px;">
-        <h:form>
+        <p:separator/>
+        <p:panel style="padding: 5px,5px,5px,5px;" header="Ustawianie ZUS dla wszystkich podatników">
+            <h:form>
                 <p:menu >
-                    <p:menuitem value="ZUS zbiorcze "  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />  
+                    <p:menuitem value="Kwoty wzorcowe"  outcome="zusstawki" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem value="Kwoty indywidualne"  outcome="zbiorcze" icon="ui-icon-circle-arrow-e" />
+                    <p:menuitem value="ZUS mail"  outcome="managerzusmail" icon="ui-icon-circle-arrow-e" />  
                 </p:menu>
             </h:form>
-            </p:panel>
-         <p:separator/>
-        
-         <p:panel>
+        </p:panel>
+        <p:separator/>
+        <p:panel>
             <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" /> 
-         </p:panel>
+        </p:panel>
     </p:layoutUnit>
 </ui:composition>   
 
