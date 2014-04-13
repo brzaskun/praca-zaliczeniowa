@@ -38,6 +38,7 @@ import entity.Uz;
 import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
+import entity.Zusmail;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kliencifk;
@@ -728,6 +729,14 @@ public class SessionFacade<T> {
     
     public List<String> findNazwaPelna(String nowanazwa) {
         return em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList();
+    }
+
+    public Zusmail findZusmail(Zusmail zusmail) {
+        return (Zusmail) em.createNamedQuery("Zusmail.findByPK").setParameter("podatnik", zusmail.getZusmailPK().getPodatnik()).setParameter("rok", zusmail.getZusmailPK().getRok()).setParameter("mc", zusmail.getZusmailPK().getMc()).getSingleResult();
+    }
+
+    public List<Zusmail> findZusRokMc(String rok, String mc) {
+        return em.createNamedQuery("Zusmail.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
   
   

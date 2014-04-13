@@ -22,6 +22,14 @@
             </p:panelGrid>
         </p:panel>
     </h:form>
+    <h:form>
+        <p:panel header="Menu podręczne" style="width: 80%">
+            <p:panelGrid id="parametryzus" columns="2">
+                <p:commandButton value="Wyślij wszystkie" actionListener="#{zUSMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;"/>
+                <p:commandButton value="Wyślij ponownie" actionListener="#{zUSMailView.wyslijponownie()}"  update=":wykazmaili" style="width: 150px;"/>
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
         <h:form id="wykazmaili">
             <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 80%;"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}">
@@ -130,6 +138,9 @@
                         <h:outputText value="Wysylajacy"/>
                     </f:facet>
                     <h:outputText value="#{item.wysylajacy}"/>
+                </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton value="wyślij" actionListener="#{zUSMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 100px;"/>
                 </p:column>
             </p:dataTable>
         </h:form>
