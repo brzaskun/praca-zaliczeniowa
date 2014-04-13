@@ -257,11 +257,14 @@
             <from-outcome>zbiorcze</from-outcome>
             <to-view-id>/manager/managerZbiorcze.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>managerzusmail</from-outcome>
+            <to-view-id>/manager/managerZUSMail.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>ewidvat</from-outcome>
             <to-view-id>/manager/managerEwVat.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>managerPodUstaw
-        
+        </navigation-case>
           <navigation-case>
             <from-outcome>kasa</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRK.xhtml?faces-redirect=true</to-view-id>
