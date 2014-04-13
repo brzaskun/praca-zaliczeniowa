@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -36,10 +37,10 @@ import view.WpisView;
 @ViewScoped
 public class ZUSMailView implements Serializable {
     
-    private String rok;
-    private String mc;
-    private List<Zusmail> wykazprzygotowanychmaili;
-    private Map<String, Zusstawki> stawkipodatnicy;
+    private static String rok;
+    private static String mc;
+    private static List<Zusmail> wykazprzygotowanychmaili;
+    private static Map<String, Zusstawki> stawkipodatnicy;
     @Inject
     private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
@@ -54,10 +55,12 @@ public class ZUSMailView implements Serializable {
     private void init() {
         rok = String.valueOf((new DateTime()).getYear());
         mc = Mce.getMapamcy().get((new DateTime()).getMonthOfYear());
+        pobierzstawki();
         przygotujmaile();
     }
     
     private void pobierzstawki() {
+        stawkipodatnicy.clear();
         List<Podatnik> podatnicy = podatnikDAO.findAll();
         ZusstawkiPK zusstawkiPK = new ZusstawkiPK(rok, mc);
         for (Podatnik p : podatnicy) {
@@ -73,7 +76,7 @@ public class ZUSMailView implements Serializable {
     }
     
     public void przygotujmaile() {
-        pobierzstawki();
+        wykazprzygotowanychmaili.clear();
         if (!stawkipodatnicy.isEmpty()) {
             Set<String> pobranipodatnicy = stawkipodatnicy.keySet();
             for (String p : pobranipodatnicy) {
@@ -88,8 +91,13 @@ public class ZUSMailView implements Serializable {
                 zusmail.setPit4(zusstawki.getPit4());
                 zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                 zusmail.setTresc("Trescmaila");
+                zusmail.setAdresmail((podatnikDAO.find(p)).getEmail());
                 zusmail.setWysylajacy(wpisView.getWprowadzil().getLogin());
-                wykazprzygotowanychmaili.add(zusmail);
+                if (!wykazprzygotowanychmaili.contains(zusmail)) {
+                    wykazprzygotowanychmaili.add(zusmail);
+                } else {
+                    Msg.msg("duplitak");
+                }
             }
         }
     }
@@ -97,6 +105,7 @@ public class ZUSMailView implements Serializable {
     
     public void wiadomosczmiana(String cozmieniono) {
         Msg.msg(String.format("Dokonano zmiany: %s", cozmieniono));
+        pobierzstawki();
         przygotujmaile();
     }
 

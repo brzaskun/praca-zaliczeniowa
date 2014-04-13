@@ -12,25 +12,26 @@
         <p:panel header="Wybierz rok i miesiąc wysyłki" style="width: 80%">
             <p:panelGrid id="parametryzus" columns="4">
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSMailView.rok}">
-                    <f:ajax event="change" execute="@form" listener="#{zUSMailView.wiadomosczmiana('roku.')}"/>
-                    <p:ajax event="change" update=":wykazmaili"/>
+                    <p:ajax event="change" listener="#{zUSMailView.wiadomosczmiana('roku.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </p:selectOneMenu>
                 <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSMailView.mc}" >
-                    <f:ajax event="change" execute="@form" listener="#{zUSMailView.wiadomosczmiana('miesiąca.')}"/>
-                    <p:ajax event="change" update=":wykazmaili"/>
+                    <p:ajax event="change"  listener="#{zUSMailView.wiadomosczmiana('miesiąca.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </p:panel>
     </h:form>
-    <f:view>
         <h:form id="wykazmaili">
-            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 80%;">
+            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 80%;"
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}">
                 <f:facet name="header">
-                        <h:outputText value="Lista przygotowanych maili"/>
-                    </f:facet>
-                <p:column>
+                    <h:outputText value="Lista przygotowanych maili"/>
+                </f:facet>
+                <p:column style="width: 4%;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column style="width: 15%">
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
@@ -52,47 +53,59 @@
                     <f:facet name="header">
                         <h:outputText value="Zus51ch"/>
                     </f:facet>
-                    <h:outputText value="#{item.zus51ch}"/>
+                    <h:outputText value="#{item.zus51ch}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Zus51bch"/>
                     </f:facet>
-                    <h:outputText value="#{item.zus51bch}"/>
+                    <h:outputText value="#{item.zus51bch}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Zus52"/>
                     </f:facet>
-                    <h:outputText value="#{item.zus52}"/>
+                    <h:outputText value="#{item.zus52}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Zus52odl"/>
                     </f:facet>
-                    <h:outputText value="#{item.zus52odl}"/>
+                    <h:outputText value="#{item.zus52odl}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Zus53"/>
                     </f:facet>
-                    <h:outputText value="#{item.zus53}"/>
+                    <h:outputText value="#{item.zus53}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Pit4"/>
                     </f:facet>
-                    <h:outputText value="#{item.pit4}"/>
+                    <h:outputText value="#{item.pit4}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Datawysylki"/>
                     </f:facet>
                     <h:outputText value="#{item.datawysylki}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Nrwysylki"/>
                     </f:facet>
@@ -104,18 +117,14 @@
                     </f:facet>
                     <h:outputText value="#{item.adresmail}"/>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">
+                <p:rowExpansion>
+                    <p:panelGrid columns="2">
                         <h:outputText value="Tytul"/>
-                    </f:facet>
-                    <h:outputText value="#{item.tytul}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
+                        <h:outputText value="#{item.tytul}"/>
                         <h:outputText value="Tresc"/>
-                    </f:facet>
-                    <h:outputText value="#{item.tresc}"/>
-                </p:column>
+                        <h:outputText value="#{item.tresc}"/>
+                    </p:panelGrid>
+                </p:rowExpansion>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Wysylajacy"/>
@@ -124,9 +133,5 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-    </f:view>
-
-
-
 </ui:composition>   
 
