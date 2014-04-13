@@ -5,11 +5,13 @@
 package view;
 
 import comparator.Dokcomparator;
+import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import daoFK.VatuepodatnikDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.VatUe;
+import entity.Deklaracjevat;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -37,23 +40,25 @@ import msg.Msg;
 @ManagedBean(name = "vatUeView")
 @ViewScoped
 public class VatUeView implements Serializable {
+
     //lista gdzie beda podsumowane wartosci
     private static List<VatUe> klienciWDTWNT;
     private static List<VatUe> listawybranych;
+    private static List<Danezdekalracji> danezdeklaracji;
 
     public static List<VatUe> getKlienciWDTWNTS() {
         return klienciWDTWNT;
     }
-    //</editor-fold>
-
-
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
     @Inject
     private Uz uzytkownik;
-    @Inject private VatuepodatnikDAO vatuepodatnikDAO;
+    @Inject
+    private VatuepodatnikDAO vatuepodatnikDAO;
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
 
     public VatUeView() {
         klienciWDTWNT = new ArrayList<>();
@@ -89,19 +94,26 @@ public class VatUeView implements Serializable {
             Logger.getLogger(VatUeView.class.getName()).log(Level.SEVERE, null, ex);
         }
         //a teraz podsumuj klientów
+        double sumanettovatue = 0.0;
         for (Dok p : dokvatmc) {
             for (VatUe s : klienciWDTWNT) {
                 if (p.getKontr().getNip().equals(s.getKontrahent().getNip()) && p.getTypdokumentu().equals(s.getTransakcja())) {
                     s.setNetto(p.getNetto() + s.getNetto());
                     s.setLiczbadok(s.getLiczbadok() + 1);
                     s.getZawiera().add(p);
+                    sumanettovatue += (double) Math.round(p.getNetto());
                     break;
                 }
             }
         }
+        VatUe rzadpodsumowanie = new VatUe("podsumowanie", null, sumanettovatue, 0, null);
+        klienciWDTWNT.add(rzadpodsumowanie);
         zachowajwbazie(String.valueOf(rok), m, podatnik);
+        try {
+            pobierzdanezdeklaracji();
+        } catch (Exception e) {}
     }
-    
+
     private void zachowajwbazie(String rok, String symbolokresu, String klient) {
         Vatuepodatnik vatuepodatnik = new Vatuepodatnik();
         VatuepodatnikPK vatuepodatnikPK = new VatuepodatnikPK();
@@ -126,11 +138,10 @@ public class VatUeView implements Serializable {
         switch (vatokres) {
             case "blad":
                 throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-            case "miesięczne":
-            {
+            case "miesięczne": {
                 List<Dok> listatymczasowa = new ArrayList<>();
                 for (Dok p : listadokvat) {
-                    if (p.getVatM().equals(wpisView.getMiesiacWpisu())&&(p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT"))) {
+                    if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getTypdokumentu().equals("WNT") || p.getTypdokumentu().equals("WDT"))) {
                         //pobieramy dokumenty z danego okresu do sumowania
                         listatymczasowa.add(p);
                         //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
@@ -138,15 +149,13 @@ public class VatUeView implements Serializable {
                             klienty.add(new VatUe(p.getTypdokumentu(), p.getKontr(), 0.0, 0, new ArrayList<Dok>()));
                         }
                     }
-                    
-                    
+
                 }
                 //potem do tych wyciagnietych klientow bedziemy przyporzadkowywac faktury i je sumowac
                 klienciWDTWNT.addAll(klienty);
                 return listatymczasowa;
             }
-            default:
-            {
+            default: {
                 List<Dok> listatymczasowa = new ArrayList<>();
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
@@ -164,13 +173,57 @@ public class VatUeView implements Serializable {
             }
         }
     }
-    
 
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    public void pobierzdanezdeklaracji() throws Exception {
+        danezdeklaracji = new ArrayList<>();
+        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+        List<Deklaracjevat> deklaracjevat = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (deklaracjevat != null){
+            //czesc niezbedna do usuwania pierwotnych deklaracji w przypadku istnienia korekt
+            List<Deklaracjevat> deklaracjevat2 = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Iterator it = deklaracjevat.iterator();
+            while (it.hasNext()) {
+                Deklaracjevat p  = (Deklaracjevat) it.next();
+                    for(Deklaracjevat r : deklaracjevat2) {
+                        if (p.getMiesiac().equals(r.getMiesiac())) {
+                            if (p.getNrkolejny()<r.getNrkolejny()) {
+                                it.remove();
+                            }
+                        }
+                    }
+            }
+            int suma = 0;
+            for (Deklaracjevat p : deklaracjevat) {
+                if (miesiacewkwartale.contains(p.getMiesiac())) {
+                    Danezdekalracji dane = new Danezdekalracji();
+                    dane.setNazwa("deklaracja");
+                    dane.setMiesiac(p.getMiesiac());
+                    dane.setNetto(p.getPozycjeszczegolowe().getPoleI33());
+                    suma += dane.getNetto();
+                    danezdeklaracji.add(dane);
+                }
+            }
+            Danezdekalracji dane = new Danezdekalracji();
+            dane.setNazwa("podsumowanie");
+            dane.setMiesiac("wysłanych");
+            dane.setNetto(suma);
+            danezdeklaracji.add(dane);
+        }
+    }
+
+    public List<Danezdekalracji> getDanezdeklaracji() {
+        return danezdeklaracji;
+    }
+
+    public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
+        VatUeView.danezdeklaracji = danezdeklaracji;
+    }
+
     public WpisView getWpisView() {
         return wpisView;
     }
-    
+
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
@@ -182,14 +235,51 @@ public class VatUeView implements Serializable {
     public void setListawybranych(List<VatUe> listawybranych) {
         VatUeView.listawybranych = listawybranych;
     }
-    
-    
+
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
     }
-    
+
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
         VatUeView.klienciWDTWNT = klienciWDTWNT;
     }
-    
+
+    public static class Danezdekalracji {
+        private String  nazwa;
+        private String miesiac;
+        private int netto;
+        
+        public Danezdekalracji() {
+        }
+
+//<editor-fold defaultstate="collapsed" desc="comment">
+        
+        public String getNazwa() {
+            return nazwa;
+        }
+
+        public void setNazwa(String nazwa) {
+            this.nazwa = nazwa;
+        }
+
+        public String getMiesiac() {
+            return miesiac;
+        }
+        
+        public void setMiesiac(String miesiac) {
+            this.miesiac = miesiac;
+        }
+        
+        public int getNetto() {
+            return netto;
+        }
+        
+        public void setNetto(int netto) {
+            this.netto = netto;
+        }
+//</editor-fold>
+        
+        
+    }
+
 }
