@@ -6,13 +6,10 @@ package viewadmin;
 
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
-import dao.UzDAO;
 import embeddable.Mce;
 import entity.Adminmail;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
-import entity.Pismoadmin;
-import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;

@@ -70,7 +70,7 @@ public class Zusmail implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    private int nrwysylki;
+    private int nrwysylki = 0;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
