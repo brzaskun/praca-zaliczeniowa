@@ -19,24 +19,17 @@
                     <h:outputLabel value="miejsce wystawienia faktury: " />
                     <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                         <p:inputText value="#{fakturaView.selected.miejscewystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>  
-                    <h:outputLabel value="data wystawienia faktury: " />
-                    <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>  
-                    <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
-                    <p:inplace id="datasprz" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
                     </p:inplace>
+                    <h:outputLabel value="data wystawienia faktury: " />
+                    <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
+                    <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
+                        <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="nr faktury: "/>
                     <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                         <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
                     </p:inplace>
-
                     <h:outputLabel value="termin zapłaty: " />
-                    <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>
+                    <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="sposób zapłaty: " />
                     <h:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
                         <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
