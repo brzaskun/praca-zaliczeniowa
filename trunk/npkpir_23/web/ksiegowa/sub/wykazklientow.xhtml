@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="formX">
     <p:panel id="panelDodawaniaDokumentu">
-        <p:panel menuTitle="Wprowadzanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
+        <p:panel menuTitle="Wprowadzanie/edytowanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
             <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
@@ -50,8 +50,11 @@
                 <p:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" effect="clip" effectSpeed="100" height="190">
                     <f:selectItems value="#{kolmn.kolumnList}" />
                 </p:selectOneMenu>
-                 
-                <p:commandButton value="dodaj" action="#{KlView.dodajKlienta()}" accesskey="w" update="@form :formY" />
+                
+                <p:splitButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update="@form :formY" icon="ui-icon-disk">  
+                    <p:menuitem value="Edytuj" actionListener="#{KlView.edit()}" update="@form :formY" icon="ui-icon-arrowrefresh-1-w"/>  
+                </p:splitButton>  
+  
             
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania1" columns="5" >
@@ -87,13 +90,13 @@
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" 
-                 rowKey="#{wpis.nip}" selection="#{KlView.selected}" selectionMode="single"
+                 rowKey="#{wpis.nip}" selection="#{KlView.selected}" 
                  emptyMessage="Nie ma klientów" style="margin-left: 2%; width: 90%;">
-            <p:ajax event="rowEdit" update=":formX:mess_add" listener="#{KlView.edit}" />
+            <p:ajax event="rowSelectRadio" update="@form :formX" />
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
         </f:facet>
-
+            <p:column selectionMode="single" width="50" style="text-align: center;"/>
             <p:column id="Column1" headerText="lp" sortBy="nip}"  filterBy="nip" filterMatchMode="startsWith" filterMaxLength="10">  
             <f:facet name="header">  
                 <h:outputText value="nip" />  
@@ -143,33 +146,15 @@
             <f:facet name="header">  
                 <h:outputText value="kolumna" />  
             </f:facet>
-                <p:cellEditor>  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.pkpirKolumna}"/>
-                    </f:facet>  
-                    <f:facet name="input">  
-                         <p:selectOneMenu id="pkpirPole" value="#{wpis.pkpirKolumna}"   style="width: 200px" effect="clip" effectSpeed="100" height="190">
-                    <f:selectItems value="#{kolmn.kolumnList}" />
-                </p:selectOneMenu>
-                    </f:facet>  
-                </p:cellEditor>
+                <h:outputText id="pkpirPole" value="#{wpis.pkpirKolumna}"   style="width: 200px" />
         </p:column>
             <p:column id="Column4a" headerText="lp" sortBy="email}" filterBy="email" filterMatchMode="contains" >  
             <f:facet name="header">  
                 <h:outputText value="email" />  
             </f:facet>
-                <p:cellEditor>  
-                    <f:facet name="output">  
-                        <h:outputText value="#{wpis.email}"/>
-                    </f:facet>  
-                    <f:facet name="input">  
-                        <p:inputText value="#{wpis.email}"/>
-                    </f:facet>  
-                </p:cellEditor>
+              <h:outputText value="#{wpis.email}"/>
         </p:column>
-        <p:column id="editColumn" headerText="edytuj">
-            <p:rowEditor />  
-        </p:column>
+         
         <p:column id="deleteColumn" headerText="usuń">
             <p:commandButton actionListener="#{KlView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formY" />
         </p:column>

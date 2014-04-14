@@ -226,14 +226,14 @@ public class KlView implements Serializable{
         return results;  
     }  
  
-     public void edit(RowEditEvent ex) {
+     public void edit() {
         try {
             //sformatuj();
             klDAO.edit(selected);
             //refresh();
             kl1 = new ArrayList<>();
             kl1.addAll(klDAO.findAll());
-            FacesMessage msg = new FacesMessage("Klient zedytowany DAO" + ex.getObject().toString(), selected.getNpelna());
+            FacesMessage msg = new FacesMessage("Klient zedytowany DAO",  selected.getNpelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Klient nie zedytowany DAO", e.getStackTrace().toString());
