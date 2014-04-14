@@ -49,11 +49,6 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="ZUS 53">
-                    <h:outputText value="#{loop.zus53}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
                 <p:column style="text-align: center">
                     <p:commandButton action="#{zUSstawkiView.usunzus(loop)}" value="usun" update="@form" type="submit" />
                 </p:column>

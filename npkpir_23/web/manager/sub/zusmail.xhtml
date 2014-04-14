@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:growl autoUpdate="true"/>
     <h:form>
-        <p:panel header="Wybierz rok i miesiąc wysyłki" style="width: 80%">
+        <p:panel header="Wybierz rok i miesiąc wysyłki" style="width: 90%">
             <p:panelGrid id="parametryzus" columns="4">
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSMailView.rok}">
                     <p:ajax event="change" listener="#{zUSMailView.wiadomosczmiana('roku.')}" update=":wykazmaili"/>
@@ -31,7 +31,7 @@
         </p:panel>
     </h:form>
         <h:form id="wykazmaili">
-            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 80%;"
+            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 90%;"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}">
                 <f:facet name="header">
                     <h:outputText value="Lista przygotowanych maili"/>
@@ -142,6 +142,12 @@
                 <p:column style="text-align: center;">
                     <p:commandButton value="wyślij" actionListener="#{zUSMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 100px;"/>
                 </p:column>
+                 <p:column style="width: 15%">
+                    <f:facet name="header">
+                        <h:outputText value="Podatnik"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zusmailPK.podatnik}" />
+                </p:column>s
             </p:dataTable>
         </h:form>
 </ui:composition>   
