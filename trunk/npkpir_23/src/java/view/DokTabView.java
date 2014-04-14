@@ -78,6 +78,8 @@ public class DokTabView implements Serializable {
     private List<Dok> obiektDOKjsfSel;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     private List<Dok> obiektDOKmrjsfSel;
+    //tablica obiektów danego klienta z określonego roku i miesiąca
+    private List<Dok> dokumentyFiltered;
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
     //dokumenty niezaplacone
@@ -261,6 +263,7 @@ public class DokTabView implements Serializable {
                 dokDAO.destroy(dokdoUsuniecia);
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
+                dokumentyFiltered.remove(dokdoUsuniecia);
             } catch (Exception e) {
             }
             Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
@@ -284,9 +287,10 @@ public class DokTabView implements Serializable {
         } else {
             dokdoUsuniecia.getTypdokumentu().equals("OT");
             try {
+                dokDAO.destroy(dokdoUsuniecia);
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
-                dokDAO.destroy(dokdoUsuniecia);
+                dokumentyFiltered.remove(dokdoUsuniecia);
             } catch (Exception e) {
                 throw new Exception();
             }
@@ -727,9 +731,20 @@ public class DokTabView implements Serializable {
         public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
             this.dokumentyokresowe = dokumentyokresowe;
         }
-    //</editor-fold>
+        
+        
+
+    public List<Dok> getDokumentyFiltered() {
+        return dokumentyFiltered;
+    }
+
+    public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
+        this.dokumentyFiltered = dokumentyFiltered;
+    }
             
     
+        
+    //</editor-fold>
    
         
 }

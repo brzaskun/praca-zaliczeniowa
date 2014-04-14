@@ -40,7 +40,7 @@
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
          <p:hotkey bind="up"   onstart="wrocwiersz();"/>
          <p:outputPanel id="kontenertabeli" deferred="true">
-             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
+             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" filteredValue="#{DokTabView.dokumentyFiltered}"
                            style="width: 100%; height: 1000px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid"
