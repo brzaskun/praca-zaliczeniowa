@@ -23,10 +23,11 @@
     <p:separator/>
     <p:outputPanel id="wrapper" deferred="true">
 
-        <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
-                      selection="#{obrotyView.goscwybral}"  widgetVar="dokTable"
+        <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
+                      selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" filterDelay="600"
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
-                      style="width: 85%;" > 
+                      style="width: 85%;" >
+            <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <f:facet name="header">  

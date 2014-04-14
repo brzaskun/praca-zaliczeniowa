@@ -26,7 +26,7 @@
                 <h:inputText value="#{mailOther.wiadomoscdodatkowa}" style="width: 800px;"/>
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}"
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable">
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable" rowSelectMode="add">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowancyh faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  
