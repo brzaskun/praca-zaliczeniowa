@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 import params.Params;
 
 /**
@@ -36,6 +37,7 @@ public class KlView implements Serializable{
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;
     private static ArrayList<Klienci> kl1;
+    private static ArrayList<Klienci> klienciFiltered;
     private static Klienci doUsuniecia;
 
     public static ArrayList<Klienci> getKl1S() {
@@ -240,6 +242,11 @@ public class KlView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+     
+    public void wybranodoedycji(SelectEvent ex) {
+        Klienci wybrany = (Klienci) ex.getObject();
+        Msg.msg("Wybrano klienta do edycji: "+wybrany.getNpelna());
+    }
 
       public void destroy(Klienci selDok) {
           doUsuniecia = new Klienci();
@@ -249,8 +256,9 @@ public class KlView implements Serializable{
       
          public void destroy2() {
         try {
-            kl1.remove(doUsuniecia);
             klDAO.destroy(doUsuniecia);
+            kl1.remove(doUsuniecia);
+            klienciFiltered.remove(doUsuniecia);
             RequestContext.getCurrentInstance().update("formY:");
             Msg.msg("i","Usunięto wskazanego klienta","formX:mess_add");
         } catch (Exception e) {
@@ -376,5 +384,14 @@ public class KlView implements Serializable{
         KlView.doUsuniecia = doUsuniecia;
     }
 
+    public ArrayList<Klienci> getKlienciFiltered() {
+        return klienciFiltered;
+    }
+
+    public void setKlienciFiltered(ArrayList<Klienci> klienciFiltered) {
+        KlView.klienciFiltered = klienciFiltered;
+    }
+
+    
    
 }

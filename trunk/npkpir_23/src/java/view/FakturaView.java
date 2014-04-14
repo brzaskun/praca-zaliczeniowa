@@ -77,10 +77,14 @@ public class FakturaView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     //faktury z bazy danych
     private List<Faktura> faktury;
+    //faktury z bazy danych przefiltrowane
+    private List<Faktura> fakturyFiltered;
     //faktury z bazy danych
     private List<Faktura> fakturyarchiwum;
     //faktury okresowe z bazy danych
     private List<Fakturywystokresowe> fakturyokresowe;
+    //faktury okresowe z bazy danych filtrowane
+    private List<Fakturywystokresowe> fakturyokresoweFiltered;
     //do zaksiegowania faktury
     @Inject
     private DokDAO dokDAO;
@@ -333,6 +337,7 @@ public class FakturaView implements Serializable {
                 }
                 fakturaDAO.destroy(p);
                 faktury.remove(p);
+                fakturyFiltered.remove(p);
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
@@ -345,6 +350,7 @@ public class FakturaView implements Serializable {
             try {
                 fakturaDAO.destroy(p);
                 faktury.remove(p);
+                fakturyFiltered.remove(p);
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
@@ -360,6 +366,7 @@ public class FakturaView implements Serializable {
                 }
                 fakturaDAO.destroy(p);
                 fakturyarchiwum.remove(p);
+                fakturyFiltered.remove(p);
                 Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
                 Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getFakturaPK().getNumerkolejny());
@@ -688,8 +695,9 @@ public class FakturaView implements Serializable {
 
     public void usunfaktureokresowa() {
         for (Fakturywystokresowe p : gosciwybralokres) {
-            fakturyokresowe.remove(p);
             fakturywystokresoweDAO.destroy(p);
+            fakturyokresowe.remove(p);
+            fakturyokresoweFiltered.remove(p);
             Msg.msg("i", "Usunięto fakturę okresową");
         }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
@@ -1073,6 +1081,27 @@ public class FakturaView implements Serializable {
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
+    
+    
+    public List<Faktura> getFakturyFiltered() {
+        return fakturyFiltered;
+    }
+
+    public void setFakturyFiltered(List<Faktura> fakturyFiltered) {
+        this.fakturyFiltered = fakturyFiltered;
+    }
+    
+    
+    
+    public List<Fakturywystokresowe> getFakturyokresoweFiltered() {
+        return fakturyokresoweFiltered;
+    }
+
+    public void setFakturyokresoweFiltered(List<Fakturywystokresowe> fakturyokresoweFiltered) {
+        this.fakturyokresoweFiltered = fakturyokresoweFiltered;
+    }
+
     //</editor-fold>
+
     
 }
