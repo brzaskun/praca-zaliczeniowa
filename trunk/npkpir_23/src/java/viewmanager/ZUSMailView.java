@@ -194,6 +194,7 @@ public class ZUSMailView implements Serializable {
                Msg.msg("Edytowano istniejący zusmail");
             } else {
                zusmail.setNrwysylki(1);
+               zusmail.setDatawysylki(new Date());
                zusmailDAO.dodaj(zusmail);
                Msg.msg("Zachowano nowy zusmail");
             }
