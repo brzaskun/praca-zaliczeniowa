@@ -26,7 +26,8 @@
                 <h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
             </p:panelGrid>
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="rok}" sortOrder="DESCENDING">
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="rok}" sortOrder="DESCENDING"
+                         rowSelectMode="add">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie faktur okresowych: " />  
                     <h:outputText value="- wyszukiwanie: " />  

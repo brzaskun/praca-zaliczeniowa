@@ -36,6 +36,8 @@ public class ObrotyView implements Serializable{
     
      //tablica obiektów danego klienta z określonego roku i miesiecy
     private static List<Dok> obiektDOKmrjsfSelX;
+    //tablica obiektów danego klienta z określonego roku i miesiecy przefiltrowana
+    private static List<Dok> dokumentyFiltered;
      //tablica obiektw danego klienta
     private static List<Dok> obiektDOKjsfSelRok;
     //lista wybranych dokumentow w panelu Guest
@@ -215,5 +217,14 @@ public class ObrotyView implements Serializable{
         this.podsumowaniewybranychnetto = podsumowaniewybranychnetto;
     }
 
+    public List<Dok> getDokumentyFiltered() {
+        return dokumentyFiltered;
+    }
+
+    public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
+        ObrotyView.dokumentyFiltered = dokumentyFiltered;
+    }
+
+    
     
 }
