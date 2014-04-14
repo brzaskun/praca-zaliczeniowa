@@ -10,7 +10,7 @@
 
     <h:form id="formlista">
         <p:growl id="msgzus" autoUpdate="true"/>
-        <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 70%;">
+        <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
             <p:dataTable value="#{zUSstawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="zusstawkiPK" sortOrder="descending" selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >

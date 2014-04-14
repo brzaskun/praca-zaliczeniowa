@@ -16,7 +16,7 @@
         </h:form>-->
    <p:growl id="msgzus" autoUpdate="true"/>
 
-   <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="width: 60%;" >
+   <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="width: 100%;" >
         
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
             <h:form id="zbiorczyform">
@@ -67,7 +67,7 @@
                     <br/>
                 </p:dataTable>
             </p:panelGrid>
-                 <p:panel header="Wprowadź parametry aktualne" style="width: 80%;"/>
+                 <p:panel header="Wprowadź parametry aktualne" style="width: 70%;"/>
            
                 <p:panelGrid id="parametryp" columns="4" >
                     <h:outputText value="rok: "/><p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
@@ -86,7 +86,7 @@
                     <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.pit4}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
                 </p:panelGrid>
                 <br/>
-                <p:panelGrid columns="4" style="column-width: 350px; width: 80%;  text-align: center;">
+                <p:panelGrid columns="4" style="column-width: 350px; width: 70%;  text-align: center;">
                     <p:commandButton action="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 120px;" update="@form"/>
                     <p:commandButton action="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 120px;" update="@form" />
                     <p:commandButton action="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 120px;" update="@form" />
