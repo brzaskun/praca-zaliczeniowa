@@ -127,10 +127,12 @@ public class FakturaView implements Serializable {
 
     public void przygotujfakture() {
         selected = new Faktura();
-        DateTime dt = new DateTime();
-        LocalDate firstDate = dt.toLocalDate();
-        selected.setDatawystawienia(firstDate.toString());
-        selected.setDatasprzedazy(firstDate.toString());
+        String rokmiesiac = wpisView.getRokWpisuSt()+"-"+wpisView.getMiesiacWpisu()+"-";
+        String dzien = String.valueOf((new DateTime()).getDayOfMonth());
+        dzien = dzien.length() == 1 ? "0"+dzien : dzien;
+        String pelnadata = rokmiesiac + dzien;
+        selected.setDatawystawienia(pelnadata);
+        selected.setDatasprzedazy(pelnadata);
         fakturaPK.setNumerkolejny("wpisz numer");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
@@ -140,6 +142,8 @@ public class FakturaView implements Serializable {
         } catch (Exception et) {
             selected.setMiejscewystawienia("nie ustawiono miejsca");
         }
+        DateTime dt = new DateTime(pelnadata);
+        LocalDate firstDate = dt.toLocalDate();
         try {
             LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
             selected.setTerminzaplaty(terminplatnosci.toString());
