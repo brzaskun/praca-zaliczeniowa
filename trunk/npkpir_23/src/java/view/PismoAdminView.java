@@ -38,8 +38,10 @@ public class PismoAdminView implements Serializable{
     private static final List<String> statusadmin;
     static {
         listamenu = new ArrayList<>();
+        listamenu.add("ekran logowanie");
         listamenu.add("zmiana podatnika");
         listamenu.add("info podatnik");
+        listamenu.add("parametry");
         listamenu.add("wpisywanie");
         listamenu.add("wykaz dokumentów");
         listamenu.add("podatkowa ksiega");
@@ -89,6 +91,7 @@ public class PismoAdminView implements Serializable{
     
      public void molestujadmina() {
          try {
+             pismoadmin.setDatawiadomosci(new Date());
              pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
              pismoadmin.setStatus("wysłana");
              int wynik = sprawdzduplikat();

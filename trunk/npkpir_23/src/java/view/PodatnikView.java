@@ -61,7 +61,7 @@ import org.primefaces.event.RowEditEvent;
 public class PodatnikView implements Serializable {
     private static ArrayList<Podatnik> listapodatnikow;
     //
-    private static String nazwaWybranegoPodatnika;
+    private String nazwaWybranegoPodatnika;
     //tak sie sklada ze to jest glowna lista z podatnikami :)
     private static List<Podatnik> li;
     //tak sie sklada ze to jest glowna lista z podatnikami :)
@@ -1092,7 +1092,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void setNazwaWybranegoPodatnika(String nazwaWybranegoPodatnika) {
-        PodatnikView.nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
+        nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
     }
 
     public Podatnik getSelected() {
