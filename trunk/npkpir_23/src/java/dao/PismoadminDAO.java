@@ -17,7 +17,8 @@ import session.SessionFacade;
  */
 @Named
 public class PismoadminDAO extends DAO implements Serializable{
-    @Inject private SessionFacade sessionFacade;
+    @Inject
+    private SessionFacade sessionFacade;
 
     public PismoadminDAO() {
         super(Pismoadmin.class);
