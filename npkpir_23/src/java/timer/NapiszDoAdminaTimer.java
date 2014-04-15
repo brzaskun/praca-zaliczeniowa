@@ -23,11 +23,13 @@ import org.joda.time.DateTime;
 @Named
 @Singleton
 public class NapiszDoAdminaTimer implements Serializable{
-    @Inject private PismoadminDAO pismoadminDAO;
+    @Inject
+    private PismoadminDAO pismoadminDAO;
     
     //usuwa dawne zrobione statusy
+    
     @Schedule(hour="14", persistent=false)
-    private void zmienstatuswiadomosci() {
+    public void zmienstatuswiadomosci() {
         List<Pismoadmin> lista = pismoadminDAO.findAll();
         for (Pismoadmin p : lista) {
             DateTime datastatusu = new DateTime(p.getDatastatus());

@@ -61,6 +61,7 @@ import javax.persistence.PersistenceContext;
 /**
  *
  * @author Osito
+ * @param <T>
  */
 @Stateless
 public class SessionFacade<T> {
