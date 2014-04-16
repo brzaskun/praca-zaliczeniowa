@@ -30,7 +30,7 @@
             <p:commandButton actionListener="#{PodatekView.sprawozdaniePodatkowe()}" value="Oblicz wstępny wynik za miesiąc bez odliczeń zus" update=":form:prezentacjaPodatku"/>
 
             <p:contextMenu for="dokumentyLista">
-                <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowaGuest()}"/>
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfPK.drukujPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
             </p:contextMenu>
          <p:outputPanel deferred="true">
@@ -43,20 +43,20 @@
 //                });
                 });
             </script>
-            <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" 
-                          style="width: 100%; height: 850px; overflow: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+            <p:dataTable  var="wpis" value="#{DokTabGuestView.pobranedokumenty}" id="dokumentyLista" editable="true" 
+                          style="width: 100%; height: 850px; overflow: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabGuestView.selected}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          selectionMode="multiple" 
+                          selectionMode="single" 
                           > 
-                <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji}"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="dokTable.filter()" style="width:150px" />  
                 </f:facet>
    
-                <p:column width="10">
-                    <p:rowToggler />
+                <p:column style="width: 4%;">
+                    <p:rowToggler rendered="#{wpis.ewidencjaVAT.size() gt 0}"/>
+                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT.size() eq null}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="20">  
                     <h:outputText value="#{wpis.nrWpkpir}" />

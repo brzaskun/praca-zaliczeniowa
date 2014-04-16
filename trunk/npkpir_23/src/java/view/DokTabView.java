@@ -106,7 +106,11 @@ public class DokTabView implements Serializable {
      @Inject private InwestycjeDAO inwestycjeDAO;
 
     public DokTabView() {
-        //dokumenty podatnika
+       inicjalizacjalist();
+    }
+    
+    private void inicjalizacjalist() {
+         //dokumenty podatnika
         obiektDOKjsfSel = new ArrayList<>();
         //dokumenty podatnika z miesiaca
         obiektDOKmrjsfSel = new ArrayList<>();
@@ -120,9 +124,7 @@ public class DokTabView implements Serializable {
         dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
         filteredValue = new ArrayList<>();
-       
     }
-          
 
     public List getFrozenrows() {
         return frozenrows;
@@ -131,6 +133,7 @@ public class DokTabView implements Serializable {
     
     @PostConstruct
     public void init() {
+        inicjalizacjalist();
             try {
                 inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
             } catch (Exception e){}
@@ -337,13 +340,7 @@ public class DokTabView implements Serializable {
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
     }
   
-     public void aktualizujGuest(String strona) throws IOException {
-        aktualizujGuest();
-        aktualizuj();
-        init();
-        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
-    }
-
+     
   
 
     public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
@@ -382,12 +379,7 @@ public class DokTabView implements Serializable {
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }
     
-    
-     public void aktualizujTablicaGuest(AjaxBehaviorEvent e) {
-        aktualizujGuest();
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-    }
+
 
     public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
         RequestContext ctx = null;
@@ -407,15 +399,7 @@ public class DokTabView implements Serializable {
         wpisDAO.edit(wpistmp);
         wpisView.findWpis();
     }
-     private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
-    }
+        
     
 //    public void napraw(){
 //        List<Dok> temp = dokDAO.findAll();
