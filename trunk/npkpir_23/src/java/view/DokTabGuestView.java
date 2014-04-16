@@ -31,6 +31,7 @@ import javax.servlet.http.HttpSession;
 public class DokTabGuestView implements Serializable {
     private Dok selected;
     private List<Dok> pobranedokumenty;
+    private List<Dok> pobranedokumentyFiltered;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -111,6 +112,14 @@ public class DokTabGuestView implements Serializable {
 
     public void setSelected(Dok selected) {
         this.selected = selected;
+    }
+
+    public List<Dok> getPobranedokumentyFiltered() {
+        return pobranedokumentyFiltered;
+    }
+
+    public void setPobranedokumentyFiltered(List<Dok> pobranedokumentyFiltered) {
+        this.pobranedokumentyFiltered = pobranedokumentyFiltered;
     }
     
     
