@@ -30,6 +30,8 @@ public class FakturyokresoweView implements Serializable{
     @Inject private FakturyokresoweDAO fakturyokresoweDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{DokTabGuestView}")
+    private DokTabGuestView dokTabGuestView;
     private Fakturyokresowe selected;
     @Inject private DokDAO dokDAO;
     //tablica obiektw danego klienta
@@ -49,6 +51,14 @@ public class FakturyokresoweView implements Serializable{
     public void dodajfaktureokresowa(){
         Fakturyokresowe fakturyokresowe = new Fakturyokresowe();
         fakturyokresowe.setDokument(DokTabView.getGosciuwybralS().get(0));
+        fakturyokresowe.setPodatnik(wpisView.getPodatnikWpisu());
+        fakturyokresoweDAO.dodaj(fakturyokresowe);
+        Msg.msg("i", "Dodano fakturę okresową");
+    }
+    
+    public void dodajfaktureokresowaGuest(){
+        Fakturyokresowe fakturyokresowe = new Fakturyokresowe();
+        fakturyokresowe.setDokument(dokTabGuestView.getSelected());
         fakturyokresowe.setPodatnik(wpisView.getPodatnikWpisu());
         fakturyokresoweDAO.dodaj(fakturyokresowe);
         Msg.msg("i", "Dodano fakturę okresową");
@@ -150,6 +160,14 @@ public class FakturyokresoweView implements Serializable{
             }
 
         }
+
+    public DokTabGuestView getDokTabGuestView() {
+        return dokTabGuestView;
+    }
+
+    public void setDokTabGuestView(DokTabGuestView dokTabGuestView) {
+        this.dokTabGuestView = dokTabGuestView;
+    }
     
     
     
