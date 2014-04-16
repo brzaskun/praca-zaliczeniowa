@@ -58,8 +58,6 @@ public class DokTabView implements Serializable {
     //wybranedokumenty do usuniecia
     private static List<Dok> grupausun;
     private static boolean pokaztablice;
-    //wartosc przefiltrowana
-    private static List<Dok> filteredValue;
     private static Dok dokdoUsuniecia;
     private static final List frozenrows;
     static {
@@ -123,7 +121,6 @@ public class DokTabView implements Serializable {
         //dokumenty okresowe
         dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
-        filteredValue = new ArrayList<>();
     }
 
     public List getFrozenrows() {
@@ -700,14 +697,7 @@ public class DokTabView implements Serializable {
             DokTabView.pokaztablice = pokaztablice;
         }
         
-        public List<Dok> getFilteredValue() {
-            return filteredValue;
-        }
-        
-        public void setFilteredValue(List<Dok> filteredValue) {
-            DokTabView.filteredValue = filteredValue;
-        }
-        
+              
         public List<Dok> getDokumentyokresowe() {
             return dokumentyokresowe;
         }
@@ -715,20 +705,18 @@ public class DokTabView implements Serializable {
         public void setDokumentyokresowe(List<Dok> dokumentyokresowe) {
             this.dokumentyokresowe = dokumentyokresowe;
         }
-        
-        
 
-    public List<Dok> getDokumentyFiltered() {
-        return dokumentyFiltered;
-    }
+        public List<Dok> getDokumentyFiltered() {
+            return dokumentyFiltered;
+        }
 
-    public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
-        this.dokumentyFiltered = dokumentyFiltered;
-    }
-            
+        public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
+            this.dokumentyFiltered = dokumentyFiltered;
+        }
     
         
     //</editor-fold>
+
    
         
 }
