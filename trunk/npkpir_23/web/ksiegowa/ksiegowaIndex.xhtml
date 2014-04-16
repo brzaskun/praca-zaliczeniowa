@@ -38,13 +38,11 @@
                         <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                         <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                             
-                            <h:form id="form">
-                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                            </h:form>
-                            <p:panel style="width: 1000px" >
-                                <h:form>
-                                    <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":form:messages" global="false" style="width: 150px;"/>  
-                                    <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="Skopiuj" update=":form:messages"  accesskey="q"  style="width: 150px; margin-left: 10px;" />  
+                           <p:panel style="width: 1000px" >
+                                <h:form id="auto">
+                                    <p:growl id="fifi2"/>
+                                    <p:commandButton id="wprowadzenieNowegoAut" action="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="Amortyzacja" update=":auto:fifi2" global="false" style="width: 150px;"/>  
+                                    <p:commandButton id="skopiujPoprzednia" action="#{DokumentView.skopiujdokument()}" value="Skopiuj" update=":auto:fifi2"  accesskey="q"  style="width: 150px; margin-left: 10px;" />  
 
 <!--                                    <p:commandButton id="dodatkowaKolumna" action="{DokumentView.wygenerujNowaKolumnePkpir()}" value="DodKolumna" update=":form:messages" global="false" accesskey="g" onclick="dodkolumnafocus();"/>  -->
                                 </h:form>

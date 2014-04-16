@@ -14,9 +14,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -24,7 +26,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean(name="Opis")
-@RequestScoped
+@ViewScoped
 public class Opis implements Serializable{
 
     private List<String> opisy;
@@ -53,11 +55,12 @@ public class Opis implements Serializable{
         if(ns.length()>5){
             if(!opisy.contains(ns.toLowerCase())){
                 opisy.add(ns.toLowerCase());
+                podatnik.setOpisypkpir(opisy);
+                podatnikDAO.edit(podatnik);
+                Msg.msg("i", "Dodano opis: "+ns);
+                RequestContext.getCurrentInstance().update("dodWiad:mess_add");
             }
         }
-       podatnik.setOpisypkpir(opisy);
-       podatnikDAO.edit(podatnik);
-       Msg.msg("i", "dodano opis: "+ns,"dodWiad:mess_add");
     }
     
      public List<String> complete(String query) {

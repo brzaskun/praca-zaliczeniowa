@@ -100,12 +100,7 @@ var aktywujopis = function (){
     } else {
         $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', false);
     }
-    $('#dodWiad\\:opis').on('keydown',function(e){
-        if(e.which==='120'){
-            $('#dodWiad\\:dodajopis').click();
-            $('#dodWiad\\:opis').focus();
-        }
-    }); 
+ 
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu
     r('dodWiad:opis_input').on('keyup',function(e){
         var kodklawisza = e.which;
@@ -118,6 +113,15 @@ var aktywujopis = function (){
             r('dodWiad:usunkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
             r('dodWiad:opis_input').val(wartoscpola.slice(0,-1));
+        }
+        //zapisuje opis w bazie
+        if(kodklawisza===120){
+            r('dodWiad:dodajopis').click();
+            r('dodWiad:opis_input').css({
+                color: 'green',
+                "font-weight": 900
+            });
+            r('dodWiad:opis').focus();
         }
     });
     $('#dodWiad\\:numerwlasny').focus();
