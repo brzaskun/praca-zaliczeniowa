@@ -296,7 +296,7 @@
     <h:form id="zobWiad">
         <p:panel id="ostatniUzytkownik" header="Ostatnio wprowadzony dokument" style="width: 1300px; height: 400px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: 1%;" >
             <div style="padding: 10px;">
-                <h:outputText value="zapisy w pkpir" style="font-weight: 600"/>
+                <h:outputText value="zapisy w pkpir" style="font-weight: 600; color: green;"/>
             </div>
             <p:panelGrid columns="13" style="text-align: center">
                 <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
@@ -340,7 +340,7 @@
             </p:panelGrid>
             <p:panel>
                 <div style="padding: 10px;">
-                    <h:outputText value="zapisy w ewidencji vat" style="font-weight: 600"/>
+                    <h:outputText value="zapisy w ewidencji vat" style="font-weight: 600; color: green;"/>
                 </div>
                 <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT}" var="p" emptyMessage="Dokument prosty - bez VAT">
                     <p:column id="idColumn" headerText="nazwa">  

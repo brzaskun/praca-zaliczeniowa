@@ -66,13 +66,13 @@ public class PdfVatUE extends Pdf implements Serializable {
             document.addKeywords("VAT-UE, PDF");
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
-             //naglowek
+            //naglowek
             absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
-            prost(writer.getDirectContent(), 12, 817, 560,10);
+            prost(writer.getDirectContent(), 12, 817, 560, 10);
             //stopka
             absText(writer, "Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
             absText(writer, "Dokument nie wymaga podpisu.", 15, 18, 6);
-            prost(writer.getDirectContent(), 12, 15, 560,20);
+            prost(writer.getDirectContent(), 12, 15, 560, 20);
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 12);
             Font fontM = new Font(helvetica, 10);
@@ -83,47 +83,47 @@ public class PdfVatUE extends Pdf implements Serializable {
             formatter.setGroupingUsed(true);
             int lp = 1;
             for (VatUe p : pobranyVatue.getKlienciwdtwnt()) {
-            PdfPTable table = new PdfPTable(7);
-            table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
-            try {
-                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
-                table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
-                table.addCell(ustawfraze("za okres: " + pobranyVatue.getVatuepodatnikPK().getRok() + "/" + pobranyVatue.getVatuepodatnikPK().getSymbolokresu(), 1, 0));
+                PdfPTable table = new PdfPTable(7);
+                if (!p.getTransakcja().equals("podsumowanie")) {
+                    table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
+                    try {
+                        table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+                        table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
+                        table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
+                        table.addCell(ustawfraze("za okres: " + pobranyVatue.getVatuepodatnikPK().getRok() + "/" + pobranyVatue.getVatuepodatnikPK().getSymbolokresu(), 1, 0));
 
-                table.addCell(ustawfraze("lp", 0, 1));
-                table.addCell(ustawfraze("Transakcja", 0, 1));
-                table.addCell(ustawfraze("Kod kraju", 0, 1));
-                table.addCell(ustawfraze("NIP", 0, 1));
-                table.addCell(ustawfraze("Kontrahent", 0, 1));
-                table.addCell(ustawfraze("netto", 0, 1));
-                table.addCell(ustawfraze("ilość dok.", 0, 1));
+                        table.addCell(ustawfraze("lp", 0, 1));
+                        table.addCell(ustawfraze("Transakcja", 0, 1));
+                        table.addCell(ustawfraze("Kod kraju", 0, 1));
+                        table.addCell(ustawfraze("NIP", 0, 1));
+                        table.addCell(ustawfraze("Kontrahent", 0, 1));
+                        table.addCell(ustawfraze("netto", 0, 1));
+                        table.addCell(ustawfraze("ilość dok.", 0, 1));
 
+                        table.addCell(ustawfrazebez("1", "center", 6));
+                        table.addCell(ustawfrazebez("2", "center", 6));
+                        table.addCell(ustawfrazebez("3", "center", 6));
+                        table.addCell(ustawfrazebez("4", "center", 6));
+                        table.addCell(ustawfrazebez("5", "center", 6));
+                        table.addCell(ustawfrazebez("6", "center", 6));
+                        table.addCell(ustawfrazebez("7", "center", 6));
 
-                table.addCell(ustawfrazebez("1", "center", 6));
-                table.addCell(ustawfrazebez("2", "center", 6));
-                table.addCell(ustawfrazebez("3", "center", 6));
-                table.addCell(ustawfrazebez("4", "center", 6));
-                table.addCell(ustawfrazebez("5", "center", 6));
-                table.addCell(ustawfrazebez("6", "center", 6));
-                table.addCell(ustawfrazebez("7", "center", 6));
-
-                table.setHeaderRows(3);
-                    table.addCell(ustawfrazebez(String.valueOf(lp++),"center",8));
-                    table.addCell(ustawfrazebez(p.getTransakcja(),"center",8));
-                    table.addCell(ustawfrazebez(p.getKontrahent().getKrajkod(),"center",8));
-                    table.addCell(ustawfrazebez(p.getKontrahent().getNip(),"center",8));
-                    table.addCell(ustawfrazebez(p.getKontrahent().getNpelna(),"center",8));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",8));
-                    table.addCell(ustawfrazebez(String.valueOf(p.getLiczbadok()),"center",8));
-            document.add(table);
-            document.add(createsubtable(document, p.getZawiera()));
-            document.add(Chunk.NEWLINE);
-            } catch (IOException ex) {
-                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                        table.setHeaderRows(3);
+                        table.addCell(ustawfrazebez(String.valueOf(lp++), "center", 8));
+                        table.addCell(ustawfrazebez(p.getTransakcja(), "center", 8));
+                        table.addCell(ustawfrazebez(p.getKontrahent().getKrajkod(), "center", 8));
+                        table.addCell(ustawfrazebez(p.getKontrahent().getNip(), "center", 8));
+                        table.addCell(ustawfrazebez(p.getKontrahent().getNpelna(), "center", 8));
+                        table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazebez(String.valueOf(p.getLiczbadok()), "center", 8));
+                        document.add(table);
+                        document.add(createsubtable(p.getZawiera()));
+                        document.add(Chunk.NEWLINE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            }
-            
             Uz uz = wpisView.getWprowadzil();
             document.add(new Paragraph(String.valueOf(uz.getImie() + " " + uz.getNazw()), fontS));
             document.add(new Paragraph("___________________________", fontS));
@@ -132,52 +132,47 @@ public class PdfVatUE extends Pdf implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Blad w drukowaniu vateu" + e.getMessage());
         }
-        RequestContext.getCurrentInstance().execute("wydrukvatue('"+wpisView.getPodatnikWpisu()+"');");
+        RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikWpisu() + "');");
     }
-    
-    private PdfPTable createsubtable(Document document, List<Dok> zawiera) {
+
+    private PdfPTable createsubtable(List<Dok> zawiera) {
         PdfPTable table = new PdfPTable(6);
         try {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            
             table.setWidths(new int[]{1, 2, 2, 2, 2, 2});
             table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
-
-                table.addCell(ustawfraze("nr kol", 0, 1));
-                table.addCell(ustawfraze("data wystawienia", 0, 1));
-                table.addCell(ustawfraze("nr własny", 0, 1));
-                table.addCell(ustawfraze("opis", 0, 1));
-                table.addCell(ustawfraze("netto", 0, 1));
-                table.addCell(ustawfraze("okres VAT", 0, 1));
-
-                table.addCell(ustawfrazebez("1", "center", 6));
-                table.addCell(ustawfrazebez("2", "center", 6));
-                table.addCell(ustawfrazebez("3", "center", 6));
-                table.addCell(ustawfrazebez("4", "center", 6));
-                table.addCell(ustawfrazebez("5", "center", 6));
-                table.addCell(ustawfrazebez("6", "center", 6));
-
-                table.addCell(ustawfrazebez("1", "center", 6));
-                table.addCell(ustawfrazebez("2", "center", 6));
-                table.addCell(ustawfrazebez("3", "center", 6));
-                table.addCell(ustawfrazebez("4", "center", 6));
-                table.addCell(ustawfrazebez("5", "center", 6));
-                table.addCell(ustawfrazebez("6", "center", 6));
-                table.setHeaderRows(3);
-                table.setFooterRows(1);
-                for (Dok p : zawiera) {
-                    table.addCell(ustawfrazebez(String.valueOf(p.getNrWpkpir()),"center",8));
-                    table.addCell(ustawfrazebez(p.getDataWyst(),"center",8));
-                    table.addCell(ustawfrazebez(p.getNrWlDk(),"center",8));
-                    table.addCell(ustawfrazebez(p.getOpis(),"center",8));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",8));
-                    table.addCell(ustawfrazebez((p.getVatR()+"/"+p.getVatM()),"center",8));
-                }
+            table.addCell(ustawfraze("nr kol", 0, 1));
+            table.addCell(ustawfraze("data wystawienia", 0, 1));
+            table.addCell(ustawfraze("nr własny", 0, 1));
+            table.addCell(ustawfraze("opis", 0, 1));
+            table.addCell(ustawfraze("netto", 0, 1));
+            table.addCell(ustawfraze("okres VAT", 0, 1));
+            table.addCell(ustawfrazebez("1", "center", 6));
+            table.addCell(ustawfrazebez("2", "center", 6));
+            table.addCell(ustawfrazebez("3", "center", 6));
+            table.addCell(ustawfrazebez("4", "center", 6));
+            table.addCell(ustawfrazebez("5", "center", 6));
+            table.addCell(ustawfrazebez("6", "center", 6));
+            table.addCell(ustawfrazebez("1", "center", 6));
+            table.addCell(ustawfrazebez("2", "center", 6));
+            table.addCell(ustawfrazebez("3", "center", 6));
+            table.addCell(ustawfrazebez("4", "center", 6));
+            table.addCell(ustawfrazebez("5", "center", 6));
+            table.addCell(ustawfrazebez("6", "center", 6));
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+            for (Dok p : zawiera) {
+                table.addCell(ustawfrazebez(String.valueOf(p.getNrWpkpir()), "center", 8));
+                table.addCell(ustawfrazebez(p.getDataWyst(), "center", 8));
+                table.addCell(ustawfrazebez(p.getNrWlDk(), "center", 8));
+                table.addCell(ustawfrazebez(p.getOpis(), "center", 8));
+                table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazebez((p.getVatR() + "/" + p.getVatM()), "center", 8));
+            }
         } catch (Exception e) {
-
         }
         return table;
     }
@@ -327,5 +322,4 @@ public class PdfVatUE extends Pdf implements Serializable {
     //        document.close();
     //    }
     //</editor-fold>
-    
 }
