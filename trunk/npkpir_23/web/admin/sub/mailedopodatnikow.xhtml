@@ -44,20 +44,19 @@
             <bcf:ajaxs/>
             <h:form id="wysylanie">
                 <p:panelGrid columns="1">
-                    <p:column>
-                        <p:panel header="wprowadzona wiadomość" style="width: 800px; height: 450px;">
-                            <h:outputText id="wprowadzonymail" value="#{adminMailView.zawartoscmaila}"/>
-                        </p:panel>
-                    </p:column>
-                    <p:column>
+                     <p:column>
                         <h:outputLabel value="wprowadz temat wiadomości: " for=":akordeon:wprowadzonymail"/>
                         <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;"/>
                     </p:column>
                     <p:column>
-                        <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 500px;" update=":akordeon:formmaile:wyslenemaile"/>
+                        <p:commandButton value="wyslij" actionListener="#{adminMailView.wyslijAdminMail()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>
+                        <p:spacer width="10"/>
+                        <p:commandButton value="test" actionListener="#{adminMailView.wyslijAdminMailTest()}" label="temat wiadomości" style="width: 300px;" update=":akordeon:formmaile:wyslenemaile"/>
                     </p:column>
                     <p:column>
-                        <p:commandButton value="test" actionListener="#{adminMailView.wyslijAdminMailTest()}" label="temat wiadomości" style="width: 500px;" update=":akordeon:formmaile:wyslenemaile"/>
+                        <p:panel header="wprowadzona wiadomość" style="width: 800px; height: 250px;">
+                            <h:outputText id="wprowadzonymail" value="#{adminMailView.zawartoscmaila}"/>
+                        </p:panel>
                     </p:column>
                 </p:panelGrid>
             </h:form>
