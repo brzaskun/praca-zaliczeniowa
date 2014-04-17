@@ -125,7 +125,7 @@ public class VatView implements Serializable {
                     List<EVatwpis> ewidencja = new ArrayList<>();
                     ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
                     for (EVatwpis ewidwiersz : ewidencja) {
-                        if (ewidwiersz instanceof EVatwpis){
+                        if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
                             EVatViewPola wiersz = new EVatViewPola();
                             wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
                             wiersz.setDataSprz(zaksiegowanafaktura.getDataSprz());
