@@ -4,20 +4,10 @@
  */
 package pdf;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfSpotColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.AmoDokDAO;
 import dao.EwidencjeVatDAO;
@@ -29,7 +19,6 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.NumberFormat;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -43,10 +32,11 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
-public class Pdf extends PdfPageEventHelper implements  Serializable {
+public class Pdf implements  Serializable {
+    //<editor-fold defaultstate="collapsed" desc="comment">
     /** The resulting PDF. */
     public static final String RESULT = "c:/graphics_state.pdf";
-
+    
     public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "pkpir";
@@ -57,7 +47,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         Connection conn = DriverManager.getConnection(url+dbName,userName,password);
         return conn;
     }
-
+    
     /**
      * Main method.
      *
@@ -106,6 +96,7 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
         // step 5
         document.close();
     }
+//</editor-fold>
     
     @ManagedProperty(value="#{ksiegaView}")
     protected KsiegaView ksiegaView;
@@ -113,183 +104,46 @@ public class Pdf extends PdfPageEventHelper implements  Serializable {
     protected WpisView wpisView;
     @ManagedProperty(value="#{obrotyView}")
     protected ObrotyView obrotyView;
-   
-    
 
     @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
-    protected int liczydlo = 0;
     @Inject protected UzDAO uzDAO;
     @Inject protected PodatnikDAO podatnikDAO;
     @Inject protected AmoDokDAO amoDokDAO;
     
-    protected PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException{
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font font = new Font(helvetica,8);
-        PdfPCell cell = new PdfPCell(new Phrase(fraza,font));
-        if(rowsp>0){
-            cell.setRowspan(rowsp);
-        } else {
-            cell.setColspan(colsp);
-        }
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        return cell;
-    }
-   
-
-    protected PdfPCell ustawfrazebez(String fraza, String orient, int fontsize) throws DocumentException, IOException{
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font font = new Font(helvetica,fontsize);
-        PdfPCell cell = new PdfPCell(new Phrase(fraza,font));
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        switch (orient) {
-            case "right" :
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                break;
-            case "left" :
-                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                break;
-            case "center" :
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                break;
-            case "just" :
-                cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-                break;
-        }
-        return cell;
-    }
-
-    protected String formatujliczby(Double wsad){
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        try{
-            String moneyString = formatter.format(wsad);
-            return moneyString;
-        } catch (Exception e){
-            return "";
-        }
-    }
-     
-  
+    protected int liczydlo = 0;
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczydlo(){
         return liczydlo;
     }
-
+    
     public void setLiczydlo(int liczydlo) {
         this.liczydlo = liczydlo;
     }
-
-    protected Paragraph dodpar(String tekst, Font font, String polozenie, int indentation, int leading) {
-        Paragraph miziu = new Paragraph(new Phrase(tekst,font));
-        switch (polozenie){
-            case "l" : 
-                miziu.setAlignment(Element.ALIGN_LEFT);
-                break;
-            case "r" : 
-                miziu.setAlignment(Element.ALIGN_RIGHT);
-                break;
-            case "c" : 
-                miziu.setAlignment(Element.ALIGN_CENTER);
-                break;
-            case "j" : 
-                miziu.setAlignment(Element.ALIGN_JUSTIFIED);
-                break;
-        }
-        if(indentation>0){
-            miziu.setIndentationLeft(indentation);
-        }
-        miziu.setLeading(leading);
-        return miziu;
-    }
-
     
     public KsiegaView getKsiegaView(){
         return ksiegaView;
     }
     
-    
-    
-    
-    
-    
-
     public void setKsiegaView(KsiegaView ksiegaView) {
         this.ksiegaView = ksiegaView;
     }
-
-    protected void prost(PdfContentByte cb, int x, int y, int x1, int y1) {
-        cb.saveState();
-        PdfSpotColor color = new PdfSpotColor(RESULT, BaseColor.BLACK);
-        cb.setLineWidth((float) 0.5);
-        cb.setColorStroke(color, (float) 0.5);
-        cb.setFlatness(y1);
-        cb.rectangle(x,y,x1,y1);
-        cb.stroke();
-        cb.restoreState();
-    }
-
     
-   
-    
-
     public WpisView getWpisView() {
         return wpisView;
     }
-
-     public  void setWpisView(WpisView wpisView){
-         this.wpisView = wpisView;
-     }
-
+    
+    public  void setWpisView(WpisView wpisView){
+        this.wpisView = wpisView;
+    }
+    
     public ObrotyView getObrotyView() {
         return obrotyView;
     }
-
+    
     public void setObrotyView(ObrotyView obrotyView) {
         this.obrotyView = obrotyView;
     }
-
-    class HeaderFooter extends PdfPageEventHelper {
-
-        Phrase[] header = new Phrase[2];
-
-        @Override
-        public void onOpenDocument(PdfWriter writer, Document document) {
-            BaseFont helvetica = null;
-            try {
-                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            } catch (Exception ex) {}
-            Font font = new Font(helvetica,6);
-            header[0] = new Phrase("Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
-        }
-
-        @Override
-        public void onStartPage(PdfWriter writer, Document document) {
-            liczydlo++;
-        }
-
-        @Override
-        public void onEndPage(PdfWriter writer, Document document) {
-            Rectangle rect = writer.getBoxSize("art");
-            BaseFont helvetica = null;
-            try {
-                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            } catch (Exception ex) {}
-            Font font = new Font(helvetica,8);
-            //dodawanie headera
-            ColumnText.showTextAligned(writer.getDirectContent(),
-                    Element.ALIGN_LEFT, header[0],
-                    25, rect.getBottom() - 18, 0);
-            
-            ColumnText.showTextAligned(writer.getDirectContent(),
-                    Element.ALIGN_CENTER, new Phrase(String.format("strona %d", liczydlo),font),
-                    (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
-        }
-
-        @Override
-        public void onCloseDocument(PdfWriter writer, Document document){
-            liczydlo = 0;
-        }
-    }
-
-    
+//</editor-fold>
    
 }

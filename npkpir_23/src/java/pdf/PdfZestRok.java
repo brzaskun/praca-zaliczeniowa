@@ -4,6 +4,10 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -40,9 +44,9 @@ public class PdfZestRok extends Pdf implements Serializable {
     public void drukujksiege() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
-        HeaderFooter event = new HeaderFooter();
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
-        writer.setPageEvent(event);
+        writer.setPageEvent(headerfoter);
         pdf.addTitle("Podatkowa księga przychodów i rozchodów - sumy w roku");
         pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         pdf.addSubject("Wydruk danych z PKPiR");
@@ -78,45 +82,45 @@ public class PdfZestRok extends Pdf implements Serializable {
             table.addCell(ustawfraze("Koszty uboczne zakupu", 0, 2));
             table.addCell(ustawfraze("Wydatki(koszty)", 4, 0));
 
-            table.addCell(ustawfrazebez("wartość sprzedanych towarów i usług", "center",6));
-            table.addCell(ustawfrazebez("pozostałe przychody", "center",6));
-            table.addCell(ustawfrazebez("razem przychód (7+8)", "center",6));
-            table.addCell(ustawfrazebez("wynagrodzenia w gotówce i w naturze", "center",6));
-            table.addCell(ustawfrazebez("pozostałe wydatki", "center",6));
-            table.addCell(ustawfrazebez("razem wydatki (12+13)", "center",6));
-            table.addCell(ustawfrazebez("inwestycje", "center",6));
+            table.addCell(ustawfrazeAlign("wartość sprzedanych towarów i usług", "center",6));
+            table.addCell(ustawfrazeAlign("pozostałe przychody", "center",6));
+            table.addCell(ustawfrazeAlign("razem przychód (7+8)", "center",6));
+            table.addCell(ustawfrazeAlign("wynagrodzenia w gotówce i w naturze", "center",6));
+            table.addCell(ustawfrazeAlign("pozostałe wydatki", "center",6));
+            table.addCell(ustawfrazeAlign("razem wydatki (12+13)", "center",6));
+            table.addCell(ustawfrazeAlign("inwestycje", "center",6));
 
-            table.addCell(ustawfrazebez("1", "center",6));
-            table.addCell(ustawfrazebez("2", "center",6));
-            table.addCell(ustawfrazebez("3", "center",6));
-            table.addCell(ustawfrazebez("4", "center",6));
-            table.addCell(ustawfrazebez("5", "center",6));
-            table.addCell(ustawfrazebez("6", "center",6));
-            table.addCell(ustawfrazebez("7", "center",6));
-            table.addCell(ustawfrazebez("8", "center",6));
-            table.addCell(ustawfrazebez("9", "center",6));
-            table.addCell(ustawfrazebez("10", "center",6));
-            table.addCell(ustawfrazebez("11", "center",6));
-            table.addCell(ustawfrazebez("12", "center",6));
-            table.addCell(ustawfrazebez("13", "center",6));
-            table.addCell(ustawfrazebez("14", "center",6));
-            table.addCell(ustawfrazebez("15", "center",6));
+            table.addCell(ustawfrazeAlign("1", "center",6));
+            table.addCell(ustawfrazeAlign("2", "center",6));
+            table.addCell(ustawfrazeAlign("3", "center",6));
+            table.addCell(ustawfrazeAlign("4", "center",6));
+            table.addCell(ustawfrazeAlign("5", "center",6));
+            table.addCell(ustawfrazeAlign("6", "center",6));
+            table.addCell(ustawfrazeAlign("7", "center",6));
+            table.addCell(ustawfrazeAlign("8", "center",6));
+            table.addCell(ustawfrazeAlign("9", "center",6));
+            table.addCell(ustawfrazeAlign("10", "center",6));
+            table.addCell(ustawfrazeAlign("11", "center",6));
+            table.addCell(ustawfrazeAlign("12", "center",6));
+            table.addCell(ustawfrazeAlign("13", "center",6));
+            table.addCell(ustawfrazeAlign("14", "center",6));
+            table.addCell(ustawfrazeAlign("15", "center",6));
 
-            table.addCell(ustawfrazebez("1", "center",6));
-            table.addCell(ustawfrazebez("2", "center",6));
-            table.addCell(ustawfrazebez("3", "center",6));
-            table.addCell(ustawfrazebez("4", "center",6));
-            table.addCell(ustawfrazebez("5", "center",6));
-            table.addCell(ustawfrazebez("6", "center",6));
-            table.addCell(ustawfrazebez("7", "center",6));
-            table.addCell(ustawfrazebez("8", "center",6));
-            table.addCell(ustawfrazebez("9", "center",6));
-            table.addCell(ustawfrazebez("10", "center",6));
-            table.addCell(ustawfrazebez("11", "center",6));
-            table.addCell(ustawfrazebez("12", "center",6));
-            table.addCell(ustawfrazebez("13", "center",6));
-            table.addCell(ustawfrazebez("14", "center",6));
-            table.addCell(ustawfrazebez("15", "center",6));
+            table.addCell(ustawfrazeAlign("1", "center",6));
+            table.addCell(ustawfrazeAlign("2", "center",6));
+            table.addCell(ustawfrazeAlign("3", "center",6));
+            table.addCell(ustawfrazeAlign("4", "center",6));
+            table.addCell(ustawfrazeAlign("5", "center",6));
+            table.addCell(ustawfrazeAlign("6", "center",6));
+            table.addCell(ustawfrazeAlign("7", "center",6));
+            table.addCell(ustawfrazeAlign("8", "center",6));
+            table.addCell(ustawfrazeAlign("9", "center",6));
+            table.addCell(ustawfrazeAlign("10", "center",6));
+            table.addCell(ustawfrazeAlign("11", "center",6));
+            table.addCell(ustawfrazeAlign("12", "center",6));
+            table.addCell(ustawfrazeAlign("13", "center",6));
+            table.addCell(ustawfrazeAlign("14", "center",6));
+            table.addCell(ustawfrazeAlign("15", "center",6));
 
             table.setHeaderRows(5);
             table.setFooterRows(1);
@@ -144,35 +148,35 @@ public class PdfZestRok extends Pdf implements Serializable {
         int nrmca = 1;
         Map<String,Integer> mapamcyCalendar = Mce.getMapamcyCalendar();
         for (List<Double> rs : wykaz) {
-            table.addCell(ustawfrazebez(String.valueOf(nr), "center",6));
+            table.addCell(ustawfrazeAlign(String.valueOf(nr), "center",6));
             if(nr==15){
-                table.addCell(ustawfrazebez("podsumowanie za rok", "left",6));
+                table.addCell(ustawfrazeAlign("podsumowanie za rok", "left",6));
             } else if (nr==7||nr==14){
-                table.addCell(ustawfrazebez("podsumowanie za półrocze", "left",6));
+                table.addCell(ustawfrazeAlign("podsumowanie za półrocze", "left",6));
             } else {
-                table.addCell(ustawfrazebez("sumy za miesiąc", "left",6));
+                table.addCell(ustawfrazeAlign("sumy za miesiąc", "left",6));
             }
             if(nr==15){
-                table.addCell(ustawfrazebez(wpisView.getRokWpisu().toString(), "left",6));
+                table.addCell(ustawfrazeAlign(wpisView.getRokWpisu().toString(), "left",6));
             } else if (nr==7){
-                table.addCell(ustawfrazebez("pierwsze półrocze", "left",6));
+                table.addCell(ustawfrazeAlign("pierwsze półrocze", "left",6));
             } else if (nr==14){
-                table.addCell(ustawfrazebez("drugie półrocze", "left",6));
+                table.addCell(ustawfrazeAlign("drugie półrocze", "left",6));
             } else {
-                table.addCell(ustawfrazebez(Mce.getMapamcynazwa().get(nrmca++), "left",6));
+                table.addCell(ustawfrazeAlign(Mce.getMapamcynazwa().get(nrmca++), "left",6));
             }
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(7)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(8)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(9)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(0)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(1)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(0)+rs.get(1)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(2)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(3)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(4)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(5)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(4)+rs.get(5)), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.get(6)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(7)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(8)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(9)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(0)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(0)+rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(2)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(3)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(4)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(4)+rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(6)), "right",6));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

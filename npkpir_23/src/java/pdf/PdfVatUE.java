@@ -4,6 +4,9 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -100,22 +103,22 @@ public class PdfVatUE extends Pdf implements Serializable {
                         table.addCell(ustawfraze("netto", 0, 1));
                         table.addCell(ustawfraze("ilość dok.", 0, 1));
 
-                        table.addCell(ustawfrazebez("1", "center", 6));
-                        table.addCell(ustawfrazebez("2", "center", 6));
-                        table.addCell(ustawfrazebez("3", "center", 6));
-                        table.addCell(ustawfrazebez("4", "center", 6));
-                        table.addCell(ustawfrazebez("5", "center", 6));
-                        table.addCell(ustawfrazebez("6", "center", 6));
-                        table.addCell(ustawfrazebez("7", "center", 6));
+                        table.addCell(ustawfrazeAlign("1", "center", 6));
+                        table.addCell(ustawfrazeAlign("2", "center", 6));
+                        table.addCell(ustawfrazeAlign("3", "center", 6));
+                        table.addCell(ustawfrazeAlign("4", "center", 6));
+                        table.addCell(ustawfrazeAlign("5", "center", 6));
+                        table.addCell(ustawfrazeAlign("6", "center", 6));
+                        table.addCell(ustawfrazeAlign("7", "center", 6));
 
                         table.setHeaderRows(3);
-                        table.addCell(ustawfrazebez(String.valueOf(lp++), "center", 8));
-                        table.addCell(ustawfrazebez(p.getTransakcja(), "center", 8));
-                        table.addCell(ustawfrazebez(p.getKontrahent().getKrajkod(), "center", 8));
-                        table.addCell(ustawfrazebez(p.getKontrahent().getNip(), "center", 8));
-                        table.addCell(ustawfrazebez(p.getKontrahent().getNpelna(), "center", 8));
-                        table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                        table.addCell(ustawfrazebez(String.valueOf(p.getLiczbadok()), "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                         document.add(table);
                         document.add(createsubtable(p.getZawiera()));
                         document.add(Chunk.NEWLINE);
@@ -150,27 +153,27 @@ public class PdfVatUE extends Pdf implements Serializable {
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("netto", 0, 1));
             table.addCell(ustawfraze("okres VAT", 0, 1));
-            table.addCell(ustawfrazebez("1", "center", 6));
-            table.addCell(ustawfrazebez("2", "center", 6));
-            table.addCell(ustawfrazebez("3", "center", 6));
-            table.addCell(ustawfrazebez("4", "center", 6));
-            table.addCell(ustawfrazebez("5", "center", 6));
-            table.addCell(ustawfrazebez("6", "center", 6));
-            table.addCell(ustawfrazebez("1", "center", 6));
-            table.addCell(ustawfrazebez("2", "center", 6));
-            table.addCell(ustawfrazebez("3", "center", 6));
-            table.addCell(ustawfrazebez("4", "center", 6));
-            table.addCell(ustawfrazebez("5", "center", 6));
-            table.addCell(ustawfrazebez("6", "center", 6));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
             table.setHeaderRows(3);
             table.setFooterRows(1);
             for (Dok p : zawiera) {
-                table.addCell(ustawfrazebez(String.valueOf(p.getNrWpkpir()), "center", 8));
-                table.addCell(ustawfrazebez(p.getDataWyst(), "center", 8));
-                table.addCell(ustawfrazebez(p.getNrWlDk(), "center", 8));
-                table.addCell(ustawfrazebez(p.getOpis(), "center", 8));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                table.addCell(ustawfrazebez((p.getVatR() + "/" + p.getVatM()), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 8));
             }
         } catch (Exception e) {
         }

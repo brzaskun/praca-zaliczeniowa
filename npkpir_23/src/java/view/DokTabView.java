@@ -53,7 +53,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean(name = "DokTabView")
 @ViewScoped
 public class DokTabView implements Serializable {
-    //wybranedokumenty do druku
+    //wybranedokumentyDoDruku
     private static List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia
     private static List<Dok> grupausun;

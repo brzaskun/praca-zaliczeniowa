@@ -4,6 +4,9 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -42,9 +45,9 @@ public class PdfSTR extends Pdf implements Serializable {
     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
-        HeaderFooter event = new HeaderFooter();
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
-        writer.setPageEvent(event);
+        writer.setPageEvent(headerfoter);
         pdf.addTitle("Ewidencja środków trwałych");
         pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         pdf.addSubject("Wydruk danych z PKPiR");
@@ -63,25 +66,25 @@ public class PdfSTR extends Pdf implements Serializable {
         table.setWidths(new int[]{1, 4, 2, 1, 2, 2, 2, 2,2,2,2,2,2,2,2,2,2,2,2});
         PdfPCell cell = new PdfPCell();
         try {
-            table.addCell(ustawfrazebez("nr", "center",8));
-            table.addCell(ustawfrazebez("nazwa środka", "center",8));
-            table.addCell(ustawfrazebez("data przyj.", "center",8));
-            table.addCell(ustawfrazebez("KST", "center",8));
-            table.addCell(ustawfrazebez("cena zakupu", "center",8));
-            table.addCell(ustawfrazebez("odpis roczny", "center",8));
-            table.addCell(ustawfrazebez("umorz. dot.", "center",8));
-            table.addCell(ustawfrazebez("stycz.", "center",8));
-            table.addCell(ustawfrazebez("luty", "center",8));
-            table.addCell(ustawfrazebez("marzec", "center",8));
-            table.addCell(ustawfrazebez("kwiec.", "center",8));
-            table.addCell(ustawfrazebez("maj", "center",8));
-            table.addCell(ustawfrazebez("czerw.", "center",8));
-            table.addCell(ustawfrazebez("lip.", "center",8));
-            table.addCell(ustawfrazebez("sierp.", "center",8));
-            table.addCell(ustawfrazebez("wrześ", "center",8));
-            table.addCell(ustawfrazebez("paź", "center",8));
-            table.addCell(ustawfrazebez("list.", "center",8));
-            table.addCell(ustawfrazebez("grudz.", "center",8));
+            table.addCell(ustawfrazeAlign("nr", "center",8));
+            table.addCell(ustawfrazeAlign("nazwa środka", "center",8));
+            table.addCell(ustawfrazeAlign("data przyj.", "center",8));
+            table.addCell(ustawfrazeAlign("KST", "center",8));
+            table.addCell(ustawfrazeAlign("cena zakupu", "center",8));
+            table.addCell(ustawfrazeAlign("odpis roczny", "center",8));
+            table.addCell(ustawfrazeAlign("umorz. dot.", "center",8));
+            table.addCell(ustawfrazeAlign("stycz.", "center",8));
+            table.addCell(ustawfrazeAlign("luty", "center",8));
+            table.addCell(ustawfrazeAlign("marzec", "center",8));
+            table.addCell(ustawfrazeAlign("kwiec.", "center",8));
+            table.addCell(ustawfrazeAlign("maj", "center",8));
+            table.addCell(ustawfrazeAlign("czerw.", "center",8));
+            table.addCell(ustawfrazeAlign("lip.", "center",8));
+            table.addCell(ustawfrazeAlign("sierp.", "center",8));
+            table.addCell(ustawfrazeAlign("wrześ", "center",8));
+            table.addCell(ustawfrazeAlign("paź", "center",8));
+            table.addCell(ustawfrazeAlign("list.", "center",8));
+            table.addCell(ustawfrazeAlign("grudz.", "center",8));
             
             table.setHeaderRows(1);
         } catch (IOException ex) {
@@ -92,28 +95,28 @@ public class PdfSTR extends Pdf implements Serializable {
         List<STRtabela> wykaz = sTREwidencja.getStrtabela();
         for (STRtabela rs : wykaz) {
             if (rs.getId() != 0) {
-                table.addCell(ustawfrazebez(String.valueOf(rs.getId()), "center",6));
+                table.addCell(ustawfrazeAlign(String.valueOf(rs.getId()), "center",6));
             } else {
-                table.addCell(ustawfrazebez("", "center",6));
+                table.addCell(ustawfrazeAlign("", "center",6));
             }
-            table.addCell(ustawfrazebez(rs.getNazwa(), "left",6));
-            table.addCell(ustawfrazebez(rs.getDataprzek(), "left",6));
-            table.addCell(ustawfrazebez(rs.getKst(), "left",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getOdpisrok()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getUmorzeniaDo().doubleValue()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getStyczen()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getLuty()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getMarzec()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getKwiecien()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getMaj()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getCzerwiec()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getLipiec()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getSierpien()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getWrzesien()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getPazdziernik()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getListopad()), "right",6));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getGrudzien()), "right",6));
+            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getDataprzek(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getKst(), "left",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getOdpisrok()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getUmorzeniaDo().doubleValue()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getStyczen()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getLuty()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getMarzec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwiecien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getMaj()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getCzerwiec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getLipiec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getSierpien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getWrzesien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getPazdziernik()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getListopad()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getGrudzien()), "right",6));
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());

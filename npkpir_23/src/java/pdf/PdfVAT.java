@@ -4,6 +4,10 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -62,9 +66,9 @@ public class PdfVAT extends Pdf implements Serializable {
                     nowanazwa = p;
                 }
                 PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf"));
-                HeaderFooter event = new HeaderFooter();
+                PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                 writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
-                writer.setPageEvent(event);
+                writer.setPageEvent(headerfoter);
                 pdf.addTitle("Ewidencja VAT");
                 pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
                 pdf.addSubject("Wydruk danych z ewidencji VAT");
@@ -106,31 +110,31 @@ public class PdfVAT extends Pdf implements Serializable {
                     table.addCell(ustawfraze("Brutto", 0, 2));
 
 
-                    table.addCell(ustawfrazebez("imię i nazwisko (firma)", "center", 6));
-                    table.addCell(ustawfrazebez("adres", "center", 6));
+                    table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
+                    table.addCell(ustawfrazeAlign("adres", "center", 6));
 
-                    table.addCell(ustawfrazebez("1", "center", 6));
-                    table.addCell(ustawfrazebez("2", "center", 6));
-                    table.addCell(ustawfrazebez("3", "center", 6));
-                    table.addCell(ustawfrazebez("4", "center", 6));
-                    table.addCell(ustawfrazebez("5", "center", 6));
-                    table.addCell(ustawfrazebez("6", "center", 6));
-                    table.addCell(ustawfrazebez("7", "center", 6));
-                    table.addCell(ustawfrazebez("8", "center", 6));
-                    table.addCell(ustawfrazebez("9", "center", 6));
-                    table.addCell(ustawfrazebez("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
 
 
-                    table.addCell(ustawfrazebez("1", "center", 6));
-                    table.addCell(ustawfrazebez("2", "center", 6));
-                    table.addCell(ustawfrazebez("3", "center", 6));
-                    table.addCell(ustawfrazebez("4", "center", 6));
-                    table.addCell(ustawfrazebez("5", "center", 6));
-                    table.addCell(ustawfrazebez("6", "center", 6));
-                    table.addCell(ustawfrazebez("7", "center", 6));
-                    table.addCell(ustawfrazebez("8", "center", 6));
-                    table.addCell(ustawfrazebez("9", "center", 6));
-                    table.addCell(ustawfrazebez("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
 
 
                     table.setHeaderRows(5);
@@ -142,26 +146,26 @@ public class PdfVAT extends Pdf implements Serializable {
                 ArrayList<EVatViewPola> ew = lista.getEwidencje().get(p);
                 Integer i = 1;
                 for (EVatViewPola rs : ew) {
-                    table.addCell(ustawfrazebez(i.toString(), "center", 6));
-                    table.addCell(ustawfrazebez(rs.getDataSprz(), "left", 6));
-                    table.addCell(ustawfrazebez(rs.getDataWyst(), "left", 6));
-                    table.addCell(ustawfrazebez(rs.getNrWlDk(), "left", 6));
+                    table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
                     try {
-                        table.addCell(ustawfrazebez(rs.getKontr().getNpelna(), "left", 6));
+                        table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
                         if (rs.getKontr().getKodpocztowy() != null) {
-                            table.addCell(ustawfrazebez(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
+                            table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
                         } else {
-                            table.addCell(ustawfrazebez("", "left", 6));
+                            table.addCell(ustawfrazeAlign("", "left", 6));
                         }
                     } catch (Exception e) {
-                        table.addCell(ustawfrazebez("", "left", 6));
-                        table.addCell(ustawfrazebez("", "left", 6));
+                        table.addCell(ustawfrazeAlign("", "left", 6));
+                        table.addCell(ustawfrazeAlign("", "left", 6));
                     }
 
-                    table.addCell(ustawfrazebez(rs.getOpis(), "left", 6));
-                    table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right", 6));
-                    table.addCell(ustawfrazebez(formatujliczby(rs.getVat()), "right", 6));
-                    table.addCell(ustawfrazebez(formatujliczby(rs.getNetto() + rs.getVat()), "right", 6));
+                    table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 6));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 6));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 6));
                     i++;
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

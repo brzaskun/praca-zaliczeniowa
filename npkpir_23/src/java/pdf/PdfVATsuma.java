@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -120,22 +121,22 @@ public class PdfVATsuma extends Pdf implements Serializable {
             miziu1 = new Paragraph(new Phrase("zestawienie ewidencji sprzedaży",fontM));
             document.add(miziu1);
             try {
-                tableSprzedaz.addCell(ustawfrazebez("lp","center",10));
-                tableSprzedaz.addCell(ustawfrazebez("ewidencja","center",10));
-                tableSprzedaz.addCell(ustawfrazebez("netto","center",10));
-                tableSprzedaz.addCell(ustawfrazebez("vat","center",10));
-                tableSprzedaz.addCell(ustawfrazebez("brutto","center",10));
+                tableSprzedaz.addCell(ustawfrazeAlign("lp","center",10));
+                tableSprzedaz.addCell(ustawfrazeAlign("ewidencja","center",10));
+                tableSprzedaz.addCell(ustawfrazeAlign("netto","center",10));
+                tableSprzedaz.addCell(ustawfrazeAlign("vat","center",10));
+                tableSprzedaz.addCell(ustawfrazeAlign("brutto","center",10));
                 tableSprzedaz.setHeaderRows(1);
                 int i = 1;
                 for(EVatwpisSuma p : sumaVatSprzedaz){
-                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(i),"center",10));
-                    tableSprzedaz.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
-                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
-                    tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())),"right",10));
                     try {
-                        tableSprzedaz.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                        tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
                     } catch (Exception e){
-                        tableSprzedaz.addCell(ustawfrazebez("","right",10));
+                        tableSprzedaz.addCell(ustawfrazeAlign("","right",10));
                     }
                     i++;
                 }
@@ -149,22 +150,22 @@ public class PdfVATsuma extends Pdf implements Serializable {
             miziu1 = new Paragraph(new Phrase("zestawienie ewidencji zakupu",fontM));
             document.add(miziu1);
             try {
-                tableZakup.addCell(ustawfrazebez("lp","center",10));
-                tableZakup.addCell(ustawfrazebez("ewidencja","center",10));
-                tableZakup.addCell(ustawfrazebez("netto","center",10));
-                tableZakup.addCell(ustawfrazebez("vat","center",10));
-                tableZakup.addCell(ustawfrazebez("brutto","center",10));
+                tableZakup.addCell(ustawfrazeAlign("lp","center",10));
+                tableZakup.addCell(ustawfrazeAlign("ewidencja","center",10));
+                tableZakup.addCell(ustawfrazeAlign("netto","center",10));
+                tableZakup.addCell(ustawfrazeAlign("vat","center",10));
+                tableZakup.addCell(ustawfrazeAlign("brutto","center",10));
                 tableZakup.setHeaderRows(1);
                 int i = 1;
                 for(EVatwpisSuma p : sumaVatZakup){
-                    tableZakup.addCell(ustawfrazebez(String.valueOf(i),"center",10));
-                    tableZakup.addCell(ustawfrazebez(p.getEwidencja().getNazwa(),"left",10));
-                    tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getNetto())),"right",10));
-                    tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat())),"right",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
+                    tableZakup.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())),"right",10));
                     try {
-                        tableZakup.addCell(ustawfrazebez(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                        tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
                     } catch (Exception e){
-                        tableZakup.addCell(ustawfrazebez("","right",10));
+                        tableZakup.addCell(ustawfrazeAlign("","right",10));
                     }
                     i++;
                 }
