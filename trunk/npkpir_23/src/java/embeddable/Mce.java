@@ -125,29 +125,31 @@ public class Mce implements Serializable{
         }
         return poprzedniemce;
     }
+   
+    public Mce() {
+    }
     
+//<editor-fold defaultstate="collapsed" desc="comment">
     public static Map<Integer, String> getMapamcy() {
         return mapamcy;
     }
-
+    
     public static Map<String, Integer> getMapamcyX() {
         return mapamcyX;
     }
-
+    
     public static Map<String, Integer> getMapamcyCalendar() {
         return mapamcyCalendar;
     }
-
+    
     public static Map<Integer, String> getMapamcynazwa() {
         return mapamcynazwa;
     }
-
-    public Mce() {
-    }
-
+    
     public List<String> getMceList() {
         return mceList;
     }
     
+//</editor-fold>
     
 }

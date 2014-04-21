@@ -193,7 +193,7 @@ public class Vat7DKView implements Serializable {
             }
         }
          String kwotaautoryzujaca = null;
-        String kodus = tKodUS.getLista().get(pod.getUrzadskarbowy());
+        String kodus = tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy());
         try {
             boolean equals = kodus.isEmpty();
         } catch (Exception e) {
@@ -251,7 +251,7 @@ public class Vat7DKView implements Serializable {
             }
             String mcx = String.valueOf(Integer.parseInt(mc));
             selected.setMiesiac(mcx);
-            selected.setKodurzedu(tKodUS.getLista().get(pod.getUrzadskarbowy()));
+            selected.setKodurzedu(tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy()));
             selected.setNazwaurzedu(pod.getUrzadskarbowy());
             adres.setNIP(pod.getNip());
             adres.setImiePierwsze(pod.getImie().toUpperCase());
