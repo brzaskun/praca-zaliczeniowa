@@ -4,6 +4,8 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -31,6 +33,8 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
+import static pdf.PdfVAT7.absText;
+import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 import view.DokTabView;
 
@@ -133,25 +137,25 @@ public class PdfPK extends Pdf implements Serializable {
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
             try {
-                table.addCell(ustawfrazebez("lp","center",10));
-                table.addCell(ustawfrazebez("opis","center",10));
-                table.addCell(ustawfrazebez("netto","center",10));
-                table.addCell(ustawfrazebez("vat","center",10));
-                table.addCell(ustawfrazebez("brutto","center",10));
-                table.addCell(ustawfrazebez("uwagi","center",10));
+                table.addCell(ustawfrazeAlign("lp","center",10));
+                table.addCell(ustawfrazeAlign("opis","center",10));
+                table.addCell(ustawfrazeAlign("netto","center",10));
+                table.addCell(ustawfrazeAlign("vat","center",10));
+                table.addCell(ustawfrazeAlign("brutto","center",10));
+                table.addCell(ustawfrazeAlign("uwagi","center",10));
                 table.setHeaderRows(1);
                 
-                table.addCell(ustawfrazebez(String.valueOf(selected.getNrWpkpir()),"center",10));
-                table.addCell(ustawfrazebez(selected.getOpis(),"left",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()),"center",10));
+                table.addCell(ustawfrazeAlign(selected.getOpis(),"left",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())),"right",10));
                 try {
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto()-selected.getNetto())),"right",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getBrutto())),"right",10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto()-selected.getNetto())),"right",10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())),"right",10));
                 } catch (Exception e){
-                    table.addCell(ustawfrazebez("0.00","right",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNetto())),"right",10));
+                    table.addCell(ustawfrazeAlign("0.00","right",10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())),"right",10));
                 }
-                table.addCell(ustawfrazebez(selected.getUwagi(),"center",10));
+                table.addCell(ustawfrazeAlign(selected.getUwagi(),"center",10));
                } catch (DocumentException | IOException e){
                 
             }
@@ -177,17 +181,17 @@ public class PdfPK extends Pdf implements Serializable {
         List<Umorzenie> umorzenia = odpis.getUmorzenia();
         PdfPTable table = new PdfPTable(4);
         table.setWidths(new int[]{1, 6, 2, 2});
-        table.addCell(ustawfrazebez("lp","center",10));
-        table.addCell(ustawfrazebez("nazwa środka trwałego","center",10));
-        table.addCell(ustawfrazebez("nr umorzenia","center",10));
-        table.addCell(ustawfrazebez("kwota umorzenia","center",10));
+        table.addCell(ustawfrazeAlign("lp","center",10));
+        table.addCell(ustawfrazeAlign("nazwa środka trwałego","center",10));
+        table.addCell(ustawfrazeAlign("nr umorzenia","center",10));
+        table.addCell(ustawfrazeAlign("kwota umorzenia","center",10));
         table.setHeaderRows(1);
         int i = 1;
         for(Umorzenie p : umorzenia){
-            table.addCell(ustawfrazebez(String.valueOf(i++),"center",10));
-            table.addCell(ustawfrazebez(p.getNazwaSrodka(),"center",10));
-            table.addCell(ustawfrazebez(String.valueOf(p.getNrUmorzenia()),"center",10));
-            table.addCell(ustawfrazebez(formatter.format(p.getKwota()),"center",10));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++),"center",10));
+            table.addCell(ustawfrazeAlign(p.getNazwaSrodka(),"center",10));
+            table.addCell(ustawfrazeAlign(String.valueOf(p.getNrUmorzenia()),"center",10));
+            table.addCell(ustawfrazeAlign(formatter.format(p.getKwota()),"center",10));
         }
         document.add(table);
     }

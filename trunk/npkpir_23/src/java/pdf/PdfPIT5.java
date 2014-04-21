@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -102,54 +103,54 @@ public class PdfPIT5 extends Pdf implements Serializable {
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
             try {
-                table.addCell(ustawfrazebez("imię i nazwisko podatnika","center",10));
-                table.addCell(ustawfrazebez(selected.getUdzialowiec(),"right",10));
-                table.addCell(ustawfrazebez("przychody narastająco","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
-                table.addCell(ustawfrazebez("koszty narastająco","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getKoszty())),"right",10));
+                table.addCell(ustawfrazeAlign("imię i nazwisko podatnika","center",10));
+                table.addCell(ustawfrazeAlign(selected.getUdzialowiec(),"right",10));
+                table.addCell(ustawfrazeAlign("przychody narastająco","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
+                table.addCell(ustawfrazeAlign("koszty narastająco","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getKoszty())),"right",10));
                 if (selected.getRemanent()!=null) {
-                    table.addCell(ustawfrazebez("różnica remanentów","center",10));
-                    table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getRemanent())),"right",10));
+                    table.addCell(ustawfrazeAlign("różnica remanentów","center",10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getRemanent())),"right",10));
                 }
-                table.addCell(ustawfrazebez("udział","center",10));
-                table.addCell(ustawfrazebez(selected.getUdzial()+"%","right",10));
-                table.addCell(ustawfrazebez("","center",10));
-                table.addCell(ustawfrazebez("","center",10));
-                table.addCell(ustawfrazebez("przychody narast./udział","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPrzychodyudzial())),"right",10));
-                table.addCell(ustawfrazebez("koszty narast./udział","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getKosztyudzial())),"right",10));
+                table.addCell(ustawfrazeAlign("udział","center",10));
+                table.addCell(ustawfrazeAlign(selected.getUdzial()+"%","right",10));
+                table.addCell(ustawfrazeAlign("","center",10));
+                table.addCell(ustawfrazeAlign("","center",10));
+                table.addCell(ustawfrazeAlign("przychody narast./udział","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychodyudzial())),"right",10));
+                table.addCell(ustawfrazeAlign("koszty narast./udział","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getKosztyudzial())),"right",10));
                
-                table.addCell(ustawfrazebez("wynik od początku roku","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getWynik())),"right",10));
-                table.addCell(ustawfrazebez("","center",10));
-                table.addCell(ustawfrazebez("","center",10));
+                table.addCell(ustawfrazeAlign("wynik od początku roku","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getWynik())),"right",10));
+                table.addCell(ustawfrazeAlign("","center",10));
+                table.addCell(ustawfrazeAlign("","center",10));
                 
-                table.addCell(ustawfrazebez("ZUS 51","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getZus51())),"right",10));
-                table.addCell(ustawfrazebez("strata z lat ub.","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getStrata())),"right",10));
+                table.addCell(ustawfrazeAlign("ZUS 51","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
-                table.addCell(ustawfrazebez("podstawa op.","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
-                table.addCell(ustawfrazebez("podatek od pocz.roku","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
+                table.addCell(ustawfrazeAlign("podstawa op.","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
+                table.addCell(ustawfrazeAlign("podatek od pocz.roku","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
                 
-                table.addCell(ustawfrazebez("ZUS 52","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
-                table.addCell(ustawfrazebez("strata z lat ub.","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getStrata())),"right",10));
+                table.addCell(ustawfrazeAlign("ZUS 52","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
+                table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
-                table.addCell(ustawfrazebez("zaliczki za pop.mce","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNalzalodpoczrok())),"right",10));
-                table.addCell(ustawfrazebez("podatek od pocz.roku","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getNaleznazal())),"right",10));
+                table.addCell(ustawfrazeAlign("zaliczki za pop.mce","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNalzalodpoczrok())),"right",10));
+                table.addCell(ustawfrazeAlign("podatek od pocz.roku","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNaleznazal())),"right",10));
 
-                table.addCell(ustawfrazebez("do zapłaty","center",10));
-                table.addCell(ustawfrazebez(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
-                table.addCell(ustawfrazebez("termin płatności","center",10));
-                table.addCell(ustawfrazebez(selected.getTerminwplaty(),"center",10));
+                table.addCell(ustawfrazeAlign("do zapłaty","center",10));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
+                table.addCell(ustawfrazeAlign("termin płatności","center",10));
+                table.addCell(ustawfrazeAlign(selected.getTerminwplaty(),"center",10));
 
                } catch (DocumentException | IOException e){
                 

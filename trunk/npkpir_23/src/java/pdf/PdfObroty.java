@@ -4,6 +4,9 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -40,9 +43,9 @@ public class PdfObroty extends Pdf implements Serializable {
     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf"));
-        HeaderFooter event = new HeaderFooter();
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
-        writer.setPageEvent(event);
+        writer.setPageEvent(headerfoter);
         pdf.addTitle("Obroty z kontrahentami");
         pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         pdf.addSubject("Wydruk danych z PKPiR");
@@ -61,15 +64,15 @@ public class PdfObroty extends Pdf implements Serializable {
         table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2});
         PdfPCell cell = new PdfPCell();
         try {
-            table.addCell(ustawfrazebez("nr kolejny", "center",8));
-            table.addCell(ustawfrazebez("data wystawienia", "center",8));
-            table.addCell(ustawfrazebez("kontrahent", "center",8));
-            table.addCell(ustawfrazebez("transakcja", "center",8));
-            table.addCell(ustawfrazebez("symbol dok.", "center",8));
-            table.addCell(ustawfrazebez("nr własny", "center",8));
-            table.addCell(ustawfrazebez("opis", "center",8));
-            table.addCell(ustawfrazebez("netto", "center",8));
-            table.addCell(ustawfrazebez("brutto", "center",8));
+            table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
+            table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
+            table.addCell(ustawfrazeAlign("kontrahent", "center",8));
+            table.addCell(ustawfrazeAlign("transakcja", "center",8));
+            table.addCell(ustawfrazeAlign("symbol dok.", "center",8));
+            table.addCell(ustawfrazeAlign("nr własny", "center",8));
+            table.addCell(ustawfrazeAlign("opis", "center",8));
+            table.addCell(ustawfrazeAlign("netto", "center",8));
+            table.addCell(ustawfrazeAlign("brutto", "center",8));
             
             table.setHeaderRows(1);
         } catch (IOException ex) {
@@ -79,18 +82,18 @@ public class PdfObroty extends Pdf implements Serializable {
         List<Dok> wykaz = obliczsume(obrotyView.getGoscwybral());
         for (Dok rs : wykaz) {
             if (rs.getNrWpkpir() != 0) {
-                table.addCell(ustawfrazebez(String.valueOf(rs.getNrWpkpir()), "center",8));
+                table.addCell(ustawfrazeAlign(String.valueOf(rs.getNrWpkpir()), "center",8));
             } else {
-                table.addCell(ustawfrazebez("", "center",8));
+                table.addCell(ustawfrazeAlign("", "center",8));
             }
-            table.addCell(ustawfrazebez(rs.getDataWyst(), "left",8));
-            table.addCell(ustawfrazebez(rs.getKontr().getNpelna(), "left",8));
-            table.addCell(ustawfrazebez(rs.getRodzTrans(), "left",8));
-            table.addCell(ustawfrazebez(rs.getTypdokumentu(), "left",8));
-            table.addCell(ustawfrazebez(rs.getNrWlDk(), "left",8));
-            table.addCell(ustawfrazebez(rs.getOpis(), "left",8));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getNetto()), "right",8));
-            table.addCell(ustawfrazebez(formatujliczby(rs.getBrutto()), "right",8));
+            table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getRodzTrans(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",8));
+            table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right",8));
+            table.addCell(ustawfrazeAlign(formatujliczby(rs.getBrutto()), "right",8));
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());
