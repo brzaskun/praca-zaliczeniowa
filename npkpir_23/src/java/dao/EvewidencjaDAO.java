@@ -4,9 +4,13 @@
  */
 package dao;
 
+import comparator.Evewidencjacomparator;
 import entity.Evewidencja;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -28,6 +32,19 @@ public class EvewidencjaDAO extends DAO implements Serializable {
      public  List<Evewidencja> findAll(){
         try {
             return evewidencjaFacade.findAll(Evewidencja.class);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    public  Map<String, Evewidencja> findAllMap(){
+        try {
+            List<Evewidencja> pobraneewidencje = findAll();
+            Collections.sort(pobraneewidencje, new Evewidencjacomparator());
+            Map<String,Evewidencja> mapaewidencji = new HashMap<>();
+            for (Evewidencja p : pobraneewidencje) {
+                mapaewidencji.put(p.getNazwa(), p);
+            }
+            return mapaewidencji;
         } catch (Exception e) {
             return null;
         }

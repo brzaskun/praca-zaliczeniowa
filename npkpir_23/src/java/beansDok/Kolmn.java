@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddable;
+package beansDok;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.faces.bean.SessionScoped;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 
 /**
@@ -17,7 +17,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@SessionScoped
+@Singleton
 public class Kolmn implements Serializable{
 
     private static final List<String> kolumnList;
@@ -77,6 +77,30 @@ public class Kolmn implements Serializable{
         kolumnRyczalt.add("8.5%");
         kolumnRyczalt.add("5.5%");
         kolumnRyczalt.add("3%");
+    }
+    
+    public static List<String> zwrockolumny(String transakcjiRodzaj) {
+        switch (transakcjiRodzaj) {
+            case "ryczałt":
+            case "ryczałt bez VAT":
+                return kolumnRyczalt;
+            case "zakup":
+            case "import usług":
+            case "WNT":
+            case "odwrotne obciążenie":
+                return kolumnKoszty;
+            case "srodek trw":
+            case "inwestycja":
+                return kolumnST;
+            case "srodek trw sprzedaz":
+                return kolumnSTsprz;
+            case "eksport towarów":
+            case "usługi poza ter.":
+            case "WDT":
+                return kolumnPrzychody;
+            default:
+                return kolumnList;
+        }
     }
     
     public static void main(String[] args) {

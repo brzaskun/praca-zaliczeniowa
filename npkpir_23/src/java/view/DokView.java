@@ -21,7 +21,8 @@ import dao.WpisDAO;
 import data.Data;
 import embeddable.EVatwpis;
 import embeddable.EwidencjaAddwiad;
-import embeddable.Kolmn;
+import beansDok.Kolmn;
+import beansDok.VAT;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.PanstwaSymb1;
@@ -103,7 +104,8 @@ public final class DokView implements Serializable {
     public static void setPrzekazKontr(Klienci przekazKontr) {
         DokView.przekazKontr = przekazKontr;
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
 //   public DokTabView getDokTabView() {
 //       return dokTabView;
 //   }
@@ -245,8 +247,8 @@ public final class DokView implements Serializable {
     //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
     //          }
     //      }
-    //</editor-fold>
-
+    //
+//</editor-fold>
     private HtmlSelectOneMenu pkpirLista;
     private HtmlInputText kontrahentNIP;
     private HtmlSelectOneMenu srodkitrwalewyposazenie;
@@ -278,8 +280,6 @@ public final class DokView implements Serializable {
     private EVatView evat;
     @Inject
     private EVatOpisDAO eVatOpisDAO;
-    @Inject
-    private Evewidencja eVidencja;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
     private EVatwpis eVatwpis;
@@ -521,53 +521,7 @@ public final class DokView implements Serializable {
         }
         List valueList = new ArrayList();
         UISelectItems ulista = new UISelectItems();
-        List dopobrania = new ArrayList();
-        switch (transakcjiRodzaj) {
-            case "ryczałt":
-                dopobrania = kolumna.getKolumnRyczalt();
-                break;
-            case "ryczałt bez VAT":
-                dopobrania = kolumna.getKolumnRyczalt();
-                break;
-            case "zakup":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "srodek trw":
-                dopobrania = kolumna.getKolumnST();
-                setPokazSTR(true);
-                //wygenerujSTRKolumne();
-                break;
-            case "srodek trw sprzedaz":
-                dopobrania = kolumna.getKolumnSTsprz();
-                setPokazEST(true);
-                RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
-                break;
-            case "import usług":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "eksport towarów":
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-            case "inwestycja":
-                dopobrania = kolumna.getKolumnST();
-                break;
-            case "WDT":
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-            case "WNT":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "odwrotne obciążenie":
-                dopobrania = kolumna.getKolumnKoszty();
-                break;
-            case "usługi poza ter.":
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-            default:
-                dopobrania = kolumna.getKolumnPrzychody();
-                break;
-        }
-        kolumny = dopobrania;
+        kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
         if (selDokument.getKontr().getPkpirKolumna() != null) {
             String kol = selDokument.getKontr().getPkpirKolumna();
@@ -575,17 +529,19 @@ public final class DokView implements Serializable {
             valueList.add(selectI);
         }
         /**/
-        Iterator it;
-        it = dopobrania.iterator();
-        while (it.hasNext()) {
-            String poz = (String) it.next();
-            SelectItem selectItem = new SelectItem(poz, poz);
+        for (String kolumnanazwa : kolumny) {
+            SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
             valueList.add(selectItem);
         }
-        //nie wiem dlaczego to tu było
-        //selDokument.setNrWlDk("");
         ulista.setValue(valueList);
-        pkpirLista.getChildren().add(ulista);
+        switch(transakcjiRodzaj) {
+            case "inwestycja":
+                setPokazSTR(true);
+                //wygenerujSTRKolumne();
+            case "srodek trw sprzedaz":
+                setPokazEST(true);
+                RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+        }
     }
 
         public void podepnijEwidencjeVat() {
@@ -883,13 +839,13 @@ public final class DokView implements Serializable {
 //        HtmlOutputText ot = new HtmlOutputText();
 //        ot.setValue("nazwa Srodka");
 //        grid3.getChildren().add(ot);
-//        HtmlInputText ew = new HtmlInputText();
+//        HtmlInputText zdefiniowaneEwidencje = new HtmlInputText();
 //        final String binding = "#{DokumentView.nazwaSTR}";
 //        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-//        ew.setValueExpression("value", ve2);
-//        ew.setId("nazwasrodka");
-//        ew.setAccesskey("t");
-//        grid3.getChildren().add(ew);
+//        zdefiniowaneEwidencje.setValueExpression("value", ve2);
+//        zdefiniowaneEwidencje.setId("nazwasrodka");
+//        zdefiniowaneEwidencje.setAccesskey("t");
+//        grid3.getChildren().add(zdefiniowaneEwidencje);
 //
 //        HtmlOutputText ot1 = new HtmlOutputText();
 //        ot1.setValue("data przyjecia");
@@ -1005,52 +961,42 @@ public final class DokView implements Serializable {
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
     public void dodaj(int rodzajdodawania) {
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-        selDokument.setWprowadzil(principal.getName());
-        Wpis wpisbiezacy = wpisDAO.find(selDokument.getWprowadzil());
-        selDokument.setPkpirM(wpisbiezacy.getMiesiacWpisu());
-        selDokument.setPkpirR(wpisbiezacy.getRokWpisu().toString());
-        selDokument.setPodatnik(wpisbiezacy.getPodatnikWpisu());
-        Podatnik podtmp = podatnikDAO.find(wpisbiezacy.getPodatnikWpisu());
-        zweryfikujokresvat();
+        try {
+            if (selDokument.getSymbolinwestycji().equals("wybierz")&&typdokumentu.equals("IN")) {
+                Msg.msg("e", "Błąd. Nie wybrano nazwy inwestycji podczas wprowadzania dokumentu inwestycyjnego. Dokument niewprowadzony");
+                return;
+            }
+        } catch (Exception e) {}
+        selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        selDokument.setPkpirM(wpisView.getMiesiacWpisu());
+        selDokument.setPkpirR(wpisView.getRokWpisu().toString());
+        selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+        Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
+        VAT.zweryfikujokresvat(selDokument);
         List<Double> pobierzVat = new ArrayList<>();
         try {
-            if ((!podtmp.getPodatekdochodowy().get(podtmp.getPodatekdochodowy().size() - 1).getParametr().contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
-                ArrayList<Evewidencja> ew = new ArrayList<>();
-                ew.addAll(evewidencjaDAO.findAll());
-                Collections.sort(ew, new Evewidencjacomparator());
-                List<EVatwpis> el = new ArrayList<>();
-                int i = 0;
-                int rozmiar = evewidencjaDAO.findAll().size();
+            String rodzajOpodatkowania = ParametrView.zwrocParametr(podatnikWDokumencie.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if ((!rodzajOpodatkowania.contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
+                Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
+                List<EVatwpis> ewidencjeDokumentu = new ArrayList<>();
                 int rozmiarewvatwprowadzonej = ewidencjaAddwiad.size();
-                while (i < rozmiar) {
                     int j = 0;
                     while (j < 5 && j < rozmiarewvatwprowadzonej) {
                         String op = ewidencjaAddwiad.get(j).getOpis();
-                        String naz = ew.get(i).getNazwa();
-                        if (naz.equals(op)) {
-                            eVidencja = ew.get(i);
-                            eVatwpis = new EVatwpis();
-                            eVatwpis.setEwidencja(eVidencja);
-                            eVatwpis.setNetto(ewidencjaAddwiad.get(j).getNetto());
-                            eVatwpis.setVat(ewidencjaAddwiad.get(j).getVat());
-                            eVatwpis.setEstawka(ewidencjaAddwiad.get(j).getOpzw());
-                            el.add(eVatwpis);
-                            eVidencja = null;
-                            //to musi być bo inaczej nie obliczy kwoty vat;
-                            pobierzVat.add(eVatwpis.getVat());
-                        }
+                        eVatwpis = new EVatwpis();
+                        eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
+                        eVatwpis.setNetto(ewidencjaAddwiad.get(j).getNetto());
+                        eVatwpis.setVat(ewidencjaAddwiad.get(j).getVat());
+                        eVatwpis.setEstawka(ewidencjaAddwiad.get(j).getOpzw());
+                        ewidencjeDokumentu.add(eVatwpis);
+                        //to musi być bo inaczej nie obliczy kwoty vat;
+                        pobierzVat.add(eVatwpis.getVat());
                         j++;
                     }
-                    i++;
-                }
-
                 if (opodatkowanieryczalt == true) {
                     selDokument.setEwidencjaVAT(null);
                 } else if (!selDokument.isDokumentProsty()) {
-                    selDokument.setEwidencjaVAT(el);
+                    selDokument.setEwidencjaVAT(ewidencjeDokumentu);
                 } else {
                     selDokument.setEwidencjaVAT(null);
                 }
@@ -1104,10 +1050,8 @@ public final class DokView implements Serializable {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
                 //wpisywanie do bazy ostatniego dokumentu
-                request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                principal = request.getUserPrincipal();
                 Ostatnidokument temp = new Ostatnidokument();
-                temp.setUzytkownik(principal.getName());
+                temp.setUzytkownik(wpisView.getWprowadzil().getLogin());
                 temp.setDokument(selDokument);
                 ostatnidokumentDAO.edit(temp);
                 try {
@@ -1535,25 +1479,7 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
     }
     
-    public void zweryfikujokresvat() {
-        if (selDokument.getVatR()==null || selDokument.getVatM()==null) {
-            String datafaktury = selDokument.getDataWyst();
-            String dataobowiazku = selDokument.getDataSprz();
-            int porownaniedat = Data.compare(datafaktury, dataobowiazku);
-            String rok;
-            String mc;
-            if (porownaniedat >= 0) {
-                rok = dataobowiazku.substring(0,4);
-                mc = dataobowiazku.substring(5,7);
-            } else {
-                rok = datafaktury.substring(0,4);
-                mc = datafaktury.substring(5,7);
-            }
-            selDokument.setVatR(rok);
-            selDokument.setVatM(mc);
-            RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
-        }
-    }
+    
 
     public void przekazKontrahentaA(AjaxBehaviorEvent e) throws Exception {
         AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
@@ -2058,14 +1984,7 @@ public final class DokView implements Serializable {
         this.eVatwpis = eVatwpis;
     }
 
-    public Evewidencja geteVidencja() {
-        return eVidencja;
-    }
-
-    public void seteVidencja(Evewidencja eVidencja) {
-        this.eVidencja = eVidencja;
-    }
-
+   
     public String getOpis() {
         return opis;
     }
