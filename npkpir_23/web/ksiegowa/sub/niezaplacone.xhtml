@@ -12,15 +12,15 @@
               <p:panelGrid id="display" style="width: 400px;" columns="2" >
                <h:outputText value="data płatności"/>  
                <h:outputText value="kwota wpłacona"/>  
-               <p:inputText id="pole" value="#{DokumentView.rozrachunek.dataplatnosci}" accesskey="s" >
+               <p:inputText id="pole" value="#{rozrachunkiView.rozrachunek.dataplatnosci}" accesskey="s" >
                    <p:watermark for="pole" value="rrrr-mm-dd" /> 
                </p:inputText>
-               <pe:inputNumber value="#{DokumentView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
+               <pe:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
-        <p:commandButton value="usun" actionListener="#{DokumentView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
+        <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
         <h:outputText value="Alt-s aktywuje pierwsze pole" style="font-style: italic"/>
-        <p:commandButton value="ok" actionListener="#{DokumentView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="Dialog.hide()"/>
+        <p:commandButton value="ok" actionListener="#{rozrachunkiView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="Dialog.hide()"/>
     </p:dialog>
     <p:panel>
         <f:facet name="header">
@@ -31,11 +31,11 @@
     <p:outputPanel id="wrapper"  deferred="true">
         
         
-           <p:dataTable  var="wpis" value="#{DokTabView.niezaplacone}" id="dokumentyLista" editable="true" 
+        <p:dataTable  var="wpis" value="#{rozrachunkiView.niezaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
-                      rowKey="#{wpis.idDok}" selection="#{DokumentView.selDokument}" selectionMode="single"
+                      rowKey="#{wpis.idDok}" selection="#{rozrachunkiView.selDokument}" selectionMode="single"
                       emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
           
