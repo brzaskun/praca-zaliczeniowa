@@ -4,10 +4,10 @@
  */
 package view;
 
+import beansDok.ListaEwidencjiVat;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
-import dao.EVatOpisDAO;
 import dao.EvewidencjaDAO;
 import dao.InwestycjeDAO;
 import dao.KlienciDAO;
@@ -92,58 +92,53 @@ public final class DokView implements Serializable {
     private AmoDokDAO amoDokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
-
-    /*pkpir*/
+    @Inject
+    private SrodkikstDAO srodkikstDAO;
+    @Inject
+    private OstatnidokumentDAO ostatnidokumentDAO;
+    @Inject
+    private WpisDAO wpisDAO;
+    @Inject
+    private DokDAO dokDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private KlienciDAO klDAO;
+    @Inject
+    private StornoDokDAO stornoDokDAO;
+    @Inject
+    private InwestycjeDAO inwestycjeDAO;
+    
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-//    @ManagedProperty(value = "#{DokTabView}")
-//    private DokTabView dokTabView;
     @ManagedProperty(value = "#{KlView}")
     private KlView klView;
     @ManagedProperty(value = "#{SrodkiTrwaleView}")
     private STRView sTRView;
+    
     @Inject
-    private DokDAO dokDAO;
-    /*pkpir*/
-    @Inject
-    private EVatView evat;
-    @Inject
-    private EvewidencjaDAO evewidencjaDAO;
-    private EVatwpis eVatwpis;
-    /* Rozliczenia vat*/
+    private ListaEwidencjiVat listaEwidencjiVat;
     /*Środki trwałe*/
     @Inject
     private SrodekTrw selectedSTR;
     /*Środki trwałe*/
-    private boolean pokazSTR;
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     @Inject
     private Srodkikst srodekkategoria;
     @Inject
     private Srodkikst srodekkategoriawynik;
     //automatyczne ksiegowanie Storna
-    @Inject
-    private StornoDokDAO stornoDokDAO;
     private boolean rozliczony;
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private String typdokumentu;
-    //przechowuje wprowadzanego podatnika;
-    private Podatnik podX;
     private boolean nieVatowiec;
     //pobieram wykaz KŚT
-    @Inject
-    private SrodkikstDAO srodkikstDAO;
-    @Inject
-    OstatnidokumentDAO ostatnidokumentDAO;
-    @Inject
-    WpisDAO wpisDAO;
-
     /**
      * Lista gdzie przechowywane są wartości netto i opis kolumny wporwadzone w
      * formularzy na stronie add_wiad.xhtml
      */
-    List<KwotaKolumna> nettokolumna;
+    private List<KwotaKolumna> nettokolumna;
     /**
      * Lista gdzie przechowywane są wartości ewidencji vat wprowadzone w
      * formularzy na stronie add_wiad.xhtml
@@ -152,18 +147,13 @@ public final class DokView implements Serializable {
     private double sumbrutto;
     private int liczbawierszy;
     private List<String> kolumny;
-    @Inject
-    private InwestycjeDAO inwestycjeDAO;
     public boolean renderujwysz;
     @Inject
     private Klienci selectedKlient;
     @Inject
-    private KlienciDAO klDAO;
-    @Inject
-    PanstwaMap ps1;
+    private PanstwaMap panstwaMapa;
 
     public DokView() {
-        setPokazSTR(false);
         setWysDokument(null);
         wpisView = new WpisView();
         nettokolumna = new ArrayList<>();
@@ -199,9 +189,9 @@ public final class DokView implements Serializable {
         kl1.addAll(klDAO.findAll());
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
+        Podatnik podX = wpisView.getPodatnikObiekt();
         try {
             String pod = wpistmp.getPodatnikWpisu();
-            podX = podatnikDAO.find(pod);
             ArrayList<Rodzajedok> rodzajedokumentow = (ArrayList<Rodzajedok>) podX.getDokumentyksiegowe();
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -298,9 +288,6 @@ public final class DokView implements Serializable {
         }
         ulista.setValue(valueList);
         switch (transakcjiRodzaj) {
-            case "inwestycja":
-                setPokazSTR(true);
-            //wygenerujSTRKolumne();
             case "srodek trw sprzedaz":
                 setPokazEST(true);
                 RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
@@ -334,41 +321,8 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
             if (nieVatowiec == false) {
                 /*wyswietlamy ewidencje VAT*/
-                List opisewidencji = new ArrayList();
-                switch (transakcjiRodzaj) {
-                    case ("zakup"):
-                        opisewidencji = evat.getZakupVList();
-                        break;
-                    case ("srodek trw"):
-                        opisewidencji = evat.getSrodkitrwaleVList();
-                        break;
-                    case ("srodek trw sprzedaz"):
-                        opisewidencji = evat.getSprzedazVList();
-                        break;
-                    case ("inwestycja"):
-                        opisewidencji = evat.getSrodkitrwaleVList();
-                        break;
-                    case ("WDT"):
-                        opisewidencji = evat.getWdtVList();
-                        break;
-                    case ("odwrotne obciążenie"):
-                        opisewidencji = evat.getRvcVList();
-                        break;
-                    case ("WNT"):
-                        opisewidencji = evat.getWntVList();
-                        break;
-                    case ("import usług"):
-                        opisewidencji = evat.getImportuslugList();
-                        break;
-                    case "usługi poza ter.":
-                        opisewidencji = evat.getUslugiPTK();
-                        break;
-                    case "eksport towarów":
-                        opisewidencji = evat.getEksporttowarow();
-                        break;
-                    default:
-                        opisewidencji = evat.getSprzedazVList();
-                }
+                List opisewidencji = new ArrayList<>();
+                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
                 double sumanetto = sumujnetto();
                 ewidencjaAddwiad = new ArrayList<>();
                 int k = 0;
@@ -617,7 +571,7 @@ public final class DokView implements Serializable {
                 List<EVatwpis> ewidencjeDokumentu = new ArrayList<>();
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                     String op = p.getOpis();
-                    eVatwpis = new EVatwpis();
+                    EVatwpis eVatwpis = new EVatwpis();
                     eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
                     eVatwpis.setNetto(p.getNetto());
                     eVatwpis.setVat(p.getVat());
@@ -707,7 +661,6 @@ public final class DokView implements Serializable {
             dodajSrodekTrwaly();
         }
         if (rodzajdodawania == 1) {
-            setPokazSTR(false);
             selDokument = new Dok();
             selectedSTR = new SrodekTrw();
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
@@ -717,7 +670,6 @@ public final class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
-            setPokazSTR(false);
             selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();
             RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
@@ -1277,7 +1229,7 @@ public final class DokView implements Serializable {
                 selectedKlient.setKrajnazwa("Polska");
             }
             String kraj = selectedKlient.getKrajnazwa();
-            String symbol = ps1.getWykazPanstwSX().get(kraj);
+            String symbol = panstwaMapa.getWykazPanstwSX().get(kraj);
             selectedKlient.setKrajkod(symbol);
             poszukajnip();
             klDAO.dodaj(selectedKlient);
@@ -1377,14 +1329,7 @@ public final class DokView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public boolean isPokazSTR() {
-        return pokazSTR;
-    }
-
-    public void setPokazSTR(boolean pokazSTR) {
-        this.pokazSTR = pokazSTR;
-    }
-
+  
     public List<EwidencjaAddwiad> getEwidencjaAddwiad() {
         return ewidencjaAddwiad;
     }
@@ -1417,15 +1362,7 @@ public final class DokView implements Serializable {
         this.dokDAO = dokDAO;
     }
 
-    public EVatwpis geteVatwpis() {
-        return eVatwpis;
-    }
-
-    public void seteVatwpis(EVatwpis eVatwpis) {
-        this.eVatwpis = eVatwpis;
-    }
-
-    public HtmlSelectOneMenu getPkpirLista() {
+     public HtmlSelectOneMenu getPkpirLista() {
         return pkpirLista;
     }
 
