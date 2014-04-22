@@ -44,4 +44,23 @@ public class ParametrView implements Serializable {
         }
         return "blad";
     }
+     
+     public static String zwrocParametr(List<Parametr> parametry, Integer rok, String mcS) {
+        int mc = Integer.parseInt(mcS);
+        for (Parametr p : parametry) {
+            if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
+                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                if (wynikPo > -1 && wynikPrzed < 1) {
+                    return p.getParametr();
+                }
+            } else {
+                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                if (wynik > 0) {
+                    return p.getParametr();
+                }
+            }
+        }
+        return "blad";
+    }
 }

@@ -8,7 +8,7 @@ import beans.WyliczPodatekZasadyOgolne;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.Kolmn;
+import beansDok.Kolmn;
 import embeddable.KwotaKolumna;
 import entity.Dok;
 import entity.Pitpoz;
