@@ -2,7 +2,7 @@
 package view;
 
 import dao.KlienciDAO;
-import embeddable.PanstwaSymb1;
+import embeddable.PanstwaMap;
 import entity.Klienci;
 import java.io.IOException;
 import java.io.Serializable;
@@ -51,7 +51,7 @@ public class KlView implements Serializable{
     }
     @Inject private KlienciDAO klDAO;
     @Inject private Klienci selected;
-    @Inject PanstwaSymb1 ps1;
+    @Inject PanstwaMap ps1;
     private Integer ilesrodkow;
 
     

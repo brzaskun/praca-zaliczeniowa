@@ -4,7 +4,6 @@
  */
 package view;
 
-import comparator.Evewidencjacomparator;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -14,7 +13,6 @@ import dao.InwestycjeDAO;
 import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
-import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.WpisDAO;
@@ -25,7 +23,7 @@ import beansDok.Kolmn;
 import beansDok.VAT;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
-import embeddable.PanstwaSymb1;
+import embeddable.PanstwaMap;
 import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
 import entity.Amodok;
@@ -59,25 +57,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import msg.Msg;
-import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
 import params.Params;
 
@@ -89,170 +81,8 @@ import params.Params;
 @ViewScoped
 public final class DokView implements Serializable {
 
-    private static Klienci przekazKontr;
-    private static String wielkoscopisuewidencji;
-    private static String przechowajdatejakdodaje;
     private static ArrayList<Klienci> kl1;
-
-    public static ArrayList<Klienci> getKl1S() {
-        return kl1;
-    }
-
-    public static Klienci getPrzekazKontr() {
-        return przekazKontr;
-    }
-
-    public static void setPrzekazKontr(Klienci przekazKontr) {
-        DokView.przekazKontr = przekazKontr;
-    }
-//<editor-fold defaultstate="collapsed" desc="comment">
-
-//   public DokTabView getDokTabView() {
-//       return dokTabView;
-//   }
-//
-//   public void setDokTabView(DokTabView dokTabView) {
-//       this.dokTabView = dokTabView;
-//   }
-//
-    //    public static void main(String[] args) throws ParseException{
-    //        String data = "2012-02-02";
-    //        Calendar c = Calendar.getInstance();
-    //        DateFormat formatter;
-    //        formatter = new SimpleDateFormat("yyyy-MM-dd");
-    //        Date terminplatnosci = (Date) formatter.parse(data);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 30);
-    //        String nd30 = formatter.format(c.getTime());
-    ////        selDokument.setTermin30(nd30);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 90);
-    //        String nd90 = formatter.format(c.getTime());
-    //      //  selDokument.setTermin90(nd90);
-    //        c.setTime(terminplatnosci);
-    //        c.add(Calendar.DAY_OF_MONTH, 150);
-    //        String nd150 = formatter.format(c.getTime());
-    //        //selDokument.setTermin150(nd150);
-    //    }
-    public static void main(String[] args) {
-        Map<String, Object> lolo = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        //        addDays("2008-03-08");
-        //        addDays("2009-03-07");
-        //        addDays("2010-03-13");
-    }
-    //
-    //    public static void addDays(String dateString) {
-    //        System.out.println("Got dateString: " + dateString);
-    //
-    //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-    //
-    //        Calendar calendar = Calendar.getInstance();
-    //        try {
-    //            calendar.setTime(sdf.parse(dateString));
-    //            Date day1 = calendar.getTime();
-    //            System.out.println("  day1 = " + sdf.format(day1));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day2 = calendar.getTime();
-    //            System.out.println("  day2 = " + sdf.format(day2));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day3 = calendar.getTime();
-    //            System.out.println("  day3 = " + sdf.format(day3));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day4 = calendar.getTime();
-    //            System.out.println("  day4 = " + sdf.format(day4));
-    //
-    //            // Skipping a few days ahead:
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
-    //            Date day5 = calendar.getTime();
-    //            System.out.println("  day5 = " + sdf.format(day5));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day6 = calendar.getTime();
-    //            System.out.println("  day6 = " + sdf.format(day6));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day7 = calendar.getTime();
-    //            System.out.println("  day7 = " + sdf.format(day7));
-    //
-    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-    //            Date day8 = calendar.getTime();
-    //            System.out.println("  day8 = " + sdf.format(day8));
-    //
-    //        } catch (Exception e) {
-    //        }
-    //    }
-    //      public void uporzadkujbrutto(){
-    //          List<Dok> lista = dokDAO.findAll();
-    //          for(Dok sel : lista){
-    //                Double kwota = sel.getKwota();
-    //                try{
-    //                kwota = kwota + sel.getKwotaX();
-    //                } catch (Exception e){}
-    //
-    //                double kwotavat = 0;
-    //                try{
-    //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
-    //                    for(EVatwpis p : listavat){
-    //                        kwotavat = kwotavat + p.getVat();
-    //                    }
-    //                } catch (Exception e){}
-    //                try{
-    //                kwota = kwota + kwotavat;
-    //                } catch (Exception e){}
-    //                sel.setBrutto(kwota);
-    //                dokDAO.edit(sel);
-    //          }
-    //      }
-    //       public void uporzadkujekstra(){
-    //          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
-    //          for(Dok sel : lista){
-    //                Double kwota = sel.getKwota();
-    //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
-    //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
-    //                }
-    //                System.out.println("Zmienilem dokument");
-    //                dokDAO.edit(sel);
-    //          }
-    //      }
-    //      public void przeksiegujkwoty(){
-    //          List<Dok> lista = dokDAO.findAll();
-    //          for(Dok p : lista){
-    //              List<KwotaKolumna> wiersz = new ArrayList<>();
-    //              KwotaKolumna pierwszy = new KwotaKolumna();
-    //              KwotaKolumna drugi = new KwotaKolumna();
-    //              try {
-    //                  pierwszy.setNetto(p.getKwota());
-    //                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
-    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-    //                  pierwszy.setVat(tmp1.doubleValue());
-    //                  tmp1 = BigDecimal.valueOf(p.getBrutto());
-    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
-    //                  pierwszy.setBrutto(tmp1.doubleValue());
-    //                  pierwszy.setNazwakolumny(p.getPkpirKol());
-    //                  wiersz.add(pierwszy);
-    //              } catch (Exception e){}
-    //              try {
-    //                  drugi.setNetto(p.getKwotaX());
-    //                  drugi.setVat(0.0);
-    //                  drugi.setBrutto(p.getKwotaX().doubleValue());
-    //                  drugi.setNazwakolumny(p.getPkpirKolX());
-    //                  drugi.setDowykorzystania("dosprawdzenia");
-    //                  wiersz.add(drugi);
-    //              } catch (Exception e){}
-    //              p.setListakwot(wiersz);
-    //              dokDAO.edit(p);
-    //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
-    //          }
-    //      }
-    //
-//</editor-fold>
     private HtmlSelectOneMenu pkpirLista;
-    private HtmlInputText kontrahentNIP;
-    private HtmlSelectOneMenu srodkitrwalewyposazenie;
     @Inject
     private Dok selDokument;
     @Inject
@@ -275,9 +105,6 @@ public final class DokView implements Serializable {
     private STRView sTRView;
     @Inject
     private DokDAO dokDAO;
-    @Inject
-    private Kolmn kolumna;
-    private String opis;
     /*pkpir*/
     @Inject
     private EVatView evat;
@@ -302,10 +129,6 @@ public final class DokView implements Serializable {
     @Inject
     private StornoDokDAO stornoDokDAO;
     private boolean rozliczony;
-    @Inject
-    private StornoDok stornoDok;
-    @Inject
-    private RodzajedokDAO rodzajedokDAO;
     private List<Rodzajedok> rodzajedokKlienta;
     //przechowuje ostatni dokumnet
     private String typdokumentu;
@@ -319,10 +142,7 @@ public final class DokView implements Serializable {
     OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
     WpisDAO wpisDAO;
-    private List opisypkpir;
-    private List<String> listamiesiecyewidencjavat;
-    @Inject
-    private Mce mce;
+
     /**
      * Lista gdzie przechowywane są wartości netto i opis kolumny wporwadzone w
      * formularzy na stronie add_wiad.xhtml
@@ -334,16 +154,6 @@ public final class DokView implements Serializable {
      */
     private List<EwidencjaAddwiad> ewidencjaAddwiad;
     private double sumbrutto;
-    /**
-     * pola pobierajace dane
-     */
-    private double nettopkpir0;
-    private double vatpkpir0;
-    private String opiskolumny0;
-    private double nettopkpir1;
-    private double vatpkpir1;
-    private String opiskolumny1;
-    private List<String> rows;
     private int liczbawierszy;
     private List<String> kolumny;
     @Inject
@@ -354,15 +164,12 @@ public final class DokView implements Serializable {
     @Inject
     private KlienciDAO klDAO;
     @Inject
-    PanstwaSymb1 ps1;
+    PanstwaMap ps1;
 
     public DokView() {
         setPokazSTR(false);
-        opis = "ewidencja opis";
         setWysDokument(null);
         wpisView = new WpisView();
-        opisypkpir = new ArrayList();
-        listamiesiecyewidencjavat = new ArrayList<>();
         nettokolumna = new ArrayList<>();
         ewidencjaAddwiad = new ArrayList<>();
         kl1 = new ArrayList<>();
@@ -374,14 +181,6 @@ public final class DokView implements Serializable {
 
     public void setKolumny(List<String> kolumny) {
         this.kolumny = kolumny;
-    }
-
-    public List<String> getRows() {
-        return rows;
-    }
-
-    public void setRows(List<String> rows) {
-        this.rows = rows;
     }
 
     public int getLiczbawierszy() {
@@ -422,7 +221,6 @@ public final class DokView implements Serializable {
         try {
             String pod = wpistmp.getPodatnikWpisu();
             podX = podatnikDAO.find(pod);
-            opisypkpir.addAll(podX.getOpisypkpir());
             ArrayList<Rodzajedok> rodzajedokumentow = (ArrayList<Rodzajedok>) podX.getDokumentyksiegowe();
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -447,23 +245,7 @@ public final class DokView implements Serializable {
 
     }
 
-    private void ukrocmiesiace() {
-        int index = 0;
-        List<String> listatmp = mce.getMceList();
-        String biezacymiesiac = wpisView.getMiesiacWpisu();
-        for (String p : listatmp) {
-            if (p.equals(biezacymiesiac)) {
-                listamiesiecyewidencjavat.add(p);
-                if (p.equals("12") && (listamiesiecyewidencjavat.size() == 1)) {
-                    listamiesiecyewidencjavat.add("01");
-                }
-            } else {
-                if (listamiesiecyewidencjavat.size() > 0 && listamiesiecyewidencjavat.size() < 2) {
-                    listamiesiecyewidencjavat.add(p);
-                }
-            }
-        }
-    }
+
 
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
@@ -828,114 +610,7 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
     }
 
-//    public void wygenerujSTRKolumne() {
-//        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//        FacesContext facesCtx = FacesContext.getCurrentInstance();
-//        ELContext elContext = facesCtx.getELContext();
-//        grid3 = getGrid3();
-//        grid3.getChildren().clear();
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
-//        ExpressionFactory ef = ExpressionFactory.newInstance();
-//        HtmlOutputText ot = new HtmlOutputText();
-//        ot.setValue("nazwa Srodka");
-//        grid3.getChildren().add(ot);
-//        HtmlInputText zdefiniowaneEwidencje = new HtmlInputText();
-//        final String binding = "#{DokumentView.nazwaSTR}";
-//        ValueExpression ve2 = ef.createValueExpression(elContext, binding, String.class);
-//        zdefiniowaneEwidencje.setValueExpression("value", ve2);
-//        zdefiniowaneEwidencje.setId("nazwasrodka");
-//        zdefiniowaneEwidencje.setAccesskey("t");
-//        grid3.getChildren().add(zdefiniowaneEwidencje);
-//
-//        HtmlOutputText ot1 = new HtmlOutputText();
-//        ot1.setValue("data przyjecia");
-//        grid3.getChildren().add(ot1);
-//        HtmlInputText ew1 = new HtmlInputText();
-//        final String binding1 = "#{DokumentView.dataPrzSTR}";
-//        ValueExpression ve1 = ef.createValueExpression(elContext, binding1, String.class);
-//        ew1.setValueExpression("value", ve1);
-//        ew1.setId("dataprz");
-//        ew1.setOnblur("ustawDateSrodekTrw();");
-//        grid3.getChildren().add(ew1);
-//
-//        HtmlOutputText ot3 = new HtmlOutputText();
-//        ot3.setValue("symbol KST");
-//        grid3.getChildren().add(ot3);
-//        HtmlInputText ew3 = new HtmlInputText();
-//        final String binding3 = "#{DokumentView.symbolKST}";
-//        ValueExpression ve3 = ef.createValueExpression(elContext, binding3, String.class);
-//        ew3.setValueExpression("value", ve3);
-//        ew3.setId("symbolKST");
-//        grid3.getChildren().add(ew3);
-//
-////            HtmlOutputText ot4 = new HtmlOutputText();
-////            ot4.setValue("wybierz kategoria");
-////            grid3.getChildren().add(ot4);
-//
-////            "id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
-////                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" 
-////                                    minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"  forceSelection="true" 
-////                                    effect="clip"  binding="#{DokumentView.kontrahentNazwa}" valueChangeListener="#{DokumentView.przekazKontrahenta}" 
-////                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="100" onblur="validateK()">
-////             "                               
-////            AutoComplete autoComplete = new AutoComplete();
-////            final String bindingY = "#{DokumentView.srodekkategoria}";
-////            ValueExpression ve2Y = ef.createValueExpression(elContext, bindingY, String.class);
-////            autoComplete.setValueExpression("value", ve2Y);
-////            autoComplete.setVar("p");
-////            autoComplete.setItemLabel("#{p.nazwa}");
-////            autoComplete.setItemValue("#{p.nazwa}");
-////            autoComplete.setMinQueryLength(3);
-////            FacesContext context = FacesContext.getCurrentInstance();
-////            MethodExpression actionListener = context.getApplication().getExpressionFactory()
-////    .createMethodExpression(context.getELContext(), "#{srodkikstView.complete}", null, new Class[] {ActionEvent.class});
-////            autoComplete.setCompleteMethod(actionListener);
-////            grid3.getChildren().add(autoComplete);
-////            
-//
-//        HtmlOutputText ot4 = new HtmlOutputText();
-//        ot4.setValue("stawka amort");
-//        grid3.getChildren().add(ot4);
-//        HtmlInputText ew4 = new HtmlInputText();
-//        final String binding4 = "#{DokumentView.stawkaKST}";
-//        ValueExpression ve4 = ef.createValueExpression(elContext, binding4, String.class);
-//        ew4.setValueExpression("value", ve4);
-//        ew4.setId("stawkaKST");
-//        grid3.getChildren().add(ew4);
-//
-//        HtmlOutputText ot5 = new HtmlOutputText();
-//        ot5.setValue("dotychczasowe umorzenie");
-//        grid3.getChildren().add(ot5);
-//        InputNumber ew5 = new InputNumber();
-//        final String binding5 = "#{DokumentView.umorzeniepoczatkowe}";
-//        ValueExpression ve5 = ef.createValueExpression(elContext, binding5, String.class);
-//        ew5.setValueExpression("value", ve5);
-//        ew5.setSymbol(" zł");
-//        ew5.setSymbolPosition("s");
-//        ew5.setDecimalPlaces(".");
-//        ew5.setThousandSeparator(" ");
-//        ew5.setDecimalPlaces("2");
-//        ew5.setValue(0);
-//        grid3.getChildren().add(ew5);
-//        umorzeniepoczatkowe = 0.0;
-//
-//        UISelectItems ulistaX = new UISelectItems();
-//        List valueListX = new ArrayList();
-//        SelectItem selectItem = new SelectItem("srodek trw.", "srodek trw.");
-//        valueListX.add(selectItem);
-//        selectItem = new SelectItem("wyposazenie", "wyposazenie");
-//        valueListX.add(selectItem);
-//        ulistaX.setValue(valueListX);
-//        final String bindingX = "#{DokumentView.typKST}";
-//        ValueExpression ve2X = ef.createValueExpression(elContext, bindingX, String.class);
-//        HtmlSelectOneMenu htmlSelectOneMenuX = new HtmlSelectOneMenu();
-//        htmlSelectOneMenuX.setValueExpression("value", ve2X);
-//        htmlSelectOneMenuX.setStyle("min-width: 150px");
-//        htmlSelectOneMenuX.getChildren().add(ulistaX);
-//        grid3.getChildren().add(htmlSelectOneMenuX);
-//
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
-//    }
+
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
@@ -947,13 +622,7 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
     }
 
-    public void sformatuj() {
-        //String formatka=null;
-        //selDokument.setLogi(selDokument.getIdDok().toLowerCase());
-        //selDokument.setImie(selDokument.getImie().substring(0,1).toUpperCase()+selDokument.getImie().substring(1).toLowerCase());
-        //selDokument.setNazw(selDokument.getNazw().substring(0,1).toUpperCase()+selDokument.getNazw().substring(1).toLowerCase());
-    }
-
+  
     /**
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
@@ -1398,18 +1067,6 @@ public final class DokView implements Serializable {
         }
     }
 
-    //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
-    public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
-//        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
-//        przekazKontr = (Klienci) anAutoComplete.getValue();
-//        selDokument.setKontr(przekazKontr);
-//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
-//        if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
-//            selDokument.setDokumentProsty(true);
-//            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
-//        }
-    }
-
     public void zmienokresVAT() {
         String datafaktury = (String) Params.params("dodWiad:dataPole");
         String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
@@ -1484,11 +1141,6 @@ public final class DokView implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
     }
 
-    public void przekierowanieWpisKLientacd() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
-        selDokument.setDataWyst(przechowajdatejakdodaje);
-        RequestContext.getCurrentInstance().update("dodWiad:dataPole");
-    }
 
     private void aktualizujInwestycje(Dok dok) {
         try {
@@ -1558,7 +1210,6 @@ public final class DokView implements Serializable {
                 }
             }
             typdokumentu = skrot;
-            przekazKontr = selDokument.getKontr();
             podepnijListe(skrot);
             nettokolumna.clear();
             for (KwotaKolumna p : selDokument.getListakwot()) {
@@ -1592,7 +1243,6 @@ public final class DokView implements Serializable {
             }
         }
         typdokumentu = skrot;
-        przekazKontr = selDokument.getKontr();
         podepnijListe(skrot);
         nettokolumna.clear();
         for (KwotaKolumna p : selDokument.getListakwot()) {
@@ -1806,28 +1456,12 @@ public final class DokView implements Serializable {
         this.eVatwpis = eVatwpis;
     }
 
-    public String getOpis() {
-        return opis;
-    }
-
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
-
     public HtmlSelectOneMenu getPkpirLista() {
         return pkpirLista;
     }
 
     public void setPkpirLista(HtmlSelectOneMenu pkpirLista) {
         this.pkpirLista = pkpirLista;
-    }
-
-    public HtmlInputText getKontrahentNIP() {
-        return kontrahentNIP;
-    }
-
-    public void setKontrahentNIP(HtmlInputText kontrahentNIP) {
-        this.kontrahentNIP = kontrahentNIP;
     }
 
     public Klienci getSelectedKontr() {
@@ -1870,22 +1504,6 @@ public final class DokView implements Serializable {
         this.test = test;
     }
 
-    public HtmlSelectOneMenu getSrodkitrwalewyposazenie() {
-        return srodkitrwalewyposazenie;
-    }
-
-    public void setSrodkitrwalewyposazenie(HtmlSelectOneMenu srodkitrwalewyposazenie) {
-        this.srodkitrwalewyposazenie = srodkitrwalewyposazenie;
-    }
-
-    public String getWielkoscopisuewidencji() {
-        return wielkoscopisuewidencji;
-    }
-
-    public void setWielkoscopisuewidencji(String wielkoscopisuewidencji) {
-        DokView.wielkoscopisuewidencji = wielkoscopisuewidencji;
-    }
-
     public boolean isRozliczony() {
         return rozliczony;
     }
@@ -1926,68 +1544,12 @@ public final class DokView implements Serializable {
         this.srodekkategoriawynik = srodekkategoriawynik;
     }
 
-    public List<String> getListamiesiecyewidencjavat() {
-        return listamiesiecyewidencjavat;
-    }
-
-    public void setListamiesiecyewidencjavat(List<String> listamiesiecyewidencjavat) {
-        this.listamiesiecyewidencjavat = listamiesiecyewidencjavat;
-    }
-
     public List<KwotaKolumna> getNettokolumna() {
         return nettokolumna;
     }
 
     public void setNettokolumna(List<KwotaKolumna> nettokolumna) {
         this.nettokolumna = nettokolumna;
-    }
-
-    public double getNetto0() {
-        return nettopkpir0;
-    }
-
-    public void setNetto0(double netto0) {
-        this.nettopkpir0 = netto0;
-    }
-
-    public double getVat0() {
-        return vatpkpir0;
-    }
-
-    public void setVat0(double vat0) {
-        this.vatpkpir0 = vat0;
-    }
-
-    public String getOpiskolumny0() {
-        return opiskolumny0;
-    }
-
-    public void setOpiskolumny0(String opiskolumny0) {
-        this.opiskolumny0 = opiskolumny0;
-    }
-
-    public double getNettopkpir0() {
-        return nettopkpir0;
-    }
-
-    public void setNettopkpir0(double nettopkpir0) {
-        this.nettopkpir0 = nettopkpir0;
-    }
-
-    public double getNettopkpir1() {
-        return nettopkpir1;
-    }
-
-    public void setNettopkpir1(double nettopkpir1) {
-        this.nettopkpir1 = nettopkpir1;
-    }
-
-    public String getOpiskolumny1() {
-        return opiskolumny1;
-    }
-
-    public void setOpiskolumny1(String opiskolumny1) {
-        this.opiskolumny1 = opiskolumny1;
     }
 
     public boolean isPokazEST() {
@@ -2014,6 +1576,156 @@ public final class DokView implements Serializable {
         this.sTRView = sTRView;
     }
     
+    public static ArrayList<Klienci> getKl1S() {
+        return kl1;
+    }
+
+        
+    //<editor-fold defaultstate="collapsed" desc="comment">
+
+//   public DokTabView getDokTabView() {
+//       return dokTabView;
+//   }
+//
+//   public void setDokTabView(DokTabView dokTabView) {
+//       this.dokTabView = dokTabView;
+//   }
+//
+    //    public static void main(String[] args) throws ParseException{
+    //        String data = "2012-02-02";
+    //        Calendar c = Calendar.getInstance();
+    //        DateFormat formatter;
+    //        formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //        Date terminplatnosci = (Date) formatter.parse(data);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 30);
+    //        String nd30 = formatter.format(c.getTime());
+    ////        selDokument.setTermin30(nd30);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 90);
+    //        String nd90 = formatter.format(c.getTime());
+    //      //  selDokument.setTermin90(nd90);
+    //        c.setTime(terminplatnosci);
+    //        c.add(Calendar.DAY_OF_MONTH, 150);
+    //        String nd150 = formatter.format(c.getTime());
+    //        //selDokument.setTermin150(nd150);
+    //    }
+    public static void main(String[] args) {
+        Map<String, Object> lolo = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        //        addDays("2008-03-08");
+        //        addDays("2009-03-07");
+        //        addDays("2010-03-13");
+    }
+    //
+    //    public static void addDays(String dateString) {
+    //        System.out.println("Got dateString: " + dateString);
+    //
+    //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    //
+    //        Calendar calendar = Calendar.getInstance();
+    //        try {
+    //            calendar.setTime(sdf.parse(dateString));
+    //            Date day1 = calendar.getTime();
+    //            System.out.println("  day1 = " + sdf.format(day1));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day2 = calendar.getTime();
+    //            System.out.println("  day2 = " + sdf.format(day2));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day3 = calendar.getTime();
+    //            System.out.println("  day3 = " + sdf.format(day3));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day4 = calendar.getTime();
+    //            System.out.println("  day4 = " + sdf.format(day4));
+    //
+    //            // Skipping a few days ahead:
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
+    //            Date day5 = calendar.getTime();
+    //            System.out.println("  day5 = " + sdf.format(day5));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day6 = calendar.getTime();
+    //            System.out.println("  day6 = " + sdf.format(day6));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day7 = calendar.getTime();
+    //            System.out.println("  day7 = " + sdf.format(day7));
+    //
+    //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+    //            Date day8 = calendar.getTime();
+    //            System.out.println("  day8 = " + sdf.format(day8));
+    //
+    //        } catch (Exception e) {
+    //        }
+    //    }
+    //      public void uporzadkujbrutto(){
+    //          List<Dok> lista = dokDAO.findAll();
+    //          for(Dok sel : lista){
+    //                Double kwota = sel.getKwota();
+    //                try{
+    //                kwota = kwota + sel.getKwotaX();
+    //                } catch (Exception e){}
+    //
+    //                double kwotavat = 0;
+    //                try{
+    //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
+    //                    for(EVatwpis p : listavat){
+    //                        kwotavat = kwotavat + p.getVat();
+    //                    }
+    //                } catch (Exception e){}
+    //                try{
+    //                kwota = kwota + kwotavat;
+    //                } catch (Exception e){}
+    //                sel.setBrutto(kwota);
+    //                dokDAO.edit(sel);
+    //          }
+    //      }
+    //       public void uporzadkujekstra(){
+    //          List<Dok> lista = dokDAO.zwrocBiezacegoKlienta("EKSTRA S.C.");
+    //          for(Dok sel : lista){
+    //                Double kwota = sel.getKwota();
+    //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
+    //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
+    //                }
+    //                System.out.println("Zmienilem dokument");
+    //                dokDAO.edit(sel);
+    //          }
+    //      }
+    //      public void przeksiegujkwoty(){
+    //          List<Dok> lista = dokDAO.findAll();
+    //          for(Dok p : lista){
+    //              List<KwotaKolumna> wiersz = new ArrayList<>();
+    //              KwotaKolumna pierwszy = new KwotaKolumna();
+    //              KwotaKolumna drugi = new KwotaKolumna();
+    //              try {
+    //                  pierwszy.setNetto(p.getKwota());
+    //                  BigDecimal tmp1 = BigDecimal.valueOf((p.getBrutto()-p.getNetto()));
+    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+    //                  pierwszy.setVat(tmp1.doubleValue());
+    //                  tmp1 = BigDecimal.valueOf(p.getBrutto());
+    //                  tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
+    //                  pierwszy.setBrutto(tmp1.doubleValue());
+    //                  pierwszy.setNazwakolumny(p.getPkpirKol());
+    //                  wiersz.add(pierwszy);
+    //              } catch (Exception e){}
+    //              try {
+    //                  drugi.setNetto(p.getKwotaX());
+    //                  drugi.setVat(0.0);
+    //                  drugi.setBrutto(p.getKwotaX().doubleValue());
+    //                  drugi.setNazwakolumny(p.getPkpirKolX());
+    //                  drugi.setDowykorzystania("dosprawdzenia");
+    //                  wiersz.add(drugi);
+    //              } catch (Exception e){}
+    //              p.setListakwot(wiersz);
+    //              dokDAO.edit(p);
+    //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
+    //          }
+    //      }
+    //
+//</editor-fold>
     
 
 }
