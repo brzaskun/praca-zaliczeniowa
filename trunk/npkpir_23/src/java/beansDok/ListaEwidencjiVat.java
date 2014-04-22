@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package beansDok;
 
 import comparator.Evewidencjacomparator;
 import dao.EvewidencjaDAO;
@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="EVatView")
-@SessionScoped
-public class EVatView implements Serializable{
+@Named
+@Singleton
+public class ListaEwidencjiVat implements Serializable{
    
     private static final List<String> naglowekVList;
     static {
@@ -35,19 +35,19 @@ public class EVatView implements Serializable{
     }
     @Inject
     private EvewidencjaDAO eVDAO;
-    private List<String> sprzedazVList;
-    private List<String> zakupVList;
-    private List<String> srodkitrwaleVList;
-    private List<String> wdtVList;
-    private List<String> wntVList;
-    private List<String> rvcVList;//reverse charge - odwrotne obciazenie
-    private List<String> importuslugList;
-    private List<String> uslugiPTK;
-    private List<String> eksporttowarow;
-    private List<String> listadostepnychewidencji;
+    private static List<String> sprzedazVList;
+    private static List<String> zakupVList;
+    private static List<String> srodkitrwaleVList;
+    private static List<String> wdtVList;
+    private static List<String> wntVList;
+    private static List<String> rvcVList;//reverse charge - odwrotne obciazenie
+    private static List<String> importuslugList;
+    private static List<String> uslugiPTK;
+    private static List<String> eksporttowarow;
+    private static List<String> listadostepnychewidencji;
 
 
-    public EVatView() {
+    public ListaEwidencjiVat() {
         //kategorie do generowania
         zakupVList = new ArrayList<>();
         srodkitrwaleVList = new ArrayList<>();
@@ -104,6 +104,33 @@ public class EVatView implements Serializable{
             }
         }
 
+    }
+    
+    public List<String> pobierzOpisyEwidencji(String transakcjiRodzaj) {
+        switch (transakcjiRodzaj) {
+                    case ("zakup"):
+                        return zakupVList;
+                    case ("srodek trw"):
+                        return srodkitrwaleVList;
+                    case ("srodek trw sprzedaz"):
+                        return sprzedazVList;
+                    case ("inwestycja"):
+                        return srodkitrwaleVList;
+                    case ("WDT"):
+                        return wdtVList;
+                    case ("odwrotne obciążenie"):
+                        return rvcVList;
+                    case ("WNT"):
+                        return wntVList;
+                    case ("import usług"):
+                        return importuslugList;
+                    case "usługi poza ter.":
+                        return uslugiPTK;
+                    case "eksport towarów":
+                        return eksporttowarow;
+                    default:
+                        return sprzedazVList;
+                }
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
