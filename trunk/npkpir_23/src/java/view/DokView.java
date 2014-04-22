@@ -65,7 +65,6 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -109,8 +108,6 @@ public final class DokView implements Serializable {
     @Inject
     private EVatView evat;
     @Inject
-    private EVatOpisDAO eVatOpisDAO;
-    @Inject
     private EvewidencjaDAO evewidencjaDAO;
     private EVatwpis eVatwpis;
     /* Rozliczenia vat*/
@@ -120,7 +117,6 @@ public final class DokView implements Serializable {
     /*Środki trwałe*/
     private boolean pokazSTR;
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
-    private String test;
     @Inject
     private Srodkikst srodekkategoria;
     @Inject
@@ -175,22 +171,7 @@ public final class DokView implements Serializable {
         kl1 = new ArrayList<>();
     }
 
-    public List<String> getKolumny() {
-        return kolumny;
-    }
-
-    public void setKolumny(List<String> kolumny) {
-        this.kolumny = kolumny;
-    }
-
-    public int getLiczbawierszy() {
-        return liczbawierszy;
-    }
-
-    public void setLiczbawierszy(int liczbawierszy) {
-        this.liczbawierszy = liczbawierszy;
-    }
-
+  
     public void dodajwierszpkpir() {
         if (liczbawierszy < 4) {
             KwotaKolumna p = new KwotaKolumna();
@@ -337,15 +318,10 @@ public final class DokView implements Serializable {
                 break;
             }
         }
-        //takie gupie rozwiazanie dla umozliwienia dzialania przy edycji dokumentu
-        try {
-            if (skrot.equals(test));
-        } catch (Exception e1) {
-            if (selDokument.isDokumentProsty() == true) {
-                skrot = "on";
-            } else {
-                skrot = null;
-            }
+        if (selDokument.isDokumentProsty() == true) {
+            skrot = "on";
+        } else {
+            skrot = null;
         }
         try {
             if (skrot.equals("on")) {
@@ -583,13 +559,6 @@ public final class DokView implements Serializable {
 
     }
 
-    public boolean isRenderujwysz() {
-        return renderujwysz;
-    }
-
-    public void setRenderujwysz(boolean renderujwysz) {
-        this.renderujwysz = renderujwysz;
-    }
 
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
         if (rodzajdok.getSkrot().equals("OT")) {
@@ -1496,14 +1465,6 @@ public final class DokView implements Serializable {
         this.wysDokument = wysDokument;
     }
 
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
     public boolean isRozliczony() {
         return rozliczony;
     }
@@ -1578,6 +1539,31 @@ public final class DokView implements Serializable {
     
     public static ArrayList<Klienci> getKl1S() {
         return kl1;
+    }
+    
+    public List<String> getKolumny() {
+        return kolumny;
+    }
+
+    public void setKolumny(List<String> kolumny) {
+        this.kolumny = kolumny;
+    }
+
+    public int getLiczbawierszy() {
+        return liczbawierszy;
+    }
+
+    public void setLiczbawierszy(int liczbawierszy) {
+        this.liczbawierszy = liczbawierszy;
+    }
+
+    
+    public boolean isRenderujwysz() {
+        return renderujwysz;
+    }
+
+    public void setRenderujwysz(boolean renderujwysz) {
+        this.renderujwysz = renderujwysz;
     }
 
         
