@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.Rozrachunki;
 import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -44,7 +45,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -56,9 +56,9 @@ public class DokTabView implements Serializable {
     //wybranedokumentyDoDruku
     private static List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia
-    private static List<Dok> grupausun;
+    private List<Dok> grupausun;
     private static boolean pokaztablice;
-    private static Dok dokdoUsuniecia;
+    private Dok dokdoUsuniecia;
     private static final List frozenrows;
     static {
         frozenrows = new ArrayList<>();
@@ -80,10 +80,7 @@ public class DokTabView implements Serializable {
     private List<Dok> dokumentyFiltered;
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
-    //dokumenty niezaplacone
-    private List<Dok> niezaplacone;
-    //dokumenty zaplacone
-    private List<Dok> zaplacone;
+    
     //dokumenty okresowe
     private List<Dok> dokumentyokresowe;
     
@@ -114,10 +111,6 @@ public class DokTabView implements Serializable {
         obiektDOKmrjsfSel = new ArrayList<>();
         //dekumenty o tym samym okresie vat
         dokvatmc = new ArrayList<>();
-        //dokumenty niezaplacone
-        niezaplacone = new ArrayList<>();
-        //dokumenty zaplacone
-        zaplacone = new ArrayList<>();
         //dokumenty okresowe
         dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
@@ -166,31 +159,13 @@ public class DokTabView implements Serializable {
             obiektDOKmrjsfSel.clear();
             for(Dok tmpx : obiektDOKjsfSel){
                    tmpx.setNrWpkpir(numerkolejny++);
-                   if (tmpx.getRozliczony() == false) {
-                        niezaplacone.add(tmpx);
-                    } else {
-                        //pobiera tylko przelewowe
-                        if (tmpx.getRozrachunki() != null) {
-                            zaplacone.add(tmpx);
-                        }
-                    }
                     if (tmpx.getPkpirM().equals(mc)) {
                         obiektDOKmrjsfSel.add(tmpx);
                     }
                 }
             }
     
-//    
-//    public void edit(RowEditEvent ex) {
-//        try {
-//            //sformatuj();
-//            dokDAO.edit(ex.getObject());
-//            Msg.msg("i",  "Nowy dokument wyedytowany i zachowany.","form:messages");
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//            Msg.msg("e",  "Wystąpił błąd. Dokument nie zachowany po  edycji.","form:messages");
-//        }
-//    }
+
     
      public void sprawdzCzyNieDuplikat() {
         Msg.msg("i", "Rozpoczynam badanie bazy klienta "+wpisView.getPodatnikWpisu()+" na obecność duplikatów");
@@ -233,7 +208,7 @@ public class DokTabView implements Serializable {
     public void destroy2() {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
+        if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
             Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
             Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
@@ -276,7 +251,7 @@ public class DokTabView implements Serializable {
      public void destroy2roz() throws Exception {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getTypdokumentu();
-        if ((sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
+        if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokument nie usunięty - Usuń wpierw dokument strono, proszę", dokdoUsuniecia.getIdDok().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             throw new Exception();
@@ -303,22 +278,7 @@ public class DokTabView implements Serializable {
         }
     }
 
-    private boolean sprawdzczyniemarozrachunkow(Dok dok) {
-        ArrayList<Stornodoch> temp = new ArrayList<>();
-        try {
-            temp = dok.getStorno();
-            if (temp.size() > 0) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
+    
     private boolean sprawdzczytoniesrodek(Dok dok) {
         return sTRDAO.findSTR(dok.getPodatnik(), dok.getNetto(), dok.getNrWlDk());
     }
@@ -337,54 +297,7 @@ public class DokTabView implements Serializable {
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
     }
   
-     
-  
-
-    public void aktualizujNiezaplacone(AjaxBehaviorEvent e) throws IOException {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-        RequestContext.getCurrentInstance().update("form:labelstorno");
-        Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
-        try {
-            StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
-            setButton(false);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
-        } catch (Exception ef) {
-            setButton(true);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaNiezaplacone.xhtml");
-        }
-
-    }
-    
-     public void aktualizujNiezaplaconeGuest(AjaxBehaviorEvent e) throws IOException {
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-        RequestContext.getCurrentInstance().update("form:labelstorno");
-   }
-
-    
-    public void aktualizujTablica(AjaxBehaviorEvent e) {
-        aktualizuj();
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
-        RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
-    }
-    
-     public void aktualizujPIT(AjaxBehaviorEvent e) {
-        aktualizuj();
-        Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
-    }
-    
-
-
-    public void aktualizujWestWpisWidok(AjaxBehaviorEvent e) throws IOException {
-        RequestContext ctx = null;
-        RequestContext.getCurrentInstance().update("dodWiad:panelDodawaniaDokumentu");
-        RequestContext.getCurrentInstance().update("westWpis:westWpisWidok");
-        
-    }
-    
+   
     private void aktualizuj(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
@@ -411,90 +324,10 @@ public class DokTabView implements Serializable {
 //        }
 //    }
 
-   
+       
     
-    public void usunzzaplaconych(RowEditEvent ex){
-        Dok tmp = (Dok) ex.getObject();
-        Msg.msg("i","Probuje zmienić rozliczenia: "+tmp.getOpis(),"form:messages");
-        try{
-            //jak bedzie storno to ma wyrzuci blad. trzeba usunac strono wpierw
-            try {
-            tmp.getStorno();
-                throw new Exception();
-            } catch (Exception s){}
-            dodajdatydlaStorno(tmp);
-            tmp.setRozliczony(false);
-            tmp.setRozrachunki(null);
-            tmp.setStorno(null);
-            dokdoUsuniecia = tmp;
-            destroy2roz();
-            dokDAO.dodaj(tmp);
-            zaplacone.remove(tmp);
-            RequestContext.getCurrentInstance().update("form:dokumentyLista");
-            Msg.msg("i","Dokument z nowymi datami zaksięgowany: "+tmp.getOpis(),"form:messages");
-        } catch (Exception e){
-            Msg.msg("e","Nie udało się usunąć rozliczeń: "+tmp.getOpis()+"Sprawdź obecność storno.","form:messages");
-        }
-    }
-    
-    
-     public void dodajdatydlaStorno(Dok tmpDok) throws ParseException{
-        String data;
-            switch (wpisView.getMiesiacWpisu()) {
-                case "01":
-                case "03":
-                case "05":
-                case "07":
-                case "08":
-                case "10":
-                case "12":
-                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-31";
-                    break;
-                case "02":
-                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-28";
-                    break;
-                default:
-                    data = wpisView.getRokWpisu().toString()+"-"+wpisView.getMiesiacWpisu()+"-30";
-                    break;
-            }
-        String dataWyst = tmpDok.getDataWyst();
-        String dataPlat = tmpDok.getTerminPlatnosci();
-        Calendar c = Calendar.getInstance();
-        DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date datawystawienia = formatter.parse(dataWyst);
-        Date terminplatnosci = formatter.parse(dataPlat);
-        Date dataujeciawkosztach = formatter.parse(data);
-       if(roznicaDni(datawystawienia,terminplatnosci)==true){
-         c.setTime(terminplatnosci);
-         c.add(Calendar.DAY_OF_MONTH, 30);
-         String nd30 = formatter.format(c.getTime());
-         tmpDok.setTermin30(nd30);
-         tmpDok.setTermin90("");
-        } else {
-          c.setTime(dataujeciawkosztach);
-          c.add(Calendar.DAY_OF_MONTH, 90);
-          String nd90 = formatter.format(c.getTime());
-          tmpDok.setTermin90(nd90);
-          tmpDok.setTermin30("");
-         }
-        c.setTime(terminplatnosci);
-        c.add(Calendar.DAY_OF_MONTH, 150);
-        String nd150 = formatter.format(c.getTime());
-        tmpDok.setTermin150(nd150);
-    }
      
-      private boolean roznicaDni(Date date_od, Date date_do){ 
-                long x=date_do.getTime(); 
-                long y=date_od.getTime(); 
-                long wynik=Math.abs(x-y); 
-                wynik=wynik/(1000*60*60*24); 
-                if(wynik<=61){
-                    return true;
-                } else {
-                    return false;
-                }
-     }
+     
     
       public void aktywacjadeaktywacja(){
          for(Dok p : gosciuwybral){
@@ -628,7 +461,7 @@ public class DokTabView implements Serializable {
         }
         
         public void setDokdoUsuniecia(Dok dokdoUsuniecia) {
-            DokTabView.dokdoUsuniecia = dokdoUsuniecia;
+            dokdoUsuniecia = dokdoUsuniecia;
         }
         
         
@@ -640,22 +473,7 @@ public class DokTabView implements Serializable {
             this.dokvatmc = dokvatmc;
         }
         
-        public List<Dok> getNiezaplacone() {
-            return niezaplacone;
-        }
-        
-        public void setNiezaplacone(List<Dok> niezaplacone) {
-            this.niezaplacone = niezaplacone;
-        }
-        
-        public List<Dok> getZaplacone() {
-            return zaplacone;
-        }
-        
-        public void setZaplacone(List<Dok> zaplacone) {
-            this.zaplacone = zaplacone;
-        }
-        
+              
         public boolean isButton() {
             return button;
         }

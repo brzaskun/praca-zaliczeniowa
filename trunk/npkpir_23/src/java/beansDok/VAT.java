@@ -50,4 +50,6 @@ public class VAT {
         }
         return nazwyewidencji;
     }
+     
+     
 }
