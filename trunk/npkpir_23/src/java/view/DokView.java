@@ -108,14 +108,14 @@ public final class DokView implements Serializable {
     private StornoDokDAO stornoDokDAO;
     @Inject
     private InwestycjeDAO inwestycjeDAO;
-    
+
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{KlView}")
     private KlView klView;
     @ManagedProperty(value = "#{SrodkiTrwaleView}")
     private STRView sTRView;
-    
+
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     /*Środki trwałe*/
@@ -161,7 +161,6 @@ public final class DokView implements Serializable {
         kl1 = new ArrayList<>();
     }
 
-  
     public void dodajwierszpkpir() {
         if (liczbawierszy < 4) {
             KwotaKolumna p = new KwotaKolumna();
@@ -215,8 +214,6 @@ public final class DokView implements Serializable {
         //ukrocmiesiace();
 
     }
-
-
 
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
@@ -513,7 +510,6 @@ public final class DokView implements Serializable {
 
     }
 
-
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
         if (rodzajdok.getSkrot().equals("OT")) {
             setRenderujwysz(true);
@@ -533,7 +529,6 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
     }
 
-
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
@@ -545,7 +540,6 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
     }
 
-  
     /**
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
@@ -677,29 +671,29 @@ public final class DokView implements Serializable {
             setPokazEST(false);
         }
     }
-    
-    private void dodajSrodekTrwaly() {
-            double vat = 0.0;
-            //dla dokumentu bez vat bedzie blad
-            try {
-                for (EVatwpis p : selDokument.getEwidencjaVAT()) {
-                    vat += p.getVat();
-                }
-            } catch (Exception e) {
-            }
-            try {
-                selectedSTR.setNetto(selDokument.getNetto());
-                BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
-                selectedSTR.setVat(vat);
-                selectedSTR.setDatazak(selDokument.getDataWyst());
-                selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
-                selectedSTR.setNrwldokzak(selDokument.getNrWlDk());
-                selectedSTR.setZlikwidowany(0);
-                selectedSTR.setDatasprzedazy("");
-                dodajSTR();
 
-            } catch (Exception e) {
+    private void dodajSrodekTrwaly() {
+        double vat = 0.0;
+        //dla dokumentu bez vat bedzie blad
+        try {
+            for (EVatwpis p : selDokument.getEwidencjaVAT()) {
+                vat += p.getVat();
             }
+        } catch (Exception e) {
+        }
+        try {
+            selectedSTR.setNetto(selDokument.getNetto());
+            BigDecimal tmp1 = BigDecimal.valueOf(selDokument.getNetto());
+            selectedSTR.setVat(vat);
+            selectedSTR.setDatazak(selDokument.getDataWyst());
+            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+            selectedSTR.setNrwldokzak(selDokument.getNrWlDk());
+            selectedSTR.setZlikwidowany(0);
+            selectedSTR.setDatasprzedazy("");
+            dodajSTR();
+
+        } catch (Exception e) {
+        }
     }
 
     private Double extractDouble(String wiersz) {
@@ -979,7 +973,6 @@ public final class DokView implements Serializable {
         }
     }
 
-
     public void podlaczPierwszaKolumne() {
         if (liczbawierszy < 1) {
             nettokolumna.add(new KwotaKolumna());
@@ -1006,17 +999,12 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
     }
 
-
-
     public void dodajSTR() {
         String podatnik = wpisView.getPodatnikWpisu();
         selectedSTR.setPodatnik(podatnik);
         sTRView.dodajSrodekTrwaly(selectedSTR);
         RequestContext.getCurrentInstance().update("srodki:panelekXA");
     }
-
-
-   
 
     public void skopiujSTR() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -1061,7 +1049,6 @@ public final class DokView implements Serializable {
     public void przekierowanieWpis() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
     }
-
 
     private void aktualizujInwestycje(Dok dok) {
         try {
@@ -1329,7 +1316,6 @@ public final class DokView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-  
     public List<EwidencjaAddwiad> getEwidencjaAddwiad() {
         return ewidencjaAddwiad;
     }
@@ -1362,7 +1348,7 @@ public final class DokView implements Serializable {
         this.dokDAO = dokDAO;
     }
 
-     public HtmlSelectOneMenu getPkpirLista() {
+    public HtmlSelectOneMenu getPkpirLista() {
         return pkpirLista;
     }
 
@@ -1473,11 +1459,11 @@ public final class DokView implements Serializable {
     public void setsTRView(STRView sTRView) {
         this.sTRView = sTRView;
     }
-    
+
     public static ArrayList<Klienci> getKl1S() {
         return kl1;
     }
-    
+
     public List<String> getKolumny() {
         return kolumny;
     }
@@ -1494,7 +1480,6 @@ public final class DokView implements Serializable {
         this.liczbawierszy = liczbawierszy;
     }
 
-    
     public boolean isRenderujwysz() {
         return renderujwysz;
     }
@@ -1503,9 +1488,7 @@ public final class DokView implements Serializable {
         this.renderujwysz = renderujwysz;
     }
 
-        
     //<editor-fold defaultstate="collapsed" desc="comment">
-
 //   public DokTabView getDokTabView() {
 //       return dokTabView;
 //   }
@@ -1649,6 +1632,5 @@ public final class DokView implements Serializable {
     //      }
     //
 //</editor-fold>
-    
 
 }
