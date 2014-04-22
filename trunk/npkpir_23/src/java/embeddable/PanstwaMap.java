@@ -22,31 +22,31 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 @SessionScoped
-public class PanstwaSymb1 implements Serializable {
+public class PanstwaMap implements Serializable {
 
 private static Map<String,String> wykazPanstwSX;
 
-    public static void main(String[] args) {
-        Map<String,String> wykazPanstwS = new HashMap<>();
-        List<String> panstwa = new ArrayList<>();
-        List<String> symbole = new ArrayList<>();
-        panstwa.addAll(Panstwa.getWykazPanstw());
-        symbole.addAll(PanstwaSymb.getWykazPanstwS());
-        Iterator it;
-        it = panstwa.iterator();
-        Iterator itX;
-        itX = symbole.iterator();
-        while(it.hasNext()&&itX.hasNext()){
-            
-            try {
-                wykazPanstwS.put(itX.next().toString(),it.next().toString());
-            } catch (Exception e){
-            }
-        }
-        
-    }
+//    public static void main(String[] args) {
+//        Map<String,String> wykazPanstwS = new HashMap<>();
+//        List<String> panstwa = new ArrayList<>();
+//        List<String> symbole = new ArrayList<>();
+//        panstwa.addAll(Panstwa.getWykazPanstw());
+//        symbole.addAll(PanstwaSymb.getWykazPanstwS());
+//        Iterator it;
+//        it = panstwa.iterator();
+//        Iterator itX;
+//        itX = symbole.iterator();
+//        while(it.hasNext()&&itX.hasNext()){
+//            
+//            try {
+//                wykazPanstwS.put(itX.next().toString(),it.next().toString());
+//            } catch (Exception e){
+//            }
+//        }
+//        
+//    }
 
-public PanstwaSymb1(){
+public PanstwaMap(){
     wykazPanstwSX = new HashMap<>();
 }
 
@@ -72,7 +72,7 @@ public PanstwaSymb1(){
     }
 
     public  void setWykazPanstwS(Map<String, String> wykazPanstwSX) {
-        PanstwaSymb1.wykazPanstwSX = wykazPanstwSX;
+        PanstwaMap.wykazPanstwSX = wykazPanstwSX;
     }
 
     
