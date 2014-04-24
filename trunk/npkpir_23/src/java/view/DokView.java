@@ -1237,10 +1237,6 @@ public final class DokView implements Serializable {
         return kl1;
     }
 
-    public void handleSelect() {
-        Msg.msg("i", "Selected Item:");
-    }
-
     private void poszukajnip() throws Exception {
         String nippoczatkowy = selectedKlient.getNip();
         if (!nippoczatkowy.equals("0000000000")) {

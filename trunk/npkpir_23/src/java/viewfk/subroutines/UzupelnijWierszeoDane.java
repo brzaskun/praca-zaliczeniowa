@@ -8,6 +8,7 @@ import entityfk.Dokfk;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 
 /**
@@ -15,6 +16,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
+@Singleton
 public class UzupelnijWierszeoDane implements Serializable {
     
     //uzupeelnia wiersze podczas ich wprowadzania badz edycji i zapisuje do bazy, nie rusza pol edycji
