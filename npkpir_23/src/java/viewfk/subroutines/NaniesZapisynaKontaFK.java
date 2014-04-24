@@ -9,6 +9,7 @@ import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 import msg.Msg;
 
@@ -17,6 +18,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
+@Singleton
 public class NaniesZapisynaKontaFK implements Serializable {
 
     public static void nanieszapisynakontach(List<Wiersze> wiersze) {
