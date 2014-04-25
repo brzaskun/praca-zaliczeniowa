@@ -16,21 +16,17 @@
                 <p:rowToggler/>
             </p:column>
             <p:ajax event="rowEdit" update=":formX:msg" listener="#{deklaracjevatView.edit}" />
-            <p:column headerText="deklaracja za okres" width="100">
-                <h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}"/>
-            </p:column>
             <p:column headerText="wersja" width="60">
                 <h:outputText value="#{item.wzorschemy}"/>
             </p:column>
-            <p:column headerText="podatnik" width="200">
-                <h:outputText value="#{item.podatnik}"/>
-            </p:column>
             <p:column headerText="dane">
                 <p:dataGrid columns="1" value="#{item.selected}" var="loop">
-                    <h:panelGrid columns="2">
-                        <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}"/>
-                        <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}"/>
-                        <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/>
+                    <h:panelGrid columns="4">
+                        <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}" style="font-weight: 900;"/>
+                        <h:outputText value="podatnik"/><h:outputText value="#{item.podatnik}" style="font-weight: 900;"/>
+                        <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>
+                        <h:outputText value="okres rozliczeniowy"/><h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}" style="font-weight: 900;"/>
+                        <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
                     <h:panelGrid columns="4">
