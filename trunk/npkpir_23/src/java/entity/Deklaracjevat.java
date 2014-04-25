@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findAll", query = "SELECT d FROM Deklaracjevat d"),
     @NamedQuery(name = "Deklaracjevat.findById", query = "SELECT d FROM Deklaracjevat d WHERE d.id = :id"),
     @NamedQuery(name = "Deklaracjevat.findByIdentyfikator", query = "SELECT d FROM Deklaracjevat d WHERE d.identyfikator = :identyfikator"),
+    @NamedQuery(name = "Deklaracjevat.findByIdentyfikatorPodatnik", query = "SELECT d FROM Deklaracjevat d WHERE d.identyfikator = :identyfikator AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Deklaracjevat.findByKodurzedu", query = "SELECT d FROM Deklaracjevat d WHERE d.kodurzedu = :kodurzedu"),
     @NamedQuery(name = "Deklaracjevat.findByMiesiac", query = "SELECT d FROM Deklaracjevat d WHERE d.miesiac = :miesiac"),
     @NamedQuery(name = "Deklaracjevat.findByNrkolejny", query = "SELECT d FROM Deklaracjevat d WHERE d.nrkolejny = :nrkolejny"),

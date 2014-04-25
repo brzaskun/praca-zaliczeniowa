@@ -363,6 +363,12 @@ public class SessionFacade<T> {
     public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
     }
+    
+    public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
+        return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByIdentyfikatorPodatnik").setParameter("identyfikator", identyfikator).setParameter("podatnik", podatnik).getSingleResult();
+    }
+    
+    
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }

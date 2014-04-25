@@ -11,12 +11,7 @@
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
-            <p:column width="240">
-                <f:facet name="header">
-                    <h:outputText value="Identyfikator"/>
-                </f:facet>
-                <h:outputText value="#{item.identyfikator}"/>
-            </p:column>
+
             <p:column width="45">
                 <f:facet name="header">
                     <h:outputText value="Status"/>
@@ -28,12 +23,6 @@
                     <h:outputText value="Opis"/>
                 </f:facet>
                 <h:outputText value="#{item.opis}"/>
-            </p:column>
-            <p:column width="45"> 
-                <f:facet name="header">
-                    <h:outputText value="Kod urzedu"/>
-                </f:facet>
-                <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
             </p:column>
             <p:column width="70">
                 <f:facet name="header">
@@ -54,7 +43,7 @@
                 <p:dataTable value="#{item.selected}" var="loop">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu}"/></p:column>
+                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.pole46} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.pole55} zł" style="float: right;">
@@ -69,13 +58,18 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                 </p:dataTable>
             </p:column>
-            <p:column id="deleteColumn" headerText="usuń" width="70">
-                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"/></p:column>
-                 <p:rowExpansion>
-                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
-                        <h:outputText value="#{item.deklaracja}"/>
-                    </p:column>
-                </p:rowExpansion>
+            <p:column id="deleteColumn" headerText="usuń" width="70" style="text-align: center;">
+                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 100px;"/></p:column>
+            <p:rowExpansion>
+                <p:column width="240">
+                    <h:outputText value="Identyfikator"/>
+                    <h:outputText value="#{item.identyfikator}"/>
+                </p:column>
+
+                <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                    <h:outputText value="#{item.deklaracja}"/>
+                </p:column>
+            </p:rowExpansion>
         </p:dataTable>
     </p:tab>
 

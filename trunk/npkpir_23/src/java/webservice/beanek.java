@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ import org.primefaces.context.RequestContext;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import service.GateService;
+import view.DeklaracjevatView;
 import view.WpisView;
 
 /**
@@ -104,6 +106,8 @@ public class beanek {
     DeklaracjevatDAO deklaracjevatDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value="#{deklaracjevatView}")
+    private DeklaracjevatView deklaracjevatView;
 
     public beanek() {
         id = new Holder<>();
@@ -177,16 +181,16 @@ public class beanek {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracje.get(deklaracje.size() - 1);
-        if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
+        Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
+        if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
             Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
-        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
+        if (wysylanaDeklaracja.getSelected().getCelzlozenia().equals("2") && !wysylanaDeklaracja.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
             Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
             return;
         }
-        String strFileContent = temp.getDeklaracja();
+        String strFileContent = wysylanaDeklaracja.getDeklaracja();
         String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
         dok = DatatypeConverter.parseBase64Binary(tmp);
         try {
@@ -195,12 +199,12 @@ public class beanek {
             idpobierz = id.value;
             statMB = stat.value;
             opisMB = opis.value;
-            temp.setIdentyfikator(idMB);
-            temp.setStatus(statMB.toString());
-            temp.setOpis(opisMB);
-            temp.setDatazlozenia(new Date());
-            temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
-            deklaracjevatDAO.edit(temp);
+            wysylanaDeklaracja.setIdentyfikator(idMB);
+            wysylanaDeklaracja.setStatus(statMB.toString());
+            wysylanaDeklaracja.setOpis(opisMB);
+            wysylanaDeklaracja.setDatazlozenia(new Date());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracjevatDAO.edit(wysylanaDeklaracja);
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
@@ -240,12 +244,12 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
-            requestUPO(idMB, lang, upo, stat, opis);
+            requestUPO(identyfikator, lang, upo, stat, opis);
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
-        if (temp.getStatus().equals(stat.value)) {
+        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z informacją od serwera na temat deklaracji podatnika.", "formX:msg");
         } else {
             List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
@@ -256,11 +260,13 @@ public class beanek {
         upoMB = upo.value;
         statMB = stat.value;
         opisMB = opis.value;
-        temp.setUpo(upoMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
-        temp.setDataupo(new Date());
-        deklaracjevatDAO.edit(temp);
+        sprawdzanadeklaracja.setUpo(upoMB);
+        sprawdzanadeklaracja.setStatus(statMB.toString());
+        sprawdzanadeklaracja.setOpis(opisMB);
+        sprawdzanadeklaracja.setDataupo(new Date());
+        deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
+        deklaracjevatView.getWyslanenormalne().add(sprawdzanadeklaracja);
+        deklaracjevatDAO.edit(sprawdzanadeklaracja);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
 
@@ -327,12 +333,9 @@ public class beanek {
         if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
         } else {
-            if (stat.value == 200) {
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value);
-            } else if (stat.value.toString().startsWith("3")) {
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
-            } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value);
+            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMBT = upo.value;
@@ -351,32 +354,38 @@ public class beanek {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
-            requestUPO_Test(idMBT, lang, upo, stat, opis);
+            requestUPO_Test(identyfikator, lang, upo, stat, opis);
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
-        if (temp.getStatus().equals(stat.value)) {
+        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            if (stat.value == 200) {
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3")) {
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
-            } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
+            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMBT = upo.value;
         statMBT = stat.value;
         opisMBT = opis.value;
-        temp.setUpo(upoMBT);
-        temp.setStatus(statMBT.toString());
-        temp.setOpis(opisMBT);
-        deklaracjevatDAO.edit(temp);
+        sprawdzanadeklaracja.setUpo(upoMBT);
+        sprawdzanadeklaracja.setStatus(statMBT.toString());
+        sprawdzanadeklaracja.setOpis(opisMBT);
+        deklaracjevatView.getWyslanetestowe().remove(sprawdzanadeklaracja);
+        deklaracjevatView.getWyslanetestowe().add(sprawdzanadeklaracja);
+        deklaracjevatDAO.edit(sprawdzanadeklaracja);
         RequestContext.getCurrentInstance().update("formX:dokumentyLista");
     }
 
+    public void przerzucdowysylki(String identyfikator) {
+        Deklaracjevat deklaracjatransferowana = deklaracjevatDAO.findDeklaracjaPodatnik(identyfikator, wpisView.getPodatnikWpisu());
+        deklaracjevatView.getWyslanetestowe().remove(deklaracjatransferowana);
+        deklaracjatransferowana.setIdentyfikator("");
+        deklaracjevatDAO.edit(deklaracjatransferowana);
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getIdMBT() {
         return idMBT;
@@ -465,6 +474,16 @@ public class beanek {
     public void setUpoMBT(String upoMBT) {
         this.upoMBT = upoMBT;
     }
+
+    public DeklaracjevatView getDeklaracjevatView() {
+        return deklaracjevatView;
+    }
+
+    public void setDeklaracjevatView(DeklaracjevatView deklaracjevatView) {
+        this.deklaracjevatView = deklaracjevatView;
+    }
+    
+    
 
 
 }
