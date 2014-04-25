@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -26,7 +26,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class DeklaracjevatView implements Serializable {
     private static Deklaracjevat selected;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;

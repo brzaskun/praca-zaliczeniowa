@@ -24,12 +24,6 @@
                 <h:outputText value="#{item.identyfikator}"/><br/>
                 <h:outputText value="#{item.opis}"/>
             </p:column>
-            <p:column width="45"> 
-                <f:facet name="header">
-                    <h:outputText value="Kod urzedu"/>
-                </f:facet>
-                <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
-            </p:column>
             <p:column width="70">
                 <f:facet name="header">
                     <h:outputText value="Rok - Miesiac"/>
@@ -49,7 +43,7 @@
                 <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu}"/></p:column>
+                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
@@ -65,17 +59,17 @@
                 </p:dataTable>
             </p:column>
 
-            <p:column width="80">
+            <p:column width="80" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}" style="margin-left: 10px;"/>
+                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="width: 100px;"/>
             </p:column>
-            <p:column width="80">
+            <p:column width="80" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="margin-left: 10px; display: none;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="width: 100px; display: none;"  />
             </p:column>
             
                 <p:rowExpansion>

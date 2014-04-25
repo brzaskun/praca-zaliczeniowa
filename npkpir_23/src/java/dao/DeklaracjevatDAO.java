@@ -102,4 +102,8 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
         return wynik;
     }
+    
+    public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
+         return deklaracjevatFacade.findDeklaracjaPodatnik(identyfikator, podatnik);
+    }
 }
