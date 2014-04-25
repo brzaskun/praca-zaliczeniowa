@@ -4,6 +4,7 @@
  */
 package webservice;
 
+import beansVAT.EDeklaracjeObslugaBledow;
 import com.sun.xml.ws.client.ClientTransportException;
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
@@ -17,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -217,14 +219,11 @@ public class beanek {
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB);
         if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje gołębia z informacją od serwera na temat deklaracji podatnika.", "formX:msg");
         } else {
-            if (stat.value == 200) {
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3")) {
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
-            } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
+            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMB = upo.value;
@@ -247,14 +246,11 @@ public class beanek {
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
         if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
+            Msg.msg("i", "Wypatruje gołębia z informacją od serwera na temat deklaracji podatnika.", "formX:msg");
         } else {
-            if (stat.value == 200) {
-                Msg.msg("i", "Gołąb wrócił  z wieścią z Warszawy. Wysyłka zakończona sukcesem. Status: " + stat.value, "formX:msg");
-            } else if (stat.value.toString().startsWith("3")) {
-                Msg.msg("i", "Gołąb siedzi na kawie i czeka na potwierdzenie. Status: " + stat.value, "formX:msg");
-            } else {
-                Msg.msg("e", "Gołąb wrócił skacowany z wieścią z Warszawy. Niepowodzenie, gdzieś jest błąd! Status: " + stat.value, "formX:msg");
+            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMB = upo.value;
