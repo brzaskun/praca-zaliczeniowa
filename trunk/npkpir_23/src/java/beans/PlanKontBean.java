@@ -8,6 +8,7 @@ package beans;
 
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import entity.Podatnik;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import java.util.ArrayList;
@@ -85,8 +86,8 @@ public class PlanKontBean {
          return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
     }
     
-    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, String podatnik) {
-        List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient("8511005008");
+    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, Podatnik podatnik) {
+        List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient(podatnik.getNip());
         if (listaprzyporzadkowanychklientow != null) {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
                 Konto nowekonto = new Konto();
@@ -94,7 +95,7 @@ public class PlanKontBean {
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta());
+                int wynikdodania = PlanKontBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), podatnik.getNazwapelna());
                 if (wynikdodania == 1) {
                     return 1;
                 }

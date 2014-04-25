@@ -178,7 +178,7 @@ public class PlanKontView implements Serializable {
                             Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
                             return;
                         }
-                        wynikdodaniakonta = PlanKontBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, podatnik);
+                        wynikdodaniakonta = PlanKontBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView.getPodatnikObiekt());
                         if (wynikdodaniakonta == 0) {
                             nowe = new Konto();
                             odswiezroot(r);
