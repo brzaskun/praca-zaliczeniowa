@@ -156,7 +156,7 @@ public class ZamkniecieView implements Serializable {
         mapaokresowPobraneZapas.addAll(zDAO.findZM(wpisView.getPodatnikWpisu()).getZamkniete());
         int rozmiar = 0;
         while(rozmiar<mapaokresowPobrane.size()){
-            if(!mapaokresowPobrane.get(rozmiar).equals(mapaokresowPobraneZapas.get(rozmiar))){
+            if(mapaokresowPobrane.get(rozmiar).isZamkniety() != mapaokresowPobraneZapas.get(rozmiar).isZamkniety()){
                 roznice.add(mapaokresowPobrane.get(rozmiar));
             }
             rozmiar++;
