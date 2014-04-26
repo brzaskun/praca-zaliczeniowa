@@ -84,6 +84,7 @@ public class PismoAdminView implements Serializable{
     @Inject private PismoadminDAO pismoadminDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private static boolean wybierztylkobiezace;
     
     
     public PismoAdminView() {
@@ -159,9 +160,13 @@ public class PismoAdminView implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    public void init() {
         listapism = pismoadminDAO.findBiezace();
-        listapismwszytskie = pismoadminDAO.findAll();
+        if (wybierztylkobiezace==true) {
+            listapismwszytskie = pismoadminDAO.findBiezace();
+        } else {
+            listapismwszytskie = pismoadminDAO.findAll();
+        }
     }
 
     public Pismoadmin getPismoadmin() {
@@ -210,6 +215,14 @@ public class PismoAdminView implements Serializable{
 
     public void setListapismwszytskie(List<Pismoadmin> listapismwszytskie) {
         this.listapismwszytskie = listapismwszytskie;
+    }
+
+    public boolean isWybierztylkobiezace() {
+        return wybierztylkobiezace;
+    }
+
+    public void setWybierztylkobiezace(boolean wybierztylkobiezace) {
+        PismoAdminView.wybierztylkobiezace = wybierztylkobiezace;
     }
 
     

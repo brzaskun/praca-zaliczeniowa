@@ -40,22 +40,22 @@
     </div>
     <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"     id="dataTable"
                  rowKey="#{wpis}" selectionMode="single" 
-                 emptyMessage="W danym miesiącu nie było żadnych zapisów" resizableColumns="true" style="width: 700px;">
+                 emptyMessage="W danym miesiącu nie było żadnych zapisów" resizableColumns="true" style="width: 500px;">
         <f:facet name="header">  
             <h:outputText value="Zamykanie miesięcy" />  
         </f:facet>
-        <p:column id="rok" headerText="rok" >  
-            <h:outputText value="#{wpis.rok}" style="padding-left: 40%;" />
+        <p:column id="rok" headerText="rok" style="text-align: center;">  
+            <h:outputText value="#{wpis.rok}" />
         </p:column>
-        <p:column id="miesiac" headerText="miesiac"  >  
-            <h:outputText value="#{wpis.miesiac}" style="padding-left: 40%;"/>
+        <p:column id="miesiac" headerText="miesiac"  style="text-align: center;">  
+            <h:outputText value="#{wpis.miesiac}" />
         </p:column>
-        <p:column id="zamkniety" headerText="zamkniety" >  
+        <p:column id="zamkniety" headerText="zamkniety" style="text-align: center;">  
             <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}" disabled="#{wpis.edytuj eq true ? false : true}" >
                 <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" update="@this, :westWpis" onstart="start();"/>
             </h:selectBooleanCheckbox>
         </p:column>
-        <p:column id="edytuj" headerText="edytuj" >  
+        <p:column id="edytuj" headerText="edytuj" style="text-align: center;">  
             <h:selectBooleanCheckbox value="#{wpis.edytuj}" >
                 <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" update="@this, :form:dataTable, :westWpis" onstart="cancel();"/>
             </h:selectBooleanCheckbox>
