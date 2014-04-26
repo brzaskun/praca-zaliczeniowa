@@ -93,8 +93,8 @@
                     <h:outputText value="#{pitView.biezacyPit.dozaplaty}" style="padding-left: 20%; font-weight: 700; float: right;">
                         <f:convertNumber locale="PL"/></h:outputText>
                     <h:outputText value="termin płatności"/><h:outputText value="#{pitView.biezacyPit.terminwplaty}"/>
-                    <h:outputText value="przelano"/><h:outputText value="#{pitView.biezacyPit.przelano}"/>
-                    <h:outputText value="zamknięty"/><h:outputText value="#{pitView.biezacyPit.zamkniety}"/>
+                    <h:outputText value="zapłacono podatek"/><h:outputText value="#{ZestawienieView.biezacyPit.przelano eq 'true' ? 'tak' : 'nie'}"/>
+                    <h:outputText value="miesiąc zamknięty"/><h:outputText value="#{ZestawienieView.biezacyPit.zamkniety eq 'true' ? 'tak' : 'nie'}"/>
 
                 </p:panelGrid>
                 <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
