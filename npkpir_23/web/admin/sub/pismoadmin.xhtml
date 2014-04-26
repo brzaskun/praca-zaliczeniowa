@@ -8,16 +8,22 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <f:view>
         <bcf:ajaxs/>
+        <h:form style="padding: 0.5%;">
+            <p:panelGrid columns="2">
+                <h:outputText value="bez archiwalnych"/>
+                <p:selectBooleanCheckbox value="#{pismoAdminView.wybierztylkobiezace}" label="bez archiwalnych">
+                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
+        </h:form>
         <h:form id="wykazpism">
             <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 80%; margin-top: 2%;" id="dokLista"
-                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"
+                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" filterDelay="600"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="12,16,20,50" sortBy="datawiadomosci" sortOrder="descending" 
                          >
                  <f:facet name="header">
-                    <h:outputText value="Wysłane wiadomości"/><br/>
-                     <h:outputText value="- wyszukiwanie słów w treści wiadomości: " />  
-                    <p:inputText id="globalFilter" onkeyup="table.filter()" style="width:150px" />  
+                    <h:outputText value="Przeglądanie wiadomości"/><br/>
                 </f:facet>
                 <p:column width="20">
                     <f:facet name="header">
@@ -39,7 +45,7 @@
                     </f:facet>
                     <h:outputText value="#{item.menulink}"/>
                 </p:column>
-                <p:column filterBy="tresc" filterMatchMode="contains" filterStyle="display: none;">
+                <p:column filterBy="tresc" filterMatchMode="contains"  >
                     <f:facet name="header">
                         <h:outputText value="Treść"/>
                     </f:facet>
@@ -51,13 +57,13 @@
                     </f:facet>
                     <h:outputText value="#{item.waznosc}"/>
                 </p:column>
-                <p:column width="100">
+                <p:column width="100" filterMatchMode="contains" filterBy="nadawca">
                     <f:facet name="header">
                         <h:outputText value="Nadawca"/>
                     </f:facet>
                      <h:outputText value="#{item.nadawca}"/>
                 </p:column>
-                <p:column width="200">
+                <p:column width="200" filterMatchMode="contains" filterBy="status">
                     <f:facet name="header">
                         <h:outputText value="Status"/>
                     </f:facet>
