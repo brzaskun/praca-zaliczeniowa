@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Dokfk.findBySeriaRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejny = :nrkolejny"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK = :dokfkPK"),
     @NamedQuery(name = "Dokfk.findByDatawystawienia", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numer = :numer"),
@@ -270,7 +271,6 @@ public class Dokfk implements Serializable {
     
     public void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
-        String opisdoprzekazania = "";
         List<Wiersze> wierszewdokumencie = this.konta;
         try {
             for (Wiersze p : wierszewdokumencie) {
@@ -289,7 +289,6 @@ public class Dokfk implements Serializable {
                     p.setDataksiegowania(this.datawystawienia);
                     p.setTypwiersza(0);
                     p.setDokfk(this);
-                    opisdoprzekazania = p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
                 }
             }

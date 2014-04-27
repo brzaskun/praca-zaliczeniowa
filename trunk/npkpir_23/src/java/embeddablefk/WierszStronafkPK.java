@@ -14,6 +14,9 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class WierszStronafkPK implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
+    private String podatnik;
     private String typdokumentu;
     private int nrkolejnydokumentu;
     private int nrPorzadkowyWiersza;
@@ -25,10 +28,11 @@ public class WierszStronafkPK implements Serializable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 11 * hash + Objects.hashCode(this.typdokumentu);
-        hash = 11 * hash + this.nrkolejnydokumentu;
-        hash = 11 * hash + this.nrPorzadkowyWiersza;
-        hash = 11 * hash + Objects.hashCode(this.stronaWnlubMa);
+        hash = 71 * hash + Objects.hashCode(this.podatnik);
+        hash = 71 * hash + Objects.hashCode(this.typdokumentu);
+        hash = 71 * hash + this.nrkolejnydokumentu;
+        hash = 71 * hash + this.nrPorzadkowyWiersza;
+        hash = 71 * hash + Objects.hashCode(this.stronaWnlubMa);
         return hash;
     }
 
@@ -41,6 +45,9 @@ public class WierszStronafkPK implements Serializable{
             return false;
         }
         final WierszStronafkPK other = (WierszStronafkPK) obj;
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
         if (!Objects.equals(this.typdokumentu, other.typdokumentu)) {
             return false;
         }
@@ -56,10 +63,15 @@ public class WierszStronafkPK implements Serializable{
         return true;
     }
 
+
+   
+
     @Override
     public String toString() {
-        return "WierszStronafkPK{" + "typdokumentu=" + typdokumentu + ", nrkolejnydokumentu=" + nrkolejnydokumentu + ", nrPorzadkowyWiersza=" + nrPorzadkowyWiersza + ", stronaWnlubMa=" + stronaWnlubMa + '}';
+        return "WierszStronafkPK{" + "podatnik=" + podatnik + ", typdokumentu=" + typdokumentu + ", nrkolejnydokumentu=" + nrkolejnydokumentu + ", nrPorzadkowyWiersza=" + nrPorzadkowyWiersza + ", stronaWnlubMa=" + stronaWnlubMa + '}';
     }
+
+    
 
     public String getTypdokumentu() {
         return typdokumentu;
@@ -92,6 +104,15 @@ public class WierszStronafkPK implements Serializable{
     public void setStronaWnlubMa(String stronaWnlubMa) {
         this.stronaWnlubMa = stronaWnlubMa;
     }
+
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
+    
     
     
     

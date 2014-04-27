@@ -19,12 +19,19 @@ import session.SessionFacade;
  */
 @Named
 public class KontopozycjarzisDAO extends DAO implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private SessionFacade sessionFacade;
 
     public KontopozycjarzisDAO() {
         super(Kontopozycjarzis.class);
     }
+
+    public KontopozycjarzisDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
     
     public List<Kontopozycjarzis> findKontaPodatnikUklad (Rzisuklad rzisuklad) {
        try {

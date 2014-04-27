@@ -18,12 +18,17 @@ import session.SessionFacade;
  */
 @Named
 public class RzisukladDAO extends DAO implements Serializable{
-
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private SessionFacade sessionFacade;
 
     public RzisukladDAO() {
         super(Rzisuklad.class);
+    }
+
+    public RzisukladDAO(Class entityClass) {
+        super(entityClass);
     }
     
      public  List<Rzisuklad> findAll(){

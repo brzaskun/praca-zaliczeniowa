@@ -19,11 +19,17 @@ import session.SessionFacade;
  */
 @Named
 public class RozrachunekfkDAO extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private SessionFacade rozrachunekfkFacade;
 
     public RozrachunekfkDAO() {
         super(Rozrachunekfk.class);
+    }
+
+    public RozrachunekfkDAO(Class entityClass) {
+        super(entityClass);
     }
     
     public  List<Rozrachunekfk> findAll(){

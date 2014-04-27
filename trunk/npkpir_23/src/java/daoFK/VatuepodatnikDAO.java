@@ -18,11 +18,18 @@ import session.SessionFacade;
  */
 @Named
 public class VatuepodatnikDAO extends DAO<Vatuepodatnik> implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    
     @Inject
     private SessionFacade sessionFacade;
 
     public VatuepodatnikDAO() {
         super(Vatuepodatnik.class);
+    }
+
+    public VatuepodatnikDAO(Class<Vatuepodatnik> entityClass) {
+        super(entityClass);
     }
     
     public  List<Vatuepodatnik> findAll(){

@@ -21,6 +21,7 @@ import session.SessionFacade;
  */
 @Named
 public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private SessionFacade zestawienielisttransakcjiFacade;
@@ -28,6 +29,12 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
     public ZestawienielisttransakcjiDAO() {
         super(Zestawienielisttransakcji.class);
     }
+
+    public ZestawienielisttransakcjiDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
+    
 
     public List<Zestawienielisttransakcji> findAll() {
         try {

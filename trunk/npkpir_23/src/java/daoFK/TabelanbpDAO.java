@@ -21,6 +21,7 @@ import session.SessionFacade;
  */
 @Named
 public class TabelanbpDAO extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade tabelanbpFacade;
@@ -28,6 +29,11 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public TabelanbpDAO() {
         super(Tabelanbp.class);
     }
+
+    public TabelanbpDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
     
     public  List<Tabelanbp> findAll(){
         try {
