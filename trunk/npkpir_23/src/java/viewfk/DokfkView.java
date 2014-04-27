@@ -77,13 +77,13 @@ public class DokfkView implements Serializable {
 //</editor-fold>
 }
 
-    private Dokfk selected;
+    protected Dokfk selected;
     @Inject
     private DokDAOfk dokDAOfk;
     private boolean zapisz0edytuj1;
     private String wierszid;
     private String wnlubma;
-    private int liczbawierszyWDokumencie;
+    protected int liczbawierszyWDokumencie;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
     //a to jest w dialog_zapisywdokumentach
     @Inject
@@ -91,9 +91,9 @@ public class DokfkView implements Serializable {
     private int numerwierszazapisu;
     //************************************zmienne dla rozrachunkow
     @Inject
-    private RozrachunekfkDAO rozrachunekfkDAO;
+    protected RozrachunekfkDAO rozrachunekfkDAO;
     @Inject
-    private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
+    protected ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private boolean potraktujjakoNowaTransakcje;
     @Inject
     private Rozrachunekfk aktualnywierszdorozrachunkow;
@@ -224,17 +224,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    //usuwa wiersze z dokumentu
-    public void liczbawu() {
-        if (liczbawierszyWDokumencie > 1) {
-            liczbawierszyWDokumencie--;
-            usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn());
-            usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa());
-            usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn());
-            usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa());
-            selected.getListawierszy().remove(liczbawierszyWDokumencie);
-        }
-    }
+   
 
     public void dodaj() {
         try {
@@ -297,10 +287,10 @@ public class DokfkView implements Serializable {
         try {
             int iloscwierszy = dousuniecia.getListawierszy().size();
             for (int i = 0; i < iloscwierszy; i++) {
-                usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaWn());
-                usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaMa());
-                usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn());
-                usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa());
+                ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), rozrachunekfkDAO);
+                ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), zestawienielisttransakcjiDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), zestawienielisttransakcjiDAO);
             }
             dokDAOfk.usun(dousuniecia);
             wykazZaksiegowanychDokumentow.remove(dousuniecia);
@@ -312,25 +302,15 @@ public class DokfkView implements Serializable {
         }
     }
 
-    private void usunrozrachunek(WierszStronafk wierszStronafk) {
-        Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
-        try {
-            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-            rozrachunekfkDAO.destroy(rU);
-            Msg.msg("i", "Usunieto rozrachunek");
-        } catch (Exception e) {
-            Msg.msg("e", "Nieusunieto rozrachunku");
-        }
-    }
-
-    private void usuntransakcje(WierszStronafk wierszStronafk) {
-        WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
-        try {
-            Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
-            zestawienielisttransakcjiDAO.destroy(znaleziona);
-            Msg.msg("i", "Usunieto transakcje nienowe transakcje");
-        } catch (Exception e) {
-            Msg.msg("e", "Nie usunieto transakcje nienowe transakcje");
+     //usuwa wiersze z dokumentu
+    public void usunWierszWDokumencie() {
+        if (liczbawierszyWDokumencie > 1) {
+            liczbawierszyWDokumencie--;
+            ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), rozrachunekfkDAO);
+            ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), rozrachunekfkDAO);
+            ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO);
+            ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO);
+            selected.getListawierszy().remove(liczbawierszyWDokumencie);
         }
     }
 
