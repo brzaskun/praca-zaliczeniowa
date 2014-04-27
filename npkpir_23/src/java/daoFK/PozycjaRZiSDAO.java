@@ -9,6 +9,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -18,6 +19,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
+@Singleton
 public class PozycjaRZiSDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
