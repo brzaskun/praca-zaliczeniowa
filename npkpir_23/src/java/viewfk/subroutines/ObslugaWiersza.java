@@ -20,6 +20,7 @@ import javax.inject.Named;
 @Named
 @Singleton
 public class ObslugaWiersza {
+    
     public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie, String grafikawaluty) {
         Wiersze nowywiersz = new Wiersze(liczbawierszyWDokumencie, 0);
         WierszStronafk wierszStronafkWn = new WierszStronafk();
@@ -66,5 +67,18 @@ public class ObslugaWiersza {
             
         }
         return wiersz;
+    }
+    
+    public static Wiersze ustawNowyWiersz() {
+        Wiersze nowywiersz =  new Wiersze(1, 0);
+        WierszStronafk wierszStronafkWn = new WierszStronafk();
+        wierszStronafkWn.setGrafikawaluty("zł");
+        nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        WierszStronafk wierszStronafkMa = new WierszStronafk();
+        wierszStronafkMa.setGrafikawaluty("zł");
+        nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        return nowywiersz;
     }
 }

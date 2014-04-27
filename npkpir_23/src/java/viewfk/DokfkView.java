@@ -39,6 +39,8 @@ import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
 import viewfk.subroutines.ObslugaWiersza;
+import viewfk.subroutines.ObslugaRozrachunku;
+import viewfk.subroutines.ObslugaTransakcji;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
 /**
@@ -159,16 +161,7 @@ public final class DokfkView implements Serializable {
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
-        Wiersze nowywiersz = new Wiersze(1, 0);
-        WierszStronafk wierszStronafkWn = new WierszStronafk();
-        wierszStronafkWn.setGrafikawaluty("zł");
-        nowywiersz.setWierszStronaWn(wierszStronafkWn);
-        nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
-        WierszStronafk wierszStronafkMa = new WierszStronafk();
-        wierszStronafkMa.setGrafikawaluty("zł");
-        nowywiersz.setWierszStronaMa(wierszStronafkMa);
-        nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
-        wiersze.add(nowywiersz);
+        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
         selected.setWalutadokumentu("PLN");
         selected.setKonta(wiersze);
         selected.setZablokujzmianewaluty(false);
@@ -251,33 +244,21 @@ public final class DokfkView implements Serializable {
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
             //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
-            List<Rozrachunekfk> pobierznowododane = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(), selected.getDokfkPK().getNrkolejny());
-            for (Rozrachunekfk p : pobierznowododane) {
-                p.setZaksiegowanodokument(true);
-                rozrachunekfkDAO.edit(p);
-            }
+            List<Rozrachunekfk> pobierznowododane = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            ObslugaRozrachunku.utrwalNoweRozachunki(pobierznowododane, rozrachunekfkDAO);
             //zaznaczamy sparowae jako wprowadzone i zaksiegowane
             for (Wiersze p : selected.getKonta()) {
-                naniesnasparowane(p.getWierszStronaWn());
-                naniesnasparowane(p.getWierszStronaMa());
+                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaWn(), zestawienielisttransakcjiDAO);
+                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaMa(), zestawienielisttransakcjiDAO);
             }
-            resetujDokument();
             Msg.msg("i", "Dokument dodany");
+            resetujDokument();
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
         }
     }
     
-    private void naniesnasparowane(WierszStronafk wierszStronafk) {
-            if (wierszStronafk.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                    WierszStronafkPK wierszStronafkPK = wierszStronafk.getWierszStronafkPK();
-                    Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafk.getWierszStronafkPK());
-                    if (zestawienielisttransakcji instanceof Zestawienielisttransakcji) {
-                        zestawienielisttransakcji.setZaksiegowanodokument(true);
-                        zestawienielisttransakcjiDAO.edit(zestawienielisttransakcji);
-                    }
-            }
-    }
+    
 
     public void edycja() {
         try {
