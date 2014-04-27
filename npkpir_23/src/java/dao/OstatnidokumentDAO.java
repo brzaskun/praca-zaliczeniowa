@@ -29,8 +29,8 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
     public OstatnidokumentDAO(Class entityClass) {
         super(entityClass);
     }
-    
-    
+
+        
     public Dok pobierz(String nazwa){
         List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
         for(Ostatnidokument p :temp){
