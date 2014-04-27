@@ -18,12 +18,19 @@ import session.SessionFacade;
  */
 @Named
 public class KontoDAOfk extends DAO implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private SessionFacade kontoFacade;
 
     public KontoDAOfk() {
         super(Konto.class);
     }
+
+    public KontoDAOfk(Class entityClass) {
+        super(entityClass);
+    }
+    
 
     public  List<Konto> findAll(){
         try {

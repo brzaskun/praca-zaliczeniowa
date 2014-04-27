@@ -18,6 +18,7 @@ import session.SessionFacade;
  */
 @Named
 public class WalutyDAOfk extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade walutyFacade;
@@ -25,6 +26,11 @@ public class WalutyDAOfk extends DAO implements Serializable {
     public WalutyDAOfk() {
         super(Waluty.class);
     }
+
+    public WalutyDAOfk(Class entityClass) {
+        super(entityClass);
+    }
+    
     
     public  List<Waluty> findAll(){
         try {

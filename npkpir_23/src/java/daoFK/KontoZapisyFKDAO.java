@@ -19,12 +19,19 @@ import session.SessionFacade;
  */
 @Named
 public class KontoZapisyFKDAO extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private SessionFacade kontozapisyFacade;
 
     public KontoZapisyFKDAO() {
         super(Kontozapisy.class);
     }
+
+    public KontoZapisyFKDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
     
      public  List<Kontozapisy> findAll(){
         try {

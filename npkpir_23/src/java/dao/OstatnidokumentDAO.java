@@ -18,11 +18,18 @@ import session.SessionFacade;
  */
 @Named
 public class OstatnidokumentDAO extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Inject private SessionFacade ostatnidokumentFacade;
 
     public OstatnidokumentDAO() {
         super(Ostatnidokument.class);
     }
+
+    public OstatnidokumentDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
     
     public Dok pobierz(String nazwa){
         List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);

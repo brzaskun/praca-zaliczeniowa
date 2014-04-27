@@ -19,10 +19,16 @@ import session.SessionFacade;
  */
 @Named(value="DokDAOfk")
 public class DokDAOfk extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Inject private SessionFacade dokFacade;
     
     public DokDAOfk() {
         super(Dokfk.class);
+    }
+
+    public DokDAOfk(Class entityClass) {
+        super(entityClass);
     }
     
     public List<Dokfk> findAll(){
@@ -33,9 +39,13 @@ public class DokDAOfk extends DAO implements Serializable {
         dokFacade.remove(selected);
     }
 
-//    public Dokfk findZZapisu(Kontozapisy kontozapisy) {
-//        return dokFacade.findZZapisu(kontozapisy.getDokument().getNumer());
-//    }
+    public List<Dokfk> findDokfkPodatnik(String podatnik, String rok) {
+        try {
+           return dokFacade.findDokfkPodatnik(podatnik, rok);
+       } catch (Exception e ){
+           return null;
+       }
+    }
 
     public Dokfk findDokfk(String data, String numer) {
        try {

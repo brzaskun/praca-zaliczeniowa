@@ -19,12 +19,19 @@ import session.SessionFacade;
  */
 @Named
 public class PozycjaRZiSDAO extends DAO implements Serializable{
-     @Inject
+    private static final long serialVersionUID = 1L;
+    
+    @Inject
     private SessionFacade sessionFacade;
 
     public PozycjaRZiSDAO() {
         super(PozycjaRZiS.class);
     }
+
+    public PozycjaRZiSDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
       public  List<PozycjaRZiS> findAll(){
         try {
             return sessionFacade.findAll(PozycjaRZiS.class);
