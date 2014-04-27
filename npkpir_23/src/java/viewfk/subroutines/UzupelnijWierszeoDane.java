@@ -23,7 +23,7 @@ public class UzupelnijWierszeoDane implements Serializable {
     public static void uzupelnijwierszeodane(Dokfk selected) {
         //ladnie uzupelnia informacje o wierszu pk
         String opisdoprzekazania = "";
-        List<Wiersze> wierszewdokumencie = selected.getKonta();
+        List<Wiersze> wierszewdokumencie = selected.getListawierszy();
         try {
             for (Wiersze p : wierszewdokumencie) {
                 String opis = p.getOpis();
