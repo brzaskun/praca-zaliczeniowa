@@ -33,7 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
     @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
     @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND W.walutarozrachunku = :walutarozrachunku"),
-    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk")    
+    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
+            + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
+            + "AND w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik "
+            + "AND w.rok = :rok")    
 })
 public class Rozrachunekfk  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -45,6 +48,7 @@ public class Rozrachunekfk  implements Serializable {
     private Integer idrozrachunku;
     @JoinColumns({
         @JoinColumn(name="typdokumentu", referencedColumnName="typdokumentu"),
+        @JoinColumn(name="podatnik", referencedColumnName="podatnik"),
         @JoinColumn(name="nrkolejnydokumentu", referencedColumnName="nrkolejnydokumentu"),
         @JoinColumn(name="nrPorzadkowyWiersza", referencedColumnName="nrPorzadkowyWiersza"),
         @JoinColumn(name="stronaWnlubMa", referencedColumnName="stronaWnlubMa")
@@ -66,6 +70,9 @@ public class Rozrachunekfk  implements Serializable {
     @JoinColumn(name = "konto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Konto kontoid;
+    private String rok;
+    private String mc;
+    private String datarozrachunku;
     
 
 
@@ -186,6 +193,31 @@ public class Rozrachunekfk  implements Serializable {
         this.zaksiegowanodokument = zaksiegowanodokument;
     }
 
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public String getDatarozrachunku() {
+        return datarozrachunku;
+    }
+
+    public void setDatarozrachunku(String datarozrachunku) {
+        this.datarozrachunku = datarozrachunku;
+    }
+
+    
     
         
     

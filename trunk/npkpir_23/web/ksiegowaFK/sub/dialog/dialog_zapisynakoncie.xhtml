@@ -10,7 +10,7 @@
     <p:dialog id="zapisy" header="Zapisy na kontach" widgetVar="zapisynakoncie" 
               resizable="false" onShow="ustawdialog('zapisy','menuraporty',1250,750);" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="width: 1225px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 1270px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <h:form id="formwpiskonta">
                     <h:outputText value="wybierz konto: "/>
@@ -29,8 +29,8 @@
 
             <p:layoutUnit position="west" size="350">
                 <p:panelGrid columns="2" >
-                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
+                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
                  <script>
                     document.onkeypress = wcisnij;
@@ -52,17 +52,17 @@
                         <p:ajax event="select" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="unselect" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                         
-                        <p:column headerText="nr konta" style="width: 240px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <p:column headerText="nr konta" style="width: 100px; height: 40px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
-                        <p:column headerText="nazwa pełna" style="width: 100px;">
+                        <p:column headerText="nazwa pełna" >
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
                     </p:treeTable>
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" style="min-width: 850px;">
+            <p:layoutUnit position="center" style="min-width: 870px;">
                 <h:form id="tabelazzapisami">  
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="wiersz.idwiersza" emptyMessage="Nie ma zapisów na koncie"

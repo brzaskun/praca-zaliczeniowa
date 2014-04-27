@@ -671,9 +671,10 @@ public class SessionFacade<T> {
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByDokfk(String seriadokfk, int nrkolejny) {
+    public List<Rozrachunekfk> findRozrachunkifkByDokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
          try {
-            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByDokfk").setParameter("typDokfk", seriadokfk).setParameter("nrkolejnyDokfk", nrkolejny).getResultList();
+            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByDokfk").setParameter("typDokfk", seriadokfk).setParameter("nrkolejnyDokfk", nrkolejny)
+                    .setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             return null;
         }
