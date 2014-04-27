@@ -49,7 +49,7 @@ public class ObslugaWiersza {
     public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wiersz, String wnma, int lpwiersza) {
         wiersz.setNrwlasnydokumentu(selected.getNumer());
         wiersz.setOpisdokumentu(selected.getTresc());
-        wiersz.setOpiswiersza(selected.getKonta().get(lpwiersza).getOpis());
+        wiersz.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpis());
         //rzeczy dotyczace waluty
         WierszStronafkPK wPK = wiersz.getWierszStronafkPK();
         wPK.setNrPorzadkowyWiersza(numer);

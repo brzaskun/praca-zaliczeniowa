@@ -64,7 +64,7 @@ public class Dokfk implements Serializable {
     private String numer;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
-    private List<Wiersze> konta;
+    private List<Wiersze> listawierszy;
     @Column(name = "miesiac")
     private String miesiac;
     @Column(name = "tresc")
@@ -193,12 +193,12 @@ public class Dokfk implements Serializable {
     
     
     @XmlTransient
-    public List<Wiersze> getKonta() {
-        return konta;
+    public List<Wiersze> getListawierszy() {
+        return listawierszy;
     }
     
-    public void setKonta(List<Wiersze> konta) {
-        this.konta = konta;
+    public void setListawierszy(List<Wiersze> listawierszy) {
+        this.listawierszy = listawierszy;
     }
 
     public Tabelanbp getTabelanbp() {
@@ -250,7 +250,7 @@ public class Dokfk implements Serializable {
     }
 
     public void dodajwartoscwiersza(int numerwiersza) {
-        Wiersze biezacywiersz = this.konta.get(numerwiersza);
+        Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
         int typwiersza = biezacywiersz.getTypwiersza();
         double suma = 0.0;
         if (typwiersza==1) {
@@ -271,7 +271,7 @@ public class Dokfk implements Serializable {
     
     public void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
-        List<Wiersze> wierszewdokumencie = this.konta;
+        List<Wiersze> wierszewdokumencie = this.listawierszy;
         try {
             for (Wiersze p : wierszewdokumencie) {
                 String opis = p.getOpis();
