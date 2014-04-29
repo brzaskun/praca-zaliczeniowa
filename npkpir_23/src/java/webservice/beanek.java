@@ -8,6 +8,7 @@ import beansVAT.EDeklaracjeObslugaBledow;
 import com.sun.xml.ws.client.ClientTransportException;
 import dao.DeklaracjevatDAO;
 import entity.Deklaracjevat;
+import entity.Faktura_;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -316,6 +317,39 @@ public class beanek {
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        }
+
+    }
+    
+    public void wysylkaReczna(List<Deklaracjevat> deklaracje)  {
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
+        if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
+            Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+            return;
+        }
+        if (wysylanaDeklaracja.getSelected().getCelzlozenia().equals("2") && !wysylanaDeklaracja.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
+            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
+            return;
+        }
+        try {
+            wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.findNazwaPodatnika()+wpisView.getWprowadzil().getLogin());
+            idpobierzT = wysylanaDeklaracja.getIdentyfikator();
+            wysylanaDeklaracja.setStatus("200");
+            statMBT = Integer.parseInt(wysylanaDeklaracja.getStatus());
+            wysylanaDeklaracja.setOpis("Udana rejestracja wysyłki poza systemem");
+            opisMBT = wysylanaDeklaracja.getOpis();
+            wysylanaDeklaracja.setUpo("Deklaracja wysłana poza systemem. Zarejestrowana elektronicznie ze względu na ciągłość");
+            upoMBT = wysylanaDeklaracja.getUpo();
+            wysylanaDeklaracja.setDatazlozenia(new Date());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            wysylanaDeklaracja.setTestowa(false);
+            deklaracjevatDAO.edit(wysylanaDeklaracja);
+            Msg.msg("i", "Rejestracja ręczna deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nieudana rejestracja ręczna deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         }
 
     }

@@ -39,7 +39,6 @@
             <h:body>
                 <p:idleMonitor timeout="600000">  
                     <p:ajax event="idle" listener="#{Logowanie.logout()}" />  
-                    <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
                 </p:idleMonitor>  
                 <ui:insert class="bodi" name="body"> 
                 </ui:insert>
