@@ -944,16 +944,16 @@ public class DokfkView implements Serializable {
     }
 
     
-    public void handleKontoSelect(SelectEvent event) {
-        Object item = event.getObject();
-        if (stronawiersza.equals("wn")) {
-            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
-            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
-        } else {
-            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
-        }
-    }
-    
+//    public void handleKontoSelect(SelectEvent event) {
+//        Object item = event.getObject();
+//        if (stronawiersza.equals("wn")) {
+//            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
+//            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
+//        } else {
+//            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
+//        }
+//    }
+//    
     //********************************
     public WpisView getWpisView() {
         return wpisView;
@@ -1099,7 +1099,6 @@ public class DokfkView implements Serializable {
         this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
     }
 
-    //</editor-fold
     public boolean isZablokujpanelwalutowy() {
         return zablokujpanelwalutowy;
     }
