@@ -15,11 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
@@ -31,11 +29,12 @@ import params.Params;
  * @author Osito
  */
 @ManagedBean(name="UzView")
-@RequestScoped
+@ViewScoped
 public class UzView implements Serializable{
     //tablica obiektów
-    private static List<Uz> obiektUZjsf;
-    private static Uz uzObject;
+    private List<Uz> obiektUZjsf;
+    private List<Uz> obiektUZjsfselected;
+    private Uz uzObject;
     @Inject
     private UzDAO uzDAO;
     private String uzString;
@@ -138,6 +137,7 @@ public class UzView implements Serializable{
         try {
         uzDAO.destroy(uzytkownik);
         obiektUZjsf.remove(uzytkownik);
+        obiektUZjsfselected.remove(uzytkownik);
         Msg.msg("i", "Usunąłem użytkownika "+uzytkownik.getLogin());
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Nie usunąłem użytkownika "+uzytkownik.getLogin());
@@ -154,6 +154,10 @@ public class UzView implements Serializable{
             FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+     }
+     
+     public void wybranoUzytkownika() {
+         Msg.msg("Wybrano użytkownika: "+selUzytkownik.getLogin());
      }
      
     private boolean validateData() {
@@ -250,6 +254,18 @@ public class UzView implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+    
+
+    public List<Uz> getObiektUZjsfselected() {
+        return obiektUZjsfselected;
+    }
+
+    public void setObiektUZjsfselected(List<Uz> obiektUZjsfselected) {
+        this.obiektUZjsfselected = obiektUZjsfselected;
+    }
+    
+    
+    
     //</editor-fold>
    
 }
