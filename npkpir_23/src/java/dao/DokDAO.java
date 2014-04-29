@@ -29,6 +29,11 @@ public class DokDAO extends DAO implements Serializable {
     public DokDAO() {
         super(Dok.class);
     }
+
+    public DokDAO(Class entityClass) {
+        super(entityClass);
+    }
+    
     
     public List<Dok> findAll(){
         return dokFacade.findAll(Dok.class);
