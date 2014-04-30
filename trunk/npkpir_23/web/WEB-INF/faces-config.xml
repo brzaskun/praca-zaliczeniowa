@@ -165,6 +165,10 @@
             <from-outcome>vatzest</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVATzest.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>korektavat</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVATkorekta.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>vatue</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVATUE.xhtml?faces-redirect=true</to-view-id>
