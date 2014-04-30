@@ -35,16 +35,16 @@ public class ListaEwidencjiVat implements Serializable{
     }
     @Inject
     private EvewidencjaDAO eVDAO;
-    private static List<String> sprzedazVList;
-    private static List<String> zakupVList;
-    private static List<String> srodkitrwaleVList;
-    private static List<String> wdtVList;
-    private static List<String> wntVList;
-    private static List<String> rvcVList;//reverse charge - odwrotne obciazenie
-    private static List<String> importuslugList;
-    private static List<String> uslugiPTK;
-    private static List<String> eksporttowarow;
-    private static List<String> listadostepnychewidencji;
+    private List<String> sprzedazVList;
+    private List<String> zakupVList;
+    private List<String> srodkitrwaleVList;
+    private List<String> wdtVList;
+    private List<String> wntVList;
+    private List<String> rvcVList;//reverse charge - odwrotne obciazenie
+    private List<String> importuslugList;
+    private List<String> uslugiPTK;
+    private List<String> eksporttowarow;
+    private List<String> listadostepnychewidencji;
 
 
     public ListaEwidencjiVat() {
