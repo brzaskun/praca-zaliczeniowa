@@ -51,7 +51,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findByRokMc", query = "SELECT d FROM Deklaracjevat d WHERE d.rok = :rok AND d.miesiac = :miesiac"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWysylka", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND d.identyfikator = :identyfikator"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslane", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator"),
-    @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok")
+    @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok"),
+    @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok200", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.status = 200 AND d.rok = :rok AND d.testowa = 0")
 })
 public class Deklaracjevat implements Serializable {
    private static final long serialVersionUID = 1L;

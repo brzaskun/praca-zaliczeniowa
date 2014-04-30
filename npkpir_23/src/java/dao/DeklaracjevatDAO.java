@@ -80,6 +80,19 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        }
        return znalezionedeklaracje;
     }
+    
+    public List<Deklaracjevat> findDeklaracjeWyslane200(String pod, String rok) {
+       List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
+       try {
+            znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane200(pod,rok);
+        } catch (Exception e) {}
+       //szuka zawsze w roku poprzednim. jak nie ma wywala blad
+       if (znalezionedeklaracje.isEmpty()) {
+        String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);
+        znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane200(pod,rokuprzedni);
+       }
+       return znalezionedeklaracje;
+    }
 
     public List<String> findDeklaracjeDowyslania(String rok, String mc) {
          List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
