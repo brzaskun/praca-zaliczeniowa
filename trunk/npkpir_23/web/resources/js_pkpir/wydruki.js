@@ -20,10 +20,12 @@ var wydrukstr = function(kto){
     document.getElementById("formSTR:ewwysylka").style.display='inline';
     
 };
-
+//dlatego jest try bo wykorzystywana jest w dwoch miejscach vatwyslane i vat korekta gdzie nie ma button mail
 var wydrukvat7 = function(kto, index){
     window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formX:akordeon:dataList:"+index+":mailbutton").style.display='inline';
+    try {
+        document.getElementById("formX:akordeon:dataList:"+index+":mailbutton").style.display='inline';
+    } catch (ex) {}
 };
 
 var wydrukvat7wysylka = function(kto){

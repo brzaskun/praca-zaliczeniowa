@@ -372,6 +372,10 @@ public class SessionFacade<T> {
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
+    
+    public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
+        return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
+    }
 
     public Srodkikst findSr(Srodkikst srodek) {
        return em.find(Srodkikst.class, srodek);

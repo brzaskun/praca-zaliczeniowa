@@ -10,8 +10,13 @@
 
     <h:form id="formX">
         <p:growl id="msg" autoUpdate="true"/>
-        <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
-        <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
+        <p:panel header="Wykaz wysłanych deklaracji"/>
+        <p:dataTable value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
+                    id="dokumentyLista" emptyMessage="brak deklaracji do wyslania"
+                    paginator="true" paginatorAlwaysVisible="true" rows="1"
+                    paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                    rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending"
+                     >
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
@@ -28,6 +33,10 @@
                         <h:outputText value="okres rozliczeniowy"/><h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}" style="font-weight: 900;"/>
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
+                        <h:outputText value="status"/><h:outputText value="#{item.status}"/>
+                        <h:outputText value="opis"/><h:outputText value="#{item.opis}"/>
+                        <h:outputText value="data wysyłki"/><h:outputText value="#{item.datazlozenia}"/>
+                        <h:outputText value="data potwierdzenia"/><h:outputText value="#{item.dataupo}"/>
                     </h:panelGrid>
                     <h:panelGrid columns="4">
                         <h:outputText value="należny (p.46)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
@@ -49,8 +58,7 @@
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="70">
                 <p:panelGrid columns="1">
-                    <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukujwys(item)}" style="margin-left: 10px; width: 80px;" oncomplete="wydrukvat7wysylka('#{item.podatnik}');"/>
-                    <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7()}" update=":formX" style="margin-left: 10px; width: 80px; display: none;"  />
+                    <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="margin-left: 10px; width: 80px;"/>
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="70">
@@ -62,90 +70,8 @@
                 </p:column>
             </p:rowExpansion>
         </p:dataTable>
-    </h:form><br/>
-    <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : false)}"/>
-    <h:form id="zalacznikZT">
-        <p:panel header="Załącznik VAT-ZT" rendered="#{deklaracjevatView.oczekujace.size()>0 ? (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? true : false) : false}">
-            <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
-            <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
-                <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o przyspieszony termin zwrotu, nie może być wysłana!"/>
-                <h:outputText value="wnioskowana kwota"/><h:inputText style="width: 200px;" value="#{vat7VATZTView.kwota}"/>
-                <h:outputText value="uzasadnienie wniosku"/><h:inputTextarea rows="5" style="width: 900px;" value="#{vat7VATZTView.informacja}"/>
-                <p:commandButton value="Załącz" actionListener="#{vat7VATZTView.dodajzalacznikVATZT()}" update="@all"/>
-            </p:panelGrid>
-        </p:panel>
     </h:form>
-    <h:form id="zalacznik">
-        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false)}">
-            <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}"/>
-            <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}">
-                <h:outputText value="Przygotowana korekta deklaracji nie zawiera wyjaśnienia przyczyny korekty, nie może być wysłana!"/>
-                <h:inputTextarea rows="5" style="width: 900px;" value="#{vat7ORDZUView.trescwyjasnienia}"/>
-                <p:commandButton value="Załącz" actionListener="#{vat7ORDZUView.dodajzalacznikORDZAU()}" update="@all"/>
-            </p:panelGrid>
-        </p:panel>
-    </h:form>
-    <p:accordionPanel id="akordeon" rendered="#{deklaracjevatView.oczekujace.size() gt 0}">
-        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
-        <p:panelGrid columns="2" style="width: 80%;">
-        <h:form>
-            <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" update=":akordeon:form:upoform" style="width: 150px;"/>
-            <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form:upoform" style="margin-left: 3%; width: 150px;"/>
-        </h:form>
-        <h:form id="form">
-            <p:panelGrid columns="2" id="upoform" style="width: 100%;">
-                <h:outputText value="id przesyłki" />
-                <h:inputText value="#{beanek.idpobierz}" style="width: 90%;"/>
-                <h:outputText value="UPO" />
-                <h:inputTextarea id="upo" value="#{beanek.upoMB}" readonly="true" style="width: 90%; height: 60px;"/>
-                <h:outputText value="status przesyłki - symbol"/>
-                <h:outputText id="stat" value="#{beanek.statMB}"  style="#{beanek.statMB eq '200' ? 'color: green; font-weight: 900;' : null}"/>
-                <h:outputText value="opis statusu przesyłki" />
-                <h:inputTextarea id="opis" value="#{beanek.opisMB}" readonly="true" style="width: 90%; height: 60px;"/>
-            </p:panelGrid>
-        </h:form>
-            </p:panelGrid>
-        </p:tab>
-    <p:tab title="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
-        <p:panelGrid columns="2" style="width: 80%;">
-        <h:form>
-            <p:commandButton value="test" actionListener="#{beanek.robtest(deklaracjevatView.oczekujace)}" update=":akordeon:formtest:upoformtest" style="width: 150px;"/>
-            <p:commandButton value="sprawdź" actionListener="#{beanek.pobierztest()}" update=":akordeon:formtest:upoformtest" style="margin-left: 3%; width: 150px;"/>
-        </h:form>
-        <h:form id="formtest">
-            <p:panelGrid columns="2" id="upoformtest" style="width: 100%;">
-                <h:outputText value="id przesyłki"/>
-                <h:inputText value="#{beanek.idpobierzT}" style="width: 90%;"/>
-                <h:outputText value="UPO"/>
-                <h:inputTextarea id="upotest" value="#{beanek.upoMBT}" readonly="true" style="width: 90%; height: 60px;"/>
-                <h:outputText value="status przesyłki - symbol"/>
-                <h:outputText id="stattest" value="#{beanek.statMBT}" style="#{beanek.statMBT eq '200' ? 'color: green; font-weight: 900;' : null}"/>
-                <h:outputText value="opis statusu przesyłki"/>
-                <h:inputTextarea id="opistest" value="#{beanek.opisMBT}" readonly="true" style="width: 90%; height: 60px;"/>
-            </p:panelGrid>
-        </h:form>
-            </p:panelGrid>
-    </p:tab>
-     <p:tab title="Deklaracja została wysłana poza programem. Kliknij ,żeby zachować jej wersje elektroniczną w programie.">
-        <p:panelGrid columns="2" style="width: 80%;">
-        <h:form>
-            <p:commandButton value="oznacz" actionListener="#{beanek.wysylkaReczna(deklaracjevatView.oczekujace)}" update=":akordeon:formrecznie:upoformrecznie" style="width: 150px;"/>
-        </h:form>
-        <h:form id="formrecznie">
-            <p:panelGrid columns="2" id="upoformrecznie" style="width: 100%;">
-                <h:outputText value="id przesyłki"/>
-                <h:inputText value="#{beanek.idpobierzT}" style="width: 90%;"/>
-                <h:outputText value="UPO"/>
-                <h:inputTextarea id="upotest" value="#{beanek.upoMBT}" readonly="true" style="width: 90%; height: 60px;"/>
-                <h:outputText value="status przesyłki - symbol"/>
-                <h:outputText id="stattest" value="#{beanek.statMBT}" style="#{beanek.statMBT eq '200' ? 'color: green; font-weight: 900;' : null}"/>
-                <h:outputText value="opis statusu przesyłki"/>
-                <h:inputTextarea id="opistest" value="#{beanek.opisMBT}" readonly="true" style="width: 90%; height: 60px;"/>
-            </p:panelGrid>
-        </h:form>
-            </p:panelGrid>
-    </p:tab>
-        </p:accordionPanel>
+   
     
 </ui:composition>   
 
