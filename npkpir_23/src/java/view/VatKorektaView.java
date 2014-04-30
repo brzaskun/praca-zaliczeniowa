@@ -23,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import params.Params;
 
@@ -37,7 +38,8 @@ public class VatKorektaView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
 
     private static final long serialVersionUID = 1L;
-
+    @Inject
+    private Deklaracjevat deklaracjaVAT;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> deklaracjeWyslane;
@@ -58,8 +60,16 @@ public class VatKorektaView implements Serializable {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Podatnik podatnik = wpisView.getPodatnikObiekt();
             ArrayList<Rodzajedok> rodzajedokumentow = (ArrayList<Rodzajedok>) podatnik.getDokumentyksiegowe();
+            ArrayList<Rodzajedok> rodzajedokumentowFilter = new ArrayList<>();
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
-            rodzajedokKlienta.addAll(rodzajedokumentow);
+            for (Rodzajedok p : rodzajedokumentow) {
+                List opisewidencji = new ArrayList<>();
+                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(p.getRodzajtransakcji()));
+                if (!opisewidencji.isEmpty()) {
+                    rodzajedokumentowFilter.add(p);
+                }
+            }
+            rodzajedokKlienta.addAll(rodzajedokumentowFilter);
         } catch (Exception e) {
         }
         Collections.sort(deklaracjeWyslane, new Vatcomparator());
@@ -101,6 +111,16 @@ public class VatKorektaView implements Serializable {
         String activate = "document.getElementById('wprowadzDokument:tablicavat:" + lp + ":brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
+    
+    public void wybranoDeklaracje(){
+        if (deklaracjaVAT instanceof Deklaracjevat) {
+            Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
+        }
+    }
+    
+    public void dodajDok(){
+        Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
+    }
 
     public List<Deklaracjevat> getDeklaracjeWyslane() {
         return deklaracjeWyslane;
@@ -134,5 +154,14 @@ public class VatKorektaView implements Serializable {
         this.rodzajedokKlienta = rodzajedokKlienta;
     }
 
+    public Deklaracjevat getDeklaracjaVAT() {
+        return deklaracjaVAT;
+    }
+
+    public void setDeklaracjaVAT(Deklaracjevat deklaracjaVAT) {
+        this.deklaracjaVAT = deklaracjaVAT;
+    }
+
+    
     
 }

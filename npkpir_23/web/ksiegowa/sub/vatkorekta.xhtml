@@ -11,11 +11,13 @@
         <p:growl id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz wysłanych deklaracji"/>
         <p:dataTable value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
-                     id="dokumentyLista" emptyMessage="brak deklaracji do wyslania"
-                     paginator="true" paginatorAlwaysVisible="true" rows="1"
+                     id="dokumentyLista" emptyMessage="brak deklaracji do wyslania" selection="#{vatKorektaView.deklaracjaVAT}"
+                     paginator="true" paginatorAlwaysVisible="true" rows="1" rowKey="#{item.id}"
                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                      rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending"
                      >
+            <p:ajax event="rowSelectRadio" listener="#{vatKorektaView.wybranoDeklaracje}"/>
+            <p:column selectionMode="single"/>
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
@@ -120,6 +122,7 @@
                     </h:selectOneMenu>
                 </p:column>
             </p:dataTable>
+            <p:commandButton value="dodaj" actionListener="#{vatKorektaView.dodajDok()}"/>
         </p:focus>
         </p:panel>
     </h:form>

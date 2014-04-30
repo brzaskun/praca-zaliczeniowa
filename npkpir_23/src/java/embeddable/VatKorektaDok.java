@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class VatKorektaDok implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    private Integer idDeklaracji;
     private String symbolDokumentu;
     private String nipKontrahenta;
     private String nrwłasny;
@@ -46,6 +46,9 @@ public class VatKorektaDok implements Serializable {
             return false;
         }
         final VatKorektaDok other = (VatKorektaDok) obj;
+        if (!Objects.equals(this.idDeklaracji, other.idDeklaracji)) {
+            return false;
+        }
         if (!Objects.equals(this.symbolDokumentu, other.symbolDokumentu)) {
             return false;
         }
@@ -57,6 +60,7 @@ public class VatKorektaDok implements Serializable {
         }
         return true;
     }
+
 
     public String getSymbolDokumentu() {
         return symbolDokumentu;
