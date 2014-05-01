@@ -13,19 +13,21 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Daneteleadresowe implements Serializable {
-    String NIP;
-    String ImiePierwsze;
-    String Nazwisko;
-    String DataUrodzenia;
-    String Wojewodztwo;
-    String Powiat;
-    String Gmina;
-    String Ulica;
-    String NrDomu;
-    String NrLokalu;
-    String Miejscowosc;
-    String KodPocztowy;
-    String Poczta;
+    private static final long serialVersionUID = 5881566564852339314L;
+    
+    private String NIP;
+    private String ImiePierwsze;
+    private String Nazwisko;
+    private String DataUrodzenia;
+    private String Wojewodztwo;
+    private String Powiat;
+    private String Gmina;
+    private String Ulica;
+    private String NrDomu;
+    private String NrLokalu;
+    private String Miejscowosc;
+    private String KodPocztowy;
+    private String Poczta;
 
     public String getNIP() {
         return NIP;
