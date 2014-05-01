@@ -73,7 +73,7 @@ public class Vat7DKView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     protected WpisView wpisView;
     @Inject
-    private Vatpoz selected;
+    private Vatpoz pozycjeDeklaracjiVAT;
     @Inject
     PodatnikDAO podatnikDAO;
     @Inject
@@ -160,7 +160,7 @@ public class Vat7DKView implements Serializable {
                         pobierz47zpoprzedniej();
                     }
                 } else {
-                    selected.setCelzlozenia("1");
+                    pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                     Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                 }
@@ -172,20 +172,20 @@ public class Vat7DKView implements Serializable {
 
         if (flaga != 1) {
             podsumujszczegolowe();
-            selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
-            selected.setPodatnik(podatnik);
-            selected.setRok(rok);
+            pozycjeDeklaracjiVAT.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
+            pozycjeDeklaracjiVAT.setPodatnik(podatnik);
+            pozycjeDeklaracjiVAT.setRok(rok);
             if(vatokres.equals("miesięczne")){
-                selected.setRodzajdeklaracji("VAT-7");
+                pozycjeDeklaracjiVAT.setRodzajdeklaracji("VAT-7");
             } else {
-                selected.setRodzajdeklaracji("VAT-7K");
+                pozycjeDeklaracjiVAT.setRodzajdeklaracji("VAT-7K");
             }
             String mcx = String.valueOf(Integer.parseInt(mc));
-            selected.setMiesiac(mcx);
-            selected.setKodurzedu(tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy()));
-            selected.setNazwaurzedu(pod.getUrzadskarbowy());
-            selected.setAdres(VATDeklaracja.uzupelnijAdres(pod));
-            selected.setKwotaautoryzacja(kwotaautoryzujaca);
+            pozycjeDeklaracjiVAT.setMiesiac(mcx);
+            pozycjeDeklaracjiVAT.setKodurzedu(tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy()));
+            pozycjeDeklaracjiVAT.setNazwaurzedu(pod.getUrzadskarbowy());
+            pozycjeDeklaracjiVAT.setAdres(VATDeklaracja.uzupelnijAdres(pod));
+            pozycjeDeklaracjiVAT.setKwotaautoryzacja(kwotaautoryzujaca);
             stworzdeklaracje();
             nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());
             nowadeklaracja.setPodsumowanieewidencji(ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji());
@@ -202,9 +202,9 @@ public class Vat7DKView implements Serializable {
                 nowadeklaracja.setNrkwartalu(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
             }
             nowadeklaracja.setMiesiac(mc);
-            nowadeklaracja.setKodurzedu(selected.getKodurzedu());
+            nowadeklaracja.setKodurzedu(pozycjeDeklaracjiVAT.getKodurzedu());
             nowadeklaracja.setPodatnik(podatnik);
-            nowadeklaracja.setSelected(selected);
+            nowadeklaracja.setSelected(pozycjeDeklaracjiVAT);
             nowadeklaracja.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
             nowadeklaracja.setIdentyfikator("");
             nowadeklaracja.setUpo("");
@@ -267,7 +267,7 @@ public class Vat7DKView implements Serializable {
             }
         } catch (Exception e){
             //klient swiezak nie ma zadnej deklaracji
-            selected.setCelzlozenia("1");
+            pozycjeDeklaracjiVAT.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
             Msg.msg("i", "Utworzenie samejpierwszej za dany okres " + rok + "-" + mc, "form:msg");
         }
@@ -375,7 +375,7 @@ public class Vat7DKView implements Serializable {
             badana = deklaracjakorygowana;
             if (badana.getIdentyfikator().isEmpty()) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. bieżacego miesiaca nie jest wyslana. Edytuje deklaracje!", "form:msg");
-                selected.setCelzlozenia("1");
+                pozycjeDeklaracjiVAT.setCelzlozenia("1");
                 nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                 setFlaga(2);
             } else {
@@ -383,17 +383,17 @@ public class Vat7DKView implements Serializable {
                     Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                     setFlaga(1);
                 } else if (badana.getStatus().startsWith("4")) {
-                    selected.setCelzlozenia("1");
+                    pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                 } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==false) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                    selected.setCelzlozenia("2");
+                    pozycjeDeklaracjiVAT.setCelzlozenia("2");
                     Msg.msg("i", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                     Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty", "form:msg");
                 } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==true) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                    selected.setCelzlozenia("1");
+                    pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     Msg.msg("i", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej", "form:msg");
                     Msg.msg("i", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                 } else {
@@ -416,7 +416,7 @@ public class Vat7DKView implements Serializable {
                     setFlaga(1);
                 } else if (badana.getStatus().equals("200")) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                    selected.setCelzlozenia("1");
+                    pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     Msg.msg("i", "Potwierdzona udana wysyka w miesiącu poprzednim Tworzę nową dekalracje za " + rok + "-" + mc, "form:msg");
                 } else {
                     setFlaga(1);
@@ -434,7 +434,7 @@ public class Vat7DKView implements Serializable {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
-        selected.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
+        pozycjeDeklaracjiVAT.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         PozycjeSzczegoloweVAT p = pozycjeSzczegoloweVAT;//podsumowanie pol szsczegolowych z pobranych czastkowych
         p.setPoleI45(p.getPoleI20() + p.getPoleI21() + p.getPoleI23() + p.getPoleI25() + p.getPoleI27() + p.getPoleI29() + p.getPoleI31() + p.getPoleI32() + p.getPoleI33() + p.getPoleI35() + p.getPoleI37() + p.getPoleI41());
         p.setPole45(String.valueOf(p.getPoleI45()));
@@ -522,7 +522,7 @@ public class Vat7DKView implements Serializable {
     private void stworzdeklaracje() {
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(selected, wpisView);
+            vat713 = new VAT713(pozycjeDeklaracjiVAT, wpisView);
         } catch (Exception ex) {
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -542,12 +542,12 @@ public class Vat7DKView implements Serializable {
         this.wpisView = wpisView;
     }
     
-    public Vatpoz getSelected() {
-        return selected;
+    public Vatpoz getPozycjeDeklaracjiVAT() {
+        return pozycjeDeklaracjiVAT;
     }
     
-    public void setSelected(Vatpoz selected) {
-        this.selected = selected;
+    public void setPozycjeDeklaracjiVAT(Vatpoz pozycjeDeklaracjiVAT) {
+        this.pozycjeDeklaracjiVAT = pozycjeDeklaracjiVAT;
     }
     
     public PozycjeSzczegoloweVAT getPozycjeSzczegoloweVAT() {
