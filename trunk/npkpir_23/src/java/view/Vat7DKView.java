@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansVAT.VATDeklaracja;
 import dao.DeklaracjevatDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
@@ -116,39 +117,14 @@ public class Vat7DKView implements Serializable {
                 mc = miesiacewkwartale.get(2);
             }
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
-        ArrayList<EVatwpisSuma> wyciagnieteewidencje = new ArrayList<>(sumaewidencji.values());
+        ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencji.values());
         //tu zduplikowac ewidencje
-        ArrayList<EVatwpisSuma> ewidencjetmp = new ArrayList<>(sumaewidencji.values());
-        for (EVatwpisSuma ew : ewidencjetmp) {
-            if (ew.getEwidencja().getNazwa().equals("import usług") || ew.getEwidencja().getNazwa().equals("rejestr WNT") || ew.getEwidencja().getNazwa().equals("odwrotne obciążenie")) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
-                //pobieram i kopiuje stara ewidencje
-                Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getPole(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
-                //wpisuje pola zakupu
-                tmp.setNrpolanetto("51");
-                tmp.setNrpolavat("52");
-                //zachowuje ewidecje do tymczasowej sumy
-                suma.setEwidencja(tmp);
-                //dodaje tymczasowa sume do calosci 
-                wyciagnieteewidencje.add(suma);
-            }
-            if (ew.getEwidencja().getNazwa().equals("import usług")) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
-                //pobieram i kopiuje stara ewidencje
-                Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getPole(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
-                //wpisuje pola zakupu
-                tmp.setNrpolanetto("39");
-                tmp.setNrpolavat("40");
-                //zachowuje ewidecje do tymczasowej sumy
-                suma.setEwidencja(tmp);
-                //dodaje tymczasowa sume do calosci 
-                wyciagnieteewidencje.add(suma);
-            }
-        }
+        ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu = new ArrayList<>(sumaewidencji.values());
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
         //sumuj ewidencje 51 i52 pola
         Evewidencja pojewid = new Evewidencja("sumaryczna", "Nabycie towarów i usług pozostałych", "51", "52", "opodatkowane", "zakup suma", false);
         EVatwpisSuma sumawew = new EVatwpisSuma(pojewid, BigDecimal.ZERO, BigDecimal.ZERO, "");
-        for (Iterator<EVatwpisSuma> it = wyciagnieteewidencje.iterator(); it.hasNext();) {
+        for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
             EVatwpisSuma ew = it.next();
             if (ew.getEwidencja().getNrpolanetto().equals("51")) {
                 sumawew.setNetto(sumawew.getNetto().add(ew.getNetto()));
@@ -157,42 +133,11 @@ public class Vat7DKView implements Serializable {
             }
 
         }
-        wyciagnieteewidencje.add(sumawew);
+        ewidencjeUzupelniane.add(sumawew);
 
         //
-        for (EVatwpisSuma ew : wyciagnieteewidencje) {
-            String nrpolanetto = ew.getEwidencja().getNrpolanetto();
-            String nrpolavat = ew.getEwidencja().getNrpolavat();
-            String netto = String.valueOf(ew.getNetto());
-            int nettoI = Integer.parseInt(ew.getNetto().toString());
-            String vat = String.valueOf(ew.getVat().toString());
-            int vatI = Integer.parseInt(ew.getVat().toString());
-            Class[] paramString = new Class[1];
-            paramString[0] = String.class;
-            Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolanetto, paramString);
-            met.invoke(pozycjeSzczegoloweVAT, new String(netto));
-            paramString = new Class[1];
-            paramString[0] = Integer.class;
-            try {
-                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolanetto, paramString);
-                met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            }
-            if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
-                paramString = new Class[1];
-                paramString[0] = String.class;
-                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolavat, paramString);
-                met.invoke(pozycjeSzczegoloweVAT, new String(vat));
-                paramString = new Class[1];
-                paramString[0] = Integer.class;
-                try {
-                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolavat, paramString);
-                    met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
-                } catch (Exception e) {
-                }
-            }
-        }
-         String kwotaautoryzujaca = null;
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVAT);
+        String kwotaautoryzujaca = null;
         String kodus = tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy());
         try {
             boolean equals = kodus.isEmpty();
@@ -471,13 +416,13 @@ public class Vat7DKView implements Serializable {
                 } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==false) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     selected.setCelzlozenia("2");
-                    Msg.msg("i", "Utworzono korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
+                    Msg.msg("i", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                     Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty", "form:msg");
                 } else if (badana.getStatus().equals("200")&&pierwotnazamiastkorekty==true) {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                     selected.setCelzlozenia("1");
                     Msg.msg("i", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej", "form:msg");
-                    Msg.msg("i", "Utworzono drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
+                    Msg.msg("i", "Przygotowano do zachowania drugą wersję poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                 } else {
                     setFlaga(1);
                     Msg.msg("i", "Wystąpił dziwny błąd wołaj szefa", "form:msg");

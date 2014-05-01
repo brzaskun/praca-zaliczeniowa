@@ -23,6 +23,9 @@ public class VatKorektaDok implements Serializable {
     private String nrwłasny;
     private String opisDokumnetu;
     private List<EwidencjaAddwiad> ewidencjaVAT;
+    private double netto;
+    private double vat;
+    private double brutto;
 
     public VatKorektaDok() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -100,6 +103,38 @@ public class VatKorektaDok implements Serializable {
 
     public void setEwidencjaVAT(List<EwidencjaAddwiad> ewidencjaVAT) {
         this.ewidencjaVAT = ewidencjaVAT;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
+    }
+
+    public Integer getIdDeklaracji() {
+        return idDeklaracji;
+    }
+
+    public void setIdDeklaracji(Integer idDeklaracji) {
+        this.idDeklaracji = idDeklaracji;
     }
     
     
