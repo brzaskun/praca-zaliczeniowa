@@ -41,9 +41,12 @@ public class VatKorektaView implements Serializable {
     @Inject
     private Deklaracjevat deklaracjaVAT;
     @Inject
+    private Deklaracjevat deklaracjaVATKwotyKorekty;
+    @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
+    private List<VatKorektaDok> listadokumentowDoKorekty;
     @Inject
     private VatKorektaDok vatKorektaDok;
     @ManagedProperty(value = "#{WpisView}")
@@ -52,6 +55,7 @@ public class VatKorektaView implements Serializable {
     public VatKorektaView() {
         deklaracjeWyslane = new ArrayList<>();
         rodzajedokKlienta = new ArrayList<>();
+        listadokumentowDoKorekty = new ArrayList<>();
     }
 
     @PostConstruct
@@ -77,7 +81,7 @@ public class VatKorektaView implements Serializable {
 
     public void podepnijEwidencjeVat() {
         vatKorektaDok = new VatKorektaDok();
-        String skrotRT = (String) Params.params("wprowadzDokument:rodzajTrans");
+        String skrotRT = (String) Params.params("akordeon:wprowadzDokument:rodzajTrans");
         String transakcjiRodzaj = "";
         for (Rodzajedok temp : rodzajedokKlienta) {
             if (temp.getSkrot().equals(skrotRT)) {
@@ -106,9 +110,9 @@ public class VatKorektaView implements Serializable {
     public void wyliczbrutto(EwidencjaAddwiad e) {
         int lp = e.getLp();
         vatKorektaDok.getEwidencjaVAT().get(lp).setBrutto(e.getNetto() + e.getVat());
-        String update = "wprowadzDokument:tablicavat:" + lp + ":brutto";
+        String update = "akordeon:wprowadzDokument:tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
-        String activate = "document.getElementById('wprowadzDokument:tablicavat:" + lp + ":brutto_input').select();";
+        String activate = "document.getElementById('akordeon:wprowadzDokument:tablicavat:" + lp + ":brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
     
@@ -116,10 +120,32 @@ public class VatKorektaView implements Serializable {
         if (deklaracjaVAT instanceof Deklaracjevat) {
             Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
         }
+        
     }
     
     public void dodajDok(){
-        Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
+        if (deklaracjaVAT.getId() != null) {
+            double netto = 0.0;
+            double vat = 0.0;
+            for (EwidencjaAddwiad p : vatKorektaDok.getEwidencjaVAT()) {
+                netto += p.getNetto();
+                vat += p.getVat();
+            }
+            vatKorektaDok.setIdDeklaracji(deklaracjaVAT.getId());
+            vatKorektaDok.setNetto(netto);
+            vatKorektaDok.setVat(vat);
+            vatKorektaDok.setBrutto(netto+vat);
+            listadokumentowDoKorekty.add(vatKorektaDok);
+            Msg.msg("Dodano dokument "+vatKorektaDok.getNrwłasny());
+            vatKorektaDok = new VatKorektaDok();
+        } else {
+            Msg.msg("Nie wybrano deklaracji");
+        }
+    }
+    
+    public void usunDok(VatKorektaDok vatKorektaDok) {
+        listadokumentowDoKorekty.remove(vatKorektaDok);
+        Msg.msg("Usunięto dokument "+vatKorektaDok.getNrwłasny());
     }
 
     public List<Deklaracjevat> getDeklaracjeWyslane() {
@@ -162,6 +188,24 @@ public class VatKorektaView implements Serializable {
         this.deklaracjaVAT = deklaracjaVAT;
     }
 
+    public List<VatKorektaDok> getListadokumentowDoKorekty() {
+        return listadokumentowDoKorekty;
+    }
+
+    public void setListadokumentowDoKorekty(List<VatKorektaDok> listadokumentowDoKorekty) {
+        this.listadokumentowDoKorekty = listadokumentowDoKorekty;
+    }
+
+    public Deklaracjevat getDeklaracjaVATKwotyKorekty() {
+        return deklaracjaVATKwotyKorekty;
+    }
+
+    public void setDeklaracjaVATKwotyKorekty(Deklaracjevat deklaracjaVATKwotyKorekty) {
+        this.deklaracjaVATKwotyKorekty = deklaracjaVATKwotyKorekty;
+    }
+
+    
+    
     
     
 }

@@ -142,6 +142,10 @@ body {
     float: right;
 }
 
+.fifty-percent {
+     width: 50%;
+     vertical-align: top;
+}
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
 }*/
