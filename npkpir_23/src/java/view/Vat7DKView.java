@@ -75,8 +75,6 @@ public class Vat7DKView implements Serializable {
     @Inject
     private Vatpoz selected;
     @Inject
-    private Daneteleadresowe adres;
-    @Inject
     PodatnikDAO podatnikDAO;
     @Inject
     EwidencjeVatDAO ewidencjeVatDAO;
@@ -122,19 +120,7 @@ public class Vat7DKView implements Serializable {
         ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu = new ArrayList<>(sumaewidencji.values());
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
         //sumuj ewidencje 51 i52 pola
-        Evewidencja pojewid = new Evewidencja("sumaryczna", "Nabycie towarów i usług pozostałych", "51", "52", "opodatkowane", "zakup suma", false);
-        EVatwpisSuma sumawew = new EVatwpisSuma(pojewid, BigDecimal.ZERO, BigDecimal.ZERO, "");
-        for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
-            EVatwpisSuma ew = it.next();
-            if (ew.getEwidencja().getNrpolanetto().equals("51")) {
-                sumawew.setNetto(sumawew.getNetto().add(ew.getNetto()));
-                sumawew.setVat(sumawew.getVat().add(ew.getVat()));
-                it.remove();
-            }
-
-        }
-        ewidencjeUzupelniane.add(sumawew);
-
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
         //
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVAT);
         String kwotaautoryzujaca = null;
@@ -198,20 +184,7 @@ public class Vat7DKView implements Serializable {
             selected.setMiesiac(mcx);
             selected.setKodurzedu(tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy()));
             selected.setNazwaurzedu(pod.getUrzadskarbowy());
-            adres.setNIP(pod.getNip());
-            adres.setImiePierwsze(pod.getImie().toUpperCase());
-            adres.setNazwisko(pod.getNazwisko().toUpperCase());
-            adres.setDataUrodzenia(pod.getDataurodzenia());
-            adres.setWojewodztwo(pod.getWojewodztwo().toUpperCase());
-            adres.setPowiat(pod.getPowiat().toUpperCase());
-            adres.setGmina(pod.getGmina().toUpperCase());
-            adres.setUlica(pod.getUlica().toUpperCase());
-            adres.setNrDomu(pod.getNrdomu());
-            adres.setNrLokalu(pod.getNrlokalu());
-            adres.setMiejscowosc(pod.getMiejscowosc().toUpperCase());
-            adres.setKodPocztowy(pod.getKodpocztowy());
-            adres.setPoczta(pod.getPoczta().toUpperCase());
-            selected.setAdres(adres);
+            selected.setAdres(VATDeklaracja.uzupelnijAdres(pod));
             selected.setKwotaautoryzacja(kwotaautoryzujaca);
             stworzdeklaracje();
             nowadeklaracja.setEwidencje(ewidencjeVatDAO.find(rok, mc, podatnik).getEwidencje());

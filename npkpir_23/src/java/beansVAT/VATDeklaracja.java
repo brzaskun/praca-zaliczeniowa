@@ -6,16 +6,18 @@
 
 package beansVAT;
 
+import embeddable.Daneteleadresowe;
 import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import entity.Evewidencja;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -26,6 +28,7 @@ import javax.inject.Named;
 @Named
 @Singleton
 public class VATDeklaracja implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     public static void przyporzadkujPozycjeSzczegolowe(List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
          for (EVatwpisSuma ew : wyciagnieteewidencje) {
@@ -94,6 +97,40 @@ public class VATDeklaracja implements Serializable{
                 ewidencjeUzupelniane.add(suma);
             }
         }
+    }
+    
+    public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane) {
+        Evewidencja ewidencjaSumarycznaZakupy = new Evewidencja("sumaryczna", "Nabycie towarów i usług pozostałych", "51", "52", "opodatkowane", "zakup suma", false);
+        EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "");
+        for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
+            EVatwpisSuma ew = it.next();
+            if (ew.getEwidencja().getNrpolanetto().equals("51")) {
+                zakupyVatwpis.setNetto(zakupyVatwpis.getNetto().add(ew.getNetto()));
+                zakupyVatwpis.setVat(zakupyVatwpis.getVat().add(ew.getVat()));
+                //usuwam te ewidencje ktore podsumowalem
+                it.remove();
+            }
+
+        }
+        ewidencjeUzupelniane.add(zakupyVatwpis);
+    }
+    
+    public static Daneteleadresowe uzupelnijAdres(Podatnik pod) {
+            Daneteleadresowe adres = new Daneteleadresowe();
+            adres.setNIP(pod.getNip());
+            adres.setImiePierwsze(pod.getImie().toUpperCase());
+            adres.setNazwisko(pod.getNazwisko().toUpperCase());
+            adres.setDataUrodzenia(pod.getDataurodzenia());
+            adres.setWojewodztwo(pod.getWojewodztwo().toUpperCase());
+            adres.setPowiat(pod.getPowiat().toUpperCase());
+            adres.setGmina(pod.getGmina().toUpperCase());
+            adres.setUlica(pod.getUlica().toUpperCase());
+            adres.setNrDomu(pod.getNrdomu());
+            adres.setNrLokalu(pod.getNrlokalu());
+            adres.setMiejscowosc(pod.getMiejscowosc().toUpperCase());
+            adres.setKodPocztowy(pod.getKodpocztowy());
+            adres.setPoczta(pod.getPoczta().toUpperCase());
+            return adres;
     }
     
 }

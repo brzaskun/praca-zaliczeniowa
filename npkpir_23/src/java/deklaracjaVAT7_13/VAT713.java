@@ -10,6 +10,7 @@ import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import view.ParametrView;
@@ -21,16 +22,17 @@ import view.WpisView;
  */
 @Named
 public class VAT713 implements Serializable{
-     String wiersz;
-     Wstep wstep;
-     Naglowek naglowek;
-     Podmiot podmiot;
-     PozycjeSzczegolowe pozycjeSzczegolowe;
-     Pouczenie pouczenie;
-     Oswiadczenie oswiadczenie;
-     ZalacznikVATZD zalacznikVATZD;
-     DaneAutoryzujace daneAutoryzujace;
-     @Inject Vatpoz selected;
+     private String wiersz;
+     private Wstep wstep;
+     private Naglowek naglowek;
+     private Podmiot podmiot;
+     private PozycjeSzczegolowe pozycjeSzczegolowe;
+     private Pouczenie pouczenie;
+     private Oswiadczenie oswiadczenie;
+     private ZalacznikVATZD zalacznikVATZD;
+     private DaneAutoryzujace daneAutoryzujace;
+     @Inject 
+     private Vatpoz selected;
 
     public VAT713() {
     }
