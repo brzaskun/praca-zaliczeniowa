@@ -34,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import view.VatView;
+import view.EwidencjaVatView;
 
 /**
  *
@@ -42,8 +42,8 @@ import view.VatView;
  */
 @ManagedBean(name="pdfVATsuma")
 public class PdfVATsuma extends Pdf implements Serializable {
-    @ManagedProperty(value="#{vatView}")
-    public VatView vatView;
+    @ManagedProperty(value="#{ewidencjaVatView}")
+    public EwidencjaVatView vatView;
      
     public void drukuj() throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
@@ -183,11 +183,11 @@ public class PdfVATsuma extends Pdf implements Serializable {
         //Msg.msg("i", "Wydrukowano sume ewidencji VAT", "form:messages");
     }
 
-    public VatView getVatView() {
+    public EwidencjaVatView getVatView() {
         return vatView;
     }
 
-    public void setVatView(VatView vatView) {
+    public void setVatView(EwidencjaVatView vatView) {
         this.vatView = vatView;
     }
     

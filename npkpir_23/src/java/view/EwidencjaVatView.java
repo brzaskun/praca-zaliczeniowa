@@ -43,7 +43,7 @@ import org.primefaces.event.UnselectEvent;
  */
 @ManagedBean
 @ViewScoped
-public class VatView implements Serializable {
+public class EwidencjaVatView implements Serializable {
 
  
     private static HashMap<String, ArrayList> listaewidencji;
@@ -83,7 +83,7 @@ public class VatView implements Serializable {
    
   
 
-    public VatView() {
+    public EwidencjaVatView() {
         listadokvat = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
@@ -537,7 +537,7 @@ public class VatView implements Serializable {
     }
 
     public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
-        VatView.listaewidencji = listaewidencji;
+        EwidencjaVatView.listaewidencji = listaewidencji;
     }
 
     public TabView getAkordeon() {
@@ -569,7 +569,7 @@ public class VatView implements Serializable {
     }
 
     public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
-        VatView.sumaewidencji = sumaewidencji;
+        EwidencjaVatView.sumaewidencji = sumaewidencji;
     }
 
     public List<String> getListanowa() {
@@ -585,7 +585,7 @@ public class VatView implements Serializable {
     }
 
     public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
-        VatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
+        EwidencjaVatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
     }
 
     public List<EVatwpisSuma> getGoscwybralsuma() {
@@ -593,7 +593,7 @@ public class VatView implements Serializable {
     }
 
     public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
-        VatView.goscwybralsuma = goscwybralsuma;
+        EwidencjaVatView.goscwybralsuma = goscwybralsuma;
     }
 
     public Double getSuma1() {
@@ -625,7 +625,7 @@ public class VatView implements Serializable {
     }
 
     public void setWynikOkresu(BigDecimal wynikOkresu) {
-        VatView.wynikOkresu = wynikOkresu;
+        EwidencjaVatView.wynikOkresu = wynikOkresu;
     }
 
     public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
@@ -633,7 +633,7 @@ public class VatView implements Serializable {
     }
 
     public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
-        VatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
+        EwidencjaVatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
     }
 
 
