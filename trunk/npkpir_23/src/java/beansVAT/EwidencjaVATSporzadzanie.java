@@ -98,4 +98,26 @@ public class EwidencjaVATSporzadzanie {
                 listaewidencji.put(nazwaewidencji, listatmp);
             }
     }
+    
+    public static void dodajDoEwidencjiPozycjeKorekt(HashMap<String, EVatwpisSuma> sumaewidencji, HashMap<String, EVatwpisSuma> sumaewidencjikorekta,  EvewidencjaDAO evewidencjaDAO) {
+        ArrayList<String> sumaewidencjiKeys = new ArrayList<>();
+        sumaewidencjiKeys.addAll(sumaewidencji.keySet());
+        for (String p : sumaewidencjikorekta.keySet()) {
+            if (sumaewidencjiKeys.contains(p)) {
+                BigDecimal netto = sumaewidencji.get(p).getNetto().add(sumaewidencjikorekta.get(p).getNetto());
+                sumaewidencji.get(p).setNetto(netto);
+                BigDecimal vat = sumaewidencji.get(p).getVat().add(sumaewidencjikorekta.get(p).getVat());
+                sumaewidencji.get(p).setVat(vat);
+                
+            } else {
+                try {
+                    Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(p);
+                    sumaewidencji.put(p, new EVatwpisSuma(nowaEv, sumaewidencjikorekta.get(p).getNetto(), sumaewidencjikorekta.get(p).getVat(), sumaewidencjikorekta.get(p).getEwidencja().getRodzajzakupu()));
+                } catch (Exception ex) {
+                    Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+    }
 }
