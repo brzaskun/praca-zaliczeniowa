@@ -158,6 +158,7 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}"/>
             </h:form>
         </p:tab>
         <p:tab title="Przed korektą">
@@ -349,7 +350,7 @@
         <p:tab title="Korekta">
              <h:form id="korekta">
             <p:growl id="msg" />
-            <p:panel header="Kwoty korektydo bieżącej deklaracji VAT7 . Podatnik: #{vatKorektaView.deklaracjaVATKwotyKorekty.podatnik}"/>
+            <p:panel header="Kwoty korekty do bieżącej deklaracji VAT7 . Podatnik: #{vatKorektaView.deklaracjaVATKwotyKorekty.podatnik}"/>
             <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
                 <p:column>
                     <h:panelGrid title="strona podatku należnego" columns="1" frame="box">

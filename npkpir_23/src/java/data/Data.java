@@ -20,7 +20,7 @@ public class Data implements Serializable {
      * @param mc
      * @return <code>String</code> data w formacie yyyy-MM-dd
      */
-    public static String datapk(String rok, String mc) {
+    public static String ostatniDzien(String rok, String mc) {
         switch (mc) {
             case "01":
             case "03":

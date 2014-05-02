@@ -6,9 +6,13 @@
 package view;
 
 import beansDok.ListaEwidencjiVat;
+import beansVAT.EwidencjaVATSporzadzanie;
 import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
+import dao.EvewidencjaDAO;
+import embeddable.EVatViewPola;
+import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.VatKorektaDok;
 import entity.Deklaracjevat;
@@ -17,6 +21,7 @@ import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -44,6 +49,8 @@ public class VatKorektaView implements Serializable {
     private Deklaracjevat deklaracjaVATKwotyKorekty;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
     private List<VatKorektaDok> listadokumentowDoKorekty;
@@ -146,6 +153,15 @@ public class VatKorektaView implements Serializable {
     public void usunDok(VatKorektaDok vatKorektaDok) {
         listadokumentowDoKorekty.remove(vatKorektaDok);
         Msg.msg("Usunięto dokument "+vatKorektaDok.getNrwłasny());
+    }
+    
+    public void przetworzListeVatKorektaDok() {
+        List<EVatViewPola> listadokvatprzetworzona = new ArrayList<>();
+        EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu(), evewidencjaDAO);
+        HashMap<String, ArrayList> listaewidencji = new HashMap<>();
+        HashMap<String, EVatwpisSuma> sumaewidencji = new HashMap<>();
+        EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencji, evewidencjaDAO);
+        System.out.println("ll");
     }
 
     public List<Deklaracjevat> getDeklaracjeWyslane() {
