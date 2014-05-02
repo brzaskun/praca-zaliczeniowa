@@ -7,6 +7,7 @@ package view;
 
 import beansDok.ListaEwidencjiVat;
 import beansVAT.EwidencjaVATSporzadzanie;
+import beansVAT.VATDeklaracja;
 import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
@@ -14,6 +15,7 @@ import dao.EvewidencjaDAO;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
+import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.VatKorektaDok;
 import entity.Deklaracjevat;
 import entity.Podatnik;
@@ -31,6 +33,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import params.Params;
+import serialclone.SerialClone;
 
 /**
  *
@@ -39,18 +42,21 @@ import params.Params;
 @ManagedBean
 @ViewScoped
 public class VatKorektaView implements Serializable {
-    @Inject
-    private ListaEwidencjiVat listaEwidencjiVat;
-
+    
     private static final long serialVersionUID = 1L;
+    
     @Inject
     private Deklaracjevat deklaracjaVAT;
     @Inject
-    private Deklaracjevat deklaracjaVATKwotyKorekty;
+    private Deklaracjevat deklaracjaVATPoKorekcie;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private PozycjeSzczegoloweVAT pozycjeSzczegoloweVATKorekta;
+    @Inject
+    private ListaEwidencjiVat listaEwidencjiVat;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
     private List<VatKorektaDok> listadokumentowDoKorekty;
@@ -159,9 +165,29 @@ public class VatKorektaView implements Serializable {
         List<EVatViewPola> listadokvatprzetworzona = new ArrayList<>();
         EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu(), evewidencjaDAO);
         HashMap<String, ArrayList> listaewidencji = new HashMap<>();
-        HashMap<String, EVatwpisSuma> sumaewidencji = new HashMap<>();
-        EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencji, evewidencjaDAO);
+        HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
+        EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
         System.out.println("ll");
+        ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());
+        //tu zduplikowac ewidencje
+        ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu = new ArrayList<>(sumaewidencjiPierwotna.values());
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
+        //sumuj ewidencje 51 i52 pola
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
+        //
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta);
+        //sumujemy dwie sumy ewidencji, te z deklaacji i te z dokumentow
+        deklaracjaVATPoKorekcie = SerialClone.clone(deklaracjaVAT);
+        HashMap<String, EVatwpisSuma> sumaewidencjiNowakorekta = deklaracjaVATPoKorekcie.getPodsumowanieewidencji();
+        EwidencjaVATSporzadzanie.dodajDoEwidencjiPozycjeKorekt(sumaewidencjiNowakorekta, sumaewidencjiPierwotna, evewidencjaDAO);
+        ewidencjeUzupelniane.clear();
+        ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
+        ewidencjeDoPrzegladu.clear();
+        ewidencjeDoPrzegladu.addAll(sumaewidencjiNowakorekta.values());
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        
     }
 
     public List<Deklaracjevat> getDeklaracjeWyslane() {
@@ -212,13 +238,23 @@ public class VatKorektaView implements Serializable {
         this.listadokumentowDoKorekty = listadokumentowDoKorekty;
     }
 
-    public Deklaracjevat getDeklaracjaVATKwotyKorekty() {
-        return deklaracjaVATKwotyKorekty;
+    public PozycjeSzczegoloweVAT getPozycjeSzczegoloweVATKorekta() {
+        return pozycjeSzczegoloweVATKorekta;
     }
 
-    public void setDeklaracjaVATKwotyKorekty(Deklaracjevat deklaracjaVATKwotyKorekty) {
-        this.deklaracjaVATKwotyKorekty = deklaracjaVATKwotyKorekty;
+    public void setPozycjeSzczegoloweVATKorekta(PozycjeSzczegoloweVAT pozycjeSzczegoloweVATKorekta) {
+        this.pozycjeSzczegoloweVATKorekta = pozycjeSzczegoloweVATKorekta;
     }
+
+    public Deklaracjevat getDeklaracjaVATPoKorekcie() {
+        return deklaracjaVATPoKorekcie;
+    }
+
+    public void setDeklaracjaVATPoKorekcie(Deklaracjevat deklaracjaVATPoKorekcie) {
+        this.deklaracjaVATPoKorekcie = deklaracjaVATPoKorekcie;
+    }
+    
+    
 
     
     
