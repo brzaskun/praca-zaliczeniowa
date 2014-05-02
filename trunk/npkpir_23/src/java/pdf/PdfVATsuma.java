@@ -67,7 +67,7 @@ public class PdfVATsuma extends Pdf implements Serializable {
             Date date = Calendar.getInstance().getTime();
             DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
             String today = formatt.format(date);
-            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+Data.datapk(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()),font));
+            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()),font));
             miziu.setAlignment(Element.ALIGN_RIGHT);
             miziu.setLeading(50);
             document.add(miziu);

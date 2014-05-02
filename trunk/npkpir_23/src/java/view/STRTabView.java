@@ -362,7 +362,7 @@ public class STRTabView implements Serializable {
         SrodekTrw p = wybranysrodektrwalyPosiadane;
         p.setZlikwidowany(9);
         p.setStyl("color: blue; font-style:  italic;");
-        String data = Data.datapk(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         p.setDatasprzedazy(data);
         p.setNrwldokumentu("wycofanie");
         int rok = wpisView.getRokWpisu();
