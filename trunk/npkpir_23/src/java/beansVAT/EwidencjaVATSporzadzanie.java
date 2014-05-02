@@ -8,10 +8,12 @@ package beansVAT;
 
 import dao.EvewidencjaDAO;
 import data.Data;
+import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
+import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.VatKorektaDok;
 import entity.Dok;
 import entity.Evewidencja;
@@ -27,6 +29,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import view.EwidencjaVatView;
+import view.Vat7DKView;
 
 /**
  *
@@ -120,4 +123,8 @@ public class EwidencjaVATSporzadzanie {
         }
         
     }
+    
+    
+    
+   
 }
