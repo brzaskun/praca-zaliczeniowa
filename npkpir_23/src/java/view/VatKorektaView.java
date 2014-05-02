@@ -12,11 +12,15 @@ import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
+import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
+import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.TKodUS;
 import embeddable.VatKorektaDok;
+import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -25,12 +29,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import serialclone.SerialClone;
@@ -55,6 +62,8 @@ public class VatKorektaView implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private PozycjeSzczegoloweVAT pozycjeSzczegoloweVATKorekta;
+    @Inject
+    private TKodUS tKodUS;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     private List<Deklaracjevat> deklaracjeWyslane;
@@ -178,6 +187,7 @@ public class VatKorektaView implements Serializable {
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta);
         //sumujemy dwie sumy ewidencji, te z deklaacji i te z dokumentow
         deklaracjaVATPoKorekcie = SerialClone.clone(deklaracjaVAT);
+        deklaracjaVATPoKorekcie.getEwidencje().putAll(listaewidencji);
         HashMap<String, EVatwpisSuma> sumaewidencjiNowakorekta = deklaracjaVATPoKorekcie.getPodsumowanieewidencji();
         EwidencjaVATSporzadzanie.dodajDoEwidencjiPozycjeKorekt(sumaewidencjiNowakorekta, sumaewidencjiPierwotna, evewidencjaDAO);
         ewidencjeUzupelniane.clear();
@@ -187,7 +197,67 @@ public class VatKorektaView implements Serializable {
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
-        
+        VATDeklaracja.podsumujSzczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        deklaracjaVATPoKorekcie.setIdentyfikator("");
+        deklaracjaVATPoKorekcie.setUpo("");
+        deklaracjaVATPoKorekcie.setStatus("");
+        deklaracjaVATPoKorekcie.setOpis("");
+        deklaracjaVATPoKorekcie.setDataupo(null);
+        deklaracjaVATPoKorekcie.setDatazlozenia(null);
+        deklaracjaVATPoKorekcie.setId(null);
+        deklaracjaVATPoKorekcie.setPodsumowanieewidencji(sumaewidencjiNowakorekta);
+        deklaracjaVATPoKorekcie.setOrdzu("Korekta");
+        deklaracjaVATPoKorekcie.setVatzt(null);
+        Vatpoz pozycjeDeklaracjiVAT = deklaracjaVATPoKorekcie.getSelected();
+        pozycjeDeklaracjiVAT.setPozycjeszczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        pozycjeDeklaracjiVAT.setCelzlozenia("2");
+        pozycjeDeklaracjiVAT.setPodatnik(wpisView.getPodatnikWpisu());
+        pozycjeDeklaracjiVAT.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));
+        pozycjeDeklaracjiVAT.setNazwaurzedu(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+        pozycjeDeklaracjiVAT.setAdres(VATDeklaracja.uzupelnijAdres(wpisView.getPodatnikObiekt()));
+        pozycjeDeklaracjiVAT.setKwotaautoryzacja(pobierzKwoteAutoryzujaca());
+        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie);
+        deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
+        Msg.msg("i", "Zachowano nową deklaracje VAT");
+    }
+    
+    private void stworzdeklaracje(Vatpoz pozycjeDeklaracjiVAT, Deklaracjevat nowadeklaracja) {
+        VAT713 vat713 = null;
+        try {
+            vat713 = new VAT713(pozycjeDeklaracjiVAT, wpisView);
+        } catch (Exception ex) {
+            Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String wiersz = vat713.getWiersz();
+        nowadeklaracja.setDeklaracja(wiersz);
+    }
+
+    public String pobierzKwoteAutoryzujaca() {
+        String kwotaautoryzujaca = null;
+        String kodus = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+        try {
+            boolean equals = kodus.isEmpty();
+        } catch (Exception e) {
+            Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
+        }
+        try {
+            List<Parametr> listakwotaautoryzujaca = wpisView.getPodatnikObiekt().getKwotaautoryzujaca();
+            if(listakwotaautoryzujaca.isEmpty()){
+                throw new Exception();
+            }
+            //bo wazny jet nie rok na deklaracji ale rok z ktorego sie wysyla
+            DateTime datawysylki = new DateTime();
+            String rokwysylki = String.valueOf(datawysylki.getYear());
+            for (Parametr par : listakwotaautoryzujaca) {
+                if (par.getRokOd().equals(rokwysylki)) {
+                    kwotaautoryzujaca = par.getParametr();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
+        }
+        return kwotaautoryzujaca;
     }
 
     public List<Deklaracjevat> getDeklaracjeWyslane() {
