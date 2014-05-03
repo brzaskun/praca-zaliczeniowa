@@ -6,17 +6,30 @@
 
 package embeddable;
 
+import entity.VATDeklaracjaKorektaDok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Osito
  */
+@Embeddable
 public class VatKorektaDok implements Serializable {
+    
     private static final long serialVersionUID = 1L;
+    
+    private Integer id;
     private Integer idDeklaracji;
     private String symbolDokumentu;
     private String nipKontrahenta;
@@ -26,6 +39,7 @@ public class VatKorektaDok implements Serializable {
     private double netto;
     private double vat;
     private double brutto;
+    
 
     public VatKorektaDok() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -64,6 +78,13 @@ public class VatKorektaDok implements Serializable {
         return true;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getSymbolDokumentu() {
         return symbolDokumentu;
@@ -136,8 +157,6 @@ public class VatKorektaDok implements Serializable {
     public void setIdDeklaracji(Integer idDeklaracji) {
         this.idDeklaracji = idDeklaracji;
     }
-    
-    
-            
+
             
 }

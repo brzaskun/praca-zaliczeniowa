@@ -132,6 +132,9 @@
             <h:form id="listadodanychdok">
                 <p:panel header="Wykaz dodanych pozycji" style="padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                     <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących">
+                        <p:column headerText="lp">
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
                         <p:column headerText="nip">
                             <h:outputText value="#{item.nipKontrahenta}"/>
                         </p:column>
@@ -159,7 +162,7 @@
                     </p:dataTable>
                 </p:panel>
                 <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
-                    <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                    <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                 </p:panel>
                 <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}"/>
             </h:form>
