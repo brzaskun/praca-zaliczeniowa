@@ -164,7 +164,9 @@
                 <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                     <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                 </p:panel>
-                <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}"/>
+                <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" oncomplete="r('akordeon:listadodanychdok:drukujkorekta').show();"
+                                 update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}" style="width: 120px;"/>
+                <p:commandButton id="drukujkorekta" value="drukuj" actionListener="#{pdfVATKorektaReczna.drukuj}" rendered="#{vatKorektaView.pokazFormularze}" style="display: none; width: 120px; margin-left: 1%;"/>
             </h:form>
         </p:tab>
         <p:tab title="Przed korektą">

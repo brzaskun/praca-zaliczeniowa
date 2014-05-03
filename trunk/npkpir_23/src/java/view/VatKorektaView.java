@@ -70,6 +70,8 @@ public class VatKorektaView implements Serializable {
     private TKodUS tKodUS;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    @Inject
+    private VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok;
     private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
     private List<Deklaracjevat> deklaracjeWyslane;
@@ -179,7 +181,6 @@ public class VatKorektaView implements Serializable {
     }
     
     public void przetworzListeVatKorektaDok() {
-        VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok = new VATDeklaracjaKorektaDok();
         vATDeklaracjaKorektaDok.setDeklaracjaPierwotna(deklaracjaVAT);
         vATDeklaracjaKorektaDok.setNowaWartoscVatZPrzeniesienia(nowaWartoscVatZPrzeniesienia);
         vATDeklaracjaKorektaDok.setListadokumentowDoKorekty(listadokumentowDoKorekty);
@@ -386,6 +387,14 @@ public class VatKorektaView implements Serializable {
 
     public void setPokazFormularze(boolean pokazFormularze) {
         this.pokazFormularze = pokazFormularze;
+    }
+
+    public VATDeklaracjaKorektaDok getvATDeklaracjaKorektaDok() {
+        return vATDeklaracjaKorektaDok;
+    }
+
+    public void setvATDeklaracjaKorektaDok(VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok) {
+        this.vATDeklaracjaKorektaDok = vATDeklaracjaKorektaDok;
     }
 
     
