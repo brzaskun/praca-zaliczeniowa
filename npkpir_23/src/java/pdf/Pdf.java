@@ -13,6 +13,7 @@ import dao.AmoDokDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
+import dao.VATDeklaracjaKorektaDokDAO;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -32,11 +33,15 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
-public class Pdf implements  Serializable {
+public class Pdf implements Serializable {
+
     //<editor-fold defaultstate="collapsed" desc="comment">
-    /** The resulting PDF. */
+
+    /**
+     * The resulting PDF.
+     */
     public static final String RESULT = "c:/graphics_state.pdf";
-    
+
     public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "pkpir";
@@ -44,14 +49,14 @@ public class Pdf implements  Serializable {
         String userName = "brzaskun";
         String password = "pufikun";
         Class.forName(driver).newInstance();
-        Connection conn = DriverManager.getConnection(url+dbName,userName,password);
+        Connection conn = DriverManager.getConnection(url + dbName, userName, password);
         return conn;
     }
-    
+
     /**
      * Main method.
      *
-     * @param    args    no arguments needed
+     * @param args no arguments needed
      * @throws DocumentException
      * @throws IOException
      */
@@ -97,53 +102,59 @@ public class Pdf implements  Serializable {
         document.close();
     }
 //</editor-fold>
-    
-    @ManagedProperty(value="#{ksiegaView}")
+
+    @ManagedProperty(value = "#{ksiegaView}")
     protected KsiegaView ksiegaView;
-    @ManagedProperty(value="#{WpisView}")
+    @ManagedProperty(value = "#{WpisView}")
     protected WpisView wpisView;
-    @ManagedProperty(value="#{obrotyView}")
+    @ManagedProperty(value = "#{obrotyView}")
     protected ObrotyView obrotyView;
 
-    @Inject protected EwidencjeVatDAO ewidencjeVatDAO;
-    @Inject protected UzDAO uzDAO;
-    @Inject protected PodatnikDAO podatnikDAO;
-    @Inject protected AmoDokDAO amoDokDAO;
-    
+    @Inject
+    protected EwidencjeVatDAO ewidencjeVatDAO;
+    @Inject
+    protected UzDAO uzDAO;
+    @Inject
+    protected PodatnikDAO podatnikDAO;
+    @Inject
+    protected AmoDokDAO amoDokDAO;
+    @Inject
+    protected VATDeklaracjaKorektaDokDAO vATDeklaracjaKorektaDokDAO;
+
     protected int liczydlo = 0;
-    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public int getLiczydlo(){
+    public int getLiczydlo() {
         return liczydlo;
     }
-    
+
     public void setLiczydlo(int liczydlo) {
         this.liczydlo = liczydlo;
     }
-    
-    public KsiegaView getKsiegaView(){
+
+    public KsiegaView getKsiegaView() {
         return ksiegaView;
     }
-    
+
     public void setKsiegaView(KsiegaView ksiegaView) {
         this.ksiegaView = ksiegaView;
     }
-    
+
     public WpisView getWpisView() {
         return wpisView;
     }
-    
-    public  void setWpisView(WpisView wpisView){
+
+    public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+
     public ObrotyView getObrotyView() {
         return obrotyView;
     }
-    
+
     public void setObrotyView(ObrotyView obrotyView) {
         this.obrotyView = obrotyView;
     }
 //</editor-fold>
-   
+
 }
