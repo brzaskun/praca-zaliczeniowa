@@ -158,6 +158,9 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;">
+                    <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                </p:panel>
                 <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" update=":akordeon:korekta, :akordeon:formpokorekcie"/>
             </h:form>
         </p:tab>
