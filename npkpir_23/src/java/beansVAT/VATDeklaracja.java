@@ -30,7 +30,7 @@ public class VATDeklaracja implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static void przyporzadkujPozycjeSzczegolowe(List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
+    public static void przyporzadkujPozycjeSzczegolowe(List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             try {
                 String nrpolanetto = ew.getEwidencja().getNrpolanetto();
@@ -63,6 +63,10 @@ public class VATDeklaracja implements Serializable {
                         met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
                     } catch (Exception e) {
                     }
+                }
+                if (nowaWartoscVatZPrzeniesienia != null) {
+                    pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
+                    pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
                 }
             } catch (Exception ex) {
             }

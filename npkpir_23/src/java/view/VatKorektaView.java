@@ -66,6 +66,7 @@ public class VatKorektaView implements Serializable {
     private TKodUS tKodUS;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    private Integer nowaWartoscVatZPrzeniesienia;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
     private List<VatKorektaDok> listadokumentowDoKorekty;
@@ -172,31 +173,44 @@ public class VatKorektaView implements Serializable {
     
     public void przetworzListeVatKorektaDok() {
         List<EVatViewPola> listadokvatprzetworzona = new ArrayList<>();
+        /**
+         * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
+         */
         EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu(), evewidencjaDAO);
         HashMap<String, ArrayList> listaewidencji = new HashMap<>();
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
         EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
-        System.out.println("ll");
         ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());
-        //tu zduplikowac ewidencje
         ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu = new ArrayList<>(sumaewidencjiPierwotna.values());
+        /**
+         * pobiera stowrzone ewidencje i robi pozycje szczegolowe korekta zeby wyswietlic
+         */
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
-        //sumuj ewidencje 51 i52 pola
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
-        //
-        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta);
-        //sumujemy dwie sumy ewidencji, te z deklaacji i te z dokumentow
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta, nowaWartoscVatZPrzeniesienia);
+        /**
+         * tworze nowa deklaracje kopiujac stara binarnie
+         */
         deklaracjaVATPoKorekcie = SerialClone.clone(deklaracjaVAT);
         deklaracjaVATPoKorekcie.getEwidencje().putAll(listaewidencji);
         HashMap<String, EVatwpisSuma> sumaewidencjiNowakorekta = deklaracjaVATPoKorekcie.getPodsumowanieewidencji();
+        /**
+         * sklejam dwie ewidencje: z pierwotnej deklaracji i z korekt
+         */
         EwidencjaVATSporzadzanie.dodajDoEwidencjiPozycjeKorekt(sumaewidencjiNowakorekta, sumaewidencjiPierwotna, evewidencjaDAO);
+        /**
+         * ze sklejonej ewidencji robie pozycje szczegolowe nowej deklaracji
+         */
         ewidencjeUzupelniane.clear();
         ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
         ewidencjeDoPrzegladu.clear();
         ewidencjeDoPrzegladu.addAll(sumaewidencjiNowakorekta.values());
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
-        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
+        /**
+         * robie podsumowanie szczegolowych oraz uzupelniam pozycje nowej deklaracji, usuwam jakies statusy i wpisy
+         */
         VATDeklaracja.podsumujSzczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
         deklaracjaVATPoKorekcie.setIdentyfikator("");
         deklaracjaVATPoKorekcie.setUpo("");
@@ -216,6 +230,9 @@ public class VatKorektaView implements Serializable {
         pozycjeDeklaracjiVAT.setNazwaurzedu(wpisView.getPodatnikObiekt().getUrzadskarbowy());
         pozycjeDeklaracjiVAT.setAdres(VATDeklaracja.uzupelnijAdres(wpisView.getPodatnikObiekt()));
         pozycjeDeklaracjiVAT.setKwotaautoryzacja(pobierzKwoteAutoryzujaca());
+        /**
+         * tu stwarzam ten wiersz gdzie faktycznie jest budowany Strig deklaracji
+         */
         stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie);
         deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
         Msg.msg("i", "Zachowano nową deklaracje VAT");
@@ -323,8 +340,16 @@ public class VatKorektaView implements Serializable {
     public void setDeklaracjaVATPoKorekcie(Deklaracjevat deklaracjaVATPoKorekcie) {
         this.deklaracjaVATPoKorekcie = deklaracjaVATPoKorekcie;
     }
-    
-    
+
+    public Integer getNowaWartoscVatZPrzeniesienia() {
+        return nowaWartoscVatZPrzeniesienia;
+    }
+
+    public void setNowaWartoscVatZPrzeniesienia(Integer nowaWartoscVatZPrzeniesienia) {
+        this.nowaWartoscVatZPrzeniesienia = nowaWartoscVatZPrzeniesienia;
+    }
+
+       
 
     
     
