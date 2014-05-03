@@ -50,6 +50,14 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    public List<Deklaracjevat> findDeklaracjeDowyslaniaList(String pod){
+        try {
+            return deklaracjevatFacade.findDeklaracjewysylkaLista(pod);
+        } catch (Exception e){
+            return null;
+        }
+    }
 
     public Deklaracjevat findDeklaracjeDopotwierdzenia(String identyfikator) {
         List<Deklaracjevat> temp = deklaracjevatFacade.findAll(Deklaracjevat.class);

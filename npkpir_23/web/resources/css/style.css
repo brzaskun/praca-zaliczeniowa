@@ -146,6 +146,12 @@ body {
      width: 50%;
      vertical-align: top;
 }
+
+.twofive-percent {
+     width: 25%;
+     vertical-align: top;
+}
+
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
 }*/

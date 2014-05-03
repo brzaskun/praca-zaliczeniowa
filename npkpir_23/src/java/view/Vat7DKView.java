@@ -122,7 +122,7 @@ public class Vat7DKView implements Serializable {
         //sumuj ewidencje 51 i52 pola
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
         //
-        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVAT);
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVAT, null);
         String kwotaautoryzujaca = null;
         String kodus = tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy());
         try {

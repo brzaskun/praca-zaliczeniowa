@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -126,6 +129,8 @@ public class Deklaracjevat implements Serializable {
     private boolean testowa;
     @Column(name = "wzorschemy")
     private String wzorschemy;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
     
    public Deklaracjevat() {
     }
@@ -327,6 +332,18 @@ public class Deklaracjevat implements Serializable {
     public void setWzorschemy(String wzorschemy) {
         this.wzorschemy = wzorschemy;
     }
+
+    public VATDeklaracjaKorektaDok getVatDeklaracjaKorektaDokWykaz() {
+        return vatDeklaracjaKorektaDokWykaz;
+    }
+
+    public void setVatDeklaracjaKorektaDokWykaz(VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz) {
+        this.vatDeklaracjaKorektaDokWykaz = vatDeklaracjaKorektaDokWykaz;
+    }
+
+   
+    
+    
 
     
     

@@ -12,6 +12,7 @@ import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
+import dao.VATDeklaracjaKorektaDokDAO;
 import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
@@ -24,6 +25,7 @@ import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.VATDeklaracjaKorektaDok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +62,8 @@ public class VatKorektaView implements Serializable {
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private VATDeklaracjaKorektaDokDAO vATDeklaracjaKorektaDokDAO;
     @Inject
     private PozycjeSzczegoloweVAT pozycjeSzczegoloweVATKorekta;
     @Inject
@@ -156,6 +160,7 @@ public class VatKorektaView implements Serializable {
                 netto += p.getNetto();
                 vat += p.getVat();
             }
+            vatKorektaDok.setId(listadokumentowDoKorekty.size()+1);
             vatKorektaDok.setIdDeklaracji(deklaracjaVAT.getId());
             vatKorektaDok.setNetto(netto);
             vatKorektaDok.setVat(vat);
@@ -174,6 +179,10 @@ public class VatKorektaView implements Serializable {
     }
     
     public void przetworzListeVatKorektaDok() {
+        VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok = new VATDeklaracjaKorektaDok();
+        vATDeklaracjaKorektaDok.setDeklaracjaPierwotna(deklaracjaVAT);
+        vATDeklaracjaKorektaDok.setNowaWartoscVatZPrzeniesienia(nowaWartoscVatZPrzeniesienia);
+        vATDeklaracjaKorektaDok.setListadokumentowDoKorekty(listadokumentowDoKorekty);
         List<EVatViewPola> listadokvatprzetworzona = new ArrayList<>();
         /**
          * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
@@ -236,8 +245,28 @@ public class VatKorektaView implements Serializable {
          * tu stwarzam ten wiersz gdzie faktycznie jest budowany Strig deklaracji
          */
         stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie);
-        deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
-        Msg.msg("i", "Zachowano nową deklaracje VAT");
+        int czyjestcosdowysylki = czynieczekajuzcosdowyslania();
+        if (czyjestcosdowysylki == 0) {
+            deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
+            vATDeklaracjaKorektaDok.setDeklaracjaKorekta(deklaracjaVATPoKorekcie);
+            vATDeklaracjaKorektaDokDAO.dodaj(vATDeklaracjaKorektaDok);
+            deklaracjaVATPoKorekcie.setVatDeklaracjaKorektaDokWykaz(vATDeklaracjaKorektaDok);
+            deklaracjevatDAO.edit(deklaracjaVATPoKorekcie);
+            Msg.msg("i", "Zachowano nową deklaracje VAT");
+        }
+    }
+    
+    private int czynieczekajuzcosdowyslania(){
+        try{
+            Deklaracjevat badana = deklaracjevatDAO.findDeklaracjeDowyslania(deklaracjaVATPoKorekcie.getPodatnik());
+            if(badana.getStatus().isEmpty()){
+                Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!");
+                return 1;
+            }
+        } catch (Exception e){
+                return 0;   
+        }
+        return 0;
     }
     
     private void stworzdeklaracje(Vatpoz pozycjeDeklaracjiVAT, Deklaracjevat nowadeklaracja) {
