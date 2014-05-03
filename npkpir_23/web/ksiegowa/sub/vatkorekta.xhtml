@@ -17,7 +17,7 @@
                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                              rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending"
                              >
-                    <p:ajax event="rowSelectRadio" listener="#{vatKorektaView.wybranoDeklaracje}" update=":akordeon:wprowadzDokument, :akordeon:formprzedkorekta"/>
+                    <p:ajax event="rowSelectRadio" listener="#{vatKorektaView.wybranoDeklaracje}" update=":akordeon:wprowadzDokument, :akordeon:formprzedkorekta, :akordeon:listadodanychdok"/>
                     <p:column selectionMode="single"/>
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
@@ -71,8 +71,8 @@
                 </p:dataTable>
             </h:form>
 
-            <h:form id="wprowadzDokument">
-                <p:panel header="Dane dokumentu korekty do deklaracji #{vatKorektaView.deklaracjaVAT.rok}/#{vatKorektaView.deklaracjaVAT.miesiac}" style="padding: 1%;">
+            <h:form id="wprowadzDokument" >
+                <p:panel header="Dane dokumentu korekty do deklaracji #{vatKorektaView.deklaracjaVAT.rok}/#{vatKorektaView.deklaracjaVAT.miesiac}" style="padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                     <p:focus for="polawprowadzania">
                         <p:panelGrid id="polawprowadzania" columns="4" style="width: 70%;">
                             <h:outputLabel value="rodzaj dokumentu" style="font-weight: 700"/>
@@ -130,8 +130,8 @@
                 </p:panel>
             </h:form>
             <h:form id="listadodanychdok">
-                <p:panel header="Wykaz dodanych pozycji" style="padding: 1%;">
-                    <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item">
+                <p:panel header="Wykaz dodanych pozycji" style="padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
+                    <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących">
                         <p:column headerText="nip">
                             <h:outputText value="#{item.nipKontrahenta}"/>
                         </p:column>
@@ -158,10 +158,10 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;">
+                <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                     <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                 </p:panel>
-                <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" update=":akordeon:korekta, :akordeon:formpokorekcie"/>
+                <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}"/>
             </h:form>
         </p:tab>
         <p:tab title="Przed korektą">

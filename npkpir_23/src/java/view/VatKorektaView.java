@@ -66,6 +66,7 @@ public class VatKorektaView implements Serializable {
     private TKodUS tKodUS;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
@@ -141,6 +142,7 @@ public class VatKorektaView implements Serializable {
     
     public void wybranoDeklaracje(){
         if (deklaracjaVAT instanceof Deklaracjevat) {
+            pokazFormularze = true;
             Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
         }
         
@@ -349,10 +351,14 @@ public class VatKorektaView implements Serializable {
         this.nowaWartoscVatZPrzeniesienia = nowaWartoscVatZPrzeniesienia;
     }
 
-       
+    public boolean isPokazFormularze() {
+        return pokazFormularze;
+    }
 
-    
-    
+    public void setPokazFormularze(boolean pokazFormularze) {
+        this.pokazFormularze = pokazFormularze;
+    }
+
     
     
 }
