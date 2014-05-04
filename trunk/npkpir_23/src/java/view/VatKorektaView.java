@@ -149,7 +149,7 @@ public class VatKorektaView implements Serializable {
     public void wybranoDeklaracje(){
         if (deklaracjaVAT instanceof Deklaracjevat) {
             pokazFormularze = true;
-            Msg.msg("Wybrano deklaracje "+deklaracjaVAT.getId());
+            Msg.msg(String.format("Wybrano deklaracje nr: %s. Wpisz dokumenty koryguj\u0105ce", deklaracjaVAT.getId()));
         }
         
     }
