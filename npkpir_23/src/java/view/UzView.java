@@ -91,18 +91,23 @@ public class UzView implements Serializable {
 
     public void edytuj() {
         if (!nowymail.equals(selUzytkownik.getEmail()) || !"".equals(nowehaslo)) {
-            try {
-                haszuj(nowehaslo);
-                if (!nowymail.equals(selUzytkownik.getEmail())) {
-                    selUzytkownik.setEmail(nowymail);
+            if (!"".equals(nowehaslo) && nowehaslo.length()<6) {
+                Msg.msg("e", "Minimalna długość hasła to 6 znaków. Krótkie hasło nie może zostać zaakceptowane. Dane nie zostały zmienione");
+                return;
+            } else {
+                try {
+                    haszuj(nowehaslo);
+                    if (!nowymail.equals(selUzytkownik.getEmail())) {
+                        selUzytkownik.setEmail(nowymail);
+                    }
+                    uzDAO.edit(selUzytkownik);
+                    Msg.msg("Udana zmiana hasła/adresu email");
+                    Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin());
+                    nowehaslo = null;
+                    nowedrugiehaslo = null;
+                } catch (Exception e) {
+                    Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła/adresu email.");
                 }
-                uzDAO.edit(selUzytkownik);
-                Msg.msg("Udana zmiana hasła/adresu email");
-                Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin());
-                nowehaslo = null;
-                nowedrugiehaslo = null;
-            } catch (Exception e) {
-                Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła/adresu email.");
             }
         } else {
             Msg.msg("Dane nie zostały zmienione.");
