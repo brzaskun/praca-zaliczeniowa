@@ -101,6 +101,10 @@
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>zmianahasla</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaZmianaHasla.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>zmianapodatnika</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true</to-view-id>

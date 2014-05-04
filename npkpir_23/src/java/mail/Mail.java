@@ -83,6 +83,27 @@ public class Mail {
         }
     }
     
+    public static void udanazmianaHasla(String adres, String login) {
+        logintoMail();
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("info@e-taxman.pl"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setSubject("Potwierdzenie zmiany hasła/adresu email w internetowym serwisie Biura Rachunkowego Taxman");
+            message.setContent("Szanowny Użytkowniku,"
+                    + "<p>Właśnie zmieniłeś hasło/email w naszym serwisie dla loginu: </p>"
+                    + "<span style=\"color: green;\">"+login+"</span>"
+                    + "<p>Jeżeli to nie ty zmieniłeś hasło/email, zawiadom administratora o tym zdarzeniu."
+                    + stopka,  "text/html; charset=utf-8");
+            Transport.send(message);
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
       public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
        
         logintoMail();

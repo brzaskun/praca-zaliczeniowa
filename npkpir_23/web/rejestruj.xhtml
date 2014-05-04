@@ -46,7 +46,7 @@
                             <f:ajax event="blur" listener="#{UzView.sprawdzloginduplikat}"/>
                         </p:inputText>
                         <h:outputText value="email"/>
-                        <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true"  validatorMessage="Nie prawidłowy adres email">
+                        <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="Wpisz poprawny email!" autocomplete="true"  validatorMessage="Nieprawidłowy adres email">
                             <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                         </p:inputText>
                         <h:outputText value="nip firmy"/>
@@ -56,7 +56,7 @@
                         <h:outputText value="hasło"/>
                         <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
                                     promptLabel="wprowadź hasło o min 6 znakach" weakLabel="słabe"  validatorMessage="Minimum 6 znaków"
-                                    goodLabel="może być" strongLabel="dobre" required="true" requiredMessage="Wpisz hasło!" autocomplete="true"> 
+                                    goodLabel="akceptowalne" strongLabel="mocne" required="true" requiredMessage="Wpisz hasło!" autocomplete="true"> 
                         <f:validateLength minimum="6"/>
                         </p:password>
                         <h:outputText value="potwierdz hasło"/>
