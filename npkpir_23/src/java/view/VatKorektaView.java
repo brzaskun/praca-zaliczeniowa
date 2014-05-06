@@ -274,11 +274,13 @@ public class VatKorektaView implements Serializable {
         VAT713 vat713 = null;
         try {
             vat713 = new VAT713(pozycjeDeklaracjiVAT, wpisView);
+            String wiersz = vat713.getWiersz();
+            nowadeklaracja.setDeklaracja(wiersz);
+            Msg.msg("Stworzono deklaracje korekte");
         } catch (Exception ex) {
-            Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
+            Msg.msg("Wystąpił błąd podczas tworzenia deklaracji korekty.");
         }
-        String wiersz = vat713.getWiersz();
-        nowadeklaracja.setDeklaracja(wiersz);
+        
     }
 
     public String pobierzKwoteAutoryzujaca() {
