@@ -8,6 +8,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
+    
     <h:form>
         <p:stack icon="/resources/images/menustack/stack.png" >  
             <p:menuitem value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}"  />  
@@ -186,9 +187,9 @@
                         <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{KlView.complete}"
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                         minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                        valueChangeListener="#{DokumentView.przekazKontrahenta}"  autocomplete="true" forceSelection="true"
+                                        autocomplete="true" forceSelection="true"
                                         required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
-                            <f:ajax event="blur" execute="@this"/>
+                            <p:ajax event="keyup" partialSubmit="true"/>
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                     <f:facet name="header">  
@@ -207,8 +208,8 @@
                     </h:panelGroup>
                     <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}"   style="width: 120px;" required="true" title="wybierz rodzaj księgowanego dokumentu">
                         <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
-                        <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
-                        <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
+                        <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}"/>
+                        <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" />
                         <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
                     </h:selectOneMenu> 
                     <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
@@ -229,6 +230,7 @@
                 <script>
                     /* <![CDATA[ */
                     $(function() {
+                        try {
                         $("#dodWiad\\:tabelapkpir\\:1\\:kwotaPkpir_input").on('keyup', function(e) {
                             var roznica;
                             if (e.which == 107) {
@@ -239,6 +241,7 @@
                                 e.stopImmediatePropagation();
                             }
                         })
+                    } catch (ex){}
 
                     })
                             /* ]]> */
@@ -440,7 +443,7 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                     <h:inputText value="#{DokumentView.selDokument.uwagi}" />
-                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" update=":form:dokumentyLista" oncomplete="dlg123.hide();"> 
+                    <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(2)}" value="Edytuj"  style="width: 150px;" update=":form:dokumentyLista, :dodWiad" oncomplete="dlg123.hide();"> 
                     </p:commandButton>
                 </p:panelGrid>
             </p:panel>
