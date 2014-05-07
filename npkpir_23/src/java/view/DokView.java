@@ -596,7 +596,8 @@ public final class DokView implements Serializable {
             }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            selDokument.setListakwot(nettokolumna);
+            selDokument.setListakwot(new ArrayList<KwotaKolumna>());
+            selDokument.getListakwot().addAll(nettokolumna);
             selDokument.setNetto(0.0);
             for (KwotaKolumna p : nettokolumna) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
@@ -981,6 +982,18 @@ public final class DokView implements Serializable {
         }
     }
 
+    //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
+//    public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
+//        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
+//        przekazKontr = (Klienci) anAutoComplete.getValue();
+//        selDokument.setKontr(przekazKontr);
+//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+//        if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
+//            selDokument.setDokumentProsty(true);
+//            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+//        }
+//    }
+    
     public void zmienokresVAT() {
         String datafaktury = (String) Params.params("dodWiad:dataPole");
         String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
