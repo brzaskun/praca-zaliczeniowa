@@ -65,7 +65,7 @@ public class Mail {
         logintoMail();
         try {
 
-            Message message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -87,7 +87,7 @@ public class Mail {
         logintoMail();
         try {
 
-            Message message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -110,7 +110,7 @@ public class Mail {
         
         try {
 
-            Message message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -138,7 +138,7 @@ public class Mail {
         
         try {
 
-            Message message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));

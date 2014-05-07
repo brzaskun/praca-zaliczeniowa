@@ -7,12 +7,17 @@ package mail;
 import entity.Pismoadmin;
 import entity.Uz;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 /**
  *
@@ -22,9 +27,9 @@ public class MaiManager extends MailSetUp implements Serializable {
 
     public static void mailManagerZUS(String adres, String temat, String tresc) throws MessagingException {
         MailSetUp mailSetUp = new MailSetUp();
-        Message message = mailSetUp.logintoMailAdmin(adres);
+        MimeMessage message = mailSetUp.logintoMailAdmin(adres);
         try {
-            message.setSubject(temat);
+            message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
             String tresczpodpisem = tresc.concat(Mail.stopka);
             mbp1.setContent(tresczpodpisem, "text/html; charset=utf-8");
@@ -35,6 +40,8 @@ public class MaiManager extends MailSetUp implements Serializable {
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
