@@ -69,6 +69,8 @@ public class Mail {
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Potwierdzenie rejestracji w internetowym serwisie Biura Rachunkowego Taxman");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Właśnie zarejestrowałeś się w naszym serwisie z loginem: </p>"
@@ -91,6 +93,8 @@ public class Mail {
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Potwierdzenie zmiany hasła/adresu email w internetowym serwisie Biura Rachunkowego Taxman");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Właśnie zmieniłeś hasło/email w naszym serwisie dla loginu: </p>"
@@ -114,6 +118,8 @@ public class Mail {
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie nadał ci następujące uprawnienia: <strong>"+uprawnienia+"</strong><br/>"
@@ -142,6 +148,8 @@ public class Mail {
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie zresetował Ci hasło"
