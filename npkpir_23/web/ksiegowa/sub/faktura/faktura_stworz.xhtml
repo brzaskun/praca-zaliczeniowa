@@ -32,8 +32,8 @@
                     <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="sposób zapłaty: " />
                     <h:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
-                        <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
                         <f:selectItem itemLabel="przelew" itemValue="przelew"/>
+                        <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="konto bankowe: " />
                     <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
