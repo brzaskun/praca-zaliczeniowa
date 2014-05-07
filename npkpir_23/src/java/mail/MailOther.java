@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -40,8 +41,8 @@ public class MailOther extends MailSetUp implements Serializable{
      
      public void pkpir() {
          try {
-             Message message = logintoMail();
-             message.setSubject("Wydruk podatkowej księgi przychodów i rozchodów za miesiąc");
+             MimeMessage message = logintoMail();
+             message.setSubject("Wydruk podatkowej księgi przychodów i rozchodów za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -81,8 +82,8 @@ public class MailOther extends MailSetUp implements Serializable{
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 Message message = logintoMail(faktura.getKontrahent().getEmail());
-                 message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman");
+                 MimeMessage message = logintoMail(faktura.getKontrahent().getEmail());
+                 message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
                  mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -142,8 +143,8 @@ public class MailOther extends MailSetUp implements Serializable{
      
      public void pit5() {     
          try {
-             Message message = logintoMail();
-             message.setSubject("Wydruk deklaracji PIT za miesiąc");
+             MimeMessage message = logintoMail();
+             message.setSubject("Wydruk deklaracji PIT za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -174,8 +175,8 @@ public class MailOther extends MailSetUp implements Serializable{
     
      public void obroty() {
          try {
-             Message message = logintoMail();
-             message.setSubject("Wydruk obrotów z kontrahentem");
+             MimeMessage message = logintoMail();
+             message.setSubject("Wydruk obrotów z kontrahentem","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -207,8 +208,8 @@ public class MailOther extends MailSetUp implements Serializable{
      
       public void ewidencjaSTR() {
           try {
-              Message message = logintoMail();
-              message.setSubject("Wydruk ewidencji środków trwałych");
+              MimeMessage message = logintoMail();
+              message.setSubject("Wydruk ewidencji środków trwałych","UTF-8");
               // create and fill the first message part
               MimeBodyPart mbp1 = new MimeBodyPart();
               mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -244,8 +245,8 @@ public class MailOther extends MailSetUp implements Serializable{
     
     public void vat7(int row) {
         try {
-            Message message = logintoMail();
-            message.setSubject("Wydruk dekalracji VAT-7");
+            MimeMessage message = logintoMail();
+            message.setSubject("Wydruk dekalracji VAT-7","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -295,8 +296,8 @@ public class MailOther extends MailSetUp implements Serializable{
     
     public void vatewidencja() {
         try {
-            Message message = logintoMail();
-            message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc");
+            MimeMessage message = logintoMail();
+            message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");

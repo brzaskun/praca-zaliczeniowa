@@ -53,7 +53,7 @@ public class MailSetUp implements Serializable{
     }
     
 
-    protected  Message logintoMail() throws MessagingException {
+    protected  MimeMessage logintoMail() throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -71,7 +71,7 @@ public class MailSetUp implements Serializable{
                         return new PasswordAuthentication(username, password);
                     }
                 });
-        Message message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
@@ -84,7 +84,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    protected static  Message logintoMailS(String adreskontrahenta) throws MessagingException {
+    protected static  MimeMessage logintoMailS(String adreskontrahenta) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -102,13 +102,13 @@ public class MailSetUp implements Serializable{
                         return new PasswordAuthentication(username, password);
                     }
                 });
-        Message message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         return message;
     }
     
-    protected  Message logintoMail(String adreskontrahenta) throws MessagingException {
+    protected  MimeMessage logintoMail(String adreskontrahenta) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -127,14 +127,14 @@ public class MailSetUp implements Serializable{
                         return new PasswordAuthentication(username, password);
                     }
                 });
-        Message message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         return message;
     }
     
-     protected  Message logintoMailAdmin(String adreskontrahenta) throws MessagingException {
+     protected  MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -153,7 +153,7 @@ public class MailSetUp implements Serializable{
                         return new PasswordAuthentication(username, password);
                     }
                 });
-        Message message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         return message;
