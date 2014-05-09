@@ -604,11 +604,17 @@ public final class DokView implements Serializable {
             }
             //koniec obliczania netto
             dodajdatydlaStorno();
+            //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
+            if(selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
+                KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat,"poz. koszty");
+                selDokument.getListakwot().add(kwotaKolumna);
+            }
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwota = 0.0;
             for (KwotaKolumna p : nettokolumna) {
                 kwota = kwota + p.getNetto();
             }
+           
             kwota = kwota + kwotavat;
             kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
             if (selDokument.getRozliczony() == true) {
