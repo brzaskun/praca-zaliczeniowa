@@ -181,7 +181,7 @@ public class ObrotyView implements Serializable{
     }
 
     public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
-        obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
+        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
    
 
@@ -190,7 +190,7 @@ public class ObrotyView implements Serializable{
     }
 
     public void setGoscwybral(List<Dok> goscwybral) {
-        goscwybral = goscwybral;
+        this.goscwybral = goscwybral;
     }
 
     public Double getPodsumowaniewybranych() {
@@ -222,8 +222,10 @@ public class ObrotyView implements Serializable{
     }
 
     public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
-        dokumentyFiltered = dokumentyFiltered;
+        this.dokumentyFiltered = dokumentyFiltered;
     }
+
+   
 
     
     
