@@ -598,17 +598,18 @@ public final class DokView implements Serializable {
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             selDokument.setListakwot(new ArrayList<KwotaKolumna>());
             selDokument.getListakwot().addAll(nettokolumna);
+             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
+            if(selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
+                KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat,"poz. koszty");
+                selDokument.getListakwot().add(kwotaKolumna);
+            }
             selDokument.setNetto(0.0);
             for (KwotaKolumna p : nettokolumna) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
             }
             //koniec obliczania netto
             dodajdatydlaStorno();
-            //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if(selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
-                KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat,"poz. koszty");
-                selDokument.getListakwot().add(kwotaKolumna);
-            }
+           
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwota = 0.0;
             for (KwotaKolumna p : nettokolumna) {
