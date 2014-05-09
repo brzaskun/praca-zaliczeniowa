@@ -35,13 +35,13 @@ import org.primefaces.context.RequestContext;
 public class ObrotyView implements Serializable{
     
      //tablica obiektów danego klienta z określonego roku i miesiecy
-    private static List<Dok> obiektDOKmrjsfSelX;
+    private List<Dok> obiektDOKmrjsfSelX;
     //tablica obiektów danego klienta z określonego roku i miesiecy przefiltrowana
-    private static List<Dok> dokumentyFiltered;
+    private List<Dok> dokumentyFiltered;
      //tablica obiektw danego klienta
-    private static List<Dok> obiektDOKjsfSelRok;
+    private List<Dok> obiektDOKjsfSelRok;
     //lista wybranych dokumentow w panelu Guest
-    private static List<Dok> goscwybral;
+    private List<Dok> goscwybral;
     /*pkpir*/
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -181,7 +181,7 @@ public class ObrotyView implements Serializable{
     }
 
     public void setObiektDOKmrjsfSelX(List<Dok> obiektDOKmrjsfSelX) {
-        ObrotyView.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
+        obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
     }
    
 
@@ -190,7 +190,7 @@ public class ObrotyView implements Serializable{
     }
 
     public void setGoscwybral(List<Dok> goscwybral) {
-        ObrotyView.goscwybral = goscwybral;
+        goscwybral = goscwybral;
     }
 
     public Double getPodsumowaniewybranych() {
@@ -222,7 +222,7 @@ public class ObrotyView implements Serializable{
     }
 
     public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
-        ObrotyView.dokumentyFiltered = dokumentyFiltered;
+        dokumentyFiltered = dokumentyFiltered;
     }
 
     
