@@ -15,6 +15,9 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class KwotaKolumna implements Serializable{
+    
+    private static final long serialVersionUID = 8267815530007898066L;
+    
     private Double netto;
     private Double vat;
     private Double brutto;
@@ -26,6 +29,12 @@ public class KwotaKolumna implements Serializable{
         this.nazwakolumny = "";
     }
 
+    public KwotaKolumna(double kwota, String nazwakolumny) {
+        this.netto = kwota;
+        this.nazwakolumny = nazwakolumny;
+    }
+
+    
     
     public Double getNetto() {
         return netto;

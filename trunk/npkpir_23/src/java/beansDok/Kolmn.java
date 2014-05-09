@@ -19,7 +19,8 @@ import javax.inject.Named;
 @Named
 @Singleton
 public class Kolmn implements Serializable{
-
+    
+    
     private static final List<String> kolumnList;
     private static final List<String> kolumnZest;
     private static final List<String> kolumnPrzychody;
