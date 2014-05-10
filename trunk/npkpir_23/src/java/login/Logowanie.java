@@ -5,7 +5,6 @@
 package login;
 
 import beansLogowanie.IPaddress;
-import beansLogowanie.MACaddress;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.SesjaDAO;
@@ -18,17 +17,14 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import view.SesjaView;
 import view.WpisView;
 
@@ -43,7 +39,6 @@ public class Logowanie implements Serializable {
     private String uzytk;
     private String haslo;
     private String ipusera;
-    private String macusera;
     private int liczniklogowan;
     @Inject
     UzDAO uzDAO;
@@ -69,7 +64,6 @@ public class Logowanie implements Serializable {
             session.invalidate();
         }
         ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
-        macusera = MACaddress.getMACaddress(ipusera);
         liczniklogowan = 5;
     }
     
@@ -185,15 +179,7 @@ public class Logowanie implements Serializable {
         this.liczniklogowan = liczniklogowan;
     }
 
-    public String getMacusera() {
-        return macusera;
-    }
-
-    public void setMacusera(String macusera) {
-        this.macusera = macusera;
-    }
-
-  
+     
     
     public String getIpusera() {
         return ipusera;
