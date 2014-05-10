@@ -4,6 +4,7 @@
  */
 package login;
 
+import beansLogowanie.IPaddress;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.SesjaDAO;
@@ -110,9 +111,7 @@ public class Logowanie implements Serializable {
             sesja.setIloscdokumentow(0);
             sesja.setIloscmaili(0);
             sesja.setIloscwydrukow(0);
-            HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();            
-            String ip = httpServletRequest.getRemoteAddr();            
-            sesja.setIp(ip);
+            sesja.setIp(IPaddress.getIpAddr(request));
             Calendar calendar = Calendar.getInstance();
             sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
             try {
@@ -133,6 +132,8 @@ public class Logowanie implements Serializable {
             return "failure";
         }
     }
+    
+   
     
     public void logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
