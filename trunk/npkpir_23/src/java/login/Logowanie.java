@@ -43,7 +43,7 @@ public class Logowanie implements Serializable {
     private String uzytk;
     private String haslo;
     private String ipusera;
-    private byte[] macusera;
+    private String macusera;
     private int liczniklogowan;
     @Inject
     UzDAO uzDAO;
@@ -185,14 +185,15 @@ public class Logowanie implements Serializable {
         this.liczniklogowan = liczniklogowan;
     }
 
-    public byte[] getMacusera() {
+    public String getMacusera() {
         return macusera;
     }
 
-    public void setMacusera(byte[] macusera) {
+    public void setMacusera(String macusera) {
         this.macusera = macusera;
     }
 
+  
     
     public String getIpusera() {
         return ipusera;

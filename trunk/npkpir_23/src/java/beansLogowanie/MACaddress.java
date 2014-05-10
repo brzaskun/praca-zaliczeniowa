@@ -23,11 +23,15 @@ import javax.inject.Named;
 @Singleton
 public class MACaddress {
     
-    public static byte[] getMACaddress(String ip) {
+    public static String getMACaddress(String ip) {
         try {
             NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getByName(ip));
             byte[] mac = network.getHardwareAddress();
-            return mac;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < mac.length; i++) {
+                    sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+            }
+            return sb.toString();
         } catch (Exception ex) {
             Logger.getLogger(MACaddress.class.getName()).log(Level.SEVERE, null, ex);
             return null;
