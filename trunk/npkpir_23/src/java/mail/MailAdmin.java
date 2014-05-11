@@ -8,6 +8,7 @@ import entity.Pismoadmin;
 import entity.Uz;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
@@ -73,6 +74,35 @@ public class MailAdmin extends MailSetUp implements Serializable {
          }
         
     }
+    
+     public static void zablokowanoIPinfoDlaadmina(String ip) {
+        try {
+             MimeMessage message = logintoMailS("brzaskun@gmail.com");
+             message.setSubject("Zablokowano IP usera","UTF-8");
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             mbp1.setContent("Zablokowano IP usera"
+                     + "<p>"+"Informuję cię, drogi Adminie, że z dnia "+new Date()
+                     + "zablokowano usera o IP:</p>"
+                     + "<p style=\"color: green;\">"+ip+"</p>"
+                     + "<p>Z poważaniem</p>"
+                     + "<br/>"
+                     + "<p>Serwer Programu</p>", "text/html; charset=utf-8");
+             // create the Multipart and add its parts to it
+             Multipart mp = new MimeMultipart();
+             mp.addBodyPart(mbp1);
+             // add the Multipart to the message
+             message.setContent(mp);
+             Transport.send(message);
+             
+         } catch (MessagingException e) {
+             throw new RuntimeException(e);
+         }
+        
+    }
+    
+    
     
     public static void main (String[] args) throws MessagingException {
         MailAdmin.mailAdmin("brzaskun@o2.pl", "Test", "test \n test");
