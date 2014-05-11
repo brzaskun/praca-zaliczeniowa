@@ -40,6 +40,10 @@ public class RejestrlogowanDAO  extends DAO implements Serializable {
     public List<Rejestrlogowan> findByLiczbalogowan0() {
         return sessionFacade.RejestrlogowanfindByLiczbalogowan0();
     }
+
+    public List<Rejestrlogowan> findAll() {
+        return sessionFacade.findAll(Rejestrlogowan.class);
+    }
     
     
     
