@@ -27,6 +27,7 @@ import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Podstawki;
 import entity.Pozycjenafakturze;
+import entity.Rejestrlogowan;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.Sesja;
@@ -761,6 +762,14 @@ public class SessionFacade<T> {
 
     public List<Dokfk> findDokfkPodatnik(String podatnik, String rok) {
         return em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+
+    public Rejestrlogowan findRejestrlogowanByIP(String ipusera) {
+        return (Rejestrlogowan) em.createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
+    }
+
+    public List<Rejestrlogowan> RejestrlogowanfindByLiczbalogowan0() {
+        return em.createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList();
     }
   
   

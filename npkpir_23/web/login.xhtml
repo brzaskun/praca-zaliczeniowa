@@ -36,7 +36,7 @@
             <h:form id="formlog1">
                 <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="">
                     <p:focus id="focus" context="logowaniepanel"/>
-                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;">
+                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{Logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
                         <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" requiredMessage="Wpisz login!" autocomplete="true" onkeydown="bar.show()"/>
                         <h:outputText value="#{mgs.haslo}"/>
@@ -44,7 +44,8 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="1" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" update=":formlog1:logowanie, :infologowanie" ajax="false" style="width: 150px;" />
+                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" update=":formlog1:logowanie, :infologowanie" ajax="false" style="width: 150px;" rendered="#{Logowanie.liczniklogowan gt 0}"/>
+                        <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{Logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>
                     <!--                        <p:commandButton value="Wyloguj" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
                 </p:panel>

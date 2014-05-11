@@ -5,8 +5,10 @@
 package login;
 
 import beansLogowanie.IPaddress;
+import beansLogowanie.Liczniklogowan;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
+import dao.RejestrlogowanDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
@@ -17,6 +19,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -57,14 +60,20 @@ public class Logowanie implements Serializable {
     private WpisView wpisView;
     @Inject
     OstatnidokumentDAO ostatnidokumentDAO;
+    @Inject
+    private RejestrlogowanDAO rejestrlogowanDAO;
     
     public Logowanie() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if (session != null) {
             session.invalidate();
         }
+    }
+    
+    @PostConstruct
+    private void init() {
         ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
-        liczniklogowan = 5;
+        liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
     }
     
     public String login() {
@@ -129,10 +138,11 @@ public class Logowanie implements Serializable {
             Wpis wpisX = wpisDAO.find(uzytk);
             wpisX.setBiezacasesja(nrsesji);
             wpisDAO.edit(wpisX);
+            Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             return navto;
         } catch (ServletException e) {
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");
-            liczniklogowan = liczniklogowan - 1;
+            Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO);
             return "failure";
         }
     }
