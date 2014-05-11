@@ -4,7 +4,7 @@
  */
 package view;
 
-import beans.WyliczPodatekZasadyOgolne;
+import beansPIT.WyliczPodatekZasadyOgolne;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;

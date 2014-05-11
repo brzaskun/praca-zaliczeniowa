@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.BOFKBean;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import embeddablefk.TreeNodeExtended;
@@ -16,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -44,41 +46,11 @@ public class BilansPodgladView  implements Serializable{
     }
     
     public void generujBO() {
-        ArrayList<Kontozapisy> kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), "000"));
-        resetujBO();
-        ArrayList<Konto> konta = new ArrayList<>();
-        konta.addAll(kontoDAO.findAll());
-        for (Kontozapisy p : kontozapisy) {
-            for (Konto r : konta) {
-                if (p.getKontoprzeciwstawne().equals(r.getPelnynumer())&&p.getKwotawn()>0) {
-                    r.setBoMa(r.getBoMa()+p.getKwotawn());
-                    r.setBlokada(true);
-                    kontoDAO.edit(r);
-                    break;
-                } else if (p.getKontoprzeciwstawne().equals(r.getPelnynumer())&&p.getKwotama()>0) {
-                    r.setBoWn(r.getBoWn()+p.getKwotama());
-                    r.setBlokada(true);
-                    kontoDAO.edit(r);
-                    break;
-                }
-            }
-            
-        }
-        rozwinwszystkie();
+        BOFKBean.resetujBO(kontoDAO);
+        BOFKBean.generujBO(kontoDAO, kontoZapisyFKDAO, wpisView);
+        this.rozwinwszystkie();
+        Msg.msg("Wygenerowano BO");
     }
-    
-    private void resetujBO() {
-        ArrayList<Konto> konta = new ArrayList<>();
-        konta.addAll(kontoDAO.findAll());
-        for (Konto p: konta) {
-            p.setBoWn(0.0);
-            p.setBoMa(0.0);
-            p.setBlokada(false);
-            kontoDAO.edit(p);
-        }
-    }
-    
     
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
@@ -96,6 +68,7 @@ public class BilansPodgladView  implements Serializable{
         kontadlanodes.addAll(kontoDAO.findAll());
         level = root.ustaldepthDT(kontadlanodes)-1;
         root.expandAll();
+        Msg.msg("Rozwinięto maksymalnie");
     }  
     
     public void rozwin(){
@@ -111,6 +84,7 @@ public class BilansPodgladView  implements Serializable{
         getNodes();
         root.foldAll();
         level = 0;
+        Msg.msg("Zwinięto maksymalnie");
     }  
     public void zwin(){
         root.foldLevel(--level);
