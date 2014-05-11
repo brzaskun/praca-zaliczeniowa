@@ -15,9 +15,9 @@
 
                     document.onkeypress = wcisnij;
                     function wcisnij() {
-                        if (event.keyCode == 43) {
+                        if (event.keyCode === 43) {
                             $('#form\\:rozwinwsz').click();
-                        } else if (event.keyCode == 45) {
+                        } else if (event.keyCode === 45) {
                             $('#form\\:zwinwsz').click();
                         } else {
                             return event;
@@ -36,7 +36,6 @@
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selectionMode="single" selection="#{bilansPodgladView.selectednode}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
-                    <p:ajax event="select" listener="#{bilansPodgladView.selrow(loop)}"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>

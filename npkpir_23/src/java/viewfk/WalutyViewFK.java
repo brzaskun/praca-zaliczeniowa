@@ -4,34 +4,28 @@
  */
 package viewfk;
 
-import comparator.Tabelanbpcomparator;
+import beansFK.WalutyFKBean;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
-import org.xml.sax.SAXException;
-import waluty.WalutyNBP;
 
 /**
  *
  * @author Osito
  */
 @Named
-@Singleton
+@ViewScoped
 public class WalutyViewFK implements Serializable {
 
     @Inject
@@ -68,36 +62,10 @@ public class WalutyViewFK implements Serializable {
         }
     }
     
-    @Schedule(hour="14", persistent=false)
     public void pobierzkursy() throws ParseException {
-        String datawstepna;
-        Integer numertabeli;
-        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
-        Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
-        Tabelanbp wiersz = null;
-        if (wierszejuzzapisane.size() > 0) {
-            wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size()-1);
-        }
-        if (wiersz == null) {
-            datawstepna = "2012-12-31";
-            numertabeli = 1;
-        } else {
-            datawstepna = wiersz.getDatatabeli();
-            numertabeli = Integer.parseInt(wiersz.getTabelanbpPK().getNrtabeli().split("/")[0]);
-            numertabeli++;
-        }
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
-        List<Waluty> pobranewaluty = walutyDAOfk.findAll();
-        for (Waluty w : pobranewaluty) {
-            try {
-                wierszepobranezNBP.addAll(WalutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
-            } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
-            }
-            //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
-        }
+        wierszepobranezNBP.addAll(WalutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
         for (Tabelanbp p : wierszepobranezNBP) {
-            tabelanbpDAO.dodaj(p);
             pobranekursy.add(p);
             pobranekursyRok.add(p);
         }

@@ -4,7 +4,7 @@
  */
 package view;
 
-import beans.WyliczPodatekZasadyOgolne;
+import beansPIT.WyliczPodatekZasadyOgolne;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PitDAO;

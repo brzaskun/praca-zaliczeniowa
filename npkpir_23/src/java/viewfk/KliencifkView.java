@@ -6,7 +6,7 @@
 
 package viewfk;
 
-import beans.PlanKontBean;
+import beansFK.PlanKontFKBean;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -73,7 +73,7 @@ public class KliencifkView implements Serializable{
     public void przyporzadkujdokonta(){
         try {
             klienciDAO.dodaj(nowekliencifk);
-            int wynik = PlanKontBean.aktualizujslownik(nowekliencifk, kontoDAOfk, wpisView.getPodatnikWpisu());
+            int wynik = PlanKontFKBean.aktualizujslownik(nowekliencifk, kontoDAOfk, wpisView.getPodatnikWpisu());
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {

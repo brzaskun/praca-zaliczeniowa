@@ -5,8 +5,8 @@
 package viewfk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import beans.KontaFK;
-import beans.PlanKontBean;
+import beansFK.KontaFKBean;
+import beansFK.PlanKontFKBean;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import daoFK.KliencifkDAO;
@@ -150,7 +150,7 @@ public class PlanKontView implements Serializable {
         }
         Konto kontomacierzyste = (Konto) selectednode.getData();
         if (nowe.getBilansowewynikowe() != null) {
-            int wynikdodaniakonta = PlanKontBean.dodajsyntetyczne(nowe, kontomacierzyste, kontoDAO, podatnik);
+            int wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(nowe, kontomacierzyste, kontoDAO, podatnik);
             if (wynikdodaniakonta == 0) {
                 nowe = new Konto();
                 odswiezroot(r);
@@ -166,7 +166,7 @@ public class PlanKontView implements Serializable {
                     if (kontomacierzyste.isMapotomkow()==true) {
                      Msg.msg("e","Konto już ma analitykę, nie można dodać słownika");
                     } else {
-                        int wynikdodaniakonta = PlanKontBean.dodajslownik(nowe, kontomacierzyste, kontoDAO, podatnik);
+                        int wynikdodaniakonta = PlanKontFKBean.dodajslownik(nowe, kontomacierzyste, kontoDAO, podatnik);
                         if (wynikdodaniakonta == 0) {
                             kontomacierzyste.setBlokada(true);
                             kontomacierzyste.setMapotomkow(true);
@@ -178,7 +178,7 @@ public class PlanKontView implements Serializable {
                             Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
                             return;
                         }
-                        wynikdodaniakonta = PlanKontBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView.getPodatnikObiekt());
+                        wynikdodaniakonta = PlanKontFKBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView.getPodatnikObiekt());
                         if (wynikdodaniakonta == 0) {
                             nowe = new Konto();
                             odswiezroot(r);
@@ -190,7 +190,7 @@ public class PlanKontView implements Serializable {
                 }
             } catch (Exception e) {
                 if (kontomacierzyste.isBlokada() == false) {
-                    int wynikdodaniakonta = PlanKontBean.dodajanalityczne(nowe, kontomacierzyste, kontoDAO, podatnik);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(nowe, kontomacierzyste, kontoDAO, podatnik);
                     if (wynikdodaniakonta == 0) {
                         kontomacierzyste.setMapotomkow(true);
                         kontoDAO.edit(kontomacierzyste);
@@ -293,7 +293,7 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika(){
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         //resetuj kolumne macierzyste
-        KontaFK.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
+        KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
@@ -303,7 +303,7 @@ public class PlanKontView implements Serializable {
      public void porzadkowanieKontWzorcowych(){
         wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
         //resetuj kolumne macierzyste
-        KontaFK.czyszczenieKont(wykazkontwzor, kontoDAO, "Testowy");
+        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAO, "Testowy");
         wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         rozwinwszystkie(rootwzorcowy);
@@ -345,7 +345,7 @@ public class PlanKontView implements Serializable {
             } else {
                 kontoDAO.destroy(selectednode.getData());
                 if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
-                    int wynik = PlanKontBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO, podatnik);
+                    int wynik = PlanKontFKBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO, podatnik);
                     if (wynik == 0) {
                         Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
                         kontomacierzyste.setBlokada(false);
