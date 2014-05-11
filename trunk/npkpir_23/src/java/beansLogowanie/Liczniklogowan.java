@@ -60,6 +60,13 @@ public class Liczniklogowan {
             return 0;
         }
     }
+    
+    public static void odblokujIPusera (Rejestrlogowan logowanie, RejestrlogowanDAO rejestrlogowanDAO) {
+        logowanie.setIlosclogowan(5);
+        logowanie.setDatalogowania(new Date());
+        logowanie.setBlokada(false);
+        rejestrlogowanDAO.edit(logowanie);
+    }
 }
     
     
