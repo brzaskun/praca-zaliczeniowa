@@ -6,6 +6,7 @@
 
 package viewadmin;
 
+import beansLogowanie.Liczniklogowan;
 import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -46,11 +48,11 @@ public class RejestrlogowanView implements Serializable{
         this.rejestrlogowan = rejestrlogowan;
     }
     
-    public void odblokujIPusera(Rejestrlogowan rejestrlogowan) {
-        rejestrlogowan.setIlosclogowan(5);
-        rejestrlogowan.setDatalogowania(new Date());
-        rejestrlogowan.setBlokada(false);
-        rejestrlogowanDAO.edit(rejestrlogowan);
+    public void odblokujIPusera(Rejestrlogowan logowanie) {
+        Liczniklogowan.odblokujIPusera(logowanie, rejestrlogowanDAO);
+        rejestrlogowan.remove(logowanie);
+        Msg.msg("Odblokowano ip: "+logowanie.getIpusera());
+        
     }
     
     
