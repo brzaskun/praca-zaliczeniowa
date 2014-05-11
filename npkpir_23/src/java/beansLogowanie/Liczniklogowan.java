@@ -11,6 +11,7 @@ import entity.Rejestrlogowan;
 import java.util.Date;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import mail.MailAdmin;
 
 /**
  *
@@ -42,6 +43,7 @@ public class Liczniklogowan {
                 rejestrlogowanDAO.edit(biezacelogowanie);
                 return ilosclogowan;
             } else {
+                MailAdmin.zablokowanoIPinfoDlaadmina(ip);
                 return 0;
             }
         } catch (Exception e) {
