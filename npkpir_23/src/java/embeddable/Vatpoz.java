@@ -126,7 +126,7 @@ public class Vatpoz implements Serializable {
 
     @Override
     public String toString() {
-        return "Rodzaj deklaracji " + rodzajdeklaracji + ", celzlozenia (1-pierwsza, 2-korekta): " + celzlozenia + ", nazwa urzedu skarbowego: " + nazwaurzedu + ", kwota autoryzacji: " + kwotaautoryzacja + ", nazwa podatnika: " + podatnik +", vat należny "+ pozycjeszczegolowe.pole46 + ", vat naliczony "+ pozycjeszczegolowe.pole55 + ", suma do zapłaty: " + pozycjeszczegolowe.pole58 + ", suma do zwrotu/przeniesienia: " + pozycjeszczegolowe.pole60;
+        return "Rodzaj deklaracji " + rodzajdeklaracji + ", celzlozenia (1-pierwsza, 2-korekta): " + celzlozenia + ", nazwa urzedu skarbowego: " + nazwaurzedu + ", kwota autoryzacji: " + kwotaautoryzacja + ", nazwa podatnika: " + podatnik +", vat należny "+ pozycjeszczegolowe.getPole46() + ", vat naliczony "+ pozycjeszczegolowe.getPole55() + ", suma do zapłaty: " + pozycjeszczegolowe.getPole58() + ", suma do zwrotu/przeniesienia: " + pozycjeszczegolowe.getPole60();
     }
 
     

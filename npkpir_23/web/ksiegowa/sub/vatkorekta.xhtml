@@ -163,9 +163,16 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
-                <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
-                    <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
-                </p:panel>
+                <p:panelGrid columns="2">
+                    <p:panel header="Nowa kwota z przeniesienia" style="width: 300px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
+                        <pe:inputNumber value="#{vatKorektaView.nowaWartoscVatZPrzeniesienia}" symbol=" zł"  style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                    </p:panel>
+                    <p:panel header="Nowa kwota z przeniesienia" style="width: 700px; padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
+                        <h:outputLabel value="Podatnik dokonał zwiększenia podatku naliczonego na podstawie art. 89b ust4 ustawy:" for="pole70" />
+                            <p:selectBooleanCheckbox id="pole70" value="#{vatKorektaView.pole70zreki}" title="Pole70"  style="font-weight: 700; text-align: left; width: 70px; padding: 1%;">
+                        </p:selectBooleanCheckbox>
+                    </p:panel>
+                </p:panelGrid>
                 <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" oncomplete="r('akordeon:listadodanychdok:drukujkorekta').show();"
                                  update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}" style="width: 120px;"/>
                 <p:commandButton id="drukujkorekta" value="drukuj" actionListener="#{pdfVATKorektaReczna.drukuj}" rendered="#{vatKorektaView.pokazFormularze}" style="display: none; width: 120px; margin-left: 1%;"/>

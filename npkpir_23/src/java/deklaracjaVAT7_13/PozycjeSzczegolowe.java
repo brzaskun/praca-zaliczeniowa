@@ -5,6 +5,7 @@
 package deklaracjaVAT7_13;
 
 import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.Schema;
 import embeddable.Vatpoz;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,60 +20,58 @@ import java.util.List;
  *
  * @author Osito
  */
-class PozycjeSzczegolowe {
-    static String PozycjeSzczegolowe;
-    Integer Rok;
-    Integer Miesiac;
+public class PozycjeSzczegolowe {
+    private static String PozycjeSzczegolowe;
 
-    public PozycjeSzczegolowe(Vatpoz selected) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Rok = Integer.parseInt(selected.getRok());
-        Miesiac = Integer.parseInt(selected.getMiesiac());
+    public PozycjeSzczegolowe(Vatpoz selected, Schema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         // from Joda to JDK
-        Date date = Calendar.getInstance().getTime();
-        DateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
-        String today = formatt.format(date);
         List<String> lista = new ArrayList<>();
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
-        for(int i = 20;i<66;i++){
+        for(int i = 20;i<71;i++){
             Class[] noparams = {};	
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPole"+i, noparams);
             String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
-        if(Rok == 2013 && Miesiac<4){
-        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
-        int j = 20;
-        for(String p : lista){
-            try {
-                boolean i = !p.isEmpty();
-                if(!p.isEmpty()){
-                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                }
-            } catch (Exception e){}
-            j++;
-        }
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
-        } else {
-        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
-        int j = 10;
-        for(String p : lista){
-            try {
-                boolean i = !p.isEmpty();
-                if(!p.isEmpty()){
-                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                }
-            } catch (Exception e){}
-            j++;
-        }
-        if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()==0){
-            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_61>1</P_61>");
-        } if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()>0){
-            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_62>1</P_62>");
-        }
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>"+today+"</P_69>");
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("</PozycjeSzczegolowe>");
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatt.format(date);
+        String nazwaschemy = schema.getNazwaschemy();
+        switch (nazwaschemy) {
+            case "M-13":
+            case "K-7":
+                this.schemaM13K7(lista, today);
+                break;
+            case "M-14":
+            case "K-8":
+                this.schemaM14K8(lista, today);
+                break;
         }
         
+    }
+    
+    private void schemaM13K7(List<String> lista, String today){
+        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
+        pobierzSzczegolowe(lista, 20);
+    }
+    
+    private void schemaM14K8(List<String> lista, String today){
+        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
+        pobierzSzczegolowe(lista, 10);
+        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>"+today+"</P_69>");
+    }
+    
+    private void pobierzSzczegolowe(List<String> lista, int poczatek) {
+        int j = poczatek;
+        for(String p : lista){
+            try {
+                boolean poleWypelnione = !p.isEmpty();
+                if(poleWypelnione){
+                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                }
+            } catch (Exception e){}
+            j++;
+        }
     }
     
     public String getPozycjeSzczegolowe() {
