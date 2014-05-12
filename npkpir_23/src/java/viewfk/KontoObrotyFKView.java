@@ -99,7 +99,7 @@ public class KontoObrotyFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomneBO(wpisView.getPodatnikWpisu(), macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), macierzyste.getPelnynumer());
           } catch (Exception e) {
               Msg.msg("e", "nie udane pobierzpotomkow");
           }

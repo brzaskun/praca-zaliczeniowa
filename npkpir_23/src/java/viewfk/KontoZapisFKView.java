@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -31,6 +32,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
+import org.primefaces.model.TreeNode;
 import view.WpisView;
 
 /**
@@ -57,6 +59,8 @@ public class KontoZapisFKView implements Serializable{
     private List zapisydopodswietlenia;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{planKontView}")
+    private PlanKontView planKontView;
     
 
     public KontoZapisFKView() {
@@ -78,32 +82,46 @@ public class KontoZapisFKView implements Serializable{
         kontozapisy.clear();
     }
     
-      public void pobierzZapisyNaKoncie() {
-         if (wybranekonto instanceof Konto) {
-         kontozapisy = new ArrayList<>();
-         List<Konto> kontapotomne = new ArrayList<>();
-         if (wybranekonto.isMapotomkow()==true) {
-             List<Konto> kontamacierzyste = new ArrayList<>();
-             kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
-             //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
-             while (kontamacierzyste.size()>0) {
-                 znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
-             }
-             for(Konto p : kontapotomne) {
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
-             }
-             Collections.sort(kontozapisy, new Kontozapisycomparator());
-             
-         } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
-         }
-         sumazapisow();
-         }
-     }
+    public void pobierzZapisyNaKoncie() {
+        if (wybranekonto instanceof Konto) {
+            kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomne = new ArrayList<>();
+            if (wybranekonto.isMapotomkow() == true) {
+                List<Konto> kontamacierzyste = new ArrayList<>();
+                kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
+                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
+                while (kontamacierzyste.size() > 0) {
+                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
+                }
+                for (Konto p : kontapotomne) {
+                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                }
+                Collections.sort(kontozapisy, new Kontozapisycomparator());
+
+            } else {
+                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+            }
+            sumazapisow();
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+        }
+    }
+    
+    private TreeNode odnajdzNode(Konto kontoPoszukiwane) {
+        TreeNodeExtended<Konto> root = planKontView.getRoot();
+        List<TreeNode> konta = root.getChildren();
+        for (int i = 0; i < konta.size(); i++) {
+            if (((Konto) konta.get(i).getData()).equals(kontoPoszukiwane)) {
+                return konta.get(i);
+            } else {
+                odnajdzNode((Konto) konta.get(i).getData());
+            }
+        }
+        return null;
+    }
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomneBO(wpisView.getPodatnikWpisu(),macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),macierzyste.getPelnynumer());
           } catch (Exception e) {
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
@@ -196,8 +214,14 @@ public class KontoZapisFKView implements Serializable{
         RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
     }
     
- 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public PlanKontView getPlanKontView() {
+        return planKontView;
+    }
+
+    public void setPlanKontView(PlanKontView planKontView) {
+        this.planKontView = planKontView;
+    }
     
     public WpisView getWpisView() {
         return wpisView;

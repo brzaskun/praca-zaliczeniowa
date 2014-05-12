@@ -122,7 +122,7 @@ public class PlanKontFKBean {
     }
             
     public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, String podatnik) {
-        List<Konto> listakont = kontoDAO.findKontaPotomne(kontomacierzyste);
+        List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(podatnik, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
                 kontoDAO.destroy(p);
