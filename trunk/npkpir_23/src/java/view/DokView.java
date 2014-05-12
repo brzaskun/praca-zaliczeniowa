@@ -785,7 +785,7 @@ public final class DokView implements Serializable {
         while (itx.hasNext()) {
             Amodok tmp = (Amodok) itx.next();
             Integer mctmp = tmp.getAmodokPK().getMc();
-            String mc = Mce.getMapamcy().get(mctmp);
+            String mc = Mce.getNumberToMiesiac().get(mctmp);
             Integer rok = tmp.getAmodokPK().getRok();
             if (wpisView.getMiesiacWpisu().equals("01") && rok == wpisView.getRokWpisu()) {
                 rok = rok - 1;
@@ -815,7 +815,7 @@ public final class DokView implements Serializable {
             if (amodokPoprzedni != null) {
                 if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
                     //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
-                    Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getMapamcy().get(amodokPoprzedni.getAmodokPK().getMc()));
+                    Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
                     if (znaleziony instanceof Dok && znaleziony.getNetto() == kwotaumorzenia) {
                         amodokPoprzedni.setZaksiegowane(true);
                         amoDokDAO.edit(amodokPoprzedni);

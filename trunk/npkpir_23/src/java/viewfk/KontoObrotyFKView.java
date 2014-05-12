@@ -7,6 +7,7 @@ package viewfk;
 import comparator.Kontozapisycomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
+import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
@@ -98,7 +99,7 @@ public class KontoObrotyFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomne(macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomneBO(wpisView.getPodatnikWpisu(), macierzyste.getPelnynumer());
           } catch (Exception e) {
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
@@ -139,41 +140,17 @@ public class KontoObrotyFKView implements Serializable{
     }
     
      private void sumamiesiecy() {
-        lista.add(new ObrotykontaTabela("2013","BO"));
-        lista.add(new ObrotykontaTabela("2013","styczeń"));
-        lista.add(new ObrotykontaTabela("2013","luty"));
-        lista.add(new ObrotykontaTabela("2013","marzec"));
-        lista.add(new ObrotykontaTabela("2013","kwiecień"));
-        lista.add(new ObrotykontaTabela("2013","maj"));
-        lista.add(new ObrotykontaTabela("2013","czerwiec"));
-        lista.add(new ObrotykontaTabela("2013","lipiec"));
-        lista.add(new ObrotykontaTabela("2013","sierpień"));
-        lista.add(new ObrotykontaTabela("2013","wrzesień"));
-        lista.add(new ObrotykontaTabela("2013","październik"));
-        lista.add(new ObrotykontaTabela("2013","listopad"));
-        lista.add(new ObrotykontaTabela("2013","grudzień"));
+        lista.addAll(ObrotykontaTabela.wygenerujlisteObrotow(wpisView.getRokWpisuSt()));
         for (Kontozapisy p : kontozapisy) {
-            ObrotykontaTabela tmp = new ObrotykontaTabela();
+            ObrotykontaTabela obrotyMiesiac = new ObrotykontaTabela();
+            int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
             if (p.getKonto().equals("000")) {
-                tmp = lista.get(0);
+                obrotyMiesiac = lista.get(0);
             } else if (!p.getKontoprzeciwstawne().equals("000")){
-            switch (p.getWiersz().getDokfk().getMiesiac()) {
-                case "01" : tmp = lista.get(1); break;
-                case "02" : tmp = lista.get(2); break;
-                case "03" : tmp = lista.get(3); break;
-                case "04" : tmp = lista.get(4); break;
-                case "05" : tmp = lista.get(5); break;
-                case "06" : tmp = lista.get(6); break;
-                case "07" : tmp = lista.get(7); break;
-                case "08" : tmp = lista.get(8); break;
-                case "09" : tmp = lista.get(9); break;
-                case "10" : tmp = lista.get(10); break;
-                case "11" : tmp = lista.get(11); break;
-                case "12" : tmp = lista.get(12); break;
+                obrotyMiesiac = lista.get(numermiesiaca);
             }
-            }
-            tmp.setKwotaWn(tmp.getKwotaWn()+p.getKwotawn());
-            tmp.setKwotaMa(tmp.getKwotaMa()+p.getKwotama());
+            obrotyMiesiac.setKwotaWn(obrotyMiesiac.getKwotaWn()+p.getKwotawn());
+            obrotyMiesiac.setKwotaMa(obrotyMiesiac.getKwotaMa()+p.getKwotama());
         }
         //a teraz czas na sumowanie narastajaco i wyliczanie sald
         double sumaWn = 0.0;
@@ -333,6 +310,24 @@ public class KontoObrotyFKView implements Serializable{
             this.kwotaManarastajaco = 0.0;
             this.kwotaWnsaldo = 0.0;
             this.kwotaMasaldo = 0.0;
+        }
+        
+        public static List<ObrotykontaTabela> wygenerujlisteObrotow(String rok) {
+            List<ObrotykontaTabela> lista = new ArrayList<>();
+            lista.add(new ObrotykontaTabela(rok,"BO"));
+            lista.add(new ObrotykontaTabela(rok,"styczeń"));
+            lista.add(new ObrotykontaTabela(rok,"luty"));
+            lista.add(new ObrotykontaTabela(rok,"marzec"));
+            lista.add(new ObrotykontaTabela(rok,"kwiecień"));
+            lista.add(new ObrotykontaTabela(rok,"maj"));
+            lista.add(new ObrotykontaTabela(rok,"czerwiec"));
+            lista.add(new ObrotykontaTabela(rok,"lipiec"));
+            lista.add(new ObrotykontaTabela(rok,"sierpień"));
+            lista.add(new ObrotykontaTabela(rok,"wrzesień"));
+            lista.add(new ObrotykontaTabela(rok,"październik"));
+            lista.add(new ObrotykontaTabela(rok,"listopad"));
+            lista.add(new ObrotykontaTabela(rok,"grudzień"));
+            return lista;
         }
 
         //<editor-fold defaultstate="collapsed" desc="comment">

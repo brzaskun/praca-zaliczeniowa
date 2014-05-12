@@ -409,7 +409,7 @@ public class PodatnikView implements Serializable {
                 old_mcOd--;
             }
             ostatniparametr.setRokDo(old_rokDo.toString());
-            ostatniparametr.setMcDo(Mce.getMapamcy().get(old_mcOd));
+            ostatniparametr.setMcDo(Mce.getNumberToMiesiac().get(old_mcOd));
             return 0;
         }
     }

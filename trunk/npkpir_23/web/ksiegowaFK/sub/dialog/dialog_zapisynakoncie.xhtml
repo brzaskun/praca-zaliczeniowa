@@ -32,18 +32,6 @@
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
-                 <script>
-                    document.onkeypress = wcisnij;
-                    function wcisnij() {
-                        if (event.keyCode == 43) {
-                            $('#rozwinwsz').click();
-                        } else if (event.keyCode == 45) {
-                            $('#zwinwsz').click();
-                        } else {
-                            alert(event.which.toString());
-                        }
-                    }
-            </script>
                 <h:form id="form">
                     <p:hotkey bind="down" global="false"  onstart="przejdzwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>

@@ -31,7 +31,7 @@ public class InfoViewAll implements Serializable{
 
     public static void main(String[] args) {
         int datadzisiejsza = Calendar.getInstance().get(Calendar.MONTH);
-        String mc = Mce.getMapamcy().get(datadzisiejsza);
+        String mc = Mce.getNumberToMiesiac().get(datadzisiejsza);
         String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         Calendar c = Calendar.getInstance();
         System.out.println(c.get(Calendar.DAY_OF_MONTH));
@@ -63,7 +63,7 @@ public class InfoViewAll implements Serializable{
     @PostConstruct
     private void init(){
         rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        mcdzisiejszy = Mce.getMapamcy().get(Calendar.getInstance().get(Calendar.MONTH));
+        mcdzisiejszy = Mce.getNumberToMiesiac().get(Calendar.getInstance().get(Calendar.MONTH));
         deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy,mcdzisiejszy);
         deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy,mcdzisiejszy);
         /**Klienci nie ruszeni zajmuja duzo czasu

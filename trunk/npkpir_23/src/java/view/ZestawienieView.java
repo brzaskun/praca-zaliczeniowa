@@ -908,7 +908,7 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
-                String opodatkowanie = ParametrView.zwrocParametr(selected.getPodatekdochodowy(), wpisView.getRokWpisu(), Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
+                String opodatkowanie = ParametrView.zwrocParametr(selected.getPodatekdochodowy(), wpisView.getRokWpisu(), Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()));
                 String rodzajop = opodatkowanie;
                 Double stawka = 0.0;
                 BigDecimal podatek = BigDecimal.ZERO;
@@ -1113,9 +1113,9 @@ public class ZestawienieView implements Serializable {
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
                 int tmpxmc = Integer.parseInt(tmpX.getPkpirM());
-                int starymc = Mce.getMapamcyX().get(mcDo);
+                int starymc = Mce.getMiesiacToNumber().get(mcDo);
                 starymc--;
-                String starymcS = Mce.getMapamcy().get(starymc);
+                String starymcS = Mce.getNumberToMiesiac().get(starymc);
                 if(tmpxmc <= starymc && tmpX.getUdzialowiec().equals(udzialowiec)){
                     if(tmpX.getNaleznazal().signum()==1){
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
@@ -1620,8 +1620,8 @@ public class ZestawienieView implements Serializable {
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
         if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
-                int numermiesiaca = Mce.getMapamcyX().get(wpisView.getMiesiacWpisu());
-                String numermiesiacaS = Mce.getMapamcy().get(numermiesiaca-3);
+                int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+                String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca-3);
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
                 } catch (Exception e) {

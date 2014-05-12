@@ -70,7 +70,7 @@ public class ObrotyView implements Serializable{
                 Integer mDoI = Integer.parseInt(mDo);
                 List<String> zakres = new ArrayList<>();
                 for(int i = mOdI; i <= mDoI; i++){
-                    zakres.add(Mce.getMapamcy().get(i));
+                    zakres.add(Mce.getNumberToMiesiac().get(i));
                 }
                 for (Dok tmpx : obiektDOKjsfSelRok){
                     Iterator it;
@@ -109,7 +109,7 @@ public class ObrotyView implements Serializable{
                 Integer mDoI = Integer.parseInt(mDo);
                 List<String> zakres = new ArrayList<>();
                 for(int i = mOdI; i <= mDoI; i++){
-                    zakres.add(Mce.getMapamcy().get(i));
+                    zakres.add(Mce.getNumberToMiesiac().get(i));
                 }
                 for (Dok tmpx : obiektDOKjsfSelRok){
                     Iterator it;
