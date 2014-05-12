@@ -65,7 +65,7 @@ public class ZUSMailView implements Serializable {
     @PostConstruct
     private void init() {
         rok = String.valueOf((new DateTime()).getYear());
-        mc = Mce.getMapamcy().get((new DateTime()).getMonthOfYear());
+        mc = Mce.getNumberToMiesiac().get((new DateTime()).getMonthOfYear());
         pobierzstawki();
         przygotujmaile();
     }

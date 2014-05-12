@@ -613,7 +613,7 @@ public class ZestawienieRyczaltView implements Serializable {
     private void obliczprzychod() {
         List<RyczaltPodatek> podatkibiezace = new ArrayList<>();
         String selekcja = wpisView.getMiesiacWpisu();
-        int miesiacint = Mce.getMapamcyX().get(selekcja)-1  ;
+        int miesiacint = Mce.getMiesiacToNumber().get(selekcja)-1  ;
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 17%", 0.17, miesiacint, 0));
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 8,5%", 0.085, miesiacint, 1));
         podatkibiezace.add(pobranieprzychodu("Przychody opodatkowane stawką 5,5%", 0.055, miesiacint, 2));

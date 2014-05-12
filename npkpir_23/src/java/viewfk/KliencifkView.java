@@ -34,8 +34,8 @@ public class KliencifkView implements Serializable{
     @Inject private Klienci wybranyklient;
     private List<Klienci> listawszystkichklientow;
     private List<Kliencifk> listawszystkichklientowFk;
-    @Inject private Kliencifk kliencifk;
-    @Inject private Kliencifk nowekliencifk;
+    @Inject private Kliencifk klientMaKonto;
+    @Inject private Kliencifk klientBezKonta;
     @Inject private KliencifkDAO kliencifkDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
@@ -54,33 +54,33 @@ public class KliencifkView implements Serializable{
     
     public void pobieraniekontaFK(){
         if (wybranyklient instanceof Klienci) {
-            kliencifk = new Kliencifk();
-            nowekliencifk = new Kliencifk();
+            klientMaKonto = new Kliencifk();
+            klientBezKonta = new Kliencifk();
             Msg.msg("Pobieram kontofk");
             try {
-                kliencifk = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
+                klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
             } catch (Exception e) {
                 //tworzenie nowego
-                nowekliencifk.setNazwa(wybranyklient.getNpelna());
-                nowekliencifk.setNip(wybranyklient.getNip());
-                nowekliencifk.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                nowekliencifk.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-                nowekliencifk.setNrkonta(pobierznastepnynumer());
+                klientBezKonta.setNazwa(wybranyklient.getNpelna());
+                klientBezKonta.setNip(wybranyklient.getNip());
+                klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
+                klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                klientBezKonta.setNrkonta(pobierznastepnynumer());
             }
         }
     }
     
     public void przyporzadkujdokonta(){
         try {
-            klienciDAO.dodaj(nowekliencifk);
-            int wynik = PlanKontFKBean.aktualizujslownik(nowekliencifk, kontoDAOfk, wpisView.getPodatnikWpisu());
+            klienciDAO.dodaj(klientBezKonta);
+            int wynik = PlanKontFKBean.aktualizujslownik(klientBezKonta, kontoDAOfk, wpisView.getPodatnikWpisu());
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
         }
-        kliencifk = new Kliencifk();
-        nowekliencifk = new Kliencifk();
+        klientMaKonto = new Kliencifk();
+        klientBezKonta = new Kliencifk();
     }
 
     private String pobierznastepnynumer() {
@@ -92,57 +92,59 @@ public class KliencifkView implements Serializable{
         }
     }
 
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
     }
-
+    
     public void setListawszystkichklientow(List<Klienci> listawszystkichklientow) {
         this.listawszystkichklientow = listawszystkichklientow;
     }
-
+    
     public Klienci getWybranyklient() {
         return wybranyklient;
     }
-
+    
     public void setWybranyklient(Klienci wybranyklient) {
         this.wybranyklient = wybranyklient;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
-    public Kliencifk getKliencifk() {
-        return kliencifk;
+    
+    public Kliencifk getKlientMaKonto() {
+        return klientMaKonto;
     }
-
-    public void setKliencifk(Kliencifk kliencifk) {
-        this.kliencifk = kliencifk;
+    
+    public void setKlientMaKonto(Kliencifk klientMaKonto) {
+        this.klientMaKonto = klientMaKonto;
     }
-
-    public Kliencifk getNowekliencifk() {
-        return nowekliencifk;
+    
+    public Kliencifk getKlientBezKonta() {
+        return klientBezKonta;
     }
-
-    public void setNowekliencifk(Kliencifk nowekliencifk) {
-        this.nowekliencifk = nowekliencifk;
+    
+    public void setKlientBezKonta(Kliencifk klientBezKonta) {
+        this.klientBezKonta = klientBezKonta;
     }
-
+    
     public List<Kliencifk> getListawszystkichklientowFk() {
         return listawszystkichklientowFk;
     }
-
+    
     public void setListawszystkichklientowFk(List<Kliencifk> listawszystkichklientowFk) {
         this.listawszystkichklientowFk = listawszystkichklientowFk;
     }
-
     
     
+    
+//</editor-fold>
     
     
 }

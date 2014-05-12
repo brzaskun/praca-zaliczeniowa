@@ -272,7 +272,7 @@ public class StornoDokView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         try {
             Integer mci = Integer.parseInt(mc)+1;
-            String mcn = Mce.getMapamcy().get(mci);
+            String mcn = Mce.getNumberToMiesiac().get(mci);
             StornoDok tmp = stornoDokDAO.find(rok, mcn, podatnik);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", tmp.getMc());
             FacesContext.getCurrentInstance().addMessage(null, msg);

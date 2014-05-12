@@ -203,16 +203,16 @@ public class WpisView implements Serializable {
             }
         }
         if (miesiacWpisu != null) {
-            int miesiacprzed = Mce.getMapamcyX().get(miesiacWpisu);
+            int miesiacprzed = Mce.getMiesiacToNumber().get(miesiacWpisu);
             if (miesiacprzed == 1) {
                 miesiacprzed = 13;
             }
-            miesiacUprzedni = Mce.getMapamcy().get(--miesiacprzed);
-            int miesiacpo = Mce.getMapamcyX().get(miesiacWpisu);
+            miesiacUprzedni = Mce.getNumberToMiesiac().get(--miesiacprzed);
+            int miesiacpo = Mce.getMiesiacToNumber().get(miesiacWpisu);
             if (miesiacpo == 12) {
                 miesiacpo = 0;
             }
-            miesiacNastepny = Mce.getMapamcy().get(++miesiacpo);
+            miesiacNastepny = Mce.getNumberToMiesiac().get(++miesiacpo);
         }
     }
 

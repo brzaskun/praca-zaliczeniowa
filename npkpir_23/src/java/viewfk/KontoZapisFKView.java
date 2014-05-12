@@ -41,7 +41,6 @@ import view.WpisView;
 @ViewScoped
 public class KontoZapisFKView implements Serializable{
     private List<Kontozapisy> kontozapisy;
-    private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
     private List<Kontozapisy> wybranekontadosumowania;
@@ -82,15 +81,15 @@ public class KontoZapisFKView implements Serializable{
       public void pobierzZapisyNaKoncie() {
          if (wybranekonto instanceof Konto) {
          kontozapisy = new ArrayList<>();
-         kontaprzejrzane = new ArrayList<>();
+         List<Konto> kontapotomne = new ArrayList<>();
          if (wybranekonto.isMapotomkow()==true) {
              List<Konto> kontamacierzyste = new ArrayList<>();
              kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
-             //tu jest ten loop ala TreeeNode
+             //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
              while (kontamacierzyste.size()>0) {
-                 znajdzkontazpotomkami(kontamacierzyste);
+                 znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
              }
-             for(Konto p : kontaprzejrzane) {
+             for(Konto p : kontapotomne) {
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
@@ -104,27 +103,27 @@ public class KontoZapisFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomne(macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomneBO(wpisView.getPodatnikWpisu(),macierzyste.getPelnynumer());
           } catch (Exception e) {
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
           return null;
       }
       
-      private void znajdzkontazpotomkami(List<Konto> wykaz) {
+      private void znajdzkontazpotomkami(List<Konto> kontapotomne, List<Konto> kontamacierzyste) {
           List<Konto> listakontposrednia = new ArrayList<>();
-          Iterator it = wykaz.iterator();
+          Iterator it = kontamacierzyste.iterator();
           while(it.hasNext()) {
               Konto p = (Konto) it.next();
               if (p.isMapotomkow()) {
                   listakontposrednia.addAll(pobierzpotomkow(p));
                   it.remove();
               } else {
-                  kontaprzejrzane.add(p);
+                  kontapotomne.add(p);
                   it.remove();
               }
           }
-          wykaz.addAll(listakontposrednia);
+          kontamacierzyste.addAll(listakontposrednia);
       }
     
       

@@ -81,9 +81,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
    }
 
-    public List<Konto> findKontaPotomne(String macierzyste) {
+    public List<Konto> findKontaPotomneBO(String podatnik,String macierzyste) {
         try {
-            return kontoFacade.findKontaPotomne(macierzyste);
+            return kontoFacade.findKontaPotomneBO(podatnik, macierzyste);
         } catch (Exception e) {
             return null;
         } 

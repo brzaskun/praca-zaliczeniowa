@@ -163,7 +163,7 @@ public class PdfZestRok extends Pdf implements Serializable {
             } else if (nr==14){
                 table.addCell(ustawfrazeAlign("drugie półrocze", "left",6));
             } else {
-                table.addCell(ustawfrazeAlign(Mce.getMapamcynazwa().get(nrmca++), "left",6));
+                table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
             }
             table.addCell(ustawfrazeAlign(formatujliczby(rs.get(7)), "right",6));
             table.addCell(ustawfrazeAlign(formatujliczby(rs.get(8)), "right",6));

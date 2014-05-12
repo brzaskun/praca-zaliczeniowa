@@ -22,9 +22,9 @@ import javax.faces.bean.SessionScoped;
 public class Mce implements Serializable{
 
     private static final List<String> mceList;
-    private static final Map<Integer, String> mapamcy;
-    private static final Map<Integer, String> mapamcynazwa;
-    private static final Map<String,Integer> mapamcyX;
+    private static final Map<Integer, String> numberToMiesiac;
+    private static final Map<Integer, String> numberToNazwamiesiaca;
+    private static final Map<String,Integer> miesiacToNumber;
     private static final Map<String,Integer> mapamcyCalendar;
 
     static{
@@ -42,47 +42,48 @@ public class Mce implements Serializable{
         mceList.add("11");
         mceList.add("12");
         
-        mapamcy = new HashMap<>();
-        mapamcy.put(1, "01");
-        mapamcy.put(2, "02");
-        mapamcy.put(3, "03");
-        mapamcy.put(4, "04");
-        mapamcy.put(5, "05");
-        mapamcy.put(6, "06");
-        mapamcy.put(7, "07");
-        mapamcy.put(8, "08");
-        mapamcy.put(9, "09");
-        mapamcy.put(10, "10");
-        mapamcy.put(11, "11");
-        mapamcy.put(12, "12");
+        numberToMiesiac = new HashMap<>();
+        numberToMiesiac.put(1, "01");
+        numberToMiesiac.put(2, "02");
+        numberToMiesiac.put(3, "03");
+        numberToMiesiac.put(4, "04");
+        numberToMiesiac.put(5, "05");
+        numberToMiesiac.put(6, "06");
+        numberToMiesiac.put(7, "07");
+        numberToMiesiac.put(8, "08");
+        numberToMiesiac.put(9, "09");
+        numberToMiesiac.put(10, "10");
+        numberToMiesiac.put(11, "11");
+        numberToMiesiac.put(12, "12");
         
-        mapamcynazwa = new HashMap<>();
-        mapamcynazwa.put(1, "styczeń");
-        mapamcynazwa.put(2, "luty");
-        mapamcynazwa.put(3, "marzec");
-        mapamcynazwa.put(4, "kwiecień");
-        mapamcynazwa.put(5, "maj");
-        mapamcynazwa.put(6, "czerwiec");
-        mapamcynazwa.put(7, "lipiec");
-        mapamcynazwa.put(8, "sierpień");
-        mapamcynazwa.put(9, "wrzesień");
-        mapamcynazwa.put(10, "październik");
-        mapamcynazwa.put(11, "listopad");
-        mapamcynazwa.put(12, "grudzień");
         
-        mapamcyX = new HashMap<>();
-        mapamcyX.put("01",1);
-        mapamcyX.put("02",2);
-        mapamcyX.put("03",3);
-        mapamcyX.put("04",4);
-        mapamcyX.put("05",5);
-        mapamcyX.put("06",6);
-        mapamcyX.put("07",7);
-        mapamcyX.put("08",8);
-        mapamcyX.put("09",9);
-        mapamcyX.put("10",10);
-        mapamcyX.put("11",11);
-        mapamcyX.put("12",12);
+        numberToNazwamiesiaca = new HashMap<>();
+        numberToNazwamiesiaca.put(1, "styczeń");
+        numberToNazwamiesiaca.put(2, "luty");
+        numberToNazwamiesiaca.put(3, "marzec");
+        numberToNazwamiesiaca.put(4, "kwiecień");
+        numberToNazwamiesiaca.put(5, "maj");
+        numberToNazwamiesiaca.put(6, "czerwiec");
+        numberToNazwamiesiaca.put(7, "lipiec");
+        numberToNazwamiesiaca.put(8, "sierpień");
+        numberToNazwamiesiaca.put(9, "wrzesień");
+        numberToNazwamiesiaca.put(10, "październik");
+        numberToNazwamiesiaca.put(11, "listopad");
+        numberToNazwamiesiaca.put(12, "grudzień");
+        
+        miesiacToNumber = new HashMap<>();
+        miesiacToNumber.put("01",1);
+        miesiacToNumber.put("02",2);
+        miesiacToNumber.put("03",3);
+        miesiacToNumber.put("04",4);
+        miesiacToNumber.put("05",5);
+        miesiacToNumber.put("06",6);
+        miesiacToNumber.put("07",7);
+        miesiacToNumber.put("08",8);
+        miesiacToNumber.put("09",9);
+        miesiacToNumber.put("10",10);
+        miesiacToNumber.put("11",11);
+        miesiacToNumber.put("12",12);
         
         mapamcyCalendar = new HashMap<>();
         mapamcyCalendar.put("01",Calendar.JANUARY);
@@ -101,10 +102,10 @@ public class Mce implements Serializable{
     
     public static String[] zwiekszmiesiac(String rok, String miesiac) {
         String[] nowedane = new String[2];
-        int mcInt = mapamcyX.get(miesiac);
+        int mcInt = miesiacToNumber.get(miesiac);
         if (mcInt < 12) {
             nowedane[0] = rok;
-            nowedane[1] = mapamcy.get(++mcInt);
+            nowedane[1] = numberToMiesiac.get(++mcInt);
         } else {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(++rokInt);
@@ -117,10 +118,10 @@ public class Mce implements Serializable{
     */
     public static List<String> poprzedniemce(String miesiac) {
         List<String> poprzedniemce = new ArrayList<>();
-        int miesiacasint = mapamcyX.get(miesiac);
-        for (int p : mapamcy.keySet()) {
+        int miesiacasint = miesiacToNumber.get(miesiac);
+        for (int p : numberToMiesiac.keySet()) {
             if (p < miesiacasint) {
-                poprzedniemce.add(mapamcy.get(p));
+                poprzedniemce.add(numberToMiesiac.get(p));
             }
         }
         return poprzedniemce;
@@ -130,20 +131,20 @@ public class Mce implements Serializable{
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
-    public static Map<Integer, String> getMapamcy() {
-        return mapamcy;
+    public static Map<Integer, String> getNumberToMiesiac() {
+        return numberToMiesiac;
     }
     
-    public static Map<String, Integer> getMapamcyX() {
-        return mapamcyX;
+    public static Map<String, Integer> getMiesiacToNumber() {
+        return miesiacToNumber;
     }
     
     public static Map<String, Integer> getMapamcyCalendar() {
         return mapamcyCalendar;
     }
     
-    public static Map<Integer, String> getMapamcynazwa() {
-        return mapamcynazwa;
+    public static Map<Integer, String> getNumberToNazwamiesiaca() {
+        return numberToNazwamiesiaca;
     }
     
     public List<String> getMceList() {

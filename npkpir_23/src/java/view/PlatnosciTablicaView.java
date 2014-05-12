@@ -68,7 +68,7 @@ public class PlatnosciTablicaView implements Serializable {
         } catch (Exception e) {
         }
         try {
-            for (String p : Mce.getMapamcy().values()) {
+            for (String p : Mce.getNumberToMiesiac().values()) {
                 lista.add(nowezobowiazanie(rok, p, biezacyPodatnik));
             }
         } catch (Exception e) {
