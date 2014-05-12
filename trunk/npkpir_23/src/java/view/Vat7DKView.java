@@ -90,6 +90,7 @@ public class Vat7DKView implements Serializable {
     private boolean pole56zreki;
     private boolean pole59zreki;
     private boolean pole47zreki;
+    private boolean pole70zreki;
     private boolean pokaz56lub59;
     private boolean zachowaj;
     private boolean pierwotnazamiastkorekty;
@@ -516,6 +517,10 @@ public class Vat7DKView implements Serializable {
         roznica = p.getPoleI60() - p.getPoleI61();
         p.setPoleI65(roznica);
         p.setPole65(roznica.toString());
+        if(pole70zreki==true){
+            p.setPole70("1");
+            p.setPoleI70(1);
+        }
         pozycjeSzczegoloweVAT = p;
     }
 
@@ -652,6 +657,14 @@ public class Vat7DKView implements Serializable {
 
     public void setPierwotnazamiastkorekty(boolean pierwotnazamiastkorekty) {
         this.pierwotnazamiastkorekty = pierwotnazamiastkorekty;
+    }
+
+    public boolean isPole70zreki() {
+        return pole70zreki;
+    }
+
+    public void setPole70zreki(boolean pole70zreki) {
+        this.pole70zreki = pole70zreki;
     }
     
     

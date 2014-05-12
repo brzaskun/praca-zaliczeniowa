@@ -74,6 +74,7 @@ public class VatKorektaView implements Serializable {
     private VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok;
     private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
+    private boolean pole70zreki;
     private List<Deklaracjevat> deklaracjeWyslane;
     private List<Rodzajedok> rodzajedokKlienta;
     private List<VatKorektaDok> listadokumentowDoKorekty;
@@ -223,6 +224,10 @@ public class VatKorektaView implements Serializable {
         /**
          * robie podsumowanie szczegolowych oraz uzupelniam pozycje nowej deklaracji, usuwam jakies statusy i wpisy
          */
+        if (pole70zreki == true) {
+            deklaracjaVATPoKorekcie.getPozycjeszczegolowe().setPole70("1");
+            deklaracjaVATPoKorekcie.getPozycjeszczegolowe().setPoleI70(1);
+        }
         VATDeklaracja.podsumujSzczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
         deklaracjaVATPoKorekcie.setIdentyfikator("");
         deklaracjaVATPoKorekcie.setUpo("");
@@ -397,6 +402,14 @@ public class VatKorektaView implements Serializable {
 
     public void setvATDeklaracjaKorektaDok(VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok) {
         this.vATDeklaracjaKorektaDok = vATDeklaracjaKorektaDok;
+    }
+
+    public boolean isPole70zreki() {
+        return pole70zreki;
+    }
+
+    public void setPole70zreki(boolean pole70zreki) {
+        this.pole70zreki = pole70zreki;
     }
 
     
