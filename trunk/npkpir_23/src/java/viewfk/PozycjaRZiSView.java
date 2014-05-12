@@ -192,7 +192,7 @@ public class PozycjaRZiSView implements Serializable {
                     wykazkont.add(p);
                 }
             } else if (p.getPozycja().equals("analit")) {
-                List<Konto> potomki = kontoDAO.findKontaPotomne(p.getPelnynumer());
+                List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),p.getPelnynumer());
                 for (Konto r : potomki) {
                     zmodyfikujwykazkont(potomki);
                 }
@@ -224,9 +224,9 @@ public class PozycjaRZiSView implements Serializable {
         root.foldLevel(--level);
     } 
     public void rozwinrzadanalityki (Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaPotomne(konto.getPelnynumer());
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),konto.getPelnynumer());
         if (lista.size()>0) {
-            wykazkont.addAll(kontoDAO.findKontaPotomne(konto.getPelnynumer()));
+            wykazkont.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),konto.getPelnynumer()));
             wykazkont.remove(konto);
             Collections.sort(wykazkont,new Kontocomparator());
         } else {
@@ -277,7 +277,7 @@ public class PozycjaRZiSView implements Serializable {
         drugiinit();
     }
     private void przyporzadkujpotkomkow(String konto, String pozycja) {
-        List<Konto> lista = kontoDAO.findKontaPotomne(konto);
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto);
         for (Konto p : lista) {
             if (pozycja == null) {
                 p.setPozycja(null);
@@ -300,7 +300,7 @@ public class PozycjaRZiSView implements Serializable {
         }
     }
     private void odznaczmacierzyste (String macierzyste, String kontoanalizowane) {
-            List<Konto> siostry = kontoDAO.findKontaPotomne(macierzyste);
+            List<Konto> siostry = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),macierzyste);
               if (siostry.size() > 1) {
                   boolean sainne = false;
                   for (Konto p : siostry) {

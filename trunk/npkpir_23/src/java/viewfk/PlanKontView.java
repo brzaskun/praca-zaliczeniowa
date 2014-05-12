@@ -7,7 +7,6 @@ package viewfk;
 import abstractClasses.ToBeATreeNodeObject;
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
-import dao.DokDAO;
 import dao.PodatnikDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -17,7 +16,6 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -438,6 +436,7 @@ public class PlanKontView implements Serializable {
         Konto zawartosc = (Konto) p.getData();
         Msg.msg("i", "Wybrano: " + zawartosc.getPelnynumer() + " " + zawartosc.getNazwapelna());
     }
+    
 
     public List<Konto> getWykazkont() {
         return wykazkont;
