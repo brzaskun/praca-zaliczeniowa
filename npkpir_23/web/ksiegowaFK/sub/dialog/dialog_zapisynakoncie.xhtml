@@ -26,7 +26,7 @@
                 </h:form>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia" />
             </p:layoutUnit>  
-
+<!--            lewa strona z drzewem kont-->
             <p:layoutUnit position="west" size="350">
                 <p:panelGrid columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />

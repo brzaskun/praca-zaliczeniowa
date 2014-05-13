@@ -70,8 +70,14 @@
                  <p:panel header="Wprowadź parametry aktualne" style="width: 70%;"/>
            
                 <p:panelGrid id="parametryp" columns="4" >
-                    <h:outputText value="rok: "/><p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
-                    <h:outputText value="miesiąc: "/><p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.miesiac}" id="miesiaczus"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="rok: "/>
+                    <p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.rok}" id="rokzus">
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="miesiąc: "/>
+                    <p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.miesiac}" id="miesiaczus">
+                        <f:selectItems value="#{Mce.mceList}" />
+                    </p:selectOneMenu>
                     <h:outputText value="kwota zus51 z chor.: "/>
                     <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51ch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                     <h:outputText value="kwota zus51 bez chor.: "/>
@@ -86,11 +92,14 @@
                     <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.pit4}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
                 </p:panelGrid>
                 <br/>
-                <p:panelGrid columns="4" style="column-width: 350px; width: 70%;  text-align: center;">
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 120px;" update="@form"/>
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 120px;" update="@form" />
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 120px;" update="@form" />
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze()}" value="pobierz dane" style="width: 120px;" update="@form"/>
+                <p:panelGrid columns="5" style="column-width: 350px; width: 70%;  text-align: center;">
+                    <p:outputPanel layout="box">
+                    <p:commandButton action="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 110px;" update="@form"/>
+                    <p:commandButton action="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 110px;" update="@form" />
+                    <p:commandButton action="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 110px;" update="@form" />
+                    </p:outputPanel>
+                    <p:commandButton action="#{zUSStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 110px;" update="@form"/>
+                    <p:commandButton action="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze()}" value="pobierz z wzorca" style="width: 110px;" update="@form"/>
                 </p:panelGrid>
             </h:form>
         </p:tab>
