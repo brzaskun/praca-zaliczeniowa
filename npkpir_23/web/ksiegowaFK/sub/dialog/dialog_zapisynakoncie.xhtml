@@ -35,6 +35,7 @@
                 <h:form id="form">
                     <p:hotkey bind="down" global="false"  onstart="przejdzwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
+                    <p:outputPanel id="kontenertabeli" deferred="true">
                     <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}" 
                                  >
                         <p:ajax event="select" update=":formwpiskonta:kontoma, :tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
@@ -47,6 +48,7 @@
                             <h:outputText value="#{loop.nazwapelna}" /> 
                         </p:column>
                     </p:treeTable>
+                        </p:outputPanel>
                 </h:form>
             </p:layoutUnit>  
 

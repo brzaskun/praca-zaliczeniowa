@@ -5,7 +5,6 @@ var zachowajnumerwiersza = function(numer, me) {
 };
 
 var przejdzwiersz = function() {
-    var ev = event.target;
     var lolo = $("#form\\:dokumentyLista_data").children("tr");
     if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;

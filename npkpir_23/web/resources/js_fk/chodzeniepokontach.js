@@ -3,17 +3,15 @@ var przejdzwiersz = function(tabela, tabela1, zmienna) {
     if (!MYAPP.hasOwnProperty(zmienna)) {
         MYAPP[zmienna] = 1;
     } else {
-        if (MYAPP[zmienna] < lolo.length - 1) {
-            MYAPP[zmienna] += 1;
+        MYAPP[zmienna] += 1;
+        if (MYAPP[zmienna] > lolo.length) {
+            MYAPP[zmienna] = lolo.length;
         }
     }
     var komorki = $(lolo[MYAPP[zmienna]]).children("td");
-    var czynaekranie = isScrolledIntoViewZK(komorki[1]);
-    if (!czynaekranie) {
-        var wysokosc = 70;
-        var elem = document.getElementById(tabela1);
-        elem.scrollTop = elem.scrollTop + wysokosc;
-    }
+    var przesun = isScrolledIntoView(komorki[1]);
+    var elem = document.getElementById(tabela1);
+    elem.scrollTop = elem.scrollTop + przesun;
     $(komorki[1]).click();
 };
 
@@ -27,25 +25,35 @@ var wrocwiersz = function(tabela, tabela1, zmienna) {
         }
     }
     var komorki = $(lolo[MYAPP[zmienna]]).children("td");
-    var czynaekranie = isScrolledIntoViewZK(komorki[1]);
-    if (!czynaekranie) {
-        var wysokosc = 70;
-        var elem = document.getElementById(tabela1);
-        elem.scrollTop = elem.scrollTop - wysokosc;
-    }
+    var przesun = isScrolledIntoView(komorki[1]);
+    var elem = document.getElementById(tabela1);
+    elem.scrollTop = elem.scrollTop + przesun;
     $(komorki[1]).click();
 };
 
-function isScrolledIntoViewZK(elem)
-{
+
+var isScrolledIntoView = function(elem) {
     try {
-        var docViewTop = $(window).scrollTop() + 150;
-        var docViewBottom = docViewTop + $(window).height() - 300;
+        //tak daleko zeby dotrzec do kontenera
+        var parent = elem.parentNode
+        do {
+            parent = parent.parentNode;
+        } while (parent.className !== "ui-layout-unit-content ui-widget-content");
+        var docViewTop = elem.parentNode.offsetParent.offsetTop;
+        var docViewBottom = $(parent).height();
+        var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
-        return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
-                && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        var przesuniecie = 0;
+        if (elemTop < (docViewTop + viewableheight)) {
+            przesuniecie += -viewableheight;
+        }
+        if (elemBottom > docViewBottom) {
+            przesuniecie += elemBottom - docViewBottom;
+        }
+        return przesuniecie;
     } catch (ex) {
-        alert("Blad w chodzeniepokonahc.js isScrolledIntoViewZK " + ex.toString());
+         alert("Blad w chodzeniepokonahc.js isScrolledIntoViewZK " + ex.toString());
     }
-}
+    return 0;
+};
