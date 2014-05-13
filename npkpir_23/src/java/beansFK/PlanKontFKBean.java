@@ -8,6 +8,7 @@ package beansFK;
 
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -43,7 +45,7 @@ public class PlanKontFKBean {
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
-         nowekonto.setNrkonta(oblicznumerkonta(nowekonto, macierzyste, kontoDAOfk));
+         nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, podatnik));
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
@@ -133,6 +135,34 @@ public class PlanKontFKBean {
         }
     }
     
+    public static void zablokujKontoMacierzysteSlownik(Konto macierzyste, KontoDAOfk kontoDAOfk) {
+        macierzyste.setBlokada(true);
+        macierzyste.setMapotomkow(true);
+        macierzyste.setMaslownik(true);
+        kontoDAOfk.edit(macierzyste);
+    }
+    
+    public static void zablokujKontoMacierzysteNieSlownik(Konto macierzyste, KontoDAOfk kontoDAOfk) {
+        macierzyste.setMapotomkow(true);
+        kontoDAOfk.edit(macierzyste);
+    }
+    
+    public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, String podatnik) {
+        if (czywzorcowe(r.getChildren().get(0))) {
+            r.reset();
+            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik("Testowy"));
+        } else {
+            r.reset();
+            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik(podatnik));
+        }
+        r.expandAll();
+    }
+
+    public static boolean czywzorcowe(TreeNode nodeR) {
+        Konto konto = (Konto) nodeR.getData();
+        return konto.getPodatnik().equals("Testowy");      
+    }
+    
     private static int obliczlevel(String macierzyste) {
          int i = 1;
          i += StringUtils.countMatches(macierzyste, "-");
@@ -157,16 +187,10 @@ public class PlanKontFKBean {
         }
     }
     
-    private static String oblicznumerkonta(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk) {
-        ArrayList<Konto> lista = new ArrayList<>();
-        List<Konto> wykazkont = kontoDAOfk.findAll();
-        for (Konto p : wykazkont) {
-            if (p.getMacierzyste().equals(macierzyste.getPelnynumer())) {
-                lista.add(p);
-            }
-        }
-        if (lista.size() > 0) {
-            return String.valueOf(Integer.parseInt(lista.get(lista.size() - 1).getNrkonta()) + 1);
+    private static String oblicznumerkonta(Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
+        int liczbakont = kontoDAOfk.policzPotomne(podatnik, macierzyste.getPelnynumer());
+        if (liczbakont > 0) {
+            return String.valueOf(liczbakont+1);
         } else {
             return "1";
         }

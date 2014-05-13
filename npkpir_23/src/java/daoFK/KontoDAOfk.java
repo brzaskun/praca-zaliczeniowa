@@ -120,5 +120,13 @@ public class KontoDAOfk extends DAO implements Serializable{
             return 1;
         }
     }
+
+    public int policzPotomne(String podatnik, String macierzyste) {
+          try {
+            return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomnePodatnikCount(podatnik, macierzyste)));
+        } catch (Exception e) {
+            return 0;
+        } 
+    }
  
 }

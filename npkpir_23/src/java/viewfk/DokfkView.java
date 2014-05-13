@@ -952,11 +952,12 @@ public class DokfkView implements Serializable {
 //        }
 //    }
 //    
-    //********************************
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
@@ -964,146 +965,146 @@ public class DokfkView implements Serializable {
     public Dokfk getSelected() {
         return selected;
     }
-
+    
     public int getNumerwierszazapisu() {
         return numerwierszazapisu;
     }
-
+    
     public void setNumerwierszazapisu(int numerwierszazapisu) {
         this.numerwierszazapisu = numerwierszazapisu;
     }
-
+    
     public void setSelected(Dokfk selected) {
         this.selected = selected;
     }
-
+    
     public List<Dokfk> getWykazZaksiegowanychDokumentow() {
         return wykazZaksiegowanychDokumentow;
     }
-
+    
     public void setWykazZaksiegowanychDokumentow(List<Dokfk> wykazZaksiegowanychDokumentow) {
         this.wykazZaksiegowanychDokumentow = wykazZaksiegowanychDokumentow;
     }
-
+    
     public int getLiczbawierszyWDokumencie() {
         return liczbawierszyWDokumencie;
     }
-
+    
     public void setLiczbawierszyWDokumencie(int liczbawierszyWDokumencie) {
         this.liczbawierszyWDokumencie = liczbawierszyWDokumencie;
     }
-
+    
     public String getWierszid() {
         return wierszid;
     }
-
+    
     public void setWierszid(String wierszid) {
         this.wierszid = wierszid;
     }
-
+    
     public String getWnlubma() {
         return wnlubma;
     }
-
+    
     public void setWnlubma(String wnlubma) {
         this.wnlubma = wnlubma;
     }
-
+    
     public boolean isZapisz0edytuj1() {
         return zapisz0edytuj1;
     }
-
+    
     public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
-
+    
     public Wiersze getWiersz() {
         return wiersz;
     }
-
+    
     public void setWiersz(Wiersze wiersz) {
         this.wiersz = wiersz;
     }
-
+    
     public Rozrachunekfk getAktualnywierszdorozrachunkow() {
         return aktualnywierszdorozrachunkow;
     }
-
+    
     public void setAktualnywierszdorozrachunkow(Rozrachunekfk aktualnywierszdorozrachunkow) {
         this.aktualnywierszdorozrachunkow = aktualnywierszdorozrachunkow;
     }
-
+    
     public List<Rozrachunekfk> getRozrachunekNowaTransakcja() {
         return rozrachunekNowaTransakcja;
     }
-
+    
     public void setRozrachunekNowaTransakcja(List<Rozrachunekfk> rozrachunekNowaTransakcja) {
         DokfkView.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
     }
-
+    
     public List<Transakcja> getBiezacetransakcje() {
         return biezacetransakcje;
     }
-
+    
     public void setBiezacetransakcje(List<Transakcja> biezacetransakcje) {
         this.biezacetransakcje = biezacetransakcje;
     }
-
+    
     public boolean isPotraktujjakoNowaTransakcje() {
         return potraktujjakoNowaTransakcje;
     }
-
+    
     public void setPotraktujjakoNowaTransakcje(boolean potraktujjakoNowaTransakcje) {
         this.potraktujjakoNowaTransakcje = potraktujjakoNowaTransakcje;
     }
-
+    
     public boolean isZablokujprzyciskzapisz() {
         return zablokujprzyciskzapisz;
     }
-
+    
     public void setZablokujprzyciskzapisz(boolean zablokujprzyciskzapisz) {
         this.zablokujprzyciskzapisz = zablokujprzyciskzapisz;
     }
-
+    
     public String getWybranawaluta() {
         return wybranawaluta;
     }
-
+    
     public void setWybranawaluta(String wybranawaluta) {
         this.wybranawaluta = wybranawaluta;
     }
-
+    
     public String getSymbolwalutydowiersza() {
         return symbolwalutydowiersza;
     }
-
+    
     public void setSymbolwalutydowiersza(String symbolwalutydowiersza) {
         this.symbolwalutydowiersza = symbolwalutydowiersza;
     }
-
+    
     public List<String> getWprowadzonesymbolewalut() {
         return wprowadzonesymbolewalut;
     }
-
+    
     public void setWprowadzonesymbolewalut(List<String> wprowadzonesymbolewalut) {
         this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
     }
-   
+    
     public boolean isZablokujprzyciskrezygnuj() {
         return zablokujprzyciskrezygnuj;
     }
-
+    
     public void setZablokujprzyciskrezygnuj(boolean zablokujprzyciskrezygnuj) {
         this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
     }
-
+    
     public boolean isZablokujpanelwalutowy() {
         return zablokujpanelwalutowy;
     }
-
+    
     public void setZablokujpanelwalutowy(boolean zablokujpanelwalutowy) {
         this.zablokujpanelwalutowy = zablokujpanelwalutowy;
     }
-
-
+    
+//</editor-fold>
 }
