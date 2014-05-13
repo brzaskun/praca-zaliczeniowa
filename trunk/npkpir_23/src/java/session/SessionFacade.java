@@ -605,6 +605,10 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
     }
     
+    public Object findKontaPotomnePodatnikCount(String podatnik, String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getSingleResult();
+    }
+    
     public List<Konto> findKontaMaSlownik() {
         return em.createNamedQuery("Konto.findByMaSlownik").setParameter("maslownik", true).getResultList();
     }

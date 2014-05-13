@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
@@ -37,6 +38,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class PozycjaRZiSView implements Serializable {
+
     private static TreeNode wybranynodekonta;
     private static ArrayList<PozycjaRZiS> pozycje;
     private static ArrayList<PozycjaRZiS> pozycje_old;
@@ -55,13 +57,16 @@ public class PozycjaRZiSView implements Serializable {
     private List<Konto> wykazkont;
     @Inject
     private KontoDAOfk kontoDAO;
-    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
-    @Inject private PozycjaRZiSDAO pozycjaRZiSDAO;
-    @Inject private Rzisuklad rzisuklad;
-    @Inject private KontopozycjarzisDAO kontopozycjarzisDAO;
+    @Inject
+    private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject
+    private PozycjaRZiSDAO pozycjaRZiSDAO;
+    @Inject
+    private Rzisuklad rzisuklad;
+    @Inject
+    private KontopozycjarzisDAO kontopozycjarzisDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    
 
     public PozycjaRZiSView() {
         this.wykazkont = new ArrayList<>();
@@ -78,7 +83,7 @@ public class PozycjaRZiSView implements Serializable {
 
     @PostConstruct
     private void init() {
-        
+
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
         pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
         pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
@@ -115,27 +120,30 @@ public class PozycjaRZiSView implements Serializable {
 //            List<Konto> plankont = kontoDAO.findAll();
 //            ustawRoota(rootProjekt, pozycje, zapisy, plankont);
 //        }
-        
+
     }
 
-    public void pobierzuklad () {
+    public void pobierzuklad() {
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         rootProjekt = new TreeNodeExtended("root", null);
         ustawRootaprojekt(rootProjekt, pozycje);
-        Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
+        Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
-     public void pobierzukladprzeglad () {
+
+    public void pobierzukladprzeglad() {
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
@@ -144,138 +152,127 @@ public class PozycjaRZiSView implements Serializable {
         List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
         List<Konto> plankont = kontoDAO.findAll();
         ustawRoota(root, pozycje, zapisy, plankont);
-        Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
+        Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
-    
-    public void pobierzukladkonto () {
+
+    public void pobierzukladkonto() {
         pobierzzachowanepozycjedlakont();
         drugiinit();
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         if (pozycje.isEmpty()) {
             pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         rootProjektKonta = new TreeNodeExtended("root", null);
         ustawRootaprojekt(rootProjektKonta, pozycje);
-        Msg.msg("i", "Pobrano układ "+rzisuklad.getRzisukladPK().getUklad());
+        Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
-    
+
     private void ustawRoota(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pz, List<Kontozapisy> zapisy, List<Konto> plankont) {
         rt.createTreeNodesForElement(pz);
         rt.addNumbers(zapisy, plankont);
         rt.sumNodes();
         rt.resolveFormulas();
         rt.expandAll();
-        level = rt.ustaldepthDT(pz)-1;
+        level = rt.ustaldepthDT(pz) - 1;
     }
-    
+
     private void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pz) {
         rt.createTreeNodesForElement(pz);
         rt.expandAll();
-        level = rt.ustaldepthDT(pz)-1;
+        level = rt.ustaldepthDT(pz) - 1;
     }
-    
+
     private void drugiinit() {
         wykazkont.clear();
-        List<Konto> pobranekonta = kontoDAO.findKontaPotomne("0", "wynikowe");
-        zmodyfikujwykazkont(pobranekonta);
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne("0", "wynikowe");
+        PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalityki(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         Collections.sort(wykazkont, new Kontocomparator());
     }
-    
-    private void zmodyfikujwykazkont(List<Konto> macierzyste) {
-        for (Konto p: macierzyste) {
-            if (p.getPozycja() == null) {
-                if (!wykazkont.contains(p)) {
-                    wykazkont.add(p);
-                }
-            } else if (p.getPozycja().equals("analit")) {
-                List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),p.getPelnynumer());
-                for (Konto r : potomki) {
-                    zmodyfikujwykazkont(potomki);
-                }
-            } 
-        }
-    }
-    
-       
-    public void rozwinwszystkie(){
+
+   
+
+    public void rozwinwszystkie() {
         root.createTreeNodesForElement(pozycje);
-        level = root.ustaldepthDT(pozycje)-1;
+        level = root.ustaldepthDT(pozycje) - 1;
         root.expandAll();
-    }  
-    
-    public void rozwin(){
+    }
+
+    public void rozwin() {
         int maxpoziom = root.ustaldepthDT(pozycje);
         if (level < --maxpoziom) {
             root.expandLevel(level++);
         }
-    }  
-    
-    public void zwinwszystkie(){
+    }
+
+    public void zwinwszystkie() {
         root.createTreeNodesForElement(pozycje);
         root.foldAll();
         level = 0;
-    }    
+    }
 
-    public void zwin(){
+    public void zwin() {
         root.foldLevel(--level);
-    } 
-    public void rozwinrzadanalityki (Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),konto.getPelnynumer());
-        if (lista.size()>0) {
-            wykazkont.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),konto.getPelnynumer()));
+    }
+
+    public void rozwinrzadanalityki(Konto konto) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer());
+        if (lista.size() > 0) {
+            wykazkont.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer()));
             wykazkont.remove(konto);
-            Collections.sort(wykazkont,new Kontocomparator());
+            Collections.sort(wykazkont, new Kontocomparator());
         } else {
             Msg.msg("e", "Konto nie posiada analityk");
         }
     }
-    
+
     public void onKontoDrop(Konto konto) {
-        if (wybranapozycja==null) {
+        if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
             //to duperele porzadkujace sytuacje w okienkach
             przyporzadkowanekonta.add(konto);
-            Collections.sort(przyporzadkowanekonta,new Kontocomparator());
+            Collections.sort(przyporzadkowanekonta, new Kontocomparator());
             wykazkont.remove(konto);
             //czesc przekazujaca przyporzadkowanie do konta do wymiany
             konto.setPozycja(wybranapozycja);
             konto.setPozycjonowane(true);
             kontoDAO.edit(konto);
             //czesc nanoszaca informacje na potomku
-            if (konto.isMapotomkow()==true) {
+            if (konto.isMapotomkow() == true) {
                 przyporzadkujpotkomkow(konto.getPelnynumer(), wybranapozycja);
             }
             //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty()>0) {
+            if (konto.getMacierzysty() > 0) {
                 oznaczmacierzyste(konto.getMacierzyste());
             }
-           
+
         }
         drugiinit();
     }
-    
+
     public void onKontoRemove(Konto konto) {
         wykazkont.add(konto);
-        Collections.sort(wykazkont,new Kontocomparator());
+        Collections.sort(wykazkont, new Kontocomparator());
         przyporzadkowanekonta.remove(konto);
         konto.setPozycja(null);
         konto.setPozycjonowane(false);
         kontoDAO.edit(konto);
         //zerujemy potomkow
-           if (konto.isMapotomkow()==true) {
-               przyporzadkujpotkomkow(konto.getPelnynumer(), null);
-           }
+        if (konto.isMapotomkow() == true) {
+            przyporzadkujpotkomkow(konto.getPelnynumer(), null);
+        }
         //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
-           if (konto.getMacierzysty()>0) {
-                odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
-            }
+        if (konto.getMacierzysty() > 0) {
+            odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
+        }
         drugiinit();
     }
+
     private void przyporzadkujpotkomkow(String konto, String pozycja) {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto);
         for (Konto p : lista) {
@@ -285,47 +282,48 @@ public class PozycjaRZiSView implements Serializable {
                 p.setPozycja(pozycja);
             }
             kontoDAO.edit(p);
-            if (p.isMapotomkow()==true) {
-                    przyporzadkujpotkomkow(p.getPelnynumer(), pozycja);
+            if (p.isMapotomkow() == true) {
+                przyporzadkujpotkomkow(p.getPelnynumer(), pozycja);
             }
         }
     }
-    
-    private void oznaczmacierzyste (String macierzyste) {
+
+    private void oznaczmacierzyste(String macierzyste) {
         Konto konto = kontoDAO.findKonto(macierzyste, wpisView.getPodatnikWpisu());
         konto.setPozycja("analit");
         kontoDAO.edit(konto);
-        if (konto.getMacierzysty()>0) {
+        if (konto.getMacierzysty() > 0) {
             oznaczmacierzyste(konto.getMacierzyste());
         }
     }
-    private void odznaczmacierzyste (String macierzyste, String kontoanalizowane) {
-            List<Konto> siostry = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),macierzyste);
-              if (siostry.size() > 1) {
-                  boolean sainne = false;
-                  for (Konto p : siostry) {
-                      if (p.isPozycjonowane()==true && !p.getPelnynumer().equals(kontoanalizowane)) {
-                          sainne = true;
-                      }
-                  }
-                if (sainne==false) {
-                    Konto konto = kontoDAO.findKonto(macierzyste, wpisView.getPodatnikWpisu());
-                    konto.setPozycja(null);
-                    kontoDAO.edit(konto);
-                    if (konto.getMacierzysty()>0) {
-                        odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
-                    }
+
+    private void odznaczmacierzyste(String macierzyste, String kontoanalizowane) {
+        List<Konto> siostry = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), macierzyste);
+        if (siostry.size() > 1) {
+            boolean sainne = false;
+            for (Konto p : siostry) {
+                if (p.isPozycjonowane() == true && !p.getPelnynumer().equals(kontoanalizowane)) {
+                    sainne = true;
                 }
-              }
+            }
+            if (sainne == false) {
+                Konto konto = kontoDAO.findKonto(macierzyste, wpisView.getPodatnikWpisu());
+                konto.setPozycja(null);
+                kontoDAO.edit(konto);
+                if (konto.getMacierzysty() > 0) {
+                    odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer());
+                }
+            }
+        }
     }
-    
+
     public void wybranopozycjeRZiS() {
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(wyszukajprzyporzadkowane(wybranapozycja));
-        Msg.msg("i", "Wybrano pozycję "+((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
+        Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
     }
-   
+
     private List<Konto> wyszukajprzyporzadkowane(String pozycja) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe");
         List<Konto> returnlist = new ArrayList<>();
@@ -336,23 +334,23 @@ public class PozycjaRZiSView implements Serializable {
             }
         }
         return returnlist;
-        
+
     }
-    
+
     public void dodajnowapozycje(String syntetycznaanalityczna) {
-        if (syntetycznaanalityczna.equals("syntetyczna")){
+        if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
                 pozycje.remove(0);
             }
             if (pozycje.isEmpty()) {
-                Msg.msg("i", nowyelementRZiS.getNazwa()+"zachowam pod A");
+                Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod A");
                 nowyelementRZiS.setPozycjaSymbol("A");
                 nowyelementRZiS.setPozycjaString("A");
                 nowyelementRZiS.setLevel(0);
                 nowyelementRZiS.setMacierzysty(0);
             } else {
-                String poprzednialitera = ((PozycjaRZiS) rootProjekt.getChildren().get(rootProjekt.getChildCount()-1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaRZiS) rootProjekt.getChildren().get(rootProjekt.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
@@ -361,7 +359,7 @@ public class PozycjaRZiSView implements Serializable {
                 if (!(nowyelementRZiS.getFormula() instanceof String)) {
                     nowyelementRZiS.setFormula("");
                 }
-                Msg.msg("i", nowyelementRZiS.getNazwa()+"zachowam pod "+nowalitera);
+                Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementRZiS.setUklad(rzisuklad.getRzisukladPK().getUklad());
             nowyelementRZiS.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
@@ -376,32 +374,32 @@ public class PozycjaRZiSView implements Serializable {
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
             nowyelementRZiS = new PozycjaRZiS();
-            
+
         } else {
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }
             int level = ((PozycjaRZiS) wybranynodekonta.getData()).getLevel();
-                if (level == 4) {
-                    Msg.msg("e", "Nie można dodawać więcej poziomów");
-                    return;
-                }
+            if (level == 4) {
+                Msg.msg("e", "Nie można dodawać więcej poziomów");
+                return;
+            }
             PozycjaRZiS parent = (PozycjaRZiS) wybranynodekonta.getData();
             String nastepnysymbol;
             //sprawdzic trzeba czy sa dzieci juz jakies
-            if (wybranynodekonta.getChildCount()==0) {
+            if (wybranynodekonta.getChildCount() == 0) {
                 //w zaleznosci od levelu zwraca nastepny numer
-                nastepnysymbol = zwrocNastepnySymbol(level+1);
+                nastepnysymbol = zwrocNastepnySymbol(level + 1);
             } else {
-                int index = wybranynodekonta.getChildCount()-1;
+                int index = wybranynodekonta.getChildCount() - 1;
                 PozycjaRZiS lastchild = (PozycjaRZiS) wybranynodekonta.getChildren().get(index).getData();
-                nastepnysymbol = zwrocNastepnySymbol(level+1, lastchild.getPozycjaSymbol());
+                nastepnysymbol = zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
             nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
-            nowyelementRZiS.setPozycjaString(parent.getPozycjaString()+"."+nastepnysymbol);
+            nowyelementRZiS.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
             nowyelementRZiS.setPrzychod0koszt1(parent.isPrzychod0koszt1());
-            nowyelementRZiS.setLevel(level+1);
+            nowyelementRZiS.setLevel(level + 1);
             nowyelementRZiS.setMacierzysty(parent.getLp());
             if (!(nowyelementRZiS.getFormula() instanceof String)) {
                 nowyelementRZiS.setFormula("");
@@ -421,27 +419,35 @@ public class PozycjaRZiSView implements Serializable {
             nowyelementRZiS = new PozycjaRZiS();
         }
     }
-    
+
     public String zwrocNastepnySymbol(int level) {
         switch (level) {
-            case 1 : return "I";
-            case 2 : return "1";
-            case 3 : return "a";
-            case 4 : return "-";
+            case 1:
+                return "I";
+            case 2:
+                return "1";
+            case 3:
+                return "a";
+            case 4:
+                return "-";
         }
         return null;
     }
-    
-     public String zwrocNastepnySymbol(int level, String pozycjasymbol) {
+
+    public String zwrocNastepnySymbol(int level, String pozycjasymbol) {
         switch (level) {
-            case 1 : return RomNumb.romInc(pozycjasymbol);
-            case 2 : return RomNumb.numbInc(pozycjasymbol);
-            case 3 : return RomNumb.alfaInc(pozycjasymbol);
-            case 4 : return "-";
+            case 1:
+                return RomNumb.romInc(pozycjasymbol);
+            case 2:
+                return RomNumb.numbInc(pozycjasymbol);
+            case 3:
+                return RomNumb.alfaInc(pozycjasymbol);
+            case 4:
+                return "-";
         }
         return null;
     }
-    
+
     public void usunpozycje() {
         try {
             if (wybranynodekonta.getChildCount() > 0) {
@@ -451,46 +457,47 @@ public class PozycjaRZiSView implements Serializable {
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
-                   Msg.msg("i", "Dodaje pusta pozycje");
-               }
+                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
             rootProjekt = new TreeNodeExtended("root", null);
             ustawRootaprojekt(rootProjekt, pozycje);
             Msg.msg("i", "Usuwam w RZiS");
         } catch (Exception e) {
-             Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
+            Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
         }
     }
-    
-    public void zaksiegujzmianypozycji () {
-         List<Konto> plankont = kontoDAO.findAll();
-         for (Konto p : plankont) {
-             Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
-             if (p.getPozycja() != null) {
-                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
-                 kontopozycjarzisPK.setKontoId(p.getId());
-                 kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
-                 kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
-                 kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
-                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
-                 kontopozycjarzis.setPozycjastring(p.getPozycja());
-                 kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
-                 kontopozycjarzisDAO.edit(kontopozycjarzis);
-             } else {
-                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
-                 kontopozycjarzisPK.setKontoId(p.getId());
-                 kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
-                 kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
-                 kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
-                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
-                 try {
+
+    public void zaksiegujzmianypozycji() {
+        List<Konto> plankont = kontoDAO.findAll();
+        for (Konto p : plankont) {
+            Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
+            if (p.getPozycja() != null) {
+                KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                kontopozycjarzisPK.setKontoId(p.getId());
+                kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
+                kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
+                kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
+                kontopozycjarzis.setPozycjastring(p.getPozycja());
+                kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
+                kontopozycjarzisDAO.edit(kontopozycjarzis);
+            } else {
+                KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                kontopozycjarzisPK.setKontoId(p.getId());
+                kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
+                kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
+                kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
+                try {
                     kontopozycjarzisDAO.destroy(kontopozycjarzis);
-                 } catch (Exception e) {}
-             }
-         }
-         Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: "+rzisuklad.getRzisukladPK().getUklad());
+                } catch (Exception e) {
+                }
+            }
+        }
+        Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: " + rzisuklad.getRzisukladPK().getUklad());
     }
-    
+
     public void pobierzzachowanepozycjedlakont() {
         List<Kontopozycjarzis> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
         for (Kontopozycjarzis p : kontopozycjarzis) {
@@ -501,9 +508,8 @@ public class PozycjaRZiSView implements Serializable {
             kontoDAO.edit(konto);
         }
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
-    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -519,7 +525,7 @@ public class PozycjaRZiSView implements Serializable {
     public void setRoot(TreeNodeExtended root) {
         this.root = root;
     }
-   
+
     public PozycjaRZiS getSelected() {
         return selected;
     }
@@ -603,9 +609,6 @@ public class PozycjaRZiSView implements Serializable {
     public void setRootProjektKonta(TreeNodeExtended rootProjektKonta) {
         this.rootProjektKonta = rootProjektKonta;
     }
-  
-    //</editor-fold>
 
-    
-    
+    //</editor-fold>
 }

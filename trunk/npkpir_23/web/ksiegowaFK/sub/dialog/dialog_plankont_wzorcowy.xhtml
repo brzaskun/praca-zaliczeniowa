@@ -15,7 +15,7 @@
                 <p:separator/>
                 <p:menuitem value="Implementuj" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" actionListener="${planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Blokada" actionListener="#{planKontView.zablokujkonto()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
             </p:contextMenu>
 <!--            <script>
 
