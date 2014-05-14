@@ -11,6 +11,7 @@ import embeddable.Mce;
 import entity.Dok;
 import entity.Wpis;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -58,8 +60,14 @@ public class ObrotyView implements Serializable{
     
     @PostConstruct
     private void initC() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal;
         if (obiektDOKmrjsfSelX == null) {
-            init();
+            if (request.isUserInRole("Guest")) {
+                initG();
+            } else {
+                init();
+            }
         }
     }
     
