@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -53,6 +54,13 @@ public class ObrotyView implements Serializable{
     public ObrotyView() {
         //lista porzechowujaca przefiltrowane widoki
         goscwybral = new ArrayList<>();
+    }
+    
+    @PostConstruct
+    private void initC() {
+        if (obiektDOKmrjsfSelX == null) {
+            init();
+        }
     }
     
     public String init() {

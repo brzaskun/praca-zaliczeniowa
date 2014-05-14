@@ -5,7 +5,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
   >
-    <f:event type="preRenderComponent" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
+    <f:event type="preRenderView" listener="#{pozycjeNaFakturzeView.odchowaj()}"/>
     <h:form id="formXY">
     <h:inputText id="lewy" value="#{pozycjeNaFakturzeView.lewy}" size="30" style="display: none;"/>
     <h:inputText id="gora" value="#{pozycjeNaFakturzeView.gora}" size="30" style="display: none;"/>
