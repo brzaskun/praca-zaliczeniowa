@@ -194,8 +194,6 @@ public class PozycjaRZiSView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
     }
 
-   
-
     public void rozwinwszystkie() {
         root.createTreeNodesForElement(pozycje);
         level = root.ustaldepthDT(pozycje) - 1;

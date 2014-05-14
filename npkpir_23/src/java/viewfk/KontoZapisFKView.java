@@ -101,7 +101,7 @@ public class KontoZapisFKView implements Serializable{
                 kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
             }
             sumazapisow();
-            wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
         }
     }
