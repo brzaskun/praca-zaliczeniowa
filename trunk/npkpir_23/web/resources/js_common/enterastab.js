@@ -17,8 +17,9 @@ var TabKeyDown;
         var taregetid = event.target.id;
         var czyzawierawn = taregetid.indexOf("kontown");
         var czyzawierama = taregetid.indexOf("kontoma");
+        var enterdefault = taregetid.indexOf("enterdefault");
         var kontoinput = false;
-        if (czyzawierawn > 0 || czyzawierama > 0) {
+        if (czyzawierawn > 0 || czyzawierama > 0 || enterdefault > 0) {
             kontoinput = true;
         }
         if($(event.target).is("button")===false){
