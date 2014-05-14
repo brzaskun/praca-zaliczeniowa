@@ -214,6 +214,12 @@ public class WpisView implements Serializable {
             }
             miesiacNastepny = Mce.getNumberToMiesiac().get(++miesiacpo);
         }
+        if (miesiacOd == null) {
+            miesiacOd = "01";
+        }
+        if (miesiacDo == null) {
+            miesiacDo = "01";
+        }
     }
 
     private void obliczsumarokmiesiac() {
