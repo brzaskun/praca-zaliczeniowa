@@ -196,5 +196,10 @@ public class PlanKontFKBean {
         }
     }
 
-   
+   public static boolean sprawdzczymacierzystymapotomne(String podatnik, Konto doUsuniecia, KontoDAOfk kontoDAO) {
+        List<Konto> kontapotomne = new ArrayList<>();
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, doUsuniecia.getMacierzyste()));
+        kontapotomne.remove(doUsuniecia);
+        return !kontapotomne.isEmpty();
+    }
 }

@@ -86,6 +86,7 @@ public class PlanKontView implements Serializable {
         return r;
     }
 
+    //zostawilem bo duzo zmiennych malo linijek
     private int ustalLevel(TreeNodeExtended<Konto> r) {
         int level = 0;
         if (PlanKontFKBean.czywzorcowe(r.getChildren().get(0))) {
@@ -297,15 +298,7 @@ public class PlanKontView implements Serializable {
         rozwinwszystkie(rootwzorcowy);
     }
 
-    private void obliczpelnynumerkonta() {
-        if (nowe.getLevel() == 0) {
-            nowe.setPelnynumer(nowe.getNrkonta());
-        } else {
-            nowe.setPelnynumer(nowe.getMacierzyste() + "-" + nowe.getNrkonta());
-        }
-    }
-
-    public void usun(TreeNodeExtended<Konto> r) {
+    public void usun(TreeNodeExtended<Konto> rootZNodem) {
         String podatnik;
         if (czyoddacdowzorca == true) {
             podatnik = "Testowy";
@@ -333,7 +326,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                     }
                 } else {
-                    boolean sadzieci = sprawdzczymacierzystymapotomne(zawartosc, r);
+                    boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, zawartosc, kontoDAO);
                     if (!sadzieci) {
                         Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
                         kontomacierzyste.setBlokada(false);
@@ -341,25 +334,12 @@ public class PlanKontView implements Serializable {
                         kontoDAO.edit(kontomacierzyste);
                     }
                 }
-                PlanKontFKBean.odswiezroot(r, kontoDAO, podatnik);
+                PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, podatnik);
                 Msg.msg("i", "Usuwam konto", "formX:messages");
             }
         } else {
             Msg.msg("e", "Nie wybrano konta", "formX:messages");
         }
-    }
-
-    private boolean sprawdzczymacierzystymapotomne(Konto konto, TreeNodeExtended<Konto> r) {
-        int macierzyste = konto.getMacierzysty();
-        List<Object> finallChildrenData = new ArrayList<>();
-        r.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), finallChildrenData);
-        finallChildrenData.remove(konto);
-        for (Object p : finallChildrenData) {
-            if (((ToBeATreeNodeObject) p).getMacierzysty() == macierzyste) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void obslugaBlokadyKonta() {
