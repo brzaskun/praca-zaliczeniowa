@@ -21,7 +21,7 @@ var wylicznumerwiersza = function(wiersze) {
     } catch (e) {
         alert('error');
     }
-}
+};
 
 
 var przejdzwiersz = function(tabela, tabela1, zmienna) {
@@ -80,4 +80,50 @@ var isScrolledIntoView = function(elem) {
          alert("Blad w chodzeniepokonahc.js isScrolledIntoView " + ex.toString());
     }
     return 0;
+};
+
+var znajdzwierszzkontonumer = function(wiersze, wartosc) {
+    var iloscrzedow = wiersze.size();
+    try {
+        for(var i = 0; i < iloscrzedow; i++) {
+            var trescwiersza = wiersze[i].innerHTML;
+            if (trescwiersza.indexOf(wartosc)>-1) {
+                return wiersze[i];
+            }
+        }
+    } catch (e) {
+        alert('error');
+    }
+}
+
+var zaznacznoda = function(tabela, tabela1) {
+    var wartosc = document.getElementById("formwpiskonta:wyborkonta_input").value;
+    wartosc = wartosc.split(" ");
+    var wiersze = $(document.getElementById(tabela)).children("tr");
+    var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
+    ($(node).children("td"))[0].click();
+    zachowajobiekt(node);
+    przejdzwierszNode(tabela, tabela1, node);
+    document.getElementById("formwpiskonta:wyborkonta_input").value = "";
+    document.getElementById("formwpiskonta:wyborkonta_hinput").value = "";
+};
+
+var przejdzwierszNode = function(tabela, tabela1, node) {
+    var wiersze = $(document.getElementById(tabela)).children("tr");
+    var iloscrzedow = wiersze.size();
+    try {
+        var numerwiersza = 0;
+        for(var i = 0; i < iloscrzedow; i++) {
+            if (wiersze[i] === node) {
+                numerwiersza = i;
+            }
+        }
+    } catch (e) {
+        alert('error');
+    }
+    var komorki = $(wiersze[numerwiersza]).children("td");
+    var przesun = isScrolledIntoView(komorki[1]);
+    var elem = document.getElementById(tabela1);
+    elem.scrollTop = elem.scrollTop + przesun;
+    $(komorki[1]).click();
 };
