@@ -66,6 +66,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = true)
+    @Column(name = "lpid")
+    private Integer lpid;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -156,14 +159,17 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public Konto() {
         this.slownikowe = false;
         this.maslownik = false;
+        this.lpid = 0;
     }
 
     public Konto(Integer id) {
         this.id = id;
+        
     }
 
     public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok) {
         this.id = id;
+        this.lpid = 0;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
         this.syntetyczne = syntetyczne;
@@ -191,6 +197,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.id = id;
     }
 
+    public Integer getLpid() {
+        return lpid;
+    }
+
+    public void setLpid(Integer lpid) {
+        this.lpid = lpid;
+    }
+    
+    
     public String getPodatnik() {
         return podatnik;
     }

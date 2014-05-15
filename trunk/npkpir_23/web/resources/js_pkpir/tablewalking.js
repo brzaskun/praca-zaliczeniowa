@@ -18,11 +18,7 @@ var przejdzwiersz = function() {
     var przesun = isScrolledIntoView(komorki[1]);
     var elem = document.getElementById('form:dokumentyLista');
     elem.scrollTop = elem.scrollTop + przesun;
-    var biezacy = $(lolo[MYAPP.nrbiezacegowiersza]);
-    var poprzedni = $(lolo[MYAPP.nrbiezacegowiersza-1]);
-    dokTable.unselectRow(poprzedni, "");
-    dokTable.selectRow(biezacy, "");
-    
+    $(komorki[1]).click();
 };
 
 var wrocwiersz = function() {
@@ -39,10 +35,7 @@ var wrocwiersz = function() {
     var przesun = isScrolledIntoView(komorki[1]);
     var elem = document.getElementById('form:dokumentyLista');
     elem.scrollTop = elem.scrollTop + przesun;
-    var biezacy = $(lolo[MYAPP.nrbiezacegowiersza]);
-    var poprzedni = $(lolo[MYAPP.nrbiezacegowiersza+1]);
-    dokTable.unselectRow(poprzedni, "");
-    dokTable.selectRow(biezacy, "");
+    $(komorki[1]).click();
 };
 
 var isScrolledIntoView = function(elem) {

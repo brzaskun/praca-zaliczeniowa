@@ -25,18 +25,20 @@
         </p:contextMenu>
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+             /* <![CDATA[ */
                $(document).on("click", '.grid tr', function(e) {
                var lolo = $("#form\\:dokumentyLista_data").children("tr");
-               var pierwszy = $(lolo[0]).find(".lolo").text();
+               var pierwszy = $(lolo[0]).find(".lpwiersza").text();
                try {
                    e.stopPropagation(); // will prevent double click events from link being clicked within row
-                   var unitNo = $.trim($(this).closest("tr").find(".lolo").text()); // trim to remove end space, closest gets closest parent of selected type
+                   var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
                    var numerwiersza = unitNo- pierwszy;
                    zachowajnumerwiersza(numerwiersza);
                } catch (e) {
                    alert('error');
                }
                });
+             /* ]]> */
         </script>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
          <p:hotkey bind="up"   onstart="wrocwiersz();"/>
@@ -58,7 +60,7 @@
                     <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT.size() eq null}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="nrWpkpir"  style="width: 3%;">  
-                    <h:outputText styleClass="lolo" value="#{wpis.nrWpkpir}" />
+                    <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
                 </p:column>
 
                 <p:column id="dataColumn" headerText="data wyst" filterBy="dataWyst" filterStyle="display : none;" filterMatchMode="contains" sortBy="dataWyst"  style="width: 12%; min-width: 80px;">  

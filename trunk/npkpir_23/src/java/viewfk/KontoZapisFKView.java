@@ -73,8 +73,27 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        wybranekonto = (Konto) node.getData();
-        pobierzZapisyNaKoncie();
+        Konto wybraneKontoNode = (Konto) node.getData();
+         kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomne = new ArrayList<>();
+            if (wybraneKontoNode.isMapotomkow() == true) {
+                List<Konto> kontamacierzyste = new ArrayList<>();
+                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
+                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
+                while (kontamacierzyste.size() > 0) {
+                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
+                }
+                for (Konto p : kontapotomne) {
+                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                }
+                Collections.sort(kontozapisy, new Kontozapisycomparator());
+
+            } else {
+                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer());
+            }
+            sumazapisow();
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            System.out.println("odnalazlem");
     }
      
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {

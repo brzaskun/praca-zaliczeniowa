@@ -35,6 +35,7 @@ import org.primefaces.model.TreeNode;
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     private boolean display;
 
     public TreeNodeExtended() {
@@ -87,7 +88,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
     
     
-    //przeksztalca tresc tabeli w elementy do drzewa
+    //przeksztalca tresc tabeli w elementy do drzewa uklada je rzedami
     private Map<String, ArrayList<T>> getElementTreeFromPlainList(List<T> pozycje, int depth) {
         Map<String, ArrayList<T>> rzedy = new LinkedHashMap<>(depth);
         // builds a map of elements object returned from store
@@ -133,10 +134,21 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+//    
+//    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Nodami
+//    public void getNumberNodes(int numerporzadkowy) {
+//        List<TreeNode> children = this.getChildren();
+//        boolean madzieci = this.getChildCount() > 0;
+//        if (madzieci == true) {
+//            for (TreeNode o : children) {
+//                ((Konto) ((TreeNodeExtended) o).getData()).setLpid(++numerporzadkowy);
+//                ((TreeNodeExtended) o).getNumberNodes(numerporzadkowy);
+//            }
+//        }
+//    }
+//    
     
-    
-    
-    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
+    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Nodami
     public void getFinallChildren(ArrayList<TreeNodeExtended> finallNodes) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;
@@ -149,7 +161,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
-    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi
+    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Kontami
     public void getFinallChildrenData(ArrayList<TreeNodeExtended> finallNodes, List<Object> listazwrotna) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;
@@ -364,6 +376,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     public void setDisplay(boolean display) {
         this.display = display;
     }
+
+        
     
     
 }

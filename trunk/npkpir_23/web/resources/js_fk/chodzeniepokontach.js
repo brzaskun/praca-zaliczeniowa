@@ -1,14 +1,41 @@
+"use strict";
+
+var zachowajobiekt = function(obiekt) {
+    MYAPP.obiekt = obiekt;
+};
+
+var zachowajnumerwiersza = function(numer, zmienna) {
+    MYAPP[zmienna] = numer;
+};
+
+var wylicznumerwiersza = function(wiersze) {
+    var iloscrzedow = wiersze.size();
+    try {
+        var numerwiersza = 0;
+        for(var i = 0; i < iloscrzedow; i++) {
+            if (wiersze[i] === MYAPP.obiekt) {
+                numerwiersza = i;
+            }
+        }
+        zachowajnumerwiersza(numerwiersza,'zmiennazapisy');
+    } catch (e) {
+        alert('error');
+    }
+}
+
+
 var przejdzwiersz = function(tabela, tabela1, zmienna) {
-    var lolo = $(document.getElementById(tabela)).children("tr");
+    var wiersze = $(document.getElementById(tabela)).children("tr");
+    wylicznumerwiersza(wiersze);
     if (!MYAPP.hasOwnProperty(zmienna)) {
         MYAPP[zmienna] = 1;
     } else {
         MYAPP[zmienna] += 1;
-        if (MYAPP[zmienna] > lolo.length) {
-            MYAPP[zmienna] = lolo.length;
+        if (MYAPP[zmienna] > wiersze.length) {
+            MYAPP[zmienna] = wiersze.length;
         }
     }
-    var komorki = $(lolo[MYAPP[zmienna]]).children("td");
+    var komorki = $(wiersze[MYAPP[zmienna]]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);
     var elem = document.getElementById(tabela1);
     elem.scrollTop = elem.scrollTop + przesun;
@@ -16,7 +43,8 @@ var przejdzwiersz = function(tabela, tabela1, zmienna) {
 };
 
 var wrocwiersz = function(tabela, tabela1, zmienna) {
-    var lolo = $(document.getElementById(tabela)).children("tr");
+    var wiersze = $(document.getElementById(tabela)).children("tr");
+    wylicznumerwiersza(wiersze);
     if (!MYAPP.hasOwnProperty(zmienna)) {
         MYAPP[zmienna] = 1;
     } else {
@@ -24,7 +52,7 @@ var wrocwiersz = function(tabela, tabela1, zmienna) {
             MYAPP[zmienna] -= 1;
         }
     }
-    var komorki = $(lolo[MYAPP[zmienna]]).children("td");
+    var komorki = $(wiersze[MYAPP[zmienna]]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);
     var elem = document.getElementById(tabela1);
     elem.scrollTop = elem.scrollTop + przesun;
@@ -35,12 +63,8 @@ var wrocwiersz = function(tabela, tabela1, zmienna) {
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
-        var parent = elem.parentNode
-        do {
-            parent = parent.parentNode;
-        } while (parent.className !== "ui-layout-unit-content ui-widget-content");
-        var docViewTop = elem.parentNode.offsetParent.offsetTop;
-        var docViewBottom = $(parent).height();
+        var docViewTop = 200;
+        var docViewBottom = 700;
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
@@ -53,7 +77,7 @@ var isScrolledIntoView = function(elem) {
         }
         return przesuniecie;
     } catch (ex) {
-         alert("Blad w chodzeniepokonahc.js isScrolledIntoViewZK " + ex.toString());
+         alert("Blad w chodzeniepokonahc.js isScrolledIntoView " + ex.toString());
     }
     return 0;
 };
