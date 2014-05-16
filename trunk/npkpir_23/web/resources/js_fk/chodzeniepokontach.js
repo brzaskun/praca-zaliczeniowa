@@ -96,16 +96,16 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
     }
 }
 
-var zaznacznoda = function(tabela, tabela1) {
-    var wartosc = document.getElementById("formwpiskonta:wyborkonta_input").value;
+var zaznacznoda = function(tabela, tabela1, inputpole) {
+    var wartosc = document.getElementById(inputpole).value;
     wartosc = wartosc.split(" ");
     var wiersze = $(document.getElementById(tabela)).children("tr");
     var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
     ($(node).children("td"))[0].click();
     zachowajobiekt(node);
     przejdzwierszNode(tabela, tabela1, node);
-    document.getElementById("formwpiskonta:wyborkonta_input").value = "";
-    document.getElementById("formwpiskonta:wyborkonta_hinput").value = "";
+    document.getElementById(inputpole).value = "";
+    document.getElementById(inputpole).value = "";
 };
 
 var przejdzwierszNode = function(tabela, tabela1, node) {
