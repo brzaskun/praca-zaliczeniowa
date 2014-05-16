@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -149,8 +149,8 @@ public class PozycjaRZiSView implements Serializable {
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         root = new TreeNodeExtended("root", null);
-        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findAll();
-        List<Konto> plankont = kontoDAO.findAll();
+        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisyPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Konto> plankont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         ustawRoota(root, pozycje, zapisy, plankont);
         Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
@@ -189,7 +189,7 @@ public class PozycjaRZiSView implements Serializable {
 
     private void drugiinit() {
         wykazkont.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne("0", "wynikowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikWpisu(), "0", "wynikowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalityki(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         Collections.sort(wykazkont, new Kontocomparator());
     }
