@@ -600,6 +600,10 @@ public class SessionFacade<T> {
      public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String konto) {
         return  em.createNamedQuery("Kontozapisy.findByKontoBO").setParameter("podatnik", podatnik).setParameter("kontoprzeciwstawne", konto).getResultList();
     }
+     
+    public List<Kontozapisy> findZapisyPodatnikRok(String podatnik, String rok) {
+        return  em.createNamedQuery("Kontozapisy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
 
     public List<Konto> findKontaPotomnePodatnik(String podatnik, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
@@ -613,11 +617,11 @@ public class SessionFacade<T> {
         return em.createNamedQuery("Konto.findByMaSlownik").setParameter("maslownik", true).getResultList();
     }
     
-    public List<Konto> findKontaPotomne(String macierzyste, String bilansowewynikowe) {
+    public List<Konto> findKontaPotomne(String podatnik, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).getResultList();
+            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
         } else {
-            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).getResultList();
+            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
         }
     }
     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe) {
