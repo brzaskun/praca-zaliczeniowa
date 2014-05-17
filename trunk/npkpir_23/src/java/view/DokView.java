@@ -292,30 +292,22 @@ public final class DokView implements Serializable {
     }
 
     public void podepnijEwidencjeVat() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:tabelapkpir2:0:dokumentprosty");
-        String skrotRT = params.get("dodWiad:rodzajTrans");
-        String transakcjiRodzaj = "";
-        for (Rodzajedok temp : rodzajedokKlienta) {
-            if (temp.getSkrot().equals(skrotRT)) {
-                transakcjiRodzaj = temp.getRodzajtransakcji();
-                break;
+        String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
+        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+        if (toJestdokumentProsty.equals("on")) {
+            sumbrutto = 0.0;
+            for (KwotaKolumna p : nettokolumna) {
+                sumbrutto += p.getNetto();
             }
-        }
-        if (selDokument.isDokumentProsty() == true) {
-            skrot = "on";
+            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
         } else {
-            skrot = null;
-        }
-        try {
-            if (skrot.equals("on")) {
-                sumbrutto = 0.0;
-                for (KwotaKolumna p : nettokolumna) {
-                    sumbrutto += p.getNetto();
+            String transakcjiRodzaj = "";
+            for (Rodzajedok temp : rodzajedokKlienta) {
+                if (temp.getSkrot().equals(skrotRT)) {
+                    transakcjiRodzaj = temp.getRodzajtransakcji();
+                    break;
                 }
-                RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             }
-        } catch (Exception e) {
             if (nieVatowiec == false) {
                 /*wyswietlamy ewidencje VAT*/
                 List opisewidencji = new ArrayList<>();
@@ -533,11 +525,16 @@ public final class DokView implements Serializable {
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
     public void dokumentProstuSchowajEwidencje() {
-        selDokument.setEwidencjaVAT(null);
-        ewidencjaAddwiad.clear();
-        sumujbruttoPK();
-        RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
-        RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+        String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
+        if (toJestdokumentProsty.equals("on")) {
+            selDokument.setEwidencjaVAT(null);
+            ewidencjaAddwiad.clear();
+            sumujbruttoPK();
+            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
+            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+        } else {
+            podepnijEwidencjeVat();
+        }
     }
 
     /**
@@ -598,9 +595,9 @@ public final class DokView implements Serializable {
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             selDokument.setListakwot(new ArrayList<KwotaKolumna>());
             selDokument.getListakwot().addAll(nettokolumna);
-             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if(selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
-                KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat,"poz. koszty");
+            //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
+            if (selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
+                KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat, "poz. koszty");
                 selDokument.getListakwot().add(kwotaKolumna);
             }
             selDokument.setNetto(0.0);
@@ -609,13 +606,13 @@ public final class DokView implements Serializable {
             }
             //koniec obliczania netto
             dodajdatydlaStorno();
-           
+
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwota = 0.0;
             for (KwotaKolumna p : nettokolumna) {
                 kwota = kwota + p.getNetto();
             }
-           
+
             kwota = kwota + kwotavat;
             kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
             if (selDokument.getRozliczony() == true) {
@@ -1000,7 +997,6 @@ public final class DokView implements Serializable {
 //            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
 //        }
 //    }
-    
     public void zmienokresVAT() {
         String datafaktury = (String) Params.params("dodWiad:dataPole");
         String dataobowiazku = (String) Params.params("dodWiad:dataSPole");
