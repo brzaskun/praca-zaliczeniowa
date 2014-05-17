@@ -39,6 +39,15 @@ public class WierszeView implements Serializable {
     public void setWiersze(List<Wiersze> wiersze) {
         this.wiersze = wiersze;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
     
      
     

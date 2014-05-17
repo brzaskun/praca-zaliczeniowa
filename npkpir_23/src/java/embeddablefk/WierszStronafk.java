@@ -21,7 +21,7 @@ public class WierszStronafk implements Serializable {
      * to jest klucz ale nie moze byc EmbeddedId bo sie kloci z idwiersza. To pole jest osadzone w Wiersze
      * zostawilem to jestak zeby latow wyszukiwac i porownywac przez PK
      */
-    protected WierszStronafkPK wierszStronafkPK;
+    public WierszStronafkPK wierszStronafkPK;
     private double kwota;
     private double kwotaPLN;
     private double kwotaWaluta;
