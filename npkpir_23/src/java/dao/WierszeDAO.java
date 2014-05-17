@@ -47,4 +47,12 @@ public class WierszeDAO extends DAO implements Serializable{
            return null;
        }
     }
+    
+    public List<Wiersze> findWierszePodatnik(String podatnik) {
+         try {
+           return wierszeFacade.findWierszePodatnik(podatnik);
+       } catch (Exception e ){
+           return null;
+       }
+    }
 }

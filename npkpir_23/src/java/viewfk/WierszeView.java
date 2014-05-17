@@ -10,8 +10,10 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import view.WpisView;
 
 /**
  *
@@ -22,10 +24,12 @@ import javax.inject.Inject;
 public class WierszeView implements Serializable {
     @Inject private WierszeDAO wierszeDAO;
     private List<Wiersze> wiersze;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
      @PostConstruct
         private void init(){
-            wiersze = wierszeDAO.findAll();
+            wiersze = wierszeDAO.findWierszePodatnik(wpisView.getPodatnikWpisu());
         }
 
     public List<Wiersze> getWiersze() {
