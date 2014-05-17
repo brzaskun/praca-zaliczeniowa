@@ -510,7 +510,10 @@ public class SessionFacade<T> {
   
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
-}
+    }
+    public Faktura findByNumerPodatnik(String numerkolejny, String podatnik) {
+        return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
+    }
     public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
         return em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
 }

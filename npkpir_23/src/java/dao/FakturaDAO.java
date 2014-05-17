@@ -53,9 +53,16 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-     public List<Faktura> findbyPodatnik(String podatnik) {
+    public List<Faktura> findbyPodatnik(String podatnik) {
          try {
             return fakturaFacade.findByPodatnik(podatnik);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Faktura findbyNumerPodatnik(String numerkolejny, String podatnik) {
+         try {
+            return fakturaFacade.findByNumerPodatnik(numerkolejny, podatnik);
         } catch (Exception e) {
             return null;
         }

@@ -13,6 +13,7 @@ import dao.PodatnikDAO;
 import dao.WpisDAO;
 import embeddable.EVatwpis;
 import embeddable.KwotaKolumna;
+import embeddable.Mce;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
 import entity.Evewidencja;
@@ -20,6 +21,7 @@ import entity.Faktura;
 import entity.FakturaPK;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
+import entity.SrodekTrw_;
 import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
@@ -50,6 +52,7 @@ import serialclone.SerialClone;
 @ManagedBean
 @ViewScoped
 public class FakturaView implements Serializable {
+
     private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
     //faktury wybrane z listy
     private static List<Faktura> gosciwybral;
@@ -99,7 +102,8 @@ public class FakturaView implements Serializable {
     private double kwotaprzedwaloryzacja;
     //wlasna data dla faktur
     private String datawystawienia;
-    @Inject private WpisDAO wpisDAO;
+    @Inject
+    private WpisDAO wpisDAO;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -114,16 +118,13 @@ public class FakturaView implements Serializable {
     @PostConstruct
     private void init() {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        if (fakturytmp == null) {
-            faktury = new ArrayList<>();
-            fakturyarchiwum = new ArrayList<>();
-        } else {
-            for (Faktura fakt : fakturytmp) {
-                if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
-                    fakturyarchiwum.add(fakt);
-                } else {
-                    faktury.add(fakt);
-                }
+        faktury = new ArrayList<>();
+        fakturyarchiwum = new ArrayList<>();
+        for (Faktura fakt : fakturytmp) {
+            if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                fakturyarchiwum.add(fakt);
+            } else {
+                faktury.add(fakt);
             }
         }
         fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -131,9 +132,9 @@ public class FakturaView implements Serializable {
 
     public void przygotujfakture() {
         selected = new Faktura();
-        String rokmiesiac = wpisView.getRokWpisuSt()+"-"+wpisView.getMiesiacWpisu()+"-";
+        String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
         String dzien = String.valueOf((new DateTime()).getDayOfMonth());
-        dzien = dzien.length() == 1 ? "0"+dzien : dzien;
+        dzien = dzien.length() == 1 ? "0" + dzien : dzien;
         String pelnadata = rokmiesiac + dzien;
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);
@@ -201,12 +202,12 @@ public class FakturaView implements Serializable {
             pokazfakture = false;
             selected = new Faktura();
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. "+e.getMessage());
+            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + e.getMessage());
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
     }
-    
+
     private void ewidencjavat(Faktura selected) throws Exception {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         double netto = 0.0;
@@ -290,7 +291,7 @@ public class FakturaView implements Serializable {
             double nettop = nowacena - podatek;
             netto += nettop;
             p.setNetto(nettop);
-            p.setCena(p.getNetto()/p.getIlosc());
+            p.setCena(p.getNetto() / p.getIlosc());
             EVatwpis eVatwpis = new EVatwpis();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
             for (EVatwpis r : el) {
@@ -317,7 +318,7 @@ public class FakturaView implements Serializable {
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
         faktura.setBrutto(wartosc);
-        
+
     }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
@@ -340,7 +341,7 @@ public class FakturaView implements Serializable {
                 fakturyFiltered.remove(p);
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny()+". Problem z aktualizacją okresowych.");
             }
         }
     }
@@ -357,7 +358,7 @@ public class FakturaView implements Serializable {
             }
         }
     }
-    
+
     public void destroyarchiwalne() {
         for (Faktura p : gosciwybral) {
             try {
@@ -491,10 +492,10 @@ public class FakturaView implements Serializable {
         pozycje.add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
     }
-    
+
     public void usunwiersz() {
         if (!pozycje.isEmpty()) {
-            pozycje.remove(pozycje.size()-1);
+            pozycje.remove(pozycje.size() - 1);
             RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
             String nazwafunkcji = "wybierzrzadfaktury()";
             RequestContext.getCurrentInstance().execute(nazwafunkcji);
@@ -646,7 +647,7 @@ public class FakturaView implements Serializable {
                 fakturyokresowe.add(fakturyokr);
                 Msg.msg("i", "Dodano fakturę okresową");
             } catch (Exception e) {
-                Msg.msg("e", "Błąd podczas zachowania faktury w bazie danych "+e.getMessage());
+                Msg.msg("e", "Błąd podczas zachowania faktury w bazie danych " + e.getMessage());
             }
         }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
@@ -721,7 +722,7 @@ public class FakturaView implements Serializable {
                 } catch (Exception e) {
                     Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:641");
                 }
-            } else if (waloryzajca == -1){
+            } else if (waloryzajca == -1) {
                 try {
                     ewidencjavat(nowa);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
@@ -729,20 +730,26 @@ public class FakturaView implements Serializable {
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
                 }
             }
-            DateTime dt = new DateTime();
-            LocalDate firstDate = dt.toLocalDate();
-            int terminplatnosci = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
+            int dniDoZaplaty = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
             if (datawystawienia.isEmpty()) {
+                DateTime dt = new DateTime();
+                String miesiacBiezacy = Mce.getNumberToMiesiac().get(dt.getMonthOfYear());
+                String miesiacWybrany = wpisView.getMiesiacWpisu();
+                if (miesiacBiezacy.equals(miesiacWybrany) == false) {
+                    String nowadata = wpisView.getRokWpisuSt()+"-"+miesiacWybrany+"-05";
+                    dt = new DateTime(nowadata);
+                }
+                LocalDate firstDate = dt.toLocalDate();
                 nowa.setDatawystawienia(firstDate.toString());
                 nowa.setDatasprzedazy(firstDate.toString());
                 MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
-                dateTime.addDays(terminplatnosci);
+                dateTime.addDays(dniDoZaplaty);
                 nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
             } else {
                 nowa.setDatawystawienia(datawystawienia);
                 nowa.setDatasprzedazy(datawystawienia);
                 MutableDateTime dateTime = new MutableDateTime(datawystawienia);
-                dateTime.addDays(terminplatnosci);
+                dateTime.addDays(dniDoZaplaty);
                 nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
             }
             nowa.setWygenerowanaautomatycznie(true);
@@ -792,158 +799,159 @@ public class FakturaView implements Serializable {
             try {
                 fakturaDAO.dodaj(nowa);
                 faktury.add(nowa);
-             if (fakturanowyrok == 0) {
-                Fakturywystokresowe okresowe = p;
-                String datawystawienia = nowa.getDatawystawienia();
-                String miesiac = datawystawienia.substring(5, 7);
-                switch (miesiac) {
-                    case "01":
-                        okresowe.setM1(okresowe.getM1() + 1);
-                        break;
-                    case "02":
-                        okresowe.setM2(okresowe.getM2() + 1);
-                        break;
-                    case "03":
-                        okresowe.setM3(okresowe.getM3() + 1);
-                        break;
-                    case "04":
-                        okresowe.setM4(okresowe.getM4() + 1);
-                        break;
-                    case "05":
-                        okresowe.setM5(okresowe.getM5() + 1);
-                        break;
-                    case "06":
-                        okresowe.setM6(okresowe.getM6() + 1);
-                        break;
-                    case "07":
-                        okresowe.setM7(okresowe.getM7() + 1);
-                        break;
-                    case "08":
-                        okresowe.setM8(okresowe.getM8() + 1);
-                        break;
-                    case "09":
-                        okresowe.setM9(okresowe.getM9() + 1);
-                        break;
-                    case "10":
-                        okresowe.setM10(okresowe.getM10() + 1);
-                        break;
-                    case "11":
-                        okresowe.setM11(okresowe.getM11() + 1);
-                        break;
-                    case "12":
-                        okresowe.setM12(okresowe.getM12() + 1);
-                        break;
+                if (fakturanowyrok == 0) {
+                    Fakturywystokresowe okresowe = p;
+                    String datawystawienia = nowa.getDatawystawienia();
+                    String miesiac = datawystawienia.substring(5, 7);
+                    switch (miesiac) {
+                        case "01":
+                            okresowe.setM1(okresowe.getM1() + 1);
+                            break;
+                        case "02":
+                            okresowe.setM2(okresowe.getM2() + 1);
+                            break;
+                        case "03":
+                            okresowe.setM3(okresowe.getM3() + 1);
+                            break;
+                        case "04":
+                            okresowe.setM4(okresowe.getM4() + 1);
+                            break;
+                        case "05":
+                            okresowe.setM5(okresowe.getM5() + 1);
+                            break;
+                        case "06":
+                            okresowe.setM6(okresowe.getM6() + 1);
+                            break;
+                        case "07":
+                            okresowe.setM7(okresowe.getM7() + 1);
+                            break;
+                        case "08":
+                            okresowe.setM8(okresowe.getM8() + 1);
+                            break;
+                        case "09":
+                            okresowe.setM9(okresowe.getM9() + 1);
+                            break;
+                        case "10":
+                            okresowe.setM10(okresowe.getM10() + 1);
+                            break;
+                        case "11":
+                            okresowe.setM11(okresowe.getM11() + 1);
+                            break;
+                        case "12":
+                            okresowe.setM12(okresowe.getM12() + 1);
+                            break;
+                    }
+                    fakturywystokresoweDAO.edit(okresowe);
                 }
-                fakturywystokresoweDAO.edit(okresowe);
-            }
-            Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
             } catch (Exception e) {
-                Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: "+nowa.getFakturaPK().getNumerkolejny());
+                Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
+                Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
             }
         }
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
-    
+
     public void resetujbiezacymiesiac() {
-        if (gosciwybralokres.isEmpty() ) {
+        if (gosciwybralokres.isEmpty()) {
             Msg.msg("e", "Nie wybrano faktury do resetu");
             return;
         }
         for (Fakturywystokresowe p : gosciwybralokres) {
             Fakturywystokresowe okresowe = p;
-                String miesiac = wpisView.getMiesiacWpisu();
-                switch (miesiac) {
-                    case "01":
-                        okresowe.setM1(0);
-                        break;
-                    case "02":
-                        okresowe.setM2(0);
-                        break;
-                    case "03":
-                        okresowe.setM3(0);
-                        break;
-                    case "04":
-                        okresowe.setM4(0);
-                        break;
-                    case "05":
-                        okresowe.setM5(0);
-                        break;
-                    case "06":
-                        okresowe.setM6(0);
-                        break;
-                    case "07":
-                        okresowe.setM7(0);
-                        break;
-                    case "08":
-                        okresowe.setM8(0);
-                        break;
-                    case "09":
-                        okresowe.setM9(0);
-                        break;
-                    case "10":
-                        okresowe.setM10(0);
-                        break;
-                    case "11":
-                        okresowe.setM11(0);
-                        break;
-                    case "12":
-                        okresowe.setM12(0);
-                        break;
-                }
-                fakturywystokresoweDAO.edit(okresowe);
+            String miesiac = wpisView.getMiesiacWpisu();
+            switch (miesiac) {
+                case "01":
+                    okresowe.setM1(0);
+                    break;
+                case "02":
+                    okresowe.setM2(0);
+                    break;
+                case "03":
+                    okresowe.setM3(0);
+                    break;
+                case "04":
+                    okresowe.setM4(0);
+                    break;
+                case "05":
+                    okresowe.setM5(0);
+                    break;
+                case "06":
+                    okresowe.setM6(0);
+                    break;
+                case "07":
+                    okresowe.setM7(0);
+                    break;
+                case "08":
+                    okresowe.setM8(0);
+                    break;
+                case "09":
+                    okresowe.setM9(0);
+                    break;
+                case "10":
+                    okresowe.setM10(0);
+                    break;
+                case "11":
+                    okresowe.setM11(0);
+                    break;
+                case "12":
+                    okresowe.setM12(0);
+                    break;
+            }
+            fakturywystokresoweDAO.edit(okresowe);
+        }
     }
-    }
-    
+
     public void oznaczbiezacymiesiac() {
-        if (gosciwybralokres.isEmpty() ) {
+        if (gosciwybralokres.isEmpty()) {
             Msg.msg("e", "Nie wybrano faktury do resetu");
             return;
         }
         for (Fakturywystokresowe p : gosciwybralokres) {
             Fakturywystokresowe okresowe = p;
-                String miesiac = wpisView.getMiesiacWpisu();
-                switch (miesiac) {
-                    case "01":
-                        okresowe.setM1(1);
-                        break;
-                    case "02":
-                        okresowe.setM2(1);
-                        break;
-                    case "03":
-                        okresowe.setM3(1);
-                        break;
-                    case "04":
-                        okresowe.setM4(1);
-                        break;
-                    case "05":
-                        okresowe.setM5(1);
-                        break;
-                    case "06":
-                        okresowe.setM6(1);
-                        break;
-                    case "07":
-                        okresowe.setM7(1);
-                        break;
-                    case "08":
-                        okresowe.setM8(1);
-                        break;
-                    case "09":
-                        okresowe.setM9(1);
-                        break;
-                    case "10":
-                        okresowe.setM10(1);
-                        break;
-                    case "11":
-                        okresowe.setM11(1);
-                        break;
-                    case "12":
-                        okresowe.setM12(1);
-                        break;
-                }
-                fakturywystokresoweDAO.edit(okresowe);
-    }
+            String miesiac = wpisView.getMiesiacWpisu();
+            switch (miesiac) {
+                case "01":
+                    okresowe.setM1(1);
+                    break;
+                case "02":
+                    okresowe.setM2(1);
+                    break;
+                case "03":
+                    okresowe.setM3(1);
+                    break;
+                case "04":
+                    okresowe.setM4(1);
+                    break;
+                case "05":
+                    okresowe.setM5(1);
+                    break;
+                case "06":
+                    okresowe.setM6(1);
+                    break;
+                case "07":
+                    okresowe.setM7(1);
+                    break;
+                case "08":
+                    okresowe.setM8(1);
+                    break;
+                case "09":
+                    okresowe.setM9(1);
+                    break;
+                case "10":
+                    okresowe.setM10(1);
+                    break;
+                case "11":
+                    okresowe.setM11(1);
+                    break;
+                case "12":
+                    okresowe.setM12(1);
+                    break;
+            }
+            fakturywystokresoweDAO.edit(okresowe);
+        }
     }
 
     public void sumawartosciwybranych() {
@@ -958,15 +966,15 @@ public class FakturaView implements Serializable {
             }
         }
     }
-    
+
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         fakturyarchiwum.clear();
         aktualizuj();
         init();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+        Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
     }
-     
-       private void aktualizuj(){
+
+    private void aktualizuj() {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
@@ -1081,8 +1089,7 @@ public class FakturaView implements Serializable {
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
-    
-    
+
     public List<Faktura> getFakturyFiltered() {
         return fakturyFiltered;
     }
@@ -1090,9 +1097,7 @@ public class FakturaView implements Serializable {
     public void setFakturyFiltered(List<Faktura> fakturyFiltered) {
         this.fakturyFiltered = fakturyFiltered;
     }
-    
-    
-    
+
     public List<Fakturywystokresowe> getFakturyokresoweFiltered() {
         return fakturyokresoweFiltered;
     }
@@ -1102,6 +1107,4 @@ public class FakturaView implements Serializable {
     }
 
     //</editor-fold>
-
-    
 }
