@@ -4,6 +4,8 @@
  */
 package viewfk;
 
+import beansFK.DokFKBean;
+import beansFK.DokFKTransakcjeBean;
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TabelanbpDAO;
@@ -14,6 +16,7 @@ import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -33,12 +36,13 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
-import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.ObslugaRozrachunku;
 import viewfk.subroutines.ObslugaTransakcji;
+import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
 /**
@@ -48,9 +52,9 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
-    private static List<Rozrachunekfk> rozrachunekNowaTransakcja;
-    private static int numerwiersza = 0;
-    private static String stronawiersza;
+    private List<Rozrachunekfk> rozrachunekNowaTransakcja;
+    private int numerwiersza = 0;
+    private String stronawiersza;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public static void main(String[] args) {
@@ -119,9 +123,8 @@ public class DokfkView implements Serializable {
 
 
     public DokfkView() {
-        resetujDokument();
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        rozrachunekNowaTransakcja = new ArrayList<>();
+        this.rozrachunekNowaTransakcja = new ArrayList<>();
         this.pierwotnailosctransakcjiwbazie = 0;
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
@@ -137,6 +140,7 @@ public class DokfkView implements Serializable {
     @PostConstruct
     private void init() {
         try {
+            resetujDokument();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         } catch (Exception e) {
         }
@@ -144,7 +148,7 @@ public class DokfkView implements Serializable {
         for (Waluty p : pobranekursy) {
             wprowadzonesymbolewalut.add(p.getSymbolwaluty());
         }
-        usunrozrachunkiniezaksiegowanychdok();
+        usunRozrachunkiNiezaksiegowanychDokfk();
     }
     //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
 
@@ -163,15 +167,15 @@ public class DokfkView implements Serializable {
         selected.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
         wiersze.add(ObslugaWiersza.ustawNowyWiersz());
-        selected.setWalutadokumentu("PLN");
         selected.setListawierszy(wiersze);
+        selected.setWalutadokumentu("PLN");
         selected.setZablokujzmianewaluty(false);
         liczbawierszyWDokumencie = 1;
         zapisz0edytuj1 = false;
         zablokujprzyciskrezygnuj = false;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$('#formwpisdokument\\\\:datka').select();");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
     }
 
     //dodaje wiersze do dokumentu
@@ -285,10 +289,15 @@ public class DokfkView implements Serializable {
         try {
             int iloscwierszy = dousuniecia.getListawierszy().size();
             for (int i = 0; i < iloscwierszy; i++) {
+                try{
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), rozrachunekfkDAO);
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), rozrachunekfkDAO);
                 ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), zestawienielisttransakcjiDAO);
                 ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), zestawienielisttransakcjiDAO);
+                            Msg.msg("i", "Usunieto rozrachunek");
+                } catch (Exception e) {
+                    Msg.msg("e", "Nieusunieto rozrachunku");
+                }
             }
             dokDAOfk.usun(dousuniecia);
             wykazZaksiegowanychDokumentow.remove(dousuniecia);
@@ -302,13 +311,17 @@ public class DokfkView implements Serializable {
 
      //usuwa wiersze z dokumentu
     public void usunWierszWDokumencie() {
-        if (liczbawierszyWDokumencie > 1) {
-            liczbawierszyWDokumencie--;
-            ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), rozrachunekfkDAO);
-            ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), rozrachunekfkDAO);
-            ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO);
-            ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO);
-            selected.getListawierszy().remove(liczbawierszyWDokumencie);
+        try {
+            if (liczbawierszyWDokumencie > 1) {
+                liczbawierszyWDokumencie--;
+                ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), rozrachunekfkDAO);
+                ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO);
+                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO);
+                selected.getListawierszy().remove(liczbawierszyWDokumencie);
+            }
+        } catch (Exception e) {
+            Msg.msg("Błąd podczas usuwania wiersz");
         }
     }
 
@@ -461,9 +474,12 @@ public class DokfkView implements Serializable {
     }
 
     //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
-    public void usunrozrachunkiniezaksiegowanychdok() {
-        rozrachunekfkDAO.usunniezaksiegowane();
-        zestawienielisttransakcjiDAO.usunniezaksiegowane();
+    private void usunRozrachunkiNiezaksiegowanychDokfk() {
+        try {
+            rozrachunekfkDAO.usunniezaksiegowane();
+            zestawienielisttransakcjiDAO.usunniezaksiegowane();
+        } catch (Exception e) {
+        }
     }
     
     //********************
@@ -479,16 +495,17 @@ public class DokfkView implements Serializable {
             if (aktualnywierszdorozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 boolean onjestnowatransakcja = aktualnywierszdorozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
+                transakcjeswiezynki = new ArrayList<>();
                 if (onjestnowatransakcja == false) {
-                    pobierzRozrachunekfkzBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnywierszdorozrachunkow.getWalutarozrachunku());
-                    stworznowetransakcjezPobranychstronwierszy();
-                    pobierzjuzNaniesioneTransakcjeRozliczony();
-                    naniesinformacjezwczesniejrozliczonych();
-                    pobierzjuzNaniesioneTransakcjeSparowane();
+                    DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnywierszdorozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnywierszdorozrachunkow.getWalutarozrachunku(), rozrachunekNowaTransakcja, rozrachunekfkDAO);
+                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(rozrachunekNowaTransakcja, aktualnywierszdorozrachunkow));
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(zachowanewczejsniejtransakcje, aktualnywierszdorozrachunkow, zestawienielisttransakcjiDAO);
+                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnywierszdorozrachunkow);
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(rozrachunekNowaTransakcja, rozrachunekfkDAO, biezacetransakcje);
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
-                    pobierztransakcjeJakoSparowany();
-                    sumujdlaNowejTransakcji();
+                    DokFKTransakcjeBean.pobierztransakcjeJakoSparowany(transakcjejakosparowany, biezacetransakcje, zestawienielisttransakcjiDAO, aktualnywierszdorozrachunkow);
+                    DokFKTransakcjeBean.sumujdlaNowejTransakcji(transakcjejakosparowany, biezacetransakcje);
                 }
                 //trzeba zablokować mozliwosc zmiany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 potraktujjakoNowaTransakcje = aktualnywierszdorozrachunkow.isNowatransakcja();
@@ -540,121 +557,9 @@ public class DokfkView implements Serializable {
         }
     }
 
-    //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    private void pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta) {
-        rozrachunekNowaTransakcja = new ArrayList<>();
-        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
-        //pobrano wiersze - a teraz z nich robie rozrachunki
-    }
+    
 
-    private void stworznowetransakcjezPobranychstronwierszy() {
-        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-        transakcjeswiezynki = new ArrayList<>();
-        for (Rozrachunekfk nowatransakcjazbazy : rozrachunekNowaTransakcja) {
-            Transakcja transakcja = new Transakcja();
-            transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
-            transakcja.getTransakcjaPK().setSparowany(nowatransakcjazbazy);
-            transakcjeswiezynki.add(transakcja);
-        }
-    }
-
-    private void pobierzjuzNaniesioneTransakcjeRozliczony() {
-        zachowanewczejsniejtransakcje = new ArrayList<>();
-        WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        Zestawienielisttransakcji pobranalista = new Zestawienielisttransakcji();
-        pobranalista = zestawienielisttransakcjiDAO.findByKlucz(klucz);
-        if (pobranalista instanceof Zestawienielisttransakcji) {
-            zachowanewczejsniejtransakcje.addAll(pobranalista.getListatransakcji());
-        }
-    }
-
-    private void naniesinformacjezwczesniejrozliczonych() {
-        pierwotnailosctransakcjiwbazie = 0;
-        //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
-        //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-        double sumaddlaaktualnego = 0.0;
-        for (Transakcja s : zachowanewczejsniejtransakcje) {
-            sumaddlaaktualnego += s.getKwotatransakcji();
-            biezacetransakcje.add(s);
-            pierwotnailosctransakcjiwbazie++;
-        }
-        for (Transakcja r : transakcjeswiezynki) {
-            if (!zachowanewczejsniejtransakcje.contains(r)) {
-                biezacetransakcje.add(r);
-            }
-        }
-        //aktualizujemy biezacy wiersz nie bedacy nowa transakcja
-        double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-        double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-        rozliczono = rozliczono + sumaddlaaktualnego;
-        pozostalo = pozostalo - sumaddlaaktualnego;
-        aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-        aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-    }
-
-    private void pobierzjuzNaniesioneTransakcjeSparowane() {
-        rozrachunekNowaTransakcja = new ArrayList<>();
-        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findAll());
-        for (Rozrachunekfk p : rozrachunekNowaTransakcja) {
-            for (Transakcja r : biezacetransakcje) {
-                if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
-                    r.getTransakcjaPK().setSparowany(p);
-                }
-            }
-        }
-
-    }
-
-    //*************************
-    //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
-    private int pobierztransakcjeJakoSparowany() {
-        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
-        //pobieramy listy z bazy
-        transakcjejakosparowany = new ArrayList<>();
-        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
-        List<Transakcja> kolekcje = new ArrayList<>();
-        pobranelisty = zestawienielisttransakcjiDAO.findAll();
-        for (Zestawienielisttransakcji p : pobranelisty) {
-            kolekcje.addAll(p.getListatransakcji());
-        }
-        int wynikszukania = 0;
-        for (Transakcja x : kolekcje) {
-            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
-            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
-            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
-            boolean kwoty = x.GetSpRozl() != 0.0 && x.GetSpPoz() != 0.0;
-            if (typdokumentu && nrkolejnydokumentu && nrPorzadkowyWiersza && kwoty) {
-                Msg.msg("w", "on byl jako sparowany");
-                transakcjejakosparowany.add(x);
-                wynikszukania = 1;
-            }
-        }
-        //nie znaleziono transakcji gdzie aktualnybylby sparowanym
-        if (wynikszukania == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private void sumujdlaNowejTransakcji() {
-        double sumaddlaaktualnego = 0.0;
-        //czyscimy wartosci
-        for (Transakcja p : transakcjejakosparowany) {
-            double kwota = p.getKwotatransakcji();
-            if (kwota > 0) {
-                Transakcja nowa = new Transakcja();
-                nowa.setZablokujnanoszenie(true);
-                nowa.getTransakcjaPK().setRozliczany(p.getTransakcjaPK().getSparowany());
-                nowa.getTransakcjaPK().setSparowany(p.getTransakcjaPK().getRozliczany());
-                nowa.SetSpRozl(kwota);
-                nowa.SetSpPoz(nowa.GetSpKwotaPier() - kwota);
-                biezacetransakcje.add(nowa);
-            }
-        }
-    }
-
+    
     //*************************
     //nanosi transakcje z kwotami na rozrachunki
     public void zapistransakcji() {
@@ -739,7 +644,6 @@ public class DokfkView implements Serializable {
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
-
     
     //********************
     //a to jest rodzial dotyczacy walut
@@ -768,7 +672,8 @@ public class DokfkView implements Serializable {
                 }
             }
             if (staranazwa != null && selected.getListawierszy().get(0).getWierszStronaWn().getKwota() != 0.0) {
-                przewalutujzapisy(staranazwa, nazwawaluty);
+                DokFKBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 selected.setWalutadokumentu(nazwawaluty);
             } else {
                 selected.setWalutadokumentu(nazwawaluty);
@@ -776,8 +681,8 @@ public class DokfkView implements Serializable {
                 Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
                 List<Wiersze> wiersze = selected.getListawierszy();
                 for (Wiersze p : wiersze) {
-                    uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
-                    uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
+                    DokFKBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
+                    DokFKBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
                 }
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:w01");
@@ -788,81 +693,6 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update("formwpisdokument:w13");
             pobierzsymbolwaluty();
         }
-    }
-
-    private void przewalutujzapisy(String staranazwa, String nazwawaluty) {
-        double kurs = 0.0;
-        if (staranazwa.equals("PLN")) {
-            Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-            kurs = selected.getTabelanbp().getKurssredni();
-            kurs = Math.round((1 / kurs) * 100000000);
-            kurs = kurs / 100000000;
-            List<Wiersze> wiersze = selected.getListawierszy();
-            for (Wiersze p : wiersze) {
-                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
-                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
-                if (p.getWierszStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaWn().getKwota();
-                    p.getWierszStronaWn().setKwotaPLN(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota = kwota / 10000;
-                    p.getWierszStronaWn().setKwota(kwota);
-                    p.getWierszStronaWn().setKwotaWaluta(kwota);
-                }
-                if (p.getWierszStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaMa().getKwota();
-                    p.getWierszStronaMa().setKwotaPLN(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota = kwota / 10000;
-                    p.getWierszStronaMa().setKwota(kwota);
-                    p.getWierszStronaMa().setKwotaWaluta(kwota);
-                }
-            }
-        } else {
-            //robimy w zlotowkach
-            kurs = selected.getTabelanbp().getKurssredni();
-            List<Wiersze> wiersze = selected.getListawierszy();
-            for (Wiersze p : wiersze) {
-                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaWn());
-                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaMa());
-                p.getWierszStronaWn().setGrafikawaluty("zł");
-                p.getWierszStronaMa().setGrafikawaluty("zł");
-                if (p.getWierszStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaWn().getKwota();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota = kwota / 100;
-                    p.getWierszStronaWn().setKwota(kwota);
-                    p.getWierszStronaWn().setKwotaPLN(kwota);
-                    p.getWierszStronaWn().setKwotaWaluta(0.0);
-                }
-                if (p.getWierszStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaMa().getKwota();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota = kwota / 100;
-                    p.getWierszStronaMa().setKwota(kwota);
-                    p.getWierszStronaMa().setKwotaPLN(kwota);
-                    p.getWierszStronaMa().setKwotaWaluta(0.0);
-                }
-        }
-        }
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-    }
-
-    private void uzupelnijwierszprzyprzewalutowaniu(WierszStronafk wierszStronafk, Waluty wybranawaluta, Tabelanbp tabelanbp) {
-            wierszStronafk.setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
-            wierszStronafk.setNrtabelinbp(tabelanbp.getTabelanbpPK().getNrtabeli());
-            wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
-            wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
-            wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
-    }
-    
-     private void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {
-            wierszStronafk.setGrafikawaluty("zł");
-            Tabelanbp tabelanbp = null;
-            wierszStronafk.setNrtabelinbp(null);
-            wierszStronafk.setKurswaluty(1);
-            wierszStronafk.setSymbolwaluty("PLN");
-            wierszStronafk.setDatawaluty(null);
     }
     
     public void pobierzsymbolwaluty() {
@@ -890,7 +720,7 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie moglem zmienic symbolu waluty");
         }
     }
-    
+   
     public void wyliczroznicekursowa(Transakcja loop, int row) {
         double kursAktualny = loop.getTransakcjaPK().getRozliczany().getWierszStronafk().getKurswaluty();
         double kursSparowany = loop.getTransakcjaPK().getSparowany().getWierszStronafk().getKurswaluty();
@@ -902,7 +732,7 @@ public class DokfkView implements Serializable {
         double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
         double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
         roznicakursowa = Math.round(roznicakursowa);
-        roznicakursowa = roznicakursowa/100;
+        roznicakursowa /= 100;
         Transakcja analizowanatransakcja = biezacetransakcje.get(row);
         analizowanatransakcja.setRoznicekursowe(roznicakursowa);
         wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
@@ -933,8 +763,8 @@ public class DokfkView implements Serializable {
         }
         //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
         Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-        uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
-        uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
+        DokFKBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
+        DokFKBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
     public void handleKontoRow(int numer, String wnma) {
         numerwiersza = numer;
@@ -942,16 +772,16 @@ public class DokfkView implements Serializable {
     }
 
     
-//    public void handleKontoSelect(SelectEvent event) {
-//        Object item = event.getObject();
-//        if (stronawiersza.equals("wn")) {
-//            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
-//            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
-//        } else {
-//            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
-//        }
-//    }
-//    
+    public void handleKontoSelect(SelectEvent event) {
+        Object item = event.getObject();
+        if (stronawiersza.equals("wn")) {
+            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
+            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
+        } else {
+            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
+        }
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public WpisView getWpisView() {
@@ -1039,7 +869,7 @@ public class DokfkView implements Serializable {
     }
     
     public void setRozrachunekNowaTransakcja(List<Rozrachunekfk> rozrachunekNowaTransakcja) {
-        DokfkView.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
+        this.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
     }
     
     public List<Transakcja> getBiezacetransakcje() {
