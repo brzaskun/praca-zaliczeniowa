@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package viewfk.subroutines;
 
 import daoFK.RozrachunekfkDAO;
@@ -15,7 +14,6 @@ import entityfk.Zestawienielisttransakcji;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
-import msg.Msg;
 
 /**
  *
@@ -24,34 +22,24 @@ import msg.Msg;
 @Named
 @Singleton
 public class ObslugaRozrachunku {
-    
+
     public static void utrwalNoweRozachunki(List<Rozrachunekfk> pobierznowododane, RozrachunekfkDAO rozrachunekfkDAO) {
-            for (Rozrachunekfk p : pobierznowododane) {
-                p.setZaksiegowanodokument(true);
-                rozrachunekfkDAO.edit(p);
-            }
-    }
-    
-     public static void usunrozrachunek(WierszStronafk wierszStronafk, RozrachunekfkDAO rozrachunekfkDAO) {
-        Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
-        try {
-            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-            rozrachunekfkDAO.destroy(rU);
-            Msg.msg("i", "Usunieto rozrachunek");
-        } catch (Exception e) {
-            Msg.msg("e", "Nieusunieto rozrachunku");
+        for (Rozrachunekfk p : pobierznowododane) {
+            p.setZaksiegowanodokument(true);
+            rozrachunekfkDAO.edit(p);
         }
+    }
+
+    public static void usunrozrachunek(WierszStronafk wierszStronafk, RozrachunekfkDAO rozrachunekfkDAO) {
+        Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
+        Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
+        rozrachunekfkDAO.destroy(rU);
     }
 
     public static void usuntransakcje(WierszStronafk wierszStronafk, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
         WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
-        try {
-            Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
-            zestawienielisttransakcjiDAO.destroy(znaleziona);
-            Msg.msg("i", "Usunieto transakcje nienowe transakcje");
-        } catch (Exception e) {
-            Msg.msg("e", "Nie usunieto transakcje nienowe transakcje");
-        }
+        Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
+        zestawienielisttransakcjiDAO.destroy(znaleziona);
     }
-    
+
 }
