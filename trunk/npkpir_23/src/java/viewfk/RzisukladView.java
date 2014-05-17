@@ -73,39 +73,42 @@ public class RzisukladView implements Serializable{
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
         }
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public Rzisuklad getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Rzisuklad selected) {
         this.selected = selected;
     }
-
+    
     public String getNowy() {
         return nowy;
     }
-
+    
     public void setNowy(String nowy) {
         this.nowy = nowy;
     }
-
+    
     
     public List<Rzisuklad> getLista() {
         return lista;
     }
-
+    
     public void setLista(List<Rzisuklad> lista) {
         RzisukladView.lista = lista;
     }
-
+    
     public RzisukladDAO getRzisukladDAO() {
         return rzisukladDAO;
     }
-
+    
     public void setRzisukladDAO(RzisukladDAO rzisukladDAO) {
         this.rzisukladDAO = rzisukladDAO;
     }
-
     
+    
+//</editor-fold>
     
 }

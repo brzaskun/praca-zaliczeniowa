@@ -534,6 +534,10 @@ public class SessionFacade<T> {
     public List<Wiersze> findWierszeZapisy(String podatnik, String konto) {
         return em.createNamedQuery("Wiersze.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
+    
+    public List<Wiersze> findWierszePodatnik(String podatnik) {
+        return em.createNamedQuery("Wiersze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
 
 //
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
