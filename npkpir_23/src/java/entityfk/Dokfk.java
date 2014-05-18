@@ -271,6 +271,13 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = this.wartoscdokumentu + suma;
     }
     
+    public void przeliczKwotyWierszaDoSumyDokumentu() {
+        int liczbawierszy = this.listawierszy.size();
+        for (int i = 0; i < liczbawierszy; i++) {
+            dodajKwotyWierszaDoSumyDokumentu(i);
+        }
+    }
+    
     public void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
         List<Wiersze> wierszewdokumencie = this.listawierszy;

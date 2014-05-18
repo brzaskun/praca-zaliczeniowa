@@ -5,8 +5,8 @@
 package viewfk;
 
 import beansFK.DokFKBean;
-import beansFK.DokFKWalutyBean;
 import beansFK.DokFKTransakcjeBean;
+import beansFK.DokFKWalutyBean;
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TabelanbpDAO;
@@ -36,6 +36,9 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
@@ -186,15 +189,15 @@ public class DokfkView implements Serializable {
         if (selected.getListawierszy().size() == 1) {
             int lpwiersza = liczbawierszyWDokumencie - 1;
             WierszStronafk wiersz = selected.getListawierszy().get(0).getWierszStronaWn();
-            selected.getListawierszy().get(0).setWierszStronaWn(ObslugaWiersza.uzupelnijdaneWwierszu(selected, 1, wiersz, "Wn", lpwiersza));
+            selected.getListawierszy().get(0).setWierszStronaWn(ObslugaWiersza.uzupelnijdaneWwierszu(selected, 1, wiersz, "Wn", lpwiersza, wpisView.getPodatnikWpisu()));
             wiersz = selected.getListawierszy().get(0).getWierszStronaMa();
-            selected.getListawierszy().get(0).setWierszStronaMa(ObslugaWiersza.uzupelnijdaneWwierszu(selected, 1, wiersz, "Ma", lpwiersza));
+            selected.getListawierszy().get(0).setWierszStronaMa(ObslugaWiersza.uzupelnijdaneWwierszu(selected, 1, wiersz, "Ma", lpwiersza, wpisView.getPodatnikWpisu()));
         } else {
             int lpwiersza = liczbawierszyWDokumencie - 1;
             WierszStronafk wiersz = selected.getListawierszy().get(lpwiersza).getWierszStronaWn();
-            selected.getListawierszy().get(lpwiersza).setWierszStronaWn(ObslugaWiersza.uzupelnijdaneWwierszu(selected, liczbawierszyWDokumencie, wiersz, "Wn", lpwiersza));
+            selected.getListawierszy().get(lpwiersza).setWierszStronaWn(ObslugaWiersza.uzupelnijdaneWwierszu(selected, liczbawierszyWDokumencie, wiersz, "Wn", lpwiersza, wpisView.getPodatnikWpisu()));
             wiersz = selected.getListawierszy().get(lpwiersza).getWierszStronaMa();
-            selected.getListawierszy().get(lpwiersza).setWierszStronaMa(ObslugaWiersza.uzupelnijdaneWwierszu(selected, liczbawierszyWDokumencie, wiersz, "Ma", lpwiersza));
+            selected.getListawierszy().get(lpwiersza).setWierszStronaMa(ObslugaWiersza.uzupelnijdaneWwierszu(selected, liczbawierszyWDokumencie, wiersz, "Ma", lpwiersza, wpisView.getPodatnikWpisu()));
         }
     }
 
@@ -230,10 +233,7 @@ public class DokfkView implements Serializable {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
-            //nie wiem czemu to jest
-            if (selected.getListawierszy().size()==1) {
-                selected.dodajKwotyWierszaDoSumyDokumentu(0);
-            }
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
@@ -524,7 +524,14 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow.setPozostalo(wierszStronafk.getKwota());
             aktualnyWierszDlaRozrachunkow.setKontoid(wierszStronafk.getKonto());
             aktualnyWierszDlaRozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
-        //sprawdza czy nowy rozrachunek nie jest juz w bazie, jak jest to go pobiera
+            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
+            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
+            DateTime dt = new DateTime();
+            LocalDate dataRozrachunku = dt.toLocalDate();
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+            String formattedDate = formatter.print(dataRozrachunku);
+            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(formattedDate);
+       //sprawdza czy nowy rozrachunek nie jest juz w bazie, jak jest to go pobiera
         Rozrachunekfk pobranyrozrachunek = rozrachunekfkDAO.findRozrachunekfk(aktualnyWierszDlaRozrachunkow);
         if (pobranyrozrachunek instanceof Rozrachunekfk) {
             aktualnyWierszDlaRozrachunkow = pobranyrozrachunek;

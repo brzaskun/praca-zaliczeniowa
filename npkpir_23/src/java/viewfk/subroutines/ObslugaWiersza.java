@@ -46,13 +46,14 @@ public class ObslugaWiersza {
     }
     
                      
-    public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wiersz, String wnma, int lpwiersza) {
+    public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wiersz, String wnma, int lpwiersza, String podatnik) {
         wiersz.setNrwlasnydokumentu(selected.getNumer());
         wiersz.setOpisdokumentu(selected.getTresc());
         wiersz.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpis());
         //rzeczy dotyczace waluty
         WierszStronafkPK wPK = wiersz.getWierszStronafkPK();
         wPK.setNrPorzadkowyWiersza(numer);
+        wPK.setPodatnik(podatnik);
         wPK.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
         wPK.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
         wPK.setStronaWnlubMa(wnma);

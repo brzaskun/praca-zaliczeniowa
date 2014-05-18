@@ -4,14 +4,12 @@
  */
 package converter;
 
-import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
 import viewfk.PlanKontView;
 
 /**
@@ -20,10 +18,10 @@ import viewfk.PlanKontView;
  */
 public class KontoConv implements javax.faces.convert.Converter{
     
-    @Inject private KontoDAOfk kontoDAO;
-    
+   
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+        try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
         List<Konto> konta = PlanKontView.getWykazkontS();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
@@ -39,9 +37,11 @@ public class KontoConv implements javax.faces.convert.Converter{
             } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
             }  
-        }  
-  
-        return null;  
+        }
+        } catch (Exception e) {
+            return null;  
+        }
+        return null;
     }  
   
     @Override
