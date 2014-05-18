@@ -6,9 +6,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
+    <p:layoutUnit position="north" size="10 0" resizable="true" closable="true" collapsible="true">
             <h:form>
-                <p:menubar>
+                <p:menubar autoDisplay="true">
                     <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
                     <p:menuitem icon="ui-icon-document" value="dokumenty" outcome="menudokumentyFK"/>
                     <p:menuitem icon="ui-icon-pencil" value="raporty" outcome="raportyFK"/>
@@ -23,6 +23,10 @@
                     <p:menuitem icon="ui-icon-help" value="pomoc" />
                 </p:menubar>
             </h:form>
+        <p:panel>
+            <h:outputText value="aktualna firma:"/>
+            <h:outputText value="#{WpisView.podatnikWpisu}" style="font-weight: 900;"/>
+        </p:panel>
     </p:layoutUnit>
 </ui:composition>   
 
