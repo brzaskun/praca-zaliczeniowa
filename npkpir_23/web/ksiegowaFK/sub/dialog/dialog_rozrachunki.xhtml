@@ -13,21 +13,21 @@
         <h:form id="rozrachunki" >
             <div style="height: 600px;">
                     <p:panelGrid id="paneledycji" columns="8" style="width: 1000px;">
-                        <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkViewaktualnyWierszDlaRozrachunkoww.wierszStronafk.wierszStronafkPK.typdokumentu}"/>
-                        <h:outputText value="konto"/><h:outputText value="konto #{dokfkViewaktualnyWierszDlaRozrachunkoww.wierszStronafk.konto.pelnynumer}"/>
+                        <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu}"/>
+                        <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.pelnynumer}"/>
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.podatnik}"/>
                         <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opisdokumentu}"/>
-                        <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkaktualnyWierszDlaRozrachunkowunkow.wierszStronafk.opiswiersza}"/>
-                        <h:outputText value="waluta"/><h:outputText value="#{dokfkVaktualnyWierszDlaRozrachunkownkow.walutarozrachunku}"/>
-                        <h:outputText value="kurs"/><h:outputText value="#{dokfkViewaktualnyWierszDlaRozrachunkoww.wierszStronafk.kurswaluty}"/>
-                        <h:outputText value="tabela"/><h:outputText value="#{dokfkVieaktualnyWierszDlaRozrachunkowow.wierszStronafk.nrtabelinbp} z dnia #{daktualnyWierszDlaRozrachunkowrachunkow.wierszStronafk.datawaluty}"/>
-                        <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkaktualnyWierszDlaRozrachunkowunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
+                        <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opiswiersza}"/>
+                        <h:outputText value="waluta"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku}"/>
+                        <h:outputText value="kurs"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}"/>
+                        <h:outputText value="tabela"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.nrtabelinbp} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.datawaluty}"/>
+                        <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkViewaktualnyWierszDlaRozrachunkoww.rozliczono}" style="float: right; font-weight: bold;">
+                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#aktualnyWierszDlaRozrachunkowozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
+                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
@@ -97,7 +97,7 @@
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px;">
                 <h:form id="formcheckbox">
-                    <h:selectBooleanCheckbox id="znaczniktransakcji" onfocus="zablokujcheckbox('#{dokfkVieaktualnyWierszDlaRozrachunkowow.rozliczono}');" accesskey="t" valueChangeListener="#{dokfkView.zapiszusuntransakcje}" value="#{dokfkView.potraktujjakoNowaTransakcje}" >
+                    <h:selectBooleanCheckbox id="znaczniktransakcji" onfocus="zablokujcheckbox('#{dokfkVieaktualnyWierszDlaRozrachunkowow.rozliczono}');" accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}" value="#{dokfkView.potraktujjakoNowaTransakcje}" >
                         <f:ajax event="change" execute="@this" render=":wpisywaniefooter"/>
                 </h:selectBooleanCheckbox>
                     <h:outputLabel for=":formcheckbox:znaczniktransakcji" value="nowa transakcja" style="font-weight: bolder;"/>

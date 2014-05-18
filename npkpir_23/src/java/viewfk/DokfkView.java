@@ -757,6 +757,7 @@ public class DokfkView implements Serializable {
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -909,7 +910,7 @@ public class DokfkView implements Serializable {
         this.pokazPanelWalutowy = pokazPanelWalutowy;
     }
     
-
+//</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public static void main(String[] args) {
