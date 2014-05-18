@@ -33,7 +33,7 @@
                         <f:selectItem itemLabel="WB" itemValue="WB"/>
                         <f:selectItem itemLabel="BO" itemValue="BO"/>
                         <f:ajax event="blur" execute="@this"/>
-                        <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.przygotujdokument}"/>
+                        <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
                     </h:selectOneMenu>
                     <h:outputText value="numer"/><h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
                         <f:ajax event="blur" execute="@this"/>
@@ -67,10 +67,10 @@
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
                         </h:selectOneMenu>
-                        <h:outputText id="w00" value="#{dokfkView.selected.zablokujzmianewaluty eq true ? 'wprowadzono rozrachunki - nie można zmienić waluty'  : ''}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
-                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
-                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
-                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.zablokujpanelwalutowy}"/>
+                        <h:outputText id="w00" value="#{dokfkView.selected.zablokujzmianewaluty eq true ? 'wprowadzono rozrachunki - nie można zmienić waluty'  : ''}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                 </p:panelGrid>
             </div>
             <div style="height: 430px;">
@@ -86,7 +86,7 @@
                             <f:ajax event="focus" listener="#{dokfkView.pobierzsymbolwaluty()}" />
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="data" width="60" style="padding: 0px;" rendered="#{dokfkView.zablokujpanelwalutowy}">
+                    <p:column headerText="data" width="60" style="padding: 0px;" rendered="#{dokfkView.pokazPanelWalutowy}">
                         <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.datawaluty}">
                             <f:ajax event="keyup" execute="@this"/>
                             <f:ajax event="blur" listener="#{dokfkView.pobierzkursNBPwiersz(loop.datawaluty, loop)}"/>
