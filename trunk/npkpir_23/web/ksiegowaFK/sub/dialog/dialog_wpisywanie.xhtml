@@ -115,6 +115,7 @@
                     <p:column headerText="kwota"  width="140">
                         <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.kwota}" style="text-align: right; width: 150px; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.maReadOnly}">
                             <f:ajax event="blur" execute="@this"/>
+                            <p:ajax event="blur" partialSubmit="true" onstart="sprawdzwartosc(#{loop.idporzadkowy});"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7" style="text-align: center">
@@ -125,8 +126,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" maxResults="15" maxlength="15" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient"  style="width: 10px; margin-left: auto; margin-right: auto;"
-                                        required="true" requiredMessage="Pole konta Ma nie może byc puste"  styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});
-                            zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
+                                        required="true" requiredMessage="Pole konta Ma nie może byc puste"  styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >
                             <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza(rowindex, 'ma')}" partialSubmit="true"/>
 <!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->

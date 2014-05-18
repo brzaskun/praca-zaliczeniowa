@@ -370,12 +370,15 @@ var usunztablicydok = function(){
 //uzupelnia pole Ma wartoscia pola Wn jezeli jego wartosc jest == 0
 var sprawdzwartosc = function(wiersz){
     wiersz -= 1;
-    var zloz = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
-    var wartosc = $(zloz).val();
-    if(wartosc === "0.00"){
-        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
-        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val());
+    var wierszWn = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input";
+    var wierszMa = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
+    var wartoscWierszWn = $(wierszWn).val();
+    var wartoscWierszMa = $(wierszMa).val();
+    if(wartoscWierszMa === "0.00"){
+        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(zrobFloat(wartoscWierszWn));
+        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(wartoscWierszWn);
     }
+    $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").keyup();
 };
 
 //menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
