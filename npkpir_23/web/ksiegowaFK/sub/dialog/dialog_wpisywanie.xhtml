@@ -108,8 +108,8 @@
                                         converterMessage="Nieudana konwersja Klient" style="width: 10px; margin-left: auto; margin-right: auto;"
                                         required="true" requiredMessage="Pole konta Wn nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.wnReadOnly}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoRow(rowindex, 'wn')}"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoSelect}" partialSubmit="true"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza()}" partialSubmit="true"/>
+<!--   ARCHEO               <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota"  width="140">
@@ -128,8 +128,8 @@
                                         required="true" requiredMessage="Pole konta Ma nie może byc puste"  styleClass="kontoinput" onfocus="sprawdzwartosc(#{loop.idporzadkowy});
                             zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >
-                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoRow(rowindex, 'ma')}"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.handleKontoSelect}" partialSubmit="true"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza()}" partialSubmit="true"/>
+<!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                             <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
                         </p:autoComplete>
                     </p:column>
