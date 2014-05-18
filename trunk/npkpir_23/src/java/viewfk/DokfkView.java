@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.DokFKBean;
+import beansFK.DokFKWalutyBean;
 import beansFK.DokFKTransakcjeBean;
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
@@ -55,30 +56,6 @@ public class DokfkView implements Serializable {
     private List<Rozrachunekfk> rozrachunekNowaTransakcja;
     private int numerwiersza = 0;
     private String stronawiersza;
-
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    public static void main(String[] args) {
-        String staranazwa = "EUR";
-        String nazwawaluty = "PLN";
-        double kurs = 4.189;
-        if (!staranazwa.equals("PLN")) {
-            kurs = 1 / kurs * 100000000;
-            kurs = Math.round(kurs);
-            kurs = kurs / 100000000;
-        }
-        double kwota = 100000;
-        kwota = Math.round(kwota * kurs * 10000);
-        kwota = kwota / 10000;
-        System.out.println(kwota);
-        staranazwa = "PLN";
-        nazwawaluty = "EUR";
-        kurs = 4.189;
-        kwota = Math.round(kwota * kurs * 100);
-        kwota = kwota / 100;
-        
-//</editor-fold>
-}
-
     protected Dokfk selected;
     @Inject
     private DokDAOfk dokDAOfk;
@@ -155,21 +132,11 @@ public class DokfkView implements Serializable {
     //********************************************funkcje dla ksiegowania dokumentow
     //RESETUJ DOKUMNETFK
     public void resetujDokument() {
-        biezacetransakcje = null;
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
-        String symbolPoprzedniegoDokumentu ="";
-        try {
-            symbolPoprzedniegoDokumentu = new String(selected.getDokfkPK().getSeriadokfk());
-        } catch (Exception e) {}
+        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
         selected = new Dokfk();
-        DokfkPK dokfkPK = new DokfkPK();
-        dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
-        selected.setDokfkPK(dokfkPK);
-        List<Wiersze> wiersze = new ArrayList<>();
-        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
-        selected.setListawierszy(wiersze);
-        selected.setWalutadokumentu("PLN");
-        selected.setZablokujzmianewaluty(false);
+        selected.ustawNoweSelected(symbolPoprzedniegoDokumentu);
+        biezacetransakcje = null;
         liczbawierszyWDokumencie = 1;
         zapisz0edytuj1 = false;
         zablokujprzyciskrezygnuj = false;
@@ -177,6 +144,8 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
     }
+    
+   
 
     //dodaje wiersze do dokumentu
     public void dolaczNowyWiersz() {
@@ -198,9 +167,12 @@ public class DokfkView implements Serializable {
                 Waluty walutadokumentu = walutyDAOfk.findByName(walutadokS);
                 selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, wpisView.getPodatnikWpisu(), liczbawierszyWDokumencie, walutadokumentu.getSkrotsymbolu()));
             }
-            selected.getListawierszy().get(liczbawierszyWDokumencie-1).setDatawaluty(selected.getListawierszy().get(liczbawierszyWDokumencie-2).getDatawaluty());
+            int nowyWiersz = liczbawierszyWDokumencie-1;
+            int poprzedniWiersz = liczbawierszyWDokumencie-2;
+            selected.getListawierszy().get(nowyWiersz).setDatawaluty(selected.getListawierszy().get(poprzedniWiersz).getDatawaluty());
+            //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
             selected.uzupelnijwierszeodane();
-            selected.dodajwartoscwiersza(liczbawierszyWDokumencie-2);
+            selected.dodajKwotyWierszaDoSumyDokumentu(poprzedniWiersz);
         } else {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
@@ -233,14 +205,13 @@ public class DokfkView implements Serializable {
             selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             //nanosimy zapisy na kontach
-            NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getListawierszy());
-            selected.dodajwartoscwiersza(selected.getListawierszy().size()-1);
-            //najpierw zobacz czy go nie ma, jak jest to usun i dodaj
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
+            selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
             //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
-            List<Rozrachunekfk> pobierznowododane = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            ObslugaRozrachunku.utrwalNoweRozachunki(pobierznowododane, rozrachunekfkDAO);
+            List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
             //zaznaczamy sparowae jako wprowadzone i zaksiegowane
             for (Wiersze p : selected.getListawierszy()) {
                 ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaWn(), zestawienielisttransakcjiDAO);
@@ -258,13 +229,14 @@ public class DokfkView implements Serializable {
     public void edycja() {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getListawierszy());
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
+            //nie wiem czemu to jest
             if (selected.getListawierszy().size()==1) {
-                selected.dodajwartoscwiersza(0);
+                selected.dodajKwotyWierszaDoSumyDokumentu(0);
             }
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
             resetujDokument();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
         } catch (Exception e) {
@@ -275,10 +247,10 @@ public class DokfkView implements Serializable {
     public void edycjaDlaRozrachunkow() {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.nanieszapisynakontach(selected.getListawierszy());
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findAll();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
@@ -672,7 +644,7 @@ public class DokfkView implements Serializable {
                 }
             }
             if (staranazwa != null && selected.getListawierszy().get(0).getWierszStronaWn().getKwota() != 0.0) {
-                DokFKBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 selected.setWalutadokumentu(nazwawaluty);
             } else {
@@ -681,8 +653,8 @@ public class DokfkView implements Serializable {
                 Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
                 List<Wiersze> wiersze = selected.getListawierszy();
                 for (Wiersze p : wiersze) {
-                    DokFKBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
-                    DokFKBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
+                    DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
+                    DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
                 }
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:w01");
@@ -763,8 +735,8 @@ public class DokfkView implements Serializable {
         }
         //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
         Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-        DokFKBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
-        DokFKBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
+        DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
+        DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
     public void handleKontoRow(int numer, String wnma) {
         numerwiersza = numer;
@@ -936,5 +908,28 @@ public class DokfkView implements Serializable {
         this.zablokujpanelwalutowy = zablokujpanelwalutowy;
     }
     
+//</editor-fold>
+
+
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public static void main(String[] args) {
+        String staranazwa = "EUR";
+        String nazwawaluty = "PLN";
+        double kurs = 4.189;
+        if (!staranazwa.equals("PLN")) {
+            kurs = 1 / kurs * 100000000;
+            kurs = Math.round(kurs);
+            kurs = kurs / 100000000;
+        }
+        double kwota = 100000;
+        kwota = Math.round(kwota * kurs * 10000);
+        kwota = kwota / 10000;
+        System.out.println(kwota);
+        staranazwa = "PLN";
+        nazwawaluty = "EUR";
+        kurs = 4.189;
+        kwota = Math.round(kwota * kurs * 100);
+        kwota = kwota / 100;
+}        
 //</editor-fold>
 }

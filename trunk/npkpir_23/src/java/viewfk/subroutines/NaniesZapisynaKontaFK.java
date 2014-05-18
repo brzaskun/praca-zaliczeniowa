@@ -21,7 +21,7 @@ import msg.Msg;
 @Singleton
 public class NaniesZapisynaKontaFK implements Serializable {
 
-    public static void nanieszapisynakontach(List<Wiersze> wiersze) {
+    public static void naniesZapisyNaKontach(List<Wiersze> wiersze) {
         String opis = "";
         for (Wiersze p : wiersze) {
             if (p.getZapisynakontach() != null) {
