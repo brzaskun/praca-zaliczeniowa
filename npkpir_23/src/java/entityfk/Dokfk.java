@@ -5,6 +5,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import viewfk.subroutines.ObslugaWiersza;
 
 /**
  *
@@ -249,7 +251,7 @@ public class Dokfk implements Serializable {
         return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " ]";
     }
 
-    public void dodajwartoscwiersza(int numerwiersza) {
+    public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {
         Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
         int typwiersza = biezacywiersz.getTypwiersza();
         double suma = 0.0;
@@ -294,5 +296,17 @@ public class Dokfk implements Serializable {
             }
         } catch (Exception e) {
         }
+    }
+    
+    public void ustawNoweSelected(String symbolPoprzedniegoDokumentu) {
+        DokfkPK dokfkPK = new DokfkPK();
+        //chodzi o FVS, FVZ a nie o numer :)
+        dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+        this.setDokfkPK(dokfkPK);
+        List<Wiersze> wiersze = new ArrayList<>();
+        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
+        this.setListawierszy(wiersze);
+        this.setWalutadokumentu("PLN");
+        this.setZablokujzmianewaluty(false); 
     }
 }

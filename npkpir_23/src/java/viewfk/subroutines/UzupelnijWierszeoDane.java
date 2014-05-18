@@ -19,10 +19,9 @@ import javax.inject.Named;
 @Singleton
 public class UzupelnijWierszeoDane implements Serializable {
     
-    //uzupeelnia wiersze podczas ich wprowadzania badz edycji i zapisuje do bazy, nie rusza pol edycji
+    //uzupeelnia wiersze podczas ich wprowadzania badz edycji, nie rusza pol edycji
     public static void uzupelnijwierszeodane(Dokfk selected) {
         //ladnie uzupelnia informacje o wierszu pk
-        String opisdoprzekazania = "";
         List<Wiersze> wierszewdokumencie = selected.getListawierszy();
         try {
             for (Wiersze p : wierszewdokumencie) {
@@ -43,7 +42,6 @@ public class UzupelnijWierszeoDane implements Serializable {
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setTypwiersza(0);
                     p.setDokfk(selected);
-                    opisdoprzekazania = p.getOpis();
                     p.setZaksiegowane(Boolean.FALSE);
                 }
             }
