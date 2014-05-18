@@ -457,7 +457,7 @@ public class DokfkView implements Serializable {
     }
     
     //********************
-    //rozrachunki
+    //przygotowuje transakcje do wyswietlenia, uruchamiana klawiszami ALT-R
     public void tworzenieTransakcjiZWierszy() {
         //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
         String wnma = (String) Params.params("wpisywaniefooter:wnlubma");
@@ -532,8 +532,6 @@ public class DokfkView implements Serializable {
     }
 
     
-
-    
     //*************************
     //nanosi transakcje z kwotami na tworzenieTransakcjiZWierszy
     public void zapistransakcji() {
@@ -541,25 +539,25 @@ public class DokfkView implements Serializable {
         for (Transakcja p : biezacetransakcje) {
             double kwotanowa = p.getKwotatransakcji();
             double kwotastara = p.getPoprzedniakwota();
-            double roznica = kwotanowa - kwotastara;
+            double roznicaNkSk = kwotanowa - kwotastara;
             double aktualny_rozliczono = p.getTransakcjaPK().getRozliczany().getRozliczono();
             double aktualny_pierwotna = p.getTransakcjaPK().getRozliczany().getKwotapierwotna();
             double sparowany_rozliczono = p.getTransakcjaPK().getSparowany().getRozliczono();
             double sparowany_pierwotna = p.getTransakcjaPK().getSparowany().getKwotapierwotna();
-            if (roznica != 0) {
-                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny_rozliczono + roznica);
+            if (roznicaNkSk != 0) {
+                p.getTransakcjaPK().getRozliczany().setRozliczono(aktualny_rozliczono + roznicaNkSk);
                 p.getTransakcjaPK().getRozliczany().setPozostalo(aktualny_pierwotna - p.getTransakcjaPK().getRozliczany().getRozliczono());
                 p.getTransakcjaPK().getSparowany().setNowatransakcja(true);
-                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany_rozliczono + roznica);
+                p.getTransakcjaPK().getSparowany().setRozliczono(sparowany_rozliczono + roznicaNkSk);
                 p.getTransakcjaPK().getSparowany().setPozostalo(sparowany_pierwotna - p.getTransakcjaPK().getSparowany().getRozliczono());
-            } else if (roznica == 0) {
+            } else if (roznicaNkSk == 0) {
                 p.getTransakcjaPK().getSparowany().setNowatransakcja(false);
             }
             p.setPoprzedniakwota(kwotanowa);
             try {
                 Rozrachunekfk dotyczyrozrachunku = rozrachunekfkDAO.findRozrachunkifkByWierszStronafk(p.idSparowany());
-                if (roznica != 0) {
-                    dotyczyrozrachunku.setRozliczono(dotyczyrozrachunku.getRozliczono() + roznica);
+                if (roznicaNkSk != 0) {
+                    dotyczyrozrachunku.setRozliczono(dotyczyrozrachunku.getRozliczono() + roznicaNkSk);
                     dotyczyrozrachunku.setPozostalo(dotyczyrozrachunku.getKwotapierwotna() - dotyczyrozrachunku.getRozliczono());
                 }
                 rozrachunekfkDAO.edit(dotyczyrozrachunku);
@@ -576,13 +574,13 @@ public class DokfkView implements Serializable {
         }
         //zanosze ze jest rozliczony
         int iletransakcjidodano = biezacetransakcje.size() - pierwotnailosctransakcjiwbazie;
-        boolean wartosc = false;
+        boolean saRozrachunki = false;
         if (iletransakcjidodano != 0) {
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych() + iletransakcjidodano);
         }
         if (selected.getLiczbarozliczonych() > 0) {
             selected.setZablokujzmianewaluty(true);
-            wartosc = true;
+            saRozrachunki = true;
         } else {
             selected.setZablokujzmianewaluty(false);
         }
@@ -591,17 +589,18 @@ public class DokfkView implements Serializable {
         WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
         for (Wiersze p : wierszebiezace) {
             if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
-                p.setWnReadOnly(wartosc);
+                p.setWnReadOnly(saRozrachunki);
                 break;
             } else if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
-                p.setMaReadOnly(wartosc);
+                p.setMaReadOnly(saRozrachunki);
                 break;
             }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         WierszStronafkPK klucz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        List<Transakcja> doprzechowania = new ArrayList<>();
-        doprzechowania.addAll(biezacetransakcje);
+        //Nie wiem po co to jest, chyba jakies archeo
+//        List<Transakcja> doprzechowania = new ArrayList<>();
+//        doprzechowania.addAll(biezacetransakcje);
         //tu zrobie zapis do bazy danych
         try {
             Zestawienielisttransakcji szukana = zestawienielisttransakcjiDAO.findByKlucz(klucz);
@@ -740,21 +739,21 @@ public class DokfkView implements Serializable {
         DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
         DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
-    public void handleKontoRow(int numer, String wnma) {
+    public void pobierzNumerWnMaWiersza(int numer, String wnma) {
         numerwiersza = numer;
         stronawiersza = wnma;
     }
 
-    
-    public void handleKontoSelect(SelectEvent event) {
-        Object item = event.getObject();
-        if (stronawiersza.equals("wn")) {
-            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
-            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
-        } else {
-            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
-        }
-    }
+    //Nie wiem o co tu chodzi. chyba ARCHEO. na pewno arche  to mialo powodowac podswieteleni pola z kontem i zabnlokowanie automatycznego przejscia eneterem
+//    public void handleKontoSelect(SelectEvent event) {
+//        Object item = event.getObject();
+//        if (stronawiersza.equals("wn")) {
+//            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
+//            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
+//        } else {
+//            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
+//        }
+//    }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     
