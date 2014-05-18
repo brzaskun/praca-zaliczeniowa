@@ -153,7 +153,7 @@
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
-                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.rozrachunki}" accesskey="r" />
+                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.tworzenieTransakcjiZWierszy()}" accesskey="r" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="pierwszy.hide();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.wierszid}" style="display: none;"/>
