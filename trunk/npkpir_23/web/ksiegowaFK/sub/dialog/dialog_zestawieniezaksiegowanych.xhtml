@@ -11,12 +11,12 @@
     
          <h:form id="zestawieniedokumentow">
              <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.wybranodokmessage}" oncomplete="pierwszy.show();"/>
+                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="pierwszy.show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single">
-                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranodokmessage}" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
+                     <p:ajax event="rowSelect"  listener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
                      <f:ajax event="rowSelect" execute="@this"/>
                 <p:hotkey bind="down" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="przejdzwiersz();"/>
                 <p:hotkey bind="up" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="wrocwiersz();"/>

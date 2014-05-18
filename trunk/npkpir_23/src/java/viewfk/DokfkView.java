@@ -84,7 +84,7 @@ public class DokfkView implements Serializable {
     private boolean zablokujprzyciskzapisz;
     private boolean zablokujprzyciskrezygnuj;
     private int pierwotnailosctransakcjiwbazie;
-    private boolean zablokujpanelwalutowy;
+    private boolean pokazPanelWalutowy;
     //waltuty
     //waluta wybrana przez uzytkownika
     @Inject
@@ -327,7 +327,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void przygotujdokument() {
+    public void przygotujDokumentWpisywanie() {
         String skrotnazwydokumentu = selected.getDokfkPK().getSeriadokfk();
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
@@ -340,20 +340,20 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update("formwpisdokument:numer");
         }
         if (skrotnazwydokumentu.equals("WB")) {
-            zablokujpanelwalutowy = true;
+            pokazPanelWalutowy = true;
         } else {
-            zablokujpanelwalutowy = false;
+            pokazPanelWalutowy = false;
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
-    public void wybranodokmessage() {
+    public void przygotujDokumentEdycja() {
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
             setZapisz0edytuj1(true);
             if (selected.getDokfkPK().getSeriadokfk().equals("WB")) {
-                zablokujpanelwalutowy = true;
+                pokazPanelWalutowy = true;
             }
             liczbawierszyWDokumencie = selected.getListawierszy().size();
         } catch (Exception e) {
@@ -900,15 +900,14 @@ public class DokfkView implements Serializable {
         this.zablokujprzyciskrezygnuj = zablokujprzyciskrezygnuj;
     }
     
-    public boolean isZablokujpanelwalutowy() {
-        return zablokujpanelwalutowy;
+    public boolean isPokazPanelWalutowy() {
+        return pokazPanelWalutowy;
     }
     
-    public void setZablokujpanelwalutowy(boolean zablokujpanelwalutowy) {
-        this.zablokujpanelwalutowy = zablokujpanelwalutowy;
+    public void setPokazPanelWalutowy(boolean pokazPanelWalutowy) {
+        this.pokazPanelWalutowy = pokazPanelWalutowy;
     }
     
-//</editor-fold>
 
 
     //<editor-fold defaultstate="collapsed" desc="comment">
