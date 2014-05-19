@@ -114,8 +114,8 @@
                     </p:column>
                     <p:column headerText="kwota"  width="140">
                         <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.kwota}" style="text-align: right; width: 150px; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.maReadOnly}">
-                            <f:ajax event="blur" execute="@this"/>
-                            <p:ajax event="blur" partialSubmit="true" onstart="sprawdzwartosc(#{loop.idporzadkowy});"/>
+                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this"/>
+                            <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7" style="text-align: center">

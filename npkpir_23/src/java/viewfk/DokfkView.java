@@ -750,6 +750,14 @@ public class DokfkView implements Serializable {
         numerwiersza = numer;
         stronawiersza = wnma;
     }
+    
+    public void skopiujWndoMa(Wiersze wiersze) {
+        double kwotaWn = wiersze.getWierszStronaWn().getKwota();
+        double kwotaMa = wiersze.getWierszStronaMa().getKwota();
+        if (kwotaWn!=0 && kwotaMa==0) {
+            wiersze.getWierszStronaMa().setKwota(kwotaWn);
+        }
+    }
 
     //Nie wiem o co tu chodzi. chyba ARCHEO. na pewno arche  to mialo powodowac podswieteleni pola z kontem i zabnlokowanie automatycznego przejscia eneterem
 //    public void handleKontoSelect(SelectEvent event) {
