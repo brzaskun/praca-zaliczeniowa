@@ -33,32 +33,29 @@ public class PozycjeSzczegolowe {
             String wynik = (String) met.invoke(pozycjelista, null);
             lista.add(wynik);
         }
-        Date date = Calendar.getInstance().getTime();
-        DateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
-        String today = formatt.format(date);
+       
         String nazwaschemy = schema.getNazwaschemy();
         switch (nazwaschemy) {
             case "M-13":
             case "K-7":
-                this.schemaM13K7(lista, today);
+                this.schemaM13K7(lista);
                 break;
             case "M-14":
             case "K-8":
-                this.schemaM14K8(lista, today);
+                this.schemaM14K8(lista);
                 break;
         }
         
     }
     
-    private void schemaM13K7(List<String> lista, String today){
+    private void schemaM13K7(List<String> lista){
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         pobierzSzczegolowe(lista, 20);
     }
     
-    private void schemaM14K8(List<String> lista, String today){
+    private void schemaM14K8(List<String> lista){
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         pobierzSzczegolowe(lista, 10);
-        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>"+today+"</P_69>");
     }
     
     private void pobierzSzczegolowe(List<String> lista, int poczatek) {

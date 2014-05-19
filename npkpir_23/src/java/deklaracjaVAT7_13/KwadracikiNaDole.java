@@ -9,6 +9,10 @@ package deklaracjaVAT7_13;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Schema;
 import embeddable.Vatpoz;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -23,6 +27,9 @@ public class KwadracikiNaDole {
     public KwadracikiNaDole(Vatpoz selected, Schema schema) {
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         String nazwaschemy = schema.getNazwaschemy();
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatt = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatt.format(date);
         switch (nazwaschemy) {
             case "M-13":
             case "K-7":
@@ -30,7 +37,7 @@ public class KwadracikiNaDole {
                 break;
             case "M-14":
             case "K-8":
-                this.schemaM14K8(pozycjelista);
+                this.schemaM14K8(pozycjelista, today);
                 break;
         }
     }
@@ -48,13 +55,14 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
 
-    private void schemaM14K8(PozycjeSzczegoloweVAT pozycjelista){
+    private void schemaM14K8(PozycjeSzczegoloweVAT pozycjelista, String today){
         if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()==0){
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_61>1</P_61>");
         }
         if(pozycjelista.getPoleI61()>0 && pozycjelista.getPoleI62()>0){
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_62>1</P_62>");
         }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>"+today+"</P_69>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
