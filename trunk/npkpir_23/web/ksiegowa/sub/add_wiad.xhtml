@@ -12,7 +12,7 @@
                 <p:commandButton id="dodkol" value="F8" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
                 <p:commandButton id="usunkol" value="F8" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
-                 style="width: 1100px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%;" id="wprowadzanie">
+                 style="width: 1100px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania1"/>
             <p:panelGrid id="polawprowadzania1" columns="2" style="width: 400px;">
@@ -79,7 +79,7 @@
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.nettokolumna}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
                     <p:column headerText="kwota faktury netto">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat()}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
+                            <p:ajax event="blur" listener="#{DokumentView.dokumentProstySchowajEwidencje}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="kolumna pkpir">
@@ -91,7 +91,7 @@
                 <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
                     <p:column headerText="dok.prosty" style="text-align: center;">
                         <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" style="width: 20px; height: 20px;">
-                            <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+                            <p:ajax event="click" listener="#{DokumentView.dokumentProstySchowajEwidencje()}" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="rozliczony" style="text-align: center;">
@@ -246,9 +246,9 @@
             </p:panel>
             <!--pola ewidencji VAT-->
 
-            <div>
+             <p:panel id="panelewidencjivat" >
                 <!--                alternatywne pola ewidencji vat-->
-                <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 60%;">
+                <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 60%;" rendered="#{!DokumentView.ukryjEwiencjeVAT}">
                     <p:column headerText="rodzaj ewidencji" style="width: 25%;">
                         <h:outputText value="#{item.opis}"/>
                     </p:column>
@@ -272,7 +272,7 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>
-            </div>
+             </p:panel>
             <!--pola ewidencji VAT-->
             <p:panelGrid id="ostatnipanel" columns="4" style="width: 400px;">
 

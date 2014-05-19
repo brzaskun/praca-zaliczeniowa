@@ -264,7 +264,7 @@
                 <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
                     <p:column headerText="dok.prosty" style="text-align: center;">
                         <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" style="width: 20px; height: 20px;">
-                            <p:ajax event="click" listener="#{DokumentView.dokumentProstuSchowajEwidencje()}" global="false"/>
+                            <p:ajax event="click" listener="#{DokumentView.dokumentProstySchowajEwidencje()}" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="rozliczony" style="text-align: center;">

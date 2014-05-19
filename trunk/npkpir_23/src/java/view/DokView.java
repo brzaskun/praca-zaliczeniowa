@@ -152,6 +152,7 @@ public final class DokView implements Serializable {
     private Klienci selectedKlient;
     @Inject
     private PanstwaMap panstwaMapa;
+    private boolean ukryjEwiencjeVAT;//ukrywa ewidencje VAT
 
     public DokView() {
         setWysDokument(null);
@@ -292,15 +293,7 @@ public final class DokView implements Serializable {
     }
 
     public void podepnijEwidencjeVat() {
-        String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
-        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-        if (toJestdokumentProsty.equals("on")) {
-            sumbrutto = 0.0;
-            for (KwotaKolumna p : nettokolumna) {
-                sumbrutto += p.getNetto();
-            }
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
-        } else {
+            String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
             String transakcjiRodzaj = "";
             for (Rodzajedok temp : rodzajedokKlienta) {
                 if (temp.getSkrot().equals(skrotRT)) {
@@ -339,7 +332,6 @@ public final class DokView implements Serializable {
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
                 RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             }
-        }
     }
 
     private double sumujnetto() {
@@ -524,16 +516,23 @@ public final class DokView implements Serializable {
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
-    public void dokumentProstuSchowajEwidencje() {
+    public void dokumentProstySchowajEwidencje() {
         String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
         if (toJestdokumentProsty.equals("on")) {
+            sumbrutto = 0.0;
+            for (KwotaKolumna p : nettokolumna) {
+                sumbrutto += p.getNetto();
+            }
+            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             selDokument.setEwidencjaVAT(null);
             ewidencjaAddwiad.clear();
+            ukryjEwiencjeVAT = true;
             sumujbruttoPK();
             RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
-            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
         } else {
             podepnijEwidencjeVat();
+            ukryjEwiencjeVAT = false;
         }
     }
 
@@ -594,12 +593,12 @@ public final class DokView implements Serializable {
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             selDokument.setListakwot(new ArrayList<KwotaKolumna>());
-            selDokument.getListakwot().addAll(nettokolumna);
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
             if (selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
                 KwotaKolumna kwotaKolumna = new KwotaKolumna(kwotavat, "poz. koszty");
-                selDokument.getListakwot().add(kwotaKolumna);
+                nettokolumna.add(kwotaKolumna);
             }
+            selDokument.getListakwot().addAll(nettokolumna);
             selDokument.setNetto(0.0);
             for (KwotaKolumna p : nettokolumna) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
@@ -1328,6 +1327,15 @@ public final class DokView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public boolean isUkryjEwiencjeVAT() {
+        return ukryjEwiencjeVAT;
+    }
+
+    public void setUkryjEwiencjeVAT(boolean ukryjEwiencjeVAT) {
+        this.ukryjEwiencjeVAT = ukryjEwiencjeVAT;
+    }
+    
+    
     public List<EwidencjaAddwiad> getEwidencjaAddwiad() {
         return ewidencjaAddwiad;
     }
