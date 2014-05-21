@@ -6,14 +6,10 @@ package converter;
 
 import entityfk.Konto;
 import java.util.List;
-import javax.enterprise.inject.spi.Bean;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import view.WpisView;
-import viewfk.DokfkView;
 import viewfk.PlanKontView;
 
 /**
@@ -21,14 +17,21 @@ import viewfk.PlanKontView;
  * @author Osito
  */
 public class KontoConv implements javax.faces.convert.Converter{
+
+    private List<Konto> konta;
+    
+    public KontoConv() {
+       FacesContext context = FacesContext.getCurrentInstance();
+       PlanKontView planKontView = (PlanKontView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"planKontView");
+       konta = planKontView.getWykazkont(); 
+    }
  
    
+    
+    
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
-        FacesContext context = FacesContext.getCurrentInstance();
-	PlanKontView planKontView = (PlanKontView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"planKontView");
-        List<Konto> konta = planKontView.getWykazkont();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
