@@ -38,21 +38,24 @@ var znadzpasujacepolerozrachunku = function(kwota) {
                 $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
                 $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
                 dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
+                var dopasowanywierszH = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_hinput";
                 $(document.getElementById(dopasowanywiersz)).css("color", "green");
                 $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
                 $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
                 var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
                 if (zastanakwota === "0.00") {
                     $(document.getElementById(dopasowanywiersz)).val(kwota);
+                    $(document.getElementById(dopasowanywierszH)).val(kwota);
                 }
                 $(document.getElementById(dopasowanywiersz)).select();
             } else {
                 dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+                dopasowanywierszH = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_hinput";
                 var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
                 if (zastanakwota === "0.00" && dlwiersze === 1) {
                     $(document.getElementById(dopasowanywiersz)).val(kwota);
+                    $(document.getElementById(dopasowanywierszH)).val(kwota);
                 }
-                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
                 $(document.getElementById(dopasowanywiersz)).select();
             }

@@ -29,6 +29,10 @@ public abstract class DAO<T> {
     protected DAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
+
+    public DAO() {
+    }
+    
    
     /**
      *

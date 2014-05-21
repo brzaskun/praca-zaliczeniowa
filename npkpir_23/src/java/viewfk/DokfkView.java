@@ -56,7 +56,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
-    private List<Rozrachunekfk> rozrachunekNowaTransakcja;
+    private List<Rozrachunekfk> listaNowychRozrachunkow;
     private int numerwiersza = 0;
     private String stronawiersza;
     protected Dokfk selected;
@@ -100,11 +100,12 @@ public class DokfkView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
+    
 
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        this.rozrachunekNowaTransakcja = new ArrayList<>();
+        this.listaNowychRozrachunkow = new ArrayList<>();
         this.pierwotnailosctransakcjiwbazie = 0;
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
@@ -395,7 +396,7 @@ public class DokfkView implements Serializable {
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
             rozrachunekfkDAO.dodaj(aktualnyWierszDlaRozrachunkow);
-            rozrachunekNowaTransakcja.add(aktualnyWierszDlaRozrachunkow);
+            listaNowychRozrachunkow.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
@@ -403,7 +404,7 @@ public class DokfkView implements Serializable {
         } else {
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
             rozrachunekfkDAO.destroy(aktualnyWierszDlaRozrachunkow);
-            rozrachunekNowaTransakcja.remove(aktualnyWierszDlaRozrachunkow);
+            listaNowychRozrachunkow.remove(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(false);
             zablokujprzyciskrezygnuj = false;
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
@@ -470,12 +471,13 @@ public class DokfkView implements Serializable {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 transakcjeswiezynki = new ArrayList<>();
+                listaNowychRozrachunkow = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
-                    DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekNowaTransakcja, rozrachunekfkDAO);
-                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(rozrachunekNowaTransakcja, aktualnyWierszDlaRozrachunkow));
+                    listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
+                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
                     DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(zachowanewczejsniejtransakcje, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO);
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
-                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(rozrachunekNowaTransakcja, rozrachunekfkDAO, biezacetransakcje);
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje);
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                     DokFKTransakcjeBean.pobierztransakcjeJakoSparowany(transakcjejakosparowany, biezacetransakcje, zestawienielisttransakcjiDAO, aktualnyWierszDlaRozrachunkow);
@@ -853,12 +855,12 @@ public class DokfkView implements Serializable {
         this.aktualnyWierszDlaRozrachunkow = aktualnyWierszDlaRozrachunkow;
     }
     
-    public List<Rozrachunekfk> getRozrachunekNowaTransakcja() {
-        return rozrachunekNowaTransakcja;
+    public List<Rozrachunekfk> getListaNowychRozrachunkow() {
+        return listaNowychRozrachunkow;
     }
     
-    public void setRozrachunekNowaTransakcja(List<Rozrachunekfk> rozrachunekNowaTransakcja) {
-        this.rozrachunekNowaTransakcja = rozrachunekNowaTransakcja;
+    public void setListaNowychRozrachunkow(List<Rozrachunekfk> listaNowychRozrachunkow) {
+        this.listaNowychRozrachunkow = listaNowychRozrachunkow;
     }
     
     public List<Transakcja> getBiezacetransakcje() {

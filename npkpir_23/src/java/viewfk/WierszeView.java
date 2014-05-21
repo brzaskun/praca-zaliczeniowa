@@ -22,6 +22,7 @@ import view.WpisView;
 @ManagedBean
 @RequestScoped
 public class WierszeView implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Inject private WierszeDAO wierszeDAO;
     private List<Wiersze> wiersze;
     @ManagedProperty(value = "#{WpisView}")

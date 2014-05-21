@@ -34,14 +34,10 @@ import view.WpisView;
 @ViewScoped
 @ManagedBean
 public class PlanKontView implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static List<Konto> wykazkontS;
-    private static int levelBiezacy = 0;
-    private static int levelMaksymalny = 0;
-
-    public static List<Konto> getWykazkontS() {
-        return wykazkontS;
-    }
+    private int levelBiezacy = 0;
+    private int levelMaksymalny = 0;
     private List<Konto> wykazkont;
     private List<Konto> wykazkontwzor;
     private List<Konto> wykazkontanalityczne;
@@ -70,7 +66,6 @@ public class PlanKontView implements Serializable {
     @PostConstruct
     private void init() {
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
-        wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
         wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
@@ -219,7 +214,6 @@ public class PlanKontView implements Serializable {
                 }
             }
             wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
-            wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
@@ -247,7 +241,6 @@ public class PlanKontView implements Serializable {
                 }
             }
             wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
-            wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
@@ -271,7 +264,6 @@ public class PlanKontView implements Serializable {
                 }
             }
             wykazkont = new ArrayList<>();
-            wykazkontS = new ArrayList<>();
             root = new TreeNodeExtended("root", null);
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
@@ -284,7 +276,6 @@ public class PlanKontView implements Serializable {
         //resetuj kolumne macierzyste
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
-        wykazkontS = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
     }

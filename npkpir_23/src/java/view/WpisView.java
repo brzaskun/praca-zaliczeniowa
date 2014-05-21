@@ -32,6 +32,7 @@ import msg.Msg;
 @ManagedBean(name = "WpisView")
 @ViewScoped
 public class WpisView implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String podatnikWpisu;
     private Integer rokWpisu;
