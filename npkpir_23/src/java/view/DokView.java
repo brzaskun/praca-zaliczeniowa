@@ -533,6 +533,7 @@ public final class DokView implements Serializable {
         } else {
             podepnijEwidencjeVat();
             ukryjEwiencjeVAT = false;
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
         }
     }
 
