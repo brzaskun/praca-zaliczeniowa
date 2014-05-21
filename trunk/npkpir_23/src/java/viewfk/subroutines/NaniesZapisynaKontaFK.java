@@ -4,6 +4,8 @@
  */
 package viewfk.subroutines;
 
+import entity.Deklaracjevat_;
+import entityfk.Dokfk;
 import entityfk.Kontozapisy;
 import entityfk.Wiersze;
 import java.io.Serializable;
@@ -21,7 +23,8 @@ import msg.Msg;
 @Singleton
 public class NaniesZapisynaKontaFK implements Serializable {
 
-    public static void naniesZapisyNaKontach(List<Wiersze> wiersze) {
+    public static void naniesZapisyNaKontach(Dokfk selected) {
+        List<Wiersze> wiersze = selected.getListawierszy();
         String opis = "";
         for (Wiersze p : wiersze) {
             if (p.getZapisynakontach() != null) {
@@ -29,20 +32,20 @@ public class NaniesZapisynaKontaFK implements Serializable {
             }
             List<Kontozapisy> zapisynakontach = new ArrayList<>();
             if (p.getTypwiersza() == 1) {
-                dodajwn(p, opis, zapisynakontach);
+                dodajwn(p, opis, zapisynakontach, selected);
             } else if (p.getTypwiersza() == 2) {
-                dodajma(p, opis, zapisynakontach);
+                dodajma(p, opis, zapisynakontach, selected);
             } else {
                 opis = p.getOpis();
-                dodajwn(p, opis, zapisynakontach);
-                dodajma(p, opis, zapisynakontach);
+                dodajwn(p, opis, zapisynakontach, selected);
+                dodajma(p, opis, zapisynakontach, selected);
             }
             p.setZapisynakontach(zapisynakontach);
         }
         Msg.msg("i", "Zapisy na kontacg wygenerowane ");
     }
 
-    private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach) {
+    private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
         Kontozapisy kontozapisy = new Kontozapisy();
         kontozapisy.setKonto(p.getWierszStronaWn().getKonto().getPelnynumer());
         kontozapisy.setKontoob(p.getWierszStronaWn().getKonto());
@@ -50,6 +53,7 @@ public class NaniesZapisynaKontaFK implements Serializable {
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
+        kontozapisy.setDokument(selected);
         kontozapisy.setKontown(p.getWierszStronaWn().getKonto().getNazwapelna());
         kontozapisy.setKontoma(p.getWierszStronaMa().getKonto().getNazwapelna());
         kontozapisy.setKwotawn(p.getWierszStronaWn().getKwota());
@@ -57,7 +61,7 @@ public class NaniesZapisynaKontaFK implements Serializable {
         zapisynakontach.add(kontozapisy);
     }
 
-    private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach) {
+    private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
         Kontozapisy kontozapisy = new Kontozapisy();
         kontozapisy.setKonto(p.getWierszStronaMa().getKonto().getPelnynumer());
         kontozapisy.setKontoob(p.getWierszStronaMa().getKonto());
@@ -65,6 +69,7 @@ public class NaniesZapisynaKontaFK implements Serializable {
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
+        kontozapisy.setDokument(selected);
         kontozapisy.setKontown(p.getWierszStronaMa().getKonto().getNazwapelna());
         kontozapisy.setKontoma(p.getWierszStronaWn().getKonto().getNazwapelna());
         kontozapisy.setKwotama(p.getWierszStronaMa().getKwota());

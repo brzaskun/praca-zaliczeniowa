@@ -208,7 +208,7 @@ public class DokfkView implements Serializable {
             selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             //nanosimy zapisy na kontach
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
             selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
@@ -232,7 +232,7 @@ public class DokfkView implements Serializable {
     public void edycja() {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
             selected.przeliczKwotyWierszaDoSumyDokumentu();
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
@@ -247,7 +247,7 @@ public class DokfkView implements Serializable {
     public void edycjaDlaRozrachunkow() {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected.getListawierszy());
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());

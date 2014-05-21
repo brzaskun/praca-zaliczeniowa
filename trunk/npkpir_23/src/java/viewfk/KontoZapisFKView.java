@@ -197,6 +197,7 @@ public class KontoZapisFKView implements Serializable{
         }
         wierszIDrozrachunkuPK.setStronaWnlubMa(wnma);
         wierszIDrozrachunkuPK.setTypdokumentu(zjakiegodokumentupochodzi.getDokfkPK().getSeriadokfk());
+        wierszIDrozrachunkuPK.setPodatnik(wpisView.getPodatnikWpisu());
         wierszIDrozrachunku.setWierszStronafkPK(wierszIDrozrachunkuPK);
         //mamy juz skonstruowany wiersz, teraz z bazy pobierzemy wszytskie rozrachunki i bedziemy sobie szukac
         List<Zestawienielisttransakcji> zestawienietransakcji = zestawienielisttransakcjiDAO.findAll();
