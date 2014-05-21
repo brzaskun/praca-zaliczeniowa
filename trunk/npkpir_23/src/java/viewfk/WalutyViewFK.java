@@ -27,6 +27,7 @@ import msg.Msg;
 @Named
 @ViewScoped
 public class WalutyViewFK implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private WalutyDAOfk walutyDAOfk;

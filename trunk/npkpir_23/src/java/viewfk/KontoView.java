@@ -24,6 +24,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class KontoView  implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Konto wybranekonto;
     private List<Wiersze> listazapisownakoncie;
     @Inject private WierszeDAO wierszeDAO;

@@ -33,6 +33,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class KontoObrotyFKView implements Serializable{
+    private static final long serialVersionUID = 1L;
     private List<Kontozapisy> kontozapisy;
     private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;

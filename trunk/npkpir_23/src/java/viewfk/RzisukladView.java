@@ -23,6 +23,7 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class RzisukladView implements Serializable{
+    private static final long serialVersionUID = 1L;
     private static List<Rzisuklad> lista;
 
     public static List<Rzisuklad> getListaS() {

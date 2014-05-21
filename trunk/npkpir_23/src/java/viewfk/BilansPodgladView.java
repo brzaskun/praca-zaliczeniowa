@@ -27,6 +27,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class BilansPodgladView  implements Serializable{
+    private static final long serialVersionUID = 1L;
     private static int level = 0;
 
     @Inject private KontoDAOfk kontoDAO;

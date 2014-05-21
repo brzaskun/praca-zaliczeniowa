@@ -30,6 +30,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class KliencifkView implements Serializable{
+    private static final long serialVersionUID = 1L;
     @Inject private KlienciDAO klienciDAO;
     @Inject private Klienci wybranyklient;
     private List<Klienci> listawszystkichklientow;

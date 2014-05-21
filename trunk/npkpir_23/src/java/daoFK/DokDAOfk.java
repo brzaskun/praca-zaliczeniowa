@@ -32,7 +32,14 @@ public class DokDAOfk extends DAO implements Serializable {
     public DokDAOfk(Class entityClass) {
         super(entityClass);
     }
+
+
+    public DokDAOfk(SessionFacade dokFacade, Class entityClass) {
+        super(entityClass);
+        this.dokFacade = dokFacade;
+    }
     
+        
     public List<Dokfk> findAll(){
         return dokFacade.findAll(Dokfk.class);
     }

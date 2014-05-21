@@ -77,16 +77,17 @@ public class DokFKTransakcjeBean implements Serializable{
     }
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    public static void pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,List<Rozrachunekfk> rozrachunekNowaTransakcja, RozrachunekfkDAO rozrachunekfkDAO) {
-        rozrachunekNowaTransakcja = new ArrayList<>();
-        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
+    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
+        List<Rozrachunekfk> listaNowychRozrachunkow = new ArrayList<>();
+        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
+        return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> rozrachunekNowaTransakcja, Rozrachunekfk aktualnywierszdorozrachunkow) {
+    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow) {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-        for (Rozrachunekfk nowatransakcjazbazy : rozrachunekNowaTransakcja) {
+        for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
             transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
             transakcja.getTransakcjaPK().setSparowany(nowatransakcjazbazy);
@@ -129,10 +130,10 @@ public class DokFKTransakcjeBean implements Serializable{
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
     }
 
-    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> rozrachunekNowaTransakcja, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje) {
-        rozrachunekNowaTransakcja = new ArrayList<>();
-        rozrachunekNowaTransakcja.addAll(rozrachunekfkDAO.findAll());
-        for (Rozrachunekfk p : rozrachunekNowaTransakcja) {
+    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje) {
+        listaNowychRozrachunkow = new ArrayList<>();
+        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findAll());
+        for (Rozrachunekfk p : listaNowychRozrachunkow) {
             for (Transakcja r : biezacetransakcje) {
                 if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
                     r.getTransakcjaPK().setSparowany(p);
