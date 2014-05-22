@@ -7,6 +7,7 @@
 package view;
 
 import comparator.Podatnikcomparator;
+import comparator.Zusstawkicomparator;
 import dao.PodatnikDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
@@ -138,6 +139,25 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         Msg.msg("Pobrano parametr za wybrany okres rozliczeniowy: "+rokzus+"/"+mczus);
     }
     
+    public void uzupełnijrok(Podatnik podatnik) {
+        try {
+            List<Zusstawki> lista = podatnik.getZusparametr();
+            Collections.sort(lista, new Zusstawkicomparator());
+            Zusstawki ostatni_zus = lista.get(lista.size() - 1);
+            int nastepny_mc = Mce.getMiesiacToNumber().get(ostatni_zus.getZusstawkiPK().getMiesiac()) + 1;
+            for (int i = nastepny_mc; i < 13; i++) {
+                Zusstawki nowy_zus = serialclone.SerialClone.clone(ostatni_zus);
+                String mc_string = Mce.getNumberToMiesiac().get(i);
+                nowy_zus.getZusstawkiPK().setMiesiac(mc_string);
+                lista.add(nowy_zus);
+            }
+            podatnikDAO.edit(podatnik);
+            Msg.msg("Uzupełniono płatności ZUS podatnika za ostatni rok obrachunkowy");
+        } catch (Exception e) {
+            Msg.msg("Wystąpił błąd podczas uzupełniania miesięcy");
+        }
+    }
+
     public void pobierzzusPoprzedniMiesiac(Podatnik podatnik) {
         String rokzus = (String) Params.paramsContains("rokzus_input");
         String mczus = (String) Params.paramsContains("miesiaczus_input");
