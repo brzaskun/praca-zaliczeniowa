@@ -100,18 +100,9 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
 
       public void usunzusZbiorcze(Podatnik selected) {
-        List<Zusstawki> tmp = new ArrayList<>();
-        tmp.addAll(selected.getZusparametr());
-        Zusstawki dousuniecia = null;
-        for (Zusstawki p : tmp) {
-            if (p.equals(wprowadzaniezusstawki)) {
-                dousuniecia = new Zusstawki(p);
-            }
-        }
         try {
-            tmp.remove(dousuniecia);
-            selected.setZusparametr(tmp);
-            podatnikDAO.edit(wprowadzaniezusstawki);
+            selected.getZusparametr().remove(zusstawki);
+            podatnikDAO.edit(selected);
             wprowadzaniezusstawki =  new Zusstawki();
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         } catch (Exception e) {
