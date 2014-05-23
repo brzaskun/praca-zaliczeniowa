@@ -13,12 +13,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import view.DokView;
 import view.KlView;
+import view.KlienciConverterView;
+import viewfk.PlanKontConverterView;
 
 /**
  *
  * @author Osito
  */
 public class KlientConv implements javax.faces.convert.Converter{
+    
+    private List<Klienci> listaKlientow;
+
+    public KlientConv() {
+       FacesContext context = FacesContext.getCurrentInstance();
+       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
+       listaKlientow = klienciConverterView.getListaKlientow();
+    }
+    
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
@@ -28,13 +39,7 @@ public class KlientConv implements javax.faces.convert.Converter{
         } else {  
             try {  
                 String number = submittedValue;  
-                List<Klienci> lista = new ArrayList<>();
-                try {
-                    lista.addAll(DokView.getKl1S());
-                } catch (Exception e) {
-                    lista.addAll(KlView.getKl1S());
-                }
-                for (Klienci p : lista) {  
+                for (Klienci p : listaKlientow) {  
                     if (p.getNpelna().equals(number)) {  
                         return p;  
                     }  
