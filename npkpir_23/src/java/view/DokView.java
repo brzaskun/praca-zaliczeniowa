@@ -80,7 +80,6 @@ import params.Params;
 @ViewScoped
 public final class DokView implements Serializable {
 
-    private static ArrayList<Klienci> kl1;
     private HtmlSelectOneMenu pkpirLista;
     @Inject
     private Dok selDokument;
@@ -159,7 +158,6 @@ public final class DokView implements Serializable {
         wpisView = new WpisView();
         nettokolumna = new ArrayList<>();
         ewidencjaAddwiad = new ArrayList<>();
-        kl1 = new ArrayList<>();
     }
 
     public void dodajwierszpkpir() {
@@ -186,7 +184,6 @@ public final class DokView implements Serializable {
 
     @PostConstruct
     private void init() {
-        kl1.addAll(klDAO.findAll());
         rodzajedokKlienta = new ArrayList<>();
         Wpis wpistmp = wpisView.findWpisX();
         Podatnik podX = wpisView.getPodatnikObiekt();
@@ -1236,8 +1233,6 @@ public final class DokView implements Serializable {
             selectedKlient.setKrajkod(symbol);
             poszukajnip();
             klDAO.dodaj(selectedKlient);
-            kl1 = new ArrayList<>();
-            kl1.addAll(klDAO.findAll());
             selDokument.setKontr(selectedKlient);
             RequestContext.getCurrentInstance().update("dodWiad:acForce");
             RequestContext.getCurrentInstance().update("formX:");
@@ -1249,9 +1244,7 @@ public final class DokView implements Serializable {
 
     }
 
-    public ArrayList<Klienci> getKl1() {
-        return kl1;
-    }
+   
 
     private void poszukajnip() throws Exception {
         String nippoczatkowy = selectedKlient.getNip();
@@ -1298,26 +1291,7 @@ public final class DokView implements Serializable {
         selectedKlient.setNip(wygenerowanynip);
     }
 
-    public List<Klienci> completeKL(String query) {
-        List<Klienci> results = new ArrayList<>();
-        try {
-            String q = query.substring(0, 1);
-            int i = Integer.parseInt(q);
-            for (Klienci p : kl1) {
-                if (p.getNip().startsWith(query)) {
-                    results.add(p);
-                }
-            }
-        } catch (NumberFormatException e) {
-            for (Klienci p : kl1) {
-                if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                    results.add(p);
-                }
-            }
-        }
-        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
-        return results;
-    }
+   
 
     public Klienci getSelectedKlient() {
         return selectedKlient;
@@ -1481,10 +1455,7 @@ public final class DokView implements Serializable {
         this.sTRView = sTRView;
     }
 
-    public static ArrayList<Klienci> getKl1S() {
-        return kl1;
-    }
-
+  
     public List<String> getKolumny() {
         return kolumny;
     }

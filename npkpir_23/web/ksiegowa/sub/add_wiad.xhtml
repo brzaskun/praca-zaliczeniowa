@@ -31,7 +31,7 @@
                 <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
                 <h:outputLabel value="nr własny" style="font-weight: 700;"/>
                 <h:outputLabel value="opis transakcji (F9)/nowa kol (+-)" style="font-weight: 700"/>
-                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{DokumentView.completeKL}"
+                <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                 widgetVar="dialogklient" 
