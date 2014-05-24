@@ -30,7 +30,7 @@
                     <h:outputText value="rok"/>
                     <h:outputText value="miesiąc"/>
                     <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień">
-                        <f:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}"/>
+                        <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                     </h:inputText>
                     <h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
                         <f:selectItem itemLabel="FVS" itemValue="FVS"/>
@@ -143,12 +143,12 @@
                     <p:column  width="40">
                         <p:commandButton id="dodajwierszbutton"  value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.dolaczNowyWiersz()}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
-                    <p:column width="3" >
-                        <h:outputText id="wnReadOnly" value="#{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>
+<!--                    <p:column width="3" >
+                        <h:outputText id="wnReadOnly" value="{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>
                     </p:column>
                     <p:column  width="3">
-                        <h:outputText id="maReadOnly" value="#{loop.maReadOnly}" style="font-size: 1px; color: white;"/>
-                    </p:column>
+                        <h:outputText id="maReadOnly" value="{loop.maReadOnly}" style="font-size: 1px; color: white;"/>
+                    </p:column>-->
                 </p:dataTable>
                 <p:panel>
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj}" accesskey="s" update=":formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"  oncomplete="chowanienapoczatekdok();$('#formwpisdokument\\:datka').focus();" rendered="#{!dokfkView.zapisz0edytuj1}"/>

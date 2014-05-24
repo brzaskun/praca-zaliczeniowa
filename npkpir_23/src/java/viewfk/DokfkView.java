@@ -234,6 +234,7 @@ public class DokfkView implements Serializable {
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
+            selected.setWartoscdokumentu(0.0);
             selected.przeliczKwotyWierszaDoSumyDokumentu();
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
@@ -329,6 +330,7 @@ public class DokfkView implements Serializable {
                 Msg.msg("i", "Wygenerowano okres dokumentu");
             }
         }
+        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
     }
 
     public void przygotujDokumentWpisywanie() {
@@ -350,6 +352,7 @@ public class DokfkView implements Serializable {
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
     }
 
     public void przygotujDokumentEdycja() {
@@ -430,25 +433,26 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
     
+    //Nie wiem dlaczego to robie
     private void zrobWierszStronafkReadOnly(boolean wartosc){
-        List<Wiersze> wierszebiezace = selected.getListawierszy();
-        WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        for (Wiersze p : wierszebiezace) {
-            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
-                p.setWnReadOnly(wartosc);
-                int i = p.getIdporzadkowy() - 1;
-                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
-                RequestContext.getCurrentInstance().update(wiersz);
-                break;
-            }
-            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
-                p.setMaReadOnly(wartosc);
-                int i = p.getIdporzadkowy() - 1;
-                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
-                RequestContext.getCurrentInstance().update(wiersz);
-                break;
-            }
-        }
+//        List<Wiersze> wierszebiezace = selected.getListawierszy();
+//        WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
+//        for (Wiersze p : wierszebiezace) {
+//            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
+//                p.setWnReadOnly(wartosc);
+//                int i = p.getIdporzadkowy() - 1;
+//                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
+//                RequestContext.getCurrentInstance().update(wiersz);
+//                break;
+//            }
+//            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
+//                p.setMaReadOnly(wartosc);
+//                int i = p.getIdporzadkowy() - 1;
+//                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
+//                RequestContext.getCurrentInstance().update(wiersz);
+//                break;
+//            }
+//        }
     }
 
     //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
