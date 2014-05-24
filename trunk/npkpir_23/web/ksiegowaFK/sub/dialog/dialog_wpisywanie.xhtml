@@ -21,35 +21,42 @@
               resizable="false" onShow="pierwszyonShow();" closable="false" onHide="pierwszyOnHide();">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
-            <div style="height: 100px;">
+            <div style="height: 140px;">
                 <!--                nagłówek dokumentu-->
-                <p:panelGrid id="paneldaneogolnefaktury" columns="12">
+                <p:panelGrid id="paneldaneogolnefaktury" columns="5">
                     <h:outputText value="data"/>
-                    <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(2013, 11);" title="wpisz numer dnia, lub miesiąc i dzień">
+                    <h:outputText value="symbol"/>
+                    <h:outputText value="numer"/>
+                    <h:outputText value="rok"/>
+                    <h:outputText value="miesiąc"/>
+                    <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień">
                         <f:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}"/>
                     </h:inputText>
-                    <h:outputText value="symbol"/><h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
+                    <h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
                         <f:selectItem itemLabel="FVS" itemValue="FVS"/>
                         <f:selectItem itemLabel="WB" itemValue="WB"/>
                         <f:selectItem itemLabel="BO" itemValue="BO"/>
                         <f:ajax event="blur" execute="@this"/>
                         <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
                     </h:selectOneMenu>
-                    <h:outputText value="numer"/><h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
+                    <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                    <h:outputText value="rok"/><h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;">
-                        <f:selectItem itemLabel="2013" itemValue="2013"/>
+                    <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;">
+                        <f:selectItems value="#{Roki.rokiList}"/>
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/></h:selectOneMenu>
-                    <h:outputText value="miesiąc"/><h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}">
+                    <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}">
                         <f:selectItems value="#{Mce.mceList}"/>
-                        <f:ajax event="blur" execute="@this"/></h:selectOneMenu>
+                        <f:ajax event="blur" execute="@this"/>
+                    </h:selectOneMenu>
                 </p:panelGrid>
-                <p:panelGrid columns="4">
-                    <h:outputText value="numer własny"/><h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}">
+                <p:panelGrid columns="2">
+                    <h:outputText value="numer własny"/>
+                    <h:outputText value="treść dok."/>
+                    <h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                    <h:outputText value="treść dok."/><h:inputText value="#{dokfkView.selected.tresc}" size="80">
+                    <h:inputText value="#{dokfkView.selected.tresc}" size="80">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
                 </p:panelGrid>

@@ -320,8 +320,11 @@ public class DokfkView implements Serializable {
         if (zapisz0edytuj1 == false) {
             String data = (String) Params.params("formwpisdokument:datka");
             if (data.length()==10) {
+                String rok = data.split("-")[0];
+                selected.getDokfkPK().setRok(rok);
                 String mc = data.split("-")[1];
                 selected.setMiesiac(mc);
+                RequestContext.getCurrentInstance().update("formwpisdokument:rok");
                 RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
                 Msg.msg("i", "Wygenerowano okres dokumentu");
             }

@@ -4,7 +4,6 @@
  */
 package viewfk;
 
-import abstractClasses.ToBeATreeNodeObject;
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
 import dao.PodatnikDAO;
@@ -41,6 +40,7 @@ public class PlanKontView implements Serializable {
     private List<Konto> wykazkont;
     private List<Konto> wykazkontwzor;
     private List<Konto> wykazkontanalityczne;
+    private List<Konto> listakontOstatniaAnalitykaklienta;
     @Inject
     private Konto selected;
     @Inject
@@ -70,6 +70,7 @@ public class PlanKontView implements Serializable {
         rozwinwszystkie(root);
         wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
         rootwzorcowy = rootInit(wykazkontwzor);
+        listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
@@ -353,12 +354,11 @@ public class PlanKontView implements Serializable {
     public List<Konto> complete(String qr) {
         String query = qr.split(" ")[0];
         List<Konto> results = new ArrayList<>();
-        List<Konto> listakont = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
-        if (listakont != null) {
+        if (listakontOstatniaAnalitykaklienta != null) {
             try {
                 String q = query.substring(0, 1);
                 int i = Integer.parseInt(q);
-                for (Konto p : listakont) {
+                for (Konto p : listakontOstatniaAnalitykaklienta) {
                     if (query.length() == 4 && !query.contains("-")) {
                         //wstawia - do ciagu konta
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
@@ -368,7 +368,7 @@ public class PlanKontView implements Serializable {
                     }
                 }
             } catch (NumberFormatException e) {
-                for (Konto p : listakont) {
+                for (Konto p : listakontOstatniaAnalitykaklienta) {
                     if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                         results.add(p);
                     }
