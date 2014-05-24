@@ -38,7 +38,7 @@ public class MailSetUp implements Serializable{
     protected String klientfile;
     protected String podpisfaktury;
     protected String firmafaktury;
-    private String adres;
+    protected String adres;
            
     @PostConstruct
     private void init(){

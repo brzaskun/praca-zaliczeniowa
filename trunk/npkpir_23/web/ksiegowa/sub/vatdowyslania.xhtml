@@ -10,8 +10,8 @@
 
     <h:form id="formX">
         <p:growl id="msg" autoUpdate="true"/>
-        <p:panel header="Wykaz oczekujacych wysyłki deklaracji"/>
-        <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak deklaracji do wyslania">
+        <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="max-width: 1400px;"/>
+        <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" emptyMessage="brak oczekujących deklaracji do wyslania" style="max-width: 1400px;">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
@@ -52,7 +52,7 @@
             <p:column id="previewColumn" headerText="operacje" width="70">
                 <p:panelGrid columns="1">
                     <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukujwys(item)}" style="margin-left: 10px; width: 80px;" oncomplete="wydrukvat7wysylka('#{item.podatnik}');"/>
-                    <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7()}" update=":formX" style="margin-left: 10px; width: 80px; display: none;"  />
+                    <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(-1)}" update=":formX" style="margin-left: 10px; width: 80px; display: none;"  />
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="70">
@@ -67,7 +67,7 @@
     </h:form><br/>
     <h:outputText value="Najpierw należy wypełnić VAT-ZT, a dopiero potem ORD-ZU!" style="color: red;" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false) : false)}"/>
     <h:form id="zalacznikZT">
-        <p:panel header="Załącznik VAT-ZT" rendered="#{deklaracjevatView.oczekujace.size()>0 ? (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? true : false) : false}">
+        <p:panel header="Załącznik VAT-ZT" rendered="#{deklaracjevatView.oczekujace.size()>0 ? (deklaracjevatView.oczekujace.get(0).selected.pozycjeszczegolowe.poleI62 gt 0 ? true : false) : false}"  style="max-width: 1400px;">
             <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Wniosek_VAT-ZT')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wniosku o przyspieszony termin zwrotu, nie może być wysłana!"/>
@@ -78,7 +78,7 @@
         </p:panel>
     </h:form>
     <h:form id="zalacznik">
-        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false)}">
+        <p:panel header="Załącznik ORD-ZU" rendered="#{deklaracjevatView.oczekujace.size() eq 0 ? false : (deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 2 ? true : false)}"  style="max-width: 1400px;">
             <h:outputText value="Załącznik podpięty." rendered="#{deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}"/>
             <p:panelGrid columns="1"  rendered="#{!deklaracjevatView.oczekujace.get(0).deklaracja.contains('Zalacznik_ORD-ZU')}">
                 <h:outputText value="Przygotowana korekta deklaracji nie zawiera wyjaśnienia przyczyny korekty, nie może być wysłana!"/>
@@ -87,7 +87,7 @@
             </p:panelGrid>
         </p:panel>
     </h:form>
-    <p:accordionPanel id="akordeon" rendered="#{deklaracjevatView.oczekujace.size() gt 0}">
+    <p:accordionPanel id="akordeon" rendered="#{deklaracjevatView.oczekujace.size() gt 0}"  style="max-width: 1400px;"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
         <p:panelGrid columns="2" style="width: 80%;">
         <h:form>
