@@ -46,8 +46,8 @@ function wywolajdok(opis, numer, loopid) {
 };
 
 
-var aktywujwiersz = function(wiersz){
-    var i = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
+var aktywujwiersz = function(nrWiersza){
+    var i = "#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis";
     if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffe');
@@ -55,18 +55,18 @@ var aktywujwiersz = function(wiersz){
     chowanienapoczatek();
 };
 //aktywuje nowy wiersz
-var obsluzwiersz = function(wiersz){
+var obsluzwiersz = function(nrWiersza){
     if(!MYAPP.hasOwnProperty('iloscwierszy')){
         MYAPP.iloscwierszy = 1;
     } else {
         MYAPP.iloscwierszy += 1;
     }
-    var i = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
+    var i = "#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis";
     if($(i)!== typeof 'undefined'){
     $(i).focus();
     $(i).css('backgroundColor','#ffb');
     }
-    sprawdzpoprzedniwiersz(wiersz);
+    sprawdzpoprzedniwiersz(nrWiersza);
 };
 
 
@@ -97,50 +97,50 @@ var drugishow = function (){
 
 
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
-var sprawdzpoprzedniwiersz = function(wiersz){
+var sprawdzpoprzedniwiersz = function(nrWiersza){
     try {
-    if(wiersz===0){
+    if(nrWiersza===0){
         return;
     } else {
-        var wierszwyzej = wiersz-1;
+        var wierszwyzej = nrWiersza-1;
         var kwotaWn = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:wn_input";
         var kwotaMa = "#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:ma_input";
         var wartoscWn = zrobFloat($(kwotaWn).val());
         var wartoscMa = zrobFloat($(kwotaMa).val());
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolWn").text("");
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_input").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").css('backgroundColor','#ffb');
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").select();
-            var pozycja = {pozycja: wiersz, blokowany: 'wn'};
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_hinput").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").val(roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:symbolWn").text("");
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_input").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").select();
+            var pozycja = {pozycja: nrWiersza, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(-roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val(-roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val(-roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(-roznica);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolMa").text("");
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_input").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").css('backgroundColor','#ffb');
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").select();
-            var pozycja = {pozycja: wiersz, blokowany: 'ma'};
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").val(-roznica);
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:symbolMa").text("");
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma").hide();
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_input").val());
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").css('backgroundColor','#ffb');
+            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").select();
+            var pozycja = {pozycja: nrWiersza, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
             
         }
@@ -368,18 +368,18 @@ var usunztablicydok = function(){
 
 
 //uzupelnia pole Ma wartoscia pola Wn jezeli jego wartosc jest == 0
-var sprawdzwartosc = function(wiersz){
-    wiersz -= 1;
-    var wierszWn = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input";
-    var wierszMa = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
-    var wartoscWierszWn = $(wierszWn).val();
-    var wartoscWierszMa = $(wierszMa).val();
-    if(wartoscWierszMa === "0.00"){
-        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(zrobFloat(wartoscWierszWn));
-        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(wartoscWierszWn);
-    }
-    $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").keyup();
-};
+//var sprawdzwartosc = function(wiersz){
+//    wiersz -= 1;
+//    var wierszWn = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input";
+//    var wierszMa = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input";
+//    var wartoscWierszWn = $(wierszWn).val();
+//    var wartoscWierszMa = $(wierszMa).val();
+//    if(wartoscWierszMa === "0.00"){
+//        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val(zrobFloat(wartoscWierszWn));
+//        $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val(wartoscWierszWn);
+//    }
+//    $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").keyup();
+//};
 
 //menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
 var zakryjpolaedycjadokumentu = function(iloscwierszy){
