@@ -91,7 +91,7 @@
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
                  rowKey="#{wpis.npelna}" selection="#{KlView.selected}" 
-                 emptyMessage="Nie ma klientów" style="margin-left: 2%; width: 90%;">
+                 emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
             <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update="@form :formX" />
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
