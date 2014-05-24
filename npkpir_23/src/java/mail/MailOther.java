@@ -271,7 +271,7 @@ public class MailOther extends MailSetUp implements Serializable{
                 // add the Multipart to the message
                 message.setContent(mp);
                 Transport.send(message);
-                Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient);
+                Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+adres);
                 File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
                 f.delete();
                 RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
