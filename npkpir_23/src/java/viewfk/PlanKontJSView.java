@@ -7,6 +7,7 @@ package viewfk;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +27,7 @@ public class PlanKontJSView implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String opiskonta;
+    private List<String> opisKontaLista;
     private String pelnynumerkonta;
     @Inject
     private KontoDAOfk kontoDAO;
@@ -33,6 +35,7 @@ public class PlanKontJSView implements Serializable {
     private WpisView wpisView;
 
     public PlanKontJSView() {
+        opisKontaLista = new ArrayList<>();
     }
 
     @PostConstruct
@@ -43,11 +46,27 @@ public class PlanKontJSView implements Serializable {
             pelnynumerkonta = "";
             for (Konto t : wykazkont) {
                 if (!t.getNrkonta().equals("0")) {
+                    opisKontaLista.add(t.getNazwaskrocona());
                     opiskonta = opiskonta + t.getNazwaskrocona() + ",";
                     pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
                 }
             }
         }
+    }
+    
+    public List<String> complete(String query) {
+        if (!opisKontaLista.isEmpty()) {
+            List<String> wynik = new ArrayList<>();
+            for (String p : opisKontaLista) {
+                String a = p.toLowerCase();
+                String b = query.toLowerCase();
+                if (a.contains(b)) {
+                    wynik.add(p);
+                }
+            }
+            return wynik;
+        }
+        return null;
     }
 
     public String getOpiskonta() {

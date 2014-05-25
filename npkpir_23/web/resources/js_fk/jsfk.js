@@ -7,7 +7,7 @@
 function wywolajdok(opis, numer, loopid) {
     var licz = 1;
     var id = loopid - 1;
-    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis";
+    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis_input";
     var wynikwn = "formwpisdokument:dataList:" + id + ":kontown_hinput";
     var wynikwn_ = "formwpisdokument:dataList:" + id + ":kontown_input";
     var wynikma = "formwpisdokument:dataList:" + id + ":kontoma_hinput";
