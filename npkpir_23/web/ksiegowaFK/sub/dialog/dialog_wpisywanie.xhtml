@@ -50,34 +50,36 @@
                         <f:ajax event="blur" execute="@this"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="3">
                     <h:outputText value="numer własny"/>
                     <h:outputText value="treść dok."/>
+                    <h:outputText value="wartość dokumentu"/>
                     <h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
                     <h:inputText value="#{dokfkView.selected.tresc}" size="80">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                </p:panelGrid>
-                <p:panelGrid id="wartoscdokumentu" columns="2">
-                    <h:outputText value="wartość dokumentu"/>
-                    <h:outputText value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
+                    <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                  </h:outputText>
                 </p:panelGrid>
             </div>
             <div  style="height: 70px;">
-                <p:panelGrid  columns="8" style="width: 800px;" id="panelwalutowy" >
+                <p:panelGrid  columns="4" style="width: 800px;" id="panelwalutowy" >
+                        <h:outputText value="waluta dokumentu" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"/>
+                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}">
                             <f:ajax event="blur" execute="@this"/>
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
                         </h:selectOneMenu>
-                        <h:outputText id="w00" value="#{dokfkView.selected.zablokujzmianewaluty eq true ? 'wprowadzono rozrachunki - nie można zmienić waluty'  : ''}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/><h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        
+                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                 </p:panelGrid>
             </div>
             <div style="height: 430px;">
@@ -111,7 +113,7 @@
                     <p:column headerText="konto Wn" width="200" >
                         <p:autoComplete id="kontown" value="#{loop.wierszStronaWn.konto}" completeMethod="#{planKontView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
-                                        minQueryLength="1" maxResults="15" maxlength="15" converter="KontoConv"
+                                        minQueryLength="1" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient" style="width: 10px; margin-left: auto; margin-right: auto;"
                                         required="true" requiredMessage="Pole konta Wn nie może byc puste" styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.wnReadOnly}"
                                         ><!--to teraz powoduje blad-->
@@ -131,7 +133,7 @@
                     <p:column headerText="konto Ma" width="200">
                         <p:autoComplete id="kontoma" value="#{loop.wierszStronaMa.konto}" completeMethod="#{planKontView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
-                                        minQueryLength="1" maxResults="15" maxlength="15" converter="KontoConv"
+                                        minQueryLength="1" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient"  style="width: 10px; margin-left: auto; margin-right: auto;"
                                         required="true" requiredMessage="Pole konta Ma nie może byc puste"  styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >

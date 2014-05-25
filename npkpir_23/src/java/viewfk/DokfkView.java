@@ -176,7 +176,7 @@ public class DokfkView implements Serializable {
             selected.getListawierszy().get(nowyWiersz).setDatawaluty(selected.getListawierszy().get(poprzedniWiersz).getDatawaluty());
             //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
             selected.uzupelnijwierszeodane();
-            selected.dodajKwotyWierszaDoSumyDokumentu(poprzedniWiersz);
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
         } else {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }

@@ -252,26 +252,31 @@ public class Dokfk implements Serializable {
     }
 
     public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {
-        Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
-        int typwiersza = biezacywiersz.getTypwiersza();
-        double suma = 0.0;
-        if (typwiersza==1) {
-            suma += biezacywiersz.getWierszStronaWn().getKwota();
-        } else if (typwiersza==2) {
-            suma += biezacywiersz.getWierszStronaMa().getKwota();
-        } else {
-            double kwotaWn = biezacywiersz.getWierszStronaWn().getKwota();
-            double kwotaMa = biezacywiersz.getWierszStronaMa().getKwota();
-            if (kwotaMa>kwotaWn) {
+        try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
+            Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
+            int typwiersza = biezacywiersz.getTypwiersza();
+            double suma = 0.0;
+            if (typwiersza==1) {
                 suma += biezacywiersz.getWierszStronaWn().getKwota();
-            } else {
+            } else if (typwiersza==2) {
                 suma += biezacywiersz.getWierszStronaMa().getKwota();
+            } else {
+                double kwotaWn = biezacywiersz.getWierszStronaWn().getKwota();
+                double kwotaMa = biezacywiersz.getWierszStronaMa().getKwota();
+                if (kwotaMa>kwotaWn) {
+                    suma += biezacywiersz.getWierszStronaWn().getKwota();
+                } else {
+                    suma += biezacywiersz.getWierszStronaMa().getKwota();
+                }
             }
+            this.wartoscdokumentu = this.wartoscdokumentu + suma;
+        } catch (Exception e) {
+            
         }
-        this.wartoscdokumentu = this.wartoscdokumentu + suma;
     }
     
     public void przeliczKwotyWierszaDoSumyDokumentu() {
+        this.wartoscdokumentu = 0.0;
         int liczbawierszy = this.listawierszy.size();
         for (int i = 0; i < liczbawierszy; i++) {
             dodajKwotyWierszaDoSumyDokumentu(i);
