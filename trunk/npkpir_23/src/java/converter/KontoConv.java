@@ -4,19 +4,13 @@
  */
 package converter;
 
-import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
-import javax.inject.Named;
 import viewfk.PlanKontConverterView;
-import viewfk.PlanKontView;
 
 /**
  *
