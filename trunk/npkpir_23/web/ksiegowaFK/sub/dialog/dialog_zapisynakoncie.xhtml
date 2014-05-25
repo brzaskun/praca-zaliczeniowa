@@ -25,8 +25,8 @@
                 </h:form>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia" />
             </p:layoutUnit>  
-<!--            lewa strona z drzewem kont-->
-                <p:layoutUnit id="westtree" position="west" size="350" >
+            <!--            lewa strona z drzewem kont-->
+            <p:layoutUnit id="westtree" position="west" size="350" >
                 <p:panelGrid columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -34,31 +34,31 @@
                 <h:form id="form">
                     <p:hotkey bind="down" global="false"  onstart="przejdzwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
-                          <script>
-                    /* <![CDATA[ */
+                    <script>
+                        /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                    $(document).on("click", '.grid tr', function(e) {
-                    try {
-                        zachowajobiekt(this);
-                    } catch (ex) {
-                        alert('error dialog zapisynakoncie'+ex.toString());
-                    }
-                    });
-                    /* ]]> */
-                </script>
+                        $(document).on("click", '.grid tr', function(e) {
+                            try {
+                                zachowajobiekt(this);
+                            } catch (ex) {
+                                alert('error dialog zapisynakoncie' + ex.toString());
+                            }
+                        });
+                        /* ]]> */
+                    </script>
                     <p:outputPanel id="kontenertabeli" deferred="true">
-                    <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}" 
-                                 styleClass="grid" style="width: 100%; height: 550px; overflow-y: scroll;">
-                        <p:ajax event="select" update=":tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
-                        <p:ajax event="unselect" update=":tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
-                        <p:column headerText="nr konta" style="width: 100px; height: 40px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
-                            <h:outputText value="#{loop.pelnynumer}" /> 
-                        </p:column>
-                        <p:column headerText="nazwa pełna" >
-                            <h:outputText value="#{loop.nazwapelna}" /> 
-                        </p:column>
-                    </p:treeTable>
-                        </p:outputPanel>
+                        <p:treeTable id="dataList" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}" 
+                                     styleClass="grid" style="width: 100%; height: 550px; overflow-y: scroll;">
+                            <p:ajax event="select" update=":tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
+                            <p:ajax event="unselect" update=":tabelazzapisami:tabela, :sumy" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:column headerText="nr konta" style="width: 100px; height: 40px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                                <h:outputText value="#{loop.pelnynumer}" /> 
+                            </p:column>
+                            <p:column headerText="nazwa pełna" >
+                                <h:outputText value="#{loop.nazwapelna}" /> 
+                            </p:column>
+                        </p:treeTable>
+                    </p:outputPanel>
                 </h:form>
             </p:layoutUnit>  
 
