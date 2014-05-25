@@ -14,6 +14,7 @@ import entity.Podatnik;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -74,10 +75,17 @@ public class PlanKontView implements Serializable {
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
-    private TreeNodeExtended<Konto> rootInit(List<Konto> wykaz) {
+    private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
+        Iterator it = wykazKont.iterator();
+        while (it.hasNext()) {
+            Konto konto = (Konto) it.next();
+            if (konto.getNrkonta().equals("0")) {
+                it.remove();
+            }
+        }
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
-        if (!wykaz.isEmpty()) {
-            r.createTreeNodesForElement(wykaz);
+        if (!wykazKont.isEmpty()) {
+            r.createTreeNodesForElement(wykazKont);
         }
         return r;
     }

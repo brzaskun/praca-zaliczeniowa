@@ -36,11 +36,11 @@
                                   >
                         <p:ajax event="select" update=":tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="unselect" update=":tabelazobrotami:tabelaobroty, :sumyobroty" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNodeUnselect}" />
-                        <p:column headerText="nr konta" style="width: 100px; height: 40px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <p:column headerText="nr konta" style="width: 100px; height: 30px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                             <h:outputText value="#{loop.pelnynumer}" /> 
                         </p:column>
                         <p:column headerText="nazwa pełna" >
-                            <h:outputText value="#{loop.nazwapelna}" /> 
+                            <h:outputText value="#{loop.nazwaskrocona}" /> 
                         </p:column>
                     </p:treeTable>>
                 </h:form>

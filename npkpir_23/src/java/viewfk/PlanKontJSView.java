@@ -42,8 +42,10 @@ public class PlanKontJSView implements Serializable {
             opiskonta = "";
             pelnynumerkonta = "";
             for (Konto t : wykazkont) {
-                opiskonta = opiskonta + t.getNazwaskrocona() + ",";
-                pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+                if (!t.getNrkonta().equals("0")) {
+                    opiskonta = opiskonta + t.getNazwaskrocona() + ",";
+                    pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+                }
             }
         }
     }
