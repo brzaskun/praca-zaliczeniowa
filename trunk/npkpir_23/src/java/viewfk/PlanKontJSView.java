@@ -9,6 +9,7 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -20,12 +21,12 @@ import view.WpisView;
  * @author Osito
  */
 @ViewScoped
-@Named("planKontJSView")
+@ManagedBean
 public class PlanKontJSView implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private static String opiskonta;
-    private static String pelnynumerkonta;
+    private String opiskonta;
+    private String pelnynumerkonta;
     @Inject
     private KontoDAOfk kontoDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -36,12 +37,14 @@ public class PlanKontJSView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<Konto> wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
-        opiskonta = "";
-        pelnynumerkonta = "";
-        for (Konto t : wykazkont) {
-            opiskonta = opiskonta + t.getNazwaskrocona() + ",";
-            pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+            if (wpisView instanceof WpisView) {
+            List<Konto> wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            opiskonta = "";
+            pelnynumerkonta = "";
+            for (Konto t : wykazkont) {
+                opiskonta = opiskonta + t.getNazwaskrocona() + ",";
+                pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+            }
         }
     }
 
