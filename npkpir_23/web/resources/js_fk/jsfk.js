@@ -7,7 +7,7 @@
 function wywolajdok(opis, numer, loopid) {
     var licz = 1;
     var id = loopid - 1;
-    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis_input";
+    var zloz = "#formwpisdokument\\:dataList\\:" + id + "\\:opis";
     var wynikwn = "formwpisdokument:dataList:" + id + ":kontown_hinput";
     var wynikwn_ = "formwpisdokument:dataList:" + id + ":kontown_input";
     var wynikma = "formwpisdokument:dataList:" + id + ":kontoma_hinput";
@@ -406,5 +406,10 @@ var innafukncja = function() {
     pierwszy.hide();
     dokfkwiersze.hide();
     tablicadokumenty.unselectAllRows();
-}
+};
+
+var powrocNaPoczatekDokfk = function() {
+    chowanienapoczatekdok();
+    $('#formwpisdokument\\:datka').select();
+};
 
