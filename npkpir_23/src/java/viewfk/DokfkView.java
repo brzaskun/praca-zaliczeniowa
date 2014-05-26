@@ -542,8 +542,10 @@ public class DokfkView implements Serializable {
         WierszStronafk wierszStronafk = new WierszStronafk();
         if (wnma.equals("Wn")) {
             wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();
+            uzupelnikWierszStronafkWaluty(wierszStronafk);
         } else {
             wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaMa();
+            uzupelnikWierszStronafkWaluty(wierszStronafk);
         }
             aktualnyWierszDlaRozrachunkow.setWierszStronafk(wierszStronafk);
             aktualnyWierszDlaRozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
@@ -561,6 +563,22 @@ public class DokfkView implements Serializable {
         Rozrachunekfk pobranyrozrachunek = rozrachunekfkDAO.findRozrachunekfk(aktualnyWierszDlaRozrachunkow);
         if (pobranyrozrachunek instanceof Rozrachunekfk) {
             aktualnyWierszDlaRozrachunkow = pobranyrozrachunek;
+        }
+    }
+    
+    private void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
+        String symbolwaluty = wierszStronafk.getSymbolwaluty();
+        if (symbolwaluty.equals("PLN")) {
+            wierszStronafk.setKwotaPLN(wierszStronafk.getKwota());
+        } else {
+            wierszStronafk.setKwotaWaluta(wierszStronafk.getKwota());
+            double kurs = wierszStronafk.getKurswaluty();
+            double kwotazlotowki = wierszStronafk.getKwota();
+            kwotazlotowki *= kurs;
+            kwotazlotowki *= 100;
+            kwotazlotowki = Math.round(kwotazlotowki);
+            kwotazlotowki /= 100;
+            wierszStronafk.setKwotaPLN(kwotazlotowki);
         }
     }
 
