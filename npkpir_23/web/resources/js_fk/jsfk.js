@@ -402,4 +402,9 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
 //        }  
 //};
 
+var innafukncja = function() {
+    pierwszy.hide();
+    dokfkwiersze.hide();
+    tablicadokumenty.unselectAllRows();
+}
 
