@@ -605,7 +605,7 @@ public class SessionFacade<T> {
     }
      
      public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String konto) {
-        return  em.createNamedQuery("Kontozapisy.findByKontoBO").setParameter("podatnik", podatnik).setParameter("kontoprzeciwstawne", konto).getResultList();
+        return  em.createNamedQuery("Kontozapisy.findByKontoBO").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
      
     public List<Kontozapisy> findZapisyPodatnikRok(String podatnik, String rok) {
