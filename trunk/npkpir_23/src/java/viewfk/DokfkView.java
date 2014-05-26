@@ -149,6 +149,17 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
     }
     
+     public void resetujDokumentWpis() {
+        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
+        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+        selected = new Dokfk();
+        selected.ustawNoweSelected(symbolPoprzedniegoDokumentu);
+        biezacetransakcje = null;
+        liczbawierszyWDokumencie = 1;
+        zapisz0edytuj1 = false;
+        zablokujprzyciskrezygnuj = false;
+    }
+    
    
 
     //dodaje wiersze do dokumentu
@@ -228,7 +239,7 @@ public class DokfkView implements Serializable {
                 ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaMa(), zestawienielisttransakcjiDAO);
             }
             Msg.msg("i", "Dokument dodany");
-            resetujDokument();
+            resetujDokumentWpis();
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
         }
