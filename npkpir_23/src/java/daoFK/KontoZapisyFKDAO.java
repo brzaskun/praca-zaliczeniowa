@@ -67,9 +67,9 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
         }
     }
     
-     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String numerkonta) {
+     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String numerkonta, String symbolwaluty) {
         try {
-            return kontozapisyFacade.findZapisyKontoPodatnik(podatnik, numerkonta);
+            return kontozapisyFacade.findZapisyKontoPodatnik(podatnik, numerkonta, symbolwaluty);
         } catch (Exception e) {
             return null;
         }

@@ -15,16 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import msg.Msg;
 
 /**
  *
  * @author Osito
  */
-@Named
+@ManagedBean
 @ViewScoped
 public class WalutyViewFK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,6 +34,7 @@ public class WalutyViewFK implements Serializable {
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     private List<Waluty> pobranewaluty;
+    private List<String> symboleWalut;
     private List<Tabelanbp> pobranekursy;
     private List<Tabelanbp> pobranekursyRok;
     @Inject
@@ -42,6 +43,7 @@ public class WalutyViewFK implements Serializable {
     public WalutyViewFK() {
         pobranewaluty = new ArrayList<>();
         pobranekursy = new ArrayList<>();
+        symboleWalut = new ArrayList<>();
     }
 
     @PostConstruct
@@ -49,6 +51,9 @@ public class WalutyViewFK implements Serializable {
         pobranewaluty = walutyDAOfk.findAll();
         pobranekursy = tabelanbpDAO.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRok();
+        for (Waluty w : pobranewaluty) {
+            symboleWalut.add(w.getSymbolwaluty());
+        }
     }
 
     public void dodajnowawalute() {
@@ -73,6 +78,15 @@ public class WalutyViewFK implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public List<String> getSymboleWalut() {
+        return symboleWalut;
+    }
+
+    public void setSymboleWalut(List<String> symboleWalut) {
+        this.symboleWalut = symboleWalut;
+    }
+
     public List<Waluty> getPobranewaluty() {
         return pobranewaluty;
     }

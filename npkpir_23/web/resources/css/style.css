@@ -152,6 +152,17 @@ body {
      vertical-align: top;
 }
 
+.kontaGrid1 {
+    width: 1000px;
+    text-align: left;
+    
+}
+.kontaGrid2 {
+    width: 250px;
+    text-align: right;
+    
+}
+
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
 }*/

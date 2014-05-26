@@ -97,15 +97,19 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
 }
 
 var zaznacznoda = function(tabela, tabela1, inputpole) {
-    var wartosc = document.getElementById(inputpole).value;
-    wartosc = wartosc.split(" ");
-    var wiersze = $(document.getElementById(tabela)).children("tr");
-    var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
-    ($(node).children("td"))[0].click();
-    zachowajobiekt(node);
-    przejdzwierszNode(tabela, tabela1, node);
-    document.getElementById(inputpole).value = "";
-    document.getElementById(inputpole).value = "";
+    try {
+        var wartosc = document.getElementById(inputpole).value;
+        wartosc = wartosc.split(" ");
+        var wiersze = $(document.getElementById(tabela)).children("tr");
+        var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
+        ($(node).children("td"))[0].click();
+        zachowajobiekt(node);
+        przejdzwierszNode(tabela, tabela1, node);
+        document.getElementById(inputpole).value = "";
+        document.getElementById(inputpole).value = "";
+    } catch (ex) {
+        alert("Problem z zaznacznoda/chodzeniepokontach.js");
+    }
 };
 
 var przejdzwierszNode = function(tabela, tabela1, node) {

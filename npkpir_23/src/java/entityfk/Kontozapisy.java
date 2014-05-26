@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
     @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
-    @NamedQuery(name = "Kontozapisy.findByKontoPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.konto = :konto"),
+    @NamedQuery(name = "Kontozapisy.findByKontoPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.konto = :konto AND k.symbolwaluty = :symbolwaluty"),
     @NamedQuery(name = "Kontozapisy.findByKontoBO", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.kontoprzeciwstawne = :kontoprzeciwstawne"),
     @NamedQuery(name = "Kontozapisy.findByOpis", query = "SELECT k FROM Kontozapisy k WHERE k.opis = :opis"),
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
@@ -97,6 +97,9 @@ public class Kontozapisy implements Serializable {
     private String kontoma;
     @ManyToOne(optional = false)
     private Wiersze wiersz;
+    @Size(min = 3, max = 3)
+    @Column(nullable = false, length = 3)
+    private String symbolwaluty;
 
     public Kontozapisy() {
     }
@@ -116,8 +119,18 @@ public class Kontozapisy implements Serializable {
         this.kontown = kontown;
         this.kwotama = kwotama;
         this.kontoma = kontoma;
+        this.symbolwaluty = "PLN";
     }
+
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getSymbolwaluty() {
+        return symbolwaluty;
+    }
+
+    public void setSymbolwaluty(String symbolwaluty) {
+        this.symbolwaluty = symbolwaluty;
+    }
+    
     
     public Integer getId() {
         return id;

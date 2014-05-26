@@ -36,7 +36,7 @@ public class BOFKBean {
     
     public static void generujBO(KontoDAOfk kontoDAOfk, KontoZapisyFKDAO kontoZapisyFKDAO, WpisView wpisView) {
         ArrayList<Kontozapisy> kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), "000"));
+        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), "000", "PLN"));
         ArrayList<Konto> konta = new ArrayList<>();
         konta.addAll(kontoDAOfk.findAll());
         for (Kontozapisy p : kontozapisy) {

@@ -200,6 +200,9 @@ function isScrolledIntoView(elem)
 //podswietla powiazane rozrachunki w zapisach konta
 var podswietlrozrachunki = function() {
     var listawierszy = document.getElementById("zapisydopodswietlenia").innerHTML;
+    if (listawierszy.length === 0) {
+        alert("Lista kont pusta, nie ma co podswietlac");
+    }
     listawierszy = listawierszy.replace(/[^0-9\\.]+/g, ' ').trim();
     listawierszy = listawierszy.split(' ');
     var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
