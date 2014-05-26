@@ -88,13 +88,13 @@ public class KontoObrotyFKView implements Serializable{
              for(Konto p : kontaprzejrzane) {
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                 //kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
              kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
-             kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
+             // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
          sumamiesiecy();
          sumazapisow();
@@ -148,7 +148,7 @@ public class KontoObrotyFKView implements Serializable{
         for (Kontozapisy p : kontozapisy) {
             ObrotykontaTabela obrotyMiesiac = new ObrotykontaTabela();
             int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
-            if (p.getKonto().equals("000")) {
+            if (p.getKontoprzeciwstawne().equals("000")) {
                 obrotyMiesiac = lista.get(0);
             } else if (!p.getKontoprzeciwstawne().equals("000")){
                 obrotyMiesiac = lista.get(numermiesiaca);
