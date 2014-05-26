@@ -58,6 +58,7 @@ public class NaniesZapisynaKontaFK implements Serializable {
         kontozapisy.setKontoma(p.getWierszStronaMa().getKonto().getNazwapelna());
         kontozapisy.setKwotawn(p.getWierszStronaWn().getKwota());
         kontozapisy.setKwotama(0);
+        kontozapisy.setSymbolwaluty(p.getWierszStronaWn().getSymbolwaluty());
         zapisynakontach.add(kontozapisy);
     }
 
@@ -74,7 +75,7 @@ public class NaniesZapisynaKontaFK implements Serializable {
         kontozapisy.setKontoma(p.getWierszStronaWn().getKonto().getNazwapelna());
         kontozapisy.setKwotama(p.getWierszStronaMa().getKwota());
         kontozapisy.setKwotawn(0);
-//           kontozapisy.setDokfk(x);
+        kontozapisy.setSymbolwaluty(p.getWierszStronaMa().getSymbolwaluty());
         zapisynakontach.add(kontozapisy);
     }
 }

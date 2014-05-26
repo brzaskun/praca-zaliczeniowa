@@ -600,8 +600,8 @@ public class SessionFacade<T> {
         return  em.createNamedQuery("Kontozapisy.findByWierszID").setParameter("wierszID", wierszID).getResultList();
     }
     
-     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto) {
-        return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
+     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto, String symbolwaluty) {
+        return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
     }
      
      public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String konto) {

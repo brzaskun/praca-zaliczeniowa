@@ -61,11 +61,13 @@ public class KontoZapisFKView implements Serializable{
     private WpisView wpisView;
     @ManagedProperty(value = "#{planKontView}")
     private PlanKontView planKontView;
+    private String wybranaWalutaDlaKont;
     
 
     public KontoZapisFKView() {
         kontozapisy = new ArrayList<>();
-        wybranekontadosumowania = new ArrayList<>();    
+        wybranekontadosumowania = new ArrayList<>();
+        wybranaWalutaDlaKont = "PLN";
     }
     
     @PostConstruct
@@ -75,7 +77,8 @@ public class KontoZapisFKView implements Serializable{
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         Konto wybraneKontoNode = (Konto) node.getData();
-         kontozapisy = new ArrayList<>();
+        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
+        kontozapisy = new ArrayList<>();
             List<Konto> kontapotomne = new ArrayList<>();
             if (wybraneKontoNode.isMapotomkow() == true) {
                 List<Konto> kontamacierzyste = new ArrayList<>();
@@ -85,12 +88,36 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
                 }
                 Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer());
+                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+            }
+            sumazapisow();
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            System.out.println("odnalazlem");
+    }
+    
+    public void pobierzZapisyZmianaWaluty() {
+        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
+        kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomne = new ArrayList<>();
+            if (wybraneKontoNode.isMapotomkow() == true) {
+                List<Konto> kontamacierzyste = new ArrayList<>();
+                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
+                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
+                while (kontamacierzyste.size() > 0) {
+                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
+                }
+                for (Konto p : kontapotomne) {
+                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                }
+                Collections.sort(kontozapisy, new Kontozapisycomparator());
+
+            } else {
+                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
             }
             sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -113,12 +140,12 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
                 }
                 Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
             }
             sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -236,6 +263,14 @@ public class KontoZapisFKView implements Serializable{
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getWybranaWalutaDlaKont() {
+        return wybranaWalutaDlaKont;
+    }
+
+    public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
+        this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
+    }
+  
     public PlanKontView getPlanKontView() {
         return planKontView;
     }

@@ -50,12 +50,15 @@ public class KontoObrotyFKView implements Serializable{
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private String wybranaWalutaDlaKont;
+    
     
 
     public KontoObrotyFKView() {
         this.lista = new ArrayList<>();
         this.kontozapisy = new ArrayList<>();
-        this.wybranekontadosumowania = new ArrayList<>();    
+        this.wybranekontadosumowania = new ArrayList<>();
+        wybranaWalutaDlaKont = "PLN";
     }
     
     @PostConstruct
@@ -83,14 +86,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
+                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
                  kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
              kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
          sumamiesiecy();
@@ -179,6 +182,15 @@ public class KontoObrotyFKView implements Serializable{
  
     //<editor-fold defaultstate="collapsed" desc="comment">
      
+     
+    public String getWybranaWalutaDlaKont() {
+        return wybranaWalutaDlaKont;
+    }
+
+    public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
+        this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
+    }
+
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -332,6 +344,7 @@ public class KontoObrotyFKView implements Serializable{
         }
 
         //<editor-fold defaultstate="collapsed" desc="comment">
+        
         
         public String getRok() {
             return rok;
