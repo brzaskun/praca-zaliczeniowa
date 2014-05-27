@@ -42,6 +42,10 @@ public class WierszStronafk implements Serializable {
         this.kwota = 0.0;
         this.wierszStronafkPK = new WierszStronafkPK();
     }
+
+    public WierszStronafk(WierszStronafkPK wierszStronafkPK) {
+        this.wierszStronafkPK = wierszStronafkPK;
+    }
     
 
     @Override

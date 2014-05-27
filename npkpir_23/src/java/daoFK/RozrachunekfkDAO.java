@@ -41,6 +41,13 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
             return null;
         }
    }
+    public  List<Rozrachunekfk> findRozrachybekfkByPodatnik(String podatnik){
+        try {
+            return rozrachunekfkFacade.findRozrachunekfkByPodatnik(podatnik);
+        } catch (Exception e) {
+            return null;
+        }
+   }
     
     public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
         try {

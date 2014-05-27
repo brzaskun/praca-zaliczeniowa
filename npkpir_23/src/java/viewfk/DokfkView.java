@@ -230,14 +230,7 @@ public class DokfkView implements Serializable {
             selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
             dokDAOfk.dodaj(selected);
             wykazZaksiegowanychDokumentow.add(selected);
-            //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
-            List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
-            //zaznaczamy sparowae jako wprowadzone i zaksiegowane
-            for (Wiersze p : selected.getListawierszy()) {
-                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaWn(), zestawienielisttransakcjiDAO);
-                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaMa(), zestawienielisttransakcjiDAO);
-            }
+            utrwalTransakcje();
             Msg.msg("i", "Dokument dodany");
             resetujDokumentWpis();
         } catch (Exception e) {
@@ -256,11 +249,23 @@ public class DokfkView implements Serializable {
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
+            utrwalTransakcje();
             resetujDokument();
             Msg.msg("i", "Pomyślnie zaktualizowano dokument");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
         }
+    }
+    
+    private void utrwalTransakcje() {
+        //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
+            List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
+            //zaznaczamy sparowae jako wprowadzone i zaksiegowane
+            for (Wiersze p : selected.getListawierszy()) {
+                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaWn(), zestawienielisttransakcjiDAO);
+                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaMa(), zestawienielisttransakcjiDAO);
+            }
     }
     
     public void edycjaDlaRozrachunkow() {
@@ -283,8 +288,8 @@ public class DokfkView implements Serializable {
                 try{
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), rozrachunekfkDAO);
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), zestawienielisttransakcjiDAO);
-                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), zestawienielisttransakcjiDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
                             Msg.msg("i", "Usunieto rozrachunek");
                 } catch (Exception e) {
                     Msg.msg("e", "Nieusunieto rozrachunku");
@@ -307,8 +312,8 @@ public class DokfkView implements Serializable {
                 liczbawierszyWDokumencie--;
                 ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), rozrachunekfkDAO);
                 ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO);
-                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO);
+                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
             }
         } catch (Exception e) {
@@ -425,13 +430,17 @@ public class DokfkView implements Serializable {
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
-            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-            rozrachunekfkDAO.destroy(aktualnyWierszDlaRozrachunkow);
-            listaNowychRozrachunkow.remove(aktualnyWierszDlaRozrachunkow);
-            zrobWierszStronafkReadOnly(false);
-            zablokujprzyciskrezygnuj = false;
-            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
-            Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+            if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
+                Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
+            } else {
+                aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+                rozrachunekfkDAO.destroy(aktualnyWierszDlaRozrachunkow);
+                listaNowychRozrachunkow.remove(aktualnyWierszDlaRozrachunkow);
+                zrobWierszStronafkReadOnly(false);
+                zablokujprzyciskrezygnuj = false;
+                selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
+                Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+            }
         }
         if (selected.getLiczbarozliczonych() > 0) {
             selected.setZablokujzmianewaluty(true);
@@ -501,7 +510,7 @@ public class DokfkView implements Serializable {
                     transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
                     DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(zachowanewczejsniejtransakcje, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO);
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
-                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje);
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                     DokFKTransakcjeBean.pobierztransakcjeJakoSparowany(transakcjejakosparowany, biezacetransakcje, zestawienielisttransakcjiDAO, aktualnyWierszDlaRozrachunkow);
@@ -512,6 +521,8 @@ public class DokfkView implements Serializable {
                 if (potraktujjakoNowaTransakcje == true) {
                     zablokujprzyciskzapisz = true;
                 }
+                String funkcja = "zablokujcheckbox('"+aktualnyWierszDlaRozrachunkow.getRozliczono()+"}');";
+                RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu

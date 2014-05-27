@@ -238,8 +238,10 @@ var zablokujcheckbox = function(nowatransakcja) {
     var wartosc = zrobFloat(nowatransakcja);
     if (wartosc > 0) {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+        r("formcheckbox:labelcheckboxrozrachunki").text("Transakcja jest już rozliczona, nie można usunąc oznaczenia");
     } else {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
+        r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako nową transakcję");
     }
 
 };
