@@ -20,7 +20,8 @@
                                     converterMessage="Nieudana konwersja Klient"
                                     styleClass="kontoinput, autoCompleteBig" 
                                     >
-                        <p:ajax event="blur"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :sumyobroty, :formobrotykonta:nazwawybranegokonta" oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
+                        <p:ajax event="blur"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :sumyobroty, :formobrotykonta:nazwawybranegokonta" 
+                                oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
                     </p:autoComplete>
                      <h:outputText value="  wybrane konto:"/>
                     <h:outputText id="nazwawybranegokonta" value=" #{kontoObrotyFKView.wybranekonto.nazwapelna}" style="font-weight: 900;"/>
@@ -42,18 +43,20 @@
                 <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
             </p:panelGrid>
                 <h:form id="formobroty">
-                    <p:hotkey bind="down"  global="false" onstart="przejdzwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
-                    <p:hotkey bind="up"  global="false" onstart="wrocwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
+                    <p:hotkey bind="right"  global="false" onstart="przejdzwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
+                    <p:hotkey bind="left"  global="false" onstart="wrocwiersz('formobroty:dataListObroty_data','formobroty:dataListObroty','zmiennaobroty');"/>
                      <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.grid tr', function(e) {
-                            try {
-                                zachowajobiekt(this);
-                            } catch (ex) {
-                                alert('error dialog zapisynakoncie' + ex.toString());
-                            }
-                        });
+                        //nie moge wtawic tu tego bo obowiazuje dla wszyskich dialogow, wywolanie zachowania obiektu byloby zduplikowane!!
+//                        $(document).on("click", '.grid tr', function(e) {
+//                            try {
+//                                zachowajobiekt(this);
+//                                console.log("Jest klik obroty");
+//                            } catch (ex) {
+//                                alert('error dialog zapisynakoncie' + ex.toString());
+//                            }
+//                        });
                         /* ]]> */
                     </script>
                     <p:treeTable id="dataListObroty" value="#{planKontView.root}" var="loop" selectionMode="single" selection="#{kontoObrotyFKView.wybranekontoNode}"  

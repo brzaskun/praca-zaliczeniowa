@@ -8,25 +8,11 @@ var zachowajnumerwiersza = function(numer, zmienna) {
     MYAPP[zmienna] = numer;
 };
 
-var wylicznumerwiersza = function(wiersze) {
-    var iloscrzedow = wiersze.size();
-    try {
-        var numerwiersza = 0;
-        for(var i = 0; i < iloscrzedow; i++) {
-            if (wiersze[i] === MYAPP.obiekt) {
-                numerwiersza = i;
-            }
-        }
-        zachowajnumerwiersza(numerwiersza,'zmiennazapisy');
-    } catch (e) {
-        alert('error');
-    }
-};
 
 
 var przejdzwiersz = function(tabela, tabela1, zmienna) {
     var wiersze = $(document.getElementById(tabela)).children("tr");
-    wylicznumerwiersza(wiersze);
+    wylicznumerwiersza(wiersze, zmienna);
     if (!MYAPP.hasOwnProperty(zmienna)) {
         MYAPP[zmienna] = 1;
     } else {
@@ -63,8 +49,8 @@ var wrocwiersz = function(tabela, tabela1, zmienna) {
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
-        var docViewTop = 200;
-        var docViewBottom = 700;
+        var docViewTop = 220;
+        var docViewBottom = 750;
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
@@ -80,6 +66,26 @@ var isScrolledIntoView = function(elem) {
          alert("Blad w chodzeniepokonahc.js isScrolledIntoView " + ex.toString());
     }
     return 0;
+};
+var wylicznumerwiersza = function(wiersze, zmienna) {
+    var wartosc = MYAPP.obiekt.innerText;
+    wartosc = wartosc.split("\t");
+    var iloscrzedow = wiersze.size();
+    try {
+        var numerwiersza = 0;
+        for(var i = 0; i < iloscrzedow; i++) {
+            var trescwiersza = $(wiersze[i]).text();
+            if (trescwiersza.indexOf(wartosc[0])>-1) {
+                console.log("Znaleziony wiersz");
+                MYAPP[zmienna] = i;
+                console.log(MYAPP[zmienna]);
+                return;
+            }
+        }
+        zachowajnumerwiersza(numerwiersza,zmienna);
+    } catch (e) {
+        console.log('error wylicznumerwiersza'+e);
+    }
 };
 
 var znajdzwierszzkontonumer = function(wiersze, wartosc) {
@@ -99,14 +105,16 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
 var zaznacznoda = function(tabela, tabela1, inputpole) {
     try {
         var wartosc = document.getElementById(inputpole).value;
-        wartosc = wartosc.split(" ");
-        var wiersze = $(document.getElementById(tabela)).children("tr");
-        var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
-        ($(node).children("td"))[0].click();
-        zachowajobiekt(node);
-        przejdzwierszNode(tabela, tabela1, node);
-        document.getElementById(inputpole).value = "";
-        document.getElementById(inputpole).value = "";
+        if (wartosc !== " ") {
+            wartosc = wartosc.split(" ");
+            var wiersze = $(document.getElementById(tabela)).children("tr");
+            var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
+            ($(node).children("td"))[0].click();
+            zachowajobiekt(node);
+            przejdzwierszNode(tabela, tabela1, node);
+            document.getElementById(inputpole).value = "";
+            document.getElementById(inputpole).value = "";
+        }
     } catch (ex) {
         alert("Problem z zaznacznoda/chodzeniepokontach.js");
     }
