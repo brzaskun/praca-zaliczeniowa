@@ -97,12 +97,12 @@
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px; margin-left: 40%;">
                 <h:form id="formcheckbox">
-                <h:selectBooleanCheckbox id="znaczniktransakcji" onfocus="zablokujcheckbox('#{dokfkVieaktualnyWierszDlaRozrachunkowow.rozliczono}');" 
+                <h:selectBooleanCheckbox id="znaczniktransakcji" 
                                              accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}" value="#{dokfkView.potraktujjakoNowaTransakcje}" 
                                              style="outline: 5px solid gray;">
                         <f:ajax event="change" execute="@this" render=":wpisywaniefooter"/>
                 </h:selectBooleanCheckbox>
-                    <h:outputLabel for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
+                    <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
                     <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');"/>
                 </h:form>
             </div>

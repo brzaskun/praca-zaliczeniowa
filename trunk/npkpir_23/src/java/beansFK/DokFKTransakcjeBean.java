@@ -130,9 +130,9 @@ public class DokFKTransakcjeBean implements Serializable{
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
     }
 
-    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje) {
+    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje, String podatnik) {
         listaNowychRozrachunkow = new ArrayList<>();
-        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findAll());
+        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachybekfkByPodatnik(podatnik));
         for (Rozrachunekfk p : listaNowychRozrachunkow) {
             for (Transakcja r : biezacetransakcje) {
                 if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
