@@ -35,8 +35,11 @@ public class ObslugaRozrachunku {
         try {
             Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
             Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-            rozrachunekfkDAO.destroy(rU);
-        } catch (Exception e){}
+            if (rU instanceof Rozrachunekfk) {
+                rozrachunekfkDAO.destroy(rU);
+            }
+        } catch (Exception e){
+        }
     }
 
     public static void usuntransakcje(WierszStronafk wierszStronafk, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, RozrachunekfkDAO rozrachunekfkDAO) {
@@ -44,19 +47,22 @@ public class ObslugaRozrachunku {
             WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
             Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
             List<Transakcja> listatransakcji = znaleziona.getListatransakcji();
-            for (Transakcja p : listatransakcji) {
-                WierszStronafkPK wierszStronafkPK = p.idSparowany();
-                WierszStronafk wierszStronafksparowany = new WierszStronafk(wierszStronafkPK);
-                Rozrachunekfk r = new Rozrachunekfk(wierszStronafksparowany);
-                double zmienKwotaRozliczono = r.getRozliczono() - p.getKwotatransakcji();
-                r.setRozliczono(zmienKwotaRozliczono);
-                double zmienKwotaPozostala = r.getPozostalo() + p.getKwotatransakcji();
-                r.setPozostalo(zmienKwotaPozostala);
-                rozrachunekfkDAO.edit(r);
-                
+            if (listatransakcji != null) {
+                for (Transakcja p : listatransakcji) {
+                    WierszStronafkPK wierszStronafkPK = p.idSparowany();
+                    WierszStronafk wierszStronafksparowany = new WierszStronafk(wierszStronafkPK);
+                    Rozrachunekfk r = new Rozrachunekfk(wierszStronafksparowany);
+                    double zmienKwotaRozliczono = r.getRozliczono() - p.getKwotatransakcji();
+                    r.setRozliczono(zmienKwotaRozliczono);
+                    double zmienKwotaPozostala = r.getPozostalo() + p.getKwotatransakcji();
+                    r.setPozostalo(zmienKwotaPozostala);
+                    rozrachunekfkDAO.edit(r);
+
+                }
             }
             zestawienielisttransakcjiDAO.destroy(znaleziona);
-        } catch (Exception e){}
+        } catch (Exception e){
+        }
     }
 
 }

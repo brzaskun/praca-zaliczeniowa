@@ -316,6 +316,7 @@ public class DokfkView implements Serializable {
                 ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
             }
+            Msg.msg("Wiersz usunięty.");
         } catch (Exception e) {
             Msg.msg("Błąd podczas usuwania wiersz");
         }
