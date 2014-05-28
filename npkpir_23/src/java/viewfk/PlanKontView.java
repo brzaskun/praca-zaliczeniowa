@@ -360,30 +360,33 @@ public class PlanKontView implements Serializable {
     }
 
     public List<Konto> complete(String qr) {
-        String query = qr.split(" ")[0];
-        List<Konto> results = new ArrayList<>();
-        if (listakontOstatniaAnalitykaklienta != null) {
-            try {
-                String q = query.substring(0, 1);
-                int i = Integer.parseInt(q);
-                for (Konto p : listakontOstatniaAnalitykaklienta) {
-                    if (query.length() == 4 && !query.contains("-")) {
-                        //wstawia - do ciagu konta
-                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+        if (qr != null) {
+            String query = qr.split(" ")[0];
+            List<Konto> results = new ArrayList<>();
+            if (listakontOstatniaAnalitykaklienta != null) {
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    for (Konto p : listakontOstatniaAnalitykaklienta) {
+                        if (query.length() == 4 && !query.contains("-")) {
+                            //wstawia - do ciagu konta
+                            query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                        }
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
                     }
-                    if (p.getPelnynumer().startsWith(query)) {
-                        results.add(p);
-                    }
-                }
-            } catch (NumberFormatException e) {
-                for (Konto p : listakontOstatniaAnalitykaklienta) {
-                    if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
-                        results.add(p);
+                } catch (NumberFormatException e) {
+                    for (Konto p : listakontOstatniaAnalitykaklienta) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
                     }
                 }
             }
+            return results;
         }
-        return results;
+        return null;
     }
 
     public void selrow(NodeSelectEvent e) {
