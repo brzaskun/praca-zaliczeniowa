@@ -57,7 +57,6 @@ public class ObslugaRozrachunku {
                     double zmienKwotaPozostala = r.getPozostalo() + p.getKwotatransakcji();
                     r.setPozostalo(zmienKwotaPozostala);
                     rozrachunekfkDAO.edit(r);
-
                 }
             }
             zestawienielisttransakcjiDAO.destroy(znaleziona);
