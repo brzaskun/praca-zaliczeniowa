@@ -45,14 +45,14 @@
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
                 <h:form id="form">
-                    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
-                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz('form:dataList_data','form:dataList','zmiennazapisy');"/>
+                    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
+                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
                     <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
                         $(document).on("click", '.grid tr', function(e) {
                             try {
-                                zachowajobiekt(this);
+                                zachowajobiekt(this, e);
                             } catch (ex) {
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
