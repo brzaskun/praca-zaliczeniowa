@@ -25,10 +25,10 @@ var zachowajnumerwiersza = function(numer, zmienna) {
 
 
 var przejdzwiersz = function() {
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-    event.cancelBubble = true;
+//    event.preventDefault();
+//    event.stopPropagation();
+//    event.stopImmediatePropagation();
+//    event.cancelBubble = true;
     var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
     wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
     if (MYAPP[MYAPP.zmienna] > wiersze.length) {
@@ -44,10 +44,10 @@ var przejdzwiersz = function() {
 };
 
 var wrocwiersz = function() {
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-    event.cancelBubble = true;
+//    event.preventDefault();
+//    event.stopPropagation();
+//    event.stopImmediatePropagation();
+//    event.cancelBubble = true;
     var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
     wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
     if (MYAPP[MYAPP.zmienna] > 0) {
