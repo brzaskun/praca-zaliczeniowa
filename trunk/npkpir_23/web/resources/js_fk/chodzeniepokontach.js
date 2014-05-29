@@ -1,8 +1,22 @@
 "use strict";
 
-var zachowajobiekt = function(obiekt) {
+var zachowajobiekt = function(obiekt, event) {
     MYAPP.obiekt = obiekt;
+    var source = event.target || event.srcElement;
+    var sourceid = source.parentNode.parentNode.id;
+    MYAPP.sourceid = sourceid;
+    if (MYAPP.sourceid === "form:dataList_data") {
+        MYAPP.tabeladata = "form:dataList_data";
+        MYAPP.tabela = "form:dataList";
+        MYAPP.zmienna = "zmiennazapisy";
+    } else {
+        MYAPP.tabeladata = "formobroty:dataListObroty_data";
+        MYAPP.tabela = "formobroty:dataListObroty";
+        MYAPP.zmienna = "zmiennaobroty";
+    }
+    console.log(sourceid);
 };
+
 
 var zachowajnumerwiersza = function(numer, zmienna) {
     MYAPP[zmienna] = numer;
@@ -10,41 +24,49 @@ var zachowajnumerwiersza = function(numer, zmienna) {
 
 
 
-var przejdzwiersz = function(tabela, tabela1, zmienna) {
-    var wiersze = $(document.getElementById(tabela)).children("tr");
-    wylicznumerwiersza(wiersze, zmienna);
-    if (!MYAPP.hasOwnProperty(zmienna)) {
-        MYAPP[zmienna] = 1;
+var przejdzwiersz = function() {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.cancelBubble = true;
+    var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+    wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+    if (MYAPP[MYAPP.zmienna] > wiersze.length) {
+        MMYAPP[MYAPP.zmienna] = wiersze.length;
     } else {
-        MYAPP[zmienna] += 1;
-        if (MYAPP[zmienna] > wiersze.length) {
-            MYAPP[zmienna] = wiersze.length;
-        }
+        MYAPP[MYAPP.zmienna] += 1;
     }
-    var komorki = $(wiersze[MYAPP[zmienna]]).children("td");
+    var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);
-    var elem = document.getElementById(tabela1);
+    var elem = document.getElementById(MYAPP.tabela);
     elem.scrollTop = elem.scrollTop + przesun;
     $(komorki[1]).click();
 };
 
-var wrocwiersz = function(tabela, tabela1, zmienna) {
-    var wiersze = $(document.getElementById(tabela)).children("tr");
-    wylicznumerwiersza(wiersze);
-    if (!MYAPP.hasOwnProperty(zmienna)) {
-        MYAPP[zmienna] = 1;
+var wrocwiersz = function() {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.cancelBubble = true;
+    var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+    wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+    if (MYAPP[MYAPP.zmienna] > 0) {
+        MYAPP[MYAPP.zmienna] -= 1;
     } else {
-        if (MYAPP[zmienna] > 0) {
-            MYAPP[zmienna] -= 1;
-        }
+        MYAPP[MYAPP.zmienna] = 1;
     }
-    var komorki = $(wiersze[MYAPP[zmienna]]).children("td");
+    var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);
-    var elem = document.getElementById(tabela1);
+    var elem = document.getElementById(MYAPP.tabela);
     elem.scrollTop = elem.scrollTop + przesun;
     $(komorki[1]).click();
 };
 
+var stop = function () {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+};
 
 var isScrolledIntoView = function(elem) {
     try {
@@ -77,8 +99,8 @@ var wylicznumerwiersza = function(wiersze, zmienna) {
             var trescwiersza = $(wiersze[i]).text();
             if (trescwiersza.indexOf(wartosc[0])>-1) {
                 console.log("Znaleziony wiersz");
-                MYAPP[zmienna] = i;
-                console.log(MYAPP[zmienna]);
+                MYAPP[MYAPP.zmienna] = i;
+                console.log(MYAPP[MYAPP.zmienna]);
                 return;
             }
         }
