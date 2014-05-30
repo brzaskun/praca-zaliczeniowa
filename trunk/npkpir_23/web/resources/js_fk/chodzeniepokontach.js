@@ -1,20 +1,24 @@
 "use strict";
 
 var zachowajobiekt = function(obiekt, event) {
-    MYAPP.obiekt = obiekt;
-    var source = event.target || event.srcElement;
-    var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
-    MYAPP.sourceid = sourceid;
-    if (MYAPP.sourceid === "form:dataList_data") {
-        MYAPP.tabeladata = "form:dataList_data";
-        MYAPP.tabela = "form:dataList";
-        MYAPP.zmienna = "zmiennazapisy";
-    } else {
-        MYAPP.tabeladata = "formobroty:dataListObroty_data";
-        MYAPP.tabela = "formobroty:dataListObroty";
-        MYAPP.zmienna = "zmiennaobroty";
+    try {
+        MYAPP.obiekt = obiekt;
+        var source = event.target || event.srcElement;
+        var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
+        MYAPP.sourceid = sourceid;
+        if (MYAPP.sourceid === "form:dataList_data") {
+            MYAPP.tabeladata = "form:dataList_data";
+            MYAPP.tabela = "form:dataList";
+            MYAPP.zmienna = "zmiennazapisy";
+        } else {
+            MYAPP.tabeladata = "formobroty:dataListObroty_data";
+            MYAPP.tabela = "formobroty:dataListObroty";
+            MYAPP.zmienna = "zmiennaobroty";
+        }
+        console.log(sourceid);
+    } catch (ex) {
+        alert("Blad w zachowajobiekt/chodzeniepokonach.js " + ex.toString());
     }
-    console.log(sourceid);
 };
 
 var przejdzwiersz = function() {
