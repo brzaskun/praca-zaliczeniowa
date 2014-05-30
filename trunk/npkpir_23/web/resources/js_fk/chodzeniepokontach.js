@@ -22,10 +22,6 @@ var zachowajobiekt = function(obiekt, event) {
 };
 
 var przejdzwiersz = function() {
-//    event.preventDefault();
-//    event.stopPropagation();
-//    event.stopImmediatePropagation();
-//    event.cancelBubble = true;
     var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
     wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
     if (MYAPP[MYAPP.zmienna] > wiersze.length) {
@@ -41,10 +37,6 @@ var przejdzwiersz = function() {
 };
 
 var wrocwiersz = function() {
-//    event.preventDefault();
-//    event.stopPropagation();
-//    event.stopImmediatePropagation();
-//    event.cancelBubble = true;
     var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
     wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
     if (MYAPP[MYAPP.zmienna] > 0) {
@@ -59,11 +51,11 @@ var wrocwiersz = function() {
     $(komorki[1]).click();
 };
 
-var stop = function () {
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-};
+//var stop = function () {
+//    event.preventDefault();
+//    event.stopPropagation();
+//    event.stopImmediatePropagation();
+//};
 
 var isScrolledIntoView = function(elem) {
     try {
@@ -148,7 +140,7 @@ var przejdzwierszNode = function(tabela, tabela1, node) {
             }
         }
     } catch (e) {
-        alert('error');
+        alert("Problem z przejdzwierszNode/chodzeniepokontach.js");
     }
     var komorki = $(wiersze[numerwiersza]).children("td");
     var przesun = isScrolledIntoView(komorki[1]);
