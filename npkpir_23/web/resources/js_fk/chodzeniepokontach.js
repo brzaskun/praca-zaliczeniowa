@@ -3,7 +3,7 @@
 var zachowajobiekt = function(obiekt, event) {
     MYAPP.obiekt = obiekt;
     var source = event.target || event.srcElement;
-    var sourceid = source.parentNode.parentNode.id;
+    var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
     MYAPP.sourceid = sourceid;
     if (MYAPP.sourceid === "form:dataList_data") {
         MYAPP.tabeladata = "form:dataList_data";
@@ -16,13 +16,6 @@ var zachowajobiekt = function(obiekt, event) {
     }
     console.log(sourceid);
 };
-
-
-var zachowajnumerwiersza = function(numer, zmienna) {
-    MYAPP[zmienna] = numer;
-};
-
-
 
 var przejdzwiersz = function() {
 //    event.preventDefault();
@@ -94,17 +87,15 @@ var wylicznumerwiersza = function(wiersze, zmienna) {
     wartosc = wartosc.split("\t");
     var iloscrzedow = wiersze.size();
     try {
-        var numerwiersza = 0;
-        for(var i = 0; i < iloscrzedow; i++) {
-            var trescwiersza = $(wiersze[i]).text();
+        for(var nrwiersza = 0; nrwiersza < iloscrzedow; nrwiersza++) {
+            var trescwiersza = $(wiersze[nrwiersza]).text();
             if (trescwiersza.indexOf(wartosc[0])>-1) {
                 console.log("Znaleziony wiersz");
-                MYAPP[MYAPP.zmienna] = i;
+                MYAPP[MYAPP.zmienna] = nrwiersza;
                 console.log(MYAPP[MYAPP.zmienna]);
                 return;
             }
         }
-        zachowajnumerwiersza(numerwiersza,zmienna);
     } catch (e) {
         console.log('error wylicznumerwiersza'+e);
     }
@@ -128,11 +119,11 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
     try {
         var wartosc = document.getElementById(inputpole).value;
         if (wartosc !== " ") {
-            wartosc = wartosc.split(" ");
+            wartosc = wartosc.trim().split(" ");
             var wiersze = $(document.getElementById(tabela)).children("tr");
             var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
             ($(node).children("td"))[0].click();
-            zachowajobiekt(node);
+            MYAPP.obiekt = node;
             przejdzwierszNode(tabela, tabela1, node);
             document.getElementById(inputpole).value = "";
             document.getElementById(inputpole).value = "";
