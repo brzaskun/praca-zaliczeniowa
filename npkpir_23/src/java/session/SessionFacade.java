@@ -464,6 +464,10 @@ public class SessionFacade<T> {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).getSingleResult();
     }
     
+    public List<Konto> findKontaRozrachunkowe(String podatnik) {
+        return em.createNamedQuery("Konto.findByZwyklerozrachszczegolnePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", podatnik).getResultList();
+    }
+    
     public Konto findKonto(int id) {
         return (Konto) em.createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
     }
