@@ -667,6 +667,14 @@ public class SessionFacade<T> {
             return null;
         }
     }
+    
+    public List<Rozrachunekfk> findRozrachunekfkByPodatnikkonto(String podatnik, String nrkonta) {
+         try {
+            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKonto").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String walutarozrachunku) {
         String wnmaNew = null;
