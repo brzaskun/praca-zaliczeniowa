@@ -9,10 +9,15 @@ package viewfk;
 import beansFK.PlanKontFKBean;
 import comparator.Kontozapisycomparator;
 import daoFK.KontoDAOfk;
+import daoFK.RozrachunekfkDAO;
+import daoFK.ZestawienielisttransakcjiDAO;
+import embeddablefk.RozrachunkiTransakcje;
 import embeddablefk.Transakcja;
 import embeddablefk.TreeNodeExtended;
+import embeddablefk.WierszStronafkPK;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
+import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,9 +41,11 @@ public class RozrachunkiPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private List<Konto> listaKontRozrachunkowych;
-    private List<Rozrachunekfk> listaRozrachunkow;
+    private List<RozrachunkiTransakcje> listaRozrachunkow;
     private List<Transakcja> listaTransakcji;
     @Inject private KontoDAOfk kontoDAOfk;
+    @Inject private RozrachunekfkDAO rozrachunekfkDAO;
+    @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private TreeNodeExtended<Konto> root;
     private int levelBiezacy = 0;
     private int levelMaksymalny = 0;
@@ -93,29 +100,20 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
+        listaRozrachunkow = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         Konto wybraneKontoNode = (Konto) node.getData();
-        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-        kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomne = new ArrayList<>();
-            if (wybraneKontoNode.isMapotomkow() == true) {
-                List<Konto> kontamacierzyste = new ArrayList<>();
-                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
-                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
-                while (kontamacierzyste.size() > 0) {
-                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
-                }
-                for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
-                }
-                Collections.sort(kontozapisy, new Kontozapisycomparator());
-
-            } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKonto(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer());
+        if (!listarozrachunkowkonto.isEmpty()) {
+            List<Transakcja> listatransakcjikonto = new ArrayList<>();
+            for (Rozrachunekfk p : listarozrachunkowkonto) {
+                WierszStronafkPK wierszStronafkPK = new WierszStronafkPK(p.getWierszStronafk().getWierszStronafkPK());
+                Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafkPK);
+                listatransakcjikonto.addAll(zestawienielisttransakcji.getListatransakcji());
+                RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listaTransakcji);
+                listaRozrachunkow.add(rozrachunkiTransakcje);
             }
-            sumazapisow();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem");
+        }
     }
     
     public WpisView getWpisView() {
@@ -133,14 +131,15 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void setListaKontRozrachunkowych(List<Konto> listaKontRozrachunkowych) {
         this.listaKontRozrachunkowych = listaKontRozrachunkowych;
     }
-    
-    public List<Rozrachunekfk> getListaRozrachunkow() {
+
+    public List<RozrachunkiTransakcje> getListaRozrachunkow() {
         return listaRozrachunkow;
     }
 
-    public void setListaRozrachunkow(List<Rozrachunekfk> listaRozrachunkow) {
+    public void setListaRozrachunkow(List<RozrachunkiTransakcje> listaRozrachunkow) {
         this.listaRozrachunkow = listaRozrachunkow;
     }
+   
 
     public List<Transakcja> getListaTransakcji() {
         return listaTransakcji;

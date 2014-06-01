@@ -8,9 +8,9 @@
     >
 
     <p:dialog id="rozrachunkiPrzeglad" header="Zapisy na kontach" widgetVar="rozrachunkiPrzeglad" 
-              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1250,750);" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="width: 1270px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
@@ -21,7 +21,7 @@
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
-                            <p:ajax event="blur"  listener="#{kontoZapisFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="blur"  listener="#{kontoZapisFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>
@@ -30,7 +30,7 @@
                     <h:form id="walutazapisynakoncie">
                         <h:outputText value="waluta dokumentu " style="text-align: right;"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}">
-                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami:tabela, :sumy" />
+                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, :sumy" />
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
@@ -62,8 +62,8 @@
                     <p:outputPanel id="kontenertabeli" deferred="true">
                         <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
                                      styleClass="grid" style="width: 100%; height: 550px; overflow-y: scroll;" >
-                            <p:ajax event="select" update=":tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
-                            <p:ajax event="unselect" update=":tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:ajax event="select" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
+                            <p:ajax event="unselect" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column headerText="nr konta" style="width: 100px; height: 30px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
                                 <h:outputText value="#{loop1.pelnynumer}"/> 
                             </p:column>
@@ -75,48 +75,58 @@
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" style="min-width: 870px;">
-                <h:form id="tabelazzapisami">
-                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="wiersz.idwiersza" emptyMessage="Nie ma zapisów na koncie"
-                                 rowStyleClass="#{loop.kontoprzeciwstawne eq '000' ? 'niebieskietlo' : null}" rowIndexVar="rowindex"
+            <p:layoutUnit position="center" style="min-width: 1070px;">
+                <h:form id="tabelanowerozrachunki">
+                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.listaRozrachunkow}" var="loop" rowKey="#{loop.rozrachunekfk.idrozrachunku}" 
+                                 sortBy="rozrachunekfk.idrozrachunku" emptyMessage="Nie ma zapisów na koncie"
+                                 rowIndexVar="rowindex"
                                  >
-                        <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
-                        <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
-                        <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
-                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>
                         <p:column selectionMode="multiple" width="35"></p:column>
-                        <p:column headerText="id" width="40" sortBy="id" >
-                            <h:outputText value="#{loop.id}"/>
+                        <p:column style="width: 4%; height: 45px;">
+                            <p:rowToggler/>
                         </p:column>
                         <p:column headerText="lp" width="40" sortBy="rowindex" >
                             <h:outputText value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="data" width="120" sortBy="wiersz.dataksiegowania">
-                            <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
+                        <p:column headerText="rok" sortBy="rok">
+                            <h:outputText value="#{loop.rozrachunekfk.rok}"/>
                         </p:column>
-                        <p:column headerText="dokument" width="40" >
-                            <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejny}"/>
+                        <p:column headerText="data" sortBy="datarozrachunku">
+                            <h:outputText value="#{loop.rozrachunekfk.datarozrachunku}"/>
                         </p:column>
-                        <p:column headerText="opis" width="100" sortBy="opis">
-                            <h:outputText value="#{loop.opis}"/>
+                        <p:column headerText="waluta" sortBy="walutarozrachunku">
+                            <h:outputText value="#{loop.rozrachunekfk.walutarozrachunku}"/>
                         </p:column>
-                        <p:column headerText="Wn" width="100" sortBy="kwotawn">
-                            <h:outputText id="kwotawnwiersz" value="#{loop.kwotawn}" style="float: right;">
+                        <p:column headerText="waluta" sortBy="nr dok">
+                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.nrwlasnydokumentu}"/>
+                        </p:column>
+                        <p:column headerText="opis" width="100" sortBy="wierszStronafk.opisdokumentu">
+                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.opisdokumentu}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
+                        </p:column>
+                        <p:column headerText="kwota pierwotna" >
+                            <h:outputText value="#{loop.rozrachunekfk.kwotapierwotna}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="100" sortBy="kwotama">
-                            <h:outputText id="kwotamawiersz" value="#{loop.kwotama}" style="float: right;">
+                        <p:column headerText="rozliczono">
+                            <h:outputText value="#{loop.rozrachunekfk.rozliczono}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Konto nr" width="100" sortBy="konto">
-                            <h:outputText id="kontonr" value="#{loop.konto}"/>
+                        <p:column headerText="zostało" >
+                            <h:outputText value="#{loop.rozrachunekfk.pozostalo}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                         </p:column>
-                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="loop.kontoprzeciwstawne">
-                            <h:outputText value="#{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
+                        <p:rowExpansion>
+                        <p:column  headerText="wykaz transakcji" width="300" resizable="true">  
+                            <p:dataTable var="subwpis" value="#{loop.transakcje}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 50%;">
+                                <p:column headerText="kwota transakcji">
+                                    <h:outputText value="#{subwpis.kwotatransakcji}"/>
+                                </p:column>
+                            </p:dataTable>
                         </p:column>
+                </p:rowExpansion>
                     </p:dataTable>
                 </h:form>  
             </p:layoutUnit>  
@@ -139,4 +149,5 @@
         </p:layout>  
     </p:dialog>
 </ui:composition>
+
 

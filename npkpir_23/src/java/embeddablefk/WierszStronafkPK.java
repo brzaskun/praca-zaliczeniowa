@@ -25,6 +25,20 @@ public class WierszStronafkPK implements Serializable{
     public WierszStronafkPK() {
     }
 
+    public WierszStronafkPK(String podatnik, String typdokumentu, int nrkolejnydokumentu, int nrPorzadkowyWiersza, String stronaWnlubMa) {
+        this.podatnik = podatnik;
+        this.typdokumentu = typdokumentu;
+        this.nrkolejnydokumentu = nrkolejnydokumentu;
+        this.nrPorzadkowyWiersza = nrPorzadkowyWiersza;
+        this.stronaWnlubMa = stronaWnlubMa;
+    }
+    
+    public WierszStronafkPK(WierszStronafkPK wierszStronafkPK) {
+        this(wierszStronafkPK.getPodatnik(),wierszStronafkPK.getTypdokumentu(),wierszStronafkPK.getNrkolejnydokumentu(),wierszStronafkPK.getNrPorzadkowyWiersza(), wierszStronafkPK.getStronaWnlubMa());
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 5;
