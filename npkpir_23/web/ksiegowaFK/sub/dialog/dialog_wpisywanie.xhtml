@@ -115,7 +115,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient" style="width: 10px; margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput"  readonly="#{loop.wnReadOnly}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.wnReadOnly}"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza(rowindex, 'Wn')}" partialSubmit="true"/>
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
@@ -136,7 +136,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient"  style="width: 10px; margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" readonly="#{loop.maReadOnly}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >
                             <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza(rowindex, 'Ma')}" partialSubmit="true"/>
 <!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
