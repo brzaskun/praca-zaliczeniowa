@@ -16,7 +16,6 @@ import embeddablefk.Transakcja;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import entityfk.Tabelanbp;
@@ -40,7 +39,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
@@ -493,21 +491,23 @@ public class DokfkView implements Serializable {
     
     //********************
     //przygotowuje transakcje do wyswietlenia, uruchamiana klawiszami ALT-R
+    public void pobierzNumerWnMaWiersza(int numer, String wnma) {
+        numerwiersza = numer;
+        stronawiersza = wnma;
+    }
+    
     public void tworzenieTransakcjiZWierszy() {
         //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
-        String wnma = (String) Params.params("wpisywaniefooter:wnlubma");
-        String nrwierszaS = (String) Params.params("wpisywaniefooter:wierszid");
         zablokujprzyciskzapisz = false;
         try {
-            Integer nrwiersza = Integer.parseInt(nrwierszaS) - 1;
-            inicjalizacjaAktualnyWierszDlaRozrachunkow(wnma, nrwiersza);
+            inicjalizacjaAktualnyWierszDlaRozrachunkow(stronawiersza, numerwiersza);
             if (aktualnyWierszDlaRozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 transakcjeswiezynki = new ArrayList<>();
                 listaNowychRozrachunkow = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
-                    listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), wnma, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
+                    listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
                     transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
                     DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(zachowanewczejsniejtransakcje, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO);
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
@@ -802,10 +802,6 @@ public class DokfkView implements Serializable {
         DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
         DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
-    public void pobierzNumerWnMaWiersza(int numer, String wnma) {
-        numerwiersza = numer;
-        stronawiersza = wnma;
-    }
     
     public void skopiujWndoMa(Wiersze wiersze) {
         double kwotaWn = wiersze.getWierszStronaWn().getKwota();
@@ -818,8 +814,8 @@ public class DokfkView implements Serializable {
     public void skopiujKontoZWierszaWyzej(int numerwiersza, String wnma) {
         if (numerwiersza > 0) {
             int numerpoprzedni = numerwiersza - 1;
-            WierszStronafk wierszPoprzedni = (wnma.equals("wn") ? selected.getListawierszy().get(numerpoprzedni).getWierszStronaWn() : selected.getListawierszy().get(numerpoprzedni).getWierszStronaMa());
-            WierszStronafk wierszBiezacy = (wnma.equals("wn") ? selected.getListawierszy().get(numerwiersza).getWierszStronaWn() : selected.getListawierszy().get(numerwiersza).getWierszStronaMa());
+            WierszStronafk wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getWierszStronaWn() : selected.getListawierszy().get(numerpoprzedni).getWierszStronaMa());
+            WierszStronafk wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numerwiersza).getWierszStronaWn() : selected.getListawierszy().get(numerwiersza).getWierszStronaMa());
             if (!(wierszBiezacy.getKonto() instanceof Konto)) {
                 Konto kontoPoprzedni = serialclone.SerialClone.clone(wierszPoprzedni.getKonto());
                 wierszBiezacy.setKonto(kontoPoprzedni);
