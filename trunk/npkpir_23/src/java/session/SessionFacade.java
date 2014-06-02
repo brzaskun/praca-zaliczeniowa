@@ -806,6 +806,10 @@ public class SessionFacade<T> {
     public List<Rejestrlogowan> RejestrlogowanfindByLiczbalogowan0() {
         return em.createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList();
     }
+
+    public List<Podatnik> findAktywnyPodatnik(Boolean podmiotaktywny) {
+        return em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny).getResultList();
+    }
   
   
 }
