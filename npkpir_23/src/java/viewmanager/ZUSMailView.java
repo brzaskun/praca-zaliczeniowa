@@ -6,11 +6,11 @@
 
 package viewmanager;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import dao.ZusmailDAO;
 import embeddable.Mce;
-import entity.Klienci;
 import entity.Podatnik;
 import entity.Zusmail;
 import entity.ZusmailPK;
@@ -18,24 +18,25 @@ import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import mail.MaiManager;
-import mail.MailAdmin;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.primefaces.behavior.ajax.AjaxBehavior;
+import org.primefaces.behavior.ajax.AjaxBehaviorHandler;
+import org.primefaces.event.SelectEvent;
 import view.WpisView;
 
 /**
@@ -45,11 +46,15 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class ZUSMailView implements Serializable {
+    private static final long serialVersionUID = 1L;
     
-    private static String rok;
-    private static String mc;
-    private static List<Zusmail> wykazprzygotowanychmaili;
-    private static Map<String, Zusstawki> stawkipodatnicy;
+    private String rok;
+    private String mc;
+    private int nrwysylki;
+    private List<Integer> numery;
+    private List<Zusmail> wykazprzygotowanychmaili;
+    private List<Zusmail> wybranemaile;
+    private Map<String, Zusstawki> stawkipodatnicy;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -60,6 +65,8 @@ public class ZUSMailView implements Serializable {
     public ZUSMailView() {
         wykazprzygotowanychmaili = new ArrayList<>();
         stawkipodatnicy = new HashMap<>();
+        wybranemaile = new ArrayList<>();
+        numery = new ArrayList<>();
     }
     
     @PostConstruct
@@ -68,6 +75,9 @@ public class ZUSMailView implements Serializable {
         mc = Mce.getNumberToMiesiac().get((new DateTime()).getMonthOfYear());
         pobierzstawki();
         przygotujmaile();
+        for (int i = 0 ; i < 12 ; i++) {
+            numery.add(i);
+        }
     }
     
     private void pobierzstawki() {
@@ -132,9 +142,18 @@ public class ZUSMailView implements Serializable {
                 }
             }
             naniesistniejacezapisy();
+            usunniezgodne();
         }
     }
-    
+    private void usunniezgodne() {
+        Iterator it = wykazprzygotowanychmaili.iterator();
+        while (it.hasNext()) {
+            Zusmail p = (Zusmail) it.next();
+            if (p.getNrwysylki() != nrwysylki) {
+                it.remove();
+            }
+        }
+    }
     private void naniesistniejacezapisy() {
         try {
             List<Zusmail> listazusmailwbazie = zusmailDAO.findZusRokMc(rok,mc);
@@ -154,7 +173,8 @@ public class ZUSMailView implements Serializable {
         }
     }
     
-    public void wiadomosczmiana(String cozmieniono) {
+    
+    public void dokonajZmianyElementu(String cozmieniono) {
         Msg.msg(String.format("Dokonano zmiany: %s", cozmieniono));
         pobierzstawki();
         przygotujmaile();
@@ -163,10 +183,23 @@ public class ZUSMailView implements Serializable {
     public void wyslijwszystkie() {
         for (Zusmail p : wykazprzygotowanychmaili) {
             if (p.getNrwysylki()==0) {
-                wyslijMailZUS(p);
+                wyslijMailZUSSilent(p);
             }
         }
+        Msg.msg("Wysłano maile do wszytkich podatników z listy");
     }
+    public void wyslijwybrane() {
+        if (wybranemaile.size() > 0) {
+            for (Zusmail p : wybranemaile) {
+                if (p.getNrwysylki()==0) {
+                    wyslijMailZUSSilent(p);
+                }
+            }
+            Msg.msg("Wysłano maile do wybranych podatników z listy w liczbie: "+wybranemaile.size());
+        }
+        wybranemaile.clear();
+    }
+    
     
     public void wyslijponownie() {
         for (Zusmail p : wykazprzygotowanychmaili) {
@@ -181,7 +214,16 @@ public class ZUSMailView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
-        Msg.msg("i", "Wyslano wiadomości");
+        Msg.msg("i", "Wyslano wiadomość");
+    }
+    
+     public void wyslijMailZUSSilent(Zusmail zusmail) {
+        try {
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc());
+            usuzpelnijdane(zusmail);
+        } catch (Exception e) {
+            Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
+        }
     }
     
     private void usuzpelnijdane(Zusmail zusmail) {
@@ -201,6 +243,10 @@ public class ZUSMailView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Mail z ZUS nie został wysłany");
         }
+    }
+    
+    public void wybranoWiersz(SelectEvent e) {
+        Msg.msg("Wybrano wiersz "+((Zusmail) e.getObject()).getZusmailPK().getPodatnik());
     }
 
     public String getRok() {
@@ -233,6 +279,31 @@ public class ZUSMailView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public int getNrwysylki() {
+        return nrwysylki;
+    }
+
+    public void setNrwysylki(int nrwysylki) {
+        this.nrwysylki = nrwysylki;
+    }
+
+   
+    public List<Integer> getNumery() {
+        return numery;
+    }
+
+    public void setNumery(List<Integer> numery) {
+        this.numery = numery;
+    }
+
+    public List<Zusmail> getWybranemaile() {
+        return wybranemaile;
+    }
+
+    public void setWybranemaile(List<Zusmail> wybranemaile) {
+        this.wybranemaile = wybranemaile;
     }
 
     

@@ -9,53 +9,50 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:growl autoUpdate="true"/>
     <h:form>
-        <p:panel header="Wybierz rok i miesiąc wysyłki" style="width: 90%">
-            <p:panelGrid id="parametryzus" columns="4">
+        <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1350px;">
+            <p:panelGrid id="parametryzus" columns="6">
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSMailView.rok}">
-                    <p:ajax event="change" listener="#{zUSMailView.wiadomosczmiana('roku.')}" update=":wykazmaili"/>
+                    <p:ajax event="change" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </p:selectOneMenu>
                 <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSMailView.mc}" >
-                    <p:ajax event="change"  listener="#{zUSMailView.wiadomosczmiana('miesiąca.')}" update=":wykazmaili"/>
+                    <p:ajax event="change"  listener="#{zUSMailView.dokonajZmianyElementu('miesiąca.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Mce.mceList}"/>
+                </p:selectOneMenu>
+                <h:outputText value="nr wysyłki : "/><p:selectOneMenu value="#{zUSMailView.nrwysylki}" >
+                    <p:ajax event="change"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
+                    <f:selectItems value="#{zUSMailView.numery}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </p:panel>
     </h:form>
-    <h:form>
-        <p:panel header="Menu podręczne" style="width: 80%">
+    <h:form id="wykazmailibuttons">
+        <p:panel header="Menu podręczne" style="max-width: 1350px;">
             <p:panelGrid id="parametryzus" columns="2">
-                <p:commandButton value="Wyślij wszystkie" actionListener="#{zUSMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;"/>
-                <p:commandButton value="Wyślij ponownie" actionListener="#{zUSMailView.wyslijponownie()}"  update=":wykazmaili" style="width: 150px;"/>
+                <p:commandButton value="Wyślij wszystkie" actionListener="#{zUSMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size() eq 0}"/>
+                <p:commandButton value="Wyślij wybrane" actionListener="#{zUSMailView.wyslijwybrane()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size()  ne 0}"/>
+                <p:commandButton value="Wyślij ponownie" actionListener="#{zUSMailView.wyslijponownie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size() eq 0}"/>
             </p:panelGrid>
         </p:panel>
     </h:form>
         <h:form id="wykazmaili">
-            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="width: 90%;"
-                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}">
+            <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1350px;"
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}"
+                         rowKey="#{item.zusmailPK.podatnik}" selection="#{zUSMailView.wybranemaile}">
+                <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update=":wykazmailibuttons:parametryzus"/>
                 <f:facet name="header">
                     <h:outputText value="Lista przygotowanych maili"/>
                 </f:facet>
-                <p:column style="width: 4%;">
+                <p:column style="width: 6%;">
                     <p:rowToggler />
+                </p:column>
+                <p:column selectionMode="multiple" style="width: 6%;">
                 </p:column>
                 <p:column style="width: 15%">
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
                     <h:outputText value="#{item.zusmailPK.podatnik}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Mc"/>
-                    </f:facet>
-                    <h:outputText value="#{item.zusmailPK.mc}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Rok"/>
-                    </f:facet>
-                    <h:outputText value="#{item.zusmailPK.rok}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">

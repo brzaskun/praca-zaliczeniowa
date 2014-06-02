@@ -55,6 +55,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Podatnik.findByUrzadskarbowy", query = "SELECT p FROM Podatnik p WHERE p.urzadskarbowy = :urzadskarbowy"),
     @NamedQuery(name = "Podatnik.findByVatokres", query = "SELECT p FROM Podatnik p WHERE p.vatokres = :vatokres"),
     @NamedQuery(name = "Podatnik.findByFirmafk", query = "SELECT p FROM Podatnik p WHERE p.firmafk = :firmafk"),
+    @NamedQuery(name = "Podatnik.findByPodmiotaktywny", query = "SELECT p FROM Podatnik p WHERE p.podmiotaktywny = :podmiotaktywny"),
     @NamedQuery(name = "Podatnik.findByWojewodztwo", query = "SELECT p FROM Podatnik p WHERE p.wojewodztwo = :wojewodztwo")})
 public class Podatnik implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -185,15 +186,30 @@ public class Podatnik implements Serializable {
     private String miejscewystawienia;
     @Column(name = "firmafk")
     private boolean firmafk;
+    @Column(name = "podmiotaktywny")
+    private boolean podmiotaktywny;
+    
     public Podatnik() {
+        this.podmiotaktywny = true;
     }
 
     public Podatnik(String nip) {
         this.nip = nip;
+        this.podmiotaktywny = true;
     }
     
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    
+    public boolean isPodmiotaktywny() {
+        return podmiotaktywny;
+    }
+
+    public void setPodmiotaktywny(boolean podmiotaktywny) {
+        this.podmiotaktywny = podmiotaktywny;
+    }
+
     public boolean isFirmafk() {
         return firmafk;
     }
