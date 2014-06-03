@@ -11,10 +11,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,9 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-@MappedSuperclass
+@Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
+    @NamedQuery(name = "Transakcja.findById", query = "SELECT t FROM Transakcja t WHERE t.id = :id"),
+    @NamedQuery(name = "Transakcja.findByKwotatransakcji", query = "SELECT t FROM Transakcja t WHERE t.kwotatransakcji = :kwotatransakcji"),
+    @NamedQuery(name = "Transakcja.findByPoprzedniakwota", query = "SELECT t FROM Transakcja t WHERE t.poprzedniakwota = :poprzedniakwota"),
+    @NamedQuery(name = "Transakcja.findByRoznicekursowe", query = "SELECT t FROM Transakcja t WHERE t.roznicekursowe = :roznicekursowe"),
+    @NamedQuery(name = "Transakcja.findByZablokujnanoszenie", query = "SELECT t FROM Transakcja t WHERE t.zablokujnanoszenie = :zablokujnanoszenie")})
 public class Transakcja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,11 +64,11 @@ public class Transakcja implements Serializable {
     public WierszStronafkPK idSparowany() {
         return this.getSparowany().getWierszStronafk().getWierszStronafkPK();
     }
-    
+
     public WierszStronafkPK idRozliczany() {
         return this.getRozliczany().getWierszStronafk().getWierszStronafkPK();
     }
-    
+
     public double GetSpRozl() {
         return this.getSparowany().getRozliczono();
     }
@@ -123,8 +132,7 @@ public class Transakcja implements Serializable {
     public void setSparowany(Rozrachunekfk sparowany) {
         this.sparowany = sparowany;
     }
-   
-   
+
     public Integer getId() {
         return id;
     }
@@ -160,8 +168,8 @@ public class Transakcja implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 83 * hash + Objects.hashCode(this.rozliczany);
-        hash = 83 * hash + Objects.hashCode(this.sparowany);
+        hash = 89 * hash + Objects.hashCode(this.rozliczany);
+        hash = 89 * hash + Objects.hashCode(this.sparowany);
         return hash;
     }
 
@@ -188,7 +196,6 @@ public class Transakcja implements Serializable {
         return "Transakcja{" + "id=" + id + ", kwotatransakcji=" + kwotatransakcji + ", poprzedniakwota=" + poprzedniakwota + ", roznicekursowe=" + roznicekursowe + ", zablokujnanoszenie=" + zablokujnanoszenie + ", rozliczany=" + rozliczany + ", sparowany=" + sparowany + '}';
     }
 
-    
-    
+  
     
 }
