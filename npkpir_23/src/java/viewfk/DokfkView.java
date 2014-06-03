@@ -7,11 +7,13 @@ package viewfk;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
+import beansFK.RozrachunekFKBean;
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
+import data.Data;
 import embeddablefk.Transakcja;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
@@ -497,10 +499,13 @@ public class DokfkView implements Serializable {
     }
     
     public void tworzenieTransakcjiZWierszy() {
-        //bierzemy parametry przekazane przez javascript po kazdorazowym kliknieciu pola konta
         zablokujprzyciskzapisz = false;
         try {
-            inicjalizacjaAktualnyWierszDlaRozrachunkow(stronawiersza, numerwiersza);
+            aktualnyWierszDlaRozrachunkow = RozrachunekFKBean.pobierzIstniejacyRozrachunek(rozrachunekfkDAO, aktualnyWierszDlaRozrachunkow);
+            if (!(aktualnyWierszDlaRozrachunkow instanceof Rozrachunekfk)) {
+                aktualnyWierszDlaRozrachunkow = new Rozrachunekfk();
+                RozrachunekFKBean.inicjalizacjaAktualnyWierszDlaRozrachunkow(aktualnyWierszDlaRozrachunkow, selected, wpisView, stronawiersza, numerwiersza);
+            }
             if (aktualnyWierszDlaRozrachunkow.getWierszStronafk().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
@@ -549,51 +554,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    private void inicjalizacjaAktualnyWierszDlaRozrachunkow(String wnma, int nrwiersza) {
-        aktualnyWierszDlaRozrachunkow = new Rozrachunekfk();
-        WierszStronafk wierszStronafk = new WierszStronafk();
-        if (wnma.equals("Wn")) {
-            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();
-            uzupelnikWierszStronafkWaluty(wierszStronafk);
-        } else {
-            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaMa();
-            uzupelnikWierszStronafkWaluty(wierszStronafk);
-        }
-            aktualnyWierszDlaRozrachunkow.setWierszStronafk(wierszStronafk);
-            aktualnyWierszDlaRozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
-            aktualnyWierszDlaRozrachunkow.setPozostalo(wierszStronafk.getKwota());
-            aktualnyWierszDlaRozrachunkow.setKontoid(wierszStronafk.getKonto());
-            aktualnyWierszDlaRozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
-            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
-            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
-            DateTime dt = new DateTime();
-            LocalDate dataRozrachunku = dt.toLocalDate();
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-            String formattedDate = formatter.print(dataRozrachunku);
-            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(formattedDate);
-       //sprawdza czy nowy rozrachunek nie jest juz w bazie, jak jest to go pobiera
-        Rozrachunekfk pobranyrozrachunek = rozrachunekfkDAO.findRozrachunekfk(aktualnyWierszDlaRozrachunkow);
-        if (pobranyrozrachunek instanceof Rozrachunekfk) {
-            aktualnyWierszDlaRozrachunkow = pobranyrozrachunek;
-        }
-    }
-    
-    private void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
-        String symbolwaluty = wierszStronafk.getSymbolwaluty();
-        if (symbolwaluty.equals("PLN")) {
-            wierszStronafk.setKwotaPLN(wierszStronafk.getKwota());
-        } else {
-            wierszStronafk.setKwotaWaluta(wierszStronafk.getKwota());
-            double kurs = wierszStronafk.getKurswaluty();
-            double kwotazlotowki = wierszStronafk.getKwota();
-            kwotazlotowki *= kurs;
-            kwotazlotowki *= 100;
-            kwotazlotowki = Math.round(kwotazlotowki);
-            kwotazlotowki /= 100;
-            wierszStronafk.setKwotaPLN(kwotazlotowki);
-        }
-    }
-
+   
     
     //*************************
     //nanosi transakcje z kwotami na tworzenieTransakcjiZWierszy

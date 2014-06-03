@@ -6,6 +6,10 @@ package data;
 
 import java.io.Serializable;
 import javax.inject.Named;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
@@ -129,4 +133,11 @@ public class Data implements Serializable {
         return 0;
     }
     
+    public static String aktualnyDzien() {
+        DateTime dt = new DateTime();
+        LocalDate dataRozrachunku = dt.toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+        String formattedDate = formatter.print(dataRozrachunku);
+        return formattedDate;
+    }
 }
