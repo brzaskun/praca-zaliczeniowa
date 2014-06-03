@@ -12,7 +12,7 @@ import daoFK.KontoDAOfk;
 import daoFK.RozrachunekfkDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.RozrachunkiTransakcje;
-import embeddablefk.Transakcja;
+import entityfk.Transakcja;
 import embeddablefk.TreeNodeExtended;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Konto;
@@ -109,7 +109,7 @@ public class RozrachunkiPrzegladView implements Serializable{
             for (Rozrachunekfk p : listarozrachunkowkonto) {
                 WierszStronafkPK wierszStronafkPK = new WierszStronafkPK(p.getWierszStronafk().getWierszStronafkPK());
                 Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafkPK);
-                listatransakcjikonto.addAll(zestawienielisttransakcji.getListatransakcji());
+                //listatransakcjikonto.addAll(zestawienielisttransakcji.getListatransakcji());
                 RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listaTransakcji);
                 listaRozrachunkow.add(rozrachunkiTransakcje);
             }

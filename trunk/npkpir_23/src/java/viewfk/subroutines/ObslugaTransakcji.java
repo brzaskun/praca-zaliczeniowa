@@ -26,7 +26,7 @@ public class ObslugaTransakcji {
                     WierszStronafkPK wierszStronafkPK = wierszStronafk.getWierszStronafkPK();
                     Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafkPK);
                     if (zestawienielisttransakcji instanceof Zestawienielisttransakcji) {
-                        zestawienielisttransakcji.setZaksiegowanodokument(true);
+                        //zestawienielisttransakcji.setZaksiegowanodokument(true);
                         zestawienielisttransakcjiDAO.edit(zestawienielisttransakcji);
                     }
             }

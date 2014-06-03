@@ -9,7 +9,7 @@ import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import daoFK.RozrachunekfkDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
-import embeddablefk.Transakcja;
+import entityfk.Transakcja;
 import embeddablefk.TreeNodeExtended;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
@@ -231,9 +231,9 @@ public class KontoZapisFKView implements Serializable{
         List<Zestawienielisttransakcji> zestawienietransakcji = zestawienielisttransakcjiDAO.findAll();
         List<Transakcja> listytransakcji = new ArrayList<>();
         for (Zestawienielisttransakcji p : zestawienietransakcji) {
-            for (Transakcja r: p.getListatransakcji()) {
-                listytransakcji.add(r);
-            }
+//            for (Transakcja r: p.getListatransakcji()) {
+//                listytransakcji.add(r);
+//            }
         }
         List<WierszStronafkPK> znalezionenumery = new ArrayList<>();
         //poszukam innych numerow wierszy

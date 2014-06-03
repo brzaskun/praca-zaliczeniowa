@@ -5,7 +5,7 @@
 package daoFK;
 
 import dao.DAO;
-import embeddablefk.Transakcja;
+import entityfk.Transakcja;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import entityfk.Zestawienielisttransakcji;
@@ -57,8 +57,8 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
     public void dodajListeTransakcji(WierszStronafkPK klucz, List<Transakcja> lista) {
         try {
             Zestawienielisttransakcji nowezestawienie = new Zestawienielisttransakcji();
-            nowezestawienie.setKluczlisty(klucz);
-            nowezestawienie.setListatransakcji(lista);
+            //nowezestawienie.setKluczlisty(klucz);
+            //nowezestawienie.setListatransakcji(lista);
             zestawienielisttransakcjiFacade.create(nowezestawienie);
         } catch (Exception e) {
         }
@@ -70,10 +70,10 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
         try {
             List<Zestawienielisttransakcji> zest = zestawienielisttransakcjiFacade.findAll(Zestawienielisttransakcji.class);
             for (Zestawienielisttransakcji p : zest) {
-                if (p.isZaksiegowanodokument() == false) {
-                    skorygujzapisywrozliczanych(p.getListatransakcji());
-                    zestawienielisttransakcjiFacade.remove(p);
-                }
+//                if (p.isZaksiegowanodokument() == false) {
+//                    skorygujzapisywrozliczanych(p.getListatransakcji());
+//                    zestawienielisttransakcjiFacade.remove(p);
+//                }
             }
         } catch (Exception e) {
         }

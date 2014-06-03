@@ -6,6 +6,7 @@ package entityfk;
 
 import embeddablefk.WierszStronafk;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -75,6 +77,11 @@ public class Rozrachunekfk  implements Serializable {
     private String rok;
     private String mc;
     private String datarozrachunku;
+    @OneToMany(mappedBy = "rozliczany")
+    private List<Transakcja> transakcjaRozliczany;
+    @OneToMany(mappedBy = "sparowany")
+    private List<Transakcja> transakcjaSparowany;
+        
     
 
 
@@ -218,6 +225,25 @@ public class Rozrachunekfk  implements Serializable {
     public void setDatarozrachunku(String datarozrachunku) {
         this.datarozrachunku = datarozrachunku;
     }
+
+    public List<Transakcja> getTransakcjaRozliczany() {
+        return transakcjaRozliczany;
+    }
+
+    public void setTransakcjaRozliczany(List<Transakcja> transakcjaRozliczany) {
+        this.transakcjaRozliczany = transakcjaRozliczany;
+    }
+
+    public List<Transakcja> getTransakcjaSparowany() {
+        return transakcjaSparowany;
+    }
+
+    public void setTransakcjaSparowany(List<Transakcja> transakcjaSparowany) {
+        this.transakcjaSparowany = transakcjaSparowany;
+    }
+
+    
+
 
     
     
