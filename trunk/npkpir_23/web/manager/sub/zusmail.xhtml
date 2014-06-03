@@ -10,7 +10,7 @@
     <p:growl autoUpdate="true"/>
     <h:form>
         <p:panel header="Wybierz rok i miesiąc wysyłki" style="max-width: 1350px;">
-            <p:panelGrid id="parametryzus" columns="6">
+            <p:panelGrid id="parametryzus" columns="8">
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSMailView.rok}">
                     <p:ajax event="change" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -23,6 +23,7 @@
                     <p:ajax event="change"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{zUSMailView.numery}"/>
                 </p:selectOneMenu>
+                <h:outputText value="Kopie maili przyjdą na adres:"/><h:outputText value="#{WpisView.wprowadzil.email}"/>
             </p:panelGrid>
         </p:panel>
     </h:form>
@@ -31,7 +32,6 @@
             <p:panelGrid id="parametryzus" columns="2">
                 <p:commandButton value="Wyślij wszystkie" actionListener="#{zUSMailView.wyslijwszystkie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size() eq 0}"/>
                 <p:commandButton value="Wyślij wybrane" actionListener="#{zUSMailView.wyslijwybrane()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size()  ne 0}"/>
-                <p:commandButton value="Wyślij ponownie" actionListener="#{zUSMailView.wyslijponownie()}"  update=":wykazmaili" style="width: 150px;" rendered="#{zUSMailView.wybranemaile.size() eq 0}"/>
             </p:panelGrid>
         </p:panel>
     </h:form>

@@ -182,18 +182,14 @@ public class ZUSMailView implements Serializable {
     
     public void wyslijwszystkie() {
         for (Zusmail p : wykazprzygotowanychmaili) {
-            if (p.getNrwysylki()==0) {
                 wyslijMailZUSSilent(p);
-            }
         }
-        Msg.msg("Wysłano maile do wszytkich podatników z listy");
+        Msg.msg("Wysłano maile do wszystkich podatników z listy w liczbie: "+wykazprzygotowanychmaili.size());
     }
     public void wyslijwybrane() {
         if (wybranemaile.size() > 0) {
             for (Zusmail p : wybranemaile) {
-                if (p.getNrwysylki()==0) {
                     wyslijMailZUSSilent(p);
-                }
             }
             Msg.msg("Wysłano maile do wybranych podatników z listy w liczbie: "+wybranemaile.size());
         }
@@ -201,15 +197,9 @@ public class ZUSMailView implements Serializable {
     }
     
     
-    public void wyslijponownie() {
-        for (Zusmail p : wykazprzygotowanychmaili) {
-            wyslijMailZUS(p);
-        }
-    }
-    
     public void wyslijMailZUS(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc());
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
@@ -219,7 +209,7 @@ public class ZUSMailView implements Serializable {
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc());
+            MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());

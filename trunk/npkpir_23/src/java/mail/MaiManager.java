@@ -18,6 +18,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import view.WpisView;
 
 /**
  *
@@ -25,9 +26,9 @@ import javax.mail.internet.MimeUtility;
  */
 public class MaiManager extends MailSetUp implements Serializable {
 
-    public static void mailManagerZUS(String adres, String temat, String tresc) throws MessagingException {
+    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException {
         MailSetUp mailSetUp = new MailSetUp();
-        MimeMessage message = mailSetUp.logintoMailAdmin(adres);
+        MimeMessage message = mailSetUp.logintoMailZUS(adres, wysylajacy);
         try {
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
@@ -46,6 +47,6 @@ public class MaiManager extends MailSetUp implements Serializable {
     }
     
     public static void main (String[] args) throws MessagingException {
-        MaiManager.mailManagerZUS("brzaskun@o2.pl", "Test", "test \n test");
+        MaiManager.mailManagerZUS("brzaskun@wp.pl", "Test", "test \n test", "brzaskun@wp.pl");
     }
 }
