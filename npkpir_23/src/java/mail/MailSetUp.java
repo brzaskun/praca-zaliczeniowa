@@ -158,6 +158,32 @@ public class MailSetUp implements Serializable{
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         return message;
     }
+     
+     protected  MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException {
+        final String username = "info@e-taxman.pl";
+        final String password = "Pufikun7005*";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "az0066.srv.az.pl");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
+        message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
+        return message;
+    }
     
     
 

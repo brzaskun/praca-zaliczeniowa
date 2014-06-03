@@ -44,7 +44,8 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private PodatnikDAO podatnikDAO;
     @Inject
     private ZUSDAO zusDAO;
-    private String biezacadata;
+    private String biezacyRok;
+    private boolean dodaj0edtuj1;
 
     public ZUSStawkiZbiorczeView() {
         listapodatnikow = new ArrayList<>();
@@ -54,8 +55,14 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     public void init() {
         listapodatnikow.addAll(podatnikDAO.findAll());
         Collections.sort(listapodatnikow, new Podatnikcomparator());
-        biezacadata = String.valueOf(new DateTime().getYear());
-
+        ustawRokMc();
+    }
+    
+    private void ustawRokMc() {
+        biezacyRok = String.valueOf(new DateTime().getYear());
+        String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear()));
+        wprowadzaniezusstawki.getZusstawkiPK().setRok(biezacyRok);
+        wprowadzaniezusstawki.getZusstawkiPK().setMiesiac(biezacyMc);
     }
     
     public void dodajzusZbiorcze(Podatnik selected) {
@@ -65,19 +72,46 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) {
             }
-            if (tmp.contains(wprowadzaniezusstawki)) {
-                Msg.msg("e", "Stawki za dany okres rozliczeniowy są już wprowadzone");
+            if (czywprowadzonostawki()) {
+                if (tmp.contains(wprowadzaniezusstawki)) {
+                    Msg.msg("e", "Stawki za dany okres rozliczeniowy są już wprowadzone");
+                } else {
+                    tmp.add(serialclone.SerialClone.clone(wprowadzaniezusstawki));
+                    selected.setZusparametr(tmp);
+                    //musi byc edit bo dodajemy nowe stawki ale do istniejacego podatnika
+                    podatnikDAO.edit(selected);
+                    wprowadzaniezusstawki =  new Zusstawki();
+                }
+                ustawRokMc();
             } else {
-                tmp.add(serialclone.SerialClone.clone(wprowadzaniezusstawki));
-                selected.setZusparametr(tmp);
-                //musi byc edit bo dodajemy nowe stawki ale do istniejacego podatnika
-                podatnikDAO.edit(selected);
-                wprowadzaniezusstawki =  new Zusstawki();
+              Msg.msg("Nie wprowadzono stawek. Nie można zachować miesiąca");
             }
         } catch (Exception e) {
         }
     }
       
+    private boolean czywprowadzonostawki() {
+        if (wprowadzaniezusstawki.getZus51ch()!=null) {
+            return true;
+        }
+        if (wprowadzaniezusstawki.getZus51bch()!=null) {
+            return true;
+        }
+        if (wprowadzaniezusstawki.getZus52()!=null) {
+            return true;
+        }
+        if (wprowadzaniezusstawki.getZus52odl()!=null) {
+            return true;
+        }
+        if (wprowadzaniezusstawki.getZus53()!=null) {
+            return true;
+        }
+        if (wprowadzaniezusstawki.getPit4()!=null) {
+            return true;
+        }
+        return false;
+    }
+    
     public void edytujzusZbiorcze(Podatnik selected) {
         try {
             List<Zusstawki> tmp = new ArrayList<>();
@@ -92,6 +126,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 selected.setZusparametr(tmp);
                 podatnikDAO.edit(selected);
                 wprowadzaniezusstawki =  new Zusstawki();
+                ustawRokMc();
             } else {
                 Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (ZUSStawkiZbiorczeView - edytujzusZbiorcze");
             }
@@ -104,6 +139,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             selected.getZusparametr().remove(zusstawki);
             podatnikDAO.edit(selected);
             wprowadzaniezusstawki =  new Zusstawki();
+            ustawRokMc();
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         } catch (Exception e) {
             Msg.msg("Nieusunięto parametr ZUS do podatnika "+selected.getNazwapelna());
@@ -177,8 +213,9 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         Msg.msg("Pobrano parametr podatnika za poprzeni okres rozliczeniowy: "+rokzus+"/"+mczus);
     }
     
-    public void wybranowiadomosc() {
+    public void wybranowiadomosc(List<Zusstawki> zusparametr) {
         wprowadzaniezusstawki = serialclone.SerialClone.clone(zusstawki);
+        zonglerkaPrzyciskamiDodajEdytuj(zusparametr);
         Msg.msg("Wybrano stawki ZUS.");
     }
     
@@ -203,6 +240,17 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         }
         return 0;
     }
+     
+    public void zonglerkaPrzyciskamiDodajEdytuj(List<Zusstawki> zusparametr){
+        ZusstawkiPK zusstawkiPK = wprowadzaniezusstawki.getZusstawkiPK();
+        for (Zusstawki p : zusparametr) {
+            if (p.getZusstawkiPK().equals(zusstawkiPK)) {
+                dodaj0edtuj1 = true;
+                return;
+            }
+        }
+        dodaj0edtuj1 = false;
+    }
 
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;
@@ -212,12 +260,12 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         ZUSStawkiZbiorczeView.listapodatnikow = listapodatnikow;
     }
 
-    public String getBiezacadata() {
-        return biezacadata;
+    public String getBiezacyRok() {
+        return biezacyRok;
     }
 
-    public void setBiezacadata(String biezacadata) {
-        this.biezacadata = biezacadata;
+    public void setBiezacyRok(String biezacyRok) {
+        this.biezacyRok = biezacyRok;
     }
 
     public Zusstawki getZusstawki() {
@@ -234,6 +282,14 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
 
     public void setWprowadzaniezusstawki(Zusstawki wprowadzaniezusstawki) {
         this.wprowadzaniezusstawki = wprowadzaniezusstawki;
+    }
+
+    public boolean isDodaj0edtuj1() {
+        return dodaj0edtuj1;
+    }
+
+    public void setDodaj0edtuj1(boolean dodaj0edtuj1) {
+        this.dodaj0edtuj1 = dodaj0edtuj1;
     }
     
     
