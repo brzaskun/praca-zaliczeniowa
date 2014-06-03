@@ -8,7 +8,7 @@ package beansFK;
 
 import daoFK.RozrachunekfkDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
-import embeddablefk.Transakcja;
+import entityfk.Transakcja;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import entityfk.Zestawienielisttransakcji;
@@ -35,8 +35,8 @@ public class DokFKTransakcjeBean implements Serializable{
             if (kwota > 0) {
                 Transakcja nowa = new Transakcja();
                 nowa.setZablokujnanoszenie(true);
-                nowa.getTransakcjaPK().setRozliczany(p.getTransakcjaPK().getSparowany());
-                nowa.getTransakcjaPK().setSparowany(p.getTransakcjaPK().getRozliczany());
+                nowa.setRozliczany(p.getSparowany());
+                nowa.setSparowany(p.getRozliczany());
                 nowa.SetSpRozl(kwota);
                 nowa.SetSpPoz(nowa.GetSpKwotaPier() - kwota);
                 biezacetransakcje.add(nowa);
@@ -53,7 +53,7 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Transakcja> kolekcje = new ArrayList<>();
         pobranelisty = zestawienielisttransakcjiDAO.findAll();
         for (Zestawienielisttransakcji p : pobranelisty) {
-            kolekcje.addAll(p.getListatransakcji());
+            //kolekcje.addAll(p.getListatransakcji());
         }
         int wynikszukania = 0;
         for (Transakcja x : kolekcje) {
@@ -89,8 +89,8 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
-            transakcja.getTransakcjaPK().setRozliczany(aktualnywierszdorozrachunkow);
-            transakcja.getTransakcjaPK().setSparowany(nowatransakcjazbazy);
+            transakcja.setRozliczany(aktualnywierszdorozrachunkow);
+            transakcja.setSparowany(nowatransakcjazbazy);
             transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
@@ -102,7 +102,7 @@ public class DokFKTransakcjeBean implements Serializable{
         Zestawienielisttransakcji pobranalista = new Zestawienielisttransakcji();
         pobranalista = zestawienielisttransakcjiDAO.findByKlucz(klucz);
         if (pobranalista instanceof Zestawienielisttransakcji) {
-            zachowanewczejsniejtransakcje.addAll(pobranalista.getListatransakcji());
+           // zachowanewczejsniejtransakcje.addAll(pobranalista.getListatransakcji());
         }
     }
 
@@ -136,7 +136,7 @@ public class DokFKTransakcjeBean implements Serializable{
         for (Rozrachunekfk p : listaNowychRozrachunkow) {
             for (Transakcja r : biezacetransakcje) {
                 if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
-                    r.getTransakcjaPK().setSparowany(p);
+                    r.setSparowany(p);
                 }
             }
         }

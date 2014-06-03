@@ -6,6 +6,7 @@
 
 package embeddablefk;
 
+import entityfk.Transakcja;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
 import java.util.List;
