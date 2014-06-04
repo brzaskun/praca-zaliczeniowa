@@ -3,10 +3,10 @@ var zachowajwiersz = function (wierszid, wnlubma) {
     MYAPP.wierszrozrachukowy = wierszid;
     MYAPP.zaznaczonepole = event.target;
     //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
-//        $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
-//        $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
+    $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
+    $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
     } catch (blad) {
-        alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
+        //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
 };
 
