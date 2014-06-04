@@ -511,6 +511,8 @@ public class DokfkView implements Serializable {
                 if (onJestNowaTransakcja == false) {
                     listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
                     transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
+                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                 }

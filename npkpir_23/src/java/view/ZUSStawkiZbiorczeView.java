@@ -25,6 +25,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.primefaces.context.RequestContext;
 import params.Params;
 
 /**
@@ -46,6 +47,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private ZUSDAO zusDAO;
     private String biezacyRok;
     private boolean dodaj0edtuj1;
+    private boolean pokazButtonUsun;
 
     public ZUSStawkiZbiorczeView() {
         listapodatnikow = new ArrayList<>();
@@ -63,6 +65,8 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear()));
         wprowadzaniezusstawki.getZusstawkiPK().setRok(biezacyRok);
         wprowadzaniezusstawki.getZusstawkiPK().setMiesiac(biezacyMc);
+        dodaj0edtuj1 = false;
+        pokazButtonUsun = false;
     }
     
     public void dodajzusZbiorcze(Podatnik selected) {
@@ -84,7 +88,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 }
                 ustawRokMc();
             } else {
-              Msg.msg("Nie wprowadzono stawek. Nie można zachować miesiąca");
+              Msg.msg("e","Nie wprowadzono stawek. Nie można zachować miesiąca");
             }
         } catch (Exception e) {
         }
@@ -119,17 +123,19 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 tmp.addAll(selected.getZusparametr());
             } catch (Exception e) {
             }
-            if (tmp.contains(wprowadzaniezusstawki)) {
-                // to niby gupawe ale jest madre bo on rozpoznaje zus stawki po roku i miesiacu tylko
-                tmp.remove(wprowadzaniezusstawki);
-                tmp.add(serialclone.SerialClone.clone(wprowadzaniezusstawki));
-                selected.setZusparametr(tmp);
-                podatnikDAO.edit(selected);
-                wprowadzaniezusstawki =  new Zusstawki();
-                ustawRokMc();
-            } else {
-                Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (ZUSStawkiZbiorczeView - edytujzusZbiorcze");
+            Iterator it = tmp.iterator();
+            while (it.hasNext()) {
+                Zusstawki p = (Zusstawki) it.next();
+                if (p.getZusstawkiPK().equals(wprowadzaniezusstawki.getZusstawkiPK())) {
+                    it.remove();
+                    tmp.add(wprowadzaniezusstawki);
+                    break;
+                }
             }
+            selected.setZusparametr(tmp);
+            podatnikDAO.edit(selected);
+            wprowadzaniezusstawki = new Zusstawki();
+            ustawRokMc();
         } catch (Exception e) {
         }
     }
@@ -216,6 +222,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     public void wybranowiadomosc(List<Zusstawki> zusparametr) {
         wprowadzaniezusstawki = serialclone.SerialClone.clone(zusstawki);
         zonglerkaPrzyciskamiDodajEdytuj(zusparametr);
+        pokazButtonUsun = true;
         Msg.msg("Wybrano stawki ZUS.");
     }
     
@@ -250,6 +257,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             }
         }
         dodaj0edtuj1 = false;
+        pokazButtonUsun = false;
     }
 
     public List<Podatnik> getListapodatnikow() {
@@ -291,6 +299,15 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     public void setDodaj0edtuj1(boolean dodaj0edtuj1) {
         this.dodaj0edtuj1 = dodaj0edtuj1;
     }
+
+    public boolean isPokazButtonUsun() {
+        return pokazButtonUsun;
+    }
+
+    public void setPokazButtonUsun(boolean pokazButtonUsun) {
+        this.pokazButtonUsun = pokazButtonUsun;
+    }
+    
     
     
     
