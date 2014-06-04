@@ -117,7 +117,6 @@
                                         converterMessage="Nieudana konwersja Klient" style="width: 10px; margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.wnReadOnly}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza(rowindex, 'Wn')}" partialSubmit="true"/>
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
 <!--   ARCHEO               <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                         </p:autoComplete>
@@ -138,7 +137,6 @@
                                         converterMessage="Nieudana konwersja Klient"  style="width: 10px; margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.maReadOnly}"
                                         >
-                            <p:ajax event="itemSelect" listener="#{dokfkView.pobierzNumerWnMaWiersza(rowindex, 'Ma')}" partialSubmit="true"/>
 <!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Ma')}" partialSubmit="true" update="@this"/>
                             <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
@@ -167,6 +165,8 @@
                 <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.tworzenieTransakcjiZWierszy()}" accesskey="r" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="innafukncja();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
+                <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
+                <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
             </h:form>
         </f:facet>
 
