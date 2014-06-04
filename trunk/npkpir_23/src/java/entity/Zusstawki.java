@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -142,17 +143,39 @@ public class Zusstawki implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Zusstawki)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Zusstawki other = (Zusstawki) object;
-        if ((this.zusstawkiPK == null && other.zusstawkiPK != null) || (this.zusstawkiPK != null && !this.zusstawkiPK.equals(other.zusstawkiPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Zusstawki other = (Zusstawki) obj;
+        if (!Objects.equals(this.zusstawkiPK, other.zusstawkiPK)) {
+            return false;
+        }
+        if (!Objects.equals(this.zus51ch, other.zus51ch)) {
+            return false;
+        }
+        if (!Objects.equals(this.zus51bch, other.zus51bch)) {
+            return false;
+        }
+        if (!Objects.equals(this.zus52, other.zus52)) {
+            return false;
+        }
+        if (!Objects.equals(this.zus52odl, other.zus52odl)) {
+            return false;
+        }
+        if (!Objects.equals(this.zus53, other.zus53)) {
+            return false;
+        }
+        if (!Objects.equals(this.pit4, other.pit4)) {
             return false;
         }
         return true;
     }
+
+   
 
     @Override
     public String toString() {
