@@ -80,15 +80,17 @@ public class DokFKTransakcjeBean implements Serializable{
     public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
         List<Rozrachunekfk> listaNowychRozrachunkow = new ArrayList<>();
         listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
+        assert listaNowychRozrachunkow.size() > 0;
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow) {
+    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow, String podatnik) {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
+            transakcja.setPodatnik(podatnik);
             transakcja.setRozliczany(aktualnywierszdorozrachunkow);
             transakcja.setSparowany(nowatransakcjazbazy);
             transakcjeswiezynki.add(transakcja);

@@ -153,7 +153,7 @@
                     </p:column>-->
                 </p:dataTable>
                 <p:panel>
-                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj}" accesskey="s" update=":wpisywaniefooter, :formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"  onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
+                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj}" accesskey="z" update=":wpisywaniefooter, :formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"  onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" actionListener="#{dokfkView.edycja}" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" oncomplete="pierwszy.hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>

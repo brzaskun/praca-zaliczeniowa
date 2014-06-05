@@ -12,6 +12,8 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
+    @NamedQuery(name = "Transakcja.usunNiezaksiegowane", query = "DELETE FROM Transakcja t WHERE t.podatnik = :podatnik AND t.zaksiegowana = 0"),
     @NamedQuery(name = "Transakcja.findById", query = "SELECT t FROM Transakcja t WHERE t.id = :id"),
     @NamedQuery(name = "Transakcja.findByKwotatransakcji", query = "SELECT t FROM Transakcja t WHERE t.kwotatransakcji = :kwotatransakcji"),
     @NamedQuery(name = "Transakcja.findByPoprzedniakwota", query = "SELECT t FROM Transakcja t WHERE t.poprzedniakwota = :poprzedniakwota"),
@@ -39,6 +42,7 @@ public class Transakcja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(nullable = false)
     private Integer id;
@@ -49,15 +53,22 @@ public class Transakcja implements Serializable {
     private Double poprzedniakwota;
     @Column(precision = 22)
     private Double roznicekursowe;
-    private Boolean zablokujnanoszenie;
+    private boolean zablokujnanoszenie;
+    private boolean zaksiegowana;
     @JoinColumn(name = "rozliczany", referencedColumnName = "idrozrachunku")
     @ManyToOne
     private Rozrachunekfk rozliczany;
     @JoinColumn(name = "sparowany", referencedColumnName = "idrozrachunku")
     @ManyToOne
     private Rozrachunekfk sparowany;
+    private String podatnik;
 
     public Transakcja() {
+        this.kwotatransakcji = 0.0;
+        this.poprzedniakwota = 0.0;
+        this.roznicekursowe = 0.0;
+        this.zablokujnanoszenie = false;
+        this.zaksiegowana = false;
         this.roznicekursowe = 0.0;
     }
 
@@ -113,6 +124,7 @@ public class Transakcja implements Serializable {
         return zablokujnanoszenie;
     }
 
+
     public void setZablokujnanoszenie(Boolean zablokujnanoszenie) {
         this.zablokujnanoszenie = zablokujnanoszenie;
     }
@@ -164,6 +176,25 @@ public class Transakcja implements Serializable {
     public void setRoznicekursowe(Double roznicekursowe) {
         this.roznicekursowe = roznicekursowe;
     }
+
+    public boolean isZaksiegowana() {
+        return zaksiegowana;
+    }
+
+    public void setZaksiegowana(boolean zaksiegowana) {
+        this.zaksiegowana = zaksiegowana;
+    }
+
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {
