@@ -11,6 +11,7 @@ import beansFK.RozrachunekFKBean;
 import daoFK.DokDAOfk;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TabelanbpDAO;
+import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
@@ -56,7 +57,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
-    private List<Rozrachunekfk> listaNowychRozrachunkow;
+    private List<Rozrachunekfk> listaRozliczanych;
     private int numerwiersza = 0;
     private String stronawiersza;
     protected Dokfk selected;
@@ -76,6 +77,8 @@ public class DokfkView implements Serializable {
     protected RozrachunekfkDAO rozrachunekfkDAO;
     @Inject
     protected ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
+    @Inject
+    protected TransakcjaDAO transakcjaDAO;
     private boolean potraktujjakoNowaTransakcje;
     @Inject
     private Rozrachunekfk aktualnyWierszDlaRozrachunkow;
@@ -105,7 +108,7 @@ public class DokfkView implements Serializable {
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
-        this.listaNowychRozrachunkow = new ArrayList<>();
+        this.listaRozliczanych = new ArrayList<>();
         this.pierwotnailosctransakcjiwbazie = 0;
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjeswiezynki = new ArrayList<>();
@@ -262,9 +265,11 @@ public class DokfkView implements Serializable {
             List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
             //zaznaczamy sparowae jako wprowadzone i zaksiegowane
-            for (Wiersze p : selected.getListawierszy()) {
-                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaWn(), zestawienielisttransakcjiDAO);
-                ObslugaTransakcji.zaksiegujSparowaneTransakcje(p.getWierszStronaMa(), zestawienielisttransakcjiDAO);
+            for (Transakcja p : biezacetransakcje) {
+                if (p.getKwotatransakcji() > 0) {
+                    p.setZaksiegowana(true);
+                    transakcjaDAO.edit(p);
+                }
             }
     }
     
@@ -425,7 +430,7 @@ public class DokfkView implements Serializable {
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
             rozrachunekfkDAO.edit(aktualnyWierszDlaRozrachunkow);
-            listaNowychRozrachunkow.add(aktualnyWierszDlaRozrachunkow);
+            listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
@@ -436,7 +441,7 @@ public class DokfkView implements Serializable {
             } else {
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
                 rozrachunekfkDAO.destroy(aktualnyWierszDlaRozrachunkow);
-                listaNowychRozrachunkow.remove(aktualnyWierszDlaRozrachunkow);
+                listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
                 selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
@@ -485,8 +490,8 @@ public class DokfkView implements Serializable {
     //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
     private void usunRozrachunkiNiezaksiegowanychDokfk() {
         try {
-            rozrachunekfkDAO.usunniezaksiegowane();
-            //zestawienielisttransakcjiDAO.usunniezaksiegowane();
+            rozrachunekfkDAO.usunniezaksiegowane(wpisView.getPodatnikWpisu());
+            transakcjaDAO.usunniezaksiegowane(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
     }
@@ -504,12 +509,12 @@ public class DokfkView implements Serializable {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 transakcjeswiezynki = new ArrayList<>();
-                listaNowychRozrachunkow = new ArrayList<>();
+                listaRozliczanych = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
-                    listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
-                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
+                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
-                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
+                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaRozliczanych, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
                 } else {
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                 }
@@ -523,8 +528,8 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
-//                wierszid = "";
-//                wnlubma = "";
+                numerwiersza = 0;
+                stronawiersza = "";
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 RequestContext.getCurrentInstance().execute("drugishow();");
                 String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
@@ -532,15 +537,15 @@ public class DokfkView implements Serializable {
             } else {
                 Msg.msg("e", "Wybierz konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
-//                wierszid = "";
-//                wnlubma = "";
+                numerwiersza = 0;
+                stronawiersza = "";
                 RequestContext.getCurrentInstance().execute("powrotdopola();");
             }
         } catch (Exception e) {
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
-//            wierszid = "";
-//            wnlubma = "";
+                numerwiersza = 0;
+                stronawiersza = "";
             RequestContext.getCurrentInstance().execute("powrotdopola();");
         }
     }
@@ -566,13 +571,13 @@ public class DokfkView implements Serializable {
 //                boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
 //                biezacetransakcje = new ArrayList<>();
 //                transakcjeswiezynki = new ArrayList<>();
-//                listaNowychRozrachunkow = new ArrayList<>();
+//                listaRozliczanych = new ArrayList<>();
 //                if (onJestNowaTransakcja == false) {
-//                    listaNowychRozrachunkow.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
-//                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaNowychRozrachunkow, aktualnyWierszDlaRozrachunkow));
+//                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWalutarozrachunku(), rozrachunekfkDAO));
+//                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow));
 //                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(zachowanewczejsniejtransakcje, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO);
 //                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
-//                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaNowychRozrachunkow, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
+//                    DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeSparowane(listaRozliczanych, rozrachunekfkDAO, biezacetransakcje, wpisView.getPodatnikWpisu());
 //                } else {
 //                    Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
 //                    DokFKTransakcjeBean.pobierztransakcjeJakoSparowany(transakcjejakosparowany, biezacetransakcje, zestawienielisttransakcjiDAO, aktualnyWierszDlaRozrachunkow);
@@ -632,6 +637,22 @@ public class DokfkView implements Serializable {
             } else if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
                 p.setMaReadOnly(saRozrachunki);
                 break;
+            }
+        }
+        //zachowanie biezacych transakcji w bazie danych
+        for (Transakcja p : biezacetransakcje) {
+            try {
+                double nowakwota = p. getKwotatransakcji();
+                double poprzednia = p.getPoprzedniakwota();
+                if (nowakwota > 0 && poprzednia == 0.0) {
+                    transakcjaDAO.dodaj(p);
+                } else if (nowakwota == 0.0 && poprzednia > 0.0) {
+                    transakcjaDAO.edit(p);
+                } else if (nowakwota > 0.0 && poprzednia > 0.0) {
+                    transakcjaDAO.edit(p);
+                }
+            } catch (Exception e) {
+                
             }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
@@ -805,16 +826,18 @@ public class DokfkView implements Serializable {
         String wiersz = "rozrachunki:dataList:"+row+":kwotarozliczenia_input";
         String zwartywiersz = (String) Params.params(wiersz);
         zwartywiersz = zwartywiersz.replaceAll("\\s","");
-        double kwotarozrachunku = Double.parseDouble(zwartywiersz);
-        double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
-        double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
-        double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
-        roznicakursowa = Math.round(roznicakursowa);
-        roznicakursowa /= 100;
-        Transakcja analizowanatransakcja = biezacetransakcje.get(row);
-        analizowanatransakcja.setRoznicekursowe(roznicakursowa);
-        wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
-        RequestContext.getCurrentInstance().update(wiersz);
+        if (zwartywiersz.length() > 0) {
+            double kwotarozrachunku = Double.parseDouble(zwartywiersz);
+            double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
+            double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
+            double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
+            roznicakursowa = Math.round(roznicakursowa);
+            roznicakursowa /= 100;
+            Transakcja analizowanatransakcja = biezacetransakcje.get(row);
+            analizowanatransakcja.setRoznicekursowe(roznicakursowa);
+            wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
+            RequestContext.getCurrentInstance().update(wiersz);
+        }
     }
     
     //a to jest rodzial dotyczacy walut w wierszu
@@ -974,12 +997,12 @@ public class DokfkView implements Serializable {
         this.aktualnyWierszDlaRozrachunkow = aktualnyWierszDlaRozrachunkow;
     }
     
-    public List<Rozrachunekfk> getListaNowychRozrachunkow() {
-        return listaNowychRozrachunkow;
+    public List<Rozrachunekfk> getListaRozliczanych() {
+        return listaRozliczanych;
     }
     
-    public void setListaNowychRozrachunkow(List<Rozrachunekfk> listaNowychRozrachunkow) {
-        this.listaNowychRozrachunkow = listaNowychRozrachunkow;
+    public void setListaRozliczanych(List<Rozrachunekfk> listaRozliczanych) {
+        this.listaRozliczanych = listaRozliczanych;
     }
     
     public List<Transakcja> getBiezacetransakcje() {

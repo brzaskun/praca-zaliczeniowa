@@ -53,6 +53,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -65,7 +66,8 @@ import javax.persistence.PersistenceContext;
  * @param <T>
  */
 @Stateless
-public class SessionFacade<T> {
+public class SessionFacade<T> implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
@@ -809,6 +811,14 @@ public class SessionFacade<T> {
 
     public List<Podatnik> findAktywnyPodatnik(Boolean podmiotaktywny) {
         return em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny).getResultList();
+    }
+
+    public int usunniezaksiegowane(String podatnik) {
+        return em.createNamedQuery("Rozrachunekfk.usunNiezaksiegowane").setParameter("podatnik", podatnik).executeUpdate();
+    }
+
+    public int usunTransakcjeNiezaksiegowane(String podatnik) {
+        return em.createNamedQuery("Transakcja.usunNiezaksiegowane").setParameter("podatnik", podatnik).executeUpdate();
     }
   
   

@@ -32,7 +32,7 @@
                         </h:outputText>
                     </p:panelGrid>
                 <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
-                             emptyMessage="Nie ma zapisów po przeciwnej stronie na tym samym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana" 
+                             emptyMessage="Nie ma zapisów po przeciwnej stronie na tym samym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana #{dokfkView.biezacetransakcje.size()}"  
                              >
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
@@ -43,25 +43,25 @@
                        </pe:inputNumber>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="50">
-                         <h:outputText id="pozostalo" value="#{loop.transakcjaPK.sparowanyID.pozostalo}" style="float: right;">
+                         <h:outputText id="pozostalo" value="#{loop.sparowany.pozostalo}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                      <p:column headerText="kwota już rozliczona" width="50">
-                         <h:outputText value="#{loop.transakcjaPK.sparowanyID.rozliczono}" style="float: right;">
+                         <h:outputText value="#{loop.sparowany.rozliczono}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="kwota transakcji" width="50">
-                        <h:outputText value="#{loop.transakcjaPK.sparowanyID.kwotapierwotna}" style="float: right;">
+                        <h:outputText value="#{loop.sparowany.kwotapierwotna}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="waluta" width="40" style="text-align: center">
-                        <h:outputText id="waluta" value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.symbolwaluty}" />
+                        <h:outputText id="waluta" value="#{loop.sparowany.wierszStronafk.symbolwaluty}" />
                     </p:column>
                     <p:column headerText="kurs" width="40">
-                        <h:outputText id="kurs" value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.kurswaluty}"  style="float: right;">
+                        <h:outputText id="kurs" value="#{loop.sparowany.wierszStronafk.kurswaluty}"  style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -71,22 +71,22 @@
                         </h:outputText>
                     </p:column>
                      <p:column headerText="symbol dokumentu" width="50">
-                         <h:outputText id="symboldok" value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.transakcjaPK.sparowanyID.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
+                         <h:outputText id="symboldok" value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
                     </p:column>
                     <p:column headerText="nr własny dokumentu" width="90">
-                        <h:outputText id="nrwlasnydok" value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.nrwlasnydokumentu}" />
+                        <h:outputText id="nrwlasnydok" value="#{loop.sparowany.wierszStronafk.nrwlasnydokumentu}" />
                     </p:column>
                     <p:column headerText="opis wiersza" width="120">
-                        <h:outputText id="opiswiersza" value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.opiswiersza}" />
+                        <h:outputText id="opiswiersza" value="#{loop.sparowany.wierszStronafk.opiswiersza}" />
                     </p:column>
                     <p:column headerText="wiersz w dok" width="40"  style="text-align: center;">
-                        <h:outputText value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
+                        <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
                     </p:column>
 <!--                    <p:column headerText="konto przeciwstawne" width="40">
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.transakcjaPK.sparowanyID.wierszStronafk.wierszStronafkPK.typdokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.transakcjaPK.sparowanyID.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
+                         <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
                     </p:column>
 
                 </p:dataTable>
