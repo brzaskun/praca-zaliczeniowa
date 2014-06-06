@@ -94,6 +94,7 @@ public class DokFKTransakcjeBean implements Serializable{
             transakcja.setPodatnik(podatnik);
             transakcja.setRozliczany(aktualnywierszdorozrachunkow);
             transakcja.setSparowany(nowatransakcjazbazy);
+            transakcja.setSymbolWaluty(aktualnywierszdorozrachunkow.getWalutarozrachunku());
             transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
