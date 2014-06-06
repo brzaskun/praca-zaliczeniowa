@@ -116,19 +116,19 @@ public class DokFKTransakcjeBean implements Serializable{
         if (zachowanewczejsniejtransakcje.size() > 0) {
             //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
             //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-            double sumaddlaaktualnego = 0.0;
+            //double sumaddlaaktualnego = 0.0;
             for (Transakcja s : zachowanewczejsniejtransakcje) {
-                sumaddlaaktualnego += s.getKwotatransakcji();
+//                sumaddlaaktualnego += s.getKwotatransakcji();
                 biezacetransakcje.add(s);
                 pierwotnailosctransakcjiwbazie++;
             }
-            //aktualizujemy biezacy wiersz nie bedacy nowa transakcja
-            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-            rozliczono = rozliczono + sumaddlaaktualnego;
-            pozostalo = pozostalo - sumaddlaaktualnego;
-            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+            //to juz jest zbedne bo wszystko jest ladnie nanoszone na kazdy rozrachunek przy zachowywaniu transakcji
+//            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
+//            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
+//            rozliczono = rozliczono + sumaddlaaktualnego;
+//            pozostalo = pozostalo - sumaddlaaktualnego;
+//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
         }
     }
     
