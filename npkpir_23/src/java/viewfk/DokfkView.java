@@ -645,11 +645,11 @@ public class DokfkView implements Serializable {
                 double nowakwota = p. getKwotatransakcji();
                 double poprzednia = p.getPoprzedniakwota();
                 if (nowakwota > 0 && poprzednia == 0.0) {
-                    transakcjaDAO.dodaj(p);
+                    transakcjaDAO.edytujTransakcje(p);
                 } else if (nowakwota == 0.0 && poprzednia > 0.0) {
-                    transakcjaDAO.edit(p);
+                    transakcjaDAO.edytujTransakcje(p);
                 } else if (nowakwota > 0.0 && poprzednia > 0.0) {
-                    transakcjaDAO.edit(p);
+                    transakcjaDAO.edytujTransakcje(p);
                 }
             } catch (Exception e) {
                 

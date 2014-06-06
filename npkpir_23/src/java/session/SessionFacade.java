@@ -50,6 +50,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.Rozrachunekfk;
 import entityfk.Rzisuklad;
 import entityfk.Tabelanbp;
+import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
@@ -818,8 +819,17 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public int usunTransakcjeNiezaksiegowane(String podatnik) {
-        return em.createNamedQuery("Transakcja.usunNiezaksiegowane").setParameter("podatnik", podatnik).executeUpdate();
+        return em.createNamedQuery("Transakcja.usunNiezaksiegowane").setParameter("podatnik",podatnik).executeUpdate();
     }
+
+    public Transakcja findTransakcja(int rozliczany, int sparowany) {
+        try {
+            return (Transakcja) em.createNamedQuery("Transakcja.findByRozliczanySparowany").setParameter("rozliczany", rozliczany).setParameter("sparowany", sparowany).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+     }
+
   
   
 }
