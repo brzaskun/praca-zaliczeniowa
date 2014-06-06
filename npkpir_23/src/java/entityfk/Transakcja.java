@@ -64,6 +64,7 @@ public class Transakcja implements Serializable {
     @ManyToOne
     private Rozrachunekfk sparowany;
     private String podatnik;
+    private String symbolWaluty;
 
     public Transakcja() {
         this.kwotatransakcji = 0.0;
@@ -194,6 +195,15 @@ public class Transakcja implements Serializable {
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
+
+    public String getSymbolWaluty() {
+        return symbolWaluty;
+    }
+
+    public void setSymbolWaluty(String symbolWaluty) {
+        this.symbolWaluty = symbolWaluty;
+    }
+    
     
     
     
