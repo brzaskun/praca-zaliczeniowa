@@ -103,34 +103,33 @@ public class DokFKTransakcjeBean implements Serializable{
         int idrozrachunku = aktualnywierszdorozrachunkow.getIdrozrachunku();
         List<Transakcja> pobranalista = new ArrayList<>();
         pobranalista = transakcjaDAO.findByRozliczonyID(idrozrachunku);
-        if (pobranalista.size() > 0) {
-           return pobranalista;
-        }
-        return null;
+        return pobranalista;
     }
 
     public static void naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje,List<Transakcja> biezacetransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
         pierwotnailosctransakcjiwbazie = 0;
-        //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
-        //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-        double sumaddlaaktualnego = 0.0;
-        for (Transakcja s : zachowanewczejsniejtransakcje) {
-            sumaddlaaktualnego += s.getKwotatransakcji();
-            biezacetransakcje.add(s);
-            pierwotnailosctransakcjiwbazie++;
-        }
         for (Transakcja r : transakcjeswiezynki) {
-            if (!zachowanewczejsniejtransakcje.contains(r)) {
-                biezacetransakcje.add(r);
-            }
+               if (!zachowanewczejsniejtransakcje.contains(r)) {
+                   biezacetransakcje.add(r);
+               }
         }
-        //aktualizujemy biezacy wiersz nie bedacy nowa transakcja
-        double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-        double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-        rozliczono = rozliczono + sumaddlaaktualnego;
-        pozostalo = pozostalo - sumaddlaaktualnego;
-        aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-        aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+        if (zachowanewczejsniejtransakcje.size() > 0) {
+            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
+            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
+            double sumaddlaaktualnego = 0.0;
+            for (Transakcja s : zachowanewczejsniejtransakcje) {
+                sumaddlaaktualnego += s.getKwotatransakcji();
+                biezacetransakcje.add(s);
+                pierwotnailosctransakcjiwbazie++;
+            }
+            //aktualizujemy biezacy wiersz nie bedacy nowa transakcja
+            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
+            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
+            rozliczono = rozliczono + sumaddlaaktualnego;
+            pozostalo = pozostalo - sumaddlaaktualnego;
+            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+        }
     }
     
     // to jest archeo w nowej konfiguracji. tutaj aktualizowalismy rozrachunek w liscie transakcji
