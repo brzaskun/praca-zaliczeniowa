@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
+    @NamedQuery(name = "Transakcja.findByRozliczonyID", query = "SELECT t FROM Transakcja t WHERE t.rozliczany.idrozrachunku = :rozliczany"),
     @NamedQuery(name = "Transakcja.usunNiezaksiegowane", query = "DELETE FROM Transakcja t WHERE t.podatnik = :podatnik AND t.zaksiegowana = 0"),
     @NamedQuery(name = "Transakcja.findByRozliczanySparowany", query = "SELECT t FROM Transakcja t WHERE t.rozliczany.idrozrachunku = :rozliczany AND t.sparowany.idrozrachunku = :sparowany"),
     @NamedQuery(name = "Transakcja.findById", query = "SELECT t FROM Transakcja t WHERE t.id = :id"),

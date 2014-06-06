@@ -830,6 +830,14 @@ public class SessionFacade<T> implements Serializable{
         }
      }
 
+    public List<Transakcja> findTransakcjeRozliczonyID(int idrozrachunku) {
+        try {
+            return em.createNamedQuery("Transakcja.findByRozliczonyID").setParameter("rozliczany", idrozrachunku).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
   
   
 }

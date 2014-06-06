@@ -7,6 +7,7 @@
 package beansFK;
 
 import daoFK.RozrachunekfkDAO;
+import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Transakcja;
 import embeddablefk.WierszStronafkPK;
@@ -98,14 +99,14 @@ public class DokFKTransakcjeBean implements Serializable{
         return transakcjeswiezynki;
     }
 
-    public static void pobierzjuzNaniesioneTransakcjeRozliczony(List<Transakcja> zachowanewczejsniejtransakcje, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-        zachowanewczejsniejtransakcje = new ArrayList<>();
-        WierszStronafkPK klucz = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-        Zestawienielisttransakcji pobranalista = new Zestawienielisttransakcji();
-        pobranalista = zestawienielisttransakcjiDAO.findByKlucz(klucz);
-        if (pobranalista instanceof Zestawienielisttransakcji) {
-           // zachowanewczejsniejtransakcje.addAll(pobranalista.getListatransakcji());
+    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
+        int idrozrachunku = aktualnywierszdorozrachunkow.getIdrozrachunku();
+        List<Transakcja> pobranalista = new ArrayList<>();
+        pobranalista = transakcjaDAO.findByRozliczonyID(idrozrachunku);
+        if (pobranalista.size() > 0) {
+           return pobranalista;
         }
+        return null;
     }
 
     public static void naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje,List<Transakcja> biezacetransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
@@ -131,18 +132,20 @@ public class DokFKTransakcjeBean implements Serializable{
         aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
         aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
     }
-
-    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje, String podatnik) {
-        listaNowychRozrachunkow = new ArrayList<>();
-        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachybekfkByPodatnik(podatnik));
-        for (Rozrachunekfk p : listaNowychRozrachunkow) {
-            for (Transakcja r : biezacetransakcje) {
-                if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
-                    r.setSparowany(p);
-                }
-            }
-        }
-
-    }
+    
+    // to jest archeo w nowej konfiguracji. tutaj aktualizowalismy rozrachunek w liscie transakcji
+    // teraz jest to zbedne bo one sa w tabeli rozrachunki
+//    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje, String podatnik) {
+//        listaNowychRozrachunkow = new ArrayList<>();
+//        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachybekfkByPodatnik(podatnik));
+//        for (Rozrachunekfk p : listaNowychRozrachunkow) {
+//            for (Transakcja r : biezacetransakcje) {
+//                if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
+//                    r.setSparowany(p);
+//                }
+//            }
+//        }
+//
+//    }
     
 }

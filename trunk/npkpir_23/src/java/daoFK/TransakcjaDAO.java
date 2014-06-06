@@ -9,6 +9,7 @@ package daoFK;
 import dao.DAO;
 import entityfk.Transakcja;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -53,6 +54,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         } else {
             sessionFacade.create(transakcja);
         }
+    }
+
+    public List<Transakcja> findByRozliczonyID(int idrozrachunku) {
+        return sessionFacade.findTransakcjeRozliczonyID(idrozrachunku);
     }
     
     
