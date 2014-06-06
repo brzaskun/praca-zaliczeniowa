@@ -616,6 +616,39 @@ public class DokfkView implements Serializable {
 //        }
 //    }
     public void zapistransakcji() {
+        //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
+        for (Transakcja p : biezacetransakcje) {
+            double kwotanowa = p.getKwotatransakcji();
+            double kwotastara = p.getPoprzedniakwota();
+            double roznicaNkSk = kwotanowa - kwotastara;
+            if (roznicaNkSk != 0) {
+                double aktualny_rozliczono = p.getRozliczany().getRozliczono();
+                double aktualny_pierwotna = p.getRozliczany().getKwotapierwotna();
+                double sparowany_rozliczono = p.getSparowany().getRozliczono();
+                double sparowany_pierwotna = p.getSparowany().getKwotapierwotna();
+                p.getRozliczany().setRozliczono(aktualny_rozliczono + roznicaNkSk);
+                p.getRozliczany().setPozostalo(aktualny_pierwotna - p.getRozliczany().getRozliczono());
+                //p.getSparowany().setNowatransakcja(true);
+                p.getSparowany().setRozliczono(sparowany_rozliczono + roznicaNkSk);
+                p.getSparowany().setPozostalo(sparowany_pierwotna - p.getSparowany().getRozliczono());
+                //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
+                try {
+                    Rozrachunekfk rozliczany = rozrachunekfkDAO.findRozrachunkifkByWierszStronafk(p.idSparowany());
+                    rozliczany.setRozliczono(rozliczany.getRozliczono() + roznicaNkSk);
+                    rozliczany.setPozostalo(rozliczany.getKwotapierwotna() - rozliczany.getRozliczono());
+                    rozrachunekfkDAO.edit(rozliczany);
+                    Rozrachunekfk sparowany = rozrachunekfkDAO.findRozrachunkifkByWierszStronafk(p.idRozliczany());
+                    sparowany.setRozliczono(sparowany.getRozliczono() + roznicaNkSk);
+                    sparowany.setPozostalo(sparowany.getKwotapierwotna() - sparowany.getRozliczono());
+                    rozrachunekfkDAO.edit(sparowany);
+                } catch (Exception r) {
+                }
+            } else if (roznicaNkSk == 0) {
+                //p.getSparowany().setNowatransakcja(false);
+            }
+            p.setPoprzedniakwota(kwotanowa);
+            //to jest w zasadzie tzw. Nowa Transakcja
+        }
         //zanosze ze jest rozliczony
         int iletransakcjidodano = biezacetransakcje.size() - pierwotnailosctransakcjiwbazie;
         boolean saRozrachunki = false;
@@ -656,7 +689,8 @@ public class DokfkView implements Serializable {
                 
             }
         }
-        biezacetransakcje.clear();
+        //nie moze tu byc tego bo nie bedzie co utrwalic
+        //biezacetransakcje.clear();
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
     }
     
