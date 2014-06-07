@@ -19,12 +19,13 @@
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.nazwapelna}" style="float: left; font-weight: bold; max-width: 400px;"/>
                         <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opiswiersza}" style="float: right; font-weight: bold;"/>
                         <h:outputText value="waluta"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku}" style="float: right; font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? null : 'color: blue;'}"/>
-                        <h:outputText value="kurs" />
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="tabela"/>
+                        <h:outputText value="kurs" style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}" style="float: right; font-weight: bold;
+                                       color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="tabela"  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.nrtabelinbp} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.datawaluty}" 
-                                      style="float: left; font-weight: bold;"/>
-                        <h:outputText value="kwota pierwotna"/>
+                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="kwota pierwotna" />
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
