@@ -159,19 +159,16 @@ public class DokFKTransakcjeBean implements Serializable{
             pobrana.addAll(transakcjaDAO.findBySparowanyID(rozrachunek.getIdrozrachunku()));
         } else {
             pobrana.addAll(transakcjaDAO.findByRozliczonyID(rozrachunek.getIdrozrachunku()));
-        }
-        try {
-            for (Transakcja p : pobrana) {
+             for (Transakcja p : pobrana) {
                 Rozrachunekfk rozliczany = p.getSparowany();
                 Rozrachunekfk sparowany = p.getRozliczany();
                 p.setRozliczany(rozliczany);
                 p.setSparowany(sparowany);
                 p.setZablokujnanoszenie(Boolean.TRUE);
             }
-            return pobrana;
-        } catch (Exception e) {
-            return pobrana;
         }
+        return pobrana;
+        
     }
     
     // to jest archeo w nowej konfiguracji. tutaj aktualizowalismy rozrachunek w liscie transakcji
