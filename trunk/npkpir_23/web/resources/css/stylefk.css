@@ -5,12 +5,6 @@
     Description:
         Purpose of the stylesheet follows.
 */
-body { 
-    font-size: 9pt !important;
-    font-family: TimesNewRoman !important;
-    font-weight: 500;
-    width: 99%;
-}
 
 .fkbutton {
     width: 120px;
