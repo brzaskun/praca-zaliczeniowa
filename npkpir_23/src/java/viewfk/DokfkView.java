@@ -14,7 +14,6 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
-import data.Data;
 import entityfk.Transakcja;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
@@ -24,10 +23,8 @@ import entityfk.Rozrachunekfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersze;
-import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -38,15 +35,11 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
 import viewfk.subroutines.ObslugaRozrachunku;
-import viewfk.subroutines.ObslugaTransakcji;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
@@ -517,14 +510,33 @@ public class DokfkView implements Serializable {
                     zachowanewczejsniejtransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(transakcjaDAO, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);
                 } else {
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(transakcjaDAO, aktualnyWierszDlaRozrachunkow.getIdrozrachunku()));
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                 }
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String funkcja;
                 potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 if (potraktujjakoNowaTransakcje == true) {
+                    //jezeli nowa transakcja jest juz gdzies rozliczona to trzeba zablokowac przycisk
+                    double czyjuzrozliczono = aktualnyWierszDlaRozrachunkow.getRozliczono();
+                    if (czyjuzrozliczono > 0) {
+                        funkcja = "zablokujcheckbox('true');";
+                    } else {
+                        funkcja = "zablokujcheckbox('false');";
+                    }
                     zablokujprzyciskzapisz = true;
+                } else {
+                    //jezeli w pobranych transakcjach sa juz rozliczenia to trzeba zablokowac mozliwosc zaznaczania nowej transakcji
+                    double saWartosciWprowadzone = 0.0;
+                    for (Transakcja p : biezacetransakcje) {
+                        saWartosciWprowadzone += p.getKwotatransakcji();
+                    }
+                    if (saWartosciWprowadzone > 0) {
+                        funkcja = "zablokujcheckbox('true');";
+                    } else {
+                        funkcja = "zablokujcheckbox('false');";
+                    }
                 }
-                String funkcja = "zablokujcheckbox('"+aktualnyWierszDlaRozrachunkow.getRozliczono()+"}');";
                 RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
@@ -685,6 +697,8 @@ public class DokfkView implements Serializable {
                     transakcjaDAO.edytujTransakcje(p);
                 } else if (nowakwota > 0.0 && poprzednia > 0.0) {
                     transakcjaDAO.edytujTransakcje(p);
+                } else if (nowakwota > 0.0 && poprzednia > 0.0) {
+                    transakcjaDAO.destroy(p);
                 }
             } catch (Exception e) {
                 
@@ -937,6 +951,7 @@ public class DokfkView implements Serializable {
 //        }
 //    }
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
     public int getNumerwiersza() {
         return numerwiersza;
     }

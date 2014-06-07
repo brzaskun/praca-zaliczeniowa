@@ -99,7 +99,8 @@ var powrotdopola = function() {
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function() {
-    $("#rozrachunki\\:dataList :input").change(function() {
+    $("#rozrachunki\\:dataList :input").keyup(function() {
+        r("rozrachunki:zapiszrozrachunekButton").show();
         $(this).css("color", "black");
         $(this).css("font-weight", "normal");
         var numerwiersza = ($(this).attr('id').split(":"))[2];
@@ -121,6 +122,7 @@ var doklejsumowaniewprowadzonych = function() {
             } else {
                 $(document.getElementById(wiersz)).css("font-weight", "900");
                 $(document.getElementById(wiersz)).css("color", "red");
+                r("rozrachunki:zapiszrozrachunekButton").hide();
             }
         }
         if (wprowadzonowpole === " zł") {
@@ -132,17 +134,26 @@ var doklejsumowaniewprowadzonych = function() {
         }
         //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
         var wprowadzono = 0;
-        var j = 0;
+        //var j = 0;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
-            var wiersz = "rozrachunki:dataList:" + j + ":pozostalo";
+            //var wiersz = "rozrachunki:dataList:" + j + ":pozostalo";
             wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
+            //j++;
+        }
+        for (var i = 0; i < iloscpozycji; i = i + 2) {
             if (wprowadzono > MYAPP.limit) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "red");
+                r("rozrachunki:zapiszrozrachunekButton").hide();
+            } else {
+                $(wszystkiewiersze[i]).css("font-weight", "600");
+                $(wszystkiewiersze[i]).css("color", "black");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "600");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
+                r("rozrachunki:zapiszrozrachunekButton").show();
             }
-            j++;
         }
     });
 };
@@ -235,11 +246,10 @@ var podswietlrozrachunki = function() {
 
 };
 
-var zablokujcheckbox = function(nowatransakcja) {
-    var wartosc = zrobFloat(nowatransakcja);
-    if (wartosc > 0) {
+var zablokujcheckbox = function(zablokuj) {
+    if (zablokuj === 'true') {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
-        r("formcheckbox:labelcheckboxrozrachunki").text("Transakcja jest już rozliczona, nie można usunąc oznaczenia");
+        r("formcheckbox:labelcheckboxrozrachunki").text("Transakcja rozliczyla inne rozrachunki. Nie można oznaczyć jej jako nowej transakcji.");
     } else {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
         r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako nową transakcję");

@@ -43,9 +43,13 @@
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
                    <p:column headerText="kwota rozliczenia - bieżący dok." width="40">
-                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
+                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
+                                       decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
                            <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                        </pe:inputNumber>
+                       <h:outputText value="#{loop.kwotatransakcji}" style="float: right;"  rendered="#{loop.zablokujnanoszenie}">
+                            <f:convertNumber minFractionDigits="2" locale="PL" />
+                        </h:outputText>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="50">
                          <h:outputText id="pozostalo" value="#{loop.sparowany.pozostalo}" style="float: right;">
@@ -91,13 +95,15 @@
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkVaktualnyWierszDlaRozrachunkownkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
+                         <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu eq  dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
                     </p:column>
 
                 </p:dataTable>
                 
             </div>
-            <p:commandButton value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokaktualnyWierszDlaRozrachunkowchunkow.nowatransakcja}"/>
+            <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" 
+                             type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
+                             update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
         </h:form>
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px; margin-left: 40%;">
