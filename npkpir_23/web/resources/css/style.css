@@ -39,10 +39,10 @@ body {
 
 
 .ui-widget {
-    font-size: 110%;
+    font-size: 100%;
 }
 .ui-widget .ui-widget {
-    font-size: 100%;
+    /* font-size: 100%; */
 }
 
 #zestawienieroczne.td {
