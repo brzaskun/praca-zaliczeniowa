@@ -99,7 +99,7 @@ var powrotdopola = function() {
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function() {
-    $("#rozrachunki\\:dataList :input").keyup(function() {
+    $("#rozrachunki\\:dataList :input").change(function() {
         $(this).css("color", "black");
         $(this).css("font-weight", "normal");
         var numerwiersza = ($(this).attr('id').split(":"))[2];
@@ -110,9 +110,9 @@ var doklejsumowaniewprowadzonych = function() {
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
         $(document.getElementById(wiersz)).css("font-weight", "normal");
         $(document.getElementById(wiersz)).css("color", "black");
-        var wierszaktualny = "rozrachunki:dorozliczenia";
-        $(document.getElementById(wierszaktualny)).css("font-weight", "normal");
-        $(document.getElementById(wierszaktualny)).css("color", "black");
+        var wierszTransakcjaRozliczajaca = "rozrachunki:dorozliczenia";
+        $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "normal");
+        $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
         var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
         if (wartoscwprowadzona > wartoscpoprawej) {
             if (wartoscpoprawej === 0) {
@@ -130,6 +130,7 @@ var doklejsumowaniewprowadzonych = function() {
                 $(this).val(wartoscpoprawej);
             }
         }
+        //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
         var wprowadzono = 0;
         var j = 0;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
@@ -138,8 +139,8 @@ var doklejsumowaniewprowadzonych = function() {
             if (wprowadzono > MYAPP.limit) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
-                $(document.getElementById(wierszaktualny)).css("font-weight", "900");
-                $(document.getElementById(wierszaktualny)).css("color", "red");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "red");
             }
             j++;
         }
