@@ -122,7 +122,20 @@
                         <p:column  headerText="wykaz transakcji" width="300" resizable="true">  
                             <p:dataTable var="subwpis" value="#{loop.transakcje}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 50%;">
                                 <p:column headerText="kwota transakcji">
-                                    <h:outputText value="#{subwpis.kwotatransakcji}"/>
+                                    <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                                </p:column>
+                                <p:column headerText="kwota rozliczanego">
+                                    <h:outputText value="#{subwpis.rozliczany.kwotapierwotna}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                                </p:column>
+                                <p:column headerText="nr rozliczanego">
+                                    <h:outputText value="#{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
+                                </p:column>
+                                <p:column headerText="nr wlasny">
+                                    <h:outputText value="#{subwpis.rozliczany.wierszStronafk.nrwlasnydokumentu}"/>
                                 </p:column>
                             </p:dataTable>
                         </p:column>
