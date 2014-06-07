@@ -60,5 +60,9 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return sessionFacade.findTransakcjeRozliczonyID(idrozrachunku);
     }
     
+    public List<Transakcja> findBySparowanyID(int idrozrachunku) {
+        return sessionFacade.findTransakcjeSparowanyID(idrozrachunku);
+    }
+    
     
 }

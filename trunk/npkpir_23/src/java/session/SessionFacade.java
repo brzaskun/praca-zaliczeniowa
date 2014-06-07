@@ -837,6 +837,14 @@ public class SessionFacade<T> implements Serializable{
             return null;
         }
     }
+    
+    public List<Transakcja> findTransakcjeSparowanyID(int idrozrachunku) {
+        try {
+            return em.createNamedQuery("Transakcja.findBySparowanyID").setParameter("sparowany", idrozrachunku).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
   
   

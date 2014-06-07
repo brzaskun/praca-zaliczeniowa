@@ -28,54 +28,55 @@ import msg.Msg;
 @Singleton
 public class DokFKTransakcjeBean implements Serializable{
     
-    public static void sumujdlaNowejTransakcji(List<Transakcja> transakcjejakosparowany,List<Transakcja> biezacetransakcje) {
-        double sumaddlaaktualnego = 0.0;
-        //czyscimy wartosci
-        for (Transakcja p : transakcjejakosparowany) {
-            double kwota = p.getKwotatransakcji();
-            if (kwota > 0) {
-                Transakcja nowa = new Transakcja();
-                nowa.setZablokujnanoszenie(true);
-                nowa.setRozliczany(p.getSparowany());
-                nowa.setSparowany(p.getRozliczany());
-                nowa.SetSpRozl(kwota);
-                nowa.SetSpPoz(nowa.GetSpKwotaPier() - kwota);
-                biezacetransakcje.add(nowa);
-            }
-        }
-    }
-
-    //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
-    public static int pobierztransakcjeJakoSparowany(List<Transakcja> transakcjejakosparowany, List<Transakcja> biezacetransakcje, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, Rozrachunekfk aktualnywierszdorozrachunkow) {
-        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
-        //pobieramy listy z bazy
-        transakcjejakosparowany = new ArrayList<>();
-        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
-        List<Transakcja> kolekcje = new ArrayList<>();
-        pobranelisty = zestawienielisttransakcjiDAO.findAll();
-        for (Zestawienielisttransakcji p : pobranelisty) {
-            //kolekcje.addAll(p.getListatransakcji());
-        }
-        int wynikszukania = 0;
-        for (Transakcja x : kolekcje) {
-            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
-            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
-            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
-            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
-            boolean kwoty = x.GetSpRozl() != 0.0 && x.GetSpPoz() != 0.0;
-            if (typdokumentu && nrkolejnydokumentu && nrPorzadkowyWiersza && kwoty) {
-                Msg.msg("w", "on byl jako sparowany");
-                transakcjejakosparowany.add(x);
-                wynikszukania = 1;
-            }
-        }
-        //nie znaleziono transakcji gdzie aktualnybylby sparowanym
-        if (wynikszukania == 1) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+    //archeo - zbedne wobec innego zachowywania rozrachunkow
+//    public static void sumujdlaNowejTransakcji(List<Transakcja> transakcjejakosparowany,List<Transakcja> biezacetransakcje) {
+//        double sumaddlaaktualnego = 0.0;
+//        //czyscimy wartosci
+//        for (Transakcja p : transakcjejakosparowany) {
+//            double kwota = p.getKwotatransakcji();
+//            if (kwota > 0) {
+//                Transakcja nowa = new Transakcja();
+//                nowa.setZablokujnanoszenie(true);
+//                nowa.setRozliczany(p.getSparowany());
+//                nowa.setSparowany(p.getRozliczany());
+//                nowa.SetSpRozl(kwota);
+//                nowa.SetSpPoz(nowa.GetSpKwotaPier() - kwota);
+//                biezacetransakcje.add(nowa);
+//            }
+//        }
+//    }
+//
+//    //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
+//    public static int pobierztransakcjeJakoSparowany(List<Transakcja> transakcjejakosparowany, List<Transakcja> biezacetransakcje, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, Rozrachunekfk aktualnywierszdorozrachunkow) {
+//        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
+//        //pobieramy listy z bazy
+//        transakcjejakosparowany = new ArrayList<>();
+//        List<Zestawienielisttransakcji> pobranelisty = new ArrayList<>();
+//        List<Transakcja> kolekcje = new ArrayList<>();
+//        pobranelisty = zestawienielisttransakcjiDAO.findAll();
+//        for (Zestawienielisttransakcji p : pobranelisty) {
+//            //kolekcje.addAll(p.getListatransakcji());
+//        }
+//        int wynikszukania = 0;
+//        for (Transakcja x : kolekcje) {
+//            WierszStronafkPK idAktualny = aktualnywierszdorozrachunkow.getWierszStronafk().getWierszStronafkPK();
+//            boolean typdokumentu = x.idSparowany().getTypdokumentu().equals(idAktualny.getTypdokumentu());
+//            boolean nrkolejnydokumentu = x.idSparowany().getNrkolejnydokumentu() == idAktualny.getNrkolejnydokumentu();
+//            boolean nrPorzadkowyWiersza = x.idSparowany().getNrPorzadkowyWiersza() == idAktualny.getNrPorzadkowyWiersza();
+//            boolean kwoty = x.GetSpRozl() != 0.0 && x.GetSpPoz() != 0.0;
+//            if (typdokumentu && nrkolejnydokumentu && nrPorzadkowyWiersza && kwoty) {
+//                Msg.msg("w", "on byl jako sparowany");
+//                transakcjejakosparowany.add(x);
+//                wynikszukania = 1;
+//            }
+//        }
+//        //nie znaleziono transakcji gdzie aktualnybylby sparowanym
+//        if (wynikszukania == 1) {
+//            return 1;
+//        } else {
+//            return 0;
+//        }
+//    }
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
@@ -131,6 +132,23 @@ public class DokFKTransakcjeBean implements Serializable{
             pozostalo = pozostalo + sumaStornoRozliczajacego;
             aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
             aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+        }
+    }
+    
+    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
+        List<Transakcja> pobrana = new ArrayList<>();
+        try {
+            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
+            for (Transakcja p : pobrana) {
+                Rozrachunekfk rozliczany = p.getSparowany();
+                Rozrachunekfk sparowany = p.getRozliczany();
+                p.setRozliczany(rozliczany);
+                p.setSparowany(sparowany);
+                p.setZablokujnanoszenie(Boolean.TRUE);
+            }
+            return pobrana;
+        } catch (Exception e) {
+            return pobrana;
         }
     }
     
