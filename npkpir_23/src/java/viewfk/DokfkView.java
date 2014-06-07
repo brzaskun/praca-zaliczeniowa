@@ -555,6 +555,7 @@ public class DokfkView implements Serializable {
         RozrachunekFKBean.inicjalizacjaAktualnyWierszDlaRozrachunkow(aktualnyWierszDlaRozrachunkow, selected, wpisView, stronawiersza, numerwiersza);
         Rozrachunekfk odnalezionyRozrachunek = RozrachunekFKBean.pobierzIstniejacyRozrachunek(rozrachunekfkDAO, aktualnyWierszDlaRozrachunkow);
         if (!(odnalezionyRozrachunek instanceof Rozrachunekfk)) {
+            potraktujjakoNowaTransakcje = false;
             rozrachunekfkDAO.dodaj(aktualnyWierszDlaRozrachunkow);
             Msg.msg("Utworzyłem nowy rozrachunek");
         } else {

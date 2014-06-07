@@ -48,6 +48,8 @@ public class RozrachunekFKBean {
             aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
             aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
             aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
+            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+            
     }
     
      private static void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
