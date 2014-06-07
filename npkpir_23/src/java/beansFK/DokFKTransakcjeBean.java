@@ -117,19 +117,20 @@ public class DokFKTransakcjeBean implements Serializable{
         if (zachowanewczejsniejtransakcje.size() > 0) {
             //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
             //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-            //double sumaddlaaktualnego = 0.0;
+            double sumaStornoRozliczajacego = 0.0;
             for (Transakcja s : zachowanewczejsniejtransakcje) {
-//                sumaddlaaktualnego += s.getKwotatransakcji();
+                sumaStornoRozliczajacego += s.getKwotatransakcji();
                 biezacetransakcje.add(s);
                 pierwotnailosctransakcjiwbazie++;
             }
-            //to juz jest zbedne bo wszystko jest ladnie nanoszone na kazdy rozrachunek przy zachowywaniu transakcji
-//            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-//            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-//            rozliczono = rozliczono + sumaddlaaktualnego;
-//            pozostalo = pozostalo - sumaddlaaktualnego;
-//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
+            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
+            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
+            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
+            rozliczono = rozliczono - sumaStornoRozliczajacego;
+            pozostalo = pozostalo + sumaStornoRozliczajacego;
+            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
         }
     }
     

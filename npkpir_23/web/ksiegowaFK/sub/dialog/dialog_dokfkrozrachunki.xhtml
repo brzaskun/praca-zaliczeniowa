@@ -19,15 +19,19 @@
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.nazwapelna}" style="float: left; font-weight: bold; max-width: 400px;"/>
                         <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opiswiersza}" style="float: right; font-weight: bold;"/>
                         <h:outputText value="waluta"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku}" style="float: right; font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? null : 'color: blue;'}"/>
-                        <h:outputText value="kurs"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="tabela"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.nrtabelinbp} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.datawaluty}" style="float: left; font-weight: bold;"/>
-                        <h:outputText value="kwota pierwotna"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
+                        <h:outputText value="kurs" />
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="tabela"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.nrtabelinbp} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.datawaluty}" 
+                                      style="float: left; font-weight: bold;"/>
+                        <h:outputText value="kwota pierwotna"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="rozliczono"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
+                        <h:outputText value="rozliczono w innych trans."/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="do rozliczenia"/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
+                        <h:outputText value="do rozliczenia w tej trans."/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
