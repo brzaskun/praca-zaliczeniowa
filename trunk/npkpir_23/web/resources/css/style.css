@@ -19,9 +19,7 @@ body {
 }
 
 
-.korekta {
-    color:red !important;
-}
+
 .old{
     background-image:none !important;
     color: blue !important;
@@ -41,9 +39,6 @@ body {
 .ui-widget {
     font-size: 100%;
 }
-.ui-widget .ui-widget {
-    /* font-size: 100%; */
-}
 
 #zestawienieroczne.td {
     
@@ -56,7 +51,6 @@ body {
 }
 
 .ui-panelgrid td {
-    
     border-width: 0px !important;
     padding: 4px 10px !important;
 }
@@ -95,7 +89,7 @@ body {
     padding: 4px 10px;
     overflow: auto !important;
     white-space: normal !important;
-    border-width: 1px;
+    border-width: 0px;
     border-style: solid;}
 
 
