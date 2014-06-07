@@ -678,6 +678,14 @@ public class SessionFacade<T> implements Serializable{
             return null;
         }
     }
+    
+    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWaluta(String podatnik, String nrkonta, String waluta) {
+         try {
+            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWaluta").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String walutarozrachunku) {
         String wnmaNew = null;

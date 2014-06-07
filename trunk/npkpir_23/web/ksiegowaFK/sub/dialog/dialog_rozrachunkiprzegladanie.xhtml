@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="rozrachunkiPrzeglad" header="Zapisy na kontach" widgetVar="rozrachunkiPrzeglad" 
+    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach" widgetVar="rozrachunkiPrzeglad" 
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
@@ -15,22 +15,22 @@
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="wybierz konto: "/>
-                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoView.complete}"
+                        <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{kontoView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
-                            <p:ajax event="blur"  listener="#{kontoZapisFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="blur"  update=":form:dataList, :tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>
-                        <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />
+                        <h:outputText id="nazwawybranegokonta" value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" style="font-weight: 900;" />
                     </h:form>
                     <h:form id="walutazapisynakoncie">
                         <h:outputText value="waluta dokumentu " style="text-align: right;"/>
-                        <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}">
-                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, :sumy" />
+                        <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
+                            <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, :sumy" />
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
@@ -63,7 +63,7 @@
                         <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
                                      styleClass="grid" style="width: 100%; height: 550px; overflow-y: scroll;" >
                             <p:ajax event="select" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
-                            <p:ajax event="unselect" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:ajax event="unselect" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column headerText="nr konta" style="width: 100px; height: 30px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
                                 <h:outputText value="#{loop1.pelnynumer}"/> 
                             </p:column>
@@ -78,7 +78,7 @@
             <p:layoutUnit position="center" style="min-width: 1070px;">
                 <h:form id="tabelanowerozrachunki">
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.listaRozrachunkow}" var="loop" rowKey="#{loop.rozrachunekfk.idrozrachunku}" 
-                                 sortBy="rozrachunekfk.idrozrachunku" emptyMessage="Nie ma zapisów na koncie"
+                                 sortBy="rozrachunekfk.idrozrachunku" emptyMessage="Nie ma rozrachunków na koncie"
                                  rowIndexVar="rowindex"
                                  >
                         <p:column selectionMode="multiple" width="35"></p:column>

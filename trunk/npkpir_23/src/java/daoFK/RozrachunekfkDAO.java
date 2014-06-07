@@ -57,6 +57,14 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
    }
     
+    public  List<Rozrachunekfk> findRozrachunkifkByPodatnikKontoWaluta(String podatnik, String nrkonta, String waluta){
+        try {
+            return rozrachunekfkFacade.findRozrachunekfkByPodatnikKontoWaluta(podatnik, nrkonta, waluta);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
     public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
         try {
             return rozrachunekfkFacade.findRozrachunekfk(p);
@@ -65,7 +73,7 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String waluta) {
+    public List<Rozrachunekfk> findRozrachunkifkByKontoWnMaWaluta(String nrkonta, String wnma, String waluta) {
          try {
             return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma, waluta);
         } catch (Exception e) {
