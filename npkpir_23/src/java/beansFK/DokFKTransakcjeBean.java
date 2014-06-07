@@ -81,7 +81,7 @@ public class DokFKTransakcjeBean implements Serializable{
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
         List<Rozrachunekfk> listaNowychRozrachunkow = new ArrayList<>();
-        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKonto(nrkonta, wnma, waluta));
+        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(nrkonta, wnma, waluta));
         assert listaNowychRozrachunkow.size() > 0;
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
@@ -139,6 +139,28 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Transakcja> pobrana = new ArrayList<>();
         try {
             pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
+            for (Transakcja p : pobrana) {
+                Rozrachunekfk rozliczany = p.getSparowany();
+                Rozrachunekfk sparowany = p.getRozliczany();
+                p.setRozliczany(rozliczany);
+                p.setSparowany(sparowany);
+                p.setZablokujnanoszenie(Boolean.TRUE);
+            }
+            return pobrana;
+        } catch (Exception e) {
+            return pobrana;
+        }
+    }
+    
+    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, Rozrachunekfk rozrachunek) {
+        List<Transakcja> pobrana = new ArrayList<>();
+        boolean czyJaJestemNowaTransakcja = rozrachunek.isNowatransakcja();
+        if (czyJaJestemNowaTransakcja) {
+            pobrana.addAll(transakcjaDAO.findBySparowanyID(rozrachunek.getIdrozrachunku()));
+        } else {
+            pobrana.addAll(transakcjaDAO.findByRozliczonyID(rozrachunek.getIdrozrachunku()));
+        }
+        try {
             for (Transakcja p : pobrana) {
                 Rozrachunekfk rozliczany = p.getSparowany();
                 Rozrachunekfk sparowany = p.getRozliczany();

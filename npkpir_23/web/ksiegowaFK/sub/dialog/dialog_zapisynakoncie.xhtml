@@ -21,7 +21,7 @@
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
-                            <p:ajax event="blur"  listener="#{kontoZapisFKView.pobierzZapisyNaKoncie}" update=":form:dataList, :tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="blur" update=":form:dataList, :tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>

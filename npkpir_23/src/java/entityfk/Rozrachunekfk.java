@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
     @NamedQuery(name = "Rozrachunekfk.findByPodatnik", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik"),
     @NamedQuery(name = "Rozrachunekfk.findByPodatnikKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta"),
+    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWaluta", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta"),
     @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND W.walutarozrachunku = :walutarozrachunku"),
     @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
             + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
