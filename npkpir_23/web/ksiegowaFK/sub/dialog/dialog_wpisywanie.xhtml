@@ -16,6 +16,20 @@
             padding: 0px !important;
             margin: 0px !important;
         }
+/*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+        .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            font-weight: 900;
+            background: #e4e3e3;
+        }
+        
+        
     </style>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="pierwszy" 
               resizable="false" onShow="pierwszyonShow();" closable="false" onHide="pierwszyOnHide();">
@@ -89,8 +103,8 @@
                     <p:column headerText="id" width="15">
                         <h:outputText value="#{loop.idporzadkowy}" />
                     </p:column>
-                    <p:column headerText="opis transakcji" width="200">
-                        <p:inputText id="opis" value="#{loop.opis}" style="width: 200px; margin-left: auto; margin-right: auto;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
+                    <p:column headerText="opis transakcji" width="300">
+                        <p:inputText id="opis" value="#{loop.opis}" style="width: 300px; margin-left: auto; margin-right: auto;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
                             <f:ajax event="blur" listener="#{dokfkView.dodajdanedowiersza}"  execute="@this"/>
                             <f:ajax event="focus" listener="#{dokfkView.pobierzsymbolwaluty()}" />
                         </p:inputText>
@@ -101,8 +115,8 @@
                             <f:ajax event="blur" listener="#{dokfkView.pobierzkursNBPwiersz(loop.datawaluty, loop)}"/>
                         </p:spinner>
                     </p:column>
-                    <p:column headerText="kwota"  width="140">
-                        <pe:inputNumber id="wn" value="#{loop.wierszStronaWn.kwota}" style="text-align: right; width: 150px; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.wnReadOnly}">
+                    <p:column headerText="kwota"  style="text-align: right;">
+                        <pe:inputNumber id="wn" value="#{loop.wierszStronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.wnReadOnly}">
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                     </p:column>
@@ -121,8 +135,8 @@
 <!--   ARCHEO               <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                         </p:autoComplete>
                     </p:column>
-                    <p:column headerText="kwota"  width="140">
-                        <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.kwota}" style="text-align: right; width: 150px; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.maReadOnly}">
+                    <p:column headerText="kwota" style="text-align: right;">
+                        <pe:inputNumber id="ma" value="#{loop.wierszStronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.maReadOnly}">
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this"/>
                             <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
                         </pe:inputNumber>
@@ -142,8 +156,8 @@
                             <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column  width="40">
-                        <p:commandButton id="dodajwierszbutton"  value="+" style="width: 40px; margin-left: 20%;" actionListener="#{dokfkView.dolaczNowyWiersz(rowindex)}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
+                    <p:column  width="40" style="text-align: center;">
+                        <p:commandButton id="dodajwierszbutton"  value="+" style="width: 40px; height: 20px;" actionListener="#{dokfkView.dolaczNowyWiersz(rowindex)}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
 <!--                    <p:column width="3" >
                         <h:outputText id="wnReadOnly" value="{loop.wnReadOnly}" style="font-size: 1px; color: white;"/>
