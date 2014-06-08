@@ -6,7 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-
+    <style>
+        
+    </style>
     <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach" widgetVar="rozrachunkiPrzeglad" 
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
@@ -21,7 +23,7 @@
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
-                            <p:ajax event="blur"  update=":form:dataList, :tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="blur"  update=":form:dataList, :tabelanowerozrachunki:tabela, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>
@@ -30,7 +32,7 @@
                     <h:form id="walutazapisynakoncie">
                         <h:outputText value="waluta dokumentu " style="text-align: right;"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
-                            <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, :sumy" />
+                            <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
@@ -81,9 +83,9 @@
                                  sortBy="rozrachunekfk.idrozrachunku" emptyMessage="Nie ma rozrachunków na koncie"
                                  rowIndexVar="rowindex"
                                  >
-                        <p:column selectionMode="multiple" width="35"></p:column>
-                        <p:column style="width: 4%; height: 45px;">
-                            <p:rowToggler/>
+                        <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
+                        <p:column style="height: 45px; text-align: center;">
+                            <p:rowToggler />
                         </p:column>
                         <p:column headerText="lp" width="40" sortBy="rowindex" >
                             <h:outputText value="#{rowindex+1}"/>
@@ -94,26 +96,29 @@
                         <p:column headerText="data" sortBy="datarozrachunku">
                             <h:outputText value="#{loop.rozrachunekfk.datarozrachunku}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="walutarozrachunku">
+                        <p:column headerText="waluta" sortBy="walutarozrachunku" width="40">
                             <h:outputText value="#{loop.rozrachunekfk.walutarozrachunku}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="nr dok">
+                        <p:column headerText="nr kolejny">
+                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
+                        </p:column>
+                        <p:column headerText="nr własny dok" sortBy="nr dok" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.nrwlasnydokumentu}"/>
                         </p:column>
-                        <p:column headerText="opis" width="100" sortBy="wierszStronafk.opisdokumentu">
+                        <p:column headerText="opis" width="200" sortBy="wierszStronafk.opisdokumentu">
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.opisdokumentu}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
                         </p:column>
-                        <p:column headerText="kwota pierwotna" >
+                        <p:column headerText="kwota pierwotna" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.kwotapierwotna}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="rozliczono">
+                        <p:column headerText="rozliczono" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.rozliczono}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="zostało" >
+                        <p:column headerText="zostało" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.pozostalo}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -145,18 +150,13 @@
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
                 <p:panelGrid id="sumy" columns="8" style="float: right; width: 1000px;">
-                    <h:outputText value="suma zapisów Wn"/><h:outputText value="#{kontoZapisFKView.sumaWn}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <h:outputText value="suma zapisów Ma"/><h:outputText value="#{kontoZapisFKView.sumaMa}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <h:outputText value="saldo zapisów Wn"/><h:outputText value="#{kontoZapisFKView.saldoWn}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <h:outputText value="saldo zapisów Ma"/><h:outputText value="#{kontoZapisFKView.saldoMa}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                    <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
+                        <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
+                        <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
+                        <f:selectItem itemLabel="nowe" itemValue="nowe"/>
+                    </p:selectOneMenu>
                 </p:panelGrid>
             </p:layoutUnit>  
         </p:layout>  

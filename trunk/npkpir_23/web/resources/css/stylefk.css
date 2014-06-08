@@ -5,6 +5,14 @@
     Description:
         Purpose of the stylesheet follows.
 */
+.ui-treetable thead th, .ui-treetable tbody td, .ui-treetable tfoot td {
+    padding: 0px !important;
+}
+
+//jest problem przy wpisywanych tabelach
+/*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    padding: 0px !important;
+}*/
 
 .fkbutton {
     width: 120px;
