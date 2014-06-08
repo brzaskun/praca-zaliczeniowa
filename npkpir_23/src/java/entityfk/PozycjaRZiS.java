@@ -4,15 +4,19 @@
  */
 package entityfk;
 
+import embeddablefk.KontoKwota;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -72,9 +76,9 @@ public class PozycjaRZiS implements Serializable {
     private String pozycjaSymbol;
     private Integer pozycjanr;
     private boolean przychod0koszt1;
-    @Size(max = 255)
-    @Column(length = 255)
-    private String przyporzadkowanekonta;
+    @Lob
+    @Column(length=1048576)
+    private List<KontoKwota> przyporzadkowanekonta;
     @Size(max = 4)
     @Column(length = 4)
     private String rok;
@@ -230,14 +234,15 @@ public class PozycjaRZiS implements Serializable {
         this.przychod0koszt1 = przychod0koszt1;
     }
 
-
-    public String getPrzyporzadkowanekonta() {
+    public List<KontoKwota> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
-    public void setPrzyporzadkowanekonta(String przyporzadkowanekonta) {
+    public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
+
+
 
     public String getRok() {
         return rok;

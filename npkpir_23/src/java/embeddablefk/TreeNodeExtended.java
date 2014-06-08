@@ -37,6 +37,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     private static final long serialVersionUID = 1L;
     
     private boolean display;
+    private List<KontoKwota> listaKontKwot;
 
     public TreeNodeExtended() {
         super();
@@ -377,7 +378,15 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         this.display = display;
     }
 
-        
+    public List<KontoKwota> getListaKontKwot() {
+        return listaKontKwot;
+    }
+
+    public void setListaKontKwot(List<KontoKwota> listaKontKwot) {
+        this.listaKontKwot = listaKontKwot;
+    }
+
+      
     
     
 }
