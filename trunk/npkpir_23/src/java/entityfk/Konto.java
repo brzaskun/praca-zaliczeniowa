@@ -5,6 +5,7 @@
 package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
+import embeddablefk.KontoKwota;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -375,8 +376,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setMaslownik(boolean maslownik) {
         this.maslownik = maslownik;
     }
-    
-    
+  
     
     
     
