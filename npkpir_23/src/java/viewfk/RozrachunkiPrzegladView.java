@@ -13,11 +13,9 @@ import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.RozrachunkiTransakcje;
 import embeddablefk.TreeNodeExtended;
-import embeddablefk.WierszStronafkPK;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
-import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,6 +53,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
+    private String coWyswietlacRozrachunkiPrzeglad;
 
     public RozrachunkiPrzegladView() {
         listaKontRozrachunkowych = new ArrayList<>();
@@ -132,6 +131,22 @@ public class RozrachunkiPrzegladView implements Serializable{
         }
     }
     
+    public void pobierzZapisyZmianaZakresu() {
+        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
+        listaRozrachunkow = new ArrayList<>();
+        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWalutaSelekcja(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont, coWyswietlacRozrachunkiPrzeglad);
+        if (!listarozrachunkowkonto.isEmpty()) {
+            for (Rozrachunekfk p : listarozrachunkowkonto) {
+                List<Transakcja> listatransakcjikonto = new ArrayList<>();
+                listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
+                RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+                listaRozrachunkow.add(rozrachunkiTransakcje);
+            }
+        }
+    }
+    
+    
+    
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
         listaRozrachunkow.clear();
     }
@@ -199,6 +214,14 @@ public class RozrachunkiPrzegladView implements Serializable{
 
     public void setWybranaWalutaDlaKont(String wybranaWalutaDlaKont) {
         this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
+    }
+
+    public String getCoWyswietlacRozrachunkiPrzeglad() {
+        return coWyswietlacRozrachunkiPrzeglad;
+    }
+
+    public void setCoWyswietlacRozrachunkiPrzeglad(String coWyswietlacRozrachunkiPrzeglad) {
+        this.coWyswietlacRozrachunkiPrzeglad = coWyswietlacRozrachunkiPrzeglad;
     }
     
     

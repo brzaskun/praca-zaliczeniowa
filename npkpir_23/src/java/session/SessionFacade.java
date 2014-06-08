@@ -854,6 +854,30 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
+    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaRozliczone(String podatnik, String nrkonta, String waluta) {
+        try {
+            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaRozliczone").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaCzesciowo(String podatnik, String nrkonta, String waluta) {
+        try {
+            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaNowe(String podatnik, String nrkonta, String waluta) {
+        try {
+            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaNowe").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
   
   
 }
