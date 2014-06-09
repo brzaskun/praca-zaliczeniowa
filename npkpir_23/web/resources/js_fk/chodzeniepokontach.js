@@ -1,4 +1,13 @@
-"use strict";
+    "use strict";
+    
+var zachowajnumerwiersza = function(zmienna ,numer) {
+        MYAPP.zmienna = zmienna;
+        MYAPP[MYAPP.zmienna] = numer;
+        MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
+        MYAPP.tabela = "tabelanowerozrachunki:tabela";
+        MYAPP.zmienna = "zmiennadata";
+        MYAPP.wyliczaj = false;
+};
 
 var zachowajobiekt = function(obiekt, event) {
     try {
@@ -10,10 +19,12 @@ var zachowajobiekt = function(obiekt, event) {
             MYAPP.tabeladata = "form:dataList_data";
             MYAPP.tabela = "form:dataList";
             MYAPP.zmienna = "zmiennazapisy";
-        } else {
+            MYAPP.wyliczaj = true;
+        } else if (MYAPP.sourceid === "formobroty:dataListObroty_data"){
             MYAPP.tabeladata = "formobroty:dataListObroty_data";
             MYAPP.tabela = "formobroty:dataListObroty";
             MYAPP.zmienna = "zmiennaobroty";
+            MYAPP.wyliczaj = true;
         }
         console.log(sourceid);
     } catch (ex) {
@@ -22,33 +33,39 @@ var zachowajobiekt = function(obiekt, event) {
 };
 
 var przejdzwiersz = function() {
-    var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
-    wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-    if (MYAPP[MYAPP.zmienna] > wiersze.length) {
-        MMYAPP[MYAPP.zmienna] = wiersze.length;
-    } else {
-        MYAPP[MYAPP.zmienna] += 1;
-    }
-    var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-    var przesun = isScrolledIntoView(komorki[1]);
-    var elem = document.getElementById(MYAPP.tabela);
-    elem.scrollTop = elem.scrollTop + przesun;
-    $(komorki[1]).click();
+        var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+        if (MYAPP.wyliczaj === true) {
+            wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+        }
+        if (MYAPP[MYAPP.zmienna] > wiersze.length) {
+            MMYAPP[MYAPP.zmienna] = wiersze.length;
+        } else {
+            MYAPP[MYAPP.zmienna] += 1;
+        }
+        var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
+        var przesun = isScrolledIntoView(komorki[1]);
+        var elem = document.getElementById(MYAPP.tabela);
+        elem.scrollTop = elem.scrollTop + przesun;
+        $(komorki[1]).click();
+        MYAPP.przetwarzajdalej = false;
 };
 
 var wrocwiersz = function() {
-    var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
-    wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
-    if (MYAPP[MYAPP.zmienna] > 0) {
-        MYAPP[MYAPP.zmienna] -= 1;
-    } else {
-        MYAPP[MYAPP.zmienna] = 1;
-    }
-    var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
-    var przesun = isScrolledIntoView(komorki[1]);
-    var elem = document.getElementById(MYAPP.tabela);
-    elem.scrollTop = elem.scrollTop + przesun;
-    $(komorki[1]).click();
+        var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+        if (MYAPP.wyliczaj === true) {
+            wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
+        }
+        if (MYAPP[MYAPP.zmienna] > 0) {
+            MYAPP[MYAPP.zmienna] -= 1;
+        } else {
+            MYAPP[MYAPP.zmienna] = 1;
+        }
+        var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
+        var przesun = isScrolledIntoView(komorki[1]);
+        var elem = document.getElementById(MYAPP.tabela);
+        elem.scrollTop = elem.scrollTop + przesun;
+        $(komorki[1]).click();
+        MYAPP.przetwarzajdalej = false;
 };
 
 //var stop = function () {

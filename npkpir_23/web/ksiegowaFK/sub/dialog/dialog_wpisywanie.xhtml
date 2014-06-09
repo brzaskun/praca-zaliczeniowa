@@ -43,23 +43,37 @@
                     <h:outputText value="numer"/>
                     <h:outputText value="rok"/>
                     <h:outputText value="miesiąc"/>
-                    <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień">
+                    <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" title="wpisz numer dnia, lub miesiąc i dzień"
+                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                 >
                         <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                     </h:inputText>
-                    <h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}">
+                    <h:selectOneMenu id="symbol" value="#{dokfkView.selected.dokfkPK.seriadokfk}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                         <f:selectItem itemLabel="FVS" itemValue="FVS"/>
                         <f:selectItem itemLabel="WB" itemValue="WB"/>
                         <f:selectItem itemLabel="BO" itemValue="BO"/>
                         <f:ajax event="blur" execute="@this"/>
                         <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
                     </h:selectOneMenu>
-                    <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}">
+                    <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejny}"
+                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                    <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;">
+                    <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 200px;"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
+                                     >
                         <f:selectItems value="#{Roki.rokiList}"/>
                         <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/></h:selectOneMenu>
-                    <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}">
+                    <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                         <f:selectItems value="#{Mce.mceList}"/>
                         <f:ajax event="blur" execute="@this"/>
                     </h:selectOneMenu>
@@ -68,10 +82,17 @@
                     <h:outputText value="numer własny"/>
                     <h:outputText value="treść dok."/>
                     <h:outputText value="wartość dokumentu"/>
-                    <h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}">
+                    <h:inputText id="numerwlasny" value="#{dokfkView.selected.numer}" 
+                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                 onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                 onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
-                    <h:inputText value="#{dokfkView.selected.tresc}" size="80">
+                    <h:inputText value="#{dokfkView.selected.tresc}" size="80"
+                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
+                                 >
                         <f:ajax event="blur" execute="@this"/>
                     </h:inputText>
                     <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
@@ -85,7 +106,12 @@
                         <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                         <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                         <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}">
+                        <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
+                                         readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
+                                         >
                             <f:ajax event="blur" execute="@this"/>
                             <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
