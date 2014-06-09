@@ -167,17 +167,17 @@
                     </p:column>-->
                 </p:dataTable>
                 <p:panel>
-                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz}" styleClass="fkbutton" actionListener="#{dokfkView.dodaj}" accesskey="z" update=":wpisywaniefooter, :formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"  onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
-                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj}" styleClass="fkbutton" actionListener="#{dokfkView.edycja}" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" oncomplete="pierwszy.hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
+                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (z)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" accesskey="z" update=":wpisywaniefooter, :formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"  onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"/>
+                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" oncomplete="pierwszy.hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>
             </div>
         </h:form>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
-                <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
-                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" actionListener="#{dokfkView.tworzenieTransakcjiZWierszy()}" accesskey="r" />
-                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="innafukncja();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
+                <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
+                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.tworzenieTransakcjiZWierszy()}" accesskey="r" />
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="innafukncja();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>

@@ -36,6 +36,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
+                <p:focus for="rozrachunki:dataList">
                 <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
                              emptyMessage="Nie ma zapisów po przeciwnej stronie na tym samym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana #{dokfkView.biezacetransakcje.size()}"  
                              >
@@ -99,11 +100,12 @@
                     </p:column>
 
                 </p:dataTable>
+                    </p:focus>
                 
             </div>
             <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" 
                              type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
-                             update=":rozrachunki" style="margin-left: 10px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                             update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
         </h:form>
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px; margin-left: 40%;">
@@ -114,7 +116,7 @@
                         <f:ajax event="change" execute="@this" render=":wpisywaniefooter"/>
                 </h:selectBooleanCheckbox>
                     <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
-                    <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');"/>
+                    <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right; width: 150px;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');"/>
                 </h:form>
             </div>
         </f:facet>
