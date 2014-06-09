@@ -105,8 +105,8 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         listaRozrachunkow = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        Konto wybraneKontoNode = (Konto) node.getData();
-        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+        wybranekonto = (Konto) node.getData();
+        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
         if (!listarozrachunkowkonto.isEmpty()) {
             for (Rozrachunekfk p : listarozrachunkowkonto) {
                 List<Transakcja> listatransakcjikonto = new ArrayList<>();
