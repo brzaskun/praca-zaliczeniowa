@@ -255,7 +255,7 @@ public class DokfkView implements Serializable {
     
     private void utrwalTransakcje() {
         //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
-            List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
             //zaznaczamy sparowae jako wprowadzone i zaksiegowane
             for (Transakcja p : biezacetransakcje) {
@@ -286,8 +286,8 @@ public class DokfkView implements Serializable {
                 try{
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), rozrachunekfkDAO);
                 ObslugaRozrachunku.usunrozrachunek(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaWn(), transakcjaDAO, rozrachunekfkDAO);
+                ObslugaRozrachunku.usuntransakcje(dousuniecia.getListawierszy().get(i).getWierszStronaMa(), transakcjaDAO, rozrachunekfkDAO);
                             Msg.msg("i", "Usunieto rozrachunek");
                 } catch (Exception e) {
                     Msg.msg("e", "Nieusunieto rozrachunku");
@@ -306,13 +306,56 @@ public class DokfkView implements Serializable {
      //usuwa wiersze z dokumentu
     public void usunWierszWDokumencie() {
         try {
-            if (liczbawierszyWDokumencie > 1) {
+            if (liczbawierszyWDokumencie > 0) {
                 liczbawierszyWDokumencie--;
-                ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), rozrachunekfkDAO);
-                ObslugaRozrachunku.usunrozrachunek(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaWn(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
-                ObslugaRozrachunku.usuntransakcje(selected.getListawierszy().get(liczbawierszyWDokumencie).getWierszStronaMa(), zestawienielisttransakcjiDAO, rozrachunekfkDAO);
+                try {
+                    Wiersze wierszUsuwany = selected.getListawierszy().get(liczbawierszyWDokumencie);
+                    List<Rozrachunekfk> znalezioneRozrachunki = new ArrayList<>();
+                    Rozrachunekfk rozrachunekfk = new Rozrachunekfk(wierszUsuwany.getWierszStronaWn());
+                    Rozrachunekfk rozrachunekOdnaleziony = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
+                    if (rozrachunekOdnaleziony instanceof Rozrachunekfk) {
+                        znalezioneRozrachunki.add(rozrachunekOdnaleziony);
+                    }
+                    rozrachunekfk =  new Rozrachunekfk(wierszUsuwany.getWierszStronaMa());
+                    rozrachunekOdnaleziony = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
+                    if (rozrachunekOdnaleziony instanceof Rozrachunekfk) {
+                        znalezioneRozrachunki.add(rozrachunekOdnaleziony);
+                    }
+                    for (Rozrachunekfk rU : znalezioneRozrachunki) {
+                        boolean nowatransakcja = rU.isNowatransakcja();
+                        List<Transakcja> znalezioneTransakcje = new ArrayList<>();
+                        if (nowatransakcja == true) {
+                            znalezioneTransakcje = transakcjaDAO.findBySparowanyID(rU.getIdrozrachunku());
+                        } else {
+                            znalezioneTransakcje = transakcjaDAO.findByRozliczonyID(rU.getIdrozrachunku());
+                        }
+                        if (znalezioneTransakcje.size() >0) {
+                            for (Transakcja p : znalezioneTransakcje) {
+                                Rozrachunekfk przeciwny = new Rozrachunekfk();
+                                if (nowatransakcja == true) {
+                                    przeciwny = p.getRozliczany();
+                                } else {
+                                    przeciwny = p.getSparowany();
+                                }
+                                double kwotatransakcji = p.getKwotatransakcji();
+                                przeciwny.setRozliczono(przeciwny.getRozliczono() - kwotatransakcji);
+                                przeciwny.setPozostalo(przeciwny.getPozostalo() + kwotatransakcji);
+                                rozrachunekfkDAO.edit(przeciwny);
+                                transakcjaDAO.destroy(p);
+                            }
+                        }
+                    }
+                    for (Rozrachunekfk s : znalezioneRozrachunki) {
+                        rozrachunekfkDAO.destroy(s);
+                    }
+                } catch (Exception e) {
+                    //moze byc usuwany wiersz pusty
+                }
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
+            } 
+            if (liczbawierszyWDokumencie == 0) {
+                selected.getListawierszy().add(ObslugaWiersza.ustawNowyWiersz());
+                liczbawierszyWDokumencie++;
             }
             Msg.msg("Wiersz usunięty.");
         } catch (Exception e) {

@@ -8,12 +8,13 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
 /**
  *
  * @author Osito
  */
-@Embeddable
+@Entity
 public class WierszStronafk implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -34,6 +35,7 @@ public class WierszStronafk implements Serializable {
     private String nrwlasnydokumentu;
     private String opisdokumentu;
     private String opiswiersza;
+    private boolean naniesionorozrachunki;
 
     public WierszStronafk() {
         this.kwotaPLN = 0.0;
@@ -181,6 +183,14 @@ public class WierszStronafk implements Serializable {
 
     public void setGrafikawaluty(String grafikawaluty) {
         this.grafikawaluty = grafikawaluty;
+    }
+
+    public boolean isNaniesionorozrachunki() {
+        return naniesionorozrachunki;
+    }
+
+    public void setNaniesionorozrachunki(boolean naniesionorozrachunki) {
+        this.naniesionorozrachunki = naniesionorozrachunki;
     }
 
     
