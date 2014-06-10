@@ -312,30 +312,34 @@ public class PlanKontView implements Serializable {
             } else if (zawartosc.isMapotomkow() == true) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
-                kontoDAO.destroy(selectednode.getData());
-                if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
-                    int wynik = PlanKontFKBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO, podatnik);
-                    if (wynik == 0) {
-                        Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
-                        kontomacierzyste.setBlokada(false);
-                        kontomacierzyste.setMapotomkow(false);
-                        kontomacierzyste.setMaslownik(false);
-                        kontoDAO.edit(kontomacierzyste);
-                        Msg.msg("Usunięto elementy słownika");
+                try {
+                    kontoDAO.destroy(selectednode.getData());
+                    if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
+                        int wynik = PlanKontFKBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO, podatnik);
+                        if (wynik == 0) {
+                            Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                            kontomacierzyste.setBlokada(false);
+                            kontomacierzyste.setMapotomkow(false);
+                            kontomacierzyste.setMaslownik(false);
+                            kontoDAO.edit(kontomacierzyste);
+                            Msg.msg("Usunięto elementy słownika");
+                        } else {
+                            Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
+                        }
                     } else {
-                        Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
+                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, zawartosc, kontoDAO);
+                        if (!sadzieci) {
+                            Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                            kontomacierzyste.setBlokada(false);
+                            kontomacierzyste.setMapotomkow(false);
+                            kontoDAO.edit(kontomacierzyste);
+                        }
                     }
-                } else {
-                    boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, zawartosc, kontoDAO);
-                    if (!sadzieci) {
-                        Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
-                        kontomacierzyste.setBlokada(false);
-                        kontomacierzyste.setMapotomkow(false);
-                        kontoDAO.edit(kontomacierzyste);
-                    }
+                    PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, podatnik);
+                    Msg.msg("i", "Usuwam konto", "formX:messages");
+                } catch (Exception e) {
+                    Msg.msg("e", "Istnieją zapisy na koncie, nie można go usunąć.");
                 }
-                PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, podatnik);
-                Msg.msg("i", "Usuwam konto", "formX:messages");
             }
         } else {
             Msg.msg("e", "Nie wybrano konta", "formX:messages");
