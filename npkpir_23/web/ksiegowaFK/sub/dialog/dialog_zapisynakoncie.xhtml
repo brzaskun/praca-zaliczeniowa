@@ -57,6 +57,18 @@
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
                         });
+                        $(document).on("click", '.grid1 tr', function(e) {
+                            var lolo = $("#tabelazzapisami\\:tabela_data").children("tr");
+                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+                            try {
+                                e.stopPropagation(); // will prevent double click events from link being clicked within row
+                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+                                var numerwiersza = unitNo- pierwszy;
+                                zachowajnumerwiersza("zmiennazapisy", numerwiersza);
+                            } catch (e) {
+                                alert('error');
+                            }
+                        });
                         /* ]]> */
                     </script>
                     <p:outputPanel id="kontenertabeli" deferred="true">
@@ -79,7 +91,7 @@
                 <h:form id="tabelazzapisami">
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="wiersz.idwiersza" emptyMessage="Nie ma zapisów na koncie"
-                                 rowStyleClass="#{loop.kontoprzeciwstawne eq '000' ? 'niebieskietlo' : null}" rowIndexVar="rowindex"
+                                 rowStyleClass="#{loop.kontoprzeciwstawne eq '000' ? 'niebieskietlo' : null}" rowIndexVar="rowindex" styleClass="grid1"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
@@ -90,7 +102,7 @@
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
                         <p:column headerText="lp" width="40" sortBy="rowindex" >
-                            <h:outputText value="#{rowindex+1}"/>
+                            <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
                         <p:column headerText="data" width="120" sortBy="wiersz.dataksiegowania">
                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
