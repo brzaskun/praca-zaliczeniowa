@@ -194,7 +194,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             //pobiermay dane z poszczegolnego konta
             double kwotaWn = p.getKwotawn();
             double kwotaMa = p.getKwotama();
-            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKontoob()));
+            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKontoobiekt()));
             String pozycjaRZiS = kontopobrane.getPozycja();
             for (TreeNodeExtended r : finallNodes) {
                 //sprawdzamy czy dane konto nalezy do danego wezla

@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,9 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontozapisy.findAll", query = "SELECT k FROM Kontozapisy k"),
     @NamedQuery(name = "Kontozapisy.findById", query = "SELECT k FROM Kontozapisy k WHERE k.id = :id"),
     @NamedQuery(name = "Kontozapisy.findByPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik"),
-    @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.konto = :konto"),
-    @NamedQuery(name = "Kontozapisy.findByKontoPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.konto = :konto AND k.symbolwaluty = :symbolwaluty"),
-    @NamedQuery(name = "Kontozapisy.findByKontoBO", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.konto = :konto AND k.kontoprzeciwstawne = '000'"),
+    @NamedQuery(name = "Kontozapisy.findByKonto", query = "SELECT k FROM Kontozapisy k WHERE k.kontoobiekt.pelnynumer = :konto"),
+    @NamedQuery(name = "Kontozapisy.findByKontoPodatnik", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.kontoobiekt.pelnynumer = :konto AND k.symbolwaluty = :symbolwaluty"),
+    @NamedQuery(name = "Kontozapisy.findByKontoBO", query = "SELECT k FROM Kontozapisy k WHERE k.podatnik = :podatnik AND k.kontoobiekt.pelnynumer = :konto AND k.kontoprzeciwstawne = '000'"),
     @NamedQuery(name = "Kontozapisy.findByOpis", query = "SELECT k FROM Kontozapisy k WHERE k.opis = :opis"),
     @NamedQuery(name = "Kontozapisy.findByKwotawn", query = "SELECT k FROM Kontozapisy k WHERE k.kwotawn = :kwotawn"),
     @NamedQuery(name = "Kontozapisy.findByKontown", query = "SELECT k FROM Kontozapisy k WHERE k.kontown = :kontown"),
@@ -45,60 +46,50 @@ public class Kontozapisy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "podatnik", nullable = false, length = 255)
     private String podatnik;
+    //dzieki temu nie pozwoli on na usuniecie konta jezeli sa na nim zapisy
+    @JoinColumn(name = "kontoobiekt", referencedColumnName = "id")
+    @ManyToOne
+    private Konto kontoobiekt;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String konto;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(nullable = false)
-    private Konto kontoob;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(name = "kontoprzeciwstawne", nullable = false, length = 100)
     private String kontoprzeciwstawne;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Column(nullable = false)
-    private Dokfk dokument;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "opis", nullable = false, length = 255)
     private String opis;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "kwotawn", nullable = false)
     private double kwotawn;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(name = "kontown", nullable = false, length = 100)
     private String kontown;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "kwotama", nullable = false)
     private double kwotama;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(name = "kontoma", nullable = false, length = 100)
     private String kontoma;
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
+    @ManyToOne
     private Wiersze wiersz;
     @Size(min = 3, max = 3)
-    @Column(nullable = false, length = 3)
+    @Column(name = "symbolwaluty", nullable = false, length = 3)
     private String symbolwaluty;
 
     public Kontozapisy() {
@@ -108,12 +99,10 @@ public class Kontozapisy implements Serializable {
         this.id = id;
     }
 
-    public Kontozapisy(Integer id, String podatnik, String konto, Konto kontoob, Dokfk dokument, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
+    public Kontozapisy(Integer id, String podatnik, Konto kontoobiekt, String opis, double kwotawn, String kontown, double kwotama, String kontoma) {
         this.id = id;
         this.podatnik = podatnik;
-        this.konto = konto;
-        this.kontoob = kontoob;
-        this.dokument = dokument;
+        this.kontoobiekt = kontoobiekt;
         this.opis = opis;
         this.kwotawn = kwotawn;
         this.kontown = kontown;
@@ -148,28 +137,12 @@ public class Kontozapisy implements Serializable {
         this.podatnik = podatnik;
     }
     
-    public String getKonto() {
-        return konto;
+      public Konto getKontoobiekt() {
+        return kontoobiekt;
     }
     
-    public void setKonto(String konto) {
-        this.konto = konto;
-    }
-    
-    public Konto getKontoob() {
-        return kontoob;
-    }
-    
-    public void setKontoob(Konto kontoob) {
-        this.kontoob = kontoob;
-    }
-    
-    public Dokfk getDokument() {
-        return dokument;
-    }
-    
-    public void setDokument(Dokfk dokument) {
-        this.dokument = dokument;
+    public void setKontoobiekt(Konto kontoobiekt) {
+        this.kontoobiekt = kontoobiekt;
     }
     
     public String getOpis() {
@@ -255,7 +228,7 @@ public class Kontozapisy implements Serializable {
 
     @Override
     public String toString() {
-        return "Kontozapisy{" + "podatnik=" + podatnik + ", konto=" + konto + ", kontoprzeciwstawne=" + kontoprzeciwstawne + ", dokument=" + dokument +  ", opis=" + opis + '}';
+        return "Kontozapisy{" + "podatnik=" + podatnik + ", konto=" + kontoobiekt.getNazwapelna() + ", kontoprzeciwstawne=" + kontoprzeciwstawne + ", dokument=" + wiersz.getDokfk() +  ", opis=" + opis + '}';
     }
 
     
