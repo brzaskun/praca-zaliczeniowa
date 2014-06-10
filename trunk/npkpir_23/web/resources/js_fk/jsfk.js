@@ -255,9 +255,12 @@ var chowanienapoczatek = function(){
     }
 };
 
-var aktualizujmape = function(){
+var aktualizujmape = function(liczbawierszyWDokumencie){
     usunztablicydok();
     chowanienapoczatekdok();
+    if (liczbawierszyWDokumencie === 1) {
+        $(document.getElementById('formwpisdokument:dataList:0:opis')).focus();
+    }
 };
 
 var aktualizujmapedialog = function(wiersze){

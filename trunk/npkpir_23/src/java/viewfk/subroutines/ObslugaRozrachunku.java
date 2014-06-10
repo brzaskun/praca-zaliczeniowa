@@ -6,12 +6,10 @@
 package viewfk.subroutines;
 
 import daoFK.RozrachunekfkDAO;
-import daoFK.ZestawienielisttransakcjiDAO;
-import entityfk.Transakcja;
+import daoFK.TransakcjaDAO;
 import embeddablefk.WierszStronafk;
 import embeddablefk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
-import entityfk.Zestawienielisttransakcji;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -42,10 +40,10 @@ public class ObslugaRozrachunku {
         }
     }
 
-    public static void usuntransakcje(WierszStronafk wierszStronafk, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, RozrachunekfkDAO rozrachunekfkDAO) {
+    public static void usuntransakcje(WierszStronafk wierszStronafk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
         try {
             WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
-            Zestawienielisttransakcji znaleziona = zestawienielisttransakcjiDAO.findByKlucz(wierszPK);
+            //Transakcja znaleziona = transakcjaDAO.findByKlucz(wierszPK);
            // List<Transakcja> listatransakcji = znaleziona.getListatransakcji();
 //            if (listatransakcji != null) {
 //                for (Transakcja p : listatransakcji) {
@@ -59,7 +57,6 @@ public class ObslugaRozrachunku {
 //                    rozrachunekfkDAO.edit(r);
 //                }
 //            }
-            zestawienielisttransakcjiDAO.destroy(znaleziona);
         } catch (Exception e){
         }
     }

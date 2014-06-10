@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaRozliczone", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.pozostalo = 0"),
     @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono > 0 AND w.pozostalo > 0"),
     @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaNowe", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono = 0"),
-    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND W.walutarozrachunku = :walutarozrachunku"),
+    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND w.walutarozrachunku = :walutarozrachunku AND w.nowatransakcja = 1"),
     @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
             + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
             + "AND w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik "
@@ -82,9 +83,9 @@ public class Rozrachunekfk  implements Serializable {
     private String rok;
     private String mc;
     private String datarozrachunku;
-    @OneToMany(mappedBy = "rozliczany")
+    @OneToMany(mappedBy = "rozliczany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
     private List<Transakcja> transakcjaRozliczany;
-    @OneToMany(mappedBy = "sparowany")
+    @OneToMany(mappedBy = "sparowany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
     private List<Transakcja> transakcjaSparowany;
         
     
