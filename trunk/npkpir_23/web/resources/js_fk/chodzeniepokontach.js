@@ -3,10 +3,19 @@
 var zachowajnumerwiersza = function(zmienna ,numer) {
         MYAPP.zmienna = zmienna;
         MYAPP[MYAPP.zmienna] = numer;
-        MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
-        MYAPP.tabela = "tabelanowerozrachunki:tabela";
-        MYAPP.zmienna = "zmiennadata";
-        MYAPP.wyliczaj = false;
+        var source = event.target || event.srcElement;
+        MYAPP.sourceid = source.parentNode.parentNode.id;
+        if (MYAPP.sourceid === "tabelanowerozrachunki:tabela_data") {
+            MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
+            MYAPP.tabela = "tabelanowerozrachunki:tabela";
+            MYAPP.zmienna = "zmiennadata";
+            MYAPP.wyliczaj = false;
+        } else {
+            MYAPP.tabeladata = "tabelazzapisami:tabela_data";
+            MYAPP.tabela = "tabelazzapisami:tabela";
+            MYAPP.zmienna = "zmiennazapisy";
+            MYAPP.wyliczaj = false;
+        }
 };
 
 var zachowajobiekt = function(obiekt, event) {
