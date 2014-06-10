@@ -43,11 +43,14 @@ var zachowajobiekt = function(obiekt, event) {
 
 var przejdzwiersz = function() {
         var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+        var dlugoscwierszy = wiersze.length;
         if (MYAPP.wyliczaj === true) {
             wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
         }
-        if (MYAPP[MYAPP.zmienna] > wiersze.length) {
-            MMYAPP[MYAPP.zmienna] = wiersze.length;
+        if (MYAPP[MYAPP.zmienna] >= dlugoscwierszy-1) {
+            MYAPP[MYAPP.zmienna] = dlugoscwierszy-1;
+        } else if (MYAPP[MYAPP.zmienna] === 0) {
+            MYAPP[MYAPP.zmienna] = 1;
         } else {
             MYAPP[MYAPP.zmienna] += 1;
         }
@@ -61,13 +64,16 @@ var przejdzwiersz = function() {
 
 var wrocwiersz = function() {
         var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
+        var dlugoscwierszy = wiersze.length;
         if (MYAPP.wyliczaj === true) {
             wylicznumerwiersza(wiersze, MYAPP[MYAPP.zmienna]);
         }
-        if (MYAPP[MYAPP.zmienna] > 0) {
-            MYAPP[MYAPP.zmienna] -= 1;
+        if (MYAPP[MYAPP.zmienna] > dlugoscwierszy) {
+            MYAPP[MYAPP.zmienna] = dlugoscwierszy;
+        } else if (MYAPP[MYAPP.zmienna] === 0) {
+            MYAPP[MYAPP.zmienna] = 0;
         } else {
-            MYAPP[MYAPP.zmienna] = 1;
+            MYAPP[MYAPP.zmienna] -= 1;
         }
         var komorki = $(wiersze[MYAPP[MYAPP.zmienna]]).children("td");
         var przesun = isScrolledIntoView(komorki[1]);
