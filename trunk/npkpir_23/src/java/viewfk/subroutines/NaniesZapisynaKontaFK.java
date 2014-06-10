@@ -47,13 +47,11 @@ public class NaniesZapisynaKontaFK implements Serializable {
 
     private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
         Kontozapisy kontozapisy = new Kontozapisy();
-        kontozapisy.setKonto(p.getWierszStronaWn().getKonto().getPelnynumer());
-        kontozapisy.setKontoob(p.getWierszStronaWn().getKonto());
+        kontozapisy.setKontoobiekt(p.getWierszStronaWn().getKonto());
         kontozapisy.setKontoprzeciwstawne(p.getWierszStronaMa().getKonto().getPelnynumer());
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
-        kontozapisy.setDokument(selected);
         kontozapisy.setKontown(p.getWierszStronaWn().getKonto().getNazwapelna());
         kontozapisy.setKontoma(p.getWierszStronaMa().getKonto().getNazwapelna());
         kontozapisy.setKwotawn(p.getWierszStronaWn().getKwota());
@@ -64,13 +62,11 @@ public class NaniesZapisynaKontaFK implements Serializable {
 
     private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
         Kontozapisy kontozapisy = new Kontozapisy();
-        kontozapisy.setKonto(p.getWierszStronaMa().getKonto().getPelnynumer());
-        kontozapisy.setKontoob(p.getWierszStronaMa().getKonto());
+        kontozapisy.setKontoobiekt(p.getWierszStronaMa().getKonto());
         kontozapisy.setKontoprzeciwstawne(p.getWierszStronaWn().getKonto().getPelnynumer());
         kontozapisy.setWiersz(p);
         kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
         kontozapisy.setOpis(opis);
-        kontozapisy.setDokument(selected);
         kontozapisy.setKontown(p.getWierszStronaMa().getKonto().getNazwapelna());
         kontozapisy.setKontoma(p.getWierszStronaWn().getKonto().getNazwapelna());
         kontozapisy.setKwotama(p.getWierszStronaMa().getKwota());

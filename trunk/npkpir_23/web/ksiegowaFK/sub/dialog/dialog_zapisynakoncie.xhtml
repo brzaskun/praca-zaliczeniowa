@@ -124,7 +124,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Konto nr" width="100" sortBy="konto">
-                            <h:outputText id="kontonr" value="#{loop.konto}"/>
+                            <h:outputText id="kontonr" value="#{loop.kontoobiekt.pelnynumer}"/>
                         </p:column>
                         <p:column headerText="Konto przeciwstawne" width="90" sortBy="loop.kontoprzeciwstawne">
                             <h:outputText value="#{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>

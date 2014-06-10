@@ -45,8 +45,10 @@ public class Tabelanbp implements Serializable {
     @NotNull
     @Column(nullable = false)
     private double kurssredni;
+    //to jest dlatego ze dla faktury typu FVZ caly dokument jest w jednym kursie
     @OneToMany(mappedBy = "tabelanbp")
     private List<Dokfk> Dokfk;
+    //natomiast dla wyciagow bankowych jest inaczej tam liczy sie kazdy wiersz
     @OneToMany(mappedBy = "tabelanbp")
     private List<Wiersze> Wiersze;
 

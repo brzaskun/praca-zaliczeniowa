@@ -97,7 +97,7 @@ public class KontoZapisyFKDAO extends DAO implements Serializable {
         try {
             List<Kontozapisy> worek = kontozapisyFacade.findAll(Kontozapisy.class);
             for(Kontozapisy p : worek){
-                if(p.getKontoob().getMacierzyste().equals(pelnynumer)){
+                if(p.getKontoobiekt().getMacierzyste().equals(pelnynumer)){
                     zwrot.add(p);
                 }
             }

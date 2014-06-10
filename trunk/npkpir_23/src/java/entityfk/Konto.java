@@ -154,6 +154,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean maslownik;
     @OneToMany(mappedBy = "kontoid")
     private List<Rozrachunekfk> rozrachunekfkList;
+    @OneToMany(mappedBy = "kontoobiekt")
+    private List<Kontozapisy> zapisynakoncie;
 
     public Konto() {
         this.slownikowe = false;
@@ -376,9 +378,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setMaslownik(boolean maslownik) {
         this.maslownik = maslownik;
     }
+
+    @XmlTransient
+    public List<Kontozapisy> getZapisynakoncie() {
+        return zapisynakoncie;
+    }
+
+    public void setZapisynakoncie(List<Kontozapisy> zapisynakoncie) {
+        this.zapisynakoncie = zapisynakoncie;
+    }
   
-    
-    
     
     @XmlTransient
     public List<Rozrachunekfk> getRozrachunekfkList() {

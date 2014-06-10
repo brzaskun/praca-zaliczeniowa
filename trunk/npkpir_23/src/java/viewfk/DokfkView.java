@@ -352,10 +352,12 @@ public class DokfkView implements Serializable {
                     //moze byc usuwany wiersz pusty
                 }
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
+                dokDAOfk.edit(selected);
             } 
             if (liczbawierszyWDokumencie == 0) {
                 selected.getListawierszy().add(ObslugaWiersza.ustawNowyWiersz());
                 liczbawierszyWDokumencie++;
+                dokDAOfk.edit(selected);
             }
             Msg.msg("Wiersz usunięty.");
         } catch (Exception e) {

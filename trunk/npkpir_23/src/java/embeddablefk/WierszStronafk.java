@@ -8,13 +8,12 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 
 /**
  *
  * @author Osito
  */
-@Entity
+@Embeddable
 public class WierszStronafk implements Serializable {
     private static final long serialVersionUID = 1L;
     
