@@ -255,13 +255,15 @@ public class DokfkView implements Serializable {
     
     private void utrwalTransakcje() {
         //zazanczamy ze nowe transakcje wprowadzone podczas tworzenia dokumentu maja byc zachowane bo dokument w efekcje zostal zapisany
-                List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Rozrachunekfk> listaNowoDodanychRozrachunkow = rozrachunekfkDAO.findByDokfk(selected.getDokfkPK().getSeriadokfk(),selected.getDokfkPK().getNrkolejny(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             ObslugaRozrachunku.utrwalNoweRozachunki(listaNowoDodanychRozrachunkow, rozrachunekfkDAO);
             //zaznaczamy sparowae jako wprowadzone i zaksiegowane
-            for (Transakcja p : biezacetransakcje) {
-                if (p.getKwotatransakcji() > 0) {
-                    p.setZaksiegowana(true);
-                    transakcjaDAO.edit(p);
+            if (biezacetransakcje != null) {
+                for (Transakcja p : biezacetransakcje) {
+                    if (p.getKwotatransakcji() > 0) {
+                        p.setZaksiegowana(true);
+                        transakcjaDAO.edit(p);
+                    }
                 }
             }
     }
