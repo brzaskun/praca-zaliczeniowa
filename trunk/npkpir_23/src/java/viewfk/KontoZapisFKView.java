@@ -88,12 +88,14 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(p.getZapisynakoncie());//Po zmianie i wprowadzeniu relacji nie trzeba wyszukiwac. Kazde konto ma dostep do listy
+                    //kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
                 }
                 Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+                kontozapisy.addAll(wybranekonto.getZapisynakoncie());
+                //kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
             }
             sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
