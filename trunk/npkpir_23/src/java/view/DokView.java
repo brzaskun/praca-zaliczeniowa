@@ -209,6 +209,7 @@ public final class DokView implements Serializable {
             selDokument.setVatM("");
         } catch (Exception e) {
         }
+        this.typdokumentu = "ZZ";
         //ukrocmiesiace();
 
     }
