@@ -8,7 +8,7 @@ package beansFK;
 
 import daoFK.RozrachunekfkDAO;
 import data.Data;
-import embeddablefk.WierszStronafk;
+import entityfk.WierszStronafk;
 import entityfk.Dokfk;
 import entityfk.Rozrachunekfk;
 import javax.ejb.Singleton;

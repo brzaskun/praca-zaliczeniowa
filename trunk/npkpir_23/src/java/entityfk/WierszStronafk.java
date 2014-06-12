@@ -2,17 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddablefk;
+package entityfk;
 
 import entityfk.Konto;
-import entityfk.Kontozapisy;
 import entityfk.Rozrachunekfk;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

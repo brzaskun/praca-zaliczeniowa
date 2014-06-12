@@ -15,8 +15,8 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Transakcja;
-import embeddablefk.WierszStronafk;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafk;
+import entityfk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
@@ -615,12 +615,18 @@ public class DokfkView implements Serializable {
         Rozrachunekfk odnalezionyRozrachunek = RozrachunekFKBean.pobierzIstniejacyRozrachunek(rozrachunekfkDAO, aktualnyWierszDlaRozrachunkow);
         if (!(odnalezionyRozrachunek instanceof Rozrachunekfk)) {
             potraktujjakoNowaTransakcje = false;
-            rozrachunekfkDAO.dodaj(aktualnyWierszDlaRozrachunkow);
             Msg.msg("Utworzyłem nowy rozrachunek");
         } else {
             aktualnyWierszDlaRozrachunkow = odnalezionyRozrachunek;
             Msg.msg("Otworzyłem zachowany rozrachunek rozrachunek");
         }
+        WierszStronafk wierszStronafk;
+            if (stronawiersza.equals("Wn")) {
+                wierszStronafk = selected.getListawierszy().get(numerwiersza).getWierszStronaWn();
+            } else {
+                wierszStronafk = selected.getListawierszy().get(numerwiersza).getWierszStronaMa();
+            }
+            wierszStronafk.setRozrachunekfk(aktualnyWierszDlaRozrachunkow);
     }
    
 //      public void tworzenieTransakcjiZWierszy() {

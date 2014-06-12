@@ -10,7 +10,7 @@ import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Transakcja;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;

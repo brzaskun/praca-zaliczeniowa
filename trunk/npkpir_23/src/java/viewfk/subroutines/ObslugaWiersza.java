@@ -6,8 +6,8 @@
 
 package viewfk.subroutines;
 
-import embeddablefk.WierszStronafk;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafk;
+import entityfk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.Wiersze;
 import javax.ejb.Singleton;

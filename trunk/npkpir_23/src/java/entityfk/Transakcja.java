@@ -6,7 +6,6 @@
 
 package entityfk;
 
-import embeddablefk.WierszStronafkPK;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
