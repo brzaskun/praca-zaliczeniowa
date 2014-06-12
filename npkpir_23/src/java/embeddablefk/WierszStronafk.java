@@ -5,15 +5,25 @@
 package embeddablefk;
 
 import entityfk.Konto;
+import entityfk.Kontozapisy;
+import entityfk.Rozrachunekfk;
+import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Osito
  */
-@Embeddable
+@Entity
 public class WierszStronafk implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -21,20 +31,34 @@ public class WierszStronafk implements Serializable {
      * to jest klucz ale nie moze byc EmbeddedId bo sie kloci z idwiersza. To pole jest osadzone w Wiersze
      * zostawilem to jestak zeby latow wyszukiwac i porownywac przez PK
      */
+    @EmbeddedId
     public WierszStronafkPK wierszStronafkPK;
+    @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
+    @OneToOne
+    private Wiersze wiersz;
+    @Column(name = "kwota")
     private double kwota;
+    @Column(name = "kwotaPLN")
     private double kwotaPLN;
+    @Column(name = "kwotaWaluta")
     private double kwotaWaluta;
+    @Column(name = "kurswaluty")
     private double kurswaluty;
+    @Column(name = "symbolwaluty")
     private String symbolwaluty;
+    @Column(name = "grafikawaluty")
     private String grafikawaluty;
+    @Column(name = "nrtabelinbp")
     private String nrtabelinbp;
+    @Column(name = "datawaluty")
     private String datawaluty;
+    @JoinColumn(name = "konto", referencedColumnName = "id")
+    @ManyToOne
     private Konto konto;
-    private String nrwlasnydokumentu;
-    private String opisdokumentu;
+    @Column(name = "opiswiersza")
     private String opiswiersza;
-    private boolean naniesionorozrachunki;
+    @OneToOne(mappedBy = "wierszStronafk", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
+    private Rozrachunekfk rozrachunekfk;
 
     public WierszStronafk() {
         this.kwotaPLN = 0.0;
@@ -104,22 +128,6 @@ public class WierszStronafk implements Serializable {
         this.konto = konto;
     }
 
-    public String getNrwlasnydokumentu() {
-        return nrwlasnydokumentu;
-    }
-
-    public void setNrwlasnydokumentu(String nrwlasnydokumentu) {
-        this.nrwlasnydokumentu = nrwlasnydokumentu;
-    }
-
-    public String getOpisdokumentu() {
-        return opisdokumentu;
-    }
-
-    public void setOpisdokumentu(String opisdokumentu) {
-        this.opisdokumentu = opisdokumentu;
-    }
-
     public String getOpiswiersza() {
         return opiswiersza;
     }
@@ -184,14 +192,26 @@ public class WierszStronafk implements Serializable {
         this.grafikawaluty = grafikawaluty;
     }
 
-    public boolean isNaniesionorozrachunki() {
-        return naniesionorozrachunki;
+    public Rozrachunekfk getRozrachunekfk() {
+        return rozrachunekfk;
     }
 
-    public void setNaniesionorozrachunki(boolean naniesionorozrachunki) {
-        this.naniesionorozrachunki = naniesionorozrachunki;
+    public void setRozrachunekfk(Rozrachunekfk rozrachunekfk) {
+        this.rozrachunekfk = rozrachunekfk;
     }
 
+   
+
+    public Wiersze getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersze wiersz) {
+        this.wiersz = wiersz;
+    }
+
+    
+    
     
        
     

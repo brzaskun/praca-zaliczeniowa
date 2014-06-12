@@ -6,6 +6,7 @@ package embeddablefk;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
@@ -15,11 +16,15 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class WierszStronafkPK implements Serializable{
     private static final long serialVersionUID = 1L;
-    
+    @Column(name = "podatnik")
     private String podatnik;
+    @Column(name = "typdokumentu")
     private String typdokumentu;
+    @Column(name = "nrkolejnydokumentu")
     private int nrkolejnydokumentu;
+    @Column(name = "nrPorzadkowyWiersza")
     private int nrPorzadkowyWiersza;
+    @Column(name = "stronaWnlubMa")
     private String stronaWnlubMa;
 
     public WierszStronafkPK() {

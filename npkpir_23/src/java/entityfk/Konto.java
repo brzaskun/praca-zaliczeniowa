@@ -6,6 +6,7 @@ package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
 import embeddablefk.KontoKwota;
+import embeddablefk.WierszStronafk;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -157,6 +158,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private List<Rozrachunekfk> rozrachunekfkList;
     @OneToMany(mappedBy = "kontoobiekt", fetch = FetchType.EAGER)
     private List<Kontozapisy> zapisynakoncie;
+    @OneToMany(mappedBy = "konto", fetch = FetchType.EAGER)
+    private List<WierszStronafk> wierszStronafk;
 
     public Konto() {
         this.slownikowe = false;
@@ -398,6 +401,17 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setRozrachunekfkList(List<Rozrachunekfk> rozrachunekfkList) {
         this.rozrachunekfkList = rozrachunekfkList;
     }
+
+    @XmlTransient
+    public List<WierszStronafk> getWierszStronafk() {
+        return wierszStronafk;
+    }
+
+    public void setWierszStronafk(List<WierszStronafk> wierszStronafk) {
+        this.wierszStronafk = wierszStronafk;
+    }
+    
+    
 
     @Override
     public int hashCode() {
