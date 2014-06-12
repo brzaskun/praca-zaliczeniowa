@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddablefk;
+package entityfk;
 
 import java.io.Serializable;
 import java.util.Objects;

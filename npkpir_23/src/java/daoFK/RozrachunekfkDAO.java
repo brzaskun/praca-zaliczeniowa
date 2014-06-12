@@ -5,7 +5,7 @@
 package daoFK;
 
 import dao.DAO;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
 import java.util.List;

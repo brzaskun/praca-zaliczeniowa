@@ -6,7 +6,7 @@ package session;
 
 import com.sun.xml.messaging.saaj.soap.impl.ElementFactory;
 import embeddable.Mce;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafkPK;
 import entity.Amodok;
 import entity.Deklaracjevat;
 import entity.Dok;

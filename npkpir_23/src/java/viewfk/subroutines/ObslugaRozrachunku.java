@@ -7,8 +7,8 @@ package viewfk.subroutines;
 
 import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
-import embeddablefk.WierszStronafk;
-import embeddablefk.WierszStronafkPK;
+import entityfk.WierszStronafk;
+import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import java.util.List;
 import javax.ejb.Singleton;
