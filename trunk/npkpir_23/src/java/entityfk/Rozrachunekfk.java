@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,7 +64,7 @@ public class Rozrachunekfk  implements Serializable {
         @JoinColumn(name="nrPorzadkowyWiersza", referencedColumnName="nrPorzadkowyWiersza"),
         @JoinColumn(name="stronaWnlubMa", referencedColumnName="stronaWnlubMa")
     })
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private WierszStronafk wierszStronafk;
     @Column(name="kwotapierwotna")
     private double kwotapierwotna;
@@ -77,8 +78,8 @@ public class Rozrachunekfk  implements Serializable {
     private String walutarozrachunku;
     @Column (name = "zaksiegowanodokument")
     private boolean zaksiegowanodokument;
-    @JoinColumn(name = "konto_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne
+    @JoinColumn(name = "konto_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
     private Konto kontoid;
     private String rok;
     private String mc;

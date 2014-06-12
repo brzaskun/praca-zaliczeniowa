@@ -469,7 +469,6 @@ public class DokfkView implements Serializable {
         boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
-            rozrachunekfkDAO.edit(aktualnyWierszDlaRozrachunkow);
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
@@ -480,7 +479,6 @@ public class DokfkView implements Serializable {
                 Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
             } else {
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-                rozrachunekfkDAO.destroy(aktualnyWierszDlaRozrachunkow);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
