@@ -90,7 +90,13 @@ public class WierszStronafkPK implements Serializable{
         return "WierszStronafkPK{" + "podatnik=" + podatnik + ", typdokumentu=" + typdokumentu + ", nrkolejnydokumentu=" + nrkolejnydokumentu + ", nrPorzadkowyWiersza=" + nrPorzadkowyWiersza + ", stronaWnlubMa=" + stronaWnlubMa + '}';
     }
 
-    
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
 
     public String getTypdokumentu() {
         return typdokumentu;
@@ -124,14 +130,6 @@ public class WierszStronafkPK implements Serializable{
         this.stronaWnlubMa = stronaWnlubMa;
     }
 
-    public String getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(String podatnik) {
-        this.podatnik = podatnik;
-    }
-    
     
     
     

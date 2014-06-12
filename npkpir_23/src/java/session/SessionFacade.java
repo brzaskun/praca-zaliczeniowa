@@ -700,6 +700,14 @@ public class SessionFacade<T> implements Serializable{
             return null;
         }
     }
+    
+//     public List<Rozrachunekfk> findRozrachunkifkByKontoAktualny(String nrkonta, String wnma, String walutarozrachunku) {
+//        try {
+//            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnma).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
          try {
