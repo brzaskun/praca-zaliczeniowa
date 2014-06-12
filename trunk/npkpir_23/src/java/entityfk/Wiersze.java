@@ -56,13 +56,13 @@ public class Wiersze implements Serializable {
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
-    @Lob
-    @Column(name = "wierszStronaWn")
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private WierszStronafk wierszStronaWn;
+//    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
+//    private List<WierszStronafk> wierszStronafkLista;
     @Column(name = "WnReadOnly")
     private boolean WnReadOnly;
-    @Lob
-    @Column(name = "wierszStronaMa")
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private WierszStronafk wierszStronaMa;
     @Column(name = "MaReadOnly")
     private boolean MaReadOnly;

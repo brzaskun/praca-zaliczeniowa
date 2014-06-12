@@ -115,10 +115,10 @@
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
                         </p:column>
                         <p:column headerText="nr własny dok" sortBy="nr dok" width="100">
-                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.nrwlasnydokumentu}"/>
+                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.numer}"/>
                         </p:column>
-                        <p:column headerText="opis" width="200" sortBy="wierszStronafk.opisdokumentu">
-                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.opisdokumentu}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
+                        <p:column headerText="opis" width="200" sortBy="wierszStronafk.wiersz.dokfk.tresc">
+                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.tresc}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.kwotapierwotna}" style="float: right;">
@@ -152,7 +152,7 @@
                                     <h:outputText value="#{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
                                 </p:column>
                                 <p:column headerText="nr wlasny">
-                                    <h:outputText value="#{subwpis.rozliczany.wierszStronafk.nrwlasnydokumentu}"/>
+                                    <h:outputText value="#{subwpis.rozliczany.wierszStronafk.wiersz.dokfk.numer}"/>
                                 </p:column>
                             </p:dataTable>
                         </p:column>
