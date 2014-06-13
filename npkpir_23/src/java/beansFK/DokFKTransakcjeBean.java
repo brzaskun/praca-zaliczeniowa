@@ -9,12 +9,14 @@ package beansFK;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
+import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
 import entityfk.WierszStronafkPK;
-import entityfk.Rozrachunekfk;
+import entityfk.Wiersze;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -84,6 +86,26 @@ public class DokFKTransakcjeBean implements Serializable{
         listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(nrkonta, wnma, waluta));
         assert listaNowychRozrachunkow.size() > 0;
         return listaNowychRozrachunkow;
+        //pobrano wiersze - a teraz z nich robie rozrachunki
+    }
+    
+    public static List<Rozrachunekfk> pobierzRozrachunekfkzDokumentu(String nrkonta, String wnma, String waluta,List<Wiersze> wiersze) {
+        List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
+        for (Wiersze p : wiersze) {
+            if (wnma.equals("Wn")) {
+                listaNowychRozrachunkowDokument.add(p.getWierszStronaMa().getRozrachunekfk());
+            } else {
+                listaNowychRozrachunkowDokument.add(p.getWierszStronaMa().getRozrachunekfk());
+            }
+        }
+        Iterator it = listaNowychRozrachunkowDokument.iterator();
+        while (it.hasNext()) {
+            Rozrachunekfk r = (Rozrachunekfk) it.next();
+            if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                it.remove();
+            }
+        }
+        return listaNowychRozrachunkowDokument;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
