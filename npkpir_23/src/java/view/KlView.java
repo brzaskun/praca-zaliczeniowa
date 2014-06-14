@@ -262,7 +262,7 @@ public class KlView implements Serializable{
             RequestContext.getCurrentInstance().update("formY:");
             Msg.msg("i","Usunięto wskazanego klienta","formX:mess_add");
         } catch (Exception e) {
-            Msg.msg("i","Nie usunięto klienta. Wystąpił błąd","formX:mess_add");
+            Msg.msg("i","Nie można usunąć klienta. Nazwa klienta występuje w zaksiękowancyh dokumentach.");
         }
       
     }

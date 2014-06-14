@@ -34,9 +34,19 @@ public class DokDAO extends DAO implements Serializable {
         super(entityClass);
     }
     
+    public List<Dok> znajdzOdDo(long odd, long dod) {
+        return dokFacade.znajdzOdDo(odd,dod);
+    }
+    
+    public List<Dok> znajdzKontr1NullOdDo() {
+        return dokFacade.znajdzKontr1Null();
+    }
     
     public List<Dok> findAll(){
         return dokFacade.findAll(Dok.class);
+    }
+    public Dok findDokByNr(String numer) {
+        return dokFacade.findDokByNr(numer);
     }
     
     public Dok znajdzDuplikat(Dok selD, String rok) throws Exception {

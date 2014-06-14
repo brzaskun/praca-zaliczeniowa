@@ -6,7 +6,6 @@
 
 package viewmanager;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import dao.ZusmailDAO;
@@ -29,13 +28,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import mail.MaiManager;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.behavior.ajax.AjaxBehavior;
-import org.primefaces.behavior.ajax.AjaxBehaviorHandler;
 import org.primefaces.event.SelectEvent;
 import view.WpisView;
 
