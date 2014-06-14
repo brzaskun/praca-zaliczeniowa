@@ -886,6 +886,26 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
+    public List<Dok> znajdzOdDo(long odd, long dod) {
+        return em.createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList();
+    }
+
+    public Klienci findKlientByNazwa(String nazwapelna) {
+        return (Klienci) em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nazwapelna).getSingleResult();
+    }
+
+    public Klienci findKlientByNip(String nip) {
+        return (Klienci) em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
+    }
+
+    public Dok findDokByNr(String numer) {
+        return (Dok) em.createNamedQuery("Dok.findByNrWlDk").setParameter("nrWlDk", "fvp/2013/13185/m").getSingleResult();
+    }
+
+    public List<Dok> znajdzKontr1Null() {
+        return em.createNamedQuery("Dok.findByKontr1Null").getResultList();
+    }
+
   
   
 }
