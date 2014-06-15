@@ -6,18 +6,26 @@
 
 package view;
 
+import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.DokPKPiRDAO;
+import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
+import embeddable.EVatViewPola;
+import embeddable.EVatwpisSuma;
 import embeddable.KwotaKolumna;
 import embeddable.Rozrachunek;
+import entity.Deklaracjevat;
 import entity.Dok;
 import entity.DokPKPiR;
+import entity.Evewidencja;
+import entity.EwidencjevatDeklaracja;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Rozrachunek1;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -39,6 +47,10 @@ public class TransformacjaView implements Serializable{
     private DokPKPiRDAO dokPKPiRDAO;
     @Inject
     private KlienciDAO klienciDAO;
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject 
+    private EvewidencjaDAO evewidencjaDAO;
     public List<Dok> listaWszystkichDok;
 
     public TransformacjaView() {
@@ -249,6 +261,52 @@ public class TransformacjaView implements Serializable{
 //            }
 //        }
 
+    }
+      
+        public void ewidencjewDekalracji() {
+            List<Deklaracjevat> listaWszystkichDok = new ArrayList<>();
+            listaWszystkichDok.addAll(deklaracjevatDAO.findAll());
+            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
+            for (Deklaracjevat p : listaWszystkichDok) {
+                HashMap<String,ArrayList> stareEwidencje = p.getEwidencje();
+                List<EwidencjevatDeklaracja> nowyEVatwpis = new ArrayList<>();
+                if (stareEwidencje != null) {
+                    List<String> klucze = new ArrayList<>();
+                    klucze.addAll(stareEwidencje.keySet());
+                    for (String t : klucze) {
+                        EwidencjevatDeklaracja nowywpis = new EwidencjevatDeklaracja();
+                        List<EVatViewPola> pobranepola = stareEwidencje.get(t);
+                        EVatwpisSuma eVatwpisSuma = p.getPodsumowanieewidencji().get(t);
+                        nowywpis.setDeklaracja(p);
+                        Evewidencja evewidencja = new Evewidencja();
+                        try {
+                            evewidencja = evewidencjaDAO.znajdzponazwie(pobranepola.get(0).getNazwaewidencji());
+                        } catch (Exception e) {}
+                        EVatViewPola wiersz = pobranepola.get(0);
+                        nowywpis.setEwidencja(evewidencja);
+                        nowywpis.setMiesiac(wiersz.getDataSprz().substring(5,7));
+                        nowywpis.setPodatnik(p.getPodatnik());
+                        nowywpis.setRok(p.getRok());
+                        nowywpis.setSumaewidencji(eVatwpisSuma);
+                        nowywpis.setWierszeEwidencji(pobranepola);
+                        nowyEVatwpis.add(nowywpis);
+                    }
+                    p.setEwidencjedeklaracja(nowyEVatwpis);
+                    try {
+                        deklaracjevatDAO.edit(p);
+                        Msg.msg("Dodalem ");
+                    } catch (Exception e) {
+                        Msg.msg("Gupi blad" + e.getCause().getMessage());
+                    }
+                }
+        }
+
+    }
+        
+    public static void main(String[] args) {
+        String data = "2019-05-01";
+        String mc = data.substring(5,7);
+        assert mc.equals("05");
     }
 
     public DokDAO getDokDAO() {

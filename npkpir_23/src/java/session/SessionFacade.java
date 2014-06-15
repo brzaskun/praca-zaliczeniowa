@@ -906,6 +906,7 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dok.findByKontr1Null").getResultList();
     }
 
+    
   
   
 }

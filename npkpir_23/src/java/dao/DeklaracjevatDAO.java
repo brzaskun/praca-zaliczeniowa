@@ -7,6 +7,7 @@ package dao;
 import entity.Deklaracjevat;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -127,4 +128,6 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
          return deklaracjevatFacade.findDeklaracjaPodatnik(identyfikator, podatnik);
     }
+
+ 
 }
