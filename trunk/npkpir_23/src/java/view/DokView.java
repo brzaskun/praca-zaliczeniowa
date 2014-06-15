@@ -24,7 +24,6 @@ import embeddable.EwidencjaAddwiad;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
-import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
@@ -36,6 +35,7 @@ import entity.Klienci;
 import entity.Ostatnidokument;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Rozrachunek1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
@@ -616,10 +616,11 @@ public final class DokView implements Serializable {
             kwota = kwota + kwotavat;
             kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
             if (selDokument.getRozliczony() == true) {
-                Rozrachunek rozrachunekx = new Rozrachunek(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(), new Date());
-                ArrayList<Rozrachunek> lista = new ArrayList<>();
+                Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(), new Date());
+                rozrachunekx.setDok(selDokument);
+                ArrayList<Rozrachunek1> lista = new ArrayList<>();
                 lista.add(rozrachunekx);
-                selDokument.setRozrachunki(lista);
+                selDokument.setRozrachunki1(lista);
             }
             selDokument.setBrutto(kwota);
             selDokument.setUsunpozornie(false);

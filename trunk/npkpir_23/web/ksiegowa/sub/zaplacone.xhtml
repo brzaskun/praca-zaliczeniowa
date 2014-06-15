@@ -50,7 +50,7 @@
                 </p:cellEditor>
             </p:column>
             <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł ">  
-                <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
+                <p:dataTable var="subwpis" value="#{wpis.rozrachunki1}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
                     </p:column>
@@ -74,7 +74,7 @@
             <p:column id="termin150" headerText="termin150" filterBy="termin150" filterMatchMode="contains" sortBy="termin150" width="60" filterMaxLength="4">  
                 <h:outputText value="#{wpis.termin150}" />
             </p:column>
-             <p:column id="editColumn" headerText="usuń" width="50">
+             <p:column id="editColumn" headerText="edytuj" width="50">
                      <p:rowEditor/>  
               </p:column>
             
