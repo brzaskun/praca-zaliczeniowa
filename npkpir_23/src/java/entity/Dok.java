@@ -17,6 +17,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -155,6 +157,9 @@ public class Dok implements Serializable {
     @NotNull
     @Column(name = "evat")
     private List<EVatwpis> ewidencjaVAT;
+    @JoinColumn(name = "ewidencjaVAT1")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<EVatwpis1> ewidencjaVAT1;
     @Column(name = "dokprosty")
     boolean dokumentProsty;
     @Column(name = "dodkolumna")
@@ -472,6 +477,15 @@ public class Dok implements Serializable {
         this.symbolinwestycji = symbolinwestycji;
     }
 
+    public List<EVatwpis1> getEwidencjaVAT1() {
+        return ewidencjaVAT1;
+    }
+
+    public void setEwidencjaVAT1(List<EVatwpis1> ewidencjaVAT1) {
+        this.ewidencjaVAT1 = ewidencjaVAT1;
+    }
+
+    
 
     @Override
     public int hashCode() {
