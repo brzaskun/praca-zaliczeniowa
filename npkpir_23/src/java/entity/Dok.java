@@ -99,7 +99,7 @@ public class Dok implements Serializable {
 //    @Column(name = "kontr")
 //    private Klienci kontr;
     @JoinColumn(name = "kontr1")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Klienci kontr1;
     @Basic(optional = false)
     @NotNull
@@ -130,6 +130,8 @@ public class Dok implements Serializable {
     @Lob
     @Column(name="listakwot")
     private List<KwotaKolumna> listakwot;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<KwotaKolumna1> listakwot1;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "netto")
     private Double netto;
@@ -170,9 +172,8 @@ public class Dok implements Serializable {
     @Column(name = "termin_platnosci")
 //    @Temporal(TemporalType.DATE)
     private String terminPlatnosci;
-    @Lob
-    @Column(name = "rozrachunki")
-    private ArrayList<Rozrachunek> rozrachunki;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private ArrayList<Rozrachunek1> rozrachunki1;
     @Size(max = 10)
     @Column(name = "termin_30")
     private String termin30;
@@ -389,14 +390,7 @@ public class Dok implements Serializable {
         this.rozliczony = rozliczony;
     }
 
-    public ArrayList<Rozrachunek> getRozrachunki() {
-        return rozrachunki;
-    }
-
-    public void setRozrachunki(ArrayList<Rozrachunek> rozrachunki) {
-        this.rozrachunki = rozrachunki;
-    }
-
+   
     public String getTerminPlatnosci() {
         return terminPlatnosci;
     }
@@ -485,6 +479,15 @@ public class Dok implements Serializable {
         this.ewidencjaVAT1 = ewidencjaVAT1;
     }
 
+    public ArrayList<Rozrachunek1> getRozrachunki1() {
+        return rozrachunki1;
+    }
+
+    public void setRozrachunki1(ArrayList<Rozrachunek1> rozrachunki1) {
+        this.rozrachunki1 = rozrachunki1;
+    }
+
+    
     
 
     @Override

@@ -18,7 +18,7 @@
                <pe:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
-        <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
+        <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek1}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
         <h:outputText value="Alt-s aktywuje pierwsze pole" style="font-style: italic"/>
         <p:commandButton value="ok" actionListener="#{rozrachunkiView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="Dialog.hide()"/>
     </p:dialog>
@@ -88,7 +88,7 @@
                 <h:outputText value="#{wpis.terminPlatnosci}" />
             </p:column>
             <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł - wprowadzil  - data wpisu">  
-                <p:dataTable var="subwpis" value="#{wpis.rozrachunki}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
+                <p:dataTable var="subwpis" value="#{wpis.rozrachunki1}" style="width: 400px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
                     </p:column>

@@ -9,9 +9,11 @@ package view;
 import dao.DokDAO;
 import dao.DokPKPiRDAO;
 import dao.KlienciDAO;
+import embeddable.Rozrachunek;
 import entity.Dok;
 import entity.DokPKPiR;
 import entity.Klienci;
+import entity.Rozrachunek1;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +97,7 @@ public class TransformacjaView implements Serializable{
                 l.setDodatkowaKolumna(p.isDodatkowaKolumna());
                 l.setRozliczony(p.getRozliczony());
                 l.setTerminPlatnosci(p.getTerminPlatnosci());
-                l.setRozrachunki(p.getRozrachunki());
+               // l.setRozrachunki(p.getRozrachunki());
                 l.setTermin30(p.getTermin30());
                 l.setTermin90(p.getTermin90());
                 l.setTermin150(p.getTermin150());
@@ -146,6 +148,72 @@ public class TransformacjaView implements Serializable{
                 }
             }
         }
+    }
+
+    public void przeniesEwidencjeVat() {
+//        for (int j = 0; j < 32299; j += 200) {
+//            int dokad = (j + 199 > 32299 ? 32299 : j + 199);
+//            List<Dok> listaWszystkichDok = new ArrayList<>();
+//            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
+//            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
+//            for (Dok p : listaWszystkichDok) {
+//                List<EVatwpis> eVatwpis = p.getEwidencjaVAT();
+//                List<EVatwpis> nowyEVatwpis = new ArrayList<EVatwpis>();
+//                if (eVatwpis != null) {
+//                    for (EVatwpis t : eVatwpis) {
+//                        EVatwpis nowywpis = new EVatwpis();
+//                        nowywpis.setDok(p);
+//                        nowywpis.setEwidencja(t.getEwidencja());
+//                        nowywpis.setEstawka(t.getEstawka());
+//                        nowywpis.setNetto(t.getNetto());
+//                        nowywpis.setVat(t.getVat());
+//                        nowyEVatwpis.add(nowywpis);
+//                    }
+//                    p.setEwidencjaVAT1(nowyEVatwpis);
+//                    try {
+//                        dokPKPiRDAO.edit(p);
+//                        Msg.msg("Dodalem " + j);
+//                    } catch (Exception e) {
+//                        Msg.msg("Gupi blad" + e.getCause().getMessage());
+//                    }
+//                }
+//            }
+//        }
+
+    }
+    
+     public void przeniesRozrachunkiVat() {
+        for (int j = 0; j < 32299; j += 200) {
+            int dokad = (j + 199 > 32299 ? 32299 : j + 199);
+            List<Dok> listaWszystkichDok = new ArrayList<>();
+            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
+            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
+            for (Dok p : listaWszystkichDok) {
+               // List<Rozrachunek> eVatwpis = p.getRozrachunki();
+                ArrayList<Rozrachunek1> nowyEVatwpis = new ArrayList<>();
+//                if (eVatwpis != null) {
+//                    for (Rozrachunek t : eVatwpis) {
+//                        Rozrachunek1 nowywpis = new Rozrachunek1();
+//                        nowywpis.setDok(p);
+//                        nowywpis.setDataplatnosci(t.getDataplatnosci());
+//                        nowywpis.setDatawprowadzenia(t.getDatawprowadzenia());
+//                        nowywpis.setDorozliczenia(t.getDorozliczenia());
+//                        nowywpis.setKwotawplacona(t.getKwotawplacona());
+//                        nowywpis.setUjetowstorno(t.isUjetowstorno());
+//                        nowywpis.setWprowadzil(t.getWprowadzil());
+//                        nowyEVatwpis.add(nowywpis);
+//                    }
+//                    p.setRozrachunki1(nowyEVatwpis);
+//                    try {
+//                        dokPKPiRDAO.edit(p);
+//                        Msg.msg("Dodalem " + j);
+//                    } catch (Exception e) {
+//                        Msg.msg("Gupi blad" + e.getCause().getMessage());
+//                    }
+//                }
+            }
+        }
+
     }
 
     public DokDAO getDokDAO() {

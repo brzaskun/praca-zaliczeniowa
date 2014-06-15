@@ -8,8 +8,8 @@ package view;
 import beansDok.Rozrachunki;
 import dao.DokDAO;
 import dao.StornoDokDAO;
-import embeddable.Rozrachunek;
 import entity.Dok;
+import entity.Rozrachunek1;
 import entity.StornoDok;
 import java.io.Serializable;
 import java.security.Principal;
@@ -39,7 +39,7 @@ public class RozrachunkiView implements Serializable {
 
     //edycja platnosci
     @Inject
-    private Rozrachunek rozrachunek;
+    private Rozrachunek1 rozrachunek;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{DokTabView}")
@@ -83,7 +83,7 @@ public class RozrachunkiView implements Serializable {
                 niezaplacone.add(tmpx);
             } else {
                 //pobiera tylko przelewowe
-                if (tmpx.getRozrachunki() != null) {
+                if (tmpx.getRozrachunki1() != null) {
                     zaplacone.add(tmpx);
                 }
             }
@@ -102,11 +102,11 @@ public class RozrachunkiView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("form:messages");
         } catch (Exception ec) {
-            ArrayList<Rozrachunek> lista = new ArrayList<>();
+            ArrayList<Rozrachunek1> lista = new ArrayList<>();
             double zostalo = 0;
             double kwota = 0;
             try {
-                lista.addAll(selDokument.getRozrachunki());
+                lista.addAll(selDokument.getRozrachunki1());
                 zostalo = lista.get(lista.size() - 1).getDorozliczenia();
             } catch (Exception ee) {
             }
@@ -125,11 +125,12 @@ public class RozrachunkiView implements Serializable {
             Principal principal = request.getUserPrincipal();
             rozrachunek.setWprowadzil(principal.getName());
             rozrachunek.setDatawprowadzenia(new Date());
+            rozrachunek.setDok(selDokument);
             lista.add(rozrachunek);
             if (pozostalo == 0) {
                 selDokument.setRozliczony(true);
             }
-            selDokument.setRozrachunki(lista);
+            selDokument.setRozrachunki1(lista);
             try {
                 dokDAO.edit(selDokument);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Płatność zachowana" + selDokument, null);
@@ -141,14 +142,14 @@ public class RozrachunkiView implements Serializable {
         }
     }
 
-    public void usunostatniRozrachunek(ActionEvent e) {
-        ArrayList<Rozrachunek> lista = new ArrayList<>();
+    public void usunostatniRozrachunek1(ActionEvent e) {
+        ArrayList<Rozrachunek1> lista = new ArrayList<>();
         try {
-            lista.addAll(selDokument.getRozrachunki());
+            lista.addAll(selDokument.getRozrachunki1());
         } catch (Exception ee) {
         }
         lista.remove(lista.get(lista.size() - 1));
-        selDokument.setRozrachunki(lista);
+        selDokument.setRozrachunki1(lista);
         dokDAO.edit(selDokument);
     }
 
@@ -164,7 +165,7 @@ public class RozrachunkiView implements Serializable {
             }
             Rozrachunki.dodajdatydlaStorno(wpisView, tmp);
             tmp.setRozliczony(false);
-            tmp.setRozrachunki(null);
+            tmp.setRozrachunki1(null);
             tmp.setStorno(null);
             dokDAO.edit(tmp);
             zaplacone.remove(tmp);
@@ -176,11 +177,11 @@ public class RozrachunkiView implements Serializable {
         }
     }
 
-    public Rozrachunek getRozrachunek() {
+    public Rozrachunek1 getRozrachunek() {
         return rozrachunek;
     }
 
-    public void setRozrachunek(Rozrachunek rozrachunek) {
+    public void setRozrachunek(Rozrachunek1 rozrachunek) {
         this.rozrachunek = rozrachunek;
     }
 
