@@ -65,8 +65,8 @@ public class Evewidencja implements Serializable {
     private boolean tylkoNetto;
     @Column(name = "typewidencji")
     private String typewidencji;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
-    private List<EVatwpis1> eVatwpisList;
+//    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
+//    private List<EVatwpis1> eVatwpisList;
 
     public Evewidencja() {
     }

@@ -56,8 +56,8 @@
                 </f:facet>
 
                 <p:column style="width: 4%; height: 45px;">
-                    <p:rowToggler rendered="#{wpis.ewidencjaVAT.size() gt 0}"/>
-                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT.size() eq null}"/>
+                    <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
+                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="nrWpkpir"  style="width: 3%;">  
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
@@ -113,7 +113,7 @@
 
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                             </p:column>

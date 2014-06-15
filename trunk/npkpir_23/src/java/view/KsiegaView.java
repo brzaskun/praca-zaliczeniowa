@@ -199,7 +199,7 @@ public class KsiegaView implements Serializable {
             dk.setVatM(tmp.getVatM());
             dk.setVatR(tmp.getVatR());
             dk.setStatus(tmp.getStatus());
-            dk.setEwidencjaVAT(tmp.getEwidencjaVAT());
+            dk.setEwidencjaVAT1(tmp.getEwidencjaVAT1());
             dk.setDokumentProsty(tmp.isDokumentProsty());
             lista.add(dk);
         }

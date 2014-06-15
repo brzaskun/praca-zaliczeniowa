@@ -14,9 +14,9 @@ import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.EVatwpis;
-import embeddable.Stornodoch;
 import entity.Amodok;
 import entity.Dok;
+import entity.EVatwpis1;
 import entity.Inwestycje;
 import entity.Podatnik;
 import entity.StornoDok;
@@ -24,13 +24,8 @@ import entity.Uz;
 import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -314,9 +309,9 @@ public class DokTabView implements Serializable {
 //    public void napraw(){
 //        List<Dok> temp = dokDAO.findAll();
 //        for(Dok p : temp){
-//            List<EVatwpis> ew = p.getEwidencjaVAT();
+//            List<EVatwpis1> ew = p.getEwidencjaVAT();
 //            Double netto = 0.0;
-//            for(EVatwpis w : ew){
+//            for(EVatwpis1 w : ew){
 //                netto = netto + w.getNetto();
 //            }
 //            p.setKwota(netto);
@@ -386,10 +381,10 @@ public class DokTabView implements Serializable {
       public void naprawiamdokumenty() {
           List<Dok> dok = dokDAO.zwrocRok("2014");
           for (Dok p : dok) {
-              List<EVatwpis> vatlist = p.getEwidencjaVAT();
+              List<EVatwpis1> vatlist = p.getEwidencjaVAT1();
               if (vatlist != null) {
                 double vatsuma = 0.0;
-                for (EVatwpis r : vatlist) {
+                for (EVatwpis1 r : vatlist) {
                     vatsuma += r.getVat();
                 }
                 p.setBrutto(Math.round((p.getNetto()+vatsuma) * 100.0) / 100.0);

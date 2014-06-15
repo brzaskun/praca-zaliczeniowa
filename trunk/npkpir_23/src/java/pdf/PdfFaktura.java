@@ -20,6 +20,7 @@ import dao.FakturadodelementyDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
+import entity.EVatwpis1;
 import entity.Faktura;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
@@ -39,6 +40,7 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 import slownie.Slownie;
 import view.FakturaView;
@@ -378,9 +380,9 @@ public class PdfFaktura extends Pdf implements Serializable {
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
         table.completeRow();
         table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
-        List<EVatwpis> ewidencja = selected.getEwidencjavat();
+        List<EVatwpis1> ewidencja = selected.getEwidencjavat();
         int ilerow = 0;
-        for (EVatwpis p : ewidencja) {
+        for (EVatwpis1 p : ewidencja) {
             if (ilerow > 0) {
                 table.addCell(ustawfraze(" ", 6, 0));
             }

@@ -4,7 +4,9 @@
  */
 package view;
 
+import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
+import beansDok.VAT;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -19,8 +21,6 @@ import dao.WpisDAO;
 import data.Data;
 import embeddable.EVatwpis;
 import embeddable.EwidencjaAddwiad;
-import beansDok.Kolmn;
-import beansDok.VAT;
 import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
@@ -28,6 +28,7 @@ import embeddable.Rozrachunek;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
+import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
@@ -522,7 +523,7 @@ public final class DokView implements Serializable {
                 sumbrutto += p.getNetto();
             }
             RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
-            selDokument.setEwidencjaVAT(null);
+            selDokument.setEwidencjaVAT1(null);
             ewidencjaAddwiad.clear();
             ukryjEwiencjeVAT = true;
             sumujbruttoPK();
@@ -557,24 +558,25 @@ public final class DokView implements Serializable {
             String rodzajOpodatkowania = ParametrView.zwrocParametr(podatnikWDokumencie.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
             if ((!rodzajOpodatkowania.contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
                 Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
-                List<EVatwpis> ewidencjeDokumentu = new ArrayList<>();
+                List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                     String op = p.getOpis();
-                    EVatwpis eVatwpis = new EVatwpis();
+                    EVatwpis1 eVatwpis = new EVatwpis1();
                     eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
                     eVatwpis.setNetto(p.getNetto());
                     eVatwpis.setVat(p.getVat());
                     eVatwpis.setEstawka(p.getOpzw());
+                    eVatwpis.setDok(selDokument);
                     ewidencjeDokumentu.add(eVatwpis);
                     //to musi być bo inaczej nie obliczy kwoty vat;
                     kwotavat += p.getVat();
                 }
                 if (nieVatowiec == true) {
-                    selDokument.setEwidencjaVAT(null);
+                    selDokument.setEwidencjaVAT1(null);
                 } else if (!selDokument.isDokumentProsty()) {
-                    selDokument.setEwidencjaVAT(ewidencjeDokumentu);
+                    selDokument.setEwidencjaVAT1(ewidencjeDokumentu);
                 } else {
-                    selDokument.setEwidencjaVAT(null);
+                    selDokument.setEwidencjaVAT1(null);
                 }
             }
             selDokument.setStatus("bufor");
@@ -679,7 +681,7 @@ public final class DokView implements Serializable {
         double vat = 0.0;
         //dla dokumentu bez vat bedzie blad
         try {
-            for (EVatwpis p : selDokument.getEwidencjaVAT()) {
+            for (EVatwpis1 p : selDokument.getEwidencjaVAT1()) {
                 vat += p.getVat();
             }
         } catch (Exception e) {
@@ -824,7 +826,7 @@ public final class DokView implements Serializable {
             return;
         }
         try {
-            selDokument.setEwidencjaVAT(null);
+            selDokument.setEwidencjaVAT1(null);
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -887,7 +889,7 @@ public final class DokView implements Serializable {
                 kwotastorno = kwotastorno + tmpx.getStorno().get(tmpx.getStorno().size() - 1).getKwotawplacona();
             }
 
-            selDokument.setEwidencjaVAT(null);
+            selDokument.setEwidencjaVAT1(null);
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -1174,7 +1176,7 @@ public final class DokView implements Serializable {
         sumbrutto = 0.0;
         int j = 1;
         try {//trzeba ignorowac w przypadku dokumentow prostych
-            for (EVatwpis s : selDokument.getEwidencjaVAT()) {
+            for (EVatwpis1 s : selDokument.getEwidencjaVAT1()) {
                 EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
                 ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
                 ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
@@ -1570,8 +1572,8 @@ public final class DokView implements Serializable {
     //
     //                double kwotavat = 0;
     //                try{
-    //                    List<EVatwpis> listavat = sel.getEwidencjaVAT();
-    //                    for(EVatwpis p : listavat){
+    //                    List<EVatwpis1> listavat = sel.getEwidencjaVAT1();
+    //                    for(EVatwpis1 p : listavat){
     //                        kwotavat = kwotavat + p.getVat();
     //                    }
     //                } catch (Exception e){}

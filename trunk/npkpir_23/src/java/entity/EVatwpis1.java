@@ -30,7 +30,7 @@ public class EVatwpis1 implements Serializable {
     @Column(name = "id")
     private long id;
     @JoinColumn(name = "ewidencja")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Evewidencja ewidencja;
     @Column(name = "netto")
     private double netto;

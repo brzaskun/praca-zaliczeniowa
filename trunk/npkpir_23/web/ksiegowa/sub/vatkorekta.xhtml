@@ -98,7 +98,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:autoComplete>
                         </p:panelGrid>
-                        <p:dataTable id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
+                        <p:dataTable id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT1}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
                                      rowIndexVar="row">
                             <p:column headerText="rodzaj ewidencji" style="width: 25%;">
                                 <h:outputText value="#{item.opis}"/>
