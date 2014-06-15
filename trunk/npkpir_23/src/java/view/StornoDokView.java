@@ -7,9 +7,9 @@ package view;
 import dao.DokDAO;
 import dao.StornoDokDAO;
 import embeddable.Mce;
-import embeddable.Rozrachunek;
 import embeddable.Stornodoch;
 import entity.Dok;
+import entity.Rozrachunek1;
 import entity.StornoDok;
 import java.io.IOException;
 import java.io.Serializable;
@@ -159,9 +159,9 @@ public class StornoDokView implements Serializable {
                 termin = tmp.getTermin90();
             }
             if (roznicaDni(termin, stornonadzien) > 0) {
-                ArrayList<Rozrachunek> rozrachunki = new ArrayList<>();
+                ArrayList<Rozrachunek1> rozrachunki = new ArrayList<>();
                 try {
-                    rozrachunki.addAll(tmp.getRozrachunki());
+                    rozrachunki.addAll(tmp.getRozrachunki1());
                 } catch (Exception ex) {
                 }
                 if (rozrachunki.isEmpty()) {
@@ -171,7 +171,7 @@ public class StornoDokView implements Serializable {
                     ListIterator ita;
                     ita = rozrachunki.listIterator(rozrachunki.size());
                     while(ita.hasPrevious()){
-                        Rozrachunek tmpx = (Rozrachunek) ita.previous();
+                        Rozrachunek1 tmpx = (Rozrachunek1) ita.previous();
                         String data = tmpx.getDataplatnosci();
                         String r = data.substring(0, 4);
                         String m = data.substring(5, 7);

@@ -127,9 +127,6 @@ public class Dok implements Serializable {
     @Size(max = 45)
     @Column(name = "opis")
     private String opis;
-    @Lob
-    @Column(name="listakwot")
-    private List<KwotaKolumna> listakwot;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<KwotaKolumna1> listakwot1;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -231,9 +228,14 @@ public class Dok implements Serializable {
     public void setKontr1(Klienci kontr1) {
         this.kontr1 = kontr1;
     }
-    
-   
 
+    public List<KwotaKolumna1> getListakwot1() {
+        return listakwot1;
+    }
+
+    public void setListakwot1(List<KwotaKolumna1> listakwot1) {
+        this.listakwot1 = listakwot1;
+    }
     
     public String getDataWyst() {
         return dataWyst;
@@ -267,14 +269,7 @@ public class Dok implements Serializable {
         this.opis = opis;
     }
 
-    public List<KwotaKolumna> getListakwot() {
-        return listakwot;
-    }
-
-    public void setListakwot(List<KwotaKolumna> listakwot) {
-        this.listakwot = listakwot;
-    }
-    
+      
     public String getUwagi() {
         return uwagi;
     }

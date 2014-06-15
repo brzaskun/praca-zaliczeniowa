@@ -9,10 +9,12 @@ package view;
 import dao.DokDAO;
 import dao.DokPKPiRDAO;
 import dao.KlienciDAO;
+import embeddable.KwotaKolumna;
 import embeddable.Rozrachunek;
 import entity.Dok;
 import entity.DokPKPiR;
 import entity.Klienci;
+import entity.KwotaKolumna1;
 import entity.Rozrachunek1;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,7 +85,7 @@ public class TransformacjaView implements Serializable{
                 l.setRodzTrans(p.getRodzTrans());
                 l.setDataWyst(p.getDataWyst());
                 l.setOpis(p.getOpis());
-                l.setListakwot(p.getListakwot());
+                //l.setListakwot(p.getListakwot());
                 l.setNetto(p.getNetto());
                 l.setBrutto(p.getBrutto());
                 l.setUwagi(p.getUwagi());
@@ -213,6 +215,39 @@ public class TransformacjaView implements Serializable{
 //                }
             }
         }
+
+    }
+     
+      public void przeniesKwotaKolumna() {
+//        for (int j = 0; j < 32299; j += 200) {
+//            int dokad = (j + 199 > 32299 ? 32299 : j + 199);
+//            List<Dok> listaWszystkichDok = new ArrayList<>();
+//            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
+//            //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
+//            for (Dok p : listaWszystkichDok) {
+//                List<KwotaKolumna> eVatwpis = p.getListakwot();
+//                ArrayList<KwotaKolumna1> nowyEVatwpis = new ArrayList<>();
+//                if (eVatwpis != null) {
+//                    for (KwotaKolumna t : eVatwpis) {
+//                        KwotaKolumna1 nowywpis = new KwotaKolumna1();
+//                        nowywpis.setDok(p);
+//                        nowywpis.setBrutto(t.getBrutto());
+//                        nowywpis.setDowykorzystania(t.getDowykorzystania());
+//                        nowywpis.setNazwakolumny(t.getNazwakolumny());
+//                        nowywpis.setNetto(t.getNetto());
+//                        nowywpis.setVat(t.getVat());
+//                        nowyEVatwpis.add(nowywpis);
+//                    }
+//                    p.setListakwot1(nowyEVatwpis);
+//                    try {
+//                        dokPKPiRDAO.edit(p);
+//                        Msg.msg("Dodalem " + j);
+//                    } catch (Exception e) {
+//                        Msg.msg("Gupi blad" + e.getCause().getMessage());
+//                    }
+//                }
+//            }
+//        }
 
     }
 

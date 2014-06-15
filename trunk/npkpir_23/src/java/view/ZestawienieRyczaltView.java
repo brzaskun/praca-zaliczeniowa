@@ -10,12 +10,12 @@ import dao.PodatnikDAO;
 import dao.RyczDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Dok;
+import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Ryczpoz;
@@ -151,8 +151,8 @@ public class ZestawienieRyczaltView implements Serializable {
                 lista = new ArrayList<>();
                 lista.addAll(c);
                 for (Dok dokument : lista) {
-                    List<KwotaKolumna> szczegol = dokument.getListakwot();
-                    for (KwotaKolumna tmp : szczegol) {
+                    List<KwotaKolumna1> szczegol = dokument.getListakwot1();
+                    for (KwotaKolumna1 tmp : szczegol) {
                         String selekcja = dokument.getPkpirM();
                         String selekcja2 = tmp.getNazwakolumny();
                         Double kwota = tmp.getNetto();

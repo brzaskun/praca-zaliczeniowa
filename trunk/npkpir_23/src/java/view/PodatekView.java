@@ -4,13 +4,13 @@
  */
 package view;
 
+import beansDok.Kolmn;
 import beansPIT.WyliczPodatekZasadyOgolne;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
-import beansDok.Kolmn;
-import embeddable.KwotaKolumna;
 import entity.Dok;
+import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
@@ -89,8 +89,8 @@ public class PodatekView implements Serializable{
         while(it.hasNext()){
             Dok tmpX = (Dok) it.next();
             Kolmn kolmn = new Kolmn();
-            List<KwotaKolumna> listadok = tmpX.getListakwot();
-            for(KwotaKolumna tmp : listadok){
+            List<KwotaKolumna1> listadok = tmpX.getListakwot1();
+            for(KwotaKolumna1 tmp : listadok){
             if (tmp.getNazwakolumny().contains("%")) {
                 switch (tmp.getNazwakolumny()){
                     case "17%":
