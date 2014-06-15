@@ -15,6 +15,7 @@ import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
 import entity.Dok;
+import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
 import java.io.Serializable;
@@ -109,9 +110,9 @@ public class EwidencjaVatView implements Serializable {
             pobierzdokumentyzaRok();
             String vatokres = sprawdzjakiokresvat();
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
-            transferujDokdoEVatwpis();
+            transferujDokdoEVatwpis1();
             //rozdziela zapisy na poszczególne ewidencje
-            rozdzielEVatwpisNaEwidencje();
+            rozdzielEVatwpis1NaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
             /**
              * dodajemy wiersze w tab sumowanie
@@ -224,7 +225,7 @@ public class EwidencjaVatView implements Serializable {
             sumydowyswietleniazakupy.add(sumazakup);
     }
     
-    private void rozdzielEVatwpisNaEwidencje() {
+    private void rozdzielEVatwpis1NaEwidencje() {
         for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
                 ArrayList<EVatViewPola> listatmp = new ArrayList<>();
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
@@ -252,12 +253,12 @@ public class EwidencjaVatView implements Serializable {
             }
     }
     
-    private void transferujDokdoEVatwpis() {
+    private void transferujDokdoEVatwpis1() {
          for (Dok zaksiegowanafaktura : listadokvat) {
-                if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
-                    List<EVatwpis> ewidencja = new ArrayList<>();
-                    ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT());
-                    for (EVatwpis ewidwiersz : ewidencja) {
+                if (zaksiegowanafaktura.getEwidencjaVAT1() != null) {
+                    List<EVatwpis1> ewidencja = new ArrayList<>();
+                    ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT1());
+                    for (EVatwpis1 ewidwiersz : ewidencja) {
                         if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
                             EVatViewPola wiersz = new EVatViewPola();
                             wiersz.setId(zaksiegowanafaktura.getNrWpkpir());

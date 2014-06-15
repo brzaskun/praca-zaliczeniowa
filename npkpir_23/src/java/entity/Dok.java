@@ -153,11 +153,11 @@ public class Dok implements Serializable {
     @Size(max = 65)
     @Column(name = "status")
     private String status;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "evat")
-    private List<EVatwpis> ewidencjaVAT;
-    @JoinColumn(name = "ewidencjaVAT1")
+//    @Basic(optional = false)
+//    @NotNull
+//    @Column(name = "evat")
+//    private List<EVatwpis> ewidencjaVAT;
+//    @JoinColumn(name = "ewidencjaVAT1")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<EVatwpis1> ewidencjaVAT1;
     @Column(name = "dokprosty")
@@ -348,13 +348,13 @@ public class Dok implements Serializable {
         this.dataK = dataK;
     }
 
-    public List<EVatwpis> getEwidencjaVAT() {
-        return ewidencjaVAT;
-    }
-
-    public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
-        this.ewidencjaVAT = ewidencjaVAT;
-    }
+//    public List<EVatwpis> getEwidencjaVAT() {
+//        return ewidencjaVAT;
+//    }
+//
+//    public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
+//        this.ewidencjaVAT = ewidencjaVAT;
+//    }
 
     public boolean isDokumentProsty() {
         return dokumentProsty;

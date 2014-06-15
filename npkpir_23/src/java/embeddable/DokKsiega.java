@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.EVatwpis1;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class DokKsiega implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private Long idDok;
     private String typdokumentu;
     private int nrWpkpir;
@@ -41,7 +44,7 @@ public class DokKsiega implements Serializable {
     private String vatM;
     private String vatR;
     private String status;
-    private List<EVatwpis> ewidencjaVAT;
+    private List<EVatwpis1> ewidencjaVAT1;
     boolean dokumentProsty;
 
     public Long getIdDok() {
@@ -236,12 +239,12 @@ public class DokKsiega implements Serializable {
         this.status = status;
     }
 
-    public List<EVatwpis> getEwidencjaVAT() {
-        return ewidencjaVAT;
+    public List<EVatwpis1> getEwidencjaVAT1() {
+        return ewidencjaVAT1;
     }
 
-    public void setEwidencjaVAT(List<EVatwpis> ewidencjaVAT) {
-        this.ewidencjaVAT = ewidencjaVAT;
+    public void setEwidencjaVAT1(List<EVatwpis1> ewidencjaVAT1) {
+        this.ewidencjaVAT1 = ewidencjaVAT1;
     }
 
     public boolean isDokumentProsty() {

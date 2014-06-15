@@ -90,7 +90,7 @@ public class TransformacjaView implements Serializable{
                 l.setVatM(p.getVatM());
                 l.setVatR(p.getVatR());
                 l.setStatus(p.getStatus());
-                l.setEwidencjaVAT(p.getEwidencjaVAT());
+                //l.setEwidencjaVAT(p.getEwidencjaVAT());
                 l.setDokumentProsty(p.isDokumentProsty());
                 l.setDodatkowaKolumna(p.isDodatkowaKolumna());
                 l.setRozliczony(p.getRozliczony());

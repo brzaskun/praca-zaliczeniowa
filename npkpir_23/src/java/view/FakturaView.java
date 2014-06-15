@@ -16,6 +16,7 @@ import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
+import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
@@ -215,7 +216,7 @@ public class FakturaView implements Serializable {
         double brutto = 0.0;
         ArrayList<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        List<EVatwpis> el = new ArrayList<>();
+        List<EVatwpis1> el = new ArrayList<>();
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double ilosc = p.getIlosc();
             double cena = p.getCena();
@@ -233,12 +234,12 @@ public class FakturaView implements Serializable {
             double bruttop = wartosc + podatek;
             brutto += bruttop;
             p.setBrutto(bruttop);
-            EVatwpis eVatwpis = new EVatwpis();
+            EVatwpis1 eVatwpis = new EVatwpis1();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
             //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
             //jesli nie to dodaj nowy wiersz
             if (el.size() > 0) {
-                for (EVatwpis r : el) {
+                for (EVatwpis1 r : el) {
                     if (r.getEwidencja().equals(ewidencja)) {
                         r.setNetto(r.getNetto() + p.getNetto());
                         r.setVat(r.getVat() + p.getPodatekkwota());
@@ -275,7 +276,7 @@ public class FakturaView implements Serializable {
         double brutto = 0.0;
         ArrayList<Evewidencja> ew = new ArrayList<>();
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        List<EVatwpis> el = new ArrayList<>();
+        List<EVatwpis1> el = new ArrayList<>();
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double nowacena = p.getBrutto() * procent;
             nowacena = nowacena + p.getBrutto();
@@ -292,9 +293,9 @@ public class FakturaView implements Serializable {
             netto += nettop;
             p.setNetto(nettop);
             p.setCena(p.getNetto() / p.getIlosc());
-            EVatwpis eVatwpis = new EVatwpis();
+            EVatwpis1 eVatwpis = new EVatwpis1();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
-            for (EVatwpis r : el) {
+            for (EVatwpis1 r : el) {
                 if (r.getEwidencja().equals(ewidencja)) {
                     eVatwpis = r;
                 }
@@ -506,7 +507,7 @@ public class FakturaView implements Serializable {
         for (Faktura p : gosciwybral) {
             Faktura faktura = p;
             Dok selDokument = new Dok();
-            selDokument.setEwidencjaVAT(null);
+            selDokument.setEwidencjaVAT1(null);
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
@@ -542,7 +543,7 @@ public class FakturaView implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
-            selDokument.setEwidencjaVAT(faktura.getEwidencjavat());
+            selDokument.setEwidencjaVAT1(faktura.getEwidencjavat());
             try {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
