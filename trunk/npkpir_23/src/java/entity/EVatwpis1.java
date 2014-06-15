@@ -41,6 +41,8 @@ public class EVatwpis1 implements Serializable {
     @JoinColumn(name = "dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
+    
+    
 
     public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka) {
         this.ewidencja = ewidencja;
@@ -101,7 +103,7 @@ public class EVatwpis1 implements Serializable {
         this.id = id;
     }
 
-    
+       
     
     
     @Override
