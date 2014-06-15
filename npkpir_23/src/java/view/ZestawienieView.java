@@ -12,12 +12,12 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
-import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Amodok;
 import entity.Dok;
+import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
@@ -166,8 +166,8 @@ public class ZestawienieView implements Serializable {
                 lista = new ArrayList<>();
                 lista.addAll(c);
                 for (Dok dokument : lista) {
-                    List<KwotaKolumna> szczegol = dokument.getListakwot();
-                    for (KwotaKolumna tmp : szczegol) {
+                    List<KwotaKolumna1> szczegol = dokument.getListakwot1();
+                    for (KwotaKolumna1 tmp : szczegol) {
                         String selekcja = dokument.getPkpirM();
                         String selekcja2 = tmp.getNazwakolumny();
                         Double kwota = tmp.getNetto();

@@ -9,10 +9,10 @@ import dao.DokDAO;
 import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokKsiega;
-import embeddable.KwotaKolumna;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
+import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.SumypkpirPK;
@@ -106,8 +106,8 @@ public class KsiegaView implements Serializable {
             dk.setPodatnik(tmp.getPodatnik());
             dk.setDataWyst(tmp.getDataWyst());
             dk.setOpis(tmp.getOpis());
-            List<KwotaKolumna> listawierszy = tmp.getListakwot();
-            for (KwotaKolumna tmpX : listawierszy) {
+            List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
+            for (KwotaKolumna1 tmpX : listawierszy) {
                 switch (tmpX.getNazwakolumny()) {
                     case "przych. sprz":
                         try {

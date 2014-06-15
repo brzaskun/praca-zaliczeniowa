@@ -319,7 +319,7 @@
                 <h:outputText  value="#{DokumentView.wysDokument.typdokumentu}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
-                <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
+                <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot1}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
                     <p:column id="SubColumnP1"  headerText="netto">  
                         <h:outputText value="#{subwpis.netto}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
