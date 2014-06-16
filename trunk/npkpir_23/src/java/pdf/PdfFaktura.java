@@ -380,9 +380,9 @@ public class PdfFaktura extends Pdf implements Serializable {
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
         table.completeRow();
         table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
-        List<EVatwpis1> ewidencja = selected.getEwidencjavat();
+        List<EVatwpis> ewidencja = selected.getEwidencjavat();
         int ilerow = 0;
-        for (EVatwpis1 p : ewidencja) {
+        for (EVatwpis p : ewidencja) {
             if (ilerow > 0) {
                 table.addCell(ustawfraze(" ", 6, 0));
             }

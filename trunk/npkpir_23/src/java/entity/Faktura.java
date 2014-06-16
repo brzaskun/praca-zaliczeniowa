@@ -165,7 +165,7 @@ public class Faktura implements Serializable {
     @NotNull
     @Lob
     @Column(nullable = false)
-    private List<EVatwpis1> ewidencjavat;
+    private List<EVatwpis> ewidencjavat;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -213,7 +213,7 @@ public class Faktura implements Serializable {
         this.fakturaPK = fakturaPK;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, List<EVatwpis1> ewidencjavat, String rok, String mc) {
+    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, List<EVatwpis> ewidencjavat, String rok, String mc) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
@@ -429,13 +429,15 @@ public class Faktura implements Serializable {
         this.brutto = brutto;
     }
 
-    public List<EVatwpis1> getEwidencjavat() {
+    public List<EVatwpis> getEwidencjavat() {
         return ewidencjavat;
     }
 
-    public void setEwidencjavat(List<EVatwpis1> ewidencjavat) {
+    public void setEwidencjavat(List<EVatwpis> ewidencjavat) {
         this.ewidencjavat = ewidencjavat;
     }
+
+  
 
     public boolean isWygenerowanaautomatycznie() {
         return wygenerowanaautomatycznie;
