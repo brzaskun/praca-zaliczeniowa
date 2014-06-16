@@ -55,8 +55,8 @@
                 </f:facet>
    
                 <p:column style="width: 4%;">
-                    <p:rowToggler rendered="#{wpis.ewidencjaVAT.size() gt 0}"/>
-                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT.size() eq null}"/>
+                    <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
+                    <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="20">  
                     <h:outputText value="#{wpis.nrWpkpir}" />
@@ -98,11 +98,11 @@
                 </p:column>
 
                  <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
-                    <ui:repeat value="#{wpis.listakwot}" var="item" varStatus="nr">
-                        <h:outputText value="#{wpis.listakwot.get(nr.index).netto}" style="float: right;">
+                    <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
+                        <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText value="#{wpis.listakwot.get(nr.index).nazwakolumny}" style="float: left;">
+                            <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText><br/>
                         </ui:repeat>
@@ -110,7 +110,7 @@
 
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
+                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                             </p:column>
