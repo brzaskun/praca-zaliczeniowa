@@ -30,10 +30,10 @@
                 <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 900; color: blue;"/>
             </p:panelGrid>
         </p:panel>
-        <h:form>
-            <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="#{transformacjaView.ewidencjewDekalracji}"/>
-        </h:form>
-<!--        <p:panel menuTitle="Statystyka:" header="Statystyka użytkownika o loginie - #{WpisView.wprowadzil.login}" style="width: 65%; height: 120px; margin-top: 3%;">
+<!--        <h:form>
+            <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>
+        </h:form>-->
+<!--        <p:panel menuTitle="Statystyka:" header="Statystyka użytkownika o loginie - {WpisView.wprowadzil.login}" style="width: 65%; height: 120px; margin-top: 3%;">
             <p:panelGrid columns="1">
                 <h:outputText value="ilość dotychczasowych logowań: {statisticView.iloscsesji}"/>
                 <h:outputText value="ilość zaksięgowanych dokumentów: {statisticView.iloscdokumentow}"/>
