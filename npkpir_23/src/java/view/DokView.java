@@ -604,6 +604,9 @@ public final class DokView implements Serializable {
             for (KwotaKolumna1 p : nettokolumna) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
             }
+            for (KwotaKolumna1 xy : selDokument.getListakwot1()) {
+                xy.setDok(selDokument);
+            }
             //koniec obliczania netto
             dodajdatydlaStorno();
 
