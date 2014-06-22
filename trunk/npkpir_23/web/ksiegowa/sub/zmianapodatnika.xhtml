@@ -8,8 +8,8 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs/>
     <h:form id="form">
-        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="width: 65%; height: 250px;">
-            <p:panelGrid columns="4" style="margin-left: 0%; height: 70px;">
+        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 300px;">
+            <p:panelGrid columns="4" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
                 <h:outputLabel value="#{mgs.rok}"/>
                 <h:outputLabel value="#{mgs.mc}"/>
@@ -22,13 +22,13 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" height="280">
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" height="300">
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form"/>
                 </p:selectOneMenu>
                 <p:messages autoUpdate="true"/>
-                <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 900; color: blue;"/>
             </p:panelGrid>
+            <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 900; color: blue;"/>
         </p:panel>
 <!--        <h:form>
             <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>

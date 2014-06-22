@@ -12,8 +12,10 @@
     <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
     <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
              rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-    <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '} #{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: blue;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-    <p:tabView id="akorderonbis" style="width: 1300px; margin-top: 1%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+    <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+        <f:convertNumber minFractionDigits="0" locale="PL" />
+    </h:outputText>
+    <p:tabView id="akorderonbis" style="max-width: 1300px; margin-top: 1%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
         
         <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
@@ -22,16 +24,16 @@
                     <f:ajax event="click" listener="#{mailOther.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>    
                 <p:separator/>
-                <p:panel id="sumka#{numer.index}">
-                    <h:outputText value="suma wybranych wartości netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
+                <p:panel id="sumka#{numer.index}" header="suma wybranych dokumentów" style="max-width: 400px;">
+                    <h:outputText value="netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText><br/>
-                    <h:outputText value="suma wybranych wartości vat:  "/><h:outputText value="#{ewidencjaVatView.suma2}"  style="font-weight: bold;">
+                    </h:outputText>
+                    <h:outputText value=" vat:  "/><h:outputText value="#{ewidencjaVatView.suma2}"  style="font-weight: bold;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText><br/>
-                    <h:outputText value="suma wybranych wartości brutto:  "/><h:outputText value="#{ewidencjaVatView.suma3}"  style="font-weight: bold;">
+                    </h:outputText>
+                    <h:outputText value=" brutto:  "/><h:outputText value="#{ewidencjaVatView.suma3}"  style="font-weight: bold;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText><br/>
+                    </h:outputText>
                 </p:panel>
 
                 <p:separator/>
