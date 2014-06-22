@@ -599,7 +599,7 @@ public final class DokView implements Serializable {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(kwotavat, "poz. koszty");
                 nettokolumna.add(kwotaKolumna);
             }
-            selDokument.getListakwot1().addAll(nettokolumna);
+            selDokument.getListakwot1().addAll(nettokolumna); 
             selDokument.setNetto(0.0);
             for (KwotaKolumna1 p : nettokolumna) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
