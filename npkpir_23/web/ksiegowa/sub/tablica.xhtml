@@ -44,7 +44,7 @@
          <p:hotkey bind="up"   onstart="wrocwiersz();"/>
          <p:outputPanel id="kontenertabeli" deferred="true">
              <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista" editable="true" filteredValue="#{DokTabView.dokumentyFiltered}"
-                           style="max-width: 1400px; height: 900px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                           style="max-width: 1300px; height: 900px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid"
                           >
@@ -63,7 +63,7 @@
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
                 </p:column>
 
-                <p:column id="dataColumn" headerText="data wyst" filterBy="dataWyst" filterStyle="display : none;" filterMatchMode="contains" sortBy="dataWyst"  style="width: 12%; min-width: 80px;">  
+                <p:column id="dataColumn" headerText="data wyst" filterBy="dataWyst" filterStyle="display : none;" filterMatchMode="contains" sortBy="dataWyst"  style="width: 12%; min-width: 70px;">  
                     <h:outputText value="#{wpis.dataWyst}"/>
                 </p:column>
                 <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontr.npelna" filterStyle="display : none;" filterMatchMode="contains" sortBy="kontr.npelna" style="width: 14%;">  
@@ -141,7 +141,7 @@
                         </p:dataTable>
                     </p:column>
                 </p:rowExpansion>
-                <p:column id="vatMcColumn" headerText="v m-c" filterBy="vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="vatM"  style="width: 5%;" filterMaxLength="2">  
+                <p:column id="vatMcColumn" headerText="v m-c" filterBy="vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="vatM"  style="width: 5%; text-align: center;" filterMaxLength="2">  
                     <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column >
                 <p:column id="status" headerText="status"  style="width: 5%;">

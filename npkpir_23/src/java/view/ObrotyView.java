@@ -72,7 +72,6 @@ public class ObrotyView implements Serializable{
     }
     
     public String init() {
-        Msg.msg("i", "pobieram");
         //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = new ArrayList<>();
         //dokumenty podatnika z roku
@@ -111,7 +110,6 @@ public class ObrotyView implements Serializable{
      }
     
      public String initG() {
-        Msg.msg("i", "pobieram");
         //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = new ArrayList<>();
         //dokumenty podatnika z roku
