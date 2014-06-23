@@ -10,7 +10,7 @@
     <h:form id="westIndex">
         <p:messages id="messages" autoUpdate="true"/>
         <p:focus id="focus" context="panelwyboru"/>
-        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 450px; margin-left: 37%;">
+        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 450px; margin-left: auto; margin-right: auto;">
             <f:facet name="header">
                 <h:outputText value="W celu rozpoczęcia wpisywania dokumentów proszę wybrać parametry" style="display: block; text-align: center"/>
             </f:facet>
@@ -38,19 +38,19 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton  action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
+                    <p:commandButton  action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" style="width: 90px;"/>
                 </p:column>
             </p:panelGrid>
         </p:panel>
 <!--        <p:panel header="Nie działa wprowadzanie dokumentów prostych(na razie). Modyfikuje ustawienia" style="width: 400px; margin-left: 30%"/>-->
         <br/>
-        <p:panel style="margin-top: 1px; margin-left: 37%; width: 450px">
+        <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto; width: 450px">
             <h:outputText value="Przygotowane deklaracje VAT oczekujące na wysyłkę:" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}"/>
             <p:dataList value="#{infoViewAll.deklaracjeniewyslane}" var="loop" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}">
                 <h:outputText value="#{loop}"/>
             </p:dataList>
         </p:panel>
-        <p:panel style="margin-top: 1px; margin-left: 37%; width: 450px">
+        <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto; width: 450px">
             <h:outputText value="Nie pobrano potwierdzeń następujących deklaracji:" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}"/>
             <p:dataList value="#{infoViewAll.deklaracjeniebezupo}" var="loop" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}">
                 <h:outputText value="#{loop}"/>
