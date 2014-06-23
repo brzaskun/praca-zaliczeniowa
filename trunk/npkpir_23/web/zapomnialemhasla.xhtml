@@ -37,9 +37,7 @@
                     </p:panelGrid>
                 </p:panel>
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto;  width: 450px">
-                    <f:facet name="header">
-                        <h:outputLabel value="Prosze wpisać login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
-                    </f:facet>
+                        <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto; height: 75px;">
                         <h:outputText value="twój login"/>
@@ -47,7 +45,7 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto;">
-                        <p:commandButton value="Resetuj" action="#{resetHasla.reset()}" update=":formlog1:logowanie" ajax="false"/>
+                        <p:commandButton value="Resetuj" action="#{resetHasla.reset()}" update=":formlog1:logowanie" ajax="false" style="width: 120px;"/>
                     </p:panelGrid>
                 </p:panel>
             </h:form>
