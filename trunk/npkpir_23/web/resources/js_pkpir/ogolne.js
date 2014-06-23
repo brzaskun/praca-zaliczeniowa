@@ -17,26 +17,26 @@
 
 
 
- var wyloguj = function(){
-        document.getElementById("templateform:wyloguj").click();
-        if (document.getElementById("form:westIndex:panelwyboru")){
-            window.location.href = "login.xhtml";
-        } else {
-            window.location.href = "../login.xhtml";
-        }
-    };
-
-var aktywujsrodek = function(){
-        document.getElementById("dodWiad:form:acForce1").focus();
+var wyloguj = function() {
+    document.getElementById("templateform:wyloguj").click();
+    if (document.getElementById("form:westIndex:panelwyboru")) {
+        window.location.href = "login.xhtml";
+    } else {
+        window.location.href = "../login.xhtml";
+    }
 };
 
-var aktywujnetto = function(){
+var aktywujsrodek = function() {
+    document.getElementById("dodWiad:form:acForce1").focus();
+};
+
+var aktywujnetto = function() {
     //dolaczwyliczenie();
     document.getElementById("dodWiad:opis").focus();
 };
 
 
- var dolaczwyliczenie = function () {
+var dolaczwyliczenie = function() {
 //     try {
 //        r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
 //            var roznica;
@@ -52,9 +52,9 @@ var aktywujnetto = function(){
 //     } catch (ec) {
 //         alert("bladzik");
 //     }
-     };
-     
-  var dolaczwyliczenieKopiowanie = function() {
+};
+
+var dolaczwyliczenieKopiowanie = function() {
     if (r("dodWiad:tabelapkpir:1:kwotaPkpir_input")) {
         try {
             r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
@@ -71,51 +71,55 @@ var aktywujnetto = function(){
         } catch (ec) {
             alert("bladzik");
         }
-    };
+    }
+    ;
 };
 
 
-var aktywujopis = function (){
+var aktywujopis = function() {
     var dokument = $('#dodWiad\\:rodzajTrans').val();
-    if(dokument==='IN'){
+    if (dokument === 'IN') {
         $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').show();
 //        $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('mouseover', function() {
 //        alert($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val());
 //            });
-    $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('blur', function() {
+        $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('blur', function() {
 
-        if( $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val()==="wybierz"){
-            $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').focus();
-        }
+            if ($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val() === "wybierz") {
+                $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').focus();
+            }
         });
     } else {
         $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').hide();
     }
-    if(dokument==='LP'){
-        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
-    } else if (dokument==='PK'){
-        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
-    } else if(dokument==='ZUS'){
-        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', true);
-    } else {
-        $('#dodWiad\\:tabelapkpir2\\:0\\:dokumentprosty').attr('checked', false);
+    //zaznacza pola checkboxow w dla dokumentow prostych
+    switch (dokument) {
+        case 'LP':
+        case 'PK':
+        case 'ZUS':
+            r('dodWiad:tabelapkpir2:0:dokumentprosty').attr('checked', true);
+            r('dodWiad:panelewidencjivat').hide();
+            break;
+        default:
+            r('dodWiad:tabelapkpir2:0:dokumentprosty').attr('checked', false);
     }
- 
+
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu
-    r('dodWiad:opis_input').on('keyup',function(e){
+    //zachowuje takze opis dokumentgu po wcisnieciu klawisza F8
+    r('dodWiad:opis_input').on('keyup', function(e) {
         var kodklawisza = e.which;
-        if(kodklawisza===107){
+        if (kodklawisza === 107) {
             r('dodWiad:dodkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
-            r('dodWiad:opis_input').val(wartoscpola.slice(0,-1));
+            r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
         }
-         if(kodklawisza===109){
+        if (kodklawisza === 109) {
             r('dodWiad:usunkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
-            r('dodWiad:opis_input').val(wartoscpola.slice(0,-1));
+            r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
         }
         //zapisuje opis w bazie
-        if(kodklawisza===120){
+        if (kodklawisza === 120) {
             r('dodWiad:dodajopis').click();
             r('dodWiad:opis_input').css({
                 color: 'green',
@@ -129,102 +133,104 @@ var aktywujopis = function (){
 
 
 //to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu
- PrimeFaces.locales['pl'] = {
-            closeText: 'Zamknij',
-            prevText: 'Poprzedni',
-            nextText: 'Nast\u0119pny',
-            currentText: 'Bie\u017cący',
-            monthNames: ['Stycze\u0144','Luty','Marzec','Kwiecie\u0144','Maj','Czerwiec','Lipiec','Sierpie\u0144','Wrzesie\u0144','Pa\u017adziernik','Listopad','Grudzie\u0144'],
-            monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Pa\u017a','Lis','Gru'],
-            dayNames: ['Niedziela','Poniedzia\u0142ek','Wtorek','\u015aroda','Czwartek','Pi\u0105tek','Sobota'],
-            dayNamesShort: ['Nie','Pon','Wt','\u015ar','Czw','Pt','So'],
-            dayNamesMin: ['N','P','W','\u015a','Cz','P','S'],
-            weekHeader: 'Tydzie\u0144',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: 'r',
-            timeOnlyTitle: 'Tylko czas',
-            timeText: 'Czas',
-            hourText: 'Godzina',
-            minuteText: 'Minuta',
-            secondText: 'Sekunda',
-            ampm: false,
-            month: 'Miesi\u0105c',
-            week: 'Tydzie\u0144',
-            day: 'Dzie\u0144',
-            allDayText: 'Ca\u0142y dzie\u0144'
- };
-  
-var oknoklientanowego = function(){
-    window.open("kliencipopup.xhtml?redirect=true","",'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+PrimeFaces.locales['pl'] = {
+    closeText: 'Zamknij',
+    prevText: 'Poprzedni',
+    nextText: 'Nast\u0119pny',
+    currentText: 'Bie\u017cący',
+    monthNames: ['Stycze\u0144', 'Luty', 'Marzec', 'Kwiecie\u0144', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpie\u0144', 'Wrzesie\u0144', 'Pa\u017adziernik', 'Listopad', 'Grudzie\u0144'],
+    monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Pa\u017a', 'Lis', 'Gru'],
+    dayNames: ['Niedziela', 'Poniedzia\u0142ek', 'Wtorek', '\u015aroda', 'Czwartek', 'Pi\u0105tek', 'Sobota'],
+    dayNamesShort: ['Nie', 'Pon', 'Wt', '\u015ar', 'Czw', 'Pt', 'So'],
+    dayNamesMin: ['N', 'P', 'W', '\u015a', 'Cz', 'P', 'S'],
+    weekHeader: 'Tydzie\u0144',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: 'r',
+    timeOnlyTitle: 'Tylko czas',
+    timeText: 'Czas',
+    hourText: 'Godzina',
+    minuteText: 'Minuta',
+    secondText: 'Sekunda',
+    ampm: false,
+    month: 'Miesi\u0105c',
+    week: 'Tydzie\u0144',
+    day: 'Dzie\u0144',
+    allDayText: 'Ca\u0142y dzie\u0144'
+};
+
+var oknoklientanowego = function() {
+    window.open("kliencipopup.xhtml?redirect=true", "", 'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
 
-var focusdatavalidate = function(){
-        document.getElementById("dodWiad:dataPole").focus();
-        };
+var focusdatavalidate = function() {
+    document.getElementById("dodWiad:dataPole").focus();
+};
 
 
- var przekazdate = function (){
-     document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
- };
- 
- 
- var dataprzyjecia = function (){
-     if(rj("dodWiad:acForce1_hinput").value===null){
-     } else {
-         rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
-         rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
-     }
- };
+var przekazdate = function() {
+    document.getElementById("dodWiad:dataTPole").value = document.getElementById("dodWiad:dataPole").value;
+};
 
-     
-     
-var ustawDateSrodekTrw = function (){
+
+var dataprzyjecia = function() {
+    if (rj("dodWiad:acForce1_hinput").value === null) {
+    } else {
+        rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
+        rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
+    }
+};
+
+
+
+var ustawDateSrodekTrw = function() {
     var dataWyst = rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
     var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
     var testw = dataWyst.value;
-    if (!testw.match(re)){
+    if (!testw.match(re)) {
         dataWyst.value = "b\u0142ędna data";
     }
 };
 
 
-        
- 
 
-var generujoknowyboru = function (){
-    $('#form\\:confirmDialog').bind('mouseover',function(){$('body').fadeIn(20);
-});
+
+
+var generujoknowyboru = function() {
+    $('#form\\:confirmDialog').bind('mouseover', function() {
+        $('body').fadeIn(20);
+    });
 };
 
 
 //rodzial dotyczacy umiejscawiania pozycji z  faktury
-var petlawywolujaca = function (lw,gr,co){
-        //alert('petlawywolujaca');
-        var dlugosc = lw.length-1;
-        for(var j = 0; j < dlugosc; j++){
-            //alert(lw[j]+","+gr[j]+","+co[j]);
-            var lewy = parseInt(lw[j]);
-            var cos = co[j];
-            var gora = parseInt(gr[j]);
-            $(document.getElementById(cos)).css({ position: "absolute",
+var petlawywolujaca = function(lw, gr, co) {
+    //alert('petlawywolujaca');
+    var dlugosc = lw.length - 1;
+    for (var j = 0; j < dlugosc; j++) {
+        //alert(lw[j]+","+gr[j]+","+co[j]);
+        var lewy = parseInt(lw[j]);
+        var cos = co[j];
+        var gora = parseInt(gr[j]);
+        $(document.getElementById(cos)).css({position: "absolute",
             marginLeft: 0, marginTop: 0,
-            top: gora, left: lewy });
+            top: gora, left: lewy});
 
-  }};
+    }
+};
 
-var sprawdzczybrakklienta = function () {
+var sprawdzczybrakklienta = function() {
     var zawartosc = $('#dodWiad\\:acForce_input').val();
-    if(zawartosc==="nowy klient"){
+    if (zawartosc === "nowy klient") {
         dlg123.show();
     }
 };
 
-var sprawdzczykopiowacklienta = function () {
+var sprawdzczykopiowacklienta = function() {
     var zawartosc = $('#dodWiad\\:acForce_input').val();
-    if(zawartosc==="+"){
+    if (zawartosc === "+") {
         var text = $('#zobWiad\\:nazwa').html();
         $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
@@ -237,7 +243,7 @@ var sprawdzczykopiowacklienta = function () {
     }
 };
 
-var skopiujdanenowegoklienta = function () {
+var skopiujdanenowegoklienta = function() {
     dlg123.hide();
     $('#dodWiad\\:acForce_input').focus();
     var szukana = document.getElementById('formX:nazwaPole').value;
@@ -246,13 +252,13 @@ var skopiujdanenowegoklienta = function () {
 };
 
 
-var selcolor = function () {
-    
+var selcolor = function() {
+
 };
 
-var varzmienkolorpola47deklvat = function () {
+var varzmienkolorpola47deklvat = function() {
     $("#form\\:pole47").css({
-            backgroundColor: '#ADD8E6'
+        backgroundColor: '#ADD8E6'
     });
     $("#form\\:pole47").focus();
     $("#form\\:pole47").select();
