@@ -665,6 +665,7 @@ public final class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             selDokument = new Dok();
+            podlaczPierwszaKolumne();
             selectedSTR = new SrodekTrw();
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
