@@ -40,7 +40,7 @@ import msg.Msg;
 @ViewScoped
 public class KsiegaView implements Serializable {
 
-    private static ArrayList<DokKsiega> lista;
+    private ArrayList<DokKsiega> lista;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private DokKsiega selDokument;
@@ -323,7 +323,7 @@ public class KsiegaView implements Serializable {
     }
 
     public void setLista(ArrayList<DokKsiega> lista) {
-        KsiegaView.lista = lista;
+        this.lista = lista;
     }
 
     public DokKsiega getSelDokument() {
