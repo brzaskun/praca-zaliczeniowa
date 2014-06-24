@@ -10,8 +10,8 @@ var przejdzwiersz = function() {
         MYAPP.nrbiezacegowiersza = 0;
     } else {
         MYAPP.nrbiezacegowiersza += 1;
-        if (MYAPP.nrbiezacegowiersza > lolo.length) {
-            MYAPP.nrbiezacegowiersza = lolo.length;
+        if (MYAPP.nrbiezacegowiersza >= lolo.length) {
+            MYAPP.nrbiezacegowiersza = lolo.length-1;
         }
     }
     var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");

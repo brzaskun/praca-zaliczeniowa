@@ -190,9 +190,13 @@ public class Dok implements Serializable {
     private String symbolinwestycji;
     
     public Dok() {
+        this.listakwot1 = new ArrayList<>();
+        this.getListakwot1().add(new KwotaKolumna1());
     }
 
     public Dok(Long idDok) {
+        this.listakwot1 = new ArrayList<>();
+        this.getListakwot1().add(new KwotaKolumna1());
         this.idDok = idDok;
     }
 

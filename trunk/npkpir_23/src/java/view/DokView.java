@@ -138,7 +138,7 @@ public final class DokView implements Serializable {
      * Lista gdzie przechowywane są wartości netto i opis kolumny wporwadzone w
      * formularzy na stronie add_wiad.xhtml
      */
-    private List<KwotaKolumna1> nettokolumna;
+    //private List<KwotaKolumna1> selDokument.getListakwot1();
     /**
      * Lista gdzie przechowywane są wartości ewidencji vat wprowadzone w
      * formularzy na stronie add_wiad.xhtml
@@ -157,8 +157,8 @@ public final class DokView implements Serializable {
     public DokView() {
         setWysDokument(null);
         wpisView = new WpisView();
-        nettokolumna = new ArrayList<>();
         ewidencjaAddwiad = new ArrayList<>();
+        liczbawierszy = 1;
     }
 
     public void dodajwierszpkpir() {
@@ -166,7 +166,7 @@ public final class DokView implements Serializable {
             KwotaKolumna1 p = new KwotaKolumna1();
             p.setNetto(0.0);
             p.setNazwakolumny("nie ma");
-            nettokolumna.add(p);
+            selDokument.getListakwot1().add(p);
             liczbawierszy++;
         } else {
             Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
@@ -175,8 +175,8 @@ public final class DokView implements Serializable {
 
     public void usunwierszpkpir() {
         if (liczbawierszy > 1) {
-            int wielkosctabeli = nettokolumna.size();
-            nettokolumna.remove(wielkosctabeli - 1);
+            int wielkosctabeli = selDokument.getListakwot1().size();
+            selDokument.getListakwot1().remove(wielkosctabeli - 1);
             liczbawierszy--;
         } else {
             Msg.msg("w", "Osiągnięto minimalną liczbę wierszy", "dodWiad:mess_add");
@@ -273,21 +273,23 @@ public final class DokView implements Serializable {
         UISelectItems ulista = new UISelectItems();
         kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
         /*dodajemy na poczatek zwyczajawa kolumne klienta*/
-        if (selDokument.getKontr().getPkpirKolumna() != null) {
-            String kol = selDokument.getKontr().getPkpirKolumna();
-            SelectItem selectI = new SelectItem(kol, kol);
-            valueList.add(selectI);
-        }
-        /**/
-        for (String kolumnanazwa : kolumny) {
-            SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
-            valueList.add(selectItem);
-        }
-        ulista.setValue(valueList);
-        switch (transakcjiRodzaj) {
-            case "srodek trw sprzedaz":
-                setPokazEST(true);
-                RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+        if (selDokument.getKontr() != null) {
+            if (selDokument.getKontr().getPkpirKolumna() != null) {
+                String kol = selDokument.getKontr().getPkpirKolumna();
+                SelectItem selectI = new SelectItem(kol, kol);
+                valueList.add(selectI);
+            }
+            /**/
+            for (String kolumnanazwa : kolumny) {
+                SelectItem selectItem = new SelectItem(kolumnanazwa, kolumnanazwa);
+                valueList.add(selectItem);
+            }
+            ulista.setValue(valueList);
+            switch (transakcjiRodzaj) {
+                case "srodek trw sprzedaz":
+                    setPokazEST(true);
+                    RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+            }
         }
     }
 
@@ -334,7 +336,7 @@ public final class DokView implements Serializable {
     }
 
     private double sumujnetto() {
-        int iloscwierszypkpir = nettokolumna.size();
+        int iloscwierszypkpir = selDokument.getListakwot1().size();
         double sumanetto = 0.0;
         for (int j = 0; j < iloscwierszypkpir; j++) {
             String wiersz = "dodWiad:tabelapkpir:" + j + ":kwotaPkpir_input";
@@ -519,7 +521,7 @@ public final class DokView implements Serializable {
         String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
         if (toJestdokumentProsty.equals("on")) {
             sumbrutto = 0.0;
-            for (KwotaKolumna1 p : nettokolumna) {
+            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 sumbrutto += p.getNetto();
             }
             RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
@@ -593,15 +595,13 @@ public final class DokView implements Serializable {
             }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
-            selDokument.setListakwot1(new ArrayList<KwotaKolumna1>());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
             if (selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(kwotavat, "poz. koszty");
-                nettokolumna.add(kwotaKolumna);
+                selDokument.getListakwot1().add(kwotaKolumna);
             }
-            selDokument.getListakwot1().addAll(nettokolumna); 
             selDokument.setNetto(0.0);
-            for (KwotaKolumna1 p : nettokolumna) {
+            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 selDokument.setNetto(selDokument.getNetto() + p.getNetto());
             }
             for (KwotaKolumna1 xy : selDokument.getListakwot1()) {
@@ -612,7 +612,7 @@ public final class DokView implements Serializable {
 
             //dodaje zaplate faktury gdy faktura jest uregulowana
             Double kwota = 0.0;
-            for (KwotaKolumna1 p : nettokolumna) {
+            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 kwota = kwota + p.getNetto();
             }
 
@@ -646,13 +646,13 @@ public final class DokView implements Serializable {
                 }
                 wysDokument = new Dok();
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
-                liczbawierszy = 0;
+                liczbawierszy = 1;
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
                 Msg.msg("i", "Nowy dokument zachowany" + selDokument);
                 /**
                  * resetowanie pola do wpisywania kwoty netto
                  */
-                nettokolumna.clear();
+                selDokument.getListakwot1().clear();
             } else {
                 dokDAO.edit(selDokument);
             }
@@ -665,7 +665,6 @@ public final class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             selDokument = new Dok();
-            podlaczPierwszaKolumne();
             selectedSTR = new SrodekTrw();
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
@@ -982,14 +981,12 @@ public final class DokView implements Serializable {
             Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
         }
     }
-
-    public void podlaczPierwszaKolumne() {
-        if (liczbawierszy < 1) {
-            nettokolumna.add(new KwotaKolumna1());
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir");
-            liczbawierszy++;
-        }
-    }
+//archeo
+//    public void podlaczPierwszaKolumne() {
+//        if (liczbawierszy < 1) {
+//            liczbawierszy++;
+//        }
+//    }
 
     //przekazuje zeby pobrac jego domyslna kolumne do listy kolumn
 //    public void przekazKontrahenta(ValueChangeEvent e) throws Exception {
@@ -1125,7 +1122,7 @@ public final class DokView implements Serializable {
     public void skopiujdokument() {
         try {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
-            podlaczPierwszaKolumne();
+            liczbawierszy = selDokument.getListakwot1().size();
             String skrot = selDokument.getTypdokumentu();
             String nowynumer = "";
             String pod = wpisView.findWpisX().getPodatnikWpisu();
@@ -1140,9 +1137,9 @@ public final class DokView implements Serializable {
             }
             typdokumentu = skrot;
             podepnijListe(skrot);
-            nettokolumna.clear();
+            selDokument.getListakwot1().clear();
             for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                nettokolumna.add(p);
+                selDokument.getListakwot1().add(p);
             }
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
@@ -1153,12 +1150,12 @@ public final class DokView implements Serializable {
 
     public void skopiujdoedycji() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
-        //Msg.msg("i", "Wybrano fakturę " + selDokument.getNrWlDk() + " do edycji");
     }
+   
 
     private void skopiujdoedycjidane() {
         selDokument = DokTabView.getGosciuwybralS().get(0);
-        podlaczPierwszaKolumne();
+        liczbawierszy = selDokument.getListakwot1().size();
         String skrot = selDokument.getTypdokumentu();
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();
@@ -1173,10 +1170,6 @@ public final class DokView implements Serializable {
         }
         typdokumentu = skrot;
         podepnijListe(skrot);
-        nettokolumna.clear();
-        for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-            nettokolumna.add(p);
-        }
         ewidencjaAddwiad.clear();;
         sumbrutto = 0.0;
         int j = 1;
@@ -1193,7 +1186,7 @@ public final class DokView implements Serializable {
                 this.ewidencjaAddwiad.add(ewidencjaAddwiad);
             }
         } catch (Exception e) {
-            for (KwotaKolumna1 p : nettokolumna) {
+            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 sumbrutto += p.getNetto();
             }
         }
@@ -1429,14 +1422,6 @@ public final class DokView implements Serializable {
 
     public void setSrodekkategoriawynik(Srodkikst srodekkategoriawynik) {
         this.srodekkategoriawynik = srodekkategoriawynik;
-    }
-
-    public List<KwotaKolumna1> getNettokolumna() {
-        return nettokolumna;
-    }
-
-    public void setNettokolumna(List<KwotaKolumna1> nettokolumna) {
-        this.nettokolumna = nettokolumna;
     }
 
     public boolean isPokazEST() {
