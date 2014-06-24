@@ -38,9 +38,9 @@
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{Logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
-                        <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" requiredMessage="Wpisz login!" autocomplete="true" onkeydown="bar.show()"/>
+                        <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" autocomplete="true" onkeydown="bar.show()"/>
                         <h:outputText value="#{mgs.haslo}"/>
-                        <h:inputSecret value="#{Logowanie.haslo}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true" />
+                        <h:inputSecret value="#{Logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" />
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="1" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
