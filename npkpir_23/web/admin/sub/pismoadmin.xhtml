@@ -45,7 +45,7 @@
                     </f:facet>
                     <h:outputText value="#{item.menulink}"/>
                 </p:column>
-                <p:column filterBy="tresc" filterMatchMode="contains"  >
+                <p:column filterBy="#{item.tresc}" filterMatchMode="contains"  >
                     <f:facet name="header">
                         <h:outputText value="Treść"/>
                     </f:facet>
@@ -57,13 +57,13 @@
                     </f:facet>
                     <h:outputText value="#{item.waznosc}"/>
                 </p:column>
-                <p:column width="100" filterMatchMode="contains" filterBy="nadawca">
+                <p:column width="100" filterMatchMode="contains" filterBy="#{item.nadawca}">
                     <f:facet name="header">
                         <h:outputText value="Nadawca"/>
                     </f:facet>
                      <h:outputText value="#{item.nadawca}"/>
                 </p:column>
-                <p:column width="200" filterMatchMode="contains" filterBy="status">
+                <p:column width="200" filterMatchMode="contains" filterBy="#{item.status}">
                     <f:facet name="header">
                         <h:outputText value="Status"/>
                     </f:facet>
