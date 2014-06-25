@@ -244,7 +244,7 @@
                     </f:facet>
                 </p:autoComplete>
             </p:panel>
-            <p:panel id="nowypanelsrodki" style="width: 79%; margin-left: -1%;">
+            <p:panel id="nowypanelsrodki" style="width: 90%;">
                 <p:dataTable id="tabelasrodkitrwaleOT" value="#{DokumentView.selectedSTR}" var="loops" rendered="#{DokumentView.renderujwysz}"> 
                     <p:column headerText="nazwa środka">
                         <p:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
@@ -351,7 +351,7 @@
                 <h:outputText  value="#{DokumentView.wysDokument.idDok}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.dataWyst}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
                 <h:outputText  value="#{DokumentView.wysDokument.dataSprz}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
-                <h:outputText  id="#{wpis.nazwa}" value="#{DokumentView.wysDokument.kontr.npelna}"/>
+                <h:outputText  id="nazwa" value="#{DokumentView.wysDokument.kontr.npelna}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.typdokumentu}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
