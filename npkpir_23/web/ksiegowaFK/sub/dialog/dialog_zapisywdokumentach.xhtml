@@ -19,7 +19,7 @@
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="dokwpisTable.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:column headerText="idwiersza" width="50" sortBy="#{loop.idwiersza}">
                     <h:outputText value="#{loop.idwiersza}"/>

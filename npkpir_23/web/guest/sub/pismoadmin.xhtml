@@ -6,19 +6,19 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="form">
-        <p:panelGrid columns="2" style="width: 50%;">
+        <p:panelGrid columns="2" style="min-width: 70%;">
             <f:facet name="header">
                 <h:outputText value="Treść wiadomości"/>
             </f:facet>
             <h:outputLabel for="menulink" value="gdzie wystąpił problem?" />
-            <p:selectOneMenu id="menulink" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 40%;" validator="#{pismoAdminView.walidacjaobszaru}">
+            <p:selectOneMenu id="menulink" value="#{pismoAdminView.pismoadmin.menulink}" style="width: 200px;" validator="#{pismoAdminView.walidacjaobszaru}">
                 <f:selectItem itemLabel="wybierz obszar" itemValue="wybierz obszar"/>
                 <f:selectItems value="#{pismoAdminView.listamenu}"/>
             </p:selectOneMenu>
             <h:outputLabel for="problem" value="na czym polega problem?"/>
-            <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" style="width: 100%" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
+            <p:inputTextarea id="problem" value="#{pismoAdminView.pismoadmin.tresc}" rows="9" autoResize="false" cols="80" validatorMessage="Rozpisz się bardziej. Napisz na czym dokłanie polega problem."/>
             <h:outputLabel for="waznosc" value="jak wazny jest problem?"/>
-            <p:selectOneMenu id="waznosc" value="#{pismoAdminView.pismoadmin.waznosc}" style="width: 40%;" validator="#{pismoAdminView.walidacjawaznosc}">
+            <p:selectOneMenu id="waznosc" value="#{pismoAdminView.pismoadmin.waznosc}"  validator="#{pismoAdminView.walidacjawaznosc}">
                 <f:selectItem itemLabel="wybierz ważność" itemValue="wybierz ważność"/>
                 <f:selectItems value="#{pismoAdminView.waznosc}"/>
             </p:selectOneMenu>
@@ -35,9 +35,9 @@
                  <f:facet name="header">
                     <h:outputText value="Wysłane wiadomości"/><br/>
                      <h:outputText value="- wyszukiwanie słów w treści wiadomości: " />  
-                    <p:inputText id="globalFilter" onkeyup="table.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('table').filter()" style="width:150px" />  
                 </f:facet>
-                <p:column width="20">
+                <p:column width="40">
                     <f:facet name="header">
                         <h:outputText value="Lp"/>
                     </f:facet>
