@@ -41,14 +41,14 @@
                 </f:facet>
                 <h:outputText value="#{item.wzorschemy}"/>
             </p:column>
-            <p:column width="250">
+            <p:column width="700">
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
                 <p:dataTable value="#{item.selected}" var="loop">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
+                    <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.pole46} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.pole55} zł" style="float: right;">
@@ -64,9 +64,9 @@
                 </p:dataTable>
             </p:column>
             <p:column width="80" headerText="opcje" style="text-align: center;">
-                <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg"  style="width: 100px;"
+                <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item.identyfikator)}" update=":formX, :formX:msg"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? false : true}"/>
-                <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update=":formX, :formX:msg"  style="width: 100px;"
+                <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update=":formX, :formX:msg"  style="width: 80px;"
                                  rendered="#{item.status eq '300' ? true : false}" />
             </p:column>
         </p:dataTable>

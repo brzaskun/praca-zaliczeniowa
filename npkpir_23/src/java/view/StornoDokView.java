@@ -23,12 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import javax.annotation.PostConstruct;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
@@ -212,10 +210,12 @@ public class StornoDokView implements Serializable {
             }
     }
         }
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Application application = facesContext.getApplication();
-        ValueBinding binding = application.createValueBinding("#{DokumentView}");
-        DokView dokView = (DokView) binding.getValue(facesContext);
+        FacesContext context = FacesContext.getCurrentInstance();
+        DokView dokView = (DokView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"dokumentView");
+//        FacesContext facesContext = FacesContext.getCurrentInstance();
+//        Application application = facesContext.getApplication();
+//        ValueBinding binding = application.createValueBinding("#{DokumentView}");
+//        DokView dokView = (DokView) binding.getValue(facesContext);archeo
         dokView.dodajNowyWpisAutomatycznyStorno();
         return "/ksiegowa/ksiegowaNiezaplacone.xhtml?faces-redirect=true";
     }

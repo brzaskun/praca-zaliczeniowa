@@ -10,29 +10,23 @@
 
     <p:tab title="Deklaracje wysłane z otrzymanym potwierdzeniem. Można je wydrukować i wysłać mailem">
         <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
-            <p:column style="width: 3%;">
+            <p:column style="width: 2%;">
                 <p:rowToggler/>
             </p:column>
-            <p:column width="45">
+            <p:column width="40">
                 <f:facet name="header">
                     <h:outputText value="Status"/>
                 </f:facet>
                 <h:outputText value="#{item.status}"/>
             </p:column>
-            <p:column width="130">
+            <p:column width="210">
                 <f:facet name="header">
                     <h:outputText value="Indentyfikator i Opis"/>
                 </f:facet>
                 <h:outputText value="#{item.identyfikator}"/><br/>
                 <h:outputText value="#{item.opis}"/>
             </p:column>
-            <p:column width="45"> 
-                <f:facet name="header">
-                    <h:outputText value="Kod urzedu"/>
-                </f:facet>
-                <h:outputText value="#{item.kodurzedu}" style="width: 70px"/>
-            </p:column>
-            <p:column width="70">
+            <p:column width="50">
                 <f:facet name="header">
                     <h:outputText value="Rok - Miesiac"/>
                 </f:facet>
@@ -44,14 +38,12 @@
                 </f:facet>
                 <h:outputText value="#{item.wzorschemy}"/>
             </p:column>
-            <p:column width="250">
+            <p:column width="670">
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
                 <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row">
-                    <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu}"/></p:column>
                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
@@ -67,21 +59,21 @@
                 </p:dataTable>
             </p:column>
 
-            <p:column width="80">
+            <p:column width="60" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}" style="margin-left: 10px;"/>
+                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}" style="width: 60px;"/>
             </p:column>
-            <p:column width="80">
+            <p:column width="60" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX" style="margin-left: 10px; display: none;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX" style="width: 60px; display: none;"  />
             </p:column>
             
                 <p:rowExpansion>
-                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="1000" resizable="true">
                         <h:outputText value="#{item.deklaracja}"/>
                     </p:column>
                 </p:rowExpansion>

@@ -5,16 +5,12 @@
 package converter;
 
 import entity.Klienci;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import view.DokView;
-import view.KlView;
 import view.KlienciConverterView;
-import viewfk.PlanKontConverterView;
 
 /**
  *

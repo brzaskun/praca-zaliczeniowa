@@ -40,7 +40,7 @@ public class MessageReceiver implements MessageListener{
         try{
             TextMessage tm = (TextMessage) message;
             Date date = new Date(tm.getJMSTimestamp());
-            wiadomosc = date.toGMTString().substring(12, 20) +" "+tm.getText();
+            wiadomosc = date.toString().substring(12, 20) +" "+tm.getText();
             
         } catch (JMSException jex) {
         }

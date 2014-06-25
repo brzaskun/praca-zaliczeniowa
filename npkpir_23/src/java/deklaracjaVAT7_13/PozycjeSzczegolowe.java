@@ -9,11 +9,7 @@ import embeddable.Schema;
 import embeddable.Vatpoz;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +26,7 @@ public class PozycjeSzczegolowe {
         for(int i = 20;i<71;i++){
             Class[] noparams = {};	
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPole"+i, noparams);
-            String wynik = (String) met.invoke(pozycjelista, null);
+            String wynik = (String) met.invoke(pozycjelista, (Object[]) null);
             lista.add(wynik);
         }
        
