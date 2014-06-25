@@ -10,7 +10,6 @@
             <h:outputText value="Ewidencja VAT podatnika: #{WpisView.podatnikWpisu}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <bcf:ajaxs value="Trwa przetwarzanie danych"/>
              <h:form>
                     <p:confirmDialog id="confirmDialog" message="Wysłać bieżącą ewidencję do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie ewidencji VAT" severity="alert" widgetVar="confirmation">

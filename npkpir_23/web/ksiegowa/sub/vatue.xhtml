@@ -19,7 +19,7 @@
                 <f:facet name="header">  
                     <h:outputText value="#{WpisView.podatnikWpisu} - Zestawienie dokumentów do deklaracji VAT-UE z okres #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" /> 
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
                 </f:facet>
                 <p:column style="width: 5%;">
                     <p:rowToggler rendered="#{wpis.zawiera.size() gt 0 ? true : false}"/>

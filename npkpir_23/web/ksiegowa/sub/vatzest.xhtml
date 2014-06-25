@@ -43,7 +43,7 @@
                              >
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
-                        <p:inputText id="globalFilter" onkeyup="PF('(dokTable#{numer.index})').filter()" style="width:150px" />  
+                        <p:inputText id="globalFilter" onkeyup="PF('dokTable#{numer.index}').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie"/>  
                     </f:facet>
                     <p:column selectionMode="multiple" style="width: 40px;" rendered="#{itemik.opis eq 'podsumowanie' ? false : true}"/>
                     <p:column style="width: 40px;" rendered="#{itemik.opis eq 'podsumowanie' ? true : false}"/>
