@@ -12,13 +12,13 @@
         <p:growl id="msgzus" autoUpdate="true"/>
         <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
             <p:dataTable value="#{zUSstawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="zusstawkiPK" sortOrder="descending" selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
+                         sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                 <p:ajax event="rowSelect" listener="#{zUSstawkiView.wybranowiadomosc()}"  update=":formzus"/>
                 <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych stawek"/>
                 </f:facet>
-                <p:column headerText="rok" sortBy="zusstawkiPK.rok" style="text-align: center">
+                <p:column headerText="rok" sortBy="#{loop.zusstawkiPK.rok}" style="text-align: center">
                     <h:outputText value="#{loop.zusstawkiPK.rok}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; "/>
                 </p:column>
                 <p:column headerText="miesiąc"  style="text-align: center">

@@ -15,7 +15,7 @@
                 <br/>
                 <h:form id="formzob" >
                 <p:panelGrid columns="1" style="width: 900px">
-                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" sortBy="zobowiazaniePK.rok"
+                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" sortBy="#{loop.zobowiazaniePK.rok}"
                                  sortOrder="descending">
                          <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych terminów płatności #{WpisView.rokWpisuSt} "/>

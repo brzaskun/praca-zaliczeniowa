@@ -20,7 +20,7 @@
 
        <h:form>
            <h1><h:outputText value="List"/></h1>
-           <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 800px;" sortBy="nazwapelna">
+           <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 800px;" sortBy="#{item.nazwapelna}">
                <p:column>
                    <f:facet name="header">
                        <h:outputText value="Nip"/>

@@ -41,6 +41,7 @@ import msg.Msg;
 public class KsiegaView implements Serializable {
 
     private ArrayList<DokKsiega> lista;
+    private ArrayList<DokKsiega> listaFiltered;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private DokKsiega selDokument;
@@ -341,5 +342,14 @@ public class KsiegaView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+    
     //</editor-fold>
+
+    public ArrayList<DokKsiega> getListaFiltered() {
+        return listaFiltered;
+    }
+
+    public void setListaFiltered(ArrayList<DokKsiega> listaFiltered) {
+        this.listaFiltered = listaFiltered;
+    }
 }

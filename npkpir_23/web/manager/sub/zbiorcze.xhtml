@@ -22,13 +22,13 @@
             <h:form id="zbiorczyform">
             <p:panelGrid columns="4" style="width: 100%; max-width: 900px;">
                 <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
-                             sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="zusstawkiPK" sortOrder="descending" selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
+                             sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                              rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                     <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc(podatnik.zusparametr)}" update="@form"/>       
                     <f:facet name="header">
                         <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe"/>
                     </f:facet>
-                    <p:column headerText="rok" sortBy="zusstawkiPK.rok" style="text-align: center">
+                    <p:column headerText="rok" sortBy="#{loop.zusstawkiPK.rok}" style="text-align: center">
                         <h:outputText value="#{loop.zusstawkiPK.rok}"  style="#{loop.zusstawkiPK.rok eq zUSStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}"/>
                     </p:column>
                     <p:column headerText="miesiąc" style="text-align: center">

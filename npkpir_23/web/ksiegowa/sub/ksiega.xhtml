@@ -16,28 +16,28 @@
                 </p:commandButton>
             </p:panel>
             <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
-                          rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single"
+                          rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single" filteredValue="#{ksiegaView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 100%;" widgetVar="dokKsiega"
+                          style="width: 110%;" widgetVar="dokKsiega"
                           > 
                 <f:facet name="header">  
                     <h:outputText value="Podatkowa księga przychodów i rozchodów" />
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="dokKsiega.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokKsiega').filter()" style="width:250px" />  
                 </f:facet>
                 <p:columnGroup type="header">  
                     <p:row> 
-                        <p:column rowspan="2" headerText=""/>  
-                        <p:column rowspan="2" headerText="lp" />  
-                        <p:column rowspan="2" headerText="Data zdarzenia gosp."/>  
-                        <p:column rowspan="2" headerText="Nr dowodu księgowego"/>  
-                        <p:column colspan="2" headerText="Kontrahent"/>  
-                        <p:column rowspan="2" headerText="Opis zdarzenia gospodarcz"/>  
-                        <p:column colspan="3" headerText="Przychody"/>
-                        <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu"/>  
+                        <p:column rowspan="2" headerText="" width="20"/>  
+                        <p:column rowspan="2" headerText="lp" width="30"/>  
+                        <p:column rowspan="2" headerText="Data zdarzenia gosp." width="60"/>  
+                        <p:column rowspan="2" headerText="Nr dowodu księgowego" width="120"/>  
+                        <p:column colspan="2" headerText="Kontrahent" width="250"/>  
+                        <p:column rowspan="2" headerText="Opis zdarzenia gospodarcz" width="120"/>  
+                        <p:column colspan="3" headerText="Przychody" width="265"/>
+                        <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu" width="90"/>  
                         <p:column rowspan="2" headerText="Koszty uboczne zakupu"/>
                         <p:column colspan="4" headerText="Wydatki(koszty)"/>
-                        <p:column rowspan="2" headerText="Uwagi"/>  
+                        <p:column rowspan="2" headerText="Uwagi" width="60"/>  
                     </p:row>  
                     <p:row>  
                         <p:column headerText="imię i nazwisko (firma)"  />  
@@ -53,27 +53,27 @@
                     <p:row>  
                         <p:column headerText="" />  
                         <p:column headerText="1" />  
-                        <p:column headerText="2" filterBy="dataWyst" filterMatchMode="contains" sortBy="dataWyst" filterStyle="display: none;"/>  
-                        <p:column headerText="3" filterBy="nrWlDk" filterMatchMode="contains"  sortBy="nrWlDk" filterStyle="display: none;"/>  
-                        <p:column headerText="4" filterBy="kontr.npelna" filterMatchMode="contains" sortBy="kontr.npelna" filterStyle="display: none;"/>  
-                        <p:column headerText="5" filterBy="kontr.miejscowosc" filterMatchMode="contains" sortBy="kontr.miejscowosc" filterStyle="display: none;"/>  
-                        <p:column headerText="6" filterBy="opis" filterMatchMode="contains" sortBy="nrWlDk" filterStyle="display: none;"/>  
-                        <p:column headerText="7" filterBy="kolumna7" filterMatchMode="contains" sortBy="kolumna7"  filterStyle="display: none;"/>  
-                        <p:column headerText="8" filterBy="kolumna8" filterMatchMode="contains" sortBy="kolumna8" filterStyle="display: none;"/>  
-                        <p:column headerText="9" filterBy="kolumna9" filterMatchMode="contains" sortBy="kolumna9"  filterStyle="display: none;"/>  
-                        <p:column headerText="10" filterBy="kolumna10" filterMatchMode="contains" sortBy="kolumna10" filterStyle="display: none;"/>  
-                        <p:column headerText="11" filterBy="kolumna11" filterMatchMode="contains" sortBy="kolumna11" filterStyle="display: none;"/>  
-                        <p:column headerText="12" filterBy="kolumna12" filterMatchMode="contains" sortBy="kolumna12" filterStyle="display: none;"/>  
-                        <p:column headerText="13" filterBy="kolumna13" filterMatchMode="contains" sortBy="kolumna13" filterStyle="display: none;"/>  
-                        <p:column headerText="14" filterBy="kolumna14" filterMatchMode="contains" sortBy="kolumna14" filterStyle="display: none;"/>  
-                        <p:column headerText="15" filterBy="kolumna15" filterMatchMode="contains" sortBy="kolumna15" filterStyle="display: none;"/>  
-                        <p:column headerText="16"  filterBy="uwagi" filterMatchMode="contains" sortBy="uwagi"  filterStyle="display: none;"/>  
+                        <p:column headerText="2" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" filterStyle="display: none;"/>  
+                        <p:column headerText="3" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains"  sortBy="#{wpis.nrWlDk}" filterStyle="display: none;"/>  
+                        <p:column headerText="4" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" filterStyle="display: none;"/>  
+                        <p:column headerText="5" filterBy="#{wpis.kontr.miejscowosc}" filterMatchMode="contains" sortBy="#{wpis.kontr.miejscowosc}" filterStyle="display: none;"/>  
+                        <p:column headerText="6" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" filterStyle="display: none;"/>  
+                        <p:column headerText="7" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
+                        <p:column headerText="8" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
+                        <p:column headerText="9" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}"  filterStyle="display: none;"/>  
+                        <p:column headerText="10" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>  
+                        <p:column headerText="11" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
+                        <p:column headerText="12" filterBy="#{wpis.kolumna12}" filterMatchMode="contains" sortBy="#{wpis.kolumna12}" filterStyle="display: none;"/>  
+                        <p:column headerText="13" filterBy="#{wpis.kolumna13}" filterMatchMode="contains" sortBy="#{wpis.kolumna13}" filterStyle="display: none;"/>  
+                        <p:column headerText="14" filterBy="#{wpis.kolumna14}" filterMatchMode="contains" sortBy="#{wpis.kolumna14}" filterStyle="display: none;"/>  
+                        <p:column headerText="15" filterBy="#{wpis.kolumna15}" filterMatchMode="contains" sortBy="#{wpis.kolumna15}" filterStyle="display: none;"/>  
+                        <p:column headerText="16"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
                     </p:row>
                 </p:columnGroup>  
                 <p:column style="height: 40px;"> 
                     <p:rowToggler rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="nrWpkpir">  
+                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}">  
                     <h:outputText value="#{wpis.nrWpkpir}"  rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
                 <p:column id="dataColumn" headerText="data wyst" >  

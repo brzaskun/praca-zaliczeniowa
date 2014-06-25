@@ -20,7 +20,7 @@
             <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 80%; margin-top: 2%;" id="dokLista"
                          widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" filterDelay="600"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="12,16,20,50" sortBy="datawiadomosci" sortOrder="descending" 
+                         rowsPerPageTemplate="12,16,20,50" sortBy="#{item.datawiadomosci}" sortOrder="descending" 
                          >
                  <f:facet name="header">
                     <h:outputText value="Przeglądanie wiadomości"/><br/>

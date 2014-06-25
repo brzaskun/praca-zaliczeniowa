@@ -33,52 +33,52 @@
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
 
-                    <p:column id="dataColumn" headerText="data zakupu środka    " filterBy="datazak" filterMatchMode="contains" sortBy="datazak" width="80">  
+                    <p:column id="dataColumn" headerText="data zakupu środka    " filterBy="#{wpis.datazak}" filterMatchMode="contains" sortBy="#{wpis.datazak}" width="80">  
 
                         <h:outputText value="#{wpis.datazak}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="data2Column" headerText="data przekazania" filterBy="dataprzek" filterMatchMode="contains" sortBy="dataprzek" width="80">  
+                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" width="80">  
 
                         <h:outputText value="#{wpis.dataprzek}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="nazwa" filterMatchMode="contains" sortBy="nazwa" width="250">  
+                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}" width="250">  
 
                         <h:outputText value="#{wpis.nazwa}"  />
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="kst" filterMatchMode="contains" sortBy="kst" width="50">  
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" sortBy="#{wpis.kst}" width="50">  
 
                         <h:outputText value="#{wpis.kst}"  />
                     </p:column>
-                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="nrwldokzak" filterMatchMode="contains" sortBy="nrwldokzak" width="50">  
+                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" sortBy="#{wpis.nrwldokzak}" width="50">  
 
                         <h:outputText value="#{wpis.nrwldokzak}"  />
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="netto" filterMatchMode="contains" sortBy="netto">  
+                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatwarColumn" headerText="vat" filterBy="vat" filterMatchMode="contains" sortBy="vat">  
+                    <p:column id="vatwarColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
                         <h:outputText value="#{wpis.vat}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="umorzeniepoczatkowe" filterMatchMode="contains" sortBy="umorzeniepoczatkowe">  
+                    <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" sortBy="#{wpis.umorzeniepoczatkowe}">  
                         <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="niest. k.u.p." filterMatchMode="contains" sortBy="niepodlegaamortyzacji">  
+                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" sortBy="#{wpis.niepodlegaamortyzacji}">  
                         <h:outputText value="#{wpis.niepodlegaamortyzacji}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="stawka odpisu" filterBy="stawka" filterMatchMode="contains" sortBy="stawka" width="50">  
+                    <p:column id="stawkaColumn" headerText="stawka odpisu" filterBy="#{wpis.stawka}" filterMatchMode="contains" sortBy="#{wpis.stawka}" width="50">  
 
                         <h:outputText value="#{wpis.stawka}%" >
                             <f:convertNumber maxFractionDigits="2"
@@ -87,13 +87,13 @@
                                              type="number"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="odpisrok" filterMatchMode="contains" sortBy="odpisrok" width="90">  
+                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" sortBy="#{wpis.odpisrok}" width="90">  
 
                         <h:outputText value="#{wpis.odpisrok}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpismcColumn" headerText="odpis miesięczny" filterBy="odpismc" filterMatchMode="contains" sortBy="odpismc" width="90">  
+                    <p:column id="odpismcColumn" headerText="odpis miesięczny" filterBy="#{wpis.odpismc}" filterMatchMode="contains" sortBy="#{wpis.odpismc}" width="90">  
 
                         <h:outputText value="#{wpis.odpismc}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -124,43 +124,43 @@
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
 
-                    <p:column id="dataColumn" headerText="data zakupu" filterBy="datazak" filterMatchMode="contains" sortBy="datazak" width="80">  
+                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" sortBy="#{wpis.datazak}" width="80">  
 
                         <h:outputText value="#{wpis.datazak}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="data2Column" headerText="data przekazania" filterBy="dataprzek" filterMatchMode="contains" sortBy="dataprzek" width="80">  
+                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" width="80">  
 
                         <h:outputText value="#{wpis.dataprzek}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="nazwa" filterMatchMode="contains" sortBy="nazwa"  width="250">  
+                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}"  width="250">  
 
                         <h:outputText value="#{wpis.nazwa}"  />
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="kst" filterMatchMode="contains" sortBy="kst" width="50">  
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" sortBy="#{wpis.kst}" width="50">  
 
                         <h:outputText value="#{wpis.kst}"  />
                     </p:column>
-                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="nrwldokzak" filterMatchMode="contains" sortBy="nrwldokzak" width="50">  
+                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" sortBy="#{wpis.nrwldokzak}" width="50">  
 
                         <h:outputText value="#{wpis.nrwldokzak}"  />
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="netto" filterMatchMode="contains" sortBy="netto}">  
+                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
 
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatColumn" headerText="umorzenie początkowe" filterBy="umorzeniepoczatkowe" filterMatchMode="contains" sortBy="umorzeniepoczatkowe}">  
+                    <p:column id="vatColumn" headerText="umorzenie początkowe" filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" sortBy="#{wpis.umorzeniepoczatkowe}">  
 
                         <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="stawka" filterMatchMode="contains" sortBy="stawka" width="50">  
+                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterMatchMode="contains" sortBy="#{wpis.stawka}" width="50">  
 
                         <h:outputText value="#{wpis.stawka}%" >
                             <f:convertNumber maxFractionDigits="2"
@@ -169,17 +169,17 @@
                                              type="number"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="odpisrok" filterMatchMode="contains" sortBy="odpisrok" width="90">  
+                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" sortBy="#{wpis.odpisrok}" width="90">  
 
                         <h:outputText value="#{wpis.odpisrok}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpismcColumn" headerText="data sprzedania    " filterBy="datasprzedazy" filterMatchMode="contains" sortBy="datasprzedazy" width="90">                          
+                    <p:column id="odpismcColumn" headerText="data sprzedania    " filterBy="#{wpis.datasprzedazy}" filterMatchMode="contains" sortBy="#{wpis.datasprzedazy}" width="90">                          
                         <h:outputText value="#{wpis.datasprzedazy}" style="float: right;">
                           </h:outputText>
                     </p:column>
-                    <p:column id="przyczynaColumn" headerText="nr dok" filterBy="nrwldokumentu" filterMatchMode="contains" sortBy="nrwldokumentu" width="90">                          
+                    <p:column id="przyczynaColumn" headerText="nr dok" filterBy="#{wpis.nrwldokumentu}" filterMatchMode="contains" sortBy="#{wpis.nrwldokumentu}" width="90">                          
                         <h:outputText value="#{wpis.nrwldokumentu}" style="float: right;">
                           </h:outputText>
                     </p:column>
@@ -205,29 +205,29 @@
 
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
-                    <p:column id="data2Column" headerText="data przek" filterBy="dataprzek" filterMatchMode="contains" sortBy="dataprzek" width="80">  
+                    <p:column id="data2Column" headerText="data przek" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" sortBy="#{wpis.dataprzek}" width="80">  
 
                         <h:outputText value="#{wpis.dataprzek}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="nazwaColumn" headerText="nazwa środka" filterBy="nazwa" filterMatchMode="contains" sortBy="nazwa}">  
+                    <p:column id="nazwaColumn" headerText="nazwa środka" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}">  
 
                         <h:outputText value="#{wpis.nazwa}"  />
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota zakupu netto" filterBy="netto" filterMatchMode="contains" sortBy="netto}">  
+                    <p:column id="rodzTrColumn" headerText="kwota zakupu netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
 
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatColumn" headerText="vat" filterBy="vat" filterMatchMode="contains" sortBy="vat}">  
+                    <p:column id="vatColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
 
                         <h:outputText value="#{wpis.vat}"  style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="stawka" filterMatchMode="contains" sortBy="stawka" width="50">  
+                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterMatchMode="contains" sortBy="#{wpis.stawka}" width="50">  
 
                         <h:outputText value="#{wpis.stawka}%" >
                             <f:convertNumber maxFractionDigits="2"
@@ -236,18 +236,18 @@
                                              type="number"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpisrokColumn" headerText="odpis rok" filterBy="odpisrok" filterMatchMode="contains" sortBy="odpisrok" width="90">  
+                    <p:column id="odpisrokColumn" headerText="odpis rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" sortBy="#{wpis.odpisrok}" width="90">  
 
                         <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText> 
                     </p:column>
-                    <p:column id="umoColumn" headerText="czy wpisano do dok." filterBy="umorzeniezaksiegowane" filterMatchMode="contains" sortBy="umorzeniezaksiegowane" width="90">  
+                    <p:column id="umoColumn" headerText="czy wpisano do dok." filterBy="#{wpis.umorzeniezaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.umorzeniezaksiegowane}" width="90">  
 
                         <h:outputText value="#{wpis.umorzeniezaksiegowane eq true ? 'ujęte w dok. umorzeniowych' : 'nie ujęte w dok. umorzeniowych'}" >
                         </h:outputText> 
                     </p:column>
-                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="umorzWyk" filterMatchMode="contains" sortBy="umorzWyk}">  
+                    <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" sortBy="#{wpis.umorzWyk}">  
                         <p:dataTable var="subwpis" value="#{wpis.umorzWyk}"
                                      paginator="true" paginatorAlwaysVisible="true" rows="6"
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 

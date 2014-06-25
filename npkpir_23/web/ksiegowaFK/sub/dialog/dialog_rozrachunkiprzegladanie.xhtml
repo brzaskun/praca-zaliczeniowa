@@ -92,32 +92,32 @@
             <p:layoutUnit position="center" style="min-width: 1070px;">
                 <h:form id="tabelanowerozrachunki">
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.listaRozrachunkow}" var="loop" rowKey="#{loop.rozrachunekfk.idrozrachunku}" 
-                                 sortBy="rozrachunekfk.idrozrachunku" emptyMessage="Nie ma rozrachunków na koncie"
+                                 sortBy="#{loop.rozrachunekfk.idrozrachunku}" emptyMessage="Nie ma rozrachunków na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
                                  >
                         <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
                         <p:column style="height: 45px; text-align: center;">
                             <p:rowToggler />
                         </p:column>
-                        <p:column headerText="lp" width="40" sortBy="rowindex" >
+                        <p:column headerText="lp" width="40" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="rok" sortBy="rok">
+                        <p:column headerText="rok" sortBy="#{loop.rok}">
                             <h:outputText value="#{loop.rozrachunekfk.rok}"/>
                         </p:column>
-                        <p:column headerText="data" sortBy="datarozrachunku">
+                        <p:column headerText="data" sortBy="#{loop.datarozrachunku}">
                             <h:outputText value="#{loop.rozrachunekfk.datarozrachunku}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="walutarozrachunku" width="40">
+                        <p:column headerText="waluta" sortBy="#{loop.walutarozrachunku}" width="40">
                             <h:outputText value="#{loop.rozrachunekfk.walutarozrachunku}"/>
                         </p:column>
                         <p:column headerText="nr kolejny">
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
                         </p:column>
-                        <p:column headerText="nr własny dok" sortBy="nr dok" width="100">
+                        <p:column headerText="nr własny dok" sortBy="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.numer}" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.numer}"/>
                         </p:column>
-                        <p:column headerText="opis" width="200" sortBy="wierszStronafk.wiersz.dokfk.tresc">
+                        <p:column headerText="opis" width="200" sortBy="#{loop.wierszStronafk.wiersz.dokfk.tresc}">
                             <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.tresc}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="100">
