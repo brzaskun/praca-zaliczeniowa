@@ -23,7 +23,7 @@
     <p:outputPanel id="wrapper" deferred="true">
 
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
-                      selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" filterDelay="600"
+                      selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
                       style="max-width: 1400px;" >
             <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
@@ -32,7 +32,7 @@
             <f:facet name="header">  
                 <h:outputText value="Wykaz obrotow z kontrahentem" />
                 <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
             </f:facet>
             <p:column selectionMode="multiple"  style="width: 5%;" >
             </p:column>
