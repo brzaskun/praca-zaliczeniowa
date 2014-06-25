@@ -47,7 +47,7 @@
                            style="max-width: 1300px; height: 900px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid"
-                          draggableColumns="true">
+                          >
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych dokumentów " />  
@@ -110,7 +110,6 @@
                             </h:outputText><br/>
                         </ui:repeat>
                 </p:column>
-
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                         <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">

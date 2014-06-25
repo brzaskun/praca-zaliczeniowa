@@ -141,6 +141,16 @@ body {
      vertical-align: top;
 }
 
+.forty-percent {
+     width: 40%;
+     vertical-align: top;
+}
+
+.sixty-percent {
+     width: 60%;
+     vertical-align: top;
+}
+
 .twofive-percent {
      width: 25%;
      vertical-align: top;

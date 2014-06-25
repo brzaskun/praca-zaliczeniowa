@@ -8,13 +8,13 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs/>
     <h:form id="form">
-        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 300px;">
+        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 200px;">
             <p:panelGrid columns="4" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
                 <h:outputLabel value="#{mgs.rok}"/>
                 <h:outputLabel value="#{mgs.mc}"/>
                 <h:outputLabel value=""/>
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 250px;" height="300" >
+                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 250px;" >
                     <f:selectItems value="#{podatnikView.li}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
                 </p:selectOneMenu>
@@ -22,14 +22,15 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
                 </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" height="300">
+                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form"/>
                 </p:selectOneMenu>
-                <p:messages autoUpdate="true"/>
+                
             </p:panelGrid>
             <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 800; color: blue;"/>
         </p:panel>
+        <p:messages autoUpdate="true" style="width: 500px; margin-left: 2%;"/>
 <!--        <h:form>
             <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>
         </h:form>-->
