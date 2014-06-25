@@ -22,7 +22,7 @@ public class NewClass {
             met.invoke(temp, new String("mkyong"));
             Class[] noparams = {};
             met = Testowa.class.getDeclaredMethod("getPole"+"1", noparams);
-            Object ob = met.invoke(temp, null);
+            Object ob = met.invoke(temp, (Object[]) null);
             String wynik = ob.toString();
     }
 }

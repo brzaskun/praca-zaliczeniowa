@@ -9,10 +9,10 @@
     <script type="text/javascript">
 	function start() {
         window['progress'] = setInterval(function() {
-            var oldValue = pbClient.getValue(),
+            var oldValue = PF('pbClient').getValue(),
             newValue = oldValue + 50;
 
-            pbClient.setValue(pbClient.getValue() + 50);
+            PF('pbClient').setValue(PF('pbClient').getValue() + 50);
 
             if(newValue == 100) {
                 clearInterval(window['progress']);
@@ -24,7 +24,7 @@
     }
     function cancel() {  
            clearInterval(window['progress']);  
-           pbClient.setValue(0);
+           PF('pbClient').setValue(0);
            
        }  
 

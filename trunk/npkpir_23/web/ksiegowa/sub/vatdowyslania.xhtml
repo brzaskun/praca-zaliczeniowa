@@ -49,13 +49,13 @@
                     </h:panelGrid>
                 </p:dataGrid>
             </p:column>
-            <p:column id="previewColumn" headerText="operacje" width="70">
+            <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1">
-                    <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukujwys(item)}" style="margin-left: 10px; width: 80px;" oncomplete="wydrukvat7wysylka('#{item.podatnik}');"/>
-                    <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(-1)}" update=":formX" style="margin-left: 10px; width: 80px; display: none;"  />
+                    <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukujwys(item)}" style="width: 80px;" oncomplete="wydrukvat7wysylka('#{item.podatnik}');"/>
+                    <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(-1)}" update=":formX" style="width: 80px; display: none;"  />
                 </p:panelGrid>
             </p:column>
-            <p:column id="deleteColumn" headerText="usuń" width="70">
+            <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">
                 <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
             </p:column>
             <p:rowExpansion>

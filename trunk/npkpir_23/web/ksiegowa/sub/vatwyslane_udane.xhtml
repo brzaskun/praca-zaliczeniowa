@@ -11,13 +11,13 @@
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
-            <p:column width="45">
+            <p:column width="40">
                 <f:facet name="header">
                     <h:outputText value="Status"/>
                 </f:facet>
                 <h:outputText value="#{item.status}"/>
             </p:column>
-            <p:column width="130">
+            <p:column width="200">
                 <f:facet name="header">
                     <h:outputText value="Indentyfikator i Opis"/>
                 </f:facet>
@@ -36,25 +36,25 @@
                 </f:facet>
                 <h:outputText value="#{item.wzorschemy}"/>
             </p:column>
-            <p:column width="250">
+            <p:column width="700">
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
-                <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row">
+                <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row" >
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
+                    <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
                     <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="przeniesienie (p.47)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI47}" style="float: right;">
+                    <p:column headerText="przenies. (p.47)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI47}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="do zapłaty (p.58)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI58}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zwrotu(p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
+                    <p:column headerText="do zwrotu (p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="kwota autoryzacyjna"><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
+                    <p:column headerText="kwota autoryz."><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                 </p:dataTable>
             </p:column>
@@ -63,17 +63,17 @@
                 <f:facet name="header">
                     <h:outputText value="drukuj"/>
                 </f:facet>
-                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="width: 100px;"/>
+                <p:commandButton value="Pdf" actionListener="#{pdfVAT7.drukuj(item, row)}"  style="width: 80px;"/>
             </p:column>
             <p:column width="80" style="text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="width: 100px; display: none;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{mailOther.vat7(row)}" update=":formX, :formX:msg" style="width: 80px; display: none;"  />
             </p:column>
             
                 <p:rowExpansion>
-                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
+                    <p:column id="ewidencjavat" headerText="treść wysyłki" width="1000" resizable="true">
                         <h:outputText value="#{item.deklaracja}"/>
                     </p:column>
                 </p:rowExpansion>
