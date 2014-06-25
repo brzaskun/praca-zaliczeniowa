@@ -26,7 +26,7 @@
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksiegowanych faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="archTable.filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('archTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:column selectionMode="multiple" width="50"/>
                 <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">

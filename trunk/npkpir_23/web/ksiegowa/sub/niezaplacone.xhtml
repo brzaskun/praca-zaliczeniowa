@@ -48,7 +48,7 @@
             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontr.npelna" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip #{wpis.kontr.nip}"  />
             </p:column>
            

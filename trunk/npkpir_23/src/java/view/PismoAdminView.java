@@ -56,6 +56,7 @@ public class PismoAdminView implements Serializable{
         listamenu.add("ewidencje vat");
         listamenu.add("zamknięcie miesiąca");
         listamenu.add("faktury - panel");
+        listamenu.add("zus");
         listamenu.add("napisz do admina");
         waznosc = new ArrayList<>();
         waznosc.add("nie wiem po co to zgłaszam");
