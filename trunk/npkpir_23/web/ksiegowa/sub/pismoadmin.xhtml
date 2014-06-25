@@ -57,7 +57,7 @@
                     </f:facet>
                     <h:outputText value="#{item.menulink}"/>
                 </p:column>
-                <p:column filterBy="tresc" filterMatchMode="contains" filterStyle="display: none;">
+                <p:column filterBy="#{item.tresc}" filterMatchMode="contains" filterStyle="display: none;">
                     <f:facet name="header">
                         <h:outputText value="Treść"/>
                     </f:facet>
