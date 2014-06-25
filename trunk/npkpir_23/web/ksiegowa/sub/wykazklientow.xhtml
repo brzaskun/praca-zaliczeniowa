@@ -97,13 +97,13 @@
             <h:outputText value="Wykaz klientów" />  
         </f:facet>
             <p:column selectionMode="single" width="50" style="text-align: center;"/>
-            <p:column id="Column1" headerText="lp" sortBy="nip}"  filterBy="nip" filterMatchMode="startsWith" filterMaxLength="10">  
+            <p:column id="Column1" headerText="lp" sortBy="#{wpis.nip}"  filterBy="#{wpis.nip}" filterMatchMode="startsWith" filterMaxLength="10">  
             <f:facet name="header">  
                 <h:outputText value="nip" />  
             </f:facet> 
             <h:outputText value="#{wpis.nip}" />
         </p:column>
-            <p:column id="Column2" headerText="lp" sortBy="npelna}" filterBy="npelna" filterMatchMode="contains" width="300">  
+            <p:column id="Column2" headerText="lp" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" width="300">  
             <f:facet name="header">  
                 <h:outputText value="nazwa pełna" />  
             </f:facet> 
@@ -117,7 +117,7 @@
                 </p:cellEditor>
         </p:column>
 
-            <p:column id="Column2a" headerText="lp" sortBy="nskrocona}" filterBy="nskrocona" filterMatchMode="contains" width="300">  
+            <p:column id="Column2a" headerText="lp" sortBy="#{wpis.nskrocona}" filterBy="#{wpis.nskrocona}" filterMatchMode="contains" width="300">  
             <f:facet name="header">  
                 <h:outputText value="nazwa skrócona" />  
             </f:facet> 
@@ -130,25 +130,25 @@
                     </f:facet>  
                 </p:cellEditor>
         </p:column>
-            <p:column id="Column3" sortBy="miejscowosc}" filterBy="miejscowosc" filterMatchMode="contains" width="200">  
+            <p:column id="Column3" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="200">  
             <f:facet name="header">  
                 <h:outputText value="miejscowość" />  
             </f:facet> 
             <h:outputText value="#{wpis.kodpocztowy} #{wpis.miejscowosc}" />
         </p:column>
-         <p:column id="Column31" sortBy="ulica}" filterBy="ulica" filterMatchMode="contains" width="200">  
+         <p:column id="Column31" sortBy="#{wpis.ulica}" filterBy="#{wpis.ulica}" filterMatchMode="contains" width="200">  
             <f:facet name="header">  
                 <h:outputText value="ulica" />  
             </f:facet> 
             <h:outputText value="#{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
         </p:column>
-            <p:column id="Column4" headerText="lp" sortBy="pkpirKolumna}" filterBy="pkpirKolumna" filterMatchMode="contains" >  
+            <p:column id="Column4" headerText="lp" sortBy="#{wpis.pkpirKolumna}" filterBy="#{wpis.pkpirKolumna}" filterMatchMode="contains" >  
             <f:facet name="header">  
                 <h:outputText value="kolumna" />  
             </f:facet>
                 <h:outputText id="pkpirPole" value="#{wpis.pkpirKolumna}"   style="width: 200px" />
         </p:column>
-            <p:column id="Column4a" headerText="lp" sortBy="email}" filterBy="email" filterMatchMode="contains" >  
+            <p:column id="Column4a" headerText="lp" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" >  
             <f:facet name="header">  
                 <h:outputText value="email" />  
             </f:facet>

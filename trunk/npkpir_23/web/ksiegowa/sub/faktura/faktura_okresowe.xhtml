@@ -26,7 +26,7 @@
                 <h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
             </p:panelGrid>
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="rok}" sortOrder="DESCENDING"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.dokument.fakturaPK.numerkolejny}" style="width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.rok}" sortOrder="DESCENDING"
                          rowSelectMode="add">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie faktur okresowych: " />  
@@ -37,25 +37,25 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>      
                 <p:column selectionMode="multiple" width="50"/>
-                <p:column headerText="rok" sortBy="rok}" filterBy="rok" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="rok" sortBy="#{wpis.rok}" filterBy="#{wpis.rok}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.rok}"/>
                 </p:column>
-                <p:column headerText="kontrahent nip" sortBy="dokument.kontrahent_nip}" filterBy="dokument.kontrahent_nip" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                 </p:column>
-                <p:column headerText="kontrahent" sortBy="dokument.kontrahent.npelna}" filterBy="dokument.kontrahent.npelna" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="kontrahent" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.kontrahent}"/>
                 </p:column>
-                <p:column headerText="email" sortBy="dokument.kontrahent.email}" filterBy="dokument.kontrahent.email" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="email" sortBy="#{wpis.dokument.kontrahent.email}" filterBy="#{wpis.dokument.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.kontrahent.email}"/>
                 </p:column>
-                <p:column headerText="datawystawienia" sortBy="dokument.datawystawienia}" filterBy="dokument.datawystawienia" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="datawystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="opis" sortBy="dokument.pozycjenafakturze.get(0).nazwa}" filterBy="dokument.pozycjenafakturze.get(0).nazwa" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="opis" sortBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
-                <p:column headerText="brutto" sortBy="dokument.brutto}" filterBy="dokument.brutto" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.brutto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>

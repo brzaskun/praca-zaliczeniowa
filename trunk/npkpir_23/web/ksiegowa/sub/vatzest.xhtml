@@ -50,30 +50,30 @@
                     <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                     <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
-                    <p:column headerText="id" style="width: 40px;" sortBy="id}">
+                    <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
                         <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                     </p:column>
-                    <p:column headerText="data wyst." style="width: 90px;" sortBy="dataWyst" filterBy="dataWyst" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="data wyst." style="width: 90px;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.dataWyst}"/>
                     </p:column>
-                    <p:column headerText="data sprz." style="width: 90px;" sortBy="dataSprz" filterMatchMode="contains" filterBy="dataSprz" filterStyle="display: none;">
+                    <p:column headerText="data sprz." style="width: 90px;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
                         <h:outputText value="#{itemik.dataSprz}"/>
                     </p:column>
-                    <p:column headerText="nr własny" style="width: 140px;" sortBy="nrWlDk" filterBy="nrWlDk" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="nr własny" style="width: 140px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.nrWlDk}"/>
                     </p:column>
-                    <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="kontr.npelna" filterBy="kontr.npelna" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.kontr.npelna}"/>
                     </p:column>
-                    <p:column headerText="opis trans." style="width: 190px;" sortBy="opis" filterBy="opis" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="opis trans." style="width: 190px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.opis}"/>
                     </p:column>
-                    <p:column headerText="netto" style="width: 110px;" sortBy="netto" filterBy="netto" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="netto" style="width: 110px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="vat" style="width: 110px;" sortBy="vat" filterBy="vat" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="vat" style="width: 110px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>

@@ -24,24 +24,24 @@
                 <p:column style="width: 5%;">
                     <p:rowToggler rendered="#{wpis.zawiera.size() gt 0 ? true : false}"/>
                 </p:column>
-                <p:column id="typdokColumn" headerText="transakcja" filterBy="transakcja" filterMatchMode="contains" sortBy="transakcja" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis.transakcja}" filterMatchMode="contains" sortBy="#{wpis.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.transakcja}"/>
                 </p:column>
-                <p:column id="krajkodColumn" headerText="kod kraju" filterBy="kontrahent.krajkod" filterMatchMode="contains" sortBy="kontrahent.krajkod" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="krajkodColumn" headerText="kod kraju" filterBy="#{wpis.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.krajkod}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.krajkod}"/>
                 </p:column>
-                <p:column id="nipColumn" headerText="nip" filterBy="kontrahent.nip" filterMatchMode="contains" sortBy="kontrahent.nip" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.nip}" />
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontrahent.npelna" filterMatchMode="contains" sortBy="kontrahent.npelna" style="width: 20%;" filterStyle="display : none;" >  
+                <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.npelna}"  />
                 </p:column>
-                <p:column id="nettoColumn" headerText="netto" filterBy="netto" filterMatchMode="contains" sortBy="netto" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="nettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="liczbadok" filterMatchMode="contains" sortBy="liczbadok" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.liczbadok}" style="float: right;" rendered="#{wpis.transakcja eq 'podsumowanie' ? false : true}">
                         <f:convertNumber minFractionDigits="0" locale="PL"/>
                     </h:outputText>
