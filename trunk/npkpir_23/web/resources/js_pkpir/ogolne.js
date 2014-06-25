@@ -128,7 +128,7 @@ var aktywujopis = function() {
             r('dodWiad:opis').focus();
         }
     });
-    $('#dodWiad\\:numerwlasny').focus();
+    //$('#dodWiad\\:numerwlasny').focus();
 };
 
 
