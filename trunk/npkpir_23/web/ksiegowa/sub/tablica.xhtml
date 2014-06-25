@@ -53,6 +53,8 @@
                     <h:outputText value="Zestawienie zaksięgowanych dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                    <p:columnToggler datasource="dokumentyLista" trigger="toggler" />
                 </f:facet>
 
                 <p:column style="width: 4%; height: 45px;" >
