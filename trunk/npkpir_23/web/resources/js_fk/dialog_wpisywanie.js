@@ -10,7 +10,7 @@ var zachowajwiersz = function (wierszid, wnlubma) {
     }
 };
 
-var pierwszyonShow = function () {
+var wpisywanieOnShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty');
         //drugi.hide();
@@ -23,7 +23,7 @@ var pierwszyonShow = function () {
     }
 };
 
-var pierwszyOnHide = function () {
+var wpisywanieOnHide = function () {
     resetujdialog('dialogpierwszy');
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
