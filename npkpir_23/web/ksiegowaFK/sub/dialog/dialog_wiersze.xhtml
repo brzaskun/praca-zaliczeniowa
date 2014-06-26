@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogwiersze" header="Lista zapisów w wybranym dokumencie." widgetVar="dokfkwiersze"  
+    <p:dialog id="dialogwiersze" header="Lista zapisów w wybranym dokumencie." widgetVar="wiersze"  
               resizable="false"  onShow="ustawdialogwiersze('dialogwiersze','dialogtrzeci');" closeOnEscape="true" onHide="resetujdialog('dialogwiersze');" >
         <p:dataTable var="wpis" value="#{dokfkView.selected.listawierszy}" editable="true" rowIndexVar="number">
             <p:column headerText="lp" width="30">

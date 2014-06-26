@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="trzeci"
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');dokfkwiersze.hide();" >
 
     
@@ -15,11 +15,10 @@
          </p:contextMenu>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single">
+                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" style="width: 1200px;">
                      <p:ajax event="rowSelect"  listener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
-                     <f:ajax event="rowSelect" execute="@this"/>
-                <p:hotkey bind="down" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="przejdzwiersz();"/>
-                <p:hotkey bind="up" actionListener="#{dokfkView.moveDown()}" async="true"  oncomplete="wrocwiersz();"/>
+                <p:hotkey bind="down"  oncomplete="przejdzwiersz();"/>
+                <p:hotkey bind="up"  oncomplete="wrocwiersz();"/>
                 <p:column headerText="lp." width="30" style="text-align: center;">
                 <h:outputText value="#{row+1}"/>
             </p:column>
@@ -46,7 +45,7 @@
                 <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu}" filterBy="#{wpis.walutadokumentu}" filterMatchMode="contains" >
                 <h:outputText value="#{item.walutadokumentu}"/>
             </p:column>
-            <p:column headerText="" width="100">
+                <p:column headerText="" width="60" style="text-align: center;">
                  <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
                      </p:column>
            

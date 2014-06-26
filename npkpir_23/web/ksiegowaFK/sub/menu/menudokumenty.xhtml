@@ -9,7 +9,7 @@
                 <p:tab title="wpisywanie">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="FVZ" onclick="pierwszy.show();" actionListener="#{dokfkView.resetujDokument}"></p:menuitem>
+                            <p:menuitem value="FVZ" onclick="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}"></p:menuitem>
                             <p:menuitem value="FVK"></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
@@ -18,7 +18,7 @@
                 <p:tab title="przeglądanie">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Dokumenty" onclick="trzeci.show();"></p:menuitem>
+                            <p:menuitem value="Dokumenty" onclick="PF('zestawieniezaksiegowanych').show();"></p:menuitem>
                             <p:menuitem value="Wiersze" onclick="czwarty.show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
