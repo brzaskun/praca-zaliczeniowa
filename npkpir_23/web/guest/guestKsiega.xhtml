@@ -14,8 +14,8 @@
                     <p:confirmDialog id="confirmDialog" message="Wysłać pkpir na twój mail? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
 
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()" actionListener="#{mailOther.pkpir}" style="float: left; width: 120px; margin-left: 2%;"/>  
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()" actionListener="#{mailOther.pkpir}" style="float: left; width: 120px; margin-left: 2%;"/>  
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
 
                     </p:confirmDialog>  
                 </h:form>

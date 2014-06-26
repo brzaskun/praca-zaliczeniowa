@@ -16,9 +16,9 @@
                     <p:confirmDialog id="confirmDialog" message="Usunąć wybranego kontrahenta?"  
                                      header="Rozpoczęcie usuwania kontrahenta" severity="alert" widgetVar="confirmation">  
 
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formY:tabelaKontr" oncomplete="confirmation.hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formY:tabelaKontr" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{KlView.destroy2}" />  
-                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
 
                     </p:confirmDialog>  
                 </h:form>

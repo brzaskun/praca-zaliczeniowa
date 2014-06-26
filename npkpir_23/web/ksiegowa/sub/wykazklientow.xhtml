@@ -156,7 +156,7 @@
         </p:column>
          
         <p:column id="deleteColumn" headerText="usuń">
-            <p:commandButton actionListener="#{KlView.destroy(wpis)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formY" />
+            <p:commandButton actionListener="#{KlView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formY" />
         </p:column>
 
     </p:dataTable>

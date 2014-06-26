@@ -13,9 +13,9 @@
                     <p:growl id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Sprzedać wybrany środek trwały?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation" style="width: 350px;">  
-                        <p:commandButton id="confirm" value="Sprzedać" update="fifi" oncomplete="confirmation.hide()"  
+                        <p:commandButton id="confirm" value="Sprzedać" update="fifi" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{sTRSprzedazView.sprzedajsrodki()}" style="float: left; width: 120px;"/>  
-                        <p:commandButton id="decline" value="Cofnij" onclick="confirmation.hide()" type="button" style="float: right; width: 120px;"/>   
+                        <p:commandButton id="decline" value="Cofnij" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px;"/>   
                         
                     </p:confirmDialog>  
                 </h:form>

@@ -143,7 +143,7 @@
             </p:panelGrid>
 
             <p:contextMenu for="panelewidencji">
-                <p:menuitem value="Sprzedaż" onclick="confirmation.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
+                <p:menuitem value="Sprzedaż" onclick="PF('confirmation').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
                 <p:menuitem value="Odkup" onclick="confirmation1.show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
             </p:contextMenu>
             <p:panel id="panelewidencji" style="width: 300px;">

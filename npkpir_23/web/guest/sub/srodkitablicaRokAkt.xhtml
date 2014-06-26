@@ -8,7 +8,7 @@
     <p:growl id="mess_add" />
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfSTR.drukuj()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
         </p:commandButton>  
-    <p:commandButton id="ewwysylka" value="Wyślij na mail" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show()" style="display: none;">
+    <p:commandButton id="ewwysylka" value="Wyślij na mail" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;">
         </p:commandButton>
     <p:separator/>
     <p:dataTable  var="wpis" value="#{STREwidencja.strtabela}" id="dokumsrodkiListaRok" editable="true" 

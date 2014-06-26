@@ -14,9 +14,9 @@
                     <p:confirmDialog id="confirmDialog" message="Usunąć wybrany wzorzec?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
 
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokLista" oncomplete="confirmation.hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokLista" oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{rodzajedokView.destroy2()}" />  
-                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation.hide()" type="button" />   
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
 
                     </p:confirmDialog>  
                 </h:form>

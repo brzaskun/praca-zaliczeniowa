@@ -59,7 +59,7 @@
                 </p:dataTable>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="80" style="text-align: center;">
-                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 80px;"/></p:column>
+                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 80px;"/></p:column>
             <p:rowExpansion>
                 <p:column width="240">
                     <h:outputText value="Identyfikator"/>

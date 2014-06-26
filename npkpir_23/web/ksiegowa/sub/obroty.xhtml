@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" >
     </p:commandButton>
-    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
+    <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
     </p:commandButton>
     <p:panelGrid columns="4">
         <h:outputText value="   suma wartości netto wybranych dokumentów w zł: "/>
@@ -32,7 +32,9 @@
             <f:facet name="header">  
                 <h:outputText value="Wykaz obrotow z kontrahentem" />
                 <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />
+                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                    <p:columnToggler datasource="dokumentyLista" trigger="toggler" />
             </f:facet>
             <p:column selectionMode="multiple"  style="width: 5%;" >
             </p:column>

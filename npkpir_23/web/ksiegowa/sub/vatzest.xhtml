@@ -20,7 +20,7 @@
         <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
                 <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
-                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="confirmation.show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
+                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{mailOther.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>    
                 <p:separator/>
