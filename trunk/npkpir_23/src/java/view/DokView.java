@@ -652,7 +652,7 @@ public final class DokView implements Serializable {
                 /**
                  * resetowanie pola do wpisywania kwoty netto
                  */
-                selDokument.getListakwot1().clear();
+                //selDokument.getListakwot1().clear(); to jest niepoczebne
             } else {
                 dokDAO.edit(selDokument);
             }

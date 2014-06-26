@@ -98,8 +98,8 @@ public class Dok implements Serializable {
 //    @Lob
 //    @Column(name = "kontr")
 //    private Klienci kontr;
-    @JoinColumn(name = "kontr1")
-    @ManyToOne(fetch = FetchType.EAGER) 
+    @JoinColumn(name = "kontr1", insertable = false, updatable = false)
+    @ManyToOne
     private Klienci kontr1;
     @Basic(optional = false)
     @NotNull
