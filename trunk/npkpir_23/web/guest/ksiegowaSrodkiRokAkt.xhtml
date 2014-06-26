@@ -15,9 +15,9 @@
                     <p:confirmDialog id="confirmDialog" message="Wysłać maila a twój adres mail?(po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie ewidencji vat" severity="alert" widgetVar="confirmation">
 
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{mailOther.ewidencjaSTR()}" onsuccess="alert('Wysłano ewidencje do podatnika');" style="float: left; width: 120px; margin-left: 2%;"/>    
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>         
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>         
 
                     </p:confirmDialog>  
                 </h:form>

@@ -382,7 +382,7 @@
         <h:form id="form">
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfZestRok.drukujksiege()}" >
         </p:commandButton>
-         <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
+         <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
         </p:commandButton>
             </h:form>
         </div>

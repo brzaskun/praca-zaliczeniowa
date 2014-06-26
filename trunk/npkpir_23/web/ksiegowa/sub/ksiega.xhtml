@@ -12,7 +12,7 @@
                 <br/>
                 <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPkpir.drukujksiege()}" >
                 </p:commandButton>
-                <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="confirmation.show();" style="display: none;">
+                <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
                 </p:commandButton>
             </p:panel>
             <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 

@@ -14,9 +14,9 @@
                 <p:confirmDialog id="confirmDialog" message="Wysłać PIT-5 do podatnika: #{mailOther.klientfile}? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pit5" severity="alert" widgetVar="confirmation">
 
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="confirmation.hide()"  
+                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
                                          actionListener="#{mailOther.pit5()}" onsuccess="alert('Wysłano PIT5 do  #{mailOther.klientfile}');" style="float: left; width: 120px; margin-left: 2%;"/>  
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="confirmation.hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>      
+                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>      
 
                     </p:confirmDialog>  
                 </h:form>

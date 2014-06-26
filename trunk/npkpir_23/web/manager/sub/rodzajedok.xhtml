@@ -31,7 +31,7 @@
                 <h:outputText value="#{loop.wzorzec}" />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" >
-                    <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="confirmation.show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                    <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
             </p:column>
                 <br/>
             </p:dataTable>
