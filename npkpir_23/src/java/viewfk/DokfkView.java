@@ -590,7 +590,7 @@ public class DokfkView implements Serializable {
                 numerwiersza = 0;
                 stronawiersza = "";
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("drugishow();");
+                RequestContext.getCurrentInstance().execute("rozrachunkiShow();");
                 String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
                 RequestContext.getCurrentInstance().execute(znajdz);
             } else {
@@ -598,14 +598,14 @@ public class DokfkView implements Serializable {
                 //zerujemy rzeczy w dialogu
                 numerwiersza = 0;
                 stronawiersza = "";
-                RequestContext.getCurrentInstance().execute("powrotdopola();");
+                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } catch (Exception e) {
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
                 numerwiersza = 0;
                 stronawiersza = "";
-            RequestContext.getCurrentInstance().execute("powrotdopola();");
+            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
         }
     }
 

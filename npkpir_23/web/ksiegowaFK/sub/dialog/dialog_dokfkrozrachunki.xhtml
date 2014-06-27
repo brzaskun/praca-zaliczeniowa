@@ -8,8 +8,8 @@
     >
 
 
-    <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="drugi" 
-              resizable="false"  onShow="drugionShow();" closeOnEscape="true" onHide="rozrachunkionHide();" >
+    <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" 
+              resizable="false"  onShow="rozrachunkiOnShow();" closeOnEscape="true" onHide="rozrachunkiOnHide();" >
         <h:form id="rozrachunki" >
             <div style="height: 600px;">
                     <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;">
@@ -104,7 +104,7 @@
                 
             </div>
             <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="${dokfkView.zapistransakcji}" 
-                             type="submit" oncomplete="drugi.hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
+                             type="submit" oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
                              update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
         </h:form>
         <f:facet name="footer" >
@@ -116,7 +116,7 @@
                         <f:ajax event="change" execute="@this" render=":wpisywaniefooter"/>
                 </h:selectBooleanCheckbox>
                     <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
-                    <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="pierwszy.show();drugi.hide();" style="float: right; width: 150px;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');"/>
+                    <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();PF('rozrachunki').hide();" style="float: right; width: 150px;" oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');"/>
                 </h:form>
             </div>
         </f:facet>

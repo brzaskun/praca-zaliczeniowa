@@ -4,11 +4,15 @@ var pilnujwprowadzanychrozrachunkow = function() {
     doklejsumowaniewprowadzonych();
 };
 
-var drugionShow = function() {
+var rozrachunkiOnShow = function() {
     ustawdialog('dialogdrugi', 'menudokumenty');
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
+};
+
+var rozrachunkiShow = function (){
+        PF('rozrachunki').show();
 };
 
 var znadzpasujacepolerozrachunku = function(kwota) {
@@ -84,7 +88,7 @@ var updateroznice = function () {
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
-var rozrachunkionHide = function() {
+var rozrachunkiOnHide = function() {
     resetujdialog('dialogdrugi');
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
@@ -102,7 +106,7 @@ var rozrachunkionHide = function() {
     }
 };
 //sluzy do zaznaczania pol nierozrachunowych
-var powrotdopola = function() {
+var powrotdopolaPoNaniesieniuRozrachunkow = function() {
     var powrot = $(MYAPP.zaznaczonepole).attr('id');
     $(document.getElementById(powrot)).focus();
     $(document.getElementById(powrot)).select();
