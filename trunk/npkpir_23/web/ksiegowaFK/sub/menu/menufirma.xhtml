@@ -9,7 +9,7 @@
                 <p:tab title="wybor firmy">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="FVZ" onclick="pierwszy.show();" actionListener="#{dokfkView.resetujDokument}"></p:menuitem>
+                            <p:menuitem value="FVZ"></p:menuitem>
                             <p:menuitem value="FVK"></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
@@ -18,7 +18,7 @@
                 <p:tab title="dodawanie firmy">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Nowa firma" onclick="dialogwprowadzaniefirmy.show();"></p:menuitem>
+                            <p:menuitem value="Nowa firma" onclick="PF('dialogwprowadzaniefirmy').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

@@ -9,9 +9,9 @@
               resizable="false" onShow="ustawdialog('dialogrzisprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojekt');"  >
         <h:form id="formprojekt">
             <p:contextMenu for="formprojekt:dataList" style="width: 200px;">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektsyntetyczne.show();"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektsyntetyczneformula.show();"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="rzisprojektanalityczne.show();"/>
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczne').show();"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
@@ -25,7 +25,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaRZiSView.rzisuklad.rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaRZiSView.PF('rzisuklad').rzisukladPK.uklad}"/>
                     </f:facet>
                     <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">

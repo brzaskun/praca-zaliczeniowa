@@ -13,8 +13,8 @@
                         <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                         <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form, :formwzorcowy" style="display: none;" oncomplete="nowekontoanalityczne.hide();"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form, :formwzorcowy" style="float: right;" oncomplete="nowekontoanalityczne.hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form, :formwzorcowy" style="display: none;" oncomplete="PF('nowekontoanalityczne').hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form, :formwzorcowy" style="float: right;" oncomplete="PF('nowekontoanalityczne').hide();"/>
             </p:panelGrid>
             </p:focus>
     </h:form>  

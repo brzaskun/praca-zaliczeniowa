@@ -8,9 +8,9 @@
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy">
-                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="nowekontosyntetyczne.show();" />
-                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="nowekontoanalityczne.show();" />
-                <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="nowekontoslownik.show();" />
+                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
+                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontoanalityczne').show();" />
+                <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
                 <p:separator/>
                 <p:menuitem value="Implementuj" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
@@ -36,7 +36,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implementuj" onclick="confirm1.show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
+                <p:commandButton id="implementuj" value="implementuj" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataListwzorcowy" value="#{planKontView.rootwzorcowy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 

@@ -9,14 +9,14 @@
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
             <p:contextMenu id="contextforplankont" for="dataList">
-                <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="nowekontosyntetyczne.show();" />
-                <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="nowekontoanalityczne.show();" />
-                <p:menuitem id="noweslownik" value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="nowekontoslownik.show();" />
+                <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" />
+                <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" />
+                <p:menuitem id="noweslownik" value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.root)}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form"/>
-                <p:menuitem value="Porządkuj konta" onclick="confirm3.show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Usuń wszystkie" onclick="confirm2.show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
 <!--            <script>
 
