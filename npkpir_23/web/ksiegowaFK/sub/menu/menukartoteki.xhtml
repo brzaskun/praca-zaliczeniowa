@@ -9,8 +9,8 @@
                 <p:tab title="waluty">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="kursy" onclick="wykazkursow.show();"></p:menuitem>
-                            <p:menuitem value="waluty" onclick="waluty.show();"></p:menuitem>
+                            <p:menuitem value="kursy" onclick="PF('wykazkursow').show();"></p:menuitem>
+                            <p:menuitem value="waluty" onclick="PF('waluty').show();"></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
                     </h:form>
@@ -18,8 +18,8 @@
                 <p:tab title="kontrahenci">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="dołączanie" onclick="dialog_kliencifk_dolaczanie.show();"></p:menuitem>
-                            <p:menuitem value="wykaz" onclick="dialog_kliencifk_lista.show();"></p:menuitem>
+                            <p:menuitem value="dołączanie" onclick="PF('dialog_kliencifk_dolaczanie').show();"></p:menuitem>
+                            <p:menuitem value="wykaz" onclick="PF('dialog_kliencifk_lista').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

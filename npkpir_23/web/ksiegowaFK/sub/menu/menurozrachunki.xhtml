@@ -9,7 +9,7 @@
                 <p:tab title="wrowadzanie">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="FVZ" onclick="pierwszy.show();"></p:menuitem>
+                            <p:menuitem value="FVZ" ></p:menuitem>
                             <p:menuitem value="FVK"></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
@@ -18,8 +18,8 @@
                 <p:tab title="przeglądanie">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Rozrachunki" onclick="rozrachunkiPrzeglad.show();"></p:menuitem>
-                            <p:menuitem value="Zapisy" onclick="czwarty.show();"></p:menuitem>
+                            <p:menuitem value="Rozrachunki" onclick="PF('rozrachunkiPrzeglad').show();"></p:menuitem>
+                            <p:menuitem value="Zapisy" onclick="PF('zapisywdokumentach').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

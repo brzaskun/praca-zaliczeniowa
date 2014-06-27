@@ -9,8 +9,8 @@
                 <p:tab title="plan kont">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
-                            <p:menuitem value="Plan kont firmy #{WpisView.podatnikWpisu}" onclick="dialogplankont.show();"></p:menuitem>
-                            <p:menuitem value="Wzorcowy plan kont" onclick="dialogplankontwzorcowy.show();" ></p:menuitem>
+                            <p:menuitem value="Plan kont firmy #{WpisView.podatnikWpisu}" onclick="PF('dialogplankont').show();"></p:menuitem>
+                            <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" ></p:menuitem>
                             <p:menuitem value="FVS"></p:menuitem>
                         </p:menu>
                     </h:form>
@@ -18,8 +18,8 @@
                 <p:tab title="przeglądanie">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Dokumenty" onclick="trzeci.show();"></p:menuitem>
-                            <p:menuitem value="Zapisy" onclick="czwarty.show();"></p:menuitem>
+                            <p:menuitem value="Dokumenty" ></p:menuitem>
+                            <p:menuitem value="Zapisy" ></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

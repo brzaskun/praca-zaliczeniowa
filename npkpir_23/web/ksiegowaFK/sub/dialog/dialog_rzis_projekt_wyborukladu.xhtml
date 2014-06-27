@@ -8,8 +8,8 @@
               resizable="false" onShow="ustawdialog('dialogrzisprojektuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektuklad');"  >
         <h:form id="formprojektuklad">
 <!--             <p:contextMenu for="formprojektuklad:dataList">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="rzisprojektsyntetyczne.show();"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="rzisprojektanalityczne.show();"/>
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="PF('rzisprojektsyntetyczne').show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:menuitem value="Usuń" actionListener="{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojektuklad"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
