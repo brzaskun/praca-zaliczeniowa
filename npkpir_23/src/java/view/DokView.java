@@ -115,7 +115,8 @@ public final class DokView implements Serializable {
     private KlView klView;
     @ManagedProperty(value = "#{SrodkiTrwaleView}")
     private STRView sTRView;
-
+    @ManagedProperty(value = "#{DokTabView}")
+    private DokTabView dokTabView;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     /*Środki trwałe*/
@@ -1149,12 +1150,12 @@ public final class DokView implements Serializable {
     }
 
     public void skopiujdoedycji() {
-        selDokument = DokTabView.getGosciuwybralS().get(0);
+        selDokument = dokTabView.getGosciuwybral().get(0);
     }
    
 
     private void skopiujdoedycjidane() {
-        selDokument = DokTabView.getGosciuwybralS().get(0);
+        selDokument = dokTabView.getGosciuwybral().get(0);
         liczbawierszy = selDokument.getListakwot1().size();
         String skrot = selDokument.getTypdokumentu();
         String nowynumer = "";
@@ -1472,6 +1473,16 @@ public final class DokView implements Serializable {
     public void setRenderujwysz(boolean renderujwysz) {
         this.renderujwysz = renderujwysz;
     }
+
+    public DokTabView getDokTabView() {
+        return dokTabView;
+    }
+
+    public void setDokTabView(DokTabView dokTabView) {
+        this.dokTabView = dokTabView;
+    }
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 //   public DokTabView getDokTabView() {

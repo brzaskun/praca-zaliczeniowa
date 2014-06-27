@@ -32,9 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import msg.Msg;
-import static pdf.PdfVAT7.absText;
-import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 import view.DokTabView;
 
@@ -44,9 +43,11 @@ import view.DokTabView;
  */
 @ManagedBean
 public class PdfPK extends Pdf implements Serializable {
+    @ManagedProperty(value = "#{DokTabView}")
+    private DokTabView dokTabView;
     
     public void drukujPK() throws DocumentException, FileNotFoundException, IOException {
-        Dok selected = DokTabView.getGosciuwybralS().get(0);
+        Dok selected = dokTabView.getGosciuwybral().get(0);
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf"));
         writer.setInitialLeading(16);
@@ -195,4 +196,14 @@ public class PdfPK extends Pdf implements Serializable {
         }
         document.add(table);
     }
+
+    public DokTabView getDokTabView() {
+        return dokTabView;
+    }
+
+    public void setDokTabView(DokTabView dokTabView) {
+        this.dokTabView = dokTabView;
+    }
+    
+    
 }
