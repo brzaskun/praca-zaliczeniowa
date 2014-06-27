@@ -858,6 +858,7 @@ public final class DokView implements Serializable {
             selDokument.setOpis("umorzenie za miesiac");
             List<KwotaKolumna1> listaX = new ArrayList<>();
             KwotaKolumna1 tmpX = new KwotaKolumna1();
+            tmpX.setDok(selDokument);
             tmpX.setNetto(kwotaumorzenia);
             tmpX.setVat(0.0);
             tmpX.setNazwakolumny("poz. koszty");
@@ -958,15 +959,14 @@ public final class DokView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument strono nie zaksięgowany!", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Wystąpił błąd, dokument strono nie zaksięgowany!");
 //        }
         }
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikat(selD, wpisView.getRokWpisuSt());
+        tmp = dokDAO.znajdzDuplikatAMO(selD, wpisView.getRokWpisuSt());
         if (tmp instanceof Dok) {
             String wiadomosc = "Dokument typu " + selD.getTypdokumentu() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
             Msg.msg("e", wiadomosc);
@@ -1180,6 +1180,7 @@ public final class DokView implements Serializable {
         podepnijListe(skrot);//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
         if (selDokument.getListakwot1().isEmpty()) {
             KwotaKolumna1 kwotaKolumna1 = new KwotaKolumna1();
+            kwotaKolumna1.setDok(selDokument);
             kwotaKolumna1.setNetto(selDokument.getNetto());
             selDokument.getListakwot1().add(kwotaKolumna1);
         }

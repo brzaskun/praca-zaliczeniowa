@@ -62,6 +62,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByVatM", query = "SELECT d FROM Dok d WHERE d.vatM = :vatM"),
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
     @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto AND d.pkpirR = :pkpirR"),
+    @NamedQuery(name = "Dok.findDuplicateAMO", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.nrWlDk = :nrWlDk AND d.pkpirR = :pkpirR AND d.typdokumentu = 'AMO'"),
     @NamedQuery(name = "Dok.findDuplicatewTrakcie", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
     @NamedQuery(name = "Dok.findStornoDok", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis"),
@@ -98,7 +99,7 @@ public class Dok implements Serializable {
 //    @Lob
 //    @Column(name = "kontr")
 //    private Klienci kontr;
-    @JoinColumn(name = "kontr1", insertable = false, updatable = false)
+    @JoinColumn(name = "kontr1")
     @ManyToOne
     private Klienci kontr1;
     @Basic(optional = false)

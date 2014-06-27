@@ -237,6 +237,16 @@ public class SessionFacade<T> implements Serializable{
         return wynik;
     }
     
+     public Dok dokumentDuplicatAMO(Dok selD, String pkpirR) throws Exception {
+        Dok wynik = null;
+        try {
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicateAMO").setParameter("podatnik", selD.getPodatnik()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("pkpirR", pkpirR).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+        return wynik;
+    }
+    
      public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
         List<Dok> wynik = null;
         try {
