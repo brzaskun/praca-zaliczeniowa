@@ -405,10 +405,10 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
 //        }  
 //};
 
-var innafukncja = function() {
-    pierwszy.hide();
-    dokfkwiersze.hide();
-    tablicadokumenty.unselectAllRows();
+var zamykanieDialogow = function() {
+    PF('wpisywanie').hide();
+    PF('wiersze').hide();
+    PF('tablicadokumenty').unselectAllRows();
 };
 
 var powrocNaPoczatekDokfk = function() {

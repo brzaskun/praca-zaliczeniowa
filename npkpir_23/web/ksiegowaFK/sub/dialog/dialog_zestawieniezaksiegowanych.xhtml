@@ -11,7 +11,7 @@
     
          <h:form id="zestawieniedokumentow">
              <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="pierwszy.show();"/>
+                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
