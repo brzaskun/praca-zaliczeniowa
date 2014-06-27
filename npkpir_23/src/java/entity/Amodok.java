@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Amodok.findAll", query = "SELECT a FROM Amodok a"),
     @NamedQuery(name = "Amodok.findByMc", query = "SELECT a FROM Amodok a WHERE a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByPodatnik", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik"),
+    @NamedQuery(name = "Amodok.findByPodatnikRok", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok"),
+    @NamedQuery(name = "Amodok.findByPodatnikMcRok", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok AND a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByRok", query = "SELECT a FROM Amodok a WHERE a.amodokPK.rok = :rok"),
     @NamedQuery(name = "Amodok.findByPMR", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok AND a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByZaksiegowane", query = "SELECT a FROM Amodok a WHERE a.zaksiegowane = :zaksiegowane")})

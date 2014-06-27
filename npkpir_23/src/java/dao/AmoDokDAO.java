@@ -64,4 +64,13 @@ public class AmoDokDAO extends DAO implements Serializable {
     public List<Amodok> amodokklient(String klient){
         return amodokFacade.findPod(klient);
     }
+    
+    public List<Amodok> amodokKlientRok(String klient, String rok){
+        return amodokFacade.AmoDokPodRok(klient, rok);
+    }
+    
+    public Amodok amodokBiezacy(String klient, String mc, Integer rok){
+        return amodokFacade.AmoDokPodMcRok(klient,mc, rok);
+    }
 }
+

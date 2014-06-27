@@ -155,17 +155,9 @@ public class STRTabView implements Serializable {
          * to co bylo w amodok
          */
         if (wpisView.getPodatnikWpisu() != null) {
-            List<Amodok> c = new ArrayList<>();
             try {
-                c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
+                amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             } catch (Exception e) {
-            }
-            if (c != null) {
-                int ie = 1;
-                for (Amodok tmp : c) {
-                    amodoklist.add(tmp);
-                }
-
             }
         }
     }
