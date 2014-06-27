@@ -86,11 +86,7 @@ var przygotujdokumentdoedycji = function (){
     }
 };
 
-var drugishow = function (){
-        drugi.show();
-        //$(MYAPP.zaznaczonepole).focus();
-        //$(MYAPP.zaznaczonepole).select(); 
-};
+
 
 
 
