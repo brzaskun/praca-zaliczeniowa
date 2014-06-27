@@ -457,7 +457,11 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc) {
-        return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu",typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+         try {
+            return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu",typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+            } catch (Exception e) {
+            return null;
+        }
     }
     
     
@@ -466,6 +470,30 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public List<Amodok> findPod(String podatnik) {
+        try{
+            return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e){
+            return null;
+        }
+    }
+    
+    public List<Amodok> AmoDokPodRok(String podatnik, String rok) {
+        try{
+            return em.createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+        } catch (Exception e){
+            return null;
+        }
+    }
+    
+    public Amodok AmoDokPodMcRok(String podatnik, String mc, Integer rok) {
+        try{
+            return (Amodok) em.createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
+        } catch (Exception e){
+            return null;
+        }
+    }
+    
+    public List<Amodok> findAmoDokBiezacy(String podatnik, String mc, String rok) {
         try{
             return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e){

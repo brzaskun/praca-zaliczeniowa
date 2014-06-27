@@ -19,7 +19,6 @@ import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.WpisDAO;
 import data.Data;
-import embeddable.EVatwpis;
 import embeddable.EwidencjaAddwiad;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
@@ -787,33 +786,12 @@ public final class DokView implements Serializable {
         double kwotaumorzenia = 0.0;
         List<Amodok> lista = new ArrayList<Amodok>();
         lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
-        Amodok amodokPoprzedni = null;
-        Amodok amodok = null;
-        Iterator itx;
-        itx = lista.iterator();
-        while (itx.hasNext()) {
-            Amodok tmp = (Amodok) itx.next();
-            Integer mctmp = tmp.getAmodokPK().getMc();
-            String mc = Mce.getNumberToMiesiac().get(mctmp);
-            Integer rok = tmp.getAmodokPK().getRok();
-            if (wpisView.getMiesiacWpisu().equals("01") && rok == wpisView.getRokWpisu()) {
-                rok = rok - 1;
-            }
-            if (wpisView.getRokWpisu().equals(rok) && wpisView.getMiesiacWpisu().equals(mc)) {
-                amodok = tmp;
-                break;
-            }
-            amodokPoprzedni = tmp;
-        }
-//nie wiem co to. trzeba chyba usunac
-//        try {
-//            boolean temp = amodokPoprzedni.getZaksiegowane();
-//            List<Umorzenie> tempX = amodokPoprzedni.getUmorzenia();
-//        } catch (Exception e) {
-//        }
+        Amodok amodokBiezacy = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
+        String [] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
         //wyliczam kwote umorzenia
         List<Umorzenie> umorzenia = new ArrayList<>();
-        umorzenia.addAll(amodok.getUmorzenia());
+        umorzenia.addAll(amodokBiezacy.getUmorzenia());
         Iterator it;
         it = umorzenia.iterator();
         while (it.hasNext()) {
@@ -834,7 +812,7 @@ public final class DokView implements Serializable {
                 }
             }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokumet umorzeniowy za ten okres!");
+            Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
             return;
         }
         try {
@@ -871,16 +849,14 @@ public final class DokView implements Serializable {
                 dokDAO.edit(selDokument);
                 String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
                 Msg.msg("i", wiadomosc);
-                amodok.setZaksiegowane(true);
-                amoDokDAO.edit(amodok);
+                amodokBiezacy.setZaksiegowane(true);
+                amoDokDAO.edit(amodokBiezacy);
                 Msg.msg("i", "Informacje naniesione na dokumencie umorzenia");
             } else {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany", "");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Msg.msg("e", "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany!");
             }
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd, dokument AMO nie zaksięgowany!", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e", "Wystąpił błąd, dokument AMO nie zaksięgowany!");
         }
     }
 

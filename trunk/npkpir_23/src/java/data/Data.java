@@ -4,7 +4,10 @@
  */
 package data;
 
+import embeddable.Mce;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Named;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -139,5 +142,19 @@ public class Data implements Serializable {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
         String formattedDate = formatter.print(dataRozrachunku);
         return formattedDate;
+    }
+    
+    public static String[] poprzedniOkres (String mc, String rok) {
+        String[] poprzedniOkres = new String[2];
+        if (mc.equals("01")) {
+            poprzedniOkres[0] = "12";
+            Integer rokInt = Integer.parseInt(rok);
+            poprzedniOkres[1] = String.valueOf(rokInt-1);
+        } else {
+            Integer mcInt = Integer.parseInt(mc);
+            poprzedniOkres[0] = String.valueOf(Mce.getNumberToMiesiac().get(mcInt-1));
+            poprzedniOkres[1] = rok;
+        }
+        return poprzedniOkres;
     }
 }
