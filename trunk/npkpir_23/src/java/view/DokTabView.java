@@ -13,7 +13,6 @@ import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
-import embeddable.EVatwpis;
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -49,21 +48,13 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class DokTabView implements Serializable {
     //wybranedokumentyDoDruku
-    private static List<Dok> gosciuwybral;
+    private List<Dok> gosciuwybral;
     //wybranedokumenty do usuniecia
     private List<Dok> grupausun;
-    private static boolean pokaztablice;
     private Dok dokdoUsuniecia;
-    private static final List frozenrows;
-    static {
-        frozenrows = new ArrayList<>();
-        frozenrows.add("lolo");
-        frozenrows.add("manolo");
-    }
+   
 
-    public static List<Dok> getGosciuwybralS() {
-        return gosciuwybral;
-    }
+   
     //tablica obiektów
 
     private List<Dok> obiektDOKjsf;
@@ -111,10 +102,7 @@ public class DokTabView implements Serializable {
         gosciuwybral = new ArrayList<>();
     }
 
-    public List getFrozenrows() {
-        return frozenrows;
-    }
-
+   
     
     @PostConstruct
     public void init() {
@@ -499,16 +487,10 @@ public class DokTabView implements Serializable {
         }
         
         public void setGosciuwybral(List<Dok> gosciuwybral) {
-            DokTabView.gosciuwybral = gosciuwybral;
+            this.gosciuwybral = gosciuwybral;
         }
         
-        public boolean isPokaztablice() {
-            return pokaztablice;
-        }
-        
-        public void setPokaztablice(boolean pokaztablice) {
-            DokTabView.pokaztablice = pokaztablice;
-        }
+      
         
               
         public List<Dok> getDokumentyokresowe() {
