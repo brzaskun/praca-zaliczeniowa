@@ -51,7 +51,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ViewScoped
 public class DokfkView implements Serializable {
     private List<Rozrachunekfk> listaRozliczanych;
-    private int numerwiersza = 0;
+    private int numerwiersza;
     private String stronawiersza;
     protected Dokfk selected;
     @Inject
