@@ -26,9 +26,9 @@
                     <p:confirmDialog id="confirmDialog1" message="Usunąć całą grupę dokumentów?"  
                                      header="Initiating destroy process" severity="alert" widgetVar="confirmation1">
 
-                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi1 :form:dokumentyLista" oncomplete="confirmation1.hide()"  
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi1 :form:dokumentyLista" oncomplete="PF('confirmation1').hide()"  
                                          actionListener="#{DokTabView.destroygrupa2()}" />  
-                        <p:commandButton id="decline" value="Nie usuwać" onclick="confirmation1.hide()" type="button" />   
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation1').hide()" type="button" />   
 
                     </p:confirmDialog>  
                 </h:form>

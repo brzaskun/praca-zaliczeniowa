@@ -206,6 +206,13 @@ public final class DokView implements Serializable {
         }
         //pobranie ostatniego dokumentu
         wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
+        Iterator it = wysDokument.getEwidencjaVAT1().iterator();
+        while (it.hasNext()) {
+            EVatwpis1 p  = (EVatwpis1) it.next();
+            if (p.getNetto() == 0.0 && p.getVat() == 0.0) {
+                it.remove();
+            }
+        }
         try {
             selDokument.setVatR("");
             selDokument.setVatM("");
@@ -1170,7 +1177,12 @@ public final class DokView implements Serializable {
             }
         }
         typdokumentu = skrot;
-        podepnijListe(skrot);
+        podepnijListe(skrot);//to jest wybor kolumn do selectOneMenu bez tego nie ma selectedItems
+        if (selDokument.getListakwot1().isEmpty()) {
+            KwotaKolumna1 kwotaKolumna1 = new KwotaKolumna1();
+            kwotaKolumna1.setNetto(selDokument.getNetto());
+            selDokument.getListakwot1().add(kwotaKolumna1);
+        }
         ewidencjaAddwiad.clear();;
         sumbrutto = 0.0;
         int j = 1;
@@ -1193,6 +1205,10 @@ public final class DokView implements Serializable {
         }
         renderujwyszukiwarke(rodzajdok);
         renderujtabele(rodzajdok);
+        if (ewidencjaAddwiad.isEmpty()) {
+            ukryjEwiencjeVAT = false;
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
+        }
         RequestContext.getCurrentInstance().update("dialogEdycja");
     }
 
@@ -1200,14 +1216,14 @@ public final class DokView implements Serializable {
         skopiujdoedycjidane();
         if (selDokument.getTypdokumentu().equals("OT")) {
             Msg.msg("e", "Nie można edytować dokumnetu zakupu środków trwałych!");
-            RequestContext.getCurrentInstance().execute("dlg123.hide();");
+            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
             return;
         }
         if (selDokument.getNetto() != null) {
-            RequestContext.getCurrentInstance().execute("dlg123.show();");
+            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').show();");
         } else {
             Msg.msg("e", "Nie wybrano dokumentu do edycji!");
-            RequestContext.getCurrentInstance().execute("dlg123.hide();");
+            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
         }
     }
 

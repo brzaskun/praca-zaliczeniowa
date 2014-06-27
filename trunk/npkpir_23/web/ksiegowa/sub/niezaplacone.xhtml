@@ -18,9 +18,9 @@
                <pe:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2" decimalSeparator="." thousandSeparator=" " symbol=" zł" symbolPosition="s"/>
            </p:panelGrid>
         <br/>
-        <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek1}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="Dialog.hide()"/>
+        <p:commandButton value="usun" actionListener="#{rozrachunkiView.usunostatniRozrachunek1}" update=":form:dokumentyLista" style="float: left; display: block; width: 100px;" oncomplete="PF('Dialog').hide()"/>
         <h:outputText value="Alt-s aktywuje pierwsze pole" style="font-style: italic"/>
-        <p:commandButton value="ok" actionListener="#{rozrachunkiView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="Dialog.hide()"/>
+        <p:commandButton value="ok" actionListener="#{rozrachunkiView.zaksiegujPlatnosc}" style="float: right; display: block; width: 100px;" update=":form:dokumentyLista"  oncomplete="PF('Dialog').hide()"/>
     </p:dialog>
     <p:panel>
         <f:facet name="header">
@@ -39,7 +39,7 @@
                       emptyMessage="W danym miesiącu nie było żadnych zapisów"
                       > 
           
-            <p:ajax event="rowSelect" update=":form:display" oncomplete="Dialog.show()" /> 
+            <p:ajax event="rowSelect" update=":form:display" oncomplete="PF('Dialog').show()" /> 
                         
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów niezapłaconych" />  
