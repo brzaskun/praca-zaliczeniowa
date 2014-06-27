@@ -224,7 +224,7 @@ var petlawywolujaca = function(lw, gr, co) {
 var sprawdzczybrakklienta = function() {
     var zawartosc = $('#dodWiad\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
-        dlg123.show();
+        PF('dlg123').show();
     }
 };
 
