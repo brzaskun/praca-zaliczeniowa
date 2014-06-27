@@ -8,6 +8,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
+    <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
     <style>
         .ui-inputfield .ui-inputtext {
             padding: 0px !important;
@@ -226,7 +227,7 @@
                         <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrot}" itemValue="#{loop.skrot}"/>
                         <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}"/>
                         <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" />
-                        <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
+                        <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
                     </h:selectOneMenu> 
                     <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
                     </p:inputText>
