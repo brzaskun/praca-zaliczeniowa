@@ -25,22 +25,22 @@ public class UzupelnijWierszeoDane implements Serializable {
         List<Wiersze> wierszewdokumencie = selected.getListawierszy();
         try {
             for (Wiersze p : wierszewdokumencie) {
-                String opis = p.getOpis();
+                String opis = p.getOpisWiersza();
                 if (opis.contains("kontown")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.getWierszStronaMa().setKwota(0.0);
-                    p.setTypwiersza(1);
+                    //p.getWierszStronaMa().setKwota(0.0);
+                    p.setTypWiersza(1);
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.getWierszStronaWn().setKwota(0.0);
-                    p.setTypwiersza(2);
+                    //p.getWierszStronaWn().setKwota(0.0);
+                    p.setTypWiersza(2);
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.setTypwiersza(0);
+                    p.setTypWiersza(0);
                     p.setDokfk(selected);
                     p.setZaksiegowane(Boolean.FALSE);
                 }

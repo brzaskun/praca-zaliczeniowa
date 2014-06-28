@@ -240,19 +240,19 @@ public class Dokfk implements Serializable {
     public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
             Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
-            int typwiersza = biezacywiersz.getTypwiersza();
+            int typwiersza = biezacywiersz.getTypWiersza();
             double suma = 0.0;
             if (typwiersza==1) {
-                suma += biezacywiersz.getWierszStronaWn().getKwota();
+                suma += biezacywiersz.getKwotaWn();
             } else if (typwiersza==2) {
-                suma += biezacywiersz.getWierszStronaMa().getKwota();
+                suma += biezacywiersz.getKwotaMa();
             } else {
-                double kwotaWn = biezacywiersz.getWierszStronaWn().getKwota();
-                double kwotaMa = biezacywiersz.getWierszStronaMa().getKwota();
+                double kwotaWn = biezacywiersz.getKwotaWn();
+                double kwotaMa = biezacywiersz.getKwotaMa();
                 if (kwotaMa>kwotaWn) {
-                    suma += biezacywiersz.getWierszStronaWn().getKwota();
+                    suma += biezacywiersz.getKwotaWn();
                 } else {
-                    suma += biezacywiersz.getWierszStronaMa().getKwota();
+                    suma += biezacywiersz.getKwotaMa();
                 }
             }
             this.wartoscdokumentu = this.wartoscdokumentu + suma;
@@ -274,20 +274,20 @@ public class Dokfk implements Serializable {
         List<Wiersze> wierszewdokumencie = this.listawierszy;
         try {
             for (Wiersze p : wierszewdokumencie) {
-                String opis = p.getOpis();
+                String opis = p.getOpisWiersza();
                 if (opis.contains("kontown")) {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypwiersza(1);
+                    p.setTypWiersza(1);
                     p.setDokfk(this);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypwiersza(2);
+                    p.setTypWiersza(2);
                     p.setDokfk(this);
                     p.setZaksiegowane(Boolean.FALSE);
                 } else {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypwiersza(0);
+                    p.setTypWiersza(0);
                     p.setDokfk(this);
                     p.setZaksiegowane(Boolean.FALSE);
                 }

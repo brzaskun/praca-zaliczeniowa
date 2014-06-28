@@ -30,8 +30,8 @@
                 <p:column headerText="nr własny" width="100">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
-                <p:column headerText="opis" width="100" filterBy="#{loop.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opis}">
-                    <h:outputText value="#{loop.opis}" rendered="#{loop.typwiersza eq 0 ? true : false}"/>
+                <p:column headerText="opis" width="100" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                    <h:outputText value="#{loop.opisWiersza}" rendered="#{loop.typWiersza eq 0 ? true : false}"/>
                 </p:column>
                 <p:column headerText="kwota Wn" width="100" filterBy="#{loop.wierszStronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.wierszStronaWn.kwota}">
                     <h:outputText value="#{loop.wierszStronaWn.kwota}" rendered="#{loop.wierszStronaWn.kwota eq 0 ? false : true}" style="float: right;">

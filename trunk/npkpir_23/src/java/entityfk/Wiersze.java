@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersze.findAll", query = "SELECT w FROM Wiersze w"),
     @NamedQuery(name = "Wiersze.findByDataksiegowania", query = "SELECT w FROM Wiersze w WHERE w.dataksiegowania = :dataksiegowania"),
     @NamedQuery(name = "Wiersze.findByIdwiersza", query = "SELECT w FROM Wiersze w WHERE w.idwiersza = :idwiersza"),
-    @NamedQuery(name = "Wiersze.findByOpis", query = "SELECT w FROM Wiersze w WHERE w.opis = :opis"),
+    @NamedQuery(name = "Wiersze.findByOpisWiersza", query = "SELECT w FROM Wiersze w WHERE w.opisWiersza = :opisWiersza"),
     @NamedQuery(name = "Wiersze.findByPodatnik", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
 })
 
@@ -55,36 +55,53 @@ public class Wiersze implements Serializable {
     @Size(max = 255)
     @Column(name = "dataksiegowania", length = 255)
     private String dataksiegowania;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
-    private WierszStronafk wierszStronaWn;
-//    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
-//    private List<WierszStronafk> wierszStronafkLista;
     @Column(name = "WnReadOnly")
     private boolean WnReadOnly;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
-    private WierszStronafk wierszStronaMa;
     @Column(name = "MaReadOnly")
     private boolean MaReadOnly;
     @Size(max = 255)
-    @Column(name = "opis", length = 255)
-    private String opis;
-    @Column(name = "typwiersza")
-    private Integer typwiersza;
+    @Column(name = "opisWiersza", length = 255)
+    private String opisWiersza;
+    @Column(name = "typWiersza")
+    private Integer typWiersza;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
     @ManyToOne(optional = false)
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
-    @Column(name = "datawaluty")
-    private String datawaluty;
+    //to jest potrzebne do rapotow walutowych i wyciagow walutowych
+    @Column(name = "dataWalutyWiersza")
+    private String dataWalutyWiersza;
     @JoinColumns({
         @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
         @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
     })
     @ManyToOne
     private Tabelanbp tabelanbp;
-    
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
+    private Rozrachunekfk rozrachunekfkWn;
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
+    private Rozrachunekfk rozrachunekfkMa;
+    @JoinColumn(name = "kontoWn", referencedColumnName = "id")
+    @ManyToOne
+    private Konto kontoWn;
+    @JoinColumn(name = "kontoMa", referencedColumnName = "id")
+    @ManyToOne
+    private Konto kontoMa;
+    @Column(name = "kwotaWn")
+    private double kwotaWn;
+    @Column(name = "kwotaPLNWn")
+    private double kwotaPLNWn;
+    @Column(name = "kwotaWalutaWn")
+    private double kwotaWalutaWn;
+    @Column(name = "kwotaMa")
+    private double kwotaMa;
+    @Column(name = "kwotaPLNMa")
+    private double kwotaPLNMa;
+    @Column(name = "kwotaWalutaMa")
+    private double kwotaWalutaMa;        
+        
    
     
 
@@ -105,28 +122,93 @@ public class Wiersze implements Serializable {
         this.dataksiegowania = dataksiegowania;
     }
 
-    public WierszStronafk getWierszStronaWn() {
-        return wierszStronaWn;
+    public Rozrachunekfk getRozrachunekfkWn() {
+        return rozrachunekfkWn;
     }
 
-    public void setWierszStronaWn(WierszStronafk wierszStronaWn) {
-        this.wierszStronaWn = wierszStronaWn;
+    public void setRozrachunekfkWn(Rozrachunekfk rozrachunekfkWn) {
+        this.rozrachunekfkWn = rozrachunekfkWn;
     }
 
-    public WierszStronafk getWierszStronaMa() {
-        return wierszStronaMa;
+    public Rozrachunekfk getRozrachunekfkMa() {
+        return rozrachunekfkMa;
     }
 
-    public void setWierszStronaMa(WierszStronafk wierszStronaMa) {
-        this.wierszStronaMa = wierszStronaMa;
+    public void setRozrachunekfkMa(Rozrachunekfk rozrachunekfkMa) {
+        this.rozrachunekfkMa = rozrachunekfkMa;
     }
 
+    public double getKwotaWn() {
+        return kwotaWn;
+    }
+
+    public void setKwotaWn(double kwotaWn) {
+        this.kwotaWn = kwotaWn;
+    }
+
+    public double getKwotaPLNWn() {
+        return kwotaPLNWn;
+    }
+
+    public void setKwotaPLNWn(double kwotaPLNWn) {
+        this.kwotaPLNWn = kwotaPLNWn;
+    }
+
+    public double getKwotaWalutaWn() {
+        return kwotaWalutaWn;
+    }
+
+    public void setKwotaWalutaWn(double kwotaWalutaWn) {
+        this.kwotaWalutaWn = kwotaWalutaWn;
+    }
+
+    public double getKwotaMa() {
+        return kwotaMa;
+    }
+
+    public void setKwotaMa(double kwotaMa) {
+        this.kwotaMa = kwotaMa;
+    }
+
+    public double getKwotaPLNMa() {
+        return kwotaPLNMa;
+    }
+
+    public void setKwotaPLNMa(double kwotaPLNMa) {
+        this.kwotaPLNMa = kwotaPLNMa;
+    }
+
+    public double getKwotaWalutaMa() {
+        return kwotaWalutaMa;
+    }
+
+    public void setKwotaWalutaMa(double kwotaWalutaMa) {
+        this.kwotaWalutaMa = kwotaWalutaMa;
+    }
+    
+    
     public List<Kontozapisy> getZapisynakontach() {
         return zapisynakontach;
     }
 
     public void setZapisynakontach(List<Kontozapisy> zapisynakontach) {
         this.zapisynakontach = zapisynakontach;
+    }
+
+    public Konto getKontoWn() {
+        return kontoWn;
+    }
+
+    public void setKontoWn(Konto kontoWn) {
+        this.kontoWn = kontoWn;
+    }
+
+    public Konto getKontoMa() {
+        return kontoMa;
+    }
+
+    public void setKontoMa(Konto kontoMa) {
+        this.kontoMa = kontoMa;
     }
     
     
@@ -146,21 +228,21 @@ public class Wiersze implements Serializable {
         this.idporzadkowy = idporzadkowy;
     }
             
-    public String getOpis() {
-        return opis;
+    public String getOpisWiersza() {
+        return opisWiersza;
     }
     
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setOpisWiersza(String opisWiersza) {
+        this.opisWiersza = opisWiersza;
     }
   
         
-    public Integer getTypwiersza() {
-        return typwiersza;
+    public Integer getTypWiersza() {
+        return typWiersza;
     }
     
-    public void setTypwiersza(Integer typwiersza) {
-        this.typwiersza = typwiersza;
+    public void setTypWiersza(Integer typWiersza) {
+        this.typWiersza = typWiersza;
     }
     
     public Boolean getZaksiegowane() {
@@ -203,12 +285,12 @@ public class Wiersze implements Serializable {
         this.tabelanbp = tabelanbp;
     }
 
-    public String getDatawaluty() {
-        return datawaluty;
+    public String getDataWalutyWiersza() {
+        return dataWalutyWiersza;
     }
 
-    public void setDatawaluty(String datawaluty) {
-        this.datawaluty = datawaluty;
+    public void setDataWalutyWiersza(String dataWalutyWiersza) {
+        this.dataWalutyWiersza = dataWalutyWiersza;
     }
     
     

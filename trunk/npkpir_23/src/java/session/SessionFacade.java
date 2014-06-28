@@ -694,11 +694,12 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
-         try {
-            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", p.getWierszStronafk().getWierszStronafkPK()).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
+//         try {
+//            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", p.getWierszStronafk().getWierszStronafkPK()).getSingleResult();
+//        } catch (Exception e) {
+//            return null;
+//        }
+         return null;
     }
     
     public List<Rozrachunekfk> findRozrachunekfkByPodatnik(String podatnik) {

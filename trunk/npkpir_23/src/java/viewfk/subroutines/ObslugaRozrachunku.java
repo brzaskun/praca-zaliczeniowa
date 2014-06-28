@@ -29,16 +29,16 @@ public class ObslugaRozrachunku {
         }
     }
 
-    public static void usunrozrachunek(WierszStronafk wierszStronafk, RozrachunekfkDAO rozrachunekfkDAO) {
-        try {
-            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
-            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-            if (rU instanceof Rozrachunekfk) {
-                rozrachunekfkDAO.destroy(rU);
-            }
-        } catch (Exception e){
-        }
-    }
+//    public static void usunrozrachunek(WierszStronafk wierszStronafk, RozrachunekfkDAO rozrachunekfkDAO) {
+//        try {
+//            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
+//            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
+//            if (rU instanceof Rozrachunekfk) {
+//                rozrachunekfkDAO.destroy(rU);
+//            }
+//        } catch (Exception e){
+//        }
+//    }
 
     public static void usuntransakcje(WierszStronafk wierszStronafk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
         try {

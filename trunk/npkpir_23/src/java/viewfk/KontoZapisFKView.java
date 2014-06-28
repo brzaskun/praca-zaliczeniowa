@@ -252,9 +252,9 @@ public class KontoZapisFKView implements Serializable{
         for (Kontozapisy r : kontozapisy) {
             boolean zgodneWierszStronaPK = false;
             if (wnma.equals("Wn")) {
-                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaMa().getWierszStronafkPK());
+                //zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaMa().getWierszStronafkPK());
             } else {
-                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaWn().getWierszStronafkPK());
+                //zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaWn().getWierszStronafkPK());
             }
             if (zgodneWierszStronaPK) {
                 zapisydopodswietlenia.add(r.getId());

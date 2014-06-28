@@ -76,11 +76,11 @@ public class Transakcja implements Serializable {
     }
 
     public WierszStronafkPK idSparowany() {
-        return this.getSparowany().getWierszStronafk().getWierszStronafkPK();
+        return null;
     }
 
     public WierszStronafkPK idRozliczany() {
-        return this.getRozliczany().getWierszStronafk().getWierszStronafkPK();
+        return null;
     }
 
     public double GetSpRozl() {
