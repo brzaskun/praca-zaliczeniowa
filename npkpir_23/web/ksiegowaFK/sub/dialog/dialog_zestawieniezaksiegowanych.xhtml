@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');dokfkwiersze.hide();" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
 
     
          <h:form id="zestawieniedokumentow">
@@ -29,13 +29,13 @@
                 <h:outputText value="#{item.miesiac}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="symbol" width="100">
-                  <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejny}/#{item.dokfkPK.rok}"/>
+                  <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
             </p:column>
-            <p:column headerText="numer" width="100" sortBy="#{item.numer}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.numer}"/>
+            <p:column headerText="numer" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
             </p:column>
-            <p:column headerText="opis" width="100" sortBy="#{item.tresc}" filterBy="#{wpis.tresc}" filterMatchMode="contains" >
-                <h:outputText value="#{item.tresc}"/>
+            <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{wpis.tresc}" filterMatchMode="contains" >
+                <h:outputText value="#{item.opisdokfk}"/>
             </p:column>
             <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{wpis.wartoscdokumentu}" filterMatchMode="contains" >
             <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">

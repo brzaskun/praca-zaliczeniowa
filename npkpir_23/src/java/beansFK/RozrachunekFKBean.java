@@ -31,7 +31,7 @@ public class RozrachunekFKBean {
         return null;
     }
     
-    public static void inicjalizacjaAktualnyWierszDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
+    public static void konstruktorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         WierszStronafk wierszStronafk = new WierszStronafk();
         if (wnma.equals("Wn")) {
             wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();

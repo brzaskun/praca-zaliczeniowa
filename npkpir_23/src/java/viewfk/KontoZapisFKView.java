@@ -218,7 +218,7 @@ public class KontoZapisFKView implements Serializable{
         WierszStronafk wierszIDrozrachunku = new WierszStronafk();
         WierszStronafkPK wierszIDrozrachunkuPK = new WierszStronafkPK();
         wierszIDrozrachunkuPK.setNrPorzadkowyWiersza(numerpodswietlonegowiersza);
-        wierszIDrozrachunkuPK.setNrkolejnydokumentu(zjakiegodokumentupochodzi.getDokfkPK().getNrkolejny());
+        wierszIDrozrachunkuPK.setNrkolejnydokumentu(zjakiegodokumentupochodzi.getDokfkPK().getNrkolejnywserii());
         String wnma;
         if (wybranyrozrachunek.getKwotawn() > 0) { 
             wnma = "Wn";

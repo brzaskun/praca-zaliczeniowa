@@ -14,7 +14,7 @@
             <div style="height: 600px;">
                     <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;">
                         <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wiersz.dokfk.tresc}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wiersz.dokfk.opisdokfk}" style="float: right; font-weight: bold;"/>
                         <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.pelnynumer}" style="float: right; font-weight: bold;"/>
                         <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.nazwapelna}" style="float: left; font-weight: bold; max-width: 400px;"/>
                         <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opiswiersza}" style="float: right; font-weight: bold;"/>
@@ -43,7 +43,7 @@
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-                   <p:column headerText="kwota rozliczenia - bieżący dok." width="40">
+                   <p:column headerText="kwota rozliczenia - bieżący dok." width="60">
                        <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
                                        decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
                            <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
@@ -84,7 +84,7 @@
                          <h:outputText id="symboldok" value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
                     </p:column>
                     <p:column headerText="nr własny dokumentu" width="90">
-                        <h:outputText id="nrwlasnydok" value="#{loop.sparowany.wierszStronafk.wiersz.dokfk.numer}" />
+                        <h:outputText id="nrwlasnydok" value="#{loop.sparowany.wierszStronafk.wiersz.dokfk.numerwlasnydokfk}" />
                     </p:column>
                     <p:column headerText="opis wiersza" width="120">
                         <h:outputText id="opiswiersza" value="#{loop.sparowany.wierszStronafk.opiswiersza}" />
