@@ -15,17 +15,17 @@
                 <p:menuitem value="Usuń" actionListener="#{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin()}" update=":formprojekt:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":formprojekt:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin()}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 920px;">
                 <p:treeTable id="dataList" value="#{pozycjaRZiSView.rootProjekt}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaRZiSView.PF('rzisuklad').rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaRZiSView.rzisuklad.rzisukladPK.uklad}"/>
                     </f:facet>
                     <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">

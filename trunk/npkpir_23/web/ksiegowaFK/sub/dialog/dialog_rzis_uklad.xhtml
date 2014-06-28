@@ -22,10 +22,10 @@
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaRZiSView.pobierzukladkonto}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin()}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaRZiSView.zaksiegujzmianypozycji}" icon="ui-icon-locked"/>
             </p:panelGrid>
@@ -35,7 +35,7 @@
                               emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}" update=":form:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaRZiSView.PF('rzisuklad').rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaRZiSView.rzisuklad.rzisukladPK.uklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
