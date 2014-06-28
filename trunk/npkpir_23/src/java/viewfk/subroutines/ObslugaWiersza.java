@@ -42,32 +42,32 @@ public class ObslugaWiersza {
         w.setPodatnik(podatnik);
         w.setNrPorzadkowyWiersza(numer);
         w.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
-        w.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
+        w.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejnywserii());
         w.setStronaWnlubMa(wnma);
         return w;
     }
     
                      
-    public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wiersz, String wnma, int lpwiersza, String podatnik) {
-        wiersz.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpis());
+    public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wierszStronaFK, String wnma, int lpwiersza, String podatnik) {
+        wierszStronaFK.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpis());
         //rzeczy dotyczace waluty
-        WierszStronafkPK wPK = wiersz.getWierszStronafkPK();
+        WierszStronafkPK wPK = wierszStronaFK.getWierszStronafkPK();
         wPK.setNrPorzadkowyWiersza(numer);
         wPK.setPodatnik(podatnik);
         wPK.setTypdokumentu(selected.getDokfkPK().getSeriadokfk());
-        wPK.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejny());
+        wPK.setNrkolejnydokumentu(selected.getDokfkPK().getNrkolejnywserii());
         wPK.setStronaWnlubMa(wnma);
         //uzupelniamy dane do walut jezeli sa
         try {
-            wiersz.setSymbolwaluty(selected.getWalutadokumentu());
-            wiersz.setDatawaluty(selected.getTabelanbp().getDatatabeli());
-            wiersz.setKurswaluty(selected.getTabelanbp().getKurssredni());
-            wiersz.setNrtabelinbp(selected.getTabelanbp().getTabelanbpPK().getNrtabeli());
-            wiersz.setKwotaWaluta(wiersz.getKwota());
+            wierszStronaFK.setSymbolwaluty(selected.getWalutadokumentu());
+            wierszStronaFK.setDatawaluty(selected.getTabelanbp().getDatatabeli());
+            wierszStronaFK.setKurswaluty(selected.getTabelanbp().getKurssredni());
+            wierszStronaFK.setNrtabelinbp(selected.getTabelanbp().getTabelanbpPK().getNrtabeli());
+            wierszStronaFK.setKwotaWaluta(wierszStronaFK.getKwota());
         } catch (Exception e) {
             
         }
-        return wiersz;
+        return wierszStronaFK;
     }
     
     public static Wiersze ustawNowyWiersz() {

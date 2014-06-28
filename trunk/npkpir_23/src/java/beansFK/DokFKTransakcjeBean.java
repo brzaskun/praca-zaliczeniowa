@@ -93,9 +93,15 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersze p : wiersze) {
             if (wnma.equals("Wn")) {
-                listaNowychRozrachunkowDokument.add(p.getWierszStronaMa().getRozrachunekfk());
+                Rozrachunekfk rozrachunekMa = p.getWierszStronaMa().getRozrachunekfk();
+                if (rozrachunekMa != null) {
+                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
+                }
             } else {
-                listaNowychRozrachunkowDokument.add(p.getWierszStronaMa().getRozrachunekfk());
+                Rozrachunekfk rozrachunekWn = p.getWierszStronaWn().getRozrachunekfk();
+                if (rozrachunekWn != null) {
+                    listaNowychRozrachunkowDokument.add(p.getWierszStronaWn().getRozrachunekfk());
+                }
             }
         }
         Iterator it = listaNowychRozrachunkowDokument.iterator();

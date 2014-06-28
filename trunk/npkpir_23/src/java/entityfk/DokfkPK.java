@@ -25,8 +25,8 @@ public class DokfkPK implements Serializable {
     private String seriadokfk;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "nrkolejny", nullable = false)
-    private int nrkolejny;
+    @Column(name = "nrkolejnywserii", nullable = false)
+    private int nrkolejnywserii;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -43,7 +43,7 @@ public class DokfkPK implements Serializable {
 
     public DokfkPK(String seriadokfk, int nrkolejny, String podatnik, String rok) {
         this.seriadokfk = seriadokfk;
-        this.nrkolejny = nrkolejny;
+        this.nrkolejnywserii = nrkolejny;
         this.podatnik = podatnik;
         this.rok = rok;
     }
@@ -57,12 +57,12 @@ public class DokfkPK implements Serializable {
         this.seriadokfk = seriadokfk;
     }
     
-    public int getNrkolejny() {
-        return nrkolejny;
+    public int getNrkolejnywserii() {
+        return nrkolejnywserii;
     }
     
-    public void setNrkolejny(int nrkolejny) {
-        this.nrkolejny = nrkolejny;
+    public void setNrkolejnywserii(int nrkolejnywserii) {
+        this.nrkolejnywserii = nrkolejnywserii;
     }
     
     public String getPodatnik() {
@@ -86,7 +86,7 @@ public class DokfkPK implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.seriadokfk);
-        hash = 97 * hash + this.nrkolejny;
+        hash = 97 * hash + this.nrkolejnywserii;
         hash = 97 * hash + Objects.hashCode(this.podatnik);
         hash = 97 * hash + Objects.hashCode(this.rok);
         return hash;
@@ -103,7 +103,7 @@ public class DokfkPK implements Serializable {
         if ((this.seriadokfk == null && other.seriadokfk != null) || (this.seriadokfk != null && !this.seriadokfk.equals(other.seriadokfk))) {
             return false;
         }
-        if (this.nrkolejny != other.nrkolejny) {
+        if (this.nrkolejnywserii != other.nrkolejnywserii) {
             return false;
         }
         if ((this.podatnik == null && other.podatnik != null) || (this.podatnik != null && !this.podatnik.equals(other.podatnik))) {
@@ -117,7 +117,7 @@ public class DokfkPK implements Serializable {
 
     @Override
     public String toString() {
-        return "seriadokfk=" + seriadokfk + ", nrkolejny=" + nrkolejny + ",  rok=" + rok ;
+        return "seriadokfk=" + seriadokfk + ", nrkolejny=" + nrkolejnywserii + ",  rok=" + rok ;
     }
 
     

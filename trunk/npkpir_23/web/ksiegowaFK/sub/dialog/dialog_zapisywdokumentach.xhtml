@@ -25,10 +25,10 @@
                     <h:outputText value="#{loop.idwiersza}"/>
                 </p:column>
                 <p:column headerText="iddokumentu" width="150">
-                  <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk}/#{loop.dokfk.dokfkPK.nrkolejny}/#{loop.dokfk.dokfkPK.rok}"/>
+                  <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk}/#{loop.dokfk.dokfkPK.nrkolejnywserii}/#{loop.dokfk.dokfkPK.rok}"/>
                 </p:column>
                 <p:column headerText="nr własny" width="100">
-                    <h:outputText value="#{loop.dokfk.numer}"/>
+                    <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="opis" width="100" filterBy="#{loop.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opis}">
                     <h:outputText value="#{loop.opis}" rendered="#{loop.typwiersza eq 0 ? true : false}"/>

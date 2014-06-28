@@ -38,15 +38,14 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
     @NamedQuery(name = "Dokfk.findBySeriadokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk"),
     @NamedQuery(name = "Dokfk.findBySeriaRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok"),
-    @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejny = :nrkolejny"),
+    @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK = :dokfkPK"),
     @NamedQuery(name = "Dokfk.findByDatawystawienia", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia"),
-    @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numer = :numer"),
-    @NamedQuery(name = "Dokfk.findByNaniesionezapisy", query = "SELECT d FROM Dokfk d WHERE d.naniesionezapisy = :naniesionezapisy"),
-    @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk ORDER BY d.dokfkPK.nrkolejny DESC"),
-    @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numer = :numer")})
+    @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numerwlasnydokfk = :numer"),
+    @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
+    @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numerwlasnydokfk = :numer")})
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -57,20 +56,16 @@ public class Dokfk implements Serializable {
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "naniesionezapisy", nullable = false)
-    private boolean naniesionezapisy;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "numer", nullable = false, length = 255)
-    private String numer;
+    @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
+    private String numerwlasnydokfk;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
     private List<Wiersze> listawierszy;
     @Column(name = "miesiac")
     private String miesiac;
-    @Column(name = "tresc")
-    private String tresc;
+    @Column(name = "opisdokfk")
+    private String opisdokfk;
     @Column(name = "walutadokumentu")
     private String walutadokumentu;
     @Column(name = "zablokujzmianewaluty")
@@ -97,11 +92,10 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
     }
 
-    public Dokfk(DokfkPK dokfkPK, String datawystawienia, boolean naniesionezapisy, String numer) {
+    public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
         this.dokfkPK = dokfkPK;
         this.datawystawienia = datawystawienia;
-        this.naniesionezapisy = naniesionezapisy;
-        this.numer = numer;
+        this.numerwlasnydokfk = numer;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
     }
@@ -115,8 +109,8 @@ public class Dokfk implements Serializable {
         return dokfkPK;
     }
 
-    public String getTresc() {
-        return tresc;
+    public String getOpisdokfk() {
+        return opisdokfk;
     }
 
     public String getWalutadokumentu() {
@@ -127,8 +121,8 @@ public class Dokfk implements Serializable {
         this.walutadokumentu = walutadokumentu;
     }
     
-    public void setTresc(String tresc) {
-        this.tresc = tresc;
+    public void setOpisdokfk(String opisdokfk) {
+        this.opisdokfk = opisdokfk;
     }
 
     public String getMiesiac() {
@@ -151,21 +145,13 @@ public class Dokfk implements Serializable {
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
-    
-    public boolean getNaniesionezapisy() {
-        return naniesionezapisy;
+      
+    public String getNumerwlasnydokfk() {
+        return numerwlasnydokfk;
     }
     
-    public void setNaniesionezapisy(boolean naniesionezapisy) {
-        this.naniesionezapisy = naniesionezapisy;
-    }
-    
-    public String getNumer() {
-        return numer;
-    }
-    
-    public void setNumer(String numer) {
-        this.numer = numer;
+    public void setNumerwlasnydokfk(String numerwlasnydokfk) {
+        this.numerwlasnydokfk = numerwlasnydokfk;
     }
 
     public boolean isZablokujzmianewaluty() {
@@ -312,7 +298,7 @@ public class Dokfk implements Serializable {
     
     public void ustawNoweSelected(String symbolPoprzedniegoDokumentu) {
         DokfkPK dokfkPK = new DokfkPK();
-        //chodzi o FVS, FVZ a nie o numer :)
+        //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
