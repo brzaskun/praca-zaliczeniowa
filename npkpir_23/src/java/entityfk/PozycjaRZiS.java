@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import embeddablefk.KontoKwota;
 import java.io.Serializable;
 import java.util.List;
@@ -47,7 +48,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
-public class PozycjaRZiS implements Serializable {
+public class PozycjaRZiS extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,8 +61,8 @@ public class PozycjaRZiS implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 22)
     private double kwota;
-    private Integer level;
-    private Integer macierzysty;
+    private int level;
+    private int macierzysty;
     @Size(max = 255)
     @Column(length = 255)
     private String nazwa;
@@ -170,19 +171,23 @@ public class PozycjaRZiS implements Serializable {
         this.kwota = kwota;
     }
 
-    public Integer getLevel() {
+    @Override
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    @Override
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public Integer getMacierzysty() {
+    @Override
+    public int getMacierzysty() {
         return macierzysty;
     }
 
-    public void setMacierzysty(Integer macierzysty) {
+    @Override
+    public void setMacierzysty(int macierzysty) {
         this.macierzysty = macierzysty;
     }
 

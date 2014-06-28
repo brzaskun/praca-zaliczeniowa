@@ -136,7 +136,7 @@ public class PozycjaRZiSView implements Serializable {
         }
         rootProjekt = new TreeNodeExtended("root", null);
         PozycjaRZiSFKBean.ustawRootaprojekt(rootProjekt, pozycje);
-        level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjekt, pozycje);
         Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
 
@@ -203,6 +203,29 @@ public class PozycjaRZiSView implements Serializable {
     }
 
     public void zwin() {
+        root.foldLevel(--level);
+    }
+    
+    public void rozwinwszystkie(TreeNodeExtended root) {
+        root.createTreeNodesForElement(pozycje);
+        level = root.ustaldepthDT(pozycje) - 1;
+        root.expandAll();
+    }
+
+    public void rozwin(TreeNodeExtended root) {
+        int maxpoziom = root.ustaldepthDT(pozycje);
+        if (level < --maxpoziom) {
+            root.expandLevel(level++);
+        }
+    }
+
+    public void zwinwszystkie(TreeNodeExtended root) {
+        root.createTreeNodesForElement(pozycje);
+        root.foldAll();
+        level = 0;
+    }
+
+    public void zwin(TreeNodeExtended root) {
         root.foldLevel(--level);
     }
 
