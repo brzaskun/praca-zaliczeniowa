@@ -34,23 +34,21 @@ public class DokFKWalutyBean implements Serializable{
             kurs /= 100000000;
             List<Wiersze> wiersze = selected.getListawierszy();
             for (Wiersze p : wiersze) {
-                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
-                uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
-                if (p.getWierszStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaWn().getKwota();
-                    p.getWierszStronaWn().setKwotaPLN(kwota+0.0);
+                if (p.getKwotaWn() != 0.0) {
+                    double kwota = p.getKwotaWn();
+                    p.setKwotaPLNWn(kwota+0.0);
                     kwota = Math.round(kwota * kurs * 10000);
                     kwota /= 10000;
-                    p.getWierszStronaWn().setKwota(kwota);
-                    p.getWierszStronaWn().setKwotaWaluta(kwota);
+                    p.setKwotaWn(kwota);
+                    p.setKwotaWalutaWn(kwota);
                 }
-                if (p.getWierszStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaMa().getKwota();
-                    p.getWierszStronaMa().setKwotaPLN(kwota+0.0);
+                if (p.getKwotaMa() != 0.0) {
+                    double kwota = p.getKwotaMa();
+                    p.setKwotaPLNMa(kwota+0.0);
                     kwota = Math.round(kwota * kurs * 10000);
                     kwota /= 10000;
-                    p.getWierszStronaMa().setKwota(kwota);
-                    p.getWierszStronaMa().setKwotaWaluta(kwota);
+                    p.setKwotaMa(kwota);
+                    p.setKwotaWalutaMa(kwota);
                 }
             }
         } else {
@@ -58,45 +56,41 @@ public class DokFKWalutyBean implements Serializable{
             kurs = selected.getTabelanbp().getKurssredni();
             List<Wiersze> wiersze = selected.getListawierszy();
             for (Wiersze p : wiersze) {
-                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaWn());
-                uzupelnijwierszprzyprzewalutowaniuPLN(p.getWierszStronaMa());
-                p.getWierszStronaWn().setGrafikawaluty("zł");
-                p.getWierszStronaMa().setGrafikawaluty("zł");
-                if (p.getWierszStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaWn().getKwota();
+                if (p.getKwotaWn() != 0.0) {
+                    double kwota = p.getKwotaWn();
                     kwota = Math.round(kwota * kurs * 100);
                     kwota /= 100;
-                    p.getWierszStronaWn().setKwota(kwota);
-                    p.getWierszStronaWn().setKwotaPLN(kwota);
-                    p.getWierszStronaWn().setKwotaWaluta(0.0);
+                    p.setKwotaWn(kwota);
+                    p.setKwotaPLNWn(kwota);
+                    p.setKwotaWalutaWn(0.0);
                 }
-                if (p.getWierszStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getWierszStronaMa().getKwota();
+                if (p.getKwotaMa() != 0.0) {
+                    double kwota = p.getKwotaMa();
                     kwota = Math.round(kwota * kurs * 100);
                     kwota /= 100;
-                    p.getWierszStronaMa().setKwota(kwota);
-                    p.getWierszStronaMa().setKwotaPLN(kwota);
-                    p.getWierszStronaMa().setKwotaWaluta(0.0);
+                    p.setKwotaMa(kwota);
+                    p.setKwotaPLNMa(kwota);
+                    p.setKwotaWalutaMa(0.0);
                 }
         }
         }
     }
 
-    public static void uzupelnijwierszprzyprzewalutowaniu(WierszStronafk wierszStronafk, Waluty wybranawaluta, Tabelanbp tabelanbp) {
-            wierszStronafk.setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
-            wierszStronafk.setNrtabelinbp(tabelanbp.getTabelanbpPK().getNrtabeli());
-            wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
-            wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
-            wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
-    }
-    
-    public static void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {
-            wierszStronafk.setGrafikawaluty("zł");
-            Tabelanbp tabelanbp = null;
-            wierszStronafk.setNrtabelinbp(null);
-            wierszStronafk.setKurswaluty(1);
-            wierszStronafk.setSymbolwaluty("PLN");
-            wierszStronafk.setDatawaluty(null);
-    }
+//    public static void uzupelnijwierszprzyprzewalutowaniu(WierszStronafk wierszStronafk, Waluty wybranawaluta, Tabelanbp tabelanbp) {
+//            wierszStronafk.setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
+//            wierszStronafk.setNrtabelinbp(tabelanbp.getTabelanbpPK().getNrtabeli());
+//            wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
+//            wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
+//            wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
+//    }
+//    
+//    public static void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {
+//            wierszStronafk.setGrafikawaluty("zł");
+//            Tabelanbp tabelanbp = null;
+//            wierszStronafk.setNrtabelinbp(null);
+//            wierszStronafk.setKurswaluty(1);
+//            wierszStronafk.setSymbolwaluty("PLN");
+//            wierszStronafk.setDatawaluty(null);
+//    }
 }
 

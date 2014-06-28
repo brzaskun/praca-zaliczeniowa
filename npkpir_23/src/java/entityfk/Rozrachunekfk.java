@@ -34,20 +34,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "rozrachunekfk")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
-    @NamedQuery(name = "Rozrachunekfk.usunNiezaksiegowane", query = "DELETE FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.zaksiegowanodokument = 0"),
-    @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnik", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWaluta", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaRozliczone", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.pozostalo = 0"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono > 0 AND w.pozostalo > 0"),
-    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaNowe", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono = 0"),
-    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND w.walutarozrachunku = :walutarozrachunku AND w.nowatransakcja = 1"),
-    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
-            + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
-            + "AND w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik "
-            + "AND w.rok = :rok")    
+//    @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
+//    @NamedQuery(name = "Rozrachunekfk.usunNiezaksiegowane", query = "DELETE FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.zaksiegowanodokument = 0"),
+//    @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnik", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWaluta", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaRozliczone", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.pozostalo = 0"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono > 0 AND w.pozostalo > 0"),
+//    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaNowe", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono = 0"),
+//    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND w.walutarozrachunku = :walutarozrachunku AND w.nowatransakcja = 1"),
+//    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
+//            + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
+//            + "AND w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik "
+//            + "AND w.rok = :rok")    
 })
 public class Rozrachunekfk  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -57,15 +57,11 @@ public class Rozrachunekfk  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idrozrachunku", nullable = false)
     private Integer idrozrachunku;
-    @JoinColumns({
-        @JoinColumn(name="typdokumentu", referencedColumnName="typdokumentu"),
-        @JoinColumn(name="podatnik", referencedColumnName="podatnik"),
-        @JoinColumn(name="nrkolejnydokumentu", referencedColumnName="nrkolejnydokumentu"),
-        @JoinColumn(name="nrPorzadkowyWiersza", referencedColumnName="nrPorzadkowyWiersza"),
-        @JoinColumn(name="stronaWnlubMa", referencedColumnName="stronaWnlubMa")
-    })
-    @OneToOne(fetch = FetchType.EAGER)
-    private WierszStronafk wierszStronafk;
+    @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
+    @OneToOne
+    private Wiersze wiersz;
+    @Column(name = "stronaWnlubMa")
+    private String stronaWnlubMa;
     @Column(name="kwotapierwotna")
     private double kwotapierwotna;
     @Column(name="rozliczono")
@@ -74,15 +70,16 @@ public class Rozrachunekfk  implements Serializable {
     private double pozostalo;
     @Column(name="nowatransakcja")
     private boolean nowatransakcja;
-    @Column(name = "walutarozrachunku")
-    private String walutarozrachunku;
     @Column (name = "zaksiegowanodokument")
     private boolean zaksiegowanodokument;
     @JoinColumn(name = "konto_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Konto kontoid;
+    @Column(name = "rok")
     private String rok;
+    @Column(name = "mc")
     private String mc;
+    @Column(name = "datarozrachunku")
     private String datarozrachunku;
     @OneToMany(mappedBy = "rozliczany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
     private List<Transakcja> transakcjaRozliczany;
@@ -100,19 +97,12 @@ public class Rozrachunekfk  implements Serializable {
         this.nowatransakcja =  false;
     }
 
-    public Rozrachunekfk(WierszStronafk wierszStronafk) {
-        this.wierszStronafk = wierszStronafk;
-    }
-    
-    
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.wierszStronafk);
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.kwotapierwotna) ^ (Double.doubleToLongBits(this.kwotapierwotna) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.rozliczono) ^ (Double.doubleToLongBits(this.rozliczono) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.pozostalo) ^ (Double.doubleToLongBits(this.pozostalo) >>> 32));
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.idrozrachunku);
+        hash = 79 * hash + Objects.hashCode(this.wiersz);
+        hash = 79 * hash + Objects.hashCode(this.stronaWnlubMa);
         return hash;
     }
 
@@ -125,24 +115,21 @@ public class Rozrachunekfk  implements Serializable {
             return false;
         }
         final Rozrachunekfk other = (Rozrachunekfk) obj;
-        if (!Objects.equals(this.wierszStronafk, other.wierszStronafk)) {
+        if (!Objects.equals(this.idrozrachunku, other.idrozrachunku)) {
             return false;
         }
-
+        if (!Objects.equals(this.wiersz, other.wiersz)) {
+            return false;
+        }
+        if (!Objects.equals(this.stronaWnlubMa, other.stronaWnlubMa)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Rozrachunek{" + "wierszStronafk=" + wierszStronafk + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + '}';
-    }
-
-    public WierszStronafk getWierszStronafk() {
-        return wierszStronafk;
-    }
-
-    public void setWierszStronafk(WierszStronafk wierszStronafk) {
-        this.wierszStronafk = wierszStronafk;
+        return "Rozrachunekfk{" + "idrozrachunku=" + idrozrachunku + ", wiersz=" + wiersz + ", stronaWnlubMa=" + stronaWnlubMa + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + nowatransakcja + '}';
     }
 
     public double getKwotapierwotna() {
@@ -193,14 +180,6 @@ public class Rozrachunekfk  implements Serializable {
         this.idrozrachunku = idrozrachunku;
     }
 
-    public String getWalutarozrachunku() {
-        return walutarozrachunku;
-    }
-
-    public void setWalutarozrachunku(String walutarozrachunku) {
-        this.walutarozrachunku = walutarozrachunku;
-    }
-
     public boolean isZaksiegowanodokument() {
         return zaksiegowanodokument;
     }
@@ -233,6 +212,22 @@ public class Rozrachunekfk  implements Serializable {
         this.datarozrachunku = datarozrachunku;
     }
 
+    public Wiersze getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersze wiersz) {
+        this.wiersz = wiersz;
+    }
+
+    public String getStronaWnlubMa() {
+        return stronaWnlubMa;
+    }
+
+    public void setStronaWnlubMa(String stronaWnlubMa) {
+        this.stronaWnlubMa = stronaWnlubMa;
+    }
+    
     public List<Transakcja> getTransakcjaRozliczany() {
         return transakcjaRozliczany;
     }

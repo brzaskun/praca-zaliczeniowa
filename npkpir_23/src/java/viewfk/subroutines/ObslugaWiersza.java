@@ -28,13 +28,13 @@ public class ObslugaWiersza {
         wierszStronafkWn.setWierszStronafkPK(dodajdanedowiersza(selected, podatnik, liczbawierszyWDokumencie, wierszStronafkPKWn, "Wn"));
         wierszStronafkWn.setGrafikawaluty(grafikawaluty);
         wierszStronafkWn.setWiersz(nowywiersz);
-        nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        //nowywiersz.setWierszStronaWn(wierszStronafkWn);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
         WierszStronafkPK wierszStronafkPKMa = new WierszStronafkPK();
         wierszStronafkMa.setWierszStronafkPK(dodajdanedowiersza(selected, podatnik, liczbawierszyWDokumencie, wierszStronafkPKMa, "Ma"));
         wierszStronafkMa.setGrafikawaluty(grafikawaluty);
         wierszStronafkMa.setWiersz(nowywiersz);
-        nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
         return nowywiersz;
     }
     
@@ -49,7 +49,7 @@ public class ObslugaWiersza {
     
                      
     public static WierszStronafk uzupelnijdaneWwierszu(Dokfk selected, int numer, WierszStronafk wierszStronaFK, String wnma, int lpwiersza, String podatnik) {
-        wierszStronaFK.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpis());
+        wierszStronaFK.setOpiswiersza(selected.getListawierszy().get(lpwiersza).getOpisWiersza());
         //rzeczy dotyczace waluty
         WierszStronafkPK wPK = wierszStronaFK.getWierszStronafkPK();
         wPK.setNrPorzadkowyWiersza(numer);
@@ -75,13 +75,13 @@ public class ObslugaWiersza {
         WierszStronafk wierszStronafkWn = new WierszStronafk();
         wierszStronafkWn.setGrafikawaluty("zł");
         wierszStronafkWn.setWiersz(nowywiersz);
-        nowywiersz.setWierszStronaWn(wierszStronafkWn);
-        nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        //nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        //nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
         WierszStronafk wierszStronafkMa = new WierszStronafk();
         wierszStronafkMa.setGrafikawaluty("zł");
         wierszStronafkMa.setWiersz(nowywiersz);
-        nowywiersz.setWierszStronaMa(wierszStronafkMa);
-        nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        //nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
         return nowywiersz;
     }
 }

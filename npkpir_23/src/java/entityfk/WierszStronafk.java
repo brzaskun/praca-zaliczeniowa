@@ -55,8 +55,7 @@ public class WierszStronafk implements Serializable {
     private Konto konto;
     @Column(name = "opiswiersza")
     private String opiswiersza;
-    @OneToOne(mappedBy = "wierszStronafk", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
-    private Rozrachunekfk rozrachunekfk;
+    
 
     public WierszStronafk() {
         this.kwotaPLN = 0.0;
@@ -190,13 +189,6 @@ public class WierszStronafk implements Serializable {
         this.grafikawaluty = grafikawaluty;
     }
 
-    public Rozrachunekfk getRozrachunekfk() {
-        return rozrachunekfk;
-    }
-
-    public void setRozrachunekfk(Rozrachunekfk rozrachunekfk) {
-        this.rozrachunekfk = rozrachunekfk;
-    }
 
    
 

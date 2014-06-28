@@ -32,23 +32,23 @@ public class RozrachunekFKBean {
     }
     
     public static void konstruktorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
-        WierszStronafk wierszStronafk = new WierszStronafk();
-        if (wnma.equals("Wn")) {
-            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();
-            uzupelnikWierszStronafkWaluty(wierszStronafk);
-        } else {
-            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaMa();
-            uzupelnikWierszStronafkWaluty(wierszStronafk);
-        }
-            aktualnyWierszDlaRozrachunkow.setWierszStronafk(wierszStronafk);
-            aktualnyWierszDlaRozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
-            aktualnyWierszDlaRozrachunkow.setPozostalo(wierszStronafk.getKwota());
-            aktualnyWierszDlaRozrachunkow.setKontoid(wierszStronafk.getKonto());
-            aktualnyWierszDlaRozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
-            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
-            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
-            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
-            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+//        WierszStronafk wierszStronafk = new WierszStronafk();
+//        if (wnma.equals("Wn")) {
+//            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();
+//            uzupelnikWierszStronafkWaluty(wierszStronafk);
+//        } else {
+//            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaMa();
+//            uzupelnikWierszStronafkWaluty(wierszStronafk);
+//        }
+//            aktualnyWierszDlaRozrachunkow.setWierszStronafk(wierszStronafk);
+//            aktualnyWierszDlaRozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
+//            aktualnyWierszDlaRozrachunkow.setPozostalo(wierszStronafk.getKwota());
+//            aktualnyWierszDlaRozrachunkow.setKontoid(wierszStronafk.getKonto());
+//            aktualnyWierszDlaRozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
+//            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
+//            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
+//            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
+//            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
             
     }
     
