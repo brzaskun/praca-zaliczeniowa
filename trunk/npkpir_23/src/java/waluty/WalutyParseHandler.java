@@ -82,7 +82,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             data_publikacji = qName;
         }
         if (startelement.equals("kod_waluty")) {
-            Waluty waluta = walutyDAOfk.findByName(qName);
+            Waluty waluta = walutyDAOfk.findWalutaBySymbolWaluty(qName);
             wiersztabeli.setWaluta(waluta);
             startelement = "";
         }

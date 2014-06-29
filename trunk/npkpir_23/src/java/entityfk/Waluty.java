@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Waluty.findAll", query = "SELECT w FROM Waluty w"),
     @NamedQuery(name = "Waluty.findById", query = "SELECT w FROM Waluty w WHERE w.id = :id"),
     @NamedQuery(name = "Waluty.findByNazwawaluty", query = "SELECT w FROM Waluty w WHERE w.nazwawaluty = :nazwawaluty"),
-    @NamedQuery(name = "Waluty.findBySymbolwaluty", query = "SELECT w FROM Waluty w WHERE w.symbolwaluty = :symbolwaluty")})
+    @NamedQuery(name = "Waluty.findBySymbolwaluty", query = "SELECT w FROM Waluty w WHERE w.symbolwaluty = :symbolwaluty")
+})
 public class Waluty implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,10 +47,14 @@ public class Waluty implements Serializable {
     private String skrotsymbolu;
     @OneToMany(mappedBy = "waluta")
     private List<Tabelanbp> tabelanbp;
+    @OneToMany(mappedBy = "walutadokumentu")
+    private List<Dokfk> dokfk;
             
 
     public Waluty() {
     }
+    
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public Waluty(Integer id) {
@@ -114,8 +119,10 @@ public class Waluty implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Waluty[ id=" + id + " ]";
+        return "Symbolwaluty " + symbolwaluty;
     }
+
+   
     
 }
 

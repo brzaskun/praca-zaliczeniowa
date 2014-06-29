@@ -79,4 +79,12 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public Tabelanbp findByTabelaPLN() {
+         try {
+            return tabelanbpFacade.findTabelaPLN();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

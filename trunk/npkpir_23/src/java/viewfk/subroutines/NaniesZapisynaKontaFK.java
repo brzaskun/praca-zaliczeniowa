@@ -23,55 +23,55 @@ import msg.Msg;
 @Singleton
 public class NaniesZapisynaKontaFK implements Serializable {
 
-//    public static void naniesZapisyNaKontach(Dokfk selected) {
-//        List<Wiersze> wiersze = selected.getListawierszy();
-//        String opis = "";
-//        for (Wiersze p : wiersze) {
-//            if (p.getZapisynakontach() != null) {
-//                p.getZapisynakontach().clear();
-//            }
-//            List<Kontozapisy> zapisynakontach = new ArrayList<>();
-//            if (p.getTypWiersza() == 1) {
-//                dodajwn(p, opis, zapisynakontach, selected);
-//            } else if (p.getTypWiersza() == 2) {
-//                dodajma(p, opis, zapisynakontach, selected);
-//            } else {
-//                opis = p.getOpisWiersza();
-//                dodajwn(p, opis, zapisynakontach, selected);
-//                dodajma(p, opis, zapisynakontach, selected);
-//            }
-//            p.setZapisynakontach(zapisynakontach);
-//        }
-//        Msg.msg("i", "Zapisy na kontacg wygenerowane ");
-//    }
-//
-//    private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
-//        Kontozapisy kontozapisy = new Kontozapisy();
-//        kontozapisy.setKontoobiekt(p.getWierszStronaWn().getKonto());
-//        kontozapisy.setKontoprzeciwstawne(p.getWierszStronaMa().getKonto().getPelnynumer());
-//        kontozapisy.setWiersz(p);
-//        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
-//        kontozapisy.setOpis(opis);
-//        kontozapisy.setKontown(p.getWierszStronaWn().getKonto().getNazwapelna());
-//        kontozapisy.setKontoma(p.getWierszStronaMa().getKonto().getNazwapelna());
-//        kontozapisy.setKwotawn(p.getWierszStronaWn().getKwota());
-//        kontozapisy.setKwotama(0);
-//        kontozapisy.setSymbolwaluty(p.getWierszStronaWn().getSymbolwaluty());
-//        zapisynakontach.add(kontozapisy);
-//    }
-//
-//    private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
-//        Kontozapisy kontozapisy = new Kontozapisy();
-//        kontozapisy.setKontoobiekt(p.getWierszStronaMa().getKonto());
-//        kontozapisy.setKontoprzeciwstawne(p.getWierszStronaWn().getKonto().getPelnynumer());
-//        kontozapisy.setWiersz(p);
-//        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
-//        kontozapisy.setOpis(opis);
-//        kontozapisy.setKontown(p.getWierszStronaMa().getKonto().getNazwapelna());
-//        kontozapisy.setKontoma(p.getWierszStronaWn().getKonto().getNazwapelna());
-//        kontozapisy.setKwotama(p.getWierszStronaMa().getKwota());
-//        kontozapisy.setKwotawn(0);
-//        kontozapisy.setSymbolwaluty(p.getWierszStronaMa().getSymbolwaluty());
-//        zapisynakontach.add(kontozapisy);
-//    }
+    public static void naniesZapisyNaKontach(Dokfk selected) {
+        List<Wiersze> wiersze = selected.getListawierszy();
+        String opis = "";
+        for (Wiersze p : wiersze) {
+            if (p.getZapisynakontach() != null) {
+                p.getZapisynakontach().clear();
+            }
+            List<Kontozapisy> zapisynakontach = new ArrayList<>();
+            if (p.getTypWiersza() == 1) {
+                dodajwn(p, opis, zapisynakontach, selected);
+            } else if (p.getTypWiersza() == 2) {
+                dodajma(p, opis, zapisynakontach, selected);
+            } else {
+                opis = p.getOpisWiersza();
+                dodajwn(p, opis, zapisynakontach, selected);
+                dodajma(p, opis, zapisynakontach, selected);
+            }
+            p.setZapisynakontach(zapisynakontach);
+        }
+        Msg.msg("i", "Zapisy na kontacg wygenerowane ");
+    }
+
+    private static void dodajwn(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
+        Kontozapisy kontozapisy = new Kontozapisy();
+        kontozapisy.setKontoobiekt(p.getKontoWn());
+        kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
+        kontozapisy.setWiersz(p);
+        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+        kontozapisy.setOpis(opis);
+        kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
+        kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
+        kontozapisy.setKwotawn(p.getKwotaWn());
+        kontozapisy.setKwotama(0);
+        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
+        zapisynakontach.add(kontozapisy);
+    }
+
+    private static void dodajma(Wiersze p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
+        Kontozapisy kontozapisy = new Kontozapisy();
+        kontozapisy.setKontoobiekt(p.getKontoMa());
+        kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
+        kontozapisy.setWiersz(p);
+        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+        kontozapisy.setOpis(opis);
+        kontozapisy.setKontown(p.getKontoMa().getNazwapelna());
+        kontozapisy.setKontoma(p.getKontoWn().getNazwapelna());
+        kontozapisy.setKwotama(p.getKwotaMa());
+        kontozapisy.setKwotawn(0);
+        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
+        zapisynakontach.add(kontozapisy);
+    }
 }

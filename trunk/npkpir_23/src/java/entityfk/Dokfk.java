@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import viewfk.subroutines.ObslugaWiersza;
-
+ 
 /**
  *
  * @author Osito
@@ -66,8 +66,9 @@ public class Dokfk implements Serializable {
     private String miesiac;
     @Column(name = "opisdokfk")
     private String opisdokfk;
-    @Column(name = "walutadokumentu")
-    private String walutadokumentu;
+    @JoinColumn(name = "walutadokumentu", referencedColumnName = "idwaluty")
+    @ManyToOne
+    private Waluty walutadokumentu;
     @Column(name = "zablokujzmianewaluty")
     private boolean zablokujzmianewaluty;
     @Column(name = "liczbarozliczonych")
@@ -109,13 +110,14 @@ public class Dokfk implements Serializable {
         return opisdokfk;
     }
 
-    public String getWalutadokumentu() {
+    public Waluty getWalutadokumentu() {
         return walutadokumentu;
     }
 
-    public void setWalutadokumentu(String walutadokumentu) {
+    public void setWalutadokumentu(Waluty walutadokumentu) {
         this.walutadokumentu = walutadokumentu;
     }
+
     
     public void setOpisdokfk(String opisdokfk) {
         this.opisdokfk = opisdokfk;
@@ -300,7 +302,6 @@ public class Dokfk implements Serializable {
         List<Wiersze> wiersze = new ArrayList<>();
         wiersze.add(ObslugaWiersza.ustawNowyWiersz());
         this.setListawierszy(wiersze);
-        this.setWalutadokumentu("PLN");
         this.setZablokujzmianewaluty(false); 
     }
 }

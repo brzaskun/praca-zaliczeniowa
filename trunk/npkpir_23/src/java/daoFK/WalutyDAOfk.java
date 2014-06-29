@@ -42,9 +42,9 @@ public class WalutyDAOfk extends DAO implements Serializable {
         }
    }
 
-    public Waluty findByName(String staranazwa) {
+    public Waluty findWalutaBySymbolWaluty(String staranazwa) {
         try {
-            return walutyFacade.findWalutaByName(staranazwa);
+            return walutyFacade.findWalutaBySymbolWaluty(staranazwa);
         } catch (Exception e) {
             return null;
         }

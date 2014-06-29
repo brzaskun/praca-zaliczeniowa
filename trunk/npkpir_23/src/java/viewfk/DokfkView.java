@@ -90,7 +90,7 @@ public class DokfkView implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     private String wybranawaluta;
     private String symbolwalutydowiersza;
-    private List<String> wprowadzonesymbolewalut;
+    private List<Waluty> wprowadzonesymbolewalut;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
@@ -119,10 +119,8 @@ public class DokfkView implements Serializable {
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         } catch (Exception e) {
         }
-        List<Waluty> pobranekursy = walutyDAOfk.findAll();
-        for (Waluty p : pobranekursy) {
-            wprowadzonesymbolewalut.add(p.getSymbolwaluty());
-        }
+        pokazPanelWalutowy = false;
+        wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
         //usunRozrachunkiNiezaksiegowanychDokfk();
     }
 //    //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
@@ -134,6 +132,14 @@ public class DokfkView implements Serializable {
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
         selected = new Dokfk();
         selected.ustawNoweSelected(symbolPoprzedniegoDokumentu);
+        selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
+        Tabelanbp tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        selected.setTabelanbp(tabelanbpPLN);
+        List<Wiersze> wiersze = selected.getListawierszy();
+        for (Wiersze p : wiersze) {
+            p.setTabelanbp(tabelanbpPLN);
+        }
+        pokazPanelWalutowy = false;
         biezacetransakcje = null;
         liczbawierszyWDokumencie = 1;
         zapisz0edytuj1 = false;
@@ -143,19 +149,27 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
     }
     
-//     public void resetujDokumentWpis() {
-//        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
-//        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
-//        selected = new Dokfk();
-//        selected.ustawNoweSelected(symbolPoprzedniegoDokumentu);
-//        biezacetransakcje = null;
-//        liczbawierszyWDokumencie = 1;
-//        zapisz0edytuj1 = false;
-//        zablokujprzyciskrezygnuj = false;
-//    }
-//    
-//   
-//
+     public void resetujDokumentWpis() {
+        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
+        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+        selected = new Dokfk();
+        selected.ustawNoweSelected(symbolPoprzedniegoDokumentu);
+        selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
+        Tabelanbp tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        selected.setTabelanbp(tabelanbpPLN);
+        List<Wiersze> wiersze = selected.getListawierszy();
+        for (Wiersze p : wiersze) {
+            p.setTabelanbp(tabelanbpPLN);
+        }
+        pokazPanelWalutowy = false;
+        biezacetransakcje = null;
+        liczbawierszyWDokumencie = 1;
+        zapisz0edytuj1 = false;
+        zablokujprzyciskrezygnuj = false;
+    }
+    
+   
+
 //    //dodaje wiersze do dokumentu
     public void dolaczNowyWiersz(int wierszbiezacynr) {
         Konto kontowm = selected.getListawierszy().get(wierszbiezacynr).getKontoWn();
@@ -172,11 +186,11 @@ public class DokfkView implements Serializable {
             }
             if (kwotaWn != 0 || kwotaMa != 0) {
                 liczbawierszyWDokumencie++;
-                String walutadokS = selected.getWalutadokumentu();
+                String walutadokS = selected.getWalutadokumentu().getSymbolwaluty();
                 if (walutadokS.equals("PLN")) {
                     selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, wpisView.getPodatnikWpisu(), liczbawierszyWDokumencie, "zł"));
                 } else {
-                    Waluty walutadokumentu = walutyDAOfk.findByName(walutadokS);
+                    Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(walutadokS);
                     selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, wpisView.getPodatnikWpisu(), liczbawierszyWDokumencie, walutadokumentu.getSkrotsymbolu()));
                 }
                 int nowyWiersz = liczbawierszyWDokumencie - 1;
@@ -216,27 +230,27 @@ public class DokfkView implements Serializable {
 //        }
     }
 
-//   
-//
-//    public void dodaj() {
-//        try {
-//            selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
-//            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-//            //nanosimy zapisy na kontach
-//            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
-//            selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
-//            dokDAOfk.dodaj(selected);
-//            wykazZaksiegowanychDokumentow.add(selected);
-//            utrwalTransakcje();
-//            Msg.msg("i", "Dokument dodany");
-//            resetujDokumentWpis();
-//        } catch (Exception e) {
-//            Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
-//        }
-//    }
-//    
-//    
-//
+   
+
+    public void dodaj() {
+        try {
+            selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
+            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+            //nanosimy zapisy na kontach
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
+            selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
+            dokDAOfk.dodaj(selected);
+            wykazZaksiegowanychDokumentow.add(selected);
+            //utrwalTransakcje();
+            Msg.msg("i", "Dokument dodany");
+            resetujDokumentWpis();
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
+        }
+    }
+    
+    
+
 //    public void edycja() {
 //        try {
 //            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
@@ -855,12 +869,13 @@ public class DokfkView implements Serializable {
 //    //a to jest rodzial dotyczacy walut
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
-        String nazwawaluty = (String) el.getNewValue();
-        symbolwalutydowiersza = (String) el.getNewValue();
-        String staranazwa = (String) el.getOldValue();
+        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
+        symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
+        String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
         if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
+            
             if (!nazwawaluty.equals("PLN")) {
                 String datadokumentu = selected.getDatawystawienia();
                 DateTime dzienposzukiwany = new DateTime(datadokumentu);
@@ -873,59 +888,63 @@ public class DokfkView implements Serializable {
                     if (tabelanbppobrana instanceof Tabelanbp) {
                         znaleziono = true;
                         selected.setTabelanbp(tabelanbppobrana);
+                        List<Wiersze> wiersze = selected.getListawierszy();
+                        for (Wiersze p : wiersze) {
+                            p.setTabelanbp(tabelanbppobrana);
+                        }
                     }
                     zabezpieczenie++;
                 }
+                pokazPanelWalutowy = true;
+            } else {
+                Tabelanbp tabelanbpPLN = new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2014-01-01");
+                selected.setTabelanbp(tabelanbpPLN);
+                List<Wiersze> wiersze = selected.getListawierszy();
+                for (Wiersze p : wiersze) {
+                    p.setTabelanbp(tabelanbpPLN);
+                }
+                pokazPanelWalutowy = false;
             }
             if (staranazwa != null && selected.getListawierszy().get(0).getKwotaWn() != 0.0) {
                 DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                selected.setWalutadokumentu(nazwawaluty);
+                selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
             } else {
-                selected.setWalutadokumentu(nazwawaluty);
+                selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
                 //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-                List<Wiersze> wiersze = selected.getListawierszy();
-                for (Wiersze p : wiersze) {
-                    //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaWn(), wybranawaluta, selected.getTabelanbp());
-                    //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(p.getWierszStronaMa(), wybranawaluta, selected.getTabelanbp());
-                }
+                Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:w01");
-            RequestContext.getCurrentInstance().update("formwpisdokument:w11");
-            RequestContext.getCurrentInstance().update("formwpisdokument:w02");
-            RequestContext.getCurrentInstance().update("formwpisdokument:w12");
-            RequestContext.getCurrentInstance().update("formwpisdokument:w03");
-            RequestContext.getCurrentInstance().update("formwpisdokument:w13");
-            pobierzsymbolwaluty();
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            //pobierzsymbolwaluty(); archeo bo info jest we wierszu
         }
     }
     
-    public void pobierzsymbolwaluty() {
-        try {
-            List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
-            if (symbolwalutydowiersza.isEmpty() || symbolwalutydowiersza.equals("PLN")) {
-                symbolwalutydowiersza = "zł";
-            } else {
-                for (Waluty w : wprowadzonewaluty) {
-                    if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
-                        symbolwalutydowiersza = w.getSkrotsymbolu();
-                        break;
-                    }
-                }
-            }
-            int iloscwierszy = selected.getListawierszy().size();
-            for (int i = 0; i < iloscwierszy; i++) {
-                String p1 = "formwpisdokument:dataList:" + i + ":symbolWn";
-                String p2 = "formwpisdokument:dataList:" + i + ":symbolMa";
-                RequestContext.getCurrentInstance().update(p1);
-                RequestContext.getCurrentInstance().update(p2);
-            }
-            RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
-        } catch (Exception e) {
-            Msg.msg("e", "Nie moglem zmienic symbolu waluty");
-        }
-    }
+//    public void pobierzsymbolwaluty() {
+//        try {
+//            List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
+//            if (symbolwalutydowiersza.isEmpty() || symbolwalutydowiersza.equals("PLN")) {
+//                symbolwalutydowiersza = "zł";
+//            } else {
+//                for (Waluty w : wprowadzonewaluty) {
+//                    if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
+//                        symbolwalutydowiersza = w.getSkrotsymbolu();
+//                        break;
+//                    }
+//                }
+//            }
+//            int iloscwierszy = selected.getListawierszy().size();
+//            for (int i = 0; i < iloscwierszy; i++) {
+//                String p1 = "formwpisdokument:dataList:" + i + ":symbolWn";
+//                String p2 = "formwpisdokument:dataList:" + i + ":symbolMa";
+//                RequestContext.getCurrentInstance().update(p1);
+//                RequestContext.getCurrentInstance().update(p2);
+//            }
+//            RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+//        } catch (Exception e) {
+//            Msg.msg("e", "Nie moglem zmienic symbolu waluty");
+//        }
+//    }
 //   
 //    public void wyliczroznicekursowa(Transakcja loop, int row) {
 //        double kursAktualny = loop.getRozliczany().getWierszStronafk().getKurswaluty();
@@ -949,7 +968,7 @@ public class DokfkView implements Serializable {
 //    
 //    //a to jest rodzial dotyczacy walut w wierszu
     public void pobierzkursNBPwiersz(String datawiersza, Wiersze wierszbiezacy) {
-        String nazwawaluty = selected.getWalutadokumentu();
+        String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
         String datadokumentu = (String) Params.params("formwpisdokument:datka");
         if (datawiersza.length()==1) {
             datawiersza = "0".concat(datawiersza);
@@ -962,7 +981,7 @@ public class DokfkView implements Serializable {
         while (!znaleziono && (zabezpieczenie < 365)) {
             dzienposzukiwany = dzienposzukiwany.minusDays(1);
             String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
+            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, symbolwaluty);
             if (tabelanbppobrana instanceof Tabelanbp) {
                 znaleziono = true;
                 tabelanbp = tabelanbppobrana;
@@ -970,17 +989,17 @@ public class DokfkView implements Serializable {
             zabezpieczenie++;
         }
         //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-        Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
+        Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(symbolwaluty);
         //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
         //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
     
     public void skopiujWndoMa(Wiersze wiersze) {
-//        double kwotaWn = wiersze.getWierszStronaWn().getKwota();
-//        double kwotaMa = wiersze.getWierszStronaMa().getKwota();
-//        if (kwotaWn!=0 && kwotaMa==0) {
-//            wiersze.getWierszStronaMa().setKwota(kwotaWn);
-//        }
+        double kwotaWn = wiersze.getKwotaWn();
+        double kwotaMa = wiersze.getKwotaMa();
+        if (kwotaWn!=0 && kwotaMa==0) {
+            wiersze.setKwotaMa(kwotaWn);
+        }
     }
     
     public void skopiujKontoZWierszaWyzej(int numerwiersza, String wnma) {
@@ -1152,14 +1171,15 @@ public class DokfkView implements Serializable {
     public void setSymbolwalutydowiersza(String symbolwalutydowiersza) {
         this.symbolwalutydowiersza = symbolwalutydowiersza;
     }
-    
-    public List<String> getWprowadzonesymbolewalut() {
+
+    public List<Waluty> getWprowadzonesymbolewalut() {
         return wprowadzonesymbolewalut;
     }
-    
-    public void setWprowadzonesymbolewalut(List<String> wprowadzonesymbolewalut) {
+
+    public void setWprowadzonesymbolewalut(List<Waluty> wprowadzonesymbolewalut) {
         this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
     }
+   
     
     public boolean isZablokujprzyciskrezygnuj() {
         return zablokujprzyciskrezygnuj;
