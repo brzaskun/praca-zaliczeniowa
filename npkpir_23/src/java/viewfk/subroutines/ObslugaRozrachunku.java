@@ -7,8 +7,6 @@ package viewfk.subroutines;
 
 import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
-import entityfk.WierszStronafk;
-import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -40,10 +38,10 @@ public class ObslugaRozrachunku {
 //        }
 //    }
 
-    public static void usuntransakcje(WierszStronafk wierszStronafk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
-        try {
-            WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
-            //Transakcja znaleziona = transakcjaDAO.findByKlucz(wierszPK);
+//    public static void usuntransakcje(WierszStronafk wierszStronafk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
+//        try {
+//            WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
+//            //Transakcja znaleziona = transakcjaDAO.findByKlucz(wierszPK);
            // List<Transakcja> listatransakcji = znaleziona.getListatransakcji();
 //            if (listatransakcji != null) {
 //                for (Transakcja p : listatransakcji) {
@@ -57,8 +55,8 @@ public class ObslugaRozrachunku {
 //                    rozrachunekfkDAO.edit(r);
 //                }
 //            }
-        } catch (Exception e){
-        }
-    }
+//        } catch (Exception e){
+//        }
+//    }
 
 }

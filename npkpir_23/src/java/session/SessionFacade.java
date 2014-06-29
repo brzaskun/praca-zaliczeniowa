@@ -6,7 +6,6 @@ package session;
 
 import com.sun.xml.messaging.saaj.soap.impl.ElementFactory;
 import embeddable.Mce;
-import entityfk.WierszStronafkPK;
 import entity.Amodok;
 import entity.Deklaracjevat;
 import entity.Dok;
@@ -748,21 +747,21 @@ public class SessionFacade<T> implements Serializable{
 //        }
 //    }
 
-    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
-         try {
-            return (Zestawienielisttransakcji) em.createNamedQuery("Zestawienielisttransakcji.findByKluczlisty").setParameter("kluczlisty", kluczlisty).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
-        try {
-            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", wierszStronafkPK).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
+//         try {
+//            return (Zestawienielisttransakcji) em.createNamedQuery("Zestawienielisttransakcji.findByKluczlisty").setParameter("kluczlisty", kluczlisty).getSingleResult();
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+//
+//    public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
+//        try {
+//            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", wierszStronafkPK).getSingleResult();
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     
     public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {

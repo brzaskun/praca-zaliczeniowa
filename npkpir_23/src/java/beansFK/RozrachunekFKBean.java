@@ -8,7 +8,6 @@ package beansFK;
 
 import daoFK.RozrachunekfkDAO;
 import data.Data;
-import entityfk.WierszStronafk;
 import entityfk.Dokfk;
 import entityfk.Rozrachunekfk;
 import javax.ejb.Singleton;
@@ -52,19 +51,19 @@ public class RozrachunekFKBean {
             
     }
     
-     private static void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
-        String symbolwaluty = wierszStronafk.getSymbolwaluty();
-        if (symbolwaluty.equals("PLN")) {
-            wierszStronafk.setKwotaPLN(wierszStronafk.getKwota());
-        } else {
-            wierszStronafk.setKwotaWaluta(wierszStronafk.getKwota());
-            double kurs = wierszStronafk.getKurswaluty();
-            double kwotazlotowki = wierszStronafk.getKwota();
-            kwotazlotowki *= kurs;
-            kwotazlotowki *= 100;
-            kwotazlotowki = Math.round(kwotazlotowki);
-            kwotazlotowki /= 100;
-            wierszStronafk.setKwotaPLN(kwotazlotowki);
-        }
-    }
+//     private static void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
+//        String symbolwaluty = wierszStronafk.getSymbolwaluty();
+//        if (symbolwaluty.equals("PLN")) {
+//            wierszStronafk.setKwotaPLN(wierszStronafk.getKwota());
+//        } else {
+//            wierszStronafk.setKwotaWaluta(wierszStronafk.getKwota());
+//            double kurs = wierszStronafk.getKurswaluty();
+//            double kwotazlotowki = wierszStronafk.getKwota();
+//            kwotazlotowki *= kurs;
+//            kwotazlotowki *= 100;
+//            kwotazlotowki = Math.round(kwotazlotowki);
+//            kwotazlotowki /= 100;
+//            wierszStronafk.setKwotaPLN(kwotazlotowki);
+//        }
+//    }
 }
