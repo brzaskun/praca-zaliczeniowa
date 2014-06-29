@@ -302,7 +302,7 @@ public class Dokfk implements Serializable {
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
-        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
+        //wiersze.add(ObslugaWiersza.ustawNowyWiersz());
         this.setListawierszy(wiersze);
         this.setWalutadokumentu("PLN");
         this.setZablokujzmianewaluty(false); 

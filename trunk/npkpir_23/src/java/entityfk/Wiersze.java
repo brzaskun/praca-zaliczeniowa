@@ -79,9 +79,9 @@ public class Wiersze implements Serializable {
     })
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
     private Rozrachunekfk rozrachunekfkWn;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = WierszStronafk.class,  orphanRemoval=true)
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
     private Rozrachunekfk rozrachunekfkMa;
     @JoinColumn(name = "kontoWn", referencedColumnName = "id")
     @ManyToOne

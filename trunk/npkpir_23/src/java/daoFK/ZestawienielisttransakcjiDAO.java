@@ -6,7 +6,6 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Transakcja;
-import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
@@ -46,25 +45,25 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
         }
     }
 
-    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK klucz) {
-        try {
-            return zestawienielisttransakcjiFacade.findByKlucz(klucz);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public void dodajListeTransakcji(WierszStronafkPK klucz, List<Transakcja> lista) {
-        try {
-            Zestawienielisttransakcji nowezestawienie = new Zestawienielisttransakcji();
-            //nowezestawienie.setKluczlisty(klucz);
-            //nowezestawienie.setListatransakcji(lista);
-            zestawienielisttransakcjiFacade.create(nowezestawienie);
-        } catch (Exception e) {
-        }
-
-
-    }
+//    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK klucz) {
+//        try {
+//            return zestawienielisttransakcjiFacade.findByKlucz(klucz);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+//
+//    public void dodajListeTransakcji(WierszStronafkPK klucz, List<Transakcja> lista) {
+//        try {
+//            Zestawienielisttransakcji nowezestawienie = new Zestawienielisttransakcji();
+//            //nowezestawienie.setKluczlisty(klucz);
+//            //nowezestawienie.setListatransakcji(lista);
+//            zestawienielisttransakcjiFacade.create(nowezestawienie);
+//        } catch (Exception e) {
+//        }
+//
+//
+//    }
 
     public void usunniezaksiegowane() {
         try {
@@ -81,14 +80,14 @@ public class ZestawienielisttransakcjiDAO extends DAO implements Serializable {
 
     private void skorygujzapisywrozliczanych(List<Transakcja> listatransakcji) {
         for (Transakcja p : listatransakcji) {
-            WierszStronafkPK rozliczanePK = p.idSparowany();
-            Rozrachunekfk dotyczyrozrachunku = zestawienielisttransakcjiFacade.findRozrachunkifkByWierszStronafk(rozliczanePK);
-            double roznica = p.getKwotatransakcji();
-            if (roznica != 0) {
-                dotyczyrozrachunku.setRozliczono(dotyczyrozrachunku.getRozliczono() - roznica);
-                dotyczyrozrachunku.setPozostalo(dotyczyrozrachunku.getKwotapierwotna() - dotyczyrozrachunku.getRozliczono());
-            }
-            zestawienielisttransakcjiFacade.edit(dotyczyrozrachunku);
+            //WierszStronafkPK rozliczanePK = p.idSparowany();
+            //Rozrachunekfk dotyczyrozrachunku = zestawienielisttransakcjiFacade.findRozrachunkifkByWierszStronafk(rozliczanePK);
+//            double roznica = p.getKwotatransakcji();
+//            if (roznica != 0) {
+//                dotyczyrozrachunku.setRozliczono(dotyczyrozrachunku.getRozliczono() - roznica);
+//                dotyczyrozrachunku.setPozostalo(dotyczyrozrachunku.getKwotapierwotna() - dotyczyrozrachunku.getRozliczono());
+//            }
+//            zestawienielisttransakcjiFacade.edit(dotyczyrozrachunku);
         }
     }
 }

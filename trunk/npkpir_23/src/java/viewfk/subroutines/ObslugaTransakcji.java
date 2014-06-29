@@ -7,8 +7,6 @@
 package viewfk.subroutines;
 
 import daoFK.ZestawienielisttransakcjiDAO;
-import entityfk.WierszStronafk;
-import entityfk.WierszStronafkPK;
 import entityfk.Zestawienielisttransakcji;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -21,15 +19,15 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaTransakcji {
     
-    public static void zaksiegujSparowaneTransakcje(WierszStronafk wierszStronafk, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-            if (wierszStronafk.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                    WierszStronafkPK wierszStronafkPK = wierszStronafk.getWierszStronafkPK();
-                    Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafkPK);
-                    if (zestawienielisttransakcji instanceof Zestawienielisttransakcji) {
-                        //zestawienielisttransakcji.setZaksiegowanodokument(true);
-                        zestawienielisttransakcjiDAO.edit(zestawienielisttransakcji);
-                    }
-            }
-    }
+//    public static void zaksiegujSparowaneTransakcje(WierszStronafk wierszStronafk, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
+//            if (wierszStronafk.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+//                    WierszStronafkPK wierszStronafkPK = wierszStronafk.getWierszStronafkPK();
+//                    Zestawienielisttransakcji zestawienielisttransakcji = zestawienielisttransakcjiDAO.findByKlucz(wierszStronafkPK);
+//                    if (zestawienielisttransakcji instanceof Zestawienielisttransakcji) {
+//                        //zestawienielisttransakcji.setZaksiegowanodokument(true);
+//                        zestawienielisttransakcjiDAO.edit(zestawienielisttransakcji);
+//                    }
+//            }
+//    }
     
 }

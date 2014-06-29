@@ -7,7 +7,6 @@
 package beansFK;
 
 import daoFK.WalutyDAOfk;
-import entityfk.WierszStronafk;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;

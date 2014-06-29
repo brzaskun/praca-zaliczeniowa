@@ -15,8 +15,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Transakcja;
-import entityfk.WierszStronafk;
-import entityfk.WierszStronafkPK;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
@@ -950,32 +948,32 @@ public class DokfkView implements Serializable {
 //    }
 //    
 //    //a to jest rodzial dotyczacy walut w wierszu
-//    public void pobierzkursNBPwiersz(String datawiersza, Wiersze wierszbiezacy) {
-//        String nazwawaluty = selected.getWalutadokumentu();
-//        String datadokumentu = (String) Params.params("formwpisdokument:datka");
-//        if (datawiersza.length()==1) {
-//            datawiersza = "0".concat(datawiersza);
-//        }
-//        datadokumentu = datadokumentu.substring(0,8).concat(datawiersza);
-//        DateTime dzienposzukiwany = new DateTime(datadokumentu);
-//        boolean znaleziono = false;
-//        int zabezpieczenie = 0;
-//        Tabelanbp tabelanbp = null;
-//        while (!znaleziono && (zabezpieczenie < 365)) {
-//            dzienposzukiwany = dzienposzukiwany.minusDays(1);
-//            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-//            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
-//            if (tabelanbppobrana instanceof Tabelanbp) {
-//                znaleziono = true;
-//                tabelanbp = tabelanbppobrana;
-//            }
-//            zabezpieczenie++;
-//        }
-//        //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-//        Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
-//        DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
-//        DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
-//    }
+    public void pobierzkursNBPwiersz(String datawiersza, Wiersze wierszbiezacy) {
+        String nazwawaluty = selected.getWalutadokumentu();
+        String datadokumentu = (String) Params.params("formwpisdokument:datka");
+        if (datawiersza.length()==1) {
+            datawiersza = "0".concat(datawiersza);
+        }
+        datadokumentu = datadokumentu.substring(0,8).concat(datawiersza);
+        DateTime dzienposzukiwany = new DateTime(datadokumentu);
+        boolean znaleziono = false;
+        int zabezpieczenie = 0;
+        Tabelanbp tabelanbp = null;
+        while (!znaleziono && (zabezpieczenie < 365)) {
+            dzienposzukiwany = dzienposzukiwany.minusDays(1);
+            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
+            if (tabelanbppobrana instanceof Tabelanbp) {
+                znaleziono = true;
+                tabelanbp = tabelanbppobrana;
+            }
+            zabezpieczenie++;
+        }
+        //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+        Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
+        //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
+        //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
+    }
 //    
 //    public void skopiujWndoMa(Wiersze wiersze) {
 //        double kwotaWn = wiersze.getWierszStronaWn().getKwota();

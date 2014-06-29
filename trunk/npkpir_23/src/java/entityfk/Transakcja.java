@@ -75,14 +75,7 @@ public class Transakcja implements Serializable {
         this.roznicekursowe = 0.0;
     }
 
-    public WierszStronafkPK idSparowany() {
-        return null;
-    }
-
-    public WierszStronafkPK idRozliczany() {
-        return null;
-    }
-
+   
     public double GetSpRozl() {
         return this.getSparowany().getRozliczono();
     }

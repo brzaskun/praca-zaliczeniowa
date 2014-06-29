@@ -5,7 +5,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.WierszStronafkPK;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
 import java.util.List;
@@ -107,13 +106,13 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
 //        }
 //    }
     
-     public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
-         try {
-            return rozrachunekfkFacade.findRozrachunkifkByWierszStronafk(wierszStronafkPK);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//     public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
+//         try {
+//            return rozrachunekfkFacade.findRozrachunkifkByWierszStronafk(wierszStronafkPK);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     public List<Rozrachunekfk> findByDokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
          try {
