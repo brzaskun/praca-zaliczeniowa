@@ -438,19 +438,21 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
     }
 
-//    public void przygotujDokumentEdycja() {
-//        try {
-//            Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
-//            setZapisz0edytuj1(true);
-//            if (selected.getDokfkPK().getSeriadokfk().equals("WB")) {
-//                pokazPanelWalutowy = true;
-//            }
-//            liczbawierszyWDokumencie = selected.getListawierszy().size();
-//        } catch (Exception e) {
-//            Msg.msg("e", "Nie wybrano dokumentu do edycji ");
-//        }
-//    }
-//
+    public void przygotujDokumentEdycja() {
+        try {
+            Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
+            setZapisz0edytuj1(true);
+            if (selected.getDokfkPK().getSeriadokfk().equals("WB")) {
+                pokazPanelWalutowy = true;
+            } else {
+                pokazPanelWalutowy = false;
+            }
+            liczbawierszyWDokumencie = selected.getListawierszy().size();
+        } catch (Exception e) {
+            Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+        }
+    }
+
 //    //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
 //    public void znajdzDokumentOznaczWierszDoPodswietlenia() {
 //        selected = wiersz.getDokfk();
