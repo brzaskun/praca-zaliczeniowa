@@ -17,10 +17,13 @@ import java.util.Collections;
 import java.util.List;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
+import view.DokView;
 import waluty.WalutyNBP;
 
 /**
@@ -36,8 +39,9 @@ public class WalutyFKBean {
     @Inject
     private WalutyDAOfk walutyDAOfk;
     
+    
 
-    public static List<Tabelanbp> pobierzkursy(TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) throws ParseException {
+    public List<Tabelanbp> pobierzkursy(TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) throws ParseException {
         String datawstepna;
         Integer numertabeli;
         List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
@@ -51,14 +55,16 @@ public class WalutyFKBean {
             numertabeli = 1;
         } else {
             datawstepna = wiersz.getDatatabeli();
-            numertabeli = Integer.parseInt(wiersz.getTabelanbpPK().getNrtabeli().split("/")[0]);
+            numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
             numertabeli++;
         }
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
+        FacesContext context = FacesContext.getCurrentInstance();
+        WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
             try {
-                wierszepobranezNBP.addAll(WalutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }
@@ -85,14 +91,16 @@ public class WalutyFKBean {
             numertabeli = 1;
         } else {
             datawstepna = wiersz.getDatatabeli();
-            numertabeli = Integer.parseInt(wiersz.getTabelanbpPK().getNrtabeli().split("/")[0]);
+            numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
             numertabeli++;
         }
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
+        FacesContext context = FacesContext.getCurrentInstance();
+        WalutyNBP walutyNBP = (WalutyNBP) context.getELContext().getELResolver().getValue(context.getELContext(), null,"walutyNBP");
         for (Waluty w : pobranewaluty) {
             try {
-                wierszepobranezNBP.addAll(WalutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }
@@ -102,4 +110,8 @@ public class WalutyFKBean {
             tabelanbpDAO.dodaj(p);
         }
     }
+
+   
+    
+    
 }

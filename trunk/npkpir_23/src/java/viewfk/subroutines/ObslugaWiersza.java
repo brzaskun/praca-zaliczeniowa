@@ -19,8 +19,8 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaWiersza {
     
-//    public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie, String grafikawaluty) {
-//        Wiersze nowywiersz = new Wiersze(liczbawierszyWDokumencie, 0);
+    public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie, String grafikawaluty) {
+        Wiersze nowywiersz = new Wiersze(liczbawierszyWDokumencie, 0);
 //        WierszStronafk wierszStronafkWn = new WierszStronafk();
 //        WierszStronafkPK wierszStronafkPKWn = new WierszStronafkPK();
 //        wierszStronafkWn.setWierszStronafkPK(dodajdanedowiersza(selected, podatnik, liczbawierszyWDokumencie, wierszStronafkPKWn, "Wn"));
@@ -32,10 +32,10 @@ public class ObslugaWiersza {
 //        wierszStronafkMa.setWierszStronafkPK(dodajdanedowiersza(selected, podatnik, liczbawierszyWDokumencie, wierszStronafkPKMa, "Ma"));
 //        wierszStronafkMa.setGrafikawaluty(grafikawaluty);
 //        wierszStronafkMa.setWiersz(nowywiersz);
-//        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
-//        return nowywiersz;
-//    }
-//    
+        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        return nowywiersz;
+    }
+    
 //    public static WierszStronafkPK dodajdanedowiersza(Dokfk selected, String podatnik, int numer, WierszStronafkPK w, String wnma) {
 //        w.setPodatnik(podatnik);
 //        w.setNrPorzadkowyWiersza(numer);
@@ -68,18 +68,18 @@ public class ObslugaWiersza {
 //        return wierszStronaFK;
 //    }
 //    
-//    public static Wiersze ustawNowyWiersz() {
-//        Wiersze nowywiersz =  new Wiersze(1, 0);
+    public static Wiersze ustawNowyWiersz() {
+        Wiersze nowywiersz =  new Wiersze(1, 0);
 //        WierszStronafk wierszStronafkWn = new WierszStronafk();
 //        wierszStronafkWn.setGrafikawaluty("zł");
 //        wierszStronafkWn.setWiersz(nowywiersz);
-//        //nowywiersz.setWierszStronaWn(wierszStronafkWn);
-//        //nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        //nowywiersz.setWierszStronaWn(wierszStronafkWn);
+        //nowywiersz.getWierszStronaWn().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
 //        WierszStronafk wierszStronafkMa = new WierszStronafk();
 //        wierszStronafkMa.setGrafikawaluty("zł");
 //        wierszStronafkMa.setWiersz(nowywiersz);
-//        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
-//        //nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
-//        return nowywiersz;
-//    }
+        //nowywiersz.setWierszStronaMa(wierszStronafkMa);
+        //nowywiersz.getWierszStronaMa().getWierszStronafkPK().setNrPorzadkowyWiersza(1);
+        return nowywiersz;
+    }
 }

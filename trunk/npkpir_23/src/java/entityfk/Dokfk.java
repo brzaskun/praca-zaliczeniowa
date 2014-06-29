@@ -72,10 +72,6 @@ public class Dokfk implements Serializable {
     private boolean zablokujzmianewaluty;
     @Column(name = "liczbarozliczonych")
     private int liczbarozliczonych;
-    @JoinColumns({
-        @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
-        @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
-    })
     @ManyToOne
     private Tabelanbp tabelanbp;
     @Column (name = "wartoscdokumentu")
@@ -302,7 +298,7 @@ public class Dokfk implements Serializable {
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
-        //wiersze.add(ObslugaWiersza.ustawNowyWiersz());
+        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
         this.setListawierszy(wiersze);
         this.setWalutadokumentu("PLN");
         this.setZablokujzmianewaluty(false); 

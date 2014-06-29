@@ -4,32 +4,40 @@
  */
 package waluty;
 
+import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
-import entityfk.TabelanbpPK;
+import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import view.RequestScope;
 
 /**
  *
  * @author Osito
  */
+@Named
 public class WalutyParseHandler extends DefaultHandler implements Serializable {
 
-    private static List<Tabelanbp> elementy;
+    private List<Tabelanbp> elementy;
     private static String numer_tabeli;
     private static String data_publikacji;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public static List<Tabelanbp> getElementy() {
+    public List<Tabelanbp> getElementy() {
         return elementy;
     }
 
-    public static void setElementy(List<Tabelanbp> elementy) {
-        WalutyParseHandler.elementy = elementy;
+    public void setElementy(List<Tabelanbp> elementy) {
+        this.elementy = elementy;
     }
     //</editor-fold>
     private Tabelanbp wiersztabeli;
@@ -54,9 +62,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
         }
         if (qName.equals("pozycja")) {
             wiersztabeli = new Tabelanbp();
-            TabelanbpPK tabelanbpPK = new TabelanbpPK();
-            tabelanbpPK.setNrtabeli(numer_tabeli);
-            wiersztabeli.setTabelanbpPK(tabelanbpPK);
+            wiersztabeli.setNrtabeli(numer_tabeli);
             wiersztabeli.setDatatabeli(data_publikacji);
         }
         startelement = qName;
@@ -76,7 +82,8 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             data_publikacji = qName;
         }
         if (startelement.equals("kod_waluty")) {
-            wiersztabeli.getTabelanbpPK().setSymbolwaluty(qName);
+            Waluty waluta = walutyDAOfk.findByName(qName);
+            wiersztabeli.setWaluta(waluta);
             startelement = "";
         }
         if (startelement.equals("kurs_sredni")) {
@@ -92,7 +99,9 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             String qName)
             throws SAXException {
         if (qName.equals("pozycja")) {
-            elementy.add(wiersztabeli);
+            if (wiersztabeli.getWaluta() != null) {
+                elementy.add(wiersztabeli);
+            }
         }
         //System.out.println(" End Element :" + qName);
     }
