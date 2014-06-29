@@ -10,6 +10,8 @@ import daoFK.RozrachunekfkDAO;
 import data.Data;
 import entityfk.Dokfk;
 import entityfk.Rozrachunekfk;
+import entityfk.Tabelanbp;
+import entityfk.Wiersze;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
@@ -31,39 +33,64 @@ public class RozrachunekFKBean {
     }
     
     public static void konstruktorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
-//        WierszStronafk wierszStronafk = new WierszStronafk();
-//        if (wnma.equals("Wn")) {
-//            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaWn();
-//            uzupelnikWierszStronafkWaluty(wierszStronafk);
-//        } else {
-//            wierszStronafk = selected.getListawierszy().get(nrwiersza).getWierszStronaMa();
-//            uzupelnikWierszStronafkWaluty(wierszStronafk);
-//        }
-//            aktualnyWierszDlaRozrachunkow.setWierszStronafk(wierszStronafk);
-//            aktualnyWierszDlaRozrachunkow.setKwotapierwotna(wierszStronafk.getKwota());
-//            aktualnyWierszDlaRozrachunkow.setPozostalo(wierszStronafk.getKwota());
-//            aktualnyWierszDlaRozrachunkow.setKontoid(wierszStronafk.getKonto());
-//            aktualnyWierszDlaRozrachunkow.setWalutarozrachunku(wierszStronafk.getSymbolwaluty());
-//            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
-//            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
-//            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
-//            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+        Wiersze wiersz = selected.getListawierszy().get(nrwiersza);
+        double kwotawPLN = 0.0;
+        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+            if (wnma.equals("Wn")) {
+                wiersz.setKwotaPLNWn(kwotawPLN);
+            } else {
+                wiersz.setKwotaPLNMa(kwotawPLN);
+            }
+        } else {
+            if (wnma.equals("Wn")) {
+                przeliczWalutyWn(wiersz);
+            } else {
+                przeliczWalutyMa(wiersz);
+            }
+        }
+        if (wnma.equals("Wn")) {
+            uzupelnijrozrachunkiWn(aktualnyWierszDlaRozrachunkow, wiersz);
+        } else {
+            uzupelnijrozrachunkiMa(aktualnyWierszDlaRozrachunkow, wiersz);
+        }
+            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
+            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
+            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
+            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
             
     }
     
-//     private static void uzupelnikWierszStronafkWaluty(WierszStronafk wierszStronafk) {
-//        String symbolwaluty = wierszStronafk.getSymbolwaluty();
-//        if (symbolwaluty.equals("PLN")) {
-//            wierszStronafk.setKwotaPLN(wierszStronafk.getKwota());
-//        } else {
-//            wierszStronafk.setKwotaWaluta(wierszStronafk.getKwota());
-//            double kurs = wierszStronafk.getKurswaluty();
-//            double kwotazlotowki = wierszStronafk.getKwota();
-//            kwotazlotowki *= kurs;
-//            kwotazlotowki *= 100;
-//            kwotazlotowki = Math.round(kwotazlotowki);
-//            kwotazlotowki /= 100;
-//            wierszStronafk.setKwotaPLN(kwotazlotowki);
-//        }
-//    }
+    private static void uzupelnijrozrachunkiWn(Rozrachunekfk rozrachunekfk, Wiersze wiersz) {
+            rozrachunekfk.setKwotapierwotna(wiersz.getKwotaWn());
+            rozrachunekfk.setPozostalo(wiersz.getKwotaWn());
+            rozrachunekfk.setKontoid(wiersz.getKontoWn());
+    }
+    
+    private static void uzupelnijrozrachunkiMa(Rozrachunekfk rozrachunekfk, Wiersze wiersz) {
+            rozrachunekfk.setKwotapierwotna(wiersz.getKwotaMa());
+            rozrachunekfk.setPozostalo(wiersz.getKwotaMa());
+            rozrachunekfk.setKontoid(wiersz.getKontoMa());
+    }
+
+     private static void przeliczWalutyWn(Wiersze wiersz) {
+            wiersz.setKwotaWalutaWn(wiersz.getKwotaWn());
+            double kurs = wiersz.getTabelanbp().getKurssredni();
+            double kwotazlotowki = wiersz.getKwotaWn();
+            kwotazlotowki *= kurs;
+            kwotazlotowki *= 100;
+            kwotazlotowki = Math.round(kwotazlotowki);
+            kwotazlotowki /= 100;
+            wiersz.setKwotaPLNWn(kwotazlotowki);
+        }
+     
+     private static void przeliczWalutyMa(Wiersze wiersz) {
+            wiersz.setKwotaWalutaMa(wiersz.getKwotaMa());
+            double kurs = wiersz.getTabelanbp().getKurssredni();
+            double kwotazlotowki = wiersz.getKwotaMa();
+            kwotazlotowki *= kurs;
+            kwotazlotowki *= 100;
+            kwotazlotowki = Math.round(kwotazlotowki);
+            kwotazlotowki /= 100;
+            wiersz.setKwotaPLNMa(kwotazlotowki);
+        }
 }
