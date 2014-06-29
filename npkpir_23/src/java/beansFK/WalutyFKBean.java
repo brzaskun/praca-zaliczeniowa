@@ -51,7 +51,7 @@ public class WalutyFKBean {
             wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
         }
         if (wiersz == null) {
-            datawstepna = "2012-12-31";
+            datawstepna = "2013-12-31";
             numertabeli = 1;
         } else {
             datawstepna = wiersz.getDatatabeli();

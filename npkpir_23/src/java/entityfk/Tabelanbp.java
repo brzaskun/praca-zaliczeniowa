@@ -33,6 +33,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @UniqueConstraint(columnNames = {"nrtabeli", "waluta"})
 })
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Tabelanbp.findAll", query = "SELECT t FROM Tabelanbp t"),
+    @NamedQuery(name = "Tabelanbp.findByIdtabelanbp", query = "SELECT t FROM Tabelanbp t WHERE t.idtabelanbp = :idtabelanbp"),
+    @NamedQuery(name = "Tabelanbp.findByDatatabeli", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli"),
+    @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni"),
+    @NamedQuery(name = "Tabelanbp.findByNrtabeli", query = "SELECT t FROM Tabelanbp t WHERE t.nrtabeli = :nrtabeli"),
+    @NamedQuery(name = "Tabelanbp.findBySymbolWaluty", query = "SELECT t FROM Tabelanbp t WHERE t.waluta.symbolwaluty = :symbolwaluty"),
+    @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.waluta.symbolwaluty = :symbolwaluty")
+})
 
 public class Tabelanbp implements Serializable {
     
@@ -70,6 +79,13 @@ public class Tabelanbp implements Serializable {
     public Tabelanbp() {
     }
 
+    public Tabelanbp(String nrtabeli, Waluty waluta, String datatabeli) {
+        this.nrtabeli = nrtabeli;
+        this.waluta = waluta;
+        this.datatabeli = datatabeli;
+    }
+
+    
     public Integer getIdtabelanbp() {
         return idtabelanbp;
     }
@@ -165,3 +181,4 @@ public class Tabelanbp implements Serializable {
 
     
 }
+

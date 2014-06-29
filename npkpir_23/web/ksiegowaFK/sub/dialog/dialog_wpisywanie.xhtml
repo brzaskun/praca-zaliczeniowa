@@ -36,7 +36,7 @@
               resizable="false" onShow="wpisywanieOnShow();" closable="false" onHide="wpisywanieOnHide();">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
-            <div style="height: 140px;">
+            <div style="height: 100px;">
                 <!--                nagłówek dokumentu-->
                 <p:panelGrid id="paneldaneogolnefaktury" columns="5">
                     <h:outputText value="data"/>
@@ -101,28 +101,28 @@
                  </h:outputText>
                 </p:panelGrid>
             </div>
-            <div  style="height: 70px;">
-                <p:panelGrid  columns="4" style="width: 800px;" id="panelwalutowy" >
+            <p:panelGrid columns="2">
+                <p:panelGrid  columns="1" style="width: 200px;">
                         <h:outputText value="waluta dokumentu" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"/>
-                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
                                          readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
-                                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');"
+                                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                                          >
-                            <f:ajax event="blur" execute="@this"/>
-                            <f:selectItem itemValue="PLN" itemLabel="PLN"/>
-                            <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}"/>
+                            <f:ajax />
+                            <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                         </h:selectOneMenu>
-                        
-                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.tabelanbpPK.nrtabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{!dokfkView.pokazPanelWalutowy}"/>
                 </p:panelGrid>
-            </div>
+                <p:panelGrid  columns="3" style="width: 600px;" id="panelwalutowy" >
+                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                </p:panelGrid>
+            </p:panelGrid>
             <div style="height: 400px;">
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1200px; max-height: 300px;" scrollable="true"
@@ -133,7 +133,6 @@
                     <p:column headerText="opis transakcji" width="240" style="text-align: center;">
                         <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 240px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
                             <f:ajax event="blur" listener="#{dokfkView.dodajdanedowiersza}"  execute="@this"/>
-                            <f:ajax event="focus" listener="#{dokfkView.pobierzsymbolwaluty()}" />
                         </p:inputText>
                     </p:column>
                     <p:column headerText="data" width="60" style="padding: 0px; text-align: center;" rendered="#{dokfkView.pokazPanelWalutowy}">
@@ -143,12 +142,12 @@
                         </p:spinner>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="120">
-                        <pe:inputNumber id="wn" value="#{loop.kontoWn}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.wnReadOnly}">
+                        <pe:inputNumber id="wn" value="#{loop.kwotaWn}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.wnReadOnly}">
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7" style="text-align: center">
-                        <h:outputText id="symbolWn" value="RGE"/>
+                        <h:outputText id="symbolWn" value="${loop.tabelanbp.waluta.skrotsymbolu}"/>
                     </p:column>
 
                     <p:column headerText="konto Wn" width="200" style="text-align: center;">
@@ -169,7 +168,7 @@
                         </pe:inputNumber>
                     </p:column>
                     <p:column width="7" style="text-align: center" >
-                        <h:outputText id="symbolMa" value="GRE"/>
+                        <h:outputText id="symbolMa" value="${loop.tabelanbp.waluta.skrotsymbolu}"/>
                     </p:column>
                     <p:column headerText="konto Ma" width="200" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.kontoMa}" completeMethod="#{planKontView.complete}"

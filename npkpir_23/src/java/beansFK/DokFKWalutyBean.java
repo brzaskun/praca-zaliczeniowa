@@ -27,7 +27,7 @@ public class DokFKWalutyBean implements Serializable{
     public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {
         double kurs;
         if (staranazwa.equals("PLN")) {
-            Waluty wybranawaluta = walutyDAOfk.findByName(nazwawaluty);
+            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
             kurs = selected.getTabelanbp().getKurssredni();
             kurs = Math.round((1 / kurs) * 100000000);
             kurs /= 100000000;
@@ -75,14 +75,7 @@ public class DokFKWalutyBean implements Serializable{
         }
     }
 
-//    public static void uzupelnijwierszprzyprzewalutowaniu(WierszStronafk wierszStronafk, Waluty wybranawaluta, Tabelanbp tabelanbp) {
-//            wierszStronafk.setGrafikawaluty(wybranawaluta.getSkrotsymbolu());
-//            wierszStronafk.setNrtabelinbp(tabelanbp.getTabelanbpPK().getNrtabeli());
-//            wierszStronafk.setKurswaluty(tabelanbp.getKurssredni());
-//            wierszStronafk.setSymbolwaluty(tabelanbp.getTabelanbpPK().getSymbolwaluty());
-//            wierszStronafk.setDatawaluty(tabelanbp.getDatatabeli());
-//    }
-//    
+    
 //    public static void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {
 //            wierszStronafk.setGrafikawaluty("zł");
 //            Tabelanbp tabelanbp = null;
