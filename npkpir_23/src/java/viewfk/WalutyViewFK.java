@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -39,6 +40,8 @@ public class WalutyViewFK implements Serializable {
     private List<Tabelanbp> pobranekursyRok;
     @Inject
     private Waluty nowawaluta;
+    @ManagedProperty(value = "#{walutyFKBean}")
+    private WalutyFKBean walutyFKBean;
 
     public WalutyViewFK() {
         pobranewaluty = new ArrayList<>();
@@ -62,6 +65,7 @@ public class WalutyViewFK implements Serializable {
             nowawaluta.setNazwawaluty(nowawaluta.getNazwawaluty().toLowerCase(new Locale("pl")));
             walutyDAOfk.dodaj(nowawaluta);
             pobranewaluty.add(nowawaluta);
+            nowawaluta = new Waluty();
             Msg.msg("i", "Dodano nową walute");
         } catch (Exception e) {
             Msg.msg("e", "Nie dodano nowej waluty");
@@ -70,15 +74,33 @@ public class WalutyViewFK implements Serializable {
     
     public void pobierzkursy() throws ParseException {
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
-        wierszepobranezNBP.addAll(WalutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
+        wierszepobranezNBP.addAll(walutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
         for (Tabelanbp p : wierszepobranezNBP) {
             pobranekursy.add(p);
             pobranekursyRok.add(p);
         }
     }
+    
+    public void usunwalute(Waluty waluty) {
+        try {
+            walutyDAOfk.destroy(waluty);
+            pobranewaluty.remove(waluty);
+            Msg.msg("Usunięto walutę.");
+        } catch (Exception e) {
+            Msg.msg("e","Istnieją zapisy w walucie, nie można jej usunąć!");
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public WalutyFKBean getWalutyFKBean() {
+        return walutyFKBean;
+    }
+
+    public void setWalutyFKBean(WalutyFKBean walutyFKBean) {
+        this.walutyFKBean = walutyFKBean;
+    }
+
     public List<String> getSymboleWalut() {
         return symboleWalut;
     }

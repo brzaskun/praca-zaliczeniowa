@@ -73,10 +73,6 @@ public class Wiersze implements Serializable {
     //to jest potrzebne do rapotow walutowych i wyciagow walutowych
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
-    @JoinColumns({
-        @JoinColumn(name = "nrtabeli", referencedColumnName = "nrtabeli"),
-        @JoinColumn(name = "symbolwaluty", referencedColumnName = "symbolwaluty")
-    })
     @ManyToOne
     private Tabelanbp tabelanbp;
     @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)

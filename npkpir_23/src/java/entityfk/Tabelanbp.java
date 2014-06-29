@@ -6,14 +6,20 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,27 +29,36 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"nrtabeli", "waluta"})
+})
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Tabelanbp.findAll", query = "SELECT t FROM Tabelanbp t"),
-    @NamedQuery(name = "Tabelanbp.findByNrtabeli", query = "SELECT t FROM Tabelanbp t WHERE t.tabelanbpPK.nrtabeli = :nrtabeli"),
-    @NamedQuery(name = "Tabelanbp.findBySymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.tabelanbpPK.symbolwaluty = :symbolwaluty"),
-    @NamedQuery(name = "Tabelanbp.findByDatatabeli", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli"),
-    @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.tabelanbpPK.symbolwaluty = :symbolwaluty"),
-    @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni")})
+
 public class Tabelanbp implements Serializable {
+    
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected TabelanbpPK tabelanbpPK;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "idtabelanbp", nullable = false)
+    private Integer idtabelanbp;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "nrtabeli", nullable = false, length = 25)
+    private String nrtabeli;
+    @JoinColumn(name = "waluta", referencedColumnName = "idwaluty")
+    @ManyToOne
+    private Waluty waluta;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(nullable = false, length = 10)
+    @Column(name = "datatabeli", nullable = false, length = 10)
     private String datatabeli;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "kurssredni", nullable = false)
     private double kurssredni;
     //to jest dlatego ze dla faktury typu FVZ caly dokument jest w jednym kursie
     @OneToMany(mappedBy = "tabelanbp")
@@ -55,27 +70,31 @@ public class Tabelanbp implements Serializable {
     public Tabelanbp() {
     }
 
-    public Tabelanbp(TabelanbpPK tabelanbpPK) {
-        this.tabelanbpPK = tabelanbpPK;
+    public Integer getIdtabelanbp() {
+        return idtabelanbp;
     }
 
-    public Tabelanbp(TabelanbpPK tabelanbpPK, String datatabeli, double kurssredni) {
-        this.tabelanbpPK = tabelanbpPK;
-        this.datatabeli = datatabeli;
-        this.kurssredni = kurssredni;
+    public void setIdtabelanbp(Integer idtabelanbp) {
+        this.idtabelanbp = idtabelanbp;
     }
 
-    public Tabelanbp(String nrtabeli, String symbolwaluty) {
-        this.tabelanbpPK = new TabelanbpPK(nrtabeli, symbolwaluty);
+    public String getNrtabeli() {
+        return nrtabeli;
     }
 
-    public TabelanbpPK getTabelanbpPK() {
-        return tabelanbpPK;
+    public void setNrtabeli(String nrtabeli) {
+        this.nrtabeli = nrtabeli;
     }
 
-    public void setTabelanbpPK(TabelanbpPK tabelanbpPK) {
-        this.tabelanbpPK = tabelanbpPK;
+    public Waluty getWaluta() {
+        return waluta;
     }
+
+    public void setWaluta(Waluty waluta) {
+        this.waluta = waluta;
+    }
+
+    
 
     public String getDatatabeli() {
         return datatabeli;
@@ -108,25 +127,28 @@ public class Tabelanbp implements Serializable {
     public void setWiersze(List<Wiersze> Wiersze) {
         this.Wiersze = Wiersze;
     }
-    
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (tabelanbpPK != null ? tabelanbpPK.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.nrtabeli);
+        hash = 97 * hash + Objects.hashCode(this.waluta);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tabelanbp)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Tabelanbp other = (Tabelanbp) object;
-        if ((this.tabelanbpPK == null && other.tabelanbpPK != null) || (this.tabelanbpPK != null && !this.tabelanbpPK.equals(other.tabelanbpPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tabelanbp other = (Tabelanbp) obj;
+        if (!Objects.equals(this.nrtabeli, other.nrtabeli)) {
+            return false;
+        }
+        if (!Objects.equals(this.waluta, other.waluta)) {
             return false;
         }
         return true;
@@ -134,7 +156,12 @@ public class Tabelanbp implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Tabelanbp[ tabelanbpPK=" + tabelanbpPK + " ]";
+        return "Tabelanbp{" + "idtabelanbp=" + idtabelanbp + ", nrtabeli=" + nrtabeli + ", waluta=" + waluta + ", kurssredni=" + kurssredni + '}';
     }
+    
+    
+    
+
+
     
 }

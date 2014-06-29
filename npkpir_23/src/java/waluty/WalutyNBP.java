@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -34,6 +36,9 @@ import org.xml.sax.SAXException;
  */
 @Named
 public class WalutyNBP implements Serializable {
+    
+    @Inject
+    private WalutyParseHandler handler; 
 
     private static int zmianaroku = 0;
 
@@ -55,7 +60,7 @@ public class WalutyNBP implements Serializable {
         }
     }
 
-    private static int sprawdzzmianeroku(String przekazanadata, int numer) {
+    private static int skorygujNumerTabeliZmianaRoku(String przekazanadata, int numer) {
         DateTime staradata = new DateTime(przekazanadata);
         int staryrok = staradata.getYear();
         DateTime nowadata = staradata.plusDays(1);
@@ -79,7 +84,7 @@ public class WalutyNBP implements Serializable {
         }
     }
 
-    private static boolean porownajdaty(String data) {
+    private static boolean czydataPrzedDniemDzisiejszym(String data) {
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
@@ -93,14 +98,14 @@ public class WalutyNBP implements Serializable {
         return datao1date.before(datao2date);
     }
 
-    public static List<Tabelanbp> pobierzpliknbp(String data, int numer, String waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
+    public List<Tabelanbp> pobierzpliknbp(String data, int numerTabeliNBP, String waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
         List<Tabelanbp> wynik = new ArrayList<>();
-        numer = sprawdzzmianeroku(data, numer);
-        while (porownajdaty(data)) {
+        while (czydataPrzedDniemDzisiejszym(data)) {
+            numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
             InputStream inputStream = null;
-            while (inputStream == null && porownajdaty(data)) {
+            while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {
                 try {
-                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numer) + "z" + zmiendate(data, 2) + ".xml";
+                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numerTabeliNBP) + "z" + zmiendate(data, 2) + ".xml";
                     URL url = new URL(nazwapliku);
                     inputStream = url.openStream();
                 } catch (Exception e) {
@@ -113,16 +118,16 @@ public class WalutyNBP implements Serializable {
                 is.setEncoding("UTF-8");
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser saxParser = factory.newSAXParser();
-                WalutyParseHandler handler = new WalutyParseHandler();
+                handler.setElementy(new ArrayList<Tabelanbp>());
                 saxParser.parse(is, handler);
-                List<Tabelanbp> wyniktmp = WalutyParseHandler.getElementy();
+                List<Tabelanbp> wyniktmp = handler.getElementy();
                 for (Tabelanbp p : wyniktmp) {
-                    if (p.getTabelanbpPK().getSymbolwaluty().equals(waluta)) {
+                    if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
                         wynik.add(p);
                     }
                 }
                 //System.out.print(wynik.toString());
-                numer++;
+                numerTabeliNBP++;
             }
         }
         return wynik;
@@ -132,9 +137,9 @@ public class WalutyNBP implements Serializable {
         Integer numer = 1;
         String data = "2013-11-10";
         List<Tabelanbp> wynik = new ArrayList<>();
-        while (porownajdaty(data)) {
+        while (czydataPrzedDniemDzisiejszym(data)) {
             InputStream inputStream = null;
-            while (inputStream == null && porownajdaty(data)) {
+            while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {
                 try {
                     String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numer) + "z" + zmiendate(data, 2) + ".xml";
                     URL url = new URL(nazwapliku);
@@ -151,9 +156,9 @@ public class WalutyNBP implements Serializable {
                 SAXParser saxParser = factory.newSAXParser();
                 WalutyParseHandler handler = new WalutyParseHandler();
                 saxParser.parse(is, handler);
-                List<Tabelanbp> wyniktmp = WalutyParseHandler.getElementy();
+                List<Tabelanbp> wyniktmp = handler.getElementy();
                 for (Tabelanbp p : wyniktmp) {
-                    if (p.getTabelanbpPK().getSymbolwaluty().equals("EUR")) {
+                    if (p.getWaluta().getSymbolwaluty().equals("EUR")) {
                         wynik.add(p);
                     }
                 }

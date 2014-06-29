@@ -5,14 +5,17 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,7 +36,7 @@ public class Waluty implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "idwaluty", nullable = false)
     private Integer id;
     @Column(name = "symbolwaluty")
     private String symbolwaluty;
@@ -41,6 +44,8 @@ public class Waluty implements Serializable {
     private String nazwawaluty;
     @Column(name = "skrotsymbolu")
     private String skrotsymbolu;
+    @OneToMany(mappedBy = "waluta")
+    private List<Tabelanbp> tabelanbp;
             
 
     public Waluty() {
