@@ -217,7 +217,7 @@ public final class DokView implements Serializable {
             }
         }
         } catch (Exception e) {
-            ostatnidokumentDAO.destroy(wysDokument);
+            
         }
         try {
             selDokument.setVatR("");
