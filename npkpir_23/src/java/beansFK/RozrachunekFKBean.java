@@ -48,16 +48,19 @@ public class RozrachunekFKBean {
             }
         }
         if (wnma.equals("Wn")) {
+            aktualnyWierszDlaRozrachunkow.setStronaWnlubMa("Wn");
             uzupelnijrozrachunkiWn(aktualnyWierszDlaRozrachunkow, wiersz);
+            wiersz.setRozrachunekfkWn(aktualnyWierszDlaRozrachunkow);
         } else {
+            aktualnyWierszDlaRozrachunkow.setStronaWnlubMa("Ma");
             uzupelnijrozrachunkiMa(aktualnyWierszDlaRozrachunkow, wiersz);
+            wiersz.setRozrachunekfkMa(aktualnyWierszDlaRozrachunkow);
         }
             aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
             aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
             aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
             aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
-            
     }
     
     private static void uzupelnijrozrachunkiWn(Rozrachunekfk rozrachunekfk, Wiersze wiersz) {

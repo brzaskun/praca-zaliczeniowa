@@ -13,18 +13,18 @@
         <h:form id="rozrachunki" >
             <div style="height: 600px;">
                     <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;">
-                        <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}/#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wiersz.dokfk.opisdokfk}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.pelnynumer}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.konto.nazwapelna}" style="float: left; font-weight: bold; max-width: 400px;"/>
-                        <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.opiswiersza}" style="float: right; font-weight: bold;"/>
-                        <h:outputText value="waluta"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku}" style="float: right; font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? null : 'color: blue;'}"/>
-                        <h:outputText value="kurs" style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.kurswaluty}" style="float: right; font-weight: bold;
-                                       color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="tabela"  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.nrtabelinbp} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.datawaluty}" 
-                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.walutarozrachunku eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="nr dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii}/#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="treść dokumentu"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.opisdokfk}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="konto"/><h:outputText value="konto #{dokfkView.aktualnyWierszDlaRozrachunkow.kontoid.pelnynumer}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="kontrahent"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kontoid.nazwapelna}" style="float: left; font-weight: bold; max-width: 400px;"/>
+                        <h:outputText value="opis wiersza"/><h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="float: right; font-weight: bold;"/>
+                        <h:outputText value="waluta"/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" style="float: right; font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
+                        <h:outputText value="kurs" style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="float: right; font-weight: bold;
+                                       color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="tabela"  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
+                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
                         <h:outputText value="kwota pierwotna" />
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>

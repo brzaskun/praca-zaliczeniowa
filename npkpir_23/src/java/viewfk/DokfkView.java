@@ -637,11 +637,6 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow = odnalezionyRozrachunek;
             Msg.msg("Otworzyłem zachowany rozrachunek rozrachunek");
         }
-            if (stronawiersza.equals("Wn")) {
-                wiersz.setRozrachunekfkWn(aktualnyWierszDlaRozrachunkow);
-            } else {
-                wiersz.setRozrachunekfkMa(aktualnyWierszDlaRozrachunkow);
-            }
     }
    
       
