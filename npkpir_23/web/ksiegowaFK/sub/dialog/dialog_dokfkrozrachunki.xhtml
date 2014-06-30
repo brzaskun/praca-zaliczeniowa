@@ -43,8 +43,8 @@
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-                   <p:column headerText="kwota rozliczenia - bieżący dok." width="60">
-                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " 
+                   <p:column headerText="kwota rozliczenia - bieżący dok." width="80">
+                       <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right;"
                                        decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
                            <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                        </pe:inputNumber>
@@ -68,10 +68,10 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="waluta" width="40" style="text-align: center">
-                        <h:outputText id="waluta" value="#{loop.sparowany.wierszStronafk.symbolwaluty}" />
+                        <h:outputText id="waluta" value="#{loop.sparowany.wiersz.tabelanbp.waluta.symbolwaluty}" />
                     </p:column>
                     <p:column headerText="kurs" width="40">
-                        <h:outputText id="kurs" value="#{loop.sparowany.wierszStronafk.kurswaluty}"  style="float: right;">
+                        <h:outputText id="kurs" value="#{loop.sparowany.wiersz.tabelanbp.kurssredni}"  style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -81,22 +81,22 @@
                         </h:outputText>
                     </p:column>
                      <p:column headerText="symbol dokumentu" width="50">
-                         <h:outputText id="symboldok" value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}" />
+                         <h:outputText id="symboldok" value="#{loop.sparowany.wiersz.dokfk.dokfkPK.nrkolejnywserii}/#{loop.sparowany.wiersz.dokfk.dokfkPK.seriadokfk}" />
                     </p:column>
                     <p:column headerText="nr własny dokumentu" width="90">
-                        <h:outputText id="nrwlasnydok" value="#{loop.sparowany.wierszStronafk.wiersz.dokfk.numerwlasnydokfk}" />
+                        <h:outputText id="nrwlasnydok" value="#{loop.sparowany.wiersz.dokfk.numerwlasnydokfk}" />
                     </p:column>
                     <p:column headerText="opis wiersza" width="120">
-                        <h:outputText id="opiswiersza" value="#{loop.sparowany.wierszStronafk.opiswiersza}" />
+                        <h:outputText id="opiswiersza" value="#{loop.sparowany.wiersz.opisWiersza}" />
                     </p:column>
                     <p:column headerText="wiersz w dok" width="40"  style="text-align: center;">
-                        <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.nrPorzadkowyWiersza}"/>
+                        <h:outputText value="#{loop.sparowany.wiersz.idporzadkowy+1}"/>
                     </p:column>
 <!--                    <p:column headerText="konto przeciwstawne" width="40">
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.sparowany.wierszStronafk.wierszStronafkPK.typdokumentu eq  dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.typdokumentu ? (loop.sparowany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu eq dokfkView.aktualnyWierszDlaRozrachunkow.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu ? 'zapis z bieżącego dokumentu' : null) : null}"/>
+                         <h:outputText value="#{loop.sparowany.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.sparowany.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'zapis z bieżącego dokumentu' : null) : null}"/>
                     </p:column>
 
                 </p:dataTable>

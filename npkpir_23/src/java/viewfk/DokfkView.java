@@ -282,20 +282,20 @@ public class DokfkView implements Serializable {
 //                }
 //            }
 //    }
-//    
-//    public void edycjaDlaRozrachunkow() {
-//        try {
-//            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-//            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
-//            dokDAOfk.edit(selected);
-//            wykazZaksiegowanychDokumentow.clear();
-//            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
-//            Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
-//        } catch (Exception e) {
-//            Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
-//        }
-//    }
-//
+    
+    public void edycjaDlaRozrachunkow() {
+        try {
+            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
+            dokDAOfk.edit(selected);
+            wykazZaksiegowanychDokumentow.clear();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
+        } catch (Exception e) {
+            Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
+        }
+    }
+
     public void usundokument(Dokfk dousuniecia) {
         try {
             int iloscwierszy = dousuniecia.getListawierszy().size();
@@ -480,68 +480,68 @@ public class DokfkView implements Serializable {
     }
 
 //    //</editor-fold>
-//    //************************
-//    //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
-//    public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
-//        boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
-//        if (zaznaczonoNowaTransakcje == true) {
-//            aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
-//            listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
-//            zrobWierszStronafkReadOnly(true);
-//            zablokujprzyciskrezygnuj = true;
-//            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
-//            Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
-//        } else {
-//            if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
-//                Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
-//            } else {
-//                aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-//                listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
-//                zrobWierszStronafkReadOnly(false);
-//                zablokujprzyciskrezygnuj = false;
-//                selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
-//                Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+    //************************
+    //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
+    public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
+        boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
+        if (zaznaczonoNowaTransakcje == true) {
+            aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
+            listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
+            zrobWierszStronafkReadOnly(true);
+            zablokujprzyciskrezygnuj = true;
+            selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
+            Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
+        } else {
+            if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
+                Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
+            } else {
+                aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+                listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
+                zrobWierszStronafkReadOnly(false);
+                zablokujprzyciskrezygnuj = false;
+                selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
+                Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
+            }
+        }
+        if (selected.getLiczbarozliczonych() > 0) {
+            selected.setZablokujzmianewaluty(true);
+        } else {
+            selected.setZablokujzmianewaluty(false);
+        }
+        //transakcje po zapisaniu dokumentu sa oznaczone jako zaksiegowane, wiec w przypadku edycji, np odhaczeniu ze to nowa transakcja
+        //trzeba to odpowienio zaznaczycw rozrachunkach, umowliwa to zmiane rozrachunku w wierszach po kolei bez konieczosci 
+        //otwierania dokuemntu co chwile po zmianie jednego wiersza
+        if (zapisz0edytuj1 == true) {
+            edycjaDlaRozrachunkow();
+        }
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
+        RequestContext.getCurrentInstance().update("wpisywaniefooter");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
+    }
+    
+    //Nie wiem dlaczego to robie
+    private void zrobWierszStronafkReadOnly(boolean wartosc){
+//        List<Wiersze> wierszebiezace = selected.getListawierszy();
+//        WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
+//        for (Wiersze p : wierszebiezace) {
+//            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
+//                p.setWnReadOnly(wartosc);
+//                int i = p.getIdporzadkowy() - 1;
+//                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
+//                RequestContext.getCurrentInstance().update(wiersz);
+//                break;
+//            }
+//            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
+//                p.setMaReadOnly(wartosc);
+//                int i = p.getIdporzadkowy() - 1;
+//                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
+//                RequestContext.getCurrentInstance().update(wiersz);
+//                break;
 //            }
 //        }
-//        if (selected.getLiczbarozliczonych() > 0) {
-//            selected.setZablokujzmianewaluty(true);
-//        } else {
-//            selected.setZablokujzmianewaluty(false);
-//        }
-//        //transakcje po zapisaniu dokumentu sa oznaczone jako zaksiegowane, wiec w przypadku edycji, np odhaczeniu ze to nowa transakcja
-//        //trzeba to odpowienio zaznaczycw rozrachunkach, umowliwa to zmiane rozrachunku w wierszach po kolei bez konieczosci 
-//        //otwierania dokuemntu co chwile po zmianie jednego wiersza
-//        if (zapisz0edytuj1 == true) {
-//            edycjaDlaRozrachunkow();
-//        }
-//        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
-//        RequestContext.getCurrentInstance().update("wpisywaniefooter");
-//        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//        RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
-//    }
-//    
-//    //Nie wiem dlaczego to robie
-//    private void zrobWierszStronafkReadOnly(boolean wartosc){
-////        List<Wiersze> wierszebiezace = selected.getListawierszy();
-////        WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
-////        for (Wiersze p : wierszebiezace) {
-////            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
-////                p.setWnReadOnly(wartosc);
-////                int i = p.getIdporzadkowy() - 1;
-////                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
-////                RequestContext.getCurrentInstance().update(wiersz);
-////                break;
-////            }
-////            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
-////                p.setMaReadOnly(wartosc);
-////                int i = p.getIdporzadkowy() - 1;
-////                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
-////                RequestContext.getCurrentInstance().update(wiersz);
-////                break;
-////            }
-////        }
-//    }
-//
+    }
+
 //    //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
 //    private void usunRozrachunkiNiezaksiegowanychDokfk() {
 //        try {
@@ -568,7 +568,7 @@ public class DokfkView implements Serializable {
                 zachowanewczejsniejtransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzDokumentu(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid().getPelnynumer(), stronawiersza,  aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), rozrachunekfkDAO));
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid(), stronawiersza,  aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), rozrachunekfkDAO));
                     transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                     zachowanewczejsniejtransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(transakcjaDAO, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, biezacetransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow);

@@ -9,6 +9,7 @@ package beansFK;
 import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
+import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
 import entityfk.Wiersze;
@@ -78,8 +79,8 @@ public class DokFKTransakcjeBean implements Serializable{
 //    }
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
-        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(nrkonta, wnma, waluta);
+    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(Konto konto, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
+        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(konto, wnma, waluta);
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<Rozrachunekfk>());
         } 

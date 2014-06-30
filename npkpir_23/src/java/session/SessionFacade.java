@@ -725,7 +725,7 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByKonto(String nrkonta, String wnma, String walutarozrachunku) {
+    public List<Rozrachunekfk> findRozrachunkifkByKonto(Konto kontoid, String wnma, String walutarozrachunku) {
         String wnmaNew = null;
         if (wnma.equals("Wn")) {
             wnmaNew = "Ma";
@@ -733,7 +733,7 @@ public class SessionFacade<T> implements Serializable{
             wnmaNew = "Wn";
         }
         try {
-            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
+            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("kontoid", kontoid).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
         } catch (Exception e) {
             return null;
         }
