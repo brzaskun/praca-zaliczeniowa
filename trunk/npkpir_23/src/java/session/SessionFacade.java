@@ -755,13 +755,13 @@ public class SessionFacade<T> implements Serializable{
 //        }
 //    }
 //
-//    public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
-//        try {
-//            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", wierszStronafkPK).getSingleResult();
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
+    public Rozrachunekfk findRozrachunkifkByIdrozrachunku(int idrozrachunku) {
+        try {
+            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByIdrozrachunku").setParameter("idrozrachunku", idrozrachunku).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     
     public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {

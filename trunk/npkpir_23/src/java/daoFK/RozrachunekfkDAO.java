@@ -106,13 +106,13 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
 //        }
 //    }
     
-//     public Rozrachunekfk findRozrachunkifkByWierszStronafk(WierszStronafkPK wierszStronafkPK) {
-//         try {
-//            return rozrachunekfkFacade.findRozrachunkifkByWierszStronafk(wierszStronafkPK);
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
+     public Rozrachunekfk findRozrachunkifkByIdrozrachunku(int idrozrachunku) {
+         try {
+            return rozrachunekfkFacade.findRozrachunkifkByIdrozrachunku(idrozrachunku);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public List<Rozrachunekfk> findByDokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
          try {
