@@ -79,9 +79,10 @@ public class DokFKTransakcjeBean implements Serializable{
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(String nrkonta, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
-        List<Rozrachunekfk> listaNowychRozrachunkow = new ArrayList<>();
-        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(nrkonta, wnma, waluta));
-        assert listaNowychRozrachunkow.size() > 0;
+        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(nrkonta, wnma, waluta);
+        if (listaNowychRozrachunkow == null) {
+            return (new ArrayList<Rozrachunekfk>());
+        } 
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
@@ -90,12 +91,12 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersze p : wiersze) {
             if (wnma.equals("Wn")) {
-                Rozrachunekfk rozrachunekMa = p.getRozrachunekfkWn();
+                Rozrachunekfk rozrachunekMa = p.getRozrachunekfkMa();
                 if (rozrachunekMa != null) {
                     listaNowychRozrachunkowDokument.add(rozrachunekMa);
                 }
             } else {
-                Rozrachunekfk rozrachunekWn = p.getRozrachunekfkMa();
+                Rozrachunekfk rozrachunekWn = p.getRozrachunekfkWn();
                 if (rozrachunekWn != null) {
                     listaNowychRozrachunkowDokument.add(rozrachunekWn);
                 }
