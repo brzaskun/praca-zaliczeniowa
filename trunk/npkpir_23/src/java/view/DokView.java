@@ -204,13 +204,20 @@ public final class DokView implements Serializable {
             nieVatowiec = ParametrView.zwrocParametr(podX.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
         }
         //pobranie ostatniego dokumentu
+        try {
+        //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
         wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
-        Iterator it = wysDokument.getEwidencjaVAT1().iterator();
-        while (it.hasNext()) {
-            EVatwpis1 p  = (EVatwpis1) it.next();
-            if (p.getNetto() == 0.0 && p.getVat() == 0.0) {
-                it.remove();
+        if (!wysDokument.getEwidencjaVAT1().isEmpty()) {
+            Iterator it = wysDokument.getEwidencjaVAT1().iterator();
+            while (it.hasNext()) {
+                EVatwpis1 p  = (EVatwpis1) it.next();
+                if (p.getNetto() == 0.0 && p.getVat() == 0.0) {
+                    it.remove();
+                }
             }
+        }
+        } catch (Exception e) {
+            ostatnidokumentDAO.destroy(wysDokument);
         }
         try {
             selDokument.setVatR("");
