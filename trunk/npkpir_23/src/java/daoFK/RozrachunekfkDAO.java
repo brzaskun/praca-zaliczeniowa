@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import java.io.Serializable;
 import java.util.List;
@@ -90,9 +91,9 @@ public class RozrachunekfkDAO extends DAO implements Serializable {
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByKontoWnMaWaluta(String nrkonta, String wnma, String waluta) {
+    public List<Rozrachunekfk> findRozrachunkifkByKontoWnMaWaluta(Konto kontoid, String wnma, String waluta) {
          try {
-            return rozrachunekfkFacade.findRozrachunkifkByKonto(nrkonta, wnma, waluta);
+            return rozrachunekfkFacade.findRozrachunkifkByKonto(kontoid, wnma, waluta);
         } catch (Exception e) {
             return null;
         }

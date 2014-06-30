@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
-    @NamedQuery(name = "Rozrachunekfk.findByIdrozrachunku", query = "SELECT w FROM Rozrachunekfk w WHERE w.idrozrachunku = :idrozrachunku")
+    @NamedQuery(name = "Rozrachunekfk.findByIdrozrachunku", query = "SELECT w FROM Rozrachunekfk w WHERE w.idrozrachunku = :idrozrachunku"),
 //    @NamedQuery(name = "Rozrachunekfk.usunNiezaksiegowane", query = "DELETE FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.zaksiegowanodokument = 0"),
 //    @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
 //    @NamedQuery(name = "Rozrachunekfk.findByPodatnik", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik"),
@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 //    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaRozliczone", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.pozostalo = 0"),
 //    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono > 0 AND w.pozostalo > 0"),
 //    @NamedQuery(name = "Rozrachunekfk.findByPodatnikKontoWalutaNowe", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.kontoid.pelnynumer = :nrkonta AND w.walutarozrachunku = :waluta AND w.rozliczono = 0"),
-//    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid.pelnynumer = :nrkonta AND w.wierszStronafk.wierszStronafkPK.stronaWnlubMa = :wnmaNew AND w.walutarozrachunku = :walutarozrachunku AND w.nowatransakcja = 1"),
+      @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByKonto", query = "SELECT w FROM Rozrachunekfk w WHERE w.kontoid = :kontoid AND w.stronaWnlubMa = :wnmaNew AND w.wiersz.tabelanbp.waluta.symbolwaluty = :walutarozrachunku AND w.nowatransakcja = 1")
 //    @NamedQuery(name = "Rozrachunekfk.findRozrachunkifkByDokfk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.typdokumentu = :typDokfk "
 //            + "AND w.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu = :nrkolejnyDokfk "
 //            + "AND w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik "
