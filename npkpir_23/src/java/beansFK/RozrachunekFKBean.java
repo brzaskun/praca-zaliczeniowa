@@ -34,18 +34,17 @@ public class RozrachunekFKBean {
     
     public static void konstruktorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         Wiersze wiersz = selected.getListawierszy().get(nrwiersza);
-        double kwotawPLN = 0.0;
         if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
             if (wnma.equals("Wn")) {
-                wiersz.setKwotaPLNWn(kwotawPLN);
+                wiersz.setKwotaPLNWn(wiersz.getKwotaWn());
             } else {
-                wiersz.setKwotaPLNMa(kwotawPLN);
+                wiersz.setKwotaPLNMa(wiersz.getKwotaMa());
             }
         } else {
             if (wnma.equals("Wn")) {
-                przeliczWalutyWn(wiersz);
+                wiersz.setKwotaPLNWn(przeliczWalutyWn(wiersz));
             } else {
-                przeliczWalutyMa(wiersz);
+                wiersz.setKwotaPLNMa(przeliczWalutyMa(wiersz));
             }
         }
         if (wnma.equals("Wn")) {
@@ -57,6 +56,7 @@ public class RozrachunekFKBean {
             aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
             aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+            aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
             
     }
     
@@ -72,7 +72,7 @@ public class RozrachunekFKBean {
             rozrachunekfk.setKontoid(wiersz.getKontoMa());
     }
 
-     private static void przeliczWalutyWn(Wiersze wiersz) {
+     private static double przeliczWalutyWn(Wiersze wiersz) {
             wiersz.setKwotaWalutaWn(wiersz.getKwotaWn());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getKwotaWn();
@@ -80,10 +80,10 @@ public class RozrachunekFKBean {
             kwotazlotowki *= 100;
             kwotazlotowki = Math.round(kwotazlotowki);
             kwotazlotowki /= 100;
-            wiersz.setKwotaPLNWn(kwotazlotowki);
+            return kwotazlotowki;
         }
      
-     private static void przeliczWalutyMa(Wiersze wiersz) {
+     private static double przeliczWalutyMa(Wiersze wiersz) {
             wiersz.setKwotaWalutaMa(wiersz.getKwotaMa());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getKwotaMa();
@@ -91,6 +91,6 @@ public class RozrachunekFKBean {
             kwotazlotowki *= 100;
             kwotazlotowki = Math.round(kwotazlotowki);
             kwotazlotowki /= 100;
-            wiersz.setKwotaPLNMa(kwotazlotowki);
+            return kwotazlotowki;
         }
 }

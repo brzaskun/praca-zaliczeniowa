@@ -83,6 +83,8 @@ public class Dokfk implements Serializable {
     public Dokfk() {
     }
 
+    
+    
     public Dokfk(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
         this.liczbarozliczonych = 0;
@@ -294,13 +296,14 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public void ustawNoweSelected(String symbolPoprzedniegoDokumentu) {
+    public void ustawNoweSelected(String symbolPoprzedniegoDokumentu, String podatnik) {
         DokfkPK dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
+        dokfkPK.setPodatnik(podatnik);
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.setDokfkPK(dokfkPK);
         List<Wiersze> wiersze = new ArrayList<>();
-        wiersze.add(ObslugaWiersza.ustawNowyWiersz());
+        wiersze.add(ObslugaWiersza.ustawNowyWiersz(this));
         this.setListawierszy(wiersze);
         this.setZablokujzmianewaluty(false); 
     }

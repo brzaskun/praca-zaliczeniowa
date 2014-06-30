@@ -27,22 +27,21 @@ public class ObslugaRozrachunku {
         }
     }
 
-//    public static void usunrozrachunek(WierszStronafk wierszStronafk, RozrachunekfkDAO rozrachunekfkDAO) {
-//        try {
-//            Rozrachunekfk r = new Rozrachunekfk(wierszStronafk);
-//            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(r);
-//            if (rU instanceof Rozrachunekfk) {
-//                rozrachunekfkDAO.destroy(rU);
-//            }
-//        } catch (Exception e){
-//        }
-//    }
+    public static void usunrozrachunek(Rozrachunekfk rozrachunekfk, RozrachunekfkDAO rozrachunekfkDAO) {
+        try {
+            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
+            if (rU instanceof Rozrachunekfk) {
+                rozrachunekfkDAO.destroy(rU);
+            }
+        } catch (Exception e){
+        }
+    }
 
-//    public static void usuntransakcje(WierszStronafk wierszStronafk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
+    public static void usuntransakcje(Rozrachunekfk rozrachunekfk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
 //        try {
 //            WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
 //            //Transakcja znaleziona = transakcjaDAO.findByKlucz(wierszPK);
-           // List<Transakcja> listatransakcji = znaleziona.getListatransakcji();
+//            List<Transakcja> listatransakcji = znaleziona.getListatransakcji();
 //            if (listatransakcji != null) {
 //                for (Transakcja p : listatransakcji) {
 //                    WierszStronafkPK wierszStronafkPK = p.idSparowany();
@@ -57,6 +56,6 @@ public class ObslugaRozrachunku {
 //            }
 //        } catch (Exception e){
 //        }
-//    }
+    }
 
 }

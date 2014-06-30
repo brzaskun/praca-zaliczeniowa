@@ -117,8 +117,10 @@ public class DokfkPK implements Serializable {
 
     @Override
     public String toString() {
-        return "seriadokfk=" + seriadokfk + ", nrkolejny=" + nrkolejnywserii + ",  rok=" + rok ;
+        return "DokfkPK{" + "seriadokfk=" + seriadokfk + ", nrkolejnywserii=" + nrkolejnywserii + ", podatnik=" + podatnik + ", rok=" + rok + '}';
     }
+
+    
 
     
     

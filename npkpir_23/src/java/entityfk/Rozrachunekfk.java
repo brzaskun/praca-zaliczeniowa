@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "rozrachunekfk")
 @XmlRootElement
 @NamedQueries({
-//    @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
+    @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
+    @NamedQuery(name = "Rozrachunekfk.findByIdrozrachunku", query = "SELECT w FROM Rozrachunekfk w WHERE w.idrozrachunku = :idrozrachunku")
 //    @NamedQuery(name = "Rozrachunekfk.usunNiezaksiegowane", query = "DELETE FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik AND w.zaksiegowanodokument = 0"),
 //    @NamedQuery(name = "Rozrachunekfk.findByWierszStronafk", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK = :wierszStronafkPK"),
 //    @NamedQuery(name = "Rozrachunekfk.findByPodatnik", query = "SELECT w FROM Rozrachunekfk w WHERE w.wierszStronafk.wierszStronafkPK.podatnik = :podatnik"),
