@@ -54,7 +54,7 @@
                     </f:facet>
                     <h:outputText value="#{item.zusmailPK.podatnik}" />
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Zus51ch"/>
                     </f:facet>
@@ -62,7 +62,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Zus51bch"/>
                     </f:facet>
@@ -70,7 +70,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Zus52"/>
                     </f:facet>
@@ -78,7 +78,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Zus52odl"/>
                     </f:facet>
@@ -86,7 +86,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Zus53"/>
                     </f:facet>
@@ -94,7 +94,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="Pit4"/>
                     </f:facet>
@@ -102,7 +102,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column>
+                <p:column width="70">
                     <f:facet name="header">
                         <h:outputText value="Datawysylki"/>
                     </f:facet>
@@ -110,13 +110,13 @@
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
-                <p:column style="text-align: center;">
+                <p:column style="text-align: center;"  width="60">
                     <f:facet name="header">
                         <h:outputText value="Nrwysylki"/>
                     </f:facet>
                     <h:outputText value="#{item.nrwysylki}"/>
                 </p:column>
-                <p:column>
+                <p:column width="150">
                     <f:facet name="header">
                         <h:outputText value="Adresmail"/>
                     </f:facet>
@@ -130,14 +130,14 @@
                         <h:outputText value="#{item.tresc}"/>
                     </p:panelGrid>
                 </p:rowExpansion>
-                <p:column>
+                <p:column width="60" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="Wysylajacy"/>
+                        <h:outputText value="Wysyłaj."/>
                     </f:facet>
                     <h:outputText value="#{item.wysylajacy}"/>
                 </p:column>
-                <p:column style="text-align: center;">
-                    <p:commandButton value="wyślij" actionListener="#{zUSMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 100px;"/>
+                <p:column style="text-align: center;" width="100">
+                    <p:commandButton value="wyślij" actionListener="#{zUSMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 80px;"/>
                 </p:column>
                  <p:column style="width: 15%">
                     <f:facet name="header">

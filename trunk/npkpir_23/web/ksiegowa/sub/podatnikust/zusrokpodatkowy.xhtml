@@ -55,7 +55,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-             <p:panel header="Wprowadź parametry aktualne" style="width: 80%;"/>
+            <p:panel header="Wprowadź parametry aktualne" style="width: 80%;" rendered="#{!podatnikView.selected.wysylkazusmail}">
             <p:panelGrid id="parametryp2" columns="4" >
                 <h:outputText value="rok: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
                 <h:outputText value="miesiąc: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.miesiac}" id="miesiaczus"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
@@ -78,6 +78,7 @@
                 <p:commandButton action="#{podatnikView.edytujzus()}" value="edytuj" update="@form" type="submit" style="width: 120px;"/>
                 <p:commandButton action="#{podatnikView.pobierzzus()}" value="pobierz dane" update="@form" style="width: 120px;"/>
             </p:panelGrid>
+            </p:panel>
         </h:form>
     </p:tab>   
 </ui:composition> 
