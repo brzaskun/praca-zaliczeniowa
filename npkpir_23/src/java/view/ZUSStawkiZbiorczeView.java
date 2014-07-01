@@ -56,6 +56,13 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     @PostConstruct
     public void init() {
         listapodatnikow.addAll(podatnikDAO.findAll());
+        Iterator it = listapodatnikow.iterator();
+        while (it.hasNext()) {
+            Podatnik p = (Podatnik) it.next();
+            if (p.isWysylkazusmail() == false) {
+                it.remove();
+            }
+        }
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         ustawRokMc();
     }

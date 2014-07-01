@@ -189,6 +189,8 @@ public class Podatnik implements Serializable {
     private boolean firmafk;
     @Column(name = "podmiotaktywny")
     private boolean podmiotaktywny;
+    @Column(name = "wysylkazusmail")
+    private boolean wysylkazusmail;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -203,6 +205,14 @@ public class Podatnik implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     
+    public boolean isWysylkazusmail() {
+        return wysylkazusmail;
+    }
+
+    public void setWysylkazusmail(boolean wysylkazusmail) {
+        this.wysylkazusmail = wysylkazusmail;
+    }
+
     public boolean isPodmiotaktywny() {
         return podmiotaktywny;
     }

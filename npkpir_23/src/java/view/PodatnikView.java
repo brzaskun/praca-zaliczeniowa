@@ -44,6 +44,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import msg.Msg;
@@ -188,6 +189,17 @@ public class PodatnikView implements Serializable {
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
+        }
+    }
+    
+   
+    public void zmianaWysylkaZus(ValueChangeEvent el) {
+        try {
+            selected.setWysylkazusmail((Boolean) el.getNewValue());
+            podatnikDAO.edit(selected);
+            Msg.msg("i", "Zmieniono", "akordeon:form:msg");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd - dane niezmienione", "akordeon:form:msg");
         }
     }
 

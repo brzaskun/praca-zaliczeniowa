@@ -82,11 +82,13 @@ public class ZUSMailView implements Serializable {
         Collections.sort(podatnicy, new Podatnikcomparator());
         ZusstawkiPK zusstawkiPK = new ZusstawkiPK(rok, mc);
         for (Podatnik p : podatnicy) {
-            List<Zusstawki> zusstawki = p.getZusparametr();
-            if (zusstawki != null) {
-                for (Zusstawki r : zusstawki) {
-                    if (r.getZusstawkiPK().equals(zusstawkiPK)) {
-                        stawkipodatnicy.put(p.getNazwapelna(), r);
+            if (p.isWysylkazusmail() == true) {
+                List<Zusstawki> zusstawki = p.getZusparametr();
+                if (zusstawki != null) {
+                    for (Zusstawki r : zusstawki) {
+                        if (r.getZusstawkiPK().equals(zusstawkiPK)) {
+                            stawkipodatnicy.put(p.getNazwapelna(), r);
+                        }
                     }
                 }
             }
