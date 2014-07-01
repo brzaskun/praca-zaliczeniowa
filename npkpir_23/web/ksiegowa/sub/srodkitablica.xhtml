@@ -58,23 +58,23 @@
 
                         <h:outputText value="#{wpis.nrwldokzak}"  />
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}">  
+                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="70">  
                         <h:outputText value="#{wpis.netto}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatwarColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}">  
+                    <p:column id="vatwarColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="70">  
                         <h:outputText value="#{wpis.vat}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.umorzeniepoczatkowe}">  
+                    <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.umorzeniepoczatkowe}" width="70">  
                         <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.niepodlegaamortyzacji}">  
+                    <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.niepodlegaamortyzacji}" width="70">  
                         <h:outputText value="#{wpis.niepodlegaamortyzacji}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
