@@ -1128,10 +1128,6 @@ public final class DokView implements Serializable {
             }
             typdokumentu = skrot;
             podepnijListe(skrot);
-            selDokument.getListakwot1().clear();
-            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                selDokument.getListakwot1().add(p);
-            }
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
         } catch (Exception e) {

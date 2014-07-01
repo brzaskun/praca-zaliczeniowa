@@ -244,7 +244,7 @@ var sprawdzczykopiowacklienta = function() {
 };
 
 var skopiujdanenowegoklienta = function() {
-    dlg123.hide();
+    PF('dlg123').hide();
     $('#dodWiad\\:acForce_input').focus();
     var szukana = document.getElementById('formX:nazwaPole').value;
     dialogklient.search(szukana);
