@@ -84,6 +84,7 @@ public class Rozrachunekfk  implements Serializable {
     private String datarozrachunku;
     @OneToMany(mappedBy = "rozliczany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
     private List<Transakcja> transakcjaRozliczany;
+    //to sa nowe transakcje w przypadku nowrmalnych transakcji gdzie dane sie wprowadza, bo jak sie wyswietla to jest odwrotnie
     @OneToMany(mappedBy = "sparowany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
     private List<Transakcja> transakcjaSparowany;
         

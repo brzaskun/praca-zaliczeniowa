@@ -22,7 +22,7 @@
                 <p:column headerText="lp." width="30" style="text-align: center;">
                 <h:outputText value="#{row+1}"/>
             </p:column>
-            <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" >
+            <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
             <p:column headerText="okres" width="90" >
@@ -34,16 +34,16 @@
             <p:column headerText="numer" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
             </p:column>
-            <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{wpis.tresc}" filterMatchMode="contains" >
+            <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{item.tresc}" filterMatchMode="contains" >
                 <h:outputText value="#{item.opisdokfk}"/>
             </p:column>
-            <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{wpis.wartoscdokumentu}" filterMatchMode="contains" >
+            <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
             <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText>
             </p:column>
-                <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu}" filterBy="#{wpis.walutadokumentu}" filterMatchMode="contains" >
-                <h:outputText value="#{item.walutadokumentu}"/>
+                <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
                 <p:column headerText="" width="60" style="text-align: center;">
                  <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>

@@ -7,9 +7,9 @@
     >
 
     <p:dialog id="obroty" header="Orboty na kontach" widgetVar="obrotynakoncie" 
-              resizable="false" onShow="ustawdialog('obroty','menuraporty',1250,750);" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
+              resizable="false" onShow="ustawdialog('obroty','menuraporty',1350,750);" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
-        <p:layout fullPage="false" style="width: 1270px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 1300px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                 <h:form id="formobrotykonta">
@@ -73,10 +73,10 @@
             </p:layoutUnit>  
 <!--            <p:layoutUnit position="east" size="200">  
             </p:layoutUnit>  -->
-            <p:layoutUnit position="center" style="min-width: 870px;">
+            <p:layoutUnit position="center" style="min-width: 950px;">
                 <h:form id="tabelazobrotami">  
-                    <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}" 
-                                 selection="#{kontoObrotyFKView.wybranekontadosumowania}" style="width: 870px;" rowIndexVar="index"
+                    <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}"  style="width: 900px;"
+                                 selection="#{kontoObrotyFKView.wybranekontadosumowania}" rowIndexVar="index"
                                  rowStyleClass="#{index eq 0 ? 'niebieskietlo' : null}"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":sumyobroty" listener="#{kontoObrotyFKView.sumazapisow}"/>
