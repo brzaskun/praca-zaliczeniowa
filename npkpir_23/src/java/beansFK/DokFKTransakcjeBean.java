@@ -96,18 +96,20 @@ public class DokFKTransakcjeBean implements Serializable{
                 if (rozrachunekMa != null) {
                     listaNowychRozrachunkowDokument.add(rozrachunekMa);
                 }
-            } else {
+            } else if (wnma.equals("Ma")){
                 Rozrachunekfk rozrachunekWn = p.getRozrachunekfkWn();
                 if (rozrachunekWn != null) {
                     listaNowychRozrachunkowDokument.add(rozrachunekWn);
                 }
             }
         }
-        Iterator it = listaNowychRozrachunkowDokument.iterator();
-        while (it.hasNext()) {
-            Rozrachunekfk r = (Rozrachunekfk) it.next();
-            if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
-                it.remove();
+        if (!listaNowychRozrachunkowDokument.isEmpty()) {
+            Iterator it = listaNowychRozrachunkowDokument.iterator();
+            while (it.hasNext()) {
+                Rozrachunekfk r = (Rozrachunekfk) it.next();
+                if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                    it.remove();
+                }
             }
         }
         return listaNowychRozrachunkowDokument;

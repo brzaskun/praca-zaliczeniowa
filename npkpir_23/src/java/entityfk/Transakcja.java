@@ -46,16 +46,18 @@ public class Transakcja implements Serializable {
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "id")
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 22)
+    @Column(name = "kwotatransakcji", precision = 22)
     private Double kwotatransakcji;
-    @Column(precision = 22)
+    @Column(name = "poprzedniakwota", precision = 22)
     private Double poprzedniakwota;
-    @Column(precision = 22)
+    @Column(name = "roznicekursowe", precision = 22)
     private Double roznicekursowe;
+    @Column(name = "zablokujnanoszenie")
     private boolean zablokujnanoszenie;
+    @Column(name = "zaksiegowana") 
     private boolean zaksiegowana;
     @JoinColumn(name = "rozliczany", referencedColumnName = "idrozrachunku")
     @ManyToOne

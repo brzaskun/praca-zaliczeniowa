@@ -19,11 +19,12 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaWiersza {
     
-    public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie, String grafikawaluty) {
+    public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie)  {
         Wiersze nowywiersz = new Wiersze(liczbawierszyWDokumencie, 0);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTypWiersza(0);
         nowywiersz.setZaksiegowane(false);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
         return nowywiersz;
     }
     
@@ -32,6 +33,7 @@ public class ObslugaWiersza {
         nowywiersz.setDokfk(dokfk);
         nowywiersz.setTypWiersza(0);
         nowywiersz.setZaksiegowane(false);
+        nowywiersz.setTabelanbp(dokfk.getTabelanbp());
         return nowywiersz;
     }
 }

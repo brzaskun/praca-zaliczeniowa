@@ -96,7 +96,7 @@
                         <h:outputText value="{loop.wierszsparowany.kontoprzeciwstawne}"/>
                     </p:column>-->
                      <p:column headerText="dokument" width="80">
-                         <h:outputText value="#{loop.sparowany.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.sparowany.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'zapis z bieżącego dokumentu' : null) : null}"/>
+                         <h:outputText value="#{loop.sparowany.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.sparowany.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'zapis z b.dok.' : null) : null}"/>
                     </p:column>
 
                 </p:dataTable>
