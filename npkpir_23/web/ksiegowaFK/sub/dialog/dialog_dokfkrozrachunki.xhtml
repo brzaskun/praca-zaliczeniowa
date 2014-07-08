@@ -26,13 +26,13 @@
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
                                       style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
                         <h:outputText value="kwota pierwotna" />
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" style="float: right; font-weight: bold;">
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotapierwotna}" id="dorozliczenia" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="rozliczono w innych trans."/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
+                        <h:outputText value="już rozliczono w kwocie: "/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="do rozliczenia w tej trans."/><h:outputText id="dorozliczenia" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
+                        <h:outputText value="kwota pozostala do rozliczenia: "/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>

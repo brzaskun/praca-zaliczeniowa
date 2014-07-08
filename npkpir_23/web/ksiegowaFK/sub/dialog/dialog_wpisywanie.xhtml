@@ -132,7 +132,7 @@
                     </p:column>
                     <p:column headerText="opis transakcji" width="240" style="text-align: center;">
                         <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 240px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="kasa">
-                            <f:ajax event="blur" listener="#{dokfkView.dodajdanedowiersza}"  execute="@this"/>
+                            <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="data" width="60" style="padding: 0px; text-align: center;" rendered="#{dokfkView.pokazPanelWalutowy}">

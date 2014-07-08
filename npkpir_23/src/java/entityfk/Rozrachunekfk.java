@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -31,7 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "rozrachunekfk")
+@Table(name = "rozrachunekfk", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"wiersz", "stronaWnlubMa"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rozrachunekfk.findAll", query = "SELECT w FROM Rozrachunekfk w"),
@@ -117,9 +120,6 @@ public class Rozrachunekfk  implements Serializable {
             return false;
         }
         final Rozrachunekfk other = (Rozrachunekfk) obj;
-        if (!Objects.equals(this.idrozrachunku, other.idrozrachunku)) {
-            return false;
-        }
         if (!Objects.equals(this.wiersz, other.wiersz)) {
             return false;
         }
