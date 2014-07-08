@@ -130,7 +130,9 @@ public class DokFKTransakcjeBean implements Serializable{
         return transakcjeswiezynki;
     }
 
+    
     public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
+        List<Transakcja> pobranalista1 = aktualnywierszdorozrachunkow.getTransakcjaRozliczany();
         List<Transakcja> pobranalista = new ArrayList<>();
         if ( aktualnywierszdorozrachunkow.getIdrozrachunku() != null) {
             int idrozrachunku = aktualnywierszdorozrachunkow.getIdrozrachunku();
@@ -139,7 +141,8 @@ public class DokFKTransakcjeBean implements Serializable{
         return pobranalista;
     }
 
-    public static void naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje,List<Transakcja> biezacetransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
+    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
+        List<Transakcja> biezacetransakcje = new ArrayList<>();
         pierwotnailosctransakcjiwbazie = 0;
         for (Transakcja r : transakcjeswiezynki) {
                if (!zachowanewczejsniejtransakcje.contains(r)) {
@@ -157,13 +160,13 @@ public class DokFKTransakcjeBean implements Serializable{
             }
             //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
             //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
-            double rozliczono = aktualnywierszdorozrachunkow.getRozliczono();
-            double pozostalo = aktualnywierszdorozrachunkow.getPozostalo();
-            rozliczono = rozliczono - sumaStornoRozliczajacego;
-            pozostalo = pozostalo + sumaStornoRozliczajacego;
+            double pozostalo = aktualnywierszdorozrachunkow.getKwotapierwotna();
+            double rozliczono = sumaStornoRozliczajacego;
+            pozostalo = pozostalo - sumaStornoRozliczajacego;
             aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
             aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
         }
+        return biezacetransakcje;
     }
     
     public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
