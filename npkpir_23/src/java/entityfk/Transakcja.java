@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"rozliczany", "sparowany"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
