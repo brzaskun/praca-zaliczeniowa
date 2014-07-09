@@ -26,7 +26,7 @@
                 <h:inputText value="#{mailOther.wiadomoscdodatkowa}" style="width: 800px;"/>
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}"
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable" rowSelectMode="add">
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable" rowSelectMode="add" style="max-width: 1200px;">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowancyh faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  
@@ -35,7 +35,7 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto"/>      
-                <p:column selectionMode="multiple" width="50"/>
+                <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
                 <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
@@ -45,23 +45,23 @@
                 <p:column headerText="email" sortBy="#{wpis.kontrahent.email}" filterBy="#{wpis.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.email}"/>
                 </p:column>
-                <p:column headerText="datawystawienia" sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="datawystawienia" sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="150">
                     <h:outputText value="#{wpis.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="150">
                     <h:outputText value="#{wpis.brutto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     <h:outputText value="#{wpis.walutafaktury}"/>
                 </p:column>
-                <p:column headerText="wysłana" sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="wysłana" sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="70">
                     <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column headerText="zaksiegowana" sortBy="#{wpis.zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="zaksiegow." sortBy="#{wpis.zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="70">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
+                <p:column  style="text-align: center;"  width="50">
+                    <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
                 </p:column>
             </p:dataTable>
         </h:form>
