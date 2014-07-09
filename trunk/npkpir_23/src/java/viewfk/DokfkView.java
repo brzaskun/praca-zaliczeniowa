@@ -127,18 +127,22 @@ public class DokfkView implements Serializable {
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
         selected = new Dokfk();
         selected.ustawNoweSelected(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
-        selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
-        Tabelanbp tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
-        selected.setTabelanbp(tabelanbpPLN);
-        List<Wiersze> wiersze = selected.getListawierszy();
-        for (Wiersze p : wiersze) {
-            p.setTabelanbp(tabelanbpPLN);
+        try {
+            selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
+            Tabelanbp tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+            selected.setTabelanbp(tabelanbpPLN);
+            List<Wiersze> wiersze = selected.getListawierszy();
+            for (Wiersze p : wiersze) {
+                p.setTabelanbp(tabelanbpPLN);
+            }
+            pokazPanelWalutowy = false;
+            biezacetransakcje = null;
+            liczbawierszyWDokumencie = 1;
+            zapisz0edytuj1 = false;
+            zablokujprzyciskrezygnuj = false;
+        } catch (Exception e) {
+            Msg.msg("e", "Brak tabeli w danej walucie. Sprawdź to.");
         }
-        pokazPanelWalutowy = false;
-        biezacetransakcje = null;
-        liczbawierszyWDokumencie = 1;
-        zapisz0edytuj1 = false;
-        zablokujprzyciskrezygnuj = false;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
