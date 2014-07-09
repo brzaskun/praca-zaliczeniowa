@@ -73,6 +73,7 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
      public void faktura() {
+         Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
          try {
              pdfFaktura.drukujmail();
          } catch (Exception el){}
@@ -112,11 +113,72 @@ public class MailOther extends MailSetUp implements Serializable{
                  faktura.setWyslana(true);
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+                 try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku faktury");
+                 }
              } catch (MessagingException e) {
                  throw new RuntimeException(e);
              }
              i++;
          }
+     }
+     
+     public void fakturaarchiwum() {
+         Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
+         try {
+             pdfFaktura.drukujmail();
+         } catch (Exception el){}
+         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+         int i = 0;
+         for (Faktura faktura : fakturydomaila){
+             try {
+                 
+                 Klienci klientf = faktura.getKontrahent();
+                 MimeMessage message = logintoMail(faktura.getKontrahent().getEmail());
+                 message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
+                 // create and fill the first message part
+                 MimeBodyPart mbp1 = new MimeBodyPart();
+                 mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+                 mbp1.setContent("Szanowna/y "+klient
+                     + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
+                     + "<p>"+wiadomoscdodatkowa+"</p>"
+                     + Mail.reklama
+                     + Mail.stopka,  "text/html; charset=utf-8");
+             
+                 // create the second message part
+                 MimeBodyPart mbp2 = new MimeBodyPart();
+                 // attach the file to the message
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                 mbp2.setDataHandler(new DataHandler(fds));
+                 mbp2.setFileName(fds.getName());
+                 
+                 // create the Multipart and add its parts to it
+                 Multipart mp = new MimeMultipart();
+                 mp.addBodyPart(mbp1);
+                 mp.addBodyPart(mbp2);
+                 
+                 // add the Multipart to the message
+                 message.setContent(mp);
+                 Transport.send(message);
+                 Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
+                 faktura.setWyslana(true);
+                 fakturaDAO.edit(faktura);
+                 RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+                 try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku faktury");
+                 }
+             } catch (MessagingException e) {
+                 throw new RuntimeException(e);
+             }
+             i++;
+         }
+         Msg.msg("Wysłano ponownie fakture mailem do kontrahenta");
      }
      
      public void oznaczonejakowyslane() {
