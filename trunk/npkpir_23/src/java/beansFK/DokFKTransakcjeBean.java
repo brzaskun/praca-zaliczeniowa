@@ -107,7 +107,9 @@ public class DokFKTransakcjeBean implements Serializable{
             Iterator it = listaNowychRozrachunkowDokument.iterator();
             while (it.hasNext()) {
                 Rozrachunekfk r = (Rozrachunekfk) it.next();
-                if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                if (r.getIdrozrachunku()!= null) {
+                    it.remove();
+                } else if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
                     it.remove();
                 }
             }
