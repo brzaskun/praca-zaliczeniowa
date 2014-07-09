@@ -211,7 +211,8 @@ public class DokfkView implements Serializable {
             NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
             selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
             dokDAOfk.edit(selected);
-            wykazZaksiegowanychDokumentow.add(selected);
+            Dokfk dodany = dokDAOfk.findDokfkObj(selected);
+            wykazZaksiegowanychDokumentow.add(dodany);
             //utrwalTransakcje();
             Msg.msg("i", "Dokument dodany");
             resetujDokumentWpis();
