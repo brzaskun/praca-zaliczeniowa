@@ -67,7 +67,12 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setContent(mp);
              Transport.send(message);
              Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
-             
+              try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku");
+                 }
          } catch (MessagingException e) {
              Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
          }
@@ -229,6 +234,12 @@ public class MailOther extends MailSetUp implements Serializable{
              // add the Multipart to the message
              message.setContent(mp);
              Transport.send(message);
+             try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku");
+                 }
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
@@ -262,6 +273,12 @@ public class MailOther extends MailSetUp implements Serializable{
              // add the Multipart to the message
              message.setContent(mp);
              Transport.send(message);
+              try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku");
+                 }
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
@@ -295,7 +312,12 @@ public class MailOther extends MailSetUp implements Serializable{
               // add the Multipart to the message
               message.setContent(mp);
               Transport.send(message);
-              
+               try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + klientfile + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku");
+                 }
           } catch (MessagingException e) {
               throw new RuntimeException(e);
           }
@@ -340,7 +362,7 @@ public class MailOther extends MailSetUp implements Serializable{
             } else {
                 Msg.msg("e", "Brak wygenerowanej wcześniej deklaracji VAT. Nie wysłano maila do klienta. Kliknij najpierw na przycisk Pdf właściwej deklaracji VAT.");
             }
-            
+             
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
@@ -383,7 +405,12 @@ public class MailOther extends MailSetUp implements Serializable{
             // add the Multipart to the message
             message.setContent(mp);
             Transport.send(message);
-            
+              try {
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
+                    file.delete();
+                 } catch (Exception ef) {
+                     Msg.msg("e", "Nieudane usunięcie pliku");
+                 }
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
