@@ -904,6 +904,8 @@ public class PodatnikView implements Serializable {
             }
             podatnikDAO.edit(selectedStrata);
             return;
+        } else {
+            Msg.msg("i", "Poprzedni rok zakończył się zyskiem. Nie ma czego dopisać do listy.");
         }
         for (Straty1 r : selectedStrata.getStratyzlatub1()) {
             Double zostalo = wyliczStrataZostalo(r);

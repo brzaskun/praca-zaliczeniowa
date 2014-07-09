@@ -6,7 +6,7 @@
 var sprawdzczybrakklienta = function () {
     var zawartosc = $('#kliencifk\\:wyborkontrahenta_input').val();
     if(zawartosc==="nowy klient"){
-        dlgwprowadzanieklienta.show();
+        PF('dlgwprowadzanieklienta').show();
     }
 };
 
@@ -17,7 +17,7 @@ var skopiujdanenowegoklientafk = function () {
     $('#kliencifk\\:wyborkontrahenta_input').focus();
     $('#kliencifk\\:wyborkontrahenta_input').select();
     var szukana = document.getElementById('formX:nazwaPole').value;
-    dialogklient.search(szukana);
+    PF('dialogklient').search(szukana);
 
 };
 

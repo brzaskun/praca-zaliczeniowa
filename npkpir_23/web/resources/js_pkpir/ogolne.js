@@ -236,7 +236,7 @@ var sprawdzczykopiowacklienta = function() {
         $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
         $('#dodWiad\\:acForce_input').focus();
         $('#dodWiad\\:acForce_input').select();
-        dialogklient.search(text);
+        PF('dialogklient').search(text);
         event.cancelBubble = true;
         event.stopPropagation();
         event.stopImmediatePropagation();
@@ -247,7 +247,7 @@ var skopiujdanenowegoklienta = function() {
     PF('dlg123').hide();
     $('#dodWiad\\:acForce_input').focus();
     var szukana = document.getElementById('formX:nazwaPole').value;
-    dialogklient.search(szukana);
+    PF('dialogklient').search(szukana);
 
 };
 

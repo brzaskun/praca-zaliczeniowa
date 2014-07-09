@@ -216,11 +216,12 @@
     
     <p:tab id="tab5" title="Straty z lat ubiegłych. Podatnik: #{podatnikView.selectedStrata.nazwapelna}">
             <h:form id="form1">
-                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="width: 40%;">
+                <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
+                <p:dataTable value="#{podatnikView.selectedStrata.stratyzlatub1}" emptyMessage="Nie ma nic" var="loop" style="min-width: 800px; max-width: 1200px;" expandedRow="true">
                      <p:column style="width: 4%;">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="rok">
+                    <p:column headerText="rok" width="70">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
                     <p:column headerText="kwota" width="100">
@@ -253,7 +254,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                     </p:column>
-                    <p:column headerText="usuń">
+                    <p:column headerText="usuń" width="70">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{podatnikView.usunstrate(loop)}"/>
                     </p:column>
                         <p:rowExpansion>
@@ -283,7 +284,7 @@
                         <pe:inputNumber value="#{podatnikView.stratawykorzystano}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" /> 
                     </p:panelGrid>
                 </p:focus>
-                <p:commandButton value="dodaj" actionListener="#{podatnikView.dodajstrate()}" update="@form"/>
+                <p:commandButton value="Dodaj kwotę straty ręcznie" actionListener="#{podatnikView.dodajstrate()}" rendered="#{WpisView.miesiacWpisu eq '01'}" update=":akordeon:form1"/>
             </h:form>
         <h:form id="form3">
             <p:separator/>
