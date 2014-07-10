@@ -8,6 +8,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,7 +67,7 @@ public class Wiersze implements Serializable {
     private Integer typWiersza;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
@@ -75,9 +76,9 @@ public class Wiersze implements Serializable {
     private String dataWalutyWiersza;
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class, fetch = FetchType.EAGER, orphanRemoval=true)
     private Rozrachunekfk rozrachunekfkWn;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
+    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class, fetch = FetchType.EAGER, orphanRemoval=true)
     private Rozrachunekfk rozrachunekfkMa;
     @JoinColumn(name = "kontoWn", referencedColumnName = "id")
     @ManyToOne

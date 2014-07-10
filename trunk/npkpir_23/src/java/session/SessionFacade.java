@@ -4,7 +4,6 @@
  */
 package session;
 
-import com.sun.xml.messaging.saaj.soap.impl.ElementFactory;
 import embeddable.Mce;
 import entity.Amodok;
 import entity.Deklaracjevat;
@@ -52,7 +51,6 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersze;
-import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -98,7 +96,8 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        getEntityManager().remove(em.merge(entity));
+        getEntityManager().flush();
     }
 
     public void edit(T entity) {
