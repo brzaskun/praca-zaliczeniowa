@@ -42,12 +42,15 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText>
             </p:column>
-                <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" filterMatchMode="contains" style="text-align: center;">
+            <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
-                <p:column headerText="" width="60" style="text-align: center;">
-                 <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
-                     </p:column>
+            <p:column headerText="eycja" width="100" style="text-align: center;">
+                    <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" styleClass="fkbutton" icon="ui-icon-document" update=":zestawieniedokumentow:dataList,:formwpisdokument"  oncomplete="PF('wpisywanie').show();"/>
+            </p:column>
+            <p:column headerText="" width="60" style="text-align: center;">
+                <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
+            </p:column>
            
         </p:dataTable>
                     </div>

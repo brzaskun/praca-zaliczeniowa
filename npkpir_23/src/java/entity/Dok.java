@@ -4,9 +4,6 @@
  */
 package entity;
 
-import embeddable.EVatwpis;
-import embeddable.KwotaKolumna;
-import embeddable.Rozrachunek;
 import embeddable.Stornodoch;
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -66,6 +66,36 @@ public class RozrachunekFKBean {
             return aktualnyWierszDlaRozrachunkow;
     }
     
+    public static void aktualizatorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
+        Wiersze wiersz = selected.getListawierszy().get(nrwiersza);
+        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+            if (wnma.equals("Wn")) {
+                wiersz.setKwotaPLNWn(wiersz.getKwotaWn());
+            } else {
+                wiersz.setKwotaPLNMa(wiersz.getKwotaMa());
+            }
+        } else {
+            if (wnma.equals("Wn")) {
+                wiersz.setKwotaPLNWn(przeliczWalutyWn(wiersz));
+            } else {
+                wiersz.setKwotaPLNMa(przeliczWalutyMa(wiersz));
+            }
+        }
+        if (wnma.equals("Wn")) {
+            aktualnyWierszDlaRozrachunkow.setStronaWnlubMa("Wn");
+            uzupelnijrozrachunkiWn(aktualnyWierszDlaRozrachunkow, wiersz);
+            wiersz.setRozrachunekfkWn(aktualnyWierszDlaRozrachunkow);
+        } else {
+            aktualnyWierszDlaRozrachunkow.setStronaWnlubMa("Ma");
+            uzupelnijrozrachunkiMa(aktualnyWierszDlaRozrachunkow, wiersz);
+            wiersz.setRozrachunekfkMa(aktualnyWierszDlaRozrachunkow);
+        }
+            aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
+            aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
+            aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
+            aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
+    }
+    
     private static void uzupelnijrozrachunkiWn(Rozrachunekfk rozrachunekfk, Wiersze wiersz) {
             rozrachunekfk.setKwotapierwotna(wiersz.getKwotaWn());
             rozrachunekfk.setPozostalo(wiersz.getKwotaWn());
