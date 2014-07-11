@@ -7,8 +7,8 @@ package entityfk;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,12 +16,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -62,7 +61,7 @@ public class Rozrachunekfk  implements Serializable {
     @Column(name = "idrozrachunku", nullable = false)
     private Integer idrozrachunku;
     @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
-    @OneToOne
+    @ManyToOne
     private Wiersze wiersz;
     @Column(name = "stronaWnlubMa")
     private String stronaWnlubMa;
@@ -85,12 +84,10 @@ public class Rozrachunekfk  implements Serializable {
     private String mc;
     @Column(name = "datarozrachunku")
     private String datarozrachunku;
-    @OneToMany(mappedBy = "rozliczany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
-    private List<Transakcja> transakcjaRozliczany;
-    //to sa nowe transakcje w przypadku nowrmalnych transakcji gdzie dane sie wprowadza, bo jak sie wyswietla to jest odwrotnie
-    @OneToMany(mappedBy = "sparowany", cascade = CascadeType.ALL, targetEntity = Transakcja.class,  orphanRemoval=true)
-    private List<Transakcja> transakcjaSparowany;
-        
+    @ManyToMany
+    @JoinTable(name="Rozrachunek_Transakcja")
+    private Set<Transakcja> transakcje;
+    
     
 
 
@@ -222,6 +219,7 @@ public class Rozrachunekfk  implements Serializable {
         this.wiersz = wiersz;
     }
 
+   
     public String getStronaWnlubMa() {
         return stronaWnlubMa;
     }
@@ -229,28 +227,18 @@ public class Rozrachunekfk  implements Serializable {
     public void setStronaWnlubMa(String stronaWnlubMa) {
         this.stronaWnlubMa = stronaWnlubMa;
     }
-    
-    public List<Transakcja> getTransakcjaRozliczany() {
-        return transakcjaRozliczany;
+
+    public Set<Transakcja> getTransakcje() {
+        return transakcje;
     }
 
-    public void setTransakcjaRozliczany(List<Transakcja> transakcjaRozliczany) {
-        this.transakcjaRozliczany = transakcjaRozliczany;
+    public void setTransakcje(Set<Transakcja> transakcje) {
+        this.transakcje = transakcje;
     }
 
-    public List<Transakcja> getTransakcjaSparowany() {
-        return transakcjaSparowany;
+    public void setTransakcje(List<Transakcja> biezacetransakcje) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public void setTransakcjaSparowany(List<Transakcja> transakcjaSparowany) {
-        this.transakcjaSparowany = transakcjaSparowany;
-    }
-
     
-
-
-    
-    
-        
     
 }

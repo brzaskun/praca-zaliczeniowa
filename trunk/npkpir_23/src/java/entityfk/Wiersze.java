@@ -2,24 +2,22 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -67,7 +65,7 @@ public class Wiersze implements Serializable {
     private Integer typWiersza;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
@@ -76,10 +74,8 @@ public class Wiersze implements Serializable {
     private String dataWalutyWiersza;
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class, fetch = FetchType.EAGER, orphanRemoval=true)
-    private Rozrachunekfk rozrachunekfkWn;
-    @OneToOne(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class, fetch = FetchType.EAGER, orphanRemoval=true)
-    private Rozrachunekfk rozrachunekfkMa;
+    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
+    private HashMap<String, Rozrachunekfk> rozrachunekfk;
     @JoinColumn(name = "kontoWn", referencedColumnName = "id")
     @ManyToOne
     private Konto kontoWn;
@@ -109,8 +105,48 @@ public class Wiersze implements Serializable {
     public Wiersze(int idporzadkowy, int typwiersza) {
         this.idporzadkowy = idporzadkowy;
     }
+
+    public HashMap<String, Rozrachunekfk> getRozrachunekfk() {
+        return rozrachunekfk;
+    }
+
+    public void setRozrachunekfk(HashMap<String, Rozrachunekfk> rozrachunekfk) {
+        this.rozrachunekfk = rozrachunekfk;
+    }
+    
+    public Rozrachunekfk getRozrachunekfkWn() {
+        Iterator it = this.rozrachunekfk.entrySet().iterator();
+        while (it.hasNext()) {
+            String klucz = (String) it.next();
+            if (klucz.equals("Wn")) {
+                return this.rozrachunekfk.get(klucz);
+            }
+        }
+        return null;
+    }
+    
+    public Rozrachunekfk getRozrachunekfkMa() {
+        Iterator it = this.rozrachunekfk.entrySet().iterator();
+        while (it.hasNext()) {
+            String klucz = (String) it.next();
+            if (klucz.equals("Ma")) {
+                return this.rozrachunekfk.get(klucz);
+            }
+        }
+        return null;
+    }
+    
+    public void setRozrachunekfkWn(Rozrachunekfk rozrachunekfk) {
+        this.rozrachunekfk.put("Wn", rozrachunekfk);
+    }
+    
+    public void setRozrachunekfkMa(Rozrachunekfk rozrachunekfk) {
+        this.rozrachunekfk.put("Ma", rozrachunekfk);
+    }
+
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
     public String getDataksiegowania() {
         return dataksiegowania;
     }
@@ -119,22 +155,7 @@ public class Wiersze implements Serializable {
         this.dataksiegowania = dataksiegowania;
     }
 
-    public Rozrachunekfk getRozrachunekfkWn() {
-        return rozrachunekfkWn;
-    }
-
-    public void setRozrachunekfkWn(Rozrachunekfk rozrachunekfkWn) {
-        this.rozrachunekfkWn = rozrachunekfkWn;
-    }
-
-    public Rozrachunekfk getRozrachunekfkMa() {
-        return rozrachunekfkMa;
-    }
-
-    public void setRozrachunekfkMa(Rozrachunekfk rozrachunekfkMa) {
-        this.rozrachunekfkMa = rozrachunekfkMa;
-    }
-
+  
     public double getKwotaWn() {
         return kwotaWn;
     }

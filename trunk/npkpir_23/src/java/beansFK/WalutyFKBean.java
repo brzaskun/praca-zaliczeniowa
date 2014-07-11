@@ -97,7 +97,7 @@ public class WalutyFKBean {
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
         FacesContext context = FacesContext.getCurrentInstance();
-        WalutyNBP walutyNBP = (WalutyNBP) context.getELContext().getELResolver().getValue(context.getELContext(), null,"walutyNBP");
+        WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));

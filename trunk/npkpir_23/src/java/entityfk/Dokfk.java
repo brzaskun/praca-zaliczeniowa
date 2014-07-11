@@ -59,7 +59,7 @@ public class Dokfk implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
     private List<Wiersze> listawierszy;
     @Column(name = "miesiac")
