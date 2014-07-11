@@ -10,13 +10,11 @@ import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import view.RequestScope;
 
 /**
  *

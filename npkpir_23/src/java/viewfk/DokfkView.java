@@ -37,7 +37,6 @@ import org.primefaces.context.RequestContext;
 import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
-import viewfk.subroutines.ObslugaRozrachunku;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
@@ -620,9 +619,9 @@ public class DokfkView implements Serializable {
                 }
             }
             if (aktualnyWierszDlaRozrachunkow.isNowatransakcja()) {
-                aktualnyWierszDlaRozrachunkow.setTransakcjaSparowany(biezacetransakcje);
+                aktualnyWierszDlaRozrachunkow.setTransakcje(biezacetransakcje);
             } else {
-                aktualnyWierszDlaRozrachunkow.setTransakcjaRozliczany(biezacetransakcje);
+                aktualnyWierszDlaRozrachunkow.setTransakcje(biezacetransakcje);
             }
             //nie moze tu byc tego bo nie bedzie co utrwalic
             //biezacetransakcje.clear();

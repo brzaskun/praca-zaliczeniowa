@@ -7,7 +7,10 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -63,12 +67,8 @@ public class Transakcja implements Serializable {
     private boolean zablokujnanoszenie;
     @Column(name = "zaksiegowana") 
     private boolean zaksiegowana;
-    @JoinColumn(name = "rozliczany", referencedColumnName = "idrozrachunku")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Rozrachunekfk rozliczany;
-    @JoinColumn(name = "sparowany", referencedColumnName = "idrozrachunku")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Rozrachunekfk sparowany;
+    @ManyToMany
+    private HashMap<String,Rozrachunekfk> rozrachunki;
     private String podatnik;
     private String symbolWaluty;
 
@@ -81,72 +81,48 @@ public class Transakcja implements Serializable {
         this.roznicekursowe = 0.0;
     }
 
-   
-    public double GetSpRozl() {
-        return this.getSparowany().getRozliczono();
-    }
-
-    public void SetSpRozl(double suma) {
-        this.getSparowany().setRozliczono(suma);
-    }
-
-     public double GetSpKwotaPier() {
-        return this.getSparowany().getKwotapierwotna();
-    }
-
-    public double GetSpPoz() {
-        return this.getSparowany().getPozostalo();
-    }
-
-    public void SetSpPoz(double suma) {
-        this.getSparowany().setPozostalo(suma);
-    }
-
-    public double GetRRozl() {
-        return this.getRozliczany().getRozliczono();
-    }
-
-    public void SetRRozl(double suma) {
-        this.getRozliczany().setRozliczono(suma);
-    }
-
-     public double GetRKwotaPier() {
-        return this.getRozliczany().getKwotapierwotna();
+    public Rozrachunekfk getRozliczany() {
+        Iterator it = this.rozrachunki.entrySet().iterator();
+        while (it.hasNext()) {
+            String klucz = (String) it.next();
+            if (klucz.equals("Rozliczany")) {
+                return this.rozrachunki.get(klucz);
+            }
+        }
+        return null;
     }
     
-    public double GetRPoz() {
-        return this.getRozliczany().getPozostalo();
+    public Rozrachunekfk getSparowany() {
+        Iterator it = this.rozrachunki.entrySet().iterator();
+        while (it.hasNext()) {
+            String klucz = (String) it.next();
+            if (klucz.equals("Sparowany")) {
+                return this.rozrachunki.get(klucz);
+            }
+        }
+        return null;
     }
     
-    public void SetRPoz(double suma) {
-        this.getRozliczany().setPozostalo(suma);
+    public void setRozliczany(Rozrachunekfk rozrachunekfk) {
+        this.rozrachunki.put("Rozliczany", rozrachunekfk);
+    }
+    
+    public void setSparowany(Rozrachunekfk rozrachunekfk) {
+        this.rozrachunki.put("Sparowany", rozrachunekfk);
+    }
+    
+    public HashMap<String, Rozrachunekfk> getRozrachunki() {
+        return rozrachunki;
     }
 
-    public boolean isZablokujnanoszenie() {
-        return zablokujnanoszenie;
+    public void setRozrachunki(HashMap<String, Rozrachunekfk> rozrachunki) {
+        this.rozrachunki = rozrachunki;
     }
-
 
     public void setZablokujnanoszenie(Boolean zablokujnanoszenie) {
         this.zablokujnanoszenie = zablokujnanoszenie;
     }
-
-    public Rozrachunekfk getRozliczany() {
-        return rozliczany;
-    }
-
-    public void setRozliczany(Rozrachunekfk rozliczany) {
-        this.rozliczany = rozliczany;
-    }
-
-    public Rozrachunekfk getSparowany() {
-        return sparowany;
-    }
-
-    public void setSparowany(Rozrachunekfk sparowany) {
-        this.sparowany = sparowany;
-    }
-
+   
     public Integer getId() {
         return id;
     }
@@ -202,16 +178,12 @@ public class Transakcja implements Serializable {
     public void setSymbolWaluty(String symbolWaluty) {
         this.symbolWaluty = symbolWaluty;
     }
-    
-    
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.rozliczany);
-        hash = 89 * hash + Objects.hashCode(this.sparowany);
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.rozrachunki);
         return hash;
     }
 
@@ -224,10 +196,10 @@ public class Transakcja implements Serializable {
             return false;
         }
         final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.rozliczany, other.rozliczany)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.sparowany, other.sparowany)) {
+        if (!Objects.equals(this.rozrachunki, other.rozrachunki)) {
             return false;
         }
         return true;
@@ -235,9 +207,11 @@ public class Transakcja implements Serializable {
 
     @Override
     public String toString() {
-        return "Transakcja{" + "id=" + id + ", kwotatransakcji=" + kwotatransakcji + ", poprzedniakwota=" + poprzedniakwota + ", roznicekursowe=" + roznicekursowe + ", zablokujnanoszenie=" + zablokujnanoszenie + ", rozliczany=" + rozliczany + ", sparowany=" + sparowany + '}';
+        return "Transakcja{" + "id=" + id + ", kwotatransakcji=" + kwotatransakcji + ", rozrachunki=" + rozrachunki + ", podatnik=" + podatnik + '}';
     }
+    
+   
 
-  
+   
     
 }

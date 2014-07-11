@@ -134,7 +134,7 @@ public class DokFKTransakcjeBean implements Serializable{
 
     
     public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-        List<Transakcja> pobranalista1 = aktualnywierszdorozrachunkow.getTransakcjaRozliczany();
+        List<Transakcja> pobranalista1 = (List<Transakcja>) aktualnywierszdorozrachunkow.getTransakcje();
         List<Transakcja> pobranalista = new ArrayList<>();
         if ( aktualnywierszdorozrachunkow.getIdrozrachunku() != null) {
             int idrozrachunku = aktualnywierszdorozrachunkow.getIdrozrachunku();
