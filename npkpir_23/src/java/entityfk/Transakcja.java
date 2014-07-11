@@ -9,18 +9,23 @@ package entityfk;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -39,10 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
-    @NamedQuery(name = "Transakcja.findByRozliczonyID", query = "SELECT t FROM Transakcja t WHERE t.rozliczany.idrozrachunku = :rozliczany"),
-    @NamedQuery(name = "Transakcja.findBySparowanyID", query = "SELECT t FROM Transakcja t WHERE t.sparowany.idrozrachunku = :sparowany"),
     @NamedQuery(name = "Transakcja.usunNiezaksiegowane", query = "DELETE FROM Transakcja t WHERE t.podatnik = :podatnik AND t.zaksiegowana = 0"),
-    @NamedQuery(name = "Transakcja.findByRozliczanySparowany", query = "SELECT t FROM Transakcja t WHERE t.rozliczany.idrozrachunku = :rozliczany AND t.sparowany.idrozrachunku = :sparowany"),
     @NamedQuery(name = "Transakcja.findById", query = "SELECT t FROM Transakcja t WHERE t.id = :id"),
     @NamedQuery(name = "Transakcja.findByKwotatransakcji", query = "SELECT t FROM Transakcja t WHERE t.kwotatransakcji = :kwotatransakcji"),
     @NamedQuery(name = "Transakcja.findByPoprzedniakwota", query = "SELECT t FROM Transakcja t WHERE t.poprzedniakwota = :poprzedniakwota"),
@@ -67,12 +69,14 @@ public class Transakcja implements Serializable {
     private boolean zablokujnanoszenie;
     @Column(name = "zaksiegowana") 
     private boolean zaksiegowana;
-    @ManyToMany
-    private HashMap<String,Rozrachunekfk> rozrachunki;
+    @ManyToMany(mappedBy = "transakcje")
+    @MapKey(name = "nowatransakcja")
+    private Map<Boolean,Rozrachunekfk> rozrachunki;
     private String podatnik;
     private String symbolWaluty;
 
     public Transakcja() {
+        this.rozrachunki = new HashMap<>();
         this.kwotatransakcji = 0.0;
         this.poprzedniakwota = 0.0;
         this.roznicekursowe = 0.0;
@@ -82,43 +86,48 @@ public class Transakcja implements Serializable {
     }
 
     public Rozrachunekfk getRozliczany() {
-        Iterator it = this.rozrachunki.entrySet().iterator();
-        while (it.hasNext()) {
-            String klucz = (String) it.next();
-            if (klucz.equals("Rozliczany")) {
-                return this.rozrachunki.get(klucz);
+        if (!this.rozrachunki.isEmpty()) {
+            Iterator it = this.rozrachunki.keySet().iterator();
+            while (it.hasNext()) {
+                Boolean klucz = (Boolean) it.next();
+                if (klucz.equals(false)) {
+                    return this.rozrachunki.get(klucz);
+                }
             }
         }
         return null;
     }
     
     public Rozrachunekfk getSparowany() {
-        Iterator it = this.rozrachunki.entrySet().iterator();
-        while (it.hasNext()) {
-            String klucz = (String) it.next();
-            if (klucz.equals("Sparowany")) {
-                return this.rozrachunki.get(klucz);
+        if (!this.rozrachunki.isEmpty()) {
+            Iterator it = this.rozrachunki.keySet().iterator();
+            while (it.hasNext()) {
+                Boolean klucz = (Boolean) it.next();
+                if (klucz.equals(true)) {
+                    return this.rozrachunki.get(klucz);
+                }
             }
         }
         return null;
     }
     
     public void setRozliczany(Rozrachunekfk rozrachunekfk) {
-        this.rozrachunki.put("Rozliczany", rozrachunekfk);
+        this.rozrachunki.put(false, rozrachunekfk);
     }
     
     public void setSparowany(Rozrachunekfk rozrachunekfk) {
-        this.rozrachunki.put("Sparowany", rozrachunekfk);
+        this.rozrachunki.put(true, rozrachunekfk);
     }
-    
-    public HashMap<String, Rozrachunekfk> getRozrachunki() {
+
+    public Map<Boolean, Rozrachunekfk> getRozrachunki() {
         return rozrachunki;
     }
 
-    public void setRozrachunki(HashMap<String, Rozrachunekfk> rozrachunki) {
+    public void setRozrachunki(Map<Boolean, Rozrachunekfk> rozrachunki) {
         this.rozrachunki = rozrachunki;
     }
 
+    
     public void setZablokujnanoszenie(Boolean zablokujnanoszenie) {
         this.zablokujnanoszenie = zablokujnanoszenie;
     }
@@ -139,6 +148,15 @@ public class Transakcja implements Serializable {
         this.kwotatransakcji = kwotatransakcji;
     }
 
+    public boolean isZablokujnanoszenie() {
+        return zablokujnanoszenie;
+    }
+
+    public void setZablokujnanoszenie(boolean zablokujnanoszenie) {
+        this.zablokujnanoszenie = zablokujnanoszenie;
+    }
+
+    
     public Double getPoprzedniakwota() {
         return poprzedniakwota;
     }
@@ -195,15 +213,18 @@ public class Transakcja implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.rozrachunki, other.rozrachunki)) {
-            return false;
+        Transakcja other = (Transakcja) obj;
+        Set<Boolean> keyset = this.rozrachunki.keySet();
+        Set<Boolean> keyset2 = other.rozrachunki.keySet();
+        for (Boolean klucz : keyset) {
+            if(!this.rozrachunki.get(klucz).equals(other.getRozrachunki().get(klucz))) {
+                return false;
+            }
         }
         return true;
     }
+
+  
 
     @Override
     public String toString() {
