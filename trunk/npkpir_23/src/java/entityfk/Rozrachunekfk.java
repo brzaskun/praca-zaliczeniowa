@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -61,7 +62,7 @@ public class Rozrachunekfk  implements Serializable {
     @Column(name = "idrozrachunku", nullable = false)
     private Integer idrozrachunku;
     @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Wiersze wiersz;
     @Column(name = "stronaWnlubMa")
     private String stronaWnlubMa;
@@ -72,7 +73,7 @@ public class Rozrachunekfk  implements Serializable {
     @Column(name="pozostalo")
     private double pozostalo;
     @Column(name="nowatransakcja")
-    private boolean nowatransakcja;
+    private Boolean nowatransakcja;
     @Column (name = "zaksiegowanodokument")
     private boolean zaksiegowanodokument;
     @JoinColumn(name = "konto_id", referencedColumnName = "id")
@@ -84,7 +85,7 @@ public class Rozrachunekfk  implements Serializable {
     private String mc;
     @Column(name = "datarozrachunku")
     private String datarozrachunku;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="Rozrachunek_Transakcja")
     private Set<Transakcja> transakcje;
     
@@ -128,7 +129,7 @@ public class Rozrachunekfk  implements Serializable {
 
     @Override
     public String toString() {
-        return "Rozrachunekfk{" + "idrozrachunku=" + idrozrachunku + ", wiersz=" + wiersz + ", stronaWnlubMa=" + stronaWnlubMa + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + nowatransakcja + '}';
+        return "Rozrachunekfk{" + "idrozrachunku=" + idrozrachunku + ", wiersz=" + wiersz.getIdwiersza() + ", stronaWnlubMa=" + stronaWnlubMa + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + nowatransakcja + '}';
     }
 
     public double getKwotapierwotna() {
@@ -155,14 +156,19 @@ public class Rozrachunekfk  implements Serializable {
         this.pozostalo = pozostalo;
     }
 
-    public boolean isNowatransakcja() {
+    public Boolean isNowatransakcja() {
         return nowatransakcja;
     }
 
-    public void setNowatransakcja(boolean nowatransakcja) {
+    public void setNowatransakcja(Boolean nowatransakcja) {
         this.nowatransakcja = nowatransakcja;
     }
     
+    public boolean getNowatransakcja() {
+        return (boolean) nowatransakcja;
+    }
+
+  
     public Konto getKontoid() {
         return kontoid;
     }
@@ -236,9 +242,6 @@ public class Rozrachunekfk  implements Serializable {
         this.transakcje = transakcje;
     }
 
-    public void setTransakcje(List<Transakcja> biezacetransakcje) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+  
     
 }

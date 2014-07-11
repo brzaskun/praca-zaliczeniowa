@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -74,8 +76,9 @@ public class Wiersze implements Serializable {
     private String dataWalutyWiersza;
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
-    private HashMap<String, Rozrachunekfk> rozrachunekfk;
+    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Rozrachunekfk.class,  orphanRemoval=true)
+    @MapKey(name = "stronaWnlubMa")
+    private Map<String, Rozrachunekfk> rozrachunekfk;
     @JoinColumn(name = "kontoWn", referencedColumnName = "id")
     @ManyToOne
     private Konto kontoWn;
@@ -99,38 +102,46 @@ public class Wiersze implements Serializable {
     
 
     public Wiersze() {
+        this.rozrachunekfk = new HashMap<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersze(int idporzadkowy, int typwiersza) {
         this.idporzadkowy = idporzadkowy;
+        this.rozrachunekfk = new HashMap<>();
     }
 
-    public HashMap<String, Rozrachunekfk> getRozrachunekfk() {
+    public Map<String, Rozrachunekfk> getRozrachunekfk() {
         return rozrachunekfk;
     }
 
-    public void setRozrachunekfk(HashMap<String, Rozrachunekfk> rozrachunekfk) {
+    public void setRozrachunekfk(Map<String, Rozrachunekfk> rozrachunekfk) {
         this.rozrachunekfk = rozrachunekfk;
     }
+
+  
     
     public Rozrachunekfk getRozrachunekfkWn() {
-        Iterator it = this.rozrachunekfk.entrySet().iterator();
-        while (it.hasNext()) {
-            String klucz = (String) it.next();
-            if (klucz.equals("Wn")) {
-                return this.rozrachunekfk.get(klucz);
+        if (!this.rozrachunekfk.isEmpty()) {
+            Iterator it = this.rozrachunekfk.keySet().iterator();
+            while (it.hasNext()) {
+                String klucz = (String) it.next();
+                if (klucz.equals("Wn")) {
+                    return this.rozrachunekfk.get(klucz);
+                }
             }
         }
         return null;
     }
     
     public Rozrachunekfk getRozrachunekfkMa() {
-        Iterator it = this.rozrachunekfk.entrySet().iterator();
-        while (it.hasNext()) {
-            String klucz = (String) it.next();
-            if (klucz.equals("Ma")) {
-                return this.rozrachunekfk.get(klucz);
+        if (!this.rozrachunekfk.isEmpty()) {
+            Iterator it = this.rozrachunekfk.keySet().iterator();
+            while (it.hasNext()) {
+                String klucz = (String) it.next();
+                if (klucz.equals("Ma")) {
+                    return this.rozrachunekfk.get(klucz);
+                }
             }
         }
         return null;

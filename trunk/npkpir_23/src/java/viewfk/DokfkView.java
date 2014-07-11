@@ -14,16 +14,18 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
-import entityfk.Transakcja;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Rozrachunekfk;
 import entityfk.Tabelanbp;
+import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersze;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -619,9 +621,9 @@ public class DokfkView implements Serializable {
                 }
             }
             if (aktualnyWierszDlaRozrachunkow.isNowatransakcja()) {
-                aktualnyWierszDlaRozrachunkow.setTransakcje(biezacetransakcje);
+                aktualnyWierszDlaRozrachunkow.setTransakcje(new HashSet<Transakcja>(biezacetransakcje));
             } else {
-                aktualnyWierszDlaRozrachunkow.setTransakcje(biezacetransakcje);
+                aktualnyWierszDlaRozrachunkow.setTransakcje(new HashSet<Transakcja>(biezacetransakcje));
             }
             //nie moze tu byc tego bo nie bedzie co utrwalic
             //biezacetransakcje.clear();

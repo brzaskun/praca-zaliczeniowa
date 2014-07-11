@@ -86,23 +86,19 @@ public class SessionFacade<T> implements Serializable{
 
     public void create(T entity) {
         getEntityManager().persist(entity);
-        getEntityManager().flush();
     }
     
     public T findEntity(Class<T> entityClass, T entityPK) {
         T find = getEntityManager().find(entityClass, entityPK);
-        getEntityManager().flush();
         return find;
     }
 
     public void remove(T entity) {
         getEntityManager().remove(em.merge(entity));
-        getEntityManager().flush();
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
-        getEntityManager().flush();
     }
     
     public List<T> findXLast(Class<T> entityClass,int ile) {

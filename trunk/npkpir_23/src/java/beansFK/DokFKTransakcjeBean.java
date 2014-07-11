@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -134,11 +135,11 @@ public class DokFKTransakcjeBean implements Serializable{
 
     
     public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-        List<Transakcja> pobranalista1 = (List<Transakcja>) aktualnywierszdorozrachunkow.getTransakcje();
         List<Transakcja> pobranalista = new ArrayList<>();
-        if ( aktualnywierszdorozrachunkow.getIdrozrachunku() != null) {
-            int idrozrachunku = aktualnywierszdorozrachunkow.getIdrozrachunku();
-            pobranalista = transakcjaDAO.findByRozliczonyID(idrozrachunku);
+        try {
+            pobranalista.addAll(aktualnywierszdorozrachunkow.getTransakcje());
+        } catch (Exception e) {
+            
         }
         return pobranalista;
     }
