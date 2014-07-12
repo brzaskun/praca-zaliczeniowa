@@ -13,6 +13,7 @@
     <class>entity.Dokument</class>
     <class>entity.Wiersz</class>
     <class>entity.Rozrachunek</class>
+    <class>entity.Transakcja</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

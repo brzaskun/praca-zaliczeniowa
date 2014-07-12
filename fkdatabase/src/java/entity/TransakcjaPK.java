@@ -8,11 +8,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
@@ -23,7 +19,12 @@ public class TransakcjaPK implements Serializable{
     
     private String rozliczajacyId;
     private String rozliczanyId;
-    private Integer numertransakcji;
+
+    public TransakcjaPK(String rozliczajacyId, String rozliczanyId) {
+        this.rozliczajacyId = rozliczajacyId;
+        this.rozliczanyId = rozliczanyId;
+    }
+    
 
     public String getRozliczajacyId() {
         return rozliczajacyId;
@@ -41,21 +42,11 @@ public class TransakcjaPK implements Serializable{
         this.rozliczanyId = rozliczanyId;
     }
 
-
-    public Integer getNumertransakcji() {
-        return numertransakcji;
-    }
-
-    public void setNumertransakcji(Integer numertransakcji) {
-        this.numertransakcji = numertransakcji;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.rozliczajacyId);
-        hash = 67 * hash + Objects.hashCode(this.rozliczanyId);
-        hash = 67 * hash + Objects.hashCode(this.numertransakcji);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.rozliczajacyId);
+        hash = 97 * hash + Objects.hashCode(this.rozliczanyId);
         return hash;
     }
 
@@ -74,16 +65,14 @@ public class TransakcjaPK implements Serializable{
         if (!Objects.equals(this.rozliczanyId, other.rozliczanyId)) {
             return false;
         }
-        if (!Objects.equals(this.numertransakcji, other.numertransakcji)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacyId + ", rozliczanyId=" + rozliczanyId + ", numertransakcji=" + numertransakcji + '}';
+        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacyId + ", rozliczanyId=" + rozliczanyId + '}';
     }
 
+    
     
 }
