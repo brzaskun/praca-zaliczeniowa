@@ -46,6 +46,14 @@ public class ViewBean implements Serializable{
 
  
     public static void main(String[] args) {
+        System.out.println("Start funkcji");
+        petlaTworzenieDokumentu();
+        licznik++;
+        petlaTworzenieDokumentu();
+        System.out.println("Koniec funkcji");
+    }
+    
+    public static void petlaTworzenieDokumentu() {
         Dokument dokument = utrwalNowyDokument();
         if (dokument != null) {
             System.out.println("Utworzono nowy dokument "+dokument.toString());
@@ -54,15 +62,6 @@ public class ViewBean implements Serializable{
         if (dokument.equals(odnalezionyDokument)) {
             System.out.println("Odnaleziono dokument "+dokument.toString());
         }
-        dokument = utrwalNowyDokument();
-        if (dokument != null) {
-            System.out.println("Utworzono nowy dokument "+dokument.toString());
-        }
-        odnalezionyDokument = znajdzDokument(dokument);
-        if (dokument.equals(odnalezionyDokument)) {
-            System.out.println("Odnaleziono dokument "+dokument.toString());
-        }
-        System.out.println("Koniec funkcji");
     }
     
     public static Dokument znajdzDokument(Dokument dokument) {
@@ -106,19 +105,20 @@ public class ViewBean implements Serializable{
         mp.append(listanazw.get(licznik));
         mp.append("wiersz");
         Wiersz wiersz = new Wiersz(mp.toString());
-        Rozrachunek rozrachunek1 = stworzrozrachunek(wiersz);
-        wiersz.getRozrachuneklista().add(rozrachunek1);
-        Rozrachunek rozrachunek2 = stworzrozrachunek(wiersz);
-        wiersz.getRozrachuneklista().add(rozrachunek2);
+        Rozrachunek rozrachunek1 = stworzrozrachunek(wiersz, "-Wn");
+        wiersz.setRozrachunekWn(rozrachunek1);
+        Rozrachunek rozrachunek2 = stworzrozrachunek(wiersz, "-Ma");
+        wiersz.setRozrachunekMa(rozrachunek2);
         wiersz.setDokument(dokument);
         System.out.println("Wiersz siup!");
         return wiersz;
     }
     
-    public static Rozrachunek stworzrozrachunek(Wiersz wiersz) {
+    public static Rozrachunek stworzrozrachunek(Wiersz wiersz, String wnma) {
         StringBuilder mp = new StringBuilder();
         mp.append(listanazw.get(licznik));
         mp.append("rozrachunek");
+        mp.append(wnma);
         Rozrachunek rozrachunek = new Rozrachunek(mp.toString());
         rozrachunek.setWiersz(wiersz);
         System.out.println("Rozrachunek siup!");

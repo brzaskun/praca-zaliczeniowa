@@ -8,7 +8,9 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,15 +50,17 @@ public class Wiersz implements Serializable {
     @ManyToOne
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private List<Rozrachunek> rozrachuneklista;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private Rozrachunek rozrachunekWn;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private Rozrachunek rozrachunekMa;
 
     public Wiersz() {
     }
 
     public Wiersz(String wiersznazwa) {
         this.wiersznazwa = wiersznazwa;
-        this.rozrachuneklista = new ArrayList<>();
+        
     }
 
     public Integer getIdwiersza() {
@@ -66,12 +71,20 @@ public class Wiersz implements Serializable {
         this.idwiersza = idwiersza;
     }
 
-    public List<Rozrachunek> getRozrachuneklista() {
-        return rozrachuneklista;
+    public Rozrachunek getRozrachunekWn() {
+        return rozrachunekWn;
     }
 
-    public void setRozrachuneklista(List<Rozrachunek> rozrachuneklista) {
-        this.rozrachuneklista = rozrachuneklista;
+    public void setRozrachunekWn(Rozrachunek rozrachunekWn) {
+        this.rozrachunekWn = rozrachunekWn;
+    }
+
+    public Rozrachunek getRozrachunekMa() {
+        return rozrachunekMa;
+    }
+
+    public void setRozrachunekMa(Rozrachunek rozrachunekMa) {
+        this.rozrachunekMa = rozrachunekMa;
     }
 
     
@@ -93,8 +106,10 @@ public class Wiersz implements Serializable {
 
     @Override
     public String toString() {
-        return "Wiersz{" + "idwiersza=" + idwiersza + ", wiersznazwa=" + wiersznazwa + ", rozrachuneklista=" + rozrachuneklista + '}';
+        return "Wiersz{" + "idwiersza=" + idwiersza + ", wiersznazwa=" + wiersznazwa + ", rozrachunekWn=" + rozrachunekWn + ", rozrachunekMa=" + rozrachunekMa + '}';
     }
+
+   
 
    
     
