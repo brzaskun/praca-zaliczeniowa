@@ -891,9 +891,9 @@ public class SessionFacade<T> implements Serializable{
         }
     }
     
-    public List<Transakcja> findTransakcjeSparowanyID(int idrozrachunku) {
+    public List<Transakcja> findTransakcjeSparowanyID(String podatnik) {
         try {
-            return em.createNamedQuery("Transakcja.findBySparowanyID").setParameter("sparowany", idrozrachunku).getResultList();
+            return em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
             return null;
         }

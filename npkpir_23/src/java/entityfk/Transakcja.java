@@ -38,13 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"rozliczany", "sparowany"})
-})
+@Table(catalog = "pkpir", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findAll", query = "SELECT t FROM Transakcja t"),
-    @NamedQuery(name = "Transakcja.usunNiezaksiegowane", query = "DELETE FROM Transakcja t WHERE t.podatnik = :podatnik AND t.zaksiegowana = 0"),
+    @NamedQuery(name = "Transakcja.findByPodatnik", query = "SELECT t FROM Transakcja t WHERE t.podatnik = :podatnik"),
     @NamedQuery(name = "Transakcja.findById", query = "SELECT t FROM Transakcja t WHERE t.id = :id"),
     @NamedQuery(name = "Transakcja.findByKwotatransakcji", query = "SELECT t FROM Transakcja t WHERE t.kwotatransakcji = :kwotatransakcji"),
     @NamedQuery(name = "Transakcja.findByPoprzedniakwota", query = "SELECT t FROM Transakcja t WHERE t.poprzedniakwota = :poprzedniakwota"),
@@ -67,8 +65,6 @@ public class Transakcja implements Serializable {
     private Double roznicekursowe;
     @Column(name = "zablokujnanoszenie")
     private boolean zablokujnanoszenie;
-    @Column(name = "zaksiegowana") 
-    private boolean zaksiegowana;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name="Rozrachunek_Transakcja")
     @MapKey(name = "nowatransakcja")
@@ -82,7 +78,6 @@ public class Transakcja implements Serializable {
         this.poprzedniakwota = 0.0;
         this.roznicekursowe = 0.0;
         this.zablokujnanoszenie = false;
-        this.zaksiegowana = false;
         this.roznicekursowe = 0.0;
     }
 
@@ -174,14 +169,7 @@ public class Transakcja implements Serializable {
         this.roznicekursowe = roznicekursowe;
     }
 
-    public boolean isZaksiegowana() {
-        return zaksiegowana;
-    }
-
-    public void setZaksiegowana(boolean zaksiegowana) {
-        this.zaksiegowana = zaksiegowana;
-    }
-
+   
     public String getPodatnik() {
         return podatnik;
     }
