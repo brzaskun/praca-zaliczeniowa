@@ -34,9 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @AttributeOverride(name = "numertransakcji", column = @Column(name = "idtransakcji"))
     @EmbeddedId 
-    private TransakcjaPK id;
+    private TransakcjaPK transakcjaPK;
     @MapsId("rozliczajacyId")
     @JoinColumn(name="rozliczajacy_id")
     @ManyToOne
@@ -45,26 +44,20 @@ public class Transakcja  implements Serializable {
     @JoinColumn(name="rozliczany_id")
     @ManyToOne
     private Rozrachunek rozliczany;
-    @MapsId("numertransakcji")
-    @GeneratedValue
-    private Integer numertransakcjiID;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private double kwota;
 
     public Transakcja() {
     }
 
-    public Transakcja(TransakcjaPK id, Rozrachunek rozliczajacy, Rozrachunek rozliczany, double kwota) {
-        this.id = id;
+    public Transakcja(Rozrachunek rozliczajacy, Rozrachunek rozliczany) {
         this.rozliczajacy = rozliczajacy;
         this.rozliczany = rozliczany;
-        this.kwota = kwota;
     }
 
-
+   
     public Rozrachunek getRozliczajacy() {
         return rozliczajacy;
     }
@@ -89,10 +82,18 @@ public class Transakcja  implements Serializable {
         this.kwota = kwota;
     }
 
+    public TransakcjaPK getTransakcjaPK() {
+        return transakcjaPK;
+    }
+
+    public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
+        this.transakcjaPK = transakcjaPK;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.transakcjaPK);
         return hash;
     }
 
@@ -105,14 +106,17 @@ public class Transakcja  implements Serializable {
             return false;
         }
         final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.transakcjaPK, other.transakcjaPK)) {
             return false;
         }
         return true;
     }
 
-   
-    
+    @Override
+    public String toString() {
+        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", kwota=" + kwota + '}';
+    }
+
     
     
     

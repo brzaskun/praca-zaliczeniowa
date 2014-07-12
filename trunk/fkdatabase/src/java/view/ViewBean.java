@@ -8,6 +8,8 @@ package view;
 
 import entity.Dokument;
 import entity.Rozrachunek;
+import entity.Transakcja;
+import entity.TransakcjaPK;
 import entity.Wiersz;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -46,11 +48,47 @@ public class ViewBean implements Serializable{
 
  
     public static void main(String[] args) {
+        dwaDokJednaTransakcja();
+    }
+    
+    
+    public static void dwaDokJednaTransakcja() {
         System.out.println("Start funkcji");
         petlaTworzenieDokumentu();
         licznik++;
         petlaTworzenieDokumentu();
+        petlaTworzenieTransakcji();
+        petlaUsuwanieTransakcji();
         System.out.println("Koniec funkcji");
+    }
+    
+    public static void petlaTworzenieTransakcji() {
+        Transakcja transkacja = utrwalNowaTransakcja();
+        if (transkacja != null) {
+            System.out.println("Utworzono nowa transakcja "+transkacja.toString());
+        }
+    }
+    
+    public static void petlaUsuwanieTransakcji() {
+        Transakcja transakcja = znajdzTransakcje(new TransakcjaPK("pierwszy-rozrachunek-Wn","drugi-rozrachunek-Ma"));
+        int wynik  = usunNowaTransakcja(transakcja);
+        if (wynik == 0) {
+            System.out.println("Usunieto transakcje "+transakcja.toString());
+        }
+    }
+    
+    public static int usunNowaTransakcja(Transakcja transakcja) {
+         try {
+            System.out.println("Usuwam Transakcja");
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(transakcja);
+            em.getTransaction().commit();
+            em.clear();
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
     
     public static void petlaTworzenieDokumentu() {
@@ -69,6 +107,26 @@ public class ViewBean implements Serializable{
             EntityManager em = getEntityManager();
             Dokument odnalezionyDokument = em.find(Dokument.class, dokument.getId());
             return odnalezionyDokument;
+        } catch (Exception e) {
+            return null;
+        }   
+    }
+    
+     public static Transakcja znajdzTransakcje(TransakcjaPK transakcjaPK) {
+        try {
+            EntityManager em = getEntityManager();
+            Transakcja odnalezione = em.find(Transakcja.class, transakcjaPK);
+            return odnalezione;
+        } catch (Exception e) {
+            return null;
+        }   
+    }
+    
+    public static Rozrachunek znajdzRozrachunek(String nazwarozrachunku) {
+        try {
+            EntityManager em = getEntityManager();
+            Rozrachunek odnalezionyRozrachunek = em.find(Rozrachunek.class, nazwarozrachunku);
+            return odnalezionyRozrachunek;
         } catch (Exception e) {
             return null;
         }   
@@ -124,4 +182,34 @@ public class ViewBean implements Serializable{
         System.out.println("Rozrachunek siup!");
         return rozrachunek;
     }
+    
+    public static Transakcja stworzTransakcje() {
+        Rozrachunek rozliczajacy = znajdzRozrachunek("pierwszy-rozrachunek-Wn");
+        Rozrachunek rozliczany = znajdzRozrachunek("drugi-rozrachunek-Ma");
+        double kwota = 10000;
+        Transakcja transakcja = new Transakcja();
+        transakcja.setRozliczajacy(rozliczajacy);
+        transakcja.setRozliczany(rozliczany);
+        transakcja.setKwota(kwota);
+        rozliczajacy.getTransakcjeRozliczajacy().add(transakcja);
+        rozliczany.getTransakcjeRozliczany().add(transakcja);
+        return transakcja;
+    }
+    
+     public static Transakcja utrwalNowaTransakcja() {
+        try {
+            System.out.println("Utrwalam Transakcja");
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            Transakcja transakcja = stworzTransakcje();
+            em.persist(transakcja);
+            em.getTransaction().commit();
+            em.clear();
+            return transakcja;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    
 }
