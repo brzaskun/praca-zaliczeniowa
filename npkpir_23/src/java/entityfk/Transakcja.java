@@ -69,7 +69,8 @@ public class Transakcja implements Serializable {
     private boolean zablokujnanoszenie;
     @Column(name = "zaksiegowana") 
     private boolean zaksiegowana;
-    @ManyToMany(mappedBy = "transakcje")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name="Rozrachunek_Transakcja")
     @MapKey(name = "nowatransakcja")
     private Map<Boolean,Rozrachunekfk> rozrachunki;
     private String podatnik;
@@ -217,8 +218,10 @@ public class Transakcja implements Serializable {
         Set<Boolean> keyset = this.rozrachunki.keySet();
         Set<Boolean> keyset2 = other.rozrachunki.keySet();
         for (Boolean klucz : keyset) {
-            if(!this.rozrachunki.get(klucz).equals(other.getRozrachunki().get(klucz))) {
-                return false;
+            if(this.rozrachunki.get(klucz) != null && other.getRozrachunki().get(klucz) != null) {
+                if(!this.rozrachunki.get(klucz).equals(other.getRozrachunki().get(klucz))) {
+                    return false;
+                }
             }
         }
         return true;

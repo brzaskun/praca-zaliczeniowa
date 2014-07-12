@@ -85,8 +85,7 @@ public class Rozrachunekfk  implements Serializable {
     private String mc;
     @Column(name = "datarozrachunku")
     private String datarozrachunku;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Rozrachunek_Transakcja")
+    @ManyToMany(mappedBy = "rozrachunki", fetch = FetchType.LAZY)
     private Set<Transakcja> transakcje;
     
     
