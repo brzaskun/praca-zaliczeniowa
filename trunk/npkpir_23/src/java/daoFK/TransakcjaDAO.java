@@ -7,10 +7,12 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Map;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,8 +62,17 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return sessionFacade.findTransakcjeRozliczonyID(idrozrachunku);
     }
     
-    public List<Transakcja> findBySparowanyID(int idrozrachunku) {
-        return sessionFacade.findTransakcjeSparowanyID(idrozrachunku);
+    public List<Transakcja> findBySparowanyID(int idrozrachunku, String podatnik) {
+        List<Transakcja> odnalezione = new ArrayList<>();
+        List<Transakcja> transakcje = sessionFacade.findTransakcjeSparowanyID(podatnik);
+        for(Transakcja f : transakcje) {
+            Map<Boolean, Rozrachunekfk> roz = f.getRozrachunki();
+            int idroz = ((Rozrachunekfk) roz.get(true)).getIdrozrachunku();
+            if (idroz == idrozrachunku && f.getKwotatransakcji() > 0) {
+                odnalezione.add(f);
+            }
+        }
+        return odnalezione;
     }
     
     

@@ -498,7 +498,7 @@ public class DokfkView implements Serializable {
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
                     if (aktualnyWierszDlaRozrachunkow.getIdrozrachunku() != null) {
-                        biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(transakcjaDAO, aktualnyWierszDlaRozrachunkow.getIdrozrachunku()));
+                        biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(transakcjaDAO, aktualnyWierszDlaRozrachunkow.getIdrozrachunku(), wpisView.getPodatnikWpisu()));
                     }
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                 }
