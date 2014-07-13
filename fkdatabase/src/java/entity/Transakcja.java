@@ -8,26 +8,23 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.AttributeOverride;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Osito
  */
+@Cacheable(false)
 @Entity
 @Table(catalog = "fktest", schema = "")
 @XmlRootElement
@@ -114,8 +111,10 @@ public class Transakcja  implements Serializable {
 
     @Override
     public String toString() {
-        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", kwota=" + kwota + '}';
+        return "Transakcja{" + "rozliczajacy=" + rozliczajacy.getNazwarozrachunku() + ", rozliczany=" + rozliczany.getNazwarozrachunku() + ", kwota=" + kwota + '}';
     }
+
+    
 
     
     
