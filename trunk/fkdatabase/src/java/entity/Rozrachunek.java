@@ -7,15 +7,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
+@Cacheable(false)
 @Entity
 @Table(catalog = "fktest", schema = "")
 @XmlRootElement
@@ -42,18 +42,19 @@ public class Rozrachunek implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwarozrachunku;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "wierszid", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
     @OneToMany(mappedBy="rozliczajacy", cascade = CascadeType.ALL)
-    private List<Transakcja> transakcjeRozliczajacy;
-    @OneToMany(mappedBy="rozliczany", cascade = CascadeType.ALL)
-    private List<Transakcja> transakcjeRozliczany;
+    private List<Transakcja> transakcje;
+    
 
     public Rozrachunek() {
+        this.transakcje = new ArrayList<>();
     }
 
     public Rozrachunek(String nazwarozrachunku) {
+        this.transakcje = new ArrayList<>();
         this.nazwarozrachunku = nazwarozrachunku;
     }
     
@@ -75,22 +76,15 @@ public class Rozrachunek implements Serializable {
         this.wiersz = wiersz;
     }
 
-    public List<Transakcja> getTransakcjeRozliczajacy() {
-        return transakcjeRozliczajacy;
+    public List<Transakcja> getTransakcje() {
+        return transakcje;
     }
 
-    public void setTransakcjeRozliczajacy(List<Transakcja> transakcjeRozliczajacy) {
-        this.transakcjeRozliczajacy = transakcjeRozliczajacy;
+    public void setTransakcje(List<Transakcja> transakcje) {
+        this.transakcje = transakcje;
     }
 
-    public List<Transakcja> getTransakcjeRozliczany() {
-        return transakcjeRozliczany;
-    }
-
-    public void setTransakcjeRozliczany(List<Transakcja> transakcjeRozliczany) {
-        this.transakcjeRozliczany = transakcjeRozliczany;
-    }
-
+  
     
     @Override
     public String toString() {

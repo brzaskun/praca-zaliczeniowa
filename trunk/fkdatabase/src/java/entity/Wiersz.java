@@ -7,11 +7,10 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
+@Cacheable(false)
 @Entity
 @Table(catalog = "fktest", schema = "")
 @XmlRootElement
@@ -48,18 +48,18 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String wiersznazwa;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private Rozrachunek rozrachunekWn;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private Rozrachunek rozrachunekMa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private Set<Rozrachunek> rozrachunki;
+    
 
     public Wiersz() {
     }
 
     public Wiersz(String wiersznazwa) {
+        this.rozrachunki = new HashSet<>();
         this.wiersznazwa = wiersznazwa;
         
     }
@@ -73,22 +73,31 @@ public class Wiersz implements Serializable {
     }
 
     public Rozrachunek getRozrachunekWn() {
-        return rozrachunekWn;
-    }
-
-    public void setRozrachunekWn(Rozrachunek rozrachunekWn) {
-        this.rozrachunekWn = rozrachunekWn;
+        for (Rozrachunek p : this.rozrachunki) {
+            if (p.getNazwarozrachunku().contains("Wn")) {
+                return p;
+            }
+        }
+        return null;
     }
 
     public Rozrachunek getRozrachunekMa() {
-        return rozrachunekMa;
+        for (Rozrachunek p : this.rozrachunki) {
+            if (p.getNazwarozrachunku().contains("Ma")) {
+                return p;
+            }
+        }
+        return null;
     }
 
-    public void setRozrachunekMa(Rozrachunek rozrachunekMa) {
-        this.rozrachunekMa = rozrachunekMa;
+    public Set<Rozrachunek> getRozrachunki() {
+        return rozrachunki;
     }
 
-    
+    public void setRozrachunki(Set<Rozrachunek> rozrachunki) {
+        this.rozrachunki = rozrachunki;
+    }
+        
     public String getWiersznazwa() {
         return wiersznazwa;
     }
@@ -107,12 +116,8 @@ public class Wiersz implements Serializable {
 
     @Override
     public String toString() {
-        return "Wiersz{" + "idwiersza=" + idwiersza + ", wiersznazwa=" + wiersznazwa + ", rozrachunekWn=" + rozrachunekWn + ", rozrachunekMa=" + rozrachunekMa + '}';
+        return "Wiersz{" + "idwiersza=" + idwiersza + ", wiersznazwa=" + wiersznazwa + '}';
     }
 
-   
-
-   
-    
     
 }
