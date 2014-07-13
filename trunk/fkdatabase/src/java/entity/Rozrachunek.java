@@ -45,7 +45,7 @@ public class Rozrachunek implements Serializable {
     @ManyToOne
     @JoinColumn(name = "wierszid", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
-    @OneToMany(mappedBy="rozliczajacy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="rozliczajacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transakcja> transakcje;
     
 
