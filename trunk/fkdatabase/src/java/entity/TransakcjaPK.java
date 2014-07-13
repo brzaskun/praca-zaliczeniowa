@@ -20,6 +20,11 @@ public class TransakcjaPK implements Serializable{
     private String rozliczajacyId;
     private String rozliczanyId;
 
+    public TransakcjaPK() {
+    }
+    
+    
+
     public TransakcjaPK(String rozliczajacyId, String rozliczanyId) {
         this.rozliczajacyId = rozliczajacyId;
         this.rozliczanyId = rozliczanyId;
