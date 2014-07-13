@@ -12,11 +12,14 @@ import entity.Transakcja;
 import entity.TransakcjaPK;
 import entity.Wiersz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -48,18 +51,54 @@ public class ViewBean implements Serializable{
 
  
     public static void main(String[] args) {
-        dwaDokJednaTransakcja();
+        System.out.println("Start funkcji");
+        //dwaDokJednaTransakcja();
+        //petlaUsuwanieTransakcji();
+        //petlausunWszystko();
+        //petlaUsunWiersz();
+        petlaUsunRozrachunek();
+        System.out.println("Koniec funkcji");
     }
     
     
+    public static void petlaUsunRozrachunek() {
+        Rozrachunek rozrachunek = znajdzRozrachunek("drugi-rozrachunek-Ma");
+        int wynik  = usunNowyRozrachunek(rozrachunek);
+        if (wynik == 0) {
+            System.out.println("Usunieto wiersz "+rozrachunek.toString());
+        }
+    }
+    
+    public static void petlaUsunWiersz() {
+        Wiersz wiersz = znajdzWiersz();
+        int wynik  = usunNowyWiersz(wiersz);
+        if (wynik == 0) {
+            System.out.println("Usunieto wiersz "+wiersz.toString());
+        }
+    }
+    
+    public static void petlausunWszystko() {
+        List<Dokument> dokumenty = znajdzDokumenty();
+        for (Dokument d : dokumenty) {
+            usunDokument(d);
+        }
+    }
+    
+    public static List<Dokument> znajdzDokumenty() {
+        EntityManager em = getEntityManager();
+        List<Dokument> znalezionedokumenty = new ArrayList<>();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Dokument.class));
+        znalezionedokumenty.addAll(em.createQuery(cq).getResultList());
+        return znalezionedokumenty;
+    }
+    
     public static void dwaDokJednaTransakcja() {
-        System.out.println("Start funkcji");
         petlaTworzenieDokumentu();
         licznik++;
         petlaTworzenieDokumentu();
         petlaTworzenieTransakcji();
-        petlaUsuwanieTransakcji();
-        System.out.println("Koniec funkcji");
+
     }
     
     public static void petlaTworzenieTransakcji() {
@@ -77,17 +116,59 @@ public class ViewBean implements Serializable{
         }
     }
     
+    public static int usunDokument(Dokument dokument) {
+         try {
+            System.out.println("Usuwam Dokument");
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();    
+            em.remove(em.merge(dokument));
+            em.getTransaction().commit();
+            em.clear();
+            return 0;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
     public static int usunNowaTransakcja(Transakcja transakcja) {
          try {
             System.out.println("Usuwam Transakcja");
             EntityManager em = getEntityManager();
             em.getTransaction().begin();
-            em.remove(transakcja);
+            em.remove(em.merge(transakcja));
             em.getTransaction().commit();
             em.clear();
-            return 1;
-        } catch (Exception e) {
             return 0;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
+    public static int usunNowyRozrachunek(Rozrachunek rozrachunek) {
+         try {
+            System.out.println("Usuwam Rozrachunek");
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(em.merge(rozrachunek));
+            em.getTransaction().commit();
+            em.clear();
+            return 0;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    
+    public static int usunNowyWiersz(Wiersz wiersz) {
+         try {
+            System.out.println("Usuwam Wiersz");
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(em.merge(wiersz));
+            em.getTransaction().commit();
+            em.clear();
+            return 0;
+        } catch (Exception e) {
+            return 1;
         }
     }
     
@@ -112,7 +193,7 @@ public class ViewBean implements Serializable{
         }   
     }
     
-     public static Transakcja znajdzTransakcje(TransakcjaPK transakcjaPK) {
+    public static Transakcja znajdzTransakcje(TransakcjaPK transakcjaPK) {
         try {
             EntityManager em = getEntityManager();
             Transakcja odnalezione = em.find(Transakcja.class, transakcjaPK);
@@ -122,16 +203,29 @@ public class ViewBean implements Serializable{
         }   
     }
     
-    public static Rozrachunek znajdzRozrachunek(String nazwarozrachunku) {
+     public static Rozrachunek znajdzRozrachunek(String rozrachunekID) {
         try {
             EntityManager em = getEntityManager();
-            Rozrachunek odnalezionyRozrachunek = em.find(Rozrachunek.class, nazwarozrachunku);
-            return odnalezionyRozrachunek;
+            Rozrachunek odnalezione = em.find(Rozrachunek.class, rozrachunekID);
+            return odnalezione;
         } catch (Exception e) {
             return null;
         }   
     }
     
+    public static Wiersz znajdzWiersz() {
+        try {
+            EntityManager em = getEntityManager();
+            Query q = em.createNativeQuery("SELECT * FROM Wiersz o WHERE o.wiersznazwa = ?", Wiersz.class);
+            q.setParameter(1, "pierwszy-wiersz");
+            Wiersz odnalezione = (Wiersz) q.getSingleResult();
+            return odnalezione;
+        } catch (Exception e) {
+            return null;
+        }   
+    }
+    
+       
     public static Dokument utrwalNowyDokument() {
         try {
             System.out.println("Utrwalam dokument");
@@ -210,6 +304,7 @@ public class ViewBean implements Serializable{
             return null;
         }
     }
-    
+
+   
     
 }

@@ -42,12 +42,12 @@ public class Rozrachunek implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwarozrachunku;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wierszid", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="rozliczajacy")
+    @OneToMany(mappedBy="rozliczajacy", cascade = CascadeType.ALL)
     private List<Transakcja> transakcjeRozliczajacy;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="rozliczany")
+    @OneToMany(mappedBy="rozliczany", cascade = CascadeType.ALL)
     private List<Transakcja> transakcjeRozliczany;
 
     public Rozrachunek() {

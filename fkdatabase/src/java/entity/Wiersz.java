@@ -15,6 +15,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String wiersznazwa;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
