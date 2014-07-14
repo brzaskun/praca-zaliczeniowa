@@ -7,8 +7,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -20,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -51,15 +48,16 @@ public class Wiersz implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private Set<Rozrachunek> rozrachunki;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private StronaWn stronaWn;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private StronaMa stronaMa;
     
 
     public Wiersz() {
     }
 
     public Wiersz(String wiersznazwa) {
-        this.rozrachunki = new HashSet<>();
         this.wiersznazwa = wiersznazwa;
         
     }
@@ -72,30 +70,20 @@ public class Wiersz implements Serializable {
         this.idwiersza = idwiersza;
     }
 
-    public Rozrachunek getRozrachunekWn() {
-        for (Rozrachunek p : this.rozrachunki) {
-            if (p.getNazwarozrachunku().contains("Wn")) {
-                return p;
-            }
-        }
-        return null;
+    public StronaWn getStronaWn() {
+        return stronaWn;
     }
 
-    public Rozrachunek getRozrachunekMa() {
-        for (Rozrachunek p : this.rozrachunki) {
-            if (p.getNazwarozrachunku().contains("Ma")) {
-                return p;
-            }
-        }
-        return null;
+    public void setStronaWn(StronaWn stronaWn) {
+        this.stronaWn = stronaWn;
     }
 
-    public Set<Rozrachunek> getRozrachunki() {
-        return rozrachunki;
+    public StronaMa getStronaMa() {
+        return stronaMa;
     }
 
-    public void setRozrachunki(Set<Rozrachunek> rozrachunki) {
-        this.rozrachunki = rozrachunki;
+    public void setStronaMa(StronaMa stronaMa) {
+        this.stronaMa = stronaMa;
     }
         
     public String getWiersznazwa() {
@@ -119,5 +107,6 @@ public class Wiersz implements Serializable {
         return "Wiersz{" + "idwiersza=" + idwiersza + ", wiersznazwa=" + wiersznazwa + '}';
     }
 
+    
     
 }

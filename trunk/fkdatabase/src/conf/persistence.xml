@@ -3,6 +3,7 @@
   <persistence-unit name="fkdatabasePU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>fktest</jta-data-source>
+    <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
@@ -14,6 +15,8 @@
     <class>entity.Wiersz</class>
     <class>entity.Rozrachunek</class>
     <class>entity.Transakcja</class>
+    <class>entity.StronaMa</class>
+    <class>entity.StronaWn</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
