@@ -33,14 +33,14 @@ public class Transakcja  implements Serializable {
     
     @EmbeddedId 
     private TransakcjaPK transakcjaPK;
-    @MapsId("rozliczajacyId")
-    @JoinColumn(name="rozliczajacy_id")
+    @MapsId("stronaWnId")
+    @JoinColumn(name="stronaWn_id")
     @ManyToOne
-    private Rozrachunek rozliczajacy;
-    @MapsId("rozliczanyId")
-    @JoinColumn(name="rozliczany_id")
+    private StronaWn stronaWn;
+    @MapsId("stronaMaId")
+    @JoinColumn(name="stronaMa_id")
     @ManyToOne
-    private Rozrachunek rozliczany;
+    private StronaMa stronaMa;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -49,26 +49,25 @@ public class Transakcja  implements Serializable {
     public Transakcja() {
     }
 
-    public Transakcja(Rozrachunek rozliczajacy, Rozrachunek rozliczany) {
-        this.rozliczajacy = rozliczajacy;
-        this.rozliczany = rozliczany;
+    public Transakcja(StronaWn rozliczajacy, StronaMa rozliczany) {
+        this.stronaWn = rozliczajacy;
+        this.stronaMa = rozliczany;
     }
 
-   
-    public Rozrachunek getRozliczajacy() {
-        return rozliczajacy;
+    public StronaWn getStronaWn() {
+        return stronaWn;
     }
 
-    public void setRozliczajacy(Rozrachunek rozliczajacy) {
-        this.rozliczajacy = rozliczajacy;
+    public void setStronaWn(StronaWn stronaWn) {
+        this.stronaWn = stronaWn;
     }
 
-    public Rozrachunek getRozliczany() {
-        return rozliczany;
+    public StronaMa getStronaMa() {
+        return stronaMa;
     }
 
-    public void setRozliczany(Rozrachunek rozliczany) {
-        this.rozliczany = rozliczany;
+    public void setStronaMa(StronaMa stronaMa) {
+        this.stronaMa = stronaMa;
     }
   
     public double getKwota() {
@@ -111,12 +110,8 @@ public class Transakcja  implements Serializable {
 
     @Override
     public String toString() {
-        return "Transakcja{" + "rozliczajacy=" + rozliczajacy.getNazwarozrachunku() + ", rozliczany=" + rozliczany.getNazwarozrachunku() + ", kwota=" + kwota + '}';
+        return "Transakcja{" + "stronaWn=" + stronaWn + ", stronaMa=" + stronaMa + ", kwota=" + kwota + '}';
     }
 
-    
-
-    
-    
     
 }

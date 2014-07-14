@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,8 +17,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TransakcjaPK implements Serializable{
     
-    private String rozliczajacyId;
-    private String rozliczanyId;
+    private String stronaWnId;
+    private String stronaMaId;
 
     public TransakcjaPK() {
     }
@@ -26,32 +26,32 @@ public class TransakcjaPK implements Serializable{
     
 
     public TransakcjaPK(String rozliczajacyId, String rozliczanyId) {
-        this.rozliczajacyId = rozliczajacyId;
-        this.rozliczanyId = rozliczanyId;
+        this.stronaWnId = rozliczajacyId;
+        this.stronaMaId = rozliczanyId;
     }
     
 
-    public String getRozliczajacyId() {
-        return rozliczajacyId;
+    public String getStronaWnId() {
+        return stronaWnId;
     }
 
-    public void setRozliczajacyId(String rozliczajacyId) {
-        this.rozliczajacyId = rozliczajacyId;
+    public void setStronaWnId(String stronaWnId) {
+        this.stronaWnId = stronaWnId;
     }
 
-    public String getRozliczanyId() {
-        return rozliczanyId;
+    public String getStronaMaId() {
+        return stronaMaId;
     }
 
-    public void setRozliczanyId(String rozliczanyId) {
-        this.rozliczanyId = rozliczanyId;
+    public void setStronaMaId(String stronaMaId) {
+        this.stronaMaId = stronaMaId;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.rozliczajacyId);
-        hash = 97 * hash + Objects.hashCode(this.rozliczanyId);
+        hash = 97 * hash + Objects.hashCode(this.stronaWnId);
+        hash = 97 * hash + Objects.hashCode(this.stronaMaId);
         return hash;
     }
 
@@ -64,10 +64,10 @@ public class TransakcjaPK implements Serializable{
             return false;
         }
         final TransakcjaPK other = (TransakcjaPK) obj;
-        if (!Objects.equals(this.rozliczajacyId, other.rozliczajacyId)) {
+        if (!Objects.equals(this.stronaWnId, other.stronaWnId)) {
             return false;
         }
-        if (!Objects.equals(this.rozliczanyId, other.rozliczanyId)) {
+        if (!Objects.equals(this.stronaMaId, other.stronaMaId)) {
             return false;
         }
         return true;
@@ -75,7 +75,7 @@ public class TransakcjaPK implements Serializable{
 
     @Override
     public String toString() {
-        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacyId + ", rozliczanyId=" + rozliczanyId + '}';
+        return "TransakcjaPK{" + "rozliczajacyId=" + stronaWnId + ", rozliczanyId=" + stronaMaId + '}';
     }
 
     
