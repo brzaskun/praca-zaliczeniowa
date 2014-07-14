@@ -63,10 +63,13 @@ public class ViewBean implements Serializable{
         Dokument[] doktab = DokumentWiersz_i_PotemRozrachunkiOrazTransakcja();
         wydruk(doktab[0]);
         wydruk(doktab[1]);
-        Wiersz wiersz = doktab[0].getWierszelista().get(0);
+        //wydruk(doktab[2]);
+        //Wiersz wiersz = doktab[1].getWierszelista().get(0);
         //doktab[0].getWierszelista().remove(wiersz);
-        wiersz.getRozrachunki().remove(wiersz.getRozrachunekWn());
-        edytujDokument(doktab[0]);
+        p("-----------------");
+        //p("Usuwam "+wiersz.getRozrachunekMa());
+        //wiersz.getRozrachunki().remove(wiersz.getRozrachunekMa());
+        //edytujDokument(doktab[1]);
         //usunDokument(doktab[0]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
         for (Dokument p : pobraneZBazyPoZmianach) {
@@ -82,18 +85,18 @@ public class ViewBean implements Serializable{
         cq.select(cq.from(Dokument.class));
         EntityManager em = getEntityManager();
         List<Dokument> wszystkieDokumenty = getEntityManager().createQuery(cq).getResultList();
-//        List<Dokument> refreshowane = new ArrayList<>();
-//        for (Dokument p : wszystkieDokumenty) {
-//            refreshowane.add(refreshDokument(p));
-//        }
-        //return refreshowane;
-        return wszystkieDokumenty;
+        List<Dokument> refreshowane = new ArrayList<>();
+        for (Dokument p : wszystkieDokumenty) {
+            refreshowane.add(refreshDokument(p));
+        }
+        return refreshowane;
+        //return wszystkieDokumenty;
     }
     public static Dokument refreshDokument (Dokument p) {
         EntityManager em = getEntityManager();
-        //Dokument refreshowany = em.find(Dokument.class, p.getId());
-        em.refresh(em.merge(p));
-        return p;
+        Dokument refreshowany = em.find(Dokument.class, p.getId());
+        em.refresh(refreshowany);
+        return refreshowany;
     }
     
     public static void petlaUsunRozrachunek() {
@@ -419,17 +422,24 @@ public class ViewBean implements Serializable{
             Dokument dokument1 = utrwalNowyDokument();
             licznik++;
             Dokument dokument2 = utrwalNowyDokument();
+            //licznik++;
+            //Dokument dokument3 = utrwalNowyDokument();
             Wiersz wiersz1 = dokument1.getWierszelista().get(0);
             Rozrachunek rozrachunek1 = wiersz1.getRozrachunekWn();
             Wiersz wiersz2 = dokument2.getWierszelista().get(0);
             Rozrachunek rozrachunek2 = wiersz2.getRozrachunekMa();
+            //Wiersz wiersz3 = dokument3.getWierszelista().get(0);
             stworzTransakcje(rozrachunek1, rozrachunek2);
+            //Rozrachunek rozrachunek3 = wiersz3.getRozrachunekMa();
+            //stworzTransakcje(rozrachunek2, rozrachunek3);
             edytujDokument(dokument1);
             edytujDokument(dokument2);
+            //edytujDokument(dokument3);
             System.out.println("Wiersze edytowane, rozrachunki nowe dodane, Transakcjs stworzona!");
             Dokument[] doktab = new Dokument[2];
             doktab[0] = dokument1;
             doktab[1] = dokument2;
+            //doktab[2] = dokument3;
             return doktab;
         } catch (Exception e) {
             return null;
