@@ -7,19 +7,16 @@
 package view;
 
 import entity.Dokument;
-import entity.Rozrachunek;
 import entity.StronaMa;
 import entity.StronaWiersza;
 import entity.StronaWn;
 import entity.Transakcja;
-import entity.TransakcjaPK;
 import entity.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
