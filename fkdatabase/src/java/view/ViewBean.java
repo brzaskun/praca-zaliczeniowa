@@ -61,15 +61,15 @@ public class ViewBean implements Serializable{
         //petlaUsunWiersz();
         //petlaUsunRozrachunek();
         Dokument[] doktab = DokumentWiersz_i_PotemRozrachunkiOrazTransakcja();
-        wydruk(doktab[0]);
-        wydruk(doktab[1]);
-        wydruk(doktab[2]);
-        Wiersz wiersz = doktab[1].getWierszelista().get(0);
+        for (Dokument p : doktab) {
+            wydruk(p);
+        }
+        Wiersz wiersz = doktab[2].getWierszelista().get(0);
         doktab[0].getWierszelista().remove(wiersz);
         p("-----------------");
         p("Usuwam "+wiersz.getStronaMa());
         wiersz.setStronaMa(null);
-        edytujDokument(doktab[1]);
+        edytujDokument(doktab[2]);
         //usunDokument(doktab[0]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
         for (Dokument p : pobraneZBazyPoZmianach) {
