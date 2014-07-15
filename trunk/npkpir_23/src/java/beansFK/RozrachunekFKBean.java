@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
+import viewmanager.AktywacjaPodatnikow;
 
 /**
  *
@@ -66,7 +67,7 @@ public class RozrachunekFKBean {
             return aktualnyWierszDlaRozrachunkow;
     }
     
-    public static void aktualizatorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
+    public static Rozrachunekfk aktualizatorAktualnegoWierszaDlaRozrachunkow(Rozrachunekfk aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         Wiersze wiersz = selected.getListawierszy().get(nrwiersza);
         if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
             if (wnma.equals("Wn")) {
@@ -93,7 +94,9 @@ public class RozrachunekFKBean {
             aktualnyWierszDlaRozrachunkow.setRok(wpisView.getRokWpisuSt());
             aktualnyWierszDlaRozrachunkow.setMc(wpisView.getMiesiacWpisu());
             aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
+            aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
             aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
+            return aktualnyWierszDlaRozrachunkow;
     }
     
     private static void uzupelnijrozrachunkiWn(Rozrachunekfk rozrachunekfk, Wiersze wiersz) {

@@ -111,8 +111,8 @@ public class RozrachunkiPrzegladView implements Serializable{
             for (Rozrachunekfk p : listarozrachunkowkonto) {
                 List<Transakcja> listatransakcjikonto = new ArrayList<>();
                 //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-                RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                listaRozrachunkow.add(rozrachunkiTransakcje);
+               // RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+                //listaRozrachunkow.add(rozrachunkiTransakcje);
             }
         }
     }
@@ -125,8 +125,8 @@ public class RozrachunkiPrzegladView implements Serializable{
             for (Rozrachunekfk p : listarozrachunkowkonto) {
                 List<Transakcja> listatransakcjikonto = new ArrayList<>();
                 //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-                RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                listaRozrachunkow.add(rozrachunkiTransakcje);
+                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+                //listaRozrachunkow.add(rozrachunkiTransakcje);
             }
         }
     }
@@ -139,8 +139,8 @@ public class RozrachunkiPrzegladView implements Serializable{
             for (Rozrachunekfk p : listarozrachunkowkonto) {
                 List<Transakcja> listatransakcjikonto = new ArrayList<>();
                 //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-                RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                listaRozrachunkow.add(rozrachunkiTransakcje);
+                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+                //listaRozrachunkow.add(rozrachunkiTransakcje);
             }
         }
     }

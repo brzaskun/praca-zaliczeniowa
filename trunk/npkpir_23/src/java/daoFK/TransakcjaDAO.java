@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -62,9 +63,9 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return sessionFacade.findTransakcjeRozliczonyID(idrozrachunku);
     }
     
-    public List<Transakcja> findBySparowanyID(int idrozrachunku, String podatnik) {
+    public List<Transakcja> findBySparowanyID(int idrozrachunku) {
         List<Transakcja> odnalezione = new ArrayList<>();
-        List<Transakcja> transakcje = sessionFacade.findTransakcjeSparowanyID(podatnik);
+        List<Transakcja> transakcje = sessionFacade.findAll(Transakcja.class);
         for(Transakcja f : transakcje) {
             Map<Boolean, Rozrachunekfk> roz = f.getRozrachunki();
             int idroz = ((Rozrachunekfk) roz.get(true)).getIdrozrachunku();

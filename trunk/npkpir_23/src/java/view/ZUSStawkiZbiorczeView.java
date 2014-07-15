@@ -139,6 +139,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                     break;
                 }
             }
+            selected.setZusparametr(new ArrayList<Zusstawki>());
             selected.setZusparametr(tmp);
             podatnikDAO.edit(selected);
             wprowadzaniezusstawki = new Zusstawki();

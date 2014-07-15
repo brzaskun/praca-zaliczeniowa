@@ -6,7 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Transakcja;
-import entityfk.Rozrachunekfk;
+import entityfk.Rozliczajacy;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.List;
