@@ -162,7 +162,7 @@
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
-                        <pe:inputNumber id="ma" value="#{loop.stronaMa.kwotaMa}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.stronaMa.maReadOnly}">
+                        <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa" readonly="#{loop.stronaMa.maReadOnly}">
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this"/>
                             <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
                         </pe:inputNumber>

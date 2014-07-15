@@ -7,6 +7,8 @@
 package viewfk.subroutines;
 
 import entityfk.Dokfk;
+import entityfk.StronaMa;
+import entityfk.StronaWn;
 import entityfk.Wiersz;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -21,19 +23,24 @@ public class ObslugaWiersza {
     
     public static Wiersz utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
-        nowywiersz.setDokfk(selected);
-        nowywiersz.setTypWiersza(0);
-        //nowywiersz.setZaksiegowane(false);
-        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        uzupelnijDane(nowywiersz, selected);
         return nowywiersz;
     }
     
     public static Wiersz ustawNowyWiersz(Dokfk dokfk) {
         Wiersz nowywiersz =  new Wiersz(1, 0);
-        nowywiersz.setDokfk(dokfk);
+        uzupelnijDane(nowywiersz, dokfk);
+        return nowywiersz;
+    }
+    
+    private static void uzupelnijDane (Wiersz nowywiersz, Dokfk selected) {
+        nowywiersz.setDokfk(selected);
         nowywiersz.setTypWiersza(0);
         //nowywiersz.setZaksiegowane(false);
-        nowywiersz.setTabelanbp(dokfk.getTabelanbp());
-        return nowywiersz;
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWn stronaWn = new StronaWn(nowywiersz);
+        StronaMa stronaMa = new StronaMa(nowywiersz);
+        nowywiersz.setStronaWn(stronaWn);
+        nowywiersz.setStronaMa(stronaMa);
     }
 }

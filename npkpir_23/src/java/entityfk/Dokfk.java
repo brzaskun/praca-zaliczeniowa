@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -29,6 +30,7 @@ import viewfk.subroutines.ObslugaWiersza;
  *
  * @author Osito
  */
+@Cacheable(false)
 @Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
@@ -79,14 +81,16 @@ public class Dokfk implements Serializable {
     
     
     public Dokfk() {
+        this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
+        this.listawierszy = new ArrayList<>();
     }
 
-    
-    
     public Dokfk(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
+        this.listawierszy = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
@@ -95,7 +99,17 @@ public class Dokfk implements Serializable {
         this.numerwlasnydokfk = numer;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
+        this.listawierszy = new ArrayList<>();
     }
+
+    public Dokfk(String symbolPoprzedniegoDokumentu, String podatnik) {
+        this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
+        this.listawierszy = new ArrayList<>();
+        ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
+    }
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
@@ -291,15 +305,12 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public void ustawNoweSelected(String symbolPoprzedniegoDokumentu, String podatnik) {
-        DokfkPK dokfkPK = new DokfkPK();
+    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, String podatnik) {
+        this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
-        dokfkPK.setPodatnik(podatnik);
-        dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
-        this.setDokfkPK(dokfkPK);
-        List<Wiersz> wiersze = new ArrayList<>();
-        wiersze.add(ObslugaWiersza.ustawNowyWiersz(this));
-        this.setListawierszy(wiersze);
+        this.dokfkPK.setPodatnik(podatnik);
+        this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+        this.getListawierszy().add(ObslugaWiersza.ustawNowyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }
 }

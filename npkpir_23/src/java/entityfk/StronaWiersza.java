@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,48 +31,64 @@ public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
      
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    protected String nazwaStronyWiersza;
+    @Column(name = "id", nullable = false)
+    protected Integer id;
     @OneToOne
     @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
     protected Wiersz wiersz;
     @Column(name = "kwota")
-    private double kwota;
+    protected double kwota;
     @Column(name = "kwotaPLN")
-    private double kwotaPLN;
+    protected double kwotaPLN;
     @Column(name = "kwotaWaluta")
-    private double kwotaWaluta;
+    protected double kwotaWaluta;
     @Column(name="rozliczono")
-    private double rozliczono;
+    protected double rozliczono;
     @Column(name="pozostalo")
-    private double pozostalo;
+    protected double pozostalo;
     @Column(name="nowatransakcja")
-    private Boolean nowatransakcja;
+    protected Boolean nowatransakcja;
     
 
     public StronaWiersza() {
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
+        this.nowatransakcja = false;
     }
 
-    public StronaWiersza(String nazwarozrachunku) {
-        this.nazwaStronyWiersza = nazwarozrachunku;
-        this.kwota = 0.0;
-        this.kwotaPLN = 0.0;
-        this.kwotaWaluta = 0.0;
-    }
-    
-
-    public String getNazwaStronyWiersza() {
-        return nazwaStronyWiersza;
+    public Integer getId() {
+        return id;
     }
 
-    public void setNazwaStronyWiersza(String nazwaStronyWiersza) {
-        this.nazwaStronyWiersza = nazwaStronyWiersza;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public double getRozliczono() {
+        return rozliczono;
+    }
+
+    public void setRozliczono(double rozliczono) {
+        this.rozliczono = rozliczono;
+    }
+
+    public double getPozostalo() {
+        return pozostalo;
+    }
+
+    public void setPozostalo(double pozostalo) {
+        this.pozostalo = pozostalo;
+    }
+
+    public Boolean isNowatransakcja() {
+        return nowatransakcja;
+    }
+
+    public void setNowatransakcja(Boolean nowatransakcja) {
+        this.nowatransakcja = nowatransakcja;
     }
 
     public Wiersz getWiersz() {

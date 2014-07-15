@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable(false)
 @Entity
-@Table(catalog = "fktest", schema = "")
+@Table(name = "transakcja", catalog = "pkpir", schema = "")
 @XmlRootElement
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -2,22 +2,18 @@
 package entityfk;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
+@Cacheable(false)
 @Entity
 @Table(name = "wiersz")
 @XmlRootElement
@@ -80,10 +77,12 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
+        this.zapisynakontach = new ArrayList<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
+        this.zapisynakontach = new ArrayList<>();
         this.idporzadkowy = idporzadkowy;
     }
     

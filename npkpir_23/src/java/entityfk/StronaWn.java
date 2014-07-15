@@ -26,7 +26,7 @@ import javax.persistence.Table;
  */
 @Cacheable(false)
 @Entity
-@Table(name = "stronawn", catalog = "fktest", schema = "")
+@Table(name = "stronawn", catalog = "pkpir", schema = "")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class StronaWn extends StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,9 +44,11 @@ public class StronaWn extends StronaWiersza implements Serializable {
         this.transakcje = new ArrayList<>();
     }
     
-    public StronaWn(String nazwarozrachunku) {
+
+    public StronaWn(Wiersz nowywiersz) {
+        super();
         this.transakcje = new ArrayList<>();
-        super.setNazwaStronyWiersza(nazwarozrachunku);
+        this.wiersz = nowywiersz;
     }
 
     public List<Transakcja> getTransakcje() {
