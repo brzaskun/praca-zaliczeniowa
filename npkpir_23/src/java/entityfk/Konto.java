@@ -153,8 +153,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "maslownik")
     private boolean maslownik;
-    @OneToMany(mappedBy = "kontoid")
-    private List<Rozliczajacy> rozrachunekfkList;
+    @OneToMany(mappedBy = "kontoWn")
+    private List<StronaWn> stronaWn;
+    @OneToMany(mappedBy = "kontoMa")
+    private List<StronaMa> stronaMa;
     @OneToMany(mappedBy = "kontoobiekt", fetch = FetchType.EAGER)
     private List<Kontozapisy> zapisynakoncie;
 
@@ -388,17 +390,23 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setZapisynakoncie(List<Kontozapisy> zapisynakoncie) {
         this.zapisynakoncie = zapisynakoncie;
     }
+
+    public List<StronaWn> getStronaWn() {
+        return stronaWn;
+    }
+
+    public void setStronaWn(List<StronaWn> stronaWn) {
+        this.stronaWn = stronaWn;
+    }
+
+    public List<StronaMa> getStronaMa() {
+        return stronaMa;
+    }
+
+    public void setStronaMa(List<StronaMa> stronaMa) {
+        this.stronaMa = stronaMa;
+    }
   
-    
-    @XmlTransient
-    public List<Rozliczajacy> getRozrachunekfkList() {
-        return rozrachunekfkList;
-    }
-
-    public void setRozrachunekfkList(List<Rozliczajacy> rozrachunekfkList) {
-        this.rozrachunekfkList = rozrachunekfkList;
-    }
-
       
     
 

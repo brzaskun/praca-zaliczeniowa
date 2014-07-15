@@ -12,9 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -61,7 +59,7 @@ public class Dokfk implements Serializable {
     private String numerwlasnydokfk;
     @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
-    private List<Wiersze> listawierszy;
+    private List<Wiersz> listawierszy;
     @Column(name = "miesiac")
     private String miesiac;
     @Column(name = "opisdokfk")
@@ -181,11 +179,11 @@ public class Dokfk implements Serializable {
     
     
     @XmlTransient
-    public List<Wiersze> getListawierszy() {
+    public List<Wiersz> getListawierszy() {
         return listawierszy;
     }
     
-    public void setListawierszy(List<Wiersze> listawierszy) {
+    public void setListawierszy(List<Wiersz> listawierszy) {
         this.listawierszy = listawierszy;
     }
 
@@ -239,20 +237,20 @@ public class Dokfk implements Serializable {
 
     public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
-            Wiersze biezacywiersz = this.listawierszy.get(numerwiersza);
+            Wiersz biezacywiersz = this.listawierszy.get(numerwiersza);
             int typwiersza = biezacywiersz.getTypWiersza();
             double suma = 0.0;
             if (typwiersza==1) {
-                suma += biezacywiersz.getKwotaWn();
+                suma += biezacywiersz.getStronaWn().getKwota();
             } else if (typwiersza==2) {
-                suma += biezacywiersz.getKwotaMa();
+                suma += biezacywiersz.getStronaMa().getKwota();
             } else {
-                double kwotaWn = biezacywiersz.getKwotaWn();
-                double kwotaMa = biezacywiersz.getKwotaMa();
+                double kwotaWn = biezacywiersz.getStronaWn().getKwota();
+                double kwotaMa = biezacywiersz.getStronaMa().getKwota();
                 if (kwotaMa>kwotaWn) {
-                    suma += biezacywiersz.getKwotaWn();
+                    suma += biezacywiersz.getStronaWn().getKwota();
                 } else {
-                    suma += biezacywiersz.getKwotaMa();
+                    suma += biezacywiersz.getStronaMa().getKwota();
                 }
             }
             this.wartoscdokumentu = this.wartoscdokumentu + suma;
@@ -271,25 +269,22 @@ public class Dokfk implements Serializable {
     
     public void uzupelnijwierszeodane() {
         //ladnie uzupelnia informacje o wierszu pk
-        List<Wiersze> wierszewdokumencie = this.listawierszy;
+        List<Wiersz> wierszewdokumencie = this.listawierszy;
         try {
-            for (Wiersze p : wierszewdokumencie) {
+            for (Wiersz p : wierszewdokumencie) {
                 String opis = p.getOpisWiersza();
                 if (opis.contains("kontown")) {
                     p.setDataksiegowania(this.datawystawienia);
                     p.setTypWiersza(1);
                     p.setDokfk(this);
-                    p.setZaksiegowane(Boolean.FALSE);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(this.datawystawienia);
                     p.setTypWiersza(2);
                     p.setDokfk(this);
-                    p.setZaksiegowane(Boolean.FALSE);
                 } else {
                     p.setDataksiegowania(this.datawystawienia);
                     p.setTypWiersza(0);
                     p.setDokfk(this);
-                    p.setZaksiegowane(Boolean.FALSE);
                 }
             }
         } catch (Exception e) {
@@ -302,7 +297,7 @@ public class Dokfk implements Serializable {
         dokfkPK.setPodatnik(podatnik);
         dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.setDokfkPK(dokfkPK);
-        List<Wiersze> wiersze = new ArrayList<>();
+        List<Wiersz> wiersze = new ArrayList<>();
         wiersze.add(ObslugaWiersza.ustawNowyWiersz(this));
         this.setListawierszy(wiersze);
         this.setZablokujzmianewaluty(false); 

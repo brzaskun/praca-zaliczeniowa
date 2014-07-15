@@ -5,9 +5,7 @@
  */
 package viewfk.subroutines;
 
-import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
-import entityfk.Rozrachunekfk;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -20,24 +18,24 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaRozrachunku {
 
-    public static void utrwalNoweRozachunki(List<Rozrachunekfk> pobierznowododane, RozrachunekfkDAO rozrachunekfkDAO) {
-        for (Rozrachunekfk p : pobierznowododane) {
-            p.setZaksiegowanodokument(true);
-            rozrachunekfkDAO.edit(p);
-        }
-    }
+//    public static void utrwalNoweRozachunki(List<Rozrachunekfk> pobierznowododane, RozrachunekfkDAO rozrachunekfkDAO) {
+//        for (Rozrachunekfk p : pobierznowododane) {
+//            p.setZaksiegowanodokument(true);
+//            rozrachunekfkDAO.edit(p);
+//        }
+//    }
+//
+//    public static void usunrozrachunek(Rozrachunekfk rozrachunekfk, RozrachunekfkDAO rozrachunekfkDAO) {
+//        try {
+//            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
+//            if (rU instanceof Rozrachunekfk) {
+//                rozrachunekfkDAO.destroy(rU);
+//            }
+//        } catch (Exception e){
+//        }
+//    }
 
-    public static void usunrozrachunek(Rozrachunekfk rozrachunekfk, RozrachunekfkDAO rozrachunekfkDAO) {
-        try {
-            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
-            if (rU instanceof Rozrachunekfk) {
-                rozrachunekfkDAO.destroy(rU);
-            }
-        } catch (Exception e){
-        }
-    }
-
-    public static void usuntransakcje(Rozrachunekfk rozrachunekfk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
+   // public static void usuntransakcje(Rozrachunekfk rozrachunekfk, TransakcjaDAO transakcjaDAO, RozrachunekfkDAO rozrachunekfkDAO) {
 //        try {
 //            WierszStronafkPK wierszPK = wierszStronafk.getWierszStronafkPK();
 //            //Transakcja znaleziona = transakcjaDAO.findByKlucz(wierszPK);
@@ -56,6 +54,6 @@ public class ObslugaRozrachunku {
 //            }
 //        } catch (Exception e){
 //        }
-    }
+ //   }
 
 }

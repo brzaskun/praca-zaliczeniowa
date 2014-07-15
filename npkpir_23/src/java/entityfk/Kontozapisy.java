@@ -86,7 +86,7 @@ public class Kontozapisy implements Serializable {
     private String kontoma;
     @JoinColumn(name = "wiersz", referencedColumnName = "idwiersza")
     @ManyToOne
-    private Wiersze wiersz;
+    private Wiersz wiersz;
     @Size(min = 3, max = 3)
     @Column(name = "symbolwaluty", nullable = false, length = 3)
     private String symbolwaluty;
@@ -193,11 +193,11 @@ public class Kontozapisy implements Serializable {
         this.kontoprzeciwstawne = kontoprzeciwstawne;
     }
     
-    public Wiersze getWiersz() {
+    public Wiersz getWiersz() {
         return wiersz;
     }
     
-    public void setWiersz(Wiersze wiersz) {
+    public void setWiersz(Wiersz wiersz) {
         this.wiersz = wiersz;
     }
     

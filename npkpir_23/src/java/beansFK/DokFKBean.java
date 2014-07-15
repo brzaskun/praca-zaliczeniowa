@@ -8,7 +8,7 @@ package beansFK;
 
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;

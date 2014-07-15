@@ -7,7 +7,7 @@
 package viewfk.subroutines;
 
 import entityfk.Dokfk;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -19,20 +19,20 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaWiersza {
     
-    public static Wiersze utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie)  {
-        Wiersze nowywiersz = new Wiersze(liczbawierszyWDokumencie, 0);
+    public static Wiersz utworzNowyWiersz(Dokfk selected, String podatnik, int liczbawierszyWDokumencie)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTypWiersza(0);
-        nowywiersz.setZaksiegowane(false);
+        //nowywiersz.setZaksiegowane(false);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         return nowywiersz;
     }
     
-    public static Wiersze ustawNowyWiersz(Dokfk dokfk) {
-        Wiersze nowywiersz =  new Wiersze(1, 0);
+    public static Wiersz ustawNowyWiersz(Dokfk dokfk) {
+        Wiersz nowywiersz =  new Wiersz(1, 0);
         nowywiersz.setDokfk(dokfk);
         nowywiersz.setTypWiersza(0);
-        nowywiersz.setZaksiegowane(false);
+        //nowywiersz.setZaksiegowane(false);
         nowywiersz.setTabelanbp(dokfk.getTabelanbp());
         return nowywiersz;
     }

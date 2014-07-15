@@ -5,7 +5,7 @@
 package viewfk;
 
 import dao.WierszeDAO;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,7 +24,7 @@ import view.WpisView;
 public class WierszeView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private WierszeDAO wierszeDAO;
-    private List<Wiersze> wiersze;
+    private List<Wiersz> wiersze;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
@@ -33,11 +33,11 @@ public class WierszeView implements Serializable {
             wiersze = wierszeDAO.findWierszePodatnik(wpisView.getPodatnikWpisu());
         }
 
-    public List<Wiersze> getWiersze() {
+    public List<Wiersz> getWiersze() {
         return wiersze;
     }
 
-    public void setWiersze(List<Wiersze> wiersze) {
+    public void setWiersze(List<Wiersz> wiersze) {
         this.wiersze = wiersze;
     }
 

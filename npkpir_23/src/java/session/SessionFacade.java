@@ -45,12 +45,11 @@ import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
-import entityfk.Rozrachunekfk;
 import entityfk.Rzisuklad;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -568,22 +567,22 @@ public class SessionFacade<T> implements Serializable{
         return (Dok) em.createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", nazwapelna).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
     
-    public List<Wiersze> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
+    public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
         return em.createNamedQuery("Wiersze.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
     }
     
     
-    public List<Wiersze> findWierszeZapisy(String podatnik, String konto) {
+    public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
         return em.createNamedQuery("Wiersze.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
     
-    public List<Wiersze> findWierszePodatnik(String podatnik) {
+    public List<Wiersz> findWierszePodatnik(String podatnik) {
         return em.createNamedQuery("Wiersze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
 //
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
-//        return em.createNamedQuery("Wiersze.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
+//        return em.createNamedQuery("Wiersz.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
 //    }
 
     public Dokfk findDokfk(Dokfk selected) {
@@ -687,77 +686,7 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public Rozrachunekfk findRozrachunekfk(Rozrachunekfk p) {
-//         try {
-//            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByWierszStronafk").setParameter("wierszStronafkPK", p.getWierszStronafk().getWierszStronafkPK()).getSingleResult();
-//        } catch (Exception e) {
-//            return null;
-//        }
-         return null;
-    }
-    
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnik(String podatnik) {
-         try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnikkonto(String podatnik, String nrkonta) {
-         try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKonto").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWaluta(String podatnik, String nrkonta, String waluta) {
-         try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWaluta").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Rozrachunekfk> findRozrachunkifkByKonto(Konto kontoid, String wnma, String walutarozrachunku) {
-        String wnmaNew = null;
-        if (wnma.equals("Wn")) {
-            wnmaNew = "Ma";
-        } else {
-            wnmaNew = "Wn";
-        }
-        try {
-            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("kontoid", kontoid).setParameter("wnmaNew", wnmaNew).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-//     public List<Rozrachunekfk> findRozrachunkifkByKontoAktualny(String nrkonta, String wnma, String walutarozrachunku) {
-//        try {
-//            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByKonto").setParameter("nrkonta", nrkonta).setParameter("wnmaNew", wnma).setParameter("walutarozrachunku", walutarozrachunku).getResultList();
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
-
-//    public Zestawienielisttransakcji findByKlucz(WierszStronafkPK kluczlisty) {
-//         try {
-//            return (Zestawienielisttransakcji) em.createNamedQuery("Zestawienielisttransakcji.findByKluczlisty").setParameter("kluczlisty", kluczlisty).getSingleResult();
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
-//
-    public Rozrachunekfk findRozrachunkifkByIdrozrachunku(int idrozrachunku) {
-        try {
-            return (Rozrachunekfk) em.createNamedQuery("Rozrachunekfk.findByIdrozrachunku").setParameter("idrozrachunku", idrozrachunku).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+   
     
     public Tabelanbp findByDateWaluta(String doprzekazania, String nazwawaluty) {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", doprzekazania).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
@@ -775,15 +704,7 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunkifkByDokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
-         try {
-            return em.createNamedQuery("Rozrachunekfk.findRozrachunkifkByDokfk").setParameter("typDokfk", seriadokfk).setParameter("nrkolejnyDokfk", nrkolejny)
-                    .setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+ 
     public List<Sesja> findUser(String user) {
         return em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
     }
@@ -899,29 +820,6 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaRozliczone(String podatnik, String nrkonta, String waluta) {
-        try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaRozliczone").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaCzesciowo(String podatnik, String nrkonta, String waluta) {
-        try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaCzesciowo").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Rozrachunekfk> findRozrachunekfkByPodatnikKontoWalutaNowe(String podatnik, String nrkonta, String waluta) {
-        try {
-            return em.createNamedQuery("Rozrachunekfk.findByPodatnikKontoWalutaNowe").setParameter("podatnik", podatnik).setParameter("nrkonta", nrkonta).setParameter("waluta", waluta).getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     public List<Dok> znajdzOdDo(long odd, long dod) {
         return em.createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList();
