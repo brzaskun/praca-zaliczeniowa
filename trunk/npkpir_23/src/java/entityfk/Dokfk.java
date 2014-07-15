@@ -310,7 +310,7 @@ public class Dokfk implements Serializable {
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
         this.dokfkPK.setPodatnik(podatnik);
         this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
-        this.getListawierszy().add(ObslugaWiersza.ustawNowyWiersz(this));
+        this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }
 }

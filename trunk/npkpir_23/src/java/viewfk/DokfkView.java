@@ -170,7 +170,7 @@ public class DokfkView implements Serializable {
             }
             if (kwotaWn != 0 || kwotaMa != 0) {
                 liczbawierszyWDokumencie += 1;
-                selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, wpisView.getPodatnikWpisu(), liczbawierszyWDokumencie));
+                selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                 int nowyWiersz = liczbawierszyWDokumencie - 1;
                 int poprzedniWiersz = liczbawierszyWDokumencie - 2;
                 selected.getListawierszy().get(nowyWiersz).setDataWalutyWiersza(selected.getListawierszy().get(poprzedniWiersz).getDataWalutyWiersza());
@@ -259,7 +259,7 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
             } 
             if (liczbawierszyWDokumencie == 0) {
-                selected.getListawierszy().add(ObslugaWiersza.ustawNowyWiersz(selected));
+                selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie++;
             }
             Msg.msg("Wiersz usunięty.");
