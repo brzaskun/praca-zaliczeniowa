@@ -172,10 +172,10 @@ public class DokFKTransakcjeBean implements Serializable{
         return biezacetransakcje;
     }
     
-    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku, String podatnik) {
+    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
         List<Transakcja> pobrana = new ArrayList<>();
         try {
-            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku, podatnik));
+            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
             for (Transakcja p : pobrana) {
                 Rozrachunekfk rozliczany = p.getSparowany();
                 Rozrachunekfk sparowany = p.getRozliczany();

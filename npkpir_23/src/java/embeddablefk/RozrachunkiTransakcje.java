@@ -7,7 +7,7 @@
 package embeddablefk;
 
 import entityfk.Transakcja;
-import entityfk.Rozrachunekfk;
+import entityfk.Rozliczajacy;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,18 +18,18 @@ import java.util.List;
 public class RozrachunkiTransakcje  implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private Rozrachunekfk rozrachunekfk;
+    private Rozliczajacy rozrachunekfk;
     private List<Transakcja> transakcje;
 
-    public Rozrachunekfk getRozrachunekfk() {
+    public Rozliczajacy getRozrachunekfk() {
         return rozrachunekfk;
     }
 
-    public void setRozrachunekfk(Rozrachunekfk rozrachunekfk) {
+    public void setRozrachunekfk(Rozliczajacy rozrachunekfk) {
         this.rozrachunekfk = rozrachunekfk;
     }
 
-    public RozrachunkiTransakcje(Rozrachunekfk rozrachunekfk, List<Transakcja> transakcje) {
+    public RozrachunkiTransakcje(Rozliczajacy rozrachunekfk, List<Transakcja> transakcje) {
         this.rozrachunekfk = rozrachunekfk;
         this.transakcje = transakcje;
     }

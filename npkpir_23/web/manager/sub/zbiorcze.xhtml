@@ -19,7 +19,7 @@
    <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="width: 100%;" >
         
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
-            <h:form id="zbiorczyform">
+            <h:form >
             <p:panelGrid columns="4" style="width: 100%; max-width: 900px;">
                 <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
                              sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
@@ -81,17 +81,29 @@
                         <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update="@form"/>
                     </p:selectOneMenu>
                     <h:outputText value="kwota zus51 z chor.: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51ch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51ch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>
                     <h:outputText value="kwota zus51 bez chor.: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51bch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51bch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>
                     <h:outputText value="kwota zus52: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus52}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus52}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>     
                     <h:outputText value="kwota zus52odlicz: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus52odl}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />                         
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus52odl}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>
                     <h:outputText value="kwota zus53: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus53}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus53}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"  >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>
                     <h:outputText value="kwota PIT4: "/>
-                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.pit4}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" />     
+                    <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.pit4}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        <p:ajax event="keyup" partialSubmit="true"/>
+                    </pe:inputNumber>
                 </p:panelGrid>
                 <br/>
                 <p:panelGrid columns="5" style="column-width: 350px; width: 100%; max-width: 900px;  text-align: center;">
