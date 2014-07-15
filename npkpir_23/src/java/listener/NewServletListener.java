@@ -21,11 +21,14 @@ import view.SesjaView;
  */
 @WebListener()
 public class NewServletListener implements HttpSessionListener {
-    @Inject private Sesja sesja;
-    @Inject private SesjaDAO sesjaDAO;
-    @Inject private SesjaView sesjaView;
-   
-            
+
+    @Inject
+    private Sesja sesja;
+    @Inject
+    private SesjaDAO sesjaDAO;
+    @Inject
+    private SesjaView sesjaView;
+
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         String sessionId = se.getSession().getId();
@@ -34,12 +37,13 @@ public class NewServletListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         String nrsesji = se.getSession().getId();
-        try{
-        sesja = sesjaDAO.find(nrsesji);
-        Calendar calendar = Calendar.getInstance();
-        sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
-        sesjaDAO.edit(sesja);
-        } catch (Exception e){}
-        
+        try {
+            sesja = sesjaDAO.find(nrsesji);
+            Calendar calendar = Calendar.getInstance();
+            sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
+            sesjaDAO.edit(sesja);
+        } catch (Exception e) {
+        }
+
     }
 }
