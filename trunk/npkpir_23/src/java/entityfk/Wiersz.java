@@ -32,14 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "wiersze")
+@Table(name = "wiersz")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Wiersze.findAll", query = "SELECT w FROM Wiersze w"),
-    @NamedQuery(name = "Wiersze.findByDataksiegowania", query = "SELECT w FROM Wiersze w WHERE w.dataksiegowania = :dataksiegowania"),
-    @NamedQuery(name = "Wiersze.findByIdwiersza", query = "SELECT w FROM Wiersze w WHERE w.idwiersza = :idwiersza"),
-    @NamedQuery(name = "Wiersze.findByOpisWiersza", query = "SELECT w FROM Wiersze w WHERE w.opisWiersza = :opisWiersza"),
-    @NamedQuery(name = "Wiersze.findByPodatnik", query = "SELECT w FROM Wiersze w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
+    @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
+    @NamedQuery(name = "Wiersz.findByDataksiegowania", query = "SELECT w FROM Wiersz w WHERE w.dataksiegowania = :dataksiegowania"),
+    @NamedQuery(name = "Wiersz.findByIdwiersza", query = "SELECT w FROM Wiersz w WHERE w.idwiersza = :idwiersza"),
+    @NamedQuery(name = "Wiersz.findByOpisWiersza", query = "SELECT w FROM Wiersz w WHERE w.opisWiersza = :opisWiersza"),
+    @NamedQuery(name = "Wiersz.findByPodatnik", query = "SELECT w FROM Wiersz w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
 })
 
 public class Wiersz implements Serializable {
