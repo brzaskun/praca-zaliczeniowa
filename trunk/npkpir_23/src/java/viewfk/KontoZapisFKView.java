@@ -7,7 +7,6 @@ package viewfk;
 import comparator.Kontozapisycomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
-import daoFK.RozrachunekfkDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Transakcja;
 import embeddablefk.TreeNodeExtended;
@@ -48,7 +47,7 @@ public class KontoZapisFKView implements Serializable{
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
-    @Inject private RozrachunekfkDAO rozrachunekfkDAO;
+    //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private Double sumaWn;
     private Double sumaMa;

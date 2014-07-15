@@ -10,7 +10,7 @@ import daoFK.WalutyDAOfk;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -24,56 +24,56 @@ import javax.inject.Named;
 @Singleton
 public class DokFKWalutyBean implements Serializable{
     
-    public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {
-        double kurs;
-        if (staranazwa.equals("PLN")) {
-            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
-            kurs = selected.getTabelanbp().getKurssredni();
-            kurs = Math.round((1 / kurs) * 100000000);
-            kurs /= 100000000;
-            List<Wiersze> wiersze = selected.getListawierszy();
-            for (Wiersze p : wiersze) {
-                if (p.getKwotaWn() != 0.0) {
-                    double kwota = p.getKwotaWn();
-                    p.setKwotaPLNWn(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota /= 10000;
-                    p.setKwotaWn(kwota);
-                    p.setKwotaWalutaWn(kwota);
-                }
-                if (p.getKwotaMa() != 0.0) {
-                    double kwota = p.getKwotaMa();
-                    p.setKwotaPLNMa(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota /= 10000;
-                    p.setKwotaMa(kwota);
-                    p.setKwotaWalutaMa(kwota);
-                }
-            }
-        } else {
-            //robimy w zlotowkach
-            kurs = selected.getTabelanbp().getKurssredni();
-            List<Wiersze> wiersze = selected.getListawierszy();
-            for (Wiersze p : wiersze) {
-                if (p.getKwotaWn() != 0.0) {
-                    double kwota = p.getKwotaWn();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota /= 100;
-                    p.setKwotaWn(kwota);
-                    p.setKwotaPLNWn(kwota);
-                    p.setKwotaWalutaWn(0.0);
-                }
-                if (p.getKwotaMa() != 0.0) {
-                    double kwota = p.getKwotaMa();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota /= 100;
-                    p.setKwotaMa(kwota);
-                    p.setKwotaPLNMa(kwota);
-                    p.setKwotaWalutaMa(0.0);
-                }
-        }
-        }
-    }
+//    public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {
+//        double kurs;
+//        if (staranazwa.equals("PLN")) {
+//            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+//            kurs = selected.getTabelanbp().getKurssredni();
+//            kurs = Math.round((1 / kurs) * 100000000);
+//            kurs /= 100000000;
+//            List<Wiersz> wiersze = selected.getListawierszy();
+//            for (Wiersz p : wiersze) {
+//                if (p.getKwotaWn() != 0.0) {
+//                    double kwota = p.getKwotaWn();
+//                    p.setKwotaPLNWn(kwota+0.0);
+//                    kwota = Math.round(kwota * kurs * 10000);
+//                    kwota /= 10000;
+//                    p.setKwotaWn(kwota);
+//                    p.setKwotaWalutaWn(kwota);
+//                }
+//                if (p.getKwotaMa() != 0.0) {
+//                    double kwota = p.getKwotaMa();
+//                    p.setKwotaPLNMa(kwota+0.0);
+//                    kwota = Math.round(kwota * kurs * 10000);
+//                    kwota /= 10000;
+//                    p.setKwotaMa(kwota);
+//                    p.setKwotaWalutaMa(kwota);
+//                }
+//            }
+//        } else {
+//            //robimy w zlotowkach
+//            kurs = selected.getTabelanbp().getKurssredni();
+//            List<Wiersz> wiersze = selected.getListawierszy();
+//            for (Wiersz p : wiersze) {
+//                if (p.getKwotaWn() != 0.0) {
+//                    double kwota = p.getKwotaWn();
+//                    kwota = Math.round(kwota * kurs * 100);
+//                    kwota /= 100;
+//                    p.setKwotaWn(kwota);
+//                    p.setKwotaPLNWn(kwota);
+//                    p.setKwotaWalutaWn(0.0);
+//                }
+//                if (p.getKwotaMa() != 0.0) {
+//                    double kwota = p.getKwotaMa();
+//                    kwota = Math.round(kwota * kurs * 100);
+//                    kwota /= 100;
+//                    p.setKwotaMa(kwota);
+//                    p.setKwotaPLNMa(kwota);
+//                    p.setKwotaWalutaMa(0.0);
+//                }
+//        }
+//        }
+//    }
 
     
 //    public static void uzupelnijwierszprzyprzewalutowaniuPLN(WierszStronafk wierszStronafk) {

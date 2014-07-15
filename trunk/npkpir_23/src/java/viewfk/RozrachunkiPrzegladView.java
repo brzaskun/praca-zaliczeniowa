@@ -8,13 +8,10 @@ package viewfk;
 
 import beansFK.DokFKTransakcjeBean;
 import daoFK.KontoDAOfk;
-import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
-import embeddablefk.RozrachunkiTransakcje;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,11 +36,11 @@ public class RozrachunkiPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private List<Konto> listaKontRozrachunkowych;
-    private List<RozrachunkiTransakcje> listaRozrachunkow;
+    //private List<RozrachunkiTransakcje> listaRozrachunkow;
     private List<Transakcja> listaTransakcji;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
-    @Inject private RozrachunekfkDAO rozrachunekfkDAO;
+    //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     @Inject private TransakcjaDAO transakcjaDAO;
     private TreeNodeExtended<Konto> root;
@@ -57,7 +54,7 @@ public class RozrachunkiPrzegladView implements Serializable{
 
     public RozrachunkiPrzegladView() {
         listaKontRozrachunkowych = new ArrayList<>();
-        listaRozrachunkow = new ArrayList<>();
+        //listaRozrachunkow = new ArrayList<>();
         listaTransakcji = new ArrayList<>();
         wybranaWalutaDlaKont = "PLN";
     }
@@ -103,53 +100,52 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        listaRozrachunkow = new ArrayList<>();
-        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        wybranekonto = (Konto) node.getData();
-        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
-        if (!listarozrachunkowkonto.isEmpty()) {
-            for (Rozrachunekfk p : listarozrachunkowkonto) {
-                List<Transakcja> listatransakcjikonto = new ArrayList<>();
-                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-               // RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                //listaRozrachunkow.add(rozrachunkiTransakcje);
-            }
-        }
+//        listaRozrachunkow = new ArrayList<>();
+//        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
+//        wybranekonto = (Konto) node.getData();
+//        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
+//        if (!listarozrachunkowkonto.isEmpty()) {
+//            for (Rozrachunekfk p : listarozrachunkowkonto) {
+//                List<Transakcja> listatransakcjikonto = new ArrayList<>();
+//                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
+//               // RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+//                //listaRozrachunkow.add(rozrachunkiTransakcje);
+//            }
+//        }
     }
     
     public void pobierzZapisyZmianaWaluty() {
-        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
-        listaRozrachunkow = new ArrayList<>();
-        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
-        if (!listarozrachunkowkonto.isEmpty()) {
-            for (Rozrachunekfk p : listarozrachunkowkonto) {
-                List<Transakcja> listatransakcjikonto = new ArrayList<>();
-                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                //listaRozrachunkow.add(rozrachunkiTransakcje);
-            }
-        }
+//        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
+//        listaRozrachunkow = new ArrayList<>();
+//        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+//        if (!listarozrachunkowkonto.isEmpty()) {
+//            for (Rozrachunekfk p : listarozrachunkowkonto) {
+//                List<Transakcja> listatransakcjikonto = new ArrayList<>();
+//                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
+//                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+//                //listaRozrachunkow.add(rozrachunkiTransakcje);
+//            }
+//        }
     }
     
     public void pobierzZapisyZmianaZakresu() {
-        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
-        listaRozrachunkow = new ArrayList<>();
-        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWalutaSelekcja(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont, coWyswietlacRozrachunkiPrzeglad);
-        if (!listarozrachunkowkonto.isEmpty()) {
-            for (Rozrachunekfk p : listarozrachunkowkonto) {
-                List<Transakcja> listatransakcjikonto = new ArrayList<>();
-                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-                //listaRozrachunkow.add(rozrachunkiTransakcje);
-            }
-        }
+//        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
+//        listaRozrachunkow = new ArrayList<>();
+//        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWalutaSelekcja(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont, coWyswietlacRozrachunkiPrzeglad);
+//        if (!listarozrachunkowkonto.isEmpty()) {
+//            for (Rozrachunekfk p : listarozrachunkowkonto) {
+//                List<Transakcja> listatransakcjikonto = new ArrayList<>();
+//                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
+//                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
+//                //listaRozrachunkow.add(rozrachunkiTransakcje);
+//            }
+//        }
     }
     
     
-    
-    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
-        listaRozrachunkow.clear();
-    }
+//    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
+//        listaRozrachunkow.clear();
+//    }
     
     public WpisView getWpisView() {
         return wpisView;
@@ -167,13 +163,6 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.listaKontRozrachunkowych = listaKontRozrachunkowych;
     }
 
-    public List<RozrachunkiTransakcje> getListaRozrachunkow() {
-        return listaRozrachunkow;
-    }
-
-    public void setListaRozrachunkow(List<RozrachunkiTransakcje> listaRozrachunkow) {
-        this.listaRozrachunkow = listaRozrachunkow;
-    }
    
 
     public List<Transakcja> getListaTransakcji() {

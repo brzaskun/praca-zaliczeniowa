@@ -6,13 +6,11 @@
 
 package beansFK;
 
-import daoFK.RozrachunekfkDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Konto;
-import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,114 +78,114 @@ public class DokFKTransakcjeBean implements Serializable{
 //    }
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(Konto konto, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
-        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(konto, wnma, waluta);
-        if (listaNowychRozrachunkow == null) {
-            return (new ArrayList<Rozrachunekfk>());
-        } 
-        return listaNowychRozrachunkow;
-        //pobrano wiersze - a teraz z nich robie rozrachunki
-    }
-    
-    public static List<Rozrachunekfk> pobierzRozrachunekfkzDokumentu(String nrkonta, String wnma, String waluta,List<Wiersze> wiersze) {
-        List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
-        for (Wiersze p : wiersze) {
-            if (wnma.equals("Wn")) {
-                Rozrachunekfk rozrachunekMa = p.getRozrachunekfkMa();
-                if (rozrachunekMa != null) {
-                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
-                }
-            } else if (wnma.equals("Ma")){
-                Rozrachunekfk rozrachunekWn = p.getRozrachunekfkWn();
-                if (rozrachunekWn != null) {
-                    listaNowychRozrachunkowDokument.add(rozrachunekWn);
-                }
-            }
-        }
-        if (!listaNowychRozrachunkowDokument.isEmpty()) {
-            Iterator it = listaNowychRozrachunkowDokument.iterator();
-            while (it.hasNext()) {
-                Rozrachunekfk r = (Rozrachunekfk) it.next();
-                if (r.getIdrozrachunku()!= null) {
-                    it.remove();
-                } else if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
-                    it.remove();
-                }
-            }
-        }
-        return listaNowychRozrachunkowDokument;
-        //pobrano wiersze - a teraz z nich robie rozrachunki
-    }
-
-    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow, String podatnik) {
-        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-        for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
-            Transakcja transakcja = new Transakcja();
-            transakcja.setPodatnik(podatnik);
-            transakcja.setRozliczany(aktualnywierszdorozrachunkow);
-            transakcja.setSparowany(nowatransakcjazbazy);
-            transakcja.setSymbolWaluty(aktualnywierszdorozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
-            transakcjeswiezynki.add(transakcja);
-        }
-        return transakcjeswiezynki;
-    }
-
-    
-    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-        List<Transakcja> pobranalista = new ArrayList<>();
-        try {
-            pobranalista.addAll(aktualnywierszdorozrachunkow.getTransakcje());
-        } catch (Exception e) {
-            
-        }
-        return pobranalista;
-    }
-
-    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
-        List<Transakcja> biezacetransakcje = new ArrayList<>();
-        pierwotnailosctransakcjiwbazie = 0;
-        for (Transakcja r : transakcjeswiezynki) {
-               if (!zachowanewczejsniejtransakcje.contains(r)) {
-                   biezacetransakcje.add(r);
-               }
-        }
-        if (zachowanewczejsniejtransakcje.size() > 0) {
-            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
-            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-            double sumaStornoRozliczajacego = 0.0;
-            for (Transakcja s : zachowanewczejsniejtransakcje) {
-                sumaStornoRozliczajacego += s.getKwotatransakcji();
-                biezacetransakcje.add(s);
-                pierwotnailosctransakcjiwbazie++;
-            }
-            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
-            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
-            double pozostalo = aktualnywierszdorozrachunkow.getKwotapierwotna();
-            double rozliczono = sumaStornoRozliczajacego;
-            pozostalo = pozostalo - sumaStornoRozliczajacego;
-            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-        }
-        return biezacetransakcje;
-    }
-    
-    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
-        List<Transakcja> pobrana = new ArrayList<>();
-        try {
-            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
-            for (Transakcja p : pobrana) {
-                Rozrachunekfk rozliczany = p.getSparowany();
-                Rozrachunekfk sparowany = p.getRozliczany();
-                p.setRozliczany(rozliczany);
-                p.setSparowany(sparowany);
-                p.setZablokujnanoszenie(Boolean.TRUE);
-            }
-            return pobrana;
-        } catch (Exception e) {
-            return pobrana;
-        }
-    }
+//    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(Konto konto, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
+//        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(konto, wnma, waluta);
+//        if (listaNowychRozrachunkow == null) {
+//            return (new ArrayList<Rozrachunekfk>());
+//        } 
+//        return listaNowychRozrachunkow;
+//        //pobrano wiersze - a teraz z nich robie rozrachunki
+//    }
+//    
+//    public static List<Rozrachunekfk> pobierzRozrachunekfkzDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
+//        List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
+//        for (Wiersz p : wiersze) {
+//            if (wnma.equals("Wn")) {
+//                Rozrachunekfk rozrachunekMa = p.getRozrachunekfkMa();
+//                if (rozrachunekMa != null) {
+//                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
+//                }
+//            } else if (wnma.equals("Ma")){
+//                Rozrachunekfk rozrachunekWn = p.getRozrachunekfkWn();
+//                if (rozrachunekWn != null) {
+//                    listaNowychRozrachunkowDokument.add(rozrachunekWn);
+//                }
+//            }
+//        }
+//        if (!listaNowychRozrachunkowDokument.isEmpty()) {
+//            Iterator it = listaNowychRozrachunkowDokument.iterator();
+//            while (it.hasNext()) {
+//                Rozrachunekfk r = (Rozrachunekfk) it.next();
+//                if (r.getIdrozrachunku()!= null) {
+//                    it.remove();
+//                } else if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+//                    it.remove();
+//                }
+//            }
+//        }
+//        return listaNowychRozrachunkowDokument;
+//        //pobrano wiersze - a teraz z nich robie rozrachunki
+//    }
+//
+//    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow, String podatnik) {
+//        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+//        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
+//        for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
+//            Transakcja transakcja = new Transakcja();
+//            transakcja.setPodatnik(podatnik);
+//            transakcja.setRozliczany(aktualnywierszdorozrachunkow);
+//            transakcja.setSparowany(nowatransakcjazbazy);
+//            transakcja.setSymbolWaluty(aktualnywierszdorozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
+//            transakcjeswiezynki.add(transakcja);
+//        }
+//        return transakcjeswiezynki;
+//    }
+//
+//    
+//    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
+//        List<Transakcja> pobranalista = new ArrayList<>();
+//        try {
+//            pobranalista.addAll(aktualnywierszdorozrachunkow.getTransakcje());
+//        } catch (Exception e) {
+//            
+//        }
+//        return pobranalista;
+//    }
+//
+//    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
+//        List<Transakcja> biezacetransakcje = new ArrayList<>();
+//        pierwotnailosctransakcjiwbazie = 0;
+//        for (Transakcja r : transakcjeswiezynki) {
+//               if (!zachowanewczejsniejtransakcje.contains(r)) {
+//                   biezacetransakcje.add(r);
+//               }
+//        }
+//        if (zachowanewczejsniejtransakcje.size() > 0) {
+//            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
+//            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
+//            double sumaStornoRozliczajacego = 0.0;
+//            for (Transakcja s : zachowanewczejsniejtransakcje) {
+//                sumaStornoRozliczajacego += s.getKwotatransakcji();
+//                biezacetransakcje.add(s);
+//                pierwotnailosctransakcjiwbazie++;
+//            }
+//            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
+//            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
+//            double pozostalo = aktualnywierszdorozrachunkow.getKwotapierwotna();
+//            double rozliczono = sumaStornoRozliczajacego;
+//            pozostalo = pozostalo - sumaStornoRozliczajacego;
+//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+//        }
+//        return biezacetransakcje;
+//    }
+//    
+//    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
+//        List<Transakcja> pobrana = new ArrayList<>();
+//        try {
+//            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
+//            for (Transakcja p : pobrana) {
+//                Rozrachunekfk rozliczany = p.getSparowany();
+//                Rozrachunekfk sparowany = p.getRozliczany();
+//                p.setRozliczany(rozliczany);
+//                p.setSparowany(sparowany);
+//                p.setZablokujnanoszenie(Boolean.TRUE);
+//            }
+//            return pobrana;
+//        } catch (Exception e) {
+//            return pobrana;
+//        }
+//    }
     
 //    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, Rozrachunekfk rozrachunek) {
 //        List<Transakcja> pobrana = new ArrayList<>();

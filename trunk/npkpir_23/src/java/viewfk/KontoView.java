@@ -7,7 +7,7 @@ package viewfk;
 import dao.WierszeDAO;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
-import entityfk.Wiersze;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import view.WpisView;
 public class KontoView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private Konto wybranekonto;
-    private List<Wiersze> listazapisownakoncie;
+    private List<Wiersz> listazapisownakoncie;
     @Inject private WierszeDAO wierszeDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -79,12 +79,12 @@ public class KontoView  implements Serializable {
         this.wpisView = wpisView;
     }
      
-    public List<Wiersze> getListazapisownakoncie() {
+    public List<Wiersz> getListazapisownakoncie() {
         return listazapisownakoncie;
     }
 
      
-    public void setListazapisownakoncie(List<Wiersze> listazapisownakoncie) {
+    public void setListazapisownakoncie(List<Wiersz> listazapisownakoncie) {
         this.listazapisownakoncie = listazapisownakoncie;
     }
 

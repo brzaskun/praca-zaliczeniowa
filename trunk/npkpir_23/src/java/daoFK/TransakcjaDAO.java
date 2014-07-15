@@ -7,7 +7,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Rozrachunekfk;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,15 +47,15 @@ public class TransakcjaDAO  extends DAO implements Serializable {
     
     //odnajduje istniejaca transakcje i ja edytuje. kluczem transakji jest boiem id a nie para sparowany/rozliczany
     public void edytujTransakcje(Transakcja transakcja) {
-        int rozliczany = transakcja.getRozliczany().getIdrozrachunku();
-        int sparowany = transakcja.getSparowany().getIdrozrachunku();
-        Transakcja poszukiwanaTransakcja = sessionFacade.findTransakcja(rozliczany,sparowany);
-        if (poszukiwanaTransakcja instanceof Transakcja) {
-            transakcja.setId(poszukiwanaTransakcja.getId());
-            sessionFacade.edit(transakcja);
-        } else {
-            sessionFacade.create(transakcja);
-        }
+//        int rozliczany = transakcja.getRozliczany().getIdrozrachunku();
+//        int sparowany = transakcja.getSparowany().getIdrozrachunku();
+//        Transakcja poszukiwanaTransakcja = sessionFacade.findTransakcja(rozliczany,sparowany);
+//        if (poszukiwanaTransakcja instanceof Transakcja) {
+//            transakcja.setId(poszukiwanaTransakcja.getId());
+//            sessionFacade.edit(transakcja);
+//        } else {
+//            sessionFacade.create(transakcja);
+//        }
     }
 
     public List<Transakcja> findByRozliczonyID(int idrozrachunku) {
@@ -64,16 +63,17 @@ public class TransakcjaDAO  extends DAO implements Serializable {
     }
     
     public List<Transakcja> findBySparowanyID(int idrozrachunku) {
-        List<Transakcja> odnalezione = new ArrayList<>();
-        List<Transakcja> transakcje = sessionFacade.findAll(Transakcja.class);
-        for(Transakcja f : transakcje) {
-            Map<Boolean, Rozrachunekfk> roz = f.getRozrachunki();
-            int idroz = ((Rozrachunekfk) roz.get(true)).getIdrozrachunku();
-            if (idroz == idrozrachunku && f.getKwotatransakcji() > 0) {
-                odnalezione.add(f);
-            }
-        }
-        return odnalezione;
+        return null;
+//        List<Transakcja> odnalezione = new ArrayList<>();
+//        List<Transakcja> transakcje = sessionFacade.findAll(Transakcja.class);
+//        for(Transakcja f : transakcje) {
+//            Map<Boolean, Rozrachunekfk> roz = f.getRozrachunki();
+//            int idroz = ((Rozrachunekfk) roz.get(true)).getIdrozrachunku();
+//            if (idroz == idrozrachunku && f.getKwotatransakcji() > 0) {
+//                odnalezione.add(f);
+//            }
+//        }
+//        return odnalezione;
     }
     
     

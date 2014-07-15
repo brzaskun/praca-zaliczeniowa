@@ -74,7 +74,7 @@ public class Tabelanbp implements Serializable {
     private List<Dokfk> Dokfk;
     //natomiast dla wyciagow bankowych jest inaczej tam liczy sie kazdy wiersz
     @OneToMany(mappedBy = "tabelanbp")
-    private List<Wiersze> Wiersze;
+    private List<Wiersz> Wiersze;
 
     public Tabelanbp() {
     }
@@ -136,11 +136,11 @@ public class Tabelanbp implements Serializable {
         this.Dokfk = Dokfk;
     }
 
-    public List<Wiersze> getWiersze() {
+    public List<Wiersz> getWiersze() {
         return Wiersze;
     }
 
-    public void setWiersze(List<Wiersze> Wiersze) {
+    public void setWiersze(List<Wiersz> Wiersze) {
         this.Wiersze = Wiersze;
     }
 
