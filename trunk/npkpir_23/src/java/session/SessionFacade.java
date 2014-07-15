@@ -568,16 +568,16 @@ public class SessionFacade<T> implements Serializable{
     }
     
     public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
-        return em.createNamedQuery("Wiersze.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
+        return em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
     }
     
     
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
-        return em.createNamedQuery("Wiersze.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
+        return em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
     
     public List<Wiersz> findWierszePodatnik(String podatnik) {
-        return em.createNamedQuery("Wiersze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        return em.createNamedQuery("Wiersz.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
 //

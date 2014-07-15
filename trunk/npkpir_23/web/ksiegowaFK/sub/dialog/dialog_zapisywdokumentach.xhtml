@@ -33,21 +33,21 @@
                 <p:column headerText="opis" width="100" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
                     <h:outputText value="#{loop.opisWiersza}" rendered="#{loop.typWiersza eq 0 ? true : false}"/>
                 </p:column>
-                <p:column headerText="kwota Wn" width="100" filterBy="#{loop.kwotaWn}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaWn}">
-                    <h:outputText value="#{loop.kwotaWn}" rendered="#{loop.kwotaWn eq 0 ? false : true}" style="float: right;">
+                <p:column headerText="kwota Wn" width="100" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                    <h:outputText value="#{loop.stronaWn.kwota}" rendered="#{loop.stronaWn.kwota eq 0 ? false : true}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                 </p:column>
-                <p:column headerText="konto Wn" width="100"  filterBy="#{loop.kontoWn.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoWn.pelnynumer}">
-                    <h:outputText value="#{loop.kontoWn.pelnynumer}" />
+                <p:column headerText="konto Wn" width="100"  filterBy="#{loop.stronaWn.kontoWn.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kontoWn.pelnynumer}">
+                    <h:outputText value="#{loop.stronaWn.kontoWn.pelnynumer}" />
                 </p:column>
-                <p:column headerText="kwota Ma" width="100" filterBy="#{loop.kwotaMa}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kwotaMa}">
-                    <h:outputText value="#{loop.kwotaMa}" rendered="#{loop.kwotaMa eq 0 ? false : true}" style="float: right;">
+                <p:column headerText="kwota Ma" width="100" filterBy="#{loop.stronaMa.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
+                    <h:outputText value="#{loop.stronaMa.kwota}" rendered="#{loop.stronaMa.kwota eq 0 ? false : true}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                 </p:column>
-                <p:column headerText="konto Ma" width="100"   filterBy="#{loop.kontoMa.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.kontoMa.pelnynumer}">
-                    <h:outputText value="#{loop.kontoMa.pelnynumer}" />
+                <p:column headerText="konto Ma" width="100"   filterBy="#{loop.stronaMa.kontoMa.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kontoMa.pelnynumer}">
+                    <h:outputText value="#{loop.stronaMa.kontoMa.pelnynumer}" />
                 </p:column>
             </p:dataTable>
         </h:form>
