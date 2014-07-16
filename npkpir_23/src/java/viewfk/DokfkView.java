@@ -8,6 +8,8 @@ import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
+import dao.StronaMaDAO;
+import dao.StronaWnDAO;
 import daoFK.DokDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
@@ -56,6 +58,10 @@ public class DokfkView implements Serializable {
     protected Dokfk selected;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private StronaWnDAO stronaWnDAO;
+    @Inject
+    private StronaMaDAO stronaMaDAO;
     private boolean zapisz0edytuj1;
 //    private String wierszid;
 //    private String wnlubma;
@@ -458,7 +464,7 @@ public class DokfkView implements Serializable {
 //    
 //    
     public void tworzenieTransakcjiZWierszy() {
-            List<StronaWiersza> listaRozliczanych = new ArrayList<>();
+        List<StronaWiersza> listaRozliczanych = new ArrayList<>();
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         List<Transakcja> zachowanewczejsniejtransakcje = new ArrayList<>();
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
@@ -470,19 +476,19 @@ public class DokfkView implements Serializable {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
-//                if (onJestNowaTransakcja == false) {
-//                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-//                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzRozrachunekfkzBazy(aktualnyWierszDlaRozrachunkow.getKontoid(), stronawiersza,  aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), rozrachunekfkDAO));
+                if (onJestNowaTransakcja == false) {
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
 //                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
 //                    zachowanewczejsniejtransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(transakcjaDAO, aktualnyWierszDlaRozrachunkow, zestawienielisttransakcjiDAO));
 //                    biezacetransakcje.addAll(DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow));
-//                } else {
+                } else {
 //                    //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
 //                    if (aktualnyWierszDlaRozrachunkow.getIdrozrachunku() != null) {
 //                        //biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(transakcjaDAO, aktualnyWierszDlaRozrachunkow.getIdrozrachunku(), wpisView.getPodatnikWpisu()));
 //                    }
 //                    Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
-//                }
+                }
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
                 potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.isNowatransakcja();

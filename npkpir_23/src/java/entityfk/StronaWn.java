@@ -17,8 +17,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -28,6 +31,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "stronawn", catalog = "pkpir", schema = "")
 @Inheritance(strategy = InheritanceType.JOINED)
+@XmlRootElement
 public class StronaWn extends StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
     
