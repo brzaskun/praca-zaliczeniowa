@@ -8,6 +8,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -49,7 +50,11 @@ public class StronaWiersza implements Serializable{
     @Column(name="pozostalo")
     protected double pozostalo;
     @Column(name="nowatransakcja")
-    protected Boolean nowatransakcja;
+    protected boolean nowatransakcja;
+    @Column(name= "datarozrachunku")
+    protected String datarozrachunku;
+    private Konto konto;
+    
     
 
     public StronaWiersza() {
@@ -83,13 +88,14 @@ public class StronaWiersza implements Serializable{
         this.pozostalo = pozostalo;
     }
 
-    public Boolean isNowatransakcja() {
+    public boolean isNowatransakcja() {
         return nowatransakcja;
     }
 
-    public void setNowatransakcja(Boolean nowatransakcja) {
+    public void setNowatransakcja(boolean nowatransakcja) {
         this.nowatransakcja = nowatransakcja;
     }
+
 
     public Wiersz getWiersz() {
         return wiersz;
@@ -121,6 +127,60 @@ public class StronaWiersza implements Serializable{
 
     public void setKwotaWaluta(double kwotaWaluta) {
         this.kwotaWaluta = kwotaWaluta;
+    }
+
+    public String getDatarozrachunku() {
+        return datarozrachunku;
+    }
+
+    public void setDatarozrachunku(String datarozrachunku) {
+        this.datarozrachunku = datarozrachunku;
+    }
+
+    public Konto getKonto() {
+        return konto;
+    }
+
+    public void setKonto(Konto konto) {
+        this.konto = konto;
+    }
+
+    
+    
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.wiersz);
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this.kwota) ^ (Double.doubleToLongBits(this.kwota) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final StronaWiersza other = (StronaWiersza) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.wiersz, other.wiersz)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + nowatransakcja + '}';
     }
 
     

@@ -31,9 +31,9 @@ public class StronaMa extends StronaWiersza implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JoinColumn(name = "kontoMa", referencedColumnName = "id")
+    @JoinColumn(name = "konto", referencedColumnName = "id")
     @ManyToOne
-    private Konto kontoMa;
+    private Konto konto;
     @OneToMany(mappedBy = "stronaMa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transakcja> transakcje;
     @Column(name = "MaReadOnly")
@@ -60,12 +60,12 @@ public class StronaMa extends StronaWiersza implements Serializable {
         this.transakcje = transakcje;
     }
 
-    public Konto getKontoMa() {
-        return kontoMa;
+    public Konto getKonto() {
+        return konto;
     }
 
-    public void setKontoMa(Konto kontoMa) {
-        this.kontoMa = kontoMa;
+    public void setKonto(Konto konto) {
+        this.konto = konto;
     }
 
     public boolean isMaReadOnly() {

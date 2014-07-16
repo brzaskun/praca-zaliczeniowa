@@ -153,9 +153,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "maslownik")
     private boolean maslownik;
-    @OneToMany(mappedBy = "kontoWn")
+    @OneToMany(mappedBy = "konto")
     private List<StronaWn> stronaWn;
-    @OneToMany(mappedBy = "kontoMa")
+    @OneToMany(mappedBy = "konto")
     private List<StronaMa> stronaMa;
     @OneToMany(mappedBy = "kontoobiekt", fetch = FetchType.EAGER)
     private List<Kontozapisy> zapisynakoncie;

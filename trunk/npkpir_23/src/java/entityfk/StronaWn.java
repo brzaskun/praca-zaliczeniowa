@@ -31,9 +31,9 @@ import javax.persistence.Table;
 public class StronaWn extends StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @JoinColumn(name = "kontoWn", referencedColumnName = "id")
+    @JoinColumn(name = "konto", referencedColumnName = "id")
     @ManyToOne
-    private Konto kontoWn;
+    private Konto konto;
     @OneToMany(mappedBy="stronaWn", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transakcja> transakcje;
     @Column(name = "WnReadOnly")
@@ -59,12 +59,12 @@ public class StronaWn extends StronaWiersza implements Serializable {
         this.transakcje = transakcje;
     }
 
-    public Konto getKontoWn() {
-        return kontoWn;
+    public Konto getKonto() {
+        return konto;
     }
 
-    public void setKontoWn(Konto kontoWn) {
-        this.kontoWn = kontoWn;
+    public void setKonto(Konto konto) {
+        this.konto = konto;
     }
 
     public boolean isWnReadOnly() {
