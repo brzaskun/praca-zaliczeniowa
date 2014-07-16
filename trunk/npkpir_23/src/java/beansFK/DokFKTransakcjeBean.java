@@ -6,9 +6,14 @@
 
 package beansFK;
 
+import dao.StronaMaDAO;
+import dao.StronaWnDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import entityfk.Konto;
+import entityfk.StronaMa;
+import entityfk.StronaWiersza;
+import entityfk.StronaWn;
 import entityfk.Transakcja;
 import entityfk.Wiersz;
 import java.io.Serializable;
@@ -46,7 +51,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //    }
 //
 //    //************************* jeli pobierztransakcjeJakoSparowany() == 1 to robimy jakby byl nowa transakcja
-//    public static int pobierztransakcjeJakoSparowany(List<Transakcja> transakcjejakosparowany, List<Transakcja> biezacetransakcje, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, Rozrachunekfk aktualnywierszdorozrachunkow) {
+//    public static int pobierztransakcjeJakoSparowany(List<Transakcja> transakcjejakosparowany, List<Transakcja> biezacetransakcje, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO, StronaWiersza aktualnywierszdorozrachunkow) {
 //        //teraz z zapamietanych czyscimy klucz i liste pobrana wyzej
 //        //pobieramy listy z bazy
 //        transakcjejakosparowany = new ArrayList<>();
@@ -78,49 +83,56 @@ public class DokFKTransakcjeBean implements Serializable{
 //    }
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
-//    public static List<Rozrachunekfk> pobierzRozrachunekfkzBazy(Konto konto, String wnma, String waluta,RozrachunekfkDAO rozrachunekfkDAO) {
-//        List<Rozrachunekfk> listaNowychRozrachunkow = rozrachunekfkDAO.findRozrachunkifkByKontoWnMaWaluta(konto, wnma, waluta);
-//        if (listaNowychRozrachunkow == null) {
-//            return (new ArrayList<Rozrachunekfk>());
-//        } 
-//        return listaNowychRozrachunkow;
-//        //pobrano wiersze - a teraz z nich robie rozrachunki
-//    }
-//    
-//    public static List<Rozrachunekfk> pobierzRozrachunekfkzDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-//        List<Rozrachunekfk> listaNowychRozrachunkowDokument = new ArrayList<>();
-//        for (Wiersz p : wiersze) {
-//            if (wnma.equals("Wn")) {
-//                Rozrachunekfk rozrachunekMa = p.getRozrachunekfkMa();
-//                if (rozrachunekMa != null) {
-//                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
-//                }
-//            } else if (wnma.equals("Ma")){
-//                Rozrachunekfk rozrachunekWn = p.getRozrachunekfkWn();
-//                if (rozrachunekWn != null) {
-//                    listaNowychRozrachunkowDokument.add(rozrachunekWn);
-//                }
-//            }
-//        }
-//        if (!listaNowychRozrachunkowDokument.isEmpty()) {
-//            Iterator it = listaNowychRozrachunkowDokument.iterator();
-//            while (it.hasNext()) {
-//                Rozrachunekfk r = (Rozrachunekfk) it.next();
-//                if (r.getIdrozrachunku()!= null) {
-//                    it.remove();
-//                } else if (!r.getKontoid().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
-//                    it.remove();
-//                }
-//            }
-//        }
-//        return listaNowychRozrachunkowDokument;
-//        //pobrano wiersze - a teraz z nich robie rozrachunki
-//    }
-//
-//    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<Rozrachunekfk> listaNowychRozrachunkow, Rozrachunekfk aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWnDAO stronaWnDAO, StronaMaDAO stronaMaDAO) {
+        List<StronaWiersza> listaNowychRozrachunkow;
+        if (stronaWiersza instanceof StronaWn) {
+            StronaWn stronaWn = (StronaWn) stronaWiersza;
+            listaNowychRozrachunkow = stronaWnDAO.findStronaMaByKontoWnMaWaluta(stronaWn.getKonto(), stronaWn.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
+        } else {
+            StronaMa stronaMa = (StronaMa) stronaWiersza;
+            listaNowychRozrachunkow = stronaWnDAO.findStronaMaByKontoWnMaWaluta(stronaMa.getKonto(), stronaMa.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
+        }
+        if (listaNowychRozrachunkow == null) {
+            return (new ArrayList<>());
+        } 
+        return listaNowychRozrachunkow;
+        //pobrano wiersze - a teraz z nich robie rozrachunki
+    }
+    
+    public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
+        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
+        for (Wiersz p : wiersze) {
+            if (wnma.equals("Wn")) {
+                StronaWiersza rozrachunekMa = p.getStronaWn();
+                if (rozrachunekMa != null) {
+                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
+                }
+            } else if (wnma.equals("Ma")){
+                StronaWiersza rozrachunekWn = p.getStronaMa();
+                if (rozrachunekWn != null) {
+                    listaNowychRozrachunkowDokument.add(rozrachunekWn);
+                }
+            }
+        }
+        if (!listaNowychRozrachunkowDokument.isEmpty()) {
+            Iterator it = listaNowychRozrachunkowDokument.iterator();
+            while (it.hasNext()) {
+                StronaWiersza r = (StronaWiersza) it.next();
+                if (r.getId()!= null) {
+                    it.remove();
+                } else if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                    it.remove();
+                }
+            }
+        }
+        return listaNowychRozrachunkowDokument;
+        //pobrano wiersze - a teraz z nich robie rozrachunki
+    }
+
+//    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
 //        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
 //        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-//        for (Rozrachunekfk nowatransakcjazbazy : listaNowychRozrachunkow) {
+//        for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
 //            Transakcja transakcja = new Transakcja();
 //            transakcja.setPodatnik(podatnik);
 //            transakcja.setRozliczany(aktualnywierszdorozrachunkow);
@@ -132,7 +144,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //    }
 //
 //    
-//    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, Rozrachunekfk aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
+//    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, StronaWiersza aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
 //        List<Transakcja> pobranalista = new ArrayList<>();
 //        try {
 //            pobranalista.addAll(aktualnywierszdorozrachunkow.getTransakcje());
@@ -142,7 +154,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //        return pobranalista;
 //    }
 //
-//    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,Rozrachunekfk aktualnywierszdorozrachunkow ) {
+//    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,StronaWiersza aktualnywierszdorozrachunkow ) {
 //        List<Transakcja> biezacetransakcje = new ArrayList<>();
 //        pierwotnailosctransakcjiwbazie = 0;
 //        for (Transakcja r : transakcjeswiezynki) {
@@ -175,8 +187,8 @@ public class DokFKTransakcjeBean implements Serializable{
 //        try {
 //            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
 //            for (Transakcja p : pobrana) {
-//                Rozrachunekfk rozliczany = p.getSparowany();
-//                Rozrachunekfk sparowany = p.getRozliczany();
+//                StronaWiersza rozliczany = p.getSparowany();
+//                StronaWiersza sparowany = p.getRozliczany();
 //                p.setRozliczany(rozliczany);
 //                p.setSparowany(sparowany);
 //                p.setZablokujnanoszenie(Boolean.TRUE);
@@ -187,7 +199,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //        }
 //    }
     
-//    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, Rozrachunekfk rozrachunek) {
+//    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, StronaWiersza rozrachunek) {
 //        List<Transakcja> pobrana = new ArrayList<>();
 //        boolean czyJaJestemNowaTransakcja = rozrachunek.isNowatransakcja();
 //        if (czyJaJestemNowaTransakcja) {
@@ -195,8 +207,8 @@ public class DokFKTransakcjeBean implements Serializable{
 //        } else {
 //            pobrana.addAll(transakcjaDAO.findByRozliczonyID(rozrachunek.getIdrozrachunku()));
 //             for (Transakcja p : pobrana) {
-//                Rozrachunekfk rozliczany = p.getSparowany();
-//                Rozrachunekfk sparowany = p.getRozliczany();
+//                StronaWiersza rozliczany = p.getSparowany();
+//                StronaWiersza sparowany = p.getRozliczany();
 //                p.setRozliczany(rozliczany);
 //                p.setSparowany(sparowany);
 //                p.setZablokujnanoszenie(Boolean.TRUE);
@@ -208,10 +220,10 @@ public class DokFKTransakcjeBean implements Serializable{
     
     // to jest archeo w nowej konfiguracji. tutaj aktualizowalismy rozrachunek w liscie transakcji
     // teraz jest to zbedne bo one sa w tabeli rozrachunki
-//    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<Rozrachunekfk> listaNowychRozrachunkow, RozrachunekfkDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje, String podatnik) {
+//    public static void pobierzjuzNaniesioneTransakcjeSparowane(List<StronaWiersza> listaNowychRozrachunkow, StronaWierszaDAO rozrachunekfkDAO, List<Transakcja> biezacetransakcje, String podatnik) {
 //        listaNowychRozrachunkow = new ArrayList<>();
 //        listaNowychRozrachunkow.addAll(rozrachunekfkDAO.findRozrachybekfkByPodatnik(podatnik));
-//        for (Rozrachunekfk p : listaNowychRozrachunkow) {
+//        for (StronaWiersza p : listaNowychRozrachunkow) {
 //            for (Transakcja r : biezacetransakcje) {
 //                if (r.idSparowany().equals(p.getWierszStronafk().getWierszStronafkPK())) {
 //                    r.setSparowany(p);

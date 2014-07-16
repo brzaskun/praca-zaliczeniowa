@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -28,6 +30,10 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @MappedSuperclass
+@NamedQueries({
+  @NamedQuery(name = "findByStronaMaKontoWaluta", query = "SELECT s FROM StronaMa s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty"),
+  @NamedQuery(name = "findByStronaWnKontoWaluta", query = "SELECT s FROM StronaWn s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty")
+})
 public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
      
