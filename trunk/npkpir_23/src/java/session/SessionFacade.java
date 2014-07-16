@@ -845,11 +845,11 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public List<StronaMa> findStronaMaByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return em.createNamedQuery("StronaWiersza.").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
+        return em.createNamedQuery("StronaMa.findByStronaMaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
     }
 
     public List<StronaWn> findStronaWnByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return em.createNamedQuery("StronaWiersza.findByStronaWnKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
+        return em.createNamedQuery("StronaWn.findByStronaWnKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
     }
 
     

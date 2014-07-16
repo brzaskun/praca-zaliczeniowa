@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "stronawn", catalog = "pkpir", schema = "")
 @Inheritance(strategy = InheritanceType.JOINED)
 @XmlRootElement
+@NamedQueries({
+  @NamedQuery(name = "StronaWn.findByStronaWnKontoWaluta", query = "SELECT s FROM StronaWn s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty")
+})
 public class StronaWn extends StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
     
