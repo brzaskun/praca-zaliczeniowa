@@ -129,21 +129,24 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-//    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
-//        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-//        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-//        for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
-//            Transakcja transakcja = new Transakcja();
-//            transakcja.setPodatnik(podatnik);
-//            transakcja.setRozliczany(aktualnywierszdorozrachunkow);
-//            transakcja.setSparowany(nowatransakcjazbazy);
-//            transakcja.setSymbolWaluty(aktualnywierszdorozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
-//            transakcjeswiezynki.add(transakcja);
-//        }
-//        return transakcjeswiezynki;
-//    }
-//
-//    
+    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
+        for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
+            Transakcja transakcja = new Transakcja();
+            if (aktualnywierszdorozrachunkow instanceof StronaWn) {
+                transakcja.setStronaWn((StronaWn) aktualnywierszdorozrachunkow);
+                transakcja.setStronaMa((StronaMa) nowatransakcjazbazy);
+            } else {
+                transakcja.setStronaMa((StronaMa) aktualnywierszdorozrachunkow);
+                transakcja.setStronaWn((StronaWn) nowatransakcjazbazy);
+            }
+            transakcjeswiezynki.add(transakcja);
+        }
+        return transakcjeswiezynki;
+    }
+
+    
 //    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, StronaWiersza aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
 //        List<Transakcja> pobranalista = new ArrayList<>();
 //        try {

@@ -30,10 +30,7 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @MappedSuperclass
-@NamedQueries({
-  @NamedQuery(name = "findByStronaMaKontoWaluta", query = "SELECT s FROM StronaMa s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty"),
-  @NamedQuery(name = "findByStronaWnKontoWaluta", query = "SELECT s FROM StronaWn s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty")
-})
+
 public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
      
