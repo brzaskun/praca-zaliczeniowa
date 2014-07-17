@@ -478,8 +478,11 @@ public class DokfkView implements Serializable {
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                     biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                    listaRozliczanych.clear();
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu(), biezacetransakcje));
                     //biezacetransakcje.addAll(DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow));
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
