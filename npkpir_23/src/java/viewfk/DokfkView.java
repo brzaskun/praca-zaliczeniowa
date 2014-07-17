@@ -484,10 +484,11 @@ public class DokfkView implements Serializable {
                     listaRozliczanych.clear();
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
                     biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu(), biezacetransakcje));
-                    //biezacetransakcje.addAll(DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow));
+                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWnDAO, stronaMaDAO);
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
-                      biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWnDAO, stronaMaDAO);
                     Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
                 }
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
