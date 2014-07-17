@@ -121,8 +121,12 @@ var doklejsumowaniewprowadzonych = function() {
         var wszystkiewiersze = $("#rozrachunki\\:dataList").find(":input");
         var iloscpozycji = wszystkiewiersze.length;
         var wprowadzonowpole = $(this).val();
-        var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostalo";
+        var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
+        if (isNaN(wartoscpoprawej)===true) {
+            wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
+            wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
+        }
         $(document.getElementById(wiersz)).css("font-weight", "normal");
         $(document.getElementById(wiersz)).css("color", "black");
         var wierszTransakcjaRozliczajaca = "rozrachunki:dorozliczenia";

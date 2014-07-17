@@ -61,7 +61,6 @@ public class StronaWierszaBean {
             }
         }
         aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
-        aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
         aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
         return aktualnyWierszDlaRozrachunkow;
     }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "stronama", catalog = "pkpir", schema = "")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorValue(value = "StronaMa")
 @XmlRootElement
 @NamedQueries({
   @NamedQuery(name = "StronaMa.findByStronaMaKontoWaluta", query = "SELECT s FROM StronaMa s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty"),
@@ -49,12 +51,15 @@ public class StronaMa extends StronaWiersza implements Serializable {
       
 
     public StronaMa() {
+        super();
+        this.DTYPE = "StronaMa";
         this.transakcje = new ArrayList<>();
     }
 
 
     public StronaMa(Wiersz nowywiersz) {
         super();
+        this.DTYPE = "StronaMa";
         this.transakcje = new ArrayList<>();
         this.wiersz = nowywiersz;
     }
