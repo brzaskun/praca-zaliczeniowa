@@ -87,10 +87,10 @@ public class DokFKTransakcjeBean implements Serializable{
         List<StronaWiersza> listaNowychRozrachunkow;
         if (stronaWiersza instanceof StronaWn) {
             StronaWn stronaWn = (StronaWn) stronaWiersza;
-            listaNowychRozrachunkow = stronaWnDAO.findStronaMaByKontoWnMaWaluta(stronaWn.getKonto(), stronaWn.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
+            listaNowychRozrachunkow = stronaMaDAO.findStronaMaByKontoWnMaWaluta(stronaWn.getKonto(), stronaWn.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
         } else {
             StronaMa stronaMa = (StronaMa) stronaWiersza;
-            listaNowychRozrachunkow = stronaWnDAO.findStronaMaByKontoWnMaWaluta(stronaMa.getKonto(), stronaMa.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
+            listaNowychRozrachunkow = stronaWnDAO.findStronaWnByKontoWnMaWaluta(stronaMa.getKonto(), stronaMa.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty());
         }
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
@@ -137,70 +137,75 @@ public class DokFKTransakcjeBean implements Serializable{
             if (aktualnywierszdorozrachunkow instanceof StronaWn) {
                 transakcja.setStronaWn((StronaWn) aktualnywierszdorozrachunkow);
                 transakcja.setStronaMa((StronaMa) nowatransakcjazbazy);
-            } else {
+                ((StronaWn) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+            } else if (aktualnywierszdorozrachunkow instanceof StronaMa){
                 transakcja.setStronaMa((StronaMa) aktualnywierszdorozrachunkow);
                 transakcja.setStronaWn((StronaWn) nowatransakcjazbazy);
+                ((StronaMa) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaWn) nowatransakcjazbazy).getTransakcje().add(transakcja);
             }
+            
             transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
     }
 
     
-//    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(TransakcjaDAO transakcjaDAO, StronaWiersza aktualnywierszdorozrachunkow, ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO) {
-//        List<Transakcja> pobranalista = new ArrayList<>();
-//        try {
-//            pobranalista.addAll(aktualnywierszdorozrachunkow.getTransakcje());
-//        } catch (Exception e) {
-//            
-//        }
-//        return pobranalista;
-//    }
-//
-//    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,StronaWiersza aktualnywierszdorozrachunkow ) {
-//        List<Transakcja> biezacetransakcje = new ArrayList<>();
-//        pierwotnailosctransakcjiwbazie = 0;
-//        for (Transakcja r : transakcjeswiezynki) {
-//               if (!zachowanewczejsniejtransakcje.contains(r)) {
-//                   biezacetransakcje.add(r);
-//               }
-//        }
-//        if (zachowanewczejsniejtransakcje.size() > 0) {
-//            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
-//            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-//            double sumaStornoRozliczajacego = 0.0;
-//            for (Transakcja s : zachowanewczejsniejtransakcje) {
-//                sumaStornoRozliczajacego += s.getKwotatransakcji();
-//                biezacetransakcje.add(s);
-//                pierwotnailosctransakcjiwbazie++;
-//            }
-//            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
-//            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
-//            double pozostalo = aktualnywierszdorozrachunkow.getKwotapierwotna();
-//            double rozliczono = sumaStornoRozliczajacego;
-//            pozostalo = pozostalo - sumaStornoRozliczajacego;
-//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-//        }
-//        return biezacetransakcje;
-//    }
-//    
-//    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(TransakcjaDAO transakcjaDAO, int idrozrachunku) {
-//        List<Transakcja> pobrana = new ArrayList<>();
-//        try {
-//            pobrana.addAll(transakcjaDAO.findBySparowanyID(idrozrachunku));
-//            for (Transakcja p : pobrana) {
-//                StronaWiersza rozliczany = p.getSparowany();
-//                StronaWiersza sparowany = p.getRozliczany();
-//                p.setRozliczany(rozliczany);
-//                p.setSparowany(sparowany);
-//                p.setZablokujnanoszenie(Boolean.TRUE);
-//            }
-//            return pobrana;
-//        } catch (Exception e) {
-//            return pobrana;
-//        }
-//    }
+    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(StronaWiersza aktualnywierszdorozrachunkow, String wnma) {
+        List<Transakcja> pobranalista = new ArrayList<>();
+        try {
+            if (wnma.equals("Wn")) {
+                pobranalista.addAll(((StronaWn) aktualnywierszdorozrachunkow).getTransakcje());
+            } else {
+                pobranalista.addAll(((StronaMa) aktualnywierszdorozrachunkow).getTransakcje());
+            } 
+        } catch (Exception e) {
+            
+        }
+        return pobranalista;
+    }
+
+    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,StronaWiersza aktualnywierszdorozrachunkow ) {
+        List<Transakcja> biezacetransakcje = new ArrayList<>();
+        pierwotnailosctransakcjiwbazie = 0;
+        for (Transakcja r : transakcjeswiezynki) {
+               if (!zachowanewczejsniejtransakcje.contains(r)) {
+                   biezacetransakcje.add(r);
+               }
+        }
+        if (zachowanewczejsniejtransakcje.size() > 0) {
+            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
+            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
+            double sumaStornoRozliczajacego = 0.0;
+            for (Transakcja s : zachowanewczejsniejtransakcje) {
+                sumaStornoRozliczajacego += s.getKwotatransakcji();
+                biezacetransakcje.add(s);
+                pierwotnailosctransakcjiwbazie++;
+            }
+            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
+            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
+            double pozostalo = aktualnywierszdorozrachunkow.getKwota();
+            double rozliczono = sumaStornoRozliczajacego;
+            pozostalo = pozostalo - sumaStornoRozliczajacego;
+            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+        }
+        return biezacetransakcje;
+    }
+    
+    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(StronaWiersza stronawiersza, String wnma) {
+        List<Transakcja> pobrana = new ArrayList<>();
+        try {
+            if (stronawiersza.equals("Wn")) {
+                ((StronaWn) stronawiersza).getTransakcje();
+            } else {
+                ((StronaMa) stronawiersza).getTransakcje();
+            }
+            return pobrana;
+        } catch (Exception e) {
+            return pobrana;
+        }
+    }
     
 //    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, StronaWiersza rozrachunek) {
 //        List<Transakcja> pobrana = new ArrayList<>();
