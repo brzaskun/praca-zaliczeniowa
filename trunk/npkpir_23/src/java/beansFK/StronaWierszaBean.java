@@ -34,6 +34,10 @@ public class StronaWierszaBean {
                 return ((StronaMa) aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             }
     }
+    
+    public static boolean czyKontoJestNowaTransakcja(StronaWiersza aktualnyWierszDlaRozrachunkow, String stronawiersza) {
+           return aktualnyWierszDlaRozrachunkow.isNowatransakcja();
+    }
 
     public static StronaWiersza aktualizatorAktualnegoWierszaDlaRozrachunkow(StronaWiersza aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         Wiersz wiersz = selected.getListawierszy().get(nrwiersza);

@@ -56,7 +56,7 @@
                          <h:outputText id="pozostaloWn" value="#{loop.stronaWn.pozostalo}" style="float: right;" rendered="#{loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                         <h:outputText id="pozostaloMa" value="#{loop.stronaMa.pozostalo}" style="float: right;" rendered="#{!loop.stronaMa.nowatransakcja}">
+                         <h:outputText id="pozostaloMa" value="#{loop.stronaMa.pozostalo}" style="float: right;" rendered="#{!loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -64,7 +64,7 @@
                          <h:outputText value="#{loop.stronaWn.rozliczono}" style="float: right;" rendered="#{loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                         <h:outputText value="#{loop.stronaMa.rozliczono}" style="float: right;" rendered="#{!loop.stronaMa.nowatransakcja}">
+                         <h:outputText value="#{loop.stronaMa.rozliczono}" style="float: right;" rendered="#{!loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -72,13 +72,13 @@
                         <h:outputText value="#{loop.stronaWn.kwota}" style="float: right;" rendered="#{loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="#{loop.stronaMa.kwota}" style="float: right;" rendered="#{!loop.stronaMa.nowatransakcja}">
+                        <h:outputText value="#{loop.stronaMa.kwota}" style="float: right;" rendered="#{!loop.stronaWn.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="waluta" width="40" style="text-align: center">
                         <h:outputText id="walutaWn" value="#{loop.stronaWn.wiersz.tabelanbp.waluta.symbolwaluty}"  rendered="#{loop.stronaWn.nowatransakcja}"/>
-                        <h:outputText id="walutaMa" value="#{loop.stronaMa.wiersz.tabelanbp.waluta.symbolwaluty}" rendered="#{!loop.stronaMa.nowatransakcja}"/>
+                        <h:outputText id="walutaMa" value="#{loop.stronaMa.wiersz.tabelanbp.waluta.symbolwaluty}" rendered="#{!loop.stronaWn.nowatransakcja}"/>
                     </p:column>
                     <p:column headerText="kurs" width="40">
                         <h:outputText id="kursWn" value="#{loop.stronaWn.wiersz.tabelanbp.kurssredni}"  style="float: right;" rendered="#{loop.stronaWn.nowatransakcja}">
@@ -110,8 +110,8 @@
                         <h:outputText value="#{loop.stronaMa.wiersz.idporzadkowy+1}"  rendered="#{!loop.stronaWn.nowatransakcja}"/>
                     </p:column>
                     <p:column headerText="konto przeciwstawne" width="40">
-                        <h:outputText value="#{loop.stronaMa.konto}" rendered="#{loop.stronaWn.nowatransakcja}"/>
-                        <h:outputText value="#{loop.stronaWn.konto}" rendered="#{!loop.stronaWn.nowatransakcja}"/>
+                        <h:outputText value="#{loop.stronaMa.konto.pelnynumer}" rendered="#{loop.stronaWn.nowatransakcja}"/>
+                        <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" rendered="#{!loop.stronaWn.nowatransakcja}"/>
                     </p:column>
                      <p:column headerText="dokument" width="80">
                          <h:outputText value="#{loop.stronaWn.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.stronaWn.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'zapis z b.dok.' : null) : null}" rendered="#{loop.stronaWn.nowatransakcja}"/>

@@ -38,8 +38,8 @@ public class StronaWnDAO extends DAO implements Serializable {
         this.sessionFacade = sessionFacade;
     }
 
-    public List<StronaWiersza> findStronaMaByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return sessionFacade.findStronaMaByKontoWnMaWaluta(konto, symbolwaluty);
+    public List<StronaWiersza> findStronaWnByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
+        return sessionFacade.findStronaWnByKontoWnMaWaluta(konto, symbolwaluty);
     }
 
        
