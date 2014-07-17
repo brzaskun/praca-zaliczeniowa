@@ -138,8 +138,9 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").select();
             var pozycja = {pozycja: nrWiersza, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
-            
         }
+        var nowatransakcjaWn = $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wnNowaTransakcja").val();
+        var nowatransakcjaMa = $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:maNowaTransakcja").val();
         chowanienapoczatekdok();
         }
         } catch (Exception){
@@ -288,6 +289,30 @@ var chowanienapoczatekdok = function(){
             }
         };
     };
+    pozazieleniajNoweTransakcje();
+    
+};
+
+var pozazieleniajNoweTransakcje = function () {
+    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
+    for (var i = 0; i < dlugosclisty; i++) {
+        try {
+            var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
+            var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
+            if (nowatransakcjaWn==="true") {
+                zmienkolor(i, "kontown_input");
+            } else if (nowatransakcjaMa==="true") {
+                zmienkolor(i, "kontoma_input");
+            }
+        } catch (Exception) {
+            break;
+        }
+    }
+};
+
+var zmienkolor = function(i,wnma) {
+    var dopasowanywiersz = "formwpisdokument:dataList:" + i + ":" + wnma;
+    $(document.getElementById(dopasowanywiersz)).css("color", "green");
 };
 
 var zachowajwtablicy = function(pozycjaszukana){
