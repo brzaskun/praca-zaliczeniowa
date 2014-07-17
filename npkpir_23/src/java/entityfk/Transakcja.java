@@ -61,6 +61,7 @@ public class Transakcja  implements Serializable {
     public Transakcja() {
     }
 
+    
     public Transakcja(StronaWn rozliczajacy, StronaMa rozliczany) {
         this.stronaWn = rozliczajacy;
         this.stronaMa = rozliczany;

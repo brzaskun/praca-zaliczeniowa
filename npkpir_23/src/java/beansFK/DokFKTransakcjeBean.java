@@ -94,7 +94,7 @@ public class DokFKTransakcjeBean implements Serializable{
         }
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
-        } 
+        }
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
@@ -127,7 +127,7 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
@@ -136,13 +136,50 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setStronaWn((StronaWn) aktualnywierszdorozrachunkow);
                 transakcja.setStronaMa((StronaMa) nowatransakcjazbazy);
                 ((StronaWn) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaMa) nowatransakcjazbazy).getTransakcje().add(transakcja);
             } else if (aktualnywierszdorozrachunkow instanceof StronaMa){
                 transakcja.setStronaMa((StronaMa) aktualnywierszdorozrachunkow);
                 transakcja.setStronaWn((StronaWn) nowatransakcjazbazy);
                 ((StronaMa) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
                 ((StronaWn) nowatransakcjazbazy).getTransakcje().add(transakcja);
             }
-            
+            transakcjeswiezynki.add(transakcja);
+        }
+        return transakcjeswiezynki;
+    }
+    
+    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaStronaWierszaZBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, List<Transakcja> biezacetransakcje) {
+        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+        Iterator it = biezacetransakcje.iterator();
+        if (aktualnywierszdorozrachunkow instanceof StronaWn) {
+            while (it.hasNext()) {
+                Transakcja p = (Transakcja) it.next();
+                if (listaStronaWierszaZBazy.contains(p.getStronaMa())) {
+                    listaStronaWierszaZBazy.remove(p.getStronaMa());
+                }
+            }
+        } else {
+            while (it.hasNext()) {
+                Transakcja p = (Transakcja) it.next();
+                if (listaStronaWierszaZBazy.contains(p.getStronaWn())) {
+                    listaStronaWierszaZBazy.remove(p.getStronaWn());
+                }
+            }
+        }
+        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
+        for (StronaWiersza nowatransakcjazbazy : listaStronaWierszaZBazy) {
+            Transakcja transakcja = new Transakcja();
+            if (aktualnywierszdorozrachunkow instanceof StronaWn) {
+                transakcja.setStronaWn((StronaWn) aktualnywierszdorozrachunkow);
+                transakcja.setStronaMa((StronaMa) nowatransakcjazbazy);
+                ((StronaWn) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaMa) nowatransakcjazbazy).getTransakcje().add(transakcja);
+            } else if (aktualnywierszdorozrachunkow instanceof StronaMa){
+                transakcja.setStronaMa((StronaMa) aktualnywierszdorozrachunkow);
+                transakcja.setStronaWn((StronaWn) nowatransakcjazbazy);
+                ((StronaMa) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaWn) nowatransakcjazbazy).getTransakcje().add(transakcja);
+            }
             transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
