@@ -103,14 +103,12 @@ public class DokFKTransakcjeBean implements Serializable{
         List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersz p : wiersze) {
             if (wnma.equals("Wn")) {
-                StronaWiersza rozrachunekMa = p.getStronaWn();
-                if (rozrachunekMa != null) {
-                    listaNowychRozrachunkowDokument.add(rozrachunekMa);
+                if (p.getIdwiersza() == null) {
+                    listaNowychRozrachunkowDokument.add(p.getStronaMa());
                 }
             } else if (wnma.equals("Ma")){
-                StronaWiersza rozrachunekWn = p.getStronaMa();
-                if (rozrachunekWn != null) {
-                    listaNowychRozrachunkowDokument.add(rozrachunekWn);
+                if (p.getIdwiersza() == null) {
+                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
                 }
             }
         }
@@ -197,9 +195,9 @@ public class DokFKTransakcjeBean implements Serializable{
         List<Transakcja> pobrana = new ArrayList<>();
         try {
             if (stronawiersza.equals("Wn")) {
-                ((StronaWn) stronawiersza).getTransakcje();
+                pobrana.addAll(((StronaWn) stronawiersza).getTransakcje());
             } else {
-                ((StronaMa) stronawiersza).getTransakcje();
+                pobrana.addAll(((StronaMa) stronawiersza).getTransakcje());
             }
             return pobrana;
         } catch (Exception e) {

@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "stronawn", catalog = "pkpir", schema = "")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorValue(value = "StronaWn")
 @XmlRootElement
 @NamedQueries({
   @NamedQuery(name = "StronaWn.findByStronaWnKontoWaluta", query = "SELECT s FROM StronaWn s WHERE s.konto = :konto AND s.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty")
@@ -48,12 +50,15 @@ public class StronaWn extends StronaWiersza implements Serializable {
     
    
     public StronaWn() {
+        super();
+        this.DTYPE = "StronaWn";
         this.transakcje = new ArrayList<>();
     }
     
 
     public StronaWn(Wiersz nowywiersz) {
         super();
+        this.DTYPE = "StronaWn";
         this.transakcje = new ArrayList<>();
         this.wiersz = nowywiersz;
     }

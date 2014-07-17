@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @MappedSuperclass
-
+@DiscriminatorColumn(name="DTYPE")
 public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
      
@@ -57,6 +58,8 @@ public class StronaWiersza implements Serializable{
     @Column(name= "datarozrachunku")
     protected String datarozrachunku;
     private Konto konto;
+    @Column(name = "DTYPE")
+    protected String DTYPE;
     
     
 
@@ -146,6 +149,14 @@ public class StronaWiersza implements Serializable{
 
     public void setKonto(Konto konto) {
         this.konto = konto;
+    }
+
+    public String getDTYPE() {
+        return DTYPE;
+    }
+
+    public void setDTYPE(String DTYPE) {
+        this.DTYPE = DTYPE;
     }
 
     

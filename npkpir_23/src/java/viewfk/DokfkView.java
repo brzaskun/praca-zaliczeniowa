@@ -478,10 +478,9 @@ public class DokfkView implements Serializable {
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
-                    transakcjeswiezynki.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
-                    zachowanewczejsniejtransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                    //biezacetransakcje.addAll(DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, zachowanewczejsniejtransakcje, transakcjeswiezynki, aktualnyWierszDlaRozrachunkow));
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
                       biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
@@ -664,56 +663,30 @@ public class DokfkView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            //pobierzsymbolwaluty(); archeo bo info jest we wierszu
         }
     }
     
-//    public void pobierzsymbolwaluty() {
-//        try {
-//            List<Waluty> wprowadzonewaluty = walutyDAOfk.findAll();
-//            if (symbolwalutydowiersza.isEmpty() || symbolwalutydowiersza.equals("PLN")) {
-//                symbolwalutydowiersza = "zł";
-//            } else {
-//                for (Waluty w : wprowadzonewaluty) {
-//                    if (w.getSymbolwaluty().equals(symbolwalutydowiersza)) {
-//                        symbolwalutydowiersza = w.getSkrotsymbolu();
-//                        break;
-//                    }
-//                }
-//            }
-//            int iloscwierszy = selected.getListawierszy().size();
-//            for (int i = 0; i < iloscwierszy; i++) {
-//                String p1 = "formwpisdokument:dataList:" + i + ":symbolWn";
-//                String p2 = "formwpisdokument:dataList:" + i + ":symbolMa";
-//                RequestContext.getCurrentInstance().update(p1);
-//                RequestContext.getCurrentInstance().update(p2);
-//            }
-//            RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
-//        } catch (Exception e) {
-//            Msg.msg("e", "Nie moglem zmienic symbolu waluty");
-//        }
-//    }
    
     public void wyliczroznicekursowa(Transakcja loop, int row) {
-//        double kursAktualny = loop.getRozliczany().getWiersz().getTabelanbp().getKurssredni();
-//        double kursSparowany = loop.getSparowany().getWiersz().getTabelanbp().getKurssredni();
-//        if (kursAktualny != 0.0 && kursSparowany != 0.0) {
-//            String wiersz = "rozrachunki:dataList:"+row+":kwotarozliczenia_input";
-//            String zwartywiersz = (String) Params.params(wiersz);
-//            zwartywiersz = zwartywiersz.replaceAll("\\s","");
-//            if (zwartywiersz.length() > 0) {
-//                double kwotarozrachunku = Double.parseDouble(zwartywiersz);
-//                double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
-//                double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
-//                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
-//                roznicakursowa = Math.round(roznicakursowa);
-//                roznicakursowa /= 100;
-//                Transakcja analizowanatransakcja = biezacetransakcje.get(row);
-//                analizowanatransakcja.setRoznicekursowe(roznicakursowa);
-//                wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
-//                RequestContext.getCurrentInstance().update(wiersz);
-//            }
-//        }
+        double kursAktualny = loop.getStronaWn().getWiersz().getTabelanbp().getKurssredni();
+        double kursSparowany = loop.getStronaMa().getWiersz().getTabelanbp().getKurssredni();
+        if (kursAktualny != 0.0 && kursSparowany != 0.0) {
+            String wiersz = "rozrachunki:dataList:"+row+":kwotarozliczenia_input";
+            String zwartywiersz = (String) Params.params(wiersz);
+            zwartywiersz = zwartywiersz.replaceAll("\\s","");
+            if (zwartywiersz.length() > 0) {
+                double kwotarozrachunku = Double.parseDouble(zwartywiersz);
+                double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
+                double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
+                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN)*100;
+                roznicakursowa = Math.round(roznicakursowa);
+                roznicakursowa /= 100;
+                Transakcja analizowanatransakcja = biezacetransakcje.get(row);
+                analizowanatransakcja.setRoznicekursowe(roznicakursowa);
+                wiersz = "rozrachunki:dataList:"+row+":roznicakursowa";
+                RequestContext.getCurrentInstance().update(wiersz);
+            }
+        }
     }
     
 //    //a to jest rodzial dotyczacy walut w wierszu
