@@ -200,21 +200,14 @@ public class DokFKTransakcjeBean implements Serializable{
         return pobranalista;
     }
 
-    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie,List<Transakcja> zachowanewczejsniejtransakcje, List<Transakcja> transakcjeswiezynki,StronaWiersza aktualnywierszdorozrachunkow ) {
-        List<Transakcja> biezacetransakcje = new ArrayList<>();
+    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie, List<Transakcja> biezacetransakcje,StronaWiersza aktualnywierszdorozrachunkow, StronaWnDAO stronaWnDAO, StronaMaDAO stronaMaDAO) {
         pierwotnailosctransakcjiwbazie = 0;
-        for (Transakcja r : transakcjeswiezynki) {
-               if (!zachowanewczejsniejtransakcje.contains(r)) {
-                   biezacetransakcje.add(r);
-               }
-        }
-        if (zachowanewczejsniejtransakcje.size() > 0) {
+        if (biezacetransakcje.size() > 0) {
             //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
             //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
             double sumaStornoRozliczajacego = 0.0;
-            for (Transakcja s : zachowanewczejsniejtransakcje) {
+            for (Transakcja s : biezacetransakcje) {
                 sumaStornoRozliczajacego += s.getKwotatransakcji();
-                biezacetransakcje.add(s);
                 pierwotnailosctransakcjiwbazie++;
             }
             //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
@@ -224,6 +217,11 @@ public class DokFKTransakcjeBean implements Serializable{
             pozostalo = pozostalo - sumaStornoRozliczajacego;
             aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
             aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+            if (aktualnywierszdorozrachunkow instanceof StronaWn) {
+                stronaWnDAO.edit(aktualnywierszdorozrachunkow);
+            } else if (aktualnywierszdorozrachunkow instanceof StronaMa){
+                stronaMaDAO.edit(aktualnywierszdorozrachunkow);
+            }
         }
         return biezacetransakcje;
     }

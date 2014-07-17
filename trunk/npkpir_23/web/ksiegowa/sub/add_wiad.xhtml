@@ -59,7 +59,7 @@
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                widgetVar="dialogklient" 
+                                widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                     <f:ajax event="blur" execute="@this"/>
                     <f:facet name="itemtip">  
@@ -104,13 +104,13 @@
                               <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
             <p:panelGrid columns="2" style="width: 90%;" columnClasses="forty-percent, sixty-percent">
               <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
-                    <p:column headerText="kwota faktury netto">
-                        <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
+                    <p:column headerText="kwota faktury netto" style="text-align: center;" width="120">
+                        <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; width: 120px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
                             <p:ajax event="blur" listener="#{DokumentView.dokumentProstySchowajEwidencje}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
                         </pe:inputNumber>
                     </p:column>
-                    <p:column headerText="kolumna pkpir">
-                        <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}"  styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                  <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
+                      <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                          onfocus="$(this).addClass('ui-state-focus');"
                                         onblur="$(this).removeClass('ui-state-focus');">
                             <f:selectItems value="#{DokumentView.kolumny}"/>

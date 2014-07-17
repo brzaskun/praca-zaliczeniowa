@@ -32,7 +32,7 @@
                         <h:outputText value="już rozliczono w kwocie: "/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <h:outputText value="kwota pozostala do rozliczenia: "/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" style="float: right; font-weight: bold;">
+                        <h:outputText value="kwota pozostala do rozliczenia: "/><h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="float: right; font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
@@ -43,12 +43,12 @@
                     <f:facet name="header">
                         <h:outputText value="Dokumenty nie rozliczone"/>
                     </f:facet>
-                   <p:column headerText="kwota rozlicz. - bieżący dok." width="50">
+                        <p:column headerText="kwota rozlicz. - bieżący dok." width="50" style="text-align: right;">
                        <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; width: 80px;"
-                                       decimalPlaces="2" minValue="-10000000" rendered="#{!loop.zablokujnanoszenie}">
+                                       decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                            <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                        </pe:inputNumber>
-                       <h:outputText value="#{loop.kwotatransakcji}" style="text-align: right; width: 80px;"  rendered="#{loop.zablokujnanoszenie}">
+                       <h:outputText value="#{loop.kwotatransakcji}" style="width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                             <f:convertNumber minFractionDigits="2" locale="PL" />
                         </h:outputText>
                     </p:column>
