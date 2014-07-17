@@ -250,7 +250,8 @@ public class DokfkView implements Serializable {
     public void usundokument(Dokfk dousuniecia) {
         try {
             dokDAOfk.usun(dousuniecia);
-            wykazZaksiegowanychDokumentow.remove(dousuniecia);
+            wykazZaksiegowanychDokumentow.clear();
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             Msg.msg("i", "Dokument usunięty");
