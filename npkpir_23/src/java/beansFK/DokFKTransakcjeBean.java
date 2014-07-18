@@ -120,7 +120,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     it.remove();
                 } 
                 try {
-                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypwiersza() != 1) {
                         it.remove();
                     }
                 } catch (Exception ff) {}
@@ -138,11 +138,13 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setStronaWn((StronaWn) aktualnywierszdorozrachunkow);
                 transakcja.setStronaMa((StronaMa) nowatransakcjazbazy);
                 ((StronaWn) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaWn) aktualnywierszdorozrachunkow).setTypwiersza(2);
                 ((StronaMa) nowatransakcjazbazy).getTransakcje().add(transakcja);
             } else if (aktualnywierszdorozrachunkow instanceof StronaMa){
                 transakcja.setStronaMa((StronaMa) aktualnywierszdorozrachunkow);
                 transakcja.setStronaWn((StronaWn) nowatransakcjazbazy);
                 ((StronaMa) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
+                ((StronaMa) aktualnywierszdorozrachunkow).setTypwiersza(2);
                 ((StronaWn) nowatransakcjazbazy).getTransakcje().add(transakcja);
             }
         }

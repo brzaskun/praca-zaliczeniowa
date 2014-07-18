@@ -139,8 +139,6 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
             var pozycja = {pozycja: nrWiersza, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
         }
-        var nowatransakcjaWn = $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wnNowaTransakcja").val();
-        var nowatransakcjaMa = $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:maNowaTransakcja").val();
         chowanienapoczatekdok();
         }
         } catch (Exception){
@@ -250,6 +248,7 @@ var chowanienapoczatek = function(){
             $(blokowany).hide();
         }
     }
+    pozazieleniajNoweTransakcje();
 };
 
 var aktualizujmape = function(liczbawierszyWDokumencie){
@@ -299,10 +298,15 @@ var pozazieleniajNoweTransakcje = function () {
         try {
             var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
             var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
-            if (nowatransakcjaWn==="true") {
-                zmienkolor(i, "kontown_input");
-            } else if (nowatransakcjaMa==="true") {
-                zmienkolor(i, "kontoma_input");
+            if (nowatransakcjaWn==="1") {
+                zmienkolor("green", i, "kontown_input");
+            } else if (nowatransakcjaMa==="1") {
+                zmienkolor("green", i, "kontoma_input");
+            }
+            if (nowatransakcjaWn==="2") {
+                zmienkolor("blue", i, "kontown_input");
+            } else if (nowatransakcjaMa==="2") {
+                zmienkolor("blue", i, "kontoma_input");
             }
         } catch (Exception) {
             break;
@@ -310,9 +314,9 @@ var pozazieleniajNoweTransakcje = function () {
     }
 };
 
-var zmienkolor = function(i,wnma) {
+var zmienkolor = function(color, i,wnma) {
     var dopasowanywiersz = "formwpisdokument:dataList:" + i + ":" + wnma;
-    $(document.getElementById(dopasowanywiersz)).css("color", "green");
+    $(document.getElementById(dopasowanywiersz)).css("color", color);
 };
 
 var zachowajwtablicy = function(pozycjaszukana){
