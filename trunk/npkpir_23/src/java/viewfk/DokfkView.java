@@ -6,7 +6,6 @@ package viewfk;
 
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
-import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaMaDAO;
 import dao.StronaWnDAO;
@@ -26,9 +25,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -466,6 +463,7 @@ public class DokfkView implements Serializable {
 //    
     public void tworzenieTransakcjiZWierszy() {
         List<StronaWiersza> listaRozliczanych = new ArrayList<>();
+        List<StronaWiersza> listazBazy = new ArrayList<>();
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         List<Transakcja> zachowanewczejsniejtransakcje = new ArrayList<>();
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
@@ -473,16 +471,20 @@ public class DokfkView implements Serializable {
         Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
         zablokujprzyciskzapisz = false;
         try {
+            aktualnyWierszDlaRozrachunkow = null;
             aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow();
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 int onJestNowaTransakcja = StronaWierszaBean.czyKontoJestNowaTransakcja(aktualnyWierszDlaRozrachunkow, stronawiersza);
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja != 1) {
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzNoweStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                     DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
                     listaRozliczanych.clear();
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
+                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzZapisaneWBazieStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                    listazBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
+                    DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(listaRozliczanych, listazBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                    
                     biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu(), biezacetransakcje));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWnDAO, stronaMaDAO);
                 } else {
@@ -586,9 +588,9 @@ public class DokfkView implements Serializable {
                     rozliczajacy.setRozliczono(aktualny_rozliczono + roznicaNkSk);
                     rozliczajacy.setPozostalo(aktualny_pierwotna - rozliczajacy.getRozliczono());
                     //p.getSparowany().setNowatransakcja(true);
-//                    nowatransakcja.setRozliczono(sparowany_rozliczono + roznicaNkSk);
-//                    nowatransakcja.setPozostalo(sparowany_pierwotna - nowatransakcja.getRozliczono());
-//                    //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
+                    nowatransakcja.setRozliczono(sparowany_rozliczono + roznicaNkSk);
+                    nowatransakcja.setPozostalo(sparowany_pierwotna - nowatransakcja.getRozliczono());
+                    //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
 //                    if (nowatransakcja instanceof StronaWn) {
 //                        stronaWnDAO.edit(nowatransakcja);
 //                    } else {

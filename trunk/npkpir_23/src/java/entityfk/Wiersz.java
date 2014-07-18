@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,7 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable(false)
 @Entity
-@Table(name = "wiersz")
+@Table(name = "wiersz", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnik, seriadokfk")
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -38,7 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Wiersz.findByOpisWiersza", query = "SELECT w FROM Wiersz w WHERE w.opisWiersza = :opisWiersza"),
     @NamedQuery(name = "Wiersz.findByPodatnik", query = "SELECT w FROM Wiersz w WHERE w.dokfk.dokfkPK.podatnik = :podatnik")
 })
-
 public class Wiersz implements Serializable {
     private static final long serialVersionUID = 1L;
     
