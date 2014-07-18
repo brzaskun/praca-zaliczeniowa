@@ -30,16 +30,13 @@ public class UzupelnijWierszeoDane implements Serializable {
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.getStronaMa().setKwota(0.0);
                     p.setTypWiersza(1);
-                    p.setDokfk(selected);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.getStronaWn().setKwota(0.0);
                     p.setTypWiersza(2);
-                    p.setDokfk(selected);
                 } else {
                     p.setDataksiegowania(selected.getDatawystawienia());
                     p.setTypWiersza(0);
-                    p.setDokfk(selected);
                 }
             }
         } catch (Exception e) {
