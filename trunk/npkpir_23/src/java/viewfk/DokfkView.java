@@ -423,9 +423,9 @@ public class DokfkView implements Serializable {
         //transakcje po zapisaniu dokumentu sa oznaczone jako zaksiegowane, wiec w przypadku edycji, np odhaczeniu ze to nowa transakcja
         //trzeba to odpowienio zaznaczycw rozrachunkach, umowliwa to zmiane rozrachunku w wierszach po kolei bez konieczosci 
         //otwierania dokuemntu co chwile po zmianie jednego wiersza
-        if (zapisz0edytuj1 == true) {
-            edycjaDlaRozrachunkow();
-        }
+//        if (zapisz0edytuj1 == true) {
+//            edycjaDlaRozrachunkow();
+//        }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -479,7 +479,7 @@ public class DokfkView implements Serializable {
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                    DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
                     biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
                     listaRozliczanych.clear();
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWnDAO, stronaMaDAO));
