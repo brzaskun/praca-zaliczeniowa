@@ -103,7 +103,7 @@ public class DokFKTransakcjeBean implements Serializable{
         List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersz p : wiersze) {
             if (wnma.equals("Wn")) {
-                if (p.getIdwiersza() == null) {
+                if (p.getIdwiersza() == null && p.getStronaMa().getKonto() != null) {
                     listaNowychRozrachunkowDokument.add(p.getStronaMa());
                 }
             } else if (wnma.equals("Ma")){
@@ -118,18 +118,20 @@ public class DokFKTransakcjeBean implements Serializable{
                 StronaWiersza r = (StronaWiersza) it.next();
                 if (r.getId()!= null) {
                     it.remove();
-                } else if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
-                    it.remove();
-                }
+                } 
+                try {
+                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.isNowatransakcja() == false) {
+                        it.remove();
+                    }
+                } catch (Exception ff) {}
             }
         }
         return listaNowychRozrachunkowDokument;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-    public static List<Transakcja> stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static void stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
             if (aktualnywierszdorozrachunkow instanceof StronaWn) {
@@ -143,9 +145,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 ((StronaMa) aktualnywierszdorozrachunkow).getTransakcje().add(transakcja);
                 ((StronaWn) nowatransakcjazbazy).getTransakcje().add(transakcja);
             }
-            transakcjeswiezynki.add(transakcja);
         }
-        return transakcjeswiezynki;
     }
     
     public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaStronaWierszaZBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, List<Transakcja> biezacetransakcje) {
