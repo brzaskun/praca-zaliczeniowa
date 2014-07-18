@@ -186,10 +186,10 @@
                         <p:commandButton id="dodajwierszbutton"  value="+" style=" margin-left: 10px; height: 20px;" actionListener="#{dokfkView.dolaczNowyWiersz(rowindex)}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
                     <p:column width="3" >
-                        <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.nowatransakcja}" style="font-size: 1px; color: white;"/>
+                        <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.typwiersza}" />
                     </p:column>
                     <p:column  width="3">
-                        <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.nowatransakcja}" style="font-size: 1px; color: white;"/>
+                        <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.typwiersza}" />
                     </p:column>
                 </p:dataTable>
                 <p:panel>

@@ -53,8 +53,7 @@ public class Transakcja  implements Serializable {
     private double poprzedniakwota;
     @Column(name = "roznicekursowe")
     private double roznicekursowe;
-    @Column(name = "zablokujnanoszenie")
-    private boolean zablokujnanoszenie;
+    
 
    
     
@@ -116,14 +115,7 @@ public class Transakcja  implements Serializable {
         this.roznicekursowe = roznicekursowe;
     }
 
-    public boolean isZablokujnanoszenie() {
-        return zablokujnanoszenie;
-    }
-
-    public void setZablokujnanoszenie(boolean zablokujnanoszenie) {
-        this.zablokujnanoszenie = zablokujnanoszenie;
-    }
-
+   
     
     
     @Override

@@ -45,11 +45,11 @@
                     </f:facet>
                         <p:column headerText="kwota rozlicz. - bieżący dok." width="50" style="text-align: right;">
                        <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; width: 80px;"
-                                       decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                       decimalPlaces="2" minValue="-10000000" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typwiersza != 1}">
                            <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                        </pe:inputNumber>
-                       <h:outputText value="#{loop.kwotatransakcji}" style="width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                            <f:convertNumber minFractionDigits="2" locale="PL" />
+                       <h:outputText value="#{loop.kwotatransakcji}" style="width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typwiersza == 1}">
+                           <f:convertNumber minFractionDigits="2" locale="PL" />
                         </h:outputText>
                     </p:column>
                      <p:column headerText="zostało do rozliczenia" width="50">
@@ -124,7 +124,7 @@
             </div>
             <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
                              type="submit" oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('{dokfkView.selected.listawierszy.size()}');" 
-                             update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                             update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typwiersza != 1}"/>
         </h:form>
         <f:facet name="footer" >
             <div style="padding: 5px; height: 35px; margin-left: 40%;">

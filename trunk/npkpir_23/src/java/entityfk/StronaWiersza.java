@@ -7,24 +7,16 @@
 package entityfk;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -53,8 +45,8 @@ public class StronaWiersza implements Serializable{
     protected double rozliczono;
     @Column(name="pozostalo")
     protected double pozostalo;
-    @Column(name="nowatransakcja")
-    protected boolean nowatransakcja;
+    @Column(name="typwiersza")//0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
+    protected int typwiersza;
     @Column(name= "datarozrachunku")
     protected String datarozrachunku;
     private Konto konto;
@@ -67,7 +59,7 @@ public class StronaWiersza implements Serializable{
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
-        this.nowatransakcja = false;
+        this.typwiersza = 0;
     }
 
     public Integer getId() {
@@ -94,12 +86,12 @@ public class StronaWiersza implements Serializable{
         this.pozostalo = pozostalo;
     }
 
-    public boolean isNowatransakcja() {
-        return nowatransakcja;
+    public int getTypwiersza() {
+        return typwiersza;
     }
 
-    public void setNowatransakcja(boolean nowatransakcja) {
-        this.nowatransakcja = nowatransakcja;
+    public void setTypwiersza(int typwiersza) {
+        this.typwiersza = typwiersza;
     }
 
 
@@ -194,7 +186,7 @@ public class StronaWiersza implements Serializable{
 
     @Override
     public String toString() {
-        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + nowatransakcja + '}';
+        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typwiersza + '}';
     }
 
     

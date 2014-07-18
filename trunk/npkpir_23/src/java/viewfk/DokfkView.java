@@ -397,7 +397,7 @@ public class DokfkView implements Serializable {
         List<StronaWiersza> listaRozliczanych = new ArrayList<>();
         boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
         if (zaznaczonoNowaTransakcje == true) {
-            aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
+            aktualnyWierszDlaRozrachunkow.setTypwiersza(1);
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
@@ -407,7 +407,7 @@ public class DokfkView implements Serializable {
             if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
                 Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
             } else {
-                aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
+                aktualnyWierszDlaRozrachunkow.setTypwiersza(1);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
@@ -475,9 +475,9 @@ public class DokfkView implements Serializable {
         try {
             aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow();
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
-                boolean onJestNowaTransakcja = StronaWierszaBean.czyKontoJestNowaTransakcja(aktualnyWierszDlaRozrachunkow, stronawiersza);
+                int onJestNowaTransakcja = StronaWierszaBean.czyKontoJestNowaTransakcja(aktualnyWierszDlaRozrachunkow, stronawiersza);
                 biezacetransakcje = new ArrayList<>();
-                if (onJestNowaTransakcja == false) {
+                if (onJestNowaTransakcja != 1) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                     DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
                     biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
@@ -493,7 +493,7 @@ public class DokfkView implements Serializable {
                 }
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
-                potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
+                potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypwiersza() == 1;
                 if (potraktujjakoNowaTransakcje == true) {
                     //jezeli nowa transakcja jest juz gdzies rozliczona to trzeba zablokowac przycisk
                     double czyjuzrozliczono = aktualnyWierszDlaRozrachunkow.getRozliczono();
@@ -548,10 +548,10 @@ public class DokfkView implements Serializable {
         StronaMa stronaMa = selected.getListawierszy().get(numerwiersza).getStronaMa();
         if (stronawiersza.equals("Wn")) {
             stronaWiersza = stronaWn;
-            potraktujjakoNowaTransakcje = stronaWn.isNowatransakcja();
+            potraktujjakoNowaTransakcje = stronaWn.getTypwiersza() == 1;
         } else {
             stronaWiersza = stronaMa;
-            potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
+            potraktujjakoNowaTransakcje = stronaMa.getTypwiersza() == 1;
         }
 
         StronaWierszaBean.aktualizatorAktualnegoWierszaDlaRozrachunkow(stronaWiersza, selected, wpisView, stronawiersza, numerwiersza);
@@ -562,6 +562,9 @@ public class DokfkView implements Serializable {
       
       
     public void zapistransakcji() {
+        if (aktualnyWierszDlaRozrachunkow.getTypwiersza()!=1) {
+            aktualnyWierszDlaRozrachunkow.setTypwiersza(2);
+        }
         //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
         if (biezacetransakcje != null) {
             for (Transakcja p : biezacetransakcje) {
@@ -569,16 +572,28 @@ public class DokfkView implements Serializable {
                 double kwotastara = p.getPoprzedniakwota();
                 double roznicaNkSk = kwotanowa - kwotastara;
                 if (roznicaNkSk != 0) {
-//                    double aktualny_rozliczono = p.getRozliczany().getRozliczono();
-//                    double aktualny_pierwotna = p.getRozliczany().getKwotapierwotna();
-//                    double sparowany_rozliczono = p.getSparowany().getRozliczono();
-//                    double sparowany_pierwotna = p.getSparowany().getKwotapierwotna();
-//                    p.getRozliczany().setRozliczono(aktualny_rozliczono + roznicaNkSk);
-//                    p.getRozliczany().setPozostalo(aktualny_pierwotna - p.getRozliczany().getRozliczono());
-//                    //p.getSparowany().setNowatransakcja(true);
-//                    p.getSparowany().setRozliczono(sparowany_rozliczono + roznicaNkSk);
-//                    p.getSparowany().setPozostalo(sparowany_pierwotna - p.getSparowany().getRozliczono());
-                    //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
+                    StronaWiersza rozliczajacy = aktualnyWierszDlaRozrachunkow;
+                    StronaWiersza nowatransakcja;
+                    if (rozliczajacy instanceof StronaWn) {
+                        nowatransakcja = p.getStronaMa();
+                    } else {
+                        nowatransakcja = p.getStronaWn();
+                    }
+                    double aktualny_rozliczono = rozliczajacy.getRozliczono();
+                    double aktualny_pierwotna = rozliczajacy.getKwota();
+                    double sparowany_rozliczono = nowatransakcja.getRozliczono();
+                    double sparowany_pierwotna = nowatransakcja.getKwota();
+                    rozliczajacy.setRozliczono(aktualny_rozliczono + roznicaNkSk);
+                    rozliczajacy.setPozostalo(aktualny_pierwotna - rozliczajacy.getRozliczono());
+                    //p.getSparowany().setNowatransakcja(true);
+//                    nowatransakcja.setRozliczono(sparowany_rozliczono + roznicaNkSk);
+//                    nowatransakcja.setPozostalo(sparowany_pierwotna - nowatransakcja.getRozliczono());
+//                    //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
+//                    if (nowatransakcja instanceof StronaWn) {
+//                        stronaWnDAO.edit(nowatransakcja);
+//                    } else {
+//                        stronaMaDAO.edit(nowatransakcja);
+//                    }
                 } else if (roznicaNkSk == 0) {
                     //p.getSparowany().setNowatransakcja(false);
                 }
@@ -597,18 +612,6 @@ public class DokfkView implements Serializable {
             } else {
                 selected.setZablokujzmianewaluty(false);
             }
-            // to ma blokowac zmianie kwot gdzie sa tworzenieTransakcjiZWierszy
-            List<Wiersz> wierszebiezace = selected.getListawierszy();
-            Wiersz wiersz = aktualnyWierszDlaRozrachunkow.getWiersz();
-//            for (Wiersz p : wierszebiezace) {
-//                if (p == wiersz && aktualnyWierszDlaRozrachunkow.getStronaWnlubMa().equals("Wn")) {
-//                    p.getStronaWn().setWnReadOnly(true);
-//                    break;
-//                } else if (p == wiersz && aktualnyWierszDlaRozrachunkow.getStronaWnlubMa().equals("Ma")) {
-//                    p.getStronaMa().setMaReadOnly(true);
-//                    break;
-//                }
-//            }
             //nie moze tu byc tego bo nie bedzie co utrwalic
             //biezacetransakcje.clear();
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
