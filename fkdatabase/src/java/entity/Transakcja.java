@@ -33,42 +33,47 @@ public class Transakcja  implements Serializable {
     
     @EmbeddedId 
     private TransakcjaPK transakcjaPK;
-    @MapsId("stronaWnId")
-    @JoinColumn(name="stronaWn_id")
+    @MapsId("rozliczajacy")
+    @JoinColumn(name="rozliczajacy_id")
     @ManyToOne
-    private StronaWn stronaWn;
-    @MapsId("stronaMaId")
-    @JoinColumn(name="stronaMa_id")
+    private StronaWiersza rozliczajacy;
+    @MapsId("nowaTransakcja")
+    @JoinColumn(name="nowaTransakcja_id")
     @ManyToOne
-    private StronaMa stronaMa;
+    private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
     private double kwota;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private double kwotapoprzednia;
 
     public Transakcja() {
     }
 
-    public Transakcja(StronaWn rozliczajacy, StronaMa rozliczany) {
-        this.stronaWn = rozliczajacy;
-        this.stronaMa = rozliczany;
+    public Transakcja(StronaWiersza rozliczajacy, StronaWiersza rozliczany) {
+        this.rozliczajacy = rozliczajacy;
+        this.nowaTransakcja = rozliczany;
     }
 
-    public StronaWn getStronaWn() {
-        return stronaWn;
+    public StronaWiersza getRozliczajacy() {
+        return rozliczajacy;
     }
 
-    public void setStronaWn(StronaWn stronaWn) {
-        this.stronaWn = stronaWn;
+    public void setRozliczajacy(StronaWiersza rozliczajacy) {
+        this.rozliczajacy = rozliczajacy;
     }
 
-    public StronaMa getStronaMa() {
-        return stronaMa;
+    public StronaWiersza getNowaTransakcja() {
+        return nowaTransakcja;
     }
 
-    public void setStronaMa(StronaMa stronaMa) {
-        this.stronaMa = stronaMa;
+    public void setNowaTransakcja(StronaWiersza nowaTransakcja) {
+        this.nowaTransakcja = nowaTransakcja;
     }
+
   
     public double getKwota() {
         return kwota;
@@ -77,6 +82,16 @@ public class Transakcja  implements Serializable {
     public void setKwota(double kwota) {
         this.kwota = kwota;
     }
+
+    public double getKwotapoprzednia() {
+        return kwotapoprzednia;
+    }
+
+    public void setKwotapoprzednia(double kwotapoprzednia) {
+        this.kwotapoprzednia = kwotapoprzednia;
+    }
+    
+    
 
     public TransakcjaPK getTransakcjaPK() {
         return transakcjaPK;
@@ -102,15 +117,20 @@ public class Transakcja  implements Serializable {
             return false;
         }
         final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.transakcjaPK, other.transakcjaPK)) {
+        if (!Objects.equals(this.rozliczajacy, other.rozliczajacy)) {
+            return false;
+        }
+        if (!Objects.equals(this.nowaTransakcja, other.nowaTransakcja)) {
             return false;
         }
         return true;
     }
 
+  
+
     @Override
     public String toString() {
-        return "Transakcja{" + "stronaWn=" + stronaWn + ", stronaMa=" + stronaMa + ", kwota=" + kwota + '}';
+        return "Transakcja{" + "stronaWn=" + rozliczajacy.getNazwaStronyWiersza() + ", stronaMa=" + nowaTransakcja.getNazwaStronyWiersza() + ", kwota=" + kwota + '}';
     }
 
     

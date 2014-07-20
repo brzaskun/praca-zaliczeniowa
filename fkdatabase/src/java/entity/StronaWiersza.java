@@ -7,16 +7,23 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,7 +31,8 @@ import javax.validation.constraints.Size;
  *
  * @author Osito
  */
-@MappedSuperclass
+@Entity
+@Table(name = "stronawiersza")
 public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
      
@@ -33,16 +41,33 @@ public class StronaWiersza implements Serializable{
     @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
-    protected String nazwaStronyWiersza;
-    @OneToOne
-    @JoinColumn(name = "wierszid", referencedColumnName = "idwiersza")
-    protected Wiersz wiersz;
+    private String nazwaStronyWiersza;
+    @ManyToOne
+    @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
+    private Wiersz wiersz;
+    @Column(name="wnma")
+    private String wnma;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transakcja> transakcje;
+    @Column(name = "kwotapierwotna")
+    private double kwotapierwotna;
+    @Column(name = "rozliczono")
+    private double rozliczono;
+    @Column(name = "pozostalo")
+    private double pozostalo;
+    
     
 
     public StronaWiersza() {
+        this.kwotapierwotna = 0.0;
+        this.rozliczono = 0.0;
+        this.transakcje = new ArrayList<>();
     }
 
-    public StronaWiersza(String nazwarozrachunku) {
+    public StronaWiersza(String nazwarozrachunku, double kwotapierwotna) {
+        this.kwotapierwotna = kwotapierwotna;
+        this.rozliczono = 0.0;
+        this.transakcje = new ArrayList<>();
         this.nazwaStronyWiersza = nazwarozrachunku;
     }
     
@@ -63,15 +88,69 @@ public class StronaWiersza implements Serializable{
         this.wiersz = wiersz;
     }
 
-    
-    
-
-    @Override
-    public String toString() {
-        return "StronaWiersza{" + "nazwaStronyWiersza=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + '}';
+    public List<Transakcja> getTransakcje() {
+        return transakcje;
     }
 
+    public void setTransakcje(List<Transakcja> transakcje) {
+        this.transakcje = transakcje;
+    }
+
+   
+
+    public String getWnma() {
+        return wnma;
+    }
+
+    public void setWnma(String wnma) {
+        this.wnma = wnma;
+    }
+
+    public double getKwotapierwotna() {
+        return kwotapierwotna;
+    }
+
+    public void setKwotapierwotna(double kwotapierwotna) {
+        this.kwotapierwotna = kwotapierwotna;
+    }
+
+    public double getRozliczono() {
+        return rozliczono;
+    }
+
+    public double getPozostalo() {
+        return pozostalo;
+    }
+
+    public void setPozostalo(double pozostalo) {
+        this.pozostalo = pozostalo;
+    }
     
+    
+
+
+    public void dodajTransakcjeNowe(Transakcja transakcja) {
+        if (this.transakcje.contains(transakcja)) {
+            this.rozliczono = this.rozliczono - transakcja.getKwotapoprzednia() + transakcja.getKwota();
+        } else {
+            this.rozliczono = this.rozliczono + transakcja.getKwota();
+            this.transakcje.add(transakcja);
+        }
+        this.pozostalo = this.kwotapierwotna - this.rozliczono;
+    }
+    
+    
+    
+    @Override
+    public String toString() {
+        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostało=" + pozostalo +'}';
+    }
+
+   
+
+    
+    
+
 
     
     
