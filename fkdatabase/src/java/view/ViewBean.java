@@ -74,7 +74,7 @@ public class ViewBean implements Serializable{
         p("Odczyt z bazy danych");
 //        wiersz.setStronaMa(null);
         edytujDokument(doktab[0]);
-        edytujDokument(doktab[1]);
+        //edytujDokument(doktab[1]);
         //usunDokument(doktab[0]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
         for (Dokument p : pobraneZBazyPoZmianach) {
