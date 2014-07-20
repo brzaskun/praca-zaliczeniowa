@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +25,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -56,7 +58,9 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
+
     
     
 
@@ -116,6 +120,8 @@ public class Wiersz implements Serializable {
     public StronaWiersza getStronaMa() {
         return this.strona.get("Ma");
     }
+
+  
 
     @Override
     public String toString() {

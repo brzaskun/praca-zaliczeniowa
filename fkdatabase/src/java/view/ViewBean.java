@@ -80,6 +80,19 @@ public class ViewBean implements Serializable{
         for (Dokument p : pobraneZBazyPoZmianach) {
             wydruk(p);
         }
+        p("-----------------");
+        p("Modyfikuje transakcje");
+        wiersz = doktab[2].getWiersz(0);
+        stronaWiersza = wiersz.getStronaMa();
+        transakcja = stronaWiersza.getTransakcje().get(0);
+        modyfikujTransakcje(transakcja, 5000);
+        edytujDokument(doktab[2]);
+        p("Odczyt z bazy danych");
+        pobraneZBazyPoZmianach.clear();
+        pobraneZBazyPoZmianach = findAllDokuments();
+        for (Dokument p : pobraneZBazyPoZmianach) {
+            wydruk(p);
+        }
         //Dokument refreshowany = refreshDokument(doktab[1]);;
         //wydruk(refreshowany);
         System.out.println("Koniec funkcji");
@@ -351,11 +364,11 @@ public class ViewBean implements Serializable{
         mp.append(wnma);
         StronaWiersza stronaWiersza;
         if (wnma.equals("Wn")) {
-            stronaWiersza = new StronaWiersza(mp.toString(), 100+licznik);
+            stronaWiersza = new StronaWiersza(mp.toString(), 5000*licznik);
             stronaWiersza.setWnma(wnma);
             stronaWiersza.setWiersz(wiersz);
         } else {
-            stronaWiersza = new StronaWiersza(mp.toString(), 100+licznik);
+            stronaWiersza = new StronaWiersza(mp.toString(), 5000*licznik);
             stronaWiersza.setWnma(wnma);
             stronaWiersza.setWiersz(wiersz);
         }
