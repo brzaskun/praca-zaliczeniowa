@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -18,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -33,9 +33,10 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "stronawiersza")
-public class StronaWiersza implements Serializable{
-     private static final long serialVersionUID = 1L;
-     
+public class StronaWiersza implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Basic(optional = false)
     @NotNull
@@ -45,9 +46,17 @@ public class StronaWiersza implements Serializable{
     @ManyToOne
     @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
-    @Column(name="wnma")
+    @Column(name = "wnma")
     private String wnma;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "StronaWiersza_StronaWiersza",
+            joinColumns = {
+                @JoinColumn(table = "StronaWiersza", name = "stronawiersza_id", referencedColumnName = "nazwaStronyWiersza"),},
+            inverseJoinColumns = {
+                @JoinColumn(table = "Transakcja", name = "transakcja_rozliczajacy_id", referencedColumnName = "rozliczajacy_id"),
+                @JoinColumn(table = "Transakcja", name = "transakcja_nowaTransakcja_id", referencedColumnName = "nowaTransakcja_id")
+            }
+    )
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Transakcja> transakcje;
     @Column(name = "kwotapierwotna")
     private double kwotapierwotna;
@@ -55,8 +64,6 @@ public class StronaWiersza implements Serializable{
     private double rozliczono;
     @Column(name = "pozostalo")
     private double pozostalo;
-    
-    
 
     public StronaWiersza() {
         this.kwotapierwotna = 0.0;
@@ -70,7 +77,6 @@ public class StronaWiersza implements Serializable{
         this.transakcje = new ArrayList<>();
         this.nazwaStronyWiersza = nazwarozrachunku;
     }
-    
 
     public String getNazwaStronyWiersza() {
         return nazwaStronyWiersza;
@@ -95,8 +101,6 @@ public class StronaWiersza implements Serializable{
     public void setTransakcje(List<Transakcja> transakcje) {
         this.transakcje = transakcje;
     }
-
-   
 
     public String getWnma() {
         return wnma;
@@ -130,9 +134,6 @@ public class StronaWiersza implements Serializable{
     public void setPozostalo(double pozostalo) {
         this.pozostalo = pozostalo;
     }
-    
-    
-
 
     public void dodajTransakcjeNowe(Transakcja transakcja) {
         if (this.transakcje.contains(transakcja)) {
@@ -143,21 +144,12 @@ public class StronaWiersza implements Serializable{
         }
         this.pozostalo = this.kwotapierwotna - this.rozliczono;
     }
-    
-    
+
+   
     
     @Override
     public String toString() {
-        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + getRozliczono() + ", pozostało=" + pozostalo +'}';
+        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + getRozliczono() + ", pozostało=" + pozostalo + '}';
     }
 
-   
-
-    
-    
-
-
-    
-    
-    
 }
