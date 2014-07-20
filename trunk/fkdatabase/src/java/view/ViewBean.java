@@ -7,9 +7,7 @@
 package view;
 
 import entity.Dokument;
-import entity.StronaMa;
 import entity.StronaWiersza;
-import entity.StronaWn;
 import entity.Transakcja;
 import entity.Wiersz;
 import java.io.Serializable;
@@ -64,12 +62,19 @@ public class ViewBean implements Serializable{
         for (Dokument p : doktab) {
             wydruk(p);
         }
-        Wiersz wiersz = doktab[2].getWierszelista().get(0);
-        doktab[0].getWierszelista().remove(wiersz);
+//        Wiersz wiersz = doktab[2].getWierszelista().get(0);
+//        doktab[2].getWierszelista().remove(wiersz);
         p("-----------------");
-        p("Usuwam "+wiersz.getStronaMa());
-        wiersz.setStronaMa(null);
-        edytujDokument(doktab[2]);
+        p("Modyfikuje transakcje");
+        Wiersz wiersz = doktab[0].getWiersz(0);
+        StronaWiersza stronaWiersza = wiersz.getStronaWn();
+        Transakcja transakcja = stronaWiersza.getTransakcje().get(0);
+        modyfikujTransakcje(transakcja, 2000);
+        //p("Usuwam "+wiersz.getWiersznazwa());
+        p("Odczyt z bazy danych");
+//        wiersz.setStronaMa(null);
+        edytujDokument(doktab[0]);
+        edytujDokument(doktab[1]);
         //usunDokument(doktab[0]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
         for (Dokument p : pobraneZBazyPoZmianach) {
@@ -138,12 +143,12 @@ public class ViewBean implements Serializable{
         petlaTworzenieDokumentu();
     }
     
-    public static void petlaTworzenieTransakcji() {
-        Transakcja transkacja = utrwalNowaTransakcja();
-        if (transkacja != null) {
-            System.out.println("Utworzono nowa transakcja "+transkacja.toString());
-        }
-    }
+//    public static void petlaTworzenieTransakcji() {
+//        Transakcja transkacja = utrwalNowaTransakcja();
+//        if (transkacja != null) {
+//            System.out.println("Utworzono nowa transakcja "+transkacja.toString());
+//        }
+//    }
     
 //    public static void petlaTworzenieRozrachnkow() {
 //        Transakcja transkacja = utrwalNowaTransakcja();
@@ -247,25 +252,25 @@ public class ViewBean implements Serializable{
 //        }   
 //    }
 //    
-     public static StronaWn znajdzStronaWn(String stronaID) {
-        try {
-            EntityManager em = getEntityManager();
-            StronaWn odnalezione = em.find(StronaWn.class, stronaID);
-            return odnalezione;
-        } catch (Exception e) {
-            return null;
-        }   
-    }
-     
-     public static StronaMa znajdzStronaMa(String stronaID) {
-        try {
-            EntityManager em = getEntityManager();
-            StronaMa odnalezione = em.find(StronaMa.class, stronaID);
-            return odnalezione;
-        } catch (Exception e) {
-            return null;
-        }   
-    }
+//     public static StronaWn znajdzStronaWn(String stronaID) {
+//        try {
+//            EntityManager em = getEntityManager();
+//            StronaWn odnalezione = em.find(StronaWn.class, stronaID);
+//            return odnalezione;
+//        } catch (Exception e) {
+//            return null;
+//        }   
+//    }
+//     
+//     public static StronaMa znajdzStronaMa(String stronaID) {
+//        try {
+//            EntityManager em = getEntityManager();
+//            StronaMa odnalezione = em.find(StronaMa.class, stronaID);
+//            return odnalezione;
+//        } catch (Exception e) {
+//            return null;
+//        }   
+//    }
     
     public static Wiersz znajdzWiersz() {
         try {
@@ -330,9 +335,9 @@ public class ViewBean implements Serializable{
         mp.append(listanazw.get(licznik));
         mp.append("wiersz");
         Wiersz wiersz = new Wiersz(mp.toString());
-        StronaWn stronaWn = (StronaWn) stworzStronaWnMa(wiersz, "Wn");
+        StronaWiersza stronaWn = stworzStronaWnMa(wiersz, "Wn");
         wiersz.setStronaWn(stronaWn);
-        StronaMa stronaMa = (StronaMa) stworzStronaWnMa(wiersz, "Ma");
+        StronaWiersza stronaMa = stworzStronaWnMa(wiersz, "Ma");
         wiersz.setStronaMa(stronaMa);
         wiersz.setDokument(dokument);
         System.out.println("Wiersz siup!");
@@ -346,10 +351,12 @@ public class ViewBean implements Serializable{
         mp.append(wnma);
         StronaWiersza stronaWiersza;
         if (wnma.equals("Wn")) {
-            stronaWiersza = new StronaWn(mp.toString());
+            stronaWiersza = new StronaWiersza(mp.toString(), 100+licznik);
+            stronaWiersza.setWnma(wnma);
             stronaWiersza.setWiersz(wiersz);
         } else {
-            stronaWiersza = new StronaMa(mp.toString());
+            stronaWiersza = new StronaWiersza(mp.toString(), 100+licznik);
+            stronaWiersza.setWnma(wnma);
             stronaWiersza.setWiersz(wiersz);
         }
         System.out.println("StronaWiersza siup! "+wnma);
@@ -378,44 +385,53 @@ public class ViewBean implements Serializable{
 //        return rozrachunek;
 //    }
 //    
-    public static Transakcja stworzTransakcje() {
-        StronaWn stronaWn = znajdzStronaWn("pierwszy-Strona-Wn");
-        StronaMa stronaMa = znajdzStronaMa("drugi-Strona-Ma");
+//    public static Transakcja stworzTransakcje() {
+//        StronaWn stronaWn = znajdzStronaWn("pierwszy-Strona-Wn");
+//        StronaMa stronaMa = znajdzStronaMa("drugi-Strona-Ma");
+//        double kwota = 10000;
+//        Transakcja transakcja = new Transakcja();
+//        transakcja.setRozliczajacy(stronaWn);
+//        transakcja.setNowaTransakcja(stronaMa);
+//        transakcja.setKwota(kwota);
+//        stronaWn.getNowetransakcje().add(transakcja);
+//        stronaMa.getRozliczajacetransakcje().add(transakcja);
+//        return transakcja;
+//    }
+    
+    public static Transakcja stworzTransakcje(StronaWiersza rozliczajacy, StronaWiersza nowatransakcja) {
         double kwota = 10000;
         Transakcja transakcja = new Transakcja();
-        transakcja.setStronaWn(stronaWn);
-        transakcja.setStronaMa(stronaMa);
+        transakcja.setRozliczajacy(rozliczajacy);
+        transakcja.setNowaTransakcja(nowatransakcja);
         transakcja.setKwota(kwota);
-        stronaWn.getTransakcje().add(transakcja);
-        stronaMa.getTransakcje().add(transakcja);
+        transakcja.setKwotapoprzednia(kwota);
+        rozliczajacy.dodajTransakcjeNowe(transakcja);
+        nowatransakcja.dodajTransakcjeNowe(transakcja);
         return transakcja;
     }
     
-    public static Transakcja stworzTransakcje(StronaWn stronaWn, StronaMa stronaMa) {
-        double kwota = 10000;
-        Transakcja transakcja = new Transakcja();
-        transakcja.setStronaWn(stronaWn);
-        transakcja.setStronaMa(stronaMa);
-        transakcja.setKwota(kwota);
-        stronaWn.getTransakcje().add(transakcja);
-        stronaMa.getTransakcje().add(transakcja);
+    public static Transakcja modyfikujTransakcje(Transakcja transakcja,double nowakwota) {
+        transakcja.setKwotapoprzednia(transakcja.getKwota());
+        transakcja.setKwota(nowakwota);
+        transakcja.getRozliczajacy().dodajTransakcjeNowe(transakcja);
+        transakcja.getNowaTransakcja().dodajTransakcjeNowe(transakcja);
         return transakcja;
     }
     
-     public static Transakcja utrwalNowaTransakcja() {
-        try {
-            System.out.println("Utrwalam Transakcja");
-            EntityManager em = getEntityManager();
-            em.getTransaction().begin();
-            Transakcja transakcja = stworzTransakcje();
-            em.persist(transakcja);
-            em.getTransaction().commit();
-            em.clear();
-            return transakcja;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//     public static Transakcja utrwalNowaTransakcja() {
+//        try {
+//            System.out.println("Utrwalam Transakcja");
+//            EntityManager em = getEntityManager();
+//            em.getTransaction().begin();
+//            Transakcja transakcja = stworzTransakcje();
+//            em.persist(transakcja);
+//            em.getTransaction().commit();
+//            em.clear();
+//            return transakcja;
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
      
 //    public static int edytujWiersz(Wiersz wiersz) {
 //        try {
@@ -453,13 +469,13 @@ public class ViewBean implements Serializable{
             licznik++;
             Dokument dokument3 = utrwalNowyDokument();
             Wiersz wiersz1 = dokument1.getWierszelista().get(0);
-            StronaWn stronaWn = wiersz1.getStronaWn();
+            StronaWiersza pierwszystronaWn = wiersz1.getStronaWn();
             Wiersz wiersz2 = dokument2.getWierszelista().get(0);
-            StronaMa stronaMa = wiersz2.getStronaMa();
+            StronaWiersza drugistronaMa = wiersz2.getStronaMa();
             Wiersz wiersz3 = dokument3.getWierszelista().get(0);
-            stworzTransakcje(stronaWn, stronaMa);
-            StronaMa stronaMa1 = wiersz3.getStronaMa();
-            stworzTransakcje(stronaWn, stronaMa1);
+            stworzTransakcje(pierwszystronaWn, drugistronaMa);
+            StronaWiersza trzecistronaMa = wiersz3.getStronaMa();
+            stworzTransakcje(pierwszystronaWn, trzecistronaMa);
             edytujDokument(dokument1);
             edytujDokument(dokument2);
             edytujDokument(dokument3);

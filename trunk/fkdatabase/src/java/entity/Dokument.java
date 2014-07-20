@@ -97,6 +97,13 @@ public class Dokument implements Serializable {
         this.wierszelista = wierszelista;
     }
 
+    public Wiersz getWiersz(int index) {
+        try {
+            return this.wierszelista.get(index);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
     
     @Override

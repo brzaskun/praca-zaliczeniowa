@@ -7,6 +7,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -18,6 +24,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -48,16 +55,16 @@ public class Wiersz implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private StronaWn stronaWn;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private StronaMa stronaMa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    private Map<String, StronaWiersza> strona;
+    
     
 
     public Wiersz() {
     }
 
     public Wiersz(String wiersznazwa) {
+        this.strona = new HashMap<>();
         this.wiersznazwa = wiersznazwa;
         
     }
@@ -70,22 +77,14 @@ public class Wiersz implements Serializable {
         this.idwiersza = idwiersza;
     }
 
-    public StronaWn getStronaWn() {
-        return stronaWn;
+    public Map<String, StronaWiersza> getStrona() {
+        return strona;
     }
 
-    public void setStronaWn(StronaWn stronaWn) {
-        this.stronaWn = stronaWn;
+    public void setStrona(Map<String, StronaWiersza> strona) {
+        this.strona = strona;
     }
-
-    public StronaMa getStronaMa() {
-        return stronaMa;
-    }
-
-    public void setStronaMa(StronaMa stronaMa) {
-        this.stronaMa = stronaMa;
-    }
-        
+    
     public String getWiersznazwa() {
         return wiersznazwa;
     }
@@ -100,6 +99,22 @@ public class Wiersz implements Serializable {
 
     public void setDokument(Dokument dokument) {
         this.dokument = dokument;
+    }
+    
+    public void setStronaWn(StronaWiersza stronaWiersza) {
+        this.strona.put("Wn", stronaWiersza);
+    }
+    
+    public void setStronaMa(StronaWiersza stronaWiersza) {
+        this.strona.put("Ma", stronaWiersza);
+    }
+    
+    public StronaWiersza getStronaWn() {
+        return this.strona.get("Wn");
+    }
+    
+    public StronaWiersza getStronaMa() {
+        return this.strona.get("Ma");
     }
 
     @Override
