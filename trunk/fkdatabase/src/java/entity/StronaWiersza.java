@@ -115,6 +115,11 @@ public class StronaWiersza implements Serializable{
     }
 
     public double getRozliczono() {
+        this.rozliczono = 0.0;
+        for (Transakcja p : this.transakcje) {
+            this.rozliczono += p.getKwota();
+        }
+        this.pozostalo = this.kwotapierwotna - this.rozliczono;
         return rozliczono;
     }
 
@@ -143,7 +148,7 @@ public class StronaWiersza implements Serializable{
     
     @Override
     public String toString() {
-        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostało=" + pozostalo +'}';
+        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + getRozliczono() + ", pozostało=" + pozostalo +'}';
     }
 
    
