@@ -141,7 +141,8 @@ public class DokFKTransakcjeBean implements Serializable{
                     if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
                         it.remove();
                     }
-                } catch (Exception ff) {}
+                } catch (Exception ff) {
+                }
             }
         }
         return listaNowychRozrachunkowDokument;
@@ -176,7 +177,7 @@ public class DokFKTransakcjeBean implements Serializable{
         transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).pobierzTransakcje());
         for (Transakcja t : transakcjeZAktualnego) {
             if (listaZbiorcza.contains(t.getNowaTransakcja())) {
-                t.setNowaTransakcja((listaZbiorcza.get(t.getNowaTransakcja().getId())));
+                //t.setNowaTransakcja((listaZbiorcza.get(listaZbiorcza.indexOf(t.getNowaTransakcja()))));
                 listaZbiorcza.remove(t.getNowaTransakcja());
             }
         }
@@ -187,8 +188,8 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
                 transakcja.setNowaTransakcja(nowatransakcjazbazy);
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                //(aktualnywierszdorozrachunkow).setTypwiersza(2);
-                (nowatransakcjazbazy).dodajTransakcjeNowe(transakcja);
+                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
+                nowatransakcjazbazy.dodajTransakcjeNowe(transakcja);
         }
     }
     
@@ -207,8 +208,8 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
                 transakcja.setNowaTransakcja(nowatransakcjazbazy);
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                //(aktualnywierszdorozrachunkow).setTypwiersza(2);
-                (nowatransakcjazbazy).dodajTransakcjeNowe(transakcja);
+                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
+                nowatransakcjazbazy.dodajTransakcjeNowe(transakcja);
                 transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
@@ -241,11 +242,11 @@ public class DokFKTransakcjeBean implements Serializable{
             }
             //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
             //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
-            double pozostalo = aktualnywierszdorozrachunkow.getKwota();
-            double rozliczono = sumaStornoRozliczajacego;
-            pozostalo = pozostalo - sumaStornoRozliczajacego;
-            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
+//            double pozostalo = aktualnywierszdorozrachunkow.getKwota();
+//            double rozliczono = sumaStornoRozliczajacego;
+//            pozostalo = pozostalo - sumaStornoRozliczajacego;
+//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
+//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
         }
         return biezacetransakcje;
     }

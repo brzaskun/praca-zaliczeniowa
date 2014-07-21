@@ -390,6 +390,7 @@ public class DokfkView implements Serializable {
         boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
+            aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
@@ -400,6 +401,7 @@ public class DokfkView implements Serializable {
                 Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
             } else {
                 aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
+                aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
@@ -687,6 +689,7 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update(wiersz);
             }
         }
+       
     }
     
 //    //a to jest rodzial dotyczacy walut w wierszu
