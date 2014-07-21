@@ -3,6 +3,7 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,7 +20,6 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -81,11 +81,13 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
+        this.strona = new HashMap<>();
         this.zapisynakontach = new ArrayList<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
+        this.strona = new HashMap<>();
         this.zapisynakontach = new ArrayList<>();
         this.idporzadkowy = idporzadkowy;
     }
