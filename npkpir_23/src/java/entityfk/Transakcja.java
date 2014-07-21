@@ -39,11 +39,11 @@ public class Transakcja  implements Serializable {
     private TransakcjaPK transakcjaPK;
     @MapsId("rozliczajacy")
     @JoinColumn(name="rozliczajacy_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private StronaWiersza rozliczajacy;
     @MapsId("nowaTransakcja")
     @JoinColumn(name="nowaTransakcja_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull

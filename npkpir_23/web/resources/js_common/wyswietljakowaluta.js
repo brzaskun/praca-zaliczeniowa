@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var number_format = function(number) {
+var zamien_na_waluta = function(number) {
 // Formats a number with grouped thousands
 //
 // version: 906.1806
@@ -84,5 +84,6 @@ if (prec >= 1 && decPos !== -1 && (s.length-decPos-1) < prec) {
 else if (prec >= 1 && decPos === -1) {
     s += dec+new Array(prec).join(0)+'0';
 }
-return s+" zł"; };
+return s;
+};
 

@@ -114,6 +114,8 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function() {
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function() {
     $("#rozrachunki\\:dataList :input").keyup(function() {
+        var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
+        MYAPP.limit = limit;
         r("rozrachunki:zapiszrozrachunekButton").show();
         $(this).css("color", "black");
         $(this).css("font-weight", "normal");
@@ -158,8 +160,12 @@ var doklejsumowaniewprowadzonych = function() {
             wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
             //j++;
         }
+        var kwotapierwotna = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
+        $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
+        $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna-wprowadzono));
+        MYAPP.limit = kwotapierwotna-wprowadzono;
         for (var i = 0; i < iloscpozycji; i = i + 2) {
-            if (wprowadzono > MYAPP.limit) {
+            if (MYAPP.limit < 0) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
                 $(wszystkiewiersze[i]).css("color", "red");
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");
@@ -173,6 +179,7 @@ var doklejsumowaniewprowadzonych = function() {
                 r("rozrachunki:zapiszrozrachunekButton").show();
             }
         }
+        
     });
 };
 //chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek z przewijaniem
