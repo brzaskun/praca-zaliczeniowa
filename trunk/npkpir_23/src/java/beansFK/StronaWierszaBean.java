@@ -33,10 +33,7 @@ public class StronaWierszaBean {
             }
     }
     
-    public static int czyKontoJestNowaTransakcja(StronaWiersza aktualnyWierszDlaRozrachunkow, String stronawiersza) {
-           return aktualnyWierszDlaRozrachunkow.getTypwiersza();
-    }
-
+   
     public static StronaWiersza aktualizatorAktualnegoWierszaDlaRozrachunkow(StronaWiersza aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         Wiersz wiersz = selected.getListawierszy().get(nrwiersza);
         StronaWiersza stronaWn = wiersz.getStronaWn();

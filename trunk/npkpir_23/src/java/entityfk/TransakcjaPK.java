@@ -17,33 +17,33 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TransakcjaPK implements Serializable{
     
-    private String rozliczajacy;
-    private String nowaTransakcja;
+    private Integer rozliczajacy;
+    private Integer nowaTransakcja;
 
     public TransakcjaPK() {
     }
     
     
 
-    public TransakcjaPK(String rozliczajacyId, String rozliczanyId) {
+    public TransakcjaPK(Integer rozliczajacyId, Integer rozliczanyId) {
         this.rozliczajacy = rozliczajacyId;
         this.nowaTransakcja = rozliczanyId;
     }
     
 
-    public String getRozliczajacy() {
+    public Integer getRozliczajacy() {
         return rozliczajacy;
     }
 
-    public void setRozliczajacy(String rozliczajacy) {
+    public void setRozliczajacy(Integer rozliczajacy) {
         this.rozliczajacy = rozliczajacy;
     }
 
-    public String getNowaTransakcja() {
+    public Integer getNowaTransakcja() {
         return nowaTransakcja;
     }
 
-    public void setNowaTransakcja(String nowaTransakcja) {
+    public void setNowaTransakcja(Integer nowaTransakcja) {
         this.nowaTransakcja = nowaTransakcja;
     }
 

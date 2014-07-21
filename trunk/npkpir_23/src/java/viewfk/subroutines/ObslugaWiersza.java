@@ -42,8 +42,8 @@ public class ObslugaWiersza {
         } catch (Exception e) {
             
         }
-        StronaWiersza stronaWn = new StronaWiersza(nowywiersz);
-        StronaWiersza stronaMa = new StronaWiersza(nowywiersz);
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma");
         nowywiersz.setStronaWn(stronaWn);
         nowywiersz.setStronaMa(stronaMa);
     }

@@ -155,7 +155,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.stronaWn.wnReadOnly}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" 
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
 <!--   ARCHEO               <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
@@ -175,7 +175,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.stronaMa.maReadOnly}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" 
                                         >
 <!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Ma')}" partialSubmit="true" update="@this"/>
@@ -186,10 +186,10 @@
                         <p:commandButton id="dodajwierszbutton"  value="+" style=" margin-left: 10px; height: 20px;" actionListener="#{dokfkView.dolaczNowyWiersz(rowindex)}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
                     <p:column width="3" >
-                        <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.typwiersza}" />
+                        <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.typStronaWiersza}" />
                     </p:column>
                     <p:column  width="3">
-                        <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.typwiersza}" />
+                        <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.typStronaWiersza}" />
                     </p:column>
                 </p:dataTable>
                 <p:panel>

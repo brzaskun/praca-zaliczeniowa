@@ -77,8 +77,8 @@ public class DokFKTransakcjeBean implements Serializable{
      
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWierszaDAO stronaWierszaDAO) {
-        List<StronaWiersza> listaNowychRozrachunkow;
-            listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+        List<StronaWiersza> listaNowychRozrachunkow = new ArrayList<>();
+        listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
         }
@@ -107,7 +107,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     it.remove();
                 } 
                 try {
-                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypwiersza() != 1) {
+                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
                         it.remove();
                     }
                 } catch (Exception ff) {}
@@ -138,7 +138,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     it.remove();
                 } 
                 try {
-                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypwiersza() != 1) {
+                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
                         it.remove();
                     }
                 } catch (Exception ff) {}
@@ -155,7 +155,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
                 transakcja.setNowaTransakcja(nowatransakcjazbazy);
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                //(aktualnywierszdorozrachunkow).setTypwiersza(2);
+                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
                 (nowatransakcjazbazy).dodajTransakcjeNowe(transakcja);
         }
     }

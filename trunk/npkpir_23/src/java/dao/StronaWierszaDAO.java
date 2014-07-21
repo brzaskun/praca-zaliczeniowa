@@ -38,7 +38,13 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     }
 
     public List<StronaWiersza> findStronaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
-        return sessionFacade.findStronaWierszaByKontoWnMaWaluta(konto, symbolwaluty, wnma);
+        String nowewnma;
+        if (wnma.equals("Wn")) {
+            nowewnma = "Ma";
+        } else {
+            nowewnma = "Wn";
+        }
+        return sessionFacade.findStronaWierszaByKontoWnMaWaluta(konto, symbolwaluty, nowewnma);
     }
 
        

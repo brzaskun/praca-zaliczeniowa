@@ -389,7 +389,7 @@ public class DokfkView implements Serializable {
         List<StronaWiersza> listaRozliczanych = new ArrayList<>();
         boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
         if (zaznaczonoNowaTransakcje == true) {
-            aktualnyWierszDlaRozrachunkow.setTypwiersza(1);
+            aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
@@ -399,7 +399,7 @@ public class DokfkView implements Serializable {
             if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
                 Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
             } else {
-                aktualnyWierszDlaRozrachunkow.setTypwiersza(1);
+                aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
@@ -469,9 +469,9 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow = null;
             aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow();
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
-                int onJestNowaTransakcja = StronaWierszaBean.czyKontoJestNowaTransakcja(aktualnyWierszDlaRozrachunkow, stronawiersza);
+                boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
-                if (onJestNowaTransakcja != 1) {
+                if (onJestNowaTransakcja == false) {
                     listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzNoweStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                     DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
                     listaRozliczanych.clear();
@@ -490,7 +490,7 @@ public class DokfkView implements Serializable {
                 }
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
-                potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypwiersza() == 1;
+                potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1;
                 if (potraktujjakoNowaTransakcje == true) {
                     //jezeli nowa transakcja jest juz gdzies rozliczona to trzeba zablokowac przycisk
                     double czyjuzrozliczono = aktualnyWierszDlaRozrachunkow.getRozliczono();
@@ -545,10 +545,10 @@ public class DokfkView implements Serializable {
         StronaWiersza stronaMa = selected.getListawierszy().get(numerwiersza).getStronaMa();
         if (stronawiersza.equals("Wn")) {
             stronaWiersza = stronaWn;
-            potraktujjakoNowaTransakcje = stronaWn.getTypwiersza() == 1;
+            potraktujjakoNowaTransakcje = stronaWn.isNowatransakcja();
         } else {
             stronaWiersza = stronaMa;
-            potraktujjakoNowaTransakcje = stronaMa.getTypwiersza() == 1;
+            potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
         }
 
         StronaWierszaBean.aktualizatorAktualnegoWierszaDlaRozrachunkow(stronaWiersza, selected, wpisView, stronawiersza, numerwiersza);
@@ -559,8 +559,8 @@ public class DokfkView implements Serializable {
       
       
     public void zapistransakcji() {
-        if (aktualnyWierszDlaRozrachunkow.getTypwiersza()!=1) {
-            aktualnyWierszDlaRozrachunkow.setTypwiersza(2);
+        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza()!=1) {
+            aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         }
         //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
         if (biezacetransakcje != null) {

@@ -31,7 +31,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "stronawiersza")
 @NamedQueries({
-    @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = wnma")
+    @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma")
 })
 public class StronaWiersza implements Serializable{
      private static final long serialVersionUID = 1L;
@@ -54,25 +54,30 @@ public class StronaWiersza implements Serializable{
     private double rozliczono;
     @Column(name="pozostalo")
     private double pozostalo;
-    @Column(name="typwiersza")//0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
-    private int typwiersza;
+    @Column(name="typStronaWiersza")//0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
+    private int typStronaWiersza;
+    @Column(name="nowatransakcja")
+    private boolean nowatransakcja;
     @Column(name= "datarozrachunku")
     private String datarozrachunku;
-    @Column(name= "konto")
+    @JoinColumn(name= "idkonto")
+    @ManyToOne
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Transakcja> transakcje;
+    
 
    
-    public StronaWiersza(Wiersz nowywiersz) {
+    public StronaWiersza(Wiersz nowywiersz, String wnma) {
         this.transakcje = new ArrayList<>();
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
         this.wiersz = nowywiersz;
-        this.typwiersza = nowywiersz.getTypWiersza();
+        this.wnma = wnma;
+        this.typStronaWiersza = nowywiersz.getTypWiersza();
     }
     
 
@@ -80,7 +85,7 @@ public class StronaWiersza implements Serializable{
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
-        this.typwiersza = 0;
+        this.typStronaWiersza = 0;
     }
 
     public Integer getId() {
@@ -120,12 +125,12 @@ public class StronaWiersza implements Serializable{
         this.pozostalo = pozostalo;
     }
 
-    public int getTypwiersza() {
-        return typwiersza;
+    public int getTypStronaWiersza() {
+        return typStronaWiersza;
     }
 
-    public void setTypwiersza(int typwiersza) {
-        this.typwiersza = typwiersza;
+    public void setTypStronaWiersza(int typStronaWiersza) {
+        this.typStronaWiersza = typStronaWiersza;
     }
 
 
@@ -161,6 +166,14 @@ public class StronaWiersza implements Serializable{
         this.kwotaWaluta = kwotaWaluta;
     }
 
+    public boolean isNowatransakcja() {
+        return nowatransakcja;
+    }
+
+    public void setNowatransakcja(boolean nowatransakcja) {
+        this.nowatransakcja = nowatransakcja;
+    }
+    
     public String getDatarozrachunku() {
         return datarozrachunku;
     }
@@ -176,6 +189,7 @@ public class StronaWiersza implements Serializable{
     public void setKonto(Konto konto) {
         this.konto = konto;
     }
+    
 
     public void dodajTransakcjeNowe(Transakcja transakcja) {
         if (this.transakcje.contains(transakcja)) {
@@ -188,7 +202,7 @@ public class StronaWiersza implements Serializable{
     }
     
     public List<Transakcja> pobierzTransakcje() {
-        return this.pobierzTransakcje();
+        return this.transakcje;
     }
     
     @Override
@@ -223,7 +237,7 @@ public class StronaWiersza implements Serializable{
 
     @Override
     public String toString() {
-        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typwiersza + '}';
+        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
     }
 
     
