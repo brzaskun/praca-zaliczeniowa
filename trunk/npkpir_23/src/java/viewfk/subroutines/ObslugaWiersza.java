@@ -7,8 +7,7 @@
 package viewfk.subroutines;
 
 import entityfk.Dokfk;
-import entityfk.StronaMa;
-import entityfk.StronaWn;
+import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -43,8 +42,8 @@ public class ObslugaWiersza {
         } catch (Exception e) {
             
         }
-        StronaWn stronaWn = new StronaWn(nowywiersz);
-        StronaMa stronaMa = new StronaMa(nowywiersz);
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz);
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz);
         nowywiersz.setStronaWn(stronaWn);
         nowywiersz.setStronaMa(stronaMa);
     }

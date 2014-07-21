@@ -7,7 +7,6 @@
 package dao;
 
 import entityfk.Konto;
-import entityfk.StronaMa;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -21,27 +20,28 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-public class StronaMaDAO  extends DAO implements Serializable {
+public class StronaWierszaDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private SessionFacade sessionFacade;
 
-    public StronaMaDAO() {
-        super(StronaMa.class);
+    public StronaWierszaDAO() {
+        super(StronaWiersza.class);
     }
 
-    public StronaMaDAO(SessionFacade sessionFacade, Class entityClass) {
+    public StronaWierszaDAO(SessionFacade sessionFacade, Class entityClass) {
         super(entityClass);
         this.sessionFacade = sessionFacade;
     }
 
-    public StronaMaDAO(SessionFacade sessionFacade) {
+    public StronaWierszaDAO(SessionFacade sessionFacade) {
         this.sessionFacade = sessionFacade;
     }
 
-    public List<StronaWiersza> findStronaMaByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return sessionFacade.findStronaMaByKontoWnMaWaluta(konto, symbolwaluty);
+    public List<StronaWiersza> findStronaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
+        return sessionFacade.findStronaWierszaByKontoWnMaWaluta(konto, symbolwaluty, wnma);
     }
-    
+
+       
     
     
     

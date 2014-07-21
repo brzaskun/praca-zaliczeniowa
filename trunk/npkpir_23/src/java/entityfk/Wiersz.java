@@ -4,6 +4,7 @@ package entityfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -71,10 +73,10 @@ public class Wiersz implements Serializable {
     private String dataWalutyWiersza;
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private StronaWn stronaWn;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    private StronaMa stronaMa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    @MapKeyColumn(name="strona_key")
+    private Map<String, StronaWiersza> strona;
+
   
     
 
@@ -89,6 +91,21 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+     public void setStronaWn(StronaWiersza stronaWiersza) {
+        this.strona.put("Wn", stronaWiersza);
+    }
+    
+    public void setStronaMa(StronaWiersza stronaWiersza) {
+        this.strona.put("Ma", stronaWiersza);
+    }
+    
+    public StronaWiersza getStronaWn() {
+        return this.strona.get("Wn");
+    }
+    
+    public StronaWiersza getStronaMa() {
+        return this.strona.get("Ma");
+    }
     
     public String getDataksiegowania() {
         return dataksiegowania;
@@ -163,23 +180,7 @@ public class Wiersz implements Serializable {
         this.dataWalutyWiersza = dataWalutyWiersza;
     }
 
-    public StronaWn getStronaWn() {
-        return stronaWn;
-    }
-
-    public void setStronaWn(StronaWn stronaWn) {
-        this.stronaWn = stronaWn;
-    }
-
-    public StronaMa getStronaMa() {
-        return stronaMa;
-    }
-
-    public void setStronaMa(StronaMa stronaMa) {
-        this.stronaMa = stronaMa;
-    }
-    
-    
+       
     
     //</editor-fold>
   

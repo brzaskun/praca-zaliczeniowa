@@ -46,9 +46,8 @@ import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
-import entityfk.StronaMa;
 import entityfk.StronaWiersza;
-import entityfk.StronaWn;
+import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
@@ -844,12 +843,8 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dok.findByKontr1Null").getResultList();
     }
 
-    public List<StronaMa> findStronaMaByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return em.createNamedQuery("StronaMa.findByStronaMaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
-    }
-
-    public List<StronaWn> findStronaWnByKontoWnMaWaluta(Konto konto, String symbolwaluty) {
-        return em.createNamedQuery("StronaWn.findByStronaWnKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
+    public List<StronaWiersza> findStronaWierszaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
+        return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
     }
 
     

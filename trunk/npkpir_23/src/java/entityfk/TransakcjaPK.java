@@ -17,41 +17,41 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TransakcjaPK implements Serializable{
     
-    private Integer stronaWnId;
-    private Integer stronaMaId;
+    private String rozliczajacy;
+    private String nowaTransakcja;
 
     public TransakcjaPK() {
     }
     
     
 
-    public TransakcjaPK(Integer rozliczajacyId, Integer rozliczanyId) {
-        this.stronaWnId = rozliczajacyId;
-        this.stronaMaId = rozliczanyId;
+    public TransakcjaPK(String rozliczajacyId, String rozliczanyId) {
+        this.rozliczajacy = rozliczajacyId;
+        this.nowaTransakcja = rozliczanyId;
     }
     
 
-    public Integer getStronaWnId() {
-        return stronaWnId;
+    public String getRozliczajacy() {
+        return rozliczajacy;
     }
 
-    public void setStronaWnId(Integer stronaWnId) {
-        this.stronaWnId = stronaWnId;
+    public void setRozliczajacy(String rozliczajacy) {
+        this.rozliczajacy = rozliczajacy;
     }
 
-    public Integer getStronaMaId() {
-        return stronaMaId;
+    public String getNowaTransakcja() {
+        return nowaTransakcja;
     }
 
-    public void setStronaMaId(Integer stronaMaId) {
-        this.stronaMaId = stronaMaId;
+    public void setNowaTransakcja(String nowaTransakcja) {
+        this.nowaTransakcja = nowaTransakcja;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.stronaWnId);
-        hash = 97 * hash + Objects.hashCode(this.stronaMaId);
+        hash = 97 * hash + Objects.hashCode(this.rozliczajacy);
+        hash = 97 * hash + Objects.hashCode(this.nowaTransakcja);
         return hash;
     }
 
@@ -64,10 +64,10 @@ public class TransakcjaPK implements Serializable{
             return false;
         }
         final TransakcjaPK other = (TransakcjaPK) obj;
-        if (!Objects.equals(this.stronaWnId, other.stronaWnId)) {
+        if (!Objects.equals(this.rozliczajacy, other.rozliczajacy)) {
             return false;
         }
-        if (!Objects.equals(this.stronaMaId, other.stronaMaId)) {
+        if (!Objects.equals(this.nowaTransakcja, other.nowaTransakcja)) {
             return false;
         }
         return true;
@@ -75,9 +75,8 @@ public class TransakcjaPK implements Serializable{
 
     @Override
     public String toString() {
-        return "TransakcjaPK{" + "rozliczajacyId=" + stronaWnId + ", rozliczanyId=" + stronaMaId + '}';
+        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacy + ", rozliczanyId=" + nowaTransakcja + '}';
     }
 
-    
     
 }

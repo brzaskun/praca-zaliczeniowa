@@ -8,9 +8,7 @@ package beansFK;
 
 import data.Data;
 import entityfk.Dokfk;
-import entityfk.StronaMa;
 import entityfk.StronaWiersza;
-import entityfk.StronaWn;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import java.util.ArrayList;
@@ -29,9 +27,9 @@ public class StronaWierszaBean {
     
     public static boolean czyKontoJestRozrachunkowe(StronaWiersza aktualnyWierszDlaRozrachunkow, String stronawiersza) {
         if (stronawiersza.equals("Wn")) {
-                return ((StronaWn) aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+                return (aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             } else {
-                return ((StronaMa) aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+                return (aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             }
     }
     
@@ -41,8 +39,8 @@ public class StronaWierszaBean {
 
     public static StronaWiersza aktualizatorAktualnegoWierszaDlaRozrachunkow(StronaWiersza aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
         Wiersz wiersz = selected.getListawierszy().get(nrwiersza);
-        StronaWn stronaWn = wiersz.getStronaWn();
-        StronaMa stronaMa = wiersz.getStronaMa();
+        StronaWiersza stronaWn = wiersz.getStronaWn();
+        StronaWiersza stronaMa = wiersz.getStronaMa();
          if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
             if (wnma.equals("Wn")) {
                 stronaWn.setKwotaPLN(stronaWn.getKwota());
