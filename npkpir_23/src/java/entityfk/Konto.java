@@ -5,7 +5,6 @@
 package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import embeddablefk.KontoKwota;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -154,9 +153,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Column(name = "maslownik")
     private boolean maslownik;
     @OneToMany(mappedBy = "konto")
-    private List<StronaWn> stronaWn;
-    @OneToMany(mappedBy = "konto")
-    private List<StronaMa> stronaMa;
+    private List<StronaWiersza> stronaWiersza;
     @OneToMany(mappedBy = "kontoobiekt", fetch = FetchType.EAGER)
     private List<Kontozapisy> zapisynakoncie;
 
@@ -391,23 +388,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zapisynakoncie = zapisynakoncie;
     }
 
-    public List<StronaWn> getStronaWn() {
-        return stronaWn;
+    public List<StronaWiersza> getStronaWiersza() {
+        return stronaWiersza;
     }
 
-    public void setStronaWn(List<StronaWn> stronaWn) {
-        this.stronaWn = stronaWn;
+    public void setStronaWiersza(List<StronaWiersza> stronaWiersza) {
+        this.stronaWiersza = stronaWiersza;
     }
-
-    public List<StronaMa> getStronaMa() {
-        return stronaMa;
-    }
-
-    public void setStronaMa(List<StronaMa> stronaMa) {
-        this.stronaMa = stronaMa;
-    }
-  
-      
+    
     
 
     @Override

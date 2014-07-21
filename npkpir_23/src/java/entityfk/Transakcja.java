@@ -6,13 +6,13 @@
 
 package entityfk;
 
-import entityfk.StronaMa;
-import entityfk.StronaWn;
+
 import entityfk.TransakcjaPK;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -37,14 +37,14 @@ public class Transakcja  implements Serializable {
     
     @EmbeddedId 
     private TransakcjaPK transakcjaPK;
-    @MapsId("stronaWnId")
-    @JoinColumn(name="stronaWn_id")
-    @ManyToOne
-    private StronaWn stronaWn;
-    @MapsId("stronaMaId")
-    @JoinColumn(name="stronaMa_id")
-    @ManyToOne
-    private StronaMa stronaMa;
+    @MapsId("rozliczajacy")
+    @JoinColumn(name="rozliczajacy_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private StronaWiersza rozliczajacy;
+    @MapsId("nowaTransakcja")
+    @JoinColumn(name="nowaTransakcja_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
     @Column(name = "kwotatransakcji")
@@ -61,26 +61,28 @@ public class Transakcja  implements Serializable {
     }
 
     
-    public Transakcja(StronaWn rozliczajacy, StronaMa rozliczany) {
-        this.stronaWn = rozliczajacy;
-        this.stronaMa = rozliczany;
+   public Transakcja(StronaWiersza rozliczajacy, StronaWiersza rozliczany) {
+        this.rozliczajacy = rozliczajacy;
+        this.nowaTransakcja = rozliczany;
     }
 
-    public StronaWn getStronaWn() {
-        return stronaWn;
+    public StronaWiersza getRozliczajacy() {
+        return rozliczajacy;
     }
 
-    public void setStronaWn(StronaWn stronaWn) {
-        this.stronaWn = stronaWn;
+    public void setRozliczajacy(StronaWiersza rozliczajacy) {
+        this.rozliczajacy = rozliczajacy;
     }
 
-    public StronaMa getStronaMa() {
-        return stronaMa;
+    public StronaWiersza getNowaTransakcja() {
+        return nowaTransakcja;
     }
 
-    public void setStronaMa(StronaMa stronaMa) {
-        this.stronaMa = stronaMa;
+    public void setNowaTransakcja(StronaWiersza nowaTransakcja) {
+        this.nowaTransakcja = nowaTransakcja;
     }
+
+   
 
     public double getKwotatransakcji() {
         return kwotatransakcji;
@@ -143,8 +145,10 @@ public class Transakcja  implements Serializable {
 
     @Override
     public String toString() {
-        return "Transakcja{" + "stronaWn=" + stronaWn + ", stronaMa=" + stronaMa + ", kwota=" + kwotatransakcji + '}';
+        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", kwotatransakcji=" + kwotatransakcji + ", poprzedniakwota=" + poprzedniakwota + ", roznicekursowe=" + roznicekursowe + '}';
     }
+
+    
 
     
 }
