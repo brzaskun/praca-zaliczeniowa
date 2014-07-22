@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-@Cacheable(false)
-@Entity
-@Table(catalog = "fktest", schema = "")
-@XmlRootElement
+//@Cacheable(false)
+//@Entity
+//@Table(catalog = "fktest", schema = "")
+//@XmlRootElement
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     

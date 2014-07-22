@@ -62,18 +62,20 @@ public class ViewBean implements Serializable{
         for (Dokument p : doktab) {
             wydruk(p);
         }
-        Wiersz wiersz = doktab[2].getWierszelista().get(0);
-        doktab[2].getWierszelista().remove(wiersz);
+        //Wiersz wiersz = doktab[2].getWierszelista().get(0);
+        //doktab[2].getWierszelista().remove(wiersz);
         p("-----------------");
 //        p("Modyfikuje transakcje");
-//        Wiersz wiersz = doktab[0].getWiersz(0);
-//        StronaWiersza stronaWiersza = wiersz.getStronaWn();
+        Wiersz wiersz = doktab[0].getWiersz(0);
+        StronaWiersza stronaWiersza = wiersz.getStronaWn();
+        stronaWiersza.setKwotapierwotna(50000);
+        edytujDokument(doktab[0]);
 //        Transakcja transakcja = stronaWiersza.getTransakcje().get(0);
 //        modyfikujTransakcje(transakcja, 2000);
 //        //p("Usuwam "+wiersz.getWiersznazwa());
 //        p("Odczyt z bazy danych");
 ////        wiersz.setStronaMa(null);
-       edytujDokument(doktab[2]);
+       //edytujDokument(doktab[2]);
         //edytujDokument(doktab[1]);
        //usunDokument(doktab[2]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
@@ -411,25 +413,25 @@ public class ViewBean implements Serializable{
 //        return transakcja;
 //    }
     
-    public static Transakcja stworzTransakcje(StronaWiersza rozliczajacy, StronaWiersza nowatransakcja) {
-        double kwota = 10000;
-        Transakcja transakcja = new Transakcja();
-        transakcja.setRozliczajacy(rozliczajacy);
-        transakcja.setNowaTransakcja(nowatransakcja);
-        transakcja.setKwota(kwota);
-        transakcja.setKwotapoprzednia(kwota);
-        rozliczajacy.dodajTransakcjeNowe(transakcja);
-        nowatransakcja.dodajTransakcjeRozliczajacy(transakcja);
-        return transakcja;
-    }
-    
-    public static Transakcja modyfikujTransakcje(Transakcja transakcja,double nowakwota) {
-        transakcja.setKwotapoprzednia(transakcja.getKwota());
-        transakcja.setKwota(nowakwota);
-        transakcja.getRozliczajacy().dodajTransakcjeNowe(transakcja);
-        transakcja.getNowaTransakcja().dodajTransakcjeNowe(transakcja);
-        return transakcja;
-    }
+//    public static Transakcja stworzTransakcje(StronaWiersza rozliczajacy, StronaWiersza nowatransakcja) {
+//        double kwota = 10000;
+//        Transakcja transakcja = new Transakcja();
+//        transakcja.setRozliczajacy(rozliczajacy);
+//        transakcja.setNowaTransakcja(nowatransakcja);
+//        transakcja.setKwota(kwota);
+//        transakcja.setKwotapoprzednia(kwota);
+//        rozliczajacy.dodajTransakcjeNowe(transakcja);
+//        nowatransakcja.dodajTransakcjeRozliczajacy(transakcja);
+//        return transakcja;
+//    }
+//    
+//    public static Transakcja modyfikujTransakcje(Transakcja transakcja,double nowakwota) {
+//        transakcja.setKwotapoprzednia(transakcja.getKwota());
+//        transakcja.setKwota(nowakwota);
+//        transakcja.getRozliczajacy().dodajTransakcjeNowe(transakcja);
+//        transakcja.getNowaTransakcja().dodajTransakcjeNowe(transakcja);
+//        return transakcja;
+//    }
     
 //     public static Transakcja utrwalNowaTransakcja() {
 //        try {
@@ -481,17 +483,17 @@ public class ViewBean implements Serializable{
             Dokument dokument2 = utrwalNowyDokument();
             licznik++;
             Dokument dokument3 = utrwalNowyDokument();
-            Wiersz wiersz1 = dokument1.getWierszelista().get(0);
-            StronaWiersza pierwszystronaWn = wiersz1.getStronaWn();
-            Wiersz wiersz2 = dokument2.getWierszelista().get(0);
-            StronaWiersza drugistronaMa = wiersz2.getStronaMa();
-            Wiersz wiersz3 = dokument3.getWierszelista().get(0);
-            stworzTransakcje(pierwszystronaWn, drugistronaMa);
-            StronaWiersza trzecistronaMa = wiersz3.getStronaMa();
-            stworzTransakcje(pierwszystronaWn, trzecistronaMa);
-            edytujDokument(dokument1);
-            edytujDokument(dokument2);
-            edytujDokument(dokument3);
+//            Wiersz wiersz1 = dokument1.getWierszelista().get(0);
+//            StronaWiersza pierwszystronaWn = wiersz1.getStronaWn();
+//            Wiersz wiersz2 = dokument2.getWierszelista().get(0);
+//            StronaWiersza drugistronaMa = wiersz2.getStronaMa();
+//            Wiersz wiersz3 = dokument3.getWierszelista().get(0);
+//            stworzTransakcje(pierwszystronaWn, drugistronaMa);
+//            StronaWiersza trzecistronaMa = wiersz3.getStronaMa();
+//            stworzTransakcje(pierwszystronaWn, trzecistronaMa);
+//            edytujDokument(dokument1);
+//            edytujDokument(dokument2);
+//            edytujDokument(dokument3);
             System.out.println("Wiersze edytowane, rozrachunki nowe dodane, Transakcjs stworzona!");
             Dokument[] doktab = new Dokument[3];
             doktab[0] = dokument1;
@@ -519,30 +521,30 @@ public class ViewBean implements Serializable{
                 p("Drukuje stronaMa");
                 p(p.getStronaMa());
              }
-            if (p.getStronaWn() != null) {
-                List<Transakcja> listatrans = p.getStronaWn().getTransakcjeN();
-                for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje Nowe Wn");
-                    p(p1);
-                }
-                listatrans = p.getStronaWn().getTransakcjeR();
-                for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje Rozliczajace Wn");
-                    p(p1);
-                }
-            }
-            if (p.getStronaMa() != null) {
-                List<Transakcja> listatrans = p.getStronaMa().getTransakcjeN();
-                for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje Nowe Ma");
-                    p(p1);
-                }
-                listatrans = p.getStronaMa().getTransakcjeR();
-                for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje Rozliczajace Ma");
-                    p(p1);
-                }
-            }
+//            if (p.getStronaWn() != null) {
+//                List<Transakcja> listatrans = p.getStronaWn().getTransakcjeN();
+//                for (Transakcja p1 : listatrans) {
+//                    p("Drukuje transakcje Nowe Wn");
+//                    p(p1);
+//                }
+//                listatrans = p.getStronaWn().getTransakcjeR();
+//                for (Transakcja p1 : listatrans) {
+//                    p("Drukuje transakcje Rozliczajace Wn");
+//                    p(p1);
+//                }
+//            }
+//            if (p.getStronaMa() != null) {
+//                List<Transakcja> listatrans = p.getStronaMa().getTransakcjeN();
+//                for (Transakcja p1 : listatrans) {
+//                    p("Drukuje transakcje Nowe Ma");
+//                    p(p1);
+//                }
+//                listatrans = p.getStronaMa().getTransakcjeR();
+//                for (Transakcja p1 : listatrans) {
+//                    p("Drukuje transakcje Rozliczajace Ma");
+//                    p(p1);
+//                }
+//            }
             }
      }
    
