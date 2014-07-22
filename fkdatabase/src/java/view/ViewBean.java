@@ -62,33 +62,33 @@ public class ViewBean implements Serializable{
         for (Dokument p : doktab) {
             wydruk(p);
         }
-//        Wiersz wiersz = doktab[2].getWierszelista().get(0);
-//        doktab[2].getWierszelista().remove(wiersz);
+        Wiersz wiersz = doktab[2].getWierszelista().get(0);
+        doktab[2].getWierszelista().remove(wiersz);
         p("-----------------");
-        p("Modyfikuje transakcje");
-        Wiersz wiersz = doktab[0].getWiersz(0);
-        StronaWiersza stronaWiersza = wiersz.getStronaWn();
-        Transakcja transakcja = stronaWiersza.getTransakcje().get(0);
-        modyfikujTransakcje(transakcja, 2000);
-        //p("Usuwam "+wiersz.getWiersznazwa());
-        p("Odczyt z bazy danych");
-//        wiersz.setStronaMa(null);
-        edytujDokument(doktab[0]);
+//        p("Modyfikuje transakcje");
+//        Wiersz wiersz = doktab[0].getWiersz(0);
+//        StronaWiersza stronaWiersza = wiersz.getStronaWn();
+//        Transakcja transakcja = stronaWiersza.getTransakcje().get(0);
+//        modyfikujTransakcje(transakcja, 2000);
+//        //p("Usuwam "+wiersz.getWiersznazwa());
+//        p("Odczyt z bazy danych");
+////        wiersz.setStronaMa(null);
+       edytujDokument(doktab[2]);
         //edytujDokument(doktab[1]);
-        //usunDokument(doktab[0]);
+       //usunDokument(doktab[2]);
         List<Dokument> pobraneZBazyPoZmianach = findAllDokuments();
-        for (Dokument p : pobraneZBazyPoZmianach) {
-            wydruk(p);
-        }
-        p("-----------------");
-        p("Modyfikuje transakcje");
-        wiersz = doktab[2].getWiersz(0);
-        stronaWiersza = wiersz.getStronaMa();
-        transakcja = stronaWiersza.getTransakcje().get(0);
-        modyfikujTransakcje(transakcja, 5000);
-        edytujDokument(doktab[2]);
-        p("Odczyt z bazy danych");
-        pobraneZBazyPoZmianach.clear();
+//        for (Dokument p : pobraneZBazyPoZmianach) {
+//            wydruk(p);
+//        }
+//        p("-----------------");
+//        p("Modyfikuje transakcje");
+//        wiersz = doktab[2].getWiersz(0);
+//        stronaWiersza = wiersz.getStronaMa();
+//        transakcja = stronaWiersza.getTransakcje().get(0);
+//        modyfikujTransakcje(transakcja, 5000);
+//        edytujDokument(doktab[2]);
+//        p("Odczyt z bazy danych");
+//        pobraneZBazyPoZmianach.clear();
         pobraneZBazyPoZmianach = findAllDokuments();
         for (Dokument p : pobraneZBazyPoZmianach) {
             wydruk(p);
@@ -419,7 +419,7 @@ public class ViewBean implements Serializable{
         transakcja.setKwota(kwota);
         transakcja.setKwotapoprzednia(kwota);
         rozliczajacy.dodajTransakcjeNowe(transakcja);
-        nowatransakcja.dodajTransakcjeNowe(transakcja);
+        nowatransakcja.dodajTransakcjeRozliczajacy(transakcja);
         return transakcja;
     }
     
@@ -520,16 +520,26 @@ public class ViewBean implements Serializable{
                 p(p.getStronaMa());
              }
             if (p.getStronaWn() != null) {
-                List<Transakcja> listatrans = p.getStronaWn().getTransakcje();
+                List<Transakcja> listatrans = p.getStronaWn().getTransakcjeN();
                 for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje");
+                    p("Drukuje transakcje Nowe Wn");
+                    p(p1);
+                }
+                listatrans = p.getStronaWn().getTransakcjeR();
+                for (Transakcja p1 : listatrans) {
+                    p("Drukuje transakcje Rozliczajace Wn");
                     p(p1);
                 }
             }
             if (p.getStronaMa() != null) {
-                List<Transakcja> listatrans = p.getStronaMa().getTransakcje();
+                List<Transakcja> listatrans = p.getStronaMa().getTransakcjeN();
                 for (Transakcja p1 : listatrans) {
-                    p("Drukuje transakcje");
+                    p("Drukuje transakcje Nowe Ma");
+                    p(p1);
+                }
+                listatrans = p.getStronaMa().getTransakcjeR();
+                for (Transakcja p1 : listatrans) {
+                    p("Drukuje transakcje Rozliczajace Ma");
                     p(p1);
                 }
             }

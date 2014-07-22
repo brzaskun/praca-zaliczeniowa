@@ -54,7 +54,7 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String wiersznazwa;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
