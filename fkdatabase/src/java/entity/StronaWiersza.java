@@ -45,20 +45,8 @@ public class StronaWiersza implements Serializable {
     private Wiersz wiersz;
     @Column(name = "wnma")
     private String wnma;
-//    @JoinTable(name = "StronaWiersza_StronaWiersza",
-//            joinColumns = {
-//                @JoinColumn(table = "StronaWiersza", name = "stronawiersza_id", referencedColumnName = "nazwaStronyWiersza"),},
-//            inverseJoinColumns = {
-//                @JoinColumn(table = "Transakcja", name = "transakcja_rozliczajacy_id", referencedColumnName = "rozliczajacy_id"),
-//                @JoinColumn(table = "Transakcja", name = "transakcja_nowaTransakcja_id", referencedColumnName = "nowaTransakcja_id")
-//            }
-//    )
-//    @OneToMany(mappedBy = "rozliczajacy", cascade = CascadeType.ALL)
-//    private List<Transakcja> transakcjeR;
-//    @OneToMany(mappedBy = "nowaTransakcja", cascade = CascadeType.ALL)
-//    private List<Transakcja> transakcjeN;
-    @OneToMany(mappedBy = "stronaWiersza")
-    private List<Rozrachunek> Rozrachunek;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stronaWiersza")
+    private List<Rozrachunek> listarozrachunkow;
     @Column(name = "kwotapierwotna")
     private double kwotapierwotna;
     @Column(name = "rozliczono")
@@ -95,23 +83,15 @@ public class StronaWiersza implements Serializable {
         this.wiersz = wiersz;
     }
 
-//    public List<Transakcja> getTransakcjeR() {
-//        return transakcjeR;
-//    }
-//
-//    public void setTransakcjeR(List<Transakcja> transakcjeR) {
-//        this.transakcjeR = transakcjeR;
-//    }
-//
-//    public List<Transakcja> getTransakcjeN() {
-//        return transakcjeN;
-//    }
-//
-//    public void setTransakcjeN(List<Transakcja> transakcjeN) {
-//        this.transakcjeN = transakcjeN;
-//    }
+    public List<Rozrachunek> getListarozrachunkow() {
+        return listarozrachunkow;
+    }
 
+    public void setListarozrachunkow(List<Rozrachunek> listarozrachunkow) {
+        this.listarozrachunkow = listarozrachunkow;
+    }
 
+    
     public String getWnma() {
         return wnma;
     }
