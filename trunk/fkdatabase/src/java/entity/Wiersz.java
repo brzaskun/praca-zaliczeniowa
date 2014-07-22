@@ -54,12 +54,11 @@ public class Wiersz implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String wiersznazwa;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokument dokument;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
-    @MapKeyColumn(name="strona_key")
-    private Map<String, StronaWiersza> strona;
+    private List<StronaWiersza> strona;
 
     
     
@@ -68,7 +67,7 @@ public class Wiersz implements Serializable {
     }
 
     public Wiersz(String wiersznazwa) {
-        this.strona = new HashMap<>();
+        this.strona = new ArrayList<>();
         this.wiersznazwa = wiersznazwa;
         
     }
@@ -81,13 +80,15 @@ public class Wiersz implements Serializable {
         this.idwiersza = idwiersza;
     }
 
-    public Map<String, StronaWiersza> getStrona() {
+    public List<StronaWiersza> getStrona() {
         return strona;
     }
 
-    public void setStrona(Map<String, StronaWiersza> strona) {
+    public void setStrona(List<StronaWiersza> strona) {
         this.strona = strona;
     }
+
+   
     
     public String getWiersznazwa() {
         return wiersznazwa;
@@ -106,19 +107,29 @@ public class Wiersz implements Serializable {
     }
     
     public void setStronaWn(StronaWiersza stronaWiersza) {
-        this.strona.put("Wn", stronaWiersza);
+        this.strona.add(stronaWiersza);
     }
     
     public void setStronaMa(StronaWiersza stronaWiersza) {
-        this.strona.put("Ma", stronaWiersza);
+        this.strona.add(stronaWiersza);
     }
     
     public StronaWiersza getStronaWn() {
-        return this.strona.get("Wn");
+        for (StronaWiersza p : strona) {
+            if (p.getWnma().endsWith("Wn")) {
+                return p;
+            }
+        }
+        return null;
     }
     
     public StronaWiersza getStronaMa() {
-        return this.strona.get("Ma");
+        for (StronaWiersza p : strona) {
+            if (p.getWnma().endsWith("Ma")) {
+                return p;
+            }
+        }
+        return null;
     }
 
   
