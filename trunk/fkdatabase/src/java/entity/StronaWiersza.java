@@ -11,19 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -48,16 +44,18 @@ public class StronaWiersza implements Serializable {
     private Wiersz wiersz;
     @Column(name = "wnma")
     private String wnma;
-    @JoinTable(name = "StronaWiersza_StronaWiersza",
-            joinColumns = {
-                @JoinColumn(table = "StronaWiersza", name = "stronawiersza_id", referencedColumnName = "nazwaStronyWiersza"),},
-            inverseJoinColumns = {
-                @JoinColumn(table = "Transakcja", name = "transakcja_rozliczajacy_id", referencedColumnName = "rozliczajacy_id"),
-                @JoinColumn(table = "Transakcja", name = "transakcja_nowaTransakcja_id", referencedColumnName = "nowaTransakcja_id")
-            }
-    )
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Transakcja> transakcje;
+//    @JoinTable(name = "StronaWiersza_StronaWiersza",
+//            joinColumns = {
+//                @JoinColumn(table = "StronaWiersza", name = "stronawiersza_id", referencedColumnName = "nazwaStronyWiersza"),},
+//            inverseJoinColumns = {
+//                @JoinColumn(table = "Transakcja", name = "transakcja_rozliczajacy_id", referencedColumnName = "rozliczajacy_id"),
+//                @JoinColumn(table = "Transakcja", name = "transakcja_nowaTransakcja_id", referencedColumnName = "nowaTransakcja_id")
+//            }
+//    )
+    @OneToMany(mappedBy = "rozliczajacy", cascade = CascadeType.ALL)
+    private List<Transakcja> transakcjeR;
+    @OneToMany(mappedBy = "nowaTransakcja", cascade = CascadeType.ALL)
+    private List<Transakcja> transakcjeN;
     @Column(name = "kwotapierwotna")
     private double kwotapierwotna;
     @Column(name = "rozliczono")
@@ -68,13 +66,13 @@ public class StronaWiersza implements Serializable {
     public StronaWiersza() {
         this.kwotapierwotna = 0.0;
         this.rozliczono = 0.0;
-        this.transakcje = new ArrayList<>();
+        //this.transakcje = new ArrayList<>();
     }
 
     public StronaWiersza(String nazwarozrachunku, double kwotapierwotna) {
         this.kwotapierwotna = kwotapierwotna;
         this.rozliczono = 0.0;
-        this.transakcje = new ArrayList<>();
+        //this.transakcje = new ArrayList<>();
         this.nazwaStronyWiersza = nazwarozrachunku;
     }
 
@@ -94,13 +92,22 @@ public class StronaWiersza implements Serializable {
         this.wiersz = wiersz;
     }
 
-    public List<Transakcja> getTransakcje() {
-        return transakcje;
+    public List<Transakcja> getTransakcjeR() {
+        return transakcjeR;
     }
 
-    public void setTransakcje(List<Transakcja> transakcje) {
-        this.transakcje = transakcje;
+    public void setTransakcjeR(List<Transakcja> transakcjeR) {
+        this.transakcjeR = transakcjeR;
     }
+
+    public List<Transakcja> getTransakcjeN() {
+        return transakcjeN;
+    }
+
+    public void setTransakcjeN(List<Transakcja> transakcjeN) {
+        this.transakcjeN = transakcjeN;
+    }
+
 
     public String getWnma() {
         return wnma;
@@ -119,11 +126,11 @@ public class StronaWiersza implements Serializable {
     }
 
     public double getRozliczono() {
-        this.rozliczono = 0.0;
-        for (Transakcja p : this.transakcje) {
-            this.rozliczono += p.getKwota();
-        }
-        this.pozostalo = this.kwotapierwotna - this.rozliczono;
+//        this.rozliczono = 0.0;
+//        for (Transakcja p : this.transakcje) {
+//            this.rozliczono += p.getKwota();
+//        }
+//        this.pozostalo = this.kwotapierwotna - this.rozliczono;
         return rozliczono;
     }
 
@@ -136,20 +143,30 @@ public class StronaWiersza implements Serializable {
     }
 
     public void dodajTransakcjeNowe(Transakcja transakcja) {
-        if (this.transakcje.contains(transakcja)) {
+        if (this.transakcjeN.contains(transakcja)) {
             this.rozliczono = this.rozliczono - transakcja.getKwotapoprzednia() + transakcja.getKwota();
         } else {
             this.rozliczono = this.rozliczono + transakcja.getKwota();
-            this.transakcje.add(transakcja);
+            this.transakcjeN.add(transakcja);
+        }
+        this.pozostalo = this.kwotapierwotna - this.rozliczono;
+    }
+    
+    public void dodajTransakcjeRozliczajacy(Transakcja transakcja) {
+        if (this.transakcjeR.contains(transakcja)) {
+            this.rozliczono = this.rozliczono - transakcja.getKwotapoprzednia() + transakcja.getKwota();
+        } else {
+            this.rozliczono = this.rozliczono + transakcja.getKwota();
+            this.transakcjeR.add(transakcja);
         }
         this.pozostalo = this.kwotapierwotna - this.rozliczono;
     }
 
-   
-    
     @Override
     public String toString() {
-        return "StronaWiersza{" + "nazwaStrWier.=" + nazwaStronyWiersza + ", wiersz=" + wiersz.getWiersznazwa() + ", wnma=" + wnma + ", transakcje=" + transakcje.size() + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + getRozliczono() + ", pozostało=" + pozostalo + '}';
+        return "StronaWiersza{" + "nazwaStronyWiersza=" + nazwaStronyWiersza + ", wiersz=" + wiersz + ", wnma=" + wnma + ", transakcjeR=" + transakcjeR + ", transakcjeN=" + transakcjeN + ", kwotapierwotna=" + kwotapierwotna + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + '}';
     }
 
+   
+   
 }
