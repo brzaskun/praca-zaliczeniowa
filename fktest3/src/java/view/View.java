@@ -52,11 +52,13 @@ public class View implements Serializable{
     public static void main(String[] args) {
         Dok dok = new Dok(listanazw.get(1));
         dok.setWiersz(new Wiersz(listanazw.get(1), dok));
+        dok.setWiersz(new Wiersz(listanazw.get(2), dok));
         dok.getWiersz().setStrona(new Strona(listanazw.get(1), dok.getWiersz()));
         dok.getWiersz().getStrona().setRozrachunek(new Rozrachunek(listanazw.get(1), dok.getWiersz().getStrona()));
         dok.getWiersz().getStrona().getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1), dok.getWiersz().getStrona().getRozrachunek()));
         p(dok);
         p(dok.getWiersz());
+        p(dok.getWiersz(1));
         p(dok.getWiersz().getStrona());
         p(dok.getWiersz().getStrona().getRozrachunek());
         p(dok.getWiersz().getStrona().getRozrachunek().getTransakcja());
