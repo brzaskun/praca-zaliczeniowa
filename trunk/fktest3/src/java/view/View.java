@@ -63,7 +63,9 @@ public class View implements Serializable{
         p("--------------");
         p(utrwalam(dok));
         p("--------------");
-        //p(usuwam(dok.getWiersz().getStrona()));
+        dok.getWiersz().getStrona().setNazwa("lolo");
+        edytuje(dok.getWiersz().getStrona());
+        p(usuwam(dok.getWiersz().getStrona().getRozrachunek().getTransakcja()));
     }
     
    
@@ -78,6 +80,21 @@ public class View implements Serializable{
             return 0;
         } catch (Exception e) {
             p("Nieudane usuniecie "+obj.toString());
+            return 1;
+        }
+    }
+    
+     private static int edytuje(Object obj) {
+        try {
+            System.out.println("Edytuje "+obj.toString());
+            EntityManager em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+            em.clear();
+            return 0;
+        } catch (Exception e) {
+            p("Nieudana edycja "+obj.toString());
             return 1;
         }
     }
