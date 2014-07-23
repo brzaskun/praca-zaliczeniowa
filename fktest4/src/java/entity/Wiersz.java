@@ -102,6 +102,23 @@ public class Wiersz implements Serializable{
         this.stronar.add(strona);
     }
 
+    public List<Strona> getStronan() {
+        return stronan;
+    }
+
+    public void setStronan(List<Strona> stronan) {
+        this.stronan = stronan;
+    }
+
+    public List<Strona> getStronar() {
+        return stronar;
+    }
+
+    public void setStronar(List<Strona> stronar) {
+        this.stronar = stronar;
+    }
+
+    
     public Dok getDok() {
         return _dok;
     }
