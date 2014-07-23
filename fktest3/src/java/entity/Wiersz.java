@@ -7,6 +7,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,14 +42,16 @@ public class Wiersz implements Serializable{
     private String nazwa;
     @ManyToOne
     private Dok _dok;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_wiersz")
-    private Strona strona;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_wiersz")
+    private List<Strona> strona;
 
     public Wiersz() {
+        this.strona = new ArrayList<>();
     }
 
     
     public Wiersz(String nazwa, Dok dok) {
+        this.strona = new ArrayList<>();
         this.nazwa = "Wiersz "+nazwa;
         this._dok = dok;
     }
@@ -69,11 +74,11 @@ public class Wiersz implements Serializable{
     }
 
     public Strona getStrona() {
-        return strona;
+        return this.strona.get(0);
     }
 
     public void setStrona(Strona strona) {
-        this.strona = strona;
+        this.strona.add(strona);
     }
 
     public Dok getDok() {
