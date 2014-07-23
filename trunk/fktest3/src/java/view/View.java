@@ -50,10 +50,24 @@ public class View implements Serializable{
     
    
     public static void main(String[] args) {
+        Dok dok = stworzjedendokument();
+        p(utrwalam(dok));
+        p("--------------");
+        dok.getWiersz().getStrona().setNazwa("lolo");
+        edytuje(dok.getWiersz().getStrona());
+        //p("usuwam transakcje");
+        //p(usuwam(dok.getWiersz().getStrona().getRozrachunek().getTransakcja()));
+        p("--------------");
+        p("usuwam strone");
+        p(usuwam(dok.getWiersz().getStrona()));
+    }
+    
+    private static Dok stworzjedendokument() {
         Dok dok = new Dok(listanazw.get(1));
         dok.setWiersz(new Wiersz(listanazw.get(1), dok));
         dok.setWiersz(new Wiersz(listanazw.get(2), dok));
         dok.getWiersz().setStrona(new Strona(listanazw.get(1), dok.getWiersz()));
+        dok.getWiersz().setStrona(new Strona(listanazw.get(2), dok.getWiersz()));
         dok.getWiersz().getStrona().setRozrachunek(new Rozrachunek(listanazw.get(1), dok.getWiersz().getStrona()));
         dok.getWiersz().getStrona().getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1), dok.getWiersz().getStrona().getRozrachunek()));
         p(dok);
@@ -63,13 +77,8 @@ public class View implements Serializable{
         p(dok.getWiersz().getStrona().getRozrachunek());
         p(dok.getWiersz().getStrona().getRozrachunek().getTransakcja());
         p("--------------");
-        p(utrwalam(dok));
-        p("--------------");
-        dok.getWiersz().getStrona().setNazwa("lolo");
-        edytuje(dok.getWiersz().getStrona());
-        p(usuwam(dok.getWiersz().getStrona().getRozrachunek().getTransakcja()));
+        return dok;
     }
-    
    
     private static int usuwam(Object obj) {
         try {
