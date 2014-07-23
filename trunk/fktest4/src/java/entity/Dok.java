@@ -7,6 +7,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,13 +39,14 @@ public class Dok implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_dok")
-    private Wiersz wiersz;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_dok")
+    private List<Wiersz> wiersz;
 
     public Dok() {
     }
 
     public Dok(String nazwa) {
+        this.wiersz = new ArrayList<>();
         this.nazwa = "Dok "+nazwa;
     }
 
@@ -63,18 +67,29 @@ public class Dok implements Serializable{
     }
 
     public Wiersz getWiersz() {
-        return wiersz;
+        return this.wiersz.get(0);
+    }
+    
+    public Wiersz getWiersz(int i) {
+        try {
+            return this.wiersz.get(i);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void setWiersz(Wiersz wiersz) {
-        this.wiersz = wiersz;
+        this.wiersz.add(wiersz);
     }
-    
 
     @Override
     public String toString() {
-        return "Dok{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Dok{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz rozmiar=" + wiersz.size() + '}';
     }
+
+    
+    
+
     
     
     
