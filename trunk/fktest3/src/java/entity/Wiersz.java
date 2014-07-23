@@ -76,6 +76,10 @@ public class Wiersz implements Serializable{
     public Strona getStrona() {
         return this.strona.get(0);
     }
+    
+    public Strona getStrona(int i) {
+        return this.strona.get(i);
+    }
 
     public void setStrona(Strona strona) {
         this.strona.add(strona);
