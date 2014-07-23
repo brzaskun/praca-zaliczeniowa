@@ -99,9 +99,11 @@ public class View implements Serializable{
     }
     
     private static void stworzStrone(Dok dok1, Dok dok2) {
-        Strona strona = new Strona(listanazw.get(licznik), dok1.getWiersz(0), dok2.getWiersz(1));
+        Strona strona = new Strona(listanazw.get(licznik));
+        strona.setWierszn(dok1.getWiersz(0));
+        strona.setWierszr(dok2.getWiersz(1));
         dok1.getWiersz(0).setStronaN(strona);
-        dok2.getWiersz(1).setStronaN(strona);
+        dok2.getWiersz(1).setStronaR(strona);
     }
     
     private static void printDok(Dok dok) {
@@ -176,6 +178,7 @@ public class View implements Serializable{
             em.getTransaction().begin();
             em.persist(obj);
             em.getTransaction().commit();
+            em.flush();
             em.clear();
             return 0;
         } catch (Exception e) {

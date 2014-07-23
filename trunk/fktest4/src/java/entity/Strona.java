@@ -48,10 +48,8 @@ public class Strona implements Serializable{
     }
 
     
-    public Strona(String nazwa, Wiersz wierszr, Wiersz wierszn) {
+    public Strona(String nazwa) {
         this.nazwa = "Strona "+nazwa;
-        this._wierszn = wierszn;
-        this._wierszr = wierszr;
     }
 
     
