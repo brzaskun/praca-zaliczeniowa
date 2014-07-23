@@ -69,13 +69,16 @@ public class View implements Serializable{
         dok.getWiersz().setStrona(new Strona(listanazw.get(1), dok.getWiersz()));
         dok.getWiersz().setStrona(new Strona(listanazw.get(2), dok.getWiersz()));
         dok.getWiersz().getStrona().setRozrachunek(new Rozrachunek(listanazw.get(1), dok.getWiersz().getStrona()));
-        dok.getWiersz().getStrona().getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1), dok.getWiersz().getStrona().getRozrachunek()));
+        dok.getWiersz().getStrona(1).setRozrachunek(new Rozrachunek(listanazw.get(2), dok.getWiersz().getStrona(1)));
+        dok.getWiersz().getStrona(1).getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1), dok.getWiersz().getStrona(1).getRozrachunek()));
         p(dok);
         p(dok.getWiersz());
         p(dok.getWiersz(1));
         p(dok.getWiersz().getStrona());
+        p(dok.getWiersz().getStrona(1));
         p(dok.getWiersz().getStrona().getRozrachunek());
-        p(dok.getWiersz().getStrona().getRozrachunek().getTransakcja());
+        p(dok.getWiersz().getStrona(1).getRozrachunek());
+        p(dok.getWiersz().getStrona(1).getRozrachunek().getTransakcja());
         p("--------------");
         return dok;
     }

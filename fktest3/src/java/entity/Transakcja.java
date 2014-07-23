@@ -71,14 +71,14 @@ public class Transakcja implements Serializable{
     public void setRozrachunek(Rozrachunek _rozrachunek) {
         this._rozrachunek = _rozrachunek;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "Transakcja{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Transakcja{" + "id=" + id + ", nazwa=" + nazwa + ", _rozrachunek=" + _rozrachunek + '}';
     }
     
+    
+
     
     
 }

@@ -7,6 +7,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,16 +41,18 @@ public class Strona implements Serializable{
     private String nazwa;
     @ManyToOne
     private Wiersz _wiersz;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_strona")
-    private Rozrachunek rozrachunek;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_strona")
+    private List<Rozrachunek> rozrachunek;
 
     public Strona() {
+        this.rozrachunek = new ArrayList<>();
     }
 
     
     public Strona(String nazwa, Wiersz wiersz) {
         this.nazwa = "Strona "+nazwa;
         this._wiersz = wiersz;
+        this.rozrachunek = new ArrayList<>();
     }
 
     
@@ -69,13 +73,18 @@ public class Strona implements Serializable{
     }
 
     public Rozrachunek getRozrachunek() {
-        return rozrachunek;
+        return this.rozrachunek.get(0);
+    }
+    
+    public Rozrachunek getRozrachunek(int i) {
+        return this.rozrachunek.get(i);
     }
 
     public void setRozrachunek(Rozrachunek rozrachunek) {
-        this.rozrachunek = rozrachunek;
+        this.rozrachunek.add(rozrachunek);
     }
 
+    
     public Wiersz getWiersz() {
         return _wiersz;
     }
