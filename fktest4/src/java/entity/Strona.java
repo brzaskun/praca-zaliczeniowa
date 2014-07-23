@@ -7,6 +7,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,18 +39,19 @@ public class Strona implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    @OneToOne
-    private Wiersz _wiersz;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_strona")
-    private Rozrachunek rozrachunek;
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Wiersz _wierszr;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Wiersz _wierszn;
+    
     public Strona() {
     }
 
     
-    public Strona(String nazwa, Wiersz wiersz) {
+    public Strona(String nazwa, Wiersz wierszr, Wiersz wierszn) {
         this.nazwa = "Strona "+nazwa;
-        this._wiersz = wiersz;
+        this._wierszn = wierszn;
+        this._wierszr = wierszr;
     }
 
     
@@ -67,28 +71,29 @@ public class Strona implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public Rozrachunek getRozrachunek() {
-        return rozrachunek;
+    public Wiersz getWierszr() {
+        return _wierszr;
     }
 
-    public void setRozrachunek(Rozrachunek rozrachunek) {
-        this.rozrachunek = rozrachunek;
+    public void setWierszr(Wiersz _wierszr) {
+        this._wierszr = _wierszr;
     }
 
-    public Wiersz getWiersz() {
-        return _wiersz;
+    public Wiersz getWierszn() {
+        return _wierszn;
     }
 
-    public void setWiersz(Wiersz _wiersz) {
-        this._wiersz = _wiersz;
+    public void setWierszn(Wiersz _wierszn) {
+        this._wierszn = _wierszn;
     }
- 
-    
 
     @Override
     public String toString() {
-        return "Strona{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Strona{" + "id=" + id + ", nazwa=" + nazwa + ", _wierszr=" + _wierszr.getNazwa() + ", _wierszn=" + _wierszn.getNazwa() + '}';
     }
+
+       
+   
     
     
     

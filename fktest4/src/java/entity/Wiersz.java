@@ -7,6 +7,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,16 +40,22 @@ public class Wiersz implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    @OneToOne
+    @ManyToOne
     private Dok _dok;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_wiersz")
-    private Strona strona;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_wierszn")
+    private List<Strona> stronan;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_wierszr")
+    private List<Strona> stronar;
 
     public Wiersz() {
+        this.stronan = new ArrayList<>();
+        this.stronar = new ArrayList<>();
     }
 
     
     public Wiersz(String nazwa, Dok dok) {
+        this.stronan = new ArrayList<>();
+        this.stronar = new ArrayList<>();
         this.nazwa = "Wiersz "+nazwa;
         this._dok = dok;
     }
@@ -67,12 +77,29 @@ public class Wiersz implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public Strona getStrona() {
-        return strona;
+    
+    public Strona getStronaN(int i) {
+        try {
+            return this.stronan.get(i);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public void setStrona(Strona strona) {
-        this.strona = strona;
+    public void setStronaN(Strona strona) {
+        this.stronan.add(strona);
+    }
+    
+    public Strona getStronaR(int i) {
+        try {
+            return this.stronar.get(i);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setStronaR(Strona strona) {
+        this.stronar.add(strona);
     }
 
     public Dok getDok() {
@@ -82,14 +109,14 @@ public class Wiersz implements Serializable{
     public void setDok(Dok _dok) {
         this._dok = _dok;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok + ", stronan=" + stronan.size() + ", stronar=" + stronar.size() + '}';
     }
-    
-    
+
+   
+
+   
     
 }

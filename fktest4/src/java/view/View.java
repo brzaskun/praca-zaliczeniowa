@@ -7,11 +7,10 @@
 package view;
 
 import entity.Dok;
-import entity.Rozrachunek;
 import entity.Strona;
-import entity.Transakcja;
 import entity.Wiersz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -50,24 +49,95 @@ public class View implements Serializable{
     
    
     public static void main(String[] args) {
-        Dok dok = new Dok(listanazw.get(1));
-        dok.setWiersz(new Wiersz(listanazw.get(1), dok));
-        dok.getWiersz().setStrona(new Strona(listanazw.get(1), dok.getWiersz()));
-        dok.getWiersz().getStrona().setRozrachunek(new Rozrachunek(listanazw.get(1), dok.getWiersz().getStrona()));
-        dok.getWiersz().getStrona().getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1), dok.getWiersz().getStrona().getRozrachunek()));
-        p(dok);
-        p(dok.getWiersz());
-        p(dok.getWiersz().getStrona());
-        p(dok.getWiersz().getStrona().getRozrachunek());
-        p(dok.getWiersz().getStrona().getRozrachunek().getTransakcja());
+        Dok dok1 = stworzjedendokument();
+        p(utrwalam(dok1));
+        licznik++;
+        Dok dok2 = stworzjedendokument();
+        p(utrwalam(dok2));
         p("--------------");
-        p(utrwalam(dok));
+        p("Stwarzam strone");
+        stworzStrone(dok1, dok2);
+        edytuje(dok1);
         p("--------------");
-        dok.getWiersz().getStrona().setNazwa("lolo");
-        edytuje(dok.getWiersz().getStrona());
-        p(usuwam(dok.getWiersz().getStrona().getRozrachunek().getTransakcja()));
+        p("dokumenty z bazy");
+        List<Dok> listdok = findAllDokuments();
+        for (Dok p : listdok) {
+            printDok(p);
+        }
+//        p("--------------");
+//        p("usuwam strone");
+//        p(usuwam(dok1.getWiersz(0).getStronaN(0)));
+//        edytuje(dok1);
+//        p("--------------");
+//        p("edytuje wiersz");
+//        dok1.getWiersz(0).setNazwa("ZMIANA");
+//        edytuje(dok1);
+        p("--------------");
+        p("dokumenty z bazy");
+        listdok = findAllDokuments();
+        for (Dok p : listdok) {
+            printDok(refreshDokument(p));
+        }
+        p("--------------");
+        p("usuwam WIERSZ");
+        p(usuwam(dok1.getWiersz(0)));
+        edytuje(dok1);
+//        p("--------------");
+//        p("dokumenty z bazy");
+//        listdok = findAllDokuments();
+//        for (Dok p : listdok) {
+//            printDok(refreshDokument(p));
+//        }
     }
     
+    private static Dok stworzjedendokument() {
+        Dok dok = new Dok(listanazw.get(licznik));
+        dok.setWiersz(new Wiersz(listanazw.get(licznik), dok));
+        dok.setWiersz(new Wiersz(listanazw.get(licznik+1), dok));
+        printDok(dok);
+        return dok;
+    }
+    
+    private static void stworzStrone(Dok dok1, Dok dok2) {
+        Strona strona = new Strona(listanazw.get(licznik), dok1.getWiersz(0), dok2.getWiersz(1));
+        dok1.getWiersz(0).setStronaN(strona);
+        dok2.getWiersz(1).setStronaN(strona);
+    }
+    
+    private static void printDok(Dok dok) {
+        p("--------------");
+        p(dok);
+        p(dok.getWiersz(0));
+        p(dok.getWiersz(1));
+        try {
+            p(dok.getWiersz(0).getStronaN(0));
+            p(dok.getWiersz(1).getStronaN(0));
+        } catch (Exception e) {
+            
+        }
+        p("--------------");
+    }
+    
+    public static Dok refreshDokument (Dok p) {
+        EntityManager em = getEntityManager();
+        Dok refreshowany = em.find(Dok.class, p.getId());
+        em.refresh(refreshowany);
+        return refreshowany;
+    }
+  
+    
+     public static List<Dok> findAllDokuments() {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Dok.class));
+        EntityManager em = getEntityManager();
+        List<Dok> wszystkieDokumenty = getEntityManager().createQuery(cq).getResultList();
+        List<Dok> refreshowane = new ArrayList<>();
+        //for (Dokument p : wszystkieDokumenty) {
+        //    refreshowane.add(refreshDokument(p));
+        //}
+        //return refreshowane;
+        return wszystkieDokumenty;
+    }
    
     private static int usuwam(Object obj) {
         try {
