@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -29,8 +30,8 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @Entity
-@Table (name = "strona", uniqueConstraints = @UniqueConstraint(columnNames = "_wierszr, _wierszn"))
-public class Strona implements Serializable{
+@Table (name = "rachunek")
+public class Rachunek implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -43,16 +44,18 @@ public class Strona implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    @ManyToOne
-    private Wiersz _wierszr;
-    @ManyToOne
-    private Wiersz _wierszn;
+    @OneToOne(mappedBy = "rachunek")
+    private Wiersz wiersz;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transakcja> transakcje;
     
-    public Strona() {
+    public Rachunek() {
+        this.transakcje = new ArrayList<>();
     }
 
     
-    public Strona(String nazwa) {
+    public Rachunek(String nazwa) {
+        this.transakcje = new ArrayList<>();
         this.nazwa = "Strona "+nazwa;
     }
 
@@ -73,29 +76,31 @@ public class Strona implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public Wiersz getWierszr() {
-        return _wierszr;
+    public Wiersz getWiersz() {
+        return wiersz;
     }
 
-    public void setWierszr(Wiersz _wierszr) {
-        this._wierszr = _wierszr;
+    public void setWiersz(Wiersz wiersz) {
+        this.wiersz = wiersz;
+    }
+    
+    public Transakcja getTransakcje(int i) {
+        return this.transakcje.get(i);
     }
 
-    public Wiersz getWierszn() {
-        return _wierszn;
-    }
-
-    public void setWierszn(Wiersz _wierszn) {
-        this._wierszn = _wierszn;
+    public void setTransakcje(Transakcja transakcja) {
+        this.transakcje.add(transakcja);
     }
 
     @Override
     public String toString() {
-        return "Strona{" + "id=" + id + ", nazwa=" + nazwa + ", _wierszr=" + _wierszr.getNazwa() + ", _wierszn=" + _wierszn.getNazwa() + '}';
+        return "Rachunek{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz + '}';
     }
 
-       
    
+
+  
+ 
     
     
     

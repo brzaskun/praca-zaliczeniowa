@@ -20,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,7 +30,8 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @Entity
-public class Wiersz implements Serializable{
+@Table (name = "platnosc")
+public class Platnosc implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -41,20 +44,19 @@ public class Wiersz implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    @ManyToOne
-    private Dok _dok;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Rachunek rachunek;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Platnosc platnosc;
-
-    public Wiersz() {
+    @OneToOne(mappedBy = "platnosc")
+    private Wiersz wiersz;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transakcja> transakcje;
+    
+    public Platnosc() {
+        this.transakcje = new ArrayList<>();
     }
 
     
-    public Wiersz(String nazwa, Dok dok) {
-        this.nazwa = "Wiersz "+nazwa;
-        this._dok = dok;
+    public Platnosc(String nazwa) {
+        this.transakcje = new ArrayList<>();
+        this.nazwa = "Strona "+nazwa;
     }
 
     
@@ -74,36 +76,33 @@ public class Wiersz implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public Rachunek getRachunek() {
-        return rachunek;
+    public Wiersz getWiersz() {
+        return wiersz;
     }
 
-    public void setRachunek(Rachunek rachunek) {
-        this.rachunek = rachunek;
+    public void setWiersz(Wiersz wiersz) {
+        this.wiersz = wiersz;
     }
 
-    public Platnosc getPlatnosc() {
-        return platnosc;
+    public Transakcja getTransakcje(int i) {
+        return this.transakcje.get(i);
     }
 
-    public void setPlatnosc(Platnosc platnosc) {
-        this.platnosc = platnosc;
+    public void setTransakcje(Transakcja transakcja) {
+        this.transakcje.add(transakcja);
     }
- 
-   
-    public Dok getDok() {
-        return _dok;
-    }
-
-    public void setDok(Dok _dok) {
-        this._dok = _dok;
-    }
+    
+    
 
     @Override
     public String toString() {
-        return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok + ", rachunek=" + rachunek + ", platnosc=" + platnosc + '}';
+        return "Platnosc{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz + '}';
     }
 
+  
+       
    
+    
+    
     
 }
