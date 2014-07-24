@@ -56,7 +56,7 @@ public class Rachunek implements Serializable{
     
     public Rachunek(String nazwa) {
         this.transakcje = new ArrayList<>();
-        this.nazwa = "Strona "+nazwa;
+        this.nazwa = "Rachunek "+nazwa;
     }
 
     
@@ -92,9 +92,19 @@ public class Rachunek implements Serializable{
         this.transakcje.add(transakcja);
     }
 
+    public List<Transakcja> getTransakcje() {
+        return transakcje;
+    }
+
+    public void setTransakcje(List<Transakcja> transakcje) {
+        this.transakcje = transakcje;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Rachunek{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz + '}';
+        return "Rachunek{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz.getNazwa() + '}';
     }
 
    

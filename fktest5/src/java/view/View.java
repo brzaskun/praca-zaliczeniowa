@@ -60,10 +60,13 @@ public class View implements Serializable{
         Dok dok2 = stworzjedendokument();
         p(utrwalam(dok2));
         p("--------------"); 
-        p("Stwarzam strone");
+        p("Stwarzam rachunek, platnosc");
         Rachunek r = stworzRachunek(dok1.getWiersz(0));
+        p(r.toString());
         Platnosc p = stworzPlatnosc(dok2.getWiersz(1));
-        stworzTransakcje(r, p, 1000);
+        p(p.toString());
+        p("Stwarzam tansakcje");
+        p(stworzTransakcje(r, p, 1000));
         edytuje(dok1);
         edytuje(dok2.getWiersz(1));
         //edytuje(dok2.getWiersz(1));// to jest zbedne jak robie refresh powiazanych dokumentow!!!!
@@ -73,6 +76,7 @@ public class View implements Serializable{
         for (Dok s : listdok) {
             printDok(refreshDokument(s));
         }
+        
 //      p("--------------");
 //      p("usuwam strone");
         //refresh2(dok1);
@@ -83,10 +87,11 @@ public class View implements Serializable{
 //        p("edytuje wiersz");
 //        dok1.getWiersz(0).setNazwa("ZMIANA");
 //        edytuje(dok1);
-//        p("--------------");
-//        p("usuwam wiersz");
-//        p(usuwam(dok1.getWiersz(1)));
-//        edytuje(dok1);
+        Dok dok1baza = znajdzDokument(dok1);
+        p("--------------");
+        p("usuwam wiersz");
+        p(usuwam(dok1baza.getWiersz(1)));
+        edytuje(dok1baza);
 //        p("--------------");
 //        p("dokumenty z bazy");
 //        listdok = findAllDokuments();
@@ -98,10 +103,10 @@ public class View implements Serializable{
 //        p(usuwam(dok1));
 //        p("--------------");
 //        p("dokumenty z bazy");
-//        //listdok = findAllDokuments();
-//        for (Dok p : listdok) {
-//            printDok(refreshDokument(p));
-//        }
+        listdok = findAllDokuments();
+        for (Dok z : listdok) {
+            printDok(refreshDokument(z));
+        }
     }
     
      public static Dok znajdzDokument(Dok dokument) {
@@ -122,10 +127,11 @@ public class View implements Serializable{
         return dok;
     }
     
-    private static void stworzTransakcje(Rachunek r, Platnosc p, double kwota) {
+    private static Transakcja stworzTransakcje(Rachunek r, Platnosc p, double kwota) {
         Transakcja transakcja = new Transakcja(r,p,kwota);
         r.setTransakcje(transakcja);
         p.setTransakcje(transakcja);
+        return transakcja;
     }
     
     private static void printDok(Dok dok) {
@@ -139,7 +145,21 @@ public class View implements Serializable{
             p(dok.getWiersz(1).getRachunek());
             p(dok.getWiersz(1).getPlatnosc());
         } catch (Exception e) {
-            
+        }
+        try {
+            if (dok.getWiersz(0).getRachunek() != null) {
+                p(dok.getWiersz(0).getRachunek().getTransakcje(0));
+            }
+            if (dok.getWiersz(0).getPlatnosc() != null) {
+                p(dok.getWiersz(0).getPlatnosc().getTransakcje(0));
+            }
+            if (dok.getWiersz(1).getRachunek() != null) {
+                p(dok.getWiersz(1).getRachunek().getTransakcje(0));
+            }
+            if (dok.getWiersz(1).getPlatnosc() != null) {
+                p(dok.getWiersz(1).getPlatnosc().getTransakcje(0));
+            }
+        } catch (Exception e) {
         }
         p("--------------");
     }
@@ -247,12 +267,14 @@ public class View implements Serializable{
     private static Rachunek stworzRachunek(Wiersz wiersz) {
         Rachunek r = new Rachunek("Rachunek "+listanazw.get(licznikWiersz));
         r.setWiersz(wiersz);
+        wiersz.setRachunek(r);
         return r;
     }
 
     private static Platnosc stworzPlatnosc(Wiersz wiersz) {
         Platnosc p = new Platnosc("Platnosc "+listanazw.get(licznikWiersz));
         p.setWiersz(wiersz);
+        wiersz.setPlatnosc(p);
         return p;
     }
 

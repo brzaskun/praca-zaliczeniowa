@@ -55,6 +55,8 @@ public class Wiersz implements Serializable{
     public Wiersz(String nazwa, Dok dok) {
         this.nazwa = "Wiersz "+nazwa;
         this._dok = dok;
+       //this.rachunek = new Rachunek();
+        //this.platnosc = new Platnosc();
     }
 
     
@@ -101,7 +103,11 @@ public class Wiersz implements Serializable{
 
     @Override
     public String toString() {
-        return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok + ", rachunek=" + rachunek + ", platnosc=" + platnosc + '}';
+        try {
+            return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok.getNazwa() + ", rachunek=" + rachunek.getNazwa() + ", platnosc=" + platnosc.getNazwa() + '}';
+        } catch (Exception e) {
+            return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok.getNazwa() + '}';
+        }
     }
 
    

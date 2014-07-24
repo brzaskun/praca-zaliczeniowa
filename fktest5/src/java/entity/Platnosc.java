@@ -56,7 +56,7 @@ public class Platnosc implements Serializable{
     
     public Platnosc(String nazwa) {
         this.transakcje = new ArrayList<>();
-        this.nazwa = "Strona "+nazwa;
+        this.nazwa = "Platnosc "+nazwa;
     }
 
     
@@ -91,12 +91,22 @@ public class Platnosc implements Serializable{
     public void setTransakcje(Transakcja transakcja) {
         this.transakcje.add(transakcja);
     }
+
+    public List<Transakcja> getTransakcje() {
+        return transakcje;
+    }
+
+    public void setTransakcje(List<Transakcja> transakcje) {
+        this.transakcje = transakcje;
+    }
+    
+    
     
     
 
     @Override
     public String toString() {
-        return "Platnosc{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz + '}';
+        return "Platnosc{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz.getNazwa() + '}';
     }
 
   
