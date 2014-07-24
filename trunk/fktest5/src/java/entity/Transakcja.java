@@ -7,56 +7,44 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author Osito
  */
 @Entity
-public class Wiersz implements Serializable{
+public class Transakcja implements Serializable{
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String nazwa;
     @ManyToOne
-    private Dok _dok;
-    @OneToOne(cascade = CascadeType.ALL)
     private Rachunek rachunek;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Platnosc platnosc;
+    @Column
+    private double kwota;
 
-    public Wiersz() {
+    public Transakcja(Rachunek rachunek, Platnosc platnosc, double kwota) {
+        this.rachunek = rachunek;
+        this.platnosc = platnosc;
+        this.kwota = kwota;
     }
 
+    public Transakcja() {
+    }
     
-    public Wiersz(String nazwa, Dok dok) {
-        this.nazwa = "Wiersz "+nazwa;
-        this._dok = dok;
-    }
-
+    
     
     public Integer getId() {
         return id;
@@ -64,14 +52,6 @@ public class Wiersz implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
     }
 
     public Rachunek getRachunek() {
@@ -89,21 +69,20 @@ public class Wiersz implements Serializable{
     public void setPlatnosc(Platnosc platnosc) {
         this.platnosc = platnosc;
     }
- 
-   
-    public Dok getDok() {
-        return _dok;
+
+    public double getKwota() {
+        return kwota;
     }
 
-    public void setDok(Dok _dok) {
-        this._dok = _dok;
+    public void setKwota(double kwota) {
+        this.kwota = kwota;
     }
 
     @Override
     public String toString() {
-        return "Wiersz{" + "id=" + id + ", nazwa=" + nazwa + ", _dok=" + _dok + ", rachunek=" + rachunek + ", platnosc=" + platnosc + '}';
+        return "Transakcja{" + "id=" + id + ", rachunek=" + rachunek + ", platnosc=" + platnosc + ", kwota=" + kwota + '}';
     }
-
-   
+    
+    
     
 }
