@@ -10,12 +10,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 /**
  *
@@ -25,14 +27,13 @@ import javax.persistence.ManyToOne;
 public class Transakcja implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer idT;
+    @EmbeddedId 
+    private TransakcjaPK transakcjaPK;
+    @MapsId("rachunekT_PK")
     @ManyToOne (cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "rachunekTid", referencedColumnName = "idR")
     private Rachunek rachunekT;
+    @MapsId("platnoscT_PK")
     @ManyToOne (cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "platnoscTid", referencedColumnName = "idP")
     private Platnosc platnoscT;
@@ -47,17 +48,16 @@ public class Transakcja implements Serializable{
 
     public Transakcja() {
     }
-    
-    
-    
-    public Integer getIdT() {
-        return idT;
+
+    public TransakcjaPK getTransakcjaPK() {
+        return transakcjaPK;
     }
 
-    public void setIdT(Integer idT) {
-        this.idT = idT;
+    public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
+        this.transakcjaPK = transakcjaPK;
     }
-
+    
+   
     public Rachunek getRachunekT() {
         return rachunekT;
     }
@@ -84,8 +84,9 @@ public class Transakcja implements Serializable{
 
     @Override
     public String toString() {
-        return "Transakcja{" + "id=" + idT + ", rachunek=" + rachunekT + ", platnosc=" + platnoscT + ", kwota=" + kwotaT + '}';
+        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", rachunekT=" + rachunekT.getNazwaR() + ", platnoscT=" + platnoscT.getNazwaP() + ", kwotaT=" + kwotaT + '}';
     }
+
     
     
     
