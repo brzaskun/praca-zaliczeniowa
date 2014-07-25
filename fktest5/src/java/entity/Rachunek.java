@@ -48,17 +48,21 @@ public class Rachunek extends Rozrachunek implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwaR;
-//    @OneToOne
-//    private Wiersz wierszR;
+    @OneToOne
+    private Wiersz wierszR;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rachunekT")
     private List<Transakcja> transakcjeR;
     
     public Rachunek() {
+        super();
+        this.DTYPE = "Rachunek";
         this.transakcjeR = new ArrayList<>();
     }
 
     
     public Rachunek(String nazwa) {
+        super();
+        this.DTYPE = "Rachunek";
         this.transakcjeR = new ArrayList<>();
         this.nazwaR = "Rachunek "+nazwa;
     }
@@ -96,6 +100,15 @@ public class Rachunek extends Rozrachunek implements Serializable{
     public void setTransakcjeR(List<Transakcja> transakcjeR) {
         this.transakcjeR = transakcjeR;
     }
+
+    public Wiersz getWierszR() {
+        return wierszR;
+    }
+
+    public void setWierszR(Wiersz wierszR) {
+        this.wierszR = wierszR;
+    }
+    
     
     
 
