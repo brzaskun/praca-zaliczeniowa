@@ -75,13 +75,29 @@ public class View implements Serializable{
         Platnosc pbaza = znajdzPlatnosc(p);
         edytuje(pbaza);
         p(pbaza.toString());
-        p("-------------- usuwam ");
         Rachunek rbaza = znajdzRachunek(r);
+        p(rbaza);
+        p("-------------- usuwam ");
+//        usuwam(rbaza);
+//        p("-------------- platnosc");
+//        Platnosc pbaza2 = znajdzPlatnosc(pbaza);
+//        refresh2(pbaza2);
+//        usuwam(pbaza2);
+//        Rachunek rbaza2 = znajdzRachunek(rbaza);
+//        p(rbaza2);
+//        usuwam(rbaza2);
+//        Platnosc pbaza3 = znajdzPlatnosc(pbaza2);
+//        p(pbaza3);
+        p("-------------- rachunek");
+        //Rachunek rbaza2 = znajdzRachunek(rbaza);
+       refresh2(rbaza);
+        p(rbaza);
         usuwam(rbaza);
-        p("-------------- platnosc po usunieciu rachunku");
-        Platnosc pbaza2 = znajdzPlatnosc(pbaza);
-        refresh2(pbaza2);
-        p(pbaza2.toString());
+        //rbaza2 = znajdzRachunek(rbaza);
+        p(rbaza);
+        //usuwam(rbaza2);
+        Platnosc pbaza3 = znajdzPlatnosc(pbaza);
+        p(pbaza3);
         //edytuje(r);
         //edytuje(p);
 //        edytuje(dok1);
@@ -284,6 +300,7 @@ public class View implements Serializable{
     
     public static void p(Object p) {
         if (p != null) {
+           System.out.println("-------------------");
            System.out.println(p);
         }
     }
@@ -303,7 +320,7 @@ public class View implements Serializable{
 //        p(usuwam(wiersz));
 //        p(usuwam(strona));
 //        p(usuwam(rozrachunek));
-//        p(usuwam(transakcja));
+//        p(usuwam(transakcja))
 //        System.out.println("Koniec funkcji");
 //    
 //    }
