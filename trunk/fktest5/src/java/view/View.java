@@ -62,19 +62,24 @@ public class View implements Serializable{
 //        p(utrwalam(dok2));
 //        p("--------------"); 
 //        p("Stwarzam rachunek, platnosc");
-        Wiersz wiersz = new Wiersz("wierszyk", listanazw.get(licznikWiersz));
+        Wiersz wiersz = new Wiersz("wierszPierwszy", listanazw.get(licznikWiersz));
         utrwalam(wiersz);
+        Wiersz wiersz2 = new Wiersz("wierszDrugi", listanazw.get(licznikWiersz+1));
+        utrwalam(wiersz2);
         p("Stwarzam tansakcje");
-        Transakcja t = stworzTransakcje(wiersz.getRachunek(), wiersz.getPlatnosc(), 1000);
+        Transakcja t = stworzTransakcje(wiersz.getRachunek(), wiersz2.getPlatnosc(), 1000);
         p(t);
+        p("--------------"); 
         edytuje(wiersz);
-        Platnosc pbaza = znajdzPlatnosc(wiersz.getPlatnosc());
+        Platnosc pbaza = znajdzPlatnosc(wiersz2.getPlatnosc());
+        //pobieram i edytuje rozrachunki z transakcji sparowanych
         edytuje(pbaza);
         p(pbaza.toString());
         Rachunek rbaza = znajdzRachunek(wiersz.getRachunek());
         boolean zgodne = rbaza.equals(wiersz.getRachunek());
         refresh2(rbaza);
         zgodne = rbaza.equals(wiersz.getRachunek());
+        p("zgodne : "+zgodne);
         p(rbaza);
         p("-------------- usuwam "); 
         usuwam(wiersz);
