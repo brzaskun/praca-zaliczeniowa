@@ -67,7 +67,7 @@ public class View implements Serializable{
         p("Stwarzam tansakcje");
         Transakcja t = stworzTransakcje(wiersz.getRachunek(), wiersz.getPlatnosc(), 1000);
         p(t);
-        edytuje(t);
+        edytuje(wiersz);
         Platnosc pbaza = znajdzPlatnosc(wiersz.getPlatnosc());
         edytuje(pbaza);
         p(pbaza.toString());
@@ -77,7 +77,7 @@ public class View implements Serializable{
         zgodne = rbaza.equals(wiersz.getRachunek());
         p(rbaza);
         p("-------------- usuwam "); 
-        usuwam(rbaza);
+        usuwam(wiersz);
         //usuwam(r);
 //        p("-------------- platnosc");
 //        Platnosc pbaza2 = znajdzPlatnosc(pbaza);
