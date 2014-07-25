@@ -62,23 +62,23 @@ public class View implements Serializable{
 //        p(utrwalam(dok2));
 //        p("--------------"); 
 //        p("Stwarzam rachunek, platnosc");
-        Rachunek r = stworzRachunek();
-        p(r.toString());
-        utrwalam(r);
-        Platnosc p = stworzPlatnosc();
-        p(p.toString());
-        utrwalam(p);
+        Wiersz wiersz = new Wiersz("wierszyk", listanazw.get(licznikWiersz));
+        utrwalam(wiersz);
         p("Stwarzam tansakcje");
-        Transakcja t = stworzTransakcje(r, p, 1000);
+        Transakcja t = stworzTransakcje(wiersz.getRachunek(), wiersz.getPlatnosc(), 1000);
         p(t);
         edytuje(t);
-        Platnosc pbaza = znajdzPlatnosc(p);
+        Platnosc pbaza = znajdzPlatnosc(wiersz.getPlatnosc());
         edytuje(pbaza);
         p(pbaza.toString());
-        Rachunek rbaza = znajdzRachunek(r);
+        Rachunek rbaza = znajdzRachunek(wiersz.getRachunek());
+        boolean zgodne = rbaza.equals(wiersz.getRachunek());
+        refresh2(rbaza);
+        zgodne = rbaza.equals(wiersz.getRachunek());
         p(rbaza);
-        p("-------------- usuwam ");
-//        usuwam(rbaza);
+        p("-------------- usuwam "); 
+        usuwam(rbaza);
+        //usuwam(r);
 //        p("-------------- platnosc");
 //        Platnosc pbaza2 = znajdzPlatnosc(pbaza);
 //        refresh2(pbaza2);
@@ -88,15 +88,16 @@ public class View implements Serializable{
 //        usuwam(rbaza2);
 //        Platnosc pbaza3 = znajdzPlatnosc(pbaza2);
 //        p(pbaza3);
-        p("-------------- rachunek");
+        //p("-------------- rachunek");
         //Rachunek rbaza2 = znajdzRachunek(rbaza);
-       refresh2(rbaza);
-        p(rbaza);
-        usuwam(rbaza);
+       //refresh2(rbaza);
+        //p(rbaza);
+        //usuwam(rbaza);
         //rbaza2 = znajdzRachunek(rbaza);
-        p(rbaza);
+        //p(rbaza);
         //usuwam(rbaza2);
         Platnosc pbaza3 = znajdzPlatnosc(pbaza);
+        //refresh2(pbaza);
         p(pbaza3);
         //edytuje(r);
         //edytuje(p);
@@ -325,13 +326,17 @@ public class View implements Serializable{
 //    
 //    }
 
-    private static Rachunek stworzRachunek() {
+    private static Rachunek stworzRachunek(Wiersz wiersz) {
         Rachunek r = new Rachunek("Rachunek "+listanazw.get(licznikWiersz));
+        r.setWierszR(wiersz);
+        wiersz.setRachunek(r);
         return r;
     }
 
-    private static Platnosc stworzPlatnosc() {
+    private static Platnosc stworzPlatnosc(Wiersz wiersz) {
         Platnosc p = new Platnosc("Platnosc "+listanazw.get(licznikWiersz));
+        p.setWierszP(wiersz);
+        wiersz.setPlatnosc(p);
         return p;
     }
 

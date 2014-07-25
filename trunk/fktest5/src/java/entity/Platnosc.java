@@ -48,17 +48,21 @@ public class Platnosc extends Rozrachunek implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwaP;
-//    @OneToOne
-//    private Wiersz wierszP;
+    @OneToOne
+    private Wiersz wierszP;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "platnoscT")
     private List<Transakcja> transakcjeP;
     
     public Platnosc() {
+        super();
+        this.DTYPE = "Platnosc";
         this.transakcjeP = new ArrayList<>();
     }
 
     
     public Platnosc(String nazwa) {
+        super();
+        this.DTYPE = "Platnosc";
         this.transakcjeP = new ArrayList<>();
         this.nazwaP = "Platnosc "+nazwa;
     }
@@ -95,6 +99,14 @@ public class Platnosc extends Rozrachunek implements Serializable{
 
     public void setTransakcjeP(List<Transakcja> transakcjeP) {
         this.transakcjeP = transakcjeP;
+    }
+
+    public Wiersz getWierszP() {
+        return wierszP;
+    }
+
+    public void setWierszP(Wiersz wierszP) {
+        this.wierszP = wierszP;
     }
     
 
