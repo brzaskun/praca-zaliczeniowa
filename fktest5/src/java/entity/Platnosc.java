@@ -38,80 +38,70 @@ public class Platnosc implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
+    private Integer idP;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
-    private String nazwa;
-    @OneToOne(mappedBy = "platnosc")
-    private Wiersz wiersz;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transakcja> transakcje;
+    private String nazwaP;
+//    @OneToOne
+//    private Wiersz wierszP;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "platnoscT")
+    private List<Transakcja> transakcjeP;
     
     public Platnosc() {
-        this.transakcje = new ArrayList<>();
+        this.transakcjeP = new ArrayList<>();
     }
 
     
     public Platnosc(String nazwa) {
-        this.transakcje = new ArrayList<>();
-        this.nazwa = "Platnosc "+nazwa;
+        this.transakcjeP = new ArrayList<>();
+        this.nazwaP = "Platnosc "+nazwa;
     }
 
     
-    public Integer getId() {
-        return id;
+    public Integer getIdP() {
+        return idP;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdP(Integer idP) {
+        this.idP = idP;
     }
 
-    public String getNazwa() {
-        return nazwa;
+    public String getNazwaP() {
+        return nazwaP;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setNazwaP(String nazwaP) {
+        this.nazwaP = nazwaP;
     }
 
-    public Wiersz getWiersz() {
-        return wiersz;
-    }
-
-    public void setWiersz(Wiersz wiersz) {
-        this.wiersz = wiersz;
-    }
-
+   
     public Transakcja getTransakcje(int i) {
-        return this.transakcje.get(i);
+        return this.transakcjeP.get(i);
     }
 
     public void setTransakcje(Transakcja transakcja) {
-        this.transakcje.add(transakcja);
+        this.transakcjeP.add(transakcja);
     }
 
-    public List<Transakcja> getTransakcje() {
-        return transakcje;
+    public List<Transakcja> getTransakcjeP() {
+        return transakcjeP;
     }
 
-    public void setTransakcje(List<Transakcja> transakcje) {
-        this.transakcje = transakcje;
+    public void setTransakcjeP(List<Transakcja> transakcjeP) {
+        this.transakcjeP = transakcjeP;
     }
-    
-    
-    
     
 
     @Override
     public String toString() {
-        return "Platnosc{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz.getNazwa() + '}';
+        try {
+            return "Platnosc{" + "idP=" + idP + ", nazwaP=" + nazwaP + ", transakcjeP=" + transakcjeP.size() + '}';
+        } catch (Exception e) {
+            return "";
+        }
     }
-
-  
-       
-   
+    
     
     
     

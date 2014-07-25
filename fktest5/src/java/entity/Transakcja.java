@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -28,18 +29,20 @@ public class Transakcja implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private Rachunek rachunek;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private Platnosc platnosc;
+    private Integer idT;
+    @ManyToOne (cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "rachunekTid", referencedColumnName = "idR")
+    private Rachunek rachunekT;
+    @ManyToOne (cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "platnoscTid", referencedColumnName = "idP")
+    private Platnosc platnoscT;
     @Column
-    private double kwota;
+    private double kwotaT;
 
     public Transakcja(Rachunek rachunek, Platnosc platnosc, double kwota) {
-        this.rachunek = rachunek;
-        this.platnosc = platnosc;
-        this.kwota = kwota;
+        this.rachunekT = rachunek;
+        this.platnoscT = platnosc;
+        this.kwotaT = kwota;
     }
 
     public Transakcja() {
@@ -47,41 +50,41 @@ public class Transakcja implements Serializable{
     
     
     
-    public Integer getId() {
-        return id;
+    public Integer getIdT() {
+        return idT;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdT(Integer idT) {
+        this.idT = idT;
     }
 
-    public Rachunek getRachunek() {
-        return rachunek;
+    public Rachunek getRachunekT() {
+        return rachunekT;
     }
 
-    public void setRachunek(Rachunek rachunek) {
-        this.rachunek = rachunek;
+    public void setRachunekT(Rachunek rachunekT) {
+        this.rachunekT = rachunekT;
     }
 
-    public Platnosc getPlatnosc() {
-        return platnosc;
+    public Platnosc getPlatnoscT() {
+        return platnoscT;
     }
 
-    public void setPlatnosc(Platnosc platnosc) {
-        this.platnosc = platnosc;
+    public void setPlatnoscT(Platnosc platnoscT) {
+        this.platnoscT = platnoscT;
     }
 
-    public double getKwota() {
-        return kwota;
+    public double getKwotaT() {
+        return kwotaT;
     }
 
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
+    public void setKwotaT(double kwotaT) {
+        this.kwotaT = kwotaT;
     }
 
     @Override
     public String toString() {
-        return "Transakcja{" + "id=" + id + ", rachunek=" + rachunek + ", platnosc=" + platnosc + ", kwota=" + kwota + '}';
+        return "Transakcja{" + "id=" + idT + ", rachunek=" + rachunekT + ", platnosc=" + platnoscT + ", kwota=" + kwotaT + '}';
     }
     
     

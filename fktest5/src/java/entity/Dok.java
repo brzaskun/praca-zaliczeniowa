@@ -25,67 +25,71 @@ import javax.validation.constraints.Size;
  *
  * @author Osito
  */
-@Entity
 public class Dok implements Serializable{
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String nazwa;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_dok")
-    private List<Wiersz> wiersz;
-
-    public Dok() {
-    }
-
-    public Dok(String nazwa) {
-        this.wiersz = new ArrayList<>();
-        this.nazwa = "Dok "+nazwa;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
-
-    public Wiersz getWiersz() {
-        return this.wiersz.get(0);
-    }
-    
-    public Wiersz getWiersz(int i) {
-        try {
-            return this.wiersz.get(i);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public void setWiersz(Wiersz wiersz) {
-        this.wiersz.add(wiersz);
-    }
-
-    @Override
-    public String toString() {
-        return "Dok{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz rozmiar=" + wiersz.size() + '}';
-    }
+//    private static final long serialVersionUID = 1L;
+//    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Basic(optional = false)
+//    @Column(nullable = false)
+//    private Integer idDok;
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(min = 1, max = 100)
+//    @Column(nullable = false, length = 100)
+//    private String nazwaDok;
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "_dok")
+//    private List<Wiersz> wierszDok;
+//
+//    public Dok() {
+//    }
+//
+//    public Dok(String nazwa) {
+//        this.wierszDok = new ArrayList<>();
+//        this.nazwaDok = "Dok "+nazwa;
+//    }
+//
+//    public Integer getIdDok() {
+//        return idDok;
+//    }
+//
+//    public void setIdDok(Integer idDok) {
+//        this.idDok = idDok;
+//    }
+//
+//    public String getNazwaDok() {
+//        return nazwaDok;
+//    }
+//
+//    public void setNazwaDok(String nazwaDok) {
+//        this.nazwaDok = nazwaDok;
+//    }
+//
+//    public List<Wiersz> getWierszDok() {
+//        return wierszDok;
+//    }
+//
+//    public void setWierszDok(List<Wiersz> wierszDok) {
+//        this.wierszDok = wierszDok;
+//    }
+//
+//    
+//    public Wiersz getWiersz(int i) {
+//        try {
+//            return this.wierszDok.get(i);
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+//
+//    public void setWiersz(Wiersz wiersz) {
+//        this.wierszDok.add(wiersz);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Dok{" + "id=" + idDok + ", nazwa=" + nazwaDok + ", wiersz rozmiar=" + wierszDok.size() + '}';
+//    }
 
     
     
