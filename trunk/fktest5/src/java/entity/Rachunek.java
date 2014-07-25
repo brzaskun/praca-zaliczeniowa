@@ -38,73 +38,69 @@ public class Rachunek implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
+    private Integer idR;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
-    private String nazwa;
-    @OneToOne(mappedBy = "rachunek")
-    private Wiersz wiersz;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transakcja> transakcje;
+    private String nazwaR;
+//    @OneToOne
+//    private Wiersz wierszR;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rachunekT")
+    private List<Transakcja> transakcjeR;
     
     public Rachunek() {
-        this.transakcje = new ArrayList<>();
+        this.transakcjeR = new ArrayList<>();
     }
 
     
     public Rachunek(String nazwa) {
-        this.transakcje = new ArrayList<>();
-        this.nazwa = "Rachunek "+nazwa;
+        this.transakcjeR = new ArrayList<>();
+        this.nazwaR = "Rachunek "+nazwa;
     }
 
     
-    public Integer getId() {
-        return id;
+    public Integer getIdR() {
+        return idR;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdR(Integer idR) {
+        this.idR = idR;
     }
 
-    public String getNazwa() {
-        return nazwa;
+    public String getNazwaR() {
+        return nazwaR;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setNazwaR(String nazwaR) {
+        this.nazwaR = nazwaR;
     }
 
-    public Wiersz getWiersz() {
-        return wiersz;
-    }
-
-    public void setWiersz(Wiersz wiersz) {
-        this.wiersz = wiersz;
-    }
-    
+      
     public Transakcja getTransakcje(int i) {
-        return this.transakcje.get(i);
+        return this.transakcjeR.get(i);
     }
 
     public void setTransakcje(Transakcja transakcja) {
-        this.transakcje.add(transakcja);
+        this.transakcjeR.add(transakcja);
     }
 
-    public List<Transakcja> getTransakcje() {
-        return transakcje;
+    public List<Transakcja> getTransakcjeR() {
+        return transakcjeR;
     }
 
-    public void setTransakcje(List<Transakcja> transakcje) {
-        this.transakcje = transakcje;
+    public void setTransakcjeR(List<Transakcja> transakcjeR) {
+        this.transakcjeR = transakcjeR;
     }
     
     
 
     @Override
     public String toString() {
-        return "Rachunek{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz.getNazwa() + '}';
+        try {
+            return "Rachunek{" + "id=" + idR + ", nazwa=" + nazwaR + ", transakcjeR=" + transakcjeR.size() + '}';
+        } catch (Exception e) {
+            return "";
+        }
     }
 
    

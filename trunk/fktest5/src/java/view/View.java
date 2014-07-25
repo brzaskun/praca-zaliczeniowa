@@ -14,6 +14,7 @@ import entity.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,28 +55,44 @@ public class View implements Serializable{
     
    
     public static void main(String[] args) {
-        Dok dok1 = stworzjedendokument();
-        p(utrwalam(dok1));
-        licznikDok++;
-        Dok dok2 = stworzjedendokument();
-        p(utrwalam(dok2));
-        p("--------------"); 
-        p("Stwarzam rachunek, platnosc");
-        Rachunek r = stworzRachunek(dok1.getWiersz(0));
+//        Dok dok1 = stworzjedendokument();
+//        p(utrwalam(dok1));
+//        licznikDok++;
+//        Dok dok2 = stworzjedendokument();
+//        p(utrwalam(dok2));
+//        p("--------------"); 
+//        p("Stwarzam rachunek, platnosc");
+        Rachunek r = stworzRachunek();
         p(r.toString());
-        Platnosc p = stworzPlatnosc(dok2.getWiersz(1));
+        utrwalam(r);
+        Platnosc p = stworzPlatnosc();
         p(p.toString());
+        utrwalam(p);
         p("Stwarzam tansakcje");
-        p(stworzTransakcje(r, p, 1000));
-        edytuje(dok1);
-        edytuje(dok2.getWiersz(1));
+        Transakcja t = stworzTransakcje(r, p, 1000);
+        p(t);
+        edytuje(t);
+        Platnosc pbaza = znajdzPlatnosc(p);
+        edytuje(pbaza);
+        p(pbaza.toString());
+        p("-------------- usuwam ");
+        Rachunek rbaza = znajdzRachunek(r);
+        usuwam(rbaza);
+        p("-------------- platnosc po usunieciu rachunku");
+        Platnosc pbaza2 = znajdzPlatnosc(pbaza);
+        refresh2(pbaza2);
+        p(pbaza2.toString());
+        //edytuje(r);
+        //edytuje(p);
+//        edytuje(dok1);
+//        //edytuje(dok2.getWiersz(1));
         //edytuje(dok2.getWiersz(1));// to jest zbedne jak robie refresh powiazanych dokumentow!!!!
-        p("--------------");
-        p("dokumenty z bazy");
-        List<Dok> listdok = findAllDokuments();
-        for (Dok s : listdok) {
-            printDok(refreshDokument(s));
-        }
+//        p("--------------");
+//        p("dokumenty z bazy");
+//        List<Dok> listdok = findAllDokuments();
+//        for (Dok s : listdok) {
+//            printDok(refreshDokument(s));  
+//        }
         
 //      p("--------------");
 //      p("usuwam strone");
@@ -87,11 +104,18 @@ public class View implements Serializable{
 //        p("edytuje wiersz");
 //        dok1.getWiersz(0).setNazwa("ZMIANA");
 //        edytuje(dok1);
-        Dok dok1baza = znajdzDokument(dok1);
-        p("--------------");
-        p("usuwam wiersz");
-        p(usuwam(dok1baza.getWiersz(1)));
-        edytuje(dok1baza);
+//        Dok dok1baza = znajdzDokument(dok1);
+//        p("--------------");
+//        p("usuwam wiersz");
+//        Wiersz wierszdousuniecia = null;
+//        Iterator it = dok1baza.getWierszDok().iterator();
+//        while (it.hasNext()) {
+//            Wiersz w = (Wiersz) it.next();
+//            if (w.getNazwaWiersz().equals("Wiersz pierwszy-")) {
+//                it.remove();
+//            }
+//        }
+//        edytuje(dok1baza);
 //        p("--------------");
 //        p("dokumenty z bazy");
 //        listdok = findAllDokuments();
@@ -100,32 +124,52 @@ public class View implements Serializable{
 //        }
 //        p("--------------");
 //        p("usuwam Dokument");
-//        p(usuwam(dok1));
+//        p(usuwam(dok1baza));
 //        p("--------------");
 //        p("dokumenty z bazy");
-        listdok = findAllDokuments();
-        for (Dok z : listdok) {
-            printDok(refreshDokument(z));
-        }
+//        listdok  = findAllDokuments();
+//        for (Dok z : listdok) {
+//            printDok(refreshDokument(z));
+//        }
     }
-    
-     public static Dok znajdzDokument(Dok dokument) {
+//    
+//     public static Dok znajdzDokument(Dok dokument) {
+//        try {
+//            EntityManager em = getEntityManager();
+//            Dok odnalezionyDokument = em.find(Dok.class, dokument.getIdDok());
+//            return odnalezionyDokument;
+//        } catch (Exception e) {
+//            return null;
+//        }   
+//    }
+     
+    public static Platnosc znajdzPlatnosc(Platnosc p) {
         try {
             EntityManager em = getEntityManager();
-            Dok odnalezionyDokument = em.find(Dok.class, dokument.getId());
+            Platnosc odnalezionyDokument = em.find(Platnosc.class, p.getIdP());
             return odnalezionyDokument;
         } catch (Exception e) {
             return null;
         }   
     }
     
-    private static Dok stworzjedendokument() {
-        Dok dok = new Dok(listanazw.get(licznikDok));
-        dok.setWiersz(new Wiersz(listanazw.get(licznikWiersz++), dok));
-        dok.setWiersz(new Wiersz(listanazw.get(licznikWiersz++), dok));
-        printDok(dok);
-        return dok;
+    public static Rachunek znajdzRachunek(Rachunek p) {
+        try {
+            EntityManager em = getEntityManager();
+            Rachunek odnalezionyDokument = em.find(Rachunek.class, p.getIdR());
+            return odnalezionyDokument;
+        } catch (Exception e) {
+            return null;
+        }   
     }
+    
+//    private static Dok stworzjedendokument() {
+//        Dok dok = new Dok(listanazw.get(licznikDok));
+//        dok.setWiersz(new Wiersz(listanazw.get(licznikWiersz++), dok));
+//        dok.setWiersz(new Wiersz(listanazw.get(licznikWiersz++), dok));
+//        printDok(dok);
+//        return dok;
+//    }
     
     private static Transakcja stworzTransakcje(Rachunek r, Platnosc p, double kwota) {
         Transakcja transakcja = new Transakcja(r,p,kwota);
@@ -134,44 +178,44 @@ public class View implements Serializable{
         return transakcja;
     }
     
-    private static void printDok(Dok dok) {
-        p("--------------");
-        p(dok);
-        p(dok.getWiersz(0));
-        p(dok.getWiersz(1));
-        try {
-            p(dok.getWiersz(0).getRachunek());
-            p(dok.getWiersz(0).getPlatnosc());
-            p(dok.getWiersz(1).getRachunek());
-            p(dok.getWiersz(1).getPlatnosc());
-        } catch (Exception e) {
-        }
-        try {
-            if (dok.getWiersz(0).getRachunek() != null) {
-                p(dok.getWiersz(0).getRachunek().getTransakcje(0));
-            }
-            if (dok.getWiersz(0).getPlatnosc() != null) {
-                p(dok.getWiersz(0).getPlatnosc().getTransakcje(0));
-            }
-            if (dok.getWiersz(1).getRachunek() != null) {
-                p(dok.getWiersz(1).getRachunek().getTransakcje(0));
-            }
-            if (dok.getWiersz(1).getPlatnosc() != null) {
-                p(dok.getWiersz(1).getPlatnosc().getTransakcje(0));
-            }
-        } catch (Exception e) {
-        }
-        p("--------------");
-    }
-    
-    public static Dok refreshDokument (Dok p) {
-        EntityManager em = getEntityManager();
-        Dok refreshowany = em.find(Dok.class, p.getId());
-        em.refresh(refreshowany);
-        return refreshowany;
-    }
-    
-     public static void refresh2 (Dok p) {
+//    private static void printDok(Dok dok) {
+//        p("--------------");
+//        p(dok);
+//        p(dok.getWiersz(0));
+//        p(dok.getWiersz(1)); 
+//        try {
+//            p(dok.getWiersz(0).getRachunek());
+//            p(dok.getWiersz(0).getPlatnosc());
+//            p(dok.getWiersz(1).getRachunek());
+//            p(dok.getWiersz(1).getPlatnosc());
+//        } catch (Exception e) {
+//        }
+//        try {
+//            if (dok.getWiersz(0).getRachunek() != null) {
+//                p(dok.getWiersz(0).getRachunek().getTransakcje(0));
+//            }
+//            if (dok.getWiersz(0).getPlatnosc() != null) {
+//                p(dok.getWiersz(0).getPlatnosc().getTransakcje(0));
+//            }
+//            if (dok.getWiersz(1).getRachunek() != null) {
+//                p(dok.getWiersz(1).getRachunek().getTransakcje(0));
+//            }
+//            if (dok.getWiersz(1).getPlatnosc() != null) {
+//                p(dok.getWiersz(1).getPlatnosc().getTransakcje(0));
+//            }
+//        } catch (Exception e) {
+//        }
+//        p("--------------");
+//    }
+//    
+//    public static Dok refreshDokument (Dok p) {
+//        EntityManager em = getEntityManager();
+//        Dok refreshowany = em.find(Dok.class, p.getIdDok());
+//        em.refresh(refreshowany);
+//        return refreshowany;
+//    }
+//    
+     public static void refresh2 (Object p) {
         EntityManager em = getEntityManager();
         em.refresh(em.merge(p));
     }
@@ -264,17 +308,13 @@ public class View implements Serializable{
 //    
 //    }
 
-    private static Rachunek stworzRachunek(Wiersz wiersz) {
+    private static Rachunek stworzRachunek() {
         Rachunek r = new Rachunek("Rachunek "+listanazw.get(licznikWiersz));
-        r.setWiersz(wiersz);
-        wiersz.setRachunek(r);
         return r;
     }
 
-    private static Platnosc stworzPlatnosc(Wiersz wiersz) {
+    private static Platnosc stworzPlatnosc() {
         Platnosc p = new Platnosc("Platnosc "+listanazw.get(licznikWiersz));
-        p.setWiersz(wiersz);
-        wiersz.setPlatnosc(p);
         return p;
     }
 
