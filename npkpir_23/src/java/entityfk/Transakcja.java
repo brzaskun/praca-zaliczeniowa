@@ -35,11 +35,11 @@ public class Transakcja  implements Serializable {
     
     @EmbeddedId 
     private TransakcjaPK transakcjaPK;
-    @MapsId("rozliczajacy")
+    @MapsId("rozliczajacyPK")
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private StronaWiersza rozliczajacy;
-    @MapsId("nowaTransakcja")
+    @MapsId("nowaTransakcjaPK")
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private StronaWiersza nowaTransakcja;

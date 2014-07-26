@@ -110,11 +110,18 @@ public class StronaWiersza implements Serializable{
     }
 
     public double getRozliczono() {
-//        this.rozliczono = 0.0;
-//        for (Transakcja p : this.transakcje) {
-//            this.rozliczono += p.getKwotatransakcji();
-//        }
-//        this.pozostalo = this.kwota - this.rozliczono;
+        this.rozliczono = 0.0;
+        if (this.nowatransakcja) {
+            for (Transakcja p : this.platnosci) {
+                this.rozliczono += p.getKwotatransakcji();
+            }
+            this.pozostalo = this.kwota - this.rozliczono;
+        } else {
+            for (Transakcja p : this.nowetransakcje) {
+                this.rozliczono += p.getKwotatransakcji();
+            }
+            this.pozostalo = this.kwota - this.rozliczono;
+        }
         return rozliczono;
     }
 
