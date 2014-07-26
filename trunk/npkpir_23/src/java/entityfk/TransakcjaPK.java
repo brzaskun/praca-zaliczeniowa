@@ -17,8 +17,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TransakcjaPK implements Serializable{
     
-    private Integer rozliczajacy;
-    private Integer nowaTransakcja;
+    private Integer rozliczajacyPK;
+    private Integer nowaTransakcjaPK;
 
     public TransakcjaPK() {
     }
@@ -26,32 +26,32 @@ public class TransakcjaPK implements Serializable{
     
 
     public TransakcjaPK(Integer rozliczajacyId, Integer rozliczanyId) {
-        this.rozliczajacy = rozliczajacyId;
-        this.nowaTransakcja = rozliczanyId;
+        this.rozliczajacyPK = rozliczajacyId;
+        this.nowaTransakcjaPK = rozliczanyId;
     }
     
 
-    public Integer getRozliczajacy() {
-        return rozliczajacy;
+    public Integer getRozliczajacyPK() {
+        return rozliczajacyPK;
     }
 
-    public void setRozliczajacy(Integer rozliczajacy) {
-        this.rozliczajacy = rozliczajacy;
+    public void setRozliczajacyPK(Integer rozliczajacyPK) {
+        this.rozliczajacyPK = rozliczajacyPK;
     }
 
-    public Integer getNowaTransakcja() {
-        return nowaTransakcja;
+    public Integer getNowaTransakcjaPK() {
+        return nowaTransakcjaPK;
     }
 
-    public void setNowaTransakcja(Integer nowaTransakcja) {
-        this.nowaTransakcja = nowaTransakcja;
+    public void setNowaTransakcjaPK(Integer nowaTransakcjaPK) {
+        this.nowaTransakcjaPK = nowaTransakcjaPK;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.rozliczajacy);
-        hash = 97 * hash + Objects.hashCode(this.nowaTransakcja);
+        hash = 97 * hash + Objects.hashCode(this.rozliczajacyPK);
+        hash = 97 * hash + Objects.hashCode(this.nowaTransakcjaPK);
         return hash;
     }
 
@@ -64,10 +64,10 @@ public class TransakcjaPK implements Serializable{
             return false;
         }
         final TransakcjaPK other = (TransakcjaPK) obj;
-        if (!Objects.equals(this.rozliczajacy, other.rozliczajacy)) {
+        if (!Objects.equals(this.rozliczajacyPK, other.rozliczajacyPK)) {
             return false;
         }
-        if (!Objects.equals(this.nowaTransakcja, other.nowaTransakcja)) {
+        if (!Objects.equals(this.nowaTransakcjaPK, other.nowaTransakcjaPK)) {
             return false;
         }
         return true;
@@ -75,7 +75,7 @@ public class TransakcjaPK implements Serializable{
 
     @Override
     public String toString() {
-        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacy + ", rozliczanyId=" + nowaTransakcja + '}';
+        return "TransakcjaPK{" + "rozliczajacyId=" + rozliczajacyPK + ", rozliczanyId=" + nowaTransakcjaPK + '}';
     }
 
     

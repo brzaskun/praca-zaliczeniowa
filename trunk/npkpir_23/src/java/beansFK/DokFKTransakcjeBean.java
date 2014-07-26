@@ -149,8 +149,9 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
 
-    public static void stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+        List<Transakcja> transakcjezeswiezych = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
             transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
@@ -158,10 +159,12 @@ public class DokFKTransakcjeBean implements Serializable{
             aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
             aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
             nowatransakcjazbazy.dodajPlatnosci(transakcja);
+            transakcjezeswiezych.add(transakcja);
         }
+        return transakcjezeswiezych;
     }
     
-    public static void stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> listaStronaWierszaDokument, List<StronaWiersza> listaStronaWierszaBazaDanych, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> listaStronaWierszaDokument, List<StronaWiersza> listaStronaWierszaBazaDanych, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //sprawdzam, czy wiersze z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy
         for (StronaWiersza p : listaStronaWierszaDokument) {
             if (listaStronaWierszaBazaDanych.contains(p)) {
@@ -183,6 +186,7 @@ public class DokFKTransakcjeBean implements Serializable{
         }
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
+        List<Transakcja> transakcjezbazyiwiersza = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaZbiorcza) {
             Transakcja transakcja = new Transakcja();
                 transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
@@ -190,41 +194,44 @@ public class DokFKTransakcjeBean implements Serializable{
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
                 aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
                 nowatransakcjazbazy.dodajPlatnosci(transakcja);
+                transakcjezbazyiwiersza.add(transakcja);
         }
+        transakcjezbazyiwiersza.addAll(transakcjeZAktualnego);
+        return transakcjezbazyiwiersza;
     }
     
-    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaStronaWierszaZBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, List<Transakcja> biezacetransakcje) {
-        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-        Iterator it = biezacetransakcje.iterator();
-        while (it.hasNext()) {
-            Transakcja p = (Transakcja) it.next();
-            if (listaStronaWierszaZBazy.contains(p.getNowaTransakcja())) {
-                listaStronaWierszaZBazy.remove(p.getNowaTransakcja());
-            }
-        }
-        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-        for (StronaWiersza nowatransakcjazbazy : listaStronaWierszaZBazy) {
-            Transakcja transakcja = new Transakcja();
-                transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
-                transakcja.setNowaTransakcja(nowatransakcjazbazy);
-                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
-                nowatransakcjazbazy.dodajPlatnosci(transakcja);
-                transakcjeswiezynki.add(transakcja);
-        }
-        return transakcjeswiezynki;
-    }
+//    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaStronaWierszaZBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, List<Transakcja> biezacetransakcje) {
+//        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+//        Iterator it = biezacetransakcje.iterator();
+//        while (it.hasNext()) {
+//            Transakcja p = (Transakcja) it.next();
+//            if (listaStronaWierszaZBazy.contains(p.getNowaTransakcja())) {
+//                listaStronaWierszaZBazy.remove(p.getNowaTransakcja());
+//            }
+//        }
+//        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
+//        for (StronaWiersza nowatransakcjazbazy : listaStronaWierszaZBazy) {
+//            Transakcja transakcja = new Transakcja();
+//                transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
+//                transakcja.setNowaTransakcja(nowatransakcjazbazy);
+//                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
+//                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
+//                nowatransakcjazbazy.dodajPlatnosci(transakcja);
+//                transakcjeswiezynki.add(transakcja);
+//        }
+//        return transakcjeswiezynki;
+//    }
 
     
-    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(StronaWiersza aktualnywierszdorozrachunkow, String wnma) {
-        List<Transakcja> pobranalista = new ArrayList<>();
-        try {
-            pobranalista.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
-        } catch (Exception e) {
-            
-        }
-        return pobranalista;
-    }
+//    public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(StronaWiersza aktualnywierszdorozrachunkow, String wnma) {
+//        List<Transakcja> pobranalista = new ArrayList<>();
+//        try {
+//            pobranalista.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
+//        } catch (Exception e) {
+//            
+//        }
+//        return pobranalista;
+//    }
      public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(StronaWiersza stronawiersza, String wnma) {
         List<Transakcja> pobrana = new ArrayList<>();
         try {
