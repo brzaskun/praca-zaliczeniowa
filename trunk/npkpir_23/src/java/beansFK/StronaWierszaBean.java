@@ -34,33 +34,8 @@ public class StronaWierszaBean {
     }
     
    
-    public static StronaWiersza aktualizatorAktualnegoWierszaDlaRozrachunkow(StronaWiersza aktualnyWierszDlaRozrachunkow, Dokfk selected, WpisView wpisView, String wnma, int nrwiersza) {
-        Wiersz wiersz = selected.getListawierszy().get(nrwiersza);
-        StronaWiersza stronaWn = wiersz.getStronaWn();
-        StronaWiersza stronaMa = wiersz.getStronaMa();
-         if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-            if (wnma.equals("Wn")) {
-                stronaWn.setKwotaPLN(stronaWn.getKwota());
-                stronaWn.setPozostalo(stronaWn.getKwota());
-            } else {
-                stronaMa.setKwotaPLN(stronaMa.getKwota());
-                stronaMa.setPozostalo(stronaMa.getKwota());
-            }
-        } else {
-            if (wnma.equals("Wn")) {
-                stronaWn.setKwotaPLN(przeliczWalutyWn(wiersz));
-                stronaWn.setPozostalo(stronaWn.getKwota());
-            } else {
-                stronaMa.setKwotaPLN(przeliczWalutyMa(wiersz));
-                stronaMa.setPozostalo(stronaMa.getKwota());
-            }
-        }
-        aktualnyWierszDlaRozrachunkow.setDatarozrachunku(Data.aktualnyDzien());
-        aktualnyWierszDlaRozrachunkow.setWiersz(wiersz);
-        return aktualnyWierszDlaRozrachunkow;
-    }
-    
-    private static double przeliczWalutyWn(Wiersz wiersz) {
+       
+    public static double przeliczWalutyWn(Wiersz wiersz) {
             wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
@@ -71,7 +46,7 @@ public class StronaWierszaBean {
             return kwotazlotowki;
         }
      
-     private static double przeliczWalutyMa(Wiersz wiersz) {
+     public static double przeliczWalutyMa(Wiersz wiersz) {
             wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();

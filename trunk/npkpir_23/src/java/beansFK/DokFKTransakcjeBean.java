@@ -153,11 +153,11 @@ public class DokFKTransakcjeBean implements Serializable{
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
             Transakcja transakcja = new Transakcja();
-                transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
-                transakcja.setNowaTransakcja(nowatransakcjazbazy);
-                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
-                (nowatransakcjazbazy).dodajTransakcjeNowe(transakcja);
+            transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
+            transakcja.setNowaTransakcja(nowatransakcjazbazy);
+            aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
+            aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
+            nowatransakcjazbazy.dodajPlatnosci(transakcja);
         }
     }
     
@@ -174,7 +174,7 @@ public class DokFKTransakcjeBean implements Serializable{
         listaZbiorcza.addAll(listaStronaWierszaBazaDanych);
         List<Transakcja> transakcjeZAktualnego = new ArrayList<>();
         //aktualizujemy transakcje o dane z biezacych stronwiersza (to gdyby w wiersu byla inna sytuacja niz w zachowanej transakcji
-        transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).pobierzTransakcje());
+        transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
         for (Transakcja t : transakcjeZAktualnego) {
             if (listaZbiorcza.contains(t.getNowaTransakcja())) {
                 //t.setNowaTransakcja((listaZbiorcza.get(listaZbiorcza.indexOf(t.getNowaTransakcja()))));
@@ -189,7 +189,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setNowaTransakcja(nowatransakcjazbazy);
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
                 aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
-                nowatransakcjazbazy.dodajTransakcjeNowe(transakcja);
+                nowatransakcjazbazy.dodajPlatnosci(transakcja);
         }
     }
     
@@ -209,7 +209,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 transakcja.setNowaTransakcja(nowatransakcjazbazy);
                 aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
                 aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
-                nowatransakcjazbazy.dodajTransakcjeNowe(transakcja);
+                nowatransakcjazbazy.dodajPlatnosci(transakcja);
                 transakcjeswiezynki.add(transakcja);
         }
         return transakcjeswiezynki;
@@ -219,15 +219,20 @@ public class DokFKTransakcjeBean implements Serializable{
     public static List<Transakcja> pobierzjuzNaniesioneTransakcjeRozliczony(StronaWiersza aktualnywierszdorozrachunkow, String wnma) {
         List<Transakcja> pobranalista = new ArrayList<>();
         try {
-            if (wnma.equals("Wn")) {
-                pobranalista.addAll((aktualnywierszdorozrachunkow).pobierzTransakcje());
-            } else {
-                pobranalista.addAll((aktualnywierszdorozrachunkow).pobierzTransakcje());
-            } 
+            pobranalista.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
         } catch (Exception e) {
             
         }
         return pobranalista;
+    }
+     public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(StronaWiersza stronawiersza, String wnma) {
+        List<Transakcja> pobrana = new ArrayList<>();
+        try {
+            pobrana.addAll((stronawiersza).getPlatnosci());
+            return pobrana;
+        } catch (Exception e) {
+            return pobrana;
+        }
     }
 
     public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie, List<Transakcja> biezacetransakcje,StronaWiersza aktualnywierszdorozrachunkow, StronaWierszaDAO stronaWierszaDAO) {
@@ -251,19 +256,7 @@ public class DokFKTransakcjeBean implements Serializable{
         return biezacetransakcje;
     }
     
-    public static List<Transakcja> pobierzbiezaceTransakcjeDlaNowejTransakcji(StronaWiersza stronawiersza, String wnma) {
-        List<Transakcja> pobrana = new ArrayList<>();
-        try {
-            if (stronawiersza.equals("Wn")) {
-                pobrana.addAll((stronawiersza).pobierzTransakcje());
-            } else {
-                pobrana.addAll((stronawiersza).pobierzTransakcje());
-            }
-            return pobrana;
-        } catch (Exception e) {
-            return pobrana;
-        }
-    }
+   
     
 //    public static List<Transakcja> pobierzbiezaceTransakcjePrzegladRozrachunkow(TransakcjaDAO transakcjaDAO, StronaWiersza rozrachunek) {
 //        List<Transakcja> pobrana = new ArrayList<>();

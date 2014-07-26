@@ -65,13 +65,16 @@ public class StronaWiersza implements Serializable{
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Transakcja> transakcje;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy")
+    private List<Transakcja> nowetransakcje;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja")
+    private List<Transakcja> platnosci;
     
 
    
     public StronaWiersza(Wiersz nowywiersz, String wnma) {
-        this.transakcje = new ArrayList<>();
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
@@ -82,6 +85,8 @@ public class StronaWiersza implements Serializable{
     
 
     public StronaWiersza() {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
         this.kwota = 0.0;
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
@@ -105,11 +110,11 @@ public class StronaWiersza implements Serializable{
     }
 
     public double getRozliczono() {
-        this.rozliczono = 0.0;
-        for (Transakcja p : this.transakcje) {
-            this.rozliczono += p.getKwotatransakcji();
-        }
-        this.pozostalo = this.kwota - this.rozliczono;
+//        this.rozliczono = 0.0;
+//        for (Transakcja p : this.transakcje) {
+//            this.rozliczono += p.getKwotatransakcji();
+//        }
+//        this.pozostalo = this.kwota - this.rozliczono;
         return rozliczono;
     }
 
@@ -192,18 +197,42 @@ public class StronaWiersza implements Serializable{
     
 
     public void dodajTransakcjeNowe(Transakcja transakcja) {
-        if (this.transakcje.contains(transakcja)) {
+        if (this.nowetransakcje.contains(transakcja)) {
             this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
         } else {
             this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
-            this.transakcje.add(transakcja);
+            this.nowetransakcje.add(transakcja);
         }
         this.pozostalo = this.kwota - this.rozliczono;
     }
     
-    public List<Transakcja> pobierzTransakcje() {
-        return this.transakcje;
+    public void dodajPlatnosci(Transakcja transakcja) {
+        if (this.platnosci.contains(transakcja)) {
+            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
+        } else {
+            this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
+            this.platnosci.add(transakcja);
+        }
+        this.pozostalo = this.kwota - this.rozliczono;
     }
+
+    public List<Transakcja> getNowetransakcje() {
+        return nowetransakcje;
+    }
+
+    public void setNowetransakcje(List<Transakcja> nowetransakcje) {
+        this.nowetransakcje = nowetransakcje;
+    }
+
+    public List<Transakcja> getPlatnosci() {
+        return platnosci;
+    }
+
+    public void setPlatnosci(List<Transakcja> platnosci) {
+        this.platnosci = platnosci;
+    }
+    
+    
     
     @Override
     public int hashCode() {

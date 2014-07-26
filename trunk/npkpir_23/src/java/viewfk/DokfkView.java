@@ -13,6 +13,8 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
+import data.Data;
+import entity.Dok;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -22,6 +24,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,6 +33,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
@@ -392,7 +398,6 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
-            zrobWierszStronafkReadOnly(true);
             zablokujprzyciskrezygnuj = true;
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
@@ -403,7 +408,6 @@ public class DokfkView implements Serializable {
                 aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
-                zrobWierszStronafkReadOnly(false);
                 zablokujprzyciskrezygnuj = false;
                 selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()-1);
                 Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
@@ -426,38 +430,7 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
     
-    //Nie wiem dlaczego to robie
-    private void zrobWierszStronafkReadOnly(boolean wartosc){
-//        List<Wiersze> wierszebiezace = selected.getListawierszy();
-//        WierszStronafkPK aktualnywiersz = aktualnyWierszDlaRozrachunkow.getWierszStronafk().getWierszStronafkPK();
-//        for (Wiersz p : wierszebiezace) {
-//            if (p.getWierszStronaWn().getWierszStronafkPK().equals(aktualnywiersz)) {
-//                p.setWnReadOnly(wartosc);
-//                int i = p.getIdporzadkowy() - 1;
-//                String wiersz = String.format("formwpisdokument:dataList:%s:wnReadOnly", i);
-//                RequestContext.getCurrentInstance().update(wiersz);
-//                break;
-//            }
-//            if (p.getWierszStronaMa().getWierszStronafkPK().equals(aktualnywiersz)) {
-//                p.setMaReadOnly(wartosc);
-//                int i = p.getIdporzadkowy() - 1;
-//                String wiersz = String.format("formwpisdokument:dataList:%s:maReadOnly", i);
-//                RequestContext.getCurrentInstance().update(wiersz);
-//                break;
-//            }
-//        }
-    }
-
-//    //porzadkowanie niezaksiegowanych dokumnetow i rozrachunkow z nich
-//    private void usunRozrachunkiNiezaksiegowanychDokfk() {
-//        try {
-//            rozrachunekfkDAO.usunniezaksiegowane(wpisView.getPodatnikWpisu());
-//            transakcjaDAO.usunniezaksiegowane(wpisView.getPodatnikWpisu());
-//        } catch (Exception e) {
-//        }
-//    }
-//    
-//    
+   
     public void tworzenieTransakcjiZWierszy() {
         List<StronaWiersza> listaRozliczanych = new ArrayList<>();
         List<StronaWiersza> listazBazy = new ArrayList<>();
@@ -481,7 +454,6 @@ public class DokfkView implements Serializable {
                     listazBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
                     DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(listaRozliczanych, listazBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu());
                     biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
-                    
                     biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu(), biezacetransakcje));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
                 } else {
@@ -542,9 +514,10 @@ public class DokfkView implements Serializable {
     
 //po wcisnieciu klawisza art-r nastepuje przygotowanie inicjalizacja aktualnego wiersza dla rozrachunkow
     private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow() {
+        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
         StronaWiersza stronaWiersza;
-        StronaWiersza stronaWn = selected.getListawierszy().get(numerwiersza).getStronaWn();
-        StronaWiersza stronaMa = selected.getListawierszy().get(numerwiersza).getStronaMa();
+        StronaWiersza stronaWn = wiersz.getStronaWn();
+        StronaWiersza stronaMa = wiersz.getStronaMa();
         if (stronawiersza.equals("Wn")) {
             stronaWiersza = stronaWn;
             potraktujjakoNowaTransakcje = stronaWn.isNowatransakcja();
@@ -552,8 +525,25 @@ public class DokfkView implements Serializable {
             stronaWiersza = stronaMa;
             potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
         }
-
-        StronaWierszaBean.aktualizatorAktualnegoWierszaDlaRozrachunkow(stronaWiersza, selected, wpisView, stronawiersza, numerwiersza);
+        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+            if (stronawiersza.equals("Wn")) {
+                stronaWn.setKwotaPLN(stronaWn.getKwota());
+                stronaWn.setPozostalo(stronaWn.getKwota());
+            } else {
+                stronaMa.setKwotaPLN(stronaMa.getKwota());
+                stronaMa.setPozostalo(stronaMa.getKwota());
+            }
+        } else {
+            if (stronawiersza.equals("Wn")) {
+                stronaWn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                stronaWn.setPozostalo(stronaWn.getKwota());
+            } else {
+                stronaMa.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                stronaMa.setPozostalo(stronaMa.getKwota());
+            }
+        }
+        stronaWiersza.setDatarozrachunku(Data.aktualnyDzien());
+        stronaWiersza.setWiersz(wiersz);
         Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;
     }
@@ -919,24 +909,26 @@ public class DokfkView implements Serializable {
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public static void main(String[] args) {
-        String staranazwa = "EUR";
-        String nazwawaluty = "PLN";
-        double kurs = 4.189;
-        if (!staranazwa.equals("PLN")) {
-            kurs = 1 / kurs * 100000000;
-            kurs = Math.round(kurs);
-            kurs = kurs / 100000000;
-        }
-        double kwota = 100000;
-        kwota = Math.round(kwota * kurs * 10000);
-        kwota = kwota / 10000;
-        System.out.println(kwota);
-        staranazwa = "PLN";
-        nazwawaluty = "EUR";
-        kurs = 4.189;
-        kwota = Math.round(kwota * kurs * 100);
-        kwota = kwota / 100;
-}        
+//    public static void main(String[] args) {
+//        String staranazwa = "EUR";
+//        String nazwawaluty = "PLN";
+//        double kurs = 4.189;
+//        if (!staranazwa.equals("PLN")) {
+//            kurs = 1 / kurs * 100000000;
+//            kurs = Math.round(kurs);
+//            kurs = kurs / 100000000;
+//        }
+//        double kwota = 100000;
+//        kwota = Math.round(kwota * kurs * 10000);
+//        kwota = kwota / 10000;
+//        System.out.println(kwota);
+//        staranazwa = "PLN";
+//        nazwawaluty = "EUR";
+//        kurs = 4.189;
+//        kwota = Math.round(kwota * kurs * 100);
+//        kwota = kwota / 100;
+//}        
 //</editor-fold>
+    
+    
 }
