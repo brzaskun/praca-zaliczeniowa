@@ -7,7 +7,6 @@
 package entityfk;
 
 
-import entityfk.TransakcjaPK;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -19,7 +18,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,12 +36,12 @@ public class Transakcja  implements Serializable {
     @EmbeddedId 
     private TransakcjaPK transakcjaPK;
     @MapsId("rozliczajacy")
-    @JoinColumn(name="rozliczajacy_id")
-    @ManyToOne
+    @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private StronaWiersza rozliczajacy;
     @MapsId("nowaTransakcja")
-    @JoinColumn(name="nowaTransakcja_id")
-    @ManyToOne
+    @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
