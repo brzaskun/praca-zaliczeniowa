@@ -44,7 +44,7 @@
                     <h:outputText value="numer"/>
                     <h:outputText value="rok"/>
                     <h:outputText value="miesiąc"/>
-                    <h:inputText id="datka" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" title="wpisz numer dnia, lub miesiąc i dzień"
+                    <h:inputText id="dataDialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu});$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" title="wpisz numer dnia, lub miesiąc i dzień"
                                  styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                                  >
                         <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
@@ -158,7 +158,6 @@
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" 
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
-<!--   ARCHEO               <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">

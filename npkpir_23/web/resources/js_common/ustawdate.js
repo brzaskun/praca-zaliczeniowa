@@ -52,7 +52,7 @@ function ustawDateSprzedazy(rok,mc){
    };
 
 function ustawDateFK(rok,mc){
-    var dataWyst = document.getElementById("formwpisdokument:datka");
+    var dataWyst = document.getElementById("formwpisdokument:dataDialogWpisywanie");
     var wart = dataWyst.value;
     if(mc!==10&&mc!==11&&mc!==12){
         mc = "0"+mc;

@@ -35,7 +35,6 @@ public class ObslugaWiersza {
     private static void uzupelnijDane (Wiersz nowywiersz, Dokfk selected) {
         nowywiersz.setDokfk(selected);
         nowywiersz.setTypWiersza(0);
-        //nowywiersz.setZaksiegowane(false);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         try {
             nowywiersz.setDataWalutyWiersza(selected.getTabelanbp().getDatatabeli());

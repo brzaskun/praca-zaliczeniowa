@@ -13,6 +13,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -59,7 +60,7 @@ public class Dokfk implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true, fetch = FetchType.EAGER)
     @OrderBy("idporzadkowy")
     private List<Wiersz> listawierszy;
     @Column(name = "miesiac")

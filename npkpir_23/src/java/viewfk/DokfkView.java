@@ -6,6 +6,7 @@ package viewfk;
 
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
+import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
@@ -130,6 +131,7 @@ public class DokfkView implements Serializable {
     public void resetujDokument() {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+        selected = null;
         selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
@@ -139,23 +141,28 @@ public class DokfkView implements Serializable {
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
         } catch (Exception e) {
-            Msg.msg("e", "Brak tabeli w danej walucie. Sprawdź to.");
+            Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:datka')).select();");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:dataDialogWpisywanie')).select();");
     }
     
      public void resetujDokumentWpis() {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+        selected = null;
         selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
-        DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
-        pokazPanelWalutowy = false;
-        biezacetransakcje = null;
-        liczbawierszyWDokumencie = 1;
-        zapisz0edytuj1 = false;
-        zablokujprzyciskrezygnuj = false;
+        try {
+            DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
+            pokazPanelWalutowy = false;
+            biezacetransakcje = null;
+            liczbawierszyWDokumencie = 1;
+            zapisz0edytuj1 = false;
+            zablokujprzyciskrezygnuj = false;
+        } catch (Exception e) {
+            Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
+        }
     }
     
    
@@ -294,8 +301,9 @@ public class DokfkView implements Serializable {
     }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
+        //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
-            String data = (String) Params.params("formwpisdokument:datka");
+            String data = (String) Params.params("formwpisdokument:dataDialogWpisywanie");
             if (data.length()==10) {
                 String rok = data.split("-")[0];
                 selected.getDokfkPK().setRok(rok);
@@ -321,6 +329,7 @@ public class DokfkView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:numer");
         }
+        //pokazuje daty w wierszach
         if (skrotnazwydokumentu.equals("WB")) {
             pokazPanelWalutowy = true;
         } else {
@@ -614,7 +623,6 @@ public class DokfkView implements Serializable {
         if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
-            
             if (!nazwawaluty.equals("PLN")) {
                 String datadokumentu = selected.getDatawystawienia();
                 DateTime dzienposzukiwany = new DateTime(datadokumentu);
@@ -631,12 +639,19 @@ public class DokfkView implements Serializable {
                         for (Wiersz p : wiersze) {
                             p.setTabelanbp(tabelanbppobrana);
                         }
+                        break;
                     }
                     zabezpieczenie++;
                 }
                 pokazPanelWalutowy = true;
             } else {
-                Tabelanbp tabelanbpPLN = new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2014-01-01");
+                Tabelanbp tabelanbpPLN = null;
+                try {
+                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2014-01-01", "PLN");
+                } catch (Exception e) {
+                    tabelanbpPLN = new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2014-01-01");
+                    tabelanbpDAO.dodaj(tabelanbpPLN);
+                }
                 selected.setTabelanbp(tabelanbpPLN);
                 List<Wiersz> wiersze = selected.getListawierszy();
                 for (Wiersz p : wiersze) {
@@ -645,7 +660,7 @@ public class DokfkView implements Serializable {
                 pokazPanelWalutowy = false;
             }
             if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-                //DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
             } else {
@@ -685,7 +700,7 @@ public class DokfkView implements Serializable {
 //    //a to jest rodzial dotyczacy walut w wierszu
     public void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
-        String datadokumentu = (String) Params.params("formwpisdokument:datka");
+        String datadokumentu = (String) Params.params("formwpisdokument:dataDialogWpisywanie");
         if (datawiersza.length()==1) {
             datawiersza = "0".concat(datawiersza);
         }
@@ -721,26 +736,17 @@ public class DokfkView implements Serializable {
     public void skopiujKontoZWierszaWyzej(int numerwiersza, String wnma) {
         if (numerwiersza > 0) {
             int numerpoprzedni = numerwiersza - 1;
-            //WierszStronafk wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getWierszStronaWn() : selected.getListawierszy().get(numerpoprzedni).getWierszStronaMa());
-            //WierszStronafk wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numerwiersza).getWierszStronaWn() : selected.getListawierszy().get(numerwiersza).getWierszStronaMa());
-//            if (!(wierszBiezacy.getKonto() instanceof Konto)) {
-//                Konto kontoPoprzedni = serialclone.SerialClone.clone(wierszPoprzedni.getKonto());
-//                wierszBiezacy.setKonto(kontoPoprzedni);
-//                Msg.msg("Skopiowano konto z wiersza poprzedzającego");
-//            }
+            StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
+            StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numerwiersza).getStronaWn() : selected.getListawierszy().get(numerwiersza).getStronaMa());
+            if (!(wierszBiezacy.getKonto() instanceof Konto)) {
+                Konto kontoPoprzedni = serialclone.SerialClone.clone(wierszPoprzedni.getKonto());
+                wierszBiezacy.setKonto(kontoPoprzedni);
+                Msg.msg("Skopiowano konto z wiersza poprzedzającego");
+            }
         }
     }
 
-    //Nie wiem o co tu chodzi. chyba ARCHEO. na pewno arche  to mialo powodowac podswieteleni pola z kontem i zabnlokowanie automatycznego przejscia eneterem
-//    public void handleKontoSelect(SelectEvent event) {
-//        Object item = event.getObject();
-//        if (stronawiersza.equals("Wn")) {
-//            selected.getListawierszy().get(numerwiersza).getWierszStronaWn().setKonto((Konto) item);
-//            String pole = "$(document.getElementById('formwpisdokument:dataList:"+numerwiersza+":kontown_input')).select();";
-//        } else {
-//            selected.getListawierszy().get(numerwiersza).getWierszStronaMa().setKonto((Konto) item);
-//        }
-//    }
+
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public StronaWiersza getAktualnyWierszDlaRozrachunkow() {
