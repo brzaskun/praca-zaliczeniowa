@@ -15,6 +15,7 @@ import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
+import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
@@ -542,7 +543,12 @@ public class FakturaView implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
-            //selDokument.setEwidencjaVAT(faktura.getEwidencjavat());
+            List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
+            for (EVatwpis r : faktura.getEwidencjavat()) {
+                EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                ewidencjaTransformowana.add(eVatwpis1);
+            }
+            selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
             try {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
