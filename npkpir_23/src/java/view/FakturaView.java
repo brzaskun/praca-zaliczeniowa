@@ -558,6 +558,9 @@ public class FakturaView implements Serializable {
                 fakturaDAO.edit(faktura);
             } catch (Exception e) {
                 Msg.msg("e", e.getMessage());
+                dokDAO.edit(selDokument);
+                faktura.setZaksiegowana(true);
+                fakturaDAO.edit(faktura);
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         }
@@ -567,7 +570,7 @@ public class FakturaView implements Serializable {
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = dokDAO.znajdzDuplikat(selD, selD.getPkpirR());
         if (tmp != null) {
-            String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany: " + tmp.getDataK();
+            String wiadomosc = "Dokument dla tego klienta, o takim numerze i kwocie jest juz zaksiegowany: " + tmp.getDataK()+". Edytuje ksiegowanbie";
             throw new Exception(wiadomosc);
         } else {
         }

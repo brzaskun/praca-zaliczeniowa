@@ -359,7 +359,7 @@ public class DokfkView implements Serializable {
         selected = item;
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
-            setZapisz0edytuj1(true);
+            zapisz0edytuj1 = true;
             if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
                 pokazPanelWalutowy = true;
             } else {

@@ -45,7 +45,7 @@
             <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
-            <p:column headerText="eycja" width="100" style="text-align: center;">
+            <p:column headerText="edycja" width="100" style="text-align: center;">
                     <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" styleClass="fkbutton" icon="ui-icon-document" update=":zestawieniedokumentow:dataList,:formwpisdokument"  oncomplete="PF('wpisywanie').show();"/>
             </p:column>
             <p:column headerText="" width="60" style="text-align: center;">

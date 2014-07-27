@@ -75,7 +75,7 @@
                           >
                 <p:ajax event="rowSelect"  listener="#{DokumentView.skopiujdoedycji()}"/>
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie #{DokTabView.obiektDOKmrjsfSel.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
+                        <h:outputText value="Zestawienie #{DokTabView.obiektDOKmrjsfSel.size()} zaksięgowanych w miesiącu '#{WpisView.miesiacWpisu}' dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
                     <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />

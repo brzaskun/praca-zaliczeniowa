@@ -88,10 +88,6 @@ var przygotujdokumentdoedycji = function (){
 
 
 
-
-
-
-
 //sprawdza czy w poprzenim wierszu sumy sie zgadaja, jak nie to ukrywa odpowiednie pola kazdorazoow przy pwisywaniu
 var sprawdzpoprzedniwiersz = function(nrWiersza){
     try {
