@@ -534,6 +534,7 @@ public class FakturaView implements Serializable {
             tmpX.setNetto(faktura.getNetto());
             tmpX.setVat(faktura.getVat());
             tmpX.setNazwakolumny("przych. sprz");
+            tmpX.setDok(selDokument);
             double wartosc = faktura.getBrutto() * 100;
             wartosc = Math.round(wartosc);
             wartosc = wartosc / 100;
@@ -546,6 +547,7 @@ public class FakturaView implements Serializable {
             List<EVatwpis1> ewidencjaTransformowana = new ArrayList<>();
             for (EVatwpis r : faktura.getEwidencjavat()) {
                 EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
