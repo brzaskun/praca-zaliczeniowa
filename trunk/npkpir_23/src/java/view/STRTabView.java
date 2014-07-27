@@ -198,25 +198,27 @@ public class STRTabView implements Serializable {
                 itX = planowane.iterator();
                 int i = 1;
                 while (itX.hasNext()) {
-                    if (danymiesiacniejestzawieszenie(mcOd)) {
-                        Double kwotaodpisMC = (Double) itX.next();
-                        Umorzenie odpisZaDanyOkres = new Umorzenie();
-                        odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
-                        odpisZaDanyOkres.setRokUmorzenia(rokOd);
-                        odpisZaDanyOkres.setMcUmorzenia(mcOd);
-                        odpisZaDanyOkres.setNrUmorzenia(i);
-                        odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
-                        i++;
-                        if (mcOd == 12) {
-                            rokOd++;
-                            mcOd = 1;
-                        } else {
-                            mcOd++;
-                        }
-                        umorzenia.add(odpisZaDanyOkres);
+                    Integer[] mcrok = new Integer[2];
+                    mcrok[0] = mcOd;
+                    mcrok[1] = rokOd;
+                    danymiesiacniejestzawieszenie(mcrok);
+                    mcOd = mcrok[0];
+                    rokOd = mcrok[1];
+                    Double kwotaodpisMC = (Double) itX.next();
+                    Umorzenie odpisZaDanyOkres = new Umorzenie();
+                    odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
+                    odpisZaDanyOkres.setRokUmorzenia(rokOd);
+                    odpisZaDanyOkres.setMcUmorzenia(mcOd);
+                    odpisZaDanyOkres.setNrUmorzenia(i);
+                    odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
+                    i++;
+                    if (mcOd == 12) {
+                        rokOd++;
+                        mcOd = 1;
                     } else {
-                        Msg.msg("W miesiącu "+mcOd+" działalność jest zawieszona");
+                        mcOd++;
                     }
+                    umorzenia.add(odpisZaDanyOkres);
                 }
                 srodek.setUmorzWyk(umorzenia);
                 sTRDAO.edit(srodek);
@@ -273,7 +275,7 @@ public class STRTabView implements Serializable {
         }
         nowalistadokamo();
         RequestContext.getCurrentInstance().update("formSTR");
-        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane", "formSTR:mess_add");
+        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca "+wpisView.getMiesiacWpisu()+" roku "+wpisView.getRokWpisuSt(), "formSTR:mess_add");
     }
 // wycialem te funkcje bo jest konflit on sprawdza czy dokument nie jest zaksiegowany
 //ale inna funkcja zerowe tez zaznacza jako zaksiegowane wiec on produkuje sie bez sensu
@@ -541,9 +543,12 @@ public class STRTabView implements Serializable {
     }
     //</editor-fold>
 
-    private boolean danymiesiacniejestzawieszenie(Integer badanymiesiac) {
+    private void danymiesiacniejestzawieszenie(Integer[] mcrok) {
+        Integer badanymiesiac = mcrok[0];
+        Integer badanyrok = mcrok[1];
         Podatnik pod = wpisView.getPodatnikObiekt();
-        List<Parametr> listaparametrow = pod.getZawieszeniedzialalnosci();
+        List<Parametr> listaparametrow = new ArrayList<>();
+        listaparametrow.addAll(pod.getZawieszeniedzialalnosci());
         if (listaparametrow != null) {
             Iterator it = listaparametrow.iterator();
             while (it.hasNext()) {
@@ -552,14 +557,23 @@ public class STRTabView implements Serializable {
                     it.remove();
                 }
             }
-            List<String> miesiacezawieszeniawroku = new ArrayList<>();
-            for (Parametr s : listaparametrow) {
-                miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
+            if (listaparametrow.size() > 0) {
+                List<String> miesiacezawieszeniawroku = new ArrayList<>();
+                for (Parametr s : listaparametrow) {
+                    miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
+                }
+                String ostatnimiesiaczlisty = miesiacezawieszeniawroku.get(miesiacezawieszeniawroku.size()-1);
+                if (miesiacezawieszeniawroku.contains(Mce.getNumberToMiesiac().get(badanymiesiac))) {
+                    if (ostatnimiesiaczlisty.equals("12")) {
+                        mcrok[0] = 1;
+                        mcrok[1] += 1;
+                    } else {
+                        int ostatnimiesiacint = Mce.getMiesiacToNumber().get(ostatnimiesiaczlisty)+1;
+                        mcrok[0] = ostatnimiesiacint;
+                    }
+                }
             }
-            return !    miesiacezawieszeniawroku.contains(Mce.getNumberToMiesiac().get(badanymiesiac));
-        } else {
-            return true;
-        }
+        } 
     }
         
     
