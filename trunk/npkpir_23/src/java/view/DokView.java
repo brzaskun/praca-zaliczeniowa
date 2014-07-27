@@ -1133,6 +1133,7 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
         }
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:dataPole')).select();");
     }
 
     public void skopiujdoedycji() {
