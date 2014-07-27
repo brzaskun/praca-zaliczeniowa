@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:tab title="Zawieszenie działalności">  
+        <h:form id="form11" >
+            <h:outputText value="Wprowadzone okresy zawieszenia działalności" style="font-size: 15px"/>
+            <p:growl showDetail="true"/>
+            <p:focus for="parametrypodatnika"/><br/>
+            <h:outputText value="dane historyczne"/><br/>
+            <p:panelGrid columns="4" style="width: 500px">
+                <p:dataList value="#{podatnikView.selected.zawieszeniedzialalnosci}"  
+                            var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" emptyMessage="Brak okresów zawieszenia">
+                    <h:outputText value="od: " />
+                    <h:outputText value="#{loop.mcOd}-" />
+                    <h:outputText value="#{loop.rokOd}" />
+                    <h:outputText value="  do: " />
+                    <h:outputText value="#{loop.mcDo}-" />
+                    <h:outputText value="#{loop.rokDo}" />
+                    <h:outputText value=" status: " />
+                    <h:outputText value="#{loop.parametr}" />
+                    <br/>
+                </p:dataList>
+            </p:panelGrid>
+            <h:outputText value="wprowadz nowy okres zawieszenia"/><br/>
+            <p:panelGrid id="parametrypodatnika" columns="2" >
+                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                </h:selectOneMenu>
+                <h:outputText value="miesiąc od: "/><h:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+                <h:outputText value="miesiąc do: "/><h:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+                <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                    <f:selectItem itemValue="zawieszony"/> 
+                </h:selectOneMenu>
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:commandButton action="#{podatnikView.usunzawieszenie()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajzawieszenie()}" value="dodaj parametr" update="@form" type="submit"/>
+            </p:panelGrid>
+        </h:form>
+        <br/><br/>
+    </p:tab>
+</ui:composition> 
