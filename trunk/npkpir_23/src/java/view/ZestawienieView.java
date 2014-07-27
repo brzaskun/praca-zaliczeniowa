@@ -1624,7 +1624,7 @@ public class ZestawienieView implements Serializable {
 
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
         if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
-            if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
+            if (!wpisView.getMiesiacWpisu().equals("03") || wybranyudzialowiec.equals("wybierz osobe")) {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca-3);
                 try {
