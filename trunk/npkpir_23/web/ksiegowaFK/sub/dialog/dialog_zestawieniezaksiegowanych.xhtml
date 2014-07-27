@@ -34,7 +34,7 @@
             <p:column headerText="numer" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
             </p:column>
-            <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{item.tresc}" filterMatchMode="contains" >
+                <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                 <h:outputText value="#{item.opisdokfk}"/>
             </p:column>
             <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
