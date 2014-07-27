@@ -127,7 +127,7 @@ public class ZUSMailView implements Serializable {
                 zusmail.setPit4(zusstawki.getPit4());
                 double zus51 = 0;
                 try {
-                    zus51 = zusmail.getZus51ch() > 0 ? zusmail.getZus51ch() : zusmail.getZus51bch();
+                    zus51 = zusmail.getZus51ch() != null ? zusmail.getZus51ch() : zusmail.getZus51bch();
                 } catch (Exception e) {}
                 zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                 zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zusmail.getZus52(), zusmail.getZus53(), zusmail.getPit4()));
@@ -136,7 +136,7 @@ public class ZUSMailView implements Serializable {
                 if (!wykazprzygotowanychmaili.contains(zusmail)) {
                     wykazprzygotowanychmaili.add(zusmail);
                 } else {
-                    Msg.msg("duplitak");
+                    Msg.msg("dupliat");
                 }
             }
             naniesistniejacezapisy();
