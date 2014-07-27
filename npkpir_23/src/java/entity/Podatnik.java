@@ -152,6 +152,9 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "kwotaautoryzujaca")
     private List<Parametr> kwotaautoryzujaca;
+    @Lob
+    @Column(name = "zawieszeniedzialalnosci")
+    private List<Parametr> zawieszeniedzialalnosci;
     @Column(name = "pole47")
     private String pole47;
     @Lob
@@ -412,6 +415,15 @@ public class Podatnik implements Serializable {
     public void setVatokres(List<Parametr> vatokres) {
         this.vatokres = vatokres;
     }
+
+    public List<Parametr> getZawieszeniedzialalnosci() {
+        return zawieszeniedzialalnosci;
+    }
+
+    public void setZawieszeniedzialalnosci(List<Parametr> zawieszeniedzialalnosci) {
+        this.zawieszeniedzialalnosci = zawieszeniedzialalnosci;
+    }
+    
     
     
     public String getWojewodztwo() {

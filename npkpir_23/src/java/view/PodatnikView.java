@@ -350,6 +350,29 @@ public class PodatnikView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+    
+    public void dodajzawieszenie() {
+        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        List<Parametr> lista = new ArrayList<>();
+        try {
+            lista.addAll(selected.getZawieszeniedzialalnosci());
+        } catch (Exception e) {
+        }
+        parametr.setRokDo(parametr.getRokOd());
+        lista.add(parametr);
+        selected.setZawieszeniedzialalnosci(lista);
+        podatnikDAO.edit(selected);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr zawieszenie działalności do podatnika.", selected.getNazwapelna());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void usunzawieszenie() {
+        List<Parametr> tmp = new ArrayList<>();
+        tmp.addAll(selected.getZawieszeniedzialalnosci());
+        tmp.remove(tmp.size() - 1);
+        selected.setZawieszeniedzialalnosci(tmp);
+        podatnikDAO.edit(selected);
+    }
 
     private int sprawdzrok(Parametr nowe, List<Parametr> stare) {
         if (stare.isEmpty()) {

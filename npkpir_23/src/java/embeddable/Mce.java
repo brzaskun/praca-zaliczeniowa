@@ -126,8 +126,22 @@ public class Mce implements Serializable{
         }
         return poprzedniemce;
     }
+    
+    public static List<String> zakresmiesiecy(String mcOd, String mcDo) {
+        List<String> listamiesiecy = new ArrayList<>();
+        int mcod = Mce.miesiacToNumber.get(mcOd);
+        int mcdo = Mce.miesiacToNumber.get(mcDo);
+        for (int i = mcod; i < mcdo+1; i++) {
+            listamiesiecy.add(Mce.numberToMiesiac.get(i));
+        }
+        return listamiesiecy;
+    }
    
     public Mce() {
+    }
+    
+    public static void main (String[] args) {
+        List<String> lista = zakresmiesiecy("01", "05");
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

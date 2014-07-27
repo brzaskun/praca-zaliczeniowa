@@ -5,12 +5,16 @@
 package view;
 
 import dao.AmoDokDAO;
+import dao.PodatnikDAO;
 import dao.STRDAO;
 import data.Data;
+import embeddable.Mce;
+import embeddable.Parametr;
 import embeddable.Roki;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.AmodokPK;
+import entity.Podatnik;
 import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -180,6 +184,7 @@ public class STRTabView implements Serializable {
                     mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7));
                 } else {
                     String pob = srodek.getDataprzek().substring(5, 7);
+                    // bo jest od miesiaca nastepnego po miesiacu
                     mcOd = Integer.parseInt(pob) + 1;
                     if (mcOd == 13) {
                         rokOd++;
@@ -193,21 +198,25 @@ public class STRTabView implements Serializable {
                 itX = planowane.iterator();
                 int i = 1;
                 while (itX.hasNext()) {
-                    Double kwotaodpisMC = (Double) itX.next();
-                    Umorzenie odpisZaDanyOkres = new Umorzenie();
-                    odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
-                    odpisZaDanyOkres.setRokUmorzenia(rokOd);
-                    odpisZaDanyOkres.setMcUmorzenia(mcOd);
-                    odpisZaDanyOkres.setNrUmorzenia(i);
-                    odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
-                    i++;
-                    if (mcOd == 12) {
-                        rokOd++;
-                        mcOd = 1;
+                    if (danymiesiacniejestzawieszenie(mcOd)) {
+                        Double kwotaodpisMC = (Double) itX.next();
+                        Umorzenie odpisZaDanyOkres = new Umorzenie();
+                        odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
+                        odpisZaDanyOkres.setRokUmorzenia(rokOd);
+                        odpisZaDanyOkres.setMcUmorzenia(mcOd);
+                        odpisZaDanyOkres.setNrUmorzenia(i);
+                        odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
+                        i++;
+                        if (mcOd == 12) {
+                            rokOd++;
+                            mcOd = 1;
+                        } else {
+                            mcOd++;
+                        }
+                        umorzenia.add(odpisZaDanyOkres);
                     } else {
-                        mcOd++;
+                        Msg.msg("W miesiącu "+mcOd+" działalność jest zawieszona");
                     }
-                    umorzenia.add(odpisZaDanyOkres);
                 }
                 srodek.setUmorzWyk(umorzenia);
                 sTRDAO.edit(srodek);
@@ -531,6 +540,27 @@ public class STRTabView implements Serializable {
         this.wybranysrodektrwalySprzedane = wybranysrodektrwalySprzedane;
     }
     //</editor-fold>
+
+    private boolean danymiesiacniejestzawieszenie(Integer badanymiesiac) {
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        List<Parametr> listaparametrow = pod.getZawieszeniedzialalnosci();
+        if (listaparametrow != null) {
+            Iterator it = listaparametrow.iterator();
+            while (it.hasNext()) {
+                Parametr par = (Parametr) it.next();
+                if (!par.getRokOd().equals(wpisView.getRokWpisuSt())) {
+                    it.remove();
+                }
+            }
+            List<String> miesiacezawieszeniawroku = new ArrayList<>();
+            for (Parametr s : listaparametrow) {
+                miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
+            }
+            return !    miesiacezawieszeniawroku.contains(Mce.getNumberToMiesiac().get(badanymiesiac));
+        } else {
+            return true;
+        }
+    }
         
     
 
