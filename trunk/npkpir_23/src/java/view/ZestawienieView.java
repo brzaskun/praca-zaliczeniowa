@@ -1043,11 +1043,16 @@ public class ZestawienieView implements Serializable {
     private double wyliczStrataZostalo(Straty1 tmp) {
         double zostalo = 0.0;
         double sumabiezace = 0.0;
-        for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
-            if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
-                sumabiezace += s.getKwotawykorzystania();
-                sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+        if (tmp.getWykorzystanieBiezace() != null) {
+            for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
+                if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+                    sumabiezace += s.getKwotawykorzystania();
+                    sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
+                }
             }
+        } else {
+            tmp.setWykorzystanieBiezace(new ArrayList<Straty1.Wykorzystanie>());
+            
         }
         double kwota = Double.parseDouble(tmp.getKwota());
         double uprzednio = Double.parseDouble(tmp.getWykorzystano());
