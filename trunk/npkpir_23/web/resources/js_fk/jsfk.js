@@ -438,6 +438,6 @@ var zamykanieDialogow = function() {
 
 var powrocNaPoczatekDokfk = function() {
     chowanienapoczatekdok();
-    $('#formwpisdokument\\:datka').select();
+    $('#formwpisdokument\\:dataDialogWpisywanie').select();
 };
 
