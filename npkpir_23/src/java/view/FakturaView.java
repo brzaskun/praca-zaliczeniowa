@@ -559,10 +559,7 @@ public class FakturaView implements Serializable {
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
             } catch (Exception e) {
-                Msg.msg("e", e.getMessage());
-                dokDAO.edit(selDokument);
-                faktura.setZaksiegowana(true);
-                fakturaDAO.edit(faktura);
+                
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
         }
