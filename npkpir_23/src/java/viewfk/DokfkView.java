@@ -406,6 +406,10 @@ public class DokfkView implements Serializable {
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
+            //trzy poniższe wiersze umożliwiają zrobienie z rozliczajacego nowej transakcji po korekcie kwot
+            aktualnyWierszDlaRozrachunkow.setRozliczono(0.0);
+            aktualnyWierszDlaRozrachunkow.setPozostalo(0.0);
+            aktualnyWierszDlaRozrachunkow.setNowetransakcje(new ArrayList<Transakcja>());
             listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zablokujprzyciskrezygnuj = true;
             selected.setLiczbarozliczonych(selected.getLiczbarozliczonych()+1);
@@ -565,34 +569,6 @@ public class DokfkView implements Serializable {
         }
         //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
         if (biezacetransakcje != null) {
-            for (Transakcja p : biezacetransakcje) {
-                double kwotanowa = p.getKwotatransakcji();
-                double kwotastara = p.getPoprzedniakwota();
-                double roznicaNkSk = kwotanowa - kwotastara;
-                if (roznicaNkSk != 0) {
-                    StronaWiersza rozliczajacy = aktualnyWierszDlaRozrachunkow;
-                    StronaWiersza nowatransakcja = p.getNowaTransakcja();
-                    double aktualny_rozliczono = rozliczajacy.getRozliczono();
-                    double aktualny_pierwotna = rozliczajacy.getKwota();
-                    double sparowany_rozliczono = nowatransakcja.getRozliczono();
-                    double sparowany_pierwotna = nowatransakcja.getKwota();
-                    rozliczajacy.setRozliczono(aktualny_rozliczono + roznicaNkSk);
-                    rozliczajacy.setPozostalo(aktualny_pierwotna - rozliczajacy.getRozliczono());
-                    //p.getSparowany().setNowatransakcja(true);
-                    nowatransakcja.setRozliczono(sparowany_rozliczono + roznicaNkSk);
-                    nowatransakcja.setPozostalo(sparowany_pierwotna - nowatransakcja.getRozliczono());
-                    //nanieslismy zmiany w biezacyh transakcjach coby wyswietlic, a potem robimy to w bazie danych
-//                    if (nowatransakcja instanceof StronaWn) {
-//                        stronaWierszaDAO.edit(nowatransakcja);
-//                    } else {
-//                        stronaWierszaDAO.edit(nowatransakcja);
-//                    }
-                } else if (roznicaNkSk == 0) {
-                    //p.getSparowany().setNowatransakcja(false);
-                }
-                p.setPoprzedniakwota(kwotanowa);
-                //to jest w zasadzie tzw. Nowa Transakcja
-            }
             //zanosze ze jest rozliczony
             int iletransakcjidodano = biezacetransakcje.size() - pierwotnailosctransakcjiwbazie;
             boolean saRozrachunki = false;
@@ -694,7 +670,6 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update(wiersz);
             }
         }
-       
     }
     
 //    //a to jest rodzial dotyczacy walut w wierszu

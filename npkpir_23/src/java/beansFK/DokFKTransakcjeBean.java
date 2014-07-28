@@ -188,13 +188,13 @@ public class DokFKTransakcjeBean implements Serializable{
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
         List<Transakcja> transakcjezbazyiwiersza = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaZbiorcza) {
-            Transakcja transakcja = new Transakcja();
-                transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
-                transakcja.setNowaTransakcja(nowatransakcjazbazy);
-                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
                 aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
+                Transakcja transakcja = new Transakcja(aktualnywierszdorozrachunkow, nowatransakcjazbazy);
+                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
                 nowatransakcjazbazy.dodajPlatnosci(transakcja);
                 transakcjezbazyiwiersza.add(transakcja);
+                //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
+                aktualnywierszdorozrachunkow.getNowetransakcje().add(transakcja);
         }
         transakcjezbazyiwiersza.addAll(transakcjeZAktualnego);
         return transakcjezbazyiwiersza;
@@ -243,23 +243,7 @@ public class DokFKTransakcjeBean implements Serializable{
     }
 
     public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie, List<Transakcja> biezacetransakcje,StronaWiersza aktualnywierszdorozrachunkow, StronaWierszaDAO stronaWierszaDAO) {
-        pierwotnailosctransakcjiwbazie = 0;
-        if (biezacetransakcje.size() > 0) {
-            //sprawdz czy nowoutworzona transakcja nie znajduje sie juz w biezacetransakcje
-            //jak jest to uzupelniamy jedynie rozliczenie biezace i archiwalne
-            double sumaStornoRozliczajacego = 0.0;
-            for (Transakcja s : biezacetransakcje) {
-                sumaStornoRozliczajacego += s.getKwotatransakcji();
-                pierwotnailosctransakcjiwbazie++;
-            }
-            //bylo zbedne ale jest z powrotem niezbedne. korygujemy kowte rozliczona o kwoty z biezacych pobranych do wyswietlenia transakcji, 
-            //zeby nam pola ugory dialogu rozrachunkow wkazywaly ile jest do rozliczenia w biezacym kliknieciu
-//            double pozostalo = aktualnywierszdorozrachunkow.getKwota();
-//            double rozliczono = sumaStornoRozliczajacego;
-//            pozostalo = pozostalo - sumaStornoRozliczajacego;
-//            aktualnywierszdorozrachunkow.setRozliczono(rozliczono);
-//            aktualnywierszdorozrachunkow.setPozostalo(pozostalo);
-        }
+        pierwotnailosctransakcjiwbazie = biezacetransakcje.size();
         return biezacetransakcje;
     }
     
