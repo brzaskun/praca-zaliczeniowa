@@ -110,7 +110,8 @@ public class DokFKTransakcjeBean implements Serializable{
                     if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
                         it.remove();
                     }
-                } catch (Exception ff) {}
+                } catch (Exception ff) {
+                }
             }
         }
         return listaNowychRozrachunkowDokument;
@@ -196,7 +197,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
                 aktualnywierszdorozrachunkow.getNowetransakcje().add(transakcja);
         }
-        transakcjezbazyiwiersza.addAll(transakcjeZAktualnego);
+        //transakcjezbazyiwiersza.addAll(transakcjeZAktualnego);
         return transakcjezbazyiwiersza;
     }
     
