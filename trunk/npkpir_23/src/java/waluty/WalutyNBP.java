@@ -72,16 +72,16 @@ public class WalutyNBP implements Serializable {
         return numer;
     }
 
-    private static String zmiendate(String przekazanadata, int ktora) {
+    private static String zmiendate(String przekazanadata) {
         DateTime staradata = new DateTime(przekazanadata);
         DateTime nowadata = staradata.plusDays(1);
-        String nowydzien = nowadata.toString("yyMMdd");
         String nowydzienformat = nowadata.toString("yyyy-MM-dd");
-        if (ktora == 2) {
-            return nowydzien;
-        } else {
-            return nowydzienformat;
-        }
+        return nowydzienformat;
+    }
+    
+    private static String sformatujdate(String przekazanadata) {
+        DateTime data = new DateTime(przekazanadata);
+        return data.toString("yyMMdd");
     }
 
     private static boolean czydataPrzedDniemDzisiejszym(String data) {
@@ -105,11 +105,11 @@ public class WalutyNBP implements Serializable {
             InputStream inputStream = null;
             while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {
                 try {
-                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numerTabeliNBP) + "z" + zmiendate(data, 2) + ".xml";
+                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numerTabeliNBP) + "z" + sformatujdate(data) + ".xml";
                     URL url = new URL(nazwapliku);
                     inputStream = url.openStream();
                 } catch (Exception e) {
-                    data = zmiendate(data, 1);
+                    data = zmiendate(data);
                 }
             }
             if (inputStream != null) {
@@ -141,11 +141,11 @@ public class WalutyNBP implements Serializable {
             InputStream inputStream = null;
             while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {
                 try {
-                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numer) + "z" + zmiendate(data, 2) + ".xml";
+                    String nazwapliku = "http://www.nbp.pl/kursy/xml/a" + numertabeli(numer) + "z" + sformatujdate(data) + ".xml";
                     URL url = new URL(nazwapliku);
                     inputStream = url.openStream();
                 } catch (Exception e) {
-                    data = zmiendate(data, 1);
+                    data = zmiendate(data);
                 }
             }
             if (inputStream != null) {
