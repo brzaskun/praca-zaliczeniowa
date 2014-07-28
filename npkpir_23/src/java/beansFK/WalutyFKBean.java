@@ -14,16 +14,15 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import view.DokView;
 import waluty.WalutyNBP;
 
 /**
@@ -38,6 +37,8 @@ public class WalutyFKBean {
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
+    @Inject
+    private WalutyNBP walutyNBP;
     
     
 
@@ -76,7 +77,7 @@ public class WalutyFKBean {
         return wierszepobranezNBP;
     }
     
-    @Schedule(hour = "14", persistent = false)
+    @Schedule(hour = "10,14", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         Integer numertabeli;
@@ -87,8 +88,8 @@ public class WalutyFKBean {
             wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
         }
         if (wiersz == null) {
-            datawstepna = "2012-12-31";
-            numertabeli = 1;
+            datawstepna = "2013-12-30";
+            numertabeli = 250;
         } else {
             datawstepna = wiersz.getDatatabeli();
             numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
@@ -96,8 +97,16 @@ public class WalutyFKBean {
         }
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
-        FacesContext context = FacesContext.getCurrentInstance();
-        WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
+        Iterator it = pobranewaluty.iterator();
+        while(it.hasNext()) {
+            Waluty w = (Waluty) it.next();
+            if(w.getSymbolwaluty().equals("PLN")) {
+                it.remove();
+                break;
+            }
+        }
+        //FacesContext context = FacesContext.getCurrentInstance();
+        //WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));

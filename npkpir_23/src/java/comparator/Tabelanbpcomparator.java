@@ -20,8 +20,16 @@ public class Tabelanbpcomparator implements Comparator<Tabelanbp>{
     
     @Override
     public int compare(Tabelanbp o1, Tabelanbp o2) {
-        String datao1 = o1.getDatatabeli();
-        String datao2 = o2.getDatatabeli();
-        return Data.compare(datao1, datao2);
+        int roktabeli1 = Integer.parseInt(o1.getDatatabeli().substring(0,4));
+        int roktabeli2 = Integer.parseInt(o2.getDatatabeli().substring(0,4));
+        if (roktabeli1 < roktabeli2) {
+            return - 1;
+        } else if (roktabeli1 > roktabeli2){
+            return 1;
+        } else {
+            int nrtabeli1 = Integer.parseInt(o1.getNrtabeli().substring(0,3));
+            int nrtabeli2 = Integer.parseInt(o2.getNrtabeli().substring(0,3));
+            return nrtabeli1 - nrtabeli2;
+        }
     }
 }

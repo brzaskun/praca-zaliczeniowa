@@ -172,9 +172,10 @@ public class Tabelanbp implements Serializable {
 
     @Override
     public String toString() {
-        return "Tabelanbp{" + "idtabelanbp=" + idtabelanbp + ", nrtabeli=" + nrtabeli + ", waluta=" + waluta + ", kurssredni=" + kurssredni + '}';
+        return "Tabelanbp{" + "idtabelanbp=" + idtabelanbp + ", nrtabeli=" + nrtabeli + ", waluta=" + waluta + ", datatabeli=" + datatabeli + ", kurssredni=" + kurssredni + '}';
     }
-    
+
+   
     
     
 
