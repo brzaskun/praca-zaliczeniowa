@@ -36,7 +36,15 @@ public class DokFKBean {
 
     public static void dodajWalutyDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dokfk selected) {
         selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
-        Tabelanbp tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        Tabelanbp tabelanbpPLN = null;
+        try {
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        } catch (Exception e) {
+        }
+        if (tabelanbpPLN == null) {
+            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2012-01-01"));
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        }
         selected.setTabelanbp(tabelanbpPLN);
         List<Wiersz> wiersze = selected.getListawierszy();
         for (Wiersz p : wiersze) {

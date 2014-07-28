@@ -123,6 +123,10 @@ var doklejsumowaniewprowadzonych = function() {
         var wszystkiewiersze = $("#rozrachunki\\:dataList").find(":input");
         var iloscpozycji = wszystkiewiersze.length;
         var wprowadzonowpole = $(this).val();
+        if (wprowadzonowpole === "") {
+            $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_input")).val(0.0);
+            $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_hinput")).val(0.0);
+        }
         var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
         if (isNaN(wartoscpoprawej)===true) {
