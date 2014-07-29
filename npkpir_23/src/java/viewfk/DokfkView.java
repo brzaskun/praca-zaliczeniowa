@@ -445,8 +445,8 @@ public class DokfkView implements Serializable {
     
    
     public void tworzenieTransakcjiZWierszy() {
-        List<StronaWiersza> listaRozliczanych = new ArrayList<>();
-        List<StronaWiersza> listazBazy = new ArrayList<>();
+        List<StronaWiersza> swiezezDokumentu = new ArrayList<>();
+        List<StronaWiersza> innezBazy = new ArrayList<>();
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         List<Transakcja> zachowanewczejsniejtransakcje = new ArrayList<>();
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
@@ -460,14 +460,9 @@ public class DokfkView implements Serializable {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzNoweStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeSwiezychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
-                    listaRozliczanych.clear();
-                    listaRozliczanych.addAll(DokFKTransakcjeBean.pobierzZapisaneWBazieStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    listazBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(listaRozliczanych, listazBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
-                    //biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzjuzNaniesioneTransakcjeRozliczony(aktualnyWierszDlaRozrachunkow, stronawiersza));
-                    //biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezPobranychstronwierszy(listaRozliczanych, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu(), biezacetransakcje));
+                    swiezezDokumentu.addAll(DokFKTransakcjeBean.pobierzNoweStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                    innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(swiezezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja

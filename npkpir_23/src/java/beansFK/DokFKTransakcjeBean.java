@@ -149,56 +149,30 @@ public class DokFKTransakcjeBean implements Serializable{
         return listaNowychRozrachunkowDokument;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
-
-    public static List<Transakcja> stworznowetransakcjezeSwiezychstronwierszy(List<StronaWiersza> listaNowychRozrachunkow, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
-        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
-        List<Transakcja> transakcjezeswiezych = new ArrayList<>();
-        for (StronaWiersza nowatransakcjazbazy : listaNowychRozrachunkow) {
-            Transakcja transakcja = new Transakcja();
-            transakcja.setRozliczajacy(aktualnywierszdorozrachunkow);
-            transakcja.setNowaTransakcja(nowatransakcjazbazy);
-            aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-            aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
-            nowatransakcjazbazy.dodajPlatnosci(transakcja);
-            transakcjezeswiezych.add(transakcja);
-        }
-        return transakcjezeswiezych;
-    }
     
-    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> listaStronaWierszaDokument, List<StronaWiersza> listaStronaWierszaBazaDanych, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> swiezezDokumentu, List<StronaWiersza> innezBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //sprawdzam, czy wiersze z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy
-        for (StronaWiersza p : listaStronaWierszaDokument) {
-            if (listaStronaWierszaBazaDanych.contains(p)) {
-                listaStronaWierszaBazaDanych.remove(p);
+        List<Transakcja> transakcjeZAktualnego = new ArrayList<>();
+        transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
+        for (Transakcja p : transakcjeZAktualnego) {
+            if (innezBazy.contains(p.getNowaTransakcja())) {
+                innezBazy.remove(p.getNowaTransakcja());
             }
         }
         List<StronaWiersza> listaZbiorcza = new ArrayList<>();
-        //laczymy te stare z dokumentu i te z bazy po edycji
-        listaZbiorcza.addAll(listaStronaWierszaDokument);
-        listaZbiorcza.addAll(listaStronaWierszaBazaDanych);
-        List<Transakcja> transakcjeZAktualnego = new ArrayList<>();
-        //aktualizujemy transakcje o dane z biezacych stronwiersza (to gdyby w wiersu byla inna sytuacja niz w zachowanej transakcji
-        transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
-        for (Transakcja t : transakcjeZAktualnego) {
-            if (listaZbiorcza.contains(t.getNowaTransakcja())) {
-                //t.setNowaTransakcja((listaZbiorcza.get(listaZbiorcza.indexOf(t.getNowaTransakcja()))));
-                listaZbiorcza.remove(t.getNowaTransakcja());
-            }
-        }
+        //laczymy te stare z bazy i nowe z dokumentu
+        listaZbiorcza.addAll(swiezezDokumentu);
+        listaZbiorcza.addAll(innezBazy);
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
-        List<Transakcja> transakcjezbazyiwiersza = new ArrayList<>();
         for (StronaWiersza nowatransakcjazbazy : listaZbiorcza) {
                 aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
                 Transakcja transakcja = new Transakcja(aktualnywierszdorozrachunkow, nowatransakcjazbazy);
-                aktualnywierszdorozrachunkow.dodajTransakcjeNowe(transakcja);
-                nowatransakcjazbazy.dodajPlatnosci(transakcja);
-                transakcjezbazyiwiersza.add(transakcja);
+                nowatransakcjazbazy.getPlatnosci().add(transakcja);
                 //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
                 aktualnywierszdorozrachunkow.getNowetransakcje().add(transakcja);
         }
-        //transakcjezbazyiwiersza.addAll(transakcjeZAktualnego);
-        return transakcjezbazyiwiersza;
+        return aktualnywierszdorozrachunkow.getNowetransakcje() ;
     }
     
 //    public static List<Transakcja> stworznowetransakcjezPobranychstronwierszy(List<StronaWiersza> listaStronaWierszaZBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, List<Transakcja> biezacetransakcje) {

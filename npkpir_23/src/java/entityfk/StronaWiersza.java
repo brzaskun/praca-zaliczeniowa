@@ -217,25 +217,25 @@ public class StronaWiersza implements Serializable{
     }
     
 
-    public void dodajTransakcjeNowe(Transakcja transakcja) {
-        if (this.nowetransakcje.contains(transakcja)) {
-            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
-        } else {
-            this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
-            this.nowetransakcje.add(transakcja);
-        }
-        this.pozostalo = this.kwota - this.rozliczono;
-    }
-    
-    public void dodajPlatnosci(Transakcja transakcja) {
-        if (this.platnosci.contains(transakcja)) {
-            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
-        } else {
-            this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
-            this.platnosci.add(transakcja);
-        }
-        this.pozostalo = this.kwota - this.rozliczono;
-    }
+//    public void dodajTransakcjeNowe(Transakcja transakcja) {
+//        if (this.nowetransakcje.contains(transakcja)) {
+//            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
+//        } else {
+//            this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
+//            this.nowetransakcje.add(transakcja);
+//        }
+//        this.pozostalo = this.kwota - this.rozliczono;
+//    }
+//    
+//    public void dodajPlatnosci(Transakcja transakcja) {
+//        if (this.platnosci.contains(transakcja)) {
+//            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
+//        } else {
+//            this.rozliczono = this.rozliczono + transakcja.getKwotatransakcji();
+//            this.platnosci.add(transakcja);
+//        }
+//        this.pozostalo = this.kwota - this.rozliczono;
+//    }
 
     public List<Transakcja> getNowetransakcje() {
         return nowetransakcje;
