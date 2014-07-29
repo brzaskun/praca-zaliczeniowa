@@ -138,7 +138,7 @@
                     <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
                     <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();PF('rozrachunki').hide();" style="float: right; width: 150px;" 
                                      oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
-                                     rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                     />
                 </h:form>
                 </div>
         </f:facet>
