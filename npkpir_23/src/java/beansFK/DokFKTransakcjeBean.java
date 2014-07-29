@@ -166,7 +166,6 @@ public class DokFKTransakcjeBean implements Serializable{
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
         for (StronaWiersza nowatransakcjazbazy : listaZbiorcza) {
-                aktualnywierszdorozrachunkow.setTypStronaWiersza(2);
                 Transakcja transakcja = new Transakcja(aktualnywierszdorozrachunkow, nowatransakcjazbazy);
                 nowatransakcjazbazy.getPlatnosci().add(transakcja);
                 //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
