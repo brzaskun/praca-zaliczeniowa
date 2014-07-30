@@ -170,19 +170,36 @@ public class DokfkView implements Serializable {
 
 //    //dodaje wiersze do dokumentu
     public void dolaczNowyWiersz(int wierszbiezacynr) {
-        Konto kontowm = selected.getListawierszy().get(wierszbiezacynr).getStronaWn().getKonto();
-        Konto kontoma = selected.getListawierszy().get(wierszbiezacynr).getStronaMa().getKonto();
-        if (kontowm instanceof Konto && kontoma instanceof Konto) {
-            double kwotaWn = 0.0;
-            double kwotaMa = 0.0;
-            try {
-                liczbawierszyWDokumencie = selected.getListawierszy().size();
-                kwotaWn = selected.getListawierszy().get(liczbawierszyWDokumencie - 1).getStronaWn().getKwota();
-                kwotaMa = selected.getListawierszy().get(liczbawierszyWDokumencie - 1).getStronaMa().getKwota();
-            } catch (Exception e) {
-                Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacynr);
+        Konto kontoWn = wierszbiezacy.getStronaWn().getKonto();
+        Konto kontoMa = wierszbiezacy.getStronaMa().getKonto();
+        boolean czyWszystkoWprowadzono = false;
+        double kwotaWn = 0.0;
+        double kwotaMa = 0.0;
+        try {
+            if (wierszbiezacy.getTypWiersza() == 0) {
+                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
+                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                }
+            } else if (wierszbiezacy.getTypWiersza() == 2) {
+                if (kontoMa instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                    kwotaWn = 0.0;
+                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                }
+            } else if (wierszbiezacy.getTypWiersza() == 1) {
+                if (kontoWn instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
+                    kwotaMa = 0.0;
+                }
             }
-            if (kwotaWn != 0 || kwotaMa != 0) {
+        } catch (Exception e) {
+            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        }
+        if (czyWszystkoWprowadzono) {
                 liczbawierszyWDokumencie += 1;
                 selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                 int nowyWiersz = liczbawierszyWDokumencie - 1;
@@ -191,9 +208,6 @@ public class DokfkView implements Serializable {
                 //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
                 selected.uzupelnijwierszeodane();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
-            } else {
-                Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
-            }
         } else {
             Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
         }
@@ -506,9 +520,9 @@ public class DokfkView implements Serializable {
                     //jezeli nowa transakcja jest juz gdzies rozliczona to trzeba zablokowac przycisk
                     double czyjuzrozliczono = aktualnyWierszDlaRozrachunkow.getRozliczono();
                     if (czyjuzrozliczono > 0) {
-                        funkcja = "zablokujcheckbox('true');";
+                        funkcja = "zablokujcheckbox('true', 'rachunek');";
                     } else {
-                        funkcja = "zablokujcheckbox('false');";
+                        funkcja = "zablokujcheckbox('false', 'rachunek');";
                     }
                     zablokujprzyciskzapisz = true;
                 } else {
@@ -518,9 +532,9 @@ public class DokfkView implements Serializable {
                         saWartosciWprowadzone += p.getKwotatransakcji();
                     }
                     if (saWartosciWprowadzone > 0) {
-                        funkcja = "zablokujcheckbox('true');";
+                        funkcja = "zablokujcheckbox('true','platnosc');";
                     } else {
-                        funkcja = "zablokujcheckbox('false');";
+                        funkcja = "zablokujcheckbox('false','platnosc');";
                     }
                 }
                 RequestContext.getCurrentInstance().execute(funkcja);
