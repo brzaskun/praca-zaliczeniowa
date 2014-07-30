@@ -36,11 +36,6 @@ public class ObslugaWiersza {
         nowywiersz.setDokfk(selected);
         nowywiersz.setTypWiersza(0);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
-        try {
-            nowywiersz.setDataWalutyWiersza(selected.getTabelanbp().getDatatabeli());
-        } catch (Exception e) {
-            
-        }
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma");
         nowywiersz.setStronaWn(stronaWn);

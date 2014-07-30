@@ -204,7 +204,6 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                 int nowyWiersz = liczbawierszyWDokumencie - 1;
                 int poprzedniWiersz = liczbawierszyWDokumencie - 2;
-                selected.getListawierszy().get(nowyWiersz).setDataWalutyWiersza(selected.getListawierszy().get(poprzedniWiersz).getDataWalutyWiersza());
                 //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
                 selected.uzupelnijwierszeodane();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
