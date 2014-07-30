@@ -294,13 +294,18 @@ var podswietlrozrachunki = function() {
 
 };
 
-var zablokujcheckbox = function(zablokuj) {
+var zablokujcheckbox = function(zablokuj, pole) {
     if (zablokuj === 'true') {
-        $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
-        r("formcheckbox:labelcheckboxrozrachunki").text("Transakcja rozliczyla inne rozrachunki. Nie można oznaczyć jej jako nowej transakcji.");
+        if (pole === 'rachunek') {
+            $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+            r("formcheckbox:labelcheckboxrozrachunki").text("Rachunek został rozliczony przez płatności. Nie można odznaczyć go jako transakcji do rozliczenia.");
+        } else {
+            $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+            r("formcheckbox:labelcheckboxrozrachunki").text("Płatność rozliczyla rachunki. Nie można oznaczyć jej jako nowej transakcji.");   
+        }
     } else {
         $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
-        r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako nową transakcję");
+        r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako transakcję do rozliczenia");
     }
 
 };
