@@ -35,3 +35,5 @@ var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
 var resetujdialog = function(nazwa) {
     $(document.getElementById(nazwa)).removeAttr('style');
 };
+
+

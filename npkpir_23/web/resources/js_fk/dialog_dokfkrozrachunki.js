@@ -25,6 +25,15 @@ var transakcjawyborShow = function (){
     }
 };
 
+var transakcjeWyborHidePlatnosc = function () {
+    try {
+        var powrot = $(MYAPP.zaznaczonepole).attr('id');
+        $(document.getElementById(powrot)).focus();
+        $(document.getElementById(powrot)).select();
+    } catch (e) {
+    }
+}
+
 var znadzpasujacepolerozrachunku = function(kwota) {
     var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
     var opisy = new Array();
