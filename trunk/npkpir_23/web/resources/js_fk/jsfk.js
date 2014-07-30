@@ -101,16 +101,16 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
         var wartoscMa = zrobFloat($(kwotaMa).val());
         var roznica = wartoscWn-wartoscMa;
         if(roznica>0){
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_hinput").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").val(roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:symbolWn").text("");
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontown_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_input").val());
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").css('backgroundColor','#ffb');
@@ -118,16 +118,16 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
             var pozycja = {pozycja: nrWiersza, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (roznica<0){
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_input").val(-roznica);
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:symbolMa").text("");
-            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma").hide();
+            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma").hide();
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma_hinput").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:kontoma_input").val($("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_input").val());
             $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").css('backgroundColor','#ffb');
@@ -152,22 +152,22 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
         var opisbiezacego2 = _.str.include($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val(),'kontown');
         var opiszawiera = opisbiezacego1 || opisbiezacego2;
         if(opisbiezacego1){
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontown").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolWn").text("");
             var pozycja = {pozycja: wiersz, blokowany: 'wn'};
             zachowajwtablicydok(pozycja);
         } else if (opisbiezacego2){
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
+            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:kontoma").hide();
             $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:symbolMa").text("");
             var pozycja = {pozycja: wiersz, blokowany: 'ma'};
             zachowajwtablicydok(pozycja);
@@ -236,14 +236,14 @@ var zablokujwnma = function(wiersz,co){
 };
 
 var chowanienapoczatek = function(){
-     if(!MYAPP.hasOwnProperty('chowane')){
-        MYAPP.chowane = [];
-    } else {
-        for(i = 0; i < MYAPP.chowane.length; i++){
-            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
-            $(blokowany).hide();
-        }
-    }
+//     if(!MYAPP.hasOwnProperty('chowane')){
+//        MYAPP.chowane = [];
+//    } else {
+//        for(i = 0; i < MYAPP.chowane.length; i++){
+//            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowane[i].pozycja+"\\:"+MYAPP.chowane[i].blokowany+"_input";
+//            $(blokowany).hide();
+//        }
+//    }
     pozazieleniajNoweTransakcje();
 };
 
@@ -262,52 +262,52 @@ var aktualizujmapedialog = function(wiersze){
 
 //sub do aktualizuj mape
 var chowanienapoczatekdok = function(){
-     if(!MYAPP.hasOwnProperty('chowanedok')){
-        MYAPP.chowanedok = [];
-    } else {
-        var dl = MYAPP.chowanedok.length;
-        for(i = 0; i < dl; i++){
-            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:opis";
-            var pozycja = MYAPP.chowanedok[i].pozycja;
-            $(blokowany).hide();
-            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:"+MYAPP.chowanedok[i].blokowany;
-            $(blokowany).hide();
-            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
-            $(blokowany).hide();
-            //blokowanie symbolu waluty
-            if (MYAPP.chowanedok[i].blokowany === "wn") {
-                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolWn";
-                $(blokowany).hide();
-            } else {
-                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolMa";
-                $(blokowany).hide();
-            }
-        };
-    };
+//     if(!MYAPP.hasOwnProperty('chowanedok')){
+//        MYAPP.chowanedok = [];
+//    } else {
+//        var dl = MYAPP.chowanedok.length;
+//        for(i = 0; i < dl; i++){
+//            var blokowany = "#formwpisdokument\\:dataList\\:"+MYAPP.chowanedok[i].pozycja+"\\:opis";
+//            var pozycja = MYAPP.chowanedok[i].pozycja;
+//            $(blokowany).hide();
+//            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:"+MYAPP.chowanedok[i].blokowany;
+//            $(blokowany).hide();
+//            blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:konto"+MYAPP.chowanedok[i].blokowany;
+//            $(blokowany).hide();
+//            //blokowanie symbolu waluty
+//            if (MYAPP.chowanedok[i].blokowany === "wn") {
+//                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolWn";
+//                $(blokowany).hide();
+//            } else {
+//                blokowany = "#formwpisdokument\\:dataList\\:" + pozycja + "\\:symbolMa";
+//                $(blokowany).hide();
+//            }
+//        };
+//    };
     pozazieleniajNoweTransakcje();
     
 };
 
 var pozazieleniajNoweTransakcje = function () {
-    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
-    for (var i = 0; i < dlugosclisty; i++) {
-        try {
-            var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
-            var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
-            if (nowatransakcjaWn==="1") {
-                zmienkolor("green", i, "kontown_input");
-            } else if (nowatransakcjaMa==="1") {
-                zmienkolor("green", i, "kontoma_input");
-            }
-            if (nowatransakcjaWn==="2") {
-                zmienkolor("blue", i, "kontown_input");
-            } else if (nowatransakcjaMa==="2") {
-                zmienkolor("blue", i, "kontoma_input");
-            }
-        } catch (Exception) {
-            break;
-        }
-    }
+//    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
+//    for (var i = 0; i < dlugosclisty; i++) {
+//        try {
+//            var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
+//            var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
+//            if (nowatransakcjaWn==="1") {
+//                zmienkolor("green", i, "kontown_input");
+//            } else if (nowatransakcjaMa==="1") {
+//                zmienkolor("green", i, "kontoma_input");
+//            }
+//            if (nowatransakcjaWn==="2") {
+//                zmienkolor("blue", i, "kontown_input");
+//            } else if (nowatransakcjaMa==="2") {
+//                zmienkolor("blue", i, "kontoma_input");
+//            }
+//        } catch (Exception) {
+//            break;
+//        }
+//    }
 };
 
 var zmienkolor = function(color, i,wnma) {
