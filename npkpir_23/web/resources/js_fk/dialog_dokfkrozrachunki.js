@@ -11,8 +11,18 @@ var rozrachunkiOnShow = function() {
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
 };
 
-var rozrachunkiShow = function (){
-        PF('rozrachunki').show();
+var transakcjawyborShow = function (){
+    $(document.getElementById('transakcjawybor')).width(300).height(80);
+    try {
+        $(document.getElementById('transakcjawybor')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+    });
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+    }
 };
 
 var znadzpasujacepolerozrachunku = function(kwota) {
