@@ -115,12 +115,12 @@
                         </h:selectOneMenu>
                 </p:panelGrid>
                 <p:panelGrid  columns="3" style="width: 600px;" id="panelwalutowy" >
-                        <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
-                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazPanelWalutowy}"/>
+                    <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                        <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                        <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                        <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                        <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                        <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
                 </p:panelGrid>
             </p:panelGrid>
             <div style="height: 450px;">
