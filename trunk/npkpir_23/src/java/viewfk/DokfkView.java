@@ -466,6 +466,7 @@ public class DokfkView implements Serializable {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
         aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
         RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
+        RequestContext.getCurrentInstance().execute("transakcjeWyborHidePlatnosc();");
     }
     
     public void tworzenieTransakcjiZWierszy() {
