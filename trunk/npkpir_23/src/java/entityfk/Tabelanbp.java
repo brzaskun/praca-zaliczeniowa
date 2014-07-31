@@ -10,6 +10,7 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,7 +59,7 @@ public class Tabelanbp implements Serializable {
     @Column(name = "nrtabeli", nullable = false, length = 25)
     private String nrtabeli;
     @JoinColumn(name = "waluta", referencedColumnName = "idwaluty")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Waluty waluta;
     @Basic(optional = false)
     @NotNull

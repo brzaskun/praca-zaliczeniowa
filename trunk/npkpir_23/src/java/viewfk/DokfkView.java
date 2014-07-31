@@ -171,42 +171,57 @@ public class DokfkView implements Serializable {
 //    //dodaje wiersze do dokumentu
     public void dolaczNowyWiersz(int wierszbiezacynr) {
         Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacynr);
-        Konto kontoWn = wierszbiezacy.getStronaWn().getKonto();
-        Konto kontoMa = wierszbiezacy.getStronaMa().getKonto();
+        Konto kontoWn;
+        Konto kontoMa;
         boolean czyWszystkoWprowadzono = false;
         double kwotaWn = 0.0;
         double kwotaMa = 0.0;
         try {
             if (wierszbiezacy.getTypWiersza() == 0) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                    double roznica = Math.abs(kwotaWn-kwotaMa);
+                    if (roznica==0) {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                    } else if (kwotaWn>kwotaMa) {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica));
+                    } else if (kwotaMa>kwotaWn) {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica));
+                    }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
+                kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                     kwotaWn = 0.0;
                     kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                    liczbawierszyWDokumencie += 1;
+                    selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 if (kontoWn instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     kwotaMa = 0.0;
+                    liczbawierszyWDokumencie += 1;
+                    selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                 }
             }
         } catch (Exception e) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
         if (czyWszystkoWprowadzono) {
-                liczbawierszyWDokumencie += 1;
-                selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
-                int nowyWiersz = liczbawierszyWDokumencie - 1;
-                int poprzedniWiersz = liczbawierszyWDokumencie - 2;
-                //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
-                selected.uzupelnijwierszeodane();
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
+            //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
+            selected.uzupelnijwierszeodane();
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
         } else {
             Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
         }
@@ -328,7 +343,7 @@ public class DokfkView implements Serializable {
                 Msg.msg("i", "Wygenerowano okres dokumentu");
             }
         }
-        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+        //RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
     }
 
     public void przygotujDokumentWpisywanie() {

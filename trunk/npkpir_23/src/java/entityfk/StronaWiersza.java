@@ -15,6 +15,7 @@ import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,7 +57,11 @@ public class StronaWiersza implements Serializable{
     private double rozliczono;
     @Column(name="pozostalo")
     private double pozostalo;
-    @Column(name="typStronaWiersza")//0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
+    @Column(name="typStronaWiersza")
+    //0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
+    //11-nowa transakcja Wn, 12 - nowa tansakcja Ma
+    //21- platnosc Wn, 22- platnosc Ma
+    //9- nie do zapisow kont
     private int typStronaWiersza;
     @Column(name="nowatransakcja")
     private boolean nowatransakcja;
@@ -67,9 +72,9 @@ public class StronaWiersza implements Serializable{
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy", fetch = FetchType.EAGER)
     private List<Transakcja> nowetransakcje;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
     
 
