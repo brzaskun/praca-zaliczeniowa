@@ -90,6 +90,19 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = nowywiersz.getTypWiersza();
     }
     
+     public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
+        this.kwota = kwota;
+        this.kwotaPLN = 0.0;
+        this.kwotaWaluta = 0.0;
+        this.wiersz = nowywiersz;
+        this.wnma = wnma;
+        this.typStronaWiersza = nowywiersz.getTypWiersza();
+    }
+    
+    
+    
 
     public StronaWiersza() {
         this.nowetransakcje = new ArrayList<>();
