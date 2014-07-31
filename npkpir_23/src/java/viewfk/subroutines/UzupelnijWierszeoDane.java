@@ -28,15 +28,15 @@ public class UzupelnijWierszeoDane implements Serializable {
                 String opis = p.getOpisWiersza();
                 if (opis.contains("kontown")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.getStronaMa().setKwota(0.0);
-                    p.setTypWiersza(1);
+                    //p.getStronaMa().setKwota(0.0);
+                    //p.setTypWiersza(1);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.getStronaWn().setKwota(0.0);
-                    p.setTypWiersza(2);
+                    //p.getStronaWn().setKwota(0.0);
+                    //p.setTypWiersza(2);
                 } else {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    p.setTypWiersza(0);
+                    //p.setTypWiersza(0);
                 }
             }
         } catch (Exception e) {

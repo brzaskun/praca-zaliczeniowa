@@ -289,25 +289,25 @@ var chowanienapoczatekdok = function(){
 };
 
 var pozazieleniajNoweTransakcje = function () {
-//    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
-//    for (var i = 0; i < dlugosclisty; i++) {
-//        try {
-//            var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
-//            var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
-//            if (nowatransakcjaWn==="1") {
-//                zmienkolor("green", i, "kontown_input");
-//            } else if (nowatransakcjaMa==="1") {
-//                zmienkolor("green", i, "kontoma_input");
-//            }
-//            if (nowatransakcjaWn==="2") {
-//                zmienkolor("blue", i, "kontown_input");
-//            } else if (nowatransakcjaMa==="2") {
-//                zmienkolor("blue", i, "kontoma_input");
-//            }
-//        } catch (Exception) {
-//            break;
-//        }
-//    }
+    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
+    for (var i = 0; i < dlugosclisty; i++) {
+        try {
+            var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;
+            var nowatransakcjaMa = rj("formwpisdokument:dataList:"+i+":maNowaTransakcja").innerText;
+            if (nowatransakcjaWn==="1") {
+                zmienkolor("green", i, "kontown_input");
+            } else if (nowatransakcjaMa==="1") {
+                zmienkolor("green", i, "kontoma_input");
+            }
+            if (nowatransakcjaWn==="2") {
+                zmienkolor("blue", i, "kontown_input");
+            } else if (nowatransakcjaMa==="2") {
+                zmienkolor("blue", i, "kontoma_input");
+            }
+        } catch (Exception) {
+            break;
+        }
+    }
 };
 
 var zmienkolor = function(color, i,wnma) {
