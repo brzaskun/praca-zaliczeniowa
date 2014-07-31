@@ -41,4 +41,24 @@ public class ObslugaWiersza {
         nowywiersz.setStronaWn(stronaWn);
         nowywiersz.setStronaMa(stronaMa);
     }
+    
+    public static Wiersz utworzNowyWierszMa(Dokfk selected, int liczbawierszyWDokumencie, double kwota)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTypWiersza(2);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma");
+        nowywiersz.setStronaMa(stronaMa);
+        return nowywiersz;
+    }
+    
+    public static Wiersz utworzNowyWierszWn(Dokfk selected, int liczbawierszyWDokumencie, double kwota)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTypWiersza(2);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
+        nowywiersz.setStronaWn(stronaWn);
+        return nowywiersz;
+    }
 }

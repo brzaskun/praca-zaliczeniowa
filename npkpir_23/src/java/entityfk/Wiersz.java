@@ -12,6 +12,7 @@ import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,9 +70,9 @@ public class Wiersz implements Serializable {
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
     //to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
 
