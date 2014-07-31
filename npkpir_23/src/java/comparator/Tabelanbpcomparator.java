@@ -6,7 +6,6 @@
 
 package comparator;
 
-import data.Data;
 import entityfk.Tabelanbp;
 import java.util.Comparator;
 import javax.inject.Named;

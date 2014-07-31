@@ -199,20 +199,28 @@ public class DokfkView implements Serializable {
             } else if (wierszbiezacy.getTypWiersza() == 2) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
+                    double kwotadorozdysponowania = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
-                    kwotaWn = 0.0;
-                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
-                    liczbawierszyWDokumencie += 1;
-                    selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                    if (kwotadorozdysponowania > 0.0) {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                    } else {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                    }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 if (kontoWn instanceof Konto) {
+                    double kwotadorozdysponowania = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
-                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
-                    kwotaMa = 0.0;
-                    liczbawierszyWDokumencie += 1;
-                    selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                    if (kwotadorozdysponowania > 0.0) {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                    } else {
+                        liczbawierszyWDokumencie += 1;
+                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                    }
                 }
             }
         } catch (Exception e) {
@@ -758,10 +766,14 @@ public class DokfkView implements Serializable {
     }
     
     public void skopiujWndoMa(Wiersz wiersze) {
-        double kwotaWn = wiersze.getStronaWn().getKwota();
-        double kwotaMa = wiersze.getStronaMa().getKwota();
-        if (kwotaWn!=0 && kwotaMa==0) {
-            wiersze.getStronaMa().setKwota(kwotaWn);
+        try {
+            double kwotaWn = wiersze.getStronaWn().getKwota();
+            double kwotaMa = wiersze.getStronaMa().getKwota();
+            if (kwotaWn!=0 && kwotaMa==0) {
+                wiersze.getStronaMa().setKwota(kwotaWn);
+            }
+        } catch (Exception e) {
+            
         }
     }
     
