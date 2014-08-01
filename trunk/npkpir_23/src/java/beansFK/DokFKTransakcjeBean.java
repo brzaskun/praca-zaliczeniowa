@@ -90,12 +90,16 @@ public class DokFKTransakcjeBean implements Serializable{
         List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersz p : wiersze) {
             if (wnma.equals("Wn")) {
-                if (p.getIdwiersza() == null && p.getStronaMa().getKonto() != null) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaMa());
+                if (p.getTypWiersza()==2 || p.getTypWiersza()==0) {
+                    if (p.getIdwiersza() == null && p.getStronaMa().getKonto() != null) {
+                        listaNowychRozrachunkowDokument.add(p.getStronaMa());
+                    }
                 }
             } else if (wnma.equals("Ma")){
-                if (p.getIdwiersza() == null) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
+                if (p.getTypWiersza()==1 || p.getTypWiersza()==0) {
+                    if (p.getIdwiersza() == null) {
+                        listaNowychRozrachunkowDokument.add(p.getStronaWn());
+                    }
                 }
             }
         }
