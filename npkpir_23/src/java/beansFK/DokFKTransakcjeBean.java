@@ -157,6 +157,16 @@ public class DokFKTransakcjeBean implements Serializable{
             if (innezBazy.contains(p.getNowaTransakcja())) {
                 innezBazy.remove(p.getNowaTransakcja());
             }
+            //jesli to bedzie nowe to nie bedzie usuniete, ale poniewaz pobiera wszystkie to trzeba usunac te co sa juz w transakcjach
+            if (pobranezDokumentu.contains(p.getNowaTransakcja())) {
+                pobranezDokumentu.remove(p.getNowaTransakcja());
+            }
+        }
+        //jak tego nie bedzie to beda dwie transakjce utworzone
+        for (StronaWiersza s : pobranezDokumentu) {
+            if (innezBazy.contains(s)) {
+                innezBazy.remove(s);
+            }
         }
         List<StronaWiersza> listaZbiorcza = new ArrayList<>();
         //laczymy te stare z bazy i nowe z dokumentu

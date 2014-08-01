@@ -146,7 +146,8 @@
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="120">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaWn != null}"
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa">
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}">
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                     </p:column>
@@ -159,14 +160,15 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" 
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaMa != null}"
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa">
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}">
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this"/>
                             <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
                         </pe:inputNumber> 
@@ -179,7 +181,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" 
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
 <!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Ma')}" partialSubmit="true" update="@this"/>

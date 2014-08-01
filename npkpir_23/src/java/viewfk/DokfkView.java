@@ -455,7 +455,7 @@ public class DokfkView implements Serializable {
             if (aktualnyWierszDlaRozrachunkow.getRozliczono()>0) {
                 Msg.msg("e", "Trasakcja rozliczona - nie można usunąć oznaczenia");
             } else {
-                aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
+                aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
                 listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zablokujprzyciskrezygnuj = false;
@@ -571,6 +571,7 @@ public class DokfkView implements Serializable {
                     String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
                     RequestContext.getCurrentInstance().execute(znajdz);
                 }
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
@@ -631,6 +632,9 @@ public class DokfkView implements Serializable {
             if (tr.getKwotatransakcji() == 0.0) {
                 it.remove();
             }
+        }
+        if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
+            aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
         }
         //to jest potrzebne zeby zmiany w jednym rozrachunku byly widoczne jako naniesione w innym
         if (biezacetransakcje != null) {
