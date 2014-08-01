@@ -38,7 +38,6 @@ public class ObslugaWiersza {
     
     private static void uzupelnijDane (Wiersz nowywiersz, Dokfk selected) {
         nowywiersz.setDokfk(selected);
-        nowywiersz.setTypWiersza(0);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma");
@@ -47,9 +46,8 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszMa(Dokfk selected, int liczbawierszyWDokumencie, double kwota)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 2);
         nowywiersz.setDokfk(selected);
-        nowywiersz.setTypWiersza(2);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
         nowywiersz.setStronaMa(stronaMa);
@@ -57,9 +55,8 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszWn(Dokfk selected, int liczbawierszyWDokumencie, double kwota)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 1);
         nowywiersz.setDokfk(selected);
-        nowywiersz.setTypWiersza(2);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
         nowywiersz.setStronaWn(stronaWn);

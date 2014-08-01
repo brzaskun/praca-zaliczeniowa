@@ -87,7 +87,7 @@ public class StronaWiersza implements Serializable{
         this.kwotaWaluta = 0.0;
         this.wiersz = nowywiersz;
         this.wnma = wnma;
-        this.typStronaWiersza = nowywiersz.getTypWiersza();
+        this.typStronaWiersza = 0;
     }
     
      public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
@@ -98,7 +98,7 @@ public class StronaWiersza implements Serializable{
         this.kwotaWaluta = 0.0;
         this.wiersz = nowywiersz;
         this.wnma = wnma;
-        this.typStronaWiersza = nowywiersz.getTypWiersza();
+        this.typStronaWiersza = 0;
     }
     
     

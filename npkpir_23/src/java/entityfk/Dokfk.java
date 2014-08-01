@@ -290,15 +290,15 @@ public class Dokfk implements Serializable {
                 String opis = p.getOpisWiersza();
                 if (opis.contains("kontown")) {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypWiersza(1);
+                    //p.setTypWiersza(1);
                     p.setDokfk(this);
                 } else if (opis.contains("kontoma")) {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypWiersza(2);
+                    //p.setTypWiersza(2);
                     p.setDokfk(this);
                 } else {
                     p.setDataksiegowania(this.datawystawienia);
-                    p.setTypWiersza(0);
+                    //p.setTypWiersza(0);
                     p.setDokfk(this);
                 }
             }
