@@ -163,9 +163,9 @@ public class DokFKTransakcjeBean implements Serializable{
             }
         }
         //jak tego nie bedzie to beda dwie transakjce utworzone
-        for (StronaWiersza s : pobranezDokumentu) {
-            if (innezBazy.contains(s)) {
-                innezBazy.remove(s);
+        for (StronaWiersza s : innezBazy) {
+            if (pobranezDokumentu.contains(s)) {
+                pobranezDokumentu.remove(s);
             }
         }
         List<StronaWiersza> listaZbiorcza = new ArrayList<>();
