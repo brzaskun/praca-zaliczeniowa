@@ -34,21 +34,25 @@ public class DokFKWalutyBean implements Serializable{
             kurs /= 100000000;
             List<Wiersz> wiersze = selected.getListawierszy();
             for (Wiersz p : wiersze) {
-                if (p.getStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getStronaWn().getKwota();
-                    p.getStronaWn().setKwotaPLN(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota /= 10000;
-                    p.getStronaWn().setKwota(kwota);
-                    p.getStronaWn().setKwotaWaluta(kwota);
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+                    if (p.getStronaWn().getKwota() != 0.0) {
+                        double kwota = p.getStronaWn().getKwota();
+                        p.getStronaWn().setKwotaPLN(kwota+0.0);
+                        kwota = Math.round(kwota * kurs * 10000);
+                        kwota /= 10000;
+                        p.getStronaWn().setKwota(kwota);
+                        p.getStronaWn().setKwotaWaluta(kwota);
+                    }
                 }
-                if (p.getStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getStronaMa().getKwota();
-                    p.getStronaMa().setKwotaPLN(kwota+0.0);
-                    kwota = Math.round(kwota * kurs * 10000);
-                    kwota /= 10000;
-                    p.getStronaMa().setKwota(kwota);
-                    p.getStronaMa().setKwotaWaluta(kwota);
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                    if (p.getStronaMa().getKwota() != 0.0) {
+                        double kwota = p.getStronaMa().getKwota();
+                        p.getStronaMa().setKwotaPLN(kwota+0.0);
+                        kwota = Math.round(kwota * kurs * 10000);
+                        kwota /= 10000;
+                        p.getStronaMa().setKwota(kwota);
+                        p.getStronaMa().setKwotaWaluta(kwota);
+                    }
                 }
             }
         } else {
@@ -56,21 +60,25 @@ public class DokFKWalutyBean implements Serializable{
             kurs = selected.getTabelanbp().getKurssredni();
             List<Wiersz> wiersze = selected.getListawierszy();
             for (Wiersz p : wiersze) {
-                if (p.getStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getStronaWn().getKwota();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota /= 100;
-                    p.getStronaWn().setKwota(kwota);
-                    p.getStronaWn().setKwotaPLN(kwota);
-                    p.getStronaWn().setKwotaWaluta(0.0);
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+                    if (p.getStronaWn().getKwota() != 0.0) {
+                        double kwota = p.getStronaWn().getKwota();
+                        kwota = Math.round(kwota * kurs * 100);
+                        kwota /= 100;
+                        p.getStronaWn().setKwota(kwota);
+                        p.getStronaWn().setKwotaPLN(kwota);
+                        p.getStronaWn().setKwotaWaluta(0.0);
+                    }
                 }
-                if (p.getStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getStronaMa().getKwota();
-                    kwota = Math.round(kwota * kurs * 100);
-                    kwota /= 100;
-                    p.getStronaMa().setKwota(kwota);
-                    p.getStronaMa().setKwotaPLN(kwota);
-                    p.getStronaMa().setKwotaWaluta(0.0);
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                    if (p.getStronaMa().getKwota() != 0.0) {
+                        double kwota = p.getStronaMa().getKwota();
+                        kwota = Math.round(kwota * kurs * 100);
+                        kwota /= 100;
+                        p.getStronaMa().setKwota(kwota);
+                        p.getStronaMa().setKwotaPLN(kwota);
+                        p.getStronaMa().setKwotaWaluta(0.0);
+                    }
                 }
         }
         }
