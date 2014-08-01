@@ -506,7 +506,7 @@ public class DokfkView implements Serializable {
     }
     
     public void tworzenieTransakcjiZWierszy() {
-        List<StronaWiersza> swiezezDokumentu = new ArrayList<>();
+        List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
         List<StronaWiersza> innezBazy = new ArrayList<>();
         List<Transakcja> transakcjeswiezynki = new ArrayList<>();
         List<Transakcja> zachowanewczejsniejtransakcje = new ArrayList<>();
@@ -525,9 +525,9 @@ public class DokfkView implements Serializable {
                 boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
                 if (onJestNowaTransakcja == false) {
-                    swiezezDokumentu.addAll(DokFKTransakcjeBean.pobierzNoweStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                    pobranezDokumentu.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                     innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(swiezezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                     DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
                 } else {
                     //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
@@ -685,13 +685,34 @@ public class DokfkView implements Serializable {
                     zabezpieczenie++;
                 }
                 pokazRzadWalutowy= true;
+                if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                } else {
+                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+                    Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                }
             } else {
+                //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
+                if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                } else {
+                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+                    Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                }
                 Tabelanbp tabelanbpPLN = null;
                 try {
-                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2014-01-01", "PLN");
+                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
+                    if (tabelanbpPLN == null) {
+                       tabelanbpPLN = new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2012-01-01");
+                       tabelanbpDAO.dodaj(tabelanbpPLN);
+                    }
                 } catch (Exception e) {
-                    tabelanbpPLN = new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2014-01-01");
-                    tabelanbpDAO.dodaj(tabelanbpPLN);
                 }
                 selected.setTabelanbp(tabelanbpPLN);
                 List<Wiersz> wiersze = selected.getListawierszy();
@@ -699,15 +720,6 @@ public class DokfkView implements Serializable {
                     p.setTabelanbp(tabelanbpPLN);
                 }
                 pokazRzadWalutowy = false;
-            }
-            if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-                DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-            } else {
-                selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-                //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
             }
             RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");

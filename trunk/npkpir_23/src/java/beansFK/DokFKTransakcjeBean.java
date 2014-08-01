@@ -86,20 +86,18 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
-    public static List<StronaWiersza> pobierzNoweStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
+    public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
         List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
         for (Wiersz p : wiersze) {
             if (wnma.equals("Wn")) {
                 if (p.getTypWiersza()==2 || p.getTypWiersza()==0) {
-                    if (p.getIdwiersza() == null && p.getStronaMa().getKonto() != null) {
+                    if (p.getStronaMa().getKonto() != null) {
                         listaNowychRozrachunkowDokument.add(p.getStronaMa());
                     }
                 }
             } else if (wnma.equals("Ma")){
                 if (p.getTypWiersza()==1 || p.getTypWiersza()==0) {
-                    if (p.getIdwiersza() == null) {
-                        listaNowychRozrachunkowDokument.add(p.getStronaWn());
-                    }
+                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
                 }
             }
         }
@@ -107,9 +105,6 @@ public class DokFKTransakcjeBean implements Serializable{
             Iterator it = listaNowychRozrachunkowDokument.iterator();
             while (it.hasNext()) {
                 StronaWiersza r = (StronaWiersza) it.next();
-                if (r.getId()!= null) {
-                    it.remove();
-                } 
                 try {
                     if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
                         it.remove();
@@ -154,7 +149,7 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
-    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> swiezezDokumentu, List<StronaWiersza> innezBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> pobranezDokumentu, List<StronaWiersza> innezBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //sprawdzam, czy wiersze z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy
         List<Transakcja> transakcjeZAktualnego = new ArrayList<>();
         transakcjeZAktualnego.addAll((aktualnywierszdorozrachunkow).getNowetransakcje());
@@ -165,7 +160,7 @@ public class DokFKTransakcjeBean implements Serializable{
         }
         List<StronaWiersza> listaZbiorcza = new ArrayList<>();
         //laczymy te stare z bazy i nowe z dokumentu
-        listaZbiorcza.addAll(swiezezDokumentu);
+        listaZbiorcza.addAll(pobranezDokumentu);
         listaZbiorcza.addAll(innezBazy);
         //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
