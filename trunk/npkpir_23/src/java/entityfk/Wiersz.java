@@ -89,6 +89,7 @@ public class Wiersz implements Serializable {
         this.strona = new HashMap<>();
         this.zapisynakontach = new ArrayList<>();
         this.idporzadkowy = idporzadkowy;
+        this.typWiersza = typwiersza;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

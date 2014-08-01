@@ -21,6 +21,6 @@ public class Wierszcomparator implements Comparator<Wiersz> {
     public int compare(Wiersz o1, Wiersz o2) {
         int datao1 = o1.getIdporzadkowy();
         int datao2 = o2.getIdporzadkowy();
-        return datao1 < datao2 ? -1 : datao1 == datao2 ? 0 : 1;
+        return datao1 > datao2 ? 1 : datao1 == datao2 ? 0 : -1;
     }
 }
