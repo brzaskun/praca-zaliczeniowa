@@ -82,6 +82,13 @@ public class DokFKTransakcjeBean implements Serializable{
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
         }
+        Iterator it = listaNowychRozrachunkow.iterator();
+        while(it.hasNext()) {
+            StronaWiersza p = (StronaWiersza) it.next();
+            if (p.getPozostalo() == 0.0) {
+                it.remove();
+            }
+        }
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
@@ -110,6 +117,12 @@ public class DokFKTransakcjeBean implements Serializable{
                         it.remove();
                     }
                 } catch (Exception ff) {
+                }
+                try {
+                   if (r.getPozostalo()==0.0) {
+                       it.remove();
+                   }
+                } catch (Exception ff1) {
                 }
             }
         }
