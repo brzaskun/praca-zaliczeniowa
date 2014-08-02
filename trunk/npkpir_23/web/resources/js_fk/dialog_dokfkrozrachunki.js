@@ -12,7 +12,7 @@ var rozrachunkiOnShow = function() {
 };
 
 var niemarachunkowShow = function (){
-    $(document.getElementById('niemarachunkow')).width(400).height(80);
+    $(document.getElementById('niemarachunkow')).width(450).height(80);
     try {
         $(document.getElementById('niemarachunkow')).position({
         my: "center center",
