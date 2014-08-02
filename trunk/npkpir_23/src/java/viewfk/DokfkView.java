@@ -518,9 +518,6 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("rozrachunki");
         RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
         RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
-        RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-        String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
-        RequestContext.getCurrentInstance().execute(znajdz);
     }
    
     public void oznaczJakoRachunek() {
@@ -572,11 +569,16 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
-                RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-                String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
-                RequestContext.getCurrentInstance().execute(znajdz);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                if (biezacetransakcje.size() > 0) {
+                    RequestContext.getCurrentInstance().update("formwpisdokument");
+                    RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
+                    String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
+                    RequestContext.getCurrentInstance().execute(znajdz);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                } else {
+                    aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
+                    RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
+                }
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu

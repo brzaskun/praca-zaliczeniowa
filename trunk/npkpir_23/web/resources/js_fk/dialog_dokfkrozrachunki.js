@@ -11,6 +11,20 @@ var rozrachunkiOnShow = function() {
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
 };
 
+var niemarachunkowShow = function (){
+    $(document.getElementById('niemarachunkow')).width(400).height(80);
+    try {
+        $(document.getElementById('niemarachunkow')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+    });
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
+    }
+};
+
 var transakcjawyborShow = function (){
     $(document.getElementById('transakcjawybor')).width(300).height(80);
     try {
