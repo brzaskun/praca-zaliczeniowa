@@ -480,14 +480,35 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
     
-    public void rachunekPlatnosc() {
-        if (rachunekCzyPlatnosc.equals("rachunek")) {
-            oznaczJakoRachunek();
+    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
+    public void wybranoRachunekPlatnosc() {
+        biezacetransakcje = new ArrayList<>();
+        tworzAktualnyWierszDlaRozrachunkow();
+        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+            RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
         } else {
-            oznaczJakoPlatnosc();
+            wybranoRachunekPlatnoscCD();
         }
     }
     
+    //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
+    public void wybranoRachunekPlatnoscCD() {
+        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+            if (rachunekCzyPlatnosc.equals("rachunek")) {
+                oznaczJakoRachunek();
+                return;
+            } else {
+                oznaczJakoPlatnosc();
+            }
+        }
+        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1){
+            tworzenieTransakcjiRachunek();
+        } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
+            tworzenieTransakcjiPlatnosc();
+        }
+    }
+    
+      
     public void oznaczJakoPlatnosc() {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         RequestContext.getCurrentInstance().update("rozrachunki");
@@ -505,11 +526,7 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().execute("transakcjeWyborHidePlatnosc();");
     }
     
-    public void tworzenieTransakcjiZWierszy() {
-        List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
-        List<StronaWiersza> innezBazy = new ArrayList<>();
-        List<Transakcja> transakcjeswiezynki = new ArrayList<>();
-        List<Transakcja> zachowanewczejsniejtransakcje = new ArrayList<>();
+    private void tworzAktualnyWierszDlaRozrachunkow() {
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
@@ -517,26 +534,66 @@ public class DokfkView implements Serializable {
         try {
             aktualnyWierszDlaRozrachunkow = null;
             aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow();
-            if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() ==0) {
-                rachunekCzyPlatnosc = "płatność";
-                RequestContext.getCurrentInstance().update("transakcjawybor");
-            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wybierz pole zawierające numer konta");
+            //zerujemy rzeczy w dialogu
+            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+        }
+    }
+    
+    public void tworzenieTransakcjiPlatnosc() {
+        List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
+        List<StronaWiersza> innezBazy = new ArrayList<>();
+        try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
-                boolean onJestNowaTransakcja = aktualnyWierszDlaRozrachunkow.isNowatransakcja();
                 biezacetransakcje = new ArrayList<>();
-                if (onJestNowaTransakcja == false) {
-                    pobranezDokumentu.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                    innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
-                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
-                } else {
-                    //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
-                    biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
-                    DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
-                    Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
-                }
+                pobranezDokumentu.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
+                biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
+                potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1;
+                //jezeli w pobranych transakcjach sa juz rozliczenia to trzeba zablokowac mozliwosc zaznaczania nowej transakcji
+                double saWartosciWprowadzone = 0.0;
+                for (Transakcja p : biezacetransakcje) {
+                    saWartosciWprowadzone += p.getKwotatransakcji();
+                }
+                if (saWartosciWprowadzone > 0) {
+                    funkcja = "zablokujcheckbox('true','platnosc');";
+                } else {
+                    funkcja = "zablokujcheckbox('false','platnosc');";
+                }
+                RequestContext.getCurrentInstance().execute(funkcja);
+                RequestContext.getCurrentInstance().update("rozrachunki");
+                RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+                //zerujemy rzeczy w dialogu
+                RequestContext.getCurrentInstance().update("formwpisdokument");
+                RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
+                String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
+                RequestContext.getCurrentInstance().execute(znajdz);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            } else {
+                Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
+                //zerujemy rzeczy w dialogu
+                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wybierz pole zawierające numer konta");
+            //zerujemy rzeczy w dialogu
+            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+        }
+    }
+    
+    public void tworzenieTransakcjiRachunek() {
+        try {
+            if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
+                //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
+                biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                DokFKTransakcjeBean.naniesInformacjezWczesniejRozliczonych(pierwotnailosctransakcjiwbazie, biezacetransakcje, aktualnyWierszDlaRozrachunkow, stronaWierszaDAO);
+                Msg.msg("i", "Jest nową transakcja, pobieram wiersze przeciwne");
+                //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String funkcja ="";
                 potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1;
                 if (potraktujjakoNowaTransakcje == true) {
                     //jezeli nowa transakcja jest juz gdzies rozliczona to trzeba zablokowac przycisk
@@ -547,30 +604,15 @@ public class DokfkView implements Serializable {
                         funkcja = "zablokujcheckbox('false', 'rachunek');";
                     }
                     zablokujprzyciskzapisz = true;
-                } else {
-                    //jezeli w pobranych transakcjach sa juz rozliczenia to trzeba zablokowac mozliwosc zaznaczania nowej transakcji
-                    double saWartosciWprowadzone = 0.0;
-                    for (Transakcja p : biezacetransakcje) {
-                        saWartosciWprowadzone += p.getKwotatransakcji();
-                    }
-                    if (saWartosciWprowadzone > 0) {
-                        funkcja = "zablokujcheckbox('true','platnosc');";
-                    } else {
-                        funkcja = "zablokujcheckbox('false','platnosc');";
-                    }
                 }
                 RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza()==0) {
-                    RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
-                } else {
-                    RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-                    String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
-                    RequestContext.getCurrentInstance().execute(znajdz);
-                }
+                RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
+                String znajdz = "znadzpasujacepolerozrachunku("+aktualnyWierszDlaRozrachunkow.getPozostalo()+")";
+                RequestContext.getCurrentInstance().execute(znajdz);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");

@@ -21,7 +21,7 @@ var transakcjawyborShow = function (){
         collision: "none none"
     });
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
     }
 };
 
