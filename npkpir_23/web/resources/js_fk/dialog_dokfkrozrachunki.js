@@ -23,6 +23,7 @@ var transakcjawyborShow = function (){
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
     }
+    $(document.getElementById("formtransakcjawybor:transakcjawybormenu")).focus();
 };
 
 var transakcjeWyborHidePlatnosc = function () {

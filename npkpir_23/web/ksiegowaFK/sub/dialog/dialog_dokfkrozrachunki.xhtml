@@ -138,10 +138,10 @@
                     <h:form id="formcheckbox">
                         <h:selectBooleanCheckbox id="znaczniktransakcji" 
                                                  accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}" value="#{dokfkView.potraktujjakoNowaTransakcje}" 
-                                                 style="outline: 5px solid gray;">
+                                                 style="outline: 5px solid gray;" >
                             <f:ajax event="change" execute="@this" render=":formcheckbox"/>
                         </h:selectBooleanCheckbox>
-                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"/>
+                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;" />
                         <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
                             PF('rozrachunki').hide();" style="float: right; width: 150px;" 
                                          oncomplete="porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 

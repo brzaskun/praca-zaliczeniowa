@@ -484,6 +484,8 @@ public class DokfkView implements Serializable {
     public void wybranoRachunekPlatnosc() {
         biezacetransakcje = new ArrayList<>();
         tworzAktualnyWierszDlaRozrachunkow();
+        rachunekCzyPlatnosc = "płatność";
+        RequestContext.getCurrentInstance().update("transakcjawybor");
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
         } else {
@@ -496,9 +498,11 @@ public class DokfkView implements Serializable {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 return;
             } else {
                 oznaczJakoPlatnosc();
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1){
@@ -529,7 +533,7 @@ public class DokfkView implements Serializable {
     private void tworzAktualnyWierszDlaRozrachunkow() {
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
+        //Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
         zablokujprzyciskzapisz = false;
         try {
             aktualnyWierszDlaRozrachunkow = null;
@@ -658,7 +662,7 @@ public class DokfkView implements Serializable {
         }
         stronaWiersza.setDatarozrachunku(Data.aktualnyDzien());
         stronaWiersza.setWiersz(wiersz);
-        Msg.msg("Rozrachunek zainicjalizowany");
+        //Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;
     }
    
