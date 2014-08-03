@@ -384,7 +384,7 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
             }
         }
-        //RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+        RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
     }
 
     public void przygotujDokumentWpisywanie() {
@@ -407,7 +407,7 @@ public class DokfkView implements Serializable {
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
+        RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
     }
 
     public void przygotujDokumentEdycja() {
