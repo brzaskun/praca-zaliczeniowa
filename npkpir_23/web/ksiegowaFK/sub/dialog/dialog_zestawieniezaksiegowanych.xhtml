@@ -10,7 +10,7 @@
 
     
          <h:form id="zestawieniedokumentow">
-             <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
+         <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
              <div style="height: 600px;">
@@ -46,8 +46,9 @@
             <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
-            <p:column headerText="edycja" width="100" style="text-align: center;">
-                    <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="PF('wpisywanie').show();"/>
+            <p:column headerText="edycja" width="100" style="text-align: center;" >
+                    <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="PF('wpisywanie').show();" rendered="#{!item.wTrakcieEdycji}"/>
+                    <h:outputText value="dok. w trakcie edycji" rendered="#{item.wTrakcieEdycji}"/>
             </p:column>
             <p:column headerText="" width="60" style="text-align: center;">
                 <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>

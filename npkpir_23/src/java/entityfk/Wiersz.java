@@ -65,7 +65,7 @@ public class Wiersz implements Serializable {
     private String opisWiersza;
     @Column(name = "typWiersza")
     private Integer typWiersza;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;

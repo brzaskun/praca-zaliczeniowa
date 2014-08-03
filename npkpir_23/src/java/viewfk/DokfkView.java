@@ -128,6 +128,11 @@ public class DokfkView implements Serializable {
     public void resetujDokument() {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+        try {
+            selected.setwTrakcieEdycji(false);
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+        } catch (Exception e1) {
+        }
         selected = null;
         selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
         try {
@@ -239,38 +244,53 @@ public class DokfkView implements Serializable {
    
 
     public void dodaj() {
-        try {
-            selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
-            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            //nanosimy zapisy na kontach
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
-            selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
-            dokDAOfk.edit(selected);
-            Dokfk dodany = dokDAOfk.findDokfkObj(selected);
-            wykazZaksiegowanychDokumentow.add(dodany);
-            //utrwalTransakcje();
-            Msg.msg("i", "Dokument dodany");
-            resetujDokumentWpis();
-        } catch (Exception e) {
-            Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
+        if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+            try {
+                selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
+                UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+                //nanosimy zapisy na kontach
+                NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
+                selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size()-1);
+                dokDAOfk.edit(selected);
+                Dokfk dodany = dokDAOfk.findDokfkObj(selected);
+                wykazZaksiegowanychDokumentow.add(dodany);
+                //utrwalTransakcje();
+                Msg.msg("i", "Dokument dodany");
+                RequestContext.getCurrentInstance().update("wpisywaniefooter");
+                RequestContext.getCurrentInstance().update("formwpisdokument");
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
+                resetujDokumentWpis();
+            } catch (Exception e) {
+                Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
+                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+            }
+        } else {
+                Msg.msg("w", "Uzupełnij wiersze o kwoty!");
         }
     }
     
     
 
     public void edycja() {
-        try {
-            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
-            selected.setWartoscdokumentu(0.0);
-            selected.przeliczKwotyWierszaDoSumyDokumentu();
-            dokDAOfk.edit(selected);
-            wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
-            resetujDokument();
-            Msg.msg("i", "Pomyślnie zaktualizowano dokument");
-        } catch (Exception e) {
-            Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
+        if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+            try {
+                UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+                NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
+                selected.setWartoscdokumentu(0.0);
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                selected.setwTrakcieEdycji(false);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                dokDAOfk.edit(selected);
+                wykazZaksiegowanychDokumentow.clear();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
+                resetujDokument();
+                Msg.msg("i", "Pomyślnie zaktualizowano dokument");
+            } catch (Exception e) {
+                Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
+            }
+        } else {
+                Msg.msg("w", "Uzupełnij wiersze o kwoty!");
         }
     }
     
@@ -305,13 +325,27 @@ public class DokfkView implements Serializable {
      //usuwa wiersze z dokumentu
     public void usunWierszWDokumencie() {
         try {
-            if (liczbawierszyWDokumencie > 0) {
+            if (liczbawierszyWDokumencie > 1) {
                 liczbawierszyWDokumencie--;
                 selected.getListawierszy().remove(liczbawierszyWDokumencie);
-            } 
+            } else if (liczbawierszyWDokumencie == 1) {
+                Wiersz wiersz = selected.getListawierszy().get(0);
+                try {
+                    if (wiersz.getIdporzadkowy() != null) {
+                        selected.getListawierszy().remove(0);
+                        dokDAOfk.edit(selected);
+                        liczbawierszyWDokumencie--;
+                    } else {
+                        selected.getListawierszy().remove(0);
+                        liczbawierszyWDokumencie--;
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
             if (liczbawierszyWDokumencie == 0) {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
-                liczbawierszyWDokumencie++;
+                liczbawierszyWDokumencie = 1;
             }
             Msg.msg("Wiersz usunięty.");
         } catch (Exception e) {
@@ -348,7 +382,6 @@ public class DokfkView implements Serializable {
                 selected.setMiesiac(mc);
                 RequestContext.getCurrentInstance().update("formwpisdokument:rok");
                 RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
-                Msg.msg("i", "Wygenerowano okres dokumentu");
             }
         }
         //RequestContext.getCurrentInstance().execute("chowanienapoczatekdok();");
@@ -378,6 +411,8 @@ public class DokfkView implements Serializable {
     }
 
     public void przygotujDokumentEdycja() {
+        selected.setwTrakcieEdycji(true);
+        RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
             setZapisz0edytuj1(true);
@@ -394,6 +429,8 @@ public class DokfkView implements Serializable {
     
     public void przygotujDokumentEdycja(Dokfk item) {
         selected = item;
+        selected.setwTrakcieEdycji(true);
+        RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
             zapisz0edytuj1 = true;

@@ -24,6 +24,23 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaWiersza {
     
+    public static boolean sprawdzSumyWierszy(Dokfk dokfk) {
+        double stronalewa = 0.0;
+        double stronaprawa = 0.0;
+        List<Wiersz> listawierszy = dokfk.getListawierszy();
+        for (Wiersz p : listawierszy) {
+            if (p.getTypWiersza() == 0) {
+                stronalewa += p.getStronaWn().getKwota();
+                stronaprawa += p.getStronaMa().getKwota();
+            } else if (p.getTypWiersza()== 1) {
+                stronalewa += p.getStronaWn().getKwota();
+            } else if (p.getTypWiersza()== 2) {
+                stronaprawa += p.getStronaMa().getKwota();
+            }
+        }
+        return stronalewa == stronaprawa;
+    }
+    
     public static Wiersz utworzNowyWiersz(Dokfk selected, int liczbawierszyWDokumencie)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
         uzupelnijDane(nowywiersz, selected);
