@@ -578,7 +578,7 @@ public class DokfkView implements Serializable {
                 } else {
                     aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                     RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
-                }
+               }
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu

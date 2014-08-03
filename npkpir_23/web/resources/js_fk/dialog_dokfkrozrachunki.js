@@ -20,6 +20,7 @@ var niemarachunkowShow = function (){
         of: $(document.getElementById('dialogpierwszy')),
         collision: "none none"
     });
+    $(document.getElementById("niemarachunkowform:niemarachunkowbutton")).focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
     }
