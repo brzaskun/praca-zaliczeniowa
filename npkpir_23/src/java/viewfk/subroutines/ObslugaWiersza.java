@@ -103,6 +103,8 @@ public class ObslugaWiersza {
                     kwotawielka +=  lista.get(i-1).getStronaMa().getKwota();
                     break;
                 }
+            } else if (wierszbiezacy.getTypWiersza() == 0) {
+                kwotawielka = wierszbiezacy.getStronaWn().getKwota();
             }
         }
         return kwotawielka-sumaczastowych;

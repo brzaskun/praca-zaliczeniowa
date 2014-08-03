@@ -866,12 +866,10 @@ public class DokfkView implements Serializable {
         //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
     }
     
-    public void skopiujWndoMa(Wiersz wiersze) {
+    public void skopiujWndoMa(Wiersz wiersz) {
         try {
-            double kwotaWn = wiersze.getStronaWn().getKwota();
-            double kwotaMa = wiersze.getStronaMa().getKwota();
-            if (kwotaWn!=0 && kwotaMa==0) {
-                wiersze.getStronaMa().setKwota(kwotaWn);
+            if (wiersz.getStronaMa().getKwota() == 0.0) {
+                wiersz.getStronaMa().setKwota(ObslugaWiersza.obliczkwotepozostala(selected, wiersz));
             }
         } catch (Exception e) {
             
