@@ -69,7 +69,9 @@ public class Wiersz implements Serializable {
     private Dokfk dokfk;
     @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
     private List<Kontozapisy> zapisynakontach;
-    //to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
+    //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
+    @Column(name = "dataWalutyWiersza")
+    private String dataWalutyWiersza;
     @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
@@ -93,7 +95,16 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-     public void setStronaWn(StronaWiersza stronaWiersza) {
+    
+     public String getDataWalutyWiersza() {
+        return dataWalutyWiersza;
+    }
+
+    public void setDataWalutyWiersza(String dataWalutyWiersza) {
+        this.dataWalutyWiersza = dataWalutyWiersza;
+    }
+
+    public void setStronaWn(StronaWiersza stronaWiersza) {
         this.strona.put("Wn", stronaWiersza);
     }
     

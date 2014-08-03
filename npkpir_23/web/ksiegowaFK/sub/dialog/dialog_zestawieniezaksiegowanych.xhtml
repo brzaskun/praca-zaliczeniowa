@@ -17,7 +17,7 @@
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" style="width: 1200px;"
                               emptyMessage="Brak zaksięgowanych dokumentów">
-                     <p:ajax event="rowSelect"  listener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
+                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
                 <p:hotkey bind="down"  oncomplete="przejdzwiersz();"/>
                 <p:hotkey bind="up"  oncomplete="wrocwiersz();"/>
                 <p:column headerText="lp." width="30" style="text-align: center;">
