@@ -433,7 +433,7 @@ var zamykanieDialogow = function() {
 };
 
 var powrocNaPoczatekDokfk = function() {
-    chowanienapoczatekdok();
+    //chowanienapoczatekdok();
     $('#formwpisdokument\\:dataDialogWpisywanie').select();
 };
 

@@ -78,6 +78,8 @@ public class Dokfk implements Serializable {
     private Tabelanbp tabelanbp;
     @Column (name = "wartoscdokumentu")
     private double wartoscdokumentu;
+    @Column (name="wtrakcieedycji")
+    private boolean wTrakcieEdycji;
 
     
     
@@ -101,6 +103,7 @@ public class Dokfk implements Serializable {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.listawierszy = new ArrayList<>();
+        this.wTrakcieEdycji = false;
     }
 
     public Dokfk(String symbolPoprzedniegoDokumentu, String podatnik) {
@@ -113,6 +116,15 @@ public class Dokfk implements Serializable {
     
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public boolean getwTrakcieEdycji() {
+        return wTrakcieEdycji;
+    }
+
+    public void setwTrakcieEdycji(boolean wTrakcieEdycji) {
+        this.wTrakcieEdycji = wTrakcieEdycji;
+    }
+
     public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
         this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik, rok);
     }

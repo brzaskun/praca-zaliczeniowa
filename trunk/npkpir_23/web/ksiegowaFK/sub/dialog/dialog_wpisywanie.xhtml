@@ -200,8 +200,7 @@
                 </p:dataTable>
                 <p:panel>
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
-                                     accesskey="s" update=":wpisywaniefooter, :formwpisdokument, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" 
-                                     onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"
+                                     accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"
                                      onfocus="sprawdzpoprzedniwiersz(#{dokfkView.selected.listawierszy.size()})"/>
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" 
