@@ -5,25 +5,26 @@ var TabKeyDown;
     var focusable = ":input, a[href]";
  
     TabKeyDown = function (event) {
-        if(!MYAPP.hasOwnProperty('liczydloautocomplete')){
-           MYAPP.liczydloautocomplete = 0;
+        setTimeout(function() {}, 4000);
+        if(!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')){
+           MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloautocomplete > 1) {
-                    MYAPP.liczydloautocomplete = 0;
+            if (MYAPP.liczydloWcisnietychEnter > 1) {
+                    MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
         //Get the element that registered the event
         var $target = $(event.target);
-        var taregetid = event.target.id;
-        var czyzawierawn = taregetid.indexOf("kontown");
-        var czyzawierama = taregetid.indexOf("kontoma");
-        var enterdefault = taregetid.indexOf("enterdefault");
-        var kontoinput = false;
-        if (czyzawierawn > 0 || czyzawierama > 0 || enterdefault > 0) {
-            kontoinput = true;
+        var taregetId = event.target.id;
+        var czyZawieraWn = taregetId.indexOf("kontown");
+        var czyZawieraMa = taregetId.indexOf("kontoma");
+        var enterdefault = taregetId.indexOf("enterdefault");
+        var toJestPoleKonta = false;
+        if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
+            toJestPoleKonta = true;
         }
         if($(event.target).is("button")===false){
-        if (isTabKey(event)&&kontoinput === false) {
+        if (isTabKey(event)&&toJestPoleKonta === false) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
              if (isTabSuccessful) {
                 event.preventDefault();
@@ -31,15 +32,15 @@ var TabKeyDown;
                 event.stopImmediatePropagation();
                 return false;
             }
-        } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete === 0) {
-            MYAPP.liczydloautocomplete = 1;
+        } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
+            MYAPP.liczydloWcisnietychEnter = 1;
                 event.preventDefault();
                 event.stopPropagation();
                 event.stopImmediatePropagation();
                 return false;
-        } else if (isTabKey(event) && kontoinput === true && MYAPP.liczydloautocomplete > 0) {
+        } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
             var isTabSuccessful = tab(true, event.shiftKey, $target);
-             MYAPP.liczydloautocomplete = 2;
+             MYAPP.liczydloWcisnietychEnter = 2;
              if (isTabSuccessful) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -76,19 +77,14 @@ var TabKeyDown;
         var $next = findNext($from,offset);
         $next.focus();
         $next.select();
- 
         return true;
     }
  
     function findNext($from, offset) {
         var $focusable = $(focusable).not(":disabled").not(":hidden").not("a[href]:empty");
- 
         var currentIndex = $focusable.index($from);
- 
         var nextIndex = (currentIndex + offset) % $focusable.length;
- 
         var $next = $focusable.eq(nextIndex);
- 
         return $next;
     }
  

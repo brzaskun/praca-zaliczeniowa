@@ -31,7 +31,7 @@
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="opis" width="100" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
-                    <h:outputText value="#{loop.opisWiersza}" rendered="#{loop.typWiersza eq 0 ? true : false}"/>
+                    <h:outputText value="#{loop.opisWiersza}" />
                 </p:column>
                 <p:column headerText="kwota Wn" width="100" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
                     <h:outputText value="#{loop.stronaWn.kwota}" rendered="#{loop.stronaWn.kwota eq 0 ? false : true}" style="float: right;">
