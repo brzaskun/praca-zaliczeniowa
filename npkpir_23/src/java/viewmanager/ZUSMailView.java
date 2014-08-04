@@ -95,7 +95,7 @@ public class ZUSMailView implements Serializable {
         }
     }
     private static final String trescmaila = "<p> Szanowny Podatniku</p> <p> W niniejszym mailu znajdziesz naliczone kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
-            + "<p> za okres rozliczeniowy <span style=\"color:#008000;\">%s/%s</span></p> "
+            + "<p> do zapłaty w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
             + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
             + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> <tr> <td style=\"text-align: center;\"> 1</td> "
             + "<td> ZUS 51</td> <td style=\"text-align: right;\"> %.2f</td> </tr> <tr> <td style=\"text-align: center;\"> 2</td>"

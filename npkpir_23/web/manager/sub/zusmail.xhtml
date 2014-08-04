@@ -37,64 +37,64 @@
     </h:form>
         <h:form id="wykazmaili">
             <p:dataTable value="#{zUSMailView.wykazprzygotowanychmaili}" var="item" style="max-width: 1350px;"
-                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}"
+                         rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" 
                          rowKey="#{item.zusmailPK.podatnik}" selection="#{zUSMailView.wybranemaile}">
                 <p:ajax event="rowSelectCheckbox" listener="#{zUSMailView.wybranoWiersz}" update=":wykazmailibuttons:parametryzus"/>
                 <f:facet name="header">
                     <h:outputText value="Lista przygotowanych maili"/>
                 </f:facet>
-                <p:column style="width: 6%;">
+                <p:column width="20" style="text-align: center;">
                     <p:rowToggler />
                 </p:column>
-                <p:column selectionMode="multiple" style="width: 6%;">
+                <p:column selectionMode="multiple" width="20" style="text-align: center;">
                 </p:column>
-                <p:column style="width: 15%">
+                <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
                     <h:outputText value="#{item.zusmailPK.podatnik}" />
                 </p:column>
-                <p:column width="60">
+                <p:column width="45">
                     <f:facet name="header">
-                        <h:outputText value="Zus51ch"/>
+                        <h:outputText value="51ch"/>
                     </f:facet>
                     <h:outputText value="#{item.zus51ch}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="60">
+                <p:column width="45">
                     <f:facet name="header">
-                        <h:outputText value="Zus51bch"/>
+                        <h:outputText value="51bch"/>
                     </f:facet>
                     <h:outputText value="#{item.zus51bch}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="60">
+                <p:column width="40">
                     <f:facet name="header">
-                        <h:outputText value="Zus52"/>
+                        <h:outputText value="52"/>
                     </f:facet>
                     <h:outputText value="#{item.zus52}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="60">
+                <p:column width="40">
                     <f:facet name="header">
-                        <h:outputText value="Zus52odl"/>
+                        <h:outputText value="52odl"/>
                     </f:facet>
                     <h:outputText value="#{item.zus52odl}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="60">
+                <p:column width="40">
                     <f:facet name="header">
-                        <h:outputText value="Zus53"/>
+                        <h:outputText value="53"/>
                     </f:facet>
                     <h:outputText value="#{item.zus53}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="60">
+                <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="Pit4"/>
                     </f:facet>
@@ -102,17 +102,17 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="70">
+                <p:column width="60">
                     <f:facet name="header">
-                        <h:outputText value="Datawysylki"/>
+                        <h:outputText value="Data"/>
                     </f:facet>
                     <h:outputText value="#{item.datawysylki}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        <f:convertDateTime pattern="dd/MM/yy" />
                     </h:outputText>
                 </p:column>
-                <p:column style="text-align: center;"  width="60">
+                <p:column style="text-align: center;"  width="30">
                     <f:facet name="header">
-                        <h:outputText value="Nrwysylki"/>
+                        <h:outputText value="Nr"/>
                     </f:facet>
                     <h:outputText value="#{item.nrwysylki}"/>
                 </p:column>
@@ -130,16 +130,10 @@
                         <h:outputText value="#{item.tresc}"/>
                     </p:panelGrid>
                 </p:rowExpansion>
-                <p:column width="60" style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Wysyłaj."/>
-                    </f:facet>
-                    <h:outputText value="#{item.wysylajacy}"/>
-                </p:column>
                 <p:column style="text-align: center;" width="100">
                     <p:commandButton value="wyślij" actionListener="#{zUSMailView.wyslijMailZUS(item)}" update=":wykazmaili" style="width: 80px;"/>
                 </p:column>
-                 <p:column style="width: 15%">
+                <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="Podatnik"/>
                     </f:facet>
