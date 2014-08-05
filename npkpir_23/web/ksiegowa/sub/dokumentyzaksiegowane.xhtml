@@ -126,28 +126,28 @@
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                         <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
-                                <h:outputText value="#{subwpis.ewidencja.nazwa}" />
+                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                             </p:column>
                             <p:column id="SubColumn1a"  headerText="netto">  
-                                <h:outputText value="#{subwpis.netto}" style="float: right;">
+                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column id="SubColumn2" headerText="vat">  
-                                <h:outputText value="#{subwpis.vat}" style="float: right;">
+                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column id="SubColumn2a" headerText="brutto">  
-                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;">
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column id="SubColumn3" headerText="op/zw">  
-                                <h:outputText value="#{subwpis.estawka}" />
+                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
                             </p:column>
                             <p:column id="SubColumn4" headerText="okresy vat">  
-                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;"/>
+                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
                             </p:column>
                         </p:dataTable>
                     </p:column>
