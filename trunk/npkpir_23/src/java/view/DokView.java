@@ -220,8 +220,8 @@ public final class DokView implements Serializable {
             
         }
         try {
-            selDokument.setVatR("");
-            selDokument.setVatM("");
+            selDokument.setVatM(wpisView.getMiesiacWpisu());
+            selDokument.setVatR(wpisView.getRokWpisuSt());
         } catch (Exception e) {
         }
         this.typdokumentu = "ZZ";
@@ -679,6 +679,8 @@ public final class DokView implements Serializable {
         }
         if (rodzajdodawania == 1) {
             selDokument = new Dok();
+            selDokument.setVatM(wpisView.getMiesiacWpisu());
+            selDokument.setVatR(wpisView.getRokWpisuSt());
             selectedSTR = new SrodekTrw();
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
