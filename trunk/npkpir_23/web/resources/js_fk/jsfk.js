@@ -55,7 +55,7 @@ var aktywujwiersz = function(nrWiersza){
     chowanienapoczatek();
 };
 //aktywuje nowy wiersz
-var obsluzwiersz = function(nrWiersza){
+var aktywujPierwszePoleNowegoWiersza = function(nrWiersza){
     if(!MYAPP.hasOwnProperty('iloscwierszy')){
         MYAPP.iloscwierszy = 1;
     } else {
@@ -67,6 +67,22 @@ var obsluzwiersz = function(nrWiersza){
     $(i).css('backgroundColor','#ffb');
     }
     sprawdzpoprzedniwiersz(nrWiersza);
+};
+
+var aktywujPierwszePoleNowegoWiersza = function(nrWiersza, typwiersza){
+    if (typwiersza === 1) {
+        if(!MYAPP.hasOwnProperty('iloscwierszy')){
+            MYAPP.iloscwierszy = 1;
+        } else {
+            MYAPP.iloscwierszy += 1;
+        }
+        var i = "#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis";
+        if($(i)!== typeof 'undefined'){
+        $(i).focus();
+        $(i).css('backgroundColor','#ffb');
+        }
+        sprawdzpoprzedniwiersz(nrWiersza);
+    }
 };
 
 

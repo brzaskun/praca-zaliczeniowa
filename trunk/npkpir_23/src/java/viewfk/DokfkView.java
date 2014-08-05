@@ -174,8 +174,8 @@ public class DokfkView implements Serializable {
    
 
 //    //dodaje wiersze do dokumentu
-    public void dolaczNowyWiersz(int wierszbiezacynr) {
-        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacynr);
+    public void dolaczNowyWiersz(int wierszbiezacyIndex, boolean przenumeruj) {
+        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
         Konto kontoWn;
         Konto kontoMa;
         boolean czyWszystkoWprowadzono = false;
@@ -192,13 +192,35 @@ public class DokfkView implements Serializable {
                     double roznica = Math.abs(kwotaWn-kwotaMa);
                     if (roznica==0) {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                        Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                        selected.getListawierszy().add(wiersz);
                     } else if (kwotaWn>kwotaMa) {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica));
+                        if (przenumeruj == false) {
+                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
+                            selected.getListawierszy().add(wiersz);
+                        } else {
+                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
+                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
+                            int indexNowegoWiersza = wierszbiezacyIndex+1;
+                            for (int i = 0; i < nowaliczbawieszy; i++) {
+                                if (i < indexNowegoWiersza) {
+                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
+                                } else if (i == indexNowegoWiersza) {
+                                    wiersz.setIdporzadkowy(i+1);
+                                    przenumerowanaLista.add(wiersz);
+                                } else if (i > indexNowegoWiersza) {
+                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
+                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
+                                }
+                            }
+                            selected.setListawierszy(przenumerowanaLista);
+                        }
                     } else if (kwotaMa>kwotaWn) {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica));
+                        if (przenumeruj == false) {
+                            selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica));
+                        }
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
@@ -208,10 +230,14 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     if (kwotadorozdysponowania > 0.0) {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                        if (przenumeruj == false) {
+                            selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                        }
                     } else {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                        if (przenumeruj == false) {
+                            selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                        }
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
@@ -221,10 +247,14 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     if (kwotadorozdysponowania > 0.0) {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                        if (przenumeruj == false) {
+                            selected.getListawierszy().add(ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwotadorozdysponowania));
+                        }
                     } else {
                         liczbawierszyWDokumencie += 1;
-                        selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                        if (przenumeruj == false) {
+                            selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
+                        }
                     }
                 }
             }
@@ -240,8 +270,32 @@ public class DokfkView implements Serializable {
         }
     }
     
+     public void zdarzeniaOnBlurStronaMa(int numerwiersza) {
+        skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
+        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+        try {
+            Wiersz wiersz = selected.getListawierszy().get(numerwiersza+1);
+            dolaczNowyWiersz(numerwiersza, true);
+        } catch (Exception e) {
+            dolaczNowyWiersz(numerwiersza, false);
+        }
+    }
 
    
+     public void zdarzeniaOnBlurStronaWn(int numerwiersza) {
+        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+        Wiersz wierszbiezacy = selected.getListawierszy().get(numerwiersza);
+        if (wierszbiezacy.getTypWiersza()==1) {
+            try {
+                Wiersz wiersz = selected.getListawierszy().get(numerwiersza+1);
+                dolaczNowyWiersz(numerwiersza, true);
+            } catch (Exception e) {
+                dolaczNowyWiersz(numerwiersza, false);
+            }
+        }
+    }
+
 
     public void dodaj() {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
@@ -888,6 +942,8 @@ public class DokfkView implements Serializable {
             }
         }
     }
+    
+   
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public String getRachunekCzyPlatnosc() {
