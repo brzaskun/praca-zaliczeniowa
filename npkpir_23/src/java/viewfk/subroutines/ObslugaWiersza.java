@@ -24,6 +24,7 @@ import javax.inject.Named;
 @Singleton
 public class ObslugaWiersza {
     
+    //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty
     public static boolean sprawdzSumyWierszy(Dokfk dokfk) {
         double stronalewa = 0.0;
         double stronaprawa = 0.0;

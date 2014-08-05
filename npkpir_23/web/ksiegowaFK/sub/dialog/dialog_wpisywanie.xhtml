@@ -158,18 +158,18 @@
                     <p:column headerText="konto Wn" width="200" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
-                                        minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
+                                        minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Wn')}" partialSubmit="true" update="@this"/>
+                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(rowindex)}" partialSubmit="true" update="@form:dataList, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza(#{loop.idporzadkowy},#{loop.typWiersza});"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}">
-                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this"/>
+                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                             <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
                         </pe:inputNumber> 
                     </p:column>
@@ -179,17 +179,13 @@
                     <p:column headerText="konto Ma" width="200" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
-                                        minQueryLength="1" converter="KontoConv" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
+                                        minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
-<!--ARCHEO                  <p:ajax event="itemSelect" listener="{dokfkView.handleKontoSelect}" partialSubmit="true"/>-->
-                            <p:ajax event="blur" listener="#{dokfkView.skopiujKontoZWierszaWyzej(rowindex, 'Ma')}" partialSubmit="true" update="@this"/>
-                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})"/>
+                    <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(rowindex)}" partialSubmit="true" update="@form:dataList, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza(#{loop.idporzadkowy});"/>
+                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})" />
                         </p:autoComplete>
-                    </p:column>
-                    <p:column  width="40" style="text-align: left;">
-                        <p:commandButton id="dodajwierszbutton"  value="+" style=" margin-left: 10px; height: 20px;" actionListener="#{dokfkView.dolaczNowyWiersz(rowindex)}" update="@form, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" accesskey="p" oncomplete="obsluzwiersz(#{loop.idporzadkowy});" rendered="#{dokfkView.liczbawierszyWDokumencie gt loop.idporzadkowy ? false : true}"/>
                     </p:column>
                     <p:column width="3" >
                         <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.typStronaWiersza}" />
@@ -212,7 +208,7 @@
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape(#{dokfkView.liczbawierszyWDokumencie});"/>
-                <p:commandButton value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
+                <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
