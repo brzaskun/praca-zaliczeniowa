@@ -40,7 +40,7 @@ var TabKeyDown;
                 event.stopImmediatePropagation();
                 return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
-                if (MYAPP.wnlubma === "Wn") {
+                if (MYAPP.wnlubma === "Wn" && MYAPP.typwiersza === 0) {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
                     if (isTabSuccessful) {
