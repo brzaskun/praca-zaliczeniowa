@@ -1,10 +1,13 @@
-var zachowajwiersz = function (wierszid, wnlubma) {
+var zachowajwiersz = function (wierszid, wnlubma, typwiersza) {
     try {
-    MYAPP.wierszrozrachukowy = wierszid;
+    MYAPP.idwiersza = wierszid;
+    MYAPP.wnlubma = wnlubma;
     MYAPP.zaznaczonepole = event.target;
+    MYAPP.typwiersza = typwiersza;
     //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
     $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
+    $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -31,6 +34,27 @@ var wpisywanieOnHide = function () {
 };
 
 
+var dodajnowywiersz = function () {
+    var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
+    var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
+    if (wnlubma === "Wn") {
+        if (typwiersza === 1) {
+            $(document.getElementById("wpisywaniefooter:dodajwierszWn")).click();
+        }
+    } else {
+        $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
+    }
+};
+
+//aktywuje nowy wiersz
+var aktywujPierwszePoleNowegoWiersza = function(){
+    var nrWiersza = MYAPP.idwiersza;
+    var i = "#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis";
+    $(i).focus();
+    $(i).select();
+    $(i).css('backgroundColor','#ffb');
+    //sprawdzpoprzedniwiersz(nrWiersza);
+};
 
 
 

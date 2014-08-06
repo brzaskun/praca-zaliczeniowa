@@ -128,7 +128,7 @@ var rozrachunkiOnHide = function() {
     $(document.getElementById("wpisywaniefooter:wnlubma")).val("");
     $(document.getElementById("wpisywaniefooter:wierszid")).val("");
     try {
-        var wiersznr = MYAPP.wierszrozrachukowy - 1;
+        var wiersznr = MYAPP.idwiersza - 1;
         sprawdzpoprzedniwiersz(wiersznr);
     } catch (e) {
         alert("Blad w dialogrozrachunki.js rozrachunkionHide");
