@@ -38,7 +38,7 @@ var dodajnowywiersz = function () {
     var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
     var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
     if (wnlubma === "Wn") {
-        if (typwiersza === 1) {
+        if (typwiersza === "1") {
             $(document.getElementById("wpisywaniefooter:dodajwierszWn")).click();
         }
     } else {
