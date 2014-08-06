@@ -95,6 +95,7 @@ public class DokfkView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String rachunekCzyPlatnosc;
+    private int typwiersza;
     
     
 
@@ -271,27 +272,35 @@ public class DokfkView implements Serializable {
     }
     
      public void zdarzeniaOnBlurStronaMa(int numerwiersza) {
-        skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
+       // skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
+     }
+     
+     public void dodajNowyWierszStronaMa () {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+         int prawdziwynumer = numerwiersza-1;
         try {
-            Wiersz wiersz = selected.getListawierszy().get(numerwiersza+1);
-            dolaczNowyWiersz(numerwiersza, true);
+            Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer+1);
+            dolaczNowyWiersz(prawdziwynumer, true);
         } catch (Exception e) {
-            dolaczNowyWiersz(numerwiersza, false);
+            dolaczNowyWiersz(prawdziwynumer, false);
         }
     }
 
    
      public void zdarzeniaOnBlurStronaWn(int numerwiersza) {
-        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+        //skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-        Wiersz wierszbiezacy = selected.getListawierszy().get(numerwiersza);
+     } 
+     
+     public void dodajNowyWierszStronaWn () {
+        int prawdziwynumer = numerwiersza-1;
+        Wiersz wierszbiezacy = selected.getListawierszy().get(prawdziwynumer);
         if (wierszbiezacy.getTypWiersza()==1) {
             try {
-                Wiersz wiersz = selected.getListawierszy().get(numerwiersza+1);
-                dolaczNowyWiersz(numerwiersza, true);
+                Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer+1);
+                dolaczNowyWiersz(prawdziwynumer, true);
             } catch (Exception e) {
-                dolaczNowyWiersz(numerwiersza, false);
+                dolaczNowyWiersz(prawdziwynumer, false);
             }
         }
     }
@@ -946,6 +955,15 @@ public class DokfkView implements Serializable {
    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public int getTypwiersza() {
+        return typwiersza;
+    }
+
+    public void setTypwiersza(int typwiersza) {
+        this.typwiersza = typwiersza;
+    }
+
     public String getRachunekCzyPlatnosc() {
         return rachunekCzyPlatnosc;
     }

@@ -160,9 +160,9 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn');" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(rowindex)}" partialSubmit="true" update="@form:dataList, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza(#{loop.idporzadkowy},#{loop.typWiersza});"/>
+                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
@@ -170,8 +170,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}">
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
-                            <!--onstart="sprawdzwartosc({loop.idporzadkowy});" -->
-                        </pe:inputNumber> 
+                    </pe:inputNumber> 
                     </p:column>
                     <p:column width="12" style="text-align: center" >
                         <h:outputText id="symbolMa" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaMa != null}"/>
@@ -181,10 +180,10 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma');" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
+                                        styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
-                    <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(rowindex)}" partialSubmit="true" update="@form:dataList, :wpisywaniefooter, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza(#{loop.idporzadkowy});"/>
-                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz(#{loop.idporzadkowy})" />
+                    <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" />
+<!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
                         </p:autoComplete>
                     </p:column>
                     <p:column width="3" >
@@ -212,7 +211,10 @@
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
+                <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
+                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList,:formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
             </h:form>
         </f:facet>
 

@@ -4,13 +4,14 @@ var TabKeyDown;
 (function ($) {
     var focusable = ":input, a[href]";
  
-    TabKeyDown = function (event) {
-        setTimeout(function() {}, 4000);
-        if(!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')){
-           MYAPP.liczydloWcisnietychEnter = 0;
+    TabKeyDown = function(event) {
+        setTimeout(function() {
+        }, 4000);
+        if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
+            MYAPP.liczydloWcisnietychEnter = 0;
         } else {
             if (MYAPP.liczydloWcisnietychEnter > 1) {
-                    MYAPP.liczydloWcisnietychEnter = 0;
+                MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
         //Get the element that registered the event
@@ -23,32 +24,42 @@ var TabKeyDown;
         if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
             toJestPoleKonta = true;
         }
-        if($(event.target).is("button")===false){
-        if (isTabKey(event)&&toJestPoleKonta === false) {
-            var isTabSuccessful = tab(true, event.shiftKey, $target);
-             if (isTabSuccessful) {
+        if ($(event.target).is("button") === false) {
+            if (isTabKey(event) && toJestPoleKonta === false) {
+                var isTabSuccessful = tab(true, event.shiftKey, $target);
+                if (isTabSuccessful) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
+                }
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
+                MYAPP.liczydloWcisnietychEnter = 1;
                 event.preventDefault();
                 event.stopPropagation();
                 event.stopImmediatePropagation();
                 return false;
-            }
-        } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
-            MYAPP.liczydloWcisnietychEnter = 1;
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                return false;
-        } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
-            var isTabSuccessful = tab(true, event.shiftKey, $target);
-             MYAPP.liczydloWcisnietychEnter = 2;
-             if (isTabSuccessful) {
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                return false;
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
+                if (MYAPP.wnlubma === "Wn") {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    MYAPP.liczydloWcisnietychEnter = 2;
+                    if (isTabSuccessful) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        event.stopImmediatePropagation();
+                        return false;
+                    }
+                } else {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    MYAPP.liczydloWcisnietychEnter = 2;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    dodajnowywiersz();
+                    return false;
+                }
             }
         }
-    }
     };
  
     function LoadKeyDown() {
