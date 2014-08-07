@@ -615,7 +615,7 @@ public class SessionFacade<T> implements Serializable{
                 return em.createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).getResultList();
             case "07" : 
                 return em.createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).getResultList();
-            case "081" : 
+            case "08" : 
                 return em.createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).getResultList();
             case "09" : 
                 return em.createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).getResultList();
