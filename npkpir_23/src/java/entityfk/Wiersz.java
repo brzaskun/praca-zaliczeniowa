@@ -219,7 +219,7 @@ public class Wiersz implements Serializable {
 
     @Override
     public String toString() {
-        return "Wiersze{" + "idwiersza=" + idwiersza + ", idporzadkowy=" + idporzadkowy + ", dokfk=" + dokfk + '}';
+        return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "Wn: "+ getStronaWn().getKwota() + "Ma: "+ getStronaMa().getKwota() + '}';
     }
 
 

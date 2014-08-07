@@ -49,10 +49,11 @@ var dodajnowywiersz = function () {
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWiersza = function(){
     var nrWiersza = MYAPP.idwiersza;
-    var i = "#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis";
-    $(i).focus();
-    $(i).select();
-    $(i).css('backgroundColor','#ffb');
+    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+    var i_obj = document.getElementById(i);
+    $(i_obj).focus();
+    $(i_obj).select();
+    $(i_obj).css('backgroundColor','#ffb');
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
 
