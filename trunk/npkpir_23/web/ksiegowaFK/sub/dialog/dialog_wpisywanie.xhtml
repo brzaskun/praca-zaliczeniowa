@@ -213,7 +213,7 @@
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList,:formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
+                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
                 <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
             </h:form>
         </f:facet>

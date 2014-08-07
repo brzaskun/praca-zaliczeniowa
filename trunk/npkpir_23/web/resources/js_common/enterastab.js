@@ -50,8 +50,8 @@ var TabKeyDown;
                         return false;
                     }
                 } else {
-                    var nrWiersza = MYAPP.idwiersza;
-                    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+                    var nrWiersza = parseInt(MYAPP.idwiersza)-1;
+                    var i = "formwpisdokument:dataList:"+nrWiersza+":kontoma_input";
                     var targetnowy =  document.getElementById(i);
                     var isTabSuccessful = tab(true, event.shiftKey, targetnowy);
                     MYAPP.liczydloWcisnietychEnter = 2;

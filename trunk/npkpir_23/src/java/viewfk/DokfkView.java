@@ -193,14 +193,34 @@ public class DokfkView implements Serializable {
                     double roznica = Math.abs(kwotaWn-kwotaMa);
                     if (roznica==0) {
                         liczbawierszyWDokumencie += 1;
-                        Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                        selected.getListawierszy().add(wiersz);
+                        if (przenumeruj == false) {
+                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                            selected.getListawierszy().add(wiersz);
+                        } else {
+                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
+                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
+                            int indexNowegoWiersza = wierszbiezacyIndex+1;
+                            for (int i = 0; i < nowaliczbawieszy; i++) {
+                                if (i < indexNowegoWiersza) {
+                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
+                                } else if (i == indexNowegoWiersza) {
+                                    wiersz.setIdporzadkowy(i+1);
+                                    przenumerowanaLista.add(wiersz);
+                                } else if (i > indexNowegoWiersza) {
+                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
+                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
+                                }
+                            }
+                            selected.setListawierszy(przenumerowanaLista);
+                        }
                     } else if (kwotaWn>kwotaMa) {
                         liczbawierszyWDokumencie += 1;
                         if (przenumeruj == false) {
                             Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
                             selected.getListawierszy().add(wiersz);
                         } else {
+                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
                             List<Wiersz> przenumerowanaLista = new ArrayList<>();
                             int nowaliczbawieszy = selected.getListawierszy().size()+1;
                             int indexNowegoWiersza = wierszbiezacyIndex+1;
@@ -237,6 +257,7 @@ public class DokfkView implements Serializable {
                     } else {
                         liczbawierszyWDokumencie += 1;
                         if (przenumeruj == false) {
+                            //skonczyly sie kwoty nierowne pora stworzyc nowy wiersz typu 0
                             selected.getListawierszy().add(ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie));
                         }
                     }
