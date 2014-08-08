@@ -548,8 +548,8 @@ public class STRTabView implements Serializable {
         Integer badanyrok = mcrok[1];
         Podatnik pod = wpisView.getPodatnikObiekt();
         List<Parametr> listaparametrow = new ArrayList<>();
+        if (pod.getZawieszeniedzialalnosci() != null) {
         listaparametrow.addAll(pod.getZawieszeniedzialalnosci());
-        if (listaparametrow != null) {
             Iterator it = listaparametrow.iterator();
             while (it.hasNext()) {
                 Parametr par = (Parametr) it.next();
