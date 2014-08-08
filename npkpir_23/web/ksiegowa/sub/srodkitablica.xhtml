@@ -100,7 +100,7 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="deleteColumn" headerText="usuń">
+                    <p:column id="deleteColumn" headerText="usuń" width="50">
                         <p:commandButton actionListener="#{STRTableView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" update="@form" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
                    
