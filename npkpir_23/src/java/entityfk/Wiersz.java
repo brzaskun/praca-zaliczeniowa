@@ -78,6 +78,8 @@ public class Wiersz implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
+    @Column(name="lpmacierzystego")
+    private Integer lpmacierzystego;
 
   
     
@@ -96,8 +98,15 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public Integer getLpmacierzystego() {
+        return lpmacierzystego;
+    }
+
+    public void setLpmacierzystego(Integer lpmacierzystego) {
+        this.lpmacierzystego = lpmacierzystego;
+    }
     
-     public String getDataWalutyWiersza() {
+    public String getDataWalutyWiersza() {
         return dataWalutyWiersza;
     }
 

@@ -96,6 +96,7 @@ public class DokfkView implements Serializable {
     private WpisView wpisView;
     private String rachunekCzyPlatnosc;
     private int typwiersza;
+    private Wiersz wybranyWiersz;
     
     
 
@@ -197,9 +198,9 @@ public class DokfkView implements Serializable {
                     } else if (kwotaWn>kwotaMa) {
                         ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                     } else if (kwotaMa>kwotaWn) {
-                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
-                    }
-                }
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                                }
+                            }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
@@ -208,10 +209,10 @@ public class DokfkView implements Serializable {
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
-                    } else {
+                        } else {
                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                    }
-                }
+                                }
+                            }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 if (kontoWn instanceof Konto) {
@@ -220,11 +221,11 @@ public class DokfkView implements Serializable {
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
                         ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
-                    } else {
+                        } else {
                         ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                    }
-                }
-            }
+                                }
+                            }
+                        }
         } catch (Exception e) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
@@ -453,6 +454,29 @@ public class DokfkView implements Serializable {
             liczbawierszyWDokumencie = selected.getListawierszy().size();
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+        }
+    }
+    
+    public void wybranoWierszMsg() {
+        Msg.msg("Wybrano wiesz do edycji lp: "+wybranyWiersz.getIdporzadkowy());
+    }
+    public void usunWskazanyWiersz() {
+        try {
+            if (wybranyWiersz == null) {
+                throw new Exception();
+            } else {
+                Wiersz wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy()+1);
+                if (wybranyWiersz.getTypWiersza() == 0 && wierszNastepny != null) {
+                    Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
+                } else {
+                    selected.getListawierszy().remove(wybranyWiersz);
+                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
+                    Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
         }
     }
     
@@ -922,6 +946,15 @@ public class DokfkView implements Serializable {
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    
+    public Wiersz getWybranyWiersz() {
+        return wybranyWiersz;
+    }
+
+    public void setWybranyWiersz(Wiersz wybranyWiersz) {
+        this.wybranyWiersz = wybranyWiersz;
+    }
+
     public int getTypwiersza() {
         return typwiersza;
     }
