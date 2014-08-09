@@ -11,6 +11,7 @@ import comparator.Wierszcomparator;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -109,5 +110,51 @@ public class ObslugaWiersza {
             }
         }
         return kwotawielka-sumaczastowych;
+    }
+    
+    public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double roznica) {
+        int liczbawierszyWDokumencie = 0;
+        try {
+            liczbawierszyWDokumencie = selected.getListawierszy().size()+1;
+        } catch (Exception e) {
+        }
+        switch (typwiersza) {
+            case 0:
+                return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+            case 1:
+                return utworzNowyWierszWn(selected, liczbawierszyWDokumencie, roznica);
+            case 2:
+                return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, roznica);
+            default:
+                return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+        }
+    }
+    
+    public static void dodajiPrzenumerujWiersze (Dokfk selected, Wiersz wiersz, int wierszbiezacyIndex) {
+        List<Wiersz> przenumerowanaLista = new ArrayList<>();
+        int nowaliczbawieszy = selected.getListawierszy().size()+1;
+        int indexNowegoWiersza = wierszbiezacyIndex+1;
+        for (int i = 0; i < nowaliczbawieszy; i++) {
+            if (i < indexNowegoWiersza) {
+                przenumerowanaLista.add(selected.getListawierszy().get(i));
+            } else if (i == indexNowegoWiersza) {
+                wiersz.setIdporzadkowy(i+1);
+                przenumerowanaLista.add(wiersz);
+            } else if (i > indexNowegoWiersza) {
+                selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
+                przenumerowanaLista.add(selected.getListawierszy().get(i-1));
+            }
+        }
+        selected.setListawierszy(przenumerowanaLista);
+    }
+
+  
+    public static void wygenerujiDodajWiersz(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica);
+        if (przenumeruj == false) {
+            selected.getListawierszy().add(wiersz);
+        } else {
+            ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wiersz, wierszbiezacyIndex);
+        }
     }
 }

@@ -191,75 +191,13 @@ public class DokfkView implements Serializable {
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     kwotaMa = wierszbiezacy.getStronaMa().getKwota();
                     double roznica = Math.abs(kwotaWn-kwotaMa);
+                    liczbawierszyWDokumencie += 1;
                     if (roznica==0) {
-                        liczbawierszyWDokumencie += 1;
-                        if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                     } else if (kwotaWn>kwotaMa) {
-                        liczbawierszyWDokumencie += 1;
-                        if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                     } else if (kwotaMa>kwotaWn) {
-                        liczbawierszyWDokumencie += 1;
-                        if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
@@ -267,52 +205,11 @@ public class DokfkView implements Serializable {
                 if (kontoMa instanceof Konto) {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
+                    liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
-                        liczbawierszyWDokumencie += 1;
-                        if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszMa(selected, liczbawierszyWDokumencie,roznica);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                     } else {
-                        liczbawierszyWDokumencie += 1;
-                        if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
@@ -320,52 +217,11 @@ public class DokfkView implements Serializable {
                 if (kontoWn instanceof Konto) {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
+                    liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
-                        liczbawierszyWDokumencie += 1;
-                         if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszyWDokumencie,roznica);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
                     } else {
-                        liczbawierszyWDokumencie += 1;
-                         if (przenumeruj == false) {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            selected.getListawierszy().add(wiersz);
-                        } else {
-                            Wiersz wiersz = ObslugaWiersza.utworzNowyWiersz(selected, liczbawierszyWDokumencie);
-                            List<Wiersz> przenumerowanaLista = new ArrayList<>();
-                            int nowaliczbawieszy = selected.getListawierszy().size()+1;
-                            int indexNowegoWiersza = wierszbiezacyIndex+1;
-                            for (int i = 0; i < nowaliczbawieszy; i++) {
-                                if (i < indexNowegoWiersza) {
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i));
-                                } else if (i == indexNowegoWiersza) {
-                                    wiersz.setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(wiersz);
-                                } else if (i > indexNowegoWiersza) {
-                                    selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
-                                    przenumerowanaLista.add(selected.getListawierszy().get(i-1));
-                                }
-                            }
-                            selected.setListawierszy(przenumerowanaLista);
-                        }
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                     }
                 }
             }

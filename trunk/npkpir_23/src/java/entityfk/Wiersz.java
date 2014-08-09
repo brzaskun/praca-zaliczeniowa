@@ -33,9 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable(false)
 @Entity
-@Table(name = "wiersz", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnik, seriadokfk")
-})
+@Table(name = "wiersz")
+//@Table(name = "wiersz", uniqueConstraints = {
+//    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnik, seriadokfk")
+//})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -219,10 +220,13 @@ public class Wiersz implements Serializable {
 
     @Override
     public String toString() {
-        return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "Wn: "+ getStronaWn().getKwota() + "Ma: "+ getStronaMa().getKwota() + '}';
+        if (getStronaWn() == null) {
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: null, Ma: "+ getStronaMa().getKwota() + '}';
+        } else if (getStronaMa() == null) {
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: null}";
+        } else {
+            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + '}';
+        }
     }
-
-
-    
     
 }
