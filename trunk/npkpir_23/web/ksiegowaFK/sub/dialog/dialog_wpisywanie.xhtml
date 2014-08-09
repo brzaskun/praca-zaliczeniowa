@@ -127,9 +127,13 @@
                 </p:panelGrid>
             </p:panelGrid>
             <div style="height: 450px;">
+                <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
+                    <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();"/>
+                </p:contextMenu>
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1220px; max-height: 440px;" scrollable="true"
-                             rowIndexVar="rowindex">
+                             rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" widgetVar="tablicawierszydokwpisu">
+                    <p:ajax event="rowSelect"  listener="#{dokfkView.wybranoWierszMsg}"/>
                     <p:column headerText="lp" width="20" style="text-align: center">
                         <h:outputText value="#{loop.idporzadkowy}" />
                     </p:column>
