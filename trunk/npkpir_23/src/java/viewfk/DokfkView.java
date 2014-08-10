@@ -481,17 +481,26 @@ public class DokfkView implements Serializable {
             if (wybranyWiersz == null) {
                 throw new Exception();
             } else {
-                Wiersz wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy()+1);
-                if (wybranyWiersz.getTypWiersza() == 0 && wierszNastepny != null) {
-                    Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
-                } else {
+                Wiersz wierszNastepny;
+                try {
+                    wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy()+1);
+                    if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
+                        Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
+                    } else {
+                        selected.getListawierszy().remove(wybranyWiersz);
+                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
+                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
+                        Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
+                    }
+                } catch (Exception e1) {
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
                     Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
-                }
-            }
+                 }
+             }
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
         }

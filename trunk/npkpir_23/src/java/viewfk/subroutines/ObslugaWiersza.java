@@ -111,9 +111,15 @@ public class ObslugaWiersza {
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 0) {
-                    kwotawielka = wierszbiezacy.getStronaWn().getKwota();
-                    sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
-                    break;
+                    if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
+                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+                        break;
+                    } else {
+                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+                        break;
+                    }
             }
         }
         int ostatnielpwiersza = selected.getListawierszy().size()+1;
