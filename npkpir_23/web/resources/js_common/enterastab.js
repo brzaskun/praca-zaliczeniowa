@@ -61,9 +61,9 @@ var TabKeyDown;
                     dodajnowywiersz();
                     return false;
                 }
-                pozazieleniajNoweTransakcje();
             }
         }
+        pozazieleniajNoweTransakcje();
     };
  
     function LoadKeyDown() {
