@@ -220,11 +220,17 @@ public class ObslugaWiersza {
 
     public static void sprawdzKwotePozostala(Dokfk selected, Wiersz wybranyWiersz) {
         double roznica = obliczkwotepozostala(selected, wybranyWiersz);
-        if (roznica != 0.0 ) {
+        if (roznica > 0.0 ) {
             if (wybranyWiersz.getTypWiersza() == 1) {
                 wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy()-1, true, roznica, 1);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
                 wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy()-1, true, roznica, 2);
+            }
+        } if (roznica < 0.0) {
+            if (wybranyWiersz.getTypWiersza() == 1) {
+                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy()-1, true, roznica, 2);
+            } else if (wybranyWiersz.getTypWiersza() == 2) {
+                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy()-1, true, roznica, 1);
             }
         }
     }
