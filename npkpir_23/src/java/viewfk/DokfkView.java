@@ -8,6 +8,7 @@ import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
+import comparator.Wierszcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.TabelanbpDAO;
@@ -24,6 +25,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -191,16 +193,29 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     kwotaMa = wierszbiezacy.getStronaMa().getKwota();
-                    double roznica = Math.abs(kwotaWn-kwotaMa);
+                    double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
                     liczbawierszyWDokumencie += 1;
-                    if (roznica==0) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                    } else if (kwotaWn>kwotaMa) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
-                    } else if (kwotaMa>kwotaWn) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
-                                }
+                        try {
+                            Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex+1);
+                            int typnastepnego = wiersznastepny.getTypWiersza();
+                            if (roznica==0 && typnastepnego == 0) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            } else if (typnastepnego == 2) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                            } else if (typnastepnego == 1) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
                             }
+                        } catch (Exception e1) {
+                            //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
+                            if (roznica==0) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            } else if (kwotaWn>kwotaMa) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                            } else if (kwotaMa>kwotaWn) {
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                            }
+                        }
+                    }
             } else if (wierszbiezacy.getTypWiersza() == 2) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
@@ -316,6 +331,7 @@ public class DokfkView implements Serializable {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(),wpisView.getRokWpisuSt());
                 resetujDokument();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
+                RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
@@ -471,6 +487,7 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
                     Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
                 }
