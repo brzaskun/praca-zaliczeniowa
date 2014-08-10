@@ -203,7 +203,7 @@
                                      onfocus="sprawdzpoprzedniwiersz(#{dokfkView.selected.listawierszy.size()})"/>
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" 
-                                     oncomplete="PF('wpisywanie').hide();" rendered="#{dokfkView.zapisz0edytuj1}"/>
+                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>
             </div>

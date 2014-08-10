@@ -111,7 +111,9 @@ public class ObslugaWiersza {
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 0) {
-                kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+                    kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+                    sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+                    break;
             }
         }
         int ostatnielpwiersza = selected.getListawierszy().size()+1;
@@ -130,7 +132,14 @@ public class ObslugaWiersza {
                     // bo dotarlismy do nastepnego macierzystego
                     break;
                 }
-            } else if (wierszbiezacy.getTypWiersza() == 0) {
+                //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
+            } else if (wierszbiezacy.getTypWiersza() == 0 && (lista.get(i-1).getTypWiersza() != 0)) {
+                if (lista.get(i-1).getTypWiersza() == 2) {
+                    sumaczastowych += lista.get(i-1).getStronaMa().getKwota();
+                } else {
+                    sumaczastowych += lista.get(i-1).getStronaWn().getKwota();
+                }
+            } else {
                 break;
             }
         }

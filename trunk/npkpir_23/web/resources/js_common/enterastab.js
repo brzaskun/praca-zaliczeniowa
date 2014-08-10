@@ -61,6 +61,7 @@ var TabKeyDown;
                     dodajnowywiersz();
                     return false;
                 }
+                pozazieleniajNoweTransakcje();
             }
         }
     };
