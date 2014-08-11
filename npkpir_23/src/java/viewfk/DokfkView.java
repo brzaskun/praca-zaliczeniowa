@@ -482,6 +482,7 @@ public class DokfkView implements Serializable {
                 throw new Exception();
             } else {
                 Wiersz wierszNastepny;
+                sprawdzWierszeSasiednie(wybranyWiersz);
                 try {
                     wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
                     if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
@@ -504,6 +505,36 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
         }
+    }
+    
+    private String sprawdzWierszeSasiednie (Wiersz wiersz) {
+        Wiersz poprzedni = null;
+        Wiersz nastepny = null;
+        int poprzednizero = -1;
+        int nastepnyzero = -1;
+        int index = wiersz.getIdporzadkowy();
+        try {
+            for (Wiersz p : selected.getListawierszy()) {
+                if (p.getIdporzadkowy() == index-1) {
+                    poprzedni = p;
+                    break;
+                }
+            }
+            poprzednizero = poprzedni.getTypWiersza();
+        } catch (Exception e1) {
+        }
+        try {
+            for (Wiersz p : selected.getListawierszy()) {
+                if (p.getIdporzadkowy() == index+1) {
+                    nastepny = p;
+                    break;
+                }
+            }
+            nastepnyzero = nastepny.getTypWiersza();
+        } catch (Exception e1) {
+        }
+        String zwrot = String.format("%s%s", poprzednizero, nastepnyzero);
+        return zwrot;
     }
     
     public void przygotujDokumentEdycja(Dokfk item) {
