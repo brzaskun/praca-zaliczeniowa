@@ -482,7 +482,17 @@ public class DokfkView implements Serializable {
                 throw new Exception();
             } else {
                 Wiersz wierszNastepny;
-                sprawdzWierszeSasiednie(wybranyWiersz);
+                String wynik = sprawdzWierszeSasiednie(wybranyWiersz);
+                switch (wynik) {
+                    case "99":
+                        selected.getListawierszy().remove(wybranyWiersz);
+                        break;
+                    case "00":
+                        selected.getListawierszy().remove(wybranyWiersz);
+                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
+                        
+                }
                 try {
                     wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
                     if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
@@ -510,26 +520,15 @@ public class DokfkView implements Serializable {
     private String sprawdzWierszeSasiednie (Wiersz wiersz) {
         Wiersz poprzedni = null;
         Wiersz nastepny = null;
-        int poprzednizero = -1;
-        int nastepnyzero = -1;
-        int index = wiersz.getIdporzadkowy();
+        int poprzednizero = 9;
+        int nastepnyzero = 9;
         try {
-            for (Wiersz p : selected.getListawierszy()) {
-                if (p.getIdporzadkowy() == index-1) {
-                    poprzedni = p;
-                    break;
-                }
-            }
+            poprzedni = selected.poprzedniWiersz(wiersz);
             poprzednizero = poprzedni.getTypWiersza();
         } catch (Exception e1) {
         }
         try {
-            for (Wiersz p : selected.getListawierszy()) {
-                if (p.getIdporzadkowy() == index+1) {
-                    nastepny = p;
-                    break;
-                }
-            }
+            nastepny = selected.nastepnyWiersz(wiersz);
             nastepnyzero = nastepny.getTypWiersza();
         } catch (Exception e1) {
         }

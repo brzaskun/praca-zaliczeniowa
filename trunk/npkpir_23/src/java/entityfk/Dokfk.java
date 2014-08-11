@@ -326,4 +326,24 @@ public class Dokfk implements Serializable {
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }
+    
+    public Wiersz poprzedniWiersz(Wiersz wiersz) {
+        int index = wiersz.getIdporzadkowy();
+         for (Wiersz p : this.getListawierszy()) {
+                if (p.getIdporzadkowy() == index-1) {
+                    return p;
+                }
+            }
+         return null;
+    }
+    
+    public Wiersz nastepnyWiersz(Wiersz wiersz) {
+        int index = wiersz.getIdporzadkowy();
+         for (Wiersz p : this.getListawierszy()) {
+                if (p.getIdporzadkowy() == index+1) {
+                    return p;
+                }
+            }
+         return null;
+    }
 }
