@@ -278,7 +278,7 @@ var chowanienapoczatekdok = function(){
 };
 
 var pozazieleniajNoweTransakcje = function () {
-    var dlugosclisty = rj("formwpisdokument:dataList").children.length;
+    var dlugosclisty = rj("formwpisdokument:dataList_data").children.length;
     for (var i = 0; i < dlugosclisty; i++) {
         try {
             var nowatransakcjaWn = rj("formwpisdokument:dataList:"+i+":wnNowaTransakcja").innerText;

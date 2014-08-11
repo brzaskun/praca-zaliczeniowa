@@ -166,7 +166,7 @@
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu"/>
+                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
@@ -186,7 +186,7 @@
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
-                    <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" />
+                    <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
 <!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
                         </p:autoComplete>
                     </p:column>

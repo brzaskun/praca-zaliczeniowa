@@ -63,7 +63,6 @@ var TabKeyDown;
                 }
             }
         }
-        pozazieleniajNoweTransakcje();
     };
  
     function LoadKeyDown() {
