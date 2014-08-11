@@ -18,6 +18,7 @@ var wpisywanieOnShow = function () {
         ustawdialog('dialogpierwszy','menudokumenty',1250,700);
         //drugi.hide();
         przygotujdokumentdoedycji();
+        pozazieleniajNoweTransakcje();
         $('#formwpisdokument\\:dataDialogWpisywanie').select();
         //Blokuje te z rozrachunkamio
         //zablokujwierszereadonly();

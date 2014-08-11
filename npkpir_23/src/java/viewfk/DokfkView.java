@@ -477,44 +477,70 @@ public class DokfkView implements Serializable {
         Msg.msg("Wybrano wiesz do edycji lp: "+wybranyWiersz.getIdporzadkowy());
     }
     public void usunWskazanyWiersz() {
+        int flag = 0;
+        if (wybranyWiersz == null) {
+            Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
+            flag = 1;
+        }
         try {
-            if (wybranyWiersz == null) {
-                throw new Exception();
-            } else {
-                Wiersz wierszNastepny;
-                String wynik = sprawdzWierszeSasiednie(wybranyWiersz);
-                switch (wynik) {
-                    case "99":
-                        selected.getListawierszy().remove(wybranyWiersz);
-                        break;
-                    case "00":
+            Wiersz wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
+                if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
+                    Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
+                    flag = 1;
+                }
+        } catch (Exception e) {
+        }
+        if (flag == 0) {
+            String wierszeSasiednie = sprawdzWierszeSasiednie(wybranyWiersz);
+            switch (wierszeSasiednie) {
+                case "99":
+                    selected.getListawierszy().remove(wybranyWiersz);
+                    selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
+                    break;
+                case "00":
+                    if (wybranyWiersz.getTypWiersza() == 0) {
                         selected.getListawierszy().remove(wybranyWiersz);
                         ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
                         Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                        
-                }
-                try {
-                    wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
-                    if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
-                        Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
+                        break;
                     } else {
                         selected.getListawierszy().remove(wybranyWiersz);
                         ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
                         Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
-                        Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
+                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
+                        break;
                     }
-                } catch (Exception e1) {
+                case "09":
+                case "19":
+                case "29":
+                    selected.getListawierszy().remove(wybranyWiersz);
+                    break;
+                default:
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
-                    Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
-                 }
-             }
-        } catch (Exception e) {
-            Msg.msg("e", "Nie wybrano wiersza do usunięcia.");
+                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
+                    break;
+            }
         }
+//                try {
+//                    wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
+//                    if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
+//                        Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
+//                    } else {
+//                        selected.getListawierszy().remove(wybranyWiersz);
+//                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+//                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
+//                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
+//                        Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
+//                    }
+//                } catch (Exception e1) {
+//                    selected.getListawierszy().remove(wybranyWiersz);
+//                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+//                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
+//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
+//                    Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
+//                 }
     }
     
     private String sprawdzWierszeSasiednie (Wiersz wiersz) {
