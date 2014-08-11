@@ -198,8 +198,14 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex+1);
                             int typnastepnego = wiersznastepny.getTypWiersza();
-                            if (roznica==0 && typnastepnego == 0) {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            if (typnastepnego == 0) {
+                                if (kwotaWn > kwotaMa) {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                                } else if (kwotaWn < kwotaMa) {
+                                   ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                                } else {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                                }
                             } else if (typnastepnego == 2) {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                             } else if (typnastepnego == 1) {

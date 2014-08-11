@@ -217,7 +217,17 @@ public class ObslugaWiersza {
                 
     }
   
-    public static void wygenerujiDodajWiersz(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+    public static void wygenerujiDodajWierszUsun(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+        int lpmacierzystego = znajdzmacierzystyUsun(selected.getListawierszy(), wierszbiezacyIndex);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        if (przenumeruj == false) {
+            selected.getListawierszy().add(wiersz);
+        } else {
+            ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wiersz, lpmacierzystego);
+        }
+    }
+    
+     public static void wygenerujiDodajWiersz(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         if (przenumeruj == false) {
@@ -227,10 +237,18 @@ public class ObslugaWiersza {
         }
     }
     
-    private static int znajdzmacierzysty(List<Wiersz> listawierszy, int wierszbiezacyIndex) {
+    private static int znajdzmacierzystyUsun(List<Wiersz> listawierszy, int wierszbiezacyIndex) {
         for (int i = wierszbiezacyIndex; i > 0; i--) {
             if (listawierszy.get(i-2).getTypWiersza()==0) {
                 return listawierszy.get(i-2).getIdporzadkowy();
+            }
+        }
+        return 0;
+    }
+    private static int znajdzmacierzysty(List<Wiersz> listawierszy, int wierszbiezacyIndex) {
+        for (int i = wierszbiezacyIndex; i > 0; i--) {
+            if (listawierszy.get(i).getTypWiersza()==0) {
+                return listawierszy.get(i).getIdporzadkowy();
             }
         }
         return 0;
@@ -240,15 +258,15 @@ public class ObslugaWiersza {
         double roznica = obliczkwotepozostala(selected, wybranyWiersz);
         if (roznica > 0.0 ) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
             }
         } if (roznica < 0.0) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWiersz(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
             }
         }
     }
