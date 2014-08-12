@@ -238,10 +238,7 @@ public class DokFKTransakcjeBean implements Serializable{
         }
     }
 
-    public static List<Transakcja> naniesInformacjezWczesniejRozliczonych(int pierwotnailosctransakcjiwbazie, List<Transakcja> biezacetransakcje,StronaWiersza aktualnywierszdorozrachunkow, StronaWierszaDAO stronaWierszaDAO) {
-        pierwotnailosctransakcjiwbazie = biezacetransakcje.size();
-        return biezacetransakcje;
-    }
+  
     
    
     
