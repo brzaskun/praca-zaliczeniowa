@@ -661,9 +661,12 @@ public class DokfkView implements Serializable {
         List<Wiersz> listawierszy = selected.getListawierszy();
         List<StronaWiersza> stronywiersza = new ArrayList<>();
         for (Wiersz p : listawierszy) {
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+            if (p.getTypWiersza() == 0) {
                 stronywiersza.add(p.getStronaWn());
-            } else if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                stronywiersza.add(p.getStronaMa());
+            } else if (p.getTypWiersza() == 1) {
+                stronywiersza.add(p.getStronaWn());
+            } else if (p.getTypWiersza() == 2) {
                 stronywiersza.add(p.getStronaMa());
             }
         }
@@ -885,6 +888,7 @@ public class DokfkView implements Serializable {
         } else {
             selected.setZablokujzmianewaluty(false);
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
     }
     
