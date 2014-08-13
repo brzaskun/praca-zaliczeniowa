@@ -33,7 +33,7 @@
         
     </style>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
-              resizable="false" onShow="wpisywanieOnShow();" closable="false" onHide="wpisywanieOnHide();">
+              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
             <div style="height: 100px;">
