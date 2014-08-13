@@ -161,6 +161,7 @@ var doklejsumowaniewprowadzonych = function() {
         if (wprowadzonowpole === "") {
             $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_input")).val(0.0);
             $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_hinput")).val(0.0);
+            $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_input")).select();
         }
         var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
         var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
