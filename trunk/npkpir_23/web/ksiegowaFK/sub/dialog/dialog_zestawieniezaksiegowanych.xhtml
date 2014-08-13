@@ -10,18 +10,43 @@
 
     
          <h:form id="zestawieniedokumentow">
+               <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
+                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
          <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
+              <script>
+                        /* <![CDATA[ */
+                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+//                        $(document).on("click", '.gridZaksiegowane tr', function(e) {
+//                            try {
+//                                zachowajobiekt(this, e);
+//                            } catch (ex) {
+//                                alert('error dialog zapisynakoncie' + ex.toString());
+//                            }
+//                        });
+                        $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                            var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+                            try {
+                                e.stopPropagation(); // will prevent double click events from link being clicked within row
+                                var unitNo = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                                var numerwiersza = unitNo- pierwszy -1;
+                                zachowajnumerwiersza("zmiennazaksiegowane", numerwiersza);
+                            } catch (e) {
+                                //alert('error');
+                            }
+                        });
+                        /* ]]> */
+                    </script>
              <div style="height: 600px;">
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" style="width: 1200px;"
-                              emptyMessage="Brak zaksięgowanych dokumentów">
+                              emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
                      <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
-                <p:hotkey bind="down"  oncomplete="przejdzwiersz();"/>
-                <p:hotkey bind="up"  oncomplete="wrocwiersz();"/>
-                <p:column headerText="lp." width="30" style="text-align: center;">
-                <h:outputText value="#{row+1}"/>
+               
+            <p:column headerText="lp." width="30" style="text-align: center;">
+                <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
             </p:column>
             <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
@@ -47,7 +72,7 @@
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
             <p:column headerText="edycja" width="100" style="text-align: center;" >
-                    <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="PF('wpisywanie').show();" rendered="#{!item.wTrakcieEdycji}"/>
+                <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="PF('wpisywanie').show();" rendered="#{!item.wTrakcieEdycji}"/>
                     <h:outputText value="dok. w trakcie edycji" rendered="#{item.wTrakcieEdycji}"/>
             </p:column>
             <p:column headerText="" width="60" style="text-align: center;">
