@@ -50,15 +50,15 @@ var TabKeyDown;
                         return false;
                     }
                 } else {
-                    var nrWiersza = parseInt(MYAPP.idwiersza)-1;
-                    var i = "formwpisdokument:dataList:"+nrWiersza+":kontoma_input";
-                    var targetnowy =  document.getElementById(i);
-                    var isTabSuccessful = tab(true, event.shiftKey, targetnowy);
+                    var nrWiersza = parseInt(MYAPP.idwiersza);
+                    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+                    var $targetnowy =  document.getElementById(i);
+                    var isTabSuccessful = tab(true, event.shiftKey, $targetnowy);
                     MYAPP.liczydloWcisnietychEnter = 2;
+                    dodajnowywiersz();
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
-                    dodajnowywiersz();
                     return false;
                 }
             }

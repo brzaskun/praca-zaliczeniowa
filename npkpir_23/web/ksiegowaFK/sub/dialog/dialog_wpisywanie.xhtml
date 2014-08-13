@@ -134,7 +134,7 @@
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1220px; max-height: 440px;" scrollable="true"
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" widgetVar="tablicawierszydokwpisu">
                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranoWierszMsg}"/>
-                    <p:column headerText="lp" width="20" style="text-align: center">
+                    <p:column headerText="lp" width="20" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}" />
                     </p:column>
                     <p:column headerText="opis transakcji" width="250" style="text-align: center;">
@@ -200,10 +200,10 @@
                 <p:panel style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"
-                                     onfocus="sprawdzpoprzedniwiersz(#{dokfkView.selected.listawierszy.size()})"/>
+                                     />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" 
-                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
+                                     accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"
+                                     rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>
             </div>
@@ -217,8 +217,8 @@
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();"/>
+                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
             </h:form>
         </f:facet>
 
