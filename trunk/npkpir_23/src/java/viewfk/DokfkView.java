@@ -270,6 +270,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             dolaczNowyWiersz(prawdziwynumer, false);
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
    
@@ -289,6 +290,7 @@ public class DokfkView implements Serializable {
                 dolaczNowyWiersz(prawdziwynumer, false);
             }
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
 
@@ -315,7 +317,7 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } else {
-                Msg.msg("w", "Uzupełnij wiersze o kwoty!");
+                Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
         }
     }
     
@@ -340,7 +342,7 @@ public class DokfkView implements Serializable {
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
         } else {
-                Msg.msg("w", "Uzupełnij wiersze o kwoty!");
+                Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
         }
     }
     

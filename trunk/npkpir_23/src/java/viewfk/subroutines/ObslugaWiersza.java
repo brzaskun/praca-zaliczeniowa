@@ -9,6 +9,7 @@ package viewfk.subroutines;
 import com.sun.msv.datatype.xsd.Comparator;
 import comparator.Wierszcomparator;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
@@ -29,7 +30,45 @@ public class ObslugaWiersza {
     public static boolean sprawdzSumyWierszy(Dokfk dokfk) {
         double stronalewa = 0.0;
         double stronaprawa = 0.0;
+        Konto kontoWn;
+        Konto kontoMa;
         List<Wiersz> listawierszy = dokfk.getListawierszy();
+        Collections.sort(listawierszy, new Wierszcomparator());
+        //na poczatek sprawdzimy czy w ostatnim nie ma pustych kwot
+        Wiersz ostatniwiersz = listawierszy.get(listawierszy.size()-1);
+        if (ostatniwiersz.getTypWiersza() == 0) {
+                stronalewa += ostatniwiersz.getStronaWn().getKwota();
+                stronaprawa += ostatniwiersz.getStronaMa().getKwota();
+                kontoWn = ostatniwiersz.getStronaWn().getKonto();
+                kontoMa = ostatniwiersz.getStronaMa().getKonto();
+                if (stronalewa == 0 || stronaprawa == 0) {
+                    return false;
+                }
+                if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
+                    return false;
+                }
+            } else if (ostatniwiersz.getTypWiersza()== 1) {
+                stronalewa += ostatniwiersz.getStronaWn().getKwota();
+                kontoWn = ostatniwiersz.getStronaWn().getKonto();
+                if (stronalewa == 0) {
+                    return false;
+                }
+                if (!(kontoWn instanceof Konto)) {
+                    return false;
+                }
+            } else if (ostatniwiersz.getTypWiersza()== 2) {
+                stronaprawa += ostatniwiersz.getStronaMa().getKwota();
+                kontoMa = ostatniwiersz.getStronaMa().getKonto();
+                if (stronaprawa == 0) {
+                    return false;
+                }
+                if (!(kontoMa instanceof Konto)) {
+                    return false;
+                }
+            }
+        stronalewa = 0.0;
+        stronaprawa = 0.0;
+        //teraz sprawdzamy czy lewa == prawa
         for (Wiersz p : listawierszy) {
             if (p.getTypWiersza() == 0) {
                 stronalewa += p.getStronaWn().getKwota();
