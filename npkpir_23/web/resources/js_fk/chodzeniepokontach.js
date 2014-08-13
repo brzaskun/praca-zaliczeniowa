@@ -10,10 +10,15 @@ var zachowajnumerwiersza = function(zmienna ,numer) {
             MYAPP.tabela = "tabelanowerozrachunki:tabela";
             MYAPP.zmienna = "zmiennadata";
             MYAPP.wyliczaj = false;
-        } else {
+        } else if (MYAPP.sourceid === "tabelazzapisami:tabela_data") {
             MYAPP.tabeladata = "tabelazzapisami:tabela_data";
             MYAPP.tabela = "tabelazzapisami:tabela";
             MYAPP.zmienna = "zmiennazapisy";
+            MYAPP.wyliczaj = false;
+        } else if (MYAPP.sourceid === "zestawieniedokumentow:dataList_data") {
+            MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
+            MYAPP.tabela = "zestawieniedokumentow:dataList";
+            MYAPP.zmienna = "zmiennazaksiegowane";
             MYAPP.wyliczaj = false;
         }
 };
