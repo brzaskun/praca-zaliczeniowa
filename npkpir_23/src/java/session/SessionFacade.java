@@ -47,7 +47,6 @@ import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
-import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
@@ -56,6 +55,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -852,6 +852,7 @@ public class SessionFacade<T> implements Serializable{
             
     }
 
+  
     
   
   

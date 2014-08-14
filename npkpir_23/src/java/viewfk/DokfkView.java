@@ -569,24 +569,33 @@ public class DokfkView implements Serializable {
     }
     
     public void przygotujDokumentEdycja(Dokfk item) {
-        selected = item;
-        selected.setwTrakcieEdycji(true);
-        RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         try {
-            Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
-            zapisz0edytuj1 = true;
-            if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
-                pokazPanelWalutowy = true;
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(item);
+            if (odnalezionywbazie.getwTrakcieEdycji() == true) {
+                item.setwTrakcieEdycji(true);
+                selected = item;
+                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             } else {
-                pokazPanelWalutowy = false;
+                selected = item;
+                selected.setwTrakcieEdycji(true);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
+                zapisz0edytuj1 = true;
+                if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
+                    pokazPanelWalutowy = true;
+                } else {
+                    pokazPanelWalutowy = false;
+                }
+                liczbawierszyWDokumencie = item.getListawierszy().size();
+                RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
             }
-            liczbawierszyWDokumencie = item.getListawierszy().size();
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
 
-//    //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
+//samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
 //    public void znajdzDokumentOznaczWierszDoPodswietlenia() {
 //        selected = wiersz.getDokfk();
 //        String szukanafrazazzapisu = wiersz.getOpisWiersza();
@@ -611,7 +620,8 @@ public class DokfkView implements Serializable {
         resetujDokument();
         RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
     }
-
+    
+  
 //    //</editor-fold>
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja

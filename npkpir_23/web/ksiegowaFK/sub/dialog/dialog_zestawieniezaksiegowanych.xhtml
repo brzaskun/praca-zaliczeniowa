@@ -18,13 +18,6 @@
               <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-//                        $(document).on("click", '.gridZaksiegowane tr', function(e) {
-//                            try {
-//                                zachowajobiekt(this, e);
-//                            } catch (ex) {
-//                                alert('error dialog zapisynakoncie' + ex.toString());
-//                            }
-//                        });
                         $(document).on("click", '.gridZaksiegowane tr', function(e) {
                             var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
                             var pierwszy = $(lolo[0]).find(".lpwiersza").text();
@@ -72,8 +65,8 @@
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
             <p:column headerText="edycja" width="100" style="text-align: center;" >
-                <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="PF('wpisywanie').show();" rendered="#{!item.wTrakcieEdycji}"/>
-                    <h:outputText value="dok. w trakcie edycji" rendered="#{item.wTrakcieEdycji}"/>
+                <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="" rendered="#{!item.wTrakcieEdycji}" style="width: 60px;"/>
+                <p:commandButton value="" icon="ui-icon-circle-minus" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" update=":formwpisdokument"  oncomplete="" rendered="#{item.wTrakcieEdycji}" style="width: 60px;"/>
             </p:column>
             <p:column headerText="" width="60" style="text-align: center;">
                 <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
