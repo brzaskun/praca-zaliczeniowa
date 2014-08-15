@@ -7,6 +7,7 @@ package entityfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -25,6 +26,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.jboss.weld.util.collections.ArraySet;
 import viewfk.subroutines.ObslugaWiersza;
  
 /**
@@ -80,12 +82,14 @@ public class Dokfk implements Serializable {
     private double wartoscdokumentu;
     @Column (name="wtrakcieedycji")
     private boolean wTrakcieEdycji;
+ 
 
     
     
     public Dokfk() {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
+        this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
     }
 
@@ -93,6 +97,7 @@ public class Dokfk implements Serializable {
         this.dokfkPK = dokfkPK;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
+        this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
     }
 
@@ -109,6 +114,7 @@ public class Dokfk implements Serializable {
     public Dokfk(String symbolPoprzedniegoDokumentu, String podatnik) {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
+        this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
     }
@@ -203,8 +209,6 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = wartoscdokumentu;
     }
  
-    
-    
     @XmlTransient
     public List<Wiersz> getListawierszy() {
         return listawierszy;
