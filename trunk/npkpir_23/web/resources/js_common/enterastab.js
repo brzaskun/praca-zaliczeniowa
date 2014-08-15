@@ -53,7 +53,7 @@ var TabKeyDown;
                     var nrWiersza = parseInt(MYAPP.idwiersza);
                     var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
                     var $targetnowy =  document.getElementById(i);
-                    var isTabSuccessful = tab(true, event.shiftKey, $targetnowy);
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
                     dodajnowywiersz();
                     event.preventDefault();

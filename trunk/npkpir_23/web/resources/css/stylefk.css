@@ -34,6 +34,12 @@
     width: 300px;
 }
 
+.wierszpiatkowy {
+    font-weight: 900;
+    background-color: red;
+    color: blue;
+}
+
 
 
 

@@ -4,9 +4,11 @@ package entityfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -26,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.jboss.weld.util.collections.ArraySet;
 
 /**
  *
@@ -80,6 +83,10 @@ public class Wiersz implements Serializable {
     private Map<String, StronaWiersza> strona;
     @Column(name="lpmacierzystego")
     private Integer lpmacierzystego;
+    @ManyToOne
+    private Wiersz czworka;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Wiersz> piatki;
 
   
     
@@ -87,6 +94,7 @@ public class Wiersz implements Serializable {
     public Wiersz() {
         this.strona = new HashMap<>();
         this.zapisynakontach = new ArrayList<>();
+        this.piatki = new HashSet<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
@@ -95,9 +103,26 @@ public class Wiersz implements Serializable {
         this.zapisynakontach = new ArrayList<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
+        this.piatki = new HashSet<>();
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public Wiersz getCzworka() {
+        return czworka;
+    }
+
+    public void setCzworka(Wiersz czworka) {
+        this.czworka = czworka;
+    }
+
+    public Set<Wiersz> getPiatki() {
+        return piatki;
+    }
+
+    public void setPiatki(Set<Wiersz> piatki) {
+        this.piatki = piatki;
+    }
+    
     public Integer getLpmacierzystego() {
         return lpmacierzystego;
     }

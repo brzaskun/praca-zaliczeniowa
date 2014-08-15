@@ -54,10 +54,15 @@ var aktywujPierwszePoleNowegoWiersza = function(){
     var i_obj = document.getElementById(i);
     $(i_obj).css('backgroundColor','#ffb');
     $(i_obj).focus();
-    //$(i_obj).select();
+    $(i_obj).select();
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
 
+var selectOnfocus = function(wierszindex) {
+    var i = "formwpisdokument:dataList:"+wierszindex+":ma_input";
+    var i_obj = document.getElementById(i);
+    $(i_obj).select();
+};
 
 
 

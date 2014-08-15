@@ -115,6 +115,18 @@ public class ObslugaWiersza {
         return nowywiersz;
     }
     
+     public static Wiersz utworzNowyWiersz5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 5);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
+        nowywiersz.setStronaWn(stronaWn);
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
+        nowywiersz.setStronaMa(stronaMa);
+        nowywiersz.setLpmacierzystego(lpmacierzystego);
+        return nowywiersz;
+    }
+    
     public static Wiersz utworzNowyWierszWn(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 1);
         nowywiersz.setDokfk(selected);
@@ -208,6 +220,8 @@ public class ObslugaWiersza {
                 return utworzNowyWierszWn(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
             case 2:
                 return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+            case 5:
+                return utworzNowyWiersz5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
             default:
                 return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
         }
@@ -273,6 +287,20 @@ public class ObslugaWiersza {
             selected.getListawierszy().add(wiersz);
         } else {
             ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wiersz, lpmacierzystego);
+        }
+    }
+     
+     public static void wygenerujiDodajWierszPiatka(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
+        int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
+        Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        nowywiersz.setCzworka(czworka);
+        nowywiersz.getStronaMa().setKonto(konto490);
+        nowywiersz.getStronaMa().setTypStronaWiersza(5);
+        czworka.getPiatki().add(nowywiersz);
+        if (przenumeruj == false) {
+            selected.getListawierszy().add(nowywiersz);
+        } else {
+            ObslugaWiersza.dodajiPrzenumerujWiersze(selected, nowywiersz, lpmacierzystego);
         }
     }
     

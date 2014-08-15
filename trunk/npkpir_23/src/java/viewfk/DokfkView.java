@@ -11,6 +11,7 @@ import beansFK.StronaWierszaBean;
 import comparator.Wierszcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
@@ -98,6 +99,8 @@ public class DokfkView implements Serializable {
     private String rachunekCzyPlatnosc;
     private int typwiersza;
     private Wiersz wybranyWiersz;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
     
     
 
@@ -208,6 +211,8 @@ public class DokfkView implements Serializable {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                             } else if (typnastepnego == 1) {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                            } else if (typnastepnego == 5) {
+                                return;
                             }
                         } catch (Exception e1) {
                             //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
@@ -257,8 +262,8 @@ public class DokfkView implements Serializable {
         }
     }
     
-     public void zdarzeniaOnBlurStronaMa(int numerwiersza) {
-       // skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
+     public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
+       skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
      }
      
      public void dodajNowyWierszStronaMa () {
@@ -274,8 +279,13 @@ public class DokfkView implements Serializable {
     }
 
    
-     public void zdarzeniaOnBlurStronaWn(int numerwiersza) {
-        //skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
+        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+        if (wiersz.getStronaWn().getKonto().getNrkonta().startsWith("4")) {
+            Msg.msg("Konto kosztowe");
+            dodajNowyWierszStronaWnPiatka();
+        }
+        
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
      } 
      
@@ -291,6 +301,71 @@ public class DokfkView implements Serializable {
             }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+     
+       public void dodajNowyWierszStronaWnPiatka () {
+        int prawdziwynumer = numerwiersza;
+        Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer);
+        if (wiersz.getTypWiersza() == 0 && wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size()==0) {
+            dolaczNowyWierszPiatka(prawdziwynumer, false);
+        }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+     
+     //    //dodaje wiersze do dokumentu
+    public void dolaczNowyWierszPiatka(int wierszbiezacyIndex, boolean przenumeruj) {
+        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
+        Konto kontoWn;
+        Konto kontoMa;
+        boolean czyWszystkoWprowadzono = false;
+        double kwotaWn = 0.0;
+        double kwotaMa = 0.0;
+        try {
+            if (wierszbiezacy.getTypWiersza() == 0) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                if (kontoWn instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
+                    double roznica = kwotaWn;
+                    liczbawierszyWDokumencie += 1;
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 5, wierszbiezacy, konto490);
+                    }
+            } else if (wierszbiezacy.getTypWiersza() == 2) {
+                kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                if (kontoMa instanceof Konto) {
+                    double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
+                    czyWszystkoWprowadzono = true;
+                    liczbawierszyWDokumencie += 1;
+                    if (roznica > 0.0) {
+                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                        } else {
+                       ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                                }
+                            }
+            } else if (wierszbiezacy.getTypWiersza() == 1) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                if (kontoWn instanceof Konto) {
+                    double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
+                    czyWszystkoWprowadzono = true;
+                    liczbawierszyWDokumencie += 1;
+                    if (roznica > 0.0) {
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                        } else {
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected,liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                                }
+                            }
+                        }
+        } catch (Exception e) {
+            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        }
+        if (czyWszystkoWprowadzono) {
+            //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
+            selected.uzupelnijwierszeodane();
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
+        } else {
+            Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
+        }
     }
 
 
