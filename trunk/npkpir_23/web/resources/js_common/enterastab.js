@@ -40,19 +40,18 @@ var TabKeyDown;
                 event.stopImmediatePropagation();
                 return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
-                if (MYAPP.wnlubma === "Wn" && MYAPP.typwiersza === 0) {
+                if (MYAPP.wnlubma === "Wn") {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
-                    if (isTabSuccessful) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        event.stopImmediatePropagation();
-                        return false;
-                    }
+                    dodajnowywiersz();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
                 } else {
-                    var nrWiersza = parseInt(MYAPP.idwiersza);
-                    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
-                    var $targetnowy =  document.getElementById(i);
+//                    var nrWiersza = parseInt(MYAPP.idwiersza);
+//                    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+//                    var $targetnowy =  document.getElementById(i);
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
                     dodajnowywiersz();

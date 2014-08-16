@@ -189,7 +189,7 @@ public class DokfkView implements Serializable {
         double kwotaWn = 0.0;
         double kwotaMa = 0.0;
         try {
-            if (wierszbiezacy.getTypWiersza() == 0 || wierszbiezacy.getTypWiersza() == 5) {
+            if (wierszbiezacy.getTypWiersza() == 0) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
@@ -270,12 +270,17 @@ public class DokfkView implements Serializable {
      
      public void dodajNowyWierszStronaMa () {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-         int prawdziwynumer = numerwiersza-1;
-        try {
-            Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer+1);
-            dolaczNowyWiersz(prawdziwynumer, true);
-        } catch (Exception e) {
-            dolaczNowyWiersz(prawdziwynumer, false);
+        int prawdziwynumer = numerwiersza-1;
+        Wiersz wierszbiezacy = selected.getListawierszy().get(prawdziwynumer);
+        if (wierszbiezacy.getTypWiersza()==5) {
+            dolaczNowyWierszPiatka(prawdziwynumer, false);
+        } else {
+            try {
+                Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer+1);
+                dolaczNowyWiersz(prawdziwynumer, true);
+            } catch (Exception e) {
+                dolaczNowyWiersz(prawdziwynumer, false);
+            }
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -283,11 +288,6 @@ public class DokfkView implements Serializable {
    
      public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
         skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
-        if (wiersz.getStronaWn().getKonto().getNrkonta().startsWith("4")) {
-            Msg.msg("Konto kosztowe");
-            dodajNowyWierszStronaWnPiatka();
-        }
-        
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
      } 
      
@@ -306,7 +306,7 @@ public class DokfkView implements Serializable {
     }
      
        public void dodajNowyWierszStronaWnPiatka () {
-        int prawdziwynumer = numerwiersza;
+        int prawdziwynumer = numerwiersza-1;
         Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer);
         if (wiersz.getTypWiersza() == 0 && wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size()==0) {
             dolaczNowyWierszPiatka(prawdziwynumer, false);
@@ -1166,9 +1166,11 @@ public class DokfkView implements Serializable {
             int numeraktualny = numerwiersza - 1;
             StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
             StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
-            if (selected.getListawierszy().get(numerpoprzedni).getTypWiersza() == 0 && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
-                wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
-                Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
+            if (wierszBiezacy.getKwota()==0) {
+                if (selected.getListawierszy().get(numerpoprzedni).getTypWiersza() == 0 && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
+                    wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
+                    Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
+                }
             }
         }
     }

@@ -128,7 +128,7 @@
             </p:panelGrid>
             <div style="height: 450px;">
                 <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
-                    <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();"/>
+                    <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 1220px; max-height: 440px;" scrollable="true"
@@ -167,7 +167,7 @@
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();selectOnfocus(#{rowindex});"/>
+                            <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
@@ -220,6 +220,7 @@
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
                 <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
+                <p:commandButton id="dodajwierszWn5" value="dodajwierszWn5" actionListener="#{dokfkView.dodajNowyWierszStronaWnPiatka()}" style="display: none;" oncomplete="aktywujNastepnePolePoprzedniegoWiersza();" />
             </h:form>
         </f:facet>
 

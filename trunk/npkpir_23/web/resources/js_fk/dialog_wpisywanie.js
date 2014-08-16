@@ -41,6 +41,8 @@ var dodajnowywiersz = function () {
     if (wnlubma === "Wn") {
         if (typwiersza === "1") {
             $(document.getElementById("wpisywaniefooter:dodajwierszWn")).click();
+        } else {
+            $(document.getElementById("wpisywaniefooter:dodajwierszWn5")).click();
         }
     } else {
         $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
@@ -49,8 +51,23 @@ var dodajnowywiersz = function () {
 
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWiersza = function(){
-    var nrWiersza = MYAPP.idwiersza;
+    var nrWiersza;
+    if (MYAPP.hasOwnProperty('idwiersza')) {
+        nrWiersza = MYAPP.idwiersza;
+    } else {
+        nrWiersza = 0;
+    }
     var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+    var i_obj = document.getElementById(i);
+    $(i_obj).css('backgroundColor','#ffb');
+    $(i_obj).focus();
+    $(i_obj).select();
+    //sprawdzpoprzedniwiersz(nrWiersza);
+};
+
+var aktywujNastepnePolePoprzedniegoWiersza = function(){
+    var nrWiersza = parseInt(MYAPP.idwiersza) -1;
+    var i = "formwpisdokument:dataList:"+nrWiersza+":ma_input";
     var i_obj = document.getElementById(i);
     $(i_obj).css('backgroundColor','#ffb');
     $(i_obj).focus();
