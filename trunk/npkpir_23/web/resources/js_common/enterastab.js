@@ -10,7 +10,7 @@ var TabKeyDown;
         if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
             MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloWcisnietychEnter > 2) {
+            if (MYAPP.liczydloWcisnietychEnter > 1) {
                 MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
@@ -35,46 +35,20 @@ var TabKeyDown;
                 }
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
                 MYAPP.liczydloWcisnietychEnter = 1;
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                return false;
+                    dodajnowywiersz();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
-                if (MYAPP.wnlubma === "Wn") {
-                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                   var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
-                    dodajnowywiersz();
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     return false;
-                } else {
-                    dodajnowywiersz();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    return false;
-                }
-            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 2) {
-                    try {
-                        var nrWiersza = parseInt(MYAPP.idwiersza);
-                        var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
-                        var i_obj = document.getElementById(i);
-                        while (i_obj.value !== "") {
-                            nrWiersza++;
-                            i = "formwpisdokument:dataList:"+nrWiersza+":opis";
-                            i_obj = document.getElementById(i);
-                        }
-                        var $targetnowy =  document.getElementById(i);
-                        var isTabSuccessful = tab(true, event.shiftKey, $targetnowy);
-                    } catch (e) {}
-                    MYAPP.liczydloWcisnietychEnter = 3;
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    return false;
-                }
-            }
+            } 
+        }
         };
  
     function LoadKeyDown() {

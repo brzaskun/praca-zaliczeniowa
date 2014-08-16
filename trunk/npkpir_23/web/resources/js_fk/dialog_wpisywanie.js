@@ -64,14 +64,16 @@ var aktywujPierwszePoleNowegoWiersza = function(){
     }
     var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
     var i_obj = document.getElementById(i);
-    while (i_obj.value !== "") {
-        nrWiersza++;
-        i = "formwpisdokument:dataList:"+nrWiersza+":opis";
-        i_obj = document.getElementById(i);
-    }
-    $(i_obj).css('backgroundColor','#ffb');
-    $(i_obj).focus();
-    $(i_obj).select();
+    try {
+        while (i_obj.value !== "") {
+            nrWiersza++;
+            i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+            i_obj = document.getElementById(i);
+        }
+    } catch (e) {}
+        $(i_obj).css('backgroundColor','#ffb');
+        $(i_obj).focus();
+        $(i_obj).select();
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
 

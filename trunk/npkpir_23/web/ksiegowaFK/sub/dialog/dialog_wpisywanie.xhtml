@@ -185,7 +185,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza}, #{loop.idporzadkowy});" readonly="#{loop.stronaMa.typStronaWiersza != 0}"
+                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza}, #{loop.idporzadkowy});"  readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
                     <p:ajax event="blur" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
 <!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
@@ -219,9 +219,9 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" style="display: none;" oncomplete="aktywujPierwszePoleNowegoWiersza();" />
-                <p:commandButton id="dodajwierszWn5" value="dodajwierszWn5" actionListener="#{dokfkView.dodajNowyWierszStronaWnPiatka()}" style="display: none;" oncomplete="aktywujNastepnePolePoprzedniegoWiersza();" />
+                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList" style="display: none;"/>
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" update=":formwpisdokument:dataList" style="display: none;"/>
+                <p:commandButton id="dodajwierszWn5" value="dodajwierszWn5" actionListener="#{dokfkView.dodajNowyWierszStronaWnPiatka()}" style="display: none;" update=":formwpisdokument:dataList" />
             </h:form>
         </f:facet>
 
