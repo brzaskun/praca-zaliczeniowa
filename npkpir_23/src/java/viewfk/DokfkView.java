@@ -284,7 +284,7 @@ public class DokfkView implements Serializable {
                 dolaczNowyWiersz(prawdziwynumer, false);
             }
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+       // RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
@@ -303,7 +303,7 @@ public class DokfkView implements Serializable {
                 dolaczNowyWiersz(prawdziwynumer, false);
             }
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void dodajNowyWierszStronaWnPiatka() {
@@ -311,7 +311,7 @@ public class DokfkView implements Serializable {
         Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer);
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
             dolaczNowyWierszPiatka(prawdziwynumer, false);
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             return;
         }
         if (wiersz.getTypWiersza() != 0) {
@@ -323,7 +323,7 @@ public class DokfkView implements Serializable {
                     dolaczNowyWierszPiatka(prawdziwynumer, false);
                 }
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }
 
