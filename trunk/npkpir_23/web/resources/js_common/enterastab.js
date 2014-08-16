@@ -10,7 +10,7 @@ var TabKeyDown;
         if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
             MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloWcisnietychEnter > 1) {
+            if (MYAPP.liczydloWcisnietychEnter > 2) {
                 MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
@@ -39,7 +39,7 @@ var TabKeyDown;
                 event.stopPropagation();
                 event.stopImmediatePropagation();
                 return false;
-            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter > 0) {
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                 if (MYAPP.wnlubma === "Wn") {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 2;
@@ -49,20 +49,33 @@ var TabKeyDown;
                     event.stopImmediatePropagation();
                     return false;
                 } else {
-//                    var nrWiersza = parseInt(MYAPP.idwiersza);
-//                    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
-//                    var $targetnowy =  document.getElementById(i);
-                    var isTabSuccessful = tab(true, event.shiftKey, $target);
-                    MYAPP.liczydloWcisnietychEnter = 2;
                     dodajnowywiersz();
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     return false;
                 }
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 2) {
+                    try {
+                        var nrWiersza = parseInt(MYAPP.idwiersza);
+                        var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+                        var i_obj = document.getElementById(i);
+                        while (i_obj.value !== "") {
+                            nrWiersza++;
+                            i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+                            i_obj = document.getElementById(i);
+                        }
+                        var $targetnowy =  document.getElementById(i);
+                        var isTabSuccessful = tab(true, event.shiftKey, $targetnowy);
+                    } catch (e) {}
+                    MYAPP.liczydloWcisnietychEnter = 3;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
+                }
             }
-        }
-    };
+        };
  
     function LoadKeyDown() {
         //on adds a handler to the object.  In this case it is the document itself
