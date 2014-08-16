@@ -27,8 +27,10 @@ import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -187,7 +189,7 @@ public class DokfkView implements Serializable {
         double kwotaWn = 0.0;
         double kwotaMa = 0.0;
         try {
-            if (wierszbiezacy.getTypWiersza() == 0) {
+            if (wierszbiezacy.getTypWiersza() == 0 || wierszbiezacy.getTypWiersza() == 5) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
@@ -452,20 +454,27 @@ public class DokfkView implements Serializable {
      //usuwa wiersze z dokumentu
     public void usunWierszWDokumencie() {
         try {
+            liczbawierszyWDokumencie = selected.getListawierszy().size();
             if (liczbawierszyWDokumencie > 1) {
-                liczbawierszyWDokumencie--;
-                selected.getListawierszy().remove(liczbawierszyWDokumencie);
+                Wiersz wierszDoUsuniecia = selected.getListawierszy().get(liczbawierszyWDokumencie-1);
+                if (wierszDoUsuniecia.getTypWiersza() == 5){
+                    Msg.msg("e", "Usuń najpierw wiersz z 4.");
+                } else {
+                    liczbawierszyWDokumencie--;
+                    selected.getListawierszy().remove(liczbawierszyWDokumencie);
+                    Msg.msg("Wiersz usunięty.");
+                }
             } else if (liczbawierszyWDokumencie == 1) {
                 Wiersz wiersz = selected.getListawierszy().get(0);
                 try {
                     if (wiersz.getIdporzadkowy() != null) {
-                        selected.getListawierszy().remove(0);
-                        dokDAOfk.edit(selected);
+                        selected.setListawierszy(new ArrayList<Wiersz>());
                         liczbawierszyWDokumencie--;
                     } else {
                         selected.getListawierszy().remove(0);
                         liczbawierszyWDokumencie--;
                     }
+                    Msg.msg("Wiersz usunięty.");
                 } catch (Exception e) {
                     
                 }
@@ -474,7 +483,6 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
-            Msg.msg("Wiersz usunięty.");
         } catch (Exception e) {
             Msg.msg("Błąd podczas usuwania wiersz");
         }
@@ -571,6 +579,16 @@ public class DokfkView implements Serializable {
                 }
         } catch (Exception e) {
         }
+        try {
+            liczbawierszyWDokumencie = selected.getListawierszy().size();
+            if (liczbawierszyWDokumencie > 1) {
+                if (wybranyWiersz.getTypWiersza() == 5){
+                    Msg.msg("e", "Usuń najpierw wiersz z 4.");
+                    return;
+                }
+            }
+        } catch (Exception e) {
+        }
         if (flag == 0) {
             String wierszeSasiednie = sprawdzWierszeSasiednie(wybranyWiersz);
             switch (wierszeSasiednie) {
@@ -596,6 +614,16 @@ public class DokfkView implements Serializable {
                 case "29":
                     selected.getListawierszy().remove(wybranyWiersz);
                     break;
+                case "05":
+                case "15":
+                case "25":
+                case "95":
+                    Set<Wiersz> dolaczonePiatki = wybranyWiersz.getPiatki();
+                    for (Wiersz p : dolaczonePiatki) {
+                        selected.getListawierszy().remove(p);
+                    }
+                    selected.getListawierszy().remove(wybranyWiersz);
+                    break;
                 default:
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
@@ -603,6 +631,11 @@ public class DokfkView implements Serializable {
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
             }
+        }
+        liczbawierszyWDokumencie = selected.getListawierszy().size();
+         if (liczbawierszyWDokumencie == 0) {
+                selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
+                liczbawierszyWDokumencie = 1;
         }
 //                try {
 //                    wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
@@ -1123,6 +1156,19 @@ public class DokfkView implements Serializable {
                 Konto kontoPoprzedni = serialclone.SerialClone.clone(wierszPoprzedni.getKonto());
                 wierszBiezacy.setKonto(kontoPoprzedni);
                 Msg.msg("Skopiowano konto z wiersza poprzedzającego");
+            }
+        }
+    }
+    
+     public void skopiujKwoteZWierszaWyzej(int numerwiersza, String wnma) {
+        if (numerwiersza > 1) {
+            int numerpoprzedni = numerwiersza - 2;
+            int numeraktualny = numerwiersza - 1;
+            StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
+            StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
+            if (selected.getListawierszy().get(numerpoprzedni).getTypWiersza() == 0 && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
+                wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
+                Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
             }
         }
     }
