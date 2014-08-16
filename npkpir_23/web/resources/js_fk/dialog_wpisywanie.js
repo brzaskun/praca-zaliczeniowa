@@ -69,9 +69,13 @@ var aktywujNastepnePolePoprzedniegoWiersza = function(){
     var nrWiersza = parseInt(MYAPP.idwiersza) -1;
     var i = "formwpisdokument:dataList:"+nrWiersza+":ma_input";
     var i_obj = document.getElementById(i);
-    $(i_obj).css('backgroundColor','#ffb');
-    $(i_obj).focus();
-    $(i_obj).select();
+    if (i_obj) {
+        $(i_obj).css('backgroundColor','#ffb');
+        $(i_obj).focus();
+        $(i_obj).select();
+    } else {
+        aktywujPierwszePoleNowegoWiersza();
+    }
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
 

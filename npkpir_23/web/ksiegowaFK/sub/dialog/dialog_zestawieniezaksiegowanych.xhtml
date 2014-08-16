@@ -13,7 +13,7 @@
                <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
          <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
+                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
               <script>
                         /* <![CDATA[ */

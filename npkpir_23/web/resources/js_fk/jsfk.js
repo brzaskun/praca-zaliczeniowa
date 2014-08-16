@@ -236,12 +236,13 @@ var chowanienapoczatek = function(){
     pozazieleniajNoweTransakcje();
 };
 
-var aktualizujmape = function(liczbawierszyWDokumencie){
-    usunztablicydok();
-    chowanienapoczatekdok();
-    if (liczbawierszyWDokumencie === 1) {
-        $(document.getElementById('formwpisdokument:dataList:0:opis')).focus();
-    }
+var aktualizujmape = function(){
+    //usunztablicydok();
+    //chowanienapoczatekdok();
+        var dlugosclisty = rj("formwpisdokument:dataList_data").children.length;
+        var nrwiersza = dlugosclisty-1;
+        var i = 'formwpisdokument:dataList:'+nrwiersza+':opis';
+        $(document.getElementById(i)).focus();
 };
 
 var aktualizujmapedialog = function(wiersze){
