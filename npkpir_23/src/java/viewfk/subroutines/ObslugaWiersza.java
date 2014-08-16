@@ -327,12 +327,20 @@ public class ObslugaWiersza {
      public static void wygenerujiDodajWierszPiatka(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
-        nowywiersz.setCzworka(czworka);
+        Wiersz sprawdzonaczworka;
+        if (czworka.getTypWiersza() == 0 || czworka.getTypWiersza() == 1 ||czworka.getTypWiersza() == 2) {
+            nowywiersz.setCzworka(czworka);
+            sprawdzonaczworka = czworka;
+            sprawdzonaczworka.getPiatki().add(nowywiersz);
+        } else {
+            nowywiersz.setCzworka(czworka.getCzworka());
+            sprawdzonaczworka = czworka.getCzworka();
+            sprawdzonaczworka.getPiatki().add(nowywiersz);
+        }
         if (typwiersza == 5) {
             nowywiersz.getStronaMa().setKonto(konto490);
             nowywiersz.getStronaMa().setTypStronaWiersza(5);
         }
-        czworka.getPiatki().add(nowywiersz);
         if (przenumeruj == false) {
             selected.getListawierszy().add(nowywiersz);
         } else {
