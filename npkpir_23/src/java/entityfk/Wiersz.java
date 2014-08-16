@@ -255,12 +255,13 @@ public class Wiersz implements Serializable {
     @Override
     public String toString() {
         if (getStronaWn() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: null, Ma: "+ getStronaMa().getKwota() + '}';
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto() + '}';
         } else if (getStronaMa() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: null}";
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto();
         } else {
-            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + '}';
+            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto()+ " Ma: "+getStronaMa().getKonto()+'}';
         }
     }
+    
     
 }

@@ -34,10 +34,11 @@
     width: 300px;
 }
 
-.wierszpiatkowy {
-    font-weight: 900;
-    background-color: red;
-    color: blue;
+.wierszpiatkowy, .wierszpiatkowy .ui-inputfield {
+    font-weight: 900 !important;
+    font-style: italic !important;
+    background: {color: red !important};
+    color: blue !important;
 }
 
 
