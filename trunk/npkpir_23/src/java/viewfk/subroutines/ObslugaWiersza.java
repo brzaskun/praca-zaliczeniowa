@@ -36,7 +36,7 @@ public class ObslugaWiersza {
         Collections.sort(listawierszy, new Wierszcomparator());
         //na poczatek sprawdzimy czy w ostatnim nie ma pustych kwot
         Wiersz ostatniwiersz = listawierszy.get(listawierszy.size()-1);
-        if (ostatniwiersz.getTypWiersza() == 0) {
+        if (ostatniwiersz.getTypWiersza() == 0 || ostatniwiersz.getTypWiersza() == 5) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
@@ -47,7 +47,7 @@ public class ObslugaWiersza {
                 if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
                     return false;
                 }
-            } else if (ostatniwiersz.getTypWiersza()== 1) {
+            } else if (ostatniwiersz.getTypWiersza()== 1 || ostatniwiersz.getTypWiersza() == 6) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 if (stronalewa == 0) {
@@ -56,7 +56,7 @@ public class ObslugaWiersza {
                 if (!(kontoWn instanceof Konto)) {
                     return false;
                 }
-            } else if (ostatniwiersz.getTypWiersza()== 2) {
+            } else if (ostatniwiersz.getTypWiersza()== 2 || ostatniwiersz.getTypWiersza() == 7) {
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronaprawa == 0) {
@@ -70,12 +70,12 @@ public class ObslugaWiersza {
         stronaprawa = 0.0;
         //teraz sprawdzamy czy lewa == prawa
         for (Wiersz p : listawierszy) {
-            if (p.getTypWiersza() == 0) {
+            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
                 stronalewa += p.getStronaWn().getKwota();
                 stronaprawa += p.getStronaMa().getKwota();
-            } else if (p.getTypWiersza()== 1) {
+            } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
                 stronalewa += p.getStronaWn().getKwota();
-            } else if (p.getTypWiersza()== 2) {
+            } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
                 stronaprawa += p.getStronaMa().getKwota();
             }
         }
@@ -115,6 +115,16 @@ public class ObslugaWiersza {
         return nowywiersz;
     }
     
+    public static Wiersz utworzNowyWierszMa5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 7);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
+        nowywiersz.setStronaMa(stronaMa);
+        nowywiersz.setLpmacierzystego(lpmacierzystego);
+        return nowywiersz;
+    }
+    
      public static Wiersz utworzNowyWiersz5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 5);
         nowywiersz.setDokfk(selected);
@@ -136,6 +146,26 @@ public class ObslugaWiersza {
         nowywiersz.setLpmacierzystego(lpmacierzystego);
         return nowywiersz;
     }
+    
+    public static Wiersz utworzNowyWierszWn6(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 6);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
+        nowywiersz.setStronaWn(stronaWn);
+        nowywiersz.setLpmacierzystego(lpmacierzystego);
+        return nowywiersz;
+    }
+    
+    public static Wiersz utworzNowyWierszWn5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 6);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
+        nowywiersz.setStronaWn(stronaWn);
+        nowywiersz.setLpmacierzystego(lpmacierzystego);
+        return nowywiersz;
+    }
 
     public static double obliczkwotepozostala(Dokfk selected, Wiersz wierszbiezacy) {
         List<Wiersz> lista = selected.getListawierszy();
@@ -147,23 +177,23 @@ public class ObslugaWiersza {
         for (int i = lpmerwiersza; i > 0; i--) {
             //jest i-2 bo i-1 jest usuniety i na jego miejsce wpasl nizej polozony wiersz
             int iW = i-2;
-            if(wierszbiezacy.getTypWiersza() == 2) {
-                if (lista.get(iW).getTypWiersza()==2) {
+            if(wierszbiezacy.getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
+                if (lista.get(iW).getTypWiersza()==2 || lista.get(iW).getTypWiersza()==7) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
+                } else if (lista.get(iW).getTypWiersza()==0 || lista.get(iW).getTypWiersza()==5) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaWn().getKwota();
                     break;
                 }
-            } else if (wierszbiezacy.getTypWiersza() == 1) {
-                if (lista.get(iW).getTypWiersza()==1) {
+            } else if (wierszbiezacy.getTypWiersza() == 1 || wierszbiezacy.getTypWiersza() == 6) {
+                if (lista.get(iW).getTypWiersza()==1 || lista.get(iW).getTypWiersza()==6) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
+                } else if (lista.get(iW).getTypWiersza()==0 || lista.get(iW).getTypWiersza()==5) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaMa().getKwota();
                     break;
                 }
-            } else if (wierszbiezacy.getTypWiersza() == 0) {
+            } else if (wierszbiezacy.getTypWiersza() == 0 || wierszbiezacy.getTypWiersza() == 5) {
                 //jak tego nie bedzie to wyjda minusy potem, bo return jest bez abs
                     if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
                         kwotawielka = wierszbiezacy.getStronaWn().getKwota();
@@ -180,22 +210,22 @@ public class ObslugaWiersza {
         //idziemy w dol i sumujemy/wiersz moze byc po srodku
         for (int i = lpmerwiersza; i < ostatnielpwiersza; i++) {
             int iW = i-1;
-            if(wierszbiezacy.getTypWiersza() == 2) {
-                if (lista.get(iW).getTypWiersza()==2) {
+            if(wierszbiezacy.getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
+                if (lista.get(iW).getTypWiersza()==2 || wierszbiezacy.getTypWiersza() == 7) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
                 } else if (lista.get(iW).getTypWiersza()==0) {
                     break;
                 }
-            } else if (wierszbiezacy.getTypWiersza() == 1) {
-                if (lista.get(iW).getTypWiersza()==1) {
+            } else if (wierszbiezacy.getTypWiersza() == 1 || wierszbiezacy.getTypWiersza() == 6) {
+                if (lista.get(iW).getTypWiersza()==1 || wierszbiezacy.getTypWiersza() == 6) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
                 } else if (lista.get(iW).getTypWiersza()==0) {
                     // bo dotarlismy do nastepnego macierzystego
                     break;
                 }
                 //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
-            } else if (wierszbiezacy.getTypWiersza() == 0 && (lista.get(i-1).getTypWiersza() != 0)) {
-                if (lista.get(i-1).getTypWiersza() == 2) {
+            } else if ((wierszbiezacy.getTypWiersza() == 0  && lista.get(i-1).getTypWiersza() != 0) || (wierszbiezacy.getTypWiersza() == 5 && lista.get(i-1).getTypWiersza() != 5)) {
+                if (lista.get(i-1).getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
                     sumaczastowych += lista.get(i-1).getStronaMa().getKwota();
                 } else {
                     sumaczastowych += lista.get(i-1).getStronaWn().getKwota();
@@ -222,6 +252,10 @@ public class ObslugaWiersza {
                 return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
             case 5:
                 return utworzNowyWiersz5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+            case 6:
+                return utworzNowyWierszWn5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+            case 7:
+                return utworzNowyWierszMa5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
             default:
                 return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
         }
@@ -294,8 +328,10 @@ public class ObslugaWiersza {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         nowywiersz.setCzworka(czworka);
-        nowywiersz.getStronaMa().setKonto(konto490);
-        nowywiersz.getStronaMa().setTypStronaWiersza(5);
+        if (typwiersza == 5) {
+            nowywiersz.getStronaMa().setKonto(konto490);
+            nowywiersz.getStronaMa().setTypStronaWiersza(5);
+        }
         czworka.getPiatki().add(nowywiersz);
         if (przenumeruj == false) {
             selected.getListawierszy().add(nowywiersz);
