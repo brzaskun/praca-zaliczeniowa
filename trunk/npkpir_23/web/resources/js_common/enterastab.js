@@ -5,12 +5,10 @@ var TabKeyDown;
     var focusable = ":input, a[href]";
  
     TabKeyDown = function(event) {
-        setTimeout(function() {
-        }, 4000);
         if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
             MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloWcisnietychEnter > 1) {
+            if (MYAPP.liczydloWcisnietychEnter > 0) {
                 MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
@@ -34,15 +32,8 @@ var TabKeyDown;
                     return false;
                 }
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
-                MYAPP.liczydloWcisnietychEnter = 1;
-                    dodajnowywiersz();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    return false;
-            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
-                   var isTabSuccessful = tab(true, event.shiftKey, $target);
-                    MYAPP.liczydloWcisnietychEnter = 2;
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    MYAPP.liczydloWcisnietychEnter = 1;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();

@@ -208,32 +208,37 @@ public class ObslugaWiersza {
         }
         int ostatnielpwiersza = selected.getListawierszy().size()+1;
         //idziemy w dol i sumujemy/wiersz moze byc po srodku
-        for (int i = lpmerwiersza; i < ostatnielpwiersza; i++) {
-            int iW = i-1;
-            if(wierszbiezacy.getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
-                if (lista.get(iW).getTypWiersza()==2 || wierszbiezacy.getTypWiersza() == 7) {
-                    sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
-                    break;
-                }
-            } else if (wierszbiezacy.getTypWiersza() == 1 || wierszbiezacy.getTypWiersza() == 6) {
-                if (lista.get(iW).getTypWiersza()==1 || wierszbiezacy.getTypWiersza() == 6) {
-                    sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
-                    // bo dotarlismy do nastepnego macierzystego
-                    break;
-                }
-                //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
-            } else if ((wierszbiezacy.getTypWiersza() == 0  && lista.get(i-1).getTypWiersza() != 0) || (wierszbiezacy.getTypWiersza() == 5 && lista.get(i-1).getTypWiersza() != 5)) {
-                if (lista.get(i-1).getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
-                    sumaczastowych += lista.get(i-1).getStronaMa().getKwota();
+        try {
+            //moze nie byc nic na koniec
+            for (int i = lpmerwiersza; i < ostatnielpwiersza; i++) {
+                int iW = i-1;
+                if(wierszbiezacy.getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
+                    if (lista.get(iW).getTypWiersza()==2 || wierszbiezacy.getTypWiersza() == 7) {
+                        sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+                    } else if (lista.get(iW).getTypWiersza()==0) {
+                        break;
+                    }
+                } else if (wierszbiezacy.getTypWiersza() == 1 || wierszbiezacy.getTypWiersza() == 6) {
+                    if (lista.get(iW).getTypWiersza()==1 || wierszbiezacy.getTypWiersza() == 6) {
+                        sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+                    } else if (lista.get(iW).getTypWiersza()==0) {
+                        // bo dotarlismy do nastepnego macierzystego
+                        break;
+                    }
+                    //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
+                } else if ((wierszbiezacy.getTypWiersza() == 0  && lista.get(i).getTypWiersza() != 0) || (wierszbiezacy.getTypWiersza() == 5 && lista.get(i).getTypWiersza() != 5)) {
+                    if (lista.get(i).getTypWiersza() == 2 || wierszbiezacy.getTypWiersza() == 7) {
+                        sumaczastowych += lista.get(i).getStronaMa().getKwota();
+                    } else {
+                        sumaczastowych += lista.get(i).getStronaWn().getKwota();
+                    }
                 } else {
-                    sumaczastowych += lista.get(i-1).getStronaWn().getKwota();
+                    break;
                 }
-            } else {
-                break;
-            }
-        }
+                }
+            } catch (Exception e) {
+                    
+                    }
         return kwotawielka-sumaczastowych;
     }
     
