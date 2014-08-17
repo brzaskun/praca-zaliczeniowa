@@ -204,7 +204,8 @@ public class DokfkView implements Serializable {
                             } else if (kwotaWn < kwotaMa) {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
                             } else {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                                //wywalam dodawanie nowego wiersza jak sa nastepne
+                                //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                             }
                         } else if (typnastepnego == 2) {
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
@@ -238,7 +239,11 @@ public class DokfkView implements Serializable {
                     if (roznica > 0.0) {
                         ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                     } else {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        try {
+                            Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+                        } catch (Exception e) {
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        }
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
@@ -250,7 +255,11 @@ public class DokfkView implements Serializable {
                     if (roznica > 0.0) {
                         ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
                     } else {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        try {
+                            Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+                        } catch (Exception e) {
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        }
                     }
                 }
             }
@@ -266,61 +275,67 @@ public class DokfkView implements Serializable {
         }
     }
 
+    public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
+        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
+            wybranoRachunekPlatnosc(wiersz,"Wn");
+        }
+        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+        dodajNowyWierszStronaWn(wiersz);
+        dodajNowyWierszStronaWnPiatka(wiersz);
+        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+    }
+    
     public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
+        if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("2")) {
+            wybranoRachunekPlatnosc(wiersz,"Ma");
+        }
         skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
+        dodajNowyWierszStronaMa(wiersz);
     }
 
-    public void dodajNowyWierszStronaMa() {
+    public void dodajNowyWierszStronaWn(Wiersz wiersz) {
+        int indexwTabeli = wiersz.getIdporzadkowy()-1;
+        if (wiersz.getTypWiersza() == 1) {
+            try {
+                Wiersz wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
+                dolaczNowyWiersz(indexwTabeli, true);
+            } catch (Exception e) {
+                dolaczNowyWiersz(indexwTabeli, false);
+            }
+        }
+        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+    
+     public void dodajNowyWierszStronaMa(Wiersz wiersz) {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-        int prawdziwynumer = numerwiersza - 1;
-        Wiersz wierszbiezacy = selected.getListawierszy().get(prawdziwynumer);
-        if (wierszbiezacy.getTypWiersza() == 5) {
-            dolaczNowyWierszPiatka(prawdziwynumer, false);
+        int indexwTabeli = wiersz.getIdporzadkowy()-1;
+        if (wiersz.getTypWiersza() == 5) {
+            dolaczNowyWierszPiatka(indexwTabeli, false);
         } else {
             try {
-                Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer + 1);
-                dolaczNowyWiersz(prawdziwynumer, true);
+                Wiersz wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
+                dolaczNowyWiersz(indexwTabeli, true);
             } catch (Exception e) {
-                dolaczNowyWiersz(prawdziwynumer, false);
+                dolaczNowyWiersz(indexwTabeli, false);
             }
         }
        // RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
-    public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
-        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
-        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-    }
-
-    public void dodajNowyWierszStronaWn() {
-        int prawdziwynumer = numerwiersza - 1;
-        Wiersz wierszbiezacy = selected.getListawierszy().get(prawdziwynumer);
-        if (wierszbiezacy.getTypWiersza() == 1) {
-            try {
-                Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer + 1);
-                dolaczNowyWiersz(prawdziwynumer, true);
-            } catch (Exception e) {
-                dolaczNowyWiersz(prawdziwynumer, false);
-            }
-        }
-        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-    }
-
-    public void dodajNowyWierszStronaWnPiatka() {
-        int prawdziwynumer = numerwiersza - 1;
-        Wiersz wiersz = selected.getListawierszy().get(prawdziwynumer);
+    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
+        int indexwTabeli = wiersz.getIdporzadkowy()-1;
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
-            dolaczNowyWierszPiatka(prawdziwynumer, false);
+            dolaczNowyWierszPiatka(indexwTabeli, false);
             //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             return;
         }
         if (wiersz.getTypWiersza() != 0) {
             int licznbawierszy = selected.getListawierszy().size();
-            int poprzedniwiersznumer = prawdziwynumer - 1;
+            int poprzedniwiersznumer = indexwTabeli - 1;
             if (licznbawierszy > 1) {
                 Wiersz wierszpoprzedni = selected.getListawierszy().get(poprzedniwiersznumer);
                 if (wierszpoprzedni.getTypWiersza() == 5 || wierszpoprzedni.getTypWiersza() == 6 || wierszpoprzedni.getTypWiersza() == 7) {
-                    dolaczNowyWierszPiatka(prawdziwynumer, false);
+                    dolaczNowyWierszPiatka(indexwTabeli, false);
                 }
             }
             //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -849,21 +864,43 @@ public class DokfkView implements Serializable {
         return iloscrozliczonychwierszy;
     }
 
-    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
+     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc() {
+        numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
+        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
         biezacetransakcje = new ArrayList<>();
-        tworzAktualnyWierszDlaRozrachunkow();
+        tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
         rachunekCzyPlatnosc = "płatność";
         RequestContext.getCurrentInstance().update("transakcjawybor");
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
         } else {
-            wybranoRachunekPlatnoscCD();
+            wybranoRachunekPlatnoscCD(stronawiersza);
+        }
+    }
+    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
+    public void wybranoRachunekPlatnosc(Wiersz wiersz, String stronawiersza) {
+        biezacetransakcje = new ArrayList<>();
+        tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
+        rachunekCzyPlatnosc = "płatność";
+        RequestContext.getCurrentInstance().update("transakcjawybor");
+        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+            wnmadoprzeniesienia = stronawiersza;
+            RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
+        } else {
+            wybranoRachunekPlatnoscCD(stronawiersza);
         }
     }
 
+    private String wnmadoprzeniesienia;
+
+    public String getWnmadoprzeniesienia() {
+        return wnmadoprzeniesienia;
+    }
+    
     //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
-    public void wybranoRachunekPlatnoscCD() {
+    public void wybranoRachunekPlatnoscCD(String stronawiersza) {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
@@ -875,9 +912,9 @@ public class DokfkView implements Serializable {
             }
         }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
-            tworzenieTransakcjiRachunek();
+            tworzenieTransakcjiRachunek(stronawiersza);
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
-            tworzenieTransakcjiPlatnosc();
+            tworzenieTransakcjiPlatnosc(stronawiersza);
         }
     }
 
@@ -897,14 +934,14 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().execute("transakcjeWyborHidePlatnosc();");
     }
 
-    private void tworzAktualnyWierszDlaRozrachunkow() {
-        numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
-        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
+    private void tworzAktualnyWierszDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
+        //numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        //stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         //Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
         zablokujprzyciskzapisz = false;
         try {
             aktualnyWierszDlaRozrachunkow = null;
-            aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow();
+            aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow(wiersz, stronawiersza);
         } catch (Exception e) {
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
@@ -912,7 +949,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void tworzenieTransakcjiPlatnosc() {
+    public void tworzenieTransakcjiPlatnosc(String stronawiersza) {
         List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
         List<StronaWiersza> innezBazy = new ArrayList<>();
         try {
@@ -960,7 +997,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void tworzenieTransakcjiRachunek() {
+    public void tworzenieTransakcjiRachunek(String stronawiersza) {
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
@@ -1001,12 +1038,12 @@ public class DokfkView implements Serializable {
     }
 
 //po wcisnieciu klawisza art-r nastepuje przygotowanie inicjalizacja aktualnego wiersza dla rozrachunkow
-    private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow() {
-        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+    private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow(Wiersz wiersz, String stronawiersza) {
+        //Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
         StronaWiersza stronaWiersza;
         StronaWiersza stronaWn = wiersz.getStronaWn();
         StronaWiersza stronaMa = wiersz.getStronaMa();
-        if (stronawiersza.equals("Wn")) {
+            if (stronawiersza.equals("Wn")) {
             stronaWiersza = stronaWn;
             potraktujjakoNowaTransakcje = stronaWn.isNowatransakcja();
         } else {

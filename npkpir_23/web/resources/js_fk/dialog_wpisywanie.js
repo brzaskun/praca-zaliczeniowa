@@ -1,15 +1,13 @@
-var zachowajwiersz = function (wierszid, wnlubma, typwiersza, lpwiersza) {
+var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
-    MYAPP.idwiersza = wierszid;
+    MYAPP.lpwiersza = lpwiersza;
     MYAPP.wnlubma = wnlubma;
     MYAPP.zaznaczonepole = event.target;
     MYAPP.typwiersza = typwiersza;
-    MYAPP.lpwiersza = lpwiersza
     //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
-    $(document.getElementById("wpisywaniefooter:wierszid")).val(wierszid);
+    $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
     $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
-    $(document.getElementById("wpisywaniefooter:lpwiersza")).val(lpwiersza);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -58,7 +56,7 @@ var dodajnowywiersz = function () {
 var aktywujPierwszePoleNowegoWiersza = function(){
     var nrWiersza;
     if (MYAPP.hasOwnProperty('idwiersza')) {
-        nrWiersza = MYAPP.idwiersza;
+        nrWiersza = MYAPP.lpwiersza;
     } else {
         nrWiersza = 0;
     }
@@ -78,7 +76,7 @@ var aktywujPierwszePoleNowegoWiersza = function(){
 };
 
 var aktywujNastepnePolePoprzedniegoWiersza = function(){
-    var nrWiersza = parseInt(MYAPP.idwiersza) -1;
+    var nrWiersza = parseInt(MYAPP.lpwiersza) -1;
     var i = "formwpisdokument:dataList:"+nrWiersza+":ma_input";
     var i_obj = document.getElementById(i);
     if (i_obj) {
