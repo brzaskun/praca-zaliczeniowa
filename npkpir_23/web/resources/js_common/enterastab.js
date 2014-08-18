@@ -29,6 +29,7 @@ var TabKeyDown;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
                     return false;
                 }
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
@@ -37,6 +38,7 @@ var TabKeyDown;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
                     return false;
             } 
         }
