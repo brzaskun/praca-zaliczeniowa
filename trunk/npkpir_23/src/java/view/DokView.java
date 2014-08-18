@@ -951,9 +951,9 @@ public final class DokView implements Serializable {
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikatAMO(selD, wpisView.getRokWpisuSt());
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt().getNazwapelna(), selD.getTypdokumentu());
         if (tmp instanceof Dok) {
-            String wiadomosc = "Dokument typu " + selD.getTypdokumentu() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik();
+            String wiadomosc = "Dokument typu " + selD.getTypdokumentu() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() +" typ dokumentu: "+selD.getTypdokumentu();
             Msg.msg("e", wiadomosc);
             throw new Exception();
         } else {

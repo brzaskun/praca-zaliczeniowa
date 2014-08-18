@@ -199,10 +199,10 @@ public class ZUSMailView implements Serializable {
         try {
             MaiManager.mailManagerZUS(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getWprowadzil().getEmail());
             usuzpelnijdane(zusmail);
+            Msg.msg("i", "Wyslano wiadomość");
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
-        Msg.msg("i", "Wyslano wiadomość");
     }
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
