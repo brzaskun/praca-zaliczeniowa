@@ -298,9 +298,10 @@ public class DokfkView implements Serializable {
 
     public void dodajNowyWierszStronaWn(Wiersz wiersz) {
         int indexwTabeli = wiersz.getIdporzadkowy()-1;
+        Wiersz wiersznastepny = null;
         if (wiersz.getTypWiersza() == 1) {
             try {
-                Wiersz wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
+                wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
                 dolaczNowyWiersz(indexwTabeli, true);
             } catch (Exception e) {
                 dolaczNowyWiersz(indexwTabeli, false);
@@ -319,7 +320,12 @@ public class DokfkView implements Serializable {
                         kwotaMa = wiersz.getStronaMa().getKwota();
                     }
                     if (kwotaWn != kwotaMa) {
-                        dolaczNowyWiersz(indexwTabeli, false);
+                        try {
+                           wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
+                           dolaczNowyWiersz(indexwTabeli, true);
+                        } catch (Exception e) {
+                           dolaczNowyWiersz(indexwTabeli, false);
+                        }
                     }
             } catch (Exception e) {
 
@@ -377,9 +383,16 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     kwotaWn = wierszbiezacy.getStronaWn().getKwota();
                     double roznica = kwotaWn;
-                    liczbawierszyWDokumencie += 1;
-                    Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
-                    ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 5, wierszbiezacy, konto490);
+                    try {
+                            Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+                            liczbawierszyWDokumencie += 1;
+                            Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                            ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, true, roznica, 5, wierszbiezacy, konto490);
+                        } catch (Exception e) {
+                            liczbawierszyWDokumencie += 1;
+                            Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                            ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, false, roznica, 5, wierszbiezacy, konto490);
+                        }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 5) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
@@ -393,13 +406,17 @@ public class DokfkView implements Serializable {
                     //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
                     if (roznica == 0) {
                         // nie chce wiersza na koncu ni z tego ni z owego
-                        //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                        try {
+                            Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+                        } catch (Exception e) {
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, false, roznica, 0);
+                        }
                     } else if (kwotaWn > kwotaMa) {
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
-                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
+                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
                     } else if (kwotaMa > kwotaWn) {
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
-                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
+                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
                     }
                 }
             } else if (wierszbiezacy.getTypWiersza() == 7) {
@@ -410,7 +427,7 @@ public class DokfkView implements Serializable {
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
-                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
+                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
@@ -427,7 +444,7 @@ public class DokfkView implements Serializable {
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
-                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
+                        ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);

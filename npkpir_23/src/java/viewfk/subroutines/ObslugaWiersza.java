@@ -442,7 +442,7 @@ public class ObslugaWiersza {
         }
     }
      
-     public static void wygenerujiDodajWierszPiatka(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
+     public static void wygenerujiDodajWierszPiatka(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
         int lpmacierzystego = znajdzmacierzysty5(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         Wiersz sprawdzonaczworka;
@@ -475,7 +475,7 @@ public class ObslugaWiersza {
         return 0;
     }
     private static int znajdzmacierzysty(List<Wiersz> listawierszy, int wierszbiezacyLP) {
-        int wierszbiezacyIndex = wierszbiezacyLP -1;
+        int wierszbiezacyIndex = wierszbiezacyLP;
         for (int i = wierszbiezacyIndex; i > -1; i--) {
             if (listawierszy.get(i).getTypWiersza()==0) {
                 return listawierszy.get(i).getIdporzadkowy();
