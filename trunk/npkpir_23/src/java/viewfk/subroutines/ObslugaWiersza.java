@@ -253,17 +253,17 @@ public class ObslugaWiersza {
             //jest i-2 bo i-1 jest usuniety i na jego miejsce wpasl nizej polozony wiersz
             int iW = i-2;
             if(wierszbiezacy.getTypWiersza() == 2) {
-                if (lista.get(iW).getTypWiersza()==2 || lista.get(iW).getTypWiersza()==7) {
+                if (lista.get(iW).getTypWiersza()==2) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0 || lista.get(iW).getTypWiersza()==5) {
+                } else if (lista.get(iW).getTypWiersza()==0) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaWn().getKwota();
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
-                if (lista.get(iW).getTypWiersza()==1 || lista.get(iW).getTypWiersza()==6) {
+                if (lista.get(iW).getTypWiersza()==1) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0 || lista.get(iW).getTypWiersza()==5) {
+                } else if (lista.get(iW).getTypWiersza()==0) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaMa().getKwota();
                     break;
