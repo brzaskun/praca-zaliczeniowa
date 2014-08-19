@@ -40,6 +40,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import view.WpisView;
@@ -198,25 +199,27 @@ public class DokfkView implements Serializable {
                     try {
                         Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         int typnastepnego = wiersznastepny.getTypWiersza();
-                        if (typnastepnego == 0) {
-                            if (kwotaWn > kwotaMa) {
+                        if (roznica != 0) {//bo tyko wtedy ma sens dodawanie czegos, inaczej znaczy to ze cala kwto a jets wyczerpana i nie trzeba dodawac
+                            if (typnastepnego == 0) {
+                                if (kwotaWn > kwotaMa) {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                                } else if (kwotaWn < kwotaMa) {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                                } else {
+                                    //wywalam dodawanie nowego wiersza jak sa nastepne
+                                    //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                                }
+                            } else if (typnastepnego == 2) {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
-                            } else if (kwotaWn < kwotaMa) {
+                            } else if (typnastepnego == 1) {
                                 ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
-                            } else {
-                                //wywalam dodawanie nowego wiersza jak sa nastepne
-                                //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                            }
-                        } else if (typnastepnego == 2) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
-                        } else if (typnastepnego == 1) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
-                        } else if (typnastepnego == 5) {
-                            int nowyindexzpiatkami = wierszbiezacyIndex+wierszbiezacy.getPiatki().size();
-                            if (kwotaWn > kwotaMa) {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 2);
-                            } else if (kwotaWn < kwotaMa) {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                            } else if (typnastepnego == 5) {
+                                int nowyindexzpiatkami = wierszbiezacyIndex+wierszbiezacy.getPiatki().size();
+                                if (kwotaWn > kwotaMa) {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 2);
+                                } else if (kwotaWn < kwotaMa) {
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                                }
                             }
                         }
                     } catch (Exception e1) {
@@ -275,6 +278,48 @@ public class DokfkView implements Serializable {
         }
     }
 
+    public void lisnerCzyNastapilaZmianaKontaWn(ValueChangeEvent e) {
+        Konto stare = (Konto) e.getOldValue();
+        Konto nowe = (Konto) e.getNewValue();
+        try {// bo wywala blad jak jest nowa linia 5-tek. stare wtedy == null
+            if (!stare.equals(nowe)) {
+               boolean stareTo4 = stare.getPelnynumer().startsWith("4");
+               if (stareTo4) {
+                   String clientID = ((AutoComplete) e.getSource()).getClientId();
+                   String indexwiersza = clientID.split(":")[2];
+                   Set<Wiersz> listapiatek = selected.getListawierszy().get(Integer.parseInt(indexwiersza)).getPiatki();
+                   if (!listapiatek.isEmpty()) {
+                       for (Wiersz p : listapiatek) {
+                           if (selected.getListawierszy().contains(p)) {
+                               selected.getListawierszy().remove(p);
+                           }
+                       }
+                       selected.getListawierszy().get(Integer.parseInt(indexwiersza)).setPiatki(new HashSet<Wiersz>());
+                   }
+                   przenumerujSelected();
+               }
+               Msg.msg("Hoho nowe konto Ma");
+           }
+        } catch (Exception er) {
+            
+        }
+    }
+    
+    private void przenumerujSelected() {
+        int lp = 1;
+        int tymczasowyMacierzysty = 0;
+        for (Wiersz p : selected.getListawierszy()) {
+            if (p.getTypWiersza()==0 || p.getTypWiersza() == 5) {
+                tymczasowyMacierzysty = lp;
+                p.setLpmacierzystego(tymczasowyMacierzysty);
+                p.setIdporzadkowy(lp);
+            } else {
+                p.setIdporzadkowy(lp);
+                p.setLpmacierzystego(tymczasowyMacierzysty);
+            }
+            lp++;
+        }
+    }
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
             wybranoRachunekPlatnosc(wiersz,"Wn");
@@ -286,6 +331,14 @@ public class DokfkView implements Serializable {
             dodajNowyWierszStronaWn(wiersz);
         }
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+    }
+    
+    public void lisnerCzyNastapilaZmianaKontaMa(ValueChangeEvent e) {
+        Konto stare = (Konto) e.getOldValue();
+        Konto nowe = (Konto) e.getNewValue();
+       if (!stare.equals(nowe)) {
+            Msg.msg("Hoho nowe konto Wn");
+        }
     }
     
     public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
