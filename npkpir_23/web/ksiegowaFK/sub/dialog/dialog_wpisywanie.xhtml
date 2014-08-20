@@ -169,7 +169,7 @@
                     <p:column headerText="kwota"  style="text-align: center;" width="120">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}">
+                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
                         </pe:inputNumber>
                     </p:column>

@@ -42,6 +42,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.context.RequestContext;
+import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 import view.WpisView;
 import viewfk.subroutines.NaniesZapisynaKontaFK;
@@ -332,6 +333,29 @@ public class DokfkView implements Serializable {
         }
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
     }
+    
+    public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
+        double kwotastara = (double) e.getOldValue();
+        double kwotanowa = (double) e.getNewValue();
+        if (kwotastara != kwotanowa) {
+            try {
+                String clientID = ((InputNumber) e.getSource()).getClientId();
+                String indexwiersza = clientID.split(":")[2];
+                Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                Konto kontown = wiersz.getStronaWn().getKonto();
+                wiersz.getStronaWn().setKwota(kwotanowa);
+                if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+                    dodajNowyWierszStronaWnPiatka(wiersz);
+                    } else {
+                    dodajNowyWierszStronaWn(wiersz);
+                }
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            } catch (Exception e1) {
+
+            }
+        }
+    }
+    
     
     public void lisnerCzyNastapilaZmianaKontaMa(ValueChangeEvent e) {
         Konto stare = (Konto) e.getOldValue();
