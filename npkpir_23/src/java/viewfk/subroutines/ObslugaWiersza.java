@@ -382,15 +382,14 @@ public class ObslugaWiersza {
         List<Wiersz> listawierszy = selected.getListawierszy();
         for (Wiersz s : listawierszy) {
             if (s.getIdporzadkowy() > lpmacierzystego) {
-                if (s.getTypWiersza() == 5 && (lpNowegoWiersza == lpmacierzystego)) {
+                if (s.getTypWiersza() == 0 && (lpNowegoWiersza == lpmacierzystego)) {
                     lpNowegoWiersza = lpmacierzystego+1;
-                    break;
-                } else if (s.getTypWiersza() == 7 && (lpNowegoWiersza == lpmacierzystego)) {
-                    lpNowegoWiersza += 2;
                 } else if (s.getTypWiersza() == 5) {
+                    lpNowegoWiersza = s.getIdporzadkowy()+1;
+                } else if (s.getTypWiersza() == 7) {
+                    lpNowegoWiersza += s.getIdporzadkowy()+1;
+                } else if (s.getTypWiersza() == 0) {
                     break;
-                } else {
-                    lpNowegoWiersza++;
                 }
                 //dodajemy to bo jest zawsze przenumeruj. w zwuklym, wierszu nie ma przenumeruj i wtedy daje jako numer ostatni numer wiersza
             } 
@@ -462,7 +461,7 @@ public class ObslugaWiersza {
         if (przenumeruj == false) {
             selected.getListawierszy().add(nowywiersz);
         } else {
-            ObslugaWiersza.dodajiPrzenumerujWiersze5(selected, nowywiersz, lpmacierzystego);
+            ObslugaWiersza.dodajiPrzenumerujWiersze5(selected, nowywiersz, sprawdzonaczworka.getIdporzadkowy());
         }
     }
     
