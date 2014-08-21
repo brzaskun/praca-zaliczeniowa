@@ -413,14 +413,23 @@ public class ObslugaWiersza {
         selected.setListawierszy(przenumerowanaLista);
     }
 
-    public static void przenumerujWierszePoUsunieciu(Dokfk selected) {
-        List<Wiersz> wiersze = selected.getListawierszy();
-        int i = 1;
-        for (Wiersz p : wiersze) {
-            p.setIdporzadkowy(i++);
+       
+    public static void przenumerujSelected(Dokfk selected) {
+        int lp = 1;
+        int tymczasowyMacierzysty = 0;
+        for (Wiersz p : selected.getListawierszy()) {
+            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
+                tymczasowyMacierzysty = lp;
+                p.setLpmacierzystego(tymczasowyMacierzysty);
+                p.setIdporzadkowy(lp);
+            } else {
+                p.setIdporzadkowy(lp);
+                p.setLpmacierzystego(tymczasowyMacierzysty);
+            }
+            lp++;
         }
-                
     }
+
   
     public static void wygenerujiDodajWierszUsun(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = znajdzmacierzystyUsun(selected.getListawierszy(), wierszbiezacyIndex);

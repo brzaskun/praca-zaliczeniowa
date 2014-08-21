@@ -206,7 +206,7 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}"
                                         >
-                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza();   "/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza();"/>
                             <!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
                         </p:autoComplete>
                     </p:column>
@@ -238,9 +238,7 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszWn" value="dodajwierszWn" actionListener="#{dokfkView.dodajNowyWierszStronaWn()}" update=":formwpisdokument:dataList" style="display: none;"/>
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajNowyWierszStronaMa()}" update=":formwpisdokument:dataList" style="display: none;"/>
-                <p:commandButton id="dodajwierszWn5" value="dodajwierszWn5" actionListener="#{dokfkView.dodajNowyWierszStronaWnPiatka()}" style="display: none;" update=":formwpisdokument:dataList" />
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" update=":formwpisdokument:dataList" style="display: none;" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza();"/>
             </h:form>
         </f:facet>
 
