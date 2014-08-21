@@ -384,6 +384,7 @@ public class ObslugaWiersza {
             if (s.getIdporzadkowy() > lpmacierzystego) {
                 if (s.getTypWiersza() == 0 && (lpNowegoWiersza == lpmacierzystego)) {
                     lpNowegoWiersza = lpmacierzystego+1;
+                    break;
                 } else if (s.getTypWiersza() == 5) {
                     lpNowegoWiersza = s.getIdporzadkowy()+1;
                 } else if (s.getTypWiersza() == 7) {

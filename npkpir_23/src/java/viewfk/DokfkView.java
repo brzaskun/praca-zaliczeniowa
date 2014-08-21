@@ -322,11 +322,11 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int numerwiersza) {
+    public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
-        skopiujKontoZWierszaWyzej(numerwiersza, "Wn");
+        skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
         } else {
@@ -456,7 +456,7 @@ public class DokfkView implements Serializable {
     public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
-            dolaczNowyWierszPiatka(indexwTabeli, false);
+            dolaczNowyWierszPiatka(indexwTabeli, true);
             //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             return;
         }
@@ -769,8 +769,19 @@ public class DokfkView implements Serializable {
             flag = 1;
         }
         try {
-            Wiersz wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
-            if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
+            Wiersz wierszNastepny = null;
+            for (Wiersz p : selected.getListawierszy()) {
+                if (p.getIdporzadkowy() > wybranyWiersz.getIdporzadkowy()) {
+                    int typ = p.getTypWiersza();
+                    if (typ == 1 || typ ==2) {
+                        wierszNastepny = p;
+                        break;
+                    } else if (typ == 0) {
+                        break;
+                    }
+                }
+            }
+            if (wybranyWiersz.getTypWiersza() == 0 && wierszNastepny != null) {
                 Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                 flag = 1;
             }
@@ -814,12 +825,18 @@ public class DokfkView implements Serializable {
                 case "05":
                 case "15":
                 case "25":
+                case "55":
+                case "65":
+                case "75":
                 case "95":
                     Set<Wiersz> dolaczonePiatki = wybranyWiersz.getPiatki();
                     for (Wiersz p : dolaczonePiatki) {
                         selected.getListawierszy().remove(p);
                     }
                     selected.getListawierszy().remove(wybranyWiersz);
+                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
+                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
                 default:
                     selected.getListawierszy().remove(wybranyWiersz);
@@ -1387,7 +1404,8 @@ public class DokfkView implements Serializable {
             StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
             StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
             if (wierszBiezacy.getKwota() == 0) {
-                if (selected.getListawierszy().get(numerpoprzedni).getTypWiersza() == 0 && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
+                int typ = selected.getListawierszy().get(numerpoprzedni).getTypWiersza();
+                if ( (typ == 0 || typ == 1 || typ ==2) && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
                     wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
                     Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
                 }
