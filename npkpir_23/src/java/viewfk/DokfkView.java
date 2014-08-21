@@ -297,7 +297,7 @@ public class DokfkView implements Serializable {
                         }
                         selected.getListawierszy().get(Integer.parseInt(indexwiersza)).setPiatki(new HashSet<Wiersz>());
                     }
-                    przenumerujSelected();
+                    ObslugaWiersza.przenumerujSelected(selected);
                 }
                 Msg.msg("Hoho nowe konto Ma");
             }
@@ -306,21 +306,6 @@ public class DokfkView implements Serializable {
         }
     }
 
-    private void przenumerujSelected() {
-        int lp = 1;
-        int tymczasowyMacierzysty = 0;
-        for (Wiersz p : selected.getListawierszy()) {
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
-                tymczasowyMacierzysty = lp;
-                p.setLpmacierzystego(tymczasowyMacierzysty);
-                p.setIdporzadkowy(lp);
-            } else {
-                p.setIdporzadkowy(lp);
-                p.setLpmacierzystego(tymczasowyMacierzysty);
-            }
-            lp++;
-        }
-    }
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
@@ -451,6 +436,18 @@ public class DokfkView implements Serializable {
             }
         }
         // RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+    
+     public void dodajPustyWierszNaKoncu() {
+        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
+        Wiersz wiersz = selected.getListawierszy().get(numerwiersza-1);
+        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
+        Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size()-1);
+        if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
+            Msg.msg("Dodajenowypustywiersz");
+            dolaczNowyWiersz(indexwTabeli, false);
+        }
+        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
@@ -807,12 +804,12 @@ public class DokfkView implements Serializable {
                 case "00":
                     if (wybranyWiersz.getTypWiersza() == 0) {
                         selected.getListawierszy().remove(wybranyWiersz);
-                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                        ObslugaWiersza.przenumerujSelected(selected);
                         Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                         break;
                     } else {
                         selected.getListawierszy().remove(wybranyWiersz);
-                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                        ObslugaWiersza.przenumerujSelected(selected);
                         Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                         ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
@@ -834,13 +831,13 @@ public class DokfkView implements Serializable {
                         selected.getListawierszy().remove(p);
                     }
                     selected.getListawierszy().remove(wybranyWiersz);
-                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                    ObslugaWiersza.przenumerujSelected(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
                 default:
                     selected.getListawierszy().remove(wybranyWiersz);
-                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
+                    ObslugaWiersza.przenumerujSelected(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;

@@ -41,15 +41,7 @@ var dodajnowywiersz = function () {
     var nowynumer = parseInt(MYAPP.lpwiersza)-1;
     var wiersz = "formwpisdokument:dataList:"+nowynumer+":kontown_input";
     var czyczworka = document.getElementById(wiersz).value[0];
-    if (wnlubma === "Wn") {
-        if (typwiersza === "1" && czyczworka !== "4") {
-            $(document.getElementById("wpisywaniefooter:dodajwierszWn")).click();
-        } else {
-            $(document.getElementById("wpisywaniefooter:dodajwierszWn5")).click();
-        }
-    } else {
-        $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
-    }
+    $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
 };
 
 //aktywuje nowy wiersz

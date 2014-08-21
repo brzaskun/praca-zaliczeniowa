@@ -19,7 +19,7 @@ var TabKeyDown;
         var czyZawieraMa = taregetId.indexOf("kontoma");
         var enterdefault = taregetId.indexOf("enterdefault");
         var toJestPoleKonta = false;
-        if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
+        if (czyZawieraMa > 0 || enterdefault > 0) {
             toJestPoleKonta = true;
         }
         if ($(event.target).is("button") === false) {
@@ -32,7 +32,7 @@ var TabKeyDown;
                     pozazieleniajNoweTransakcje();
                     return false;
                 }
-            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
+            } else if (isTabKey(event) && toJestPoleKonta === false) {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     MYAPP.liczydloWcisnietychEnter = 1;
                     event.preventDefault();
@@ -40,7 +40,17 @@ var TabKeyDown;
                     event.stopImmediatePropagation();
                     pozazieleniajNoweTransakcje();
                     return false;
-            } 
+            }  else if (isTabKey(event) && toJestPoleKonta === true) {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    dodajnowywiersz();
+                    console.log("wierszMa");
+                    MYAPP.liczydloWcisnietychEnter = 1;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
+                    return false;
+            }
         }
         };
  
