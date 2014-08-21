@@ -255,11 +255,11 @@ public class Wiersz implements Serializable {
     @Override
     public String toString() {
         if (getStronaWn() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto() + '}';
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + '}';
         } else if (getStronaMa() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto();
+            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer();
         } else {
-            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + " Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto()+ " Ma: "+getStronaMa().getKonto()+'}';
+            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
         }
     }
     
