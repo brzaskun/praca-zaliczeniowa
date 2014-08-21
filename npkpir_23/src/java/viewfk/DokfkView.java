@@ -226,7 +226,7 @@ public class DokfkView implements Serializable {
                     } catch (Exception e1) {
                         //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
                         if (roznica == 0) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         } else if (kwotaWn > kwotaMa) {
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
                         } else if (kwotaMa > kwotaWn) {
@@ -246,7 +246,7 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         } catch (Exception e) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         }
                     }
                 }
@@ -262,7 +262,7 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         } catch (Exception e) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                            //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         }
                     }
                 }
@@ -277,6 +277,63 @@ public class DokfkView implements Serializable {
         } else {
             Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
         }
+    }
+
+    public void dolaczNowyWierszPusty(int wierszbiezacyIndex, boolean przenumeruj) {
+        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
+        Konto kontoWn;
+        Konto kontoMa;
+        boolean czyWszystkoWprowadzono = false;
+        double kwotaWn = 0.0;
+        double kwotaMa = 0.0;
+        try {
+            int typ = wierszbiezacy.getTypWiersza();
+            if (typ == 0 || typ == 5) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                }
+            } else if (typ == 7 || typ == 2) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                if (kontoWn instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                }
+            } else if (typ == 6 || typ == 1) {
+                kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                if (kontoMa instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                }
+            }
+                if (typ == 0 || typ == 5) {
+                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
+                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                } else if (typ == 7 || typ == 2) {
+                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
+                } else if (typ == 6 || typ == 1) {
+                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+                }
+                double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
+                liczbawierszyWDokumencie += 1;
+                try {
+                    Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+                } catch (Exception e1) {
+                    //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
+                    if (roznica == 0 && czyWszystkoWprowadzono == true) {
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                    }
+                }
+            if (czyWszystkoWprowadzono) {
+                //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
+                selected.uzupelnijwierszeodane();
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
+            } else {
+                Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
+            }
+        } catch (Exception e) {
+            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        }
+
     }
 
     public void lisnerCzyNastapilaZmianaKontaWn(ValueChangeEvent e) {
@@ -305,7 +362,6 @@ public class DokfkView implements Serializable {
 
         }
     }
-
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
@@ -437,15 +493,15 @@ public class DokfkView implements Serializable {
         }
         // RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
-    
-     public void dodajPustyWierszNaKoncu() {
+
+    public void dodajPustyWierszNaKoncu() {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-        Wiersz wiersz = selected.getListawierszy().get(numerwiersza-1);
+        Wiersz wiersz = selected.getListawierszy().get(numerwiersza - 1);
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
-        Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size()-1);
+        Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
         if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
             Msg.msg("Dodajenowypustywiersz");
-            dolaczNowyWiersz(indexwTabeli, false);
+            dolaczNowyWierszPusty(indexwTabeli, false);
         }
         //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -770,7 +826,7 @@ public class DokfkView implements Serializable {
             for (Wiersz p : selected.getListawierszy()) {
                 if (p.getIdporzadkowy() > wybranyWiersz.getIdporzadkowy()) {
                     int typ = p.getTypWiersza();
-                    if (typ == 1 || typ ==2) {
+                    if (typ == 1 || typ == 2) {
                         wierszNastepny = p;
                         break;
                     } else if (typ == 0) {
@@ -1024,7 +1080,6 @@ public class DokfkView implements Serializable {
     }
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
-
     public void wybranoRachunekPlatnosc(Wiersz wiersz, String stronawiersza) {
         biezacetransakcje = new ArrayList<>();
         tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
@@ -1402,7 +1457,7 @@ public class DokfkView implements Serializable {
             StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
             if (wierszBiezacy.getKwota() == 0) {
                 int typ = selected.getListawierszy().get(numerpoprzedni).getTypWiersza();
-                if ( (typ == 0 || typ == 1 || typ ==2) && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
+                if ((typ == 0 || typ == 1 || typ == 2) && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
                     wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
                     Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
                 }

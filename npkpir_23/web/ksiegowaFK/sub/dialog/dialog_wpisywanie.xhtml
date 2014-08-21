@@ -170,6 +170,7 @@
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
+                            <f:ajax event="blur" execute="@this"/>
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
                         </pe:inputNumber>
                     </p:column>
@@ -185,6 +186,7 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
                                         ><!--to teraz powoduje blad-->
+                            <f:ajax event="blur" execute="@this"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujNastepnePolePoprzedniegoWiersza();"/>
                         </p:autoComplete>
                     </p:column>
@@ -192,6 +194,7 @@
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
+                            <f:ajax event="blur" execute="@this"/>
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
@@ -206,6 +209,7 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}"
                                         >
+                            <f:ajax event="blur" execute="@this"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza();"/>
                             <!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
                         </p:autoComplete>
