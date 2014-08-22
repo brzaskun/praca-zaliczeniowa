@@ -8,7 +8,7 @@ var TabKeyDown;
         if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
             MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloWcisnietychEnter > 0) {
+            if (MYAPP.liczydloWcisnietychEnter > 1) {
                 MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
@@ -32,11 +32,19 @@ var TabKeyDown;
                     pozazieleniajNoweTransakcje();
                     return false;
                 }
-            } else if (isTabKey(event) && toJestPoleKonta === true) {
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
+                    console.log("wierszMa");
+                    MYAPP.liczydloWcisnietychEnter = 1;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
+                    return false;
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
                     dodajnowywiersz();
                     console.log("wierszMa");
-                    MYAPP.liczydloWcisnietychEnter = 1;
+                    MYAPP.liczydloWcisnietychEnter = 2;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();

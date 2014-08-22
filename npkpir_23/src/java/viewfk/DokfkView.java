@@ -284,51 +284,38 @@ public class DokfkView implements Serializable {
         Konto kontoWn;
         Konto kontoMa;
         boolean czyWszystkoWprowadzono = false;
-        double kwotaWn = 0.0;
-        double kwotaMa = 0.0;
         try {
             int typ = wierszbiezacy.getTypWiersza();
-            if (typ == 0 || typ == 5) {
+            if ((typ == 0 || typ == 5) && stronawiersza.equals("Ma") ) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                 }
             } else if (typ == 7 || typ == 2) {
-                kontoWn = wierszbiezacy.getStronaWn().getKonto();
-                if (kontoWn instanceof Konto) {
-                    czyWszystkoWprowadzono = true;
-                }
-            } else if (typ == 6 || typ == 1) {
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();
                 if (kontoMa instanceof Konto) {
                     czyWszystkoWprowadzono = true;
                 }
+            } else if (typ == 6 || typ == 1) {
+                kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                if (kontoWn instanceof Konto) {
+                    czyWszystkoWprowadzono = true;
+                }
             }
-                if (typ == 0 || typ == 5) {
-                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
-                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
-                } else if (typ == 7 || typ == 2) {
-                    kwotaWn = wierszbiezacy.getStronaWn().getKwota();
-                } else if (typ == 6 || typ == 1) {
-                    kwotaMa = wierszbiezacy.getStronaMa().getKwota();
+            double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
+            liczbawierszyWDokumencie += 1;
+            try {
+                Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
+            } catch (Exception e1) {
+                //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
+                if (roznica == 0 && czyWszystkoWprowadzono == true) {
+                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                    selected.uzupelnijwierszeodane();
+                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                    Msg.msg("Dodajenowypustywiersz");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
-                double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy);
-                liczbawierszyWDokumencie += 1;
-                try {
-                    Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-                } catch (Exception e1) {
-                    //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
-                    if (roznica == 0 && czyWszystkoWprowadzono == true) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
-                    }
-                }
-            if (czyWszystkoWprowadzono) {
-                //dzieki temu w wierszu sa dane niezbedne do identyfikacji rozrachunkow
-                selected.uzupelnijwierszeodane();
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
-            } else {
-                Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
             }
         } catch (Exception e) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
@@ -500,7 +487,6 @@ public class DokfkView implements Serializable {
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
         Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
         if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
-            Msg.msg("Dodajenowypustywiersz");
             dolaczNowyWierszPusty(indexwTabeli, false);
         }
         //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
