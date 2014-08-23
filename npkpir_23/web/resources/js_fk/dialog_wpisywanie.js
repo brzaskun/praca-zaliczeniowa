@@ -35,19 +35,11 @@ var wpisywanieOnHide = function () {
 };
 
 
-var dodajnowywiersz = function () {
-    var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
-    var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
-    var nowynumer = parseInt(MYAPP.lpwiersza)-1;
-    var wiersz = "formwpisdokument:dataList:"+nowynumer+":kontown_input";
-    var czyczworka = document.getElementById(wiersz).value[0];
-    $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
-};
 
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWiersza = function(){
     var nrWiersza;
-    if (MYAPP.hasOwnProperty('idwiersza')) {
+    if (MYAPP.hasOwnProperty('lpwiersza')) {
         nrWiersza = MYAPP.lpwiersza;
     } else {
         nrWiersza = 0;
@@ -64,6 +56,21 @@ var aktywujPierwszePoleNowegoWiersza = function(){
         $(i_obj).css('backgroundColor','#ffb');
         $(i_obj).focus();
         $(i_obj).select();
+    //sprawdzpoprzedniwiersz(nrWiersza);
+};
+
+var aktywujPierwszePoleNowegoWierszaEnter = function(){
+    var nrWiersza;
+    if (MYAPP.hasOwnProperty('lpwiersza')) {
+        nrWiersza = MYAPP.lpwiersza;
+    } else {
+        nrWiersza = 0;
+    }
+    var i = "formwpisdokument:dataList:"+nrWiersza+":opis";
+    var i_obj = document.getElementById(i);
+    $(i_obj).css('backgroundColor','#ffb');
+    $(i_obj).focus();
+    $(i_obj).select();
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
 
