@@ -8,7 +8,7 @@ var TabKeyDown;
         if (!MYAPP.hasOwnProperty('liczydloWcisnietychEnter')) {
             MYAPP.liczydloWcisnietychEnter = 0;
         } else {
-            if (MYAPP.liczydloWcisnietychEnter > 1) {
+            if (MYAPP.liczydloWcisnietychEnter > 2) {
                 MYAPP.liczydloWcisnietychEnter = 0;
             }
         }
@@ -18,6 +18,8 @@ var TabKeyDown;
         var czyZawieraWn = taregetId.indexOf("kontown");
         var czyZawieraMa = taregetId.indexOf("kontoma");
         var enterdefault = taregetId.indexOf("enterdefault");
+        var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
+        var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
         var toJestPoleKonta = false;
         if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
             toJestPoleKonta = true;
@@ -32,8 +34,16 @@ var TabKeyDown;
                     pozazieleniajNoweTransakcje();
                     return false;
                 }
+            } else if (isTabKey(event) && toJestPoleKonta === true && typwiersza === "0" && wnlubma === "Wn") {
+                var isTabSuccessful = tab(true, event.shiftKey, $target);
+                if (isTabSuccessful) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
+                    return false;
+                }
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
-                    console.log("wierszMa");
                     MYAPP.liczydloWcisnietychEnter = 1;
                     event.preventDefault();
                     event.stopPropagation();
@@ -41,10 +51,18 @@ var TabKeyDown;
                     pozazieleniajNoweTransakcje();
                     return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
-                    var isTabSuccessful = tab(true, event.shiftKey, $target);
-                    dodajnowywiersz();
                     console.log("wierszMa");
                     MYAPP.liczydloWcisnietychEnter = 2;
+                    $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
+                    return false;
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 2) {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    console.log("dodaje nowy wiersz");
+                    MYAPP.liczydloWcisnietychEnter = 3;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
