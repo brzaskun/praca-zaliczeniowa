@@ -431,7 +431,7 @@ public class ObslugaWiersza {
     }
 
   
-    public static void wygenerujiDodajWierszUsun(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+    public static void wygenerujiDodajWierszUsun(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = znajdzmacierzystyUsun(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         if (przenumeruj == false) {
@@ -441,7 +441,7 @@ public class ObslugaWiersza {
         }
     }
     
-     public static void wygenerujiDodajWiersz(Dokfk selected, int liczbawierszyWDokumencie, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+     public static void wygenerujiDodajWiersz(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         if (przenumeruj == false) {
@@ -507,15 +507,15 @@ public class ObslugaWiersza {
         double roznica = obliczkwotepozostala(selected, wybranyWiersz);
         if (roznica > 0.0 ) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
             }
         } if (roznica < 0.0) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWierszUsun(selected, selected.getListawierszy().size(), wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
             }
         }
     }
