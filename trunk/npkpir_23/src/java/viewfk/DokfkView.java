@@ -203,23 +203,23 @@ public class DokfkView implements Serializable {
                         if (roznica != 0) {//bo tyko wtedy ma sens dodawanie czegos, inaczej znaczy to ze cala kwto a jets wyczerpana i nie trzeba dodawac
                             if (typnastepnego == 0) {
                                 if (kwotaWn > kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 2);
                                 } else if (kwotaWn < kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 1);
                                 } else {
                                     //wywalam dodawanie nowego wiersza jak sa nastepne
                                     //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                                 }
                             } else if (typnastepnego == 2) {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 2);
                             } else if (typnastepnego == 1) {
-                                ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                                ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 1);
                             } else if (typnastepnego == 5) {
                                 int nowyindexzpiatkami = wierszbiezacyIndex + wierszbiezacy.getPiatki().size();
                                 if (kwotaWn > kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 2);
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 2);
                                 } else if (kwotaWn < kwotaMa) {
-                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                                    ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 1);
                                 }
                             }
                         }
@@ -228,9 +228,9 @@ public class DokfkView implements Serializable {
                         if (roznica == 0) {
                             //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         } else if (kwotaWn > kwotaMa) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 2);
                         } else if (kwotaMa > kwotaWn) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 1);
                         }
                     }
                 }
@@ -241,7 +241,7 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 2);
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 2);
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
@@ -257,7 +257,7 @@ public class DokfkView implements Serializable {
                     czyWszystkoWprowadzono = true;
                     liczbawierszyWDokumencie += 1;
                     if (roznica > 0.0) {
-                        ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 1);
+                        ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 1);
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
@@ -310,7 +310,7 @@ public class DokfkView implements Serializable {
             } catch (Exception e1) {
                 //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
                 if (roznica == 0 && czyWszystkoWprowadzono == true) {
-                    ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
+                    ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 0);
                     selected.uzupelnijwierszeodane();
                     selected.przeliczKwotyWierszaDoSumyDokumentu();
                     Msg.msg("Dodajenowypustywiersz");
@@ -551,7 +551,7 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         } catch (Exception e) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, false, roznica, 0);
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, false, roznica, 0);
                         }
                     } else if (kwotaWn > kwotaMa) {
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
@@ -574,7 +574,7 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         } catch (Exception e) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, false, roznica, 0);
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, false, roznica, 0);
                         }
                     }
                 }
@@ -591,7 +591,7 @@ public class DokfkView implements Serializable {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         } catch (Exception e) {
-                            ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, false, roznica, 0);
+                            ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, false, roznica, 0);
                         }
                     }
                 }
@@ -831,7 +831,7 @@ public class DokfkView implements Serializable {
             if (liczbawierszyWDokumencie > 1) {
                 if (wybranyWiersz.getTypWiersza() == 5) {
                     Msg.msg("e", "Usuń najpierw wiersz z 4.");
-                    return;
+                    flag = 1;
                 }
             }
         } catch (Exception e) {
@@ -884,30 +884,12 @@ public class DokfkView implements Serializable {
                     ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
             }
-        }
         liczbawierszyWDokumencie = selected.getListawierszy().size();
         if (liczbawierszyWDokumencie == 0) {
             selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
             liczbawierszyWDokumencie = 1;
         }
-//                try {
-//                    wierszNastepny = selected.getListawierszy().get(wybranyWiersz.getIdporzadkowy());
-//                    if (wybranyWiersz.getTypWiersza() == 0 && (wierszNastepny.getTypWiersza() == 2 || wierszNastepny.getTypWiersza() == 1)) {
-//                        Msg.msg("e", "Jest to wiersz zawierający kwotę do rozliczenia. Nie można go usunąć");
-//                    } else {
-//                        selected.getListawierszy().remove(wybranyWiersz);
-//                        ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
-//                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-//                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
-//                        Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
-//                    }
-//                } catch (Exception e1) {
-//                    selected.getListawierszy().remove(wybranyWiersz);
-//                    ObslugaWiersza.przenumerujWierszePoUsunieciu(selected);
-//                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz);
-//                    Msg.msg("e", "Usunięto wiersz. "+wybranyWiersz.getIdporzadkowy());
-//                 }
+        }
     }
 
     private String sprawdzWierszeSasiednie(Wiersz wiersz) {
