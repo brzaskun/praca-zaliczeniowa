@@ -105,6 +105,10 @@ public class DokfkView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAOfk;
     private int lpwiersza;
+    
+    private double nettovat;
+    private double kwotavat;
+    private double bruttovat;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -347,10 +351,11 @@ public class DokfkView implements Serializable {
     }
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
-        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
+        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("20")) {
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
         skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
+        rozliczVat();
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
         } else {
@@ -375,10 +380,12 @@ public class DokfkView implements Serializable {
                     dodajNowyWierszStronaWn(wiersz);
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                rozliczVat();
             } catch (Exception e1) {
 
             }
         }
+        
     }
 
     public void lisnerCzyNastapilaZmianaKontaMa(ValueChangeEvent e) {
@@ -394,9 +401,10 @@ public class DokfkView implements Serializable {
     }
 
     public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
-        if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("2")) {
+        if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("20")) {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
+        rozliczVat();
         skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
         dodajNowyWierszStronaMa(wiersz);
     }
@@ -417,6 +425,7 @@ public class DokfkView implements Serializable {
                     dodajNowyWierszStronaMa(wiersz);
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                rozliczVat();
             } catch (Exception e1) {
                 System.out.println(e1);
             }
@@ -597,6 +606,33 @@ public class DokfkView implements Serializable {
         } else {
             Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
         }
+    }
+    
+    private void rozliczVat() {
+        nettovat = 0.0;
+        kwotavat = 0.0;
+        List<StronaWiersza> stronywiersza = new ArrayList<>();
+        for (Wiersz p : selected.getListawierszy()) {
+            if (p.getTypWiersza() == 0 ) {
+                stronywiersza.add(p.getStronaWn());
+                stronywiersza.add(p.getStronaMa());
+            } else if (p.getTypWiersza() == 1) {
+                stronywiersza.add(p.getStronaWn());
+            } else if (p.getTypWiersza() == 2) {
+                stronywiersza.add(p.getStronaMa());
+            }
+        }
+        for (StronaWiersza r : stronywiersza) {
+            if (r.getKonto() != null) {
+                if (r.getKonto().getPelnynumer().startsWith("4")) {
+                    nettovat += r.getKwota();
+                } else if (r.getKonto().getPelnynumer().startsWith("221")) {
+                    kwotavat += r.getKwota();
+                }
+            }
+        }
+        bruttovat = nettovat + kwotavat;
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelzkwotami");
     }
 
     public void dodaj() {
@@ -1423,6 +1459,31 @@ public class DokfkView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    public double getBruttovat() {
+        return bruttovat;
+    }
+
+    public void setBruttovat(double bruttovat) {
+        this.bruttovat = bruttovat;
+    }
+    
+    
+    public double getNettovat() {
+        return nettovat;
+    }
+
+    public void setNettovat(double nettovat) {
+        this.nettovat = nettovat;
+    }
+
+    public double getKwotavat() {
+        return kwotavat;
+    }
+
+    public void setKwotavat(double kwotavat) {
+        this.kwotavat = kwotavat;
+    }
+
     public int getLpwiersza() {
         return lpwiersza;
     }
