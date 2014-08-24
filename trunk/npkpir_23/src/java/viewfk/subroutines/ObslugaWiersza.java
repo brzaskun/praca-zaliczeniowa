@@ -483,6 +483,7 @@ public class ObslugaWiersza {
         }
         return 0;
     }
+    
     private static int znajdzmacierzysty(List<Wiersz> listawierszy, int wierszbiezacyLP) {
         int wierszbiezacyIndex = wierszbiezacyLP;
         for (int i = wierszbiezacyIndex; i > -1; i--) {

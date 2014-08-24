@@ -20,6 +20,13 @@ var TabKeyDown;
         var enterdefault = taregetId.indexOf("enterdefault");
         var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
         var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
+        var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
+        var ominjednoklikniecie = false;
+        var i = "formwpisdokument:dataList:"+wierszid+":opis";
+        var i_obj = document.getElementById(i);
+        if (i_obj) {
+            ominjednoklikniecie = true;
+        }
         var toJestPoleKonta = false;
         if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
             toJestPoleKonta = true;
@@ -49,6 +56,16 @@ var TabKeyDown;
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     pozazieleniajNoweTransakcje();
+                    return false;
+            } else if (isTabKey(event) && ominjednoklikniecie) {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    console.log("dodaje nowy wiersz");
+                    MYAPP.liczydloWcisnietychEnter = 3;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
+                    ominjednoklikniecie = false;
                     return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                     console.log("wierszMa");
