@@ -311,10 +311,8 @@ public class DokfkView implements Serializable {
                     selected.uzupelnijwierszeodane();
                     selected.przeliczKwotyWierszaDoSumyDokumentu();
                     Msg.msg("Dodajenowypustywiersz");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 } else if (roznica != 0 && czyWszystkoWprowadzono == true) {
                     dodajNowyWierszStronaMa(wierszbiezacy);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
             }
         } catch (Exception e) {
