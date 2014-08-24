@@ -198,7 +198,7 @@
 
                     <p:column headerText="konto Wn" width="200" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
@@ -221,7 +221,7 @@
                     </p:column>
                     <p:column headerText="konto Ma" width="200" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true"
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
@@ -259,7 +259,7 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"  style="display: none;" oncomplete="pozazieleniajNoweTransakcje();"/>
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" update=":formwpisdokument:dataList" style="display: none;" oncomplete="pozazieleniajNoweTransakcje();"/>
             </h:form>
         </f:facet>
 
