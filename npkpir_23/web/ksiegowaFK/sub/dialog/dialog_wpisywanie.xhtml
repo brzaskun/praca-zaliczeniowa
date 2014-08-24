@@ -184,10 +184,10 @@
                                         minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
+                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" 
                                         ><!--to teraz powoduje blad-->
-                            <f:ajax event="blur" execute="@this"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujNastepnePolePoprzedniegoWiersza();"/>
+                            <p:ajax event="blur" oncomplete="aktywujNastepnePolePoprzedniegoWiersza();"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="120">
@@ -209,9 +209,8 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}"
                                         >
-                            <f:ajax event="blur" execute="@this"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWiersza();"/>
-                            <!--                            <f:ajax event="blur" onevent="sprawdzpoprzedniwiersz({loop.idporzadkowy})" />-->
+                            <f:ajax event="blur" execute="@this" />
+                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:dataList, :formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column width="3" >
@@ -242,7 +241,7 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"  style="display: none;" oncomplete="pozazieleniajNoweTransakcje();aktywujPierwszePoleNowegoWierszaEnter();"/>
+                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"  style="display: none;" oncomplete="pozazieleniajNoweTransakcje();"/>
             </h:form>
         </f:facet>
 
