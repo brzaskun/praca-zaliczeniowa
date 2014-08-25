@@ -420,12 +420,18 @@ public final class DokView implements Serializable {
     }
 
     public void wybranydokument() {
+        String typdokum = (String) Params.params("dodWiad:rodzajTrans");
         for (Rodzajedok p : rodzajedokKlienta) {
-            if (p.getSkrot().equals(Params.params("dodWiad:rodzajTrans"))) {
+            if (p.getSkrot().equals(typdokum)) {
                 Msg.msg("i", p.getNazwa());
                 break;
             }
         }
+        if (typdokum.equals("OT") || typdokum.equals("OTS") || typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
+            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            selDokument.setKontr1(klient);
+        }
+        RequestContext.getCurrentInstance().update("dodWiad:acForce");
     }
 
     public void wygenerujnumerkolejny() {
