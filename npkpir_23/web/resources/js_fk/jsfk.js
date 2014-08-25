@@ -59,21 +59,21 @@ var aktywujwiersz = function(nrWiersza){
 
 
 
-//robi ukrywanie kolumn dla dialogu edycji
-var przygotujdokumentdoedycji = function (){
-    try {
-    var wiersz = 0;
-    while ($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val()){
-        wiersz++;
-    };
-    //moze byc suma wierszy bo potem jest odpowiedni loop
-    if (wiersz>1){
-        zakryjpolaedycjadokumentu(wiersz);
-    };
-    } catch (Exception) {
-        alert ("blad w fukncji przygotujdokumentdoedycji jsfk wiersz 82 "+Exception);
-    }
-};
+////robi ukrywanie kolumn dla dialogu edycji
+//var przygotujdokumentdoedycji = function (){
+//    try {
+//    var wiersz = 0;
+//    while ($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").val()){
+//        wiersz++;
+//    };
+//    //moze byc suma wierszy bo potem jest odpowiedni loop
+//    if (wiersz>1){
+//        zakryjpolaedycjadokumentu(wiersz);
+//    };
+//    } catch (Exception) {
+//        alert ("blad w fukncji przygotujdokumentdoedycji jsfk wiersz 82 "+Exception);
+//    }
+//};
 
 
 
@@ -305,76 +305,76 @@ var zmienkolor = function(color, i,wnma) {
     $(document.getElementById(dopasowanywiersz)).css("color", color);
 };
 
-var zachowajwtablicy = function(pozycjaszukana){
-    //sprawdza czy wystepuje w poli
-    var wynik = 0;
-    var miejsce;
-    var dl = MYAPP.chowanedok.length;
-    for(i = 0; i < dl; i++){
-        var znaleziono = MYAPP.chowane[i].pozycja;
-        if(znaleziono===pozycjaszukana.pozycja){
-            wynik = 1;
-            miejsce = i;
-        }
-    }
-    if(wynik===0){
-        MYAPP.chowane.push(pozycjaszukana);
-    } else {
-        MYAPP.chowane.splice(miejsce,1,pozycjaszukana);
-    }
-};
-
-var zachowajwtablicydok = function(pozycjaszukana){
-     if(!MYAPP.hasOwnProperty('chowanedok')){
-        MYAPP.chowanedok = [];
-    }
-    //sprawdza czy wystepuje w poli
-    var wynik = 0;
-    var miejsce;
-    var dl = MYAPP.chowanedok.length;
-    for(i = 0; i < dl; i++){
-        var znaleziono = MYAPP.chowanedok[i].pozycja;
-        if(znaleziono===pozycjaszukana.pozycja){
-            wynik = 1;
-            miejsce = i;
-        }
-    }
-    if(wynik===0){
-        MYAPP.chowanedok.push(pozycjaszukana);
-    } else {
-        MYAPP.chowanedok.splice(miejsce,1,pozycjaszukana);
-    }
-};
-
-var usunztablicydok = function(){
-    var pozycjaszukana = 0;
-    if(MYAPP.hasOwnProperty('iloscwierszy')){
-        pozycjaszukana = MYAPP.iloscwierszy;
-    }
-     if(!MYAPP.hasOwnProperty('chowanedok')){
-        MYAPP.chowanedok = [];
-    }
-    //sprawdza czy wystepuje w poli
-    var wynik = 0;
-    var miejsce;
-    var dl = MYAPP.chowanedok.length;
-    for(i = 0; i < dl; i++){
-        var znaleziono = MYAPP.chowanedok[i].pozycja;
-        if(znaleziono===pozycjaszukana){
-            wynik = 1;
-            miejsce = i;
-        }
-    }
-    if(wynik===0){
-    } else {
-        MYAPP.chowanedok.splice(miejsce,1);
-    }
-    if(!MYAPP.hasOwnProperty('iloscwierszy')){
-        MYAPP.iloscwierszy = 0;
-    } else {
-        MYAPP.iloscwierszy -= 1;
-    }
-};
+//var zachowajwtablicy = function(pozycjaszukana){
+//    //sprawdza czy wystepuje w poli
+//    var wynik = 0;
+//    var miejsce;
+//    var dl = MYAPP.chowanedok.length;
+//    for(i = 0; i < dl; i++){
+//        var znaleziono = MYAPP.chowane[i].pozycja;
+//        if(znaleziono===pozycjaszukana.pozycja){
+//            wynik = 1;
+//            miejsce = i;
+//        }
+//    }
+//    if(wynik===0){
+//        MYAPP.chowane.push(pozycjaszukana);
+//    } else {
+//        MYAPP.chowane.splice(miejsce,1,pozycjaszukana);
+//    }
+//};
+//
+//var zachowajwtablicydok = function(pozycjaszukana){
+//     if(!MYAPP.hasOwnProperty('chowanedok')){
+//        MYAPP.chowanedok = [];
+//    }
+//    //sprawdza czy wystepuje w poli
+//    var wynik = 0;
+//    var miejsce;
+//    var dl = MYAPP.chowanedok.length;
+//    for(i = 0; i < dl; i++){
+//        var znaleziono = MYAPP.chowanedok[i].pozycja;
+//        if(znaleziono===pozycjaszukana.pozycja){
+//            wynik = 1;
+//            miejsce = i;
+//        }
+//    }
+//    if(wynik===0){
+//        MYAPP.chowanedok.push(pozycjaszukana);
+//    } else {
+//        MYAPP.chowanedok.splice(miejsce,1,pozycjaszukana);
+//    }
+//};
+//
+//var usunztablicydok = function(){
+//    var pozycjaszukana = 0;
+//    if(MYAPP.hasOwnProperty('iloscwierszy')){
+//        pozycjaszukana = MYAPP.iloscwierszy;
+//    }
+//     if(!MYAPP.hasOwnProperty('chowanedok')){
+//        MYAPP.chowanedok = [];
+//    }
+//    //sprawdza czy wystepuje w poli
+//    var wynik = 0;
+//    var miejsce;
+//    var dl = MYAPP.chowanedok.length;
+//    for(i = 0; i < dl; i++){
+//        var znaleziono = MYAPP.chowanedok[i].pozycja;
+//        if(znaleziono===pozycjaszukana){
+//            wynik = 1;
+//            miejsce = i;
+//        }
+//    }
+//    if(wynik===0){
+//    } else {
+//        MYAPP.chowanedok.splice(miejsce,1);
+//    }
+//    if(!MYAPP.hasOwnProperty('iloscwierszy')){
+//        MYAPP.iloscwierszy = 0;
+//    } else {
+//        MYAPP.iloscwierszy -= 1;
+//    }
+//};
 
 
 // to byly rzeczy dotyczace pelnej ksiegowosci
@@ -396,13 +396,13 @@ var usunztablicydok = function(){
 //};
 
 //menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
-var zakryjpolaedycjadokumentu = function(iloscwierszy){
-    MYAPP.chowanedok = null;
-    MYAPP.chowanedok = [];
-    for(var i = 0 ; i < iloscwierszy; i++){
-        sprawdzpoprzedniwierszdialog(i);
-    }
-};
+//var zakryjpolaedycjadokumentu = function(iloscwierszy){
+//    MYAPP.chowanedok = null;
+//    MYAPP.chowanedok = [];
+//    for(var i = 0 ; i < iloscwierszy; i++){
+//        sprawdzpoprzedniwierszdialog(i);
+//    }
+//};
 
 //var bigscreen = function () {
 //  try {

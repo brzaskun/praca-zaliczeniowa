@@ -667,6 +667,7 @@ public class DokfkView implements Serializable {
                 NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
                 selected.setWartoscdokumentu(0.0);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument");
                 selected.setwTrakcieEdycji(false);
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
                 dokDAOfk.edit(selected);
@@ -949,6 +950,9 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
                 Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
+                selected.setWartoscdokumentu(0.0);
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument");
                 if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
                     pokazPanelWalutowy = true;
                 } else {
