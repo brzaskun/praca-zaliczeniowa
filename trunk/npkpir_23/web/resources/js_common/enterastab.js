@@ -50,22 +50,22 @@ var TabKeyDown;
                     pozazieleniajNoweTransakcje();
                     return false;
                 }
-            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
-                    MYAPP.liczydloWcisnietychEnter = 1;
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    pozazieleniajNoweTransakcje();
-                    return false;
             } else if (isTabKey(event) && ominjednoklikniecie) {
                     var isTabSuccessful = tab(true, event.shiftKey, $target);
-                    console.log("dodaje nowy wiersz");
+                    console.log("omijam klikniecie");
                     MYAPP.liczydloWcisnietychEnter = 3;
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     pozazieleniajNoweTransakcje();
                     ominjednoklikniecie = false;
+                    return false;
+            } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
+                    MYAPP.liczydloWcisnietychEnter = 1;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    pozazieleniajNoweTransakcje();
                     return false;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                     console.log("wierszMa");

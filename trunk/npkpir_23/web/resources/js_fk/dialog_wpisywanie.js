@@ -17,7 +17,7 @@ var wpisywanieOnShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',1250,700);
         //drugi.hide();
-        przygotujdokumentdoedycji();
+        //przygotujdokumentdoedycji();
         pozazieleniajNoweTransakcje();
         $('#formwpisdokument\\:dataDialogWpisywanie').select();
         //Blokuje te z rozrachunkamio
@@ -75,15 +75,24 @@ var aktywujPierwszePoleNowegoWierszaEnter = function(){
 };
 
 var aktywujNastepnePolePoprzedniegoWiersza = function(){
-    var nrWiersza = parseInt(MYAPP.lpwiersza) -1;
-    var i = "formwpisdokument:dataList:"+nrWiersza+":ma_input";
+    var nrnastepnego = parseInt(MYAPP.lpwiersza) + 1;;
+    var runfunckja = true;
+    var i = "formwpisdokument:dataList:"+nrnastepnego+":opis";
     var i_obj = document.getElementById(i);
     if (i_obj) {
-        $(i_obj).css('backgroundColor','#ffb');
-        $(i_obj).focus();
-        $(i_obj).select();
-    } else {
-        aktywujPierwszePoleNowegoWiersza();
+        runfunckja = false;
+    }
+    if (runfunckja) {
+        var nrWiersza = parseInt(MYAPP.lpwiersza) -1;
+        var i = "formwpisdokument:dataList:"+nrWiersza+":ma_input";
+        var i_obj = document.getElementById(i);
+        if (i_obj) {
+            $(i_obj).css('backgroundColor','#ffb');
+            $(i_obj).focus();
+            $(i_obj).select();
+        } else {
+            aktywujPierwszePoleNowegoWiersza();
+        }
     }
     //sprawdzpoprzedniwiersz(nrWiersza);
 };
