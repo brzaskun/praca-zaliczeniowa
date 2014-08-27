@@ -9,6 +9,7 @@ import embeddable.Pozycjenafakturzebazadanych;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -194,20 +195,33 @@ public class Podatnik implements Serializable {
     private boolean podmiotaktywny;
     @Column(name = "wysylkazusmail")
     private boolean wysylkazusmail;
+    @Lob
+    @Column(name = "FKpiatki")
+    private List<Parametr> FKpiatki;
     
     public Podatnik() {
         this.podmiotaktywny = true;
+        this.FKpiatki = new ArrayList<>();
     }
 
     public Podatnik(String nip) {
         this.nip = nip;
         this.podmiotaktywny = true;
+        this.FKpiatki = new ArrayList<>();
     }
     
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     
+    public List<Parametr> getFKpiatki() {
+        return FKpiatki;
+    }
+
+    public void setFKpiatki(List<Parametr> FKpiatki) {
+        this.FKpiatki = FKpiatki;
+    }
+
     public boolean isWysylkazusmail() {
         return wysylkazusmail;
     }

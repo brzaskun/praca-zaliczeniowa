@@ -14,8 +14,8 @@
             <h:outputText value="stworzone dokumenty"/><br/>
             <p:panelGrid columns="1" style="width: 900px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop"
-                             paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" selectionMode="single" rowKey="#{loop.skrot}"
-                             editMode="row" editable="true" >
+                             paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.skrot}"
+                             editMode="row" editable="true" scrollable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form6:messages" listener="#{podatnikView.editdok}" />
                     <p:column headerText="skrót">
                         <h:outputText value="#{loop.skrot}" />
@@ -49,9 +49,8 @@
         </h:form>
         <h:form id="form7" > 
             <p:focus for="parametryDokKsi"/><br/>
-            <br/>
             <h:outputText value="Wpisz nowy dokument"/><br/>
-            <p:panelGrid id="parametryDokKsi" columns="2" >
+            <p:panelGrid id="parametryDokKsi" columns="4" >
                 <h:outputText value="skrót: " />
                 <h:inputText value="#{podatnikView.selectedDokKsi.skrot}" />
                 <h:outputText value=" nazwa pelna: " />
@@ -63,7 +62,6 @@
                 <h:outputText value=" wzorzec: " />
                 <h:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
             </p:panelGrid>
-            <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton action="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update="@form"  type="submit" />
             </p:panelGrid>

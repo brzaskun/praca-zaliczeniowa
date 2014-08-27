@@ -13,7 +13,7 @@
             <p:focus for="parametrypodatnika12"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.numerpkpir}"  var="loop" itemType="disc" 
+                <p:dataList value="#{podatnikView.selected.FKpiatki}"  var="loop" itemType="disc" 
                             paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
                     <h:outputText value="od: " />
                     <h:outputText value="#{loop.mcOd}-" />
@@ -21,20 +21,23 @@
                     <h:outputText value="  do: " />
                     <h:outputText value="#{loop.mcDo}-" />
                     <h:outputText value="#{loop.rokDo}" />
-                    <h:outputText value=" numer w pkpir: " />
-                    <h:outputText value="#{loop.parametr}" />
+                    <h:outputText value=" zasada księgowania kosztów w roku obrachunkowym: " />
+                    <h:outputText value="#{loop.parametr eq 'tak' ? 'konto 490 + 5' : 'tylko konta zesp.4'}" style="font-weight: 900;"/>
                     <br/>
                 </p:dataList>
             </p:panelGrid>
             <h:outputText value="wybierz parametr aktualny"/><br/>
             <p:panelGrid id="parametrypodatnika12" columns="4" >
                 <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <h:inputText value="#{podatnikView.parametr.parametr}" />
+                <p:selectOneMenu value="#{podatnikView.parametr.parametr}">
+                    <f:selectItem itemLabel="tylko konta zesp.4" itemValue="nie"/>
+                    <f:selectItem itemLabel="konto 490 + 5" itemValue="tak"/>
+                </p:selectOneMenu>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{podatnikView.usunnrpkpir()}" value="usun parametr" update="@form" type="submit"/>
-                <p:commandButton action="#{podatnikView.dodajnrpkpir()}" value="dodaj parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.usunFKpiatki()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajFKpiatki()}" value="dodaj parametr" update="@form" type="submit"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>

@@ -648,6 +648,31 @@ public class PodatnikView implements Serializable {
         selected.setNumerpkpir(tmp);
         podatnikDAO.edit(selected);
     }
+    
+     public void dodajFKpiatki() {
+        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        List<Parametr> lista = new ArrayList<>();
+        try {
+            lista.addAll(selected.getFKpiatki());
+        } catch (Exception e) {
+        }
+        if (sprawdzrok(parametr, lista) == 0) {
+            lista.add(parametr);
+            selected.setFKpiatki(lista);
+            podatnikDAO.edit(selected);
+            Msg.msg("Dodano ustawienie piątek");
+        } else {
+            Msg.msg("e", "Nie udało się zmienić ustawienie piątek");
+        }
+    }
+
+    public void usunFKpiatki() {
+        List<Parametr> tmp = new ArrayList<>();
+        tmp.addAll(selected.getFKpiatki());
+        tmp.remove(tmp.size() - 1);
+        selected.setFKpiatki(tmp);
+        podatnikDAO.edit(selected);
+    }
 
     public void dodajpole47() {
         try {
