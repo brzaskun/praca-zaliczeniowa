@@ -1,0 +1,27 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogedycjadanychfirmy" header="Lista zapisów w wybranym dokumencie." widgetVar="dialogedycjadanychfirmy"  
+              resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','menufirma',1250,700);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" >
+    <p:tabView id="akordeon" style="width: 1000px;">
+       <ui:include src="/ksiegowa/sub/podatnikust/edycjadanychpodatnika.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/aktywnedokumentyksiegowe.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/udzialywfirmie.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/wyboropodatkowania.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/wyborvat.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/zusrokpodatkowy.xhtml" />
+       <ui:include src="/ksiegowa/sub/podatnikust/inwentaryzacja.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/kwotaautoryzujaca.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/pole47.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/numeracja.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/danedofaktury.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/wysylkazusmail.xhtml"/>
+       <ui:include src="/ksiegowa/sub/podatnikust/zawieszeniedzialalnosci.xhtml"/>
+       <ui:include src="/ksiegowaFK/sub/podatnikust/ustawieniafk_piatki.xhtml"/>
+    </p:tabView>
+    </p:dialog>
+</ui:composition>
