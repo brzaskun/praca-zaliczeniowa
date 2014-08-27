@@ -59,10 +59,9 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                              $(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');
-                                             $(this).addClass('ui-state-default');">
-                        <f:selectItem itemLabel="FVS" itemValue="FVS"/>
-                        <f:selectItem itemLabel="WB" itemValue="WB"/>
-                        <f:selectItem itemLabel="BO" itemValue="BO"/>
+                                         $(this).addClass('ui-state-default');" style="width: 300px;">
+                        <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}"  var="loop" itemLabel="#{loop.skrot} - #{loop.nazwa}" itemValue="#{loop.skrot}"/>
+                        <f:selectItem itemLabel="BO - Salda bilans otwarcia" itemValue="BO" />
                         <f:ajax event="blur" execute="@this"/>
                         <f:ajax event="blur" execute=":formwpisdokument:numer" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
                     </h:selectOneMenu>

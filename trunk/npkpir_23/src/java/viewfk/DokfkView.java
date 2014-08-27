@@ -354,7 +354,8 @@ public class DokfkView implements Serializable {
         }
         skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
         rozliczVat();
-        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+        int t = wiersz.getTypWiersza();
+        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 5 || t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
         } else {
             dodajNowyWierszStronaWn(wiersz);
@@ -372,7 +373,7 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 Konto kontown = wiersz.getStronaWn().getKonto();
                 wiersz.getStronaWn().setKwota(kwotanowa);
-                if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+                if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
                     dodajNowyWierszStronaWnPiatka(wiersz);
                 } else {
                     dodajNowyWierszStronaWn(wiersz);
@@ -417,7 +418,7 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 Konto kontoma = wiersz.getStronaMa().getKonto();
                 wiersz.getStronaMa().setKwota(kwotanowa);
-                if ((wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+                if ((wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
                     Msg.msg("Koto kosztowe moze byc jedynie po stronie Wn");
                 } else {
                     dodajNowyWierszStronaMa(wiersz);

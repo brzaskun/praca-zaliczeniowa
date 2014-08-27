@@ -6,8 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogedycjadanychfirmy" header="Lista zapisów w wybranym dokumencie." widgetVar="dialogedycjadanychfirmy"  
-              resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','menufirma',1250,700);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" >
-    <p:tabView id="akordeon" style="width: 1000px;">
+              resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','menufirma',1250,800);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" 
+              fitViewport="true">
+        <p:tabView id="akordeon" style="width: 1200px;">
        <ui:include src="/ksiegowa/sub/podatnikust/edycjadanychpodatnika.xhtml"/>
        <ui:include src="/ksiegowa/sub/podatnikust/aktywnedokumentyksiegowe.xhtml"/>
        <ui:include src="/ksiegowa/sub/podatnikust/udzialywfirmie.xhtml"/>

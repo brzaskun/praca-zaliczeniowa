@@ -49,6 +49,7 @@ public class WpisView implements Serializable {
     private boolean srodkTrw;
     private String rodzajopodatkowania;
     private boolean ksiegaryczalt;
+    private boolean FKpiatki;
     @Inject
     private Podatnik podatnikObiekt;
 
@@ -221,6 +222,14 @@ public class WpisView implements Serializable {
         if (miesiacDo == null) {
             miesiacDo = "01";
         }
+        List<Parametr> piatki = podatnikObiekt.getFKpiatki();
+        if ( piatki != null && (!piatki.isEmpty())) {
+            for (Parametr p : piatki) {
+                if (p.getRokOd().equals(rokWpisuSt)) {
+                    FKpiatki = (p.getParametr().equals("tak") ? true : false);
+                }
+            }
+        }
     }
 
     private void obliczsumarokmiesiac() {
@@ -254,7 +263,15 @@ public class WpisView implements Serializable {
         }
         return -1;
     }
+
 //<editor-fold defaultstate="collapsed" desc="comment">
+    public boolean isFKpiatki() {
+        return FKpiatki;
+    }
+
+    public void setFKpiatki(boolean FKpiatki) {
+        this.FKpiatki = FKpiatki;
+    }
     
     public String getPodatnikWpisu() {
         return podatnikWpisu;
