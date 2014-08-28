@@ -24,6 +24,7 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import entityfk.Wiersz_;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -612,9 +613,17 @@ public class DokfkView implements Serializable {
         if (wierszpierwszy != null) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
+            wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
             wn.setKwota(nettovat);
             ma.setKwota(nettovat+kwotavat);
             bruttovat = nettovat+kwotavat;
+        }
+        if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1) {
+            Wiersz wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+            wierszdrugi.setOpisWiersza("podatek vat");
+            Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+            wierszdrugi.getStronaWn().setKonto(k);
+            selected.getListawierszy().add(wierszdrugi);
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
