@@ -225,6 +225,8 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
         }
         this.typdokumentu = "ZZ";
+        Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+        selDokument.setKontr1(klient);
         //ukrocmiesiace();
 
     }
@@ -588,7 +590,7 @@ public final class DokView implements Serializable {
                     eVatwpis.setNetto(p.getNetto());
                     eVatwpis.setVat(p.getVat());
                     eVatwpis.setEstawka(p.getOpzw());
-                    eVatwpis.setDok(selDokument);
+                    eVatwpis.setDok(selDokument); 
                     ewidencjeDokumentu.add(eVatwpis);
                     //to musi być bo inaczej nie obliczy kwoty vat;
                     kwotavat += p.getVat();
@@ -611,6 +613,14 @@ public final class DokView implements Serializable {
                 if (temp.getSkrot().equals(typdokumentu)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
                     break;
+                }
+            }
+            //Usuwa puste kolumy w przypadku bycia takiej po skopiowaniu poprzednio zaksiegowanego dokumentu
+            Iterator it = selDokument.getListakwot1().iterator();
+            while (it.hasNext()) {
+                KwotaKolumna1 p = (KwotaKolumna1) it.next();
+                if (p.getNetto()==0.0) {
+                    it.remove();
                 }
             }
             selDokument.setRodzTrans(transakcjiRodzaj);
@@ -667,6 +677,8 @@ public final class DokView implements Serializable {
                 wysDokument = new Dok();
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 1;
+                Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                selDokument.setKontr1(klient);
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
                 Msg.msg("i", "Nowy dokument zachowany" + selDokument);
                 /**
@@ -802,76 +814,81 @@ public final class DokView implements Serializable {
         List<Amodok> lista = new ArrayList<Amodok>();
         lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
         Amodok amodokBiezacy = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
-        String [] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
-        //wyliczam kwote umorzenia
-        List<Umorzenie> umorzenia = new ArrayList<>();
-        umorzenia.addAll(amodokBiezacy.getUmorzenia());
-        Iterator it;
-        it = umorzenia.iterator();
-        while (it.hasNext()) {
-            Umorzenie tmp = (Umorzenie) it.next();
-            kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
-        }
-        try {
-            if (amodokPoprzedni != null) {
-                if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
-                    //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
-                    Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
-                    if (znaleziony instanceof Dok && znaleziony.getNetto() == kwotaumorzenia) {
-                        amodokPoprzedni.setZaksiegowane(true);
-                        amoDokDAO.edit(amodokPoprzedni);
-                    } else {
-                        throw new Exception();
+        Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
+        if (znalezionyBiezacy == null) {
+            String [] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
+            //wyliczam kwote umorzenia
+            List<Umorzenie> umorzenia = new ArrayList<>();
+            umorzenia.addAll(amodokBiezacy.getUmorzenia());
+            Iterator it;
+            it = umorzenia.iterator();
+            while (it.hasNext()) {
+                Umorzenie tmp = (Umorzenie) it.next();
+                kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
+            }
+            try {
+                if (amodokPoprzedni != null) {
+                    if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
+                        //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
+                        Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
+                        if (znaleziony instanceof Dok && znaleziony.getNetto() == kwotaumorzenia) {
+                            amodokPoprzedni.setZaksiegowane(true);
+                            amoDokDAO.edit(amodokPoprzedni);
+                        } else {
+                            throw new Exception();
+                        }
                     }
                 }
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
+                return;
             }
-        } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
-            return;
-        }
-        try {
-            selDokument.setEwidencjaVAT1(null);
-            HttpServletRequest request;
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Principal principal = request.getUserPrincipal();
-            selDokument.setWprowadzil(principal.getName());
-            selDokument.setPkpirM(wpisView.getMiesiacWpisu());
-            selDokument.setPkpirR(wpisView.getRokWpisu().toString());
-            selDokument.setVatM(wpisView.getMiesiacWpisu());
-            selDokument.setVatR(wpisView.getRokWpisu().toString());
-            selDokument.setPodatnik(wpisView.getPodatnikWpisu());
-            selDokument.setStatus("bufor");
-            selDokument.setUsunpozornie(false);
-            selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-            selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
-            selDokument.setRodzTrans("amortyzacja");
-            selDokument.setTypdokumentu("AMO");
-            selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
-            selDokument.setOpis("umorzenie za miesiac");
-            List<KwotaKolumna1> listaX = new ArrayList<>();
-            KwotaKolumna1 tmpX = new KwotaKolumna1();
-            tmpX.setDok(selDokument);
-            tmpX.setNetto(kwotaumorzenia);
-            tmpX.setVat(0.0);
-            tmpX.setNazwakolumny("poz. koszty");
-            listaX.add(tmpX);
-            selDokument.setListakwot1(listaX);
-            selDokument.setNetto(kwotaumorzenia);
-            selDokument.setRozliczony(true);
-            sprawdzCzyNieDuplikat(selDokument);
-            if (selDokument.getNetto() > 0) {
-                dokDAO.edit(selDokument);
-                String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
-                Msg.msg("i", wiadomosc);
-                amodokBiezacy.setZaksiegowane(true);
-                amoDokDAO.edit(amodokBiezacy);
-                Msg.msg("i", "Informacje naniesione na dokumencie umorzenia");
-            } else {
-                Msg.msg("e", "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany!");
+            try {
+                selDokument.setEwidencjaVAT1(null);
+                HttpServletRequest request;
+                request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                Principal principal = request.getUserPrincipal();
+                selDokument.setWprowadzil(principal.getName());
+                selDokument.setPkpirM(wpisView.getMiesiacWpisu());
+                selDokument.setPkpirR(wpisView.getRokWpisu().toString());
+                selDokument.setVatM(wpisView.getMiesiacWpisu());
+                selDokument.setVatR(wpisView.getRokWpisu().toString());
+                selDokument.setPodatnik(wpisView.getPodatnikWpisu());
+                selDokument.setStatus("bufor");
+                selDokument.setUsunpozornie(false);
+                selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
+                selDokument.setRodzTrans("amortyzacja");
+                selDokument.setTypdokumentu("AMO");
+                selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
+                selDokument.setOpis("umorzenie za miesiac");
+                List<KwotaKolumna1> listaX = new ArrayList<>();
+                KwotaKolumna1 tmpX = new KwotaKolumna1();
+                tmpX.setDok(selDokument);
+                tmpX.setNetto(kwotaumorzenia);
+                tmpX.setVat(0.0);
+                tmpX.setNazwakolumny("poz. koszty");
+                listaX.add(tmpX);
+                selDokument.setListakwot1(listaX);
+                selDokument.setNetto(kwotaumorzenia);
+                selDokument.setRozliczony(true);
+                sprawdzCzyNieDuplikat(selDokument);
+                if (selDokument.getNetto() > 0) {
+                    dokDAO.edit(selDokument);
+                    String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
+                    Msg.msg("i", wiadomosc);
+                    amodokBiezacy.setZaksiegowane(true);
+                    amoDokDAO.edit(amodokBiezacy);
+                    Msg.msg("i", "Informacje naniesione na dokumencie umorzenia");
+                } else {
+                    Msg.msg("e", "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany!");
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd, dokument AMO nie zaksięgowany!");
             }
-        } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd, dokument AMO nie zaksięgowany!");
+        } else {
+            Msg.msg("e", "Amortyzacja została juz wcześniej zaksięgowana w bieżacym miesiącu!");
         }
     }
 
