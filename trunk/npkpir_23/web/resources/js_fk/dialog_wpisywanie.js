@@ -15,7 +15,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
 
 var wpisywanieOnShow = function () {
     try {
-        ustawdialog('dialogpierwszy','menudokumenty',1250,700);
+        ustawdialog('dialogpierwszy','menudokumenty',1000,700);
         //drugi.hide();
         //przygotujdokumentdoedycji();
         pozazieleniajNoweTransakcje();
