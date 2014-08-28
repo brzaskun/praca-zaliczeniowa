@@ -155,6 +155,8 @@ public class DokfkView implements Serializable {
             biezacetransakcje = null;
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
+            nettovat = 0.0;
+            kwotavat = 0.0;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
@@ -175,6 +177,8 @@ public class DokfkView implements Serializable {
             biezacetransakcje = null;
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
+            nettovat = 0.0;
+            kwotavat = 0.0;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
@@ -353,7 +357,6 @@ public class DokfkView implements Serializable {
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
         skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
-        rozliczVat();
         int t = wiersz.getTypWiersza();
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 5 || t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
@@ -379,7 +382,6 @@ public class DokfkView implements Serializable {
                     dodajNowyWierszStronaWn(wiersz);
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                rozliczVat();
             } catch (Exception e1) {
 
             }
@@ -403,7 +405,6 @@ public class DokfkView implements Serializable {
         if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("20")) {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
-        rozliczVat();
         skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
         dodajNowyWierszStronaMa(wiersz);
     }
@@ -424,7 +425,6 @@ public class DokfkView implements Serializable {
                     dodajNowyWierszStronaMa(wiersz);
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                rozliczVat();
             } catch (Exception e1) {
                 System.out.println(e1);
             }
@@ -607,31 +607,17 @@ public class DokfkView implements Serializable {
         }
     }
     
-    private void rozliczVat() {
-        nettovat = 0.0;
-        kwotavat = 0.0;
-        List<StronaWiersza> stronywiersza = new ArrayList<>();
-        for (Wiersz p : selected.getListawierszy()) {
-            if (p.getTypWiersza() == 0 ) {
-                stronywiersza.add(p.getStronaWn());
-                stronywiersza.add(p.getStronaMa());
-            } else if (p.getTypWiersza() == 1) {
-                stronywiersza.add(p.getStronaWn());
-            } else if (p.getTypWiersza() == 2) {
-                stronywiersza.add(p.getStronaMa());
-            }
+    public void rozliczVat() {
+        Wiersz wierszpierwszy = selected.getListawierszy().get(0);
+        if (wierszpierwszy != null) {
+            StronaWiersza wn = wierszpierwszy.getStronaWn();
+            StronaWiersza ma = wierszpierwszy.getStronaMa();
+            wn.setKwota(nettovat);
+            ma.setKwota(nettovat+kwotavat);
+            bruttovat = nettovat+kwotavat;
         }
-        for (StronaWiersza r : stronywiersza) {
-            if (r.getKonto() != null) {
-                if (r.getKonto().getPelnynumer().startsWith("4")) {
-                    nettovat += r.getKwota();
-                } else if (r.getKonto().getPelnynumer().startsWith("221")) {
-                    kwotavat += r.getKwota();
-                }
-            }
-        }
-        bruttovat = nettovat + kwotavat;
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelzkwotami");
+        //RequestContext.getCurrentInstance().update("formwpisdokument:bruttovat");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void dodaj() {
@@ -1289,8 +1275,9 @@ public class DokfkView implements Serializable {
         } else {
             selected.setZablokujzmianewaluty(false);
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
 //    

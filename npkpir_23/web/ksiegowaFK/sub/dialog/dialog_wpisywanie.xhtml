@@ -125,14 +125,15 @@
                         <h:outputText value="vat"/>
                         <h:outputText value="kwota brutto"/>
                         <pe:inputNumber id="nettovat" value="#{dokfkView.nettovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" readonly="true"
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         >
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                         <pe:inputNumber id="kwotavat" value="#{dokfkView.kwotavat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true"
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         >
                             <f:ajax event="blur" execute="@this"/>
+                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true"/>
                         </pe:inputNumber>
                         <pe:inputNumber id="bruttovat" value="#{dokfkView.bruttovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true"
@@ -151,7 +152,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                              $(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');
-                                             $(this).addClass('ui-state-default');" 
+                                         $(this).addClass('ui-state-default');"
                                      >
                         <f:ajax />
                         <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>

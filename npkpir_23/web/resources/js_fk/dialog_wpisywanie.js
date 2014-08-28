@@ -103,6 +103,12 @@ var selectOnfocus = function(wierszindex) {
     $(i_obj).select();
 };
 
+var wybierzWierszPoZmianieWaluty = function() {
+    var i = "formwpisdokument:dataList:0:opis";
+    var i_obj = document.getElementById(i);
+    $(i_obj).focus();
+    $(i_obj).select();
+};
 
 
 
