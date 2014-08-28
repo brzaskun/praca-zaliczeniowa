@@ -50,13 +50,26 @@ body {
     border-collapse: separate !important;
 }
 
-.ui-panelgrid td {
+/*.fkpanelGrid .ui-panelgrid td :not(.ui-panelgrid-row){
+    border-width: 1px !important;
+    padding: 0px 0px !important;
+}*/
+
+/*.fkpanelGrid2 .ui-panelgrid-cell{
+    border-width: 1px !important;
+    padding: 0px 0px !important;
+}*/
+
+.uipanelGrid0 td {
     border-width: 0px !important;
-    padding: 4px 10px !important;
+    padding: 1px !important;
+}
+
+.ui-panelgrid td {
+    padding: 0px !important;
 }
 
 .ui-panelgrid tr {
-    
     border-width: 1px !important;
     padding: 0px !important;
 }
@@ -69,8 +82,6 @@ body {
     width: 300px;
 }
 
-
-
 .ui-datatable .ui-datatable-data td {
     vertical-align : central;
     word-break: normal;
@@ -80,13 +91,12 @@ body {
 }
 
 
-
 .tablicaplankont tr :hover{
     background-color: silver;
 }
 
 .ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
-    padding: 4px 10px;
+    padding: 4px 4px;
     overflow: auto !important;
     white-space: normal !important;
     border-width: 0px;
@@ -104,9 +114,13 @@ body {
     height: 150px;
     overflow: no-display;
 }
+ 
+.ui-autocomplete input :not(.kontoinput){
+    width: 200px;
+}
 
-.ui-autocomplete input {
-    width:200px;
+.kontoinput ui-autocomplete input {
+    width: 200px;
 }
 
 .row1 {
