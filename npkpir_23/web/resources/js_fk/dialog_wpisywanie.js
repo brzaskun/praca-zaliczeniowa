@@ -103,11 +103,20 @@ var selectOnfocus = function(wierszindex) {
     $(i_obj).select();
 };
 
-var wybierzWierszPoZmianieWaluty = function() {
-    var i = "formwpisdokument:dataList:0:opis";
+var wprowadzpodsumowanieVAT = function() {
+    var i = "formwpisdokument:nettovat_hinput";
+    var j = "formwpisdokument:kwotavat_hinput";
     var i_obj = document.getElementById(i);
-    $(i_obj).focus();
-    $(i_obj).select();
+    var j_obj = document.getElementById(j);
+    var i_kwota = parseInt($(i_obj).val());
+    var j_kwota = parseInt($(j_obj).val());
+    var suma = i_kwota+j_kwota;
+    var k = "formwpisdokument:bruttovat_input";
+    var k_obj = document.getElementById(k);
+    $(k_obj).val(suma);
+    var k1 = "formwpisdokument:bruttovat_hinput";
+    var k1_obj = document.getElementById(k1);
+    $(k1_obj).val(suma);
 };
 
 

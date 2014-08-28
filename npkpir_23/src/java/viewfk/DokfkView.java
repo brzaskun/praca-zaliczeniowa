@@ -616,7 +616,6 @@ public class DokfkView implements Serializable {
             ma.setKwota(nettovat+kwotavat);
             bruttovat = nettovat+kwotavat;
         }
-        //RequestContext.getCurrentInstance().update("formwpisdokument:bruttovat");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
@@ -1348,7 +1347,7 @@ public class DokfkView implements Serializable {
                 }
                 pokazRzadWalutowy = false;
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
+            RequestContext.getCurrentInstance().update("formwpisdokument:panelTabelaNBP");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }

@@ -133,7 +133,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         >
                             <f:ajax event="blur" execute="@this"/>
-                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true"/>
+                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true" onstart="wprowadzpodsumowanieVAT();"/>
                         </pe:inputNumber>
                         <pe:inputNumber id="bruttovat" value="#{dokfkView.bruttovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true"
@@ -158,7 +158,7 @@
                         <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                <p:panelGrid  columns="3" style="width: 600px;"   styleClass="uipanelGrid0">
+                <p:panelGrid id="panelTabelaNBP"  columns="3" style="width: 600px;"   styleClass="uipanelGrid0">
                     <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
                     <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
                     <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
