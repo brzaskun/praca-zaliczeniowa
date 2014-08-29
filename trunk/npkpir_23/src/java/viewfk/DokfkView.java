@@ -610,21 +610,46 @@ public class DokfkView implements Serializable {
     
     public void rozliczVat() {
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
-        if (wierszpierwszy != null) {
+        Waluty w = selected.getWalutadokumentu();
+        double kwotawPLN = 0.0;
+        double vatwWalucie = 0.0;
+        if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+            double kurs = selected.getTabelanbp().getKurssredni();
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+        }
+        if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
             wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-            wn.setKwota(nettovat);
-            ma.setKwota(nettovat+kwotavat);
-            bruttovat = nettovat+kwotavat;
+            if (w.getSymbolwaluty().equals("PLN")) {
+                wn.setKwota(nettovat);
+                ma.setKwota(nettovat+kwotavat);
+                bruttovat = nettovat+kwotavat;
+            } else {
+                wn.setKwota(nettovat);
+                ma.setKwota(nettovat+vatwWalucie);
+                bruttovat = kwotawPLN+kwotavat;
+            }
         }
-        if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1) {
-            Wiersz wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+        if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
+            nettovat = kwotawPLN;
+        }
+        if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+            Wiersz wierszdrugi;
+            if (w.getSymbolwaluty().equals("PLN")) {
+                wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+            } else {
+                wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
+            }
             wierszdrugi.setOpisWiersza("podatek vat");
             Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
             wierszdrugi.getStronaWn().setKonto(k);
             selected.getListawierszy().add(wierszdrugi);
         }
+        
+        RequestContext.getCurrentInstance().update("formwpisdokument:nettovat");
+        RequestContext.getCurrentInstance().execute("wprowadzpodsumowanieVAT();");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 

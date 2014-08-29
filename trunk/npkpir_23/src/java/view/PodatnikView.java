@@ -78,6 +78,8 @@ public class PodatnikView implements Serializable {
     private Podatnik selectedDod;
     @Inject
     private Rodzajedok selectedDokKsi;
+    @Inject
+    private Rodzajedok selectedDokKsiLista;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
     private List<String> pojList;
@@ -766,14 +768,20 @@ public class PodatnikView implements Serializable {
 
     }
 
-    public void editdok(RowEditEvent ex) {
+    public void przygotujdoedycjiDokKsi() {
+        selectedDokKsi = selectedDokKsiLista;
+        Msg.msg("i", "Wyedytowano wzorce dokumentów", "akordeon:form7");
+    }
+    
+    public void editdok() {
         try {
             Podatnik selected2 = podatnikDAO.find(nazwaWybranegoPodatnika);
             podatnikDAO.destroy(selected2);
             podatnikDAO.dodaj(selected);
-            Msg.msg("i", "Wyedytowano wzorce dokumentów", "akordeon:form6");
+            RequestContext.getCurrentInstance().update("akordeon:form6:pDokKsi");
+            Msg.msg("i", "Wyedytowano wzorce dokumentów");
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów", "akordeon:form6");
+            Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów");
         }
     }
 
@@ -1269,6 +1277,15 @@ public class PodatnikView implements Serializable {
         this.zusstawkiWybierz = zusstawkiWybierz;
     }
 
+    public Rodzajedok getSelectedDokKsiLista() {
+        return selectedDokKsiLista;
+    }
+
+    public void setSelectedDokKsiLista(Rodzajedok selectedDokKsiLista) {
+        this.selectedDokKsiLista = selectedDokKsiLista;
+    }
+
+    
  
 
 }

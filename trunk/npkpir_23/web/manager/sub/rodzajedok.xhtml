@@ -6,56 +6,65 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-   
+
     <h:form id="form" >
         <h:outputText value="Rodzaje dokumentów księgowych dla WSZYSTKICH naszych klientów" style="font-size: 15px"/>
-        <p:growl id="messages" showDetail="true"/>
+        <p:growl id="messages" autoUpdate="true" showDetail="true"/>
         <br/>
-        
-        <p:panelGrid columns="1" style="width: 900px">
+
+        <p:panelGrid columns="1" style="max-width: 900px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.lista}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrot}" selectionMode="single" >
+                <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
                     <h:outputText value="Lista utworzonych dokumentów"/>
                 </f:facet>
-                <p:column headerText="skrót" sortBy="#{loop.skrot}">
-                <h:outputText value="#{loop.skrot}" />
+                <p:column headerText="skrót" sortBy="#{loop.skrot}"  style="text-align: center;">
+                    <h:outputText value="#{loop.skrot}" />
                 </p:column>
                 <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}">
-                <h:outputText value="#{loop.nazwa}" />
+                    <h:outputText value="#{loop.nazwa}" />
                 </p:column>
                 <p:column headerText="rodzaj transakcji">
-                <h:outputText value="#{loop.rodzajtransakcji}" />
+                    <h:outputText value="#{loop.rodzajtransakcji}" />
                 </p:column>
-                <p:column headerText="zastosowany wzorzec">
-                <h:outputText value="#{loop.wzorzec}" />
+                <p:column headerText="zastosowany wzorzec" style="text-align: center;">
+                    <h:outputText value="#{loop.wzorzec}" />
                 </p:column>
-                <p:column id="deleteColumn" headerText="usuń" >
+                <p:column headerText="kategoria" style="text-align: center;">
+                    <h:outputText value="#{loop.kategoriadokumentu}" />
+                </p:column>
+                <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
-            </p:column>
+                </p:column>
                 <br/>
             </p:dataTable>
         </p:panelGrid>
         <br/>
-         </h:form>
-        <h:form>
-        <h:outputText value="wybierz parametry aktualne"/><br/>
-         <p:focus for="parametryzus"/><br/>
-        <p:panelGrid id="parametryzus" columns="2" >
-              <h:outputText value="skrót: " />
-              <h:inputText value="#{rodzajedokView.selected.skrot}" />
-                <h:outputText value=" nazwa pelna: " />
-                <h:inputText value="#{rodzajedokView.selected.nazwa}" />
-                <h:outputText value=" rodzaj transakcji: " />
-                <h:selectOneMenu value="#{rodzajedokView.selected.rodzajtransakcji}" >
-                    <f:selectItems value="#{Trans.transListView}"/>
-                </h:selectOneMenu>
-                <h:outputText value=" wzorzec: " />
-                <h:inputText value="#{rodzajedokView.selected.wzorzec}" />
+    </h:form>
+    <h:form id="form1">
+        <h:outputText value="Wprowadz dane nowego dokumentu"/><br/>
+        <p:focus for="parametrydokument"/><br/>
+        <p:panelGrid id="parametrydokument" columns="2" >
+            <h:outputText value="skrót: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.skrot}" />
+            <h:outputText value=" nazwa pelna: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" />
+            <h:outputText value=" rodzaj transakcji: " />
+            <h:selectOneMenu value="#{rodzajedokView.wprowadzany.rodzajtransakcji}" >
+                <f:selectItems value="#{Trans.transListView}"/>
+            </h:selectOneMenu>
+            <h:outputText value=" wzorzec: " />
+            <h:inputText value="#{rodzajedokView.wprowadzany.wzorzec}" />
+            <h:outputText value=" kategoria dokumentu: " />
+            <h:selectOneMenu value="#{rodzajedokView.wprowadzany.kategoriadokumentu}">
+                <f:selectItem itemLabel="dokument kosztowy" itemValue="1"/>
+                <f:selectItem itemLabel="dokument przychodowy" itemValue="2"/>
+            </h:selectOneMenu>
         </p:panelGrid>
-        <br/>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-            <p:commandButton action="#{rodzajedokView.dodaj()}" value="dodaj parametr" update=":form"  type="submit" />
+            <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update=":form:dokLista"/>
+            <p:commandButton  actionListener="#{rodzajedokView.edytuj()}" value="edytuj dokument" update=":form:dokLista"/>
         </p:panelGrid>
     </h:form>
 </ui:composition>   
