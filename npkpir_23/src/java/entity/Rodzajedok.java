@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.skrot = :skrot"),
     @NamedQuery(name = "Rodzajedok.findByNazwa", query = "SELECT r FROM Rodzajedok r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
-    @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec")})
+    @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
+    @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
+})
 public class Rodzajedok implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,6 +48,8 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "wzorzec")
     private String wzorzec;
+    @Column(name = "kategoriadokumentu")
+    private int kategoriadokumentu;
 
     public Rodzajedok() {
     }
@@ -85,6 +89,16 @@ public class Rodzajedok implements Serializable {
     public void setWzorzec(String wzorzec) {
         this.wzorzec = wzorzec;
     }
+
+    public int getKategoriadokumentu() {
+        return kategoriadokumentu;
+    }
+
+    public void setKategoriadokumentu(int kategoriadokumentu) {
+        this.kategoriadokumentu = kategoriadokumentu;
+    }
+    
+    
 
     @Override
     public int hashCode() {

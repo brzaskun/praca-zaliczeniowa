@@ -36,12 +36,11 @@
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
-            <div style="height: 100px;">
                 <!--                nagłówek dokumentu-->
                 <p:panelGrid id="panelzkwotami" columns="2" style="width: 65%;" columnClasses="fkpanelGrid">
                     <p:panelGrid  columns="1"  >
                         <p:panelGrid id="paneldaneogolnefaktury" columns="5"  styleClass="uipanelGrid0">
-                            <h:outputText value="data"/>
+                            <h:outputText value="data wprowadzenia"/>
                             <h:outputText value="symbol"/>
                             <h:outputText value="numer"/>
                             <h:outputText value="rok"/>
@@ -119,11 +118,35 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:panelGrid>
+                        <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
+                            <p:panelGrid  columns="1" style="min-width: 20%;"  styleClass="uipanelGrid0">
+                                <h:outputText value="waluta dokumentu" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"/>
+                                <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
+                                                 readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
+                                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                                 onfocus="$(this).removeClass('ui-state-default');
+                                                         $(this).addClass('ui-state-focus');"
+                                                 onblur="$(this).removeClass('ui-state-focus');
+                                                         $(this).addClass('ui-state-default');"
+                                                 >
+                                    <f:ajax />
+                                    <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                                </h:selectOneMenu>
+                            </p:panelGrid>
+                            <p:panelGrid id="panelTabelaNBP"  columns="3" style="min-width: 80%;"   styleClass="uipanelGrid0">
+                                <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                                <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                                <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                                <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                                <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                                <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
                     </p:panelGrid>
                     <p:panelGrid id="panelzewidencjavat" columns="3"  styleClass="uipanelGrid0">
-                        <h:outputText value="kwota netto"/>
-                        <h:outputText value="vat"/>
-                        <h:outputText value="kwota brutto"/>
+                        <h:outputText value="netto w walucie/PLN"/>
+                        <h:outputText value="vat w PLN"/>
+                        <h:outputText value="kwota brutto w PLN"/>
                         <pe:inputNumber id="nettovat" value="#{dokfkView.nettovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         >
@@ -133,40 +156,17 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         >
                             <f:ajax event="blur" execute="@this"/>
-                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true" onstart="wprowadzpodsumowanieVAT();"/>
+                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true" />
                         </pe:inputNumber>
                         <pe:inputNumber id="bruttovat" value="#{dokfkView.bruttovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true"
+                                        onfocus="wprowadzpodsumowanieVAT();"
                                         >
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                     </p:panelGrid>
                 </p:panelGrid>
-            </div>
-            <p:panelGrid columns="2" id="panelwalutowy"  >
-                <p:panelGrid  columns="1" style="width: 200px;"  styleClass="uipanelGrid0">
-                    <h:outputText value="waluta dokumentu" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"/>
-                    <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                     readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                             $(this).addClass('ui-state-focus');"
-                                     onblur="$(this).removeClass('ui-state-focus');
-                                         $(this).addClass('ui-state-default');"
-                                     >
-                        <f:ajax />
-                        <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
-                    </h:selectOneMenu>
-                </p:panelGrid>
-                <p:panelGrid id="panelTabelaNBP"  columns="3" style="width: 600px;"   styleClass="uipanelGrid0">
-                    <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                    <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                    <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                    <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                    <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                    <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                </p:panelGrid>
-            </p:panelGrid>
+
             <div style="height: 450px;">
                 <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>

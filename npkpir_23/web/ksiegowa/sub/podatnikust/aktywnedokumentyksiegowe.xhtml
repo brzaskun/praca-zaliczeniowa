@@ -12,12 +12,12 @@
             <p:growl id="messages" />
 
             <h:outputText value="stworzone dokumenty"/><br/>
-            <p:panelGrid columns="1" style="width: 900px">
-                <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop"
+            <p:panelGrid columns="1" style="max-width: 900px">
+                <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop" selection="#{podatnikView.selectedDokKsiLista}"
                              paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.skrot}"
                              editMode="row" editable="true" scrollable="true">
-                    <p:ajax event="rowEdit" update=":akordeon:form6:messages" listener="#{podatnikView.editdok}" />
-                    <p:column headerText="skrót">
+                    <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
+                    <p:column headerText="skrót" style="text-align: center;">
                         <h:outputText value="#{loop.skrot}" />
                     </p:column>
                     <p:column headerText="nazwa pelna">
@@ -26,20 +26,13 @@
                     <p:column headerText="rodzaj transakcji">
                         <h:outputText value="#{loop.rodzajtransakcji}" />
                     </p:column>
-                    <p:column headerText="wzorzec">
-                        <p:cellEditor>  
-                            <f:facet name="output">  
-                                <h:outputText value="#{loop.wzorzec}"/>
-                            </f:facet>  
-                            <f:facet name="input">  
-                                <p:inputText value="#{loop.wzorzec}"/>
-                            </f:facet>  
-                        </p:cellEditor>
+                    <p:column headerText="wzorzec" style="text-align: center;">
+                        <h:outputText value="#{loop.wzorzec}"/>
                     </p:column>
-                    <p:column id="editColumn" headerText="edytuj" style="width: 40px; height: 40px;">
-                        <p:rowEditor />  
+                     <p:column headerText="kategoria" style="text-align: center;">
+                        <h:outputText value="#{loop.kategoriadokumentu}" />
                     </p:column>
-                    <p:column id="deleteColumn" headerText="usuń">
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
 
@@ -50,7 +43,7 @@
         <h:form id="form7" > 
             <p:focus for="parametryDokKsi"/><br/>
             <h:outputText value="Wpisz nowy dokument"/><br/>
-            <p:panelGrid id="parametryDokKsi" columns="4" >
+            <p:panelGrid id="parametryDokKsi" columns="6" >
                 <h:outputText value="skrót: " />
                 <h:inputText value="#{podatnikView.selectedDokKsi.skrot}" />
                 <h:outputText value=" nazwa pelna: " />
@@ -61,9 +54,15 @@
                 </h:selectOneMenu>
                 <h:outputText value=" wzorzec: " />
                 <h:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
+                 <h:outputText value=" kategoria dokumentu: " />
+                <h:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}">
+                    <f:selectItem itemLabel="dokument kosztowy" itemValue="1"/>
+                    <f:selectItem itemLabel="dokument przychodowy" itemValue="2"/>
+                </h:selectOneMenu>
             </p:panelGrid>
             <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-                <p:commandButton action="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update="@form"  type="submit" />
+                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6" />
+                <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6" />
             </p:panelGrid>
         </h:form>
     </p:tab>
