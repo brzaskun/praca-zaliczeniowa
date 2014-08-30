@@ -143,23 +143,23 @@
                             </p:panelGrid>
                         </p:panelGrid>
                     </p:panelGrid>
-                    <p:panelGrid id="panelzewidencjavat" columns="3"  styleClass="uipanelGrid0">
-                        <h:outputText value="netto w walucie/PLN"/>
-                        <h:outputText value="vat w PLN"/>
-                        <h:outputText value="kwota brutto w PLN"/>
+                    <p:panelGrid id="panelzewidencjavat" columns="3"  styleClass="uipanelGrid0" >
+                        <h:outputText value="netto w walucie/PLN" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"/>
+                        <h:outputText value="vat w PLN" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"/>
+                        <h:outputText value="kwota brutto w PLN" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"/>
                         <pe:inputNumber id="nettovat" value="#{dokfkView.nettovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
                                         >
                             <f:ajax event="blur" execute="@this"/>
                         </pe:inputNumber>
                         <pe:inputNumber id="kwotavat" value="#{dokfkView.kwotavat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
                                         >
                             <f:ajax event="blur" execute="@this"/>
                             <p:ajax event="blur" listener="#{dokfkView.rozliczVat}" partialSubmit="true" />
                         </pe:inputNumber>
                         <pe:inputNumber id="bruttovat" value="#{dokfkView.bruttovat}" style="text-align: right; margin-left: auto; margin-right: auto;" 
-                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true"
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"  readonly="true" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
                                         onfocus="wprowadzpodsumowanieVAT();"
                                         >
                             <f:ajax event="blur" execute="@this"/>
