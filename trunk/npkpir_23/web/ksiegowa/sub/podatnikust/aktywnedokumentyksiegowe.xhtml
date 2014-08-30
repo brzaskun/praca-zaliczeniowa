@@ -30,7 +30,7 @@
                         <h:outputText value="#{loop.wzorzec}"/>
                     </p:column>
                      <p:column headerText="kategoria" style="text-align: center;">
-                        <h:outputText value="#{loop.kategoriadokumentu}" />
+                        <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : 'przychód bez VAT'))}" />
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -56,8 +56,10 @@
                 <h:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
                  <h:outputText value=" kategoria dokumentu: " />
                 <h:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}">
-                    <f:selectItem itemLabel="dokument kosztowy" itemValue="1"/>
-                    <f:selectItem itemLabel="dokument przychodowy" itemValue="2"/>
+                    <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+                <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+                <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                 </h:selectOneMenu>
             </p:panelGrid>
             <p:panelGrid columns="2" style="column-width: 350px; width: 700px">

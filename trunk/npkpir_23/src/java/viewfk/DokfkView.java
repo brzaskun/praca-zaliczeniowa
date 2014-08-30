@@ -9,6 +9,7 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import comparator.Wierszcomparator;
+import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
@@ -17,6 +18,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
+import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -65,6 +67,8 @@ public class DokfkView implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     private boolean zapisz0edytuj1;
 //    private String wierszid;
 //    private String wnlubma;
@@ -110,6 +114,7 @@ public class DokfkView implements Serializable {
     private double nettovat;
     private double kwotavat;
     private double bruttovat;
+    private int rodzajBiezacegoDokumentu;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -607,8 +612,16 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
         }
     }
-    
     public void rozliczVat() {
+        Rodzajedok rodzajdok = rodzajedokDAO.find(selected.getDokfkPK().getSeriadokfk());
+        if (rodzajdok.getKategoriadokumentu()==1) {
+            rozliczVatKoszt();
+        } else if (rodzajdok.getKategoriadokumentu()==2) {
+            rozliczVatPrzychod();
+        }
+    }
+    
+    public void rozliczVatKoszt() {
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
         double kwotawPLN = 0.0;
@@ -632,6 +645,7 @@ public class DokfkView implements Serializable {
                 bruttovat = kwotawPLN+kwotavat;
             }
         }
+        double przechowajnettovat = nettovat;
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
             nettovat = kwotawPLN;
         }
@@ -646,8 +660,71 @@ public class DokfkView implements Serializable {
             Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
             wierszdrugi.getStronaWn().setKonto(k);
             selected.getListawierszy().add(wierszdrugi);
+        } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+            Wiersz wierszdrugi;
+            wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, przechowajnettovat, 1);
+            wierszdrugi.getStronaWn().setKwota(przechowajnettovat);
+            wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
+            wierszdrugi.setCzworka(wierszpierwszy);
+            wierszpierwszy.getPiatki().add(wierszdrugi);
+            Konto k = kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu());
+            wierszdrugi.getStronaMa().setKonto(k);
+            selected.getListawierszy().add(wierszdrugi);
+            Wiersz wiersztrzeci;
+            if (w.getSymbolwaluty().equals("PLN")) {
+                wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
+            } else {
+                wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
+            }
+            wiersztrzeci.setOpisWiersza("podatek vat");
+            k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+            wiersztrzeci.getStronaWn().setKonto(k);
+            selected.getListawierszy().add(wiersztrzeci);
         }
         
+        RequestContext.getCurrentInstance().update("formwpisdokument:nettovat");
+        RequestContext.getCurrentInstance().execute("wprowadzpodsumowanieVAT();");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    }
+    public void rozliczVatPrzychod() {
+        Wiersz wierszpierwszy = selected.getListawierszy().get(0);
+        Waluty w = selected.getWalutadokumentu();
+        double kwotawPLN = 0.0;
+        double vatwWalucie = 0.0;
+        if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+            double kurs = selected.getTabelanbp().getKurssredni();
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+        }
+        if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+            StronaWiersza wn = wierszpierwszy.getStronaWn();
+            StronaWiersza ma = wierszpierwszy.getStronaMa();
+            wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+            if (w.getSymbolwaluty().equals("PLN")) {
+                ma.setKwota(nettovat);
+                wn.setKwota(nettovat+kwotavat);
+                bruttovat = nettovat+kwotavat;
+            } else {
+                ma.setKwota(nettovat);
+                wn.setKwota(nettovat+vatwWalucie);
+                bruttovat = kwotawPLN+kwotavat;
+            }
+        }
+        if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
+            nettovat = kwotawPLN;
+        }
+        if (selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+            Wiersz wierszdrugi;
+            if (w.getSymbolwaluty().equals("PLN")) {
+                wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, kwotavat, 1);
+            } else {
+                wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
+            }
+            wierszdrugi.setOpisWiersza("podatek vat");
+            Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+            wierszdrugi.getStronaMa().setKonto(k);
+            selected.getListawierszy().add(wierszdrugi);
+        }
         RequestContext.getCurrentInstance().update("formwpisdokument:nettovat");
         RequestContext.getCurrentInstance().execute("wprowadzpodsumowanieVAT();");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -823,6 +900,9 @@ public class DokfkView implements Serializable {
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
+        Rodzajedok rodzajdok = rodzajedokDAO.find(selected.getDokfkPK().getSeriadokfk());
+        rodzajBiezacegoDokumentu = rodzajdok.getKategoriadokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
     }
 
     public void przygotujDokumentEdycja() {
@@ -1482,6 +1562,15 @@ public class DokfkView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public int getRodzajBiezacegoDokumentu() {
+        return rodzajBiezacegoDokumentu;
+    }
+
+    public void setRodzajBiezacegoDokumentu(int rodzajBiezacegoDokumentu) {
+        this.rodzajBiezacegoDokumentu = rodzajBiezacegoDokumentu;
+    }
+
     public double getBruttovat() {
         return bruttovat;
     }
