@@ -11,7 +11,7 @@ var sprawdzczybrakklienta = function () {
 };
 
 var skopiujdanenowegoklientafk = function () {
-    dlgwprowadzanieklienta.hide();
+    PF('dlgwprowadzanieklienta').hide();
     var szukana = document.getElementById('formX:nazwaPole').value;
     try {
         var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();

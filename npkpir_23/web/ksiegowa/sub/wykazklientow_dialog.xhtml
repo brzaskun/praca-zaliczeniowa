@@ -49,9 +49,13 @@
                 <p:inputText id="domPole" value="#{DokumentView.selectedKlient.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
                 <p:inputText id="lokalPole" value="#{DokumentView.selectedKlient.lokal}"  style="width: 200px"/>
 
-                <p:selectOneMenu id="pkpirPole" value="#{DokumentView.selectedKlient.pkpirKolumna}"   style="width: 200px" effect="clip" effectSpeed="100" height="190" >
-                    <f:selectItems value="#{kolmn.kolumnList}" />
-                </p:selectOneMenu>
+                <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');">
+                        <f:selectItems value="#{kolmn.kolumnList}" />
+                    </h:selectOneMenu>
                  
                 <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();"/>
             
