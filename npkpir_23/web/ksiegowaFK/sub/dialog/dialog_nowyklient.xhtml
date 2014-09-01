@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogEdycja" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" 
-              onShow="ustawdialog('dialogEdycja','menukartoteki',1050,180);" focus=":formX:nazwaPole" showEffect="size" hideEffect="fade">
+              onShow="ustawdialog('dialogEdycja','menukartoteki',1070,200);" focus=":formX:nazwaPole" showEffect="size" hideEffect="fade">
         <h:form id="formX" >
             <p:panel >
                 <p:growl id="mess_add" />
@@ -71,7 +71,7 @@
                         <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>
                     </p:inputText>
                     <p:inputText id="znacznik1Pole" value="#{KlView.selected.znacznik1}" style="width: 200px" />
-                    <p:inputText id="peselPole" value="#{KlView.selected.pesel}" maxlength="11" style="width: 200px"/>
+                    <p:inputText id="peselPole" value="#{KlView.selected.pesel}" maxlength="11" style="width: 150px"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>
