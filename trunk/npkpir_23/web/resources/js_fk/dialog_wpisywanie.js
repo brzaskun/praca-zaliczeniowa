@@ -103,6 +103,28 @@ var selectOnfocus = function(wierszindex) {
     $(i_obj).select();
 };
 
+var sprawdzczybrakklienta = function() {
+    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
+    if (zawartosc === "nowy klient") {
+        PF('dlgwprowadzanieklienta').show();
+    }
+};
+
+var sprawdzczykopiowacklienta = function() {
+//    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
+//    if (zawartosc === "+") {
+//        var text = $('#zobWiad\\:nazwa').html();
+//        $('#formwpisdokument\\:acForce_input').val($('#zobWiad\\:nazwa').html());
+//        $('#formwpisdokument\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
+//        $('#formwpisdokument\\:acForce_input').focus();
+//        $('#formwpisdokument\\:acForce_input').select();
+//        PF('dialogklient').search(text);
+//        event.cancelBubble = true;
+//        event.stopPropagation();
+//        event.stopImmediatePropagation();
+//    }
+};
+
 
 
 

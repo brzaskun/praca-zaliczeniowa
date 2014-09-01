@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,18 @@ public class Dokfk implements Serializable {
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "datadokumentu", nullable = false, length = 10)
+    private String datadokumentu;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "dataoperacji", nullable = false, length = 10)
+    private String dataoperacji;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "datawplywu", nullable = false, length = 10)
+    private String datawplywu;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
@@ -82,6 +95,9 @@ public class Dokfk implements Serializable {
     private double wartoscdokumentu;
     @Column (name="wtrakcieedycji")
     private boolean wTrakcieEdycji;
+    @JoinColumn(name = "kontr")
+    @ManyToOne
+    private Klienci kontr;
  
 
     
@@ -123,6 +139,40 @@ public class Dokfk implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     
+    
+    
+    public Klienci getKontr() {
+        return kontr;
+    }
+
+    public void setKontr(Klienci kontr) {
+        this.kontr = kontr;
+    }
+
+    public String getDatadokumentu() {
+        return datadokumentu;
+    }
+
+    public void setDatadokumentu(String datadokumentu) {
+        this.datadokumentu = datadokumentu;
+    }
+
+    public String getDataoperacji() {
+        return dataoperacji;
+    }
+
+    public void setDataoperacji(String dataoperacji) {
+        this.dataoperacji = dataoperacji;
+    }
+
+    public String getDatawplywu() {
+        return datawplywu;
+    }
+
+    public void setDatawplywu(String datawplywu) {
+        this.datawplywu = datawplywu;
+    }
+
     public boolean getwTrakcieEdycji() {
         return wTrakcieEdycji;
     }

@@ -4,6 +4,7 @@
  */
 package entity;
 
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -115,6 +116,8 @@ public class Klienci implements Serializable {
     private String znacznik3;
     @OneToMany(mappedBy = "kontr1")
     private List<Dok> dokumenty;
+    @OneToMany(mappedBy = "kontr")
+    private List<Dokfk> dokumentyfk;
     
 
     public Klienci() {
@@ -329,6 +332,17 @@ public class Klienci implements Serializable {
     public void setDokumenty(List<Dok> dokumenty) {
         this.dokumenty = dokumenty;
     }
+
+    @XmlTransient
+    public List<Dokfk> getDokumentyfk() {
+        return dokumentyfk;
+    }
+
+    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
+        this.dokumentyfk = dokumentyfk;
+    }
+    
+    
     
     
 
