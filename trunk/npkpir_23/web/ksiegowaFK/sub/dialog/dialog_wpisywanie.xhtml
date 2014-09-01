@@ -33,6 +33,23 @@
         .wpisywaniekontrfk .ui-autocomplete-input {
            width: 250px;
         }
+ 
+        .ui-panelgrid {
+           border-collapse: separate !important;
+        }
+        .uipanelGrid0 td {
+            border-width: 0px !important;
+            padding: 1px !important;
+        }
+
+        .ui-panelgrid td {
+            padding: 0px !important;
+        }
+
+        .ui-panelgrid tr {
+            border-width: 1px !important;
+            padding: 0px !important;
+        }
 
     </style>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
@@ -161,7 +178,7 @@
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk"
-                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
+                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();">
                         <f:ajax event="blur" execute="@this"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  

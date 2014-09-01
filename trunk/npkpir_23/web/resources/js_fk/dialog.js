@@ -24,7 +24,7 @@ var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
     });
     
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+       //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
     }
 
 };
