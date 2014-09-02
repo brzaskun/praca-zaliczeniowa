@@ -162,7 +162,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e1) {
         }
         selected = null;
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
+        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             selected.getDokfkPK().setRok(wpisView.getRokWpisuSt());
@@ -185,7 +185,7 @@ public class DokfkView implements Serializable {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
         selected = null;
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikWpisu());
+        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             pokazPanelWalutowy = false;
@@ -654,7 +654,7 @@ public class DokfkView implements Serializable {
     }
     
     public void rozliczVat(EwidencjaAddwiad e) {
-        Rodzajedok rodzajdok = rodzajedokDAO.find(selected.getDokfkPK().getSeriadokfk());
+        Rodzajedok rodzajdok = selected.getRodzajedok();
         if (rodzajdok.getKategoriadokumentu()==1) {
             HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
             rozliczVatKoszt(wartosciVAT);
@@ -1011,7 +1011,7 @@ public void updatenetto(EwidencjaAddwiad e) {
     }
 
     public void przygotujDokumentWpisywanie() {
-        String skrotnazwydokumentu = selected.getDokfkPK().getSeriadokfk();
+        String skrotnazwydokumentu = selected.getRodzajedok().getSkrot();
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
@@ -1031,8 +1031,7 @@ public void updatenetto(EwidencjaAddwiad e) {
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
-        Rodzajedok rodzajdok = rodzajedokDAO.find(selected.getDokfkPK().getSeriadokfk());
-        rodzajBiezacegoDokumentu = rodzajdok.getKategoriadokumentu();
+        rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
     }
 
     public void przygotujDokumentEdycja() {
