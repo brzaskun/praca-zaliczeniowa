@@ -10,9 +10,11 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import comparator.Wierszcomparator;
+import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
+import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
@@ -20,8 +22,10 @@ import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
+import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -73,6 +77,8 @@ public class DokfkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject 
+    private KliencifkDAO kliencifkDAO;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     private boolean zapisz0edytuj1;
@@ -670,7 +676,7 @@ public class DokfkView implements Serializable {
         wartosciVAT.put("vat", vat);
         return wartosciVAT;
     }
-    
+    // tu oblicza sie vaty i dodaje wiersze
     public void rozliczVatKoszt(HashMap<String,Double> wartosciVAT) {
         double nettovat = wartosciVAT.get("netto");
         double kwotavat = wartosciVAT.get("vat");
@@ -689,6 +695,8 @@ public class DokfkView implements Serializable {
             }
             symbolWalutyNettoVat = " zł";
         }
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+        Konto konto = kontoDAOfk.findKontoNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -700,6 +708,7 @@ public class DokfkView implements Serializable {
                 wn.setKwota(nettovat);
                 ma.setKwota(nettovat+vatwWalucie);
             }
+            wierszpierwszy.getStronaMa().setKonto(konto);
         }
         double przechowajnettovat = nettovat;
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
@@ -759,6 +768,8 @@ public class DokfkView implements Serializable {
             }
             symbolWalutyNettoVat = " zł";
         }
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+        Konto konto = kontoDAOfk.findKontoNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -770,6 +781,7 @@ public class DokfkView implements Serializable {
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+vatwWalucie);
             }
+            wierszpierwszy.getStronaWn().setKonto(konto);
         }
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
             nettovat = kwotawPLN;
@@ -1210,6 +1222,8 @@ public void updatenetto(EwidencjaAddwiad e) {
     }
 
 //    //</editor-fold>
+    
+
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
     public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
