@@ -5,6 +5,8 @@
 package entityfk;
 
 import entity.Klienci;
+import entity.Podatnik;
+import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -54,6 +57,14 @@ public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected DokfkPK dokfkPK = new DokfkPK();
+    @MapsId("seriadokfk")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "rodzajdok", referencedColumnName = "skrot")
+    private Rodzajedok rodzajedok;
+    @MapsId("podatnik")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
+    private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull
     @Column(name = "datawystawienia", nullable = false, length = 10)
@@ -127,7 +138,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
     }
 
-    public Dokfk(String symbolPoprzedniegoDokumentu, String podatnik) {
+    public Dokfk(String symbolPoprzedniegoDokumentu, Podatnik podatnik) {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
@@ -135,11 +146,22 @@ public class Dokfk implements Serializable {
         ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
     }
     
-    
-
     //<editor-fold defaultstate="collapsed" desc="comment">
-    
-    
+    public Rodzajedok getRodzajedok() {
+        return rodzajedok;
+    }
+
+    public void setRodzajedok(Rodzajedok rodzajedok) {
+        this.rodzajedok = rodzajedok;
+    }
+
+    public Podatnik getPodatnikObj() {
+        return podatnikObj;
+    }
+
+    public void setPodatnikObj(Podatnik podatnikObj) {
+        this.podatnikObj = podatnikObj;
+    }
     
     public Klienci getKontr() {
         return kontr;
@@ -372,10 +394,10 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, String podatnik) {
+    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Podatnik podatnik) {
         this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
-        this.dokfkPK.setPodatnik(podatnik);
+        this.setPodatnikObj(podatnik);
         this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
