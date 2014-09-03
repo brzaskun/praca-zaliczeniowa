@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.List;
@@ -36,4 +37,20 @@ public class RodzajedokDAO extends DAO implements Serializable{
             return null;
         }
    }
+    
+    public  List<Rodzajedok> findListaWspolne(){
+        try {
+            return rodzajedokFacade.findListaWspolne();
+        } catch (Exception e) {
+            return null;
+        }
+   }
+
+    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
+        try {
+            return rodzajedokFacade.findListaPodatnik(podatnik);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
