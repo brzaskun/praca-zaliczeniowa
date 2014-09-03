@@ -9,6 +9,7 @@ import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
+import comparator.Rodzajedokcomparator;
 import comparator.Wierszcomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
@@ -77,6 +78,7 @@ public class DokfkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    private List<Rodzajedok> rodzajedokKlienta;
     @Inject 
     private KliencifkDAO kliencifkDAO;
     @Inject
@@ -136,6 +138,7 @@ public class DokfkView implements Serializable {
         this.wprowadzonesymbolewalut = new ArrayList<>();
         this.symbolwalutydowiersza = "";
         this.zapisz0edytuj1 = false;
+        this.rodzajedokKlienta = new ArrayList<>();
     }
 
     @PostConstruct
@@ -143,6 +146,9 @@ public class DokfkView implements Serializable {
         try {
             resetujDokument();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
+            rodzajedokKlienta.addAll(rodzajedokumentow);
         } catch (Exception e) {
         }
         wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
@@ -625,8 +631,8 @@ public class DokfkView implements Serializable {
     public void podepnijEwidencjeVat() {
             String skrotRT = (String) Params.params("formwpisdokument:symbol");
             String transakcjiRodzaj = "";
-            for (Rodzajedok temp : wpisView.getPodatnikObiekt().getDokumentyksiegowe()) {
-                if (temp.getRodzajedokPK().getSkrot().equals(skrotRT)) {
+            for (Rodzajedok temp : rodzajedokKlienta) {
+                if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
                     break;
                 }
@@ -1011,7 +1017,7 @@ public void updatenetto(EwidencjaAddwiad e) {
     }
 
     public void przygotujDokumentWpisywanie() {
-        String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrot();
+        String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok();
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
@@ -1696,6 +1702,14 @@ public void updatenetto(EwidencjaAddwiad e) {
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public List<Rodzajedok> getRodzajedokKlienta() {
+        return rodzajedokKlienta;
+    }
+
+    public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
+        this.rodzajedokKlienta = rodzajedokKlienta;
+    }
+
     public String getSymbolWalutyNettoVat() {
         return symbolWalutyNettoVat;
     }

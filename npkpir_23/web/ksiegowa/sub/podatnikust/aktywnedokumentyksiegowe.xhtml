@@ -14,11 +14,11 @@
             <h:outputText value="stworzone dokumenty"/><br/>
             <p:panelGrid columns="1" style="max-width: 900px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
-                             paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrot}"
+                             paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
                              editMode="row" editable="true" scrollable="true">
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
                     <p:column headerText="skrót" style="text-align: center;">
-                        <h:outputText value="#{loop.rodzajedokPK.skrot}" />
+                        <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
                     </p:column>
                     <p:column headerText="nazwa pelna">
                         <h:outputText value="#{loop.nazwa}" />

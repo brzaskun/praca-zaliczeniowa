@@ -16,21 +16,20 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class RodzajedokPK implements Serializable {
-    private String skrot;
+    private String skrotNazwyDok;
     private String podatnik;
 
     public RodzajedokPK() {
     }
 
-    
-    RodzajedokPK(String skrot) {
-        this.skrot = skrot;
+    public RodzajedokPK(String skrot) {
+        this.skrotNazwyDok = skrot;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.skrot);
+        hash = 53 * hash + Objects.hashCode(this.skrotNazwyDok);
         hash = 53 * hash + Objects.hashCode(this.podatnik);
         return hash;
     }
@@ -44,7 +43,7 @@ public class RodzajedokPK implements Serializable {
             return false;
         }
         final RodzajedokPK other = (RodzajedokPK) obj;
-        if (!Objects.equals(this.skrot, other.skrot)) {
+        if (!Objects.equals(this.skrotNazwyDok, other.skrotNazwyDok)) {
             return false;
         }
         if (!Objects.equals(this.podatnik, other.podatnik)) {
@@ -55,17 +54,17 @@ public class RodzajedokPK implements Serializable {
 
     @Override
     public String toString() {
-        return "RodzajedokPK{" + "skrot=" + skrot + ", podatnik=" + podatnik + '}';
+        return "RodzajedokPK{" + "skrot=" + skrotNazwyDok + ", podatnik=" + podatnik + '}';
     }
     
     
 
-    public String getSkrot() {
-        return skrot;
+    public String getSkrotNazwyDok() {
+        return skrotNazwyDok;
     }
 
-    public void setSkrot(String skrot) {
-        this.skrot = skrot;
+    public void setSkrotNazwyDok(String skrotNazwyDok) {
+        this.skrotNazwyDok = skrotNazwyDok;
     }
 
     public String getPodatnik() {

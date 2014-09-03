@@ -4,8 +4,10 @@
  */
 package entity;
 
+import entityfk.Dokfk;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,12 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rodzajedok.findAll", query = "SELECT r FROM Rodzajedok r"),
-    @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrot = :skrot"),
+    @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrotNazwyDok = :skrot"),
     @NamedQuery(name = "Rodzajedok.findByNazwa", query = "SELECT r FROM Rodzajedok r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
     @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj IS NULL"),
+    @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.podatnik = '0001005008'"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
 public class Rodzajedok implements Serializable {
@@ -46,6 +49,9 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
+    @Size(max = 255)
+    @Column(name = "skrot")
+    private String skrot;
     @Size(max = 255)
     @Column(name = "rodzajtransakcji")
     private String rodzajtransakcji;
@@ -67,6 +73,8 @@ public class Rodzajedok implements Serializable {
     @ManyToOne
     @JoinColumn(name = "kontoRZiS", referencedColumnName = "id")
     private Konto kontoRZiS;
+    @OneToMany(mappedBy = "rodzajedok")
+    private List<Dokfk> dokumentyfk;
 
     public Rodzajedok() {
     }
@@ -75,6 +83,23 @@ public class Rodzajedok implements Serializable {
         RodzajedokPK rodzajedokPK = new RodzajedokPK(skrot);
         this.setRodzajedokPK(rodzajedokPK);
     }
+
+    public String getSkrot() {
+        return skrot;
+    }
+
+    public void setSkrot(String skrot) {
+        this.skrot = skrot;
+    }
+
+    public List<Dokfk> getDokumentyfk() {
+        return dokumentyfk;
+    }
+
+    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
+        this.dokumentyfk = dokumentyfk;
+    }
+    
 
     public RodzajedokPK getRodzajedokPK() {
         return rodzajedokPK;
