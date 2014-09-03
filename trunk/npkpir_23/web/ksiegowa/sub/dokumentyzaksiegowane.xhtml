@@ -224,7 +224,7 @@
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');"
                                  onblur="$(this).removeClass('ui-state-focus');">
-                        <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrot}" itemValue="#{loop.rodzajedokPK.skrot}"/>
+                        <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok}" itemValue="#{loop.rodzaskrotNazwyDokPK.skrot}"/>
                         <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}"/>
                         <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" />
                         <p:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>

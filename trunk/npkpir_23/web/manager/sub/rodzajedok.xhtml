@@ -14,13 +14,13 @@
 
         <p:panelGrid columns="1" style="max-width: 900px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         selection="#{rodzajedokView.selected}" rowKey="#{loop.rodzajedokPK.skrot}" selectionMode="single" >
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
                     <h:outputText value="Lista utworzonych dokumentów"/>
                 </f:facet>
-                <p:column headerText="skrót" sortBy="#{loop.rodzajedokPK.skrot}"  style="text-align: center;">
-                    <h:outputText value="#{loop.rodzajedokPK.skrot}" />
+                <p:column headerText="skrót" sortBy="#{loop.rodzajedokPK.skrotNazwyDok}"  style="text-align: center;">
+                    <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
                 </p:column>
                 <p:column headerText="nazwa pełna" sortBy="#{loop.nazwa}">
                     <h:outputText value="#{loop.nazwa}" />

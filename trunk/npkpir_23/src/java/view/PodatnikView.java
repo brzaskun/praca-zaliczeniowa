@@ -18,6 +18,7 @@ import embeddable.Udzialy;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.RodzajedokPK;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import java.io.Serializable;
@@ -1040,11 +1041,14 @@ public class PodatnikView implements Serializable {
     private void zweryfikujBazeBiezacegoPodatnika() {
         List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
         if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
-            for (Object p : selected.getDokumentyksiegowe()) {
-                Rodzajedok rodzajedok = new Rodzajedok();
-                rodzajedok.setPodatnikObj(selected);
+            for (Rodzajedok p : selected.getDokumentyksiegowe()) {
+                RodzajedokPK rodzajedokPK = new RodzajedokPK(p.getSkrot());
+                p.setRodzajedokPK(rodzajedokPK);
+                p.setPodatnikObj(selected);
                 rodzajedokDAO.dodaj(p);
             }
+        } else {
+            rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
         }
     }
     

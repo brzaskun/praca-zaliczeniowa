@@ -115,7 +115,7 @@ public class VatKorektaView implements Serializable {
         String skrotRT = (String) Params.params("akordeon:wprowadzDokument:rodzajTrans");
         String transakcjiRodzaj = "";
         for (Rodzajedok temp : rodzajedokKlienta) {
-            if (temp.getRodzajedokPK().getSkrot().equals(skrotRT)) {
+            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
                 transakcjiRodzaj = temp.getRodzajtransakcji();
                 break;
             }
