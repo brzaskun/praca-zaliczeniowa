@@ -860,6 +860,14 @@ public class SessionFacade<T> implements Serializable{
             
     }
 
+    public List<Rodzajedok> findListaWspolne() {
+        return em.createNamedQuery("Rodzajedok.findByListaWspolna").getResultList();
+    }
+
+    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
+        return em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+
   
     
   

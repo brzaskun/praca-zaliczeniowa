@@ -8,6 +8,7 @@ import comparator.Podatnikcomparator;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.RodzajedokDAO;
 import dao.WpisDAO;
 import dao.ZUSDAO;
 import embeddable.Mce;
@@ -23,27 +24,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
-import javax.el.MethodExpression;
-import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
@@ -79,7 +69,8 @@ public class PodatnikView implements Serializable {
     @Inject
     private Rodzajedok selectedDokKsi;
     @Inject
-    private Rodzajedok selectedDokKsiLista;
+    private Rodzajedok wybranyRodzajDokumentu;
+    private List<Rodzajedok> rodzajeDokumentowLista;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
     private List<String> pojList;
@@ -104,6 +95,8 @@ public class PodatnikView implements Serializable {
     private WpisView wpisView;
     @Inject
     private WpisDAO wpisDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     @Inject
     private Udzialy udzialy;
     //straty z lat ubieglych
@@ -148,6 +141,7 @@ public class PodatnikView implements Serializable {
         try {
             selected = podatnikDAO.find(nazwaWybranegoPodatnika);
             pobierzogolneDokKsi();
+            zweryfikujBazeBiezacegoPodatnika();
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
@@ -225,115 +219,115 @@ public class PodatnikView implements Serializable {
         }
 
     }
-
-    public void dodajrzadwzor(ActionEvent e) {
-        UIComponent wywolaneprzez = getGrid();
-
-        //wywolaneprzez.setRendered(false);
-        System.out.println("Form: "
-                + wywolaneprzez.getNamingContainer().getClientId());
-        System.out.println("Rodzic: "
-                + (wywolaneprzez = wywolaneprzez.getParent()));
-        System.out.println("Klientid: " + wywolaneprzez.getClientId());
-        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
-        UIComponent output = new HtmlOutputText();
-        UIComponent nowyinput = new HtmlInputText();
-        UIComponent nowyinput1 = new HtmlInputText();
-        HtmlCommandButton button = new HtmlCommandButton();
-
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        ExpressionFactory ef = ExpressionFactory.newInstance();
-        int rozmiar = 0;
-        for (int i = 0; i < listka.length; i++) {
-            if (listka[i] != null) {
-                rozmiar++;
-            }
-        }
-        int rozmiarS = rozmiar + 1;
-        final String bindingO = "parametr w okresie";
-        final String binding = "#{podatnikView.listka[" + rozmiar + "]}";
-        final String bindingS = "#{podatnikView.listka[" + rozmiarS + "]}";
-        ValueExpression veO = ef.createValueExpression(elContext, bindingO, String.class);
-        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
-        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
-        button.setValue("dodaj");
-        FacesContext context = FacesContext.getCurrentInstance();
-        MethodExpression actionListener = context.getApplication().getExpressionFactory()
-                .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[]{ActionEvent.class});
-        button.addActionListener(new MethodExpressionActionListener(actionListener));
-
-        final String bindingB3 = "@form";
-        button.getAttributes().put("update", bindingB3);
-        output.setValueExpression("value", veO);
-        nowyinput.setValueExpression("value", ve);
-        nowyinput1.setValueExpression("value", ve1);
-        grid = getGrid();
-        grid.getChildren().add(output);
-        grid.getChildren().add(nowyinput);
-        grid.getChildren().add(nowyinput1);
-        grid.getChildren().add(button);
-
-        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
-        listkakopia = Arrays.asList(listka);
-        List<String> nowalista = new ArrayList();
-        for (String c : listkakopia) {
-            if (c != null) {
-                nowalista.add(c);
-            }
-        }
-        System.out.println("To jest listka: " + listkakopia.toString());
-    }
-
-    public void dodajrzad(ActionEvent e) {
-        UIComponent wywolaneprzez = getGrid();
-
-        //wywolaneprzez.setRendered(false);
-        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
-        HtmlOutputText output = new HtmlOutputText();
-        UIComponent nowyinput = new HtmlInputText();
-        UIComponent nowyinput1 = new HtmlInputText();
-        HtmlCommandButton button = new HtmlCommandButton();
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        ExpressionFactory ef = ExpressionFactory.newInstance();
-        int rozmiar = 0;
-        for (int i = 0; i < listka.length; i++) {
-            if (listka[i] != null) {
-                rozmiar++;
-            }
-        }
-        int rozmiarS = rozmiar + 1;
-        final String binding = "#{podatnikView.listka[" + rozmiar + "]}";
-        final String bindingS = "#{podatnikView.listka[" + rozmiarS + "]}";
-        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
-        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
-        button.setValue("dodaj");
-        FacesContext context = FacesContext.getCurrentInstance();
-        MethodExpression actionListener = context.getApplication().getExpressionFactory()
-                .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[]{ActionEvent.class});
-        button.addActionListener(new MethodExpressionActionListener(actionListener));
-
-        final String bindingB3 = "@form";
-        button.getAttributes().put("update", bindingB3);
-        output.setValue("parametr w okresie");
-        nowyinput.setValueExpression("value", ve);
-        nowyinput1.setValueExpression("value", ve1);
-        grid = getGrid();
-        grid.getChildren().add(output);
-        grid.getChildren().add(nowyinput);
-        grid.getChildren().add(nowyinput1);
-        grid.getChildren().add(button);
-
-        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
-        listkakopia = Arrays.asList(listka);
-        List<String> nowalista = new ArrayList();
-        for (String c : listkakopia) {
-            if (c != null) {
-                nowalista.add(c);
-            }
-        }
-
-    }
-
+//archeo??
+//    public void dodajrzadwzor(ActionEvent e) {
+//        UIComponent wywolaneprzez = getGrid();
+//
+//        //wywolaneprzez.setRendered(false);
+//        System.out.println("Form: "
+//                + wywolaneprzez.getNamingContainer().getClientId());
+//        System.out.println("Rodzic: "
+//                + (wywolaneprzez = wywolaneprzez.getParent()));
+//        System.out.println("Klientid: " + wywolaneprzez.getClientId());
+//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        UIComponent output = new HtmlOutputText();
+//        UIComponent nowyinput = new HtmlInputText();
+//        UIComponent nowyinput1 = new HtmlInputText();
+//        HtmlCommandButton button = new HtmlCommandButton();
+//
+//        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+//        ExpressionFactory ef = ExpressionFactory.newInstance();
+//        int rozmiar = 0;
+//        for (int i = 0; i < listka.length; i++) {
+//            if (listka[i] != null) {
+//                rozmiar++;
+//            }
+//        }
+//        int rozmiarS = rozmiar + 1;
+//        final String bindingO = "parametr w okresie";
+//        final String binding = "#{podatnikView.listka[" + rozmiar + "]}";
+//        final String bindingS = "#{podatnikView.listka[" + rozmiarS + "]}";
+//        ValueExpression veO = ef.createValueExpression(elContext, bindingO, String.class);
+//        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
+//        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
+//        button.setValue("dodaj");
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        MethodExpression actionListener = context.getApplication().getExpressionFactory()
+//                .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[]{ActionEvent.class});
+//        button.addActionListener(new MethodExpressionActionListener(actionListener));
+//
+//        final String bindingB3 = "@form";
+//        button.getAttributes().put("update", bindingB3);
+//        output.setValueExpression("value", veO);
+//        nowyinput.setValueExpression("value", ve);
+//        nowyinput1.setValueExpression("value", ve1);
+//        grid = getGrid();
+//        grid.getChildren().add(output);
+//        grid.getChildren().add(nowyinput);
+//        grid.getChildren().add(nowyinput1);
+//        grid.getChildren().add(button);
+//
+//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        listkakopia = Arrays.asList(listka);
+//        List<String> nowalista = new ArrayList();
+//        for (String c : listkakopia) {
+//            if (c != null) {
+//                nowalista.add(c);
+//            }
+//        }
+//        System.out.println("To jest listka: " + listkakopia.toString());
+//    }
+//
+//    public void dodajrzad(ActionEvent e) {
+//        UIComponent wywolaneprzez = getGrid();
+//
+//        //wywolaneprzez.setRendered(false);
+//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        HtmlOutputText output = new HtmlOutputText();
+//        UIComponent nowyinput = new HtmlInputText();
+//        UIComponent nowyinput1 = new HtmlInputText();
+//        HtmlCommandButton button = new HtmlCommandButton();
+//        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+//        ExpressionFactory ef = ExpressionFactory.newInstance();
+//        int rozmiar = 0;
+//        for (int i = 0; i < listka.length; i++) {
+//            if (listka[i] != null) {
+//                rozmiar++;
+//            }
+//        }
+//        int rozmiarS = rozmiar + 1;
+//        final String binding = "#{podatnikView.listka[" + rozmiar + "]}";
+//        final String bindingS = "#{podatnikView.listka[" + rozmiarS + "]}";
+//        ValueExpression ve = ef.createValueExpression(elContext, binding, String.class);
+//        ValueExpression ve1 = ef.createValueExpression(elContext, bindingS, String.class);
+//        button.setValue("dodaj");
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        MethodExpression actionListener = context.getApplication().getExpressionFactory()
+//                .createMethodExpression(context.getELContext(), "#{podatnikView.dodajrzad}", null, new Class[]{ActionEvent.class});
+//        button.addActionListener(new MethodExpressionActionListener(actionListener));
+//
+//        final String bindingB3 = "@form";
+//        button.getAttributes().put("update", bindingB3);
+//        output.setValue("parametr w okresie");
+//        nowyinput.setValueExpression("value", ve);
+//        nowyinput1.setValueExpression("value", ve1);
+//        grid = getGrid();
+//        grid.getChildren().add(output);
+//        grid.getChildren().add(nowyinput);
+//        grid.getChildren().add(nowyinput1);
+//        grid.getChildren().add(button);
+//
+//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        listkakopia = Arrays.asList(listka);
+//        List<String> nowalista = new ArrayList();
+//        for (String c : listkakopia) {
+//            if (c != null) {
+//                nowalista.add(c);
+//            }
+//        }
+//
+//    }
+//
     public void dodajdoch() {
         selected = podatnikDAO.find(nazwaWybranegoPodatnika);
         List<Parametr> lista = new ArrayList<>();
@@ -769,7 +763,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void przygotujdoedycjiDokKsi() {
-        selectedDokKsi = selectedDokKsiLista;
+        selectedDokKsi = wybranyRodzajDokumentu;
         Msg.msg("i", "Wyedytowano wzorce dokumentów", "akordeon:form7");
     }
     
@@ -804,7 +798,7 @@ public class PodatnikView implements Serializable {
         }
         List<Rodzajedok> ogolna = new ArrayList<>();
         try {
-            ogolna.addAll(rodzajedokView.getLista());
+            ogolna.addAll(rodzajedokView.getListaWspolnych());
         } catch (Exception e) {
         }
         Iterator it;
@@ -1043,6 +1037,17 @@ public class PodatnikView implements Serializable {
         return Math.round(zostalo * 100.0) / 100.0;
     }
     
+    private void zweryfikujBazeBiezacegoPodatnika() {
+        List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
+        if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
+            for (Object p : selected.getDokumentyksiegowe()) {
+                Rodzajedok rodzajedok = new Rodzajedok();
+                rodzajedok.setPodatnikObj(selected);
+                rodzajedokDAO.dodaj(p);
+            }
+        }
+    }
+    
   
 
 //     public void skopiujstraty() {
@@ -1067,19 +1072,20 @@ public class PodatnikView implements Serializable {
 //     }
     
     
-       
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
     public String getBiezacadata() {
         return biezacadata;
     }
-
+    
     public void setBiezacadata(String biezacadata) {
         this.biezacadata = biezacadata;
     }
-
+    
     public List<Podatnik> getListaPodatnikowFK() {
         return listaPodatnikowFK;
     }
-
+    
     public void setListaPodatnikowFK(List<Podatnik> listaPodatnikowFK) {
         PodatnikView.listaPodatnikowFK = listaPodatnikowFK;
     }
@@ -1088,202 +1094,212 @@ public class PodatnikView implements Serializable {
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public ZUSDAO getZusDAO() {
         return zusDAO;
     }
-
+    
     public void setZusDAO(ZUSDAO zusDAO) {
         this.zusDAO = zusDAO;
     }
-
+    
     public Zusstawki getZusstawki() {
         return zusstawki;
     }
-
+    
     public void setZusstawki(Zusstawki zusstawki) {
         this.zusstawki = zusstawki;
     }
-
+    
     public ArrayList<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
-
+    
     public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
         PodatnikView.listapodatnikow = listapodatnikow;
     }
-
+    
     public Parametr getParametr() {
         return parametr;
     }
-
+    
     public void setParametr(Parametr parametr) {
         this.parametr = parametr;
     }
-
+    
     public List<String> getListkakopia() {
         return listkakopia;
     }
-
+    
     public void setListkakopia(List<String> listkakopia) {
         this.listkakopia = listkakopia;
     }
-
+    
     public String[] getListka() {
         return listka;
     }
-
+    
     public void setListka(String[] listka) {
         this.listka = listka;
     }
-
+    
     public List<String> getPojList() {
         return pojList;
     }
-
+    
     public void setPojList(List<String> pojList) {
         this.pojList = pojList;
     }
-
+    
     public PanelGrid getGrid() {
         return grid;
     }
-
+    
     public void setGrid(PanelGrid grid) {
         this.grid = grid;
     }
-
+    
     public String getNazwaWybranegoPodatnika() {
         return nazwaWybranegoPodatnika;
     }
-
+    
     public void setNazwaWybranegoPodatnika(String nazwaWybranegoPodatnika) {
         nazwaWybranegoPodatnika = nazwaWybranegoPodatnika;
     }
-
+    
     public Podatnik getSelected() {
         return selected;
     }
-
+    
     public void setSelected(Podatnik selected) {
         this.selected = selected;
     }
-
+    
     public Rodzajedok getSelectedDokKsi() {
         return selectedDokKsi;
     }
-
+    
     public void setSelectedDokKsi(Rodzajedok selectedDokKsi) {
         this.selectedDokKsi = selectedDokKsi;
     }
-
+    
     public RodzajedokView getRodzajedokView() {
         return rodzajedokView;
     }
-
+    
     public void setRodzajedokView(RodzajedokView rodzajedokView) {
         this.rodzajedokView = rodzajedokView;
     }
-
+    
     public Podatnik getSelectedDod() {
         return selectedDod;
     }
-
+    
     public void setSelectedDod(Podatnik selectedDod) {
         this.selectedDod = selectedDod;
     }
-
+    
     public Udzialy getUdzialy() {
         return udzialy;
     }
-
+    
     public void setUdzialy(Udzialy udzialy) {
         this.udzialy = udzialy;
     }
-
+    
     public List<Straty1> getStratyzlatub() {
         return stratyzlatub;
     }
-
+    
     public void setStratyzlatub(List<Straty1> stratyzlatub) {
         this.stratyzlatub = stratyzlatub;
     }
-
+    
     public String getStratarok() {
         return stratarok;
     }
-
+    
     public void setStratarok(String stratarok) {
         this.stratarok = stratarok;
     }
-
+    
     public String getStratakwota() {
         return stratakwota;
     }
-
+    
     public void setStratakwota(String stratakwota) {
         this.stratakwota = stratakwota;
     }
-
+    
     public String getStrata50() {
         return strata50;
     }
-
+    
     public void setStrata50(String strata50) {
         this.strata50 = strata50;
     }
-
+    
     public String getStratawykorzystano() {
         return stratawykorzystano;
     }
-
+    
     public void setStratawykorzystano(String stratawykorzystano) {
         this.stratawykorzystano = stratawykorzystano;
     }
-
+    
     public String getStratazostalo() {
         return stratazostalo;
     }
-
+    
     public void setStratazostalo(String stratazostalo) {
         this.stratazostalo = stratazostalo;
     }
-
+    
     public Podatnik getSelectedStrata() {
         return selectedStrata;
     }
-
+    
     public void setSelectedStrata(Podatnik selectedStrata) {
         this.selectedStrata = selectedStrata;
     }
-
+    
     public PitDAO getPitDAO() {
         return pitDAO;
     }
-
+    
     public void setPitDAO(PitDAO pitDAO) {
         this.pitDAO = pitDAO;
     }
-
+    
     public Zusstawki getZusstawkiWybierz() {
         return zusstawkiWybierz;
     }
-
+    
     public void setZusstawkiWybierz(Zusstawki zusstawkiWybierz) {
         this.zusstawkiWybierz = zusstawkiWybierz;
     }
-
-    public Rodzajedok getSelectedDokKsiLista() {
-        return selectedDokKsiLista;
+    
+    public Rodzajedok getWybranyRodzajDokumentu() {
+        return wybranyRodzajDokumentu;
     }
-
-    public void setSelectedDokKsiLista(Rodzajedok selectedDokKsiLista) {
-        this.selectedDokKsiLista = selectedDokKsiLista;
+    
+    public void setWybranyRodzajDokumentu(Rodzajedok wybranyRodzajDokumentu) {
+        this.wybranyRodzajDokumentu = wybranyRodzajDokumentu;
     }
+    
+    public List<Rodzajedok> getRodzajeDokumentowLista() {
+        return rodzajeDokumentowLista;
+    }
+    
+    public void setRodzajeDokumentowLista(List<Rodzajedok> rodzajeDokumentowLista) {
+        this.rodzajeDokumentowLista = rodzajeDokumentowLista;
+    }
+//</editor-fold>
+   
 
     
  

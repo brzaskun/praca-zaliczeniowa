@@ -20,7 +20,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         RodzajedokView rodzajedokView = (RodzajedokView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null,"rodzajedokView"); 
-        List<Rodzajedok> kl = rodzajedokView.getLista();
+        List<Rodzajedok> kl = rodzajedokView.getListaWspolnych();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
@@ -28,7 +28,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
                 String skrot = submittedValue;  
   
                 for (Rodzajedok p : kl) {  
-                    if (p.getSkrot().equals(skrot)) {  
+                    if (p.getRodzajedokPK().getSkrot().equals(skrot)) {  
                         return p;  
                     }  
                 }  
@@ -46,7 +46,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Rodzajedok) value).getSkrot());  
+            return String.valueOf(((Rodzajedok) value).getRodzajedokPK().getSkrot());  
         }  
     }  
     

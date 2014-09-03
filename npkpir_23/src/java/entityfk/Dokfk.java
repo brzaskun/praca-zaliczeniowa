@@ -19,6 +19,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
@@ -59,7 +60,10 @@ public class Dokfk implements Serializable {
     protected DokfkPK dokfkPK = new DokfkPK();
     @MapsId("seriadokfk")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "rodzajdok", referencedColumnName = "skrot")
+    @JoinColumns({
+        @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
+        @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podatnikObj")
+    })
     private Rodzajedok rodzajedok;
     @MapsId("podatnik")
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})

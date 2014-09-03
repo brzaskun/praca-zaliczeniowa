@@ -626,7 +626,7 @@ public class DokfkView implements Serializable {
             String skrotRT = (String) Params.params("formwpisdokument:symbol");
             String transakcjiRodzaj = "";
             for (Rodzajedok temp : wpisView.getPodatnikObiekt().getDokumentyksiegowe()) {
-                if (temp.getSkrot().equals(skrotRT)) {
+                if (temp.getRodzajedokPK().getSkrot().equals(skrotRT)) {
                     transakcjiRodzaj = temp.getRodzajtransakcji();
                     break;
                 }
@@ -1011,7 +1011,7 @@ public void updatenetto(EwidencjaAddwiad e) {
     }
 
     public void przygotujDokumentWpisywanie() {
-        String skrotnazwydokumentu = selected.getRodzajedok().getSkrot();
+        String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrot();
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {

@@ -106,7 +106,7 @@
                                          onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');" style="width: 200px;"
                                                              converter="RodzajedokConv">
-                             <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}"  var="loop" itemLabel="#{loop.skrot} - #{loop.nazwa}" itemValue="#{loop}"/>
+                             <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrot} - #{loop.nazwa}" itemValue="#{loop}"/>
                             <f:ajax event="change"/>
                             <p:ajax event="blur" update=":formwpisdokument:numer" partialSubmit="true" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.podepnijEwidencjeVat}"/>

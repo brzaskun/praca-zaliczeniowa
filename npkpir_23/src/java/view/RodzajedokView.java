@@ -30,33 +30,22 @@ import org.primefaces.context.RequestContext;
 public class RodzajedokView implements Serializable {
 
     private static Rodzajedok doUsuniecia;
-    private static HashMap<String, String> rodzajedokMap;
-
-    public static HashMap<String, String> getRodzajedokMapS() {
-        return rodzajedokMap;
-    }
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private Rodzajedok wprowadzany;
     @Inject
     private Rodzajedok selected;
-
-    private List<Rodzajedok> lista;
+    private List<Rodzajedok> listaWspolnych;
 
     public RodzajedokView() {
-        lista = new ArrayList<>();
-        rodzajedokMap = new HashMap<>();
-
+        listaWspolnych = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         try {
-            lista.addAll(rodzajedokDAO.findAll());
-            for (Rodzajedok tmp : lista) {
-                rodzajedokMap.put(tmp.getSkrot(), tmp.getRodzajtransakcji());
-            }
+            listaWspolnych.addAll(rodzajedokDAO.findListaWspolne());
         } catch (Exception e) {
         }
 
@@ -65,7 +54,7 @@ public class RodzajedokView implements Serializable {
     public void dodaj() {
         try {
             rodzajedokDAO.dodaj(wprowadzany);
-            lista.add(wprowadzany);
+            listaWspolnych.add(wprowadzany);
             wprowadzany = new Rodzajedok();
             Msg.msg("Dodatno nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
         } catch (Exception e) {
@@ -92,7 +81,7 @@ public class RodzajedokView implements Serializable {
     public void destroy2() {
         try {
             rodzajedokDAO.destroy(doUsuniecia);
-            lista.remove(doUsuniecia);
+            listaWspolnych.remove(doUsuniecia);
             RequestContext.getCurrentInstance().update("form:dokLista");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -119,12 +108,12 @@ public class RodzajedokView implements Serializable {
     }
     
     
-    public List<Rodzajedok> getLista() {
-        return lista;
+    public List<Rodzajedok> getListaWspolnych() {
+        return listaWspolnych;
     }
     
-    public void setLista(List<Rodzajedok> lista) {
-        this.lista = lista;
+    public void setListaWspolnych(List<Rodzajedok> listaWspolnych) {
+        this.listaWspolnych = listaWspolnych;
     }
     
     public Rodzajedok getWprowadzany() {
@@ -135,12 +124,6 @@ public class RodzajedokView implements Serializable {
         this.wprowadzany = wprowadzany;
     }
     
-    public HashMap<String, String> getRodzajedokMap() {
-        return rodzajedokMap;
-    }
-    
-    public void setRodzajedokMap(HashMap<String, String> rodzajedokMap) {
-        RodzajedokView.rodzajedokMap = rodzajedokMap;
-    }
+  
 //</editor-fold>
 }
