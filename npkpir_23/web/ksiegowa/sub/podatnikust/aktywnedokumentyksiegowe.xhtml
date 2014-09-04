@@ -12,8 +12,8 @@
             <p:growl id="messages" />
 
             <h:outputText value="stworzone dokumenty"/><br/>
-            <p:panelGrid columns="1" style="max-width: 900px">
-                <p:dataTable id="pDokKsi" value="#{podatnikView.selected.dokumentyksiegowe}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
+            <p:panelGrid columns="1" style="max-width: 1000px">
+                <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
                              editMode="row" editable="true" scrollable="true">
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
@@ -31,6 +31,15 @@
                     </p:column>
                      <p:column headerText="kategoria" style="text-align: center;">
                         <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : 'przychód bez VAT'))}" />
+                    </p:column>
+                    <p:column headerText="konto rozrachunkowe" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontorozrachunkowe}" />
+                    </p:column>
+                     <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontovat}" />
+                    </p:column>
+                      <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontoRZiS}" />
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />

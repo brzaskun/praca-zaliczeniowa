@@ -59,7 +59,7 @@ public class Dokfk implements Serializable {
     @EmbeddedId
     protected DokfkPK dokfkPK = new DokfkPK();
     @MapsId("seriadokfk")
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "rodzajdokSkrot", referencedColumnName = "skrot"),
         @JoinColumn(name = "rodzajdokPodatnik", referencedColumnName = "podatnikObj")

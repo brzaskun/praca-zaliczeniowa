@@ -49,6 +49,7 @@ public class WpisView implements Serializable {
     private boolean srodkTrw;
     private String rodzajopodatkowania;
     private boolean ksiegaryczalt;
+    private boolean ksiegirachunkowe;
     private boolean FKpiatki;
     @Inject
     private Podatnik podatnikObiekt;
@@ -201,6 +202,11 @@ public class WpisView implements Serializable {
                 } else {
                     ksiegaryczalt = true;
                 }
+                if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                    ksiegirachunkowe = true;
+                } else {
+                    ksiegirachunkowe = false;
+                }
             } catch (Exception e) {
             }
         }
@@ -265,6 +271,15 @@ public class WpisView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public boolean isKsiegirachunkowe() {
+        return ksiegirachunkowe;
+    }
+
+    public void setKsiegirachunkowe(boolean ksiegirachunkowe) {
+        this.ksiegirachunkowe = ksiegirachunkowe;
+    }
+
     public boolean isFKpiatki() {
         return FKpiatki;
     }

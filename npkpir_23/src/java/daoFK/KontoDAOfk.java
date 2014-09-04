@@ -128,6 +128,8 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+    
+    
 
     public int resetujKolumneMapotomkow(String podatnikWpisu) {
         try {
@@ -150,6 +152,14 @@ public class KontoDAOfk extends DAO implements Serializable{
             return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomnePodatnikCount(podatnik, macierzyste)));
         } catch (Exception e) {
             return 0;
+        } 
+    }
+
+    public List<Konto> findListaKontRozrachunkowych() {
+         try {
+            return kontoFacade.findKontaMaSlownik();
+        } catch (Exception e) {
+            return null;
         } 
     }
  
