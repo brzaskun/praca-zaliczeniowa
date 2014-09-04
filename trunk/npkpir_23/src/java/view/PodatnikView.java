@@ -11,6 +11,7 @@ import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.WpisDAO;
 import dao.ZUSDAO;
+import daoFK.KontoDAOfk;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Straty1;
@@ -21,6 +22,7 @@ import entity.Rodzajedok;
 import entity.RodzajedokPK;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
+import entityfk.Konto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -71,6 +73,7 @@ public class PodatnikView implements Serializable {
     private Rodzajedok selectedDokKsi;
     @Inject
     private Rodzajedok wybranyRodzajDokumentu;
+    @Inject KontoDAOfk kontoDAOfk;
     private List<Rodzajedok> rodzajeDokumentowLista;
     @ManagedProperty(value = "#{rodzajedokView}")
     private RodzajedokView rodzajedokView;
@@ -110,6 +113,9 @@ public class PodatnikView implements Serializable {
     @Inject
     private PitDAO pitDAO;
     private String biezacadata;
+    private List<Konto> listaKontRozrachunkowych;
+    private List<Konto> listaKontVAT;
+    private List<Konto> listakontoRZiS;
     
 
     public PodatnikView() {
@@ -121,6 +127,10 @@ public class PodatnikView implements Serializable {
         listka[0] = "zero";
         listka[1] = "jeden";
         listka[2] = "dwa";
+        rodzajeDokumentowLista = new ArrayList<>();
+        listaKontRozrachunkowych = new ArrayList<>();
+        listaKontVAT = new ArrayList<>();
+        listakontoRZiS  = new ArrayList<>();
         
     }
 
@@ -143,6 +153,7 @@ public class PodatnikView implements Serializable {
             selected = podatnikDAO.find(nazwaWybranegoPodatnika);
             pobierzogolneDokKsi();
             zweryfikujBazeBiezacegoPodatnika();
+            uzupelnijListyKont();
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) {
         }
@@ -1047,9 +1058,14 @@ public class PodatnikView implements Serializable {
                 p.setPodatnikObj(selected);
                 rodzajedokDAO.dodaj(p);
             }
+            rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
         } else {
             rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
         }
+    }
+    
+    private void uzupelnijListyKont() {
+        listaKontRozrachunkowych = kontoDAOfk.findListaKontRozrachunkowych();
     }
     
   
@@ -1303,6 +1319,8 @@ public class PodatnikView implements Serializable {
         this.rodzajeDokumentowLista = rodzajeDokumentowLista;
     }
 //</editor-fold>
+
+
    
 
     
