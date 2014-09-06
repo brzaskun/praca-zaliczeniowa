@@ -7,6 +7,7 @@ package viewfk.subroutines;
 import entity.Deklaracjevat_;
 import entityfk.Dokfk;
 import entityfk.Kontozapisy;
+import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,32 +47,36 @@ public class NaniesZapisynaKontaFK implements Serializable {
     }
 
     private static void dodajwn(Wiersz p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
-//        Kontozapisy kontozapisy = new Kontozapisy();
-//        kontozapisy.setKontoobiekt(p.getKontoWn());
-//        kontozapisy.setKontoprzeciwstawne(p.getKontoMa().getPelnynumer());
-//        kontozapisy.setWiersz(p);
-//        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
-//        kontozapisy.setOpis(opis);
-//        kontozapisy.setKontown(p.getKontoWn().getNazwapelna());
-//        kontozapisy.setKontoma(p.getKontoMa().getNazwapelna());
-//        kontozapisy.setKwotawn(p.getKwotaWn());
-//        kontozapisy.setKwotama(0);
-//        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
-//        zapisynakontach.add(kontozapisy);
+        StronaWiersza wn = p.getStronaWn();
+        StronaWiersza ma = p.getStronaMa();
+        Kontozapisy kontozapisy = new Kontozapisy();
+        kontozapisy.setKontoobiekt(wn.getKonto());
+        kontozapisy.setKontoprzeciwstawne(ma.getKonto().getPelnynumer());
+        kontozapisy.setWiersz(p);
+        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+        kontozapisy.setOpis(opis);
+        kontozapisy.setKontown(wn.getKonto().getNazwapelna());
+        kontozapisy.setKontoma(ma.getKonto().getNazwapelna());
+        kontozapisy.setKwotawn(wn.getKwota());
+        kontozapisy.setKwotama(0);
+        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
+        zapisynakontach.add(kontozapisy);
     }
 
     private static void dodajma(Wiersz p, String opis, List<Kontozapisy> zapisynakontach,Dokfk selected) {
-//        Kontozapisy kontozapisy = new Kontozapisy();
-//        kontozapisy.setKontoobiekt(p.getKontoMa());
-//        kontozapisy.setKontoprzeciwstawne(p.getKontoWn().getPelnynumer());
-//        kontozapisy.setWiersz(p);
-//        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
-//        kontozapisy.setOpis(opis);
-//        kontozapisy.setKontown(p.getKontoMa().getNazwapelna());
-//        kontozapisy.setKontoma(p.getKontoWn().getNazwapelna());
-//        kontozapisy.setKwotama(p.getKwotaMa());
-//        kontozapisy.setKwotawn(0);
-//        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
-//        zapisynakontach.add(kontozapisy);
+        StronaWiersza wn = p.getStronaWn();
+        StronaWiersza ma = p.getStronaMa();
+        Kontozapisy kontozapisy = new Kontozapisy();
+        kontozapisy.setKontoobiekt(ma.getKonto());
+        kontozapisy.setKontoprzeciwstawne(wn.getKonto().getPelnynumer());
+        kontozapisy.setWiersz(p);
+        kontozapisy.setPodatnik(p.getDokfk().getDokfkPK().getPodatnik());
+        kontozapisy.setOpis(opis);
+        kontozapisy.setKontown(ma.getKonto().getNazwapelna());
+        kontozapisy.setKontoma(wn.getKonto().getNazwapelna());
+        kontozapisy.setKwotama(ma.getKwota());
+        kontozapisy.setKwotawn(0);
+        kontozapisy.setSymbolwaluty(p.getTabelanbp().getWaluta().getSymbolwaluty());
+        zapisynakontach.add(kontozapisy);
     }
 }
