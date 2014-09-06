@@ -398,6 +398,17 @@ public class PlanKontView implements Serializable {
         Konto zawartosc = (Konto) p.getData();
         Msg.msg("i", "Wybrano: " + zawartosc.getPelnynumer() + " " + zawartosc.getNazwapelna());
     }
+    
+    public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
+        kontoDAO.edit(konto);
+        List<Konto> kontapotomne = kontoDAO.findKontaWszystkiePotomnePodatnik("Testowy", konto);
+        for (Konto p : kontapotomne) {
+            p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
+            kontoDAO.edit(p);
+        }
+        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        rootwzorcowy = rootInit(wykazkontwzor);
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Konto> getWykazkont() {

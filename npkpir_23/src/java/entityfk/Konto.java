@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import session.SessionFacade;
 
 /**
  *
@@ -188,6 +189,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.slownikowe = false;
         this.maslownik = false;
     }   
+    
+    public void getFinallChildren(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(podatnik, this.pelnynumer);
+        if (!children.isEmpty()) {
+            for (Konto o : children) {
+                listakontwszystkie.add(o);
+                o.getFinallChildren(listakontwszystkie,podatnik, kontoFacade);
+            }
+        }
+    }
    
 
     public Integer getId() {

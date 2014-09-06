@@ -28,6 +28,7 @@
                             <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                             <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                             <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                            <f:selectItem itemLabel="vat" itemValue="vat"/>
                        </p:selectOneMenu>
                         <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form, :formwzorcowy" style="display: none;" onclick="PF('nowekontosyntetyczne').hide()"/>
                         <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form, :formwzorcowy" style="float: right;" onclick="PF('nowekontosyntetyczne').hide()"/>

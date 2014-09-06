@@ -3,7 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:f="http://java.sun.com/jsf/core">
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
@@ -58,6 +59,17 @@
                     <p:column headerText="rozrachunki" style="width: 100px;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
+                    <p:column headerText="rozrachunki" style="width: 100px;">
+                    <p:inplace label="Cities" effectSpeed="fast" event="dblclick" editor="true" >
+                    <p:selectOneMenu value="#{loop.zwyklerozrachszczegolne}" required="true" style="width: 170px;">
+                       <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                            <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
+                            <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                            <f:selectItem itemLabel="vat" itemValue="vat"/>
+                       </p:selectOneMenu>
+                        <p:ajax event="save" listener="#{planKontView.zachowajZmianyWKoncieWzorcowy(loop)}" update="@form"/>
+                    </p:inplace>
+                        </p:column>
                     <p:column headerText="poziom" style="width: 50px;">
                         <h:outputText value="#{loop.level}" /> 
                     </p:column>

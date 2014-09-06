@@ -5,12 +5,15 @@
 package daoFK;
 
 import dao.DAO;
+import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.model.TreeNode;
 import session.SessionFacade;
 
 /**
@@ -112,6 +115,18 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+    
+    public List<Konto> findKontaWszystkiePotomnePodatnik(String podatnik,Konto macierzyste) {
+        List<Konto> listakontwszystkie = new ArrayList<>();
+        try {
+            macierzyste.getFinallChildren(listakontwszystkie, podatnik, kontoFacade);
+            return listakontwszystkie;
+        } catch (Exception e) {
+            return null;
+        } 
+    }
+    
+    
    
     public List<Konto> findKontaPotomne(String podatnik,String macierzyste, String bilansowewynikowe) {
         try {
