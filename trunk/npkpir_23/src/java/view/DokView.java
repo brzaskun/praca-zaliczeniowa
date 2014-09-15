@@ -459,7 +459,7 @@ public final class DokView implements Serializable {
             String podatnikString = wpisView.getPodatnikWpisu();
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
-            List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
                 if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
@@ -1146,7 +1146,7 @@ public final class DokView implements Serializable {
             String nowynumer = "";
             String pod = wpisView.findWpisX().getPodatnikWpisu();
             Podatnik podX = podatnikDAO.find(pod);
-            List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
                 if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
@@ -1176,7 +1176,7 @@ public final class DokView implements Serializable {
         String nowynumer = "";
         String pod = wpisView.findWpisX().getPodatnikWpisu();
         Podatnik podX = podatnikDAO.find(pod);
-        List<Rodzajedok> listaD = podX.getDokumentyksiegowe();
+        List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Rodzajedok rodzajdok = new Rodzajedok();
         for (Rodzajedok p : listaD) {
             if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
