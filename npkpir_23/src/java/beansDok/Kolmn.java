@@ -98,6 +98,7 @@ public class Kolmn implements Serializable{
             case "eksport towarów":
             case "usługi poza ter.":
             case "WDT":
+            case "sprzedaz":
                 return kolumnPrzychody;
             default:
                 return kolumnList;

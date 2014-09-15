@@ -12,6 +12,7 @@ import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
+import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
 import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatViewPola;
@@ -72,6 +73,8 @@ public class VatKorektaView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     @Inject
     private VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
     private boolean pole70zreki;
@@ -94,7 +97,7 @@ public class VatKorektaView implements Serializable {
         try {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Podatnik podatnik = wpisView.getPodatnikObiekt();
-            ArrayList<Rodzajedok> rodzajedokumentow = (ArrayList<Rodzajedok>) podatnik.getDokumentyksiegowe();
+            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             ArrayList<Rodzajedok> rodzajedokumentowFilter = new ArrayList<>();
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             for (Rodzajedok p : rodzajedokumentow) {
