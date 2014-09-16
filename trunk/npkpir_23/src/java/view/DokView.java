@@ -433,8 +433,10 @@ public final class DokView implements Serializable {
             }
         }
         if (typdokum.equals("OT") || typdokum.equals("OTS") || typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
-            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            selDokument.setKontr1(klient);
+            if (selDokument.getKontr() == null) {
+                Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                selDokument.setKontr1(klient);
+            }
         }
         RequestContext.getCurrentInstance().update("dodWiad:acForce");
     }
@@ -702,6 +704,8 @@ public final class DokView implements Serializable {
             selDokument = new Dok();
             selDokument.setVatM(wpisView.getMiesiacWpisu());
             selDokument.setVatR(wpisView.getRokWpisuSt());
+            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            selDokument.setKontr1(klient);
             selectedSTR = new SrodekTrw();
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
