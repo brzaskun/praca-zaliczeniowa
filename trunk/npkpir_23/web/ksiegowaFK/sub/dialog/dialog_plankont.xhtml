@@ -4,7 +4,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" 
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
@@ -54,8 +55,16 @@
                     <p:column headerText="bilansowewynikowe" style="width: 80px;">
                         <h:outputText value="#{loop.bilansowewynikowe}" /> 
                     </p:column>
-                    <p:column headerText="rozrachunki" style="width: 100px;">
-                        <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
+                    <p:column headerText="rozrachunki" style="width: 120px;">
+                        <p:inplace label="#{loop.zwyklerozrachszczegolne}" effectSpeed="fast" event="dblclick" editor="true" >
+                            <p:selectOneMenu value="#{loop.zwyklerozrachszczegolne}" required="true" >
+                                <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                                <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
+                                <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                                <f:selectItem itemLabel="vat" itemValue="vat"/>
+                            </p:selectOneMenu>
+                            <p:ajax event="save" listener="#{planKontView.zachowajZmianyWKoncieWzorcowy(loop)}" update="@form"/>
+                        </p:inplace>
                     </p:column>
                     <p:column headerText="poziom" style="width: 50px;">
                         <h:outputText value="#{loop.level}" /> 

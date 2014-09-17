@@ -12,12 +12,12 @@
             <p:growl id="messages" />
 
             <h:outputText value="stworzone dokumenty"/><br/>
-            <p:panelGrid columns="1" style="max-width: 1000px">
+            <p:panelGrid columns="1" style="max-width: 1100px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
                              editMode="row" editable="true" scrollable="true">
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
-                    <p:column headerText="skrót" style="text-align: center;">
+                    <p:column headerText="skrót" style="text-align: center; height: 30px;">
                         <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
                     </p:column>
                     <p:column headerText="nazwa pelna">
@@ -32,19 +32,29 @@
                      <p:column headerText="kategoria" style="text-align: center;">
                         <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : 'przychód bez VAT'))}" />
                     </p:column>
+                    <f:ajax >
                     <p:column headerText="konto rozrachunkowe" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                        <h:outputText value="#{loop.kontorozrachunkowe}" />
+                        <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
                     </p:column>
                      <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                        <h:outputText value="#{loop.kontovat}" />
+                         <p:selectOneMenu value="#{loop.kontovat}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentVat}" converter="KontoConv">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                             <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
                     </p:column>
                       <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                        <h:outputText value="#{loop.kontoRZiS}" />
+                          <p:selectOneMenu value="#{loop.kontoRZiS}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRZiS}" converter="KontoConv">
+                              <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                              <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
                     </p:column>
-                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
+                    </f:ajax>
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 50px;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
-
                     <br/>
                 </p:dataTable>
             </p:panelGrid>

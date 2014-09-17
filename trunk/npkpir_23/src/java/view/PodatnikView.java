@@ -144,6 +144,7 @@ public class PodatnikView implements Serializable {
 
     @PostConstruct
     public void init() {
+        
         li.addAll(podatnikDAO.findAll());
         Collections.sort(li, new Podatnikcomparator());
         listaPodatnikowFK.addAll(podatnikDAO.findPodatnikFK());
@@ -1065,10 +1066,42 @@ public class PodatnikView implements Serializable {
     }
     
     private void uzupelnijListyKont() {
-        listaKontRozrachunkowych = kontoDAOfk.findListaKontRozrachunkowych();
+        String p = wpisView.getPodatnikWpisu();
+        listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(p);
+        listaKontVAT = kontoDAOfk.findKontaVAT(p);
+        listakontoRZiS = kontoDAOfk.findKontaRZiS(p);
     }
     
-  
+    public void naniesKontaNaDokumentRozrachunki(ValueChangeEvent e) {
+        if (selectedDokKsi.getRodzajedokPK() != null) {
+            Konto wybraneKonto = (Konto) e.getNewValue();
+            selectedDokKsi.setKontorozrachunkowe(wybraneKonto);
+            rodzajedokDAO.edit(selectedDokKsi);
+        } else {
+            Msg.msg("e", "Nie wybrano dokumentu");
+        }
+    }
+    
+    public void naniesKontaNaDokumentVat(ValueChangeEvent e) {
+        if (selectedDokKsi.getRodzajedokPK() != null) {
+            Konto wybraneKonto = (Konto) e.getNewValue();
+            selectedDokKsi.setKontovat(wybraneKonto);
+            rodzajedokDAO.edit(selectedDokKsi);
+        } else {
+            Msg.msg("e", "Nie wybrano dokumentu");
+        }
+    }
+    
+    public void naniesKontaNaDokumentRZiS(ValueChangeEvent e) {
+        if (selectedDokKsi.getRodzajedokPK() != null) {
+            Konto wybraneKonto = (Konto) e.getNewValue();
+            selectedDokKsi.setKontoRZiS(wybraneKonto);
+            rodzajedokDAO.edit(selectedDokKsi);
+        } else {
+            Msg.msg("e", "Nie wybrano dokumentu");
+        }
+
+    }
 
 //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
@@ -1094,6 +1127,31 @@ public class PodatnikView implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
+    
+    public List<Konto> getListaKontRozrachunkowych() {
+        return listaKontRozrachunkowych;
+    }
+
+    public void setListaKontRozrachunkowych(List<Konto> listaKontRozrachunkowych) {
+        this.listaKontRozrachunkowych = listaKontRozrachunkowych;
+    }
+
+    public List<Konto> getListaKontVAT() {
+        return listaKontVAT;
+    }
+
+    public void setListaKontVAT(List<Konto> listaKontVAT) {
+        this.listaKontVAT = listaKontVAT;
+    }
+
+    public List<Konto> getListakontoRZiS() {
+        return listakontoRZiS;
+    }
+
+    public void setListakontoRZiS(List<Konto> listakontoRZiS) {
+        this.listakontoRZiS = listakontoRZiS;
+    }
+
     public String getBiezacadata() {
         return biezacadata;
     }
