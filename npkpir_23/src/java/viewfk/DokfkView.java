@@ -715,6 +715,10 @@ public class DokfkView implements Serializable {
                 ma.setKwota(nettovat+vatwWalucie);
             }
             wierszpierwszy.getStronaMa().setKonto(konto);
+            Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
+            if (kontonetto != null) {
+                wierszpierwszy.getStronaWn().setKonto(kontonetto);
+            }
         }
         double przechowajnettovat = nettovat;
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
@@ -728,8 +732,13 @@ public class DokfkView implements Serializable {
                 wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
             }
             wierszdrugi.setOpisWiersza("podatek vat");
-            Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-            wierszdrugi.getStronaWn().setKonto(k);
+            Konto kontovat = selected.getRodzajedok().getKontovat();
+            if (kontovat != null) {
+                wierszdrugi.getStronaWn().setKonto(kontovat);
+            } else {
+                Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                wierszdrugi.getStronaWn().setKonto(k);
+            }
             selected.getListawierszy().add(wierszdrugi);
         } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
             Wiersz wierszdrugi;
@@ -788,6 +797,10 @@ public class DokfkView implements Serializable {
                 wn.setKwota(nettovat+vatwWalucie);
             }
             wierszpierwszy.getStronaWn().setKonto(konto);
+            Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
+            if (kontonetto != null) {
+                wierszpierwszy.getStronaWn().setKonto(kontonetto);
+            }
         }
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
             nettovat = kwotawPLN;
@@ -800,8 +813,13 @@ public class DokfkView implements Serializable {
                 wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
             }
             wierszdrugi.setOpisWiersza("podatek vat");
-            Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-            wierszdrugi.getStronaMa().setKonto(k);
+            Konto kontovat = selected.getRodzajedok().getKontovat();
+            if (kontovat != null) {
+                wierszdrugi.getStronaWn().setKonto(kontovat);
+            } else {
+                Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                wierszdrugi.getStronaWn().setKonto(k);
+            }
             selected.getListawierszy().add(wierszdrugi);
         }
         String update = "formwpisdokument:tablicavat";
