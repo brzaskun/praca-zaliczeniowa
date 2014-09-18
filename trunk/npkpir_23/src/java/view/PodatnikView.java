@@ -816,20 +816,30 @@ public class PodatnikView implements Serializable {
         }
         Iterator it;
         it = ogolna.iterator();
-        while (it.hasNext()) {
-            Rodzajedok tmp = (Rodzajedok) it.next();
-            if (!lista.contains(tmp)) {
-                tmp.setPodatnikObj(selected);
-                rodzajedokDAO.edit(tmp);
-                lista.add(tmp);
+        try {
+            while (it.hasNext()) {
+                Rodzajedok tmp = (Rodzajedok) it.next();
+                boolean odnaleziono = false;
+                for (Rodzajedok r: lista) {
+                    if (r.getSkrot().equals(tmp.getSkrot())) {
+                        odnaleziono = true;
+                    }
+                }
+                if (odnaleziono == false) {
+                    Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                    nowy.setPodatnikObj(selected);
+                    nowy.getRodzajedokPK().setPodatnik(selected.getNip());
+                    rodzajedokDAO.dodaj(nowy);
+                    lista.add(nowy);
+                }
             }
+        } catch (Exception ex) {
         }
         try {
             selected.setDokumentyksiegowe(lista);
             podatnikDAO.edit(selected);
         } catch (Exception ex) {
         }
-
     }
 
     public void peseldataurodzenia() {
@@ -1062,10 +1072,10 @@ public class PodatnikView implements Serializable {
                 rodzajedokDAO.dodaj(p);
             }
             rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
-            RequestContext.getCurrentInstance().update("akordeon:form6");
+            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
         } else {
             rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
-            RequestContext.getCurrentInstance().update("akordeon:form6");
+            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
         }
     }
     
