@@ -608,7 +608,8 @@ public class Podatnik implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Podatnik[ nip=" + nip + " ]";
+        return "Podatnik{" + "nip=" + nip + ", imie=" + imie + ", nazwapelna=" + nazwapelna + ", nazwisko=" + nazwisko + '}';
     }
-    
+
+   
 }
