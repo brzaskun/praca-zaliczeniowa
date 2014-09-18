@@ -702,7 +702,14 @@ public class DokfkView implements Serializable {
             symbolWalutyNettoVat = " zł";
         }
         Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-        Konto konto = kontoDAOfk.findKontoNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
+        Konto konto = null;
+        for (Konto p : listakont) {
+            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
+                konto = p;
+            }
+        }
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -714,7 +721,9 @@ public class DokfkView implements Serializable {
                 wn.setKwota(nettovat);
                 ma.setKwota(nettovat+vatwWalucie);
             }
-            wierszpierwszy.getStronaMa().setKonto(konto);
+            if (konto != null) {
+                wierszpierwszy.getStronaMa().setKonto(konto);
+            }
             Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
             if (kontonetto != null) {
                 wierszpierwszy.getStronaWn().setKonto(kontonetto);
@@ -784,7 +793,14 @@ public class DokfkView implements Serializable {
             symbolWalutyNettoVat = " zł";
         }
         Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-        Konto konto = kontoDAOfk.findKontoNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
+        Konto konto = null;
+        for (Konto p : listakont) {
+            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
+                konto = p;
+            }
+        }
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -796,10 +812,12 @@ public class DokfkView implements Serializable {
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+vatwWalucie);
             }
-            wierszpierwszy.getStronaWn().setKonto(konto);
+            if (konto != null) {
+                wierszpierwszy.getStronaWn().setKonto(konto);
+            }
             Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
             if (kontonetto != null) {
-                wierszpierwszy.getStronaWn().setKonto(kontonetto);
+                wierszpierwszy.getStronaMa().setKonto(kontonetto);
             }
         }
         if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
@@ -815,10 +833,10 @@ public class DokfkView implements Serializable {
             wierszdrugi.setOpisWiersza("podatek vat");
             Konto kontovat = selected.getRodzajedok().getKontovat();
             if (kontovat != null) {
-                wierszdrugi.getStronaWn().setKonto(kontovat);
+                wierszdrugi.getStronaMa().setKonto(kontovat);
             } else {
                 Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-                wierszdrugi.getStronaWn().setKonto(k);
+                wierszdrugi.getStronaMa().setKonto(k);
             }
             selected.getListawierszy().add(wierszdrugi);
         }
