@@ -782,9 +782,7 @@ public class PodatnikView implements Serializable {
     
     public void editdok() {
         try {
-            Podatnik selected2 = podatnikDAO.find(nazwaWybranegoPodatnika);
-            podatnikDAO.destroy(selected2);
-            podatnikDAO.dodaj(selected);
+            rodzajedokDAO.edit(selectedDokKsi);
             RequestContext.getCurrentInstance().update("akordeon:form6:pDokKsi");
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
         } catch (Exception e) {
