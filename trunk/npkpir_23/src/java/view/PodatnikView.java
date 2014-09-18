@@ -806,7 +806,7 @@ public class PodatnikView implements Serializable {
         selected = podatnikDAO.find(nazwaWybranegoPodatnika);
         List<Rodzajedok> lista = new ArrayList<>();
         try {
-            lista.addAll(selected.getDokumentyksiegowe());
+            lista.addAll(rodzajedokDAO.findListaPodatnik(selected));
         } catch (Exception e) {
         }
         List<Rodzajedok> ogolna = new ArrayList<>();
@@ -819,6 +819,8 @@ public class PodatnikView implements Serializable {
         while (it.hasNext()) {
             Rodzajedok tmp = (Rodzajedok) it.next();
             if (!lista.contains(tmp)) {
+                tmp.setPodatnikObj(selected);
+                rodzajedokDAO.edit(tmp);
                 lista.add(tmp);
             }
         }
@@ -1060,8 +1062,10 @@ public class PodatnikView implements Serializable {
                 rodzajedokDAO.dodaj(p);
             }
             rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
+            RequestContext.getCurrentInstance().update("akordeon:form6");
         } else {
             rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
+            RequestContext.getCurrentInstance().update("akordeon:form6");
         }
     }
     
