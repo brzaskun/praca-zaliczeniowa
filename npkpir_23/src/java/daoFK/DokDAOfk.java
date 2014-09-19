@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Klienci;
 import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.Collection;
@@ -72,9 +73,17 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
 
-     public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
+    public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk) {
        try {
            return dokFacade.findDokfkLastofaType(podatnik,seriadokfk);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public Dokfk findDokfkLastofaTypeKontrahent(String podatnik, String seriadokfk, Klienci kontr) {
+       try {
+           return dokFacade.findDokfkLastofaTypeKontrahent(podatnik,seriadokfk, kontr);
        } catch (Exception e ){
            return null;
        }

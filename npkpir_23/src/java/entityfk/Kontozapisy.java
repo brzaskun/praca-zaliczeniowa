@@ -82,7 +82,6 @@ public class Kontozapisy implements Serializable {
     @Column(name = "kwotama", nullable = false)
     private double kwotama;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "kontoma", nullable = false, length = 100)
     private String kontoma;

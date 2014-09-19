@@ -701,15 +701,7 @@ public class DokfkView implements Serializable {
             }
             symbolWalutyNettoVat = " zł";
         }
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
-        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
-        Konto konto = null;
-        for (Konto p : listakont) {
-            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
-                konto = p;
-            }
-        }
+        Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -721,8 +713,8 @@ public class DokfkView implements Serializable {
                 wn.setKwota(nettovat);
                 ma.setKwota(nettovat+vatwWalucie);
             }
-            if (konto != null) {
-                wierszpierwszy.getStronaMa().setKonto(konto);
+            if (kontoRozrachunkowe != null) {
+                wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
             }
             Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
             if (kontonetto != null) {
@@ -772,8 +764,10 @@ public class DokfkView implements Serializable {
         }
         String update = "formwpisdokument:tablicavat";
         RequestContext.getCurrentInstance().update(update);
+        pobierzkontaZpoprzedniegoDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
+    
     public void rozliczVatPrzychod(HashMap<String,Double> wartosciVAT) {
         double nettovat = wartosciVAT.get("netto");
         double kwotavat = wartosciVAT.get("vat");
@@ -792,15 +786,7 @@ public class DokfkView implements Serializable {
             }
             symbolWalutyNettoVat = " zł";
         }
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(klientMaKonto.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
-        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
-        Konto konto = null;
-        for (Konto p : listakont) {
-            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
-                konto = p;
-            }
-        }
+        Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
         if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             StronaWiersza wn = wierszpierwszy.getStronaWn();
             StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -812,8 +798,8 @@ public class DokfkView implements Serializable {
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+vatwWalucie);
             }
-            if (konto != null) {
-                wierszpierwszy.getStronaWn().setKonto(konto);
+            if (kontoRozrachunkowe != null) {
+                wierszpierwszy.getStronaWn().setKonto(kontoRozrachunkowe);
             }
             Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
             if (kontonetto != null) {
@@ -842,8 +828,49 @@ public class DokfkView implements Serializable {
         }
         String update = "formwpisdokument:tablicavat";
         RequestContext.getCurrentInstance().update(update);
+        pobierzkontaZpoprzedniegoDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
+    
+    private Konto pobierzKontoRozrachunkowe() {
+        Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
+        Konto konto = null;
+        for (Konto p : listakont) {
+            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
+                konto = p;
+            }
+        }
+        return konto;
+    }
+    
+    private void pobierzkontaZpoprzedniegoDokumentu() {
+        try {
+            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr());
+            if (poprzedniDokument != null) {
+                for (int i = 0; i < 3; i++) {
+                    Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
+                    Wiersz wierszDokumentuBiezacego = selected.getListawierszy().get(i);
+                    if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
+                        StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
+                        StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
+                        if (wnDokumenuBiezacego != null) {
+                            wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                        }
+                        StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
+                        StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
+                        if (maDokumenuBiezacego != null) {
+                            maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
 public void updatenetto(EwidencjaAddwiad e) {
         String skrotRT = selected.getDokfkPK().getSeriadokfk();
         int lp = e.getLp();
@@ -1054,10 +1081,11 @@ public void updatenetto(EwidencjaAddwiad e) {
 
     public void przygotujDokumentWpisywanie() {
         String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok();
+        selected.getDokfkPK().setSeriadokfk(skrotnazwydokumentu);
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
-                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikWpisu(), skrotnazwydokumentu);
+                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), skrotnazwydokumentu);
                 selected.getDokfkPK().setNrkolejnywserii(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejnywserii() + 1);
             } catch (Exception e) {
                 selected.getDokfkPK().setNrkolejnywserii(1);
