@@ -24,6 +24,7 @@ import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
 import entity.Klienci;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Kliencifk;
@@ -41,11 +42,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -847,7 +850,7 @@ public class DokfkView implements Serializable {
     
     private void pobierzkontaZpoprzedniegoDokumentu() {
         try {
-            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr());
+            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
             if (poprzedniDokument != null) {
                 for (int i = 0; i < 3; i++) {
                     Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
@@ -1085,7 +1088,7 @@ public void updatenetto(EwidencjaAddwiad e) {
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
-                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), skrotnazwydokumentu);
+                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), skrotnazwydokumentu, wpisView.getRokWpisuSt());
                 selected.getDokfkPK().setNrkolejnywserii(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejnywserii() + 1);
             } catch (Exception e) {
                 selected.getDokfkPK().setNrkolejnywserii(1);
@@ -1762,6 +1765,84 @@ public void updatenetto(EwidencjaAddwiad e) {
                 }
             }
         }
+    }
+    
+    public void wygenerujnumerkolejny() {
+        String zawartosc = "";
+        try {
+            zawartosc = selected.getNumerwlasnydokfk();
+        } catch (Exception ex) {
+            selected.setNumerwlasnydokfk("");
+        }
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String skrot = params.get("formwpisdokument:symbol");
+        String wprowadzonynumer = "";
+        if (params.get("formwpisdokument:numer") != null) {
+            wprowadzonynumer = params.get("formwpisdokument:numer");
+        }
+        if (!wprowadzonynumer.isEmpty()) {
+        } else {
+            String nowynumer = "";
+            Podatnik podX = wpisView.getPodatnikObiekt();
+            Integer rok = wpisView.getRokWpisu();
+            String mc = wpisView.getMiesiacWpisu();
+            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(podX);
+            Rodzajedok rodzajdok = new Rodzajedok();
+            for (Rodzajedok p : listaD) {
+                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+                    rodzajdok = p;
+                    break;
+                }
+            }
+            String wzorzec = rodzajdok.getWzorzec();
+            //odnajdywanie podzielnika;
+            String separator = null;
+            if (wzorzec.contains("/")) {
+                separator = "/";
+            }
+            String[] elementy;
+            try {
+                elementy = wzorzec.split(separator);
+                Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+                String[] elementyold;
+                elementyold = ostatnidokument.getNumerwlasnydokfk().split(separator);
+                for (int i = 0; i < elementy.length; i++) {
+                    String typ = elementy[i];
+                    switch (typ) {
+                        case "n":
+                            String tmp = elementyold[i];
+                            Integer tmpI = Integer.parseInt(tmp);
+                            tmpI++;
+                            nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
+                            break;
+                        case "m":
+                            nowynumer = nowynumer.concat(mc).concat(separator);
+                            break;
+                        case "r":
+                            nowynumer = nowynumer.concat(rok.toString()).concat(separator);
+                            break;
+                        //to jest wlasna wstawka typu FVZ
+                        case "s":
+                            nowynumer = nowynumer.concat(elementyold[i]).concat(separator);
+                            break;
+                    }
+                }
+                if (nowynumer.endsWith(separator)) {
+                    nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
+                }
+            } catch (Exception e) {
+                nowynumer = wzorzec;
+            }
+            if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
+                selected.setNumerwlasnydokfk(nowynumer);
+                RequestContext.getCurrentInstance().update("formwpisdokument:numer");
+            }
+            if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
+                selected.setNumerwlasnydokfk(nowynumer);
+                RequestContext.getCurrentInstance().update("formwpisdokument:numer");
+            }
+        }
+
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
