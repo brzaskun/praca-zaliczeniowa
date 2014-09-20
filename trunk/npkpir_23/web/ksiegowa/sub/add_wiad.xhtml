@@ -62,6 +62,7 @@
                                 widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                     <f:ajax event="blur" execute="@this"/>
+                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" />
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  

@@ -65,6 +65,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findPoprzednik", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.opis = :opis"),
     @NamedQuery(name = "Dok.findByRozliczony", query = "SELECT d FROM Dok d WHERE d.rozliczony = :rozliczony"),
     @NamedQuery(name = "Dok.findByPodatnik", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik"),
+    @NamedQuery(name = "Dok.findByfindByLastofaTypeKontrahent", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.pkpirR = :pkpirR  ORDER BY d.idDok DESC"),
     @NamedQuery(name = "Dok.findByFakturaWystawiona", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.brutto = :brutto"),
     @NamedQuery(name = "Dok.findByBK", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByBKVAT", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR AND d.podatnik = :podatnik"),

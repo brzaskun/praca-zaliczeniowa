@@ -1323,6 +1323,24 @@ public final class DokView implements Serializable {
     }
 
    
+     public void pobierzdaneZpoprzedniegoDokumentu() {
+        if (!selDokument.getKontr1().getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
+            try {
+                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), selDokument.getKontr(), wpisView.getRokWpisuSt());
+                if (poprzedniDokument != null) {
+                    selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
+                    typdokumentu = poprzedniDokument.getTypdokumentu();
+                    selDokument.setOpis(poprzedniDokument.getOpis());
+                    RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
+                    RequestContext.getCurrentInstance().update("dodWiad:opis");
+                    RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:numerwlasny')).select();");
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }
+    
 
     public Klienci getSelectedKlient() {
         return selectedKlient;

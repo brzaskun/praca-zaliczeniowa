@@ -711,6 +711,14 @@ public class SessionFacade<T> implements Serializable{
             return null;
         }
     }
+    
+    public Dok findDokLastofaTypeKontrahent(String podatnik, Klienci kontr, String pkpirR) {
+        try {
+            return (Dok) em.createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
    
     
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
