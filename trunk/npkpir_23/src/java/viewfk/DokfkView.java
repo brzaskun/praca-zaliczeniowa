@@ -173,6 +173,11 @@ public class DokfkView implements Serializable {
         selected = null;
         selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
         try {
+            Rodzajedok rodzajDokPoprzedni = selected.getRodzajedok();
+            selected.setRodzajedok(rodzajDokPoprzedni);
+        } catch (Exception e2) {
+        }   
+        try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             selected.getDokfkPK().setRok(wpisView.getRokWpisuSt());
             RequestContext.getCurrentInstance().update("formwpisdokument:rok");
@@ -193,8 +198,13 @@ public class DokfkView implements Serializable {
     public void resetujDokumentWpis() {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
         String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
-        selected = null;
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
+        try {
+            Rodzajedok rodzajDokPoprzedni = selected.getRodzajedok();
+            selected = null;
+            selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
+            selected.setRodzajedok(rodzajDokPoprzedni);
+        } catch (Exception e2) {
+        } 
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             pokazPanelWalutowy = false;
@@ -206,6 +216,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:dataDialogWpisywanie')).select();");
     }
 
 //    //dodaje wiersze do dokumentu

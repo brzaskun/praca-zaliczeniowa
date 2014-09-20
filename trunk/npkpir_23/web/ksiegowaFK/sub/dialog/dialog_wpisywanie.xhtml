@@ -41,6 +41,7 @@
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument">
+            <p:focus for="panelzkwotami"/>
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
