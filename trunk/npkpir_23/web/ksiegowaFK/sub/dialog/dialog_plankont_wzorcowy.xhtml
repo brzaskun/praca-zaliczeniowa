@@ -14,7 +14,7 @@
                 <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
                 <p:separator/>
-                <p:menuitem value="Implementuj" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" actionListener="${planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
             </p:contextMenu>
@@ -37,7 +37,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implementuj" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
+                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataListwzorcowy" value="#{planKontView.rootwzorcowy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
