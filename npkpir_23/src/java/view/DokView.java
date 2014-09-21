@@ -200,6 +200,7 @@ public final class DokView implements Serializable {
             if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
                 selDokument.setDokumentProsty(true);
             }
+            RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
         } catch (Exception e) {
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
