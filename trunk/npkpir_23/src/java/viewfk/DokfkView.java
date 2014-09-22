@@ -11,6 +11,7 @@ import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import comparator.Rodzajedokcomparator;
 import comparator.Wierszcomparator;
+import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -23,10 +24,14 @@ import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
+import entity.EVatwpis1;
+import entity.Evewidencja;
 import entity.Klienci;
+import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -81,6 +86,8 @@ public class DokfkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
     private List<Rodzajedok> rodzajedokKlienta;
     @Inject 
     private KliencifkDAO kliencifkDAO;
@@ -148,7 +155,7 @@ public class DokfkView implements Serializable {
     private void init() {
         try {
             resetujDokument();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -952,6 +959,7 @@ public void updatenetto(EwidencjaAddwiad e) {
                 //nanosimy zapisy na kontach
                 NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
+                dolaczEwidencjeVATDoDokumentu();
                 dokDAOfk.edit(selected);
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
@@ -968,6 +976,31 @@ public void updatenetto(EwidencjaAddwiad e) {
             }
         } else {
             Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
+        }
+    
+}
+    
+    private void dolaczEwidencjeVATDoDokumentu() {
+        Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
+        try {
+                String rodzajOpodatkowania = ParametrView.zwrocParametr(podatnikWDokumencie.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if ((!rodzajOpodatkowania.contains("bez VAT")) && (!ewidencjaAddwiad.isEmpty())) {
+                    Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
+                    List<EVatwpisFK> ewidencjeDokumentu = new ArrayList<>();
+                    for (EwidencjaAddwiad p : ewidencjaAddwiad) {
+                        String op = p.getOpis();
+                        EVatwpisFK eVatwpis = new EVatwpisFK();
+                        eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
+                        eVatwpis.setNetto(p.getNetto());
+                        eVatwpis.setVat(p.getVat());
+                        eVatwpis.setEstawka(p.getOpzw());
+                        eVatwpis.setDokfk(selected); 
+                        ewidencjeDokumentu.add(eVatwpis);
+                    }
+                    selected.setEwidencjaVAT(ewidencjeDokumentu);
+                }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getMessage() + " " + e.getStackTrace().toString());
         }
     }
 
@@ -1265,7 +1298,6 @@ public void updatenetto(EwidencjaAddwiad e) {
                 zapisz0edytuj1 = true;
                 selected.setWartoscdokumentu(0.0);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument");
                 if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
                     pokazPanelWalutowy = true;
                 } else {
@@ -1273,6 +1305,26 @@ public void updatenetto(EwidencjaAddwiad e) {
                 }
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
             }
+            int j = 1;
+            try {//trzeba ignorowac w przypadku dokumentow prostych
+                for (EVatwpisFK s : selected.getEwidencjaVAT()) {
+                    EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                    ewidencjaAddwiad.setOpis(s.getEwidencja().getNazwa());
+                    ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
+                    ewidencjaAddwiad.setNetto(s.getNetto());
+                    ewidencjaAddwiad.setVat(s.getVat());
+                    ewidencjaAddwiad.setBrutto(s.getNetto() + s.getVat());
+                    ewidencjaAddwiad.setLp(j++);
+                    //sumbrutto += s.getNetto() + s.getVat();
+                    this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+                }
+            } catch (Exception e) {
+//                for (KwotaKolumna1 p : selDokument.getListakwot1()) {
+//                    sumbrutto += p.getNetto();
+//                }
+            }
+            rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument");
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
