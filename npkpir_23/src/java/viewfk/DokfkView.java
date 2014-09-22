@@ -1046,9 +1046,10 @@ public void updatenetto(EwidencjaAddwiad e) {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObj(dousuniecia));
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt());
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             Msg.msg("i", "Dokument usunięty");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się usunąć dokumentu");
