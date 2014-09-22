@@ -113,6 +113,8 @@ public class Dokfk implements Serializable {
     @JoinColumn(name = "kontr")
     @ManyToOne
     private Klienci kontr;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<EVatwpisFK> ewidencjaVAT;
  
 
     
@@ -122,6 +124,7 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK) {
@@ -130,6 +133,7 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
@@ -139,6 +143,7 @@ public class Dokfk implements Serializable {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
         this.wTrakcieEdycji = false;
     }
 
@@ -147,10 +152,20 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
         ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public List<EVatwpisFK> getEwidencjaVAT() {
+        return ewidencjaVAT;
+    }
+
+    public void setEwidencjaVAT(List<EVatwpisFK> ewidencjaVAT) {
+        this.ewidencjaVAT = ewidencjaVAT;
+    }
+
     public Rodzajedok getRodzajedok() {
         return rodzajedok;
     }

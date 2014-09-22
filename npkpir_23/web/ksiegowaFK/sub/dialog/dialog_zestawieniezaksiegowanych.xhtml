@@ -38,7 +38,7 @@
                               emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
                      <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
                
-            <p:column headerText="lp." width="30" style="text-align: center;">
+            <p:column headerText="lp." width="30" style="text-align: center; height: 35px;">
                 <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
             </p:column>
             <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
@@ -68,7 +68,7 @@
                 <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="" rendered="#{!item.wTrakcieEdycji}" style="width: 60px;"/>
                 <p:commandButton value="" icon="ui-icon-circle-minus" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" update=":formwpisdokument"  oncomplete="" rendered="#{item.wTrakcieEdycji}" style="width: 60px;"/>
             </p:column>
-            <p:column headerText="" width="60" style="text-align: center;">
+            <p:column headerText="" width="70" style="text-align: center;">
                 <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
             </p:column>
            
