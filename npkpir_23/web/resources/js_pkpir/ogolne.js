@@ -112,11 +112,17 @@ var aktywujopis = function() {
             r('dodWiad:dodkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
             r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
         }
         if (kodklawisza === 109) {
             r('dodWiad:usunkol').click();
             var wartoscpola = r('dodWiad:opis_input').val();
             r('dodWiad:opis_input').val(wartoscpola.slice(0, -1));
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
         }
         //zapisuje opis w bazie
         if (kodklawisza === 120) {
@@ -126,6 +132,9 @@ var aktywujopis = function() {
                 "font-weight": 900
             });
             r('dodWiad:opis').focus();
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
         }
     });
     //$('#dodWiad\\:numerwlasny').focus();
