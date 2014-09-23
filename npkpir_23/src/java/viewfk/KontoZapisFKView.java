@@ -5,15 +5,14 @@
 package viewfk;
 
 import comparator.Kontozapisycomparator;
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
-import entityfk.Transakcja;
 import embeddablefk.TreeNodeExtended;
-import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
-import entityfk.Zestawienielisttransakcji;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +24,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.TreeNode;
@@ -39,11 +37,12 @@ import view.WpisView;
 @ViewScoped
 public class KontoZapisFKView implements Serializable{
     private static final long serialVersionUID = 1L;
-    private List<Kontozapisy> kontozapisy;
+    private List<StronaWiersza> kontozapisy;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
     private List<Kontozapisy> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
@@ -85,16 +84,15 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(p.getZapisynakoncie());//Po zmianie i wprowadzeniu relacji nie trzeba wyszukiwac. Kazde konto ma dostep do listy
-                    //kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                    //kontozapisy.addAll(p.getZapisynakoncie());//Po zmianie i wprowadzeniu relacji nie trzeba wyszukiwac. Kazde konto ma dostep do listy
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
-                Collections.sort(kontozapisy, new Kontozapisycomparator());
+                //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(wybranekonto.getZapisynakoncie());
-                //kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
-            sumazapisow();
+            //sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
@@ -111,12 +109,12 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
-                Collections.sort(kontozapisy, new Kontozapisycomparator());
+                //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
+                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
             sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -139,12 +137,12 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
-                Collections.sort(kontozapisy, new Kontozapisycomparator());
+                //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
+                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
             sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -285,14 +283,15 @@ public class KontoZapisFKView implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
-    public List<Kontozapisy> getKontozapisy() {
+
+    public List<StronaWiersza> getKontozapisy() {
         return kontozapisy;
     }
-    
-    public void setKontozapisy(List<Kontozapisy> kontozapisy) {
+
+    public void setKontozapisy(List<StronaWiersza> kontozapisy) {
         this.kontozapisy = kontozapisy;
     }
+  
     
     public KontoZapisyFKDAO getKontoZapisyFKDAO() {
         return kontoZapisyFKDAO;
