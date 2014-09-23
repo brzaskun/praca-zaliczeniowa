@@ -899,6 +899,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
+    public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+    }
+
   
     
   

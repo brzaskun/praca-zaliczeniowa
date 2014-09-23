@@ -91,17 +91,17 @@
                 <h:form id="tabelazzapisami">
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 900px;"
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop.wiersz.idwiersza}" emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="grid1"
+                                 rowStyleClass="#{loop.kontoprzeciwstawne eq '000' ? 'niebieskietlo' : null}" rowIndexVar="rowindex" styleClass="grid1"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
-<!--                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="9{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->
+                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>
                         <p:column selectionMode="multiple" width="35"></p:column>
                         <p:column headerText="id" width="40" sortBy="#{loop.id}" >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
-                        <p:column headerText="lp" width="40" sortBy="#{rowindex}" >
+                        <p:column headerText="lp" width="40" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
                         <p:column headerText="data" width="100" sortBy="#{loop.wiersz.dataksiegowania}">
@@ -110,25 +110,25 @@
                         <p:column headerText="dokument" width="80" >
                             <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
-                        <p:column headerText="opis" width="100" sortBy="#{loop.wiersz.opisWiersza}">
-                            <h:outputText value="#{loop.wiersz.opisWiersza}"/>
+                        <p:column headerText="opis" width="100" sortBy="#{loop.opis}">
+                            <h:outputText value="#{loop.opis}"/>
                         </p:column>
-                        <p:column headerText="Wn" width="80" sortBy="#{loop.kwota}">
-                            <h:outputText id="kwotawnwiersz" value="#{loop.kwota}" style="float: right;">
+                        <p:column headerText="Wn" width="80" sortBy="#{loop.kwotawn}">
+                            <h:outputText id="kwotawnwiersz" value="#{loop.kwotawn}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="80" sortBy="#{loop.kwota}">
-                            <h:outputText id="kwotamawiersz" value="#{loop.kwota}" style="float: right;">
+                        <p:column headerText="Ma" width="80" sortBy="#{loop.kwotama}">
+                            <h:outputText id="kwotamawiersz" value="#{loop.kwotama}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Konto nr" width="90" sortBy="#{loop.konto}">
-                            <h:outputText id="kontonr" value="#{loop.konto.pelnynumer}"/>
+                            <h:outputText id="kontonr" value="#{loop.kontoobiekt.pelnynumer}"/>
                         </p:column>
-<!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
-                            <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
-                        </p:column>-->
+                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="#{loop.loop.kontoprzeciwstawne}">
+                            <h:outputText value="#{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
+                        </p:column>
                     </p:dataTable>
                 </h:form>  
             </p:layoutUnit>  
