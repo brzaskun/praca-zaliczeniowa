@@ -7,6 +7,7 @@ package viewfk;
 import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import converter.RomNumb;
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import daoFK.KontopozycjarzisDAO;
@@ -18,6 +19,7 @@ import entityfk.KontopozycjarzisPK;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +62,8 @@ public class PozycjaRZiSView implements Serializable {
     private KontoDAOfk kontoDAO;
     @Inject
     private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject 
+    private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
@@ -151,7 +155,7 @@ public class PozycjaRZiSView implements Serializable {
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         root = new TreeNodeExtended("root", null);
-        List<Kontozapisy> zapisy = kontoZapisyFKDAO.findZapisyPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN");
         List<Konto> plankont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
         PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);

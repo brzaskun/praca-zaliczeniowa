@@ -9,6 +9,7 @@ import comparator.Kontocomparator;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -187,14 +188,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
 
-    public void addNumbers(List<Kontozapisy> zapisynakontach, List<Konto> plankont) {
+    public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
-        for (Kontozapisy p: zapisynakontach) {
+        for (StronaWiersza p: zapisynakontach) {
             //pobiermay dane z poszczegolnego konta
-            double kwotaWn = p.getKwotawn();
-            double kwotaMa = p.getKwotama();
-            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKontoobiekt()));
+            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
+            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
+            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
             String pozycjaRZiS = kontopobrane.getPozycja();
             for (TreeNodeExtended r : finallNodes) {
                 //sprawdzamy czy dane konto nalezy do danego wezla

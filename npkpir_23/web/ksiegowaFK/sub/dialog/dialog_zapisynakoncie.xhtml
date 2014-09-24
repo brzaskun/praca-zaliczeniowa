@@ -114,17 +114,17 @@
                             <h:outputText value="#{loop.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="Wn" width="80" sortBy="#{loop.kwota}">
-                            <h:outputText id="kwotawnwiersz" value="#{loop.kwota}" style="float: right;">
+                            <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Ma" width="80" sortBy="#{loop.kwota}">
-                            <h:outputText id="kwotamawiersz" value="#{loop.kwota}" style="float: right;">
+                            <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Konto nr" width="90" sortBy="#{loop.konto}">
-                            <h:outputText id="kontonr" value="#{loop.konto.pelnynumer}"/>
+                        <p:column headerText="Konto przeciw." width="90" sortBy="#{loop.konto}">
+                            <h:outputText id="kontonr" value="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}"/>
                         </p:column>
 <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                             <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>

@@ -40,7 +40,7 @@ public class KontoZapisFKView implements Serializable{
     private List<StronaWiersza> kontozapisy;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
-    private List<Kontozapisy> wybranekontadosumowania;
+    private List<StronaWiersza> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
@@ -92,7 +92,7 @@ public class KontoZapisFKView implements Serializable{
             } else {
                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
-            //sumazapisow();
+            sumazapisow();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
@@ -192,9 +192,12 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisow(){
         sumaWn = 0.0;
         sumaMa = 0.0;
-        for(Kontozapisy p : wybranekontadosumowania){
-            sumaWn = sumaWn + p.getKwotawn();
-            sumaMa = sumaMa + p.getKwotama();
+        for(StronaWiersza p : wybranekontadosumowania){
+            if (p.getWnma().equals("Wn")) {
+                sumaWn = sumaWn + p.getKwota();
+            } else if (p.getWnma().equals("Ma")){
+                sumaMa = sumaMa + p.getKwota();
+            }
         }
         saldoWn = 0.0;
         saldoMa = 0.0;
@@ -308,15 +311,16 @@ public class KontoZapisFKView implements Serializable{
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
-    
-    public List<Kontozapisy> getWybranekontadosumowania() {
+
+    public List<StronaWiersza> getWybranekontadosumowania() {
         return wybranekontadosumowania;
     }
-    
-    public void setWybranekontadosumowania(List<Kontozapisy> wybranekontadosumowania) {
+
+    public void setWybranekontadosumowania(List<StronaWiersza> wybranekontadosumowania) {
         this.wybranekontadosumowania = wybranekontadosumowania;
     }
-
+    
+   
     public List getZapisydopodswietlenia() {
         return zapisydopodswietlenia;
     }
