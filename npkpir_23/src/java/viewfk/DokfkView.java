@@ -1658,7 +1658,7 @@ public void updatenetto(EwidencjaAddwiad e) {
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
+        //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
     }
 
 //    

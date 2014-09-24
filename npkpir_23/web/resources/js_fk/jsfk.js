@@ -396,13 +396,13 @@ var zmienkolor = function(color, i,wnma) {
 //};
 
 //menu do zakrycia poszczegolnych pol w przypadku podgladu dokumentu
-//var zakryjpolaedycjadokumentu = function(iloscwierszy){
-//    MYAPP.chowanedok = null;
-//    MYAPP.chowanedok = [];
-//    for(var i = 0 ; i < iloscwierszy; i++){
-//        sprawdzpoprzedniwierszdialog(i);
-//    }
-//};
+var zakryjpolaedycjadokumentu = function(iloscwierszy){
+    MYAPP.chowanedok = null;
+    MYAPP.chowanedok = [];
+    for(var i = 0 ; i < iloscwierszy; i++){
+        sprawdzpoprzedniwierszdialog(i);
+    }
+};
 
 //var bigscreen = function () {
 //  try {
