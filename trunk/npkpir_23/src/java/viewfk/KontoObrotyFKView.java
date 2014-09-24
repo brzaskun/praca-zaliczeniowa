@@ -5,12 +5,14 @@
 package viewfk;
 
 import comparator.Kontozapisycomparator;
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontoZapisyFKDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontozapisy;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,12 +36,13 @@ import view.WpisView;
 @ViewScoped
 public class KontoObrotyFKView implements Serializable{
     private static final long serialVersionUID = 1L;
-    private List<Kontozapisy> kontozapisy;
+    private List<StronaWiersza> kontozapisy;
     private List<Konto> kontaprzejrzane;
     @Inject private Kontozapisy wybranyzapis;
     private List<Kontozapisy> kontorozrachunki;
     private List<ObrotykontaTabela> wybranekontadosumowania;
     @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
+    @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
     private Double sumaWn;
@@ -86,14 +89,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer(), wybranaWalutaDlaKont));
+                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
                  //kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
-             Collections.sort(kontozapisy, new Kontozapisycomparator());
+             //Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy = kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
+             kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
              // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
          sumamiesiecy();
@@ -145,16 +148,25 @@ public class KontoObrotyFKView implements Serializable{
     
      private void sumamiesiecy() {
         lista.addAll(ObrotykontaTabela.wygenerujlisteObrotow(wpisView.getRokWpisuSt()));
-        for (Kontozapisy p : kontozapisy) {
+        for (StronaWiersza p : kontozapisy) {
             ObrotykontaTabela obrotyMiesiac = new ObrotykontaTabela();
             int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
-            if (p.getKontoprzeciwstawne().equals("000")) {
-                obrotyMiesiac = lista.get(0);
-            } else if (!p.getKontoprzeciwstawne().equals("000")){
-                obrotyMiesiac = lista.get(numermiesiaca);
+            if (p.getWnma().equals("Wn")) {
+                if (p.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("000")) {
+                    obrotyMiesiac = lista.get(0);
+                } else if (!p.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("000")){
+                    obrotyMiesiac = lista.get(numermiesiaca);
+                }
+                obrotyMiesiac.setKwotaWn(obrotyMiesiac.getKwotaWn()+p.getKwota());
+            } else {
+                if (p.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("000")) {
+                    obrotyMiesiac = lista.get(0);
+                } else if (!p.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("000")){
+                    obrotyMiesiac = lista.get(numermiesiaca);
+                }
+                obrotyMiesiac.setKwotaMa(obrotyMiesiac.getKwotaMa()+p.getKwota());
             }
-            obrotyMiesiac.setKwotaWn(obrotyMiesiac.getKwotaWn()+p.getKwotawn());
-            obrotyMiesiac.setKwotaMa(obrotyMiesiac.getKwotaMa()+p.getKwotama());
+            
         }
         //a teraz czas na sumowanie narastajaco i wyliczanie sald
         double sumaWn = 0.0;
@@ -198,14 +210,16 @@ public class KontoObrotyFKView implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-     
-    public List<Kontozapisy> getKontozapisy() {
+
+    public List<StronaWiersza> getKontozapisy() {
         return kontozapisy;
     }
-    
-    public void setKontozapisy(List<Kontozapisy> kontozapisy) {
+
+    public void setKontozapisy(List<StronaWiersza> kontozapisy) {
         this.kontozapisy = kontozapisy;
     }
+     
+    
 
     public TreeNodeExtended<Konto> getWybranekontoNode() {
         return wybranekontoNode;

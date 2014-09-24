@@ -15,6 +15,7 @@ import entityfk.Kontopozycjarzis;
 import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
+import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -43,7 +44,7 @@ public class PozycjaRZiSFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiS> pozycjeL, List<Kontozapisy> zapisy, List<Konto> plankont) {
+    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiS> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
         rootL.sumNodes();
