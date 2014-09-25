@@ -6,7 +6,6 @@
 
 package comparator;
 
-import entityfk.Kontozapisy;
 import entityfk.Wiersz;
 import java.util.Comparator;
 import javax.inject.Named;

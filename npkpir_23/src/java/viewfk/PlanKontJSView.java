@@ -41,7 +41,7 @@ public class PlanKontJSView implements Serializable {
     @PostConstruct
     private void init() {
             if (wpisView instanceof WpisView) {
-            List<Konto> wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             opiskonta = "";
             pelnynumerkonta = "";
             for (Konto t : wykazkont) {

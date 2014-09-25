@@ -6,12 +6,10 @@ package viewfk;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Dokfk;
 import entityfk.Konto;
-import entityfk.Kontozapisy;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.Zestawienielisttransakcji;
@@ -40,10 +38,9 @@ import view.WpisView;
 public class KontoZapisFKView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<StronaWiersza> kontozapisy;
-    @Inject private Kontozapisy wybranyzapis;
-    private List<Kontozapisy> kontorozrachunki;
+    @Inject private StronaWiersza wybranyzapis;
+    private List<StronaWiersza> kontorozrachunki;
     private List<StronaWiersza> wybranekontadosumowania;
-    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
@@ -350,15 +347,7 @@ public class KontoZapisFKView implements Serializable{
         this.kontozapisy = kontozapisy;
     }
   
-    
-    public KontoZapisyFKDAO getKontoZapisyFKDAO() {
-        return kontoZapisyFKDAO;
-    }
-    
-    public void setKontoZapisyFKDAO(KontoZapisyFKDAO kontoZapisyFKDAO) {
-        this.kontoZapisyFKDAO = kontoZapisyFKDAO;
-    }
-    
+       
     public Konto getWybranekonto() {
         return wybranekonto;
     }
@@ -416,15 +405,16 @@ public class KontoZapisFKView implements Serializable{
     public void setSaldoMa(Double saldoMa) {
         this.saldoMa = saldoMa;
     }
-    
-    public List<Kontozapisy> getKontorozrachunki() {
+
+    public List<StronaWiersza> getKontorozrachunki() {
         return kontorozrachunki;
     }
-    
-    public void setKontorozrachunki(List<Kontozapisy> kontorozrachunki) {
+
+    public void setKontorozrachunki(List<StronaWiersza> kontorozrachunki) {
         this.kontorozrachunki = kontorozrachunki;
     }
-
+    
+   
     public TreeNodeExtended<Konto> getWybranekontoNode() {
         return wybranekontoNode;
     }
@@ -433,15 +423,14 @@ public class KontoZapisFKView implements Serializable{
         this.wybranekontoNode = wybranekontoNode;
     }
     
-    public Kontozapisy getWybranyzapis() {
+    public StronaWiersza getWybranyzapis() {
         return wybranyzapis;
     }
-    
-    public void setWybranyzapis(Kontozapisy wybranyzapis) {
+
+    public void setWybranyzapis(StronaWiersza wybranyzapis) {
         this.wybranyzapis = wybranyzapis;
     }
-    //</editor-fold>
-
+//</editor-fold>
    
 }
 

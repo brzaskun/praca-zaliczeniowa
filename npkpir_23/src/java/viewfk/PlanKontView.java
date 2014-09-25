@@ -66,10 +66,10 @@ public class PlanKontView implements Serializable {
 
     @PostConstruct
     private void init() {
-        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
-        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
     }
@@ -213,7 +213,7 @@ public class PlanKontView implements Serializable {
                     Msg.msg("e", "Wystąpił błąd podczas dodawania konta. Nie dodano: " + p.getPelnynumer());
                 }
             }
-            List<Konto> wykazkonttmp = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            List<Konto> wykazkonttmp = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
             for (Konto p : wykazkonttmp) {
                 if (!p.getMacierzyste().equals("0")) {
@@ -222,7 +222,7 @@ public class PlanKontView implements Serializable {
                     kontoDAO.edit(p);
                 }
             }
-            wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
@@ -249,7 +249,7 @@ public class PlanKontView implements Serializable {
                     Msg.msg("e", "Wystąpił błąd podczas dodawania konta. " + ef.getMessage() + " Nie dodano: " + konto.getPelnynumer());
                 }
             }
-            wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
@@ -281,19 +281,19 @@ public class PlanKontView implements Serializable {
     }
 
     public void porzadkowanieKontPodatnika() {
-        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         //resetuj kolumne macierzyste
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
-        wykazkont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
     }
 
     public void porzadkowanieKontWzorcowych() {
-        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
         //resetuj kolumne macierzyste
         KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAO, "Testowy");
-        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         rozwinwszystkie(rootwzorcowy);
     }
@@ -406,7 +406,7 @@ public class PlanKontView implements Serializable {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
             kontoDAO.edit(p);
         }
-        wykazkontwzor = kontoDAO.findKontoPodatnik("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
         rootwzorcowy = rootInit(wykazkontwzor);
     }
 

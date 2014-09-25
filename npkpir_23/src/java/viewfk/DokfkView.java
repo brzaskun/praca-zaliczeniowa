@@ -65,7 +65,6 @@ import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 import view.ParametrView;
 import view.WpisView;
-import viewfk.subroutines.NaniesZapisynaKontaFK;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 
@@ -957,7 +956,6 @@ public void updatenetto(EwidencjaAddwiad e) {
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
                 UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
                 //nanosimy zapisy na kontach
-                NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
                 dolaczEwidencjeVATDoDokumentu();
                 dokDAOfk.edit(selected);
@@ -1008,7 +1006,6 @@ public void updatenetto(EwidencjaAddwiad e) {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-                NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
                 selected.setWartoscdokumentu(0.0);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
@@ -1032,7 +1029,6 @@ public void updatenetto(EwidencjaAddwiad e) {
         System.out.println("lll");
         try {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-            NaniesZapisynaKontaFK.naniesZapisyNaKontach(selected);
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());

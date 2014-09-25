@@ -150,10 +150,10 @@ public class PlanKontFKBean {
     public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, String podatnik) {
         if (czywzorcowe(r.getChildren().get(0))) {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik("Testowy"));
+            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika("Testowy"));
         } else {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findKontoPodatnik(podatnik));
+            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika(podatnik));
         }
         r.expandAll();
     }
@@ -170,7 +170,7 @@ public class PlanKontFKBean {
     }
      
     private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, String podatnik) {
-        List<Konto> wykazkont = kontoDAOfk.findKontoPodatnik(podatnik);
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik);
         if (wykazkont.contains(nowe)) {
             return 1;
         } else {
