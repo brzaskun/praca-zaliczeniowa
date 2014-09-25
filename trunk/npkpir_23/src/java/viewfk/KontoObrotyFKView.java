@@ -4,18 +4,14 @@
  */
 package viewfk;
 
-import comparator.Kontozapisycomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Kontozapisy;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -38,10 +34,9 @@ public class KontoObrotyFKView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<StronaWiersza> kontozapisy;
     private List<Konto> kontaprzejrzane;
-    @Inject private Kontozapisy wybranyzapis;
-    private List<Kontozapisy> kontorozrachunki;
+    @Inject private StronaWiersza wybranyzapis;
+    private List<StronaWiersza> kontorozrachunki;
     private List<ObrotykontaTabela> wybranekontadosumowania;
-    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
@@ -229,13 +224,6 @@ public class KontoObrotyFKView implements Serializable{
         this.wybranekontoNode = wybranekontoNode;
     }
     
-    public KontoZapisyFKDAO getKontoZapisyFKDAO() {
-        return kontoZapisyFKDAO;
-    }
-    
-    public void setKontoZapisyFKDAO(KontoZapisyFKDAO kontoZapisyFKDAO) {
-        this.kontoZapisyFKDAO = kontoZapisyFKDAO;
-    }
     
     public Konto getWybranekonto() {
         return wybranekonto;
@@ -285,14 +273,24 @@ public class KontoObrotyFKView implements Serializable{
     public void setSaldoMa(Double saldoMa) {
         this.saldoMa = saldoMa;
     }
-    
-    public List<Kontozapisy> getKontorozrachunki() {
+
+    public StronaWiersza getWybranyzapis() {
+        return wybranyzapis;
+    }
+
+    public void setWybranyzapis(StronaWiersza wybranyzapis) {
+        this.wybranyzapis = wybranyzapis;
+    }
+
+    public List<StronaWiersza> getKontorozrachunki() {
         return kontorozrachunki;
     }
-    
-    public void setKontorozrachunki(List<Kontozapisy> kontorozrachunki) {
+
+    public void setKontorozrachunki(List<StronaWiersza> kontorozrachunki) {
         this.kontorozrachunki = kontorozrachunki;
     }
+    
+   
 
     public List<ObrotykontaTabela> getLista() {
         return lista;
@@ -302,14 +300,7 @@ public class KontoObrotyFKView implements Serializable{
         this.lista = lista;
     }
     
-        
-    public Kontozapisy getWybranyzapis() {
-        return wybranyzapis;
-    }
-    
-    public void setWybranyzapis(Kontozapisy wybranyzapis) {
-        this.wybranyzapis = wybranyzapis;
-    }
+   
     //</editor-fold>
 
    

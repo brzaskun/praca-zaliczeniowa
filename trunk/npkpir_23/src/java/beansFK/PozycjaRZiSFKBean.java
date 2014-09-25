@@ -12,7 +12,6 @@ import daoFK.KontopozycjarzisDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
-import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;

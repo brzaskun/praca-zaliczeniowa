@@ -42,7 +42,7 @@ public class KontoView  implements Serializable {
     
      public List<Konto> complete(String query) {  
          List<Konto> results = new ArrayList<>();
-         List<Konto> listakont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
          try{
              String q = query.substring(0,1);
              int i = Integer.parseInt(q);

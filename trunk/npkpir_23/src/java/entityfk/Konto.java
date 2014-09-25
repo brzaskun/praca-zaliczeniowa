@@ -38,6 +38,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findAll", query = "SELECT k FROM Konto k"),
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPodatnikBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490'"),
     @NamedQuery(name = "Konto.findByNrkonta", query = "SELECT k FROM Konto k WHERE k.nrkonta = :nrkonta"),
     @NamedQuery(name = "Konto.findBySyntetyczne", query = "SELECT k FROM Konto k WHERE k.syntetyczne = :syntetyczne"),
@@ -159,8 +160,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean maslownik;
     @OneToMany(mappedBy = "konto")
     private List<StronaWiersza> stronaWiersza;
-    @OneToMany(mappedBy = "kontoobiekt", fetch = FetchType.EAGER)
-    private List<Kontozapisy> zapisynakoncie;
+    
 
     public Konto() {
         this.slownikowe = false;
@@ -394,15 +394,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.maslownik = maslownik;
     }
 
-    @XmlTransient
-    public List<Kontozapisy> getZapisynakoncie() {
-        return zapisynakoncie;
-    }
-
-    public void setZapisynakoncie(List<Kontozapisy> zapisynakoncie) {
-        this.zapisynakoncie = zapisynakoncie;
-    }
-
+  
     public List<StronaWiersza> getStronaWiersza() {
         return stronaWiersza;
     }

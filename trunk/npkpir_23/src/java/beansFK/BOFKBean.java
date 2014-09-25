@@ -6,10 +6,10 @@
 
 package beansFK;
 
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import entityfk.Konto;
-import entityfk.Kontozapisy;
+import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -23,9 +23,9 @@ import view.WpisView;
 @Singleton
 public class BOFKBean {
     
-    public static void resetujBO(KontoDAOfk kontoDAOfk) {
+    public static void resetujBO(KontoDAOfk kontoDAOfk, String podatnik) {
         ArrayList<Konto> konta = new ArrayList<>();
-        konta.addAll(kontoDAOfk.findAll());
+        konta.addAll(kontoDAOfk.findWszystkieKontaBilansowePodatnika(podatnik));
         for (Konto p: konta) {
             p.setBoWn(0.0);
             p.setBoMa(0.0);
@@ -34,20 +34,20 @@ public class BOFKBean {
         }
     }
     
-    public static void generujBO(KontoDAOfk kontoDAOfk, KontoZapisyFKDAO kontoZapisyFKDAO, WpisView wpisView) {
-        ArrayList<Kontozapisy> kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoPodatnik(wpisView.getPodatnikWpisu(), "000", "PLN"));
+    public static void generujBO(KontoDAOfk kontoDAOfk, StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        ArrayList<StronaWiersza> kontozapisy = new ArrayList<>();
+        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
         ArrayList<Konto> konta = new ArrayList<>();
         konta.addAll(kontoDAOfk.findAll());
-        for (Kontozapisy p : kontozapisy) {
+        for (StronaWiersza p : kontozapisy) {
             for (Konto r : konta) {
-                if (p.getKontoprzeciwstawne().equals(r.getPelnynumer())&&p.getKwotawn()>0) {
-                    r.setBoMa(r.getBoMa()+p.getKwotawn());
+                if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
+                    r.setBoMa(r.getBoMa()+p.getKwota());
                     r.setBlokada(true);
                     kontoDAOfk.edit(r);
                     break;
-                } else if (p.getKontoprzeciwstawne().equals(r.getPelnynumer())&&p.getKwotama()>0) {
-                    r.setBoWn(r.getBoWn()+p.getKwotama());
+                } else if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
+                    r.setBoWn(r.getBoWn()+p.getKwota());
                     r.setBlokada(true);
                     kontoDAOfk.edit(r);
                     break;

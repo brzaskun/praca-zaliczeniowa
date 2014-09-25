@@ -43,7 +43,6 @@ import entityfk.DokfkPK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
-import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
@@ -648,30 +647,7 @@ public class SessionFacade<T> implements Serializable{
         }
         return null;
     }
-  public List<Kontozapisy> findZapisyNumer(String numer) {
-        return  em.createNamedQuery("Kontozapisy.findByNumer").setParameter("numer", numer).getResultList();
-    }
-    
-    public List<Kontozapisy> findZapisyKonto(String konto) {
-        return  em.createNamedQuery("Kontozapisy.findByKonto").setParameter("konto", konto).getResultList();
-    }
-    
-    public List<Kontozapisy> findZapisyWierszID(int wierszID) {
-        return  em.createNamedQuery("Kontozapisy.findByWierszID").setParameter("wierszID", wierszID).getResultList();
-    }
-    
-     public List<Kontozapisy> findZapisyKontoPodatnik(String podatnik, String konto, String symbolwaluty) {
-        return  em.createNamedQuery("Kontozapisy.findByKontoPodatnik").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).getResultList();
-    }
-     
-     public List<Kontozapisy> findZapisyKontoBOPodatnik(String podatnik, String konto) {
-        return  em.createNamedQuery("Kontozapisy.findByKontoBO").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
-    }
-     
-    public List<Kontozapisy> findZapisyPodatnikRok(String podatnik, String rok) {
-        return  em.createNamedQuery("Kontozapisy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-    }
-
+  
     public List<Konto> findKontaPotomnePodatnik(String podatnik, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
     }
@@ -783,6 +759,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<Konto> findKontoPodatnik(String podatnik) {
         return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+    
+    public List<Konto> findWszystkieKontaBilansowePodatnika(String podatnik) {
+        return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).getResultList();
     }
     
     public Konto findKontoPodatnik490(String podatnik) {
@@ -907,6 +887,13 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
     
+    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+    }
   
   
 }

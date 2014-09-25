@@ -56,4 +56,11 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return sessionFacade.findStronaByPodatnikRokWalutaWynik(podatnik, rok, skrotWaluty);
     }
     
+    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
+        return sessionFacade.findStronaByPodatnikRokWalutaBilans(podatnik, rok, skrotWaluty);
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
+        return sessionFacade.findStronaByPodatnikRokWalutaBilansBO(podatnik, rok, skrotWaluty);
+    }
 }

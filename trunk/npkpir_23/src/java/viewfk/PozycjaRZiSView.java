@@ -9,14 +9,12 @@ import comparator.Kontocomparator;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import daoFK.KontopozycjarzisDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
 import entityfk.KontopozycjarzisPK;
-import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
@@ -60,8 +58,6 @@ public class PozycjaRZiSView implements Serializable {
     private List<Konto> wykazkont;
     @Inject
     private KontoDAOfk kontoDAO;
-    @Inject
-    private KontoZapisyFKDAO kontoZapisyFKDAO;
     @Inject 
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
@@ -156,7 +152,7 @@ public class PozycjaRZiSView implements Serializable {
         }
         root = new TreeNodeExtended("root", null);
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN");
-        List<Konto> plankont = kontoDAO.findKontoPodatnik(wpisView.getPodatnikWpisu());
+        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
         Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());

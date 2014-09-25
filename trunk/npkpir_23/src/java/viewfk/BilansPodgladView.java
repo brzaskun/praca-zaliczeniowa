@@ -5,11 +5,11 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontoZapisyFKDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Kontozapisy;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
@@ -29,9 +29,9 @@ import view.WpisView;
 public class BilansPodgladView  implements Serializable{
     private static final long serialVersionUID = 1L;
     private static int level = 0;
-
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAO;
-    @Inject private KontoZapisyFKDAO kontoZapisyFKDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
     @ManagedProperty(value = "#{WpisView}")
@@ -47,8 +47,8 @@ public class BilansPodgladView  implements Serializable{
     }
     
     public void generujBO() {
-        BOFKBean.resetujBO(kontoDAO);
-        BOFKBean.generujBO(kontoDAO, kontoZapisyFKDAO, wpisView);
+        BOFKBean.resetujBO(kontoDAO, wpisView.getPodatnikWpisu());
+        BOFKBean.generujBO(kontoDAO, stronaWierszaDAO, wpisView);
         this.rozwinwszystkie();
         Msg.msg("Wygenerowano BO");
     }

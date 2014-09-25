@@ -69,8 +69,6 @@ public class Wiersz implements Serializable {
     private Integer typWiersza;
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private Dokfk dokfk;
-    @OneToMany(mappedBy = "wiersz", cascade = CascadeType.ALL, targetEntity = Kontozapisy.class,  orphanRemoval=true)
-    private List<Kontozapisy> zapisynakontach;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
@@ -91,14 +89,12 @@ public class Wiersz implements Serializable {
 
     public Wiersz() {
         this.strona = new HashMap<>();
-        this.zapisynakontach = new ArrayList<>();
         this.piatki = new HashSet<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
         this.strona = new HashMap<>();
-        this.zapisynakontach = new ArrayList<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();
@@ -161,14 +157,6 @@ public class Wiersz implements Serializable {
         this.dataksiegowania = dataksiegowania;
     }
    
-    public List<Kontozapisy> getZapisynakontach() {
-        return zapisynakontach;
-    }
-
-    public void setZapisynakontach(List<Kontozapisy> zapisynakontach) {
-        this.zapisynakontach = zapisynakontach;
-    }
-
     public Integer getIdwiersza() {
         return idwiersza;
     }

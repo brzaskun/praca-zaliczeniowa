@@ -7,7 +7,6 @@ package embeddablefk;
 import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
 import entityfk.Konto;
-import entityfk.Kontozapisy;
 import entityfk.PozycjaRZiS;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
