@@ -1,0 +1,108 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+    <style>
+        .ui-autocomplete-input {
+            width: 250px;
+        }
+    </style>
+    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzaniesald" widgetVar="bilanswprowadzanie" 
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1250, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
+        <h:form id="formbilanswprowadzanie">
+            <p:tabView>
+                <p:tab title="0">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item">
+                        <p:column width="260">
+                            <f:facet name="header">
+                                <h:outputText value="Konto"/>
+                            </f:facet>
+                            <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
+                                            ><!--to teraz powoduje blad-->
+                            </p:autoComplete>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                             <p:inputText value="#{item.opis}" style="text-align: right; width: 95%;" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="KwotaWn"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="KwotaMa"/>
+                            </f:facet>
+                            <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" readonly="true"
+                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="dodaj/usuń"/>
+                            </f:facet>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update="@this:@parent:@parent"/>
+                            <p:spacer width="25"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0)}" update="@this:@parent:@parent"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="1">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Konto"/>
+                            </f:facet>
+                            <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete1}"
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
+                                            ><!--to teraz powoduje blad-->
+                            </p:autoComplete>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="KwotaWn"/>
+                            </f:facet>
+                            <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="KwotaMa"/>
+                            </f:facet>
+                            <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="dodaj"/>
+                            </f:facet>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update="@this:@parent:@parent"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="2"></p:tab>
+                <p:tab title="3"></p:tab>
+                <p:tab title="6"></p:tab>
+                <p:tab title="8"></p:tab>
+                <p:tab title="W"></p:tab>
+            </p:tabView>
+        </h:form>
+    </p:dialog>
+</ui:composition>

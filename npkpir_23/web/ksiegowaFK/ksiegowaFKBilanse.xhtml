@@ -10,7 +10,6 @@
         </ui:define>
         <ui:define name="body">
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                <bcf:ajaxs/>
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >
                     <p:growl autoUpdate="true"/>
@@ -28,6 +27,7 @@
                     <ui:include src="sub/dialog/dialog_rzis_projekt_syntetyczne_formula.xhtml"/>
                     <ui:include src="sub/dialog/dialog_rzis_projekt_analityczne.xhtml"/>
                     <ui:include src="sub/dialog/dialog_bilans_przeglad.xhtml"/>
+                    <ui:include src="sub/dialog/dialog_bilans_wprowadzanie.xhtml"/>
                 </p:layoutUnit>
             </p:layout>
         </ui:define>
