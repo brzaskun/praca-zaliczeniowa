@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 
-package embeddablefk;
+package entityfk;
 
+import entity.Podatnik;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
 
 /**
  *
@@ -19,16 +23,56 @@ import javax.persistence.Id;
 public class WierszBO implements Serializable{
     
     private static final long serialVersionUID = 1L;
-    @Id
+    @EmbeddedId
+    private WierszBOPK wierszBOPK;
+    @MapsId("nippodatnika")
+    private Podatnik podatnik;
+    @MapsId("idkonta")
     private Konto konto;
     private String opis;
     private double kwotaWn;
     private double kwotaMa;
 
     public WierszBO() {
+    }
+
+    
+    public WierszBO(Podatnik podatnik, String rok) {
+        this.wierszBOPK = new WierszBOPK();
+        this.wierszBOPK.setRok(rok);
+        this.podatnik = podatnik;
         this.kwotaWn = 0.0;
         this.kwotaMa = 0.0;
     }
+
+    @Override
+    public String toString() {
+        return "WierszBO{" + "podatnik=" + podatnik + ", konto=" + konto + ", opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.wierszBOPK);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WierszBO other = (WierszBO) obj;
+        if (!Objects.equals(this.wierszBOPK, other.wierszBOPK)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     public Konto getKonto() {
         return konto;

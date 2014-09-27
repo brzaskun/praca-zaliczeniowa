@@ -6,11 +6,18 @@
 
 package entityfk;
 
-import embeddablefk.WierszBO;
+import daoFK.WierszBODAO;
+import entity.Podatnik;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -18,13 +25,18 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class BilansWprowadzanieView {
+public class BilansWprowadzanieView implements Serializable{
+    @Inject
+    private WierszBODAO wierszBODAO;
     List<WierszBO> lista0;
     List<WierszBO> lista1;
     List<WierszBO> lista2;
     List<WierszBO> lista3;
     List<WierszBO> lista6;
     List<WierszBO> lista8;
+    
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public BilansWprowadzanieView() {
         this.lista0 = new ArrayList<>();
@@ -33,21 +45,30 @@ public class BilansWprowadzanieView {
         this.lista3 = new ArrayList<>();
         this.lista6 = new ArrayList<>();
         this.lista8 = new ArrayList<>();
-        this.lista0.add(new WierszBO());
-        this.lista1.add(new WierszBO());
-        this.lista2.add(new WierszBO());
-        this.lista3.add(new WierszBO());
-        this.lista6.add(new WierszBO());
-        this.lista8.add(new WierszBO());
+    }
+    
+    @PostConstruct
+    private void init() {
+        Podatnik p = wpisView.getPodatnikObiekt();
+        String r = wpisView.getRokWpisuSt();
+        this.lista0 = wierszBODAO.lista("0%");
+        this.lista0.add(new WierszBO(p,r));
+        this.lista1.add(new WierszBO(p,r));
+        this.lista2.add(new WierszBO(p,r));
+        this.lista3.add(new WierszBO(p,r));
+        this.lista6.add(new WierszBO(p,r));
+        this.lista8.add(new WierszBO(p,r));
     }
     
     public void dodajwiersz(int kategoria) {
+        Podatnik p = wpisView.getPodatnikObiekt();
+        String r = wpisView.getRokWpisuSt();
         switch(kategoria) {
             case 0 :
-                this.lista0.add(new WierszBO());
+                this.lista0.add(new WierszBO(p,r));
                 break;
             case 1 :
-                this.lista1.add(new WierszBO());
+                this.lista1.add(new WierszBO(p,r));
                 break;
         }
     }
@@ -55,12 +76,27 @@ public class BilansWprowadzanieView {
     public void usunwiersz(int kategoria) {
         switch(kategoria) {
             case 0 :
-                this.lista0.remove(this.lista0.size()-1);
+                if (this.lista0.size()>1) {
+                    this.lista0.remove(this.lista0.size()-1);
+                }
                 break;
             case 1 :
-                this.lista1.remove(this.lista1.size()-1);
+                if (this.lista1.size()>1) {
+                    this.lista1.remove(this.lista1.size()-1);
+                }
                 break;
         }
+    }
+    
+    public void zapiszBilansBOdoBazy() {
+        for (WierszBO p : lista0) {
+            try {
+                wierszBODAO.dodaj(p);
+            } catch (Exception e) {
+                wierszBODAO.edit(p);
+            }
+        }
+        Msg.msg("Naniesiono zapisy BO");
     }
 
     public List<WierszBO> getLista0() {
@@ -109,6 +145,14 @@ public class BilansWprowadzanieView {
 
     public void setLista8(List<WierszBO> lista8) {
         this.lista8 = lista8;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
     
     
