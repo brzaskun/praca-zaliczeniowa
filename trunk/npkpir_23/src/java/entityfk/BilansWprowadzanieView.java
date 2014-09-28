@@ -279,4 +279,14 @@ public class BilansWprowadzanieView implements Serializable {
         this.wpisView = wpisView;
     }
 
+    public Map<Integer, List<WierszBO>> getListazbiorcza() {
+        return listazbiorcza;
+    }
+
+    public void setListazbiorcza(Map<Integer, List<WierszBO>> listazbiorcza) {
+        this.listazbiorcza = listazbiorcza;
+    }
+    
+    
+
 }
