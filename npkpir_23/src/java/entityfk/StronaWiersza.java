@@ -105,6 +105,25 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = 0;
     }
     
+     public StronaWiersza(WierszBO w, String wnma) {
+         this.konto = w.getKonto();
+         this.typStronaWiersza = 9;
+         if (wnma.equals("Wn")) {
+             this.wnma = "Wn";
+             this.kwota = w.getKwotaWn();
+             this.kwotaPLN = w.getKwotaWnPLN();
+             this.kwotaWaluta = w.getKwotaWn();
+         } else {
+             this.wnma = "Ma";
+             this.kwota = w.getKwotaMa();
+             this.kwotaPLN = w.getKwotaMaPLN();
+             this.kwotaWaluta = w.getKwotaMa();
+         }
+         this.wiersz = new Wiersz();
+         this.wiersz.setIdwiersza(0);
+         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis());
+         this.wiersz.setDokfk(new Dokfk("zapis z BO"));
+       }
     
     
 

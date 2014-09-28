@@ -6,10 +6,12 @@ package viewfk;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,6 +42,8 @@ public class KontoObrotyFKView implements Serializable{
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private Konto wybranekonto;
+    @Inject
+    private WierszBODAO wierszBODAO;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;
@@ -84,13 +88,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
+                 kontozapisy.addAll(pobierzZapisyBO(p));
                  kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
-                 //kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), p.getPelnynumer()));
              }
              //Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
+             kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
              kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
              // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
@@ -98,6 +103,19 @@ public class KontoObrotyFKView implements Serializable{
          sumazapisow();
         }
      }
+      
+      private List<StronaWiersza> pobierzZapisyBO(Konto konto) {
+          List<StronaWiersza> zapisy = new ArrayList<>();
+          List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+          for (WierszBO p : wierszeBO) {
+              if (p.getKwotaWnPLN()>0) {
+                zapisy.add(new StronaWiersza(p,"Wn"));
+              } else {
+                zapisy.add(new StronaWiersza(p,"Ma"));
+              }
+          }
+          return zapisy;
+      }
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
@@ -145,18 +163,19 @@ public class KontoObrotyFKView implements Serializable{
         lista.addAll(ObrotykontaTabela.wygenerujlisteObrotow(wpisView.getRokWpisuSt()));
         for (StronaWiersza p : kontozapisy) {
             ObrotykontaTabela obrotyMiesiac = new ObrotykontaTabela();
-            int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
             if (p.getWnma().equals("Wn")) {
-                if (p.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("000")) {
+                if (p.getTypStronaWiersza() == 9) {
                     obrotyMiesiac = lista.get(0);
-                } else if (!p.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("000")){
+                } else if (p.getTypStronaWiersza() != 9) {
+                    int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
                     obrotyMiesiac = lista.get(numermiesiaca);
                 }
                 obrotyMiesiac.setKwotaWn(obrotyMiesiac.getKwotaWn()+p.getKwota());
             } else {
-                if (p.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("000")) {
+                if (p.getTypStronaWiersza() == 9) {
                     obrotyMiesiac = lista.get(0);
-                } else if (!p.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("000")){
+                } else if (p.getTypStronaWiersza() != 9) {
+                    int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
                     obrotyMiesiac = lista.get(numermiesiaca);
                 }
                 obrotyMiesiac.setKwotaMa(obrotyMiesiac.getKwotaMa()+p.getKwota());

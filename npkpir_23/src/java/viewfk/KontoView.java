@@ -30,10 +30,6 @@ public class KontoView  implements Serializable {
     @Inject private WierszeDAO wierszeDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-
-    
-    
-    
     @Inject private KontoDAOfk kontoDAO;
 
      public KontoView() {

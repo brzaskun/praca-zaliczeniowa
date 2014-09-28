@@ -126,6 +126,16 @@ public class Dokfk implements Serializable {
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
     }
+    
+    public Dokfk(String opis) {
+        this.dokfkPK.setSeriadokfk("BO");
+        this.opisdokfk = opis;
+        this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
+        this.wTrakcieEdycji = false;
+        this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
+    }
 
     public Dokfk(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
