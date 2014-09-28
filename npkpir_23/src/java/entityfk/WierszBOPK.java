@@ -19,6 +19,7 @@ public class WierszBOPK implements Serializable{
     private String nippodatnika;
     private int idkonta;
     private String rok;
+    private String opis;
 
     public WierszBOPK() {
     }
@@ -46,6 +47,14 @@ public class WierszBOPK implements Serializable{
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
     
     

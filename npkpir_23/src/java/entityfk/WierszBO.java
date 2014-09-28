@@ -14,12 +14,17 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Osito
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta")
+})
 public class WierszBO implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -29,25 +34,34 @@ public class WierszBO implements Serializable{
     private Podatnik podatnik;
     @MapsId("idkonta")
     private Konto konto;
-    private String opis;
     private double kwotaWn;
     private double kwotaMa;
+    private boolean rozrachunek;
+    private Waluty waluta;
+    private double kurs;
+    private double kwotaWnPLN;
+    private double kwotaMaPLN;
 
     public WierszBO() {
     }
 
     
-    public WierszBO(Podatnik podatnik, String rok) {
+    public WierszBO(Podatnik podatnik, String rok, Waluty waluta) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
         this.podatnik = podatnik;
         this.kwotaWn = 0.0;
+        this.kwotaWnPLN = 0.0;
         this.kwotaMa = 0.0;
+        this.kwotaMaPLN = 0.0;
+        this.kurs = 0.0;
+        this.waluta = waluta;
+        this.rozrachunek = false;
     }
 
     @Override
     public String toString() {
-        return "WierszBO{" + "podatnik=" + podatnik + ", konto=" + konto + ", opis=" + opis + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+        return "WierszBO{" + "podatnik=" + podatnik + ", konto=" + konto + ", opis=" + wierszBOPK.getOpis() + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
     }
 
     @Override
@@ -98,12 +112,60 @@ public class WierszBO implements Serializable{
         this.kwotaMa = kwotaMa;
     }
 
-    public String getOpis() {
-        return opis;
+    public WierszBOPK getWierszBOPK() {
+        return wierszBOPK;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setWierszBOPK(WierszBOPK wierszBOPK) {
+        this.wierszBOPK = wierszBOPK;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public boolean isRozrachunek() {
+        return rozrachunek;
+    }
+
+    public void setRozrachunek(boolean rozrachunek) {
+        this.rozrachunek = rozrachunek;
+    }
+
+    public Waluty getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(Waluty waluta) {
+        this.waluta = waluta;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
+    }
+
+    public double getKwotaWnPLN() {
+        return kwotaWnPLN;
+    }
+
+    public void setKwotaWnPLN(double kwotaWnPLN) {
+        this.kwotaWnPLN = kwotaWnPLN;
+    }
+
+    public double getKwotaMaPLN() {
+        return kwotaMaPLN;
+    }
+
+    public void setKwotaMaPLN(double kwotaMaPLN) {
+        this.kwotaMaPLN = kwotaMaPLN;
     }
     
     

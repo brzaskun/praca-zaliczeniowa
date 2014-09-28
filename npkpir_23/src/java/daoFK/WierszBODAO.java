@@ -9,6 +9,7 @@ package daoFK;
 import dao.DAO;
 import entityfk.WierszBO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -28,11 +29,12 @@ public class WierszBODAO extends DAO implements Serializable {
     private SessionFacade wierszBOFacade;
     
     public List<WierszBO> lista(String grupa) {
-//        try {
-//            return wierszBOFacade.findBOLista0(grupa);
-//        } catch (Exception e) {
-            return null;
-        //}
+        try {
+            return wierszBOFacade.findBOLista0(grupa);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
+    
     
 }
