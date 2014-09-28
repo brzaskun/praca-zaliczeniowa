@@ -50,6 +50,7 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -899,8 +900,8 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
 
-    public void findBOLista0(String grupa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<WierszBO> findBOLista0(String grupa) {
+        return em.createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).getResultList();
     }
   
   
