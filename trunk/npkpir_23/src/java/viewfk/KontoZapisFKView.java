@@ -6,12 +6,14 @@ package viewfk;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.WierszBODAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import entityfk.WierszBO;
 import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ public class KontoZapisFKView implements Serializable{
     private List<StronaWiersza> wybranekontadosumowania;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
+    @Inject
+    private WierszBODAO wierszBODAO;
     @Inject private Konto wybranekonto;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
@@ -83,18 +87,45 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    //kontozapisy.addAll(p.getZapisynakoncie());//Po zmianie i wprowadzeniu relacji nie trzeba wyszukiwac. Kazde konto ma dostep do listy
+                    kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
+                kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
             sumazapisow();
-            wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
+    
+    private List<StronaWiersza> pobierzZapisyBO(Konto konto) {
+          List<StronaWiersza> zapisy = new ArrayList<>();
+          List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+          for (WierszBO p : wierszeBO) {
+              if (p.getKwotaWnPLN()>0) {
+                zapisy.add(new StronaWiersza(p,"Wn"));
+              } else {
+                zapisy.add(new StronaWiersza(p,"Ma"));
+              }
+          }
+          return zapisy;
+      }
+    
+    private List<StronaWiersza> pobierzZapisyBO(Konto konto, String waluta) {
+          List<StronaWiersza> zapisy = new ArrayList<>();
+          List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKontoWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto, waluta);
+          for (WierszBO p : wierszeBO) {
+              if (p.getKwotaWnPLN()>0) {
+                zapisy.add(new StronaWiersza(p,"Wn"));
+              } else {
+                zapisy.add(new StronaWiersza(p,"Ma"));
+              }
+          }
+          return zapisy;
+      }
     
     public void pobierzZapisyZmianaWaluty() {
         Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
@@ -108,15 +139,17 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
+                    kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
+                kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
             sumazapisow();
-            wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
      
@@ -136,15 +169,17 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
+                    kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
+                kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
             }
             sumazapisow();
-            wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
         }
     }

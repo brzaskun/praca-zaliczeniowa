@@ -5,6 +5,7 @@
  */
 package entityfk;
 
+import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import entity.Podatnik;
@@ -34,6 +35,8 @@ public class BilansWprowadzanieView implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
+    @Inject
+    private KontoDAOfk kontoDAO;
 
     List<WierszBO> lista0;
     List<WierszBO> lista1;
@@ -181,6 +184,16 @@ public class BilansWprowadzanieView implements Serializable {
                     }
                 }
             }
+        }
+        List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        for (WierszBO p : zachowaneWiersze) {
+            Konto k = listakont.get(listakont.indexOf(p.getKonto()));
+            k.setBoWn(k.getBoWn()+p.getKwotaWnPLN());
+            k.setBoMa(k.getBoMa()+p.getKwotaMaPLN());
+        }
+        for (Konto p : listakont) {
+            kontoDAO.edit(p);
         }
         Msg.msg("Naniesiono zapisy BO");
     }

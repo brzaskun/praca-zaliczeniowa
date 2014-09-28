@@ -7,6 +7,8 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
+import entityfk.Konto;
 import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,5 +38,19 @@ public class WierszBODAO extends DAO implements Serializable {
         }
     }
     
+    public List<WierszBO> findAll() {
+        return wierszBOFacade.findAll(WierszBO.class);
+    }
     
+    public List<WierszBO> findPodatnikRok(Podatnik podatnik, String rok) {
+        return wierszBOFacade.findWierszBOPodatnikRok(podatnik, rok);
+    }
+
+    public List<WierszBO> findPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {
+        return wierszBOFacade.findWierszBOPodatnikRokKonto(podatnikObiekt, rokWpisuSt, konto);
+    }
+    
+    public List<WierszBO> findPodatnikRokKontoWaluta(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto, String waluta) {
+        return wierszBOFacade.findWierszBOPodatnikRokKontoWaluta(podatnikObiekt, rokWpisuSt, konto, waluta);
+    }
 }
