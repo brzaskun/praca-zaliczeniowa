@@ -8,7 +8,7 @@
     >
 
     <p:dialog id="zapisy" header="Zapisy na kontach" widgetVar="zapisynakoncie" 
-              resizable="false" onShow="ustawdialog('zapisy','menuraporty',1350,750);" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('zapisy','menuraporty',1350,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
         <p:layout fullPage="false" style="width: 1300px; height: 700px;">  
             <p:layoutUnit position="north" >
