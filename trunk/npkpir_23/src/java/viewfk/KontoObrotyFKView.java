@@ -65,6 +65,10 @@ public class KontoObrotyFKView implements Serializable{
     
     @PostConstruct
     private void init(){
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        if (wykazkont != null) {
+            wybranekonto = wykazkont.get(0);
+        }
     }
      public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
