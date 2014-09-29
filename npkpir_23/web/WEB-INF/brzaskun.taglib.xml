@@ -13,6 +13,9 @@
         <attribute>
             <name>rendered</name>
         </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
     </tag>
     <tag>
 	<tag-name>ajaxs</tag-name>

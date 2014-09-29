@@ -23,37 +23,37 @@ import view.WpisView;
 @Singleton
 public class BOFKBean {
     
-    public static void resetujBO(KontoDAOfk kontoDAOfk, String podatnik) {
-        ArrayList<Konto> konta = new ArrayList<>();
-        konta.addAll(kontoDAOfk.findWszystkieKontaBilansowePodatnika(podatnik));
-        for (Konto p: konta) {
-            p.setBoWn(0.0);
-            p.setBoMa(0.0);
-            p.setBlokada(false);
-            kontoDAOfk.edit(p);
-        }
-    }
-    
-    public static void generujBO(KontoDAOfk kontoDAOfk, StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        ArrayList<StronaWiersza> kontozapisy = new ArrayList<>();
-        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
-        ArrayList<Konto> konta = new ArrayList<>();
-        konta.addAll(kontoDAOfk.findAll());
-        for (StronaWiersza p : kontozapisy) {
-            for (Konto r : konta) {
-                if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
-                    r.setBoMa(r.getBoMa()+p.getKwota());
-                    r.setBlokada(true);
-                    kontoDAOfk.edit(r);
-                    break;
-                } else if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
-                    r.setBoWn(r.getBoWn()+p.getKwota());
-                    r.setBlokada(true);
-                    kontoDAOfk.edit(r);
-                    break;
-                }
-            }
-            
-        }
-    }
+//    public static void resetujBO(KontoDAOfk kontoDAOfk, String podatnik) {
+//        ArrayList<Konto> konta = new ArrayList<>();
+//        konta.addAll(kontoDAOfk.findWszystkieKontaBilansowePodatnika(podatnik));
+//        for (Konto p: konta) {
+//            p.setBoWn(0.0);
+//            p.setBoMa(0.0);
+//            p.setBlokada(false);
+//            kontoDAOfk.edit(p);
+//        }
+//    }
+//    
+//    public static void generujBO(KontoDAOfk kontoDAOfk, StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+//        ArrayList<StronaWiersza> kontozapisy = new ArrayList<>();
+//        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+//        ArrayList<Konto> konta = new ArrayList<>();
+//        konta.addAll(kontoDAOfk.findAll());
+//        for (StronaWiersza p : kontozapisy) {
+//            for (Konto r : konta) {
+//                if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
+//                    r.setBoMa(r.getBoMa()+p.getKwota());
+//                    r.setBlokada(true);
+//                    kontoDAOfk.edit(r);
+//                    break;
+//                } else if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
+//                    r.setBoWn(r.getBoWn()+p.getKwota());
+//                    r.setBlokada(true);
+//                    kontoDAOfk.edit(r);
+//                    break;
+//                }
+//            }
+//            
+//        }
+//    }
 }

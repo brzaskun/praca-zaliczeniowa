@@ -279,6 +279,7 @@ var chowanienapoczatekdok = function(){
 };
 
 var pozazieleniajNoweTransakcje = function () {
+    try {
     var dlugosclisty = rj("formwpisdokument:dataList_data").children.length;
     for (var i = 0; i < dlugosclisty; i++) {
         try {
@@ -298,6 +299,10 @@ var pozazieleniajNoweTransakcje = function () {
             break;
         }
     }
+    } catch (Exception) {
+        return;
+    }
+
 };
 
 var zmienkolor = function(color, i,wnma) {
