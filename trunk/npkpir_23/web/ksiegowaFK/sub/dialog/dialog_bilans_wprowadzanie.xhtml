@@ -16,7 +16,7 @@
     <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzaniesald" widgetVar="bilanswprowadzanie" 
               resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1250, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
         <h:form id="formbilanswprowadzanie">
-            <p:tabView>
+            <p:tabView id="tabviewbilans">
                 <p:tab title="0">
                     <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item">
                         <p:column width="260">
@@ -325,10 +325,8 @@
                         </p:column>
                     </p:dataTable>
                 </p:tab>
-                <p:tab title="W">
-                    <c:forEach items="#{bilansWprowadzanieView.listazbiorcza.values()}" var="loop">
-                        <c:if test="#{loop[0].konto != null}">
-                            <p:dataTable value="#{loop}" var="item">
+                <p:tab id="tabzbiorczy" title="W">
+                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item">
                                 <p:column width="260">
                                     <f:facet name="header">
                                         <h:outputText value="Konto"/>
@@ -354,13 +352,18 @@
                                     <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="true"/>
                                 </p:column>
                             </p:dataTable>
-                        </c:if>
-                    </c:forEach>
                 </p:tab>
             </p:tabView>
-            <p:panelGrid columns="1">
+            <p:panelGrid columns="2" id="sumyibutton">
                 <p:column>
-                    <p:commandButton value="zapisz" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;"/>
+                    <p:commandButton value="zapisz" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma" >
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:panelGrid columns="4">
+                        <h:outputText value="stronaWn"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
+                        <h:outputText value="stronaMa"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
+                    </p:panelGrid>
                 </p:column>
             </p:panelGrid>
         </h:form>

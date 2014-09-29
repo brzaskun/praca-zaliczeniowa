@@ -46,18 +46,18 @@ public class BilansPodgladView  implements Serializable{
         rozwinwszystkie();
     }
     
-    public void generujBO() {
-        BOFKBean.resetujBO(kontoDAO, wpisView.getPodatnikWpisu());
-        BOFKBean.generujBO(kontoDAO, stronaWierszaDAO, wpisView);
-        this.rozwinwszystkie();
-        Msg.msg("Wygenerowano BO");
-    }
+//    public void generujBO() {
+//        BOFKBean.resetujBO(kontoDAO, wpisView.getPodatnikWpisu());
+//        BOFKBean.generujBO(kontoDAO, stronaWierszaDAO, wpisView);
+//        this.rozwinwszystkie();
+//        Msg.msg("Wygenerowano BO");
+//    }
     
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
+        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
         root.createTreeNodesForElement(kontadlanodes);
         
     }
@@ -66,7 +66,7 @@ public class BilansPodgladView  implements Serializable{
     public void rozwinwszystkie(){
         getNodes();
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
+        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
         level = root.ustaldepthDT(kontadlanodes)-1;
         root.expandAll();
         Msg.msg("Rozwinięto maksymalnie");
@@ -74,7 +74,7 @@ public class BilansPodgladView  implements Serializable{
     
     public void rozwin(){
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findAll());
+        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
         int maxpoziom = root.ustaldepthDT(kontadlanodes);
         if (level < --maxpoziom) {
             root.expandLevel(level++);
