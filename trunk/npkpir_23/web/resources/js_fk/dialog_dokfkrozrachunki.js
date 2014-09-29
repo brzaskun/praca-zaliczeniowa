@@ -292,19 +292,9 @@ var podswietlrozrachunki = function() {
         var nrpolazapisu = komorki[1].innerHTML;
         znaleziono = $.inArray(nrpolazapisu, listawierszy);
         if (znaleziono > -1) {
-            var wiersz = "tabelazzapisami:tabela:" + i + ":kontonr";
-            $(document.getElementById(wiersz)).css("font-weight", "900");
-            $(document.getElementById(wiersz)).css("color", "green");
-            var kwotawnwiersz = "tabelazzapisami:tabela:" + i + ":kwotawnwiersz";
-            var kwotamawiersz = "tabelazzapisami:tabela:" + i + ":kwotamawiersz";
-            var wartoscwn = zrobFloat(document.getElementById(kwotawnwiersz).innerHTML.replace('&nbsp;', ''));
-            var wartoscma = zrobFloat(document.getElementById(kwotamawiersz).innerHTML.replace('&nbsp;', ''));
-            if (wartoscwn !== 0) {
-                $(document.getElementById(kwotawnwiersz)).css("font-weight", "900");
-                $(document.getElementById(kwotawnwiersz)).css("color", "green");
-            } else {
-                $(document.getElementById(kwotamawiersz)).css("font-weight", "900");
-                $(document.getElementById(kwotamawiersz)).css("color", "green");
+            for (var kom = 0; kom < 9; kom++) {
+                $(komorki[kom]).css("font-weight", "900");
+                $(komorki[kom]).css("color", "green");
             }
         }
     }

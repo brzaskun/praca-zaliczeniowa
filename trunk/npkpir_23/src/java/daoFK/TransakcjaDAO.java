@@ -7,6 +7,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,5 +77,12 @@ public class TransakcjaDAO  extends DAO implements Serializable {
 //        return odnalezione;
     }
     
+    public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
+        return sessionFacade.findByNowaTransakcja(s);
+    }
+    
+    public List<Transakcja> findByRozliczajacy(StronaWiersza s) {
+        return sessionFacade.findByRozliczajacy(s);
+    }
     
 }

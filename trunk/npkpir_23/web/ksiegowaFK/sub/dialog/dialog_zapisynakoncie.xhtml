@@ -96,7 +96,7 @@
                         <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisow}"/>
-<!--                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="9{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->
+                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->
                         <p:column selectionMode="multiple" width="35"></p:column>
                         <p:column headerText="id" width="40" sortBy="#{loop.id}" >
                             <h:outputText value="#{loop.id}"/>
