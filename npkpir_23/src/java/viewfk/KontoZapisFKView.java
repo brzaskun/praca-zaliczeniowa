@@ -6,6 +6,7 @@ package viewfk;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
@@ -45,6 +46,7 @@ public class KontoZapisFKView implements Serializable{
     private List<StronaWiersza> wybranekontadosumowania;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
+    @Inject private TransakcjaDAO transakcjaDAO;
     @Inject
     private WierszBODAO wierszBODAO;
     @Inject private Konto wybranekonto;
@@ -249,58 +251,24 @@ public class KontoZapisFKView implements Serializable{
     
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
-//        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
-//        int numerpodswietlonegowiersza = wybranyrozrachunek.getWiersz().getIdporzadkowy();
-//        Dokfk zjakiegodokumentupochodzi = wybranyrozrachunek.getWiersz().getDokfk();
-//        WierszStronafk wierszIDrozrachunku = new WierszStronafk();
-//        WierszStronafkPK wierszIDrozrachunkuPK = new WierszStronafkPK();
-//        wierszIDrozrachunkuPK.setNrPorzadkowyWiersza(numerpodswietlonegowiersza);
-//        wierszIDrozrachunkuPK.setNrkolejnydokumentu(zjakiegodokumentupochodzi.getDokfkPK().getNrkolejnywserii());
-//        String wnma;
-//        if (wybranyrozrachunek.getKwotawn() > 0) { 
-//            wnma = "Wn";
-//        } else {
-//            wnma= "Ma";
-//        }
-//        wierszIDrozrachunkuPK.setStronaWnlubMa(wnma);
-//        wierszIDrozrachunkuPK.setTypdokumentu(zjakiegodokumentupochodzi.getDokfkPK().getSeriadokfk());
-//        wierszIDrozrachunkuPK.setPodatnik(wpisView.getPodatnikWpisu());
-//        wierszIDrozrachunku.setWierszStronafkPK(wierszIDrozrachunkuPK);
-//        //mamy juz skonstruowany wiersz, teraz z bazy pobierzemy wszytskie rozrachunki i bedziemy sobie szukac
-//        List<Zestawienielisttransakcji> zestawienietransakcji = zestawienielisttransakcjiDAO.findAll();
-//        List<Transakcja> listytransakcji = new ArrayList<>();
-//        for (Zestawienielisttransakcji p : zestawienietransakcji) {
-//            for (Transakcja r: p.getListatransakcji()) {
-//                listytransakcji.add(r);
-//            }
-//        }
-//        List<WierszStronafkPK> znalezionenumery = new ArrayList<>();
-//        //poszukam innych numerow wierszy
-//        for (Transakcja p : listytransakcji) {
-//            if (p.idSparowany().equals(wierszIDrozrachunkuPK)) {
-//                znalezionenumery.add(p.idRozliczany());
-//            } 
-//            if (p.idRozliczany().equals(wierszIDrozrachunkuPK)) {
-//                znalezionenumery.add(p.idSparowany());
-//            }
-//        }
-//        zapisydopodswietlenia = new ArrayList<>();
-//        //wyszukujemy numery Kontozapisy dla javascriptu
-//        for (Kontozapisy r : kontozapisy) {
-//            boolean zgodneWierszStronaPK = false;
-//            if (wnma.equals("Wn")) {
-//                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaMa().getWierszStronafkPK());
-//            } else {
-//                zgodneWierszStronaPK = znalezionenumery.contains(r.getWiersz().getWierszStronaWn().getWierszStronafkPK());
-//            }
-//            if (zgodneWierszStronaPK) {
-//                zapisydopodswietlenia.add(r.getId());
-//            }
-//        }
-//        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-//        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
+        List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
+        List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
+        zapisydopodswietlenia = new ArrayList<>();
+        if (!listytransakcjiNT.isEmpty()) {
+            for (Transakcja p :listytransakcjiNT) {
+                zapisydopodswietlenia.add(p.getRozliczajacy().getId());
+            }
+        }
+        if (!listytransakcjiR.isEmpty()) {
+            for (Transakcja p :listytransakcjiR) {
+                zapisydopodswietlenia.add(p.getNowaTransakcja().getId());
+            }
+        }
+        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
+        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
     }
-    
+    //porownaj jak wlasciwe zaprojektowanie bazy danych i nie mnozenie bytow upraszcza sprawe
 //     public void odszukajsparowanerozrachunki() {
 //        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
 //        int numerpodswietlonegowiersza = wybranyrozrachunek.getWiersz().getIdporzadkowy();

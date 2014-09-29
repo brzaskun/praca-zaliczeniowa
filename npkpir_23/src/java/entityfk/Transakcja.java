@@ -18,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,6 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "transakcja", catalog = "pkpir", schema = "")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Transakcja.findByNowaTransakcja", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja = :nowatransakcja"),
+    @NamedQuery(name = "Transakcja.findByRozliczajacy", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy = :rozliczajacy")
+})
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     
