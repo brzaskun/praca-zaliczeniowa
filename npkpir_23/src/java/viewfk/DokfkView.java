@@ -399,6 +399,7 @@ public class DokfkView implements Serializable {
         } else {
             dodajNowyWierszStronaWn(wiersz);
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
     }
 
@@ -443,6 +444,7 @@ public class DokfkView implements Serializable {
         }
         skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
         dodajNowyWierszStronaMa(wiersz);
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
@@ -1129,7 +1131,6 @@ public void updatenetto(EwidencjaAddwiad e) {
             } catch (Exception e) {
                 selected.getDokfkPK().setNrkolejnywserii(1);
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:numer");
         }
         //pokazuje daty w wierszach
         if (skrotnazwydokumentu.equals("WB")) {

@@ -19,13 +19,24 @@ var wpisywanieOnShow = function () {
         //drugi.hide();
         //przygotujdokumentdoedycji();
         pozazieleniajNoweTransakcje();
-        $('#formwpisdokument\\:dataDialogWpisywanie').select();
-        //Blokuje te z rozrachunkamio
-        //zablokujwierszereadonly();
+        $('#formwpisdokument\\:data1DialogWpisywanie').select();
     } catch (Exception) {
         alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
     }
 };
+
+var wybierzdate = function () {
+    try {
+        var zawartosc = document.getElementById('formwpisdokument:data1DialogWpisywanie').value;
+        if (zawartosc === "") {
+            $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
+            $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
+        }
+    } catch (e) {
+        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
+        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
+    }
+}
 
 var wpisywanieOnHide = function () {
     resetujdialog('dialogpierwszy');
@@ -95,6 +106,26 @@ var aktywujNastepnePolePoprzedniegoWiersza = function(){
         }
     }
     //sprawdzpoprzedniwiersz(nrWiersza);
+};
+
+var aktywujbiezacepole = function(index, strona) {
+    if (strona === "Wn") {
+        var i = "formwpisdokument:dataList:"+nrWiersza+":kontown_input";
+        var i_obj = document.getElementById(i);
+        if (i_obj) {
+            $(i_obj).css('backgroundColor','#ffb');
+            $(i_obj).focus();
+            $(i_obj).select();
+        }
+    } else {
+        var i = "formwpisdokument:dataList:"+nrWiersza+":kontoma_input";
+        var i_obj = document.getElementById(i);
+        if (i_obj) {
+            $(i_obj).css('backgroundColor','#ffb');
+            $(i_obj).focus();
+            $(i_obj).select();
+        }
+    }
 };
 
 var selectOnfocus = function(wierszindex) {

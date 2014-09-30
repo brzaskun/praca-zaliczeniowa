@@ -618,6 +618,10 @@ public class SessionFacade<T> implements Serializable{
     public List<Konto> findKontaOstAlityka(String podatnik) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).getResultList();
     }
+    
+    public List<Konto> findKontaOstAlityka5(String podatnik) {
+        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).getResultList();
+    }
 
     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
         switch (mc) {
