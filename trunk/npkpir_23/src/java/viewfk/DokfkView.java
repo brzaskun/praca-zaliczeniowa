@@ -394,8 +394,11 @@ public class DokfkView implements Serializable {
         }
         skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
         int t = wiersz.getTypWiersza();
-        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 5 || t == 6 || t == 7)) {
+        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
+        } else if (t == 5 && piatka(wiersz)) {
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            return;
         } else {
             dodajNowyWierszStronaWn(wiersz);
         }
@@ -415,6 +418,9 @@ public class DokfkView implements Serializable {
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
                     dodajNowyWierszStronaWnPiatka(wiersz);
+                } else if (piatka(wiersz)) {
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    return;
                 } else {
                     dodajNowyWierszStronaWn(wiersz);
                 }
@@ -423,7 +429,15 @@ public class DokfkView implements Serializable {
 
             }
         }
-        
+    }
+    
+    private boolean piatka (Wiersz wiersz) {
+        StronaWiersza wn = wiersz.getStronaWn();
+        StronaWiersza ma = wiersz.getStronaMa();
+        if (wn.getKwota() == ma.getKwota()) {
+            return true;
+        }
+        return false;
     }
 
     public void lisnerCzyNastapilaZmianaKontaMa(ValueChangeEvent e) {

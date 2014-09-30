@@ -40,7 +40,8 @@
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
-        <h:form id="formwpisdokument">
+        <p:focus/>
+        <h:form id="formwpisdokument" >
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
@@ -251,7 +252,6 @@
                 <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
-                <p:focus for="formwpisdokument:dataList">
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 980px; max-height: 440px;" scrollable="true"
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
@@ -324,7 +324,6 @@
                         <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.typStronaWiersza}" />
                     </p:column>
                 </p:dataTable>
-                </p:focus>
                 <p:panel style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"

@@ -19,7 +19,8 @@ var wpisywanieOnShow = function () {
         //drugi.hide();
         //przygotujdokumentdoedycji();
         pozazieleniajNoweTransakcje();
-        $('#formwpisdokument\\:data1DialogWpisywanie').select();
+        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
+        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
     } catch (Exception) {
         alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
     }
