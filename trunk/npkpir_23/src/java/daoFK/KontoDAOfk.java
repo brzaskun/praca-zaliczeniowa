@@ -132,6 +132,14 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
    }
+   
+   public List<Konto> findKontaOstAlityka5 (String podatnik) {
+      try {
+            return kontoFacade.findKontaOstAlityka5(podatnik);
+        } catch (Exception e) {
+            return null;
+        } 
+   }
     public List<Konto> findKontaPrzyporzadkowane (String pozycja, String bilansowewynikowe) {
       try {
             return kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe);
