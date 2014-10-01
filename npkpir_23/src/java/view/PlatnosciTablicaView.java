@@ -64,7 +64,7 @@ public class PlatnosciTablicaView implements Serializable {
         Uz user = uzDAO.find(nazwausera);
         Podatnik biezacyPodatnik = null;
         try {
-            biezacyPodatnik = podatnikDAO.findN(user.getFirma());
+            biezacyPodatnik = podatnikDAO.findPodatnikByNIP(user.getFirma());
         } catch (Exception e) {
         }
         try {

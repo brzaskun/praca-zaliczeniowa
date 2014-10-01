@@ -40,6 +40,7 @@ public class Trans implements Serializable{
         transList.add("usługi poza ter.");
         transList.add("eksport towarów");
         transList.add("odwrotne obciążenie");
+        transList.add("wb-rk");
         transListZO = new ArrayList<>();
         transListZO.add("zakup");
         transListZO.add("srodek trw");
