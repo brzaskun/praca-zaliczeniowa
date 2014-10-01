@@ -95,11 +95,11 @@ public class WpisView implements Serializable {
                 String nazwapodatnika;
                 try {
                     nipfirmy = podatnikwpisu.getFirma();
-                    nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                    nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
                 } catch (Exception e) {
                     //laduje demofirme jak cos pojdzie zle
                     nipfirmy = "1111005008";
-                    nazwapodatnika = podatnikDAO.findN(nipfirmy).getNazwapelna();
+                    nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
                 }
                 this.podatnikWpisu = nazwapodatnika;
                 wpis.setPodatnikWpisu(nazwapodatnika);
@@ -169,7 +169,7 @@ public class WpisView implements Serializable {
         if (wpis.getPodatnikWpisu() != null) {
             return wpis.getPodatnikWpisu();
         } else {
-            Podatnik podatnik = podatnikDAO.findN(wprowadzil.getFirma());
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP(wprowadzil.getFirma());
             String nazwapelna = podatnik.getNazwapelna();
             wpis.setPodatnikWpisu(nazwapelna);
             wpisDAO.edit(wpis);

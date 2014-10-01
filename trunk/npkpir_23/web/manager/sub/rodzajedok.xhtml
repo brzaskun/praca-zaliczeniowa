@@ -32,7 +32,7 @@
                     <h:outputText value="#{loop.wzorzec}" />
                 </p:column>
                 <p:column headerText="kategoria" style="text-align: center;">
-                    <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : 'przychód bez VAT'))}" />
+                    <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': 'płatność')))}" />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -47,7 +47,7 @@
         <p:focus for="parametrydokument"/><br/>
         <p:panelGrid id="parametrydokument" columns="2" >
             <h:outputText value="skrót: " />
-            <h:inputText value="#{rodzajedokView.wprowadzany.skrot}" />
+            <h:inputText value="#{rodzajedokView.wprowadzany.rodzajedokPK.skrotNazwyDok}" />
             <h:outputText value=" nazwa pelna: " />
             <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" />
             <h:outputText value=" rodzaj transakcji: " />
@@ -62,6 +62,7 @@
                 <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                 <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
                 <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+                <f:selectItem itemLabel="płatności" itemValue="0"/>
             </h:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">

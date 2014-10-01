@@ -4,6 +4,7 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import entity.Rodzajedok;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -37,6 +39,9 @@ public class RodzajedokView implements Serializable {
     @Inject
     private Rodzajedok selected;
     private List<Rodzajedok> listaWspolnych;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+ 
 
     public RodzajedokView() {
         listaWspolnych = new ArrayList<>();
@@ -53,6 +58,8 @@ public class RodzajedokView implements Serializable {
 
     public void dodaj() {
         try {
+            wprowadzany.setPodatnikObj(podatnikDAO.findPodatnikByNIP("0001005008"));
+            wprowadzany.setSkrot(wprowadzany.getRodzajedokPK().getSkrotNazwyDok());
             rodzajedokDAO.dodaj(wprowadzany);
             listaWspolnych.add(wprowadzany);
             wprowadzany = new Rodzajedok();
@@ -99,6 +106,8 @@ public class RodzajedokView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+   
     public Rodzajedok getSelected() {
         return selected;
     }

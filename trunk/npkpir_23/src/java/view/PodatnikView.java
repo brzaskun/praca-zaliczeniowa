@@ -758,16 +758,12 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajDokKsi() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
-        List<Rodzajedok> lista = new ArrayList<>();
         try {
-            lista.addAll(selected.getDokumentyksiegowe());
-        } catch (Exception e) {
-        }
-        try {
-            lista.add(selectedDokKsi);
-            selected.setDokumentyksiegowe(lista);
-            podatnikDAO.edit(selected);
+            selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
+            selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok());
+            rodzajedokDAO.dodaj(selectedDokKsi);
+            rodzajeDokumentowLista.add(selectedDokKsi);
+            selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Dodano nowy wzór dokumentu", "akordeon:form6");
         } catch (Exception ex) {
             Msg.msg("e", "Niedodano nowego wzoru dokumentu, wystąpił błąd", "akordeon:form6");
@@ -791,12 +787,8 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunDokKsi(Rodzajedok rodzajDokKsi) {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
-        List<Rodzajedok> tmp = new ArrayList<>();
-        tmp.addAll(selected.getDokumentyksiegowe());
-        tmp.remove(rodzajDokKsi);
-        selected.setDokumentyksiegowe(tmp);
-        podatnikDAO.edit(selected);
+        rodzajedokDAO.destroy(rodzajDokKsi);
+        rodzajeDokumentowLista.remove(rodzajDokKsi);
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
 

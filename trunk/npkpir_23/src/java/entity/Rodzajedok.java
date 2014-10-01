@@ -77,6 +77,7 @@ public class Rodzajedok implements Serializable {
     private List<Dokfk> dokumentyfk;
 
     public Rodzajedok() {
+        this.rodzajedokPK = new RodzajedokPK();
     }
 
     public Rodzajedok(String skrot) {

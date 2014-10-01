@@ -105,7 +105,7 @@ public class Logowanie implements Serializable {
                 navto = "BookkeeperFK";
             } else if (request.isUserInRole("Guest")) {
                 String nip = uzDAO.find(uzytk).getFirma();
-                String firma = podatnikDAO.findN(nip).getNazwapelna();
+                String firma = podatnikDAO.findPodatnikByNIP(nip).getNazwapelna();
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
