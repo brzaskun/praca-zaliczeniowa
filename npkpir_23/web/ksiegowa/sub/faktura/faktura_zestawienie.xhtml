@@ -10,22 +10,34 @@
         <h:form id="formzestawienie">
            
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         rowKey="#{item.kontrahent.npelna}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
+                         rowKey="#{item.kontrahent.npelna}" style="max-width: 1200px;" widgetVar="okresTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add">
-                <p:column sortBy="#{item.podatnik != null ? item.podatnik.nazwapelna : item.kontrahent}">
+                <p:column width="300" sortBy="#{item.podatnik != null ? item.podatnik.nazwapelna : item.kontrahent}">
                     <h:outputText value="#{item.podatnik.nazwapelna}" rendered="#{item.podatnik != null}"/>
                     <h:outputText value="#{item.kontrahent}" rendered="#{item.kontrahent != null}"/>
                 </p:column>
                 <p:column>
                     <p:dataTable value="#{item.faktury}" var="loop" sortBy="#{loop.mc}">
-                        <p:column>
+                        <p:column width="30">
                             <h:outputText value="#{loop.mc}"/>
                         </p:column>
                         <p:column>
+                            <h:outputText value="#{loop.data}"/>
+                        </p:column>
+                        <p:column width="150">
                             <h:outputText value="#{loop.nrfakt}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{loop.wartosc}" rendered="true"/>
+                            <h:outputText value="#{loop.opis}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{loop.netto}" rendered="true"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{loop.vat}" rendered="true"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{loop.brutto}" rendered="true"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
