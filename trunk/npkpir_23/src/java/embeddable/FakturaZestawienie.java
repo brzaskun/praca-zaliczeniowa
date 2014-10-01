@@ -94,7 +94,11 @@ public class FakturaZestawienie  implements Serializable{
     public class FZTresc {
         private String mc;
         private String nrfakt;
-        private double wartosc;
+        private String data;
+        private double netto;
+        private double vat;
+        private double brutto;
+        private String opis;
 
         public String getMc() {
             return mc;
@@ -112,13 +116,48 @@ public class FakturaZestawienie  implements Serializable{
             this.nrfakt = nrfakt;
         }
 
-        public double getWartosc() {
-            return wartosc;
+        public double getNetto() {
+            return netto;
         }
 
-        public void setWartosc(double wartosc) {
-            this.wartosc = wartosc;
+        public void setNetto(double netto) {
+            this.netto = netto;
         }
+
+        public String getOpis() {
+            return opis;
+        }
+
+        public void setOpis(String opis) {
+            this.opis = opis;
+        }
+
+        public double getVat() {
+            return vat;
+        }
+
+        public void setVat(double vat) {
+            this.vat = vat;
+        }
+
+        public double getBrutto() {
+            return brutto;
+        }
+
+        public void setBrutto(double brutto) {
+            this.brutto = brutto;
+        }
+
+        public String getData() {
+            return data;
+        }
+
+        public void setData(String data) {
+            this.data = data;
+        }
+
+       
+        
         
         
     }

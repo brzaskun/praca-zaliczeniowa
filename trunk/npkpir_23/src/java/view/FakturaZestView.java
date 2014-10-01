@@ -69,7 +69,11 @@ public class FakturaZestView implements Serializable {
                 FakturaZestawienie.FZTresc ft = f.new FZTresc();
                 ft.setMc(p.getMc());
                 ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
-                ft.setWartosc(p.getNetto());
+                ft.setNetto(p.getNetto());
+                ft.setVat(p.getVat());
+                ft.setBrutto(p.getBrutto());
+                ft.setData(p.getDatawystawienia());
+                ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                 f.getFaktury().add(ft);
             } else {
                 Podatnik odnalezionyPodatnik = null;
@@ -81,13 +85,21 @@ public class FakturaZestView implements Serializable {
                     f.setPodatnik(odnalezionyPodatnik);
                     ft.setMc(p.getMc());
                     ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
-                    ft.setWartosc(p.getNetto());
+                    ft.setNetto(p.getNetto());
+                    ft.setVat(p.getVat());
+                    ft.setBrutto(p.getBrutto());
+                    ft.setData(p.getDatawystawienia());
+                    ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                     f.getFaktury().add(ft);
                 } else {
                     f.setKontrahent(p.getKontrahent());
                     ft.setMc(p.getMc());
                     ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
-                    ft.setWartosc(p.getNetto());
+                    ft.setNetto(p.getNetto());
+                    ft.setVat(p.getVat());
+                    ft.setBrutto(p.getBrutto());
+                    ft.setData(p.getDatawystawienia());
+                    ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
                     f.getFaktury().add(ft);
                 }
                 odnalezioneNIP.add(n);
