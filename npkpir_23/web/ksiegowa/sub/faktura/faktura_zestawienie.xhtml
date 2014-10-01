@@ -1,0 +1,37 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
+      
+        <h:form id="formzestawienie">
+           
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
+                         rowKey="#{item.kontrahent.npelna}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
+                         rowSelectMode="add">
+                <p:column sortBy="#{item.podatnik != null ? item.podatnik.nazwapelna : item.kontrahent}">
+                    <h:outputText value="#{item.podatnik.nazwapelna}" rendered="#{item.podatnik != null}"/>
+                    <h:outputText value="#{item.kontrahent}" rendered="#{item.kontrahent != null}"/>
+                </p:column>
+                <p:column>
+                    <p:dataTable value="#{item.faktury}" var="loop" sortBy="#{loop.mc}">
+                        <p:column>
+                            <h:outputText value="#{loop.mc}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{loop.nrfakt}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{loop.wartosc}" rendered="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+                
+            </p:dataTable>
+        </h:form>
+    </p:tab>
+</ui:composition>   
+

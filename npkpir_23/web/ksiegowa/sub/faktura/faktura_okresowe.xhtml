@@ -37,10 +37,7 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto"/>      
                 <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
-                <p:column headerText="rok" sortBy="#{wpis.rok}" filterBy="#{wpis.rok}" filterMatchMode="contains" filterStyle="display : none;" width="40" style="text-align: center;">
-                    <h:outputText value="#{wpis.rok}"/>
-                </p:column>
-                <p:column headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column width="70" headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                 </p:column>
                 <p:column headerText="kontrahent" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;" width="120">
@@ -55,7 +52,7 @@
                 <p:column headerText="opis" sortBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterBy="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
-                <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;" width="150">
+                <p:column headerText="brutto" sortBy="#{wpis.dokument.brutto}" filterBy="#{wpis.dokument.brutto}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <h:outputText value="#{wpis.dokument.brutto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
