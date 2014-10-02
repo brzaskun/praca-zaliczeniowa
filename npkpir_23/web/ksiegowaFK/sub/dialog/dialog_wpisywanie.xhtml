@@ -110,8 +110,8 @@
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
                             <f:ajax event="change"/>
                             <p:ajax event="blur" update=":formwpisdokument:numer" partialSubmit="true" listener="#{dokfkView.przygotujDokumentWpisywanie()}"/>
-                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" />
-                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.podepnijEwidencjeVat}"/>
+                            <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" />
+                            <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             
                         </h:selectOneMenu>
                         <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;"
