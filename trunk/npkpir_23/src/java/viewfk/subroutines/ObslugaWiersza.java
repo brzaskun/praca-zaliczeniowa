@@ -104,6 +104,17 @@ public class ObslugaWiersza {
         nowywiersz.setStronaWn(stronaWn);
         nowywiersz.setStronaMa(stronaMa);
     }
+     public static Wiersz utworzNowyWierszWNT (Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        nowywiersz.setDokfk(selected);
+        nowywiersz.setTabelanbp(selected.getTabelanbp());
+        StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
+        nowywiersz.setStronaMa(stronaMa);
+        StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
+        nowywiersz.setStronaWn(stronaWn);
+        nowywiersz.setLpmacierzystego(lpmacierzystego);
+        return nowywiersz;
+    }
     
     public static Wiersz utworzNowyWierszMa(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
         Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 2);

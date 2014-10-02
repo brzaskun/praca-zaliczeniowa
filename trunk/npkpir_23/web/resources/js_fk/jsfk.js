@@ -429,6 +429,6 @@ var zamykanieDialogow = function() {
 
 var powrocNaPoczatekDokfk = function() {
     //chowanienapoczatekdok();
-    $('#formwpisdokument\\:dataDialogWpisywanie').select();
+    $('#formwpisdokument\\:data1DialogWpisywanie').select();
 };
 

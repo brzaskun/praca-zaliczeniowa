@@ -698,6 +698,9 @@ public class DokfkView implements Serializable {
         } else if (rodzajdok.getKategoriadokumentu()==2 && e.getLp()==4) {
             HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
             rozliczVatPrzychod(wartosciVAT);
+        } else if (rodzajdok.getRodzajtransakcji().equals("WDT")) {
+            HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
+            rozliczVatPrzychod(wartosciVAT);
         }
     }
     
@@ -739,10 +742,18 @@ public class DokfkView implements Serializable {
             wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
             if (w.getSymbolwaluty().equals("PLN")) {
                 wn.setKwota(nettovat);
-                ma.setKwota(nettovat+kwotavat);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    ma.setKwota(nettovat);
+                } else {
+                    ma.setKwota(nettovat+kwotavat);
+                }
             } else {
                 wn.setKwota(nettovat);
-                ma.setKwota(nettovat+vatwWalucie);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    ma.setKwota(nettovat);
+                } else {
+                    ma.setKwota(nettovat+vatwWalucie);
+                }
             }
             if (kontoRozrachunkowe != null) {
                 wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
@@ -759,9 +770,17 @@ public class DokfkView implements Serializable {
         if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
             Wiersz wierszdrugi;
             if (w.getSymbolwaluty().equals("PLN")) {
-                wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
+                } else {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
+                }
             } else {
-                wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
+                } else {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
+                }
             }
             wierszdrugi.setOpisWiersza("podatek vat");
             Konto kontovat = selected.getRodzajedok().getKontovat();
@@ -784,9 +803,17 @@ public class DokfkView implements Serializable {
             selected.getListawierszy().add(wierszdrugi);
             Wiersz wiersztrzeci;
             if (w.getSymbolwaluty().equals("PLN")) {
-                wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
+                } else {
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
+                }
             } else {
-                wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
+                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
+                } else {
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
+                }
             }
             wiersztrzeci.setOpisWiersza("podatek vat");
             k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
@@ -889,8 +916,8 @@ public class DokfkView implements Serializable {
                         if (wnDokumenuBiezacego != null) {
                             wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
                         }
-                        StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
-                        StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
+                        StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
+                        StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
                         if (maDokumenuBiezacego != null) {
                             maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
                         }
