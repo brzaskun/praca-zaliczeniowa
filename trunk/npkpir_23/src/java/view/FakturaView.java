@@ -771,10 +771,22 @@ public class FakturaView implements Serializable {
                 String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
                 nowa.getFakturaPK().setNumerkolejny(numer);
             } else {
-                String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
+                int nrkolejny = 0;
                 String separator = "/";
-                String[] elementy;
-                elementy = ostatniafaktura.split(separator);
+                String[] elementy = null;
+                for (Faktura f : wykazfaktur) {
+                    if (nrkolejny == 0) {
+                        elementy = f.getFakturaPK().getNumerkolejny().split(separator);
+                        nrkolejny = Integer.parseInt(elementy[0]);
+                    } else {
+                        String[] elementytmp = f.getFakturaPK().getNumerkolejny().split(separator);
+                        int nrkolejnytmp = Integer.parseInt(elementytmp[0]);
+                        if (nrkolejnytmp > nrkolejny) {
+                            nrkolejny = nrkolejnytmp;
+                            elementy  = f.getFakturaPK().getNumerkolejny().split(separator);
+                        }
+                    }
+                }
                 //sprawdzamy czy nie ma zmiany roku
                 String biezacyrok = wpisView.getRokWpisu().toString();
                 String rokzestarejfaktury = elementy[1];
