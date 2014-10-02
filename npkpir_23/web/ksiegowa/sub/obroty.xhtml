@@ -25,7 +25,7 @@
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" filteredValue="#{obrotyView.dokumentyFiltered}"
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
-                      style="max-width: 1400px;" >
+                      style="max-width: 1400px;"  skipChildren="true">
             <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>

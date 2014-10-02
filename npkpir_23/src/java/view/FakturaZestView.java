@@ -48,8 +48,8 @@ public class FakturaZestView implements Serializable {
         podatnicyWProgramie = new ArrayList<>();
     }
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
         podatnicyWProgramie = podatnikDAO.findAll();
         fakturyWystawione = fakturaDAO.findFakturyByRok(wpisView.getRokWpisuSt());
         Set<String> odnalezioneNIP = new HashSet<>();
