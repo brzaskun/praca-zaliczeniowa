@@ -325,6 +325,10 @@
             <from-outcome>firmaFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKFirma.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>rejestryFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRejestry.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
