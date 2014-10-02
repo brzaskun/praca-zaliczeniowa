@@ -52,7 +52,11 @@ public class PodatnikDAO extends DAO implements Serializable{
      }
      
      public Podatnik findPodatnikByNIP(String np){
-         return podatnikFacade.findPodatnikNPN(np);
+        try {
+            return podatnikFacade.findPodatnikNPN(np);
+        } catch (Exception e) {
+            return null;
+        }
      }
      
      
