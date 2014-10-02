@@ -9,7 +9,7 @@
                 <p:tab title="wrowadzanie">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Ewidencje vat" onclick="PF('dialogewidencjevat').show();"></p:menuitem>
+                            <p:menuitem value="Ewidencje vat" onclick="PF('dialogewidencjevat').show();" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK}"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
