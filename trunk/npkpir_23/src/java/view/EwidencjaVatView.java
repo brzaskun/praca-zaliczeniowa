@@ -5,9 +5,11 @@
 package view;
 
 import comparator.Dokcomparator;
+import comparator.Dokfkcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
+import daoFK.DokDAOfk;
 import data.Data;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpis;
@@ -18,6 +20,7 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -47,7 +50,6 @@ import org.primefaces.event.UnselectEvent;
 @ManagedBean
 @ViewScoped
 public class EwidencjaVatView implements Serializable {
-
  
     private static HashMap<String, ArrayList> listaewidencji;
     private static HashMap<String, EVatwpisSuma> sumaewidencji;
@@ -65,6 +67,7 @@ public class EwidencjaVatView implements Serializable {
         }
     }
     private List<Dok> listadokvat;
+    private List<Dokfk> listadokvatFK;
     private List<EVatViewPola> listadokvatprzetworzona;
     @Inject
     private Dok selected;
@@ -82,11 +85,13 @@ public class EwidencjaVatView implements Serializable {
     private Double suma3;
      //tablica obiektw danego klienta
     @Inject DokDAO dokDAO;
+    @Inject DokDAOfk dokDAOfk;
    
   
 
     public EwidencjaVatView() {
         listadokvat = new ArrayList<>();
+        listadokvatFK = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
         goscwybral = new ArrayList<>();
@@ -101,6 +106,7 @@ public class EwidencjaVatView implements Serializable {
         sumydowyswietleniasprzedaz = new ArrayList<>();
         sumydowyswietleniazakupy = new ArrayList<>();
         listadokvat = new ArrayList<>();
+        listadokvatFK = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
     }
@@ -111,6 +117,27 @@ public class EwidencjaVatView implements Serializable {
             String vatokres = sprawdzjakiokresvat();
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
             transferujDokdoEVatwpis1();
+            stworzenieEwidencjiCzescWspolna(vatokres);
+        } catch (Exception e) {
+        }
+          //drukuj ewidencje
+    }
+    
+    public void stworzenieEwidencjiZDokumentowFK() {
+          try {
+            zerujListy();
+            pobierzdokumentyzaRokFK();
+            String vatokres = sprawdzjakiokresvat();
+            //listadokvatFK = zmodyfikujlisteMcKw(listadokvatFK, vatokres);
+            transferujDokdoEVatwpis1();
+            stworzenieEwidencjiCzescWspolna(vatokres);
+        } catch (Exception e) {
+        }
+          //drukuj ewidencje
+    }
+    
+     public void stworzenieEwidencjiCzescWspolna(String vatokres) {
+          try {
             //rozdziela zapisy na poszczególne ewidencje
             rozdzielEVatwpis1NaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
@@ -129,6 +156,7 @@ public class EwidencjaVatView implements Serializable {
         }
           //drukuj ewidencje
     }
+    
     
     private void obliczwynikokresu() {
         wynikOkresu = new BigDecimal(BigInteger.ZERO);
@@ -205,6 +233,23 @@ public class EwidencjaVatView implements Serializable {
                     if (tmpx.getVatR().equals(rokvat)) {
                         tmpx.setNrWpkpir(numerk++);
                         listadokvat.add(tmpx);
+                    }
+                }
+            } catch (Exception e) {
+            }
+    }
+    
+    private void pobierzdokumentyzaRokFK() {
+            try {
+                List<Dokfk> listatmp = dokDAOfk.zwrocBiezacegoKlientaRokVAT(wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+                //sortowanie dokumentów
+                Collections.sort(listatmp, new Dokfkcomparator());
+                //
+                String rokvat = String.valueOf(wpisView.getRokWpisu());
+                int numerk = 1;
+                for (Dokfk tmpx : listatmp) {
+                    if (tmpx.getDokfkPK().getRok().equals(rokvat)) {
+                        listadokvatFK.add(tmpx);
                     }
                 }
             } catch (Exception e) {
@@ -362,6 +407,42 @@ public class EwidencjaVatView implements Serializable {
              return null;
          }
     }
+     
+     private List<Dok> zmodyfikujlisteMcKwFK(List<Dokfk> listadokvat, String vatokres) throws Exception {
+//         try {
+//             switch (vatokres) {
+//                 case "blad":
+//                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+//                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+//                 case "miesięczne":
+//                 {
+//                     List<Dokfk> listatymczasowa = new ArrayList<>();
+//                     for(Dokfk p : listadokvat){
+//                         if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
+//                             listatymczasowa.add(p);
+//                         }
+//                     }
+//                     return listatymczasowa;
+//                 }       default:
+//         {
+//             List<Dok> listatymczasowa = new ArrayList<>();
+//             Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+//             List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+//             for(Dokfk p : listadokvat){
+//                 if(p.getVatM().equals(miesiacewkwartale.get(0))||p.getVatM().equals(miesiacewkwartale.get(1))||p.getVatM().equals(miesiacewkwartale.get(2))){
+//                     if(p.getUsunpozornie()==false){
+//                         listatymczasowa.add(p);
+//                     }
+//                 }
+//             }
+//             return listatymczasowa;
+//         }   }
+//         } catch (Exception e) {
+//             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+//             return null;
+//         }
+         return null;
+    }
 
      public void sumujwybrane(){
          suma1 = 0.0;
@@ -394,8 +475,9 @@ public class EwidencjaVatView implements Serializable {
          suma3 -= suma1+suma2;
      }
       
-   
-    //generuje poszczegolen ewidencje
+      //<editor-fold defaultstate="collapsed" desc="comment">
+      
+      //generuje poszczegolen ewidencje
 //    public void wygeneruj(HashMap lista) throws Exception {
 //        FacesContext facesCtx = FacesContext.getCurrentInstance();
 //        ELContext elContext = facesCtx.getELContext();
@@ -427,7 +509,7 @@ public class EwidencjaVatView implements Serializable {
 //            FacesContext context = FacesContext.getCurrentInstance();
 //            MethodExpression actionListener = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{pdf.drukujewidencje('zakup')}", null, new Class[] {ActionEvent.class});
 //            button.addActionListener(new MethodExpressionActionListener(actionListener));
-//             
+//
 ////            MethodExpression methodExpressionX = context.getApplication().getExpressionFactory().createMethodExpression(
 ////            context.getELContext(), "#{pdf.drukujewidencje('"+nazwapj+"')}", null, new Class[] {});
 ////            button.setActionExpression(methodExpressionX);
@@ -472,7 +554,7 @@ public class EwidencjaVatView implements Serializable {
 //                    case "opis":
 //                        column.setWidth("150");
 //                        break;
-//                    case "id": 
+//                    case "id":
 //                        column.setWidth("50");
 //                        break;
 //                    case "netto":
@@ -537,144 +619,145 @@ public class EwidencjaVatView implements Serializable {
 //            ot.setValueExpression("value", ve);
 //            column.getChildren().add(ot);
 //            dataTable.getChildren().add(column);
-//            
+//
 //        }
 //        dataTable.setStyleClass("mytable");
 //        tab.getChildren().add(dataTable);
 //        akordeon.getChildren().add(tab);
 //    }
-
-   
-    public List<Dok> getListadokvat() {
-        return listadokvat;
-    }
-
-    public void setListadokvat(List<Dok> listadokvat) {
-        this.listadokvat = listadokvat;
-    }
-
-    public Dok getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Dok selected) {
-        this.selected = selected;
-    }
-
-    public List<EVatViewPola> getListadokvatprzetworzona() {
-        return listadokvatprzetworzona;
-    }
-
-    public void setListadokvatprzetworzona(List<EVatViewPola> listadokvatprzetworzona) {
-        this.listadokvatprzetworzona = listadokvatprzetworzona;
-    }
-
-    public HashMap<String, ArrayList> getListaewidencji() {
-        return listaewidencji;
-    }
-
-    public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
-        EwidencjaVatView.listaewidencji = listaewidencji;
-    }
-
-    public TabView getAkordeon() {
-        return akordeon;
-    }
-
-    public void setAkordeon(TabView akordeon) {
-        this.akordeon = akordeon;
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-   public List<EVatViewPola> getGoscwybral(){
-       return goscwybral;
-   }
-
-    public void setGoscwybral(List<EVatViewPola> goscwybral) {
-        this.goscwybral = goscwybral;
-    }
-
-    public HashMap<String, EVatwpisSuma> getSumaewidencji() {
-        return sumaewidencji;
-    }
-
-    public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
-        EwidencjaVatView.sumaewidencji = sumaewidencji;
-    }
-
-    public List<String> getListanowa() {
-        return listanowa;
-    }
-
-    public void setListanowa(List<String> listanowa) {
-        this.listanowa = listanowa;
-    }
-
-    public List<EVatwpisSuma> getSumydowyswietleniasprzedaz() {
-        return sumydowyswietleniasprzedaz;
-    }
-
-    public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
-        EwidencjaVatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
-    }
-
-    public List<EVatwpisSuma> getGoscwybralsuma() {
-        return goscwybralsuma;
-    }
-
-    public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
-        EwidencjaVatView.goscwybralsuma = goscwybralsuma;
-    }
-
-    public Double getSuma1() {
-        return suma1;
-    }
-   
-    public void setSuma1(Double suma1) {
-        this.suma1 = suma1;
-    }
-   
-    public Double getSuma2() {
-        return suma2;
-    }
-   
-    public void setSuma2(Double suma2) {
-        this.suma2 = suma2;
-    }
-
-    public Double getSuma3() {
-        return suma3;
-    }
-
-    public void setSuma3(Double suma3) {
-        this.suma3 = suma3;
-    }
-
-    public BigDecimal getWynikOkresu() {
-        return wynikOkresu;
-    }
-
-    public void setWynikOkresu(BigDecimal wynikOkresu) {
-        EwidencjaVatView.wynikOkresu = wynikOkresu;
-    }
-
-    public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
-        return sumydowyswietleniazakupy;
-    }
-
-    public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
-        EwidencjaVatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
-    }
-
-
-   
+      
+      
+      public List<Dok> getListadokvat() {
+          return listadokvat;
+      }
+      
+      public void setListadokvat(List<Dok> listadokvat) {
+          this.listadokvat = listadokvat;
+      }
+      
+      public Dok getSelected() {
+          return selected;
+      }
+      
+      public void setSelected(Dok selected) {
+          this.selected = selected;
+      }
+      
+      public List<EVatViewPola> getListadokvatprzetworzona() {
+          return listadokvatprzetworzona;
+      }
+      
+      public void setListadokvatprzetworzona(List<EVatViewPola> listadokvatprzetworzona) {
+          this.listadokvatprzetworzona = listadokvatprzetworzona;
+      }
+      
+      public HashMap<String, ArrayList> getListaewidencji() {
+          return listaewidencji;
+      }
+      
+      public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
+          EwidencjaVatView.listaewidencji = listaewidencji;
+      }
+      
+      public TabView getAkordeon() {
+          return akordeon;
+      }
+      
+      public void setAkordeon(TabView akordeon) {
+          this.akordeon = akordeon;
+      }
+      
+      public WpisView getWpisView() {
+          return wpisView;
+      }
+      
+      public void setWpisView(WpisView wpisView) {
+          this.wpisView = wpisView;
+      }
+      
+      public List<EVatViewPola> getGoscwybral(){
+          return goscwybral;
+      }
+      
+      public void setGoscwybral(List<EVatViewPola> goscwybral) {
+          this.goscwybral = goscwybral;
+      }
+      
+      public HashMap<String, EVatwpisSuma> getSumaewidencji() {
+          return sumaewidencji;
+      }
+      
+      public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
+          EwidencjaVatView.sumaewidencji = sumaewidencji;
+      }
+      
+      public List<String> getListanowa() {
+          return listanowa;
+      }
+      
+      public void setListanowa(List<String> listanowa) {
+          this.listanowa = listanowa;
+      }
+      
+      public List<EVatwpisSuma> getSumydowyswietleniasprzedaz() {
+          return sumydowyswietleniasprzedaz;
+      }
+      
+      public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
+          EwidencjaVatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
+      }
+      
+      public List<EVatwpisSuma> getGoscwybralsuma() {
+          return goscwybralsuma;
+      }
+      
+      public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
+          EwidencjaVatView.goscwybralsuma = goscwybralsuma;
+      }
+      
+      public Double getSuma1() {
+          return suma1;
+      }
+      
+      public void setSuma1(Double suma1) {
+          this.suma1 = suma1;
+      }
+      
+      public Double getSuma2() {
+          return suma2;
+      }
+      
+      public void setSuma2(Double suma2) {
+          this.suma2 = suma2;
+      }
+      
+      public Double getSuma3() {
+          return suma3;
+      }
+      
+      public void setSuma3(Double suma3) {
+          this.suma3 = suma3;
+      }
+      
+      public BigDecimal getWynikOkresu() {
+          return wynikOkresu;
+      }
+      
+      public void setWynikOkresu(BigDecimal wynikOkresu) {
+          EwidencjaVatView.wynikOkresu = wynikOkresu;
+      }
+      
+      public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
+          return sumydowyswietleniazakupy;
+      }
+      
+      public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
+          EwidencjaVatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
+      }
+      
+      
+      
+//</editor-fold>
     
     
     

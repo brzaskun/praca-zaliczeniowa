@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Dok;
 import entity.Klienci;
 import entityfk.Dokfk;
 import java.io.Serializable;
@@ -95,6 +96,10 @@ public class DokDAOfk extends DAO implements Serializable {
        } catch (Exception e ){
            return null;
        }
+    }
+
+    public List<Dokfk> zwrocBiezacegoKlientaRokVAT(String pod, String rok) {
+        return dokFacade.findDokfkBKVAT(pod,rok);
     }
 
    
