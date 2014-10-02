@@ -8,10 +8,10 @@
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
       
         <h:form id="formzestawienie">
-           
+            <p:commandButton value="pobierz" actionListener="#{fakturaZestView.init()}" update="@form"/>
             <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="max-width: 1200px;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
-                         rowSelectMode="add">
+                         rowSelectMode="add" skipChildren="true" emptyMessage="nie pobrano wierszy">
                 <p:column width="300" sortBy="#{item.podatnik != null ? item.podatnik.nazwapelna : item.kontrahent}">
                     <h:outputText value="#{item.podatnik.nazwapelna}" rendered="#{item.podatnik != null}"/>
                     <h:outputText value="#{item.kontrahent}" rendered="#{item.kontrahent != null}"/>
