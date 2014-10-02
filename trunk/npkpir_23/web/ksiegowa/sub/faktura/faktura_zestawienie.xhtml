@@ -9,8 +9,8 @@
       
         <h:form id="formzestawienie">
            
-            <p:dataTable id="dokumentyOkresowe" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         rowKey="#{item.kontrahent.npelna}" style="max-width: 1200px;" widgetVar="okresTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
+            <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
+                         rowKey="#{item.kontrahent.npelna}" style="max-width: 1200px;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add">
                 <p:column width="300" sortBy="#{item.podatnik != null ? item.podatnik.nazwapelna : item.kontrahent}">
                     <h:outputText value="#{item.podatnik.nazwapelna}" rendered="#{item.podatnik != null}"/>
