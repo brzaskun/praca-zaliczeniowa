@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogbilansprojekt" header="Projekt Bilansu" widgetVar="bilansprojekt" 
+              resizable="false" onShow="ustawdialog('dialogbilansprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojekt');"  >
+        <h:form id="formbilansprojekt">
+            <p:contextMenu for="formbilansprojekt:dataList" style="width: 200px;">
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczne').show();"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczneformula').show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektanalityczne').show();"/>
+                <p:menuitem value="Usuń" actionListener="#{pozycjaBilansView.usunpozycje}" icon="ui-icon-trash" update=":formbilansprojekt"/>
+            </p:contextMenu>
+            <p:panelGrid columns="4" >
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBilansView.rozwinwszystkie(pozycjaBilansView.rootProjekt)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBilansView.rozwin(pozycjaBilansView.rootProjekt)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBilansView.zwinwszystkie(pozycjaBilansView.rootProjekt)}" update=":formbilansprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBilansView.zwin(pozycjaBilansView.rootProjekt)}" update=":formbilansprojekt:dataList" style="float: left;" />
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="width: 920px;">
+                <p:treeTable id="dataList" value="#{pozycjaBilansView.rootProjekt}" var="loop" selectionMode="single" selection="#{pozycjaBilansView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
+                             emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
+                    <f:facet name="header">
+                        <h:outputText value="uklad #{pozycjaBilansView.bilansuklad.bilansukladPK.uklad}"/>
+                    </f:facet>
+                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeRZiS}"/>
+                    <p:column headerText="symbol i nazwa pozycji">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{loop.nazwa}"/> 
+                    </p:column>
+                    <p:column headerText="formuła">
+                        <h:outputText value="#{loop.formula}"/>
+                    </p:column>
+                     <p:column headerText="rodzaj">
+                        <h:outputText value="#{loop.przychod0koszt1 eq false ? 'przychód' : 'koszt'}"/>
+                    </p:column>
+                </p:treeTable>
+                <p:panel header="pobierz układ" style="margin-top: -50px;">
+                    <h:outputText value="wybierz nazwę kreowanego układu"/>
+                    <p:selectOneListbox value="#{pozycjaBilansView.bilansuklad}" style="height: 200px;" converter="BilansukladConv">
+                        <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
+                    </p:selectOneListbox>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBilansView.pobierzuklad}" update=":formbilansprojekt:dataList"/>
+                </p:panel>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+
