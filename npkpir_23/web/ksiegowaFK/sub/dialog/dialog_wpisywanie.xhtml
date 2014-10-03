@@ -45,11 +45,13 @@
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
-                    <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 590px;"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="paneldatydokumentu" columns="6" style="width: 580px;"  styleClass="uipanelGrid0">
                         <h:outputText value="data wprowadzenia"/>
                         <h:outputText value="data dokumentu"/>
                         <h:outputText value="data operacji gosp."/>
                         <h:outputText value="data wpływu"/>
+                        <h:outputText value="rok"/>
+                        <h:outputText value="miesiąc"/>
                         <h:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie');
                                                  $(this).removeClass('ui-state-focus');
@@ -70,7 +72,6 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
                         <h:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie');
@@ -81,7 +82,6 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
                         <h:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie');
@@ -92,15 +92,34 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
+                         <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 60px;"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');"
+                                         >
+                            <f:selectItems value="#{Roki.rokiList}"/>
+                            <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/>
+                        </h:selectOneMenu>
+                        <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 50px;"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');">
+                            <f:selectItems value="#{Mce.mceList}"/>
+                            <f:ajax event="blur" execute="@this"/>
+                        </h:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid id="paneldaneogolnefaktury" columns="5"  styleClass="uipanelGrid0">
                         <h:outputText value="symbol"/>
                         <h:outputText value="numer"/>
-                        <h:outputText value="rok"/>
-                        <h:outputText value="miesiąc"/>
-                         <h:outputText value="numer własny"/>
+                        <h:outputText value="numer własny"/>
+                       <h:outputText value="rok VAT"/>
+                        <h:outputText value="mc VAT"/>
+                         
                          <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
@@ -122,25 +141,7 @@
                                                  $(this).addClass('ui-state-default');">
                             <f:ajax event="blur" execute="@this"/>
                         </h:inputText>
-                        <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 70px;"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                         onfocus="$(this).removeClass('ui-state-default');
-                                                     $(this).addClass('ui-state-focus');"
-                                         onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');"
-                                         >
-                            <f:selectItems value="#{Roki.rokiList}"/>
-                            <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/>
-                        </h:selectOneMenu>
-                        <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 60px;"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
-                                         onfocus="$(this).removeClass('ui-state-default');
-                                                     $(this).addClass('ui-state-focus');"
-                                         onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');">
-                            <f:selectItems value="#{Mce.mceList}"/>
-                            <f:ajax event="blur" execute="@this"/>
-                        </h:selectOneMenu>
+                       
                         <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 180px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
@@ -149,8 +150,29 @@
                                                  $(this).addClass('ui-state-default');">
                             <f:ajax event="blur" execute="@this"/>
                         </h:inputText>
+                         <h:selectOneMenu id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 60px;"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');"
+                                        rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                         >
+                            <f:selectItems value="#{Roki.rokiList}"/>
+                        </h:selectOneMenu>
+                        <h:selectOneMenu id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 50px;"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');"
+                                        rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                        >
+                            <f:selectItems value="#{Mce.mceList}"/>
+                            <f:ajax event="blur" execute="@this"/>
+                        </h:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidok" columns="3" style="min-width: 100%;"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="panelzkwotamidok" columns="3" style="min-width: 95%;"  styleClass="uipanelGrid0">
                         <h:outputText value="treść dok."/>
                         <h:outputText value="kontrahent"/>
                         <h:outputText value="wartość dokumentu"/>
@@ -248,7 +270,7 @@
                 </p:panelGrid>
             </p:panelGrid>
 
-            <div style="height: 450px;">
+            <div style="height: 440px;">
                 <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>

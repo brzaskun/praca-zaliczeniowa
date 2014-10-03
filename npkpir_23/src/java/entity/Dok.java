@@ -142,10 +142,10 @@ public class Dok implements Serializable {
     @Size(max = 45)
     @Column(name = "pkpir_r")
     private String pkpirR;
-    @Size(max = 45)
+    @Size(max = 2)
     @Column(name = "vat_m")
     private String vatM;
-    @Size(max = 45)
+    @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
     @Size(max = 65)
