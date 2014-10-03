@@ -49,7 +49,7 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findByNrkolejny", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.rok = :rok"),
-    @NamedQuery(name = "Dokfk.findByBKVAT", query = "SELECT d FROM Dokfk d WHERE d.vatR = :vatR AND d.podatnik = :podatnik"),
+    @NamedQuery(name = "Dokfk.findByBKVAT", query = "SELECT d FROM Dokfk d WHERE d.vatR = :vatR AND d.podatnikObj = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
     @NamedQuery(name = "Dokfk.findByDatawystawienia", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numerwlasnydokfk = :numer"),
@@ -116,6 +116,12 @@ public class Dokfk implements Serializable {
     private Klienci kontr;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<EVatwpisFK> ewidencjaVAT;
+    @Size(max = 2)
+    @Column(name = "vat_m")
+    private String vatM;
+    @Size(max = 4)
+    @Column(name = "vat_r")
+    private String vatR;
  
 
     
@@ -168,6 +174,21 @@ public class Dokfk implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getVatM() {
+        return vatM;
+    }
+
+    public void setVatM(String vatM) {
+        this.vatM = vatM;
+    }
+
+    public String getVatR() {
+        return vatR;
+    }
+
+    public void setVatR(String vatR) {
+        this.vatR = vatR;
+    }
     
     public List<EVatwpisFK> getEwidencjaVAT() {
         return ewidencjaVAT;

@@ -413,7 +413,7 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
     }
     
-    public List<Dok> findDokfkBKVAT(String pod, String rok) {
+    public List<Dok> findDokfkBKVAT(Podatnik pod, String rok) {
         return em.createNamedQuery("Dokfk.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
     }
     

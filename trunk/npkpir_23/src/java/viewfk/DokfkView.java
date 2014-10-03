@@ -773,13 +773,13 @@ public class DokfkView implements Serializable {
                 if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                     wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
                 } else {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
                 }
             } else {
                 if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                     wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
                 } else {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
                 }
             }
             wierszdrugi.setOpisWiersza("podatek vat");
@@ -806,13 +806,13 @@ public class DokfkView implements Serializable {
                 if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                     wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
                 } else {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
                 }
             } else {
                 if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                     wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
                 } else {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
+                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
                 }
             }
             wiersztrzeci.setOpisWiersza("podatek vat");
@@ -1148,14 +1148,18 @@ public void updatenetto(EwidencjaAddwiad e) {
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
-            String data = (String) Params.params("formwpisdokument:dataDialogWpisywanie");
+            String data = (String) Params.params("formwpisdokument:data1DialogWpisywanie");
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
                 selected.getDokfkPK().setRok(rok);
                 String mc = data.split("-")[1];
                 selected.setMiesiac(mc);
+                selected.setVatR(rok);
+                selected.setVatM(mc);
                 RequestContext.getCurrentInstance().update("formwpisdokument:rok");
+                RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
                 RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+                RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
             }
         }
         RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
@@ -1938,6 +1942,7 @@ public void updatenetto(EwidencjaAddwiad e) {
                 selected.setNumerwlasnydokfk(nowynumer);
                 RequestContext.getCurrentInstance().update("formwpisdokument:numer");
             }
+            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
         }
 
     }
