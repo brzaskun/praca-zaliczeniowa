@@ -46,9 +46,9 @@ public class PozycjaBilansFKBean {
      
     public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbers(zapisy, plankont);
-        rootL.sumNodes();
-        rootL.resolveFormulas();
+        rootL.addNumbersBilans(zapisy, plankont);
+        rootL.sumNodesBilans();
+        rootL.resolveFormulasFK();
         rootL.expandAll();
     }
     

@@ -287,7 +287,9 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Pozycjarzis[ lp=" + lp + " ]";
+        return "PozycjaBilans{" + "lp=" + lp + ", formula=" + formula + ", nazwa=" + nazwa + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", pozycjanr=" + pozycjanr + ", rok=" + rok + ", uklad=" + uklad + '}';
     }
+
+   
     
 }

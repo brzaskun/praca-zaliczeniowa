@@ -54,7 +54,7 @@ public class PozycjaBilansView implements Serializable {
     private TreeNodeExtended rootProjekt;
     private TreeNodeExtended rootProjektKonta;
     private TreeNode[] selectedNodes;
-    private PozycjaBilans nowyelementRZiS;
+    private PozycjaBilans nowyelementBilans;
     private PozycjaBilans selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private List<Konto> wykazkont;
@@ -73,7 +73,7 @@ public class PozycjaBilansView implements Serializable {
 
     public PozycjaBilansView() {
         this.wykazkont = new ArrayList<>();
-        this.nowyelementRZiS = new PozycjaBilans();
+        this.nowyelementBilans = new PozycjaBilans();
         this.root = new TreeNodeExtended("root", null);
         this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
@@ -169,7 +169,7 @@ public class PozycjaBilansView implements Serializable {
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję Bilansu", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         rootProjektKonta = new TreeNodeExtended("root", null);
@@ -180,7 +180,7 @@ public class PozycjaBilansView implements Serializable {
 
     private void drugiinit() {
         wykazkont.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikWpisu(), "0", "wynikowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikWpisu(), "0", "bilansowe");
         PozycjaBilansFKBean.wyluskajNieprzyporzadkowaneAnalityki(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         Collections.sort(wykazkont, new Kontocomparator());
     }
@@ -299,29 +299,29 @@ public class PozycjaBilansView implements Serializable {
                 pozycje.remove(0);
             }
             if (pozycje.isEmpty()) {
-                Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod A");
-                nowyelementRZiS.setPozycjaSymbol("A");
-                nowyelementRZiS.setPozycjaString("A");
-                nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
+                Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod A");
+                nowyelementBilans.setPozycjaSymbol("A");
+                nowyelementBilans.setPozycjaString("A");
+                nowyelementBilans.setLevel(0);
+                nowyelementBilans.setMacierzysty(0);
             } else {
                 String poprzednialitera = ((PozycjaBilans) rootProjekt.getChildren().get(rootProjekt.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
-                nowyelementRZiS.setPozycjaSymbol(nowalitera);
-                nowyelementRZiS.setPozycjaString(nowalitera);
-                nowyelementRZiS.setLevel(0);
-                nowyelementRZiS.setMacierzysty(0);
-                if (!(nowyelementRZiS.getFormula() instanceof String)) {
-                    nowyelementRZiS.setFormula("");
+                nowyelementBilans.setPozycjaSymbol(nowalitera);
+                nowyelementBilans.setPozycjaString(nowalitera);
+                nowyelementBilans.setLevel(0);
+                nowyelementBilans.setMacierzysty(0);
+                if (!(nowyelementBilans.getFormula() instanceof String)) {
+                    nowyelementBilans.setFormula("");
                 }
-                Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod " + nowalitera);
+                Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod " + nowalitera);
             }
-            nowyelementRZiS.setUklad(bilansuklad.getBilansukladPK().getUklad());
-            nowyelementRZiS.setPodatnik(bilansuklad.getBilansukladPK().getPodatnik());
-            nowyelementRZiS.setRok(bilansuklad.getBilansukladPK().getRok());
+            nowyelementBilans.setUklad(bilansuklad.getBilansukladPK().getUklad());
+            nowyelementBilans.setPodatnik(bilansuklad.getBilansukladPK().getPodatnik());
+            nowyelementBilans.setRok(bilansuklad.getBilansukladPK().getRok());
             try {
-                pozycjaBilansDAO.dodaj(nowyelementRZiS);
-                pozycje.add(nowyelementRZiS);
+                pozycjaBilansDAO.dodaj(nowyelementBilans);
+                pozycje.add(nowyelementBilans);
                 rootProjekt = new TreeNodeExtended("root", null);
                 PozycjaBilansFKBean.ustawRootaprojekt(rootProjekt, pozycje);
                 level = PozycjaBilansFKBean.ustawLevel(root, pozycje);
@@ -329,7 +329,7 @@ public class PozycjaBilansView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
-            nowyelementRZiS = new PozycjaBilans();
+            nowyelementBilans = new PozycjaBilans();
 
         } else {
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
@@ -352,20 +352,20 @@ public class PozycjaBilansView implements Serializable {
                 PozycjaBilans lastchild = (PozycjaBilans) wybranynodekonta.getChildren().get(index).getData();
                 nastepnysymbol = PozycjaBilansFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
-            nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
-            nowyelementRZiS.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
-            nowyelementRZiS.setPrzychod0koszt1(parent.isPrzychod0koszt1());
-            nowyelementRZiS.setLevel(level + 1);
-            nowyelementRZiS.setMacierzysty(parent.getLp());
-            if (!(nowyelementRZiS.getFormula() instanceof String)) {
-                nowyelementRZiS.setFormula("");
+            nowyelementBilans.setPozycjaSymbol(nastepnysymbol);
+            nowyelementBilans.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
+            nowyelementBilans.setPrzychod0koszt1(parent.isPrzychod0koszt1());
+            nowyelementBilans.setLevel(level + 1);
+            nowyelementBilans.setMacierzysty(parent.getLp());
+            if (!(nowyelementBilans.getFormula() instanceof String)) {
+                nowyelementBilans.setFormula("");
             }
-            nowyelementRZiS.setUklad(bilansuklad.getBilansukladPK().getUklad());
-            nowyelementRZiS.setPodatnik(bilansuklad.getBilansukladPK().getPodatnik());
-            nowyelementRZiS.setRok(bilansuklad.getBilansukladPK().getRok());
+            nowyelementBilans.setUklad(bilansuklad.getBilansukladPK().getUklad());
+            nowyelementBilans.setPodatnik(bilansuklad.getBilansukladPK().getPodatnik());
+            nowyelementBilans.setRok(bilansuklad.getBilansukladPK().getRok());
             try {
-                pozycjaBilansDAO.dodaj(nowyelementRZiS);
-                pozycje.add(nowyelementRZiS);
+                pozycjaBilansDAO.dodaj(nowyelementBilans);
+                pozycje.add(nowyelementBilans);
                 rootProjekt = new TreeNodeExtended("root", null);
                 PozycjaBilansFKBean.ustawRootaprojekt(rootProjekt, pozycje);
                 level = PozycjaBilansFKBean.ustawLevel(root, pozycje);
@@ -373,7 +373,7 @@ public class PozycjaBilansView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
-            nowyelementRZiS = new PozycjaBilans();
+            nowyelementBilans = new PozycjaBilans();
         }
     }
    
@@ -499,12 +499,12 @@ public class PozycjaBilansView implements Serializable {
         this.rootProjekt = rootProjekt;
     }
 
-    public PozycjaBilans getNowyelementRZiS() {
-        return nowyelementRZiS;
+    public PozycjaBilans getNowyelementBilans() {
+        return nowyelementBilans;
     }
 
-    public void setNowyelementRZiS(PozycjaBilans nowyelementRZiS) {
-        this.nowyelementRZiS = nowyelementRZiS;
+    public void setNowyelementBilans(PozycjaBilans nowyelementBilans) {
+        this.nowyelementBilans = nowyelementBilans;
     }
 
     public Bilansuklad getBilansuklad() {

@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+
+    <p:dialog id="dialogbilansprzeglad" header="Rachunek Zysków i Strat za okres rozliczeniowy - wyliczenie" widgetVar="bilansprzegladuklad" 
+              resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
+        <h:form id="formprzegladbilans">
+<!--            <p:contextMenu for="dataList">
+                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
+                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
+                <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
+            </p:contextMenu>
+-->            <script>
+
+                    document.onkeypress = wcisnij;
+                    function wcisnij() {
+                        if (event.keyCode == 43) {
+                            $('#form\\:rozwinwsz').click();
+                        } else if (event.keyCode == 45) {
+                            $('#form\\:zwinwsz').click();
+                        } else {
+                            return event;
+                        }
+                    }
+            </script>
+             <p:panelGrid columns="5">
+                <p:panelGrid columns="3">
+                    <h:outputText value="nazwa układu"/>
+                    <p:selectOneMenu value="#{pozycjaBilansView.bilansuklad}" converter="BilansukladConv">
+                        <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBilansView.pobierzukladprzeglad}" update=":formprzegladbilans:dataList"/>
+                </p:panelGrid>
+                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBilansView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBilansView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBilansView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBilansView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:treeTable id="dataList" value="#{pozycjaBilansView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaBilansView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
+                             scrollable="true" style="width: 670px; max-height: 600px;">
+                    <p:column style="width: 440px;">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <h:outputText value=" " /> 
+                        <h:outputText value="#{loop.nazwa}" /> 
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                </p:treeTable>
+            </p:panelGrid>
+           
+        </h:form>
+    </p:dialog>
+</ui:composition>
+
