@@ -38,6 +38,7 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
+import entityfk.Bilansuklad;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kliencifk;
@@ -745,6 +746,13 @@ public class SessionFacade<T> implements Serializable{
         String podatnik = ((Rzisuklad) rzisuklad).getRzisukladPK().getPodatnik();
         String rok = ((Rzisuklad) rzisuklad).getRzisukladPK().getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+    
+    public List<PozycjaRZiS> findBilansuklad(UkladBilansRZiS rzisuklad) {
+        String uklad = ((Bilansuklad) rzisuklad).getBilansukladPK().getUklad();
+        String podatnik = ((Bilansuklad) rzisuklad).getBilansukladPK().getPodatnik();
+        String rok = ((Bilansuklad) rzisuklad).getBilansukladPK().getRok();
+        return em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
     public List<Kontopozycjarzis> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
