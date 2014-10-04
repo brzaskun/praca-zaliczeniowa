@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Bilansuklad;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
 import java.io.Serializable;
@@ -44,6 +45,14 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
      public  List<PozycjaRZiSBilans> findRzisuklad(Rzisuklad rzisuklad){
         try {
             return sessionFacade.findRzisuklad(rzisuklad);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+     
+      public  List<PozycjaRZiSBilans> findBilansuklad(Bilansuklad bilansuklad){
+        try {
+            return sessionFacade.findBilansuklad(bilansuklad);
         } catch (Exception e) {
             return null;
         }

@@ -751,7 +751,7 @@ public class SessionFacade<T> implements Serializable{
         String uklad = bilansuklad.getBilansukladPK().getUklad();
         String podatnik = bilansuklad.getBilansukladPK().getPodatnik();
         String rok = bilansuklad.getBilansukladPK().getRok();
-        return em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
     public List<Kontopozycjarzis> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
