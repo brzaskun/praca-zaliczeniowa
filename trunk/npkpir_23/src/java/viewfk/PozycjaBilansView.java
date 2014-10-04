@@ -11,7 +11,7 @@ import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjarzisDAO;
-import daoFK.PozycjaBilansDAO;
+import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Bilansuklad;
 import entityfk.Konto;
@@ -63,7 +63,7 @@ public class PozycjaBilansView implements Serializable {
     @Inject 
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
-    private PozycjaBilansDAO pozycjaBilansDAO;
+    private PozycjaRZiSDAO pozycjaBilansDAO;
     @Inject
     private Bilansuklad bilansuklad;
     @Inject

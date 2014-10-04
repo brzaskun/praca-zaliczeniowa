@@ -203,8 +203,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     //pobieramy kwoty oraz to czy jest to przychod czy koszt
                     double kwotapierwotna = pozycja.getKwota();
                     double donaniesienia = 0.0;
-                    boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                    if (przychod0koszt1 == false) {
+                    int przychod0koszt1 = pozycja.getBilanslubrzis();
+                    if (przychod0koszt1 == 0) {
                         donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
                     } else {
                         donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
