@@ -14,8 +14,8 @@
                         <p:inputText id="nazwa" value="#{pozycjaBilansView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
                         <p:selectOneMenu id="rodzaj" value="#{pozycjaBilansView.nowyelementBilans.bilanslubrzis}">
-                            <f:selectItem itemLabel="aktywa" itemValue="2"/>
-                            <f:selectItem itemLabel="pasywa" itemValue="3"/>
+                            <f:selectItem itemLabel="przychód" itemValue="false"/>
+                            <f:selectItem itemLabel="koszt" itemValue="true"/>
                         </p:selectOneMenu>
                        <p:commandButton value="dodaj" actionListener="#{pozycjaBilansView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXbilansprojekt, :formbilansprojekt" style="width: 120px;" onclick="PF('bilansprojektsyntetyczne').hide()"/>
         </p:panelGrid>

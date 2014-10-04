@@ -12,7 +12,7 @@ import daoFK.KontopozycjarzisDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
-import entityfk.PozycjaRZiSBilans;
+import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class PozycjaRZiSFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
+    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiS> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
         rootL.sumNodes();
@@ -51,12 +51,12 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
+    public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pz) {
         rt.createTreeNodesForElement(pz);
         rt.expandAll();
     }
     
-    public static int ustawLevel(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pozycjeL) {
+    public static int ustawLevel(TreeNodeExtended rt, ArrayList<PozycjaRZiS> pozycjeL) {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     

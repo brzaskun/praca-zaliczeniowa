@@ -5,7 +5,6 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Bilansuklad;
 import entityfk.Kontopozycjarzis;
 import entityfk.Rzisuklad;
 import java.io.Serializable;
@@ -44,12 +43,5 @@ public class KontopozycjarzisDAO extends DAO implements Serializable{
         }
     }
     
-    public List<Kontopozycjarzis> findKontaPodatnikUklad (Bilansuklad rzisuklad) {
-       try {
-            return sessionFacade.findKontaPodatnikUklad(rzisuklad.getBilansukladPK().getPodatnik(), rzisuklad.getBilansukladPK().getRok(), rzisuklad.getBilansukladPK().getUklad());
-        } catch (Exception e) {
-            return null;
-        }
-    }
     
 }

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", name = "Pozycjarzis",  uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad", "bilanslubrzis"})})
+    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PozycjaRZiS.findAll", query = "SELECT p FROM PozycjaRZiS p"),
@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
-public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializable {
+public class PozycjaRZiS extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,9 +76,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Column(length = 255)
     private String pozycjaSymbol;
     private Integer pozycjanr;
-    //przychod 0 koszt 1
-    //aktywa 2 pasywa 3
-    private int bilanslubrzis;
+    private boolean przychod0koszt1;
     @Lob
     @Column(length=1048576)
     private List<KontoKwota> przyporzadkowanekonta;
@@ -89,61 +87,61 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Column(length = 255)
     private String uklad;
 
-    public PozycjaRZiSBilans() {
+    public PozycjaRZiS() {
     }
     
-    public PozycjaRZiSBilans(Integer lp) {
+    public PozycjaRZiS(Integer lp) {
         this.lp = lp;
     }
     
-    public PozycjaRZiSBilans(PozycjaRZiSBilans pozycjaRZiS) {
+    public PozycjaRZiS(PozycjaRZiS pozycjaRZiS) {
         this.pozycjanr = pozycjaRZiS.getPozycjanr();
         this.pozycjaString = pozycjaRZiS.getPozycjaString();
         this.pozycjaSymbol = pozycjaRZiS.getPozycjaSymbol();
         this.macierzysty = pozycjaRZiS.getMacierzysty();
         this.level = pozycjaRZiS.getLevel();
         this.nazwa = pozycjaRZiS.getNazwa();
-        this.bilanslubrzis = pozycjaRZiS.getBilanslubrzis();
+        this.przychod0koszt1 = pozycjaRZiS.isPrzychod0koszt1();
         this.lp = pozycjaRZiS.getLp();
         this.formula = "";
     }
 
-    public PozycjaRZiSBilans(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
+    public PozycjaRZiS(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
         
     }
     
 
-    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.bilanslubrzis = bilanslubrzis;
+        this.przychod0koszt1 = przychod0koszt1;
         this.formula = "";
     }
     
-    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis, double kwota) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.bilanslubrzis = bilanslubrzis;
+        this.przychod0koszt1 = przychod0koszt1;
         this.kwota = kwota;
         this.formula = "";
     }
 
-    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis, String formula) {
+    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.bilanslubrzis = bilanslubrzis;
+        this.przychod0koszt1 = przychod0koszt1;
         this.kwota = 0.0;
         this.formula = formula;
     }
@@ -233,15 +231,13 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.pozycjanr = pozycjanr;
     }
 
-    public int getBilanslubrzis() {
-        return bilanslubrzis;
+    public boolean isPrzychod0koszt1() {
+        return przychod0koszt1;
     }
 
-    public void setBilanslubrzis(int bilanslubrzis) {
-        this.bilanslubrzis = bilanslubrzis;
+    public void setPrzychod0koszt1(boolean przychod0koszt1) {
+        this.przychod0koszt1 = przychod0koszt1;
     }
-
-   
 
     public List<KontoKwota> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
@@ -279,10 +275,10 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaRZiSBilans)) {
+        if (!(object instanceof PozycjaRZiS)) {
             return false;
         }
-        PozycjaRZiSBilans other = (PozycjaRZiSBilans) object;
+        PozycjaRZiS other = (PozycjaRZiS) object;
         if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
             return false;
         }
