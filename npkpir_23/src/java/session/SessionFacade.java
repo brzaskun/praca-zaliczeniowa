@@ -38,13 +38,12 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
-import entityfk.Bilansuklad;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
-import entityfk.PozycjaRZiSBilans;
+import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -740,17 +739,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
     }
 
-    public List<PozycjaRZiSBilans> findRzisuklad(Rzisuklad rzisuklad) {
+    public List<PozycjaRZiS> findRzisuklad(Rzisuklad rzisuklad) {
         String uklad = rzisuklad.getRzisukladPK().getUklad();
         String podatnik = rzisuklad.getRzisukladPK().getPodatnik();
         String rok = rzisuklad.getRzisukladPK().getRok();
-        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
-    }
-    
-    public List<PozycjaRZiSBilans> findBilansuklad(Bilansuklad bilansuklad) {
-        String uklad = bilansuklad.getBilansukladPK().getUklad();
-        String podatnik = bilansuklad.getBilansukladPK().getPodatnik();
-        String rok = bilansuklad.getBilansukladPK().getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 

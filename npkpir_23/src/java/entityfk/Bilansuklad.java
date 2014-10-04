@@ -7,8 +7,11 @@ package entityfk;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,6 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorValue(value = "Bilans")
 @NamedQueries({
     @NamedQuery(name = "Bilansuklad.findAll", query = "SELECT r FROM Bilansuklad r"),
     @NamedQuery(name = "Bilansuklad.findByUklad", query = "SELECT r FROM Bilansuklad r WHERE r.bilansukladPK.uklad = :uklad"),
@@ -29,14 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bilansuklad.findByRok", query = "SELECT r FROM Bilansuklad r WHERE r.bilansukladPK.rok = :rok"),
     @NamedQuery(name = "Bilansuklad.findByUkladPodRok", query = "SELECT r FROM Bilansuklad r WHERE r.bilansukladPK.uklad = :uklad AND r.bilansukladPK.podatnik = :podatnik AND r.bilansukladPK.rok = :rok"),
     @NamedQuery(name = "Bilansuklad.findByBlokada", query = "SELECT r FROM Bilansuklad r WHERE r.blokada = :blokada")})
-public class Bilansuklad implements Serializable {
+public class Bilansuklad extends UkladBilansRZiS implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected BilansukladPK bilansukladPK;
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
-    private boolean blokada;
+    
 
     public Bilansuklad() {
     }
@@ -70,7 +72,7 @@ public class Bilansuklad implements Serializable {
         this.blokada = blokada;
     }
 
- 
+   
     
 
     @Override
@@ -95,9 +97,7 @@ public class Bilansuklad implements Serializable {
 
     @Override
     public String toString() {
-        return "Bilansuklad{" + "bilansukladPK=" + bilansukladPK + ", blokada=" + blokada + '}';
+        return "entityfk.Bilansuklad[ bilansukladPK=" + bilansukladPK + " ]";
     }
-
-    
     
 }

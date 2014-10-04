@@ -14,8 +14,8 @@
                         <p:inputText id="nazwa" value="#{pozycjaBilansView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
                         <p:selectOneMenu id="rodzaj" value="#{pozycjaBilansView.nowyelementBilans.bilanslubrzis}">
-                             <f:selectItem itemLabel="aktywa" itemValue="2"/>
-                            <f:selectItem itemLabel="pasywa" itemValue="3"/>
+                            <f:selectItem itemLabel="przychód" itemValue="0"/>
+                            <f:selectItem itemLabel="koszt" itemValue="1"/>
                         </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
                        <p:inputText id="formula" value="#{pozycjaBilansView.nowyelementBilans.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">

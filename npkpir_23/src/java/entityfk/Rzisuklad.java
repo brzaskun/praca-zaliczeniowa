@@ -7,8 +7,11 @@ package entityfk;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,6 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorValue(value = "RZiS")
 @NamedQueries({
     @NamedQuery(name = "Rzisuklad.findAll", query = "SELECT r FROM Rzisuklad r"),
     @NamedQuery(name = "Rzisuklad.findByUklad", query = "SELECT r FROM Rzisuklad r WHERE r.rzisukladPK.uklad = :uklad"),
@@ -29,14 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rzisuklad.findByRok", query = "SELECT r FROM Rzisuklad r WHERE r.rzisukladPK.rok = :rok"),
     @NamedQuery(name = "Rzisuklad.findByUkladPodRok", query = "SELECT r FROM Rzisuklad r WHERE r.rzisukladPK.uklad = :uklad AND r.rzisukladPK.podatnik = :podatnik AND r.rzisukladPK.rok = :rok"),
     @NamedQuery(name = "Rzisuklad.findByBlokada", query = "SELECT r FROM Rzisuklad r WHERE r.blokada = :blokada")})
-public class Rzisuklad implements Serializable {
+public class Rzisuklad extends UkladBilansRZiS implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RzisukladPK rzisukladPK;
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
-    private boolean blokada;
+    
 
     public Rzisuklad() {
     }
@@ -70,8 +72,7 @@ public class Rzisuklad implements Serializable {
         this.blokada = blokada;
     }
 
- 
-    
+       
 
     @Override
     public int hashCode() {

@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Bilansuklad;
+import entityfk.Rzisuklad;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -26,7 +27,7 @@ public class BilansukladDAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public BilansukladDAO() {
-        super(Bilansuklad.class);
+        super(Rzisuklad.class);
     }
 
     public BilansukladDAO(Class entityClass) {
