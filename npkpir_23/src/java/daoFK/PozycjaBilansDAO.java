@@ -6,7 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Bilansuklad;
-import entityfk.PozycjaBilans;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
 import java.io.Serializable;
 import java.util.List;
@@ -28,21 +28,21 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public PozycjaBilansDAO() {
-        super(PozycjaBilans.class);
+        super(PozycjaRZiSBilans.class);
     }
 
     public PozycjaBilansDAO(Class entityClass) {
         super(entityClass);
     }
     
-      public  List<PozycjaBilans> findAll(){
+      public  List<PozycjaRZiSBilans> findAll(){
         try {
-            return sessionFacade.findAll(PozycjaBilans.class);
+            return sessionFacade.findAll(PozycjaRZiSBilans.class);
         } catch (Exception e) {
             return null;
         }
    }
-     public  List<PozycjaBilans> findBilansuklad(Bilansuklad bilansuklad){
+     public  List<PozycjaRZiSBilans> findBilansuklad(Bilansuklad bilansuklad){
         try {
             return sessionFacade.findBilansuklad(bilansuklad);
         } catch (Exception e) {

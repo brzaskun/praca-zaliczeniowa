@@ -15,7 +15,7 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
 import entityfk.KontopozycjarzisPK;
-import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
@@ -41,8 +41,8 @@ public class PozycjaRZiSView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static TreeNode wybranynodekonta;
-    private static ArrayList<PozycjaRZiS> pozycje;
-    private static ArrayList<PozycjaRZiS> pozycje_old;
+    private static ArrayList<PozycjaRZiSBilans> pozycje;
+    private static ArrayList<PozycjaRZiSBilans> pozycje_old;
     private static ArrayList<Konto> przyporzadkowanekonta;
     private static String wybranapozycja;
     private static int level = 0;
@@ -52,8 +52,8 @@ public class PozycjaRZiSView implements Serializable {
     private TreeNodeExtended rootProjekt;
     private TreeNodeExtended rootProjektKonta;
     private TreeNode[] selectedNodes;
-    private PozycjaRZiS nowyelementRZiS;
-    private PozycjaRZiS selected;
+    private PozycjaRZiSBilans nowyelementRZiS;
+    private PozycjaRZiSBilans selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private List<Konto> wykazkont;
     @Inject
@@ -71,7 +71,7 @@ public class PozycjaRZiSView implements Serializable {
 
     public PozycjaRZiSView() {
         this.wykazkont = new ArrayList<>();
-        this.nowyelementRZiS = new PozycjaRZiS();
+        this.nowyelementRZiS = new PozycjaRZiSBilans();
         this.root = new TreeNodeExtended("root", null);
         this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjekt = new TreeNodeExtended("root", null);
@@ -86,34 +86,34 @@ public class PozycjaRZiSView implements Serializable {
     private void init() {
 
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
-        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
-        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
-        pozycje_old.add(new PozycjaRZiS(7, "B.I", "I", 6, 1, "Amortyzacja", true));
-        pozycje_old.add(new PozycjaRZiS(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
-        pozycje_old.add(new PozycjaRZiS(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
-        pozycje_old.add(new PozycjaRZiS(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
-        pozycje_old.add(new PozycjaRZiS(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
-        pozycje_old.add(new PozycjaRZiS(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
-        pozycje_old.add(new PozycjaRZiS(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
-        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
+        pozycje_old.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
+        pozycje_old.add(new PozycjaRZiSBilans(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(3, "A.II", "II", 1, 1, "Zmiana stanu produktów", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(4, "A.III", "III", 1, 1, "Koszt wytworzenia produktów na własne potrzeby jednostki", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(5, "A.IV", "IV", 1, 1, "Przychody netto ze sprzedaży towarów i materiałów", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(6, "B", "B", 0, 0, "Koszty działalności operacyjnej", true));
+        pozycje_old.add(new PozycjaRZiSBilans(7, "B.I", "I", 6, 1, "Amortyzacja", true));
+        pozycje_old.add(new PozycjaRZiSBilans(8, "B.II", "II", 6, 1, "Zużycie materiałów i energii", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(9, "B.III", "III", 6, 1, "Usługi obce", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(10, "B.IV", "IV", 6, 1, "Podatki i  opłaty", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(11, "B.V", "V", 6, 1, "Wynagrodzenia", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(12, "B.I.1", "1", 7, 2, "amortyzacja kup", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(13, "B.I.2", "2", 7, 2, "amortyzacja nkup", true));
+        pozycje_old.add(new PozycjaRZiSBilans(14, "B.I.2.a)", "a)", 13, 3, "bobopo", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(15, "C", "C", 0, 0, "Zysk (strata) ze sprzedaży (A-B)", false, "A-B"));
+        pozycje_old.add(new PozycjaRZiSBilans(16, "D", "D", 0, 0, "Pozostałe truey operacyjne", false));
+        pozycje_old.add(new PozycjaRZiSBilans(17, "D.I", "I", 16, 1, "Zysk z niefinansowych aktywów trwałych", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(18, "D.II", "II", 16, 1, "Dotacje", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(19, "D.III", "III", 16, 1, "Inne truey operacyjne", false, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(20, "E", "E", 0, 0, "Pozostałe koszty operacyjne", true));
+        pozycje_old.add(new PozycjaRZiSBilans(21, "E.I", "I", 20, 1, "Strata z niefinansowych aktywów trwałych", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
+        pozycje_old.add(new PozycjaRZiSBilans(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
         //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
         pozycje.addAll(pozycjaRZiSDAO.findAll());
 //        if (pozycje.size() == 0) {
-//            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+//            pozycje.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
 //            Msg.msg("i", "Dodaje pusta pozycje");
 //        }
 //        if (pozycje.size() > 0) {
@@ -131,7 +131,7 @@ public class PozycjaRZiSView implements Serializable {
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            pozycje.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         rootProjekt = new TreeNodeExtended("root", null);
@@ -147,7 +147,7 @@ public class PozycjaRZiSView implements Serializable {
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            pozycje.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         root = new TreeNodeExtended("root", null);
@@ -167,7 +167,7 @@ public class PozycjaRZiSView implements Serializable {
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+            pozycje.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
             Msg.msg("i", "Dodaje pusta pozycje");
         }
         rootProjektKonta = new TreeNodeExtended("root", null);
@@ -284,10 +284,10 @@ public class PozycjaRZiSView implements Serializable {
     }
 
     public void wybranopozycjeRZiS() {
-        wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
+        wybranapozycja = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja));
-        Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
+        Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiSBilans) wybranynodekonta.getData()).getNazwa());
     }
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
@@ -303,7 +303,7 @@ public class PozycjaRZiSView implements Serializable {
                 nowyelementRZiS.setLevel(0);
                 nowyelementRZiS.setMacierzysty(0);
             } else {
-                String poprzednialitera = ((PozycjaRZiS) rootProjekt.getChildren().get(rootProjekt.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaRZiSBilans) rootProjekt.getChildren().get(rootProjekt.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
@@ -327,19 +327,19 @@ public class PozycjaRZiSView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
-            nowyelementRZiS = new PozycjaRZiS();
+            nowyelementRZiS = new PozycjaRZiSBilans();
 
         } else {
             if (pozycje.get(0).getNazwa().equals("Kliknij tutaj i dodaj pierwszą pozycję RZiS")) {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }
-            int level = ((PozycjaRZiS) wybranynodekonta.getData()).getLevel();
+            int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
             if (level == 4) {
                 Msg.msg("e", "Nie można dodawać więcej poziomów");
                 return;
             }
-            PozycjaRZiS parent = (PozycjaRZiS) wybranynodekonta.getData();
+            PozycjaRZiSBilans parent = (PozycjaRZiSBilans) wybranynodekonta.getData();
             String nastepnysymbol;
             //sprawdzic trzeba czy sa dzieci juz jakies
             if (wybranynodekonta.getChildCount() == 0) {
@@ -347,7 +347,7 @@ public class PozycjaRZiSView implements Serializable {
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
                 int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaRZiS lastchild = (PozycjaRZiS) wybranynodekonta.getChildren().get(index).getData();
+                PozycjaRZiSBilans lastchild = (PozycjaRZiSBilans) wybranynodekonta.getChildren().get(index).getData();
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
             nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
@@ -371,7 +371,7 @@ public class PozycjaRZiSView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
-            nowyelementRZiS = new PozycjaRZiS();
+            nowyelementRZiS = new PozycjaRZiSBilans();
         }
     }
    
@@ -384,7 +384,7 @@ public class PozycjaRZiSView implements Serializable {
             pozycje.remove(wybranynodekonta.getData());
             pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
+                pozycje.add(new PozycjaRZiSBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję RZiS", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
             rootProjekt = new TreeNodeExtended("root", null);
@@ -445,11 +445,11 @@ public class PozycjaRZiSView implements Serializable {
         this.root = root;
     }
 
-    public PozycjaRZiS getSelected() {
+    public PozycjaRZiSBilans getSelected() {
         return selected;
     }
 
-    public void setSelected(PozycjaRZiS selected) {
+    public void setSelected(PozycjaRZiSBilans selected) {
         this.selected = selected;
     }
 
@@ -497,11 +497,11 @@ public class PozycjaRZiSView implements Serializable {
         this.rootProjekt = rootProjekt;
     }
 
-    public PozycjaRZiS getNowyelementRZiS() {
+    public PozycjaRZiSBilans getNowyelementRZiS() {
         return nowyelementRZiS;
     }
 
-    public void setNowyelementRZiS(PozycjaRZiS nowyelementRZiS) {
+    public void setNowyelementRZiS(PozycjaRZiSBilans nowyelementRZiS) {
         this.nowyelementRZiS = nowyelementRZiS;
     }
 

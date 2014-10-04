@@ -7,7 +7,7 @@
 package embeddablefk;
 
 import entityfk.Konto;
-import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.JoinColumn;
@@ -22,7 +22,7 @@ public class KontoKwota implements Serializable {
     
     private Konto konto;
     private double Kwota;
-    private PozycjaRZiS pozycjaRZiS;
+    private PozycjaRZiSBilans pozycjaRZiS;
 
     public KontoKwota(Konto konto, double Kwota) {
         this.konto = konto;

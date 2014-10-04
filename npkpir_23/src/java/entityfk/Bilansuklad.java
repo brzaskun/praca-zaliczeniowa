@@ -95,7 +95,9 @@ public class Bilansuklad implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Bilansuklad[ bilansukladPK=" + bilansukladPK + " ]";
+        return "Bilansuklad{" + "bilansukladPK=" + bilansukladPK + ", blokada=" + blokada + '}';
     }
+
+    
     
 }

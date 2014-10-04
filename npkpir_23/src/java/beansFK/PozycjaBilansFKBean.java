@@ -13,7 +13,7 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Bilansuklad;
 import entityfk.Konto;
 import entityfk.Kontopozycjarzis;
-import entityfk.PozycjaBilans;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
@@ -44,20 +44,20 @@ public class PozycjaBilansFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
+    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbersBilans(zapisy, plankont);
-        rootL.sumNodesBilans();
-        rootL.resolveFormulasFK();
+        rootL.addNumbers(zapisy, plankont);
+        rootL.sumNodes();
+        rootL.resolveFormulas();
         rootL.expandAll();
     }
     
-    public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaBilans> pz) {
+    public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
         rt.createTreeNodesForElement(pz);
         rt.expandAll();
     }
     
-    public static int ustawLevel(TreeNodeExtended rt, ArrayList<PozycjaBilans> pozycjeL) {
+    public static int ustawLevel(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pozycjeL) {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
@@ -73,7 +73,7 @@ public class PozycjaBilansFKBean {
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe");
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe");
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
