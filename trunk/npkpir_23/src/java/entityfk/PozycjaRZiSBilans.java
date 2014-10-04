@@ -28,27 +28,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", name = "Pozycjabilans",  uniqueConstraints = {
+@Table(catalog = "pkpir", schema = "", name = "Pozycjarzis",  uniqueConstraints = {
     @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PozycjaBilans.findAll", query = "SELECT p FROM PozycjaBilans p"),
-    @NamedQuery(name = "PozycjaBilans.findByLp", query = "SELECT p FROM PozycjaBilans p WHERE p.lp = :lp"),
-    @NamedQuery(name = "PozycjaBilans.findByFormula", query = "SELECT p FROM PozycjaBilans p WHERE p.formula = :formula"),
-    @NamedQuery(name = "PozycjaBilans.findByKwota", query = "SELECT p FROM PozycjaBilans p WHERE p.kwota = :kwota"),
-    @NamedQuery(name = "PozycjaBilans.findByLevel", query = "SELECT p FROM PozycjaBilans p WHERE p.level = :level"),
-    @NamedQuery(name = "PozycjaBilans.findByMacierzysty", query = "SELECT p FROM PozycjaBilans p WHERE p.macierzysty = :macierzysty"),
-    @NamedQuery(name = "PozycjaBilans.findByNazwa", query = "SELECT p FROM PozycjaBilans p WHERE p.nazwa = :nazwa"),
-    @NamedQuery(name = "PozycjaBilans.findByPodatnik", query = "SELECT p FROM PozycjaBilans p WHERE p.podatnik = :podatnik"),
-    @NamedQuery(name = "PozycjaBilans.findByPozycjaString", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjaString = :pozycjaString"),
-    @NamedQuery(name = "PozycjaBilans.findByPozycjaSymbol", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjaSymbol = :pozycjaSymbol"),
-    @NamedQuery(name = "PozycjaBilans.findByPozycjanr", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjanr = :pozycjanr"),
-    @NamedQuery(name = "PozycjaBilans.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaBilans p WHERE p.przychod0koszt1 = :przychod0koszt1"),
-    @NamedQuery(name = "PozycjaBilans.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaBilans p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
-    @NamedQuery(name = "PozycjaBilans.findByRok", query = "SELECT p FROM PozycjaBilans p WHERE p.rok = :rok"),
-    @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
-    @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
-public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
+    @NamedQuery(name = "PozycjaRZiS.findAll", query = "SELECT p FROM PozycjaRZiS p"),
+    @NamedQuery(name = "PozycjaRZiS.findByLp", query = "SELECT p FROM PozycjaRZiS p WHERE p.lp = :lp"),
+    @NamedQuery(name = "PozycjaRZiS.findByFormula", query = "SELECT p FROM PozycjaRZiS p WHERE p.formula = :formula"),
+    @NamedQuery(name = "PozycjaRZiS.findByKwota", query = "SELECT p FROM PozycjaRZiS p WHERE p.kwota = :kwota"),
+    @NamedQuery(name = "PozycjaRZiS.findByLevel", query = "SELECT p FROM PozycjaRZiS p WHERE p.level = :level"),
+    @NamedQuery(name = "PozycjaRZiS.findByMacierzysty", query = "SELECT p FROM PozycjaRZiS p WHERE p.macierzysty = :macierzysty"),
+    @NamedQuery(name = "PozycjaRZiS.findByNazwa", query = "SELECT p FROM PozycjaRZiS p WHERE p.nazwa = :nazwa"),
+    @NamedQuery(name = "PozycjaRZiS.findByPodatnik", query = "SELECT p FROM PozycjaRZiS p WHERE p.podatnik = :podatnik"),
+    @NamedQuery(name = "PozycjaRZiS.findByPozycjaString", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjaString = :pozycjaString"),
+    @NamedQuery(name = "PozycjaRZiS.findByPozycjaSymbol", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjaSymbol = :pozycjaSymbol"),
+    @NamedQuery(name = "PozycjaRZiS.findByPozycjanr", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjanr = :pozycjanr"),
+    @NamedQuery(name = "PozycjaRZiS.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaRZiS p WHERE p.przychod0koszt1 = :przychod0koszt1"),
+    @NamedQuery(name = "PozycjaRZiS.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaRZiS p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
+    @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
+    @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
+    @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
+public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,7 +76,9 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
     @Column(length = 255)
     private String pozycjaSymbol;
     private Integer pozycjanr;
-    private boolean przychod0koszt1;
+    //przychod 0 koszt 1
+    //aktywa 2 pasywa 3
+    private int bilanslubrzis;
     @Lob
     @Column(length=1048576)
     private List<KontoKwota> przyporzadkowanekonta;
@@ -87,61 +89,61 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
     @Column(length = 255)
     private String uklad;
 
-    public PozycjaBilans() {
+    public PozycjaRZiSBilans() {
     }
     
-    public PozycjaBilans(Integer lp) {
+    public PozycjaRZiSBilans(Integer lp) {
         this.lp = lp;
     }
     
-    public PozycjaBilans(PozycjaBilans pozycjaBilans) {
-        this.pozycjanr = pozycjaBilans.getPozycjanr();
-        this.pozycjaString = pozycjaBilans.getPozycjaString();
-        this.pozycjaSymbol = pozycjaBilans.getPozycjaSymbol();
-        this.macierzysty = pozycjaBilans.getMacierzysty();
-        this.level = pozycjaBilans.getLevel();
-        this.nazwa = pozycjaBilans.getNazwa();
-        this.przychod0koszt1 = pozycjaBilans.isPrzychod0koszt1();
-        this.lp = pozycjaBilans.getLp();
+    public PozycjaRZiSBilans(PozycjaRZiSBilans pozycjaRZiS) {
+        this.pozycjanr = pozycjaRZiS.getPozycjanr();
+        this.pozycjaString = pozycjaRZiS.getPozycjaString();
+        this.pozycjaSymbol = pozycjaRZiS.getPozycjaSymbol();
+        this.macierzysty = pozycjaRZiS.getMacierzysty();
+        this.level = pozycjaRZiS.getLevel();
+        this.nazwa = pozycjaRZiS.getNazwa();
+        this.bilanslubrzis = pozycjaRZiS.getBilanslubrzis();
+        this.lp = pozycjaRZiS.getLp();
         this.formula = "";
     }
 
-    public PozycjaBilans(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
+    public PozycjaRZiSBilans(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
         
     }
     
 
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
+    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.przychod0koszt1 = przychod0koszt1;
+        this.bilanslubrzis = bilanslubrzis;
         this.formula = "";
     }
     
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
+    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis, double kwota) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.przychod0koszt1 = przychod0koszt1;
+        this.bilanslubrzis = bilanslubrzis;
         this.kwota = kwota;
         this.formula = "";
     }
 
-    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
+    public PozycjaRZiSBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, int bilanslubrzis, String formula) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
         this.macierzysty = macierzysty;
         this.level = level;
         this.nazwa = nazwa;
-        this.przychod0koszt1 = przychod0koszt1;
+        this.bilanslubrzis = bilanslubrzis;
         this.kwota = 0.0;
         this.formula = formula;
     }
@@ -231,13 +233,15 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
         this.pozycjanr = pozycjanr;
     }
 
-    public boolean isPrzychod0koszt1() {
-        return przychod0koszt1;
+    public int getBilanslubrzis() {
+        return bilanslubrzis;
     }
 
-    public void setPrzychod0koszt1(boolean przychod0koszt1) {
-        this.przychod0koszt1 = przychod0koszt1;
+    public void setBilanslubrzis(int bilanslubrzis) {
+        this.bilanslubrzis = bilanslubrzis;
     }
+
+   
 
     public List<KontoKwota> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
@@ -275,10 +279,10 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaBilans)) {
+        if (!(object instanceof PozycjaRZiSBilans)) {
             return false;
         }
-        PozycjaBilans other = (PozycjaBilans) object;
+        PozycjaRZiSBilans other = (PozycjaRZiSBilans) object;
         if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
             return false;
         }
@@ -287,9 +291,7 @@ public class PozycjaBilans extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "PozycjaBilans{" + "lp=" + lp + ", formula=" + formula + ", nazwa=" + nazwa + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", pozycjanr=" + pozycjanr + ", rok=" + rok + ", uklad=" + uklad + '}';
+        return "entityfk.Pozycjarzis[ lp=" + lp + " ]";
     }
-
-   
     
 }

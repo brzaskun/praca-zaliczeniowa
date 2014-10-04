@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogbilansuklad" header="Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="bilansuklad" 
+    <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont" widgetVar="bilansuklad" 
               resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
         <h:form id="formbilansuklad">
             <!--            <p:contextMenu for="dataList">
@@ -32,8 +32,8 @@
             <p:panelGrid columns="3" style="width: 320px;">
                 <p:treeTable id="dataList" value="#{pozycjaBilansView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBilansView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
-                              emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeRZiS}" update=":formbilansuklad:selected"/>
+                              emptyMessage="Brak pozycji Bilansu">
+                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBilansView.bilansuklad.bilansukladPK.uklad}"/>
                     </f:facet>

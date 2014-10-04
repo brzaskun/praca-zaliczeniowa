@@ -27,7 +27,7 @@
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBilansView.bilansuklad.bilansukladPK.uklad}"/>
                     </f:facet>
-                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeRZiS}"/>
+                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeBilans()}"/>
                     <p:column headerText="symbol i nazwa pozycji">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
