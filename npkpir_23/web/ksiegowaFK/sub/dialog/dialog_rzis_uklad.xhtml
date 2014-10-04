@@ -17,25 +17,25 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaRZiSView.rzisuklad}" converter="RzisukladConv">
+                    <p:selectOneMenu value="#{pozycjaBRView.rzisuklad}" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaRZiSView.pobierzukladkonto}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaRZiSView.zaksiegujzmianypozycji}" icon="ui-icon-locked"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRView.zaksiegujzmianypozycji}" icon="ui-icon-locked"/>
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 320px;">
-                <p:treeTable id="dataList" value="#{pozycjaRZiSView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                               emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}" update=":form:selected"/>
+                    <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeRZiS}" update=":form:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaRZiSView.rzisuklad.rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.rzisuklad.rzisukladPK.uklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -44,21 +44,21 @@
                     </p:column>
                 </p:treeTable>
                     <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaRZiSView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaRZiSView.onKontoDrop(konto)}" update=":form:dostepnekonta, :form:selected">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaRZiSView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                               actionListener="#{pozycjaBRView.onKontoDrop(konto)}" update=":form:dostepnekonta, :form:selected">
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
-                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaRZiSView.wybranapozycja}" 
+                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaBRView.wybranapozycja}" 
                             style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                    <p:dataTable var="konto" value="#{pozycjaRZiSView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
+                    <p:dataTable var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaRZiSView.onKontoRemove(konto)}" update=":form:dostepnekonta, :form:selected"/>
+                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto)}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>

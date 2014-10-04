@@ -11,17 +11,17 @@
         <p:focus for="dkpf">
         <p:panelGrid id="dkpf" columns="2" style=" width: 500px;">
             <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{pozycjaBilansView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+                        <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
-                        <p:selectOneMenu id="rodzaj" value="#{pozycjaBilansView.nowyelementBilans.bilanslubrzis}">
+                        <p:selectOneMenu id="rodzaj" value="#{pozycjaBRView.nowyelementBilans.przychod0koszt1}">
                             <f:selectItem itemLabel="przychód" itemValue="0"/>
                             <f:selectItem itemLabel="koszt" itemValue="1"/>
                         </p:selectOneMenu>
                        <h:outputLabel value="Formuła (np. A+B):" for="formula" />
-                       <p:inputText id="formula" value="#{pozycjaBilansView.nowyelementBilans.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">
+                       <p:inputText id="formula" value="#{pozycjaBRView.nowyelementBilans.formula}" title="Formuła pozycji" style="width: 300px;" required="false" validatorMessage="Nieprawidłowa formuła. Powinna wyglądać następująco: A+B lub A-B">
                            <f:validateRegex pattern="[A-Z]([+-][A-Z])*" for="formula" />
                        </p:inputText>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaBilansView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXbilansprojektformula, :formbilansprojekt" style="width: 120px;" onclick="PF('bilansprojektsyntetyczneformula').hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycjeBilans('syntetyczna')}" accesskey="d" type="submit" update=":formXbilansprojektformula, :formbilansprojekt" style="width: 120px;" onclick="PF('bilansprojektsyntetyczneformula').hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

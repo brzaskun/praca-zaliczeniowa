@@ -96,7 +96,8 @@ public class BilansukladPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.RzisukladPK[ uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + " ]";
+        return "BilansukladPK{" + "uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + '}';
     }
+
     
 }
