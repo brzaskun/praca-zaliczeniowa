@@ -12,22 +12,22 @@
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczne').show();"/>
                 <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektanalityczne').show();"/>
-                <p:menuitem value="Usuń" actionListener="#{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
+                <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaRZiSView.rozwinwszystkie(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaRZiSView.rozwin(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaRZiSView.zwinwszystkie(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaRZiSView.zwin(pozycjaRZiSView.rootProjekt)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 920px;">
-                <p:treeTable id="dataList" value="#{pozycjaRZiSView.rootProjekt}" var="loop" selectionMode="single" selection="#{pozycjaRZiSView.wybranynodekonta}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaRZiSView.rzisuklad.rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.rzisuklad.rzisukladPK.uklad}"/>
                     </f:facet>
-                    <p:ajax event="select" listener="#{pozycjaRZiSView.wybranopozycjeRZiS}"/>
+                    <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
@@ -42,10 +42,10 @@
                 </p:treeTable>
                 <p:panel header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaRZiSView.rzisuklad}" style="height: 200px;" converter="RzisukladConv">
+                    <p:selectOneListbox value="#{pozycjaBRView.rzisuklad}" style="height: 200px;" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaRZiSView.pobierzuklad}" update=":formprojekt:dataList"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad(pozycjaBRView.rzisuklad, pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

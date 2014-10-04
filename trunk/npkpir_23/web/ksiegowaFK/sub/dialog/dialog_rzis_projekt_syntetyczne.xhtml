@@ -11,13 +11,13 @@
         <p:focus for="dkp">
         <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
             <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{pozycjaRZiSView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
+                        <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />
-                        <p:selectOneMenu id="rodzaj" value="#{pozycjaRZiSView.nowyelementRZiS.przychod0koszt1}">
+                        <p:selectOneMenu id="rodzaj" value="#{pozycjaBRView.nowyelementRZiS.przychod0koszt1}">
                             <f:selectItem itemLabel="przychód" itemValue="false"/>
                             <f:selectItem itemLabel="koszt" itemValue="true"/>
                         </p:selectOneMenu>
-                       <p:commandButton value="dodaj" actionListener="#{pozycjaRZiSView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="PF('rzisprojektsyntetyczne').hide()"/>
+                       <p:commandButton value="dodaj" actionListener="#{pozycjaBRView.dodajnowapozycje('syntetyczna')}" accesskey="d" type="submit" update=":formXrzisprojekt, :formprojekt" style="width: 120px;" onclick="PF('rzisprojektsyntetyczne').hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

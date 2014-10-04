@@ -4,17 +4,26 @@
  */
 package entityfk;
 
+import abstractClasses.ToBeATreeNodeObject;
 import embeddablefk.KontoKwota;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -22,56 +31,56 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", name = "Pozycjarzis",  uniqueConstraints = {
+@Table(catalog = "pkpir", schema = "", name = "Pozycjabilans",  uniqueConstraints = {
     @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(value = "PozycjaRZiS")
+@DiscriminatorValue(value = "PozycjaBilans")
 @NamedQueries({
-    @NamedQuery(name = "PozycjaRZiS.findAll", query = "SELECT p FROM PozycjaRZiS p"),
-    @NamedQuery(name = "PozycjaRZiS.findByLp", query = "SELECT p FROM PozycjaRZiS p WHERE p.lp = :lp"),
-    @NamedQuery(name = "PozycjaRZiS.findByFormula", query = "SELECT p FROM PozycjaRZiS p WHERE p.formula = :formula"),
-    @NamedQuery(name = "PozycjaRZiS.findByKwota", query = "SELECT p FROM PozycjaRZiS p WHERE p.kwota = :kwota"),
-    @NamedQuery(name = "PozycjaRZiS.findByLevel", query = "SELECT p FROM PozycjaRZiS p WHERE p.level = :level"),
-    @NamedQuery(name = "PozycjaRZiS.findByMacierzysty", query = "SELECT p FROM PozycjaRZiS p WHERE p.macierzysty = :macierzysty"),
-    @NamedQuery(name = "PozycjaRZiS.findByNazwa", query = "SELECT p FROM PozycjaRZiS p WHERE p.nazwa = :nazwa"),
-    @NamedQuery(name = "PozycjaRZiS.findByPodatnik", query = "SELECT p FROM PozycjaRZiS p WHERE p.podatnik = :podatnik"),
-    @NamedQuery(name = "PozycjaRZiS.findByPozycjaString", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjaString = :pozycjaString"),
-    @NamedQuery(name = "PozycjaRZiS.findByPozycjaSymbol", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjaSymbol = :pozycjaSymbol"),
-    @NamedQuery(name = "PozycjaRZiS.findByPozycjanr", query = "SELECT p FROM PozycjaRZiS p WHERE p.pozycjanr = :pozycjanr"),
-    @NamedQuery(name = "PozycjaRZiS.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaRZiS p WHERE p.przychod0koszt1 = :przychod0koszt1"),
-    @NamedQuery(name = "PozycjaRZiS.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaRZiS p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
-    @NamedQuery(name = "PozycjaRZiS.findByRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.rok = :rok"),
-    @NamedQuery(name = "PozycjaRZiS.findByUkladPodRok", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
-    @NamedQuery(name = "PozycjaRZiS.findByUklad", query = "SELECT p FROM PozycjaRZiS p WHERE p.uklad = :uklad")})
-public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
+    @NamedQuery(name = "PozycjaBilans.findAll", query = "SELECT p FROM PozycjaBilans p"),
+    @NamedQuery(name = "PozycjaBilans.findByLp", query = "SELECT p FROM PozycjaBilans p WHERE p.lp = :lp"),
+    @NamedQuery(name = "PozycjaBilans.findByFormula", query = "SELECT p FROM PozycjaBilans p WHERE p.formula = :formula"),
+    @NamedQuery(name = "PozycjaBilans.findByKwota", query = "SELECT p FROM PozycjaBilans p WHERE p.kwota = :kwota"),
+    @NamedQuery(name = "PozycjaBilans.findByLevel", query = "SELECT p FROM PozycjaBilans p WHERE p.level = :level"),
+    @NamedQuery(name = "PozycjaBilans.findByMacierzysty", query = "SELECT p FROM PozycjaBilans p WHERE p.macierzysty = :macierzysty"),
+    @NamedQuery(name = "PozycjaBilans.findByNazwa", query = "SELECT p FROM PozycjaBilans p WHERE p.nazwa = :nazwa"),
+    @NamedQuery(name = "PozycjaBilans.findByPodatnik", query = "SELECT p FROM PozycjaBilans p WHERE p.podatnik = :podatnik"),
+    @NamedQuery(name = "PozycjaBilans.findByPozycjaString", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjaString = :pozycjaString"),
+    @NamedQuery(name = "PozycjaBilans.findByPozycjaSymbol", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjaSymbol = :pozycjaSymbol"),
+    @NamedQuery(name = "PozycjaBilans.findByPozycjanr", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjanr = :pozycjanr"),
+    @NamedQuery(name = "PozycjaBilans.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaBilans p WHERE p.przychod0koszt1 = :przychod0koszt1"),
+    @NamedQuery(name = "PozycjaBilans.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaBilans p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
+    @NamedQuery(name = "PozycjaBilans.findByRok", query = "SELECT p FROM PozycjaBilans p WHERE p.rok = :rok"),
+    @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
+    @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
+public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
    
 
-    public PozycjaRZiS() {
+    public PozycjaBilans() {
     }
     
-    public PozycjaRZiS(Integer lp) {
+    public PozycjaBilans(Integer lp) {
         this.lp = lp;
     }
     
-    public PozycjaRZiS(PozycjaRZiS pozycjaRZiS) {
-        this.pozycjanr = pozycjaRZiS.getPozycjanr();
-        this.pozycjaString = pozycjaRZiS.getPozycjaString();
-        this.pozycjaSymbol = pozycjaRZiS.getPozycjaSymbol();
-        this.macierzysty = pozycjaRZiS.getMacierzysty();
-        this.level = pozycjaRZiS.getLevel();
-        this.nazwa = pozycjaRZiS.getNazwa();
-        this.przychod0koszt1 = pozycjaRZiS.isPrzychod0koszt1();
-        this.lp = pozycjaRZiS.getLp();
+    public PozycjaBilans(PozycjaBilans pozycjaBilans) {
+        this.pozycjanr = pozycjaBilans.getPozycjanr();
+        this.pozycjaString = pozycjaBilans.getPozycjaString();
+        this.pozycjaSymbol = pozycjaBilans.getPozycjaSymbol();
+        this.macierzysty = pozycjaBilans.getMacierzysty();
+        this.level = pozycjaBilans.getLevel();
+        this.nazwa = pozycjaBilans.getNazwa();
+        this.przychod0koszt1 = pozycjaBilans.isPrzychod0koszt1();
+        this.lp = pozycjaBilans.getLp();
         this.formula = "";
     }
 
-    public PozycjaRZiS(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
+    public PozycjaBilans(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
         
     }
-   
+    
 
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
@@ -82,7 +91,7 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.formula = "";
     }
     
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
@@ -94,7 +103,7 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.formula = "";
     }
 
-    public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
+    public PozycjaBilans(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, String formula) {
         this.lp = lp;
         this.pozycjaString = pozycjaString;
         this.pozycjaSymbol = pozycjaSymbol;
@@ -235,10 +244,10 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PozycjaRZiS)) {
+        if (!(object instanceof PozycjaBilans)) {
             return false;
         }
-        PozycjaRZiS other = (PozycjaRZiS) object;
+        PozycjaBilans other = (PozycjaBilans) object;
         if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
             return false;
         }
@@ -247,7 +256,9 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Pozycjarzis[ lp=" + lp + " ]";
+        return "PozycjaBilans{" + "lp=" + lp + ", formula=" + formula + ", nazwa=" + nazwa + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", pozycjanr=" + pozycjanr + ", rok=" + rok + ", uklad=" + uklad + '}';
     }
+
+   
     
 }

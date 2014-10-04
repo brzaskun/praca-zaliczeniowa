@@ -48,6 +48,7 @@ import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
+import entityfk.UkladBilansRZiS;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
@@ -739,10 +740,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
     }
 
-    public List<PozycjaRZiS> findRzisuklad(Rzisuklad rzisuklad) {
-        String uklad = rzisuklad.getRzisukladPK().getUklad();
-        String podatnik = rzisuklad.getRzisukladPK().getPodatnik();
-        String rok = rzisuklad.getRzisukladPK().getRok();
+    public List<PozycjaRZiS> findRzisuklad(UkladBilansRZiS rzisuklad) {
+        String uklad = ((Rzisuklad) rzisuklad).getRzisukladPK().getUklad();
+        String podatnik = ((Rzisuklad) rzisuklad).getRzisukladPK().getPodatnik();
+        String rok = ((Rzisuklad) rzisuklad).getRzisukladPK().getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
