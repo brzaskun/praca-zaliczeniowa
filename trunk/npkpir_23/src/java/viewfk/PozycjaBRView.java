@@ -10,6 +10,7 @@ import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjarzisDAO;
+import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Bilansuklad;
@@ -68,6 +69,8 @@ public class PozycjaBRView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private PozycjaRZiSDAO pozycjaRZiSDAO;
+    @Inject
+    private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
     private Rzisuklad rzisuklad;
     @Inject
@@ -137,7 +140,11 @@ public class PozycjaBRView implements Serializable {
     public void pobierzuklad(UkladBilansRZiS uklad, TreeNodeExtended root) {
         pozycje = new ArrayList<>();
         try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            if (uklad instanceof Rzisuklad) {
+                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            } else {
+                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+            }
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
@@ -303,7 +310,7 @@ public class PozycjaBRView implements Serializable {
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja));
-        Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
+        Msg.msg("i", "Wybrano pozycję " + ((PozycjaBilans) wybranynodekonta.getData()).getNazwa());
     }
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
@@ -404,7 +411,7 @@ public class PozycjaBRView implements Serializable {
                 nowyelementBilans.setLevel(0);
                 nowyelementBilans.setMacierzysty(0);
             } else {
-                String poprzednialitera = ((PozycjaRZiS) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaBilans) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementBilans.setPozycjaSymbol(nowalitera);
                 nowyelementBilans.setPozycjaString(nowalitera);
@@ -435,12 +442,12 @@ public class PozycjaBRView implements Serializable {
                 Msg.msg("e", "Błąd. Najpierw dodaj pierwszą pozycje wyższego rzędu!");
                 return;
             }
-            int level = ((PozycjaRZiS) wybranynodekonta.getData()).getLevel();
+            int level = ((PozycjaBilans) wybranynodekonta.getData()).getLevel();
             if (level == 4) {
                 Msg.msg("e", "Nie można dodawać więcej poziomów");
                 return;
             }
-            PozycjaRZiS parent = (PozycjaRZiS) wybranynodekonta.getData();
+            PozycjaBilans parent = (PozycjaBilans) wybranynodekonta.getData();
             String nastepnysymbol;
             //sprawdzic trzeba czy sa dzieci juz jakies
             if (wybranynodekonta.getChildCount() == 0) {
@@ -448,7 +455,7 @@ public class PozycjaBRView implements Serializable {
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
                 int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaRZiS lastchild = (PozycjaRZiS) wybranynodekonta.getChildren().get(index).getData();
+                PozycjaBilans lastchild = (PozycjaBilans) wybranynodekonta.getChildren().get(index).getData();
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
             nowyelementBilans.setPozycjaSymbol(nastepnysymbol);
