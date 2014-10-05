@@ -17,25 +17,25 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBilansView.bilansuklad}" converter="BilansukladConv">
+                    <p:selectOneMenu value="#{pozycjaBRView.bilansuklad}" converter="BilansukladConv">
                         <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBilansView.pobierzukladkonto}" update=":formbilansuklad:dataList, :formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto(pozycjaBRView.bilansuklad)}" update=":formbilansuklad:dataList, :formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBilansView.rozwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBilansView.rozwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBilansView.zwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBilansView.zwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBilansView.zaksiegujzmianypozycji}" icon="ui-icon-locked"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRView.zaksiegujzmianypozycji}" icon="ui-icon-locked"/>
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 320px;">
-                <p:treeTable id="dataList" value="#{pozycjaBilansView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBilansView.wybranynodekonta}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                               emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" listener="#{pozycjaBilansView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
+                    <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBilansView.bilansuklad.bilansukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.bilansuklad.bilansukladPK.uklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -44,21 +44,21 @@
                     </p:column>
                 </p:treeTable>
                     <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBilansView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBilansView.onKontoDrop(konto)}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaBilansView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                               actionListener="#{pozycjaBRView.onKontoDrop(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected">
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
-                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaBilansView.wybranapozycja}" 
+                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaBRView.wybranapozycja}" 
                             style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                    <p:dataTable var="konto" value="#{pozycjaBilansView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
+                    <p:dataTable var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaBilansView.onKontoRemove(konto)}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
+                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>

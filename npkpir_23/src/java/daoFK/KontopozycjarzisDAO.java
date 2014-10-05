@@ -5,8 +5,10 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Bilansuklad;
 import entityfk.Kontopozycjarzis;
 import entityfk.Rzisuklad;
+import entityfk.UkladBilansRZiS;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -35,9 +37,13 @@ public class KontopozycjarzisDAO extends DAO implements Serializable{
     }
     
     
-    public List<Kontopozycjarzis> findKontaPodatnikUklad (Rzisuklad rzisuklad) {
+    public List<Kontopozycjarzis> findKontaPodatnikUklad (UkladBilansRZiS uklad) {
        try {
-            return sessionFacade.findKontaPodatnikUklad(rzisuklad.getRzisukladPK().getPodatnik(), rzisuklad.getRzisukladPK().getRok(), rzisuklad.getRzisukladPK().getUklad());
+           if (uklad instanceof Rzisuklad) {
+               return sessionFacade.findKontaPodatnikUklad(((Rzisuklad) uklad).getRzisukladPK().getPodatnik(), ((Rzisuklad) uklad).getRzisukladPK().getRok(), ((Rzisuklad) uklad).getRzisukladPK().getUklad());
+           } else {
+               return sessionFacade.findKontaPodatnikUklad(((Bilansuklad) uklad).getBilansukladPK().getPodatnik(), ((Bilansuklad) uklad).getBilansukladPK().getRok(), ((Bilansuklad) uklad).getBilansukladPK().getUklad());
+           }
         } catch (Exception e) {
             return null;
         }
