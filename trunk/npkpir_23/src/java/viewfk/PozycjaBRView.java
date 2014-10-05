@@ -15,8 +15,8 @@ import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Bilansuklad;
 import entityfk.Konto;
-import entityfk.Kontopozycjarzis;
-import entityfk.KontopozycjarzisPK;
+import entityfk.Kontopozycja;
+import entityfk.KontopozycjaPK;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -569,9 +569,9 @@ public class PozycjaBRView implements Serializable {
         }
         List<Konto> plankont = kontoDAO.findAll();
         for (Konto p : plankont) {
-            Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
+            Kontopozycja kontopozycjarzis = new Kontopozycja();
             if (p.getPozycja() != null) {
-                KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                KontopozycjaPK kontopozycjarzisPK = new KontopozycjaPK();
                 kontopozycjarzisPK.setKontoId(p.getId());
                 kontopozycjarzisPK.setUklad(uklad);
                 kontopozycjarzisPK.setPodatnik(podatnik);
@@ -581,7 +581,7 @@ public class PozycjaBRView implements Serializable {
                 kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
                 kontopozycjarzisDAO.edit(kontopozycjarzis);
             } else {
-                KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
+                KontopozycjaPK kontopozycjarzisPK = new KontopozycjaPK();
                 kontopozycjarzisPK.setKontoId(p.getId());
                 kontopozycjarzisPK.setUklad(uklad);
                 kontopozycjarzisPK.setPodatnik(podatnik);

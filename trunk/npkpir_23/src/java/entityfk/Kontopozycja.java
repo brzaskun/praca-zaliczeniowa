@@ -29,32 +29,32 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontopozycjarzis.findByUklad", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.uklad = :uklad"),
     @NamedQuery(name = "Kontopozycjarzis.findByKontoId", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
     @NamedQuery(name = "Kontopozycjarzis.findByRok", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.rok = :rok")})
-public class Kontopozycjarzis implements Serializable {
+public class Kontopozycja implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected KontopozycjarzisPK kontopozycjarzisPK;
+    protected KontopozycjaPK kontopozycjarzisPK;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjastring")
     private String pozycjastring;
     @Column(name = "pozycjonowane")
     private boolean pozycjonowane;
 
-    public Kontopozycjarzis() {
+    public Kontopozycja() {
     }
 
-    public Kontopozycjarzis(KontopozycjarzisPK kontopozycjarzisPK) {
+    public Kontopozycja(KontopozycjaPK kontopozycjarzisPK) {
         this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
-    public Kontopozycjarzis(String podatnik, String uklad, int kontoId, String rok) {
-        this.kontopozycjarzisPK = new KontopozycjarzisPK(podatnik, uklad, kontoId, rok);
+    public Kontopozycja(String podatnik, String uklad, int kontoId, String rok) {
+        this.kontopozycjarzisPK = new KontopozycjaPK(podatnik, uklad, kontoId, rok);
     }
 
-    public KontopozycjarzisPK getKontopozycjarzisPK() {
+    public KontopozycjaPK getKontopozycjarzisPK() {
         return kontopozycjarzisPK;
     }
 
-    public void setKontopozycjarzisPK(KontopozycjarzisPK kontopozycjarzisPK) {
+    public void setKontopozycjarzisPK(KontopozycjaPK kontopozycjarzisPK) {
         this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
@@ -86,10 +86,10 @@ public class Kontopozycjarzis implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Kontopozycjarzis)) {
+        if (!(object instanceof Kontopozycja)) {
             return false;
         }
-        Kontopozycjarzis other = (Kontopozycjarzis) object;
+        Kontopozycja other = (Kontopozycja) object;
         if ((this.kontopozycjarzisPK == null && other.kontopozycjarzisPK != null) || (this.kontopozycjarzisPK != null && !this.kontopozycjarzisPK.equals(other.kontopozycjarzisPK))) {
             return false;
         }

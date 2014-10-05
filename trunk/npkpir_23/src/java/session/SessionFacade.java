@@ -43,7 +43,7 @@ import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
-import entityfk.Kontopozycjarzis;
+import entityfk.Kontopozycja;
 import entityfk.PozycjaRZiS;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
@@ -762,7 +762,7 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
-    public List<Kontopozycjarzis> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
+    public List<Kontopozycja> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
         return em.createNamedQuery("Kontopozycjarzis.findByPodatnikRokUklad").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("uklad", uklad).getResultList();
     }
 

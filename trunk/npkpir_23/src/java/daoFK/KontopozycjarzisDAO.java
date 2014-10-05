@@ -6,7 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Bilansuklad;
-import entityfk.Kontopozycjarzis;
+import entityfk.Kontopozycja;
 import entityfk.Rzisuklad;
 import entityfk.UkladBilansRZiS;
 import java.io.Serializable;
@@ -29,7 +29,7 @@ public class KontopozycjarzisDAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public KontopozycjarzisDAO() {
-        super(Kontopozycjarzis.class);
+        super(Kontopozycja.class);
     }
 
     public KontopozycjarzisDAO(Class entityClass) {
@@ -37,7 +37,7 @@ public class KontopozycjarzisDAO extends DAO implements Serializable{
     }
     
     
-    public List<Kontopozycjarzis> findKontaPodatnikUklad (UkladBilansRZiS uklad) {
+    public List<Kontopozycja> findKontaPodatnikUklad (UkladBilansRZiS uklad) {
        try {
            if (uklad instanceof Rzisuklad) {
                return sessionFacade.findKontaPodatnikUklad(((Rzisuklad) uklad).getRzisukladPK().getPodatnik(), ((Rzisuklad) uklad).getRzisukladPK().getRok(), ((Rzisuklad) uklad).getRzisukladPK().getUklad());
