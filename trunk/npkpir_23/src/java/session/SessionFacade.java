@@ -743,7 +743,7 @@ public class SessionFacade<T> implements Serializable{
         String uklad = u.getUkladBRPK().getUklad();
         String podatnik = u.getUkladBRPK().getPodatnik();
         String rok = u.getUkladBRPK().getRok();
-        return em.createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
@@ -761,7 +761,7 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public List<Kontopozycja> findKontaPodatnikUklad(String podatnik, String rok, String uklad) {
-        return em.createNamedQuery("Kontopozycjarzis.findByPodatnikRokUklad").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("uklad", uklad).getResultList();
+        return em.createNamedQuery("Kontopozycja.findByPodatnikRokUklad").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("uklad", uklad).getResultList();
     }
 
     public Object findVatuepodatnik(String rokWpisu, String symbolokresu, String podatnikWpisu) {

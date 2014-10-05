@@ -31,10 +31,10 @@
              <p:panelGrid columns="5">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.bilansuklad}" converter="BilansukladConv">
-                        <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad('b', pozycjaBRView.rootProjektRZiS)}" update=":formprzegladbilans:dataList"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladbilans}" update=":formprzegladbilans"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
@@ -42,9 +42,29 @@
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
-                             scrollable="true" style="width: 670px; max-height: 600px;">
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
+                             scrollable="true" style="width: 600px; max-height: 600px;" >
+                    <f:facet name="header">
+                        <h:outputText value="aktywa"/>
+                    </f:facet>
+                    <p:column style="width: 440px;">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <h:outputText value=" " /> 
+                        <h:outputText value="#{loop.nazwa}" /> 
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                </p:treeTable>
+                <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
+                             scrollable="true" style="width: 600px; max-height: 600px;">
+                    <f:facet name="header">
+                        <h:outputText value="pasywa"/>
+                    </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 

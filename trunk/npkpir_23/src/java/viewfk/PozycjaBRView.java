@@ -54,6 +54,8 @@ public class PozycjaBRView implements Serializable {
     private TreeNodeExtended root;
     private TreeNodeExtended rootUklad;
     private TreeNodeExtended rootProjektRZiS;
+    private TreeNodeExtended rootBilansAktywa;
+    private TreeNodeExtended rootBilansPasywa;
     private TreeNodeExtended rootProjektKonta;
     private TreeNode[] selectedNodes;
     private PozycjaRZiS nowyelementRZiS;
@@ -83,6 +85,8 @@ public class PozycjaBRView implements Serializable {
         this.root = new TreeNodeExtended("root", null);
         this.rootUklad = new TreeNodeExtended("root", null);
         this.rootProjektRZiS = new TreeNodeExtended("root", null);
+        this.rootBilansAktywa = new TreeNodeExtended("root", null);
+        this.rootBilansPasywa = new TreeNodeExtended("root", null);
         this.rootProjektKonta = new TreeNodeExtended("root", null);
         PozycjaBRView.przyporzadkowanekonta = new ArrayList<>();
         this.finallNodes = new ArrayList<TreeNodeExtended>();
@@ -189,6 +193,33 @@ public class PozycjaBRView implements Serializable {
         List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+        Msg.msg("i", "Pobrano układ ");
+    }
+    
+    public void pobierzukladprzegladbilans() {
+        ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
+        ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
+       try {
+                pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+                pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
+            if (pozycjeaktywa.isEmpty()) {
+               pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+            if (pozycjepasywa.isEmpty()) {
+               pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+        } catch (Exception e) {
+        }
+        rootBilansAktywa.getChildren().clear();
+        rootBilansAktywa.getChildren().clear();
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        PozycjaRZiSFKBean.ustawRoota(rootBilansAktywa, pozycjeaktywa, zapisy, plankont);
+        PozycjaRZiSFKBean.ustawRoota(rootBilansPasywa, pozycjepasywa, zapisy, plankont);
+        level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
         Msg.msg("i", "Pobrano układ ");
     }
 
@@ -597,6 +628,22 @@ public class PozycjaBRView implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     
+    public TreeNodeExtended getRootBilansAktywa() {
+        return rootBilansAktywa;
+    }
+
+    public void setRootBilansAktywa(TreeNodeExtended rootBilansAktywa) {
+        this.rootBilansAktywa = rootBilansAktywa;
+    }
+
+    public TreeNodeExtended getRootBilansPasywa() {
+        return rootBilansPasywa;
+    }
+
+    public void setRootBilansPasywa(TreeNodeExtended rootBilansPasywa) {
+        this.rootBilansPasywa = rootBilansPasywa;
+    }
+
     public PozycjaBilans getNowyelementBilans() {
         return nowyelementBilans;
     }
@@ -709,3 +756,4 @@ public class PozycjaBRView implements Serializable {
 
     //</editor-fold>
 }
+

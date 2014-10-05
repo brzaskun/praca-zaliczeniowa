@@ -25,7 +25,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRView.bilansuklad.bilansukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.ukladBRPK.uklad}"/>
                     </f:facet>
                     <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeBilans()}"/>
                     <p:column headerText="symbol i nazwa pozycji">
@@ -42,8 +42,8 @@
                 </p:treeTable>
                 <p:panel header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaBRView.bilansuklad}" style="height: 200px;" converter="BilansukladConv">
-                        <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt:dataList"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":formbilansprojekt:dataList"/>
