@@ -31,18 +31,18 @@
              <p:panelGrid columns="5">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBilansView.bilansuklad}" converter="BilansukladConv">
+                    <p:selectOneMenu value="#{pozycjaBRView.bilansuklad}" converter="BilansukladConv">
                         <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBilansView.pobierzukladprzeglad}" update=":formprzegladbilans:dataList"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad(pozycjaBRView.bilansuklad, pozycjaBRView.rootProjektRZiS)}" update=":formprzegladbilans:dataList"/>
                 </p:panelGrid>
-                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBilansView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBilansView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBilansView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBilansView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataList" value="#{pozycjaBilansView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaBilansView.selectedNodes}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
                              scrollable="true" style="width: 670px; max-height: 600px;">
                     <p:column style="width: 440px;">

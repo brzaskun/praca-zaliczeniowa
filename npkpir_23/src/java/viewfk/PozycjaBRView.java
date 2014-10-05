@@ -140,62 +140,85 @@ public class PozycjaBRView implements Serializable {
     public void pobierzuklad(UkladBilansRZiS uklad, TreeNodeExtended root) {
         pozycje = new ArrayList<>();
         try {
-            if (uklad instanceof Rzisuklad) {
+         if (uklad instanceof Rzisuklad) {
                 pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
             } else {
                 pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
             }
         } catch (Exception e) {
-        }
-        if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-            Msg.msg("i", "Dodaje pusta pozycje");
-        }
+        }   
         root.getChildren().clear();
         PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
         Msg.msg("i", "Pobrano układ ");
     }
 
-    public void pobierzukladprzeglad() {
+    public void pobierzukladprzeglad(UkladBilansRZiS uklad, TreeNodeExtended root) {
         pozycje = new ArrayList<>();
-        try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
-        } catch (Exception e) {
-        }
-        if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-            Msg.msg("i", "Dodaje pusta pozycje");
-        }
-        root = new TreeNodeExtended("root", null);
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN");
-        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
-        PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
-        level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-        Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
-    }
-
-    public void pobierzukladkonto(UkladBilansRZiS uklad) {
-        PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, uklad);
-        try {
-             if (uklad instanceof Rzisuklad) {
-                drugiinit();
-                pozycje = new ArrayList<>();
+       try {
+         if (uklad instanceof Rzisuklad) {
                 pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
             } else {
-                drugiinitbilansowe();
-                pozycje = new ArrayList<>();
                 pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
             }
         } catch (Exception e) {
         }
-        if (pozycje.isEmpty()) {
-            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-            Msg.msg("i", "Dodaje pusta pozycje");
+        root.getChildren().clear();
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        if (uklad instanceof Rzisuklad) {
+            zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+        } else {
+            zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
         }
-        rootProjektKonta = new TreeNodeExtended("root", null);
-        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
+        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+        Msg.msg("i", "Pobrano układ ");
+    }
+
+    public void pobierzukladkonto(UkladBilansRZiS uklad) {
+        pozycje = new ArrayList<>();
+        PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, uklad);
+        try {
+         if (uklad instanceof Rzisuklad) {
+                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
+            } else {
+                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                if (pozycje.isEmpty()) {
+                   pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                    Msg.msg("i", "Dodaje pusta pozycje");
+                }
+            }
+        } catch (Exception e) {
+        }
+        if (uklad instanceof Rzisuklad) {
+            drugiinit();
+        } else {
+            drugiinitbilansowe();
+        }
+        rootProjektKonta.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
         Msg.msg("i", "Pobrano układ " );
     }
 
@@ -523,16 +546,28 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    public void zaksiegujzmianypozycji() {
+    public void zaksiegujzmianypozycji(String br) {
+        String uklad = "";
+        String podatnik = "";
+        String rok = "";
+        if (br.equals("w")) {
+            uklad = rzisuklad.getRzisukladPK().getUklad();
+            podatnik = rzisuklad.getRzisukladPK().getPodatnik();
+            rok = rzisuklad.getRzisukladPK().getRok();
+        } else {
+            uklad = bilansuklad.getBilansukladPK().getUklad();
+            podatnik = bilansuklad.getBilansukladPK().getPodatnik();
+            rok = bilansuklad.getBilansukladPK().getRok();
+        }
         List<Konto> plankont = kontoDAO.findAll();
         for (Konto p : plankont) {
             Kontopozycjarzis kontopozycjarzis = new Kontopozycjarzis();
             if (p.getPozycja() != null) {
                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
                 kontopozycjarzisPK.setKontoId(p.getId());
-                kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
-                kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
-                kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                kontopozycjarzisPK.setUklad(uklad);
+                kontopozycjarzisPK.setPodatnik(podatnik);
+                kontopozycjarzisPK.setRok(rok);
                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
                 kontopozycjarzis.setPozycjastring(p.getPozycja());
                 kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
@@ -540,9 +575,9 @@ public class PozycjaBRView implements Serializable {
             } else {
                 KontopozycjarzisPK kontopozycjarzisPK = new KontopozycjarzisPK();
                 kontopozycjarzisPK.setKontoId(p.getId());
-                kontopozycjarzisPK.setUklad(rzisuklad.getRzisukladPK().getUklad());
-                kontopozycjarzisPK.setPodatnik(rzisuklad.getRzisukladPK().getPodatnik());
-                kontopozycjarzisPK.setRok(rzisuklad.getRzisukladPK().getRok());
+                kontopozycjarzisPK.setUklad(uklad);
+                kontopozycjarzisPK.setPodatnik(podatnik);
+                kontopozycjarzisPK.setRok(rok);
                 kontopozycjarzis.setKontopozycjarzisPK(kontopozycjarzisPK);
                 try {
                     kontopozycjarzisDAO.destroy(kontopozycjarzis);
@@ -550,7 +585,7 @@ public class PozycjaBRView implements Serializable {
                 }
             }
         }
-        Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: " + rzisuklad.getRzisukladPK().getUklad());
+        Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: " );
     }
 
    

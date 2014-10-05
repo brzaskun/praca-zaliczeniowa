@@ -7,7 +7,9 @@ package embeddablefk;
 import abstractClasses.ToBeATreeNodeObject;
 import comparator.Kontocomparator;
 import entityfk.Konto;
+import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -198,19 +200,23 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             String pozycjaRZiS = kontopobrane.getPozycja();
             for (TreeNodeExtended r : finallNodes) {
                 //sprawdzamy czy dane konto nalezy do danego wezla
-                PozycjaRZiS pozycja = (PozycjaRZiS) r.getData();
-                if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
+                    PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
+                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
                     //pobieramy kwoty oraz to czy jest to przychod czy koszt
                     double kwotapierwotna = pozycja.getKwota();
                     double donaniesienia = 0.0;
                     boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                    if (przychod0koszt1 == false) {
-                        donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
+                    if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
+                        if (przychod0koszt1 == false) {
+                            donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
+                        } else {
+                            donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
+                        }
                     } else {
-                        donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
+                        donaniesienia = p.getKwota() + kwotapierwotna;
                     }
                     pozycja.setKwota(donaniesienia);
-                }
+                    }
             }
         }
     }
@@ -225,10 +231,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             for (TreeNodeExtended p : finallNodes) {
                 //ta fomula wyklyczamy roota i nody z formula do dodawania i odliczania kwot
                 if ((p.getParent()) instanceof TreeNodeExtended && !(p.getParent().getData() instanceof String) && p.getFormula().isEmpty()) {
-                    if (((PozycjaRZiS) p.getData()).getLevel() == lowestlevel) {
+                    if (((PozycjaRZiSBilans) p.getData()).getLevel() == lowestlevel) {
                         double kwotaparent = ((TreeNodeExtended) p.getParent()).getKwota();
                         double kwotanode = p.getKwota();
-                        ((PozycjaRZiS) p.getParent().getData()).setKwota(kwotaparent + kwotanode);
+                        ((PozycjaRZiSBilans) p.getParent().getData()).setKwota(kwotaparent + kwotanode);
                         if (!parents.contains(p.getParent())) {
                             parents.add((TreeNodeExtended) p.getParent());
                         }
@@ -245,7 +251,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     private int ustaldepth(ArrayList<TreeNodeExtended> nodes) {
         int depth = 0;
         for (TreeNodeExtended p : nodes) {
-            PozycjaRZiS pozycja = (PozycjaRZiS) p.getData();
+            PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) p.getData();
             if (depth < pozycja.getLevel()) {
                 depth = pozycja.getLevel();
             }
@@ -305,33 +311,37 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     public void resolveFormulas() {
         ArrayList<TreeNode> finallNodes = (ArrayList<TreeNode>) this.getChildren();
         for (TreeNode p : finallNodes) {
-            if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
-                String formula = ((TreeNodeExtended) p).getFormula();
-                int formulalength = formula.length();
-                Character[] formulaParse = new Character[formulalength];
-                for (int i = 0; i < formulalength; i++) {
-                    formulaParse[i] = formula.charAt(i);
+            try {
+                if (!((TreeNodeExtended) p).getFormula().isEmpty()) {
+                    String formula = ((TreeNodeExtended) p).getFormula();
+                    int formulalength = formula.length();
+                    Character[] formulaParse = new Character[formulalength];
+                    for (int i = 0; i < formulalength; i++) {
+                        formulaParse[i] = formula.charAt(i);
+                    }
+                    double wynik = dotheMath(finallNodes, formulaParse, formulalength);
+                    ((TreeNodeExtended) p).setKwota(wynik);
                 }
-                double wynik = dotheMath(finallNodes, formulaParse, formulalength);
-                ((TreeNodeExtended) p).setKwota(wynik);
+            } catch (Exception e) {
+                
             }
         }
     }
 
     private String getFormula() {
-        return ((PozycjaRZiS) this.getData()).getFormula();
+        return ((PozycjaRZiSBilans) this.getData()).getFormula();
     }
 
     private String getSymbol() {
-        return ((PozycjaRZiS) this.getData()).getPozycjaSymbol();
+        return ((PozycjaRZiSBilans) this.getData()).getPozycjaSymbol();
     }
 
     private double getKwota() {
-        return ((PozycjaRZiS) this.getData()).getKwota();
+        return ((PozycjaRZiSBilans) this.getData()).getKwota();
     }
 
     private void setKwota(double kwota) {
-        ((PozycjaRZiS) this.getData()).setKwota(kwota);
+        ((PozycjaRZiSBilans) this.getData()).setKwota(kwota);
     }
 
     private double dotheMath(ArrayList<TreeNode> finallNodes, Character[] formulaParse, int formulalength) {
