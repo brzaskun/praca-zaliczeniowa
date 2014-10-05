@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @Embeddable
-public class KontopozycjarzisPK implements Serializable {
+public class KontopozycjaPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -39,10 +39,10 @@ public class KontopozycjarzisPK implements Serializable {
     @Column(nullable = false, length = 255, name = "rok")
     private String rok;
 
-    public KontopozycjarzisPK() {
+    public KontopozycjaPK() {
     }
 
-    public KontopozycjarzisPK(String podatnik, String uklad, int kontoId, String rok) {
+    public KontopozycjaPK(String podatnik, String uklad, int kontoId, String rok) {
         this.podatnik = podatnik;
         this.uklad = uklad;
         this.kontoId = kontoId;
@@ -101,7 +101,7 @@ public class KontopozycjarzisPK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KontopozycjarzisPK other = (KontopozycjarzisPK) obj;
+        final KontopozycjaPK other = (KontopozycjaPK) obj;
         if (!Objects.equals(this.podatnik, other.podatnik)) {
             return false;
         }

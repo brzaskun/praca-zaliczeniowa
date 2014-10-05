@@ -11,7 +11,7 @@ import daoFK.KontoDAOfk;
 import daoFK.KontopozycjarzisDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Kontopozycjarzis;
+import entityfk.Kontopozycja;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
@@ -63,8 +63,8 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void pobierzzachowanepozycjedlakont(KontoDAOfk kontoDAO, KontopozycjarzisDAO kontopozycjarzisDAO, UkladBilansRZiS rzisuklad) {
-        List<Kontopozycjarzis> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
-        for (Kontopozycjarzis p : kontopozycjarzis) {
+        List<Kontopozycja> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
+        for (Kontopozycja p : kontopozycjarzis) {
             int konto_id = p.getKontopozycjarzisPK().getKontoId();
             Konto konto = kontoDAO.findKonto(p.getKontopozycjarzisPK().getKontoId());
             konto.setPozycja(p.getPozycjastring());
