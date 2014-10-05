@@ -5,8 +5,7 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Bilansuklad;
-import entityfk.Rzisuklad;
+import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -20,23 +19,23 @@ import session.SessionFacade;
  */
 @Named
 @Singleton
-public class BilansukladDAO extends DAO implements Serializable{
+public class UkladBRDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade sessionFacade;
 
-    public BilansukladDAO() {
-        super(Rzisuklad.class);
+    public UkladBRDAO() {
+        super(UkladBR.class);
     }
 
-    public BilansukladDAO(Class entityClass) {
+    public UkladBRDAO(Class entityClass) {
         super(entityClass);
     }
     
-     public  List<Bilansuklad> findAll(){
+     public  List<UkladBR> findAll(){
         try {
-            return sessionFacade.findAll(Bilansuklad.class);
+            return sessionFacade.findAll(UkladBR.class);
         } catch (Exception e) {
             return null;
         }

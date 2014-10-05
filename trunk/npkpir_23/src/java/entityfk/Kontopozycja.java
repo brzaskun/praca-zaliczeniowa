@@ -22,13 +22,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Kontopozycjarzis.findAll", query = "SELECT k FROM Kontopozycjarzis k"),
-    @NamedQuery(name = "Kontopozycjarzis.findByPozycjastring", query = "SELECT k FROM Kontopozycjarzis k WHERE k.pozycjastring = :pozycjastring"),
-    @NamedQuery(name = "Kontopozycjarzis.findByPodatnik", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.podatnik = :podatnik"),
-    @NamedQuery(name = "Kontopozycjarzis.findByPodatnikRokUklad", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.podatnik = :podatnik AND k.kontopozycjarzisPK.rok = :rok AND k.kontopozycjarzisPK.uklad = :uklad"),
-    @NamedQuery(name = "Kontopozycjarzis.findByUklad", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.uklad = :uklad"),
-    @NamedQuery(name = "Kontopozycjarzis.findByKontoId", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
-    @NamedQuery(name = "Kontopozycjarzis.findByRok", query = "SELECT k FROM Kontopozycjarzis k WHERE k.kontopozycjarzisPK.rok = :rok")})
+    @NamedQuery(name = "Kontopozycja.findAll", query = "SELECT k FROM Kontopozycja k"),
+    @NamedQuery(name = "Kontopozycja.findByPozycjastring", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjastring = :pozycjastring"),
+    @NamedQuery(name = "Kontopozycja.findByPodatnik", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.podatnik = :podatnik"),
+    @NamedQuery(name = "Kontopozycja.findByPodatnikRokUklad", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.podatnik = :podatnik AND k.kontopozycjarzisPK.rok = :rok AND k.kontopozycjarzisPK.uklad = :uklad"),
+    @NamedQuery(name = "Kontopozycja.findByUklad", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.uklad = :uklad"),
+    @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
+    @NamedQuery(name = "Kontopozycja.findByRok", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.rok = :rok")})
 public class Kontopozycja implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -50,11 +50,11 @@ public class Kontopozycja implements Serializable {
         this.kontopozycjarzisPK = new KontopozycjaPK(podatnik, uklad, kontoId, rok);
     }
 
-    public KontopozycjaPK getKontopozycjarzisPK() {
+    public KontopozycjaPK getKontopozycjaPK() {
         return kontopozycjarzisPK;
     }
 
-    public void setKontopozycjarzisPK(KontopozycjaPK kontopozycjarzisPK) {
+    public void setKontopozycjaPK(KontopozycjaPK kontopozycjarzisPK) {
         this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
@@ -98,7 +98,7 @@ public class Kontopozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kontopozycjarzis[ kontopozycjarzisPK=" + kontopozycjarzisPK + " ]";
+        return "entityfk.Kontopozycja[ kontopozycjarzisPK=" + kontopozycjarzisPK + " ]";
     }
     
 }

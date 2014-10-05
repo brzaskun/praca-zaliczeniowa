@@ -5,7 +5,8 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Rzisuklad;
+import entityfk.Kontopozycja;
+import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -19,26 +20,28 @@ import session.SessionFacade;
  */
 @Named
 @Singleton
-public class RzisukladDAO extends DAO implements Serializable{
+public class KontopozycjaDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade sessionFacade;
 
-    public RzisukladDAO() {
-        super(Rzisuklad.class);
+    public KontopozycjaDAO() {
+        super(Kontopozycja.class);
     }
 
-    public RzisukladDAO(Class entityClass) {
+    public KontopozycjaDAO(Class entityClass) {
         super(entityClass);
     }
     
-     public  List<Rzisuklad> findAll(){
-        try {
-            return sessionFacade.findAll(Rzisuklad.class);
+    
+    public List<Kontopozycja> findKontaPodatnikUklad (UkladBR uklad) {
+       try {
+            return sessionFacade.findKontaPodatnikUklad(uklad.getUkladBRPK().getPodatnik(), uklad.getUkladBRPK().getRok(), uklad.getUkladBRPK().getUklad());
         } catch (Exception e) {
             return null;
         }
-   }
+    }
+    
     
 }

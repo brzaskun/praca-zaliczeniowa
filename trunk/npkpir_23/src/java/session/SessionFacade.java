@@ -38,18 +38,16 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
-import entityfk.Bilansuklad;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
 import entityfk.PozycjaRZiS;
-import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
-import entityfk.UkladBilansRZiS;
+import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
@@ -741,24 +739,24 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList();
     }
 
-    public List<PozycjaRZiS> findRzisuklad(UkladBilansRZiS rzisuklad) {
-        String uklad = ((Rzisuklad) rzisuklad).getRzisukladPK().getUklad();
-        String podatnik = ((Rzisuklad) rzisuklad).getRzisukladPK().getPodatnik();
-        String rok = ((Rzisuklad) rzisuklad).getRzisukladPK().getRok();
-        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    public List<PozycjaRZiS> findUkladBR(UkladBR u) {
+        String uklad = u.getUkladBRPK().getUklad();
+        String podatnik = u.getUkladBRPK().getPodatnik();
+        String rok = u.getUkladBRPK().getRok();
+        return em.createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
-    public List<PozycjaRZiS> findBilansukladAktywa(UkladBilansRZiS rzisuklad) {
-        String uklad = ((Bilansuklad) rzisuklad).getBilansukladPK().getUklad();
-        String podatnik = ((Bilansuklad) rzisuklad).getBilansukladPK().getPodatnik();
-        String rok = ((Bilansuklad) rzisuklad).getBilansukladPK().getRok();
+    public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
+        String uklad = u.getUkladBRPK().getUklad();
+        String podatnik = u.getUkladBRPK().getPodatnik();
+        String rok = u.getUkladBRPK().getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
-    public List<PozycjaRZiS> findBilansukladPasywa(UkladBilansRZiS rzisuklad) {
-        String uklad = ((Bilansuklad) rzisuklad).getBilansukladPK().getUklad();
-        String podatnik = ((Bilansuklad) rzisuklad).getBilansukladPK().getPodatnik();
-        String rok = ((Bilansuklad) rzisuklad).getBilansukladPK().getRok();
+    public List<PozycjaRZiS> findBilansukladPasywa(UkladBR u) {
+        String uklad = u.getUkladBRPK().getUklad();
+        String podatnik = u.getUkladBRPK().getPodatnik();
+        String rok = u.getUkladBRPK().getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
