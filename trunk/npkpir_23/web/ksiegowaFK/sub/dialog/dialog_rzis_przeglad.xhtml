@@ -34,7 +34,7 @@
                     <p:selectOneMenu value="#{pozycjaBRView.rzisuklad}" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad}" update=":formprzeglad:dataList"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad(pozycjaBRView.rzisuklad, pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzeglad:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzeglad:dataList" style="float: left;" />
@@ -42,7 +42,7 @@
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzeglad:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataList" value="#{pozycjaBRView.root}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
                              scrollable="true" style="width: 670px; max-height: 600px;">
                     <p:column style="width: 440px;">

@@ -66,10 +66,7 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.formula = "";
     }
 
-    public PozycjaRZiS(int pozycjanr, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, int lp) {
-        
-    }
-   
+    
 
     public PozycjaRZiS(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1) {
         this.lp = lp;
@@ -103,7 +100,12 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.nazwa = nazwa;
         this.przychod0koszt1 = przychod0koszt1;
         this.kwota = 0.0;
-        this.formula = formula;
+        if (formula != null ) {
+            this.formula = formula;
+        } else {
+            this.formula = "";
+        }
+        
     }
     
 
