@@ -175,12 +175,18 @@ public class PozycjaBRView implements Serializable {
         Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
     }
 
-    public void pobierzukladkonto() {
-        PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, rzisuklad);
-        drugiinit();
-        pozycje = new ArrayList<>();
+    public void pobierzukladkonto(UkladBilansRZiS uklad) {
+        PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, uklad);
         try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(rzisuklad));
+             if (uklad instanceof Rzisuklad) {
+                drugiinit();
+                pozycje = new ArrayList<>();
+                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            } else {
+                drugiinitbilansowe();
+                pozycje = new ArrayList<>();
+                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+            }
         } catch (Exception e) {
         }
         if (pozycje.isEmpty()) {
@@ -190,12 +196,19 @@ public class PozycjaBRView implements Serializable {
         rootProjektKonta = new TreeNodeExtended("root", null);
         PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
         level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-        Msg.msg("i", "Pobrano układ " + rzisuklad.getRzisukladPK().getUklad());
+        Msg.msg("i", "Pobrano układ " );
     }
 
     private void drugiinit() {
         wykazkont.clear();
         List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikWpisu(), "0", "wynikowe");
+        PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalityki(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
+    
+    private void drugiinitbilansowe() {
+        wykazkont.clear();
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikWpisu(), "0", "bilansowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalityki(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
         Collections.sort(wykazkont, new Kontocomparator());
     }
@@ -224,7 +237,6 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void rozwinwszystkie(TreeNodeExtended root) {
-        root.createTreeNodesForElement(pozycje);
         level = root.ustaldepthDT(pozycje) - 1;
         root.expandAll();
     }
@@ -237,7 +249,6 @@ public class PozycjaBRView implements Serializable {
     }
 
     public void zwinwszystkie(TreeNodeExtended root) {
-        root.createTreeNodesForElement(pozycje);
         root.foldAll();
         level = 0;
     }
@@ -257,7 +268,7 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    public void onKontoDrop(Konto konto) {
+    public void onKontoDrop(Konto konto, String br) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -279,10 +290,14 @@ public class PozycjaBRView implements Serializable {
             }
 
         }
-        drugiinit();
+        if (br.equals("r")) {
+            drugiinit();
+        } else {
+            drugiinitbilansowe();
+        }
     }
 
-    public void onKontoRemove(Konto konto) {
+    public void onKontoRemove(Konto konto, String br) {
         wykazkont.add(konto);
         Collections.sort(wykazkont, new Kontocomparator());
         przyporzadkowanekonta.remove(konto);
@@ -297,7 +312,11 @@ public class PozycjaBRView implements Serializable {
         if (konto.getMacierzysty() > 0) {
             PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
         }
-        drugiinit();
+        if (br.equals("r")) {
+            drugiinit();
+        } else {
+            drugiinitbilansowe();
+        }
     }
 
     public void wybranopozycjeRZiS() {
@@ -309,7 +328,7 @@ public class PozycjaBRView implements Serializable {
     public void wybranopozycjeBilans() {
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
-        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja));
+        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja));
         Msg.msg("i", "Wybrano pozycję " + ((PozycjaBilans) wybranynodekonta.getData()).getNazwa());
     }
 

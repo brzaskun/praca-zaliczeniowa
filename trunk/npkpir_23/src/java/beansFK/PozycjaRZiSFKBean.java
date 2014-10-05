@@ -16,6 +16,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
+import entityfk.UkladBilansRZiS;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -61,7 +62,7 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void pobierzzachowanepozycjedlakont(KontoDAOfk kontoDAO, KontopozycjarzisDAO kontopozycjarzisDAO, Rzisuklad rzisuklad) {
+    public static void pobierzzachowanepozycjedlakont(KontoDAOfk kontoDAO, KontopozycjarzisDAO kontopozycjarzisDAO, UkladBilansRZiS rzisuklad) {
         List<Kontopozycjarzis> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
         for (Kontopozycjarzis p : kontopozycjarzis) {
             int konto_id = p.getKontopozycjarzisPK().getKontoId();
@@ -74,6 +75,19 @@ public class PozycjaRZiSFKBean {
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe");
+        List<Konto> returnlist = new ArrayList<>();
+        int level = 0;
+        for (Konto p : lista) {
+            if (p.getPozycja().equals(pozycja)) {
+                returnlist.add(p);
+            }
+        }
+        return returnlist;
+
+    }
+    
+    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe");
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {

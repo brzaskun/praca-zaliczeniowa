@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRView.rzisuklad}" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto(pozycjaBRView.rzisuklad)}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
@@ -47,7 +47,7 @@
                         <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRView.onKontoDrop(konto)}" update=":form:dostepnekonta, :form:selected">
+                                               actionListener="#{pozycjaBRView.onKontoDrop(konto,'r')}" update=":form:dostepnekonta, :form:selected">
                                     <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
@@ -58,7 +58,7 @@
                     <p:dataTable var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto)}" update=":form:dostepnekonta, :form:selected"/>
+                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
