@@ -6,7 +6,6 @@ package viewfk;
 
 import daoFK.UkladBRDAO;
 import entityfk.UkladBR;
-import entityfk.UkladBRPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

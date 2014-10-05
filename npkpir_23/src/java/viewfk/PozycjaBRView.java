@@ -582,40 +582,24 @@ public class PozycjaBRView implements Serializable {
     }
 
     public void zaksiegujzmianypozycji(String br) {
-        int ukladL;
-        String podatnik = "";
-        String rok = "";
-        if (br.equals("w")) {
-            ukladL = uklad.getLp();
-            podatnik = uklad.getPodatnik();
-            rok = uklad.getRok();
-        } else {
-            ukladL = uklad.getLp();
-            podatnik = uklad.getPodatnik();
-            rok = uklad.getRok();
-        }
         List<Konto> plankont = kontoDAO.findAll();
         for (Konto p : plankont) {
-            Kontopozycja kontopozycjarzis = new Kontopozycja();
+            Kontopozycja kontopozycja = new Kontopozycja();
             if (p.getPozycja() != null) {
-                KontopozycjaPK kontopozycjarzisPK = new KontopozycjaPK();
-                kontopozycjarzisPK.setKontoId(p.getId());
-                kontopozycjarzisPK.setUklad(ukladL);
-                kontopozycjarzisPK.setPodatnik(podatnik);
-                kontopozycjarzisPK.setRok(rok);
-                kontopozycjarzis.setKontopozycjaPK(kontopozycjarzisPK);
-                kontopozycjarzis.setPozycjastring(p.getPozycja());
-                kontopozycjarzis.setPozycjonowane(p.isPozycjonowane());
-                kontopozycjarzisDAO.edit(kontopozycjarzis);
+                KontopozycjaPK kontopozycjaPK = new KontopozycjaPK();
+                kontopozycja.setKonto(p);
+                kontopozycja.setUkladBR(uklad);
+                kontopozycja.setKontopozycjaPK(kontopozycjaPK);
+                kontopozycja.setPozycjastring(p.getPozycja());
+                kontopozycja.setPozycjonowane(p.isPozycjonowane());
+                kontopozycjarzisDAO.edit(kontopozycja);
             } else {
-                KontopozycjaPK kontopozycjarzisPK = new KontopozycjaPK();
-                kontopozycjarzisPK.setKontoId(p.getId());
-                kontopozycjarzisPK.setUklad(ukladL);
-                kontopozycjarzisPK.setPodatnik(podatnik);
-                kontopozycjarzisPK.setRok(rok);
-                kontopozycjarzis.setKontopozycjaPK(kontopozycjarzisPK);
+                KontopozycjaPK kontopozycjaPK = new KontopozycjaPK();
+                kontopozycja.setKonto(p);
+                kontopozycja.setUkladBR(uklad);
+                kontopozycja.setKontopozycjaPK(kontopozycjaPK);
                 try {
-                    kontopozycjarzisDAO.destroy(kontopozycjarzis);
+                    kontopozycjarzisDAO.destroy(kontopozycja);
                 } catch (Exception e) {
                 }
             }

@@ -37,7 +37,7 @@ public class KontopozycjaDAO extends DAO implements Serializable{
     
     public List<Kontopozycja> findKontaPodatnikUklad (UkladBR uklad) {
        try {
-            return sessionFacade.findKontaPodatnikUklad(uklad.getPodatnik(), uklad.getRok(), uklad.getUklad());
+            return sessionFacade.findKontaPodatnikUklad(uklad);
         } catch (Exception e) {
             return null;
         }
