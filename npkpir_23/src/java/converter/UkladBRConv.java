@@ -27,7 +27,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
             try {  
                 String skrot = submittedValue;  
                 for (UkladBR p : kl) {  
-                    if (p.getUkladBRPK().getUklad().equals(skrot)) {  
+                    if (p.getUklad().equals(skrot)) {  
                         return p;  
                     }  
                 }  
@@ -45,7 +45,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
             if (value == null || value.equals("")) {  
                 return "";  
             } else {  
-                return String.valueOf(((UkladBR) value).getUkladBRPK().getUklad());  
+                return String.valueOf(((UkladBR) value).getUklad());  
             }  
         } catch (Exception e) {
             return "";

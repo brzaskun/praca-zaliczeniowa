@@ -7,21 +7,19 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,17 +31,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UkladBR.findAll", query = "SELECT r FROM UkladBR r"),
-    @NamedQuery(name = "UkladBR.findByUklad", query = "SELECT r FROM UkladBR r WHERE r.ukladBRPK.uklad = :uklad"),
-    @NamedQuery(name = "UkladBR.findByPodatnik", query = "SELECT r FROM UkladBR r WHERE r.ukladBRPK.podatnik = :podatnik"),
-    @NamedQuery(name = "UkladBR.findByRok", query = "SELECT r FROM UkladBR r WHERE r.ukladBRPK.rok = :rok"),
-    @NamedQuery(name = "UkladBR.findByUkladPodRok", query = "SELECT r FROM UkladBR r WHERE r.ukladBRPK.uklad = :uklad AND r.ukladBRPK.podatnik = :podatnik AND r.ukladBRPK.rok = :rok"),
+    @NamedQuery(name = "UkladBR.findByUklad", query = "SELECT r FROM UkladBR r WHERE r.uklad = :uklad"),
+    @NamedQuery(name = "UkladBR.findByPodatnik", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik"),
+    @NamedQuery(name = "UkladBR.findByRok", query = "SELECT r FROM UkladBR r WHERE r.rok = :rok"),
+    @NamedQuery(name = "UkladBR.findByUkladPodRok", query = "SELECT r FROM UkladBR r WHERE r.uklad = :uklad AND r.podatnik = :podatnik AND r.rok = :rok"),
     @NamedQuery(name = "UkladBR.findByBlokada", query = "SELECT r FROM UkladBR r WHERE r.blokada = :blokada")})
 public class UkladBR implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    private UkladBRPK ukladBRPK;
-    @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int lp;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(nullable = false, length = 255)
+    private String uklad;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(nullable = false, length = 255)
+    private String podatnik;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(nullable = false, length = 4)
+    private String rok;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false, name = "blokada")
@@ -53,18 +65,14 @@ public class UkladBR implements Serializable {
     public UkladBR() {
     }
 
-    public UkladBR(UkladBRPK ukladBRPK) {
-        this.ukladBRPK = ukladBRPK;
-    }
-
-    public UkladBR(UkladBRPK ukladBRPK, boolean blokada) {
-        this.ukladBRPK = ukladBRPK;
+    public UkladBR(String uklad, String podatnik, String rok, boolean blokada) {
+        this.uklad = uklad;
+        this.podatnik = podatnik;
+        this.rok = rok;
         this.blokada = blokada;
     }
 
-    public UkladBR(String uklad, String podatnik, String rok) {
-        this.ukladBRPK = new UkladBRPK(uklad, podatnik, rok);
-    }
+  
    
     public boolean getBlokada() {
         return blokada;
@@ -74,14 +82,7 @@ public class UkladBR implements Serializable {
         this.blokada = blokada;
     }
 
-    public UkladBRPK getUkladBRPK() {
-        return ukladBRPK;
-    }
-
-    public void setUkladBRPK(UkladBRPK ukladBRPK) {
-        this.ukladBRPK = ukladBRPK;
-    }
-
+   
     public int getLp() {
         return lp;
     }
@@ -90,24 +91,56 @@ public class UkladBR implements Serializable {
         this.lp = lp;
     }
 
+    public String getUklad() {
+        return uklad;
+    }
+
+    public void setUklad(String uklad) {
+        this.uklad = uklad;
+    }
+
+    public String getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(String podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
     
-       
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (ukladBRPK != null ? ukladBRPK.hashCode() : 0);
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.uklad);
+        hash = 61 * hash + Objects.hashCode(this.podatnik);
+        hash = 61 * hash + Objects.hashCode(this.rok);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UkladBR)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        UkladBR other = (UkladBR) object;
-        if ((this.ukladBRPK == null && other.ukladBRPK != null) || (this.ukladBRPK != null && !this.ukladBRPK.equals(other.ukladBRPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UkladBR other = (UkladBR) obj;
+        if (!Objects.equals(this.uklad, other.uklad)) {
+            return false;
+        }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
         return true;
@@ -115,10 +148,9 @@ public class UkladBR implements Serializable {
 
     @Override
     public String toString() {
-        return "UkladBR{" + "ukladBRPK=" + ukladBRPK + ", blokada=" + blokada + '}';
+        return "UkladBR{" + "lp=" + lp + ", uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + ", blokada=" + blokada + '}';
     }
 
-   
        
     
 }

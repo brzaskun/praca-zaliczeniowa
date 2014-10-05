@@ -45,17 +45,15 @@ public class UkladBRView implements Serializable{
     }
     
     public void wybranouklad() {
-        Msg.msg("i", "Wybrano uklad "+selected.getUkladBRPK().getUklad());
+        Msg.msg("i", "Wybrano uklad "+selected.getUklad());
     }
     
     public void dodaj() {
         try {
-            UkladBRPK ukladBRPK = new UkladBRPK();
-            ukladBRPK.setPodatnik("Tymczasowy");
-            ukladBRPK.setRok("2014");
-            ukladBRPK.setUklad(nowy);
             UkladBR ukladBR = new UkladBR();
-            ukladBR.setUkladBRPK(ukladBRPK);
+            ukladBR.setPodatnik("Tymczasowy");
+            ukladBR.setRok("2014");
+            ukladBR.setUklad(nowy);
             nowy = "";
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);

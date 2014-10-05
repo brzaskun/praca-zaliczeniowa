@@ -25,7 +25,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRView.uklad.ukladBRPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
                     </f:facet>
                     <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
@@ -43,7 +43,7 @@
                 <p:panel header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad}" itemValue="#{loop}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt:dataList"/>
                 </p:panel>

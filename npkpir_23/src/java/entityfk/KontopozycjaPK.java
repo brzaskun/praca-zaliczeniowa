@@ -27,7 +27,7 @@ public class KontopozycjaPK implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255, name = "uklad")
-    private String uklad;
+    private int uklad;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -42,7 +42,7 @@ public class KontopozycjaPK implements Serializable {
     public KontopozycjaPK() {
     }
 
-    public KontopozycjaPK(String podatnik, String uklad, int kontoId, String rok) {
+    public KontopozycjaPK(String podatnik, int uklad, int kontoId, String rok) {
         this.podatnik = podatnik;
         this.uklad = uklad;
         this.kontoId = kontoId;
@@ -57,13 +57,15 @@ public class KontopozycjaPK implements Serializable {
         this.podatnik = podatnik;
     }
 
-    public String getUklad() {
+    public int getUklad() {
         return uklad;
     }
 
-    public void setUklad(String uklad) {
+    public void setUklad(int uklad) {
         this.uklad = uklad;
     }
+
+   
 
     public int getKontoId() {
         return kontoId;
