@@ -21,11 +21,6 @@ public class KontopozycjaPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255, name = "podatnik")
-    private String podatnik;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255, name = "uklad")
     private int uklad;
     @Basic(optional = false)
@@ -33,30 +28,16 @@ public class KontopozycjaPK implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "kontoid", nullable = false, length = 255)
     private int kontoId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255, name = "rok")
-    private String rok;
 
     public KontopozycjaPK() {
     }
 
-    public KontopozycjaPK(String podatnik, int uklad, int kontoId, String rok) {
-        this.podatnik = podatnik;
+    public KontopozycjaPK(int uklad, int kontoId) {
         this.uklad = uklad;
         this.kontoId = kontoId;
-        this.rok = rok;
     }
 
-    public String getPodatnik() {
-        return podatnik;
-    }
-
-    public void setPodatnik(String podatnik) {
-        this.podatnik = podatnik;
-    }
-
+    
     public int getUklad() {
         return uklad;
     }
@@ -64,8 +45,7 @@ public class KontopozycjaPK implements Serializable {
     public void setUklad(int uklad) {
         this.uklad = uklad;
     }
-
-   
+  
 
     public int getKontoId() {
         return kontoId;
@@ -76,22 +56,11 @@ public class KontopozycjaPK implements Serializable {
     }
 
    
-
-    public String getRok() {
-        return rok;
-    }
-
-    public void setRok(String rok) {
-        this.rok = rok;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.podatnik);
         hash = 71 * hash + Objects.hashCode(this.uklad);
         hash = 71 * hash + this.kontoId;
-        hash = 71 * hash + Objects.hashCode(this.rok);
         return hash;
     }
 
@@ -104,26 +73,21 @@ public class KontopozycjaPK implements Serializable {
             return false;
         }
         final KontopozycjaPK other = (KontopozycjaPK) obj;
-        if (!Objects.equals(this.podatnik, other.podatnik)) {
-            return false;
-        }
-        if (!Objects.equals(this.uklad, other.uklad)) {
+        if (this.uklad != other.uklad) {
             return false;
         }
         if (this.kontoId != other.kontoId) {
             return false;
         }
-        if (!Objects.equals(this.rok, other.rok)) {
-            return false;
-        }
         return true;
     }
 
-   
-
     @Override
     public String toString() {
-        return "entityfk.KontopozycjarzisPK[ podatnik=" + podatnik + ", uklad=" + uklad + ", kontoId=" + kontoId + ", rok=" + rok + " ]";
+        return "KontopozycjaPK{" + "uklad=" + uklad + ", kontoId=" + kontoId + '}';
     }
+
+  
+
     
 }
