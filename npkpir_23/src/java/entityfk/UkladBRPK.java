@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
  * @author Osito
  */
 @Embeddable
-public class BilansukladPK implements Serializable {
+public class UkladBRPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -33,10 +33,10 @@ public class BilansukladPK implements Serializable {
     @Column(nullable = false, length = 4)
     private String rok;
 
-    public BilansukladPK() {
+    public UkladBRPK() {
     }
 
-    public BilansukladPK(String uklad, String podatnik, String rok) {
+    public UkladBRPK(String uklad, String podatnik, String rok) {
         this.uklad = uklad;
         this.podatnik = podatnik;
         this.rok = rok;
@@ -78,10 +78,10 @@ public class BilansukladPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BilansukladPK)) {
+        if (!(object instanceof UkladBRPK)) {
             return false;
         }
-        BilansukladPK other = (BilansukladPK) object;
+        UkladBRPK other = (UkladBRPK) object;
         if ((this.uklad == null && other.uklad != null) || (this.uklad != null && !this.uklad.equals(other.uklad))) {
             return false;
         }
@@ -96,7 +96,7 @@ public class BilansukladPK implements Serializable {
 
     @Override
     public String toString() {
-        return "BilansukladPK{" + "uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + '}';
+        return "UkladBRPK{" + "uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + '}';
     }
 
     

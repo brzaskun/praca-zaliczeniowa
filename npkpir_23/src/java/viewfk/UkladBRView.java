@@ -4,10 +4,9 @@
  */
 package viewfk;
 
-
-import daoFK.BilansukladDAO;
-import entityfk.Bilansuklad;
-import entityfk.BilansukladPK;
+import daoFK.UkladBRDAO;
+import entityfk.UkladBR;
+import entityfk.UkladBRPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,53 +22,53 @@ import msg.Msg;
  */
 @ManagedBean
 @ViewScoped
-public class BilansukladView implements Serializable{
+public class UkladBRView implements Serializable{
     private static final long serialVersionUID = 1L;
-    private static List<Bilansuklad> lista;
+    private static List<UkladBR> lista;
 
-    public static List<Bilansuklad> getListaS() {
+    public static List<UkladBR> getListaS() {
         return lista;
     }
-    @Inject private Bilansuklad selected;
+    @Inject private UkladBR selected;
     private String nowy;
-    @Inject private BilansukladDAO bilansukladDAO;
+    @Inject private UkladBRDAO ukladBRDAO;
 
-    public BilansukladView() {
+    public UkladBRView() {
         lista = new ArrayList<>();
     }
     
     @PostConstruct
     private void init() {
        try {
-            lista = bilansukladDAO.findAll();
+            lista = ukladBRDAO.findAll();
         } catch (Exception e) {} 
     }
     
     public void wybranouklad() {
-        Msg.msg("i", "Wybrano uklad "+selected.getBilansukladPK().getUklad());
+        Msg.msg("i", "Wybrano uklad "+selected.getUkladBRPK().getUklad());
     }
     
     public void dodaj() {
         try {
-            BilansukladPK bilansukladPK = new BilansukladPK();
-            bilansukladPK.setPodatnik("Tymczasowy");
-            bilansukladPK.setRok("2014");
-            bilansukladPK.setUklad(nowy);
-            Bilansuklad bilansuklad = new Bilansuklad();
-            bilansuklad.setBilansukladPK(bilansukladPK);
+            UkladBRPK ukladBRPK = new UkladBRPK();
+            ukladBRPK.setPodatnik("Tymczasowy");
+            ukladBRPK.setRok("2014");
+            ukladBRPK.setUklad(nowy);
+            UkladBR ukladBR = new UkladBR();
+            ukladBR.setUkladBRPK(ukladBRPK);
             nowy = "";
-            bilansukladDAO.dodaj(bilansuklad);
-            lista.add(bilansuklad);
+            ukladBRDAO.dodaj(ukladBR);
+            lista.add(ukladBR);
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
 
-    public void usun(Bilansuklad bilansuklad) {
+    public void usun(UkladBR ukladBR) {
         try {
-            bilansukladDAO.destroy(bilansuklad);
-            lista.remove(bilansuklad);
+            ukladBRDAO.destroy(ukladBR);
+            lista.remove(ukladBR);
             Msg.msg("i", "Usunięto wybrany układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
@@ -77,11 +76,11 @@ public class BilansukladView implements Serializable{
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public Bilansuklad getSelected() {
+    public UkladBR getSelected() {
         return selected;
     }
     
-    public void setSelected(Bilansuklad selected) {
+    public void setSelected(UkladBR selected) {
         this.selected = selected;
     }
     
@@ -94,20 +93,20 @@ public class BilansukladView implements Serializable{
     }
     
     
-    public List<Bilansuklad> getLista() {
+    public List<UkladBR> getLista() {
         return lista;
     }
     
-    public void setLista(List<Bilansuklad> lista) {
-        BilansukladView.lista = lista;
+    public void setLista(List<UkladBR> lista) {
+        UkladBRView.lista = lista;
     }
     
-    public BilansukladDAO getBilansukladDAO() {
-        return bilansukladDAO;
+    public UkladBRDAO getUkladBRDAO() {
+        return ukladBRDAO;
     }
     
-    public void setBilansukladDAO(BilansukladDAO bilansukladDAO) {
-        this.bilansukladDAO = bilansukladDAO;
+    public void setUkladBRDAO(UkladBRDAO ukladBRDAO) {
+        this.ukladBRDAO = ukladBRDAO;
     }
     
     

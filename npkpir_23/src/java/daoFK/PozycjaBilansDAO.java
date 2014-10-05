@@ -6,7 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.PozycjaBilans;
-import entityfk.UkladBilansRZiS;
+import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -41,7 +41,7 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
             return null;
         }
    }
-     public  List<PozycjaBilans> findBilansukladAktywa(UkladBilansRZiS bilansuklad){
+     public  List<PozycjaBilans> findBilansukladAktywa(UkladBR bilansuklad){
         try {
             return sessionFacade.findBilansukladAktywa(bilansuklad);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         }
    }
      
-     public  List<PozycjaBilans> findBilansukladPasywa(UkladBilansRZiS bilansuklad){
+     public  List<PozycjaBilans> findBilansukladPasywa(UkladBR bilansuklad){
         try {
             return sessionFacade.findBilansukladPasywa(bilansuklad);
         } catch (Exception e) {

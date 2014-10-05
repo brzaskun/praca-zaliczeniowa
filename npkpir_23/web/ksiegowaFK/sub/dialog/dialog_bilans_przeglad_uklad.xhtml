@@ -34,7 +34,7 @@
                     <p:selectOneMenu value="#{pozycjaBRView.bilansuklad}" converter="BilansukladConv">
                         <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad(pozycjaBRView.bilansuklad, pozycjaBRView.rootProjektRZiS)}" update=":formprzegladbilans:dataList"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzeglad('b', pozycjaBRView.rootProjektRZiS)}" update=":formprzegladbilans:dataList"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />

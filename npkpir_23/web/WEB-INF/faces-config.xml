@@ -408,9 +408,7 @@
     </converter>
      <converter>  
         <converter-id>RzisukladConv</converter-id>  
-        <converter-class>  
-            converter.RzisukladConv  
-        </converter-class>
+        <converter-class>converter.UkladBRConv</converter-class>
     </converter>
     <converter>  
         <converter-id>BilansukladConv</converter-id>  

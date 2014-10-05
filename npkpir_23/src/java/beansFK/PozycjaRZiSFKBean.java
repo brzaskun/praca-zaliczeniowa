@@ -8,15 +8,14 @@ package beansFK;
 
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjarzisDAO;
+import daoFK.KontopozycjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
-import entityfk.Rzisuklad;
 import entityfk.StronaWiersza;
-import entityfk.UkladBilansRZiS;
+import entityfk.UkladBR;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -62,11 +61,11 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void pobierzzachowanepozycjedlakont(KontoDAOfk kontoDAO, KontopozycjarzisDAO kontopozycjarzisDAO, UkladBilansRZiS rzisuklad) {
+    public static void pobierzzachowanepozycjedlakont(KontoDAOfk kontoDAO, KontopozycjaDAO kontopozycjarzisDAO, UkladBR rzisuklad) {
         List<Kontopozycja> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(rzisuklad);
         for (Kontopozycja p : kontopozycjarzis) {
-            int konto_id = p.getKontopozycjarzisPK().getKontoId();
-            Konto konto = kontoDAO.findKonto(p.getKontopozycjarzisPK().getKontoId());
+            int konto_id = p.getKontopozycjaPK().getKontoId();
+            Konto konto = kontoDAO.findKonto(p.getKontopozycjaPK().getKontoId());
             konto.setPozycja(p.getPozycjastring());
             konto.setPozycjonowane(p.isPozycjonowane());
             kontoDAO.edit(konto);
