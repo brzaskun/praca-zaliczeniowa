@@ -20,7 +20,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 920px;">
+            <p:panelGrid columns="3" style="width: 1020px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
@@ -45,7 +45,8 @@
                     <p:selectOneListbox value="#{pozycjaBRView.bilansuklad}" style="height: 200px;" converter="BilansukladConv">
                         <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad(pozycjaBRView.bilansuklad, pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList"/>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad(pozycjaBRView.bilansuklad, pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt:dataList"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad(pozycjaBRView.bilansuklad, pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":formbilansprojekt:dataList"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>
