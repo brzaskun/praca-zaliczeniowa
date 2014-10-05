@@ -137,7 +137,7 @@ public class PozycjaBRView implements Serializable {
     }
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja
-    public void pobierzuklad(UkladBilansRZiS uklad, TreeNodeExtended root) {
+    public void pobierzuklad(UkladBilansRZiS uklad, TreeNodeExtended root, String aktywapasywa) {
         pozycje = new ArrayList<>();
         try {
          if (uklad instanceof Rzisuklad) {
@@ -147,7 +147,11 @@ public class PozycjaBRView implements Serializable {
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             } else {
-                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                if (aktywapasywa.equals("aktywa")) {
+                    pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+                } else {
+                    pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
+                }
                 if (pozycje.isEmpty()) {
                    pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                     Msg.msg("i", "Dodaje pusta pozycje");
@@ -171,7 +175,7 @@ public class PozycjaBRView implements Serializable {
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             } else {
-                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                //pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
                 if (pozycje.isEmpty()) {
                    pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                     Msg.msg("i", "Dodaje pusta pozycje");
@@ -192,7 +196,7 @@ public class PozycjaBRView implements Serializable {
         Msg.msg("i", "Pobrano układ ");
     }
 
-    public void pobierzukladkonto(UkladBilansRZiS uklad) {
+    public void pobierzukladkonto(UkladBilansRZiS uklad,String aktywapasywa) {
         pozycje = new ArrayList<>();
         PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, uklad);
         try {
@@ -203,7 +207,11 @@ public class PozycjaBRView implements Serializable {
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             } else {
-                pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
+                if (aktywapasywa.equals("aktywa")) {
+                    pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+                } else {
+                    pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
+                }
                 if (pozycje.isEmpty()) {
                    pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                     Msg.msg("i", "Dodaje pusta pozycje");

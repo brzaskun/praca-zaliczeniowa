@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRView.rzisuklad}" converter="RzisukladConv">
                         <f:selectItems value="#{rzisukladView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto(pozycjaBRView.rzisuklad)}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto(pozycjaBRView.rzisuklad,'')}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />

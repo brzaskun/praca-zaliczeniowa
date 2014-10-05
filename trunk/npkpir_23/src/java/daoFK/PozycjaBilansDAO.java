@@ -41,9 +41,17 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
             return null;
         }
    }
-     public  List<PozycjaBilans> findBilansuklad(UkladBilansRZiS bilansuklad){
+     public  List<PozycjaBilans> findBilansukladAktywa(UkladBilansRZiS bilansuklad){
         try {
-            return sessionFacade.findBilansuklad(bilansuklad);
+            return sessionFacade.findBilansukladAktywa(bilansuklad);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+     
+     public  List<PozycjaBilans> findBilansukladPasywa(UkladBilansRZiS bilansuklad){
+        try {
+            return sessionFacade.findBilansukladPasywa(bilansuklad);
         } catch (Exception e) {
             return null;
         }

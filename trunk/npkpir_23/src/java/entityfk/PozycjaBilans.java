@@ -4,26 +4,17 @@
  */
 package entityfk;
 
-import abstractClasses.ToBeATreeNodeObject;
 import embeddablefk.KontoKwota;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", name = "Pozycjabilans",  uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad"})})
+    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad", "przychod0koszt1"})})
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue(value = "PozycjaBilans")
@@ -51,11 +42,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaBilans.findByPrzychod0koszt1", query = "SELECT p FROM PozycjaBilans p WHERE p.przychod0koszt1 = :przychod0koszt1"),
     @NamedQuery(name = "PozycjaBilans.findByPrzyporzadkowanekonta", query = "SELECT p FROM PozycjaBilans p WHERE p.przyporzadkowanekonta = :przyporzadkowanekonta"),
     @NamedQuery(name = "PozycjaBilans.findByRok", query = "SELECT p FROM PozycjaBilans p WHERE p.rok = :rok"),
-    @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
+    @NamedQuery(name = "PozycjaBilans.findByUkladPodRokAktywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok AND p.przychod0koszt1 = '0'"),
+    @NamedQuery(name = "PozycjaBilans.findByUkladPodRokPasywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok AND p.przychod0koszt1 = '1'"),
     @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
 public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
    
 
+                
     public PozycjaBilans() {
     }
     
