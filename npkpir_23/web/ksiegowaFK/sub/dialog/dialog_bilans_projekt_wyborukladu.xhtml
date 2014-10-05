@@ -19,28 +19,28 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="{pozycjaRZiSView.zwin()}" update=":formbilansprojektuklad:dataList" style="float: left;" />
             </p:panelGrid>-->
             <p:panelGrid columns="2" style="width: 920px;">
-                <p:dataTable id="dataList" value="#{bilansukladView.lista}" var="loop" selectionMode="single" selection="#{bilansukladView.selected}" 
-                             styleClass="tablicaplankont" style="width: 800px; height: 650px; margin-top: 0%; margin-bottom: 50px; overflow-y: scroll;" rowKey="#{loop.bilansukladPK.uklad}"
+                <p:dataTable id="dataList" value="#{ukladBRView.lista}" var="loop" selectionMode="single" selection="#{ukladBRView.selected}" 
+                             styleClass="tablicaplankont" style="width: 800px; height: 650px; margin-top: 0%; margin-bottom: 50px; overflow-y: scroll;" rowKey="#{loop.ukladBRPK.uklad}"
                              emptyMessage="Brak układów RZiS">
-                    <p:ajax event="rowSelect" listener="#{bilansukladView.wybranouklad}"/>
+                    <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}"/>
                     <p:column headerText="nazwa ukladu">
-                        <h:outputText value="#{loop.bilansukladPK.uklad}" style="font-weight: bolder; width: 550px;" /> 
+                        <h:outputText value="#{loop.ukladBRPK.uklad}" style="font-weight: bolder; width: 550px;" /> 
                     </p:column>
                     <p:column headerText="rok">
-                        <h:outputText value="#{loop.bilansukladPK.rok}"/> 
+                        <h:outputText value="#{loop.ukladBRPK.rok}"/> 
                     </p:column>
                     <p:column headerText="podatnik">
-                        <h:outputText value="#{loop.bilansukladPK.podatnik}"/>
+                        <h:outputText value="#{loop.ukladBRPK.podatnik}"/>
                     </p:column>
                     <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
                         <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>
-                        <p:commandButton value="usuń" actionListener="#{bilansukladView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" update=":formbilansprojektuklad:dataList, :formprojekt:"/>
+                        <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" update=":formbilansprojektuklad:dataList, :formprojekt:, :formprojektuklad"/>
                     </p:column>
                 </p:dataTable>
                 <p:panel header="nowy układ">
                     <h:outputText value="wpisz nazwę nowego układu"/>
-                    <p:inputText value="#{bilansukladView.nowy}" style="width: 250px;"/>
-                    <p:commandButton value="dodaj" actionListener="#{bilansukladView.dodaj}" update=":formbilansprojektuklad, :formprojekt:"/>
+                    <p:inputText value="#{ukladBRView.nowy}" style="width: 250px;"/>
+                    <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" update=":formbilansprojektuklad, :formprojekt:, :formprojektuklad"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

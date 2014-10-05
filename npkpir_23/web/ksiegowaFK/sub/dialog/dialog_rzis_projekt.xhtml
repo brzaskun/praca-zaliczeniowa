@@ -42,8 +42,8 @@
                 </p:treeTable>
                 <p:panel header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaBRView.rzisuklad}" style="height: 200px;" converter="RzisukladConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt:dataList"/>
                 </p:panel>

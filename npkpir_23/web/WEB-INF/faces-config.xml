@@ -407,14 +407,8 @@
         </converter-class>
     </converter>
      <converter>  
-        <converter-id>RzisukladConv</converter-id>  
+        <converter-id>UkladBRConv</converter-id>  
         <converter-class>converter.UkladBRConv</converter-class>
-    </converter>
-    <converter>  
-        <converter-id>BilansukladConv</converter-id>  
-        <converter-class>  
-            converter.BilansukladConv  
-        </converter-class>
     </converter>
     <converter>  
         <converter-id>RodzajedokConv</converter-id>  

@@ -17,8 +17,8 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.rzisuklad}" converter="RzisukladConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.rzisukladPK.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto('r','')}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
@@ -35,7 +35,7 @@
                               emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeRZiS}" update=":form:selected"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRView.rzisuklad.rzisukladPK.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.ukladBRPK.uklad}"/>
                     </f:facet>
                     <p:column >
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

@@ -17,8 +17,8 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="4">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.bilansuklad}" converter="BilansukladConv">
-                        <f:selectItems value="#{bilansukladView.lista}" var="loop" itemLabel="#{loop.bilansukladPK.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.ukladBRPK.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto('b','aktywa')}" update=":formbilansuklad:dataList, :formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladkonto('b','pasywa')}" update=":formbilansuklad:dataList, :formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
