@@ -8,6 +8,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontopozycja.findAll", query = "SELECT k FROM Kontopozycja k"),
     @NamedQuery(name = "Kontopozycja.findByPozycjastring", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjastring = :pozycjastring"),
     @NamedQuery(name = "Kontopozycja.findByPodatnik", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.podatnik = :podatnik"),
-    @NamedQuery(name = "Kontopozycja.findByPodatnikRokUklad", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.podatnik = :podatnik AND k.kontopozycjarzisPK.rok = :rok AND k.kontopozycjarzisPK.uklad = :uklad"),
+    @NamedQuery(name = "Kontopozycja.findByPodatnikRokUklad", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.podatnik = :podatnik AND k.kontopozycjarzisPK.rok = :rok AND k.uklad = :uklad"),
     @NamedQuery(name = "Kontopozycja.findByUklad", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.uklad = :uklad"),
     @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
     @NamedQuery(name = "Kontopozycja.findByRok", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.rok = :rok")})
@@ -38,6 +40,8 @@ public class Kontopozycja implements Serializable {
     private String pozycjastring;
     @Column(name = "pozycjonowane")
     private boolean pozycjonowane;
+    @MapsId(value = "uklad")
+    private UkladBR ukladBR;
 
     public Kontopozycja() {
     }
@@ -46,7 +50,7 @@ public class Kontopozycja implements Serializable {
         this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
-    public Kontopozycja(String podatnik, String uklad, int kontoId, String rok) {
+    public Kontopozycja(String podatnik, int uklad, int kontoId, String rok) {
         this.kontopozycjarzisPK = new KontopozycjaPK(podatnik, uklad, kontoId, rok);
     }
 
@@ -73,6 +77,23 @@ public class Kontopozycja implements Serializable {
     public void setPozycjonowane(boolean pozycjonowane) {
         this.pozycjonowane = pozycjonowane;
     }
+
+    public UkladBR getUkladBR() {
+        return ukladBR;
+    }
+
+    public void setUkladBR(UkladBR ukladBR) {
+        this.ukladBR = ukladBR;
+    }
+
+    public KontopozycjaPK getKontopozycjarzisPK() {
+        return kontopozycjarzisPK;
+    }
+
+    public void setKontopozycjarzisPK(KontopozycjaPK kontopozycjarzisPK) {
+        this.kontopozycjarzisPK = kontopozycjarzisPK;
+    }
+    
     
     
 

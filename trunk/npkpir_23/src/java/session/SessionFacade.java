@@ -740,23 +740,23 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public List<PozycjaRZiS> findUkladBR(UkladBR u) {
-        String uklad = u.getUkladBRPK().getUklad();
-        String podatnik = u.getUkladBRPK().getPodatnik();
-        String rok = u.getUkladBRPK().getRok();
+        String uklad = u.getUklad();
+        String podatnik = u.getPodatnik();
+        String rok = u.getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
-        String uklad = u.getUkladBRPK().getUklad();
-        String podatnik = u.getUkladBRPK().getPodatnik();
-        String rok = u.getUkladBRPK().getRok();
+        String uklad = u.getUklad();
+        String podatnik = u.getPodatnik();
+        String rok = u.getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<PozycjaRZiS> findBilansukladPasywa(UkladBR u) {
-        String uklad = u.getUkladBRPK().getUklad();
-        String podatnik = u.getUkladBRPK().getPodatnik();
-        String rok = u.getUkladBRPK().getRok();
+        String uklad = u.getUklad();
+        String podatnik = u.getPodatnik();
+        String rok = u.getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
