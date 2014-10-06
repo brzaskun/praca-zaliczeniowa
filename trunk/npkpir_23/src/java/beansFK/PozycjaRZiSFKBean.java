@@ -107,7 +107,7 @@ public class PozycjaRZiSFKBean {
             case 3:
                 return "a";
             case 4:
-                return "-";
+                return "-(1)";
         }
         return null;
     }
@@ -121,7 +121,7 @@ public class PozycjaRZiSFKBean {
             case 3:
                 return RomNumb.alfaInc(pozycjasymbol);
             case 4:
-                return "-";
+                return RomNumb.otherSign(pozycjasymbol);
         }
         return null;
     }
