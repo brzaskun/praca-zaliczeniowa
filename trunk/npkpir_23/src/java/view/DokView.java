@@ -156,6 +156,7 @@ public final class DokView implements Serializable {
     @Inject
     private PanstwaMap panstwaMapa;
     private boolean ukryjEwiencjeVAT;//ukrywa ewidencje VAT
+    private int numerwierszeEwidencjiwPoprzednimDok;
 
     public DokView() {
         setWysDokument(null);
@@ -340,13 +341,30 @@ public final class DokView implements Serializable {
                     this.ewidencjaAddwiad.add(ewidencjaAddwiad);
                 }
                 //obliczam 23% dla pierwszego
-                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                ewidencjaAddwiad.get(numerwierszeEwidencjiwPoprzednimDok).setNetto(sumanetto);
                 if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else if (skrotRT.contains("ZZP")) {
                     ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
                 } else {
-                    ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                    switch (numerwierszeEwidencjiwPoprzednimDok) {
+                        case 0:
+                            ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                            break;
+                        case 1:
+                            ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
+                            break;
+                        case 2:
+                            ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
+                            break;
+                        case 3:
+                            ewidencjaAddwiad.get(3).setVat(0.0);
+                            break;
+                        case 4:
+                            ewidencjaAddwiad.get(4).setVat(0.0);
+                            break;
+                    }
+                    
                 }
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
@@ -1332,6 +1350,18 @@ public final class DokView implements Serializable {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
                     typdokumentu = poprzedniDokument.getTypdokumentu();
                     selDokument.setOpis(poprzedniDokument.getOpis());
+                    if (typdokumentu.startsWith("S")) {
+                        List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();
+                        int lp = 0;
+                        for (EVatwpis1 p : e) {
+                            if (p.getNetto()!=0) {
+                                numerwierszeEwidencjiwPoprzednimDok = lp;
+                                break;
+                            }
+                            lp++;
+                        }
+                        
+                    }
                     RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
                     RequestContext.getCurrentInstance().update("dodWiad:opis");
                     RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:numerwlasny')).select();");
