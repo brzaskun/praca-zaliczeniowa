@@ -226,6 +226,11 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
 
+    public List<Konto> findKontaSiostrzanePodatnik(String podatnikWpisu, String pelnynumer) {
+           return kontoFacade.findKontaSiostrzanePodatnik(podatnikWpisu, pelnynumer);
+        
+    }
+
    
  
 }

@@ -3,7 +3,7 @@ var ustawdialog = function(nazwa,menu) {
     try {
         $(document.getElementById(nazwa)).position({
         my: "left top",
-        at: "center top",
+        at: "left+40px top",
         of: $(document.getElementById(menu)),
         collision: "none none"
         });
@@ -18,7 +18,7 @@ var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
     try {
         $(document.getElementById(nazwa)).position({
         my: "left top",
-        at: "center top",
+        at: "left+40px top",
         of: $(document.getElementById(menu)),
         collision: "none none"
         });

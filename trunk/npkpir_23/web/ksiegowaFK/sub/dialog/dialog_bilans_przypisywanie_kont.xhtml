@@ -30,10 +30,11 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked"/>
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 320px;">
+            <p:panelGrid columns="3" >
+                <p:column>
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
-                              emptyMessage="Brak pozycji RZiS">
+                              emptyMessage="Brak pozycji Bilansu">
                     <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
@@ -44,25 +45,36 @@
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
                 </p:treeTable>
-                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
-                            <p:column width="90">
-                                <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRView.onKontoDrop(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                    </p:column>
+                <p:column>
+<!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane"
+                                     style="margin-top: -13%; height: 650px; width: 380px; overflow-y: scroll" >
+                            <f:facet name="header">
+                                <h:outputText value="konta nieprzypisane"/>
+                            </f:facet>
+                            <p:column style="height: 30px;">
+                                <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                               actionListener="#{pozycjaBRView.onKontoDrop(konto,'b')}" update="@form">
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update="@form" icon="ui-icon-arrowrefresh-1-w" 
+                                                rendered="#{konto.mapotomkow}"/>  
+                                    <p:menuitem value="syntetyka" actionListener="#{pozycjaBRView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
-                    </p:fieldset>
-                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaBRView.wybranapozycja}" 
-                            style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                    <p:dataTable var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
-                            <p:column >
-                                <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
+</p:column>
+                <p:column>
+                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
+                                  style="margin-top: -13%; height: 650px; width: 380px; overflow-y: scroll" >
+                         <f:facet name="header">
+                                <h:outputText value="konta przypisane"/>
+                            </f:facet>
+                            <p:column  style="height: 30px;">
+                                <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto,'b')}" update="@form"/>
                             </p:column>
                         </p:dataTable>
-                    </p:fieldset>
+                    </p:column>
             </p:panelGrid>
         </h:form>
     </p:dialog>

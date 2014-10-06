@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.TreeNodeChildren;
 import view.WpisView;
@@ -323,6 +324,29 @@ public class PozycjaBRView implements Serializable {
             Collections.sort(wykazkont, new Kontocomparator());
         } else {
             Msg.msg("e", "Konto nie posiada analityk");
+        }
+    }
+    
+    public void zwinrzadanalityki (Konto konto) {
+        List<Konto> lista = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikWpisu(), konto.getMacierzyste());
+        boolean jestprzypisane = false;
+        List<String> analitykinazwy = new ArrayList<>();
+        for (Konto p : lista) {
+            if (p.isPozycjonowane()) {
+                jestprzypisane = true;
+                analitykinazwy.add(p.getPelnynumer());
+            }
+        }
+        if (jestprzypisane) {
+            String result = StringUtils.join(analitykinazwy, ", ");
+            Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: "+result);
+        } else {
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu());
+            for (Konto p : lista) {
+                wykazkont.remove(p);
+            }
+            wykazkont.add(macierzyste);
+            Collections.sort(wykazkont, new Kontocomparator());
         }
     }
 
