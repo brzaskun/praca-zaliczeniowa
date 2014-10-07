@@ -156,7 +156,8 @@ public final class DokView implements Serializable {
     @Inject
     private PanstwaMap panstwaMapa;
     private boolean ukryjEwiencjeVAT;//ukrywa ewidencje VAT
-    private int numerwierszeEwidencjiwPoprzednimDok;
+    @Inject
+    private Evewidencja nazwaEwidencjiwPoprzednimDok;
 
     public DokView() {
         setWysDokument(null);
@@ -341,33 +342,59 @@ public final class DokView implements Serializable {
                     this.ewidencjaAddwiad.add(ewidencjaAddwiad);
                 }
                 //obliczam 23% dla pierwszego
-                ewidencjaAddwiad.get(numerwierszeEwidencjiwPoprzednimDok).setNetto(sumanetto);
+                ewidencjaAddwiad.get(0).setNetto(sumanetto);
                 if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else if (skrotRT.contains("ZZP")) {
                     ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
-                } else {
-                    switch (numerwierszeEwidencjiwPoprzednimDok) {
-                        case 0:
-                            ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
-                            break;
-                        case 1:
-                            ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
-                            break;
-                        case 2:
-                            ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
-                            break;
-                        case 3:
-                            ewidencjaAddwiad.get(3).setVat(0.0);
-                            break;
-                        case 4:
-                            ewidencjaAddwiad.get(4).setVat(0.0);
-                            break;
+                } else if (transakcjiRodzaj.equals("sprzedaz")){
+                    try {
+                        String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
+                        switch (ne) {
+                            case "sprzedaż 23%":
+                                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                                break;
+                            case "sprzedaż 8%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(1).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
+                                ewidencjaAddwiad.get(1).setBrutto(ewidencjaAddwiad.get(1).getNetto() + ewidencjaAddwiad.get(1).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(1).getBrutto();
+                                break;
+                            case "sprzedaż 5%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(2).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
+                                ewidencjaAddwiad.get(2).setBrutto(ewidencjaAddwiad.get(2).getNetto() + ewidencjaAddwiad.get(2).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(2).getBrutto();
+                                break;
+                            case "sprzedaż 0%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(3).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(3).setVat(0.0);
+                                sumbrutto = ewidencjaAddwiad.get(3).getBrutto();
+                                break;
+                            case "sprzedaż zw":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(4).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(4).setVat(0.0);
+                                sumbrutto = ewidencjaAddwiad.get(4).getBrutto();
+                                break;
+                            }
+                    } catch (Exception e) {
+                        ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                        ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
+                        sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                     }
-                    
+                    } else {
+                    ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
+                    sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 }
-                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                nazwaEwidencjiwPoprzednimDok = new Evewidencja();
                 RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
                 RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             }
@@ -1352,13 +1379,11 @@ public final class DokView implements Serializable {
                     selDokument.setOpis(poprzedniDokument.getOpis());
                     if (typdokumentu.startsWith("S")) {
                         List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();
-                        int lp = 0;
                         for (EVatwpis1 p : e) {
                             if (p.getNetto()!=0) {
-                                numerwierszeEwidencjiwPoprzednimDok = lp;
+                                nazwaEwidencjiwPoprzednimDok = p.getEwidencja();
                                 break;
                             }
-                            lp++;
                         }
                         
                     }

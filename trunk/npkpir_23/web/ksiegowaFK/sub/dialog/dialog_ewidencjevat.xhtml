@@ -40,7 +40,7 @@
                         <p:separator/>
                         <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
                                      rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
-                                     rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600" skipChildren="true"
+                                     rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600" 
                                      >
                             <f:facet name="header">  
                                 <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
