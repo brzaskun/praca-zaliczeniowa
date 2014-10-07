@@ -32,6 +32,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.TreeNodeChildren;
 import view.WpisView;
@@ -373,6 +374,7 @@ public class PozycjaBRView implements Serializable {
                     PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kontoDAO, wpisView.getPodatnikWpisu());
                 }
             } else {
+                RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
                 Msg.msg("Konto niezwykle");
             }
         }
