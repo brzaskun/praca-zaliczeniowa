@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kontopozycja.findAll", query = "SELECT k FROM Kontopozycja k"),
-    @NamedQuery(name = "Kontopozycja.findByPozycjastring", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjastring = :pozycjastring"),
+    @NamedQuery(name = "Kontopozycja.findByPozycjaWn", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjaWn = :pozycjaWn"),
+    @NamedQuery(name = "Kontopozycja.findByPozycjaMa", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjaMa = :pozycjaMa"),
     @NamedQuery(name = "Kontopozycja.findByPodatnik", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :podatnik"),
     @NamedQuery(name = "Kontopozycja.findByUklad", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :uklad"),
     @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
@@ -35,8 +36,11 @@ public class Kontopozycja implements Serializable {
     @EmbeddedId
     protected KontopozycjaPK kontopozycjarzisPK;
     @Size(max = 255)
-    @Column(length = 255, name = "pozycjastring")
-    private String pozycjastring;
+    @Column(length = 255, name = "pozycjaWn")
+    private String pozycjaWn;
+    @Size(max = 255)
+    @Column(length = 255, name = "pozycjaMa")
+    private String pozycjaMa;
     @Column(name = "pozycjonowane")
     private boolean pozycjonowane;
     @MapsId(value = "uklad")
@@ -61,12 +65,20 @@ public class Kontopozycja implements Serializable {
         this.kontopozycjarzisPK = kontopozycjarzisPK;
     }
 
-    public String getPozycjastring() {
-        return pozycjastring;
+    public String getPozycjaWn() {
+        return pozycjaWn;
     }
 
-    public void setPozycjastring(String pozycjastring) {
-        this.pozycjastring = pozycjastring;
+    public void setPozycjaWn(String pozycjaWn) {
+        this.pozycjaWn = pozycjaWn;
+    }
+
+    public String getPozycjaMa() {
+        return pozycjaMa;
+    }
+
+    public void setPozycjaMa(String pozycjaMa) {
+        this.pozycjaMa = pozycjaMa;
     }
 
     public boolean isPozycjonowane() {

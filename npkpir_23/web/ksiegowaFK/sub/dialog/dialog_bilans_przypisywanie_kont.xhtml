@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont" widgetVar="bilansuklad" 
-              resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
+              resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
         <h:form id="formbilansuklad">
             <!--            <p:contextMenu for="dataList">
                             <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":formbilansuklad" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -32,49 +32,61 @@
             </p:panelGrid>
             <p:panelGrid columns="3" >
                 <p:column>
-                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
-                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
-                              emptyMessage="Brak pozycji Bilansu">
-                    <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
-                    <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
-                    </f:facet>
-                    <p:column >
-                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
-                        <p:spacer width="20"/>
-                        <h:outputText value="#{loop.nazwa}"/> 
-                    </p:column>
-                </p:treeTable>
-                    </p:column>
+                    <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
+                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 420px; overflow-y: scroll;"
+                                 emptyMessage="Brak pozycji Bilansu">
+                        <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
+                        <f:facet name="header">
+                            <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
+                        </f:facet>
+                        <p:column >
+                            <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                            <p:spacer width="20"/>
+                            <h:outputText value="#{loop.nazwa}"/> 
+                        </p:column>
+                    </p:treeTable>
+                </p:column>
                 <p:column>
-<!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane"
-                                     style="margin-top: -13%; height: 650px; width: 380px; overflow-y: scroll" >
-                            <f:facet name="header">
-                                <h:outputText value="konta nieprzypisane"/>
-                            </f:facet>
-                            <p:column style="height: 30px;">
-                                <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                               actionListener="#{pozycjaBRView.onKontoDrop(konto,'b')}" update="@form">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update="@form" icon="ui-icon-arrowrefresh-1-w" 
-                                                rendered="#{konto.mapotomkow}"/>  
-                                    <p:menuitem value="syntetyka" actionListener="#{pozycjaBRView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
-                                </p:splitButton>
-                            </p:column>
-                        </p:dataTable>
-</p:column>
+                    <!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
+                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane"
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta nieprzypisane"/>
+                        </f:facet>
+                        <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
+                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                           actionListener="#{pozycjaBRView.onKontoDrop(konto,'b')}" update="@form">
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRView.rozwinrzadanalityki(konto)}"  update="@form" icon="ui-icon-arrowrefresh-1-w" 
+                                            rendered="#{konto.mapotomkow}"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                            </p:splitButton>
+                        </p:column>
+                        <p:column headerText="Wn" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                        </p:column>
+                        <p:column headerText="Ma" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
                 <p:column>
                     <p:dataTable id="selected" var="konto" value="#{pozycjaBRView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
-                                  style="margin-top: -13%; height: 650px; width: 380px; overflow-y: scroll" >
-                         <f:facet name="header">
-                                <h:outputText value="konta przypisane"/>
-                            </f:facet>
-                            <p:column  style="height: 30px;">
-                                <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                                 actionListener="#{pozycjaBRView.onKontoRemove(konto,'b')}" update="@form"/>
-                            </p:column>
-                        </p:dataTable>
-                    </p:column>
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta przypisane"/>
+                        </f:facet>
+                        <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
+                            <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
+                                             actionListener="#{pozycjaBRView.onKontoRemove(konto,'b')}" update="@form"/>
+                        </p:column>
+                        <p:column headerText="Wn" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                        </p:column>
+                        <p:column headerText="Ma" style="text-align: center;">
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
             </p:panelGrid>
         </h:form>
     </p:dialog>

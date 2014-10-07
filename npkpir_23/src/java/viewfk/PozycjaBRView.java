@@ -359,7 +359,7 @@ public class PozycjaBRView implements Serializable {
             Collections.sort(przyporzadkowanekonta, new Kontocomparator());
             wykazkont.remove(konto);
             //czesc przekazujaca przyporzadkowanie do konta do wymiany
-            konto.setPozycja(wybranapozycja);
+            konto.setPozycjaWn(wybranapozycja);
             konto.setPozycjonowane(true);
             kontoDAO.edit(konto);
             //czesc nanoszaca informacje na potomku
@@ -383,7 +383,7 @@ public class PozycjaBRView implements Serializable {
         wykazkont.add(konto);
         Collections.sort(wykazkont, new Kontocomparator());
         przyporzadkowanekonta.remove(konto);
-        konto.setPozycja(null);
+        konto.setPozycjaWn(null);
         konto.setPozycjonowane(false);
         kontoDAO.edit(konto);
         //zerujemy potomkow
@@ -609,12 +609,12 @@ public class PozycjaBRView implements Serializable {
         List<Konto> plankont = kontoDAO.findAll();
         for (Konto p : plankont) {
             Kontopozycja kontopozycja = new Kontopozycja();
-            if (p.getPozycja() != null) {
+            if (p.getPozycjaWn() != null) {
                 KontopozycjaPK kontopozycjaPK = new KontopozycjaPK();
                 kontopozycja.setKonto(p);
                 kontopozycja.setUkladBR(uklad);
                 kontopozycja.setKontopozycjaPK(kontopozycjaPK);
-                kontopozycja.setPozycjastring(p.getPozycja());
+                kontopozycja.setPozycjaWn(p.getPozycjaWn());
                 kontopozycja.setPozycjonowane(p.isPozycjonowane());
                 kontopozycjarzisDAO.edit(kontopozycja);
             } else {

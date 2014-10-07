@@ -55,8 +55,8 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT COUNT(k) FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.pozycja = :pozycja AND k.bilansowewynikowe = 'wynikowe' AND k.pozycjonowane = 1"),
-    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.pozycja = :pozycja AND k.bilansowewynikowe = 'bilansowe' AND k.pozycjonowane = 1"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.pozycjonowane = 1"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.pozycjonowane = 1"),
     @NamedQuery(name = "Konto.findByMacierzysteWynikowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
@@ -116,9 +116,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @Lob
-    @Column(name = "pozycja")
-    private String pozycja;
+    @Column(name = "pozycjaWn")
+    private String pozycjaWn;
+    @Column(name = "pozycjaMa")
+    private String pozycjaMa;
     @Column(name = "pozycjonowane")
     private boolean pozycjonowane;
     @Basic(optional = false)
@@ -291,12 +292,20 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
     }
 
-    public String getPozycja() {
-        return pozycja;
+    public String getPozycjaWn() {
+        return pozycjaWn;
     }
 
-    public void setPozycja(String pozycja) {
-        this.pozycja = pozycja;
+    public void setPozycjaWn(String pozycjaWn) {
+        this.pozycjaWn = pozycjaWn;
+    }
+
+    public String getPozycjaMa() {
+        return pozycjaMa;
+    }
+
+    public void setPozycjaMa(String pozycjaMa) {
+        this.pozycjaMa = pozycjaMa;
     }
 
    

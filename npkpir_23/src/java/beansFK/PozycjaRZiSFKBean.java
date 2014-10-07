@@ -31,11 +31,11 @@ public class PozycjaRZiSFKBean {
     
     public static void wyluskajNieprzyporzadkowaneAnalityki(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik) {
         for (Konto p : pobraneKontaSyntetyczne) {
-            if (p.getPozycja() == null) {
+            if (p.getPozycjaWn() == null) {
                 if (!wykazkont.contains(p)) {
                     wykazkont.add(p);
                 }
-            } else if (p.getPozycja().equals("analit")) {
+            } else if (p.getPozycjaWn().equals("analit")) {
                 List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
                 for (Konto r : potomki) {
                     wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik);
@@ -66,7 +66,7 @@ public class PozycjaRZiSFKBean {
         for (Kontopozycja p : kontopozycjarzis) {
             int konto_id = p.getKontopozycjaPK().getKontoId();
             Konto konto = kontoDAO.findKonto(p.getKontopozycjaPK().getKontoId());
-            konto.setPozycja(p.getPozycjastring());
+            konto.setPozycjaWn(p.getPozycjaWn());
             konto.setPozycjonowane(p.isPozycjonowane());
             kontoDAO.edit(konto);
         }
@@ -77,7 +77,7 @@ public class PozycjaRZiSFKBean {
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
-            if (p.getPozycja().equals(pozycja)) {
+            if (p.getPozycjaWn().equals(pozycja)) {
                 returnlist.add(p);
             }
         }
@@ -90,7 +90,7 @@ public class PozycjaRZiSFKBean {
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
-            if (p.getPozycja().equals(pozycja)) {
+            if (p.getPozycjaWn().equals(pozycja)) {
                 returnlist.add(p);
             }
         }
@@ -137,7 +137,7 @@ public class PozycjaRZiSFKBean {
             }
             if (sainne == false) {
                 Konto konto = kontoDAO.findKonto(macierzyste, podatnik);
-                konto.setPozycja(null);
+                konto.setPozycjaWn(null);
                 kontoDAO.edit(konto);
                 if (konto.getMacierzysty() > 0) {
                     odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, podatnik);
@@ -148,7 +148,7 @@ public class PozycjaRZiSFKBean {
     
     public static void oznaczmacierzyste(String macierzyste, KontoDAOfk kontoDAO, String podatnik) {
         Konto konto = kontoDAO.findKonto(macierzyste, podatnik);
-        konto.setPozycja("analit");
+        konto.setPozycjaWn("analit");
         kontoDAO.edit(konto);
         if (konto.getMacierzysty() > 0) {
             oznaczmacierzyste(konto.getMacierzyste(), kontoDAO, podatnik);
@@ -159,9 +159,9 @@ public class PozycjaRZiSFKBean {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto);
         for (Konto p : lista) {
             if (pozycja == null) {
-                p.setPozycja(null);
+                p.setPozycjaWn(null);
             } else {
-                p.setPozycja(pozycja);
+                p.setPozycjaWn(pozycja);
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
