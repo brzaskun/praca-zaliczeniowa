@@ -226,7 +226,7 @@ public class PozycjaBRView implements Serializable {
 
     public void pobierzukladkonto(String br, String aktywapasywa) {
         pozycje = new ArrayList<>();
-        PozycjaRZiSFKBean.pobierzzachowanepozycjedlakont(kontoDAO, kontopozycjarzisDAO, uklad);
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjarzisDAO, uklad);
         try {
          if (br.equals("r")) {
                 pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
@@ -355,22 +355,26 @@ public class PozycjaBRView implements Serializable {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
             //to duperele porzadkujace sytuacje w okienkach
-            przyporzadkowanekonta.add(konto);
-            Collections.sort(przyporzadkowanekonta, new Kontocomparator());
-            wykazkont.remove(konto);
-            //czesc przekazujaca przyporzadkowanie do konta do wymiany
-            konto.setPozycjaWn(wybranapozycja);
-            konto.setPozycjonowane(true);
-            kontoDAO.edit(konto);
-            //czesc nanoszaca informacje na potomku
-            if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkow(konto.getPelnynumer(), wybranapozycja, kontoDAO, wpisView.getPodatnikWpisu());
+            if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
+                przyporzadkowanekonta.add(konto);
+                Collections.sort(przyporzadkowanekonta, new Kontocomparator());
+                wykazkont.remove(konto);
+                //czesc przekazujaca przyporzadkowanie do konta do wymiany
+                konto.setPozycjaWn(wybranapozycja);
+                konto.setPozycjaMa(wybranapozycja);
+                konto.setPozycjonowane(true);
+                kontoDAO.edit(konto);
+                //czesc nanoszaca informacje na potomku
+                if (konto.isMapotomkow() == true) {
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), wybranapozycja, kontoDAO, wpisView.getPodatnikWpisu());
+                }
+                //czesc nanoszaca informacje na macierzyste
+                if (konto.getMacierzysty() > 0) {
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kontoDAO, wpisView.getPodatnikWpisu());
+                }
+            } else {
+                Msg.msg("Konto niezwykle");
             }
-            //czesc nanoszaca informacje na macierzyste
-            if (konto.getMacierzysty() > 0) {
-                PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kontoDAO, wpisView.getPodatnikWpisu());
-            }
-
         }
         if (br.equals("r")) {
             drugiinit();
@@ -382,17 +386,22 @@ public class PozycjaBRView implements Serializable {
     public void onKontoRemove(Konto konto, String br) {
         wykazkont.add(konto);
         Collections.sort(wykazkont, new Kontocomparator());
-        przyporzadkowanekonta.remove(konto);
-        konto.setPozycjaWn(null);
-        konto.setPozycjonowane(false);
-        kontoDAO.edit(konto);
-        //zerujemy potomkow
-        if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkow(konto.getPelnynumer(), null, kontoDAO, wpisView.getPodatnikWpisu());
-        }
-        //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
-        if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
+        if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
+            przyporzadkowanekonta.remove(konto);
+            konto.setPozycjaWn(null);
+            konto.setPozycjaMa(null);
+            konto.setPozycjonowane(false);
+            kontoDAO.edit(konto);
+            //zerujemy potomkow
+            if (konto.isMapotomkow() == true) {
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView.getPodatnikWpisu());
+            }
+            //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
+            if (konto.getMacierzysty() > 0) {
+                PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
+            }
+        } else {
+            Msg.msg("Konto niezwykle");
         }
         if (br.equals("r")) {
             drugiinit();
