@@ -58,7 +58,7 @@
                 <h:outputLabel value="opis transakcji (F9)/nowa kol (+-)" style="font-weight: 700"/>
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
+                                minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
                                 widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10"
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                     <f:ajax event="blur" execute="@this"/>
