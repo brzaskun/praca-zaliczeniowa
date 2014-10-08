@@ -44,6 +44,9 @@
                             <p:spacer width="20"/>
                             <h:outputText value="#{loop.nazwa}"/> 
                         </p:column>
+                        <p:column >
+                            <h:outputText value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
+                        </p:column>
                     </p:treeTable>
                 </p:column>
                 <p:column>
