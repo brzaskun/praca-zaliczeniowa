@@ -43,6 +43,30 @@ public class PozycjaRZiSFKBean {
             }
         }
     }
+    
+     public static void wyluskajNieprzyporzadkowaneAnalityki(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik, boolean aktywa0pasywa1) {
+        for (Konto p : pobraneKontaSyntetyczne) {
+            if (p.getPozycjaWn() == null && aktywa0pasywa1 == false) {
+                if (!wykazkont.contains(p)) {
+                    wykazkont.add(p);
+                }
+            } else if (p.getPozycjaMa() == null && aktywa0pasywa1 == true) {
+                if (!wykazkont.contains(p)) {
+                    wykazkont.add(p);
+                }
+            } else if (p.getPozycjaWn() != null && p.getPozycjaWn().equals("analit")) {
+                List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
+                for (Konto r : potomki) {
+                    wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
+                }
+            } else if (p.getPozycjaMa() != null && p.getPozycjaMa().equals("analit")) {
+                List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
+                for (Konto r : potomki) {
+                    wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
+                }
+            }
+        }
+    }
      
     public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
         rootL.createTreeNodesForElement(pozycjeL);
@@ -175,6 +199,29 @@ public class PozycjaRZiSFKBean {
             } else {
                 p.setPozycjaWn(pozycja);
                 p.setPozycjaMa(pozycja);
+            }
+            kontoDAO.edit(p);
+            if (p.isMapotomkow() == true) {
+                przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, podatnik);
+            }
+        }
+    }
+    
+    public static void przyporzadkujpotkomkowRozrachunkowe(String konto, String pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto);
+        for (Konto p : lista) {
+            if (wnma.equals("wn")) {
+                if (pozycja == null) {
+                    p.setPozycjaWn(null);
+                } else {
+                    p.setPozycjaWn(pozycja);
+                }
+            } else {
+                if (pozycja == null) {
+                    p.setPozycjaMa(null);
+                } else {
+                    p.setPozycjaMa(pozycja);
+                }
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
