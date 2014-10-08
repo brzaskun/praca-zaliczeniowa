@@ -34,7 +34,6 @@ import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
-import org.primefaces.model.TreeNodeChildren;
 import view.WpisView;
 
 /**
@@ -242,8 +241,10 @@ public class PozycjaBRView implements Serializable {
                 }
             } else {
                 if (aktywapasywa.equals("aktywa")) {
+                    aktywa0pasywa1 = false;
                     pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
                 } else {
+                    aktywa0pasywa1 = true;
                     pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
                 }
                 if (pozycje.isEmpty()) {
@@ -255,13 +256,28 @@ public class PozycjaBRView implements Serializable {
         }
         if (br.equals("r")) {
             drugiinit();
+            uzupelnijpozycjeOKontaR(pozycje);
         } else {
             drugiinitbilansowe();
+            uzupelnijpozycjeOKonta(pozycje);
         }
+        
         rootProjektKonta.getChildren().clear();
         PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
         level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
         Msg.msg("i", "Pobrano układ " );
+    }
+    
+    private void uzupelnijpozycjeOKonta(List<PozycjaRZiSBilans> pozycje) {
+        for (PozycjaRZiSBilans p : pozycje) {
+            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneBLista(kontoDAO, p, pozycjaBilansDAO, wpisView.getPodatnikWpisu());
+        }
+    }
+    
+    private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
+        for (PozycjaRZiSBilans p : pozycje) {
+            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(kontoDAO, p, pozycjaBilansDAO, wpisView.getPodatnikWpisu());
+        }
     }
 
     private void drugiinit() {
@@ -380,7 +396,7 @@ public class PozycjaBRView implements Serializable {
                 }
             } else {
                 boxNaKonto = konto;
-                if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                     if (konto.getPozycjaWn() == null && konto.getPozycjaMa() == null) {
                         RequestContext.getCurrentInstance().update("kontownmawybor");
                         RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
@@ -411,7 +427,7 @@ public class PozycjaBRView implements Serializable {
         } else {
             Konto konto = boxNaKonto;
             //to duperele porzadkujace sytuacje w okienkach
-            if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
@@ -433,9 +449,6 @@ public class PozycjaBRView implements Serializable {
                 }
                 RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
-            } else {
-                RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
-                Msg.msg("Konto niezwykle");
             }
         }
         drugiinitbilansowe();
@@ -493,13 +506,13 @@ public class PozycjaBRView implements Serializable {
     public void wybranopozycjeRZiS() {
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
-        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja));
+        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView.getPodatnikWpisu()));
         Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
     }
     public void wybranopozycjeBilans() {
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
-        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja));
+        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView.getPodatnikWpisu()));
         Msg.msg("i", "Wybrano pozycję " + ((PozycjaBilans) wybranynodekonta.getData()).getNazwa());
     }
 

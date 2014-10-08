@@ -9,6 +9,8 @@ package beansFK;
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaDAO;
+import daoFK.PozycjaBilansDAO;
+import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
@@ -46,7 +48,11 @@ public class PozycjaRZiSFKBean {
     
      public static void wyluskajNieprzyporzadkowaneAnalityki(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik, boolean aktywa0pasywa1) {
         for (Konto p : pobraneKontaSyntetyczne) {
-            if (p.getPozycjaWn() == null && aktywa0pasywa1 == false) {
+            if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getPozycjaWn() != null || p.getPozycjaMa() != null)) {
+                if (!wykazkont.contains(p)) {
+                    wykazkont.add(p);
+                }
+            } else if (p.getPozycjaWn() == null && aktywa0pasywa1 == false) {
                 if (!wykazkont.contains(p)) {
                     wykazkont.add(p);
                 }
@@ -104,8 +110,8 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe");
+    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, String podatnik) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", podatnik);
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
@@ -117,16 +123,43 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe");
+    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja, String podatnik) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", podatnik);
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
-            if (p.getPozycjaWn().equals(pozycja) || p.getPozycjaMa().equals(pozycja)) {
+            if (p.getPozycjaWn() != null && p.getPozycjaWn().equals(pozycja)) {
+                returnlist.add(p);
+            }
+            if (p.getPozycjaMa() != null && p.getPozycjaMa().equals(pozycja)) {
                 returnlist.add(p);
             }
         }
         return returnlist;
+
+    }
+    
+    public static void wyszukajprzyporzadkowaneBLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO, String podatnik) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", podatnik);
+        List<KontoKwota> kontokwotalist = new ArrayList<>();
+        for (Konto p : lista) {
+            KontoKwota t = new KontoKwota(p,0.0);
+            kontokwotalist.add(t);
+        }
+        pozycja.setPrzyporzadkowanekonta(kontokwotalist);
+        pozycjaBilansDAO.edit(pozycja);
+
+    }
+    
+    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO, String podatnik) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", podatnik);
+        List<KontoKwota> kontokwotalist = new ArrayList<>();
+        for (Konto p : lista) {
+            KontoKwota t = new KontoKwota(p,0.0);
+            kontokwotalist.add(t);
+        }
+        pozycja.setPrzyporzadkowanekonta(kontokwotalist);
+        pozycjaBilansDAO.edit(pozycja);
 
     }
     
@@ -225,7 +258,7 @@ public class PozycjaRZiSFKBean {
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, podatnik);
+                przyporzadkujpotkomkowRozrachunkowe(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma);
             }
         }
     }
