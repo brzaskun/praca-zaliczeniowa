@@ -12,12 +12,10 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,7 +25,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import session.SessionFacade;
 
 /**
@@ -58,8 +55,8 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT COUNT(k) FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.kontopozycja.pozycjonowane = 1 AND (k.kontopozycja.pozycjaWn = :pozycja OR k.kontopozycja.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
-    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.kontopozycja.pozycjonowane = 1 AND (k.kontopozycja.pozycjaWn = :pozycja OR k.kontopozycja.pozycjaMa = :pozycja) AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID.pozycjonowane = 1 AND (k.kontopozycjaID.pozycjaWn = :pozycja OR k.kontopozycjaID.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID.pozycjonowane = 1 AND (k.kontopozycjaID.pozycjaWn = :pozycja OR k.kontopozycjaID.pozycjaMa = :pozycja) AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMacierzysteWynikowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
@@ -119,9 +116,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "kontopozycja", referencedColumnName = "id")
-    private Kontopozycja kontopozycja;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
+    private Kontopozycja kontopozycjaID;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -251,15 +248,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.level = level;
     }
 
-    public Kontopozycja getKontopozycja() {
-        return kontopozycja;
+    public Kontopozycja getKontopozycjaID() {
+        return kontopozycjaID;
     }
 
-    public void setKontopozycja(Kontopozycja kontopozycja) {
-        this.kontopozycja = kontopozycja;
+    public void setKontopozycjaID(Kontopozycja kontopozycjaID) {
+        this.kontopozycjaID = kontopozycjaID;
     }
 
-   
 
     public String getNazwapelna() {
         return nazwapelna;
