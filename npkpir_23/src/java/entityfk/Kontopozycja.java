@@ -5,14 +5,20 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "ukladBR, konto")
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Kontopozycja.findAll", query = "SELECT k FROM Kontopozycja k"),
@@ -29,42 +37,44 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontopozycja.findByPozycjaMa", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjaMa = :pozycjaMa"),
     @NamedQuery(name = "Kontopozycja.findByPodatnik", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :podatnik"),
     @NamedQuery(name = "Kontopozycja.findByUklad", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :uklad"),
-    @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.kontopozycjarzisPK.kontoId = :kontoId"),
+    @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.konto.id = :kontoId"),
     @NamedQuery(name = "Kontopozycja.findByRok", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR.rok = :rok")})
 public class Kontopozycja implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected KontopozycjaPK kontopozycjarzisPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
+    private Integer id;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaWn")
     private String pozycjaWn;
+    @Column(length = 10, name = "stronaWn")
+    private String stronaWn;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaMa")
     private String pozycjaMa;
+    @Column(length = 10, name = "stronaMa")
+    private String stronaMa;
     @Column(name = "pozycjonowane")
     private boolean pozycjonowane;
-    @MapsId(value = "uklad")
     @JoinColumn(name = "ukladBR", referencedColumnName = "lp")
     private UkladBR ukladBR;
-    @MapsId(value = "kontoId")
     @JoinColumn(name = "konto", referencedColumnName = "id")
     private Konto konto;
 
     public Kontopozycja() {
     }
 
-    public Kontopozycja(KontopozycjaPK kontopozycjarzisPK) {
-        this.kontopozycjarzisPK = kontopozycjarzisPK;
+    public Integer getId() {
+        return id;
     }
 
-    public KontopozycjaPK getKontopozycjaPK() {
-        return kontopozycjarzisPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setKontopozycjaPK(KontopozycjaPK kontopozycjarzisPK) {
-        this.kontopozycjarzisPK = kontopozycjarzisPK;
-    }
-
+   
     public String getPozycjaWn() {
         return pozycjaWn;
     }
@@ -90,14 +100,6 @@ public class Kontopozycja implements Serializable {
     }
 
    
-    public KontopozycjaPK getKontopozycjarzisPK() {
-        return kontopozycjarzisPK;
-    }
-
-    public void setKontopozycjarzisPK(KontopozycjaPK kontopozycjarzisPK) {
-        this.kontopozycjarzisPK = kontopozycjarzisPK;
-    }
-
     public UkladBR getUkladBR() {
         return ukladBR;
     }
@@ -113,26 +115,46 @@ public class Kontopozycja implements Serializable {
     public void setKonto(Konto konto) {
         this.konto = konto;
     }
-    
-    
+
+    public String getStronaWn() {
+        return stronaWn;
+    }
+
+    public void setStronaWn(String stronaWn) {
+        this.stronaWn = stronaWn;
+    }
+
+    public String getStronaMa() {
+        return stronaMa;
+    }
+
+    public void setStronaMa(String stronaMa) {
+        this.stronaMa = stronaMa;
+    }
     
     
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (kontopozycjarzisPK != null ? kontopozycjarzisPK.hashCode() : 0);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.ukladBR);
+        hash = 41 * hash + Objects.hashCode(this.konto);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Kontopozycja)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Kontopozycja other = (Kontopozycja) object;
-        if ((this.kontopozycjarzisPK == null && other.kontopozycjarzisPK != null) || (this.kontopozycjarzisPK != null && !this.kontopozycjarzisPK.equals(other.kontopozycjarzisPK))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Kontopozycja other = (Kontopozycja) obj;
+        if (!Objects.equals(this.ukladBR, other.ukladBR)) {
+            return false;
+        }
+        if (!Objects.equals(this.konto, other.konto)) {
             return false;
         }
         return true;
@@ -140,7 +162,13 @@ public class Kontopozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kontopozycja[ kontopozycjarzisPK=" + kontopozycjarzisPK + " ]";
+        return "Kontopozycja{" + "id=" + id + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + pozycjonowane + ", ukladBR=" + ukladBR + ", konto=" + konto + '}';
     }
+    
+    
+    
+    
+
+   
     
 }

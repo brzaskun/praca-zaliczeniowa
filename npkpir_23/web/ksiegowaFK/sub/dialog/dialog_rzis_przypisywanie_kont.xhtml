@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogrzisuklad" header="Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisuklad" 
-              resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
+              resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
         <h:form id="form">
             <!--            <p:contextMenu for="dataList">
                             <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -29,7 +29,7 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 320px;">
+            <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                               emptyMessage="Brak pozycji RZiS">
@@ -46,8 +46,12 @@
                         <h:outputText value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
                     </p:column>
                 </p:treeTable>
-                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane">
+                <p:column>
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane"
+                                     style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta nieprzypisane"/>
+                        </f:facet>
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                actionListener="#{pozycjaBRKontaView.onKontoDrop(konto,'r')}" update=":form:dostepnekonta, :form:selected">
@@ -55,16 +59,19 @@
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
-                    </p:fieldset>
-                <p:fieldset id="selected" legend="Przyporządkowane konta #{pozycjaBRKontaView.wybranapozycja}" 
-                            style="margin-top: 0%; float: left; height: 600px; width: 320px;">
-                    <p:dataTable var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont">
+                </p:column>
+                <p:column>
+                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
+                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                        <f:facet name="header">
+                            <h:outputText value="konta przypisane"/>
+                        </f:facet>
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                  actionListener="#{pozycjaBRKontaView.onKontoRemove(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>
                         </p:dataTable>
-                    </p:fieldset>
+                    </p:column>
             </p:panelGrid>
         </h:form>
     </p:dialog>

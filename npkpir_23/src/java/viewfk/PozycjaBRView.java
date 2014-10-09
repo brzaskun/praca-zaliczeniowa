@@ -284,7 +284,7 @@ public class PozycjaBRView implements Serializable {
         boolean jestprzypisane = false;
         List<String> analitykinazwy = new ArrayList<>();
         for (Konto p : lista) {
-            if (p.isPozycjonowane()) {
+            if (p.getKontopozycja().isPozycjonowane()) {
                 jestprzypisane = true;
                 analitykinazwy.add(p.getPelnynumer());
             }
@@ -495,7 +495,29 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    
+    public void zmien() {
+        List<Konto> lista = kontoDAO.findAll();
+        for (Konto p : lista) {
+            if(p.getPodatnik().equals("Testowy")) {
+                p.setPodatnik("Wzorcowy");
+                kontoDAO.edit(p);
+            }
+        }
+        List<PozycjaBilans> lista2 = pozycjaBilansDAO.findAll();
+        for (PozycjaRZiSBilans p : lista2) {
+            if(p.getPodatnik().equals("Tymczasowy")) {
+                p.setPodatnik("Wzorcowy");
+                kontoDAO.edit(p);
+            }
+        }
+        List<PozycjaRZiS> lista3 = pozycjaRZiSDAO.findAll();
+        for (PozycjaRZiSBilans p : lista3) {
+            if(p.getPodatnik().equals("Tymczasowy")) {
+                p.setPodatnik("Wzorcowy");
+                kontoDAO.edit(p);
+            }
+        }
+    }
 
    
 

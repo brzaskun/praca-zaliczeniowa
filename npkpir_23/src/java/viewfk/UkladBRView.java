@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -23,11 +25,11 @@ import msg.Msg;
 @ViewScoped
 public class UkladBRView implements Serializable{
     private static final long serialVersionUID = 1L;
-    private static List<UkladBR> lista;
+    private List<UkladBR> lista;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
-    public static List<UkladBR> getListaS() {
-        return lista;
-    }
+   
     @Inject private UkladBR selected;
     private String nowy;
     @Inject private UkladBRDAO ukladBRDAO;
@@ -50,8 +52,8 @@ public class UkladBRView implements Serializable{
     public void dodaj() {
         try {
             UkladBR ukladBR = new UkladBR();
-            ukladBR.setPodatnik("Tymczasowy");
-            ukladBR.setRok("2014");
+            ukladBR.setPodatnik("Wzorcowy");
+            ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nowy);
             nowy = "";
             ukladBRDAO.dodaj(ukladBR);
@@ -88,15 +90,23 @@ public class UkladBRView implements Serializable{
     public void setNowy(String nowy) {
         this.nowy = nowy;
     }
-    
-    
+
     public List<UkladBR> getLista() {
         return lista;
     }
-    
+
     public void setLista(List<UkladBR> lista) {
-        UkladBRView.lista = lista;
+        this.lista = lista;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
     
     public UkladBRDAO getUkladBRDAO() {
         return ukladBRDAO;
