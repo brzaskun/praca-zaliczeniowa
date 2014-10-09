@@ -77,8 +77,11 @@
                     <p:column headerText="potom." style="width: 50px;">
                         <h:outputText value="#{loop.mapotomkow}" /> 
                     </p:column>
-                    <p:column headerText="pozycja" style="width: 100px;">
-                        <h:outputText value="#{loop.pozycja}" /> 
+                     <p:column headerText="pozycja Wn" style="width: 100px;">
+                        <h:outputText value="#{loop.kontopozycja.pozycjaWn}" /> 
+                    </p:column>
+                     <p:column headerText="pozycja Ma" style="width: 100px;">
+                        <h:outputText value="#{loop.kontopozycja.pozycjaMa}" /> 
                     </p:column>
                     <p:column headerText="zablokowane" style="width: 100px;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 

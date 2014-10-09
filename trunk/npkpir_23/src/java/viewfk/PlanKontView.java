@@ -69,7 +69,7 @@ public class PlanKontView implements Serializable {
         wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
-        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
     }

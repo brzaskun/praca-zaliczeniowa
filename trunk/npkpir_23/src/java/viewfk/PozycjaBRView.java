@@ -284,7 +284,7 @@ public class PozycjaBRView implements Serializable {
         boolean jestprzypisane = false;
         List<String> analitykinazwy = new ArrayList<>();
         for (Konto p : lista) {
-            if (p.getKontopozycja().isPozycjonowane()) {
+            if (p.getKontopozycjaID().isPozycjonowane()) {
                 jestprzypisane = true;
                 analitykinazwy.add(p.getPelnynumer());
             }

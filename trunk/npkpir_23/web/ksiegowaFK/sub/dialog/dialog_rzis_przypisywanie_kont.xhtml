@@ -20,14 +20,14 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkonto('r','')}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>
+<!--                <p:commandButton value="zapamiętaj" actionListener="9{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>-->
             </p:panelGrid>
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
@@ -54,7 +54,7 @@
                         </f:facet>
                             <p:column width="90">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRKontaView.onKontoDrop(konto,'r')}" update=":form:dostepnekonta, :form:selected">
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected">
                                     <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:column>
@@ -68,7 +68,7 @@
                         </f:facet>
                             <p:column >
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaBRKontaView.onKontoRemove(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
+                                                 actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>
                         </p:dataTable>
                     </p:column>

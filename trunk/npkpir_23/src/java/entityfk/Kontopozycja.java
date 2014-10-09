@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -37,15 +38,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kontopozycja.findByPozycjaMa", query = "SELECT k FROM Kontopozycja k WHERE k.pozycjaMa = :pozycjaMa"),
     @NamedQuery(name = "Kontopozycja.findByPodatnik", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :podatnik"),
     @NamedQuery(name = "Kontopozycja.findByUklad", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR = :uklad"),
-    @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.konto.id = :kontoId"),
+    @NamedQuery(name = "Kontopozycja.findByKontoId", query = "SELECT k FROM Kontopozycja k WHERE k.kontoID.id = :kontoId"),
     @NamedQuery(name = "Kontopozycja.findByRok", query = "SELECT k FROM Kontopozycja k WHERE k.ukladBR.rok = :rok")})
 public class Kontopozycja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @Column(name = "idKP", nullable = false)
+    private Integer idKP;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaWn")
     private String pozycjaWn;
@@ -60,21 +61,21 @@ public class Kontopozycja implements Serializable {
     private boolean pozycjonowane;
     @JoinColumn(name = "ukladBR", referencedColumnName = "lp")
     private UkladBR ukladBR;
-    @JoinColumn(name = "konto", referencedColumnName = "id")
-    private Konto konto;
+    @OneToOne
+    @JoinColumn(name = "kontoID", referencedColumnName = "id")
+    private Konto kontoID;
 
     public Kontopozycja() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdKP() {
+        return idKP;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdKP(Integer idKP) {
+        this.idKP = idKP;
     }
 
-   
     public String getPozycjaWn() {
         return pozycjaWn;
     }
@@ -108,13 +109,15 @@ public class Kontopozycja implements Serializable {
         this.ukladBR = ukladBR;
     }
 
-    public Konto getKonto() {
-        return konto;
+    public Konto getKontoID() {
+        return kontoID;
     }
 
-    public void setKonto(Konto konto) {
-        this.konto = konto;
+    public void setKontoID(Konto kontoID) {
+        this.kontoID = kontoID;
     }
+
+   
 
     public String getStronaWn() {
         return stronaWn;
@@ -138,7 +141,7 @@ public class Kontopozycja implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 41 * hash + Objects.hashCode(this.ukladBR);
-        hash = 41 * hash + Objects.hashCode(this.konto);
+        hash = 41 * hash + Objects.hashCode(this.kontoID);
         return hash;
     }
 
@@ -154,7 +157,7 @@ public class Kontopozycja implements Serializable {
         if (!Objects.equals(this.ukladBR, other.ukladBR)) {
             return false;
         }
-        if (!Objects.equals(this.konto, other.konto)) {
+        if (!Objects.equals(this.kontoID, other.kontoID)) {
             return false;
         }
         return true;
@@ -162,7 +165,7 @@ public class Kontopozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "Kontopozycja{" + "id=" + id + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + pozycjonowane + ", ukladBR=" + ukladBR + ", konto=" + konto + '}';
+        return "Kontopozycja{" + "id=" + idKP + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + pozycjonowane + ", ukladBR=" + ukladBR + ", konto=" + kontoID + '}';
     }
     
     
