@@ -34,13 +34,13 @@
                     </p:column>
                     <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
                         <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>
-                        <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" update=":formprojektuklad:dataList, :formprojekt:, :formbilansprojektuklad"/>
+                        <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" update=":formprojektuklad:dataList, :formbilansprojektuklad:dataList, :formbilansprojekt:wyborbilans, :formprojekt:wyborrzis"/>
                     </p:column>
                 </p:dataTable>
                 <p:panel header="nowy układ">
                     <h:outputText value="wpisz nazwę nowego układu"/>
                     <p:inputText value="#{ukladBRView.nowy}" style="width: 250px;"/>
-                    <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" update=":formprojektuklad, :formprojekt:, :formbilansprojektuklad"/>
+                    <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" update=":formprojektuklad:dataList, :formbilansprojektuklad:dataList, :formbilansprojekt:wyborbilans, :formprojekt:wyborrzis"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>
