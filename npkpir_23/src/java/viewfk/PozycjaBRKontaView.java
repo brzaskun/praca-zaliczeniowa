@@ -84,7 +84,7 @@ public class PozycjaBRKontaView  implements Serializable {
         } catch (Exception e) {
         }
         drugiinit();
-        uzupelnijpozycjeOKonta(pozycje);
+        uzupelnijpozycjeOKontaR(pozycje);
         rootProjektKonta.getChildren().clear();
         PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
         level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
@@ -139,7 +139,7 @@ public class PozycjaBRKontaView  implements Serializable {
     
     private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
         for (PozycjaRZiSBilans p : pozycje) {
-            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(kontoDAO, p, pozycjaBilansDAO, wpisView.getPodatnikWpisu());
+            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(kontoDAO, p, pozycjaRZiSDAO, wpisView.getPodatnikWpisu());
         }
     }
 

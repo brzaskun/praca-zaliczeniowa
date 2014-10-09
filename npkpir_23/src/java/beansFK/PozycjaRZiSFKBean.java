@@ -10,6 +10,7 @@ import converter.RomNumb;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaDAO;
 import daoFK.PozycjaBilansDAO;
+import daoFK.PozycjaRZiSDAO;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -152,7 +153,7 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO, String podatnik) {
+    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, String podatnik) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", podatnik);
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
@@ -160,7 +161,7 @@ public class PozycjaRZiSFKBean {
             kontokwotalist.add(t);
         }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
-        pozycjaBilansDAO.edit(pozycja);
+        pozycjaRZiSDAO.edit(pozycja);
 
     }
     
