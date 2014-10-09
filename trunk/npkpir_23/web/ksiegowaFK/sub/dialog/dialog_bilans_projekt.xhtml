@@ -40,7 +40,7 @@
                         <h:outputText value="#{loop.przychod0koszt1 eq false ? 'aktywa' : 'pasywa'}"/>
                     </p:column>
                 </p:treeTable>
-                <p:panel header="pobierz układ" style="margin-top: -50px;">
+                <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad}" itemValue="#{loop}"/>
