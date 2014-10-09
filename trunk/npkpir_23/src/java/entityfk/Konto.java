@@ -9,16 +9,19 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -55,8 +58,8 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT COUNT(k) FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.pozycjonowane = 1 AND (k.pozycjaWn = :pozycja OR k.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
-    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.pozycjonowane = 1 AND (k.pozycjaWn = :pozycja OR k.pozycjaMa = :pozycja) AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.kontopozycja.pozycjonowane = 1 AND (k.kontopozycja.pozycjaWn = :pozycja OR k.kontopozycja.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.kontopozycja.pozycjonowane = 1 AND (k.kontopozycja.pozycjaWn = :pozycja OR k.kontopozycja.pozycjaMa = :pozycja) AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMacierzysteWynikowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
@@ -116,12 +119,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @Column(name = "pozycjaWn")
-    private String pozycjaWn;
-    @Column(name = "pozycjaMa")
-    private String pozycjaMa;
-    @Column(name = "pozycjonowane")
-    private boolean pozycjonowane;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "kontopozycja", referencedColumnName = "id")
+    private Kontopozycja kontopozycja;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -251,14 +251,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.level = level;
     }
 
-    public boolean isPozycjonowane() {
-        return pozycjonowane;
+    public Kontopozycja getKontopozycja() {
+        return kontopozycja;
     }
 
-    public void setPozycjonowane(boolean pozycjonowane) {
-        this.pozycjonowane = pozycjonowane;
+    public void setKontopozycja(Kontopozycja kontopozycja) {
+        this.kontopozycja = kontopozycja;
     }
-    
+
+   
 
     public String getNazwapelna() {
         return nazwapelna;
@@ -292,23 +293,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
     }
 
-    public String getPozycjaWn() {
-        return pozycjaWn;
-    }
-
-    public void setPozycjaWn(String pozycjaWn) {
-        this.pozycjaWn = pozycjaWn;
-    }
-
-    public String getPozycjaMa() {
-        return pozycjaMa;
-    }
-
-    public void setPozycjaMa(String pozycjaMa) {
-        this.pozycjaMa = pozycjaMa;
-    }
-
-   
+    
     public String getMacierzyste() {
         return macierzyste;
     }
@@ -441,8 +426,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "Konto{" + "id=" + id + ", podatnik=" + podatnik + ", nazwapelna=" + nazwapelna + ", pozycjonowane=" + pozycjonowane + ", pelnynumer=" + pelnynumer + ", mapotomkow=" + mapotomkow + '}';
+        return "Konto{" + "id=" + id + ", podatnik=" + podatnik + ", nrkonta=" + nrkonta + ", syntetyczne=" + syntetyczne + ", nazwaskrocona=" + nazwaskrocona + ", bilansowewynikowe=" + bilansowewynikowe + ", zwyklerozrachszczegolne=" + zwyklerozrachszczegolne + '}';
     }
+
+    
 
   
 

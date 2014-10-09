@@ -15,7 +15,6 @@ import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
-import entityfk.KontopozycjaPK;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -140,20 +139,16 @@ public class PozycjaBRKontaView  implements Serializable {
         List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         for (Konto p : plankont) {
             Kontopozycja kontopozycja = new Kontopozycja();
-            if (p.getPozycjaWn() != null || p.getPozycjaMa() != null) {
-                KontopozycjaPK kontopozycjaPK = new KontopozycjaPK();
+            if (p.getKontopozycja().getPozycjaWn() != null || p.getKontopozycja().getPozycjaMa() != null) {
                 kontopozycja.setKonto(p);
                 kontopozycja.setUkladBR(uklad);
-                kontopozycja.setKontopozycjaPK(kontopozycjaPK);
-                kontopozycja.setPozycjaWn(p.getPozycjaWn());
-                kontopozycja.setPozycjaMa(p.getPozycjaMa());
-                kontopozycja.setPozycjonowane(p.isPozycjonowane());
+                kontopozycja.setPozycjaWn(p.getKontopozycja().getPozycjaWn());
+                kontopozycja.setPozycjaMa(p.getKontopozycja().getPozycjaMa());
+                kontopozycja.setPozycjonowane(p.getKontopozycja().isPozycjonowane());
                 kontopozycjarzisDAO.edit(kontopozycja);
             } else {
-                KontopozycjaPK kontopozycjaPK = new KontopozycjaPK();
                 kontopozycja.setKonto(p);
                 kontopozycja.setUkladBR(uklad);
-                kontopozycja.setKontopozycjaPK(kontopozycjaPK);
                 try {
                     kontopozycjarzisDAO.destroy(kontopozycja);
                 } catch (Exception e) {
@@ -173,9 +168,9 @@ public class PozycjaBRKontaView  implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                konto.setPozycjaWn(wybranapozycja);
-                konto.setPozycjaMa(wybranapozycja);
-                konto.setPozycjonowane(true);
+                konto.getKontopozycja().setPozycjaWn(wybranapozycja);
+                konto.getKontopozycja().setPozycjaMa(wybranapozycja);
+                konto.getKontopozycja().setPozycjonowane(true);
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
@@ -188,12 +183,12 @@ public class PozycjaBRKontaView  implements Serializable {
             } else {
                 boxNaKonto = konto;
                 if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne")) {
-                    if (konto.getPozycjaWn() == null && konto.getPozycjaMa() == null) {
+                    if (konto.getKontopozycja().getPozycjaWn() == null && konto.getKontopozycja().getPozycjaMa() == null) {
                         RequestContext.getCurrentInstance().update("kontownmawybor");
                         RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
                         Msg.msg("Konto niezwykle");
                     } else {
-                        if (konto.getPozycjaWn() != null) {
+                        if (konto.getKontopozycja().getPozycjaWn() != null) {
                             wnmaPrzypisywanieKont = "ma";
                             onKontoDropKontaSpecjalne();
                         } else {
@@ -224,11 +219,11 @@ public class PozycjaBRKontaView  implements Serializable {
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 if (wnmaPrzypisywanieKont.equals("wn")) {
-                    konto.setPozycjaWn(wybranapozycja);
+                    konto.getKontopozycja().setPozycjaWn(wybranapozycja);
                 } else {
-                    konto.setPozycjaMa(wybranapozycja);
+                    konto.getKontopozycja().setPozycjaMa(wybranapozycja);
                 }
-                konto.setPozycjonowane(true);
+                konto.getKontopozycja().setPozycjonowane(true);
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
@@ -246,11 +241,11 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 if (wnmaPrzypisywanieKont.equals("wn")) {
-                    konto.setPozycjaWn(wybranapozycja);
+                    konto.getKontopozycja().setPozycjaWn(wybranapozycja);
                 } else {
-                    konto.setPozycjaMa(wybranapozycja);
+                    konto.getKontopozycja().setPozycjaMa(wybranapozycja);
                 }
-                konto.setPozycjonowane(true);
+                konto.getKontopozycja().setPozycjonowane(true);
                 kontoDAO.edit(konto);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
@@ -275,9 +270,9 @@ public class PozycjaBRKontaView  implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
             przyporzadkowanekonta.remove(konto);
-            konto.setPozycjaWn(null);
-            konto.setPozycjaMa(null);
-            konto.setPozycjonowane(false);
+            konto.getKontopozycja().setPozycjaWn(null);
+            konto.getKontopozycja().setPozycjaMa(null);
+            konto.getKontopozycja().setPozycjonowane(false);
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
@@ -290,15 +285,15 @@ public class PozycjaBRKontaView  implements Serializable {
         } else if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne")) {
             przyporzadkowanekonta.remove(konto);
             String wnma = "";
-            if (konto.getPozycjaWn()!=null && konto.getPozycjaWn().equals(wybranapozycja)) {
+            if (konto.getKontopozycja().getPozycjaWn()!=null && konto.getKontopozycja().getPozycjaWn().equals(wybranapozycja)) {
                 wnma = "wn";
-                konto.setPozycjaWn(null);
-            } else if (konto.getPozycjaMa()!=null && konto.getPozycjaMa().equals(wybranapozycja)) {
+                konto.getKontopozycja().setPozycjaWn(null);
+            } else if (konto.getKontopozycja().getPozycjaMa()!=null && konto.getKontopozycja().getPozycjaMa().equals(wybranapozycja)) {
                 wnma = "ma";
-                konto.setPozycjaMa(null);
+                konto.getKontopozycja().setPozycjaMa(null);
             }
-            if (konto.getPozycjaWn() == null && konto.getPozycjaMa() == null) {
-                konto.setPozycjonowane(false);
+            if (konto.getKontopozycja().getPozycjaWn() == null && konto.getKontopozycja().getPozycjaMa() == null) {
+                konto.getKontopozycja().setPozycjonowane(false);
             }
             kontoDAO.edit(konto);
             //zerujemy potomkow
@@ -352,103 +347,105 @@ public class PozycjaBRKontaView  implements Serializable {
     public void zwin(TreeNodeExtended root) {
         root.foldLevel(--level);
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public ArrayList<PozycjaRZiSBilans> getPozycje() {
         return pozycje;
     }
-
+    
     public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
     }
-
+    
     public UkladBR getUklad() {
         return uklad;
     }
-
+    
     public void setUklad(UkladBR uklad) {
         this.uklad = uklad;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public boolean isAktywa0pasywa1() {
         return aktywa0pasywa1;
     }
-
+    
     public void setAktywa0pasywa1(boolean aktywa0pasywa1) {
         this.aktywa0pasywa1 = aktywa0pasywa1;
     }
-
+    
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
-
+    
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
     }
-
+    
     public ArrayList<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
-
+    
     public void setPrzyporzadkowanekonta(ArrayList<Konto> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
-
+    
     public TreeNodeExtended getRootProjektKonta() {
         return rootProjektKonta;
     }
-
+    
     public void setRootProjektKonta(TreeNodeExtended rootProjektKonta) {
         this.rootProjektKonta = rootProjektKonta;
     }
-
+    
     public int getLevel() {
         return level;
     }
-
+    
     public void setLevel(int level) {
         this.level = level;
     }
-
+    
     public String getWybranapozycja() {
         return wybranapozycja;
     }
-
+    
     public void setWybranapozycja(String wybranapozycja) {
         this.wybranapozycja = wybranapozycja;
     }
-
+    
     public TreeNode getWybranynodekonta() {
         return wybranynodekonta;
     }
-
+    
     public void setWybranynodekonta(TreeNode wybranynodekonta) {
         this.wybranynodekonta = wybranynodekonta;
     }
-
+    
     public Konto getBoxNaKonto() {
         return boxNaKonto;
     }
-
+    
     public void setBoxNaKonto(Konto boxNaKonto) {
         this.boxNaKonto = boxNaKonto;
     }
-
+    
     public String getWnmaPrzypisywanieKont() {
         return wnmaPrzypisywanieKont;
     }
-
+    
     public void setWnmaPrzypisywanieKont(String wnmaPrzypisywanieKont) {
         this.wnmaPrzypisywanieKont = wnmaPrzypisywanieKont;
     }
     
+//</editor-fold>
     
     
 }

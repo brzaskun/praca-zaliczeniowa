@@ -11,6 +11,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import viewfk.UkladBRView;
+import viewfk.WalutyViewFK;
 
 /**
  *
@@ -18,9 +19,17 @@ import viewfk.UkladBRView;
  */
 public class UkladBRConv  implements javax.faces.convert.Converter{
     
+    List<UkladBR> kl;
+    
+    public UkladBRConv() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UkladBRView ukladBRView = (UkladBRView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"ukladBRView");
+        kl = ukladBRView.getLista();
+    }
+    
+    
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        List<UkladBR> kl = UkladBRView.getListaS();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
