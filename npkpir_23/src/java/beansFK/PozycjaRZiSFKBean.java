@@ -39,11 +39,9 @@ public class PozycjaRZiSFKBean {
                     if (!wykazkont.contains(p)) {
                         wykazkont.add(p);
                     }
-                } else if (p.getKontopozycjaID().getPozycjaWn().equals("analityka")) {
+                } else if (p.getKontopozycjaID().getStronaWn().equals("analityka")) {
                     List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
-                    for (Konto r : potomki) {
-                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik);
-                    }
+                    wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik);
                 }
             } else {
                     wykazkont.add(p);
@@ -116,7 +114,7 @@ public class PozycjaRZiSFKBean {
         int level = 0;
         for (Konto p : lista) {
             if (p.getKontopozycjaID().getPozycjaWn().equals(pozycja) || p.getKontopozycjaID().getPozycjaMa().equals(pozycja)) {
-                if (!p.getKontopozycjaID().getStronaWn().equals("syntetyka")) {
+                if (!p.getKontopozycjaID().getStronaWn().equals("syntetyka") && !p.getKontopozycjaID().getStronaWn().equals("analityka")) {
                     returnlist.add(p);
                 }
             }
@@ -157,8 +155,10 @@ public class PozycjaRZiSFKBean {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", podatnik);
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
-            KontoKwota t = new KontoKwota(p,0.0);
-            kontokwotalist.add(t);
+            if (!p.getKontopozycjaID().getStronaWn().equals("syntetyka") && !p.getKontopozycjaID().getStronaWn().equals("analityka")) {
+                KontoKwota t = new KontoKwota(p,0.0);
+                kontokwotalist.add(t);
+            }
         }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
         pozycjaRZiSDAO.edit(pozycja);
@@ -198,7 +198,7 @@ public class PozycjaRZiSFKBean {
         if (siostry.size() > 1) {
             boolean sainne = false;
             for (Konto p : siostry) {
-                if (p.getKontopozycjaID().isPozycjonowane() == true && !p.getPelnynumer().equals(kontoanalizowane)) {
+                if (p.getKontopozycjaID() != null && !p.getPelnynumer().equals(kontoanalizowane)) {
                     sainne = true;
                 }
             }
@@ -214,16 +214,18 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void oznaczmacierzyste(String macierzyste, Kontopozycja kp, UkladBR uklad, KontoDAOfk kontoDAO, String podatnik) {
-        Konto konto = kp.getKontoID();
-        kp.setStronaWn("analityka");
-        kp.setStronaMa("analityka");
-        kp.setPozycjonowane(true);
-        kp.setKontoID(konto);
-        kp.setUkladBR(uklad);
-        konto.setKontopozycjaID(kp);
-        kontoDAO.edit(konto);
-        if (konto.getMacierzysty() > 0) {
-            oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, podatnik);
+        Konto konto = kontoDAO.findKonto(macierzyste, podatnik);
+        if (konto.getKontopozycjaID() == null) {
+            kp.setStronaWn("analityka");
+            kp.setStronaMa("analityka");
+            kp.setPozycjonowane(true);
+            kp.setKontoID(konto);
+            kp.setUkladBR(uklad);
+            konto.setKontopozycjaID(kp);
+            kontoDAO.edit(konto);
+            if (konto.getMacierzysty() > 0) {
+                oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, podatnik);
+            }
         }
     }
     
@@ -236,7 +238,6 @@ public class PozycjaRZiSFKBean {
                 pozycja.setKontoID(p);
                 pozycja.setStronaWn("syntetyka");
                 pozycja.setStronaMa("syntetyka");
-                kontopozycjaDAO.dodaj(pozycja);
                 p.setKontopozycjaID(pozycja);
                 
             }
