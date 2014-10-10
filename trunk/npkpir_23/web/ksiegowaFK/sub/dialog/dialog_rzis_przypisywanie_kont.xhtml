@@ -38,7 +38,7 @@
                         <h:outputText value="uklad #{pozycjaBRKontaView.uklad.uklad}"/>
                     </f:facet>
                     <p:column >
-                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 
                         <p:spacer width="20"/>
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
@@ -52,11 +52,19 @@
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
-                            <p:column width="90">
+                            <p:column width="90" style="height: 30px;">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected"
+                                               style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
+                                               rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
+                                    <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
                                 </p:splitButton>
+                                <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected"
+                                               style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
+                                               rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
+                                </p:commandButton>
                             </p:column>
                             
                         </p:dataTable>

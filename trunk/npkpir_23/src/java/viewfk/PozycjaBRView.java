@@ -268,39 +268,7 @@ public class PozycjaBRView implements Serializable {
         root.foldLevel(--level);
     }
 
-    public void rozwinrzadanalityki(Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer());
-        if (lista.size() > 0) {
-            wykazkont.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer()));
-            wykazkont.remove(konto);
-            Collections.sort(wykazkont, new Kontocomparator());
-        } else {
-            Msg.msg("e", "Konto nie posiada analityk");
-        }
-    }
     
-    public void zwinrzadanalityki (Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikWpisu(), konto.getMacierzyste());
-        boolean jestprzypisane = false;
-        List<String> analitykinazwy = new ArrayList<>();
-        for (Konto p : lista) {
-            if (p.getKontopozycjaID().isPozycjonowane()) {
-                jestprzypisane = true;
-                analitykinazwy.add(p.getPelnynumer());
-            }
-        }
-        if (jestprzypisane) {
-            String result = StringUtils.join(analitykinazwy, ", ");
-            Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: "+result);
-        } else {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu());
-            for (Konto p : lista) {
-                wykazkont.remove(p);
-            }
-            wykazkont.add(macierzyste);
-            Collections.sort(wykazkont, new Kontocomparator());
-        }
-    }
     
    
 

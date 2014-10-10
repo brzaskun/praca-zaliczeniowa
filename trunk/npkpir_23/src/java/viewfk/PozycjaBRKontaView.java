@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
@@ -143,29 +144,7 @@ public class PozycjaBRKontaView  implements Serializable {
         }
     }
 
-//    public void zaksiegujzmianypozycji(String br) {
-//        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
-//        for (Konto p : plankont) {
-//            Kontopozycja kontopozycja = new Kontopozycja();
-//            if (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null) {
-//                kontopozycja.setKonto(p);
-//                kontopozycja.setUkladBR(uklad);
-//                kontopozycja.setPozycjaWn(p.getKontopozycjaID().getPozycjaWn());
-//                kontopozycja.setPozycjaMa(p.getKontopozycjaID().getPozycjaMa());
-//                kontopozycja.setPozycjonowane(p.getKontopozycjaID().isPozycjonowane());
-//                kontopozycjarzisDAO.edit(kontopozycja);
-//            } else {
-//                kontopozycja.setKonto(p);
-//                kontopozycja.setUkladBR(uklad);
-//                try {
-//                    kontopozycjarzisDAO.destroy(kontopozycja);
-//                } catch (Exception e) {
-//                }
-//            }
-//        }
-//        Msg.msg("i", "Zapamiętano przyporządkowanie kont dla układu: " );
-//    }
-    
+
      public void onKontoDropR(Konto konto, String br) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
@@ -196,6 +175,8 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
             }
         drugiinit();
+        uzupelnijpozycjeOKontaR(pozycje);
+        RequestContext.getCurrentInstance().update("form:dataList");
         }
      }
      
@@ -311,11 +292,7 @@ public class PozycjaBRKontaView  implements Serializable {
         } else {
             Msg.msg("Konto niezwykle");
         }
-        if (br.equals("r")) {
-            drugiinit();
-        } else {
-            pobierzukladkontoB(aktywa0pasywa1 == false ? "aktywa" : "pasywa");
-        }
+        pobierzukladkontoB(aktywa0pasywa1 == false ? "aktywa" : "pasywa");
     }
 
     public void onKontoRemoveR(Konto konto, String br) {
@@ -334,6 +311,9 @@ public class PozycjaBRKontaView  implements Serializable {
                 PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
             }
         }
+        drugiinit();
+        uzupelnijpozycjeOKontaR(pozycje);
+        RequestContext.getCurrentInstance().update("form:dataList");
     }
     
     public void wybranopozycjeRZiS() {
@@ -368,6 +348,39 @@ public class PozycjaBRKontaView  implements Serializable {
 
     public void zwin(TreeNodeExtended root) {
         root.foldLevel(--level);
+    }
+    public void rozwinrzadanalityki(Konto konto) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer());
+        if (lista.size() > 0) {
+            wykazkont.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), konto.getPelnynumer()));
+            wykazkont.remove(konto);
+            Collections.sort(wykazkont, new Kontocomparator());
+        } else {
+            Msg.msg("e", "Konto nie posiada analityk");
+        }
+    }
+    
+    public void zwinrzadanalityki (Konto konto) {
+        List<Konto> lista = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikWpisu(), konto.getMacierzyste());
+        boolean jestprzypisane = false;
+        List<String> analitykinazwy = new ArrayList<>();
+        for (Konto p : lista) {
+            if (p.getKontopozycjaID() != null) {
+                jestprzypisane = true;
+                analitykinazwy.add(p.getPelnynumer());
+            }
+        }
+        if (jestprzypisane) {
+            String result = StringUtils.join(analitykinazwy, ", ");
+            Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: "+result);
+        } else {
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu());
+            for (Konto p : lista) {
+                wykazkont.remove(p);
+            }
+            wykazkont.add(macierzyste);
+            Collections.sort(wykazkont, new Kontocomparator());
+        }
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
