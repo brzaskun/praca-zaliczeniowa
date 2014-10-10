@@ -183,6 +183,11 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.uklad = uklad;
     }
 
+    @Override
+    public String toString() {
+        return "PozycjaRZiSBilans{" + "lp=" + lp + ", formula=" + formula + ", kwota=" + kwota + ", level=" + level + ", nazwa=" + nazwa + ", podatnik=" + podatnik + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", przychod0koszt1=" + przychod0koszt1 + ", rok=" + rok + ", uklad=" + uklad + '}';
+    }
+
     
     
 }

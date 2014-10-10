@@ -189,7 +189,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
 
-    public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) {
+    public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
         for (StronaWiersza p: zapisynakontach) {
@@ -197,26 +197,30 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
             Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
-            String pozycjaRZiS = kontopobrane.getKontopozycjaID().getPozycjaWn();
-            for (TreeNodeExtended r : finallNodes) {
-                //sprawdzamy czy dane konto nalezy do danego wezla
-                    PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
-                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
-                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
-                    double kwotapierwotna = pozycja.getKwota();
-                    double donaniesienia = 0.0;
-                    boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                    if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
-                        if (przychod0koszt1 == false) {
-                            donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
+            try {
+                String pozycjaRZiS = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                for (TreeNodeExtended r : finallNodes) {
+                    //sprawdzamy czy dane konto nalezy do danego wezla
+                        PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
+                        if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
+                        //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                        double kwotapierwotna = pozycja.getKwota();
+                        double donaniesienia = 0.0;
+                        boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
+                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
+                            if (przychod0koszt1 == false) {
+                                donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
+                            } else {
+                                donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
+                            }
                         } else {
-                            donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
+                            donaniesienia = p.getKwota() + kwotapierwotna;
                         }
-                    } else {
-                        donaniesienia = p.getKwota() + kwotapierwotna;
-                    }
-                    pozycja.setKwota(donaniesienia);
-                    }
+                        pozycja.setKwota(donaniesienia);
+                        }
+                }
+            } catch (Exception e) {
+                throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }
         }
     }

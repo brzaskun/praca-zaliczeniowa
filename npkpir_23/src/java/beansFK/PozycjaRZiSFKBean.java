@@ -77,7 +77,7 @@ public class PozycjaRZiSFKBean {
         }
     }
      
-    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) {
+    public static void ustawRoota(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
         rootL.addNumbers(zapisy, plankont);
         rootL.sumNodes();
