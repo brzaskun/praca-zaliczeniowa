@@ -30,7 +30,7 @@ public class WierszeView implements Serializable {
     
      @PostConstruct
         private void init(){
-            wiersze = wierszeDAO.findWierszePodatnik(wpisView.getPodatnikWpisu());
+            wiersze = wierszeDAO.findWierszePodatnik(wpisView.getPodatnikObiekt());
         }
 
     public List<Wiersz> getWiersze() {

@@ -363,15 +363,15 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>menudokumentyFK</from-outcome>
-            <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>menurozrachunkiFK</from-outcome>
-            <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
             <from-outcome>menuustawieniaFK</from-outcome>
-            <to-view-id>/ksiegowaFK/ksiegowaFKUstawienia.xhtml</to-view-id>
+            <to-view-id>/ksiegowaFK/ksiegowaFKUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>

@@ -602,7 +602,7 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
     
-    public List<Wiersz> findWierszePodatnik(String podatnik) {
+    public List<Wiersz> findWierszePodatnik(Podatnik podatnik) {
         return em.createNamedQuery("Wiersz.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 

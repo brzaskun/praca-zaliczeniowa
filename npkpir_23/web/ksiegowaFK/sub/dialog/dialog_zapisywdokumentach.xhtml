@@ -8,13 +8,13 @@
 
 
     <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="zapisywdokumentach" 
-              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
+              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
-            <p:contextMenu id="contextmenuwpis" for=":zestawieniezapisownakontach:dataList">
+            <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="PF('wpisywanie').show();" oncomplete="$(document.getElementById('formwpisdokument:dataList:#{dokfkView.wierszDoPodswietlenia}:opis')).select();"/>
             </p:contextMenu>
             <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1200px;" widgetVar="dokwpisTable"
-                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" scrollable="true" scrollHeight="500">
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentów " />  
