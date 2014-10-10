@@ -76,10 +76,10 @@
                         <h:outputText value="#{loop.mapotomkow}" /> 
                     </p:column>
                      <p:column headerText="pozycja Wn" style="width: 100px;">
-                        <h:outputText value="#{loop.kontopozycja.pozycjaWn}" /> 
+                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : 'nieprzyp.'}" /> 
                     </p:column>
                      <p:column headerText="pozycja Ma" style="width: 100px;">
-                        <h:outputText value="#{loop.kontopozycja.pozycjaMa}" /> 
+                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
                     <p:column headerText="zablokowane" style="width: 100px;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 

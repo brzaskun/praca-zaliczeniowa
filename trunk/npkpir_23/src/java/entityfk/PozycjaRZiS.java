@@ -247,9 +247,6 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "entityfk.Pozycjarzis[ lp=" + lp + " ]";
-    }
+    
     
 }

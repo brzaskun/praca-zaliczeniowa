@@ -52,7 +52,7 @@
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
-                            <p:column width="90" style="height: 30px;">
+                            <p:column style="height: 30px;">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected"
                                                style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
@@ -75,7 +75,7 @@
                         <f:facet name="header">
                             <h:outputText value="konta przypisane"/>
                         </f:facet>
-                            <p:column >
+                            <p:column style="height: 30px;">
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                  actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
                             </p:column>

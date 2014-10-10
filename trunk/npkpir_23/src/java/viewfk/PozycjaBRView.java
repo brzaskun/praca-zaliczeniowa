@@ -161,7 +161,7 @@ public class PozycjaBRView implements Serializable {
         Msg.msg("i", "Pobrano układ ");
     }
 
-    public void pobierzukladprzeglad(String br, TreeNodeExtended root) {
+    public void pobierzukladprzegladRZiS(String br, TreeNodeExtended root) {
         pozycje = new ArrayList<>();
        try {
          if (br.equals("r")) {
@@ -187,12 +187,17 @@ public class PozycjaBRView implements Serializable {
             zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
         }
         List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
-        PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
-        level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-        Msg.msg("i", "Pobrano układ ");
+        try {
+            PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
+            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e){
+            root.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
     }
     
-    public void pobierzukladprzegladbilans() {
+    public void pobierzukladprzegladBilans() {
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
         ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
        try {
@@ -209,14 +214,20 @@ public class PozycjaBRView implements Serializable {
         } catch (Exception e) {
         }
         rootBilansAktywa.getChildren().clear();
-        rootBilansAktywa.getChildren().clear();
+        rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = new ArrayList<>();
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
         List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
-        PozycjaRZiSFKBean.ustawRoota(rootBilansAktywa, pozycjeaktywa, zapisy, plankont);
-        PozycjaRZiSFKBean.ustawRoota(rootBilansPasywa, pozycjepasywa, zapisy, plankont);
-        level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
-        Msg.msg("i", "Pobrano układ ");
+        try {
+            PozycjaRZiSFKBean.ustawRoota(rootBilansAktywa, pozycjeaktywa, zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRoota(rootBilansPasywa, pozycjepasywa, zapisy, plankont);
+            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e){
+            rootBilansAktywa.getChildren().clear();
+            rootBilansPasywa.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
     }
 
     

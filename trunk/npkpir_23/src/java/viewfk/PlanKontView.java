@@ -401,12 +401,12 @@ public class PlanKontView implements Serializable {
     
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
         kontoDAO.edit(konto);
-        List<Konto> kontapotomne = kontoDAO.findKontaWszystkiePotomnePodatnik("Testowy", konto);
+        List<Konto> kontapotomne = kontoDAO.findKontaWszystkiePotomnePodatnik("Wzorcowy", konto);
         for (Konto p : kontapotomne) {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
             kontoDAO.edit(p);
         }
-        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         rootwzorcowy = rootInit(wykazkontwzor);
     }
 
