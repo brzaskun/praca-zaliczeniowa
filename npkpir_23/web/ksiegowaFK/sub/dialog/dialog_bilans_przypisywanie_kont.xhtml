@@ -58,18 +58,25 @@
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
                             <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                           actionListener="#{pozycjaBRKontaView.onKontoDropB(konto,'b')}" update="@form">
-                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update="@form" icon="ui-icon-arrowrefresh-1-w" 
+                                           actionListener="#{pozycjaBRKontaView.onKontoDropB(konto,'b')}" 
+                                           style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
+                                               rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w" 
                                             rendered="#{konto.mapotomkow}"/>  
                                 <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 
                             </p:splitButton>
+                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropB(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"
+                                               style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
+                                               rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
+                            </p:commandButton>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
@@ -81,13 +88,13 @@
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update="@form"/>
+                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update=":formbilansuklad:dostepnekonta, :formbilansuklad:selected"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
