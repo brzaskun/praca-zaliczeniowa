@@ -53,7 +53,7 @@ public class PozycjaRZiSFKBean {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getKontopozycjaID() != null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null)) {
-                    if (!wykazkont.contains(p)) {
+                    if (!wykazkont.contains(p) && !(p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaMa() != null)) {
                         wykazkont.add(p);
                     }
                     //ta czesc dotyczy rozrachunkowych, to nie bedzie dotyczych zwykłych
@@ -114,8 +114,8 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, String podatnik) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", podatnik);
+    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, String podatnik, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", podatnik, aktywa0pasywa1);
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
@@ -129,8 +129,8 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja, String podatnik) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", podatnik);
+    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja, String podatnik, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", podatnik, aktywa0pasywa1);
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
@@ -153,8 +153,8 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static void wyszukajprzyporzadkowaneBLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO, String podatnik) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", podatnik);
+    public static void wyszukajprzyporzadkowaneBLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaBilansDAO pozycjaBilansDAO, String podatnik, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "bilansowe", podatnik, aktywa0pasywa1);
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
             if (!p.getKontopozycjaID().getStronaWn().equals("syntetyka") && !p.getKontopozycjaID().getStronaWn().equals("analityka")) {
@@ -167,8 +167,8 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, String podatnik) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", podatnik);
+    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, String podatnik, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", podatnik, aktywa0pasywa1);
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
             if (!p.getKontopozycjaID().getStronaWn().equals("syntetyka") && !p.getKontopozycjaID().getStronaWn().equals("analityka")) {
@@ -270,14 +270,40 @@ public class PozycjaRZiSFKBean {
              if (pozycja == null) {
                 p.setKontopozycjaID(null);
             } else {
-                pozycja.setKontoID(p);
-                pozycja.setStronaWn("syntetyka");
-                pozycja.setStronaMa("syntetyka");
+                 if (wnma.equals("wn")) {
+                    pozycja.setKontoID(p);
+                    pozycja.setStronaWn("syntetyka");
+                 } else {
+                    pozycja.setKontoID(p);
+                    pozycja.setStronaMa("syntetyka");
+                 }
                 p.setKontopozycjaID(pozycja);
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
                 przyporzadkujpotkomkowRozrachunkowe(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma);
+            }
+        }
+    }
+    
+    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(String konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto);
+        for (Konto p : lista) {
+             if (pozycja == null) {
+                p.setKontopozycjaID(null);
+            } else {
+                Kontopozycja kp = p.getKontopozycjaID();
+                if (wnma.equals("wn")) {
+                    kp.setStronaWn("syntetyka");
+                    kp.setPozycjaWn(pozycja.getPozycjaWn());
+                } else {
+                    kp.setStronaMa("syntetyka");
+                    kp.setPozycjaMa(pozycja.getPozycjaMa());
+                }
+            }
+            kontoDAO.edit(p);
+            if (p.isMapotomkow() == true) {
+                przyporzadkujpotkomkowRozrachunkoweIstniejeKP(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma, aktywa0pasywa1);
             }
         }
     }

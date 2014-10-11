@@ -140,9 +140,15 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
    }
-    public List<Konto> findKontaPrzyporzadkowane (String pozycja, String bilansowewynikowe, String podatnik) {
+    public List<Konto> findKontaPrzyporzadkowane (String pozycja, String bilansowewynikowe, String podatnik, boolean aktywa0pasywa1) {
       try {
-            return kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, podatnik);
+          String aktywapasywa = "";
+          if (aktywa0pasywa1) {
+              aktywapasywa = "1";
+          } else {
+              aktywapasywa = "0";
+          }
+            return kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, podatnik, aktywapasywa);
         } catch (Exception e) {
             return null;
         } 
