@@ -683,9 +683,9 @@ public class SessionFacade<T> implements Serializable{
             return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).getResultList();
         }
     }
-    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, String podatnik) {
+    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, String podatnik,String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
-            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("podatnik", podatnik).getResultList();
+            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", podatnik).getResultList();
         } else {
             return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", podatnik).getResultList();
         }
