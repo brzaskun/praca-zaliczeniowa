@@ -154,6 +154,18 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Column(name = "boMa")
     private double boMa;
     @Basic(optional = false)
+    @Column(name = "obrotyWn")
+    private double obrotyWn;
+    @Basic(optional = false)
+    @Column(name = "obrotyMa")
+    private double obrotyMa;
+    @Basic(optional = false)
+    @Column(name = "saldoWn")
+    private double saldoWn;
+    @Basic(optional = false)
+    @Column(name = "saldoMa")
+    private double saldoMa;
+    @Basic(optional = false)
     @Column(name = "blokada")
     private boolean blokada;
     @Basic(optional = false)
@@ -398,6 +410,39 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setStronaWiersza(List<StronaWiersza> stronaWiersza) {
         this.stronaWiersza = stronaWiersza;
     }
+
+    public double getObrotyWn() {
+        return obrotyWn;
+    }
+
+    public void setObrotyWn(double obrotyWn) {
+        this.obrotyWn = obrotyWn;
+    }
+
+    public double getObrotyMa() {
+        return obrotyMa;
+    }
+
+    public void setObrotyMa(double obrotyMa) {
+        this.obrotyMa = obrotyMa;
+    }
+
+    public double getSaldoWn() {
+        return saldoWn;
+    }
+
+    public void setSaldoWn(double saldoWn) {
+        this.saldoWn = saldoWn;
+    }
+
+    public double getSaldoMa() {
+        return saldoMa;
+    }
+
+    public void setSaldoMa(double saldoMa) {
+        this.saldoMa = saldoMa;
+    }
+    
     
     
 

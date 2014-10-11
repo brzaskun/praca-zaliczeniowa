@@ -51,7 +51,7 @@ public class DokDAOfk extends DAO implements Serializable {
         dokFacade.remove(selected);
     }
 
-    public List<Dokfk> findDokfkPodatnik(String podatnik, String rok) {
+    public List<Dokfk> findDokfkPodatnik(Podatnik podatnik, String rok) {
         try {
            return dokFacade.findDokfkPodatnik(podatnik, rok);
        } catch (Exception e ){

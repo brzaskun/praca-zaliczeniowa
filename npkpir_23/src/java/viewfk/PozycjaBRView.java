@@ -217,10 +217,11 @@ public class PozycjaBRView implements Serializable {
         rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = new ArrayList<>();
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
-        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        List<Konto> plankont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu());
         try {
-            PozycjaRZiSFKBean.ustawRoota(rootBilansAktywa, pozycjeaktywa, zapisy, plankont);
-            PozycjaRZiSFKBean.ustawRoota(rootBilansPasywa, pozycjepasywa, zapisy, plankont);
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, zapisy, plankont,"aktywa");
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, zapisy, plankont,"pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){
