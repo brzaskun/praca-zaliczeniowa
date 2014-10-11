@@ -91,6 +91,14 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
+    public static void ustawRootaBilans(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
+        rootL.createTreeNodesForElement(pozycjeL);
+        rootL.addNumbersBilans(zapisy, plankont, aktywapasywa);
+        rootL.sumNodes();
+        rootL.resolveFormulas();
+        rootL.expandAll();
+    }
+    
     public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
         rt.createTreeNodesForElement(pz);
         rt.expandAll();
@@ -304,6 +312,39 @@ public class PozycjaRZiSFKBean {
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
                 przyporzadkujpotkomkowRozrachunkoweIstniejeKP(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma, aktywa0pasywa1);
+            }
+        }
+    }
+
+    public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
+        for (StronaWiersza p : zapisy) {
+             //pobiermay dane z poszczegolnego konta
+            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
+            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
+            Konto k = plankont.get(plankont.indexOf(p.getKonto()));
+            k.setObrotyWn(k.getObrotyWn()+kwotaWn);
+            k.setObrotyMa(k.getObrotyMa()+kwotaMa);
+            double sumaObrotyWnBO = k.getObrotyWn()+k.getBoWn();
+            double sumaObrotyMaBO = k.getObrotyMa()+k.getBoMa();
+            if (sumaObrotyWnBO == sumaObrotyMaBO) {
+                k.setSaldoWn(0.0);
+                k.setSaldoMa(0.0);
+            } else {
+                if (sumaObrotyWnBO > sumaObrotyMaBO) {
+                    k.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                    k.setSaldoMa(0.0);
+                } else {
+                    k.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
+                    k.setSaldoWn(0.0);
+                }
+            }
+            
+        }
+        //a teraz trzeba podsumowac konta bez obrotow ale z bo
+        for (Konto r : plankont) {
+            if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
+                r.setSaldoWn(r.getBoWn());
+                r.setSaldoMa(r.getBoMa());
             }
         }
     }

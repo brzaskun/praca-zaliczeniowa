@@ -225,6 +225,71 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    public void addNumbersBilans(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String aktywapasywa) throws Exception {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (Konto p: plankont) {
+            Konto kontopobrane = p;
+            try {
+                String pozycjaBilansWn = null;
+                String pozycjaBilansMa = null;
+                boolean stronaWn;
+                boolean stronaMa;
+                if (kontopobrane.getKontopozycjaID() != null) {
+                    pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                    pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                    stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
+                    stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                    for (TreeNodeExtended r : finallNodes) {
+                        //sprawdzamy czy dane konto nalezy do danego wezla
+                            PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
+                            if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
+                                double kwotapierwotna = pozycja.getKwota();
+                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                                        if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
+                                            if (p.getSaldoWn() > 0) {
+                                                pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                            } else {
+                                                pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                            }
+                                        } else {
+                                            if (p.getSaldoMa() > 0) {
+                                                pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                            } else {
+                                                pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                            }
+                                        }
+                                }
+                            } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                                //obliczamy koncowe saldo, bo w zaleznosci od tego wedruje ono albo do aktywowo albo do pasywow
+//                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+//                                    if (saldoWn > 0 ) {
+//                                        donaniesienia = saldoWn + kwotapierwotna;
+//                                    }
+//                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+//                                    if (saldoMa > 0 ) {
+//                                        donaniesienia = saldoMa + kwotapierwotna;
+//                                    }
+//                                }
+                            } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
+//                                double kwotapierwotna = pozycja.getKwota();
+//                                double donaniesienia = 0.0;
+//                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+//                                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
+//                                    donaniesienia = kwotaWn + kwotapierwotna;
+//                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+//                                    donaniesienia = kwotaMa + kwotapierwotna;
+//                                }
+                            }
+                    }
+                }
+            } catch (Exception e) {
+                throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
+            }
+        }
+    }
+    
     public void sumNodes() {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);

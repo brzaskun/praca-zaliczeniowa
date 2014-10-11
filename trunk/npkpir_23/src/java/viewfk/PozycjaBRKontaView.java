@@ -176,7 +176,6 @@ public class PozycjaBRKontaView  implements Serializable {
                     PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
             }
-        drugiinit();
         uzupelnijpozycjeOKontaR(pozycje);
         RequestContext.getCurrentInstance().update("form:dataList");
         }
@@ -232,7 +231,6 @@ public class PozycjaBRKontaView  implements Serializable {
                     RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                     RequestContext.getCurrentInstance().update("formbilansuklad:selected");
                 }
-        drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
         RequestContext.getCurrentInstance().update("formbilansuklad:dataList");
         }
@@ -329,7 +327,6 @@ public class PozycjaBRKontaView  implements Serializable {
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
             }
         }
-        drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
         RequestContext.getCurrentInstance().update("formbilansuklad:dataList");
     }
@@ -409,7 +406,6 @@ public class PozycjaBRKontaView  implements Serializable {
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
             }
         }
-        drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
         RequestContext.getCurrentInstance().update("formbilansuklad:dataList");
     }
@@ -428,7 +424,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 konto.getKontopozycjaID().setPozycjaMa(null);
             }
             if (konto.getKontopozycjaID().getPozycjaWn() == null && konto.getKontopozycjaID().getPozycjaMa() == null) {
-                konto.getKontopozycjaID().setPozycjonowane(false);
+                 konto.setKontopozycjaID(null);
             }
             kontoDAO.edit(konto);
             //zerujemy potomkow
@@ -455,7 +451,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
             }
             if (konto.getKontopozycjaID().getPozycjaWn() == null && konto.getKontopozycjaID().getPozycjaMa() == null) {
-                konto.getKontopozycjaID().setPozycjonowane(false);
+                konto.setKontopozycjaID(null);
             }
             kontoDAO.edit(konto);
             //zerujemy potomkow
@@ -481,7 +477,6 @@ public class PozycjaBRKontaView  implements Serializable {
         } else {
             Msg.msg("Konto niezwykle");
         }
-        drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
         RequestContext.getCurrentInstance().update("formbilansuklad:dataList");
     }
@@ -502,7 +497,6 @@ public class PozycjaBRKontaView  implements Serializable {
                 PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
             }
         }
-        drugiinit();
         uzupelnijpozycjeOKontaR(pozycje);
         RequestContext.getCurrentInstance().update("form:dataList");
     }
@@ -552,15 +546,15 @@ public class PozycjaBRKontaView  implements Serializable {
     }
     
     public void zwinrzadanalityki (Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikWpisu(), konto.getMacierzyste());
-        List<Konto> potomne = new ArrayList<>();
-        for (Konto t : lista) {
-            potomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(wpisView.getPodatnikWpisu(), t));
+        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikWpisu(), konto.getMacierzyste());
+        List<Konto> listaPotomne = new ArrayList<>();
+        for (Konto t : listaSiostrzane) {
+            listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(wpisView.getPodatnikWpisu(), t));
         }
-        lista.addAll(potomne);
+        listaSiostrzane.addAll(listaPotomne);
         boolean jestprzypisane = false;
         List<String> analitykinazwy = new ArrayList<>();
-        for (Konto p : lista) {
+        for (Konto p : listaSiostrzane) {
             if (p.getKontopozycjaID() != null) {
                 jestprzypisane = true;
                 analitykinazwy.add(p.getPelnynumer());
@@ -571,7 +565,7 @@ public class PozycjaBRKontaView  implements Serializable {
             Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: "+result);
         } else {
             Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu());
-            for (Konto p : lista) {
+            for (Konto p : listaSiostrzane) {
                 wykazkont.remove(p);
             }
             wykazkont.add(macierzyste);

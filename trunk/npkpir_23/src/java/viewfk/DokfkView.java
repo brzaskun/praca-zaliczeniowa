@@ -149,7 +149,7 @@ public class DokfkView implements Serializable {
     private void init() {
         try {
             resetujDokument();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -1048,10 +1048,9 @@ public void updatenetto(EwidencjaAddwiad e) {
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 selected.setwTrakcieEdycji(false);
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.clear();
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 resetujDokument();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
@@ -1069,7 +1068,7 @@ public void updatenetto(EwidencjaAddwiad e) {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
@@ -1080,7 +1079,7 @@ public void updatenetto(EwidencjaAddwiad e) {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObj(dousuniecia));
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
