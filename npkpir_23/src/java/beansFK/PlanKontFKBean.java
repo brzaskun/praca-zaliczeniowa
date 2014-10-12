@@ -150,7 +150,7 @@ public class PlanKontFKBean {
     public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, String podatnik) {
         if (czywzorcowe(r.getChildren().get(0))) {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika("Testowy"));
+            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika("Wzorcowy"));
         } else {
             r.reset();
             r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika(podatnik));
@@ -160,7 +160,7 @@ public class PlanKontFKBean {
 
     public static boolean czywzorcowe(TreeNode nodeR) {
         Konto konto = (Konto) nodeR.getData();
-        return konto.getPodatnik().equals("Testowy");      
+        return konto.getPodatnik().equals("Wzorcowy");      
     }
     
     private static int obliczlevel(String macierzyste) {

@@ -140,7 +140,7 @@ public class PlanKontView implements Serializable {
         String podatnik;
         if (czyoddacdowzorca == true) {
             r = rootwzorcowy;
-            podatnik = "Testowy";
+            podatnik = "Wzorcowy";
         } else {
             r = root;
             podatnik = wpisView.getPodatnikWpisu();
@@ -261,7 +261,7 @@ public class PlanKontView implements Serializable {
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
             for (Konto p : wykazkont) {
-                if (!p.getPodatnik().equals("Testowy")) {
+                if (!p.getPodatnik().equals("Wzorcowy")) {
                     try {
                         kontoDAO.destroy(p);
                     } catch (Exception e) {
@@ -290,10 +290,10 @@ public class PlanKontView implements Serializable {
     }
 
     public void porzadkowanieKontWzorcowych() {
-        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAO, "Testowy");
-        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Testowy");
+        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAO, "Wzorcowy");
+        wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         rozwinwszystkie(rootwzorcowy);
     }
@@ -301,7 +301,7 @@ public class PlanKontView implements Serializable {
     public void usun(TreeNodeExtended<Konto> rootZNodem) {
         String podatnik;
         if (czyoddacdowzorca == true) {
-            podatnik = "Testowy";
+            podatnik = "Wzorcowy";
         } else {
             podatnik = wpisView.getPodatnikWpisu();
         }
