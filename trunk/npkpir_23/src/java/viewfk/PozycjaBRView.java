@@ -161,38 +161,26 @@ public class PozycjaBRView implements Serializable {
         Msg.msg("i", "Pobrano układ ");
     }
 
-    public void pobierzukladprzegladRZiS(String br, TreeNodeExtended root) {
+    public void pobierzukladprzegladRZiS() {
         pozycje = new ArrayList<>();
        try {
-         if (br.equals("r")) {
-                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            } else {
-                //pozycje.addAll(pozycjaBilansDAO.findBilansuklad(uklad));
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            if (pozycje.isEmpty()) {
+               pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
             }
         } catch (Exception e) {
         }
-        root.getChildren().clear();
+        rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = new ArrayList<>();
-        if (br.equals("r")) {
-            zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
-        } else {
-            zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
-        }
-        List<Konto> plankont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
         try {
-            PozycjaRZiSFKBean.ustawRoota(root, pozycje, zapisy, plankont);
-            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){
-            root.getChildren().clear();
+            rootProjektRZiS.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
         }
     }

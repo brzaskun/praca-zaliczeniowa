@@ -194,8 +194,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             //pobiermay dane z poszczegolnego konta
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
-            Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
             try {
+                Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
                 String pozycjaRZiS = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 for (TreeNodeExtended r : finallNodes) {
                     //sprawdzamy czy dane konto nalezy do danego wezla
@@ -218,7 +218,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         }
                 }
             } catch (Exception e) {
-                throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
+                //throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }
         }
     }
