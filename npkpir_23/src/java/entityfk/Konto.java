@@ -56,7 +56,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT COUNT(k) FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID.pozycjonowane = 1 AND (k.kontopozycjaID.pozycjaWn = :pozycja OR k.kontopozycjaID.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND (k.kontopozycjaID.pozycjaWn = :pozycja OR k.kontopozycjaID.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND "
             + "(k.kontopozycjaID.pozycjaWn = :pozycja AND k.kontopozycjaID.stronaWn = :aktywa0pasywa1)"
             + " OR (k.kontopozycjaID.pozycjaMa = :pozycja AND k.kontopozycjaID.stronaMa = :aktywa0pasywa1)"

@@ -266,25 +266,13 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                 } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                     pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
                                 }
-                                //obliczamy koncowe saldo, bo w zaleznosci od tego wedruje ono albo do aktywowo albo do pasywow
-//                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-//                                    if (saldoWn > 0 ) {
-//                                        donaniesienia = saldoWn + kwotapierwotna;
-//                                    }
-//                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-//                                    if (saldoMa > 0 ) {
-//                                        donaniesienia = saldoMa + kwotapierwotna;
-//                                    }
-//                                }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
-//                                double kwotapierwotna = pozycja.getKwota();
-//                                double donaniesienia = 0.0;
-//                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-//                                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
-//                                    donaniesienia = kwotaWn + kwotapierwotna;
-//                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-//                                    donaniesienia = kwotaMa + kwotapierwotna;
-//                                }
+                                double kwotapierwotna = pozycja.getKwota();
+                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                    pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                    pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                }
                             }
                     }
                 }

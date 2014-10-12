@@ -57,8 +57,8 @@ public class Kontopozycja implements Serializable {
     private String pozycjaMa;
     @Column(length = 10, name = "stronaMa")
     private String stronaMa;
-    @Column(name = "pozycjonowane")
-    private boolean pozycjonowane;
+    @Column(name = "syntetykaanalityka")
+    private String syntetykaanalityka;
     @JoinColumn(name = "ukladBR", referencedColumnName = "lp")
     private UkladBR ukladBR;
     @OneToOne
@@ -92,13 +92,15 @@ public class Kontopozycja implements Serializable {
         this.pozycjaMa = pozycjaMa;
     }
 
-    public boolean isPozycjonowane() {
-        return pozycjonowane;
+    public String getSyntetykaanalityka() {
+        return syntetykaanalityka;
     }
 
-    public void setPozycjonowane(boolean pozycjonowane) {
-        this.pozycjonowane = pozycjonowane;
+    public void setSyntetykaanalityka(String syntetykaanalityka) {
+        this.syntetykaanalityka = syntetykaanalityka;
     }
+
+  
 
    
     public UkladBR getUkladBR() {
@@ -165,7 +167,7 @@ public class Kontopozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "Kontopozycja{" + "id=" + idKP + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + pozycjonowane + ", ukladBR=" + ukladBR + ", konto=" + kontoID + '}';
+        return "Kontopozycja{" + "id=" + idKP + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + ", konto=" + kontoID + '}';
     }
     
     
