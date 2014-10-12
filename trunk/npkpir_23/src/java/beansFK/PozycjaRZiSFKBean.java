@@ -91,9 +91,9 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
-    public static void ustawRootaBilans(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
+    public static void ustawRootaBilans(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<Konto> plankont, String aktywapasywa) throws Exception {
         rootL.createTreeNodesForElement(pozycjeL);
-        rootL.addNumbersBilans(zapisy, plankont, aktywapasywa);
+        rootL.addNumbersBilans(plankont, aktywapasywa);
         rootL.sumNodes();
         rootL.resolveFormulas();
         rootL.expandAll();
@@ -272,46 +272,46 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkowe(String konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto);
+    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto.getPelnynumer());
         for (Konto p : lista) {
              if (pozycja == null) {
                 p.setKontopozycjaID(null);
             } else {
                  if (wnma.equals("wn")) {
                     pozycja.setKontoID(p);
-                    pozycja.setStronaWn("syntetyka");
+                    pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                  } else {
                     pozycja.setKontoID(p);
-                    pozycja.setStronaMa("syntetyka");
+                    pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                  }
                 p.setKontopozycjaID(pozycja);
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowRozrachunkowe(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma);
+                przyporzadkujpotkomkowRozrachunkowe(p, pozycja, kontoDAO, podatnik, wnma);
             }
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(String konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma, boolean aktywa0pasywa1) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto);
+    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(Konto konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, String podatnik, String wnma, boolean aktywa0pasywa1) {
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(podatnik, konto.getPelnynumer());
         for (Konto p : lista) {
              if (pozycja == null) {
                 p.setKontopozycjaID(null);
             } else {
                 Kontopozycja kp = p.getKontopozycjaID();
                 if (wnma.equals("wn")) {
-                    kp.setStronaWn("syntetyka");
+                    kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                     kp.setPozycjaWn(pozycja.getPozycjaWn());
                 } else {
-                    kp.setStronaMa("syntetyka");
+                    kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                     kp.setPozycjaMa(pozycja.getPozycjaMa());
                 }
             }
             kontoDAO.edit(p);
             if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowRozrachunkoweIstniejeKP(p.getPelnynumer(), pozycja, kontoDAO, podatnik, wnma, aktywa0pasywa1);
+                przyporzadkujpotkomkowRozrachunkoweIstniejeKP(p, pozycja, kontoDAO, podatnik, wnma, aktywa0pasywa1);
             }
         }
     }
@@ -321,22 +321,26 @@ public class PozycjaRZiSFKBean {
              //pobiermay dane z poszczegolnego konta
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
-            Konto k = plankont.get(plankont.indexOf(p.getKonto()));
-            k.setObrotyWn(k.getObrotyWn()+kwotaWn);
-            k.setObrotyMa(k.getObrotyMa()+kwotaMa);
-            double sumaObrotyWnBO = k.getObrotyWn()+k.getBoWn();
-            double sumaObrotyMaBO = k.getObrotyMa()+k.getBoMa();
-            if (sumaObrotyWnBO == sumaObrotyMaBO) {
-                k.setSaldoWn(0.0);
-                k.setSaldoMa(0.0);
-            } else {
-                if (sumaObrotyWnBO > sumaObrotyMaBO) {
-                    k.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+            try {
+                Konto k = plankont.get(plankont.indexOf(p.getKonto()));
+                k.setObrotyWn(k.getObrotyWn()+kwotaWn);
+                k.setObrotyMa(k.getObrotyMa()+kwotaMa);
+                double sumaObrotyWnBO = k.getObrotyWn()+k.getBoWn();
+                double sumaObrotyMaBO = k.getObrotyMa()+k.getBoMa();
+                if (sumaObrotyWnBO == sumaObrotyMaBO) {
+                    k.setSaldoWn(0.0);
                     k.setSaldoMa(0.0);
                 } else {
-                    k.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
-                    k.setSaldoWn(0.0);
+                    if (sumaObrotyWnBO > sumaObrotyMaBO) {
+                        k.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                        k.setSaldoMa(0.0);
+                    } else {
+                        k.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
+                        k.setSaldoWn(0.0);
+                    }
                 }
+            } catch (Exception e) {
+                
             }
             
         }
