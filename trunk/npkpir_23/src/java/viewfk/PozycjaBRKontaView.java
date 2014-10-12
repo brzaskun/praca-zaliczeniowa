@@ -162,7 +162,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 kp.setPozycjaMa(wybranapozycja);
                 kp.setStronaWn("99");
                 kp.setStronaMa("99");
-                kp.setPozycjonowane(true);
+                kp.setSyntetykaanalityka("wynikowe");
                 kp.setKontoID(konto);
                 kp.setUkladBR(uklad);
                 konto.setKontopozycjaID(kp);
@@ -173,7 +173,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
             }
         uzupelnijpozycjeOKontaR(pozycje);
@@ -215,7 +215,7 @@ public class PozycjaBRKontaView  implements Serializable {
                         kp.setStronaWn("1");
                         kp.setStronaMa("1");
                     }
-                    kp.setPozycjonowane(true);
+                    kp.setSyntetykaanalityka("zwykłe");
                     kp.setKontoID(konto);
                     kp.setUkladBR(uklad);
                     konto.setKontopozycjaID(kp);
@@ -226,7 +226,7 @@ public class PozycjaBRKontaView  implements Serializable {
                     }
                     //czesc nanoszaca informacje na macierzyste
                     if (konto.getMacierzysty() > 0) {
-                        PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                        PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                     }
                     RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                     RequestContext.getCurrentInstance().update("formbilansuklad:selected");
@@ -256,7 +256,7 @@ public class PozycjaBRKontaView  implements Serializable {
                     } else {
                         kp.setStronaWn("1");
                     }
-                    kp.setPozycjonowane(true);
+                    kp.setSyntetykaanalityka("rozrachunkowe/vat");
                     kp.setKontoID(konto);
                     kp.setUkladBR(uklad);
                     konto.setKontopozycjaID(kp);
@@ -267,7 +267,7 @@ public class PozycjaBRKontaView  implements Serializable {
                     } else {
                         kp.setStronaMa("1");
                     }
-                    kp.setPozycjonowane(true);
+                    kp.setSyntetykaanalityka("rozrachunkowe/vat");
                     kp.setKontoID(konto);
                     kp.setUkladBR(uklad);
                     konto.setKontopozycjaID(kp);
@@ -279,7 +279,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(),kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto,kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
                 RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
@@ -296,7 +296,7 @@ public class PozycjaBRKontaView  implements Serializable {
                     } else {
                         kp.setStronaWn("1");
                     }
-                    kp.setPozycjonowane(true);
+                    kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
                     kp.setUkladBR(uklad);
                     konto.setKontopozycjaID(kp);
@@ -307,7 +307,7 @@ public class PozycjaBRKontaView  implements Serializable {
                     } else {
                         kp.setStronaMa("1");
                     }
-                    kp.setPozycjonowane(true);
+                    kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
                     kp.setUkladBR(uklad);
                     konto.setKontopozycjaID(kp);
@@ -321,7 +321,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
                 RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
@@ -365,7 +365,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(),kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto,kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
                 RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
@@ -400,7 +400,7 @@ public class PozycjaBRKontaView  implements Serializable {
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto.getMacierzyste(), kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView.getPodatnikWpisu());
                 }
                 RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
                 RequestContext.getCurrentInstance().update("formbilansuklad:selected");
