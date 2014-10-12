@@ -41,6 +41,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByKontaPodatnikaBO", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.pelnynumer LIKE :wzorzec AND k.mapotomkow = 0 AND k.bilansowewynikowe = 'bilansowe' AND k.nrkonta != 0 "),
     @NamedQuery(name = "Konto.findByPodatnikBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0"),
+    @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490'"),
     @NamedQuery(name = "Konto.findByNrkonta", query = "SELECT k FROM Konto k WHERE k.nrkonta = :nrkonta"),
     @NamedQuery(name = "Konto.findBySyntetyczne", query = "SELECT k FROM Konto k WHERE k.syntetyczne = :syntetyczne"),

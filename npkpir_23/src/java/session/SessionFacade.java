@@ -800,7 +800,11 @@ public class SessionFacade<T> implements Serializable{
     }
     
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(String podatnik) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
+        return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
+    }
+    
+    public List<Konto> findKontaWynikowePodatnikaBezPotomkow(String podatnik) {
+        return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
     }
     
     public Konto findKontoPodatnik490(String podatnik) {
