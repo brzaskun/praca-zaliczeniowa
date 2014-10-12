@@ -186,6 +186,10 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
+        pobierzukladprzegladRZiS();
+        List<Object> listazwrotnapozycji = new ArrayList<>();
+        rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
+        PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size()-1);
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
         ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
        try {
@@ -207,6 +211,21 @@ public class PozycjaBRView implements Serializable {
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
+            Konto kontowyniku = null;
+            for (Konto p : plankont) {
+                if (p.getPelnynumer().equals("860")) {
+                    kontowyniku = p;
+                    break;
+                }
+            }
+            double wynikfinansowy = pozycjawynikfin.getKwota();
+            if (wynikfinansowy > 0) {
+                kontowyniku.setObrotyMa(wynikfinansowy);
+                kontowyniku.setSaldoMa(wynikfinansowy);
+            } else {
+                kontowyniku.setObrotyWn(wynikfinansowy);
+                kontowyniku.setSaldoWn(wynikfinansowy);
+            }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont,"pasywa");

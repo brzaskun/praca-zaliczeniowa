@@ -799,14 +799,19 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).getResultList();
     }
     
-    public List<Konto> findKontaBilansowePodatnikaBezPotomkow(String podatnik) {
-        return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
-    }
-    
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(String podatnik) {
         return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
     }
     
+    public List<Konto> findKontaBilansowePodatnikaBezPotomkow(String podatnik) {
+        return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", podatnik).getResultList();
+    }
+    
+    public List<Konto> findKonto860(String podatnik) {
+        return em.createNamedQuery("Konto.findByKonto860").setParameter("podatnik", podatnik).getResultList();
+    }
+    
+        
     public Konto findKontoPodatnik490(String podatnik) {
         return (Konto) em.createNamedQuery("Konto.findByPodatnik490").setParameter("podatnik", podatnik).getSingleResult();
     }

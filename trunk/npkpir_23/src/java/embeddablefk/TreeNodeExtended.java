@@ -268,10 +268,20 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                                 double kwotapierwotna = pozycja.getKwota();
-                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                    pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
-                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                    pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                if (aktywapasywa.equals("aktywa")) {
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                    } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                        pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                    }
+                                } else {
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                        pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                    } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                    }
                                 }
                             }
                     }

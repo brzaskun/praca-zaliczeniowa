@@ -41,11 +41,14 @@
                     <p:column headerText="nazwa pełna" style="width: 150px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
-                    <p:column headerText="typ konta" style="width: 100px;">
+                    <p:column headerText="typ konta" style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
-                    <p:column headerText="poziom" style="width: 50px;">
-                        <h:outputText value="#{loop.level}" /> 
+                    <p:column headerText="przyporzadkowanie" style="width: 90px;">
+                        <h:outputText value="Wn : "/>
+                        <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? (loop.kontopozycjaID.stronaWn eq 1 ? 'pasywa':'aktywa') : ''}" /> 
+                        <h:outputText value=" Ma : "/>
+                        <h:outputText value="#{loop.kontopozycjaID.stronaMa != null ? (loop.kontopozycjaID.stronaMa eq 1 ? 'pasywa':'aktywa') : ''}" /> 
                     </p:column>
                     <p:column headerText="Kwota Wn" style="width: 100px;">
                         <h:outputText value="#{loop.boWn}" style="float: right;">
@@ -57,8 +60,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
-                    <p:column headerText="zablokowane" style="width: 100px;">
-                        <h:outputText value="#{loop.blokada eq true ? 'zablokowane' : null}" /> 
+                    <p:column headerText="zablokowane" style="width: 70px;">
+                        <h:outputText value="#{loop.blokada eq true ? '&#x2713;' : null}" /> 
                     </p:column>
                 </p:treeTable>
             </p:panelGrid>
