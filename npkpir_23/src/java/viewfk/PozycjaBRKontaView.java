@@ -335,7 +335,8 @@ public class PozycjaBRKontaView  implements Serializable {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
-            Konto konto = boxNaKonto;
+            //trzeba wyszukac konto bo nie odswiezalem listy i w zwiazku z tym encja z listy nie zgadza sie z encja z bazy;
+            Konto konto = kontoDAO.findKonto(boxNaKonto.getPelnynumer(), wpisView.getPodatnikWpisu());
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
                 przyporzadkowanekonta.add(konto);
