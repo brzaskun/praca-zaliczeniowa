@@ -59,6 +59,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             for (T p : biezaca) {
                 if (i == 0) {
                     TreeNodeExtended tmp = new TreeNodeExtended(p, this);
+                    tmp.setExpanded(true);
                      nowe.add(tmp);
                 } else {
                     Iterator it = poprzednie.iterator();
@@ -69,15 +70,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         int macierzysty = 0;
                         try {
                             //tutaj wyszukujemy funkcje, a mozna bylo uzyc abstrakcji
-                            Method method = parent.getClass().getMethod("getLp");
-                            lp = (int) method.invoke(parent);
-                            method = p.getClass().getMethod("getMacierzysty");
-                            macierzysty =  (int) method.invoke(p);
+                            lp = ((ToBeATreeNodeObject) parent).getLp();
+                            macierzysty = ((ToBeATreeNodeObject) p).getMacierzysty();
                         } catch (Exception ex) {
                            Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if (lp == macierzysty) {
                             TreeNodeExtended tmp = new TreeNodeExtended(p, r);
+                            tmp.setExpanded(true);
                             nowe.add(tmp);
                         }
                     }

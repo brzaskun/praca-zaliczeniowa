@@ -68,7 +68,6 @@ public class PlanKontView implements Serializable {
     private void init() {
         wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
         root = rootInit(wykazkont);
-        rozwinwszystkie(root);
         wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         rootwzorcowy = rootInit(wykazkontwzor);
         listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
@@ -76,13 +75,6 @@ public class PlanKontView implements Serializable {
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
-        Iterator it = wykazKont.iterator();
-        while (it.hasNext()) {
-            Konto konto = (Konto) it.next();
-            if (konto.getNrkonta().equals("0")) {
-                it.remove();
-            }
-        }
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
         if (!wykazKont.isEmpty()) {
             r.createTreeNodesForElement(wykazKont);

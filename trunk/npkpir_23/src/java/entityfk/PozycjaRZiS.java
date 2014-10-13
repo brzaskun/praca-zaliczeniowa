@@ -109,26 +109,32 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     }
     
 
+    @Override
     public Integer getLp() {
         return lp;
     }
 
+    @Override
     public void setLp(Integer lp) {
         this.lp = lp;
     }
 
+    @Override
     public String getFormula() {
         return formula;
     }
 
+    @Override
     public void setFormula(String formula) {
         this.formula = formula;
     }
 
+    @Override
     public double getKwota() {
         return kwota;
     }
 
+    @Override
     public void setKwota(double kwota) {
         this.kwota = kwota;
     }

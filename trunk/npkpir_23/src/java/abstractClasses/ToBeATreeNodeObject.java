@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author Osito
  */
 public abstract class ToBeATreeNodeObject implements Serializable{
+    public static final long serialVersionUID = -6459954688055353581L;
     //implementuje to bo to wlazi potem do tree i korzysta ze wspolnych rozwin i zwin
     public abstract int getMacierzysty(); 
 
@@ -19,5 +20,9 @@ public abstract class ToBeATreeNodeObject implements Serializable{
     public abstract int getLevel();
 
     public abstract void setLevel(int level);
+    
+    public abstract Integer getLp();
+
+    public abstract void setLp(Integer lp);
     
 }

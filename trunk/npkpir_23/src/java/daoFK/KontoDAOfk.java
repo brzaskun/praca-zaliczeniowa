@@ -101,6 +101,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
     
+    
     public List<Konto> findWszystkieKontaPodatnikaBO(String podatnik, String kategoriaKonta){
        try {
             return kontoFacade.findWszystkieKontaPodatnikaBO(podatnik, kategoriaKonta);

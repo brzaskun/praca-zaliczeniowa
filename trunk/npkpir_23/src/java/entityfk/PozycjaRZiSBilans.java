@@ -87,10 +87,12 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.macierzysty = macierzysty;
     }
 
+    @Override
     public Integer getLp() {
         return lp;
     }
 
+    @Override
     public void setLp(Integer lp) {
         this.lp = lp;
     }

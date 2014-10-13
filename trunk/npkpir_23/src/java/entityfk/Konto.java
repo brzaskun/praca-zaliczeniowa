@@ -351,6 +351,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.rozwin = rozwin;
     }
     
+    @Override
     public Integer getLp() {
         return this.id;
     }
@@ -474,6 +475,11 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Override
     public String toString() {
         return "Konto{" + "id=" + id + ", podatnik=" + podatnik + ", nrkonta=" + pelnynumer + ", syntetyczne=" + syntetyczne + ", nazwaskrocona=" + nazwaskrocona + ", bilansowewynikowe=" + bilansowewynikowe + ", zwyklerozrachszczegolne=" + zwyklerozrachszczegolne + '}';
+    }
+
+    @Override
+    public void setLp(Integer lp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     
