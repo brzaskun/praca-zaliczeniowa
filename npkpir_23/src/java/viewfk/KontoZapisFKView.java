@@ -10,12 +10,10 @@ import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
-import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.WierszBO;
-import entityfk.Zestawienielisttransakcji;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,6 +55,10 @@ public class KontoZapisFKView implements Serializable{
     private Double sumaMa;
     private Double saldoWn;
     private Double saldoMa;
+    private Double sumaWnPLN;
+    private Double sumaMaPLN;
+    private Double saldoWnPLN;
+    private Double saldoMaPLN;
     private List zapisydopodswietlenia;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -69,7 +71,7 @@ public class KontoZapisFKView implements Serializable{
     public KontoZapisFKView() {
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
-        wybranaWalutaDlaKont = "PLN";
+        wybranaWalutaDlaKont = "wszystkie";
     }
     
     @PostConstruct
@@ -95,15 +97,24 @@ public class KontoZapisFKView implements Serializable{
                 }
                 for (Konto p : kontapotomne) {
                     kontozapisy.addAll(pobierzZapisyBO(p));
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
+                    } else {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    }
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
                 kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
-                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+                } else {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                }
             }
             sumazapisow();
+            sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
@@ -146,16 +157,25 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(pobierzZapisyBO(p, wybranaWalutaDlaKont));
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(pobierzZapisyBO(p));
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
+                    } else {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    }
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
-                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+                } else {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                }
             }
             sumazapisow();
+            sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
@@ -176,19 +196,32 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(pobierzZapisyBO(p, wybranaWalutaDlaKont));
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(pobierzZapisyBO(p));
+                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
+                    } else {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    }
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(pobierzZapisyBO(wybranekonto, wybranaWalutaDlaKont));
-                kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+                } else {
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                }
             }
             sumazapisow();
+            sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
         }
+    }
+    public void sumazapisowtotal() {
+        sumazapisow();
+        sumazapisowpln();
     }
     
     private TreeNode odnajdzNode(Konto kontoPoszukiwane) {
@@ -249,6 +282,25 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+    public void sumazapisowpln(){
+        sumaWnPLN = 0.0;
+        sumaMaPLN = 0.0;
+        for(StronaWiersza p : wybranekontadosumowania){
+            if (p.getWnma().equals("Wn")) {
+                sumaWnPLN = sumaWnPLN + p.getKwotaPLN();
+            } else if (p.getWnma().equals("Ma")){
+                sumaMaPLN = sumaMaPLN + p.getKwotaPLN();
+            }
+        }
+        saldoWnPLN = 0.0;
+        saldoMaPLN = 0.0;
+        if(sumaWnPLN>sumaMaPLN){
+            saldoWnPLN = sumaWnPLN-sumaMaPLN;
+        } else {
+            saldoMaPLN = sumaMaPLN-sumaWnPLN;
+        }
+    }
+    
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
         StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
@@ -268,6 +320,9 @@ public class KontoZapisFKView implements Serializable{
         RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
         RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
     //porownaj jak wlasciwe zaprojektowanie bazy danych i nie mnozenie bytow upraszcza sprawe
 //     public void odszukajsparowanerozrachunki() {
 //        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
@@ -322,7 +377,38 @@ public class KontoZapisFKView implements Serializable{
 //        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
 //    }
     
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    public Double getSumaWnPLN() {
+        return sumaWnPLN;    
+    }
+
+    public void setSumaWnPLN(Double sumaWnPLN) {
+        this.sumaWnPLN = sumaWnPLN;
+    }
+
+    public Double getSumaMaPLN() {
+        return sumaMaPLN;
+    }
+
+    public void setSumaMaPLN(Double sumaMaPLN) {
+        this.sumaMaPLN = sumaMaPLN;
+    }
+
+    public Double getSaldoWnPLN() {
+        return saldoWnPLN;
+    }
+
+    public void setSaldoWnPLN(Double saldoWnPLN) {
+        this.saldoWnPLN = saldoWnPLN;
+    }
+
+    public Double getSaldoMaPLN() {
+        return saldoMaPLN;
+    }
+
+    public void setSaldoMaPLN(Double saldoMaPLN) {
+        this.saldoMaPLN = saldoMaPLN;
+    }
+
     public String getWybranaWalutaDlaKont() {
         return wybranaWalutaDlaKont;
     }
