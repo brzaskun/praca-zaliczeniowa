@@ -1043,7 +1043,7 @@ public void updatenetto(EwidencjaAddwiad e) {
                 wn.setKwotaWaluta(wn.getKwota());
              }
              if (ma != null) {
-                ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
                 ma.setKwotaWaluta(ma.getKwota());
              }
         }
