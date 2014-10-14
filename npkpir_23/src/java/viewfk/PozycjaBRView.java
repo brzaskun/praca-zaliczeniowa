@@ -219,12 +219,13 @@ public class PozycjaBRView implements Serializable {
                 }
             }
             double wynikfinansowy = pozycjawynikfin.getKwota();
-            if (wynikfinansowy > 0) {
-                kontowyniku.setObrotyMa(wynikfinansowy);
-                kontowyniku.setSaldoMa(wynikfinansowy);
-            } else {
-                kontowyniku.setObrotyWn(wynikfinansowy);
-                kontowyniku.setSaldoWn(wynikfinansowy);
+            double wf = Math.abs(wynikfinansowy);
+            if (wynikfinansowy > 0) {//zysk
+                kontowyniku.setObrotyMa(wf);
+                kontowyniku.setSaldoMa(wf);
+            } else {//strata
+                kontowyniku.setObrotyWn(wf);
+                kontowyniku.setSaldoWn(wf);
             }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");

@@ -270,17 +270,25 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                 double kwotapierwotna = pozycja.getKwota();
                                 if (aktywapasywa.equals("aktywa")) {
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                        if (p.getSaldoWn() != 0) {
+                                            pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                        }
                                     } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                        pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                        if (p.getSaldoMa() != 0) {
+                                            pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                        }
                                     }
                                 } else {
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                        pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                        if (p.getSaldoWn() != 0) {
+                                            pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                        }
                                     } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                        if (p.getSaldoMa() != 0) {
+                                            pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                        }
                                     }
                                 }
                             }
