@@ -12,6 +12,7 @@ import beansFK.StronaWierszaBean;
 import comparator.Rodzajedokcomparator;
 import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
+import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
@@ -24,6 +25,7 @@ import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
 import entity.Evewidencja;
+import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -76,6 +78,8 @@ public class DokfkView implements Serializable {
     protected Dokfk selected;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klDAO;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
@@ -153,6 +157,14 @@ public class DokfkView implements Serializable {
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
+            selected.setRodzajedok(odnajdzZZ());
+            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
+        } catch (Exception e) {
+        }
+        try {
+            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            selected.setKontr(klient);
+            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
         } catch (Exception e) {
         }
         wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
@@ -191,6 +203,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
+        selected.setRodzajedok(odnajdzZZ());
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:dataDialogWpisywanie')).select();");
@@ -820,8 +833,6 @@ public class DokfkView implements Serializable {
             wiersztrzeci.getStronaWn().setKonto(k);
             selected.getListawierszy().add(wiersztrzeci);
         }
-        String update = "formwpisdokument:tablicavat";
-        RequestContext.getCurrentInstance().update(update);
         pobierzkontaZpoprzedniegoDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -884,8 +895,6 @@ public class DokfkView implements Serializable {
             }
             selected.getListawierszy().add(wierszdrugi);
         }
-        String update = "formwpisdokument:tablicavat";
-        RequestContext.getCurrentInstance().update(update);
         pobierzkontaZpoprzedniegoDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -996,10 +1005,13 @@ public void updatenetto(EwidencjaAddwiad e) {
                 //nanosimy zapisy na kontach
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
                 dolaczEwidencjeVATDoDokumentu();
-                dokDAOfk.edit(selected);
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
                 //utrwalTransakcje();
+                for (Wiersz p : selected.getListawierszy()) {
+                    przepiszWaluty(p);
+                }
+                dokDAOfk.edit(selected);
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
@@ -1015,6 +1027,27 @@ public void updatenetto(EwidencjaAddwiad e) {
         }
     
 }
+    private void przepiszWaluty(Wiersz wiersz) {
+        StronaWiersza wn = wiersz.getStronaWn();
+        StronaWiersza ma = wiersz.getStronaMa();
+        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+             if (wn != null) {
+                wn.setKwotaPLN(wn.getKwota());
+             }
+             if (ma != null) {
+                ma.setKwotaPLN(ma.getKwota());
+             }
+        } else {
+             if (wn != null) {
+                wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                wn.setKwotaWaluta(wn.getKwota());
+             }
+             if (ma != null) {
+                ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                ma.setKwotaWaluta(ma.getKwota());
+             }
+        }
+    }
     
     private void dolaczEwidencjeVATDoDokumentu() {
         Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
@@ -1048,6 +1081,9 @@ public void updatenetto(EwidencjaAddwiad e) {
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 selected.setwTrakcieEdycji(false);
+                for (Wiersz p : selected.getListawierszy()) {
+                    przepiszWaluty(p);
+                }
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.clear();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -1183,9 +1219,18 @@ public void updatenetto(EwidencjaAddwiad e) {
             pokazPanelWalutowy = false;
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
+        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        //RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+    }
+    
+    private Rodzajedok odnajdzZZ() {
+         for (Rodzajedok p : rodzajedokKlienta) {
+             if (p.getSkrot().equals("ZZ")) {
+                 return p;
+             }
+         }
+         return null;
     }
 
     public void przygotujDokumentEdycja() {
@@ -1660,9 +1705,11 @@ public void updatenetto(EwidencjaAddwiad e) {
         } else {
             if (stronawiersza.equals("Wn")) {
                 stronaWn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                stronaWn.setKwotaWaluta(stronaWn.getKwota());
                 stronaWn.setPozostalo(stronaWn.getKwota());
             } else {
                 stronaMa.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                stronaMa.setKwotaWaluta(stronaMa.getKwota());
                 stronaMa.setPozostalo(stronaMa.getKwota());
             }
         }
@@ -1672,6 +1719,8 @@ public void updatenetto(EwidencjaAddwiad e) {
         return stronaWiersza;
     }
 
+    
+    
     public void zapistransakcji() {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() != 1) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
@@ -1935,13 +1984,10 @@ public void updatenetto(EwidencjaAddwiad e) {
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
                 selected.setNumerwlasnydokfk(nowynumer);
-                RequestContext.getCurrentInstance().update("formwpisdokument:numer");
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
-                RequestContext.getCurrentInstance().update("formwpisdokument:numer");
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
         }
 
     }

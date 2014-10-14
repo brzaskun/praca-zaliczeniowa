@@ -173,7 +173,7 @@ public class PozycjaBRView implements Serializable {
         }
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = new ArrayList<>();
-        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
         try {
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
@@ -208,7 +208,7 @@ public class PozycjaBRView implements Serializable {
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = new ArrayList<>();
-        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
+        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
             Konto kontowyniku = null;
