@@ -44,10 +44,10 @@
             <p:column headerText="data" width="90"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
-            <p:column headerText="okres" width="90" >
-                <h:outputText value="#{item.miesiac}/#{item.dokfkPK.rok}"/>
+            <p:column headerText="okres" width="90" sortBy="#{item.miesiac}" filterBy="#{item.miesiac}" >
+                <h:outputText value="#{item.miesiac}"/>
             </p:column>
-            <p:column headerText="symbol" width="100">
+            <p:column headerText="symbol" width="100" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
             </p:column>
             <p:column headerText="numer" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
@@ -61,15 +61,14 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText>
             </p:column>
-            <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+            <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
-            <p:column headerText="edycja" width="100" style="text-align: center;" >
-                <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="" rendered="#{!item.wTrakcieEdycji}" style="width: 60px;"/>
-                <p:commandButton value="" icon="ui-icon-circle-minus" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" update=":formwpisdokument"  oncomplete="" rendered="#{item.wTrakcieEdycji}" style="width: 60px;"/>
+            <p:column width="90" style="text-align: center;" >
+                <p:commandButton value="edit" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
             </p:column>
-            <p:column headerText="" width="70" style="text-align: center;">
-                <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList"/>
+            <p:column width="90" style="text-align: center;">
+                <p:commandButton value="usun" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList" style="width: 70px;"/>
             </p:column>
            
         </p:dataTable>

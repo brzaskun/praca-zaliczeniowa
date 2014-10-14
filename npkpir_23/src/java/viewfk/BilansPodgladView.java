@@ -4,12 +4,10 @@
  */
 package viewfk;
 
-import beansFK.BOFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;

@@ -319,8 +319,8 @@ public class PozycjaRZiSFKBean {
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {
              //pobiermay dane z poszczegolnego konta
-            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
-            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
+            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
+            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
                 Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);

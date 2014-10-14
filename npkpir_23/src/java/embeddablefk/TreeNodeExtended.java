@@ -192,8 +192,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         this.getFinallChildren(finallNodes);
         for (StronaWiersza p: zapisynakontach) {
             //pobiermay dane z poszczegolnego konta
-            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwota() : 0.0;
-            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwota() : 0.0;
+            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
+            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
                 Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
                 String pozycjaRZiS = kontopobrane.getKontopozycjaID().getPozycjaWn();
