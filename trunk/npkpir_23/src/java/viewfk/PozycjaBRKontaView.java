@@ -205,10 +205,10 @@ public class PozycjaBRKontaView implements Serializable {
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKP();
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKP();
                     }
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
@@ -509,8 +509,6 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void onKontoRemoveB(Konto konto, String br) {
-        wykazkont.add(konto);
-        Collections.sort(wykazkont, new Kontocomparator());
         if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
             przyporzadkowanekonta.remove(konto);
             String wnma = "";
@@ -525,6 +523,14 @@ public class PozycjaBRKontaView implements Serializable {
                 konto.setKontopozycjaID(null);
             }
             kontoDAO.edit(konto);
+             if (wykazkont.contains(konto)) {
+                    wykazkont.remove(konto);
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                } else {
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                }
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, null, kontoDAO, wpisView.getPodatnikWpisu(), wnma);
@@ -553,6 +559,14 @@ public class PozycjaBRKontaView implements Serializable {
                 konto.setKontopozycjaID(null);
             }
             kontoDAO.edit(konto);
+             if (wykazkont.contains(konto)) {
+                    wykazkont.remove(konto);
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                } else {
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                }
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, null, kontoDAO, wpisView.getPodatnikWpisu(), wnma);
@@ -573,6 +587,14 @@ public class PozycjaBRKontaView implements Serializable {
             if (konto.getMacierzysty() > 0) {
                 PozycjaRZiSFKBean.odznaczmacierzyste(konto.getMacierzyste(), konto.getPelnynumer(), kontoDAO, wpisView.getPodatnikWpisu());
             }
+             if (wykazkont.contains(konto)) {
+                    wykazkont.remove(konto);
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                } else {
+                    wykazkont.add(konto);
+                    Collections.sort(wykazkont, new Kontocomparator());
+                }
         } else {
             Msg.msg("Konto niezwykle");
         }
