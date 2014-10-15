@@ -56,7 +56,18 @@ public class PozycjaRZiSFKBean {
                     if (!wykazkont.contains(p) && !(p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaMa() != null)) {
                         wykazkont.add(p);
                     }
-                    //ta czesc dotyczy rozrachunkowych, to nie bedzie dotyczych zwykłych
+                    //tu szukamy przyporzadkowanych analitych
+                } else if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
+                    for (Konto r : potomki) {
+                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
+                    }
+                } else if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
+                    for (Konto r : potomki) {
+                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
+                    }
+                //ta czesc dotyczy rozrachunkowych, to nie bedzie dotyczych zwykłych
                 } else if (p.getKontopozycjaID().getPozycjaWn() == null && aktywa0pasywa1 == false) {
                     if (!wykazkont.contains(p)) {
                         wykazkont.add(p);
@@ -65,18 +76,8 @@ public class PozycjaRZiSFKBean {
                     if (!wykazkont.contains(p)) {
                         wykazkont.add(p);
                     }
-                    //tu szukamy przyporzadkowanych analitych
-                } else if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaWn().equals("analit")) {
-                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
-                    for (Konto r : potomki) {
-                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
-                    }
-                } else if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getPozycjaMa().equals("analit")) {
-                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, p.getPelnynumer());
-                    for (Konto r : potomki) {
-                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1);
-                    }
                 }
+
             } else {
                wykazkont.add(p);
             }
@@ -127,9 +128,18 @@ public class PozycjaRZiSFKBean {
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
         for (Konto p : lista) {
-            if (p.getKontopozycjaID().getPozycjaWn().equals(pozycja) || p.getKontopozycjaID().getPozycjaMa().equals(pozycja)) {
+            if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja)) {
                 if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    returnlist.add(p);
+                     if (!returnlist.contains(p)) {
+                        returnlist.add(p);
+                     }
+                }
+            }
+            if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja)) {
+                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                    if (!returnlist.contains(p)) {
+                        returnlist.add(p);
+                    }
                 }
             }
         }

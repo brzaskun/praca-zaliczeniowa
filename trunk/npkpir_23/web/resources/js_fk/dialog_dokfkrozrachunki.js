@@ -56,6 +56,21 @@ var kontownmawyborShow = function (){
     $(document.getElementById("formkontowybor:wybormenu")).focus();
 };
 
+var kontownmawyborRZiSShow = function (){
+    $(document.getElementById('kontownmawyborRZiS')).width(300).height(80);
+    try {
+        $(document.getElementById('kontownmawyborRZiS')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogrzisuklad')),
+        collision: "none none"
+    });
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 44 "+Exception);
+    }
+    $(document.getElementById("formkontowyborRZiS:wybormenuRZiS")).focus();
+};
+
 var transakcjeWyborHidePlatnosc = function () {
     try {
         var powrot = $(MYAPP.zaznaczonepole).attr('id');
