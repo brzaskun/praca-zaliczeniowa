@@ -211,12 +211,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.maslownik = false;
     }   
     
-    public void getFinallChildren(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
+    public void getAllChildren(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
         List<Konto> children = kontoFacade.findKontaPotomnePodatnik(podatnik, this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
-                o.getFinallChildren(listakontwszystkie,podatnik, kontoFacade);
+                o.getAllChildren(listakontwszystkie,podatnik, kontoFacade);
             }
         }
     }

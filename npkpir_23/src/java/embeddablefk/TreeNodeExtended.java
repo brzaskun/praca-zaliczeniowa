@@ -43,8 +43,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         super();
     }
 
-    public TreeNodeExtended(Object object, TreeNode node) {
-        super(object, node);
+    public TreeNodeExtended(Object object, TreeNode parentnode) {
+        super(object, parentnode);
     }
 
     //robi drzewko z elementów bazy danych
@@ -73,7 +73,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                             lp = ((ToBeATreeNodeObject) parent).getLp();
                             macierzysty = ((ToBeATreeNodeObject) p).getMacierzysty();
                         } catch (Exception ex) {
-                           Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+                           
                         }
                         if (lp == macierzysty) {
                             TreeNodeExtended tmp = new TreeNodeExtended(p, r);
@@ -98,10 +98,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             for (T s : pozycje) {
                 int level = 0;
                 try {
-                    Method method = s.getClass().getMethod("getLevel");
-                    level = (int) method.invoke(s);
+//                    Method method = s.getClass().getMethod("getLevel");
+//                    level = (int) method.invoke(s);
+                    level = ((ToBeATreeNodeObject) s).getLevel();
                 } catch (Exception ex) {
-                    Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+                    
                 }
                 if (level == i) {
                     values.add(s);
@@ -114,16 +115,19 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         return rzedy;
     }
     
+    
+    
       public int ustaldepthDT(List<T> pozycje) {
         int depth = 0;
         int pobranawartosc = 0;
         try {
             for (T p : pozycje) {
                 try {
-                    Method method = p.getClass().getMethod("getLevel");
-                    pobranawartosc = (int) method.invoke(p);
-                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                    Logger.getLogger(TreeNodeExtended.class.getName()).log(Level.SEVERE, null, ex);
+//                    Method method = p.getClass().getMethod("getLevel");
+//                    pobranawartosc = (int) method.invoke(p);
+                    pobranawartosc = ((ToBeATreeNodeObject) p).getLevel();
+                } catch (Exception ex) {
+                    
                 }
                 if (depth < pobranawartosc) {
                     depth = pobranawartosc;
@@ -454,7 +458,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         if (biezaca.size() > 0) {
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {
-                Collections.sort((List<Konto>) biezaca, new Kontocomparator());
+                //Collections.sort((List<Konto>) biezaca, new Kontocomparator());
             }
         }
     }

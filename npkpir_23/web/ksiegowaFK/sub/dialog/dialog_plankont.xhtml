@@ -56,7 +56,7 @@
                         <h:outputText value="#{loop.bilansowewynikowe}" /> 
                     </p:column>
                     <p:column headerText="rozrachunki" style="width: 120px;">
-                        <p:inplace label="#{loop.zwyklerozrachszczegolne}" effectSpeed="fast" event="dblclick" editor="true" >
+                        <p:inplace label="#{loop.zwyklerozrachszczegolne}" effectSpeed="fast" event="click" editor="true" >
                             <p:selectOneMenu value="#{loop.zwyklerozrachszczegolne}" required="true" >
                                 <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                                 <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
