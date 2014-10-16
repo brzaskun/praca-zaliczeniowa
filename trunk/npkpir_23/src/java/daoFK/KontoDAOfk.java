@@ -178,7 +178,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaWszystkiePotomnePodatnik(String podatnik,Konto macierzyste) {
         List<Konto> listakontwszystkie = new ArrayList<>();
         try {
-            macierzyste.getFinallChildren(listakontwszystkie, podatnik, kontoFacade);
+            macierzyste.getAllChildren(listakontwszystkie, podatnik, kontoFacade);
             return listakontwszystkie;
         } catch (Exception e) {
             return null;

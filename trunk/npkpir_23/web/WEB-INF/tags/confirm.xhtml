@@ -14,7 +14,6 @@
                 <h:form>
                     <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
                                      header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" >
-                        <bcf:ajaxs/>
                         <c:choose>
                             <c:when test="#{listenerPresent}">
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm#{lp != null ? lp : '1'}').hide()" style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
