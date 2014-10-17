@@ -287,8 +287,13 @@
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
+                    <p:column headerText="ilość" width="30" rendered="#{dokfkView.selected.rodzajedok.skrot eq 'WNT'}" >
+                        <p:inputText id="ilosc" value="#{loop.ilosc}" style="width: 50px;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                            <f:ajax event="blur" execute="@this"/>
+                        </p:inputText>
+                    </p:column>
                     <p:column headerText="data" width="50" style="text-align: center;"  rendered="#{dokfkView.pokazPanelWalutowy}" >
-                        <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;">
+                        <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="keyup" execute="@this"/>
                             <f:ajax event="blur" listener="#{dokfkView.pobierzkursNBPwiersz(loop.dataWalutyWiersza, loop)}"/>
                         </p:spinner>

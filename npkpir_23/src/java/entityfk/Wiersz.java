@@ -65,6 +65,8 @@ public class Wiersz implements Serializable {
     @Size(max = 255)
     @Column(name = "opisWiersza", length = 255)
     private String opisWiersza;
+    @Column(name = "ilosc")
+    private double ilosc;
     @Column(name = "typWiersza")
     private Integer typWiersza;
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
@@ -101,6 +103,15 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public double getIlosc() {
+        return ilosc;
+    }
+
+    public void setIlosc(double ilosc) {
+        this.ilosc = ilosc;
+    }
+   
+    
     public Wiersz getCzworka() {
         return czworka;
     }
