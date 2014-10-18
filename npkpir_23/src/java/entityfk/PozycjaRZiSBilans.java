@@ -72,11 +72,18 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     public PozycjaRZiSBilans() {
     }
     
-    public void obsluzPrzyporzadkowaneStronyWiersza(double kwota, StronaWiersza stronawiersza) {
+    public void obsluzPrzyporzadkowaneStronaWiersza(double kwota, StronaWiersza stronawiersza) {
         if (przyporzadkowanestronywiersza == null) {
             przyporzadkowanestronywiersza = new ArrayList<>();
         }
         przyporzadkowanestronywiersza.add(new StronaWierszaKwota(stronawiersza, kwota));
+    }
+    
+    public void obsluzPrzyporzadkowaneKonta(double kwota, Konto konto) {
+        if (przyporzadkowanekonta == null) {
+            przyporzadkowanekonta = new ArrayList<>();
+        }
+        przyporzadkowanekonta.add(new KontoKwota(konto, kwota));
     }
     
     @Override

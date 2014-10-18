@@ -211,10 +211,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
                         if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
                             if (przychod0koszt1 == false) {
-                                pozycja.obsluzPrzyporzadkowaneStronyWiersza(kwotaMa - kwotaWn, p);
+                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa - kwotaWn, p);
                                 donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
                             } else {
-                                pozycja.obsluzPrzyporzadkowaneStronyWiersza(kwotaWn - kwotaMa, p);
+                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn - kwotaMa, p);
                                 donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
                             }
                         } else {
@@ -264,6 +264,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                                 pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
                                             }
                                         }
+                                        pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
                                 double kwotapierwotna = pozycja.getKwota();
@@ -272,6 +273,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                 } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                     pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
                                 }
+                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                                 double kwotapierwotna = pozycja.getKwota();
                                 if (aktywapasywa.equals("aktywa")) {
@@ -297,6 +299,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                         }
                                     }
                                 }
+                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                             }
                     }
                 }

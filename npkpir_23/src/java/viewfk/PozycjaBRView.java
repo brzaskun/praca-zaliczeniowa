@@ -5,12 +5,12 @@
 package viewfk;
 
 import beansFK.PozycjaRZiSFKBean;
-import comparator.Kontocomparator;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -21,7 +21,6 @@ import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +29,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
 
@@ -62,6 +60,8 @@ public class PozycjaBRView implements Serializable {
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
     private List<StronaWierszaKwota> podpieteStronyWiersza;
+    private List<KontoKwota> sumaPodpietychKont;
+    private boolean pokazaktywa;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -192,6 +192,16 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
+    public void pobierzukladprzegladBilans(String aktywapasywa) {
+        if (aktywapasywa.equals("aktywa")) {
+            pokazaktywa = true;
+            pobierzukladprzegladBilans();
+        } else {
+            pokazaktywa = false;
+            pobierzukladprzegladBilans();
+        }
+    }
+    
     public void pobierzukladprzegladBilans() {
         pobierzukladprzegladRZiS();
         List<Object> listazwrotnapozycji = new ArrayList<>();
@@ -233,6 +243,14 @@ public class PozycjaBRView implements Serializable {
             } else {//strata
                 kontowyniku.setObrotyWn(wf);
                 kontowyniku.setSaldoWn(wf);
+            }
+            for (Iterator<PozycjaRZiSBilans> it = pozycjeaktywa.iterator(); it.hasNext();) {
+                PozycjaBilans p = (PozycjaBilans) it.next();
+                p.setPrzyporzadkowanestronywiersza(null);
+            }
+            for (Iterator<PozycjaRZiSBilans> it = pozycjepasywa.iterator(); it.hasNext();) {
+                PozycjaBilans p = (PozycjaBilans) it.next();
+                p.setPrzyporzadkowanestronywiersza(null);
             }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");
@@ -516,11 +534,51 @@ public class PozycjaBRView implements Serializable {
     
     
     public void wyluskajStronyzPozycji() {
+        sumaPodpietychKont = new ArrayList<>();
         podpieteStronyWiersza = new ArrayList<>();
         for (TreeNode p : selectedNodes) {
-            PozycjaRZiS r = (PozycjaRZiS) p.getData();
+            PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
             if (r.getPrzyporzadkowanestronywiersza() != null) {
                 podpieteStronyWiersza.addAll(r.getPrzyporzadkowanestronywiersza());
+            }
+        }
+        List<Konto> konta = new ArrayList<>();
+        for (StronaWierszaKwota p : podpieteStronyWiersza) {
+            Konto k = p.getStronaWiersza().getKonto();
+            if (!konta.contains(k)) {
+                konta.add(k);
+                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+            } else {
+                for (KontoKwota r : sumaPodpietychKont) {
+                    if (r.getKonto().equals(k)) {
+                        r.setKwota(r.getKwota()+p.getKwota());
+                    }
+                }
+            }
+        }
+    }
+    
+    public void wyluskajStronyzPozycjiBilans() {
+        sumaPodpietychKont = new ArrayList<>();
+        List<KontoKwota> podpieteKonta = new ArrayList<>();
+        for (TreeNode p : selectedNodes) {
+            PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
+            if (r.getPrzyporzadkowanekonta() != null) {
+                podpieteKonta.addAll(r.getPrzyporzadkowanekonta());
+            }
+        }
+        List<Konto> konta = new ArrayList<>();
+        for (KontoKwota p : podpieteKonta) {
+            Konto k = p.getKonto();
+            if (!konta.contains(k)) {
+                konta.add(k);
+                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+            } else {
+                for (KontoKwota r : sumaPodpietychKont) {
+                    if (r.getKonto().equals(k)) {
+                        r.setKwota(r.getKwota()+p.getKwota());
+                    }
+                }
             }
         }
     }
@@ -535,6 +593,22 @@ public class PozycjaBRView implements Serializable {
 
     public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
+
+    public List<KontoKwota> getSumaPodpietychKont() {
+        return sumaPodpietychKont;
+    }
+
+    public void setSumaPodpietychKont(List<KontoKwota> sumaPodpietychKont) {
+        this.sumaPodpietychKont = sumaPodpietychKont;
+    }
+
+    public boolean isPokazaktywa() {
+        return pokazaktywa;
+    }
+
+    public void setPokazaktywa(boolean pokazaktywa) {
+        this.pokazaktywa = pokazaktywa;
     }
 
    
