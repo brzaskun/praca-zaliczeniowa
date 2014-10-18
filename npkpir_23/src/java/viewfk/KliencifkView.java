@@ -22,6 +22,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -58,8 +59,13 @@ public class KliencifkView implements Serializable{
         wybranyklient = (Klienci) e.getNewValue();
         int wynik = pobieraniekontaFK();
         if (wynik == 1) {
-            przyporzadkujdokonta();
+            //RequestContext.getCurrentInstance().update("czydodackonto");
+            RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
         }
+    }
+    
+    public void pobieraniekontaFKWpisCD() {
+        przyporzadkujdokonta();
     }
     
     public int pobieraniekontaFK(){
