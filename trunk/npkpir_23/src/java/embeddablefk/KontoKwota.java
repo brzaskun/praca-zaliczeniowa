@@ -50,12 +50,10 @@ public class KontoKwota implements Serializable {
         if (!Objects.equals(this.konto, other.konto)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
-            return false;
-        }
         return true;
     }
 
+    
     @Override
     public String toString() {
         return "KontoKwota{" + "konto=" + konto + ", Kwota=" + kwota + '}';
