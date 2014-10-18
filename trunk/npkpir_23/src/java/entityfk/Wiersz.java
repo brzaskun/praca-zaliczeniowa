@@ -2,10 +2,8 @@
 package entityfk;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -65,8 +63,10 @@ public class Wiersz implements Serializable {
     @Size(max = 255)
     @Column(name = "opisWiersza", length = 255)
     private String opisWiersza;
-    @Column(name = "ilosc")
-    private double ilosc;
+    @Column(name = "ilosc_kg")
+    private double ilosc_kg;
+    @Column(name = "ilosc_szt")
+    private double ilosc_szt;
     @Column(name = "typWiersza")
     private Integer typWiersza;
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
@@ -103,15 +103,23 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public double getIlosc() {
-        return ilosc;
+    public double getIlosc_kg() {
+        return ilosc_kg;
     }
 
-    public void setIlosc(double ilosc) {
-        this.ilosc = ilosc;
+    public void setIlosc_kg(double ilosc_kg) {
+        this.ilosc_kg = ilosc_kg;
+    }
+
+    public double getIlosc_szt() {
+        return ilosc_szt;
+    }
+
+    public void setIlosc_szt(double ilosc_szt) {
+        this.ilosc_szt = ilosc_szt;
     }
    
-    
+        
     public Wiersz getCzworka() {
         return czworka;
     }
