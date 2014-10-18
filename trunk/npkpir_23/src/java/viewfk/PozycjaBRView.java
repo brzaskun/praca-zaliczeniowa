@@ -11,6 +11,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -21,6 +22,7 @@ import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -59,6 +61,7 @@ public class PozycjaBRView implements Serializable {
     private PozycjaBilans nowyelementBilans;
     private PozycjaRZiS selected;
     private ArrayList<TreeNodeExtended> finallNodes;
+    private List<StronaWierszaKwota> podpieteStronyWiersza;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -176,6 +179,10 @@ public class PozycjaBRView implements Serializable {
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
         try {
+            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
+                PozycjaRZiS p = (PozycjaRZiS) it.next();
+                p.setPrzyporzadkowanestronywiersza(null);
+            }
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
@@ -506,11 +513,32 @@ public class PozycjaBRView implements Serializable {
             }
         }
     }
+    
+    
+    public void wyluskajStronyzPozycji() {
+        podpieteStronyWiersza = new ArrayList<>();
+        for (TreeNode p : selectedNodes) {
+            PozycjaRZiS r = (PozycjaRZiS) p.getData();
+            if (r.getPrzyporzadkowanestronywiersza() != null) {
+                podpieteStronyWiersza.addAll(r.getPrzyporzadkowanestronywiersza());
+            }
+        }
+    }
+       
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    
+
+    public List<StronaWierszaKwota> getPodpieteStronyWiersza() {
+        return podpieteStronyWiersza;
+    }
+
+    public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
+        this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
 
    
 
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    
     
   
     public String getWybranapozycja() {

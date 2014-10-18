@@ -5,6 +5,7 @@
 package entityfk;
 
 import embeddablefk.KontoKwota;
+import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
@@ -209,6 +210,15 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 
+    @Override
+     public List<StronaWierszaKwota> getPrzyporzadkowanestronywiersza() {
+        return przyporzadkowanestronywiersza;
+    }
+
+    @Override
+    public void setPrzyporzadkowanestronywiersza(List<StronaWierszaKwota> przyporzadkowanestronywiersza) {
+        this.przyporzadkowanestronywiersza = przyporzadkowanestronywiersza;
+    }
 
 
     public String getRok() {

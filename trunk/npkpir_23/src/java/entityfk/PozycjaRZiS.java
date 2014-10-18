@@ -5,6 +5,7 @@
 package entityfk;
 
 import embeddablefk.KontoKwota;
+import embeddablefk.StronaWierszaKwota;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
@@ -159,76 +160,102 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
         this.macierzysty = macierzysty;
     }
 
+    @Override
     public String getNazwa() {
         return nazwa;
     }
 
+    @Override
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
 
+    @Override
     public String getPodatnik() {
         return podatnik;
     }
 
+    @Override
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
 
+    @Override
     public String getPozycjaString() {
         return pozycjaString;
     }
 
+    @Override
     public void setPozycjaString(String pozycjaString) {
         this.pozycjaString = pozycjaString;
     }
 
+    @Override
     public String getPozycjaSymbol() {
         return pozycjaSymbol;
     }
 
+    @Override
     public void setPozycjaSymbol(String pozycjaSymbol) {
         this.pozycjaSymbol = pozycjaSymbol;
     }
 
+    @Override
     public Integer getPozycjanr() {
         return pozycjanr;
     }
 
+    @Override
     public void setPozycjanr(Integer pozycjanr) {
         this.pozycjanr = pozycjanr;
     }
 
+    @Override
     public boolean isPrzychod0koszt1() {
         return przychod0koszt1;
     }
 
+    @Override
     public void setPrzychod0koszt1(boolean przychod0koszt1) {
         this.przychod0koszt1 = przychod0koszt1;
     }
 
+    @Override
     public List<KontoKwota> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
 
+    @Override
     public void setPrzyporzadkowanekonta(List<KontoKwota> przyporzadkowanekonta) {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 
+    @Override
+     public List<StronaWierszaKwota> getPrzyporzadkowanestronywiersza() {
+        return przyporzadkowanestronywiersza;
+    }
 
+    @Override
+    public void setPrzyporzadkowanestronywiersza(List<StronaWierszaKwota> przyporzadkowanestronywiersza) {
+        this.przyporzadkowanestronywiersza = przyporzadkowanestronywiersza;
+    }
 
+    @Override
     public String getRok() {
         return rok;
     }
 
+    @Override
     public void setRok(String rok) {
         this.rok = rok;
     }
 
+    @Override
     public String getUklad() {
         return uklad;
     }
 
+    @Override
     public void setUklad(String uklad) {
         this.uklad = uklad;
     }

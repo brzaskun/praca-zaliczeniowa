@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogrzisprzeglad" header="Rachunek Zysków i Strat za okres rozliczeniowy - wyliczenie" widgetVar="rzisprzeglad" 
               resizable="false" onShow="ustawdialog('dialogrzisprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprzeglad');"  >
@@ -45,6 +46,8 @@
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
                              scrollable="true" style="width: 670px; max-height: 600px;">
+                    <p:ajax event="select" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje"/>
+                    <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje"/>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
@@ -56,6 +59,26 @@
                     </h:outputText>
                     </p:column>
                 </p:treeTable>
+                <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych kont" var="loop">
+                    <f:facet  name="header">
+                        <h:outputText value="podpięte zapisy"/>
+                    </f:facet>
+                    <p:column>
+                        <h:outputText value="#{loop.stronaWiersza.konto.pelnynumer}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.stronaWiersza.konto.nazwapelna}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{loop.stronaWiersza.wiersz.opisWiersza}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl value="#{loop.kwota}" rendered="true"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{loop.stronaWiersza.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.stronaWiersza.wiersz.dokfk.dokfkPK.nrkolejnywserii} z #{loop.stronaWiersza.wiersz.dokfk.miesiac}"/>
+                    </p:column>
+                </p:dataTable>
             </p:panelGrid>
            
         </h:form>
