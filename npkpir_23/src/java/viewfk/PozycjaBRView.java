@@ -247,10 +247,12 @@ public class PozycjaBRView implements Serializable {
             for (Iterator<PozycjaRZiSBilans> it = pozycjeaktywa.iterator(); it.hasNext();) {
                 PozycjaBilans p = (PozycjaBilans) it.next();
                 p.setPrzyporzadkowanestronywiersza(null);
+                p.setPrzyporzadkowanekonta(null);
             }
             for (Iterator<PozycjaRZiSBilans> it = pozycjepasywa.iterator(); it.hasNext();) {
                 PozycjaBilans p = (PozycjaBilans) it.next();
                 p.setPrzyporzadkowanestronywiersza(null);
+                p.setPrzyporzadkowanekonta(null);
             }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");
@@ -559,6 +561,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void wyluskajStronyzPozycjiBilans() {
+        podpieteStronyWiersza = new ArrayList<>();
         sumaPodpietychKont = new ArrayList<>();
         List<KontoKwota> podpieteKonta = new ArrayList<>();
         for (TreeNode p : selectedNodes) {
@@ -579,6 +582,12 @@ public class PozycjaBRView implements Serializable {
                         r.setKwota(r.getKwota()+p.getKwota());
                     }
                 }
+            }
+        }
+        for (KontoKwota p : sumaPodpietychKont) {
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p.getKonto(), wpisView.getRokWpisuSt());
+            for (StronaWiersza r : stronywiersza) {
+                podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
             }
         }
     }
