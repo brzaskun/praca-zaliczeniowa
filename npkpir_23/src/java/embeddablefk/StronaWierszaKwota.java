@@ -6,34 +6,36 @@
 
 package embeddablefk;
 
-import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.PozycjaRZiS;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Osito
  */
-public class KontoKwota implements Serializable {
+public class StronaWierszaKwota implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private Konto konto;
+    private StronaWiersza stronawiersza;
     private double kwota;
     private PozycjaRZiS pozycjaRZiS;
 
-    public KontoKwota(Konto konto, double Kwota) {
-        this.konto = konto;
-        this.kwota = Kwota;
+    public StronaWierszaKwota(StronaWiersza stronawiersza, double kwota) {
+        this.stronawiersza = stronawiersza;
+        this.kwota = kwota;
     }
 
-    public KontoKwota() {
+    public StronaWierszaKwota() {
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.konto);
+        hash = 37 * hash + Objects.hashCode(this.stronawiersza);
         hash = 37 * hash + (int) (Double.doubleToLongBits(this.kwota) ^ (Double.doubleToLongBits(this.kwota) >>> 32));
         return hash;
     }
@@ -46,8 +48,8 @@ public class KontoKwota implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KontoKwota other = (KontoKwota) obj;
-        if (!Objects.equals(this.konto, other.konto)) {
+        final StronaWierszaKwota other = (StronaWierszaKwota) obj;
+        if (!Objects.equals(this.stronawiersza, other.stronawiersza)) {
             return false;
         }
         if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
@@ -58,16 +60,16 @@ public class KontoKwota implements Serializable {
 
     @Override
     public String toString() {
-        return "KontoKwota{" + "konto=" + konto + ", Kwota=" + kwota + '}';
+        return "StronaWierszaKwota{" + "stronawiersza=" + stronawiersza + ", kwota=" + kwota + '}';
     }
     
     
-    public Konto getKonto() {
-        return konto;
+    public StronaWiersza getStronaWiersza() {
+        return stronawiersza;
     }
 
-    public void setKonto(Konto konto) {
-        this.konto = konto;
+    public void setStronaWiersza(StronaWiersza stronawiersza) {
+        this.stronawiersza = stronawiersza;
     }
 
     public double getKwota() {

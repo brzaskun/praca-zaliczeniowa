@@ -211,8 +211,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
                         if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
                             if (przychod0koszt1 == false) {
+                                pozycja.obsluzPrzyporzadkowaneStronyWiersza(kwotaMa - kwotaWn, p);
                                 donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
                             } else {
+                                pozycja.obsluzPrzyporzadkowaneStronyWiersza(kwotaWn - kwotaMa, p);
                                 donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
                             }
                         } else {
