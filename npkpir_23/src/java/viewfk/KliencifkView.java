@@ -59,7 +59,6 @@ public class KliencifkView implements Serializable{
         wybranyklient = (Klienci) e.getNewValue();
         int wynik = pobieraniekontaFK();
         if (wynik == 1) {
-            //RequestContext.getCurrentInstance().update("czydodackonto");
             RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
         }
     }
