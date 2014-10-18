@@ -1,0 +1,23 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+
+    <p:dialog id="czydodackonto" header="Czy tworzyć konto dla nowego klienta?: #{dokfkView.selected.kontr}" widgetVar="czydodackonto" 
+              resizable="false" onShow="czydodackontoShow();" closeOnEscape="true" onHide="resetujdialog('czydodackonto');"  >
+        <h:form id="formczydodackonto">
+            <p:panelGrid id="wyborgridczydodackonto" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+                <p:focus >
+                    <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 120px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
+                                     oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"/>
+                    <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:acForce_input')).select();" 
+                                     style="width: 120px;"/>
+                </p:focus>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

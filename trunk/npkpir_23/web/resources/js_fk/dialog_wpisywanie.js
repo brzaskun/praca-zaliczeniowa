@@ -157,6 +157,20 @@ var sprawdzczykopiowacklienta = function() {
 //    }
 };
 
+var czydodackontoShow = function (){
+    $(document.getElementById('czydodackontoShow')).width(300).height(80);
+    try {
+        $(document.getElementById('czydodackonto')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+    });
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
+    }
+    $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+};
 
 
 
