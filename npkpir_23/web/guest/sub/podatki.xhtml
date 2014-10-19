@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:outputPanel deferred="true">
-        <p:panel header="Wykaz zobowiązań w roku podatkowym" />
-        <h:form>
+        <p:panel header="Wykaz zobowiązań w roku podatkowym #{WpisView.rokWpisu}" />
+        <h:form id="podatkiform">
             <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" emptyMessage="Brak kwot zobowiązań" style="width: 1000px;"
                          >
                 <p:column width="50">
