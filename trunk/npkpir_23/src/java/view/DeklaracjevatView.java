@@ -6,7 +6,10 @@ package view;
 
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
+import dao.WpisDAO;
 import entity.Deklaracjevat;
+import entity.Wpis;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +21,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.event.RowEditEvent;
@@ -39,6 +43,8 @@ public class DeklaracjevatView implements Serializable {
     private List<Deklaracjevat> oczekujace;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private WpisDAO wpisDAO;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -52,12 +58,18 @@ public class DeklaracjevatView implements Serializable {
     
     @PostConstruct
     private void init(){
+        wyslane = new ArrayList<>();
+        oczekujace = new ArrayList<>();
+        wyslanenormalne = new ArrayList<>();
+        wyslanetestowe = new ArrayList<>();
+        wyslanezbledem = new ArrayList<>();
+        wyslaneniepotwierdzone = new ArrayList<>();
         try{
             List<Deklaracjevat> pobranadeklaracja = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
                   oczekujace.addAll(pobranadeklaracja);
         } catch (Exception e){}
          try{
-            wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             for(Deklaracjevat p : wyslane){
                     try{
                     if(p.isTestowa()){
@@ -126,6 +138,35 @@ public class DeklaracjevatView implements Serializable {
         } catch (Exception e) {
             
         }
+    }
+    
+    private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
+    }
+    
+     public void aktualizujGuest(String strona) throws IOException {
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
     
     public List<Deklaracjevat> getWyslane() {

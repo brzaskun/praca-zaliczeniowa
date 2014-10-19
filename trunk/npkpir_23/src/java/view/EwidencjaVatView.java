@@ -12,7 +12,6 @@ import dao.EwidencjeVatDAO;
 import daoFK.DokDAOfk;
 import data.Data;
 import embeddable.EVatViewPola;
-import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
@@ -36,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -53,12 +53,12 @@ import org.primefaces.event.UnselectEvent;
 @ViewScoped
 public class EwidencjaVatView implements Serializable {
  
-    private static HashMap<String, ArrayList> listaewidencji;
-    private static HashMap<String, EVatwpisSuma> sumaewidencji;
-    private static List<EVatwpisSuma> goscwybralsuma;
-    private static List<EVatwpisSuma> sumydowyswietleniasprzedaz;
-    private static List<EVatwpisSuma> sumydowyswietleniazakupy;
-    private static BigDecimal wynikOkresu;
+    private HashMap<String, ArrayList> listaewidencji;
+    private HashMap<String, EVatwpisSuma> sumaewidencji;
+    private List<EVatwpisSuma> goscwybralsuma;
+    private List<EVatwpisSuma> sumydowyswietleniasprzedaz;
+    private List<EVatwpisSuma> sumydowyswietleniazakupy;
+    private BigDecimal wynikOkresu;
 
     public static void main(String[] args) {
         String wiersz = "35.23 zł";
@@ -102,6 +102,18 @@ public class EwidencjaVatView implements Serializable {
         suma1 = 0.0;
         suma2 = 0.0;
         suma3 = 0.0;
+    }
+    
+    @PostConstruct
+    private void init() {
+        try {
+            Ewidencjevat pobrane = ewidencjeVatDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+            listaewidencji = pobrane.getEwidencje();
+            sumaewidencji = pobrane.getSumaewidencji();
+            rozdzielsumeEwidencjiNaPodlisty();
+        } catch (Exception e) {
+            
+        }
     }
 
     private void zerujListy() {
@@ -210,6 +222,8 @@ public class EwidencjaVatView implements Serializable {
             }
     }
     private void rozdzielsumeEwidencjiNaPodlisty() {
+     sumydowyswietleniasprzedaz = new ArrayList<>();
+     sumydowyswietleniazakupy =  new ArrayList<>();
      for (EVatwpisSuma ew : sumaewidencji.values()) {
                 String typeewidencji = ew.getEwidencja().getTypewidencji();
                 switch (typeewidencji) {
@@ -704,14 +718,16 @@ public class EwidencjaVatView implements Serializable {
       public void setListadokvatprzetworzona(List<EVatViewPola> listadokvatprzetworzona) {
           this.listadokvatprzetworzona = listadokvatprzetworzona;
       }
+
+    public HashMap<String, ArrayList> getListaewidencji() {
+        return listaewidencji;
+    }
+
+    public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
+        this.listaewidencji = listaewidencji;
+    }
       
-      public HashMap<String, ArrayList> getListaewidencji() {
-          return listaewidencji;
-      }
       
-      public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
-          EwidencjaVatView.listaewidencji = listaewidencji;
-      }
       
       public TabView getAkordeon() {
           return akordeon;
@@ -736,14 +752,16 @@ public class EwidencjaVatView implements Serializable {
       public void setGoscwybral(List<EVatViewPola> goscwybral) {
           this.goscwybral = goscwybral;
       }
+
+    public HashMap<String, EVatwpisSuma> getSumaewidencji() {
+        return sumaewidencji;
+    }
+
+    public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
+        this.sumaewidencji = sumaewidencji;
+    }
       
-      public HashMap<String, EVatwpisSuma> getSumaewidencji() {
-          return sumaewidencji;
-      }
       
-      public void setSumaewidencji(HashMap<String, EVatwpisSuma> sumaewidencji) {
-          EwidencjaVatView.sumaewidencji = sumaewidencji;
-      }
       
       public List<String> getListanowa() {
           return listanowa;
@@ -752,22 +770,24 @@ public class EwidencjaVatView implements Serializable {
       public void setListanowa(List<String> listanowa) {
           this.listanowa = listanowa;
       }
+
+    public List<EVatwpisSuma> getGoscwybralsuma() {
+        return goscwybralsuma;
+    }
+
+    public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
+        this.goscwybralsuma = goscwybralsuma;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniasprzedaz() {
+        return sumydowyswietleniasprzedaz;
+    }
+
+    public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
+        this.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
+    }
+     
       
-      public List<EVatwpisSuma> getSumydowyswietleniasprzedaz() {
-          return sumydowyswietleniasprzedaz;
-      }
-      
-      public void setSumydowyswietleniasprzedaz(List<EVatwpisSuma> sumydowyswietleniasprzedaz) {
-          EwidencjaVatView.sumydowyswietleniasprzedaz = sumydowyswietleniasprzedaz;
-      }
-      
-      public List<EVatwpisSuma> getGoscwybralsuma() {
-          return goscwybralsuma;
-      }
-      
-      public void setGoscwybralsuma(List<EVatwpisSuma> goscwybralsuma) {
-          EwidencjaVatView.goscwybralsuma = goscwybralsuma;
-      }
       
       public Double getSuma1() {
           return suma1;
@@ -793,27 +813,28 @@ public class EwidencjaVatView implements Serializable {
           this.suma3 = suma3;
       }
       
-      public BigDecimal getWynikOkresu() {
-          return wynikOkresu;
-      }
       
-      public void setWynikOkresu(BigDecimal wynikOkresu) {
-          EwidencjaVatView.wynikOkresu = wynikOkresu;
-      }
-      
-      public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
-          return sumydowyswietleniazakupy;
-      }
-      
-      public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
-          EwidencjaVatView.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
-      }
-      
+
+    public List<EVatwpisSuma> getSumydowyswietleniazakupy() {
+        return sumydowyswietleniazakupy;
+    }
+
+    public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
+        this.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
+    }
+
+    public BigDecimal getWynikOkresu() {
+        return wynikOkresu;
+    }
+
+    public void setWynikOkresu(BigDecimal wynikOkresu) {
+        this.wynikOkresu = wynikOkresu;
+    }
+    
+    
       
       
 //</editor-fold>
-    
-    
     
    
 }

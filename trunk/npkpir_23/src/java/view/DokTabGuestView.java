@@ -42,8 +42,9 @@ public class DokTabGuestView implements Serializable {
     @PostConstruct
     private void init() {
         pobranedokumenty = new ArrayList<>();
+        pobranedokumentyFiltered = null;
         try {
-            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()), wpisView.getMiesiacWpisu()));
             Collections.sort(pobranedokumenty, new Dokcomparator());
         } catch (Exception e) {
         }
@@ -65,6 +66,7 @@ public class DokTabGuestView implements Serializable {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
         wpistmp.setRokWpisu(wpisView.getRokWpisu());

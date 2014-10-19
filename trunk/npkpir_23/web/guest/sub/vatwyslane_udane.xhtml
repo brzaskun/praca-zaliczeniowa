@@ -30,7 +30,7 @@
                 <f:facet name="header">
                     <h:outputText value="Rok - Miesiac"/>
                 </f:facet>
-                <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                <h:outputText value="#{item.rok} - #{item.miesiac}" style="font-weight: 900;"/>
             </p:column>
             <p:column width="40">
                 <f:facet name="header">
@@ -54,8 +54,6 @@
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="do zwrotu(p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="kwota autoryzacyjna"><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                 </p:dataTable>
             </p:column>
 

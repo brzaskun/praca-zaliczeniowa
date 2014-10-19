@@ -6,7 +6,10 @@ package view;
 
 import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.WpisDAO;
 import entity.Pitpoz;
+import entity.Wpis;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +17,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -35,6 +40,8 @@ public class PitView implements Serializable {
     @Inject private PdfPIT5 pdfPIT5;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private WpisDAO wpisDAO;
    
 
     public PitView() {
@@ -49,6 +56,8 @@ public class PitView implements Serializable {
     
     @PostConstruct
     private void init(){
+        lista = new ArrayList<>();
+        biezacyPit = new Pitpoz();
         lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
        
     }
@@ -77,6 +86,35 @@ public class PitView implements Serializable {
              
          }
      }
+     
+     private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
+    }
+    
+     public void aktualizujGuest(String strona) throws IOException {
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
+    }
 
     public List<Pitpoz> getLista() {
         return lista;

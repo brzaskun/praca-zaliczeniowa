@@ -49,7 +49,7 @@ public class PdfVAT extends Pdf implements Serializable {
             //problem kwartalu
             Ewidencjevat lista;
             try {
-                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+                    lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
             } catch (Exception e) {
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
