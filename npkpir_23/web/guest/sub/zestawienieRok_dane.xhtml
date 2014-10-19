@@ -6,16 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
-    <p:tab id="archiwum" title="Dane zbiorcze za rok #{WpisView.rokWpisu}">
-    <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ksiegaryczalt}">
+    <p:tab id="archiwum" title="Dane zbiorcze za rok #{WpisView.rokWpisu}" >
+        <p:outputPanel deferred="true">
+        <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ksiegaryczalt}" style="max-width: 900px;">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
-            <p:column headerText="kolumny" id="przychsprz" width="125">  
+            <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
 
         <p:dataTable  var="wpis" value="#{ZestawienieView.styczen}" id="dokumentystyczen" > 
-            <p:column headerText="styczeń" id="idColumn" width="100">  
+            <p:column headerText="styczeń" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -26,7 +27,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.luty}" id="dokumentyluty" > 
-            <p:column headerText="luty" id="idColumn" width="100">  
+            <p:column headerText="luty" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -37,7 +38,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.marzec}" id="dokumentymarzec" > 
-            <p:column headerText="marzec" id="idColumn" width="100">  
+            <p:column headerText="marzec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -48,7 +49,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.kwiecien}" id="dokumentykwiecien"> 
-            <p:column headerText="kwiecień" id="idColumn" width="100">  
+            <p:column headerText="kwiecień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -59,7 +60,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.maj}" id="dokumentymaj" > 
-            <p:column headerText="maj" id="idColumn" width="100">  
+            <p:column headerText="maj" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -70,7 +71,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.czerwiec}" id="dokumentyczerwiec" > 
-            <p:column headerText="czerwiec" id="idColumn" width="100">  
+            <p:column headerText="czerwiec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -81,7 +82,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.ipolrocze}" id="dokumentyIpolrocze" > 
-            <p:column headerText="I półrocze" id="idColumn" width="100">  
+            <p:column headerText="I półrocze" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -92,12 +93,12 @@
             </p:column>
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
-            <p:column headerText="kolumny" id="przychsprz" width="125">  
+            <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.lipiec}" id="dokumentylipiec" > 
-            <p:column headerText="lipiec" id="idColumn" width="100">  
+            <p:column headerText="lipiec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -109,7 +110,7 @@
         </p:dataTable>
        
         <p:dataTable  var="wpis" value="#{ZestawienieView.sierpien}" id="dokumentysierpien" > 
-            <p:column headerText="sierpień" id="idColumn" width="100">  
+            <p:column headerText="sierpień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -121,7 +122,7 @@
         </p:dataTable>
         
         <p:dataTable  var="wpis" value="#{ZestawienieView.wrzesien}" id="dokumentywrzesien" > 
-            <p:column headerText="wrzesień" id="idColumn" width="100">  
+            <p:column headerText="wrzesień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -132,7 +133,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.pazdziernik}" id="dokumentypazdziernik" > 
-            <p:column headerText="pazdziernik" id="idColumn" width="100">  
+            <p:column headerText="pazdziernik" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -143,7 +144,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.listopad}" id="dokumentylistopad" > 
-            <p:column headerText="listopad" id="idColumn" width="100">  
+            <p:column headerText="listopad" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -154,7 +155,7 @@
             </p:column>
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{ZestawienieView.grudzien}" id="dokumentygrudzien" > 
-            <p:column headerText="grudzień" id="idColumn" width="100">  
+            <p:column headerText="grudzień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -165,7 +166,7 @@
             </p:column>
         </p:dataTable>
           <p:dataTable  var="wpis" value="#{ZestawienieView.IIpolrocze}" id="dokumentyIIpolrocze" > 
-            <p:column headerText="II półrocze" id="idColumn" width="100">  
+            <p:column headerText="II półrocze" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -176,12 +177,12 @@
             </p:column>
         </p:dataTable>
           <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" > 
-            <p:column headerText="kolumny" id="przychsprz" width="125">  
+            <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieView.rok}" id="dokumentyrok" > 
-            <p:column headerText="rok" id="idColumn" width="100">  
+            <p:column headerText="rok" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -195,13 +196,13 @@
     <!-- a teraz akapit jak jest ryczałt-->
     <p:panelGrid id="zestawienieroczne1" columns="8"  rendered="#{!WpisView.ksiegaryczalt}">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR" > 
-            <p:column headerText="kolumny" id="przychsprz" width="125">  
+            <p:column headerText="kolumny" id="przychsprz" >  
                 <h:outputText value="#{wpis}" />
             </p:column>
         </p:dataTable>
 
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.styczen}" id="dokumentyRstyczen" > 
-            <p:column headerText="styczeń" id="idColumn" width="100">  
+            <p:column headerText="styczeń" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -212,7 +213,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.luty}" id="dokumentyRluty" > 
-            <p:column headerText="luty" id="idColumn" width="100">  
+            <p:column headerText="luty" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -223,7 +224,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.marzec}" id="dokumentyRmarzec" > 
-            <p:column headerText="marzec" id="idColumn" width="100">  
+            <p:column headerText="marzec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -234,7 +235,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.kwiecien}" id="dokumentyRkwiecien"> 
-            <p:column headerText="kwiecień" id="idColumn" width="100">  
+            <p:column headerText="kwiecień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -245,7 +246,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.maj}" id="dokumentyRmaj" > 
-            <p:column headerText="maj" id="idColumn" width="100">  
+            <p:column headerText="maj" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -256,7 +257,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.czerwiec}" id="dokumentyRczerwiec" > 
-            <p:column headerText="czerwiec" id="idColumn" width="100">  
+            <p:column headerText="czerwiec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -267,7 +268,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.ipolrocze}" id="dokumentyRIpolrocze" > 
-            <p:column headerText="I półrocze" id="idColumn" width="100">  
+            <p:column headerText="I półrocze" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -278,12 +279,12 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR1" > 
-            <p:column headerText="kolumny" id="przychsprz" width="125">  
+            <p:column headerText="kolumny" id="przychsprz" >  
                 <h:outputText value="#{wpis}" />
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.lipiec}" id="dokumentyRlipiec" > 
-            <p:column headerText="lipiec" id="idColumn" width="100">  
+            <p:column headerText="lipiec" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -295,7 +296,7 @@
         </p:dataTable>
        
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.sierpien}" id="dokumentyRsierpien" > 
-            <p:column headerText="sierpień" id="idColumn" width="100">  
+            <p:column headerText="sierpień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -307,7 +308,7 @@
         </p:dataTable>
         
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.wrzesien}" id="dokumentyRwrzesien" > 
-            <p:column headerText="wrzesień" id="idColumn" width="100">  
+            <p:column headerText="wrzesień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -318,7 +319,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.pazdziernik}" id="dokumentyRpazdziernik" > 
-            <p:column headerText="pazdziernik" id="idColumn" width="100">  
+            <p:column headerText="pazdziernik" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -329,7 +330,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.listopad}" id="dokumentyRlistopad" > 
-            <p:column headerText="listopad" id="idColumn" width="100">  
+            <p:column headerText="listopad" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -340,7 +341,7 @@
             </p:column>
         </p:dataTable>
            <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.grudzien}" id="dokumentyRgrudzien" > 
-            <p:column headerText="grudzień" id="idColumn" width="100">  
+            <p:column headerText="grudzień" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -351,7 +352,7 @@
             </p:column>
         </p:dataTable>
           <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.IIpolrocze}" id="dokumentyRIIpolrocze" > 
-            <p:column headerText="II półrocze" id="idColumn" width="100">  
+            <p:column headerText="II półrocze" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;">
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -367,7 +368,7 @@
             </p:column>
         </p:dataTable>
         <p:dataTable  var="wpis" value="#{ZestawienieRyczaltView.rok}" id="dokumentyRrok" > 
-            <p:column headerText="rok" id="idColumn" width="100">  
+            <p:column headerText="rok" id="idColumn" >  
                 <h:outputText value="#{wpis}" style="float: right;" >
                     <f:convertNumber maxFractionDigits="2"
                                      groupingUsed="true"
@@ -386,6 +387,8 @@
         </p:commandButton>
             </h:form>
         </div>
+    </p:outputPanel>
     </p:tab>
+        
 </ui:composition>   
 

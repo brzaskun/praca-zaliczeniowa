@@ -5,9 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-        <p:panel header="Wykaz zobowiązań w roku podatkowym"/>
+    <p:outputPanel deferred="true">
+        <p:panel header="Wykaz zobowiązań w roku podatkowym" />
         <h:form>
-            <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" emptyMessage="Brak kwot zobowiązań" style="width: 1000px;">
+            <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" emptyMessage="Brak kwot zobowiązań" style="width: 1000px;"
+                         >
                 <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="Miesiac"/>
@@ -66,5 +68,6 @@
             <p:commandButton value="Print" type="button">
                 <p:printer target="zestawieniepodatkow" /></p:commandButton>
         </h:form>
+        </p:outputPanel>
 </ui:composition>   
 
