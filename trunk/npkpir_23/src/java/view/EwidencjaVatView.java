@@ -392,6 +392,10 @@ public class EwidencjaVatView implements Serializable {
     public String przekierowanieEwidencji() {
          return "/ksiegowa/ksiegowaVATzest.xhtml?faces-redirect=true";
     }
+    
+    public String przekierowanieEwidencjiGuest() {
+         return "/guest/ksiegowaVATzest.xhtml?faces-redirect=true";
+    }
    
     private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
