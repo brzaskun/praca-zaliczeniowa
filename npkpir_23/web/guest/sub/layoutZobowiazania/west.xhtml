@@ -29,6 +29,11 @@
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="obroty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initG()}" update="@form"/>  
                             <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencjiGuest()}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
+                                <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
+                                <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
+                            </p:menuitem>
                             <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
