@@ -15,6 +15,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.PodatnikDAO;
 import data.Data;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -30,8 +31,10 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import msg.Msg;
 import view.PitView;
+import view.WpisView;
 import view.ZestawienieView;
 
 /**
@@ -39,22 +42,15 @@ import view.ZestawienieView;
  * @author Osito
  */
 @ManagedBean
-public class PdfPIT5 extends Pdf implements Serializable {
+public class PdfPIT5  implements Serializable {
     
     @ManagedProperty(value="#{ZestawienieView}")
     private ZestawienieView zestawienieView;
+    @Inject
+    protected PodatnikDAO podatnikDAO;
   
-     public void drukuj() throws DocumentException, FileNotFoundException, IOException {
-        Pitpoz selected = zestawienieView.getBiezacyPit();
-        drukujcd(selected);
-     }
-    
-     public void drukujarch() throws DocumentException, FileNotFoundException, IOException {
-        Pitpoz selected = PitView.getBiezacyPitS();
-        drukujcd(selected);
-     }
      
-    public void drukujcd(Pitpoz selected) throws DocumentException, FileNotFoundException, IOException {
+    public void drukuj(Pitpoz selected, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
@@ -167,6 +163,7 @@ public class PdfPIT5 extends Pdf implements Serializable {
     }
     
    
+    
     public ZestawienieView getZestawienieView() {
         return zestawienieView;
     }
@@ -174,5 +171,6 @@ public class PdfPIT5 extends Pdf implements Serializable {
     public void setZestawienieView(ZestawienieView zestawienieView) {
         this.zestawienieView = zestawienieView;
     }
-  
+
+      
 }

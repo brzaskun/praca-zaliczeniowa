@@ -116,7 +116,7 @@ public class PismoAdminView implements Serializable{
              Msg.msg("i", "Udało się dodać infomację dla Admina");
              if (p.getStatus().equals("zmiany naniesione")){
                  Uz uz = uzDAO.find(p.getNadawca());
-                 MailAdmin.usterkausunieta(p, uz);
+                 MailAdmin.usterkausunieta(p, uz, wpisView);
                  Msg.msg("i", "Poinformowano zlecającego o załatwieniu sprawy.");
              }
          } catch (Exception e) {

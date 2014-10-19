@@ -8,14 +8,14 @@
        
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
-                <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.faktura()}" />
+                <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
                 <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
-                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
+                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />
                 <p:menuitem value="Zaksięguj" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
                 <p:separator/>
-                <p:menuitem value="Oznacz jako wysłaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.oznaczonejakowyslane()}" />
-                <p:menuitem value="Oznacz jako zaksiegowaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.oznaczonejakozaksiegowane()}" />
+                <p:menuitem value="Oznacz jako wysłaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane()}" />
+                <p:menuitem value="Oznacz jako zaksiegowaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formsporzadzone:dokumentyLista,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
             </p:contextMenu>
             <h:outputText value="suma wartości brutto wybranych dokumentów: "/>
@@ -23,7 +23,7 @@
                 <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText><h:outputText value="zł  "/><br/><br/>
             <p:panel header="dołącz wiadomość do maila">
-                <h:inputText value="#{mailOther.wiadomoscdodatkowa}" style="width: 800px;"/>
+                <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTable" rowSelectMode="add" style="max-width: 1200px;">

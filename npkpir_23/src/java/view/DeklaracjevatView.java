@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import mail.MailOther;
 import msg.Msg;
 import org.primefaces.event.RowEditEvent;
 
@@ -119,6 +120,14 @@ public class DeklaracjevatView implements Serializable {
            
         }
 
+    public void mailvat7(int row) {
+        try {
+            MailOther.vat7(row, wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
+    
     public List<Deklaracjevat> getWyslane() {
         return wyslane;
     }

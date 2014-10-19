@@ -15,8 +15,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import mail.MailOther;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfPIT5;
 
 /**
  *
@@ -25,14 +27,12 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class PitView implements Serializable {
-    private static List<Pitpoz> lista;
-    private static Pitpoz biezacyPit;
+    private List<Pitpoz> lista;
+    private Pitpoz biezacyPit;
 
-    public static Pitpoz getBiezacyPitS() {
-        return biezacyPit;
-    }
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
+    @Inject private PdfPIT5 pdfPIT5;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
    
@@ -61,14 +61,29 @@ public class PitView implements Serializable {
         RequestContext.getCurrentInstance().update("formpi:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT dla podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
+     
+     public void drukujarch() {
+         try {
+            pdfPIT5.drukuj(biezacyPit, wpisView);
+         } catch (Exception e) {
+             
+         }
+     }
 
+     public void mailPIT5() {
+         try {
+             MailOther.pit5(wpisView);
+         } catch (Exception e) {
+             
+         }
+     }
 
     public List<Pitpoz> getLista() {
         return lista;
     }
    
     public void setLista(List<Pitpoz> lista) {
-        PitView.lista = lista;
+        lista = lista;
     }
 
     public PitDAO getPitDAO() {
@@ -90,10 +105,12 @@ public class PitView implements Serializable {
     public Pitpoz getBiezacyPit() {
         return biezacyPit;
     }
-    
+
     public void setBiezacyPit(Pitpoz biezacyPit) {
-        PitView.biezacyPit = biezacyPit;
+        this.biezacyPit = biezacyPit;
     }
+
+    
 
 
    

@@ -4,13 +4,9 @@
  */
 package mail;
 
-import entity.Podatnik;
-import entity.Uz;
 import java.io.Serializable;
 import java.util.Properties;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.ejb.Singleton;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -18,42 +14,34 @@ import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import msg.Msg;
-import pdf.PdfFaktura;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Singleton
 public class MailSetUp implements Serializable{
-
-    private static Session session;
-    @ManagedProperty(value="#{WpisView}")
-    protected WpisView wpisView;
-    @ManagedProperty(value="#{pdfFaktura}")
-    protected PdfFaktura pdfFaktura;
-    protected String wysylajacy;
-    protected String klient;
-    protected String klientfile;
-    protected String podpisfaktury;
-    protected String firmafaktury;
-    protected String adres;
+//
+//    private String wysylajacy;
+//    private String klient;
+//    private String klientfile;
+//    private String podpisfaktury;
+//    private String firmafaktury;
+//    private String adres;
            
-    @PostConstruct
-    private void init(){
-        Podatnik pod = wpisView.getPodatnikObiekt();
-        adres = pod.getEmail();
-        Uz uz = wpisView.getWprowadzil();
-        wysylajacy = uz.getImie()+" "+uz.getNazw();
-        klient = pod.getImie()+" "+pod.getNazwisko();
-        klientfile = wpisView.getPodatnikWpisu();
-        podpisfaktury = wpisView.getPodatnikObiekt().getImie()+" "+wpisView.getPodatnikObiekt().getNazwisko();
-        firmafaktury = wpisView.getPodatnikObiekt().getNazwadlafaktury();
-    }
-    
+//    private static void init(WpisView wpisView){
+//        Podatnik pod = wpisView.getPodatnikObiekt();
+//        adres = pod.getEmail();
+//        Uz uz = wpisView.getWprowadzil();
+//        wysylajacy = uz.getImie()+" "+uz.getNazw();
+//        klient = pod.getImie()+" "+pod.getNazwisko();
+//        klientfile = wpisView.getPodatnikWpisu();
+//        podpisfaktury = wpisView.getPodatnikObiekt().getImie()+" "+wpisView.getPodatnikObiekt().getNazwisko();
+//        firmafaktury = wpisView.getPodatnikObiekt().getNazwadlafaktury();
+//    }
 
-    protected  MimeMessage logintoMail() throws MessagingException {
+    public static MimeMessage logintoMail(WpisView wpisView) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -64,7 +52,7 @@ public class MailSetUp implements Serializable{
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        session = Session.getInstance(props,
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -84,31 +72,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    protected static  MimeMessage logintoMailS(String adreskontrahenta) throws MessagingException {
-        final String username = "info@e-taxman.pl";
-        final String password = "Pufikun7005*";
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "az0066.srv.az.pl");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
-        return message;
-    }
-    
-    protected  MimeMessage logintoMail(String adreskontrahenta) throws MessagingException {
+     public static MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -120,33 +84,7 @@ public class MailSetUp implements Serializable{
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
-        message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
-        return message;
-    }
-    
-     protected  MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException {
-        final String username = "info@e-taxman.pl";
-        final String password = "Pufikun7005*";
-
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "az0066.srv.az.pl");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-
-        session = Session.getInstance(props,
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -159,7 +97,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
      
-     protected  MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException {
+     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -170,8 +108,7 @@ public class MailSetUp implements Serializable{
                 "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-
-        session = Session.getInstance(props,
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -185,25 +122,4 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-
-    public PdfFaktura getPdfFaktura() {
-        return pdfFaktura;
-    }
-
-    public void setPdfFaktura(PdfFaktura pdfFaktura) {
-        this.pdfFaktura = pdfFaktura;
-    }
-
-  
-    
-     
 }

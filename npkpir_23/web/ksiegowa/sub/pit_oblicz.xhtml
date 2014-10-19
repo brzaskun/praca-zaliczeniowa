@@ -108,7 +108,7 @@
                                
                             </p:panelGrid>
                             <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto; width: 480px;">
-                                <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT5.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
+                                <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieView.drukujbiezacypit()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                                 </p:commandButton>
 
                                 <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form" type="submit" style="width: 140px"/>

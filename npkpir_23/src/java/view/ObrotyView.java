@@ -26,6 +26,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import mail.MailOther;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 
@@ -189,6 +190,13 @@ public class ObrotyView implements Serializable{
         }
     }
    
+   public void mailobroty() {
+       try {
+           MailOther.obroty(wpisView);
+       } catch (Exception e) {
+           
+       }
+   }
        
     public List<Dok> getObiektDOKmrjsfSelX() {
         return obiektDOKmrjsfSelX;

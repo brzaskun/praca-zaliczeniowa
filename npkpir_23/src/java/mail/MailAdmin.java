@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -19,12 +20,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-public class MailAdmin extends MailSetUp implements Serializable {
+@Singleton
+public class MailAdmin implements Serializable {
 
     public static void mailAdmin(String adres, String temat, String tresc) throws MessagingException {
         MailSetUp mailSetUp = new MailSetUp();
@@ -46,9 +49,10 @@ public class MailAdmin extends MailSetUp implements Serializable {
         }
     }
     
-    public static void usterkausunieta(Pismoadmin p, Uz uz) {
+    public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView) {
         try {
-             MimeMessage message = logintoMailS(uz.getEmail());
+             MailSetUp mailSetUp = new MailSetUp();
+             MimeMessage message = mailSetUp.logintoMail(wpisView);
              message.setSubject("Wydruk deklaracji PIT za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
@@ -77,7 +81,8 @@ public class MailAdmin extends MailSetUp implements Serializable {
     
      public static void zablokowanoIPinfoDlaadmina(String ip) {
         try {
-             MimeMessage message = logintoMailS("brzaskun@gmail.com");
+             MailSetUp mailSetUp = new MailSetUp();
+             MimeMessage message = mailSetUp.logintoMailAdmin("brzaskun@gmail.com");
              message.setSubject("Zablokowano IP usera","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();

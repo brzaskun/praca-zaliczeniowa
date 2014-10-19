@@ -40,6 +40,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import mail.MailOther;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
@@ -87,6 +88,7 @@ public class EwidencjaVatView implements Serializable {
      //tablica obiektw danego klienta
     @Inject DokDAO dokDAO;
     @Inject DokDAOfk dokDAOfk;
+    private String nazwaewidencjiMail;
    
   
 
@@ -503,9 +505,26 @@ public class EwidencjaVatView implements Serializable {
          suma3 -= suma1+suma2;
      }
       
-      //<editor-fold defaultstate="collapsed" desc="comment">
+      public void vatewidencja() {
+          try {
+              MailOther.vatewidencja(wpisView, nazwaewidencjiMail);
+          } catch (Exception e) {
+              
+          }
+      }
       
-      //generuje poszczegolen ewidencje
+      public void ustawNazwaewidencji(String nazwa) {
+        String nowanazwa;
+        if (nazwa.contains("sprzedaż")) {
+            nowanazwa = nazwa.substring(0, nazwa.length() - 1);
+        } else {
+            nowanazwa = nazwa;
+        }
+        nazwaewidencjiMail = nowanazwa;
+    }
+      
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    //generuje poszczegolen ewidencje
 //    public void wygeneruj(HashMap lista) throws Exception {
 //        FacesContext facesCtx = FacesContext.getCurrentInstance();
 //        ELContext elContext = facesCtx.getELContext();
@@ -653,6 +672,13 @@ public class EwidencjaVatView implements Serializable {
 //        tab.getChildren().add(dataTable);
 //        akordeon.getChildren().add(tab);
 //    }
+    public String getNazwaewidencjiMail() {
+        return nazwaewidencjiMail;
+    }
+
+    public void setNazwaewidencjiMail(String nazwaewidencjiMail) {
+        this.nazwaewidencjiMail = nazwaewidencjiMail;
+    }
       
       
       public List<Dok> getListadokvat() {

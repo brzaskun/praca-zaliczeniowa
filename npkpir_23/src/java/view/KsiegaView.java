@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import mail.MailOther;
 import msg.Msg;
 
 /**
@@ -318,6 +319,14 @@ public class KsiegaView implements Serializable {
         wpisDAO.edit(wpistmp);
     }
 
+    public void mailpkpir() {
+        try {
+            MailOther.pkpir(wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
+      
     //<editor-fold defaultstate="collapsed" desc="comment">
     public ArrayList<DokKsiega> getLista() {
         return lista;
