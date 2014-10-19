@@ -9,6 +9,7 @@ import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
+import dao.WpisDAO;
 import embeddable.Mce;
 import entity.Deklaracjevat;
 import entity.Pitpoz;
@@ -16,7 +17,9 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Uz;
+import entity.Wpis;
 import entity.Zusstawki;
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -24,21 +27,25 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Osito
  */
 @ManagedBean
+@ViewScoped
 public class PlatnosciTablicaView implements Serializable {
 
     List<Platnosci> lista;
     @Inject
     PlatnosciDAO platnosciDAO;
-    @Inject
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private PitDAO pitDAO;
@@ -48,6 +55,8 @@ public class PlatnosciTablicaView implements Serializable {
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     private UzDAO uzDAO;
+    @Inject
+    private WpisDAO wpisDAO;
 
     public PlatnosciTablicaView() {
         lista = new ArrayList<>();
@@ -56,6 +65,7 @@ public class PlatnosciTablicaView implements Serializable {
 
     @PostConstruct
     private void init() {
+        lista = new ArrayList<>();
         String rok = wpisView.getRokWpisu().toString();
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -128,6 +138,35 @@ public class PlatnosciTablicaView implements Serializable {
         }
         //platnosci.setVatsuma(platnosci.getVat()+platnosci.getVatods());
         return platnosci;
+    }
+    
+     private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
+    }
+    
+     public void aktualizujTablice() throws IOException {
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
     public List<Platnosci> getLista() {

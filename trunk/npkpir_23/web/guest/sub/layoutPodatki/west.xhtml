@@ -9,18 +9,11 @@
             <h:messages id="westmsg"/>
               <p:panelGrid  columns="2" >
                     <p:column>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%;width: 150px;">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <f:param name="rokWpisu" value="2012" />
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestPodatki.xhtml')}" />
+                     <p:ajax event="change" listener="#{platnosciTablicaView.aktualizujTablice}" update=":podatkiform"/>
                 </p:selectOneMenu>
                   </p:column>
-                    <p:column>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestPodatki.xhtml')}" />
-                </p:selectOneMenu>
-                    </p:column>
             </p:panelGrid>
         </h:form>
         <h:form>
@@ -40,8 +33,8 @@
                             <p:menuitem value="podsumowanie roku"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                         <p:menu style="width: 180px;">
-                            <p:menuitem value="płatności podatków"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
-                            <p:menuitem value="zobowiązania"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
+                            <p:menuitem value="terminy płatności"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="wysokość zobowiązań"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
                         </p:menu>
                         <p:menu style="width: 180px;">
                             <p:menuitem value="PIT-y"  outcome="gpit" icon="ui-icon-circle-arrow-e"/>

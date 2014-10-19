@@ -9,6 +9,7 @@ import dao.OdsetkiDAO;
 import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
+import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import entity.Deklaracjevat;
 import entity.Odsetki;
@@ -16,8 +17,10 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
+import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -33,10 +36,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -49,21 +54,23 @@ public class PlatnosciView implements Serializable {
     private static Platnosci selectedZob;
 
     @Inject
-    PodatnikDAO podatnikDAO;
+    private PodatnikDAO podatnikDAO;
     @Inject
-    PlatnosciDAO platnosciDAO;
+    private PlatnosciDAO platnosciDAO;
     @Inject
-    OdsetkiDAO odsetkiDAO;
+    private OdsetkiDAO odsetkiDAO;
     @Inject
-    PitDAO pitDAO;
+    private PitDAO pitDAO;
     @Inject
     private Podatnik biezacyPodanik;
     @Inject
     private ZobowiazanieDAO zv;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
-    @Inject
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private WpisDAO wpisDAO;
 
     private boolean edytujplatnosc;
 
@@ -296,6 +303,39 @@ public class PlatnosciView implements Serializable {
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
         }
     }
+    
+    public void przeliczodsetkiVAT(int opcja) {
+        String datatmp = selectedZob.getPlatnosciPK().getRok() + "-" + selectedZob.getPlatnosciPK().getMiesiac() + "-" + selectedZob.getTerminzpit4();
+        Date datatmpVAT = selectedZob.getVatzapl();
+        Date dataod;
+        Date datado;
+        try {
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            dataod = formatter.parse(datatmp);
+            selectedZob.setVatods(odsetki(dataod, datatmpVAT, selectedZob.getVat().toString()));
+            selectedZob.setVatsuma(selectedZob.getVat()+ selectedZob.getVatods());
+        } catch (ParseException e) {
+        }
+        try {
+            if (opcja == 1) {
+                platnosciDAO.dodaj(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            } else {
+                platnosciDAO.edit(selectedZob);
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            }
+        } catch (Exception e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+        }
+    }
+    
 
     private Double odsetki(Date dataod, Date datadotmp, String podstawa) {
         Boolean wymuszonykoniec = false;
@@ -363,6 +403,35 @@ public class PlatnosciView implements Serializable {
         long wynik = Math.abs(x - y);
         wynik = wynik / (1000 * 60 * 60 * 24);
         return wynik;
+    }
+    
+     private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.findWpis();
+    }
+    
+     public void aktualizujTablice() throws IOException {
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
     public PodatnikDAO getPodatnikDAO() {
