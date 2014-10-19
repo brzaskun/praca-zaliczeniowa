@@ -28,16 +28,16 @@
                  <p:panelGrid columns="1">
                         <p:menu style="width: 180px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
-                            <p:menuitem value="obroty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initG()}" update="@form"/>  
+                            <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initG()}" update="@form"/>  
                             <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
-                            <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencjiGuest()}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                            <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  action="#{ewidencjaVatView.przekierowanieEwidencjiGuest()}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
                                 <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
                                 <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
                             </p:menuitem>
                             <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />
-                            <p:menuitem value="zestaw. roczne"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="podsumowanie roku"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                         <p:menu style="width: 180px;">
                             <p:menuitem value="płatności podatków"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
