@@ -118,6 +118,8 @@ public class FakturaView implements Serializable {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         faktury = new ArrayList<>();
         fakturyarchiwum = new ArrayList<>();
+        fakturyokresoweFiltered = null;
+        fakturyFiltered = null;
         for (Faktura fakt : fakturytmp) {
             if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
                 fakturyarchiwum.add(fakt);
