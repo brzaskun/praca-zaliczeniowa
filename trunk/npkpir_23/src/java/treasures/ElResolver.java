@@ -14,6 +14,11 @@ import view.DokView;
  * @author Osito
  */
 public class ElResolver {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        DokView dokView = (DokView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"dokumentView");   
+
+    public ElResolver() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        DokView dokView = (DokView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"dokumentView");   
+    }
+    
+        
 }

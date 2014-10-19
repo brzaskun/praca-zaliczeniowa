@@ -45,6 +45,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import pdf.PdfPIT5;
 
 /**
  *
@@ -78,7 +79,9 @@ public class ZestawienieView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
-            AmoDokDAO amoDokDAO;
+    private AmoDokDAO amoDokDAO;
+    @Inject
+    private PdfPIT5 pdfPIT5;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -1356,6 +1359,14 @@ public class ZestawienieView implements Serializable {
         //narPitpoz = pobierzPity.get(Mce.getMapamcyX().get(wpisView.getMiesiacWpisu()));
         narPitpoz = pobierzPity.get(index);
         biezacyPit = narPitpoz;
+    }
+    
+    public void drukujbiezacypit() {
+        try {
+            pdfPIT5.drukuj(biezacyPit, wpisView);
+        } catch (Exception e) {
+            
+        }
     }
     
     public void ustawZus51() {

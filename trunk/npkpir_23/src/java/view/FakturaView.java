@@ -39,11 +39,13 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import mail.MailOther;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 import org.primefaces.context.RequestContext;
+import pdf.PdfFaktura;
 import serialclone.SerialClone;
 
 /**
@@ -56,20 +58,14 @@ public class FakturaView implements Serializable {
 
     private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
     //faktury wybrane z listy
-    private static List<Faktura> gosciwybral;
+    private List<Faktura> gosciwybral;
     //faktury okresowe wybrane z listy
-    private static List<Fakturywystokresowe> gosciwybralokres;
-
-    public static List<Faktura> getGosciwybralS() {
-        return gosciwybral;
-    }
-
-    public static List<Fakturywystokresowe> getGosciwybralokresS() {
-        return gosciwybralokres;
-    }
+    private List<Fakturywystokresowe> gosciwybralokres;
 
     @Inject
     protected Faktura selected;
+    @Inject
+    private PdfFaktura pdfFaktura;
     @Inject
     private FakturaPK fakturaPK;
     private boolean pokazfakture;
@@ -105,6 +101,7 @@ public class FakturaView implements Serializable {
     private String datawystawienia;
     @Inject
     private WpisDAO wpisDAO;
+    private String wiadomoscdodatkowa;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -1004,6 +1001,37 @@ public class FakturaView implements Serializable {
         wpisDAO.edit(wpistmp);
         wpisView.findWpis();
     }
+    
+    public void mailfaktura() {
+        try {
+            pdfFaktura.drukujmail(gosciwybral, wpisView);
+            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa);
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void drukujfaktura() {
+        try {
+            pdfFaktura.drukuj(gosciwybral, wpisView);
+        } catch (Exception e) {
+        }
+    }
+    
+    public void oznaczonejakowyslane() {
+        MailOther.oznaczonejakowyslane(gosciwybral, fakturaDAO);
+    }
+    
+    public void oznaczonejakozaksiegowane() {
+        MailOther.oznaczonejakozaksiegowane(gosciwybral, fakturaDAO);
+    }
+    
+    public void drukujokresowa() {
+        try {
+            pdfFaktura.drukujokresowa(gosciwybralokres);
+        } catch (Exception e) {
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Faktura getSelected() {
@@ -1067,7 +1095,7 @@ public class FakturaView implements Serializable {
     }
 
     public void setGosciwybral(List<Faktura> gosciwybral) {
-        FakturaView.gosciwybral = gosciwybral;
+        this.gosciwybral = gosciwybral;
     }
 
     public List<Fakturywystokresowe> getGosciwybralokres() {
@@ -1075,9 +1103,11 @@ public class FakturaView implements Serializable {
     }
 
     public void setGosciwybralokres(List<Fakturywystokresowe> gosciwybralokres) {
-        FakturaView.gosciwybralokres = gosciwybralokres;
+        this.gosciwybralokres = gosciwybralokres;
     }
 
+  
+  
     public List<Fakturywystokresowe> getFakturyokresowe() {
         return fakturyokresowe;
     }
@@ -1127,4 +1157,12 @@ public class FakturaView implements Serializable {
     }
 
     //</editor-fold>
+
+    public String getWiadomoscdodatkowa() {
+        return wiadomoscdodatkowa;
+    }
+
+    public void setWiadomoscdodatkowa(String wiadomoscdodatkowa) {
+        this.wiadomoscdodatkowa = wiadomoscdodatkowa;
+    }
 }

@@ -12,7 +12,7 @@
                     <p:confirmDialog id="confirmDialog" message="Wysłać zestawienie do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                      header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
-                                         actionListener="#{mailOther.pkpir()}"  />  
+                                         actionListener="#{ksiegaView.mailpkpir()}"  />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" />   
                     </p:confirmDialog>  
                 </h:form>

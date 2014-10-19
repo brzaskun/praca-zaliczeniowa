@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import mail.MailOther;
 
 /**
  *
@@ -226,6 +227,14 @@ public class STREwidencja implements Serializable {
         strtabela.add(podsumowanie);
     }
 
+    public void mailewidencjaSTR() {
+        try {
+            MailOther.ewidencjaSTR(wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
+    
     public STRDAO getsTRDAO() {
         return sTRDAO;
     }

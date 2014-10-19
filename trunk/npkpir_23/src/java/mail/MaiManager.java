@@ -4,13 +4,11 @@
  */
 package mail;
 
-import entity.Pismoadmin;
-import entity.Uz;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Message;
+import javax.ejb.Singleton;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -18,13 +16,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-public class MaiManager extends MailSetUp implements Serializable {
+@Singleton
+public class MaiManager implements Serializable {
 
     public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException {
         MailSetUp mailSetUp = new MailSetUp();

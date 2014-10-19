@@ -16,7 +16,7 @@
                                      header="Mailowanie ewidencji vat" severity="alert" widgetVar="confirmation">
 
                         <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
-                                         actionListener="#{mailOther.ewidencjaSTR()}" onsuccess="alert('Wysłano ewidencje do podatnika');" />  
+                                         actionListener="#{STREwidencja.mailewidencjaSTR()}" onsuccess="alert('Wysłano ewidencje do podatnika');" />  
                         <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" />   
 
                     </p:confirmDialog>  

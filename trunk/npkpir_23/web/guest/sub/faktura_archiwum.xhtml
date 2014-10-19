@@ -8,7 +8,7 @@
       
         <h:form id="formarchiwum">
             <p:contextMenu for="dokumentyArchiwum" >
-                <p:menuitem value="Mail do kontr." update=":formM:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{mailOther.fakturaarchiwum()}" >
+                <p:menuitem value="Mail do kontr." update=":formM:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
                 </p:menuitem>
                 <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>

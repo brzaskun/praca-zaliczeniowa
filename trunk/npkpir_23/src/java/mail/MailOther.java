@@ -7,14 +7,13 @@ package mail;
 import dao.FakturaDAO;
 import entity.Faktura;
 import entity.Klienci;
+import entity.Podatnik;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
-import javax.mail.Message;
+import javax.ejb.Singleton;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -23,29 +22,26 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import view.FakturaView;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class MailOther extends MailSetUp implements Serializable{
-    public static String nazwaewidencji;
+@Singleton
+public class MailOther implements Serializable{
+ 
     
-    //bo musze odnotowac ze jest wyslana
-    @Inject private FakturaDAO fakturaDAO;
-    
-    
-     private String wiadomoscdodatkowa;
      
-     public void pkpir() {
+    public static void pkpir(WpisView wpisView) {
          try {
-             MimeMessage message = logintoMail();
+             MimeMessage message = MailSetUp.logintoMail(wpisView);
              message.setSubject("Wydruk podatkowej księgi przychodów i rozchodów za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             Podatnik pod = wpisView.getPodatnikObiekt();
+             String klient = pod.getImie()+" "+pod.getNazwisko();
              mbp1.setContent("Szanowna/y "+klient
                      + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk podatkowej księgi przychodów i rozchodów.</p>"
                      + Mail.reklama
@@ -54,7 +50,7 @@ public class MailOther extends MailSetUp implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + klientfile + ".pdf");
+             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
              mbp2.setFileName(fds.getName());
              
@@ -68,7 +64,7 @@ public class MailOther extends MailSetUp implements Serializable{
              Transport.send(message);
              Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
               try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -77,22 +73,20 @@ public class MailOther extends MailSetUp implements Serializable{
              Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
          }
      }
-     public void faktura() {
+     public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
-         try {
-             pdfFaktura.drukujmail();
-         } catch (Exception el){}
-         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = logintoMail(faktura.getKontrahent().getEmail());
+                 MimeMessage message = MailSetUp.logintoMail(wpisView);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
                  mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+                 Podatnik pod = wpisView.getPodatnikObiekt();
+                 String klient = pod.getImie()+" "+pod.getNazwisko();
                  mbp1.setContent("Szanowna/y "+klient
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                      + "<p>"+wiadomoscdodatkowa+"</p>"
@@ -102,7 +96,7 @@ public class MailOther extends MailSetUp implements Serializable{
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -119,7 +113,7 @@ public class MailOther extends MailSetUp implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
@@ -131,22 +125,20 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
      
-     public void fakturaarchiwum() {
+     public static void fakturaarchiwum(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
-         try {
-             pdfFaktura.drukujmail();
-         } catch (Exception el){}
-         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = logintoMail(faktura.getKontrahent().getEmail());
+                 MimeMessage message = MailSetUp.logintoMail(wpisView);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
                  mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+                 Podatnik pod = wpisView.getPodatnikObiekt();
+                 String klient = pod.getImie()+" "+pod.getNazwisko();
                  mbp1.setContent("Szanowna/y "+klient
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                      + "<p>"+wiadomoscdodatkowa+"</p>"
@@ -156,7 +148,7 @@ public class MailOther extends MailSetUp implements Serializable{
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -173,7 +165,7 @@ public class MailOther extends MailSetUp implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
@@ -186,8 +178,7 @@ public class MailOther extends MailSetUp implements Serializable{
          Msg.msg("Wysłano ponownie fakture mailem do kontrahenta");
      }
      
-     public void oznaczonejakowyslane() {
-         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+     public static void oznaczonejakowyslane(List<Faktura> fakturydomaila, FakturaDAO fakturaDAO) {
          for (Faktura faktura : fakturydomaila){
              Klienci klientf = faktura.getKontrahent();
              Msg.msg("i","Oznaczono fakturę jako wysłaną do klienta "+klientf.getNpelna());
@@ -196,8 +187,7 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
      
-     public void oznaczonejakozaksiegowane() {
-         List<Faktura> fakturydomaila = FakturaView.getGosciwybralS();
+     public static void oznaczonejakozaksiegowane(List<Faktura> fakturydomaila, FakturaDAO fakturaDAO) {
          for (Faktura faktura : fakturydomaila){
              Klienci klientf = faktura.getKontrahent();
              Msg.msg("i","Oznaczono fakturę jako zaksięgowaną "+klientf.getNpelna());
@@ -208,13 +198,15 @@ public class MailOther extends MailSetUp implements Serializable{
      
      
      
-     public void pit5() {     
+     public static void pit5(WpisView wpisView) {     
          try {
-             MimeMessage message = logintoMail();
+             MimeMessage message = MailSetUp.logintoMail(wpisView);
              message.setSubject("Wydruk deklaracji PIT za miesiąc","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             Podatnik pod = wpisView.getPodatnikObiekt();
+            String klient = pod.getImie()+" "+pod.getNazwisko();
              mbp1.setContent("Szanowna/y "+klient
                      + "<p>"+"W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk deklaracji podatkowej w podatku dochodowym PIT5</p>"
                      + Mail.reklama
@@ -222,7 +214,7 @@ public class MailOther extends MailSetUp implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + klientfile + ".pdf");
+             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
              mbp2.setFileName(fds.getName());
              
@@ -235,7 +227,7 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setContent(mp);
              Transport.send(message);
              try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -246,13 +238,15 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
     
-     public void obroty() {
+     public static void obroty(WpisView wpisView) {
          try {
-             MimeMessage message = logintoMail();
+             MimeMessage message = MailSetUp.logintoMail(wpisView);
              message.setSubject("Wydruk obrotów z kontrahentem","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             Podatnik pod = wpisView.getPodatnikObiekt();
+             String klient = pod.getImie()+" "+pod.getNazwisko();
              mbp1.setContent("Szanowna/y "+klient
                      + "<p>W niniejszym mailu znajdziesz zamówione przez Ciebie zestawienie obrotów z kontrahentem</p>"
                      + Mail.reklama
@@ -261,7 +255,7 @@ public class MailOther extends MailSetUp implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + klientfile + ".pdf");
+             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
              mbp2.setDataHandler(new DataHandler(fds));
              mbp2.setFileName(fds.getName());
              
@@ -274,7 +268,7 @@ public class MailOther extends MailSetUp implements Serializable{
              message.setContent(mp);
              Transport.send(message);
               try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -285,13 +279,15 @@ public class MailOther extends MailSetUp implements Serializable{
          }
      }
      
-      public void ewidencjaSTR() {
+      public static void ewidencjaSTR(WpisView wpisView) {
           try {
-              MimeMessage message = logintoMail();
+              MimeMessage message = MailSetUp.logintoMail(wpisView);
               message.setSubject("Wydruk ewidencji środków trwałych","UTF-8");
               // create and fill the first message part
               MimeBodyPart mbp1 = new MimeBodyPart();
               mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+              Podatnik pod = wpisView.getPodatnikObiekt();
+              String klient = pod.getImie()+" "+pod.getNazwisko();
               mbp1.setContent("Szanowna/y "+klient
                       + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk aktualnej ewidencji środków trwałych</p>"
                       + Mail.reklama
@@ -300,7 +296,7 @@ public class MailOther extends MailSetUp implements Serializable{
               // create the second message part
               MimeBodyPart mbp2 = new MimeBodyPart();
               // attach the file to the message
-              FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + klientfile + ".pdf");
+              FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
               mbp2.setDataHandler(new DataHandler(fds));
               mbp2.setFileName(fds.getName());
               
@@ -313,7 +309,7 @@ public class MailOther extends MailSetUp implements Serializable{
               message.setContent(mp);
               Transport.send(message);
                try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + klientfile + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -327,13 +323,15 @@ public class MailOther extends MailSetUp implements Serializable{
       
       
     
-    public void vat7(int row) {
+    public static void vat7(int row, WpisView wpisView) {
         try {
-            MimeMessage message = logintoMail();
+            MimeMessage message = MailSetUp.logintoMail(wpisView);
             message.setSubject("Wydruk dekalracji VAT-7","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Podatnik pod = wpisView.getPodatnikObiekt();
+            String klient = pod.getImie()+" "+pod.getNazwisko();
             mbp1.setContent("Szanowna/y "+klient
                     + "<p>W niniejszym mailu znajdziesz deklarację VAT-7 złożoną w Twoim imieniu w ostatnim okresie rozliczeniowym.</p>"
                     + Mail.reklama
@@ -342,8 +340,8 @@ public class MailOther extends MailSetUp implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            if (new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf").isFile()) {
-                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
+            if (new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf").isFile()) {
+                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
                 
@@ -355,8 +353,8 @@ public class MailOther extends MailSetUp implements Serializable{
                 // add the Multipart to the message
                 message.setContent(mp);
                 Transport.send(message);
-                Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+adres);
-                File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + klientfile + ".pdf");
+                Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+pod.getEmail());
+                File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
                 f.delete();
                 RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
             } else {
@@ -368,23 +366,16 @@ public class MailOther extends MailSetUp implements Serializable{
         }
     }
     
-    public void ustawNazwaewidencji(String nazwa) {
-        String nowanazwa;
-        if (nazwa.contains("sprzedaż")) {
-            nowanazwa = nazwa.substring(0, nazwa.length() - 1);
-        } else {
-            nowanazwa = nazwa;
-        }
-        MailOther.nazwaewidencji = nowanazwa;
-    }
     
-    public void vatewidencja() {
+    public static void vatewidencja(WpisView wpisView, String nazwaewidencji) {
         try {
-            MimeMessage message = logintoMail();
+            MimeMessage message = MailSetUp.logintoMail(wpisView);
             message.setSubject("Wydruk bieżącej ewidencji VAT  za miesiąc","UTF-8");
             // create and fill the first message part
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+            Podatnik pod = wpisView.getPodatnikObiekt();
+            String klient = pod.getImie()+" "+pod.getNazwisko();
             mbp1.setContent("Szanowna/y "+klient
                     + "<p>W niniejszym mailu znajdziesz zamówiony przez Ciebie wydruk ewidencji VAT "+nazwaewidencji+"</p>"
                     + Mail.reklama
@@ -416,32 +407,5 @@ public class MailOther extends MailSetUp implements Serializable{
         }
     }
 
-    public String getNazwaewidencji() {
-        return nazwaewidencji;
-    }
-
-    public void setNazwaewidencji(String nazwaewidencji) {
-        MailOther.nazwaewidencji = nazwaewidencji;
-    }
-
-    public String getKlientfile() {
-        return klientfile;
-    }
-
-    public void setKlientfile(String klientfile) {
-        this.klientfile = klientfile;
-    }
-
-    public String getWiadomoscdodatkowa() {
-        return wiadomoscdodatkowa;
-    }
-
-    public void setWiadomoscdodatkowa(String wiadomoscdodatkowa) {
-        this.wiadomoscdodatkowa = wiadomoscdodatkowa;
-    }
-
-  
-    
-      
-      
+        
 }
