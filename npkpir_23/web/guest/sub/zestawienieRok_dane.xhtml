@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     
-    <p:tab id="archiwum" title="Dane zbiorcze">
+    <p:tab id="archiwum" title="Dane zbiorcze za rok #{WpisView.rokWpisu}">
     <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ksiegaryczalt}">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
             <p:column headerText="kolumny" id="przychsprz" width="125">  

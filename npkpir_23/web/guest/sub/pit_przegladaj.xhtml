@@ -104,7 +104,7 @@
 
                 </p:panelGrid>
                 <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
-                    <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pitView.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#formpi2\\:pitwysylka').show();" style="width: 150px;">
+                    <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pitView.drukujarch()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#formpi2\\:pitwysylka').show();" style="width: 150px;">
                     </p:commandButton>
                     <p:commandButton id="pitwysylka" value="Wyślij na mail" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; width: 150px;"/>
                 </p:panelGrid>

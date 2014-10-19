@@ -24,6 +24,7 @@ import entity.Podstawki;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -1096,16 +1097,33 @@ public class ZestawienieView implements Serializable {
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }
-
-    private void aktualizuj() {
+private void aktualizujGuest(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpisDAO.edit(wpistmp);
+    }
+     private void aktualizuj(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
         wpisView.findWpis();
+    }
+    
+     public void aktualizujGuest(String strona) throws IOException {
+        aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
 
     public Pitpoz skumulujpity(String mcDo, String udzialowiec) {

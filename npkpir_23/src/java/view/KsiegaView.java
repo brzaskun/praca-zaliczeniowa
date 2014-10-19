@@ -302,7 +302,7 @@ public class KsiegaView implements Serializable {
     }
     
      public void aktualizujGuest(String strona) throws IOException {
-         lista = new ArrayList<>();
+        lista = new ArrayList<>();
         aktualizujGuest();
         aktualizuj();
         init();
