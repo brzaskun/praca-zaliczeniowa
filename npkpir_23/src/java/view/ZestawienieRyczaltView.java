@@ -43,6 +43,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfZestRok;
 
 /**
  *
@@ -717,6 +718,8 @@ public class ZestawienieRyczaltView implements Serializable {
         narPitpoz = pobierzPity.get(index);
         biezacyPit = narPitpoz;
     }
+    
+   
 
     public DokDAO getDokDAO() {
         return dokDAO;

@@ -27,23 +27,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 import view.ZestawienieView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfZestRok extends Pdf implements Serializable {
-    @ManagedProperty(value="#{ZestawienieView}")
-    private ZestawienieView zestawienieView;
-    public void drukujksiege() throws DocumentException, FileNotFoundException, IOException {
+@Singleton
+public class PdfZestRok{
+    
+    public static void drukuj(WpisView wpisView, ZestawienieView zestawienieView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 0;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);
@@ -187,13 +189,5 @@ public class PdfZestRok extends Pdf implements Serializable {
         Msg.msg("i", "Wydrukowano zestawienie obrotów", "form:messages");
     }
 
-    public ZestawienieView getZestawienieView() {
-        return zestawienieView;
-    }
-
-    public void setZestawienieView(ZestawienieView zestawienieView) {
-        this.zestawienieView = zestawienieView;
-    }
-
-    
+       
 }

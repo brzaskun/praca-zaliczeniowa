@@ -12,7 +12,7 @@
                             <p:menuitem value="Ewidencje vat" onclick="PF('dialogewidencjevat').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
                                 <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
-                                <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
+                                <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>
                             </p:menuitem>
                         </p:menu>
                     </h:form>

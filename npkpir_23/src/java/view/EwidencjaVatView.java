@@ -44,6 +44,7 @@ import mail.MailOther;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
+import pdf.PdfVATsuma;
 
 /**
  *
@@ -539,6 +540,14 @@ public class EwidencjaVatView implements Serializable {
             nowanazwa = nazwa;
         }
         nazwaewidencjiMail = nowanazwa;
+    }
+      
+    public void drukujPdfSuma() {
+        try {
+            PdfVATsuma.drukuj(ewidencjeVatDAO, wpisView);
+        } catch (Exception e) {
+            
+        }
     }
       
     //<editor-fold defaultstate="collapsed" desc="comment">

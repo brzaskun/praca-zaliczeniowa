@@ -35,10 +35,6 @@ import org.primefaces.context.RequestContext;
 public class PdfVAT7 extends Pdf implements Serializable{
     
     static String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
-   
-   
-            
-   
     static String INPUTFILE = "c:/vat/pk1.pdf";
     static String INPUTFILEM = "c:/vat/vat7.pdf";
     
