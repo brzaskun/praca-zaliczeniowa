@@ -18,6 +18,7 @@ import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
+import dao.UzDAO;
 import dao.WpisDAO;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
@@ -72,6 +73,7 @@ import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import params.Params;
+import pdf.PdfPK;
 
 /**
  *
@@ -104,6 +106,8 @@ public final class DokView implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private UzDAO uzDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
@@ -1397,7 +1401,7 @@ public final class DokView implements Serializable {
         }
     }
     
-
+    
     public Klienci getSelectedKlient() {
         return selectedKlient;
     }

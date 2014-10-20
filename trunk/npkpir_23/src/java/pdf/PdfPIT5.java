@@ -29,6 +29,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
@@ -41,16 +42,10 @@ import view.ZestawienieView;
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfPIT5  implements Serializable {
+@Singleton
+public class PdfPIT5 {
     
-    @ManagedProperty(value="#{ZestawienieView}")
-    private ZestawienieView zestawienieView;
-    @Inject
-    protected PodatnikDAO podatnikDAO;
-  
-     
-    public void drukuj(Pitpoz selected, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukuj(Pitpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
@@ -164,13 +159,6 @@ public class PdfPIT5  implements Serializable {
     
    
     
-    public ZestawienieView getZestawienieView() {
-        return zestawienieView;
-    }
-
-    public void setZestawienieView(ZestawienieView zestawienieView) {
-        this.zestawienieView = zestawienieView;
-    }
-
+    
       
 }

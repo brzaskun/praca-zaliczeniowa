@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
+import pdf.PdfPkpir;
 
 /**
  *
@@ -326,7 +327,15 @@ public class KsiegaView implements Serializable {
             
         }
     }
-      
+    
+    public void drukujPKPIR() {
+        try {
+            PdfPkpir.drukujksiege(lista, wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public ArrayList<DokKsiega> getLista() {
         return lista;

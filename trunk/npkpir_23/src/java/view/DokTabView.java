@@ -9,6 +9,7 @@ import comparator.Dokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.InwestycjeDAO;
+import dao.PodatnikDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
@@ -39,6 +40,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfPK;
 
 /**
  *
@@ -52,11 +54,9 @@ public class DokTabView implements Serializable {
     //wybranedokumenty do usuniecia
     private List<Dok> grupausun;
     private Dok dokdoUsuniecia;
-   
-
-   
+    @Inject
+    private PodatnikDAO podatnikDAO;
     //tablica obiektów
-
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<Dok> obiektDOKjsfSel;
@@ -381,6 +381,13 @@ public class DokTabView implements Serializable {
           }
       }
       
+       public void printPDFPK() {
+         try {
+            PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO);
+         } catch (Exception e) {
+             
+         }
+     }
     
     public String wysokosctabeli() {
               //FacesContext.getCurrentInstance().getExternalContext().get

@@ -10,7 +10,7 @@
         <p:outputPanel id="wrapper"  deferred="true">
             <p:panel id="panelpkpir">
                 <br/>
-                <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPkpir.drukujksiege()}" >
+                <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ksiegaView.drukujPKPIR()}" >
                 </p:commandButton>
                 <p:commandButton id="pkpirwysylka" value="Wyślij na mój mail" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
                 </p:commandButton>
